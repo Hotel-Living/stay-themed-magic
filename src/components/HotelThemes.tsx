@@ -1,0 +1,39 @@
+
+import { Theme } from "@/utils/data";
+
+interface HotelThemesDisplayProps {
+  themes: Theme[];
+}
+
+export function HotelThemesDisplay({ themes }: HotelThemesDisplayProps) {
+  // Group themes by category
+  const groupedThemes = themes.reduce((acc, theme) => {
+    if (!acc[theme.category]) {
+      acc[theme.category] = [];
+    }
+    acc[theme.category].push(theme);
+    return acc;
+  }, {} as Record<string, Theme[]>);
+
+  return (
+    <div className="w-full bg-fuchsia-900/10 backdrop-blur-sm rounded-lg p-4 border border-fuchsia-900/20">
+      <h3 className="text-sm uppercase tracking-wide text-fuchsia-300 font-medium mb-3">Hotel Themes</h3>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {Object.entries(groupedThemes).map(([category, categoryThemes]) => (
+          <div key={category} className="space-y-2">
+            <h4 className="text-fuchsia-400 font-medium">{category}</h4>
+            <ul className="space-y-1">
+              {categoryThemes.map(theme => (
+                <li key={theme.id} className="text-sm text-foreground/90 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-500"></span>
+                  {theme.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

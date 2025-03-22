@@ -1,5 +1,8 @@
-import { useLocation } from "react-router-dom";
+
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { Navbar } from "@/components/Navbar";
+import { Compass, ChevronLeft } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,14 +15,33 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-1 pt-16">
+        <div className="container max-w-xl mx-auto px-4 py-24 text-center">
+          <div className="w-24 h-24 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-8">
+            <Compass className="w-12 h-12 text-fuchsia-400" />
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient glow">404</h1>
+          <p className="text-xl md:text-2xl font-medium mb-8">Page not found</p>
+          <p className="text-foreground/80 mb-10">
+            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+          </p>
+          
+          <Link to="/" className="inline-flex items-center gap-2 py-3 px-6 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+            Return to Home
+          </Link>
+        </div>
+      </main>
+      
+      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20 mt-auto">
+        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
+          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 };

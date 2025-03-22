@@ -6,6 +6,7 @@ import { HotelCard } from "@/components/HotelCard";
 import { hotels, Hotel } from "@/utils/data";
 import { ArrowRight, Building, Calendar, Compass, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import Starfield from "@/components/Starfield";
 
 export default function Index() {
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>(hotels);
@@ -40,6 +41,7 @@ export default function Index() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

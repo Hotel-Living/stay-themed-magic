@@ -13,7 +13,7 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Faq from "./pages/Faq"; // Fixed casing to match the actual file
+import Faq from "./pages/Faq"; // The import uses lowercase 'a'
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
 import Privacy from "./pages/Privacy";
@@ -37,7 +37,7 @@ const App = () => (
           <Route path="/hotel-dashboard" element={<HotelDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/faq" element={<FAQ />} />
+          <Route path="/faq" element={<Faq />} /> {/* Changed from FAQ to Faq to match the import */}
           <Route path="/our-values" element={<OurValues />} />
           <Route path="/our-services" element={<OurServices />} />
           <Route path="/privacy" element={<Privacy />} />

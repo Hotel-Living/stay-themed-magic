@@ -44,10 +44,6 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-image: 
-      radial-gradient(circle at 25% 10%, rgba(217, 70, 239, 0.1) 0%, transparent 25%),
-      radial-gradient(circle at 75% 90%, rgba(217, 70, 239, 0.1) 0%, transparent 25%);
-    background-attachment: fixed;
   }
 
   /* Custom scrollbar */
@@ -66,6 +62,12 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-primary;
+  }
+  
+  /* Make sure footer stays at bottom when filter dropdowns are open */
+  .filter-dropdown-container {
+    overflow: visible;
+    z-index: 10;
   }
 }
 
@@ -107,4 +109,38 @@
     z-index: -1;
     animation: pulse 2s infinite;
   }
+}
+
+/* Animated background */
+.starfield {
+  background-color: #740074;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  background-color: #B400B4;
+  border-radius: 50%;
+  animation: starMovement linear infinite;
+}
+
+@keyframes starMovement {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100vw);
+  }
+}
+
+/* Remove the button inside button error */
+.filter-dropdown button button {
+  all: unset;
+  cursor: pointer;
+  display: flex;
 }

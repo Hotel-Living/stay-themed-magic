@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSection, FilterState } from "@/components/FilterSection";
 import { HotelCard } from "@/components/HotelCard";
-import { hotels, Hotel, Theme } from "@/utils/data";
+import { hotels, Hotel, Theme, Country, Month } from "@/utils/data";
 import { Compass } from "lucide-react";
 
 export default function Search() {
@@ -13,8 +13,8 @@ export default function Search() {
   const searchParams = new URLSearchParams(location.search);
   
   const initialFilters: FilterState = {
-    country: searchParams.get("country") || null,
-    month: searchParams.get("month") || null,
+    country: searchParams.get("country") as Country || null,
+    month: searchParams.get("month") as Month || null,
     theme: null,
     priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
   };
@@ -23,7 +23,7 @@ export default function Search() {
   const themeId = searchParams.get("theme");
   if (themeId) {
     const allThemes = hotels.flatMap(hotel => hotel.themes);
-    const foundTheme = allThemes.find(theme => theme.id === Number(themeId));
+    const foundTheme = allThemes.find(theme => theme.id === themeId);
     if (foundTheme) {
       initialFilters.theme = foundTheme;
     }
@@ -76,7 +76,7 @@ export default function Search() {
             {/* Filters sidebar */}
             <div className="w-full md:w-1/3 lg:w-1/4">
               <div className="sticky top-20">
-                <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} />
+                <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} verticalLayout={true} />
               </div>
             </div>
             

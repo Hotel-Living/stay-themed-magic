@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSection, FilterState } from "@/components/FilterSection";
 import { HotelCard } from "@/components/HotelCard";
-import { hotels, Hotel, Theme, Country, Month } from "@/utils/data";
+import { hotels, Hotel } from "@/utils/data";
 import { Compass } from "lucide-react";
 
 export default function Search() {
@@ -13,8 +13,8 @@ export default function Search() {
   const searchParams = new URLSearchParams(location.search);
   
   const initialFilters: FilterState = {
-    country: searchParams.get("country") as Country || null,
-    month: searchParams.get("month") as Month || null,
+    country: searchParams.get("country") as any || null,
+    month: searchParams.get("month") as any || null,
     theme: null,
     priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
   };
@@ -68,9 +68,9 @@ export default function Search() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-16 bg-background">
+      <main className="flex-1 pt-16 bg-[#5B0155]">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-6 text-gradient">Search Results</h1>
+          <h1 className="text-2xl font-bold mb-6 text-white">Search Results</h1>
           
           <div className="flex flex-col md:flex-row gap-6">
             {/* Filters sidebar */}
@@ -82,7 +82,7 @@ export default function Search() {
             
             {/* Results */}
             <div className="w-full md:w-2/3 lg:w-3/4">
-              <h2 className="text-xl font-bold mb-6">
+              <h2 className="text-lg font-bold mb-6 text-white">
                 {filteredHotels.length > 0 
                   ? `Found ${filteredHotels.length} hotels` 
                   : "No hotels match your filters"}
@@ -99,8 +99,8 @@ export default function Search() {
                   <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
                     <Compass className="w-10 h-10 text-fuchsia-400" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">No matching hotels</h3>
-                  <p className="text-muted-foreground mb-6">Try adjusting your filters to find more options.</p>
+                  <h3 className="text-xl font-bold mb-2 text-white">No matching hotels</h3>
+                  <p className="text-white/70 mb-6">Try adjusting your filters to find more options.</p>
                 </div>
               )}
             </div>

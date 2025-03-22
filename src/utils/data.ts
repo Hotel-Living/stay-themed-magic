@@ -1,4 +1,3 @@
-
 export interface Hotel {
   id: string;
   name: string;
@@ -14,7 +13,7 @@ export interface Hotel {
   availableMonths: Month[];
 }
 
-export type Country = 'Spain' | 'Italy' | 'Egypt' | 'United States';
+export type Country = 'Spain' | 'Italy' | 'Egypt' | 'United States' | 'Greece' | 'Dominican Republic';
 
 export type Month = 
   | 'January' | 'February' | 'March' | 'April' 
@@ -32,87 +31,409 @@ export interface Theme {
   category: string;
 }
 
-// Theme categories and themes
+export interface LocationCategory {
+  country: Country;
+  cities: string[];
+}
+
+export interface Activity {
+  id: string;
+  name: string;
+}
+
+export interface HotelFeature {
+  id: string;
+  name: string;
+}
+
+export interface RoomFeature {
+  id: string;
+  name: string;
+}
+
+export type PropertyType = 'Camping' | 'Hotel' | 'Hotel Boutique' | 'Resort';
+
+export type PropertyStyle = 'Classic' | 'Classic Elegant' | 'Design' | 'Modern' | 'Rural' | 'Urban';
+
+export type MealPlan = 
+  | 'Breakfast' 
+  | 'Half Board (Breakfast & Dinner)' 
+  | 'Full Board' 
+  | 'Room Only' 
+  | 'All Inclusive' 
+  | 'All Inclusive Plus (With Laundry)';
+
 export const themeCategories: ThemeCategory[] = [
+  {
+    category: 'Arts',
+    themes: [
+      { id: 'architecture', name: 'Architecture', category: 'Arts' },
+      { id: 'ballet', name: 'Ballet', category: 'Arts' },
+      { id: 'sculpture', name: 'Sculpture', category: 'Arts' },
+      { id: 'painting', name: 'Painting', category: 'Arts' },
+    ]
+  },
+  {
+    category: 'Dance',
+    themes: [
+      { id: 'salsa', name: 'Salsa', category: 'Dance' },
+      { id: 'tango', name: 'Tango', category: 'Dance' },
+    ]
+  },
+  {
+    category: 'Sciences',
+    themes: [
+      { id: 'astronomy', name: 'Astronomy', category: 'Sciences' },
+      { id: 'biology', name: 'Biology', category: 'Sciences' },
+      { id: 'philology', name: 'Philology', category: 'Sciences' },
+      { id: 'philosophy', name: 'Philosophy', category: 'Sciences' },
+      { id: 'physics', name: 'Physics', category: 'Sciences' },
+      { id: 'geology', name: 'Geology', category: 'Sciences' },
+      { id: 'mathematics', name: 'Mathematics', category: 'Sciences' },
+      { id: 'medicine', name: 'Medicine', category: 'Sciences' },
+      { id: 'journalism', name: 'Journalism', category: 'Sciences' },
+      { id: 'chemistry', name: 'Chemistry', category: 'Sciences' },
+    ]
+  },
+  {
+    category: 'Cinema',
+    themes: [
+      { id: 'cinema', name: 'Cinema', category: 'Cinema' },
+    ]
+  },
+  {
+    category: 'Collecting',
+    themes: [
+      { id: 'classic-cars', name: 'Classic Cars', category: 'Collecting' },
+      { id: 'philately', name: 'Philately', category: 'Collecting' },
+      { id: 'numismatics', name: 'Numismatics', category: 'Collecting' },
+    ]
+  },
+  {
+    category: 'Food',
+    themes: [
+      { id: 'german-food', name: 'German', category: 'Food' },
+      { id: 'argentinian-food', name: 'Argentinian', category: 'Food' },
+      { id: 'brazilian-food', name: 'Brazilian', category: 'Food' },
+      { id: 'chinese-food', name: 'Chinese', category: 'Food' },
+      { id: 'chocolate', name: 'Chocolate', category: 'Food' },
+      { id: 'egyptian-food', name: 'Egyptian', category: 'Food' },
+      { id: 'spanish-food', name: 'Spanish', category: 'Food' },
+      { id: 'andalusian-food', name: 'Andalusian', category: 'Food' },
+      { id: 'castilian-food', name: 'Castilian', category: 'Food' },
+      { id: 'catalan-food', name: 'Catalan', category: 'Food' },
+      { id: 'extremaduran-food', name: 'Extremaduran', category: 'Food' },
+      { id: 'galician-food', name: 'Galician', category: 'Food' },
+      { id: 'riojan-food', name: 'Riojan', category: 'Food' },
+      { id: 'basque-food', name: 'Basque', category: 'Food' },
+      { id: 'french-food', name: 'French', category: 'Food' },
+      { id: 'hungarian-food', name: 'Hungarian', category: 'Food' },
+      { id: 'italian-food', name: 'Italian', category: 'Food' },
+      { id: 'seafood', name: 'Seafood', category: 'Food' },
+      { id: 'moroccan-food', name: 'Moroccan', category: 'Food' },
+      { id: 'portuguese-food', name: 'Portuguese', category: 'Food' },
+      { id: 'pastry', name: 'Pastry', category: 'Food' },
+      { id: 'romanian-food', name: 'Romanian', category: 'Food' },
+      { id: 'russian-food', name: 'Russian', category: 'Food' },
+    ]
+  },
+  {
+    category: 'Culture',
+    themes: [
+      { id: 'gaudi', name: 'Gaudi', category: 'Culture' },
+      { id: 'history', name: 'History', category: 'Culture' },
+      { id: 'museums', name: 'Museums', category: 'Culture' },
+    ]
+  },
+  {
+    category: 'Cooking Courses',
+    themes: [
+      { id: 'andalusian-cooking', name: 'Andalusian', category: 'Cooking Courses' },
+      { id: 'castilian-cooking', name: 'Castilian', category: 'Cooking Courses' },
+      { id: 'catalan-cooking', name: 'Catalan', category: 'Cooking Courses' },
+      { id: 'spanish-cooking', name: 'Spanish', category: 'Cooking Courses' },
+      { id: 'extremaduran-cooking', name: 'Extremaduran', category: 'Cooking Courses' },
+      { id: 'french-cooking', name: 'French', category: 'Cooking Courses' },
+      { id: 'galician-cooking', name: 'Galician', category: 'Cooking Courses' },
+      { id: 'italian-cooking', name: 'Italian', category: 'Cooking Courses' },
+      { id: 'seafood-cooking', name: 'Seafood', category: 'Cooking Courses' },
+      { id: 'moroccan-cooking', name: 'Moroccan', category: 'Cooking Courses' },
+      { id: 'pastry-cooking', name: 'Pastry', category: 'Cooking Courses' },
+      { id: 'romanian-cooking', name: 'Romanian', category: 'Cooking Courses' },
+      { id: 'basque-cooking', name: 'Basque', category: 'Cooking Courses' },
+    ]
+  },
+  {
+    category: 'Sports',
+    themes: [
+      { id: 'water-sports', name: 'Water Sports', category: 'Sports' },
+      { id: 'aerobics', name: 'Aerobics', category: 'Sports' },
+      { id: 'cycling', name: 'Cycling', category: 'Sports' },
+      { id: 'hunting', name: 'Hunting', category: 'Sports' },
+      { id: 'skiing', name: 'Skiing', category: 'Sports' },
+      { id: 'gymnastics', name: 'Gymnastics', category: 'Sports' },
+      { id: 'mountaineering', name: 'Mountaineering', category: 'Sports' },
+      { id: 'navigation', name: 'Navigation', category: 'Sports' },
+      { id: 'fishing', name: 'Fishing', category: 'Sports' },
+      { id: 'hiking', name: 'Hiking', category: 'Sports' },
+      { id: 'snorkeling', name: 'Snorkeling', category: 'Sports' },
+    ]
+  },
+  {
+    category: 'Esotericism',
+    themes: [
+      { id: 'esotericism', name: 'Esotericism', category: 'Esotericism' },
+    ]
+  },
+  {
+    category: 'Finance & Investments',
+    themes: [
+      { id: 'finance', name: 'Finance & Investments', category: 'Finance & Investments' },
+    ]
+  },
+  {
+    category: 'Gadgets',
+    themes: [
+      { id: 'gadgets', name: 'Gadgets', category: 'Gadgets' },
+    ]
+  },
   {
     category: 'Languages',
     themes: [
-      { id: 'lang-learning', name: 'Languages Learning', category: 'Languages' },
-      { id: 'lang-practice', name: 'Languages Practicing', category: 'Languages' },
-      { id: 'lang-immersion', name: 'Language Immersion', category: 'Languages' },
+      { id: 'german', name: 'German', category: 'Languages' },
+      { id: 'chinese', name: 'Chinese', category: 'Languages' },
+      { id: 'spanish', name: 'Spanish', category: 'Languages' },
+      { id: 'french', name: 'French', category: 'Languages' },
+      { id: 'english', name: 'English', category: 'Languages' },
+      { id: 'italian', name: 'Italian', category: 'Languages' },
+      { id: 'japanese', name: 'Japanese', category: 'Languages' },
     ]
   },
   {
-    category: 'Culinary',
+    category: 'Inventions',
     themes: [
-      { id: 'cooking-globe', name: 'Cooking Around the Globe', category: 'Culinary' },
-      { id: 'intl-cooking', name: 'International Cooking Classes', category: 'Culinary' },
-      { id: 'wine-tasting', name: 'Wine Tasting', category: 'Culinary' },
-      { id: 'farm-to-table', name: 'Farm to Table', category: 'Culinary' },
-    ]
-  },
-  {
-    category: 'Arts & Crafts',
-    themes: [
-      { id: 'painting', name: 'Painting', category: 'Arts & Crafts' },
-      { id: 'sculpture', name: 'Sculpture', category: 'Arts & Crafts' },
-      { id: 'pottery', name: 'Pottery', category: 'Arts & Crafts' },
-      { id: 'digital-art', name: 'Digital Art', category: 'Arts & Crafts' },
-    ]
-  },
-  {
-    category: 'Sports & Fitness',
-    themes: [
-      { id: 'yoga', name: 'Yoga Retreat', category: 'Sports & Fitness' },
-      { id: 'surf', name: 'Surfing', category: 'Sports & Fitness' },
-      { id: 'hiking', name: 'Hiking Adventures', category: 'Sports & Fitness' },
-      { id: 'golf', name: 'Golf Mastery', category: 'Sports & Fitness' },
-    ]
-  },
-  {
-    category: 'Technology',
-    themes: [
-      { id: 'coding', name: 'Coding Bootcamp', category: 'Technology' },
-      { id: 'robotics', name: 'Robotics Workshop', category: 'Technology' },
-      { id: 'ai-learning', name: 'AI & Machine Learning', category: 'Technology' },
-      { id: 'game-dev', name: 'Game Development', category: 'Technology' },
-    ]
-  },
-  {
-    category: 'Wellness',
-    themes: [
-      { id: 'meditation', name: 'Meditation', category: 'Wellness' },
-      { id: 'spa', name: 'Spa & Wellness', category: 'Wellness' },
-      { id: 'detox', name: 'Detox Programs', category: 'Wellness' },
-      { id: 'mindfulness', name: 'Mindfulness', category: 'Wellness' },
+      { id: 'inventions', name: 'Inventions', category: 'Inventions' },
     ]
   },
   {
     category: 'Games',
     themes: [
       { id: 'chess', name: 'Chess', category: 'Games' },
-      { id: 'cards', name: 'Card Games', category: 'Games' },
-      { id: 'board-games', name: 'Board Games', category: 'Games' },
-      { id: 'strategy-games', name: 'Strategy Games', category: 'Games' },
+      { id: 'cards', name: 'Cards', category: 'Games' },
+    ]
+  },
+  {
+    category: 'Literature',
+    themes: [
+      { id: 'books-reading', name: 'Books & Reading', category: 'Literature' },
+      { id: 'novel', name: 'Novel', category: 'Literature' },
+      { id: 'poetry', name: 'Poetry', category: 'Literature' },
+      { id: 'prose', name: 'Prose', category: 'Literature' },
+    ]
+  },
+  {
+    category: 'Pets',
+    themes: [
+      { id: 'cats', name: 'Cats', category: 'Pets' },
+      { id: 'dogs', name: 'Dogs', category: 'Pets' },
+    ]
+  },
+  {
+    category: 'Fashion',
+    themes: [
+      { id: 'fashion', name: 'Fashion', category: 'Fashion' },
+    ]
+  },
+  {
+    category: 'Mountain',
+    themes: [
+      { id: 'mountain', name: 'Mountain', category: 'Mountain' },
     ]
   },
   {
     category: 'Music',
     themes: [
-      { id: 'piano', name: 'Piano Learning', category: 'Music' },
-      { id: 'guitar', name: 'Guitar Mastery', category: 'Music' },
-      { id: 'music-production', name: 'Music Production', category: 'Music' },
-      { id: 'voice-training', name: 'Voice Training', category: 'Music' },
+      { id: 'classical-music', name: 'Classical', category: 'Music' },
+      { id: 'mozart', name: 'Mozart', category: 'Music' },
+      { id: 'opera', name: 'Opera', category: 'Music' },
+      { id: 'pop-music', name: 'Pop', category: 'Music' },
+      { id: 'rock-music', name: 'Rock', category: 'Music' },
+      { id: 'salsa-music', name: 'Salsa', category: 'Music' },
+    ]
+  },
+  {
+    category: 'Beach',
+    themes: [
+      { id: 'beach', name: 'Beach', category: 'Beach' },
+    ]
+  },
+  {
+    category: 'Positive Mind',
+    themes: [
+      { id: 'positive-mind', name: 'Positive Mind', category: 'Positive Mind' },
+    ]
+  },
+  {
+    category: 'Personal Relationships',
+    themes: [
+      { id: 'dating', name: 'Dating', category: 'Personal Relationships' },
+    ]
+  },
+  {
+    category: 'Health',
+    themes: [
+      { id: 'health', name: 'Health', category: 'Health' },
+    ]
+  },
+  {
+    category: 'UFOs',
+    themes: [
+      { id: 'ufos', name: 'UFOs', category: 'UFOs' },
+    ]
+  },
+  {
+    category: 'Miscellaneous',
+    themes: [
+      { id: 'good-manners', name: 'Good Manners', category: 'Miscellaneous' },
+    ]
+  },
+  {
+    category: 'Travel',
+    themes: [
+      { id: 'travel', name: 'Travel', category: 'Travel' },
     ]
   }
 ];
 
-// Flatten all themes for easy access
 export const allThemes: Theme[] = themeCategories.flatMap(category => category.themes);
 
-// Sample hotels data
+export const locationCategories: LocationCategory[] = [
+  {
+    country: 'Egypt',
+    cities: ['Hurghada', 'Sharm El Sheikh']
+  },
+  {
+    country: 'Spain',
+    cities: ['Almeria', 'Barcelona', 'Granada', 'Lugo', 'Madrid', 'Santander', 'Sevilla']
+  },
+  {
+    country: 'Greece',
+    cities: ['Creta']
+  },
+  {
+    country: 'Italy',
+    cities: ['Catania', 'Napoles', 'Roma']
+  },
+  {
+    country: 'Dominican Republic',
+    cities: ['Cabarete', 'Santo Domingo']
+  },
+  {
+    country: 'United States',
+    cities: ['San Diego', 'Burlington']
+  }
+];
+
+export const countries: Country[] = locationCategories.map(location => location.country);
+
+export const activities: Activity[] = [
+  { id: 'dance', name: 'Dance' },
+  { id: 'concerts', name: 'Concerts' },
+  { id: 'competitions', name: 'Competitions' },
+  { id: 'conferences', name: 'Conferences' },
+  { id: 'courses', name: 'Courses' },
+  { id: 'on-location', name: 'On Location' },
+  { id: 'nearby-location', name: 'Nearby Location' },
+  { id: 'board-games', name: 'Board Games' },
+  { id: 'opera', name: 'Opera' },
+  { id: 'beach', name: 'Beach' },
+  { id: 'hiking', name: 'Hiking' },
+  { id: 'nearby-spa', name: 'Nearby Spa' },
+  { id: 'own-spa', name: 'Own Spa' }
+];
+
+export const hotelFeatures: HotelFeature[] = [
+  { id: 'medical-service', name: '24/7 Medical Service' },
+  { id: 'air-conditioning', name: 'Air Conditioning' },
+  { id: 'parking', name: 'Parking' },
+  { id: 'bathroom-amenities', name: 'Bathroom Amenities' },
+  { id: 'balconies-with-views', name: 'Balconies With Views' },
+  { id: 'bar', name: 'Bar' },
+  { id: 'bathrobes', name: 'Bathrobes' },
+  { id: 'library', name: 'Library' },
+  { id: 'safe', name: 'Safe' },
+  { id: 'wellness-center', name: 'Wellness Center' },
+  { id: 'private-kitchen', name: 'Private Kitchen' },
+  { id: 'room-equipment', name: 'Room Equipment' },
+  { id: 'workspace', name: 'Workspace' },
+  { id: 'coworking-space', name: 'Co-Working Space' },
+  { id: 'gym', name: 'Gym' },
+  { id: 'thematic-groups', name: 'Thematic Groups' },
+  { id: 'luggage-storage', name: 'Luggage Storage' },
+  { id: 'jacuzzi', name: 'Jacuzzi' },
+  { id: 'coffee-kit', name: 'Coffee Kit' },
+  { id: 'paid-laundry', name: 'Paid Laundry' },
+  { id: 'included-laundry', name: 'Included Laundry' },
+  { id: 'massages', name: 'Massages' }
+];
+
+export const roomFeatures: RoomFeature[] = [
+  { id: 'pets-allowed', name: 'Pets Allowed' },
+  { id: 'minibar', name: 'Minibar' },
+  { id: 'live-music', name: 'Live Music' },
+  { id: 'computer-available', name: 'Computer Available' },
+  { id: 'indoor-pool', name: 'Indoor Pool' },
+  { id: '24h-reception', name: '24h Reception' },
+  { id: 'restaurant', name: 'Restaurant' },
+  { id: 'conference-room', name: 'Conference Room' },
+  { id: 'sauna', name: 'Sauna' },
+  { id: 'hairdryer', name: 'Hairdryer' },
+  { id: '24h-security', name: '24/7 Security' },
+  { id: 'room-service', name: 'Room Service' },
+  { id: 'hotel-services', name: 'Hotel Services' },
+  { id: 'spa', name: 'Spa' },
+  { id: 'nearby-spa', name: 'Nearby Spa' },
+  { id: 'outdoor-terrace', name: 'Outdoor Terrace' },
+  { id: 'tours-excursions', name: 'Tours & Excursions' },
+  { id: 'paid-airport-transfer', name: 'Paid Airport Transfer' },
+  { id: 'free-airport-transfer', name: 'Free Airport Transfer' },
+  { id: 'tv', name: 'TV' },
+  { id: 'wifi', name: 'WiFi' },
+  { id: 'paid-wifi', name: 'Paid WiFi' },
+  { id: 'free-wifi', name: 'Free WiFi' }
+];
+
+export const propertyTypes: PropertyType[] = ['Camping', 'Hotel', 'Hotel Boutique', 'Resort'];
+
+export const propertyStyles: PropertyStyle[] = ['Classic', 'Classic Elegant', 'Design', 'Modern', 'Rural', 'Urban'];
+
+export const starRatings = [1, 2, 3, 4, 5, 0]; // 0 for Not Rated
+
+export const mealPlans: MealPlan[] = [
+  'Breakfast',
+  'Half Board (Breakfast & Dinner)',
+  'Full Board',
+  'Room Only',
+  'All Inclusive',
+  'All Inclusive Plus (With Laundry)'
+];
+
+export const allMonths: Month[] = [
+  'January', 'February', 'March', 'April', 
+  'May', 'June', 'July', 'August', 
+  'September', 'October', 'November', 'December'
+];
+
+export const priceRanges = [
+  { label: 'Up to $1000', value: 1000 },
+  { label: '$1000 - $1500', value: 1500 },
+  { label: '$1500 - $2000', value: 2000 },
+  { label: 'Over $2000', value: 2001 },
+];
+
+export const durations = [8, 16, 24, 32];
+
 export const hotels: Hotel[] = [
-  // Spain Hotels
   {
     id: 'parador-granada',
     name: 'Parador de Granada',
@@ -151,7 +472,6 @@ export const hotels: Hotel[] = [
     availableMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   },
   
-  // Italy Hotels
   {
     id: 'villa-toscana',
     name: 'Villa Toscana',
@@ -191,7 +511,6 @@ export const hotels: Hotel[] = [
     availableMonths: ['January', 'February', 'March', 'April', 'May', 'September', 'October', 'November', 'December']
   },
   
-  // Egypt Hotels
   {
     id: 'nile-serenity',
     name: 'Nile Serenity',
@@ -231,7 +550,6 @@ export const hotels: Hotel[] = [
     availableMonths: ['January', 'February', 'March', 'September', 'October', 'November', 'December']
   },
   
-  // United States Hotels
   {
     id: 'pacific-surf',
     name: 'Pacific Surf',
@@ -271,24 +589,3 @@ export const hotels: Hotel[] = [
     availableMonths: ['May', 'June', 'July', 'August', 'September', 'October']
   }
 ];
-
-// Available months
-export const allMonths: Month[] = [
-  'January', 'February', 'March', 'April', 
-  'May', 'June', 'July', 'August', 
-  'September', 'October', 'November', 'December'
-];
-
-// Price ranges
-export const priceRanges = [
-  { label: 'Up to $1000', value: 1000 },
-  { label: 'Up to $1500', value: 1500 },
-  { label: 'Up to $2000', value: 2000 },
-  { label: 'Over $2000', value: 2001 },
-];
-
-// Available countries
-export const countries: Country[] = ['Spain', 'Italy', 'Egypt', 'United States'];
-
-// Duration options
-export const durations = [8, 16, 24, 32];

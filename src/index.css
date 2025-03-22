@@ -130,11 +130,19 @@
 }
 
 @keyframes starMovement {
-  from {
-    transform: translateX(0);
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
   }
-  to {
-    transform: translateX(-100vw);
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
   }
 }
 

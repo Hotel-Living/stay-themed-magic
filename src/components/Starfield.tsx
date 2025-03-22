@@ -1,102 +1,76 @@
 
 import { useEffect, useRef } from 'react';
 
-interface Star {
-  x: number;
-  y: number;
-  size: number;
-  speed: number;
-  angle: number;
-}
-
 export function Starfield() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starfieldRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!starfieldRef.current) return;
     
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    // Set canvas to full screen
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    const starfield = starfieldRef.current;
+    starfield.innerHTML = '';
     
     // Create stars
-    const stars: Star[] = [];
-    const STAR_COUNT = 150;
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    
-    for (let i = 0; i < STAR_COUNT; i++) {
-      // Calculate random angle for radial motion
-      const angle = Math.random() * Math.PI * 2;
-      // Start stars closer to center
-      const distance = Math.random() * (canvas.width * 0.2) + 10;
+    const createStars = () => {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const centerX = windowWidth / 2;
+      const centerY = windowHeight / 2;
       
-      stars.push({
-        // Position stars in radial pattern around center
-        x: centerX + Math.cos(angle) * distance,
-        y: centerY + Math.sin(angle) * distance,
-        size: Math.random() * 1 + 0.2, // Smaller sizes
-        speed: Math.random() * 1.5 + 0.5,
-        angle: angle
-      });
-    }
-    
-    // Animation function
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Number of stars based on screen size
+      const starCount = Math.max(50, Math.floor((windowWidth * windowHeight) / 3000));
       
-      // Draw stars
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'white';
-        ctx.fill();
+      for (let i = 0; i < starCount; i++) {
+        // Calculate position from center with random angle
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * Math.min(windowWidth, windowHeight) * 0.8;
         
-        // Move star outward from center along its angle
-        star.x += Math.cos(star.angle) * star.speed;
-        star.y += Math.sin(star.angle) * star.speed;
+        const star = document.createElement('div');
+        star.className = 'star';
         
-        // Grow star slightly as it moves outward to create depth effect
-        star.size += 0.005;
+        // Random size between 1px and 3px
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
         
-        // Reset star position if it goes off screen
-        if (
-          star.x < 0 || star.x > canvas.width || 
-          star.y < 0 || star.y > canvas.height
-        ) {
-          // Reset to center with new angle
-          const newAngle = Math.random() * Math.PI * 2;
-          star.x = centerX + Math.cos(newAngle) * 10;
-          star.y = centerY + Math.sin(newAngle) * 10;
-          star.size = Math.random() * 1 + 0.2;
-          star.angle = newAngle;
-        }
-      });
-      
-      requestAnimationFrame(animate);
-    }
+        // Position relative to center
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+        
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        
+        // Animation duration based on distance from center (stars farther away appear to move faster)
+        const duration = 5 + Math.random() * 10;
+        star.style.animation = `starMovement ${duration}s linear infinite`;
+        
+        // Set the starting position for animation
+        star.style.setProperty('--start-x', `${x}px`);
+        star.style.setProperty('--start-y', `${y}px`);
+        
+        // Set the end position (moving away from center)
+        const endX = x + (x - centerX) * 2;
+        const endY = y + (y - centerY) * 2;
+        star.style.setProperty('--end-x', `${endX}px`);
+        star.style.setProperty('--end-y', `${endY}px`);
+        
+        starfield.appendChild(star);
+      }
+    };
     
-    animate();
+    createStars();
+    
+    // Recreate stars on window resize
+    const handleResize = () => {
+      createStars();
+    };
+    
+    window.addEventListener('resize', handleResize);
     
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
   
-  return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full z-[-1]"
-      style={{ backgroundColor: '#5B0155' }}
-    />
-  );
+  return <div ref={starfieldRef} className="starfield"></div>;
 }

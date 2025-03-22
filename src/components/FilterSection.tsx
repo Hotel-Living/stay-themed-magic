@@ -9,7 +9,16 @@ import {
   themeCategories, 
   priceRanges,
   Country,
-  Theme
+  Theme,
+  durations,
+  locationCategories,
+  activities,
+  mealPlans,
+  propertyTypes,
+  propertyStyles,
+  starRatings,
+  hotelFeatures,
+  roomFeatures
 } from "@/utils/data";
 import { Link } from "react-router-dom";
 
@@ -57,7 +66,9 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     onFilterChange(newFilters);
-    setActiveDropdown(null);
+    if (!verticalLayout) {
+      setActiveDropdown(null);
+    }
   };
   
   const clearFilter = (key: keyof FilterState) => {
@@ -76,8 +87,324 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
     setFilters(newFilters);
     onFilterChange(newFilters);
   };
-  
+
   const hasActiveFilters = Object.values(filters).some(filter => filter !== null);
+
+  // Get the basic filters for both Index and Search
+  const getBasicFilters = () => (
+    <>
+      {/* Country Filter */}
+      <FilterDropdown 
+        label="Country"
+        value={filters.country} 
+        isOpen={activeDropdown === 'country'}
+        onClick={() => toggleDropdown('country')}
+        onClear={() => clearFilter('country')}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-country">
+          {countries.map(country => (
+            <DropdownItem 
+              key={country}
+              label={country}
+              selected={filters.country === country}
+              onClick={() => updateFilter('country', country)}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+      
+      {/* Month Filter */}
+      <FilterDropdown 
+        label="Month" 
+        value={filters.month}
+        isOpen={activeDropdown === 'month'}
+        onClick={() => toggleDropdown('month')}
+        onClear={() => clearFilter('month')}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-2 gap-1 p-1" id="dropdown-month">
+          {allMonths.map(month => (
+            <DropdownItem 
+              key={month}
+              label={month}
+              selected={filters.month === month}
+              onClick={() => updateFilter('month', month)}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+      
+      {/* Theme Filter */}
+      <FilterDropdown 
+        label="Theme"
+        value={filters.theme?.name}
+        isOpen={activeDropdown === 'theme'}
+        onClick={() => toggleDropdown('theme')}
+        onClear={() => clearFilter('theme')}
+        vertical={verticalLayout}
+      >
+        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-theme">
+          {themeCategories.map(category => (
+            <div key={category.category} className="mb-2">
+              <div className={cn(
+                "text-xs font-medium mb-1 px-2",
+                verticalLayout ? "text-white" : "text-fuchsia-400"
+              )}>{category.category}</div>
+              <div className="grid grid-cols-1 gap-1">
+                {category.themes.map(theme => (
+                  <DropdownItem 
+                    key={theme.id}
+                    label={theme.name}
+                    selected={filters.theme?.id === theme.id}
+                    onClick={() => updateFilter('theme', theme)}
+                    vertical={verticalLayout}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </FilterDropdown>
+      
+      {/* Price Filter */}
+      <FilterDropdown 
+        label="Price per Month"
+        value={filters.priceRange !== null ? 
+          (filters.priceRange > 2000 ? 'Over $2000' : `Up to $${filters.priceRange}`) : null}
+        isOpen={activeDropdown === 'price'}
+        onClick={() => toggleDropdown('price')}
+        onClear={() => clearFilter('priceRange')}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-price">
+          {priceRanges.map(range => (
+            <DropdownItem 
+              key={range.value}
+              label={range.label}
+              selected={filters.priceRange === range.value}
+              onClick={() => updateFilter('priceRange', range.value)}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+    </>
+  );
+
+  // Get the advanced filters for Search
+  const getAdvancedFilters = () => (
+    <>
+      {/* Location Filter */}
+      <FilterDropdown 
+        label="Location"
+        value={null}
+        isOpen={activeDropdown === 'location'}
+        onClick={() => toggleDropdown('location')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-location">
+          {locationCategories.map(location => (
+            <div key={location.country} className="mb-2">
+              <div className="text-xs font-medium mb-1 px-2 text-white">
+                {location.country}
+              </div>
+              <div className="grid grid-cols-1 gap-1 pl-4">
+                {location.cities.map(city => (
+                  <DropdownItem 
+                    key={`${location.country}-${city}`}
+                    label={city}
+                    selected={false}
+                    onClick={() => {}}
+                    vertical={verticalLayout}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Duration of Stay */}
+      <FilterDropdown 
+        label="Duration of Stay"
+        value={null}
+        isOpen={activeDropdown === 'duration'}
+        onClick={() => toggleDropdown('duration')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-duration">
+          {durations.map(days => (
+            <DropdownItem 
+              key={days}
+              label={`${days} Days`}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Activities */}
+      <FilterDropdown 
+        label="Activities"
+        value={null}
+        isOpen={activeDropdown === 'activities'}
+        onClick={() => toggleDropdown('activities')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-activities">
+          {activities.map(activity => (
+            <DropdownItem 
+              key={activity.id}
+              label={activity.name}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Meals */}
+      <FilterDropdown 
+        label="Meals"
+        value={null}
+        isOpen={activeDropdown === 'meals'}
+        onClick={() => toggleDropdown('meals')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-meals">
+          {mealPlans.map(meal => (
+            <DropdownItem 
+              key={meal}
+              label={meal}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Property Type */}
+      <FilterDropdown 
+        label="Property Type"
+        value={null}
+        isOpen={activeDropdown === 'property-type'}
+        onClick={() => toggleDropdown('property-type')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-property-type">
+          {propertyTypes.map(type => (
+            <DropdownItem 
+              key={type}
+              label={type}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Style of Property */}
+      <FilterDropdown 
+        label="Style of Property"
+        value={null}
+        isOpen={activeDropdown === 'property-style'}
+        onClick={() => toggleDropdown('property-style')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-property-style">
+          {propertyStyles.map(style => (
+            <DropdownItem 
+              key={style}
+              label={style}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Stars */}
+      <FilterDropdown 
+        label="Stars"
+        value={null}
+        isOpen={activeDropdown === 'stars'}
+        onClick={() => toggleDropdown('stars')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-stars">
+          {starRatings.map(stars => (
+            <DropdownItem 
+              key={stars}
+              label={stars === 0 ? "Not Rated" : `${stars} Star${stars > 1 ? 's' : ''}`}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Hotel Features */}
+      <FilterDropdown 
+        label="Hotel Features"
+        value={null}
+        isOpen={activeDropdown === 'hotel-features'}
+        onClick={() => toggleDropdown('hotel-features')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-hotel-features">
+          {hotelFeatures.map(feature => (
+            <DropdownItem 
+              key={feature.id}
+              label={feature.name}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+
+      {/* Room Features */}
+      <FilterDropdown 
+        label="Room Features"
+        value={null}
+        isOpen={activeDropdown === 'room-features'}
+        onClick={() => toggleDropdown('room-features')}
+        onClear={() => {}}
+        vertical={verticalLayout}
+      >
+        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-room-features">
+          {roomFeatures.map(feature => (
+            <DropdownItem 
+              key={feature.id}
+              label={feature.name}
+              selected={false}
+              onClick={() => {}}
+              vertical={verticalLayout}
+            />
+          ))}
+        </div>
+      </FilterDropdown>
+    </>
+  );
   
   return (
     <div className={cn(
@@ -109,104 +436,11 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
           <div className="text-white text-base font-bold mb-2 text-center">Filter By</div>
         )}
         
-        {/* Country Filter */}
-        <FilterDropdown 
-          label="Country"
-          value={filters.country} 
-          isOpen={activeDropdown === 'country'}
-          onClick={() => toggleDropdown('country')}
-          onClear={() => clearFilter('country')}
-          vertical={verticalLayout}
-        >
-          <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-country">
-            {countries.map(country => (
-              <DropdownItem 
-                key={country}
-                label={country}
-                selected={filters.country === country}
-                onClick={() => updateFilter('country', country)}
-                vertical={verticalLayout}
-              />
-            ))}
-          </div>
-        </FilterDropdown>
+        {/* Render basic filters for both Index and Search */}
+        {getBasicFilters()}
         
-        {/* Month Filter */}
-        <FilterDropdown 
-          label="Month" 
-          value={filters.month}
-          isOpen={activeDropdown === 'month'}
-          onClick={() => toggleDropdown('month')}
-          onClear={() => clearFilter('month')}
-          vertical={verticalLayout}
-        >
-          <div className="grid grid-cols-2 gap-1 p-1" id="dropdown-month">
-            {allMonths.map(month => (
-              <DropdownItem 
-                key={month}
-                label={month}
-                selected={filters.month === month}
-                onClick={() => updateFilter('month', month)}
-                vertical={verticalLayout}
-              />
-            ))}
-          </div>
-        </FilterDropdown>
-        
-        {/* Theme Filter */}
-        <FilterDropdown 
-          label="Theme"
-          value={filters.theme?.name}
-          isOpen={activeDropdown === 'theme'}
-          onClick={() => toggleDropdown('theme')}
-          onClear={() => clearFilter('theme')}
-          vertical={verticalLayout}
-        >
-          <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-theme">
-            {themeCategories.map(category => (
-              <div key={category.category} className="mb-2">
-                <div className={cn(
-                  "text-xs font-medium mb-1 px-2",
-                  verticalLayout ? "text-white" : "text-fuchsia-400"
-                )}>{category.category}</div>
-                <div className="grid grid-cols-1 gap-1">
-                  {category.themes.map(theme => (
-                    <DropdownItem 
-                      key={theme.id}
-                      label={theme.name}
-                      selected={filters.theme?.id === theme.id}
-                      onClick={() => updateFilter('theme', theme)}
-                      vertical={verticalLayout}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </FilterDropdown>
-        
-        {/* Price Filter */}
-        <FilterDropdown 
-          label="Price per Month"
-          value={filters.priceRange !== null ? 
-            (filters.priceRange > 2000 ? 'Over $2000' : `Up to $${filters.priceRange}`) : null}
-          isOpen={activeDropdown === 'price'}
-          onClick={() => toggleDropdown('price')}
-          onClear={() => clearFilter('priceRange')}
-          vertical={verticalLayout}
-        >
-          <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-price">
-            {priceRanges.map(range => (
-              <DropdownItem 
-                key={range.value}
-                label={range.label}
-                selected={filters.priceRange === range.value}
-                onClick={() => updateFilter('priceRange', range.value)}
-                vertical={verticalLayout}
-              />
-            ))}
-          </div>
-        </FilterDropdown>
+        {/* Render advanced filters only for Search page */}
+        {verticalLayout && getAdvancedFilters()}
       </div>
       
       {showSearchButton && (

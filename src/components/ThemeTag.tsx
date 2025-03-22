@@ -18,7 +18,7 @@ export function ThemeTag({ theme, className, size = 'md' }: ThemeTagProps) {
   return (
     <div 
       className={cn(
-        "inline-flex items-center rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-300 font-medium transition-all duration-300 hover:bg-fuchsia-500/20",
+        "inline-flex items-center rounded-full bg-fuchsia-500/15 border border-fuchsia-500/30 text-fuchsia-300 font-medium transition-all duration-300 hover:bg-fuchsia-500/25 hover:shadow-[0_0_10px_rgba(217,70,239,0.5)]",
         sizeClasses[size],
         className
       )}

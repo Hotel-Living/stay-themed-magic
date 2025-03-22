@@ -13,7 +13,7 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Faq from "./pages/Faq";
+import Faq from "./pages/Faq"; // Fixed casing to match file
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
 import Privacy from "./pages/Privacy";

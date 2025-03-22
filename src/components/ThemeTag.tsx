@@ -29,9 +29,17 @@ export function ThemeTag({ theme, className, size = 'md' }: ThemeTagProps) {
 }
 
 export function HotelThemes({ themes, size = 'md', className }: { themes: Theme[], size?: 'sm' | 'md' | 'lg', className?: string }) {
+  // Add safety check for null or undefined themes
+  if (!themes || themes.length === 0) {
+    return null;
+  }
+  
+  // Filter out any undefined or null themes before mapping
+  const validThemes = themes.filter(theme => theme != null);
+  
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
-      {themes.map(theme => (
+      {validThemes.map(theme => (
         <ThemeTag key={theme.id} theme={theme} size={size} />
       ))}
     </div>

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
   Month, 
@@ -11,9 +11,11 @@ import {
   Country,
   Theme
 } from "@/utils/data";
+import { Link } from "react-router-dom";
 
 interface FilterSectionProps {
   onFilterChange: (filters: FilterState) => void;
+  showSearchButton?: boolean;
 }
 
 export interface FilterState {
@@ -23,7 +25,7 @@ export interface FilterState {
   priceRange: number | null;
 }
 
-export function FilterSection({ onFilterChange }: FilterSectionProps) {
+export function FilterSection({ onFilterChange, showSearchButton = true }: FilterSectionProps) {
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -169,6 +171,25 @@ export function FilterSection({ onFilterChange }: FilterSectionProps) {
             </div>
           </FilterDropdown>
         </div>
+        
+        {showSearchButton && (
+          <div className="mt-4 flex justify-center">
+            <Link
+              to={{
+                pathname: "/search",
+                search: new URLSearchParams({
+                  country: filters.country || "",
+                  month: filters.month || "",
+                  theme: filters.theme ? String(filters.theme.id) : "",
+                  price: filters.priceRange ? String(filters.priceRange) : ""
+                }).toString()
+              }}
+              className="py-3 px-8 rounded-full bg-primary hover:bg-primary/90 text-white font-medium transition-all duration-300 flex items-center gap-2"
+            >
+              Search <Search className="w-5 h-5" />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -190,7 +211,7 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children }: Fi
         type="button"
         onClick={onClick}
         className={cn(
-          "w-full flex items-center justify-between rounded-lg border p-3 transition-all",
+          "w-full flex items-center justify-between rounded-lg border p-3 transition-all text-lg",
           isOpen 
             ? "border-fuchsia-500 bg-fuchsia-500/10" 
             : "border-border hover:border-fuchsia-500/50 hover:bg-fuchsia-500/5",
@@ -198,7 +219,7 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children }: Fi
         )}
       >
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium uppercase tracking-wide text-fuchsia-400">{label}</span>
+          <span className="text-sm font-medium uppercase tracking-wide text-fuchsia-400">{label}</span>
           {value && (
             <button 
               onClick={(e) => {
@@ -212,7 +233,7 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children }: Fi
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span>{value || "Any"}</span>
+          <span className="text-lg">{value || "Any"}</span>
           <ChevronDown className={cn(
             "w-4 h-4 transition-transform", 
             isOpen ? "rotate-180" : ""
@@ -241,7 +262,7 @@ function DropdownItem({ label, selected, onClick }: DropdownItemProps) {
       type="button"
       onClick={onClick}
       className={cn(
-        "w-full flex items-center justify-between rounded px-3 py-1.5 text-sm transition",
+        "w-full flex items-center justify-between rounded px-3 py-1.5 text-base transition",
         selected 
           ? "bg-fuchsia-500/20 text-fuchsia-200" 
           : "hover:bg-fuchsia-500/10 text-foreground/80 hover:text-foreground"

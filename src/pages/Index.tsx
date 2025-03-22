@@ -3,8 +3,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSection, FilterState } from "@/components/FilterSection";
-import { Building, Check } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Check } from "lucide-react";
 import { Starfield } from "@/components/Starfield";
 
 export default function Index() {
@@ -24,32 +23,32 @@ export default function Index() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 text-white">
+      <main className="flex-1 pt-16 text-white flex flex-col justify-center">
         {/* Hero Section */}
-        <section className="relative py-20 md:py-32 px-4 overflow-hidden">
+        <section className="py-10 md:py-16 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-10 leading-tight">
-              <span className="text-white">Viva en eternas vacaciones</span><br />
-              <span className="text-white text-3xl md:text-4xl mt-2">La vida como siempre debió ser</span>
+            <h1 className="text-2xl md:text-4xl font-bold mb-8 leading-tight">
+              <span className="text-white">Live in permanent vacation</span><br />
+              <span className="text-white text-xl md:text-2xl mt-2">Life as it always should be</span>
             </h1>
             
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              <div className="space-y-6">
-                {["Olvídese de las tareas de la casa", "Multiplique su vida social"].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-3 text-xl md:text-2xl">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              <div className="space-y-3">
+                {["Forget about house chores", "Multiply your social life"].map((slogan, index) => (
+                  <div key={index} className="flex items-center gap-3 text-base md:text-lg">
+                    <div className="w-6 h-6 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
                     </div>
                     <p className="text-left">{slogan}</p>
                   </div>
                 ))}
               </div>
               
-              <div className="space-y-6">
-                {["Elija hoteles por temáticas favoritas", "Rodéese de personas a su medida"].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-3 text-xl md:text-2xl">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
+              <div className="space-y-3">
+                {["Choose hotels by favorite themes", "Surround yourself with like-minded people"].map((slogan, index) => (
+                  <div key={index} className="flex items-center gap-3 text-base md:text-lg">
+                    <div className="w-6 h-6 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
                     </div>
                     <p className="text-left">{slogan}</p>
                   </div>
@@ -60,16 +59,9 @@ export default function Index() {
         </section>
         
         {/* Filter Section */}
-        <section className="py-10 px-4">
-          <div className="container max-w-6xl mx-auto">
+        <section className="py-8 px-4 mb-24">
+          <div className="container max-w-5xl mx-auto">
             <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />
-          </div>
-        </section>
-        
-        {/* Features Section */}
-        <section className="py-20 px-4">
-          <div className="container max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Hotel-Living. La revolución necesaria</h2>
           </div>
         </section>
       </main>

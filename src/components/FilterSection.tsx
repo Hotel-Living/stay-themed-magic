@@ -85,16 +85,16 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
       verticalLayout ? "bg-[#07074f] p-4 rounded-lg" : "bg-[#e6f7fa] rounded-2xl"
     )}>
       {!verticalLayout && (
-        <div className="p-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
-            <h2 className="text-xl font-bold text-[#9E0078]">Find your perfect thematic stay</h2>
+        <div className="p-2">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mb-2">
+            <h2 className="text-sm md:text-base font-bold text-[#9E0078]">Find your perfect thematic stay</h2>
             
             {hasActiveFilters && (
               <div 
                 onClick={clearAllFilters}
-                className="flex items-center gap-1 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition cursor-pointer"
+                className="flex items-center gap-1 text-xs text-fuchsia-400 hover:text-fuchsia-300 transition cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3 h-3" />
                 Clear all filters
               </div>
             )}
@@ -103,10 +103,10 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
       )}
       
       <div className={cn(
-        verticalLayout ? "flex flex-col gap-2" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-4"
+        verticalLayout ? "flex flex-col gap-2" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2"
       )}>
         {verticalLayout && (
-          <div className="text-white text-xl font-bold mb-2 text-center">Filter By</div>
+          <div className="text-white text-base font-bold mb-2 text-center">Filter By</div>
         )}
         
         {/* Country Filter */}
@@ -166,7 +166,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
             {themeCategories.map(category => (
               <div key={category.category} className="mb-2">
                 <div className={cn(
-                  "text-sm font-medium mb-1 px-2",
+                  "text-xs font-medium mb-1 px-2",
                   verticalLayout ? "text-white" : "text-fuchsia-400"
                 )}>{category.category}</div>
                 <div className="grid grid-cols-1 gap-1">
@@ -210,7 +210,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
       </div>
       
       {showSearchButton && (
-        <div className="mt-4 flex justify-center p-4">
+        <div className="mt-2 flex justify-center p-2">
           <Link
             to={{
               pathname: "/search",
@@ -221,9 +221,9 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
                 price: filters.priceRange ? String(filters.priceRange) : ""
               }).toString()
             }}
-            className="py-3 px-8 rounded-none bg-[#9E0078] hover:bg-[#9E0078]/90 text-white font-medium transition-all duration-300 flex items-center gap-2"
+            className="py-2 px-6 rounded-none bg-[#9E0078] hover:bg-[#9E0078]/90 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2"
           >
-            Search <Search className="w-5 h-5" />
+            Search <Search className="w-4 h-4" />
           </Link>
         </div>
       )}
@@ -247,14 +247,14 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vert
       <div
         onClick={onClick}
         className={cn(
-          "w-full flex items-center justify-between p-3 cursor-pointer",
+          "w-full flex items-center justify-between p-2 cursor-pointer text-sm",
           vertical ? 
             "bg-[#07074f] text-white border border-white/40 mb-1" : 
             "bg-[#e6f7fa] text-[#9E0078] border border-[#9E0078]/20",
           isOpen && vertical ? "border-b-0" : ""
         )}
       >
-        <div className="flex items-center gap-2 font-medium text-lg">
+        <div className="flex items-center gap-2 font-medium">
           <span>{label}</span>
           {value && !vertical && (
             <span 
@@ -269,17 +269,17 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vert
           )}
         </div>
         <div className="flex items-center gap-2">
-          {value && <span>{value}</span>}
+          {value && <span className="text-xs">{value}</span>}
           {vertical ? 
-            (isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />) : 
-            <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />
+            (isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />) : 
+            <ChevronDown className={cn("w-3 h-3 transition-transform", isOpen ? "rotate-180" : "")} />
           }
         </div>
       </div>
       
       {isOpen && (
         <div className={cn(
-          "w-full",
+          "w-full text-xs",
           vertical ? 
             "border border-t-0 border-white/40 bg-[#07074f] mb-2" : 
             "absolute z-10 mt-1 rounded-lg border border-gray-200 bg-white shadow-lg"
@@ -303,7 +303,7 @@ function DropdownItem({ label, selected, onClick, vertical = false }: DropdownIt
     <div
       onClick={onClick}
       className={cn(
-        "w-full flex items-center px-3 py-1.5 text-base transition cursor-pointer",
+        "w-full flex items-center px-2 py-1 text-xs transition cursor-pointer",
         selected 
           ? vertical ? "text-white bg-[#9E0078]/50" : "text-white bg-[#9E0078]"
           : vertical ? "text-white/80 hover:bg-[#9E0078]/30" : "text-gray-700 hover:bg-gray-100"
@@ -311,12 +311,12 @@ function DropdownItem({ label, selected, onClick, vertical = false }: DropdownIt
     >
       <div className="flex items-center gap-2 w-full">
         {vertical && (
-          <div className="w-4 h-4 flex items-center justify-center border border-white">
-            {selected && <div className="w-2 h-2 bg-white"></div>}
+          <div className="w-3 h-3 flex items-center justify-center border border-white">
+            {selected && <div className="w-1.5 h-1.5 bg-white"></div>}
           </div>
         )}
         <span>{label}</span>
-        {!vertical && selected && <Check className="w-4 h-4 ml-auto" />}
+        {!vertical && selected && <Check className="w-3 h-3 ml-auto" />}
       </div>
     </div>
   );

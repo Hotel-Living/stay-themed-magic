@@ -10,35 +10,35 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#9E0078] backdrop-blur-xl border-b border-[#c266af]">
-      <div className="container px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Logo />
+          <Logo className="animate-floating" />
         </div>
         
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-2">
           <Link 
             to="/signup" 
-            className="bg-white text-[#9E0078] hover:bg-white/90 px-4 py-2 font-medium"
+            className="bg-white text-[#9E0078] hover:bg-white/90 px-3 py-1 text-sm"
           >
-            REGÍSTRESE
+            REGISTER
           </Link>
           <Link 
             to="/login" 
-            className="bg-white text-[#9E0078] hover:bg-white/90 px-4 py-2 font-medium"
+            className="bg-white text-[#9E0078] hover:bg-white/90 px-3 py-1 text-sm"
           >
             LOGIN
           </Link>
           <Link 
             to="/faq" 
-            className="bg-white text-[#9E0078] hover:bg-white/90 px-4 py-2 font-medium"
+            className="bg-white text-[#9E0078] hover:bg-white/90 px-3 py-1 text-sm"
           >
             FAQ
           </Link>
           <Link 
             to="/hoteles" 
-            className="bg-white text-[#9E0078] hover:bg-white/90 px-4 py-2 font-medium"
+            className="bg-white text-[#9E0078] hover:bg-white/90 px-3 py-1 text-sm"
           >
-            HOTELES
+            HOTELS
           </Link>
         </div>
         
@@ -49,23 +49,23 @@ export function Navbar() {
           aria-label="Toggle menu"
         >
           {isMenuOpen ? (
-            <X className="w-6 h-6 text-white" />
+            <X className="w-5 h-5 text-white" />
           ) : (
-            <Menu className="w-6 h-6 text-white" />
+            <Menu className="w-5 h-5 text-white" />
           )}
         </button>
       </div>
       
       {/* Mobile menu */}
       <div className={cn(
-        "fixed inset-0 top-16 bg-[#9E0078]/95 backdrop-blur-lg z-40 flex flex-col p-6 gap-5 transition-all duration-300 ease-in-out transform md:hidden",
+        "fixed inset-0 top-12 bg-[#9E0078]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
         isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       )}>
-        <nav className="flex flex-col space-y-3">
-          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-2 text-center font-medium">REGÍSTRESE</Link>
-          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-2 text-center font-medium">LOGIN</Link>
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-2 text-center font-medium">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-2 text-center font-medium">HOTELES</Link>
+        <nav className="flex flex-col space-y-2">
+          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-1 text-center text-sm">REGISTER</Link>
+          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-1 text-center text-sm">LOGIN</Link>
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-1 text-center text-sm">FAQ</Link>
+          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9E0078] py-1 text-center text-sm">HOTELS</Link>
         </nav>
       </div>
     </header>

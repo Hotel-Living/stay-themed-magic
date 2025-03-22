@@ -113,7 +113,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #740074;
+  background-color: #5B0155;
   position: fixed;
   top: 0;
   left: 0;
@@ -124,7 +124,7 @@
 
 .star {
   position: absolute;
-  background-color: #B400B4;
+  background-color: white;
   border-radius: 50%;
   animation: starMovement linear infinite;
 }
@@ -136,6 +136,16 @@
   to {
     transform: translateX(-100vw);
   }
+}
+
+/* Floating logo animation */
+@keyframes floating {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-floating {
+  animation: floating 3s ease-in-out infinite;
 }
 
 /* Remove the button inside button error */

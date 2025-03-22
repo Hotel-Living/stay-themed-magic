@@ -210,6 +210,27 @@
   .fuchsia-card {
     @apply bg-gradient-to-br from-fuchsia-900/30 to-fuchsia-800/10 backdrop-blur-md border border-fuchsia-500/30 rounded-xl shadow-[0_10px_25px_rgba(217,70,239,0.2)];
   }
+  
+  /* Excel-like style for the calculator */
+  .excel-grid {
+    @apply grid grid-cols-1 gap-2 p-4 bg-fuchsia-950/50 rounded-lg border border-fuchsia-500/30;
+  }
+  
+  .excel-cell {
+    @apply flex items-center border border-fuchsia-600/30 rounded-md bg-fuchsia-900/20 p-2;
+  }
+  
+  .excel-cell-input {
+    @apply bg-green-900/20 border-green-500/40 text-white;
+  }
+  
+  .excel-cell-output {
+    @apply bg-fuchsia-900/20 border-fuchsia-500/30 text-white;
+  }
+  
+  .excel-header {
+    @apply bg-fuchsia-800/30 font-medium text-fuchsia-200 px-3 py-2 rounded-t-md;
+  }
 }
 
 @keyframes pulse {

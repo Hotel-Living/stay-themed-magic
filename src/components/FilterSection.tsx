@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Check, ChevronDown, X, Search, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -45,10 +44,8 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
   
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   
-  // Effect to make sure filters are visible
   useEffect(() => {
     if (activeDropdown && verticalLayout) {
-      // Add a little delay to make sure the dropdown is fully rendered
       setTimeout(() => {
         const dropdown = document.getElementById(`dropdown-${activeDropdown}`);
         if (dropdown) {
@@ -90,10 +87,8 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
 
   const hasActiveFilters = Object.values(filters).some(filter => filter !== null);
 
-  // Get the basic filters for both Index and Search
   const getBasicFilters = () => (
     <>
-      {/* Country Filter */}
       <FilterDropdown 
         label="Country"
         value={filters.country} 
@@ -115,7 +110,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
       
-      {/* Month Filter */}
       <FilterDropdown 
         label="Month" 
         value={filters.month}
@@ -137,7 +131,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
       
-      {/* Theme Filter */}
       <FilterDropdown 
         label="Theme"
         value={filters.theme?.name}
@@ -169,7 +162,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
       
-      {/* Price Filter */}
       <FilterDropdown 
         label="Price per Month"
         value={filters.priceRange !== null ? 
@@ -194,10 +186,8 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
     </>
   );
 
-  // Get the advanced filters for Search
   const getAdvancedFilters = () => (
     <>
-      {/* Location Filter */}
       <FilterDropdown 
         label="Location"
         value={null}
@@ -228,7 +218,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Duration of Stay */}
       <FilterDropdown 
         label="Duration of Stay"
         value={null}
@@ -250,7 +239,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Activities */}
       <FilterDropdown 
         label="Activities"
         value={null}
@@ -272,7 +260,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Meals */}
       <FilterDropdown 
         label="Meals"
         value={null}
@@ -294,7 +281,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Property Type */}
       <FilterDropdown 
         label="Property Type"
         value={null}
@@ -316,7 +302,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Style of Property */}
       <FilterDropdown 
         label="Style of Property"
         value={null}
@@ -338,7 +323,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Stars */}
       <FilterDropdown 
         label="Stars"
         value={null}
@@ -360,7 +344,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Hotel Features */}
       <FilterDropdown 
         label="Hotel Features"
         value={null}
@@ -382,7 +365,6 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         </div>
       </FilterDropdown>
 
-      {/* Room Features */}
       <FilterDropdown 
         label="Room Features"
         value={null}
@@ -408,27 +390,9 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
   
   return (
     <div className={cn(
-      "w-full overflow-hidden",
-      verticalLayout ? "bg-[#07074f] p-4 rounded-lg" : "bg-[#e6f7fa] rounded-2xl"
+      "w-full overflow-visible filter-dropdown-container",
+      verticalLayout ? "bg-[#07074f] p-4 rounded-lg" : "rounded-2xl glass-card"
     )}>
-      {!verticalLayout && (
-        <div className="p-2">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mb-2">
-            <h2 className="text-sm md:text-base font-bold text-[#9E0078]">Find your perfect thematic stay</h2>
-            
-            {hasActiveFilters && (
-              <div 
-                onClick={clearAllFilters}
-                className="flex items-center gap-1 text-xs text-fuchsia-400 hover:text-fuchsia-300 transition cursor-pointer"
-              >
-                <X className="w-3 h-3" />
-                Clear all filters
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      
       <div className={cn(
         verticalLayout ? "flex flex-col gap-2" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2"
       )}>
@@ -436,10 +400,8 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
           <div className="text-white text-base font-bold mb-2 text-center">Filter By</div>
         )}
         
-        {/* Render basic filters for both Index and Search */}
         {getBasicFilters()}
         
-        {/* Render advanced filters only for Search page */}
         {verticalLayout && getAdvancedFilters()}
       </div>
       
@@ -455,7 +417,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
                 price: filters.priceRange ? String(filters.priceRange) : ""
               }).toString()
             }}
-            className="py-2 px-6 rounded-none bg-[#9E0078] hover:bg-[#9E0078]/90 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2"
+            className="py-2 px-6 rounded-none bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2"
           >
             Search <Search className="w-4 h-4" />
           </Link>

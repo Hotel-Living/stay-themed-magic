@@ -40,11 +40,15 @@ export function Starfield() {
         star.style.left = `${x}px`;
         star.style.top = `${y}px`;
         
+        // Set color between white and bright yellow
+        const isYellow = Math.random() > 0.7;
+        star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
+        
         // Set opacity based on size for depth effect
         star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
         
-        // Animation duration based on distance from center
-        const duration = 10 + Math.random() * 15;
+        // Animation duration based on distance from center - FASTER
+        const duration = 4 + Math.random() * 6; // Reduced from 10-25s to 4-10s
         star.style.animation = `starMovement ${duration}s linear infinite`;
         
         // Set the starting position for animation

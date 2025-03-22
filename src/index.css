@@ -64,16 +64,23 @@
     @apply bg-primary;
   }
   
-  /* Make sure footer stays at bottom when filter dropdowns are open */
+  /* Make sure footer stays at bottom but allows for filter dropdown expansion */
   .filter-dropdown-container {
     overflow: visible;
     z-index: 10;
+    position: relative;
+  }
+  
+  /* Extra small text for legal stuff */
+  .text-2xs {
+    font-size: 0.65rem;
+    line-height: 1rem;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
+    @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
   }
   
   .glass-card-hover {
@@ -124,7 +131,6 @@
 
 .star {
   position: absolute;
-  background-color: white;
   border-radius: 50%;
   animation: starMovement linear infinite;
 }
@@ -144,16 +150,6 @@
     opacity: 0;
     transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
   }
-}
-
-/* Floating logo animation */
-@keyframes floating {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-floating {
-  animation: floating 3s ease-in-out infinite;
 }
 
 /* Remove the button inside button error */

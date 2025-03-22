@@ -23,23 +23,23 @@ export default function Index() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-8 text-white flex flex-col justify-center">
+      <main className="flex-1 pt-24 pb-8 text-white flex flex-col justify-center">
         {/* Hero Section */}
-        <section className="py-6 md:py-8 px-4 overflow-hidden">
+        <section className="py-4 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-gradient">
+            <h1 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight text-gradient">
               The Future of Living
             </h1>
             
-            <p className="text-xl md:text-2xl mb-6 text-white/90 max-w-2xl mx-auto">
-              Seamless hotel experiences tailored to your lifestyle
+            <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto">
+              Live in hotels. Enjoy Life
             </p>
             
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 mb-8">
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 mb-8">
               <div className="space-y-3">
                 {[
                   "Freedom from daily chores", 
-                  "Enhance your social connections"
+                  "Select hotels and friends according to your preferences"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
@@ -52,8 +52,8 @@ export default function Index() {
               
               <div className="space-y-3">
                 {[
-                  "Curated themes for your preferences", 
-                  "A community of like-minded individuals"
+                  "A community of like-minded individuals", 
+                  "Enhance your social connections"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
@@ -68,8 +68,8 @@ export default function Index() {
         </section>
         
         {/* Filter Section */}
-        <section className="py-2 px-4 mb-8">
-          <div className="container max-w-3xl mx-auto">
+        <section className="py-2 px-4">
+          <div className="container max-w-2xl mx-auto">
             <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />
           </div>
         </section>

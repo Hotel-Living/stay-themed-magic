@@ -1,15 +1,16 @@
 
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
+import { Separator } from "./ui/separator";
 
 export function Footer() {
   return (
     <footer className="bg-[#9E0078] py-6 px-4 border-t border-[#c266af]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <Logo className="mb-6 animate-floating" />
+          <Logo className="mb-6" />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
+          <div className="grid grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
             <div className="flex flex-col items-center md:items-end gap-3">
               <Link to="/faq" className="text-white hover:text-white/90 text-sm">
                 FAQ
@@ -47,12 +48,14 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="text-center text-xs text-white/80 max-w-4xl mx-auto">
+        <Separator className="bg-[#c266af]/40 mb-4" />
+        
+        <div className="text-center text-xs text-white/80">
           <p className="mb-2">&copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.</p>
-          <p className="text-xs">
+          <p className="text-xs max-w-md mx-auto leading-relaxed">
             This site, as well as its innovative booking system, are internationally registered and protected 
-            both as utility models and by copyright. Any reproduction will be legally pursued. 
-            Those interested in national franchises can contact us.
+            both as Utility Models and by Copyright. Any reproduction or copy of the system will be legally pursued. 
+            Those interested in national franchises may contact us.
           </p>
         </div>
       </div>

@@ -23,34 +23,43 @@ export default function Index() {
       <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 text-white flex flex-col justify-center">
+      <main className="flex-1 pt-8 text-white flex flex-col justify-center">
         {/* Hero Section */}
         <section className="py-6 md:py-8 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-xl md:text-3xl font-bold mb-4 leading-tight">
-              <span className="text-white">Live in permanent vacation</span><br />
-              <span className="text-white text-lg md:text-xl mt-2">Life as it always should be</span>
+            <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-gradient">
+              The Future of Living
             </h1>
             
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="space-y-2">
-                {["Forget about house chores", "Multiply your social life"].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-2 text-sm md:text-base">
-                    <div className="w-5 h-5 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
-                      <Check className="w-3 h-3 text-white" />
+            <p className="text-xl md:text-2xl mb-6 text-white/90 max-w-2xl mx-auto">
+              Seamless hotel experiences tailored to your lifestyle
+            </p>
+            
+            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 mb-8">
+              <div className="space-y-3">
+                {[
+                  "Freedom from daily chores", 
+                  "Enhance your social connections"
+                ].map((slogan, index) => (
+                  <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                      <Check className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-left">{slogan}</p>
+                    <p className="text-left font-medium">{slogan}</p>
                   </div>
                 ))}
               </div>
               
-              <div className="space-y-2">
-                {["Choose hotels by favorite themes", "Surround yourself with like-minded people"].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-2 text-sm md:text-base">
-                    <div className="w-5 h-5 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
-                      <Check className="w-3 h-3 text-white" />
+              <div className="space-y-3">
+                {[
+                  "Curated themes for your preferences", 
+                  "A community of like-minded individuals"
+                ].map((slogan, index) => (
+                  <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                      <Check className="w-4 h-4 text-white" />
                     </div>
-                    <p className="text-left">{slogan}</p>
+                    <p className="text-left font-medium">{slogan}</p>
                   </div>
                 ))}
               </div>
@@ -59,8 +68,8 @@ export default function Index() {
         </section>
         
         {/* Filter Section */}
-        <section className="py-4 px-4 mb-12">
-          <div className="container max-w-4xl mx-auto">
+        <section className="py-2 px-4 mb-8">
+          <div className="container max-w-3xl mx-auto">
             <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />
           </div>
         </section>

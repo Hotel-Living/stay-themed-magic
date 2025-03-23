@@ -126,7 +126,7 @@
   /* Slower animation for color changing text */
   .animate-text-slow {
     background-size: 200% 200%;
-    animation: text-shine 4.2s linear infinite;
+    animation: text-shine 5.9s linear infinite;
   }
 
   @keyframes text-shine {

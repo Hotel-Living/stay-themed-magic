@@ -27,12 +27,12 @@ export default function Index() {
         {/* Hero Section */}
         <section className="py-4 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight animate-text-slow bg-gradient-to-r from-[#B1900F] via-[#DCCA0B] to-[#B1900F] bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight animate-text-slow bg-gradient-to-r from-[#B1900F] via-[#F7F700] to-[#B1900F] bg-clip-text text-transparent">
               The Future of Living
             </h1>
             
-            <p className="text-2xl md:text-3xl mb-10 max-w-2xl mx-auto font-bold tracking-tight animate-text-slow bg-gradient-to-r from-[#B1900F] via-[#DCCA0B] to-[#B1900F] bg-clip-text text-transparent">
-              Live in Hotels. Boost your Life
+            <p className="text-2xl md:text-3xl mb-10 max-w-2xl mx-auto font-bold tracking-tight animate-text-slow bg-gradient-to-r from-[#B1900F] via-[#F7F700] to-[#B1900F] bg-clip-text text-transparent">
+              Live in Hotels. &nbsp;Boost your Life
             </p>
             
             <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-10">
@@ -67,7 +67,7 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Filter Section with reduced vertical spacing (30% less) */}
+        {/* Filter Section with reduced vertical spacing */}
         <section className="py-0 px-4 mb-16">
           <div className="container max-w-2xl mx-auto">
             <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />

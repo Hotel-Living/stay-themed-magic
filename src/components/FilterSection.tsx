@@ -407,7 +407,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
       </div>
       
       {showSearchButton && (
-        <div className="mt-2 flex justify-center p-2">
+        <div className="mt-2 px-2 pb-2">
           <Link
             to={{
               pathname: "/search",
@@ -418,7 +418,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
                 price: filters.priceRange ? String(filters.priceRange) : ""
               }).toString()
             }}
-            className="w-full py-2 px-6 rounded-none bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full block py-2 px-6 bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2"
           >
             Search <Search className="w-4 h-4" />
           </Link>

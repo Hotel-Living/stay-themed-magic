@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Footer } from "@/components/Footer";
 
 interface FAQItem {
   question: string;
@@ -76,6 +77,57 @@ export default function FAQ() {
     {
       question: "Are there any special discounts available?",
       answer: "We offer various seasonal promotions, first-time booking discounts, and loyalty rewards for repeat guests. Hotel partners may also offer their own special rates for certain periods. Check the homepage or subscribe to our newsletter to stay updated on current promotions.",
+      category: "Payments",
+    },
+    // New FAQs translated from Spanish
+    {
+      question: "WHAT IS THE HOTEL-LIVING SYSTEM?",
+      answer: "A system that allows you to live in hotels with renewable fixed stays of 8, 16, 24, and 32 days. Additionally, if you choose hotels that offer our unique 'All-Inclusive Plus' program, it's even possible to live with all daily needs covered: accommodation, full board, laundry, cleaning, Internet, leaving behind all kinds of bills (electricity, water, Internet, etc.), as well as enjoying absolute security and constant services, attention, care, extensive social life, and much more.",
+      category: "General",
+    },
+    {
+      question: "WHO IS THE HOTEL-LIVING SYSTEM FOR?",
+      answer: "In principle, it's ideal for anyone who wants to truly enjoy life, live with everything taken care of, save on multiple expenses and hassles, and completely enhance their social life and activities.",
+      category: "General",
+    },
+    {
+      question: "WHAT ARE HOTEL-LIVING THEMES?",
+      answer: "They are the possibility to search for, find, and surround yourself with people who share exactly your same tastes and mindsets. Whatever your interest, hobbies, taste, or passion, there's a possibility that you'll find hotels where people who like the same things as you gather and meet.",
+      category: "Themes",
+    },
+    {
+      question: "WHY DOES HOTEL-LIVING ALLOW ME TO MULTIPLY MY SOCIAL LIFE?",
+      answer: "Because Hotel-Living clients, unlike classic hotel clients, want to meet people and make friends. In fact, we recommend that hotels entirely dedicated to our system not even offer television in the rooms, as we want to avoid isolation, whether voluntary or not, or loneliness at all costs. Additionally, with our unique system of Hotel Themes, the experience is even more intense: surrounding yourself with people who share your same tastes and mindsets.",
+      category: "Experience",
+    },
+    {
+      question: "AM I OBLIGATED TO SOCIALIZE WITH OTHER CLIENTS?",
+      answer: "No, everyone has their preferences and lifestyle, but having a good social life is highly desirable and, in fact, expanding it as much as possible with like-minded people.",
+      category: "Experience",
+    },
+    {
+      question: "WHY ARE STAYS 8, 16, 24, AND 32 RENEWABLE DAYS?",
+      answer: "Because this way hotels can organize themselves much more easily.",
+      category: "Booking",
+    },
+    {
+      question: "CAN I FIND THE SAME HOTELS ON OTHER BOOKING PORTALS OFFERING THEIR ROOMS AT MUCH HIGHER PRICES?",
+      answer: "Of course. Hotel-Living does not interfere with the hotels' usual booking systems, but rather is exclusively dedicated to selling their traditionally empty rooms to clients looking for an entirely different product: medium and long-term stays, with the greatest number of services possible, at the best possible price, and ideally in hotels with their favorite themes.",
+      category: "Hotels",
+    },
+    {
+      question: "DOES THE HOTEL-LIVING SYSTEM CREATED BY YOU MEAN A RADICAL IMPROVEMENT IN THE STANDARD OF LIVING FOR MANY PEOPLE?",
+      answer: "Of course it does. With Hotel-Living, it's no longer necessary to live alone or waste time on tedious household chores: supermarket, cooking, cleaning, laundry, etc., nor continue paying multiple increasing bills of all kinds (electricity, water, gas, Internet, community, etc.), or suffer from an increasingly deficient social life and activities. With Hotel-Living, it's perfectly possible to live in hotels all year round, renewing stays or trying new hotels and communities as desired. The supply of Hotel-Living hotels is always expanding, and new opportunities are constant. All this around your home, in your city, or in a wonderful new place. Because, as Hotel-Living hotels increase, you will always find a hotel establishment that, regardless of your budget, will allow you to live there at almost the same cost as your current laborious life alone. The reason is obvious: expenses are much lower if they are made communally. One hundred people living separately will always pay much more than a single establishment that purchases goods and pays for services wholesale. Furthermore, if it's establishments whose regular activity already covers basic expenses but suffer from empty rooms at certain times of the year, the profitability they can obtain with our Hotel-Living system will be immense, since they will not only eliminate the expenses of those empty spaces but also make them highly profitable while being able to offer extremely attractive rates for well-organized medium and long-term stays.",
+      category: "General",
+    },
+    {
+      question: "SO, IS IT POSSIBLE TO LIVE PERMANENTLY IN ONE OR SEVERAL HOTELS, AS DESIRED OR CONVENIENT, IN RENEWABLE STAYS, EVEN WITH EVERYTHING TAKEN CARE OF, DEDICATING ONESELF TO TRULY ENJOYING LIFE, MEETING PEOPLE, AND HAVING FUN?",
+      answer: "Of course it's possible. Getting to know and enjoy new hotels and people, extending stays in those we like most, truly living life as it always should have been, is now perfectly possible with our Hotel-Living system. In fact, there's the possibility of living in hotels and renting out your own home to obtain another monthly income.",
+      category: "Experience",
+    },
+    {
+      question: "HOW DO I PAY FOR MY HOTEL-LIVING STAYS?",
+      answer: "You will pay directly at the hotel. To make the reservation, you only need to pay a small non-refundable deposit.",
       category: "Payments",
     },
   ];
@@ -200,11 +252,7 @@ export default function FAQ() {
         </div>
       </main>
       
-      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20 mt-10">
-        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
-          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

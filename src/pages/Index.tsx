@@ -31,17 +31,17 @@ export default function Index() {
               The Future of Living
             </h1>
             
-            <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto text-gradient">
               Live in hotels. Enjoy Life
             </p>
             
             <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 mb-8">
               <div className="space-y-3">
                 {[
-                  "Freedom from daily chores", 
-                  "Select hotels and friends according to your preferences"
+                  "Get rid of household chores", 
+                  "Select hotels upon favourite themes"
                 ].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
+                  <div key={index} className="flex items-center gap-2 p-3 rounded-lg">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
@@ -52,10 +52,10 @@ export default function Index() {
               
               <div className="space-y-3">
                 {[
-                  "A community of like-minded individuals", 
-                  "Enhance your social connections"
+                  "Boost your social life", 
+                  "Find and enjoy your favorite people"
                 ].map((slogan, index) => (
-                  <div key={index} className="flex items-center gap-2 glass-card-hover p-3 rounded-lg">
+                  <div key={index} className="flex items-center gap-2 p-3 rounded-lg">
                     <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>

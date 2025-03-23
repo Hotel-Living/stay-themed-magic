@@ -15,28 +15,28 @@ export function Navbar() {
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-6">
           <Link 
             to="/signup" 
-            className="bg-white text-[#9C048B] hover:bg-white/90 px-3 py-1 text-sm"
+            className="text-white font-bold hover:text-white/80 text-sm"
           >
             REGISTER
           </Link>
           <Link 
             to="/login" 
-            className="bg-white text-[#9C048B] hover:bg-white/90 px-3 py-1 text-sm"
+            className="text-white font-bold hover:text-white/80 text-sm"
           >
             LOGIN
           </Link>
           <Link 
             to="/faq" 
-            className="bg-white text-[#9C048B] hover:bg-white/90 px-3 py-1 text-sm"
+            className="text-white font-bold hover:text-white/80 text-sm"
           >
             FAQ
           </Link>
           <Link 
             to="/hoteles" 
-            className="bg-white text-[#9C048B] hover:bg-white/90 px-3 py-1 text-sm"
+            className="text-white font-bold hover:text-white/80 text-sm"
           >
             HOTELS
           </Link>
@@ -61,11 +61,11 @@ export function Navbar() {
         "fixed inset-0 top-12 bg-[#9C048B]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
         isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       )}>
-        <nav className="flex flex-col space-y-2">
-          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9C048B] py-1 text-center text-sm">REGISTER</Link>
-          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9C048B] py-1 text-center text-sm">LOGIN</Link>
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9C048B] py-1 text-center text-sm">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="bg-white text-[#9C048B] py-1 text-center text-sm">HOTELS</Link>
+        <nav className="flex flex-col space-y-4">
+          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">REGISTER</Link>
+          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">LOGIN</Link>
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">FAQ</Link>
+          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">HOTELS</Link>
         </nav>
       </div>
     </header>

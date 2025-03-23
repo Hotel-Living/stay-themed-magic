@@ -391,7 +391,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
   return (
     <div className={cn(
       "w-full overflow-visible filter-dropdown-container",
-      verticalLayout ? "bg-[#07074f] p-4 rounded-lg" : "rounded-2xl glass-card"
+      verticalLayout ? "bg-transparent backdrop-blur-md p-4 rounded-lg border border-white/20" : "rounded-2xl backdrop-blur-md border border-white/20"
     )}>
       <div className={cn(
         verticalLayout ? "flex flex-col gap-2" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2"

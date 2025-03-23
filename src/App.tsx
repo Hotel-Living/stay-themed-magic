@@ -14,7 +14,7 @@ import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 // Import FAQ component with correct casing
-import FAQ from "./pages/Faq";
+import FAQ from "./pages/FAQ";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
 import Privacy from "./pages/Privacy";

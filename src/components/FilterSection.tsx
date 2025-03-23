@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Check, ChevronDown, X, Search, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -418,7 +417,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
                 price: filters.priceRange ? String(filters.priceRange) : ""
               }).toString()
             }}
-            className="w-full block py-2 px-6 bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full block py-2 px-6 bg-[#860477] hover:bg-[#860477]/90 text-white text-sm font-medium rounded-md transition-all duration-300 flex items-center justify-center gap-2"
           >
             Search <Search className="w-4 h-4" />
           </Link>
@@ -444,10 +443,10 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vert
       <div
         onClick={onClick}
         className={cn(
-          "w-full flex items-center justify-between p-2 cursor-pointer text-sm",
+          "w-full flex items-center justify-between p-2 cursor-pointer text-sm rounded-md",
           vertical ? 
             "bg-[#07074f] text-white border border-white/40 mb-1" : 
-            "bg-[#e6f7fa] text-[#9E0078] border border-[#9E0078]/20",
+            "bg-[#e6f7fa] text-[#860477] border border-[#860477]/20",
           isOpen && vertical ? "border-b-0" : ""
         )}
       >
@@ -476,7 +475,7 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vert
       
       {isOpen && (
         <div className={cn(
-          "w-full text-xs",
+          "w-full text-xs rounded-md",
           vertical ? 
             "border border-t-0 border-white/40 bg-[#07074f] mb-2" : 
             "absolute z-10 mt-1 rounded-lg border border-gray-200 bg-white shadow-lg"

@@ -9,7 +9,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#9C048B] backdrop-blur-xl border-b border-[#c266af]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />
@@ -58,7 +58,7 @@ export function Navbar() {
       
       {/* Mobile menu */}
       <div className={cn(
-        "fixed inset-0 top-12 bg-[#9C048B]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
+        "fixed inset-0 top-12 bg-[#860477]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
         isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       )}>
         <nav className="flex flex-col space-y-4">

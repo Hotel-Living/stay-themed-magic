@@ -127,6 +127,10 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
         },
+        'text-shine': {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -136,6 +140,7 @@ export default {
         'slide-in': 'slide-in 0.3s ease-out forwards',
         'pulse-glow': 'pulse-glow 3s infinite',
         'floating': 'floating 3s ease-in-out infinite',
+        'text-slow': 'text-shine 4.2s linear infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

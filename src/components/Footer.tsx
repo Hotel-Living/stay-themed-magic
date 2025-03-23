@@ -2,8 +2,11 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Footer() {
+  const isMobile = useIsMobile();
+  
   return (
     <footer className="bg-[#860477] py-4 px-4 border-t border-[#c266af]">
       <div className="container max-w-6xl mx-auto">
@@ -27,27 +30,50 @@ export function Footer() {
               </Link>
             </div>
           
-            {/* Six text links with increased spacing between them */}
-            <div className="flex flex-wrap justify-center mb-8 max-w-full mx-auto">
-              <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                FAQ
-              </Link>
-              <Link to="/our-values" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                Our Values
-              </Link>
-              <Link to="/our-services" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                Our Services
-              </Link>
-              <Link to="/privacy" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                Privacy & Cookies
-              </Link>
-              <Link to="/terms" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                Terms & Conditions
-              </Link>
-              <Link to="/customer-service" className="text-white hover:text-white/90 text-xs font-medium px-4">
-                Customer Service
-              </Link>
-            </div>
+            {/* Six text links with increased spacing between them - on mobile, display in two rows */}
+            {isMobile ? (
+              <div className="grid grid-cols-3 gap-y-4 mb-8 max-w-full mx-auto">
+                <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  FAQ
+                </Link>
+                <Link to="/our-values" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  Our Values
+                </Link>
+                <Link to="/our-services" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  Our Services
+                </Link>
+                <Link to="/privacy" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  Privacy & Cookies
+                </Link>
+                <Link to="/terms" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  Terms & Conditions
+                </Link>
+                <Link to="/customer-service" className="text-white hover:text-white/90 text-xs font-medium text-center">
+                  Customer Service
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-wrap justify-center mb-8 max-w-full mx-auto">
+                <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  FAQ
+                </Link>
+                <Link to="/our-values" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  Our Values
+                </Link>
+                <Link to="/our-services" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  Our Services
+                </Link>
+                <Link to="/privacy" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  Privacy & Cookies
+                </Link>
+                <Link to="/terms" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  Terms & Conditions
+                </Link>
+                <Link to="/customer-service" className="text-white hover:text-white/90 text-xs font-medium px-8">
+                  Customer Service
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         

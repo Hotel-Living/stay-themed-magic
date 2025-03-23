@@ -32,10 +32,10 @@ export default function Index() {
             </h1>
             
             <p className="text-2xl md:text-3xl mb-10 max-w-2xl mx-auto font-bold tracking-tight animate-text-slow bg-gradient-to-r from-[#B1900F] via-[#F7F700] to-[#B1900F] bg-clip-text text-transparent">
-              Live in Hotels. &nbsp;Boost your Life
+              Live in Hotels  -  Boost your Life
             </p>
             
-            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-10">
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-6">
               <div className="space-y-0.5">
                 {[
                   "Get rid of household chores", 

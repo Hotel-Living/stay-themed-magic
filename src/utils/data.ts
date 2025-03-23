@@ -29,6 +29,7 @@ export interface Theme {
   id: string;
   name: string;
   category: string;
+  subcategory?: Theme[];
 }
 
 export interface LocationCategory {
@@ -118,14 +119,15 @@ export const themeCategories: ThemeCategory[] = [
       { id: 'chinese-food', name: 'Chinese', category: 'Food' },
       { id: 'chocolate', name: 'Chocolate', category: 'Food' },
       { id: 'egyptian-food', name: 'Egyptian', category: 'Food' },
-      { id: 'spanish-food', name: 'Spanish', category: 'Food' },
-      { id: 'andalusian-food', name: 'Andalusian', category: 'Food' },
-      { id: 'castilian-food', name: 'Castilian', category: 'Food' },
-      { id: 'catalan-food', name: 'Catalan', category: 'Food' },
-      { id: 'extremaduran-food', name: 'Extremaduran', category: 'Food' },
-      { id: 'galician-food', name: 'Galician', category: 'Food' },
-      { id: 'riojan-food', name: 'Riojan', category: 'Food' },
-      { id: 'basque-food', name: 'Basque', category: 'Food' },
+      { id: 'spanish-food', name: 'Spanish', category: 'Food', subcategory: [
+        { id: 'andalusian-food', name: 'Andalusian', category: 'Food' },
+        { id: 'castilian-food', name: 'Castilian', category: 'Food' },
+        { id: 'catalan-food', name: 'Catalan', category: 'Food' },
+        { id: 'extremadura-food', name: 'Extremadura', category: 'Food' },
+        { id: 'galician-food', name: 'Galician', category: 'Food' },
+        { id: 'riojan-food', name: 'Riojan', category: 'Food' },
+        { id: 'basque-food', name: 'Basque', category: 'Food' },
+      ]},
       { id: 'french-food', name: 'French', category: 'Food' },
       { id: 'hungarian-food', name: 'Hungarian', category: 'Food' },
       { id: 'italian-food', name: 'Italian', category: 'Food' },
@@ -148,19 +150,21 @@ export const themeCategories: ThemeCategory[] = [
   {
     category: 'Cooking Courses',
     themes: [
-      { id: 'andalusian-cooking', name: 'Andalusian', category: 'Cooking Courses' },
-      { id: 'castilian-cooking', name: 'Castilian', category: 'Cooking Courses' },
-      { id: 'catalan-cooking', name: 'Catalan', category: 'Cooking Courses' },
-      { id: 'spanish-cooking', name: 'Spanish', category: 'Cooking Courses' },
-      { id: 'extremaduran-cooking', name: 'Extremaduran', category: 'Cooking Courses' },
+      { id: 'spanish-cooking', name: 'Spanish', category: 'Cooking Courses', subcategory: [
+        { id: 'andalusian-cooking', name: 'Andalusian', category: 'Cooking Courses' },
+        { id: 'castilian-cooking', name: 'Castilian', category: 'Cooking Courses' },
+        { id: 'catalan-cooking', name: 'Catalan', category: 'Cooking Courses' },
+        { id: 'extremadura-cooking', name: 'Extremadura', category: 'Cooking Courses' },
+        { id: 'galician-cooking', name: 'Galician', category: 'Cooking Courses' },
+        { id: 'riojan-cooking', name: 'Riojan', category: 'Cooking Courses' },
+        { id: 'basque-cooking', name: 'Basque', category: 'Cooking Courses' },
+      ]},
       { id: 'french-cooking', name: 'French', category: 'Cooking Courses' },
-      { id: 'galician-cooking', name: 'Galician', category: 'Cooking Courses' },
       { id: 'italian-cooking', name: 'Italian', category: 'Cooking Courses' },
       { id: 'seafood-cooking', name: 'Seafood', category: 'Cooking Courses' },
       { id: 'moroccan-cooking', name: 'Moroccan', category: 'Cooking Courses' },
       { id: 'pastry-cooking', name: 'Pastry', category: 'Cooking Courses' },
       { id: 'romanian-cooking', name: 'Romanian', category: 'Cooking Courses' },
-      { id: 'basque-cooking', name: 'Basque', category: 'Cooking Courses' },
     ]
   },
   {
@@ -198,15 +202,27 @@ export const themeCategories: ThemeCategory[] = [
     ]
   },
   {
-    category: 'Languages',
+    category: 'Languages Learning',
     themes: [
-      { id: 'german', name: 'German', category: 'Languages' },
-      { id: 'chinese', name: 'Chinese', category: 'Languages' },
-      { id: 'spanish', name: 'Spanish', category: 'Languages' },
-      { id: 'french', name: 'French', category: 'Languages' },
-      { id: 'english', name: 'English', category: 'Languages' },
-      { id: 'italian', name: 'Italian', category: 'Languages' },
-      { id: 'japanese', name: 'Japanese', category: 'Languages' },
+      { id: 'german-learning', name: 'German', category: 'Languages Learning' },
+      { id: 'chinese-learning', name: 'Chinese', category: 'Languages Learning' },
+      { id: 'spanish-learning', name: 'Spanish', category: 'Languages Learning' },
+      { id: 'french-learning', name: 'French', category: 'Languages Learning' },
+      { id: 'english-learning', name: 'English', category: 'Languages Learning' },
+      { id: 'italian-learning', name: 'Italian', category: 'Languages Learning' },
+      { id: 'japanese-learning', name: 'Japanese', category: 'Languages Learning' },
+    ]
+  },
+  {
+    category: 'Languages Practising',
+    themes: [
+      { id: 'german-practice', name: 'German', category: 'Languages Practising' },
+      { id: 'chinese-practice', name: 'Chinese', category: 'Languages Practising' },
+      { id: 'spanish-practice', name: 'Spanish', category: 'Languages Practising' },
+      { id: 'french-practice', name: 'French', category: 'Languages Practising' },
+      { id: 'english-practice', name: 'English', category: 'Languages Practising' },
+      { id: 'italian-practice', name: 'Italian', category: 'Languages Practising' },
+      { id: 'japanese-practice', name: 'Japanese', category: 'Languages Practising' },
     ]
   },
   {

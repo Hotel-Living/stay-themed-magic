@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from "react";
-import { Check, ChevronDown, X, Search, Plus, Minus } from "lucide-react";
+import { Check, ChevronDown, X, Search, Plus, Minus, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
   Month, 
@@ -20,6 +21,7 @@ import {
   roomFeatures
 } from "@/utils/data";
 import { Link } from "react-router-dom";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
 interface FilterSectionProps {
   onFilterChange: (filters: FilterState) => void;
@@ -43,6 +45,8 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
   });
   
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const [expandedSubcategories, setExpandedSubcategories] = useState<string[]>([]);
   
   useEffect(() => {
     if (activeDropdown && verticalLayout) {
@@ -57,6 +61,22 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
   
   const toggleDropdown = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategories(prev => 
+      prev.includes(category) 
+        ? prev.filter(c => c !== category) 
+        : [...prev, category]
+    );
+  };
+
+  const toggleSubcategory = (themeId: string) => {
+    setExpandedSubcategories(prev => 
+      prev.includes(themeId) 
+        ? prev.filter(id => id !== themeId) 
+        : [...prev, themeId]
+    );
   };
   
   const updateFilter = (key: keyof FilterState, value: any) => {
@@ -142,21 +162,71 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
         <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-theme">
           {themeCategories.map(category => (
             <div key={category.category} className="mb-2">
-              <div className={cn(
-                "text-xs font-medium mb-1 px-2",
-                verticalLayout ? "text-white" : "text-fuchsia-400"
-              )}>{category.category}</div>
-              <div className="grid grid-cols-1 gap-1">
-                {category.themes.map(theme => (
-                  <DropdownItem 
-                    key={theme.id}
-                    label={theme.name}
-                    selected={filters.theme?.id === theme.id}
-                    onClick={() => updateFilter('theme', theme)}
-                    vertical={verticalLayout}
-                  />
-                ))}
+              <div 
+                className={cn(
+                  "text-xs font-medium px-2 py-1 flex items-center justify-between cursor-pointer",
+                  verticalLayout ? "text-white hover:bg-[#9E0078]/30" : "text-fuchsia-400 hover:bg-gray-100"
+                )}
+                onClick={() => toggleCategory(category.category)}
+              >
+                <span>{category.category}</span>
+                {expandedCategories.includes(category.category) ? 
+                  <Minus className="w-3 h-3" /> : 
+                  <Plus className="w-3 h-3" />
+                }
               </div>
+              
+              {expandedCategories.includes(category.category) && (
+                <div className="grid grid-cols-1 gap-1 pl-2 mt-1">
+                  {category.themes.map(theme => {
+                    // Check if theme has subcategories
+                    if (theme.subcategory) {
+                      return (
+                        <div key={theme.id}>
+                          <div 
+                            className={cn(
+                              "flex items-center justify-between px-2 py-1 text-xs cursor-pointer",
+                              verticalLayout ? "text-white/90 hover:bg-[#9E0078]/30" : "text-gray-700 hover:bg-gray-100"
+                            )}
+                            onClick={() => toggleSubcategory(theme.id)}
+                          >
+                            <span>{theme.name}</span>
+                            {expandedSubcategories.includes(theme.id) ? 
+                              <ChevronDown className="w-3 h-3" /> : 
+                              <ChevronRight className="w-3 h-3" />
+                            }
+                          </div>
+                          
+                          {expandedSubcategories.includes(theme.id) && (
+                            <div className="pl-4">
+                              {theme.subcategory.map(subtheme => (
+                                <DropdownItem 
+                                  key={subtheme.id}
+                                  label={subtheme.name}
+                                  selected={filters.theme?.id === subtheme.id}
+                                  onClick={() => updateFilter('theme', subtheme)}
+                                  vertical={verticalLayout}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+                    
+                    // Regular theme without subcategories
+                    return (
+                      <DropdownItem 
+                        key={theme.id}
+                        label={theme.name}
+                        selected={filters.theme?.id === theme.id}
+                        onClick={() => updateFilter('theme', theme)}
+                        vertical={verticalLayout}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -446,7 +516,7 @@ function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vert
           "w-full flex items-center justify-between p-2 cursor-pointer text-sm rounded-md",
           vertical ? 
             "bg-[#07074f] text-white border border-white/40 mb-1" : 
-            "bg-[#e6f7fa] text-[#860477] border border-[#860477]/20",
+            "bg-[#e6f7fa] text-[#860477] border border-[#860477]/20 rounded-md",
           isOpen && vertical ? "border-b-0" : ""
         )}
       >

@@ -13,7 +13,7 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-// Import FAQ component with correct casing
+// Import FAQ component with the correct filename
 import Faq from "./pages/Faq";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";

@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 280 50% 3%;
+    --foreground: 280 10% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 280 50% 5%;
+    --card-foreground: 280 10% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 280 45% 6%;
+    --popover-foreground: 280 10% 98%;
 
-    --primary: 222 47% 11%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 316 73% 52%;
+    --primary-foreground: 280 10% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 280 50% 8%;
+    --secondary-foreground: 280 10% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 280 50% 12%;
+    --muted-foreground: 280 10% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 311 90% 60%;
+    --accent-foreground: 280 10% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 280 10% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 280 50% 15%;
+    --input: 280 50% 15%;
+    --ring: 316 73% 52%;
 
     --radius: 1rem;
   }
@@ -55,11 +55,11 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-indigo-400 rounded-full;
+    @apply bg-primary/80 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-indigo-500;
+    @apply bg-primary;
   }
   
   /* Make sure footer stays at bottom but allows for filter dropdown expansion */
@@ -74,42 +74,32 @@
     font-size: 0.65rem;
     line-height: 1rem;
   }
-
-  /* Background grid pattern */
-  .bg-grid-pattern {
-    --grid-size: 40px;
-    --grid-color: rgba(0, 0, 255, 0.03);
-    background-image: 
-      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-  }
 }
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-xl bg-white/90 border border-white/40 shadow-[0_4px_15px_rgba(99,102,241,0.15)];
+    @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
   }
   
   .glass-card-hover {
-    @apply glass-card transition-all duration-300 hover:bg-white/95 hover:shadow-[0_8px_25px_rgba(99,102,241,0.25)];
+    @apply glass-card transition-all duration-300 hover:bg-white/10 hover:shadow-[0_8px_25px_rgba(217,70,239,0.25)];
   }
 
   .neo-blur {
-    @apply backdrop-blur-2xl bg-white/90 border border-indigo-100;
+    @apply backdrop-blur-2xl bg-black/40 border border-fuchsia-500/20;
   }
 
   .text-gradient {
-    @apply bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-fuchsia-400 via-magenta-500 to-fuchsia-600 bg-clip-text text-transparent;
   }
   
   .text-stroke {
-    -webkit-text-stroke: 1px theme('colors.indigo.500');
+    -webkit-text-stroke: 1px theme('colors.fuchsia.500');
   }
   
   .glow {
-    text-shadow: 0 0 10px theme('colors.indigo.500'), 
-                0 0 20px theme('colors.indigo.600');
+    text-shadow: 0 0 10px theme('colors.fuchsia.500'), 
+                0 0 20px theme('colors.fuchsia.600');
   }
   
   .glowing-border {
@@ -120,7 +110,7 @@
     content: '';
     position: absolute;
     inset: -1px;
-    @apply rounded-lg bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500;
+    @apply rounded-lg bg-gradient-to-br from-fuchsia-500 via-magenta-500 to-fuchsia-600;
     z-index: -1;
     animation: pulse 2s infinite;
   }
@@ -136,7 +126,7 @@
   /* Slower animation for color changing text */
   .animate-text-slow {
     background-size: 200% 200%;
-    animation: text-shine 5.9s linear infinite;
+    animation: text-shine 4.2s linear infinite;
   }
 
   @keyframes text-shine {
@@ -151,7 +141,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #f8fafc;
+  background-color: #5B0155;
   position: fixed;
   top: 0;
   left: 0;
@@ -188,38 +178,4 @@
   all: unset;
   cursor: pointer;
   display: flex;
-}
-
-/* Floating elements animation */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-15px) rotate(5deg);
-  }
-}
-
-.floating {
-  animation: float 6s ease-in-out infinite;
-}
-
-.floating-delayed {
-  animation: float 8s ease-in-out 1s infinite;
-}
-
-/* Pulse animation */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse {
-  animation: pulse 3s infinite;
 }

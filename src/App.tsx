@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +13,8 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import FAQ from "./pages/FAQ";
+// Import FAQ component with correct casing
+import FAQ from "./pages/Faq";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
 import Privacy from "./pages/Privacy";
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/customer-service" element={<CustomerService />} />
           <Route path="/hoteles" element={<HotelDashboard />} />
           <Route path="/signin" element={<Login />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,5 @@
 
 import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 
 export function Starfield() {
   const starfieldRef = useRef<HTMLDivElement>(null);
@@ -11,85 +10,66 @@ export function Starfield() {
     const starfield = starfieldRef.current;
     starfield.innerHTML = '';
     
-    // Create floating shapes instead of stars
-    const createShapes = () => {
+    // Create stars
+    const createStars = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
+      const centerX = windowWidth / 2;
+      const centerY = windowHeight / 2;
       
-      // Number of shapes based on screen size
-      const shapeCount = Math.max(30, Math.floor((windowWidth * windowHeight) / 10000));
+      // Number of stars based on screen size
+      const starCount = Math.max(70, Math.floor((windowWidth * windowHeight) / 2500));
       
-      const shapes = [
-        'circle',
-        'square',
-        'triangle',
-        'diamond'
-      ];
-
-      // Colors
-      const colors = [
-        'rgba(99, 102, 241, 0.1)',  // Indigo
-        'rgba(79, 70, 229, 0.1)',   // Violet
-        'rgba(139, 92, 246, 0.1)',  // Purple
-        'rgba(59, 130, 246, 0.1)',  // Blue
-      ];
-      
-      for (let i = 0; i < shapeCount; i++) {
-        const shape = document.createElement('div');
+      for (let i = 0; i < starCount; i++) {
+        // Calculate position from center with random angle
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * Math.min(windowWidth, windowHeight) * 0.8;
         
-        // Random shape type
-        const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+        const star = document.createElement('div');
+        star.className = 'star';
         
-        // Random size between 20px and 80px
-        const size = Math.random() * 60 + 20;
-        shape.style.width = `${size}px`;
-        shape.style.height = `${size}px`;
+        // Random size between 1px and 3px
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
         
-        // Position randomly
-        const x = Math.random() * windowWidth;
-        const y = Math.random() * windowHeight;
+        // Position relative to center
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
         
-        shape.style.left = `${x}px`;
-        shape.style.top = `${y}px`;
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
         
-        // Set color
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        shape.style.backgroundColor = color;
+        // Set color between white and bright yellow
+        const isYellow = Math.random() > 0.7;
+        star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
         
-        // Set shape
-        shape.style.position = 'absolute';
-        shape.style.borderRadius = shapeType === 'circle' ? '50%' : 
-                                   shapeType === 'square' ? '4px' : 
-                                   shapeType === 'triangle' ? '0' : '0';
-                                   
-        if (shapeType === 'triangle') {
-          shape.style.width = '0';
-          shape.style.height = '0';
-          shape.style.backgroundColor = 'transparent';
-          shape.style.borderLeft = `${size/2}px solid transparent`;
-          shape.style.borderRight = `${size/2}px solid transparent`;
-          shape.style.borderBottom = `${size}px solid ${color}`;
-        }
+        // Set opacity based on size for depth effect
+        star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
         
-        if (shapeType === 'diamond') {
-          shape.style.transform = 'rotate(45deg)';
-        }
+        // Animation duration based on distance from center - FASTER
+        const duration = 4 + Math.random() * 6; // Reduced from 10-25s to 4-10s
+        star.style.animation = `starMovement ${duration}s linear infinite`;
         
-        // Animation duration
-        const duration = 20 + Math.random() * 30;
-        shape.style.animation = `float ${duration}s ease-in-out infinite`;
-        shape.style.animationDelay = `${Math.random() * duration}s`;
+        // Set the starting position for animation
+        star.style.setProperty('--start-x', `${x}px`);
+        star.style.setProperty('--start-y', `${y}px`);
         
-        starfield.appendChild(shape);
+        // Set the end position (moving away from center)
+        const endX = x + (x - centerX) * 2;
+        const endY = y + (y - centerY) * 2;
+        star.style.setProperty('--end-x', `${endX}px`);
+        star.style.setProperty('--end-y', `${endY}px`);
+        
+        starfield.appendChild(star);
       }
     };
     
-    createShapes();
+    createStars();
     
-    // Recreate shapes on window resize
+    // Recreate stars on window resize
     const handleResize = () => {
-      starfield.innerHTML = '';
-      createShapes();
+      createStars();
     };
     
     window.addEventListener('resize', handleResize);
@@ -99,10 +79,5 @@ export function Starfield() {
     };
   }, []);
   
-  return (
-    <>
-      <div ref={starfieldRef} className="fixed inset-0 -z-10 overflow-hidden"></div>
-      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-sky-50 via-indigo-50/50 to-purple-50/80"></div>
-    </>
-  );
+  return <div ref={starfieldRef} className="starfield fixed inset-0 -z-10"></div>;
 }

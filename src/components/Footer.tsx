@@ -9,9 +9,13 @@ export function Footer() {
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className="py-4">
-            <Logo className="mb-8" />
+            {/* Logo centered */}
+            <div className="flex justify-center mb-8">
+              <Logo />
+            </div>
           
-            <div className="flex flex-wrap gap-4 justify-center mb-6">
+            {/* Three rounded links with added spacing below the logo */}
+            <div className="flex flex-wrap gap-4 justify-center mb-12">
               <Link to="/hoteles" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
                 HOTELS
               </Link>
@@ -23,23 +27,24 @@ export function Footer() {
               </Link>
             </div>
           
-            <div className="flex flex-wrap justify-center gap-13 mb-8 max-w-full mx-auto">
-              <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium">
+            {/* Six text links with increased spacing between them */}
+            <div className="flex flex-wrap justify-center mb-8 max-w-full mx-auto">
+              <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 FAQ
               </Link>
-              <Link to="/our-values" className="text-white hover:text-white/90 text-xs font-medium">
+              <Link to="/our-values" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 Our Values
               </Link>
-              <Link to="/our-services" className="text-white hover:text-white/90 text-xs font-medium">
+              <Link to="/our-services" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 Our Services
               </Link>
-              <Link to="/privacy" className="text-white hover:text-white/90 text-xs font-medium">
+              <Link to="/privacy" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 Privacy & Cookies
               </Link>
-              <Link to="/terms" className="text-white hover:text-white/90 text-xs font-medium">
+              <Link to="/terms" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 Terms & Conditions
               </Link>
-              <Link to="/customer-service" className="text-white hover:text-white/90 text-xs font-medium">
+              <Link to="/customer-service" className="text-white hover:text-white/90 text-xs font-medium px-4">
                 Customer Service
               </Link>
             </div>

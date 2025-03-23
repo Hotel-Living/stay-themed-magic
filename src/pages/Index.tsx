@@ -27,16 +27,16 @@ export default function Index() {
         {/* Hero Section */}
         <section className="py-4 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight text-gradient">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-gradient">
               The Future of Living
             </h1>
             
-            <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto text-gradient">
-              Live in hotels. Enjoy Life
+            <p className="text-2xl md:text-3xl mb-8 max-w-2xl mx-auto text-gradient">
+              Live in Hotels. Boost your Life
             </p>
             
-            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 mb-8">
-              <div className="space-y-3">
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-6">
+              <div className="space-y-2">
                 {[
                   "Get rid of household chores", 
                   "Select hotels upon favourite themes"
@@ -50,7 +50,7 @@ export default function Index() {
                 ))}
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {[
                   "Boost your social life", 
                   "Find and enjoy your favorite people"

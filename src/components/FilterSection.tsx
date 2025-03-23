@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Check, ChevronDown, X, Search, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -417,7 +418,7 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
                 price: filters.priceRange ? String(filters.priceRange) : ""
               }).toString()
             }}
-            className="py-2 px-6 rounded-none bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center gap-2"
+            className="w-full py-2 px-6 rounded-none bg-[#9C048B] hover:bg-[#9C048B]/90 text-white text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2"
           >
             Search <Search className="w-4 h-4" />
           </Link>

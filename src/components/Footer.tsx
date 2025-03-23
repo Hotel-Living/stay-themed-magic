@@ -10,8 +10,8 @@ export function Footer() {
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-6" />
           
-          <div className="grid grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
-            <div className="flex flex-col items-center sm:items-end gap-3">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-6 max-w-2xl mx-auto">
+            <div className="flex flex-col items-center sm:items-end gap-6">
               <Link to="/faq" className="text-white hover:text-white/90 text-xs">
                 FAQ
               </Link>
@@ -22,7 +22,7 @@ export function Footer() {
                 Our Services
               </Link>
             </div>
-            <div className="flex flex-col items-center sm:items-start gap-3">
+            <div className="flex flex-col items-center sm:items-start gap-6">
               <Link to="/privacy" className="text-white hover:text-white/90 text-xs">
                 Privacy & Cookies
               </Link>

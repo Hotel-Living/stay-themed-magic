@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/Footer";
+import { Starfield } from "@/components/Starfield";
 
 interface FAQItem {
   question: string;
@@ -151,6 +152,7 @@ export default function FAQ() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">
@@ -200,24 +202,24 @@ export default function FAQ() {
               filteredFAQs.map((faq, index) => (
                 <div
                   key={index}
-                  className="glass-card rounded-xl overflow-hidden transition-all duration-300"
+                  className="bg-white/90 text-black rounded-xl overflow-hidden transition-all duration-300 shadow"
                 >
                   <button
                     onClick={() => toggleItem(index)}
                     className="w-full flex items-center justify-between p-5 text-left"
                   >
-                    <span className="font-medium pr-8">{faq.question}</span>
+                    <span className="font-medium pr-8">{faq.question.charAt(0).toUpperCase() + faq.question.slice(1).toLowerCase()}</span>
                     <ChevronDown
                       className={cn(
-                        "w-5 h-5 text-fuchsia-400 transition-transform duration-300",
+                        "w-5 h-5 text-fuchsia-800 transition-transform duration-300",
                         expandedItems[index] ? "rotate-180" : ""
                       )}
                     />
                   </button>
                   
                   {expandedItems[index] && (
-                    <div className="px-5 pb-5 pt-0 text-foreground/80">
-                      <div className="pt-2 border-t border-fuchsia-900/20 mb-3"></div>
+                    <div className="px-5 pb-5 pt-0 text-gray-700">
+                      <div className="pt-2 border-t border-gray-200 mb-3"></div>
                       <p>{faq.answer}</p>
                     </div>
                   )}

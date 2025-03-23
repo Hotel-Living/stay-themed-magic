@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-4" />
           
-          <div className="flex flex-wrap justify-center gap-6 mb-4 max-w-5xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
             <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium">
               FAQ
             </Link>
@@ -48,7 +48,7 @@ export function Footer() {
         
         <div className="text-center text-xs text-white/80">
           <p className="mb-2">&copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.</p>
-          <p className="text-2xs whitespace-nowrap overflow-hidden text-ellipsis max-w-full mx-auto">
+          <p className="text-2xs whitespace-normal max-w-full mx-auto">
             This site, as well as its innovative booking system, are internationally registered and protected both as Utility Models and by Copyright. Any reproduction or copy of the system will be legally pursued. Those interested in national franchises may contact us.
           </p>
         </div>

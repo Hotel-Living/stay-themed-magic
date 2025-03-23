@@ -27,22 +27,22 @@ export default function Index() {
         {/* Hero Section */}
         <section className="py-4 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-2 tracking-tight animate-text bg-gradient-to-r from-white via-yellow-300 to-white bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight animate-text bg-gradient-to-r from-white via-yellow-300 to-white bg-clip-text text-transparent">
               The Future of Living
             </h1>
             
-            <p className="text-2xl md:text-3xl mb-6 max-w-2xl mx-auto text-white">
+            <p className="text-2xl md:text-3xl mb-10 max-w-2xl mx-auto font-bold tracking-tight animate-text bg-gradient-to-r from-white via-yellow-300 to-white bg-clip-text text-transparent">
               Live in Hotels. Boost your Life
             </p>
             
-            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 mb-3">
-              <div className="space-y-1">
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-10">
+              <div className="space-y-0.5">
                 {[
                   "Get rid of household chores", 
                   "Select hotels upon favourite themes"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <p className="text-left font-medium">{slogan}</p>
@@ -50,13 +50,13 @@ export default function Index() {
                 ))}
               </div>
               
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {[
                   "Boost your social life", 
                   "Find and enjoy your favorite people"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <p className="text-left font-medium">{slogan}</p>
@@ -67,8 +67,8 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Filter Section - moved up closer to slogans */}
-        <section className="py-0 px-4 -mt-4">
+        {/* Filter Section with extra vertical spacing */}
+        <section className="py-0 px-4 mb-24">
           <div className="container max-w-2xl mx-auto">
             <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />
           </div>

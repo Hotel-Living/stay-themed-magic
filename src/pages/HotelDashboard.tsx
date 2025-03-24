@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Link } from "react-router-dom";
@@ -517,7 +516,7 @@ function PicturesStep() {
               </div>
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <button className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors mr-2">
-                  <StarIcon className="w-4 h-4 text-amber-400" />
+                  <Star className="w-4 h-4 text-amber-400" />
                 </button>
                 <button className="p-1.5 rounded-full bg-red-500/30 hover:bg-red-500/50 transition-colors">
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

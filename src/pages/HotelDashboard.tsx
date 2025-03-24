@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Link } from "react-router-dom";
@@ -28,9 +29,22 @@ import {
   Hotel,
   Paintbrush,
   ListChecks,
-  Star as StarIcon
+  Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Import dashboard components
+import StatCard from "@/components/dashboard/StatCard";
+import BookingItem from "@/components/dashboard/BookingItem";
+import ReviewItem from "@/components/dashboard/ReviewItem";
+import ActionCard from "@/components/dashboard/ActionCard";
+import PropertiesContent from "@/components/dashboard/PropertiesContent";
+import BookingsContent from "@/components/dashboard/BookingsContent";
+import GuestsContent from "@/components/dashboard/GuestsContent";
+import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
+import ReviewsContent from "@/components/dashboard/ReviewsContent";
+import FinancesContent from "@/components/dashboard/FinancesContent";
+import SettingsContent from "@/components/dashboard/SettingsContent";
 
 interface DashboardTab {
   id: string;
@@ -151,8 +165,8 @@ export default function HotelDashboard() {
 function HotelDashboardContent() {
   const handlePropertyTabClick = () => {
     const propertyTab = document.querySelector('button[data-tab="addProperty"]');
-    if (propertyTab) {
-      (propertyTab as HTMLButtonElement).click();
+    if (propertyTab instanceof HTMLElement) {
+      propertyTab.click();
     }
   };
   

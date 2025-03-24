@@ -27,11 +27,25 @@ export default function Index() {
         {/* Hero Section */}
         <section className="py-4 px-4 overflow-hidden">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight animate-text bg-gradient-to-r from-[#F7F700] via-[#F7F700] to-[#F7F700] bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight" 
+                style={{
+                  background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+                  backgroundSize: '200% 200%',
+                  animation: 'text-shine 2s linear infinite',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
               The Future of Living
             </h1>
             
-            <p className="text-xl md:text-2xl mb-10 max-w-2xl mx-auto tracking-tight animate-text bg-gradient-to-r from-[#F7F700] via-[#F7F700] to-[#F7F700] bg-clip-text text-transparent">
+            <p className="text-xl md:text-3xl mb-10 max-w-3xl mx-auto tracking-tight font-bold"
+               style={{
+                 background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+                 backgroundSize: '200% 200%',
+                 animation: 'text-shine 2s linear infinite',
+                 WebkitBackgroundClip: 'text',
+                 WebkitTextFillColor: 'transparent'
+               }}>
               Live in Hotels  -  Boost your Life
             </p>
             
@@ -70,7 +84,16 @@ export default function Index() {
         {/* Filter Section with reduced vertical spacing (30% less) */}
         <section className="py-0 px-4 mb-16">
           <div className="container max-w-2xl mx-auto">
-            <FilterSection onFilterChange={handleFilterChange} showSearchButton={true} />
+            <FilterSection 
+              onFilterChange={handleFilterChange} 
+              showSearchButton={true} 
+              placeholders={{
+                month: "Month?",
+                country: "Country?",
+                theme: "Theme?",
+                priceRange: "Price per Month?"
+              }}
+            />
           </div>
         </section>
       </main>

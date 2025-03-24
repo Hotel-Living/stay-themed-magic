@@ -1,40 +1,44 @@
-import { useState, useEffect } from "react";
-import { Check, ChevronDown, X, Search, Plus, Minus } from "lucide-react";
+
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronDown, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { 
-  Month, 
-  allMonths, 
-  countries, 
-  themeCategories, 
-  priceRanges,
-  Country,
-  Theme,
-  durations,
-  locationCategories,
-  activities,
-  mealPlans,
-  propertyTypes,
-  propertyStyles,
-  starRatings,
-  hotelFeatures,
-  roomFeatures
-} from "@/utils/data";
-import { Link } from "react-router-dom";
+import { themes, Theme } from "@/utils/data";
 
-interface FilterSectionProps {
-  onFilterChange: (filters: FilterState) => void;
-  showSearchButton?: boolean;
-  verticalLayout?: boolean;
-}
-
+// Define the structure of filter state
 export interface FilterState {
-  country: Country | null;
-  month: Month | null;
+  country: "spain" | "france" | "italy" | "usa" | null;
+  month: "january" | "february" | "march" | "april" | "may" | "june" | "july" | "august" | "september" | "october" | "november" | "december" | null;
   theme: Theme | null;
   priceRange: number | null;
 }
 
-export function FilterSection({ onFilterChange, showSearchButton = true, verticalLayout = false }: FilterSectionProps) {
+// Props interface for the FilterSection component
+interface FilterSectionProps {
+  onFilterChange: (filters: FilterState) => void;
+  showSearchButton?: boolean;
+  verticalLayout?: boolean;
+  placeholders?: {
+    country?: string;
+    month?: string;
+    theme?: string;
+    priceRange?: string;
+  };
+}
+
+// Main FilterSection component
+export const FilterSection = ({ 
+  onFilterChange, 
+  showSearchButton = false, 
+  verticalLayout = false,
+  placeholders = {
+    country: "Country",
+    month: "Month",
+    theme: "Theme",
+    priceRange: "Price per Month"
+  }
+}: FilterSectionProps) => {
+  // Filter states
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -42,478 +46,382 @@ export function FilterSection({ onFilterChange, showSearchButton = true, vertica
     priceRange: null
   });
   
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  // Dropdown open states
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   
-  useEffect(() => {
-    if (activeDropdown && verticalLayout) {
-      setTimeout(() => {
-        const dropdown = document.getElementById(`dropdown-${activeDropdown}`);
-        if (dropdown) {
-          dropdown.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 100);
-    }
-  }, [activeDropdown, verticalLayout]);
+  // Refs for dropdown containers to detect outside clicks
+  const countryRef = useRef<HTMLDivElement>(null);
+  const monthRef = useRef<HTMLDivElement>(null);
+  const themeRef = useRef<HTMLDivElement>(null);
+  const priceRef = useRef<HTMLDivElement>(null);
   
+  // Theme search query
+  const [themeQuery, setThemeQuery] = useState("");
+  
+  // Navigation hook
+  const navigate = useNavigate();
+  
+  // All available months
+  const months = [
+    "january", "february", "march", "april", "may", "june", 
+    "july", "august", "september", "october", "november", "december"
+  ];
+  
+  // Available countries
+  const countries = [
+    { value: "spain", label: "Spain 🇪🇸" },
+    { value: "france", label: "France 🇫🇷" },
+    { value: "italy", label: "Italy 🇮🇹" },
+    { value: "usa", label: "USA 🇺🇸" }
+  ];
+  
+  // Price ranges
+  const priceRanges = [
+    { value: 1000, label: "Up to $1,000" },
+    { value: 1500, label: "Up to $1,500" },
+    { value: 2000, label: "Up to $2,000" },
+    { value: 3000, label: "Over $2,000" }
+  ];
+  
+  // Toggle dropdown visibility
   const toggleDropdown = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
   
+  // Update filters and notify parent component
   const updateFilter = (key: keyof FilterState, value: any) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     onFilterChange(newFilters);
-    if (!verticalLayout) {
-      setActiveDropdown(null);
-    }
+    setOpenDropdown(null);
   };
   
+  // Clear a specific filter
   const clearFilter = (key: keyof FilterState) => {
     const newFilters = { ...filters, [key]: null };
     setFilters(newFilters);
     onFilterChange(newFilters);
   };
   
+  // Clear all filters
   const clearAllFilters = () => {
-    const newFilters = {
+    const clearedFilters = {
       country: null,
       month: null,
       theme: null,
       priceRange: null
     };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
+    setFilters(clearedFilters);
+    onFilterChange(clearedFilters);
   };
-
-  const hasActiveFilters = Object.values(filters).some(filter => filter !== null);
-
-  const getBasicFilters = () => (
-    <>
-      <FilterDropdown 
-        label="Country"
-        value={filters.country} 
-        isOpen={activeDropdown === 'country'}
-        onClick={() => toggleDropdown('country')}
-        onClear={() => clearFilter('country')}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-country">
-          {countries.map(country => (
-            <DropdownItem 
-              key={country}
-              label={country}
-              selected={filters.country === country}
-              onClick={() => updateFilter('country', country)}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-      
-      <FilterDropdown 
-        label="Month" 
-        value={filters.month}
-        isOpen={activeDropdown === 'month'}
-        onClick={() => toggleDropdown('month')}
-        onClear={() => clearFilter('month')}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-2 gap-1 p-1" id="dropdown-month">
-          {allMonths.map(month => (
-            <DropdownItem 
-              key={month}
-              label={month}
-              selected={filters.month === month}
-              onClick={() => updateFilter('month', month)}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-      
-      <FilterDropdown 
-        label="Theme"
-        value={filters.theme?.name}
-        isOpen={activeDropdown === 'theme'}
-        onClick={() => toggleDropdown('theme')}
-        onClear={() => clearFilter('theme')}
-        vertical={verticalLayout}
-      >
-        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-theme">
-          {themeCategories.map(category => (
-            <div key={category.category} className="mb-2">
-              <div className={cn(
-                "text-xs font-medium mb-1 px-2",
-                verticalLayout ? "text-white" : "text-fuchsia-400"
-              )}>{category.category}</div>
-              <div className="grid grid-cols-1 gap-1">
-                {category.themes.map(theme => (
-                  <DropdownItem 
-                    key={theme.id}
-                    label={theme.name}
-                    selected={filters.theme?.id === theme.id}
-                    onClick={() => updateFilter('theme', theme)}
-                    vertical={verticalLayout}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </FilterDropdown>
-      
-      <FilterDropdown 
-        label="Price per Month"
-        value={filters.priceRange !== null ? 
-          (filters.priceRange > 2000 ? 'Over $2000' : `Up to $${filters.priceRange}`) : null}
-        isOpen={activeDropdown === 'price'}
-        onClick={() => toggleDropdown('price')}
-        onClear={() => clearFilter('priceRange')}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-price">
-          {priceRanges.map(range => (
-            <DropdownItem 
-              key={range.value}
-              label={range.label}
-              selected={filters.priceRange === range.value}
-              onClick={() => updateFilter('priceRange', range.value)}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-    </>
-  );
-
-  const getAdvancedFilters = () => (
-    <>
-      <FilterDropdown 
-        label="Location"
-        value={null}
-        isOpen={activeDropdown === 'location'}
-        onClick={() => toggleDropdown('location')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-location">
-          {locationCategories.map(location => (
-            <div key={location.country} className="mb-2">
-              <div className="text-xs font-medium mb-1 px-2 text-white">
-                {location.country}
-              </div>
-              <div className="grid grid-cols-1 gap-1 pl-4">
-                {location.cities.map(city => (
-                  <DropdownItem 
-                    key={`${location.country}-${city}`}
-                    label={city}
-                    selected={false}
-                    onClick={() => {}}
-                    vertical={verticalLayout}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Duration of Stay"
-        value={null}
-        isOpen={activeDropdown === 'duration'}
-        onClick={() => toggleDropdown('duration')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-duration">
-          {durations.map(days => (
-            <DropdownItem 
-              key={days}
-              label={`${days} Days`}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Activities"
-        value={null}
-        isOpen={activeDropdown === 'activities'}
-        onClick={() => toggleDropdown('activities')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-activities">
-          {activities.map(activity => (
-            <DropdownItem 
-              key={activity.id}
-              label={activity.name}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Meals"
-        value={null}
-        isOpen={activeDropdown === 'meals'}
-        onClick={() => toggleDropdown('meals')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-meals">
-          {mealPlans.map(meal => (
-            <DropdownItem 
-              key={meal}
-              label={meal}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Property Type"
-        value={null}
-        isOpen={activeDropdown === 'property-type'}
-        onClick={() => toggleDropdown('property-type')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-property-type">
-          {propertyTypes.map(type => (
-            <DropdownItem 
-              key={type}
-              label={type}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Style of Property"
-        value={null}
-        isOpen={activeDropdown === 'property-style'}
-        onClick={() => toggleDropdown('property-style')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-property-style">
-          {propertyStyles.map(style => (
-            <DropdownItem 
-              key={style}
-              label={style}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Stars"
-        value={null}
-        isOpen={activeDropdown === 'stars'}
-        onClick={() => toggleDropdown('stars')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="grid grid-cols-1 gap-1 p-1" id="dropdown-stars">
-          {starRatings.map(stars => (
-            <DropdownItem 
-              key={stars}
-              label={stars === 0 ? "Not Rated" : `${stars} Star${stars > 1 ? 's' : ''}`}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Hotel Features"
-        value={null}
-        isOpen={activeDropdown === 'hotel-features'}
-        onClick={() => toggleDropdown('hotel-features')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-hotel-features">
-          {hotelFeatures.map(feature => (
-            <DropdownItem 
-              key={feature.id}
-              label={feature.name}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-
-      <FilterDropdown 
-        label="Room Features"
-        value={null}
-        isOpen={activeDropdown === 'room-features'}
-        onClick={() => toggleDropdown('room-features')}
-        onClear={() => {}}
-        vertical={verticalLayout}
-      >
-        <div className="max-h-[300px] overflow-y-auto p-1" id="dropdown-room-features">
-          {roomFeatures.map(feature => (
-            <DropdownItem 
-              key={feature.id}
-              label={feature.name}
-              selected={false}
-              onClick={() => {}}
-              vertical={verticalLayout}
-            />
-          ))}
-        </div>
-      </FilterDropdown>
-    </>
+  
+  // Handle search button click
+  const handleSearch = () => {
+    // Construct query parameters
+    const params = new URLSearchParams();
+    
+    if (filters.country) params.append("country", filters.country);
+    if (filters.month) params.append("month", filters.month);
+    if (filters.theme) params.append("theme", filters.theme.id);
+    if (filters.priceRange) params.append("price", filters.priceRange.toString());
+    
+    // Navigate to search page with filters
+    navigate(`/search?${params.toString()}`);
+  };
+  
+  // Filter themes based on search query
+  const filteredThemes = themes.filter(theme => 
+    theme.name.toLowerCase().includes(themeQuery.toLowerCase()) ||
+    theme.category.toLowerCase().includes(themeQuery.toLowerCase())
   );
   
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openDropdown === "country" && countryRef.current && !countryRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+      if (openDropdown === "month" && monthRef.current && !monthRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+      if (openDropdown === "theme" && themeRef.current && !themeRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+      if (openDropdown === "price" && priceRef.current && !priceRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openDropdown]);
+  
+  // Function to determine if any filters are active
+  const hasActiveFilters = () => {
+    return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
+  };
+  
   return (
-    <div className={cn(
-      "w-full overflow-visible filter-dropdown-container",
-      verticalLayout ? "bg-transparent backdrop-blur-md p-4 rounded-lg border border-white/20" : "rounded-2xl backdrop-blur-md border border-white/20"
-    )}>
-      <div className={cn(
-        verticalLayout ? "flex flex-col gap-2" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2"
-      )}>
-        {verticalLayout && (
-          <div className="text-white text-base font-bold mb-2 text-center">Filter By</div>
-        )}
-        
-        {getBasicFilters()}
-        
-        {verticalLayout && getAdvancedFilters()}
-      </div>
-      
-      {showSearchButton && (
-        <div className="mt-2 px-2 pb-2">
-          <Link
-            to={{
-              pathname: "/search",
-              search: new URLSearchParams({
-                country: filters.country || "",
-                month: filters.month || "",
-                theme: filters.theme ? String(filters.theme.id) : "",
-                price: filters.priceRange ? String(filters.priceRange) : ""
-              }).toString()
-            }}
-            className="w-full block py-2 px-6 bg-[#860477] hover:bg-[#860477]/90 text-white text-sm font-medium rounded-md transition-all duration-300 flex items-center justify-center gap-2"
+    <div className={`glass-card filter-dropdown-container rounded-xl p-4 md:p-5 ${verticalLayout ? "" : "relative z-20"}`}>
+      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : "flex-wrap gap-3"}`}>
+        {/* Country filter */}
+        <div 
+          ref={countryRef}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+        >
+          <button
+            onClick={() => toggleDropdown("country")}
+            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
           >
-            Search <Search className="w-4 h-4" />
-          </Link>
-        </div>
-      )}
-    </div>
-  );
-}
-
-interface FilterDropdownProps {
-  label: string;
-  value: string | null;
-  isOpen: boolean;
-  onClick: () => void;
-  onClear: () => void;
-  children: React.ReactNode;
-  vertical?: boolean;
-}
-
-function FilterDropdown({ label, value, isOpen, onClick, onClear, children, vertical = false }: FilterDropdownProps) {
-  return (
-    <div className="relative">
-      <div
-        onClick={onClick}
-        className={cn(
-          "w-full flex items-center justify-between p-2 cursor-pointer text-sm rounded-md",
-          vertical ? 
-            "bg-[#07074f] text-white border border-white/40 mb-1" : 
-            "bg-[#e6f7fa] text-[#860477] border border-[#860477]/20",
-          isOpen && vertical ? "border-b-0" : ""
-        )}
-      >
-        <div className="flex items-center gap-2 font-medium">
-          <span>{label}</span>
-          {value && !vertical && (
-            <span 
-              onClick={(e) => {
-                e.stopPropagation();
-                onClear();
-              }}
-              className="p-0.5 rounded-full hover:bg-fuchsia-500/10 cursor-pointer"
-            >
-              <X className="w-3 h-3" />
-            </span>
+            <div className="flex items-center">
+              {filters.country ? (
+                <>
+                  <span className="truncate mr-2">
+                    {countries.find(c => c.value === filters.country)?.label || filters.country}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearFilter("country");
+                    }}
+                    className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </>
+              ) : (
+                <span className="text-foreground/70">{placeholders.country}</span>
+              )}
+            </div>
+            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "country" ? "rotate-180" : "")} />
+          </button>
+          
+          {openDropdown === "country" && (
+            <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10">
+              {countries.map((country) => (
+                <button
+                  key={country.value}
+                  onClick={() => updateFilter("country", country.value)}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                    filters.country === country.value
+                      ? "bg-fuchsia-500/20 text-white"
+                      : "hover:bg-fuchsia-900/40"
+                  }`}
+                >
+                  {country.label}
+                </button>
+              ))}
+            </div>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          {value && <span className="text-xs">{value}</span>}
-          {vertical ? 
-            (isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />) : 
-            <ChevronDown className={cn("w-3 h-3 transition-transform", isOpen ? "rotate-180" : "")} />
-          }
+        
+        {/* Month filter */}
+        <div 
+          ref={monthRef}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+        >
+          <button
+            onClick={() => toggleDropdown("month")}
+            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+          >
+            <div className="flex items-center">
+              {filters.month ? (
+                <>
+                  <span className="capitalize truncate mr-2">
+                    {filters.month}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearFilter("month");
+                    }}
+                    className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </>
+              ) : (
+                <span className="text-foreground/70">{placeholders.month}</span>
+              )}
+            </div>
+            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "month" ? "rotate-180" : "")} />
+          </button>
+          
+          {openDropdown === "month" && (
+            <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-60 overflow-y-auto">
+              <div className="grid grid-cols-2">
+                {months.map((month) => (
+                  <button
+                    key={month}
+                    onClick={() => updateFilter("month", month)}
+                    className={`text-left px-3 py-2 rounded-md text-sm transition-colors capitalize ${
+                      filters.month === month
+                        ? "bg-fuchsia-500/20 text-white"
+                        : "hover:bg-fuchsia-900/40"
+                    }`}
+                  >
+                    {month}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Theme filter */}
+        <div 
+          ref={themeRef}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+        >
+          <button
+            onClick={() => toggleDropdown("theme")}
+            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+          >
+            <div className="flex items-center">
+              {filters.theme ? (
+                <>
+                  <span className="truncate mr-2">
+                    {filters.theme.name}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearFilter("theme");
+                    }}
+                    className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </>
+              ) : (
+                <span className="text-foreground/70">{placeholders.theme}</span>
+              )}
+            </div>
+            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "theme" ? "rotate-180" : "")} />
+          </button>
+          
+          {openDropdown === "theme" && (
+            <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-60 overflow-y-auto">
+              <div className="mb-2">
+                <input
+                  type="text"
+                  placeholder="Search themes..."
+                  value={themeQuery}
+                  onChange={(e) => setThemeQuery(e.target.value)}
+                  className="w-full px-3 py-2 bg-fuchsia-900/30 border border-fuchsia-800/20 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-fuchsia-500/50"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+              
+              {filteredThemes.length === 0 ? (
+                <div className="text-center py-3 text-sm text-foreground/60">
+                  No themes found
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {/* Group themes by category */}
+                  {Array.from(
+                    new Set(filteredThemes.map(theme => theme.category))
+                  ).map(category => (
+                    <div key={category} className="mb-2">
+                      <div className="text-xs uppercase text-foreground/60 mb-1 px-3">{category}</div>
+                      {filteredThemes
+                        .filter(theme => theme.category === category)
+                        .map(theme => (
+                          <button
+                            key={theme.id}
+                            onClick={() => updateFilter("theme", theme)}
+                            className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                              filters.theme?.id === theme.id
+                                ? "bg-fuchsia-500/20 text-white"
+                                : "hover:bg-fuchsia-900/40"
+                            }`}
+                          >
+                            {theme.name}
+                          </button>
+                        ))
+                      }
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        
+        {/* Price filter */}
+        <div 
+          ref={priceRef}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+        >
+          <button
+            onClick={() => toggleDropdown("price")}
+            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+          >
+            <div className="flex items-center">
+              {filters.priceRange ? (
+                <>
+                  <span className="truncate mr-2">
+                    {priceRanges.find(p => p.value === filters.priceRange)?.label || `$${filters.priceRange}`}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearFilter("priceRange");
+                    }}
+                    className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </>
+              ) : (
+                <span className="text-foreground/70">{placeholders.priceRange}</span>
+              )}
+            </div>
+            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "price" ? "rotate-180" : "")} />
+          </button>
+          
+          {openDropdown === "price" && (
+            <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10">
+              {priceRanges.map((price) => (
+                <button
+                  key={price.value}
+                  onClick={() => updateFilter("priceRange", price.value)}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                    filters.priceRange === price.value
+                      ? "bg-fuchsia-500/20 text-white"
+                      : "hover:bg-fuchsia-900/40"
+                  }`}
+                >
+                  {price.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       
-      {isOpen && (
-        <div className={cn(
-          "w-full text-xs rounded-md",
-          vertical ? 
-            "border border-t-0 border-white/40 bg-[#07074f] mb-2" : 
-            "absolute z-10 mt-1 rounded-lg border border-gray-200 bg-white shadow-lg"
-        )}>
-          {children}
+      {/* Button row - only show if requested or in vertical layout */}
+      {(showSearchButton || verticalLayout) && (
+        <div className={`flex ${verticalLayout ? "mt-4" : "mt-3"} gap-2`}>
+          {hasActiveFilters() && (
+            <button
+              onClick={clearAllFilters}
+              className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors"
+            >
+              Clear All
+            </button>
+          )}
+          <button
+            onClick={handleSearch}
+            className="flex-1 px-4 py-2 rounded-lg bg-fuchsia-600 text-white hover:bg-fuchsia-500 text-sm font-medium transition-colors flex items-center justify-center"
+          >
+            <Search className="w-4 h-4 mr-2" /> Search
+          </button>
         </div>
       )}
     </div>
   );
-}
-
-interface DropdownItemProps {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-  vertical?: boolean;
-}
-
-function DropdownItem({ label, selected, onClick, vertical = false }: DropdownItemProps) {
-  return (
-    <div
-      onClick={onClick}
-      className={cn(
-        "w-full flex items-center px-2 py-1 text-xs transition cursor-pointer",
-        selected 
-          ? vertical ? "text-white bg-[#9E0078]/50" : "text-white bg-[#9E0078]"
-          : vertical ? "text-white/80 hover:bg-[#9E0078]/30" : "text-gray-700 hover:bg-gray-100"
-      )}
-    >
-      <div className="flex items-center gap-2 w-full">
-        {vertical && (
-          <div className="w-3 h-3 flex items-center justify-center border border-white">
-            {selected && <div className="w-1.5 h-1.5 bg-white"></div>}
-          </div>
-        )}
-        <span>{label}</span>
-        {!vertical && selected && <Check className="w-3 h-3 ml-auto" />}
-      </div>
-    </div>
-  );
-}
+};

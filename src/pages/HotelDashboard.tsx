@@ -604,7 +604,7 @@ function RoomsAndPricingStep() {
             <div className="flex items-center space-x-2">
               <button className="p-1.5 rounded-lg bg-fuchsia-500/20 hover:bg-fuchsia-500/30 transition-colors">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2 2 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
               </button>
               <button className="p-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-colors">
@@ -656,3 +656,73 @@ function ThemesAndActivitiesStep() {
       <div>
         <label className="block text-sm font-medium text-foreground/90 mb-3">
           Themes
+        </label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {["Luxury", "Beach", "Urban", "Historic", "Nature", "Food & Wine"].map((theme) => (
+            <label key={theme} className="flex items-start">
+              <input 
+                type="checkbox" 
+                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+              />
+              <span className="text-sm">{theme}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-3">
+          Hotel Features
+        </label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {["Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", "24/7 Reception", "Room Service"].map((feature) => (
+            <label key={feature} className="flex items-start">
+              <input 
+                type="checkbox" 
+                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+              />
+              <span className="text-sm">{feature}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-3">
+          Activities
+        </label>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="bg-fuchsia-950/30 rounded-lg p-4 border border-fuchsia-800/30">
+            <h4 className="font-medium mb-3">On Premises</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {["Dancing", "Concerts", "Courses", "Games", "Theater", "Spa"].map((activity) => (
+                <label key={activity} className="flex items-start">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                  />
+                  <span className="text-sm">{activity}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-fuchsia-950/30 rounded-lg p-4 border border-fuchsia-800/30">
+            <h4 className="font-medium mb-3">At Nearby Locations</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {["Beach", "Hiking", "Concerts", "Shopping", "Museums", "Sports"].map((activity) => (
+                <label key={activity} className="flex items-start">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                  />
+                  <span className="text-sm">{activity}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

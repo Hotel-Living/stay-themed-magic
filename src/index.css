@@ -120,7 +120,7 @@
   /* Animation for color changing text */
   .animate-text {
     background-size: 200% 200%;
-    animation: text-shine 3s linear infinite;
+    animation: text-shine 1.5s linear infinite;
   }
   
   /* Slower animation for color changing text */

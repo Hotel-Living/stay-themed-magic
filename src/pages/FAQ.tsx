@@ -202,7 +202,7 @@ export default function FAQ() {
               filteredFAQs.map((faq, index) => (
                 <div
                   key={index}
-                  className="bg-white/90 text-black rounded-xl overflow-hidden transition-all duration-300 shadow"
+                  className="bg-[#FFFFCF] text-black rounded-xl overflow-hidden transition-all duration-300 shadow"
                 >
                   <button
                     onClick={() => toggleItem(index)}

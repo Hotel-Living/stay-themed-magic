@@ -61,7 +61,7 @@ export default function CustomerService() {
             <p>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto glass-card p-6 rounded-lg">
+          <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto glass-card p-6 rounded-lg" style={{ backgroundColor: "#110375" }}>
             <div className="space-y-4">
               <div>
                 <Label htmlFor="name">Name</Label>
@@ -71,7 +71,8 @@ export default function CustomerService() {
                   value={formData.name} 
                   onChange={handleChange} 
                   required 
-                  className="bg-secondary/50 border-border text-foreground"
+                  className="border-border text-foreground"
+                  style={{ backgroundColor: "#FFFFCF" }}
                 />
               </div>
               
@@ -84,7 +85,8 @@ export default function CustomerService() {
                   value={formData.email} 
                   onChange={handleChange} 
                   required 
-                  className="bg-secondary/50 border-border text-foreground"
+                  className="border-border text-foreground"
+                  style={{ backgroundColor: "#FFFFCF" }}
                 />
               </div>
               
@@ -97,7 +99,8 @@ export default function CustomerService() {
                     value={formData.country} 
                     onChange={handleChange} 
                     required 
-                    className="bg-secondary/50 border-border text-foreground"
+                    className="border-border text-foreground"
+                    style={{ backgroundColor: "#FFFFCF" }}
                   />
                 </div>
                 
@@ -109,7 +112,8 @@ export default function CustomerService() {
                     value={formData.city} 
                     onChange={handleChange} 
                     required 
-                    className="bg-secondary/50 border-border text-foreground"
+                    className="border-border text-foreground"
+                    style={{ backgroundColor: "#FFFFCF" }}
                   />
                 </div>
               </div>
@@ -122,7 +126,8 @@ export default function CustomerService() {
                   value={formData.message} 
                   onChange={handleChange} 
                   required 
-                  className="min-h-[200px] bg-secondary/50 border-border text-foreground"
+                  className="min-h-[200px] border-border text-foreground"
+                  style={{ backgroundColor: "#FFFFCF" }}
                 />
               </div>
             </div>

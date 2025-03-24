@@ -24,8 +24,8 @@ export default function Index() {
       <Navbar />
       
       <main className="flex-1 pt-24 pb-8 text-white flex flex-col justify-center">
-        {/* Hero Section */}
-        <section className="py-4 px-4 overflow-hidden">
+        {/* Hero Section with reduced vertical spacing */}
+        <section className="py-4 px-4 overflow-hidden mb-4">
           <div className="container relative z-10 max-w-6xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-2 tracking-tight" 
                 style={{
@@ -38,7 +38,7 @@ export default function Index() {
               The Future of Living
             </h1>
             
-            <p className="text-xl md:text-3xl mb-10 max-w-3xl mx-auto tracking-tight font-bold"
+            <p className="text-xl md:text-3xl mb-10 max-w-4xl mx-auto tracking-tight font-bold"
                style={{
                  background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
                  backgroundSize: '200% 200%',
@@ -49,7 +49,7 @@ export default function Index() {
               Live in Hotels  -  Boost your Life
             </p>
             
-            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-10">
+            <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-4">
               <div className="space-y-0.5">
                 {[
                   "Get rid of household chores", 
@@ -81,9 +81,9 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Filter Section with reduced vertical spacing (30% less) */}
-        <section className="py-0 px-4 mb-16">
-          <div className="container max-w-2xl mx-auto">
+        {/* Filter Section positioned 30% higher and wider */}
+        <section className="py-0 px-4 mb-12">
+          <div className="container max-w-5xl mx-auto">
             <FilterSection 
               onFilterChange={handleFilterChange} 
               showSearchButton={true} 
@@ -93,6 +93,8 @@ export default function Index() {
                 theme: "Theme?",
                 priceRange: "Price per Month?"
               }}
+              useCollapsibleThemes={true}
+              expandedLayout={true}
             />
           </div>
         </section>

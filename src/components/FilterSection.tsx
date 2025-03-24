@@ -1,13 +1,18 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, Search, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { allThemes, Theme } from "@/utils/data";
+import { allThemes, Theme, themeCategories, countries } from "@/utils/data";
+import { 
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
 
 // Define the structure of filter state
 export interface FilterState {
-  country: "spain" | "france" | "italy" | "usa" | null;
+  country: "spain" | "france" | "italy" | "usa" | "egypt" | "turkey" | null;
   month: "january" | "february" | "march" | "april" | "may" | "june" | "july" | "august" | "september" | "october" | "november" | "december" | null;
   theme: Theme | null;
   priceRange: number | null;
@@ -18,6 +23,8 @@ interface FilterSectionProps {
   onFilterChange: (filters: FilterState) => void;
   showSearchButton?: boolean;
   verticalLayout?: boolean;
+  useCollapsibleThemes?: boolean;
+  expandedLayout?: boolean;
   placeholders?: {
     country?: string;
     month?: string;
@@ -31,6 +38,8 @@ export const FilterSection = ({
   onFilterChange, 
   showSearchButton = false, 
   verticalLayout = false,
+  useCollapsibleThemes = false,
+  expandedLayout = false,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -58,6 +67,9 @@ export const FilterSection = ({
   // Theme search query
   const [themeQuery, setThemeQuery] = useState("");
   
+  // Open theme category state
+  const [openThemeCategory, setOpenThemeCategory] = useState<string | null>(null);
+  
   // Navigation hook
   const navigate = useNavigate();
   
@@ -67,25 +79,32 @@ export const FilterSection = ({
     "july", "august", "september", "october", "november", "december"
   ];
   
-  // Available countries
-  const countries = [
+  // Available countries - updated to include Egypt and Turkey
+  const availableCountries = [
     { value: "spain", label: "Spain 🇪🇸" },
     { value: "france", label: "France 🇫🇷" },
     { value: "italy", label: "Italy 🇮🇹" },
-    { value: "usa", label: "USA 🇺🇸" }
+    { value: "usa", label: "USA 🇺🇸" },
+    { value: "egypt", label: "Egypt 🇪🇬" },
+    { value: "turkey", label: "Turkey 🇹🇷" }
   ];
   
-  // Price ranges
+  // Updated price ranges
   const priceRanges = [
-    { value: 1000, label: "Up to $1,000" },
-    { value: 1500, label: "Up to $1,500" },
-    { value: 2000, label: "Up to $2,000" },
-    { value: 3000, label: "Over $2,000" }
+    { value: 1000, label: "Up to 1.000 $" },
+    { value: 1500, label: "1.000 $ to 1.500 $" },
+    { value: 2000, label: "1.500 $ to 2.000 $" },
+    { value: 3000, label: "More than 2.000 $" }
   ];
   
   // Toggle dropdown visibility
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+  
+  // Toggle theme category
+  const toggleThemeCategory = (category: string) => {
+    setOpenThemeCategory(openThemeCategory === category ? null : category);
   };
   
   // Update filters and notify parent component
@@ -165,11 +184,11 @@ export const FilterSection = ({
   
   return (
     <div className={`glass-card filter-dropdown-container rounded-xl p-4 md:p-5 ${verticalLayout ? "" : "relative z-20"}`}>
-      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : "flex-wrap gap-3"}`}>
+      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"}`}>
         {/* Country filter */}
         <div 
           ref={countryRef}
-          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
         >
           <button
             onClick={() => toggleDropdown("country")}
@@ -179,7 +198,7 @@ export const FilterSection = ({
               {filters.country ? (
                 <>
                   <span className="truncate mr-2">
-                    {countries.find(c => c.value === filters.country)?.label || filters.country}
+                    {availableCountries.find(c => c.value === filters.country)?.label || filters.country}
                   </span>
                   <button
                     onClick={(e) => {
@@ -200,7 +219,7 @@ export const FilterSection = ({
           
           {openDropdown === "country" && (
             <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10">
-              {countries.map((country) => (
+              {availableCountries.map((country) => (
                 <button
                   key={country.value}
                   onClick={() => updateFilter("country", country.value)}
@@ -220,7 +239,7 @@ export const FilterSection = ({
         {/* Month filter */}
         <div 
           ref={monthRef}
-          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
         >
           <button
             onClick={() => toggleDropdown("month")}
@@ -273,7 +292,7 @@ export const FilterSection = ({
         {/* Theme filter */}
         <div 
           ref={themeRef}
-          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
         >
           <button
             onClick={() => toggleDropdown("theme")}
@@ -319,6 +338,35 @@ export const FilterSection = ({
                 <div className="text-center py-3 text-sm text-foreground/60">
                   No themes found
                 </div>
+              ) : useCollapsibleThemes ? (
+                <div className="space-y-2">
+                  {/* Group themes by category with collapsible sections */}
+                  {themeCategories.map(category => (
+                    <Collapsible key={category.category}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-xs uppercase rounded-md hover:bg-fuchsia-900/40">
+                        <span>{category.category}</span>
+                        <ChevronRight className={`h-4 w-4 transform transition-transform ${openThemeCategory === category.category ? 'rotate-90' : ''}`} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="pt-1 pl-3 space-y-1">
+                          {category.themes.map(theme => (
+                            <button
+                              key={theme.id}
+                              onClick={() => updateFilter("theme", theme)}
+                              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                                filters.theme?.id === theme.id
+                                  ? "bg-fuchsia-500/20 text-white"
+                                  : "hover:bg-fuchsia-900/40"
+                              }`}
+                            >
+                              {theme.name}
+                            </button>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ))}
+                </div>
               ) : (
                 <div className="space-y-2">
                   {/* Group themes by category */}
@@ -354,7 +402,7 @@ export const FilterSection = ({
         {/* Price filter */}
         <div 
           ref={priceRef}
-          className={`filter-dropdown relative ${verticalLayout ? "w-full" : "flex-1 min-w-[160px]"}`}
+          className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
         >
           <button
             onClick={() => toggleDropdown("price")}

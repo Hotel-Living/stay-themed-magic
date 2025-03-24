@@ -82,7 +82,12 @@ export default function Search() {
             {/* Filters sidebar */}
             <div className="w-full md:w-1/3 lg:w-1/4">
               <div className="sticky top-20">
-                <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} verticalLayout={true} />
+                <FilterSection 
+                  onFilterChange={handleFilterChange} 
+                  showSearchButton={false} 
+                  verticalLayout={true} 
+                  useCollapsibleThemes={true}
+                />
               </div>
             </div>
             

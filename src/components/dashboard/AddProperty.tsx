@@ -10,6 +10,15 @@ export default function AddProperty() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
   
+  // Step titles in all caps
+  const stepTitles = [
+    "BASIC INFO",
+    "LOCATION",
+    "PICTURES",
+    "ROOMS & PRICING",
+    "THEMES"
+  ];
+  
   const goToNextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -38,6 +47,9 @@ export default function AddProperty() {
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
       </div>
+      
+      {/* Step Title */}
+      <h3 className="text-lg font-semibold mb-6">{stepTitles[currentStep - 1]}</h3>
       
       {/* Step Content */}
       <div className="mb-8">

@@ -4,7 +4,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSection, FilterState } from "@/components/FilterSection";
 import { Check } from "lucide-react";
-import { Starfield } from "@/components/Starfield";
 
 export default function Index() {
   const [filters, setFilters] = useState<FilterState>({
@@ -20,7 +19,6 @@ export default function Index() {
   
   return (
     <div className="min-h-screen flex flex-col">
-      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16 pb-8 text-white flex flex-col justify-center">
@@ -56,7 +54,7 @@ export default function Index() {
                   "Select hotels upon favourite themes"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                    <div className="w-6 h-6 rounded-full bg-[#860477] flex-shrink-0 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-[#5A1876] flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <p className="text-left font-medium">{slogan}</p>
@@ -70,7 +68,7 @@ export default function Index() {
                   "Find and enjoy your favorite people"
                 ].map((slogan, index) => (
                   <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                    <div className="w-6 h-6 rounded-full bg-[#860477] flex-shrink-0 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-[#5A1876] flex-shrink-0 flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                     <p className="text-left font-medium">{slogan}</p>

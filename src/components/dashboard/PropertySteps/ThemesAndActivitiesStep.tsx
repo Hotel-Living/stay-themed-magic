@@ -20,9 +20,9 @@ export default function ThemesAndActivitiesStep() {
       <h3 className="text-lg font-semibold mb-4">THEMES</h3>
       
       <p className="text-sm text-foreground/90 mb-4">
-        Make your hotel stand out from the competition with the perfect theme to attract your perfect guests
+        Make your hotel stand out from the competition boosting it with group themes to attract your best and perfect guests
       </p>
-      <button className="inline-flex items-center px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors mb-6">
+      <button className="inline-flex items-center px-4 py-2 rounded-lg bg-[#5A1876]/80 hover:bg-[#5A1876] text-white text-sm font-medium transition-colors mb-6">
         More Information
       </button>
       
@@ -34,7 +34,7 @@ export default function ThemesAndActivitiesStep() {
           {/* Map through all theme categories */}
           {themeCategories.map((category) => (
             <Collapsible key={category.category}>
-              <div className="bg-fuchsia-950/30 rounded-lg p-4 border border-fuchsia-800/30">
+              <div className="bg-[#5A1876]/30 rounded-lg p-4 border border-fuchsia-800/30">
                 <CollapsibleTrigger 
                   className="flex items-center justify-between w-full font-medium mb-2"
                   onClick={() => toggleCategory(category.category)}
@@ -98,7 +98,7 @@ export default function ThemesAndActivitiesStep() {
         </label>
         <Collapsible className="w-full">
           <div className="grid grid-cols-1 gap-4">
-            <div className="bg-fuchsia-950/30 rounded-lg p-4 border border-fuchsia-800/30">
+            <div className="bg-[#5A1876]/30 rounded-lg p-4 border border-fuchsia-800/30">
               <CollapsibleTrigger className="flex items-center justify-between w-full font-medium mb-2">
                 <h4>On Premises</h4>
                 <ChevronRight className="h-4 w-4" />
@@ -123,7 +123,7 @@ export default function ThemesAndActivitiesStep() {
               </CollapsibleContent>
             </div>
             
-            <div className="bg-fuchsia-950/30 rounded-lg p-4 border border-fuchsia-800/30">
+            <div className="bg-[#5A1876]/30 rounded-lg p-4 border border-fuchsia-800/30">
               <CollapsibleTrigger className="flex items-center justify-between w-full font-medium mb-2">
                 <h4>At Nearby Locations</h4>
                 <ChevronRight className="h-4 w-4" />

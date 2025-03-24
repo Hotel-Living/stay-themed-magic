@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Starfield } from "@/components/Starfield";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -57,7 +56,6 @@ export default function Login() {
   
   return (
     <div className="min-h-screen flex flex-col">
-      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">
@@ -84,7 +82,7 @@ export default function Login() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-3 pl-11 pr-4 bg-[#5A1876]/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -104,7 +102,7 @@ export default function Login() {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full py-3 pl-11 pr-12 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-3 pl-11 pr-12 bg-[#5A1876]/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your password"
                     />
                     <button
@@ -144,12 +142,12 @@ export default function Login() {
                 <div className="text-center text-sm text-muted-foreground">
                   <p className="mb-2">Demo Accounts:</p>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="p-2 bg-fuchsia-950/30 rounded-lg">
+                    <div className="p-2 bg-[#5A1876]/30 rounded-lg">
                       <p>User Account:</p>
                       <p className="text-fuchsia-300">user@example.com</p>
                       <p>password</p>
                     </div>
-                    <div className="p-2 bg-fuchsia-950/30 rounded-lg">
+                    <div className="p-2 bg-[#5A1876]/30 rounded-lg">
                       <p>Hotel Account:</p>
                       <p className="text-fuchsia-300">hotel@example.com</p>
                       <p>password</p>

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { themes, Theme } from "@/utils/data";
+import { allThemes, Theme } from "@/utils/data";
 
 // Define the structure of filter state
 export interface FilterState {
@@ -130,7 +130,7 @@ export const FilterSection = ({
   };
   
   // Filter themes based on search query
-  const filteredThemes = themes.filter(theme => 
+  const filteredThemes = allThemes.filter(theme => 
     theme.name.toLowerCase().includes(themeQuery.toLowerCase()) ||
     theme.category.toLowerCase().includes(themeQuery.toLowerCase())
   );

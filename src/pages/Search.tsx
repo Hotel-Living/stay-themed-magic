@@ -35,11 +35,17 @@ export default function Search() {
     let results = [...hotels];
     
     if (filters.country) {
-      results = results.filter(hotel => hotel.country === filters.country);
+      // Convert country to lowercase for case-insensitive comparison
+      const countryLower = filters.country.toLowerCase();
+      results = results.filter(hotel => 
+        hotel.country.toLowerCase() === countryLower.charAt(0).toUpperCase() + countryLower.slice(1)
+      );
     }
     
     if (filters.month) {
-      results = results.filter(hotel => hotel.availableMonths.includes(filters.month!));
+      // Convert month to proper case for comparison with hotel data
+      const monthProperCase = filters.month.charAt(0).toUpperCase() + filters.month.slice(1) as any;
+      results = results.filter(hotel => hotel.availableMonths.includes(monthProperCase));
     }
     
     if (filters.theme) {

@@ -6,8 +6,16 @@ interface HotelThemesDisplayProps {
 }
 
 export function HotelThemesDisplay({ themes }: HotelThemesDisplayProps) {
-  // Group themes by category
-  const groupedThemes = themes.reduce((acc, theme) => {
+  // Safety check for null or empty themes array
+  if (!themes || themes.length === 0) {
+    return null;
+  }
+
+  // Filter out any undefined or null themes
+  const validThemes = themes.filter(theme => theme != null);
+  
+  // Group valid themes by category
+  const groupedThemes = validThemes.reduce((acc, theme) => {
     if (!acc[theme.category]) {
       acc[theme.category] = [];
     }

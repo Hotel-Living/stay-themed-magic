@@ -20,7 +20,7 @@ export default function ThemesAndActivitiesStep() {
       <h3 className="text-lg font-semibold mb-4">THEMES</h3>
       
       <p className="text-sm text-foreground/90 mb-4">
-        Choose one or more non-exclusive themes that instantly highlight your hotel from all competition and attract your perfect clients
+        Make your hotel stand out from the competition with the perfect theme to attract your perfect guests
       </p>
       <button className="inline-flex items-center px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors mb-6">
         More Information

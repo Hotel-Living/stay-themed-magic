@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Starfield } from "@/components/Starfield";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -56,6 +57,7 @@ export default function Login() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

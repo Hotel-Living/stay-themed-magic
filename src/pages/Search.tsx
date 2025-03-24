@@ -6,7 +6,13 @@ import { Footer } from "@/components/Footer";
 import { FilterSection, FilterState } from "@/components/FilterSection";
 import { HotelCard } from "@/components/HotelCard";
 import { hotels, Hotel } from "@/utils/data";
-import { Compass } from "lucide-react";
+import { Compass, ChevronRight } from "lucide-react";
+import { Starfield } from "@/components/Starfield";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
 
 export default function Search() {
   const location = useLocation();
@@ -72,9 +78,10 @@ export default function Search() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 bg-[#5B0155]">
+      <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-6 text-white">Search Results</h1>
           
@@ -88,6 +95,38 @@ export default function Search() {
                   verticalLayout={true} 
                   useCollapsibleThemes={true}
                 />
+                
+                {/* Additional filter sections */}
+                <div className="glass-card rounded-xl p-4 mt-4 space-y-3">
+                  {/* Additional filters */}
+                  {[
+                    { id: "price", label: "PRICE PER MONTH" },
+                    { id: "length-of-stay", label: "LENGTH OF STAY" },
+                    { id: "month", label: "MONTH" },
+                    { id: "theme", label: "THEME" },
+                    { id: "category", label: "CATEGORY" },
+                    { id: "country", label: "COUNTRY" },
+                    { id: "location", label: "LOCATION" },
+                    { id: "meals", label: "MEALS" },
+                    { id: "property-type", label: "TYPE OF PROPERTY" },
+                    { id: "property-style", label: "STYLE OF PROPERTY" },
+                    { id: "room-types", label: "ROOM TYPES" },
+                    { id: "hotel-features", label: "HOTEL FEATURES" },
+                    { id: "room-features", label: "ROOM FEATURES" }
+                  ].map((filter) => (
+                    <Collapsible key={filter.id} className="w-full">
+                      <div className="bg-fuchsia-950/50 rounded-lg p-3">
+                        <CollapsibleTrigger className="flex items-center justify-between w-full font-medium text-sm">
+                          <span>{filter.label}</span>
+                          <ChevronRight className="h-4 w-4" />
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="pt-2 pl-2">
+                          <p className="text-xs text-foreground/60">Filter options for {filter.label.toLowerCase()} will appear here</p>
+                        </CollapsibleContent>
+                      </div>
+                    </Collapsible>
+                  ))}
+                </div>
               </div>
             </div>
             

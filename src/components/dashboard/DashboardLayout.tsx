@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Link } from "react-router-dom";
 import { LogOut, HelpCircle, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Starfield } from "@/components/Starfield";
 
 interface DashboardTab {
   id: string;
@@ -26,6 +27,7 @@ export default function DashboardLayout({
 }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

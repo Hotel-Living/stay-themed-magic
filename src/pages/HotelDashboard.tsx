@@ -13,6 +13,7 @@ import {
   Settings, 
   LogOut
 } from "lucide-react";
+import { Starfield } from "@/components/Starfield";
 
 // Import refactored components
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -77,12 +78,15 @@ export default function HotelDashboard() {
   };
   
   return (
-    <DashboardLayout 
-      activeTab={activeTab}
-      tabs={tabs}
-      setActiveTab={setActiveTab}
-    >
-      {renderContent()}
-    </DashboardLayout>
+    <>
+      <Starfield />
+      <DashboardLayout 
+        activeTab={activeTab}
+        tabs={tabs}
+        setActiveTab={setActiveTab}
+      >
+        {renderContent()}
+      </DashboardLayout>
+    </>
   );
 }

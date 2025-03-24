@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterSection, FilterState } from "@/components/FilterSection";
 import { HotelCard } from "@/components/HotelCard";
 import { hotels, Hotel } from "@/utils/data";
 import { Compass, ChevronRight } from "lucide-react";
@@ -18,7 +17,7 @@ export default function Search() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   
-  const initialFilters: FilterState = {
+  const initialFilters = {
     country: searchParams.get("country") as any || null,
     month: searchParams.get("month") as any || null,
     theme: null,
@@ -36,8 +35,15 @@ export default function Search() {
   }
   
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
+  const [activeFilters, setActiveFilters] = useState(initialFilters);
   
-  const handleFilterChange = (filters: FilterState) => {
+  const handleFilterChange = (filterType: string, value: any) => {
+    const newFilters = { ...activeFilters, [filterType]: value };
+    setActiveFilters(newFilters);
+    applyFilters(newFilters);
+  };
+  
+  const applyFilters = (filters: any) => {
     let results = [...hotels];
     
     if (filters.country) {
@@ -56,7 +62,7 @@ export default function Search() {
     
     if (filters.theme) {
       results = results.filter(hotel => 
-        hotel.themes.some(theme => theme.id === filters.theme!.id)
+        hotel.themes.some(theme => theme.id === filters.theme.id)
       );
     }
     
@@ -68,12 +74,14 @@ export default function Search() {
       }
     }
     
+    // Additional filters can be applied here
+    
     setFilteredHotels(results);
   };
   
   // Apply filters on initial load
   useEffect(() => {
-    handleFilterChange(initialFilters);
+    applyFilters(initialFilters);
   }, [location.search]);
   
   return (
@@ -89,15 +97,8 @@ export default function Search() {
             {/* Filters sidebar */}
             <div className="w-full md:w-1/3 lg:w-1/4">
               <div className="sticky top-20">
-                <FilterSection 
-                  onFilterChange={handleFilterChange} 
-                  showSearchButton={false} 
-                  verticalLayout={true} 
-                  useCollapsibleThemes={true}
-                />
-                
                 {/* Additional filter sections */}
-                <div className="glass-card rounded-xl p-4 mt-4 space-y-3">
+                <div className="glass-card rounded-xl p-4 space-y-3">
                   {/* Additional filters */}
                   {[
                     { id: "price", label: "PRICE PER MONTH" },

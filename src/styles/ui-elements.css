@@ -14,9 +14,11 @@
                 0 0 20px theme('colors.fuchsia.600');
   }
   
-  /* Button styles */
+  /* Button styles - simplified and unified */
   .btn {
-    @apply inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-md font-medium transition-colors 
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
+           disabled:opacity-50 disabled:pointer-events-none;
   }
   
   .btn-primary {
@@ -31,7 +33,7 @@
     @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
   }
   
-  /* Badge styles */
+  /* Badge styles - simplified with consistent naming */
   .badge {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors;
   }
@@ -44,17 +46,19 @@
     @apply bg-secondary/10 text-secondary-foreground border border-secondary/20;
   }
   
-  /* Avatar and image styles */
+  /* Avatar and image styles - more consistent sizing */
   .avatar {
-    @apply relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full;
+    @apply relative flex shrink-0 overflow-hidden rounded-full;
+    height: var(--avatar-size, 2.5rem);
+    width: var(--avatar-size, 2.5rem);
   }
   
   .avatar-sm {
-    @apply h-8 w-8;
+    --avatar-size: 2rem;
   }
   
   .avatar-lg {
-    @apply h-12 w-12;
+    --avatar-size: 3rem;
   }
   
   /* Border effects */
@@ -78,10 +82,10 @@
   }
 }
 
-/* Make sure footer stays at bottom but allows for filter dropdown expansion */
+/* Fixing dropdown positioning */
 .filter-dropdown-container {
   overflow: visible;
-  z-index: 10;
+  z-index: 40; /* Increased z-index for better stacking */
   position: relative;
 }
 

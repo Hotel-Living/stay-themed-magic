@@ -16,18 +16,27 @@ interface SearchHeaderProps {
   onSortChange: (field: string, direction: 'asc' | 'desc') => void;
 }
 
+// Sort options configuration - easier to maintain
+const SORT_OPTIONS = [
+  { label: "Price (Low to High)", field: "price_per_month", direction: "asc", icon: SortAsc },
+  { label: "Price (High to Low)", field: "price_per_month", direction: "desc", icon: SortDesc },
+  { label: "Name (A-Z)", field: "name", direction: "asc", icon: SortAsc },
+  { label: "Name (Z-A)", field: "name", direction: "desc", icon: SortDesc },
+  { label: "Rating (High to Low)", field: "category", direction: "desc", icon: SortDesc },
+];
+
 export function SearchHeader({ isLoading, totalHotels, onSortChange }: SearchHeaderProps) {
   return (
     <div className="glass-card rounded-xl p-4 mb-6">
       <div className="flex justify-between items-center">
         <div>
-          <span className="text-sm text-white/70">
-            {isLoading ? (
-              <Skeleton className="h-4 w-24" />
-            ) : (
-              `Found ${totalHotels} hotels`
-            )}
-          </span>
+          {isLoading ? (
+            <Skeleton className="h-4 w-24" />
+          ) : (
+            <span className="text-sm text-white/70">
+              Found {totalHotels} hotels
+            </span>
+          )}
         </div>
         
         <DropdownMenu>
@@ -37,27 +46,19 @@ export function SearchHeader({ isLoading, totalHotels, onSortChange }: SearchHea
               Sort by
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[200px]">
-            <DropdownMenuItem onClick={() => onSortChange('price_per_month', 'asc')}>
-              <SortAsc className="mr-2 h-4 w-4" />
-              Price (Low to High)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange('price_per_month', 'desc')}>
-              <SortDesc className="mr-2 h-4 w-4" />
-              Price (High to Low)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange('name', 'asc')}>
-              <SortAsc className="mr-2 h-4 w-4" />
-              Name (A-Z)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange('name', 'desc')}>
-              <SortDesc className="mr-2 h-4 w-4" />
-              Name (Z-A)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange('category', 'desc')}>
-              <SortDesc className="mr-2 h-4 w-4" />
-              Rating (High to Low)
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" className="w-[200px] bg-popover/90 backdrop-blur-sm">
+            {SORT_OPTIONS.map((option) => {
+              const Icon = option.icon;
+              return (
+                <DropdownMenuItem 
+                  key={`${option.field}-${option.direction}`}
+                  onClick={() => onSortChange(option.field, option.direction as 'asc' | 'desc')}
+                >
+                  <Icon className="mr-2 h-4 w-4" />
+                  {option.label}
+                </DropdownMenuItem>
+              );
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -1,53 +1,30 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useProfileOperations } from '@/hooks/useProfileOperations';
-import { useToast } from '@/hooks/use-toast';
 import { ProfileAvatar } from './ProfileAvatar';
 import { ProfileForm } from './ProfileForm';
+import { useProfileForm } from '@/hooks/useProfileForm';
 
 export const ProfileSettings = () => {
   const { user, profile } = useAuth();
-  const { updateProfile } = useProfileOperations();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  
+  const initialData = {
     first_name: profile?.first_name || '',
     last_name: profile?.last_name || '',
     bio: profile?.bio || '',
     avatar_url: profile?.avatar_url || '',
+  };
+  
+  const {
+    formData,
+    isLoading,
+    handleInputChange,
+    handleAvatarChange,
+    handleSubmit
+  } = useProfileForm({
+    initialData,
+    userId: user?.id
   });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleAvatarChange = (url: string) => {
-    setFormData(prev => ({ ...prev, avatar_url: url }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      await updateProfile(user, formData);
-      toast({
-        title: "Profile updated",
-        description: "Your profile information has been updated successfully.",
-      });
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      toast({
-        title: "Update failed",
-        description: "There was a problem updating your profile. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div>

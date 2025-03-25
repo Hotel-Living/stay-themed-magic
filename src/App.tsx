@@ -6,18 +6,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
-// Pages
+// Page imports - organized by sections
+// Public pages
 import Index from "@/pages/Index";
-import Login from "@/pages/Login";
-import SignUp from "@/pages/SignUp";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
-import HotelDetail from "@/pages/HotelDetail";
 import Search from "@/pages/Search";
-import Favorites from "@/pages/Favorites";
-import UserDashboard from "@/pages/UserDashboard";
-import HotelDashboard from "@/pages/HotelDashboard";
-import Bookings from "@/pages/Bookings";
+import HotelDetail from "@/pages/HotelDetail";
 import FAQ from "@/pages/FAQ";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
@@ -25,10 +18,33 @@ import CustomerService from "@/pages/CustomerService";
 import OurServices from "@/pages/OurServices";
 import OurValues from "@/pages/OurValues";
 import NotFound from "@/pages/NotFound";
+
+// Auth pages
+import Login from "@/pages/Login";
+import SignUp from "@/pages/SignUp";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+
+// Protected pages
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import Bookings from "@/pages/Bookings";
+import Favorites from "@/pages/Favorites";
+
+// Utility pages
 import CodeStats from "@/pages/CodeStats";
 
-// Create a client
-const queryClient = new QueryClient();
+// Create a client with better caching strategy
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   return (
@@ -37,14 +53,18 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
+              {/* Public routes */}
               <Route path="/" element={<Index />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/hotel/:id" element={<HotelDetail />} />
+              
+              {/* Auth routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/hotel/:id" element={<HotelDetail />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/favorites" element={<Favorites />} />
+              
+              {/* Protected routes */}
               <Route
                 path="/dashboard"
                 element={
@@ -69,13 +89,27 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/favorites"
+                element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Information pages */}
               <Route path="/faq" element={<FAQ />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/customer-service" element={<CustomerService />} />
               <Route path="/services" element={<OurServices />} />
               <Route path="/values" element={<OurValues />} />
+              
+              {/* Utility pages */}
               <Route path="/stats" element={<CodeStats />} />
+              
+              {/* Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
             

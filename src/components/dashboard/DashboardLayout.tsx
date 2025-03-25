@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   HomeIcon, 
   BuildingIcon, 
@@ -28,11 +28,11 @@ interface DashboardLayoutProps {
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
-  href?: string;
   active?: boolean;
   onClick?: () => void;
 }
 
+// Navigation item component extracted for reusability
 const NavItem = ({ icon, label, active, onClick }: NavItemProps) => {
   return (
     <button
@@ -43,39 +43,42 @@ const NavItem = ({ icon, label, active, onClick }: NavItemProps) => {
           : 'hover:bg-fuchsia-950/50 text-foreground/80 hover:text-foreground'
       }`}
     >
-      <div className="flex items-center">
-        <div className="mr-3">{icon}</div>
+      <div className="flex items-center flex-1">
+        <span className="mr-3">{icon}</span>
         <span>{label}</span>
       </div>
-      <ChevronRightIcon className="w-4 h-4 ml-auto opacity-50" />
+      <ChevronRightIcon className="w-4 h-4 opacity-50" />
     </button>
   );
 };
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<string>('dashboard');
 
   const isUserDashboard = location.pathname === '/dashboard';
-  const isHotelDashboard = location.pathname === '/host';
-
-  const navItems = isUserDashboard
-    ? [
-        { icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard', id: 'dashboard' },
-        { icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties', id: 'properties' },
-        { icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings', id: 'bookings' },
-        { icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews', id: 'reviews' },
-        { icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings', id: 'settings' },
-      ]
-    : [
-        { icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard', id: 'dashboard' },
-        { icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties', id: 'properties' },
-        { icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings', id: 'bookings' },
-        { icon: <UsersIcon className="w-5 h-5" />, label: 'Guests', id: 'guests' },
-        { icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics', id: 'analytics' },
-        { icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings', id: 'settings' },
+  
+  // Using useMemo to avoid recreating the navigation items on each render
+  const navItems = useMemo(() => {
+    if (isUserDashboard) {
+      return [
+        { id: 'dashboard', icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard' },
+        { id: 'properties', icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties' },
+        { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
+        { id: 'reviews', icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews' },
+        { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
       ];
+    } else {
+      return [
+        { id: 'dashboard', icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard' },
+        { id: 'properties', icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties' },
+        { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
+        { id: 'guests', icon: <UsersIcon className="w-5 h-5" />, label: 'Guests' },
+        { id: 'analytics', icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics' },
+        { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
+      ];
+    }
+  }, [isUserDashboard]);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
@@ -85,36 +88,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const renderTabContent = () => {
     if (isUserDashboard) {
       switch (activeTab) {
-        case 'dashboard':
-          return <DashboardContent />;
-        case 'properties':
-          return <PropertiesContent />;
-        case 'bookings':
-          return <BookingsContent />;
-        case 'reviews':
-          return <ReviewsContent />;
-        case 'settings':
-          return <SettingsContent />;
-        default:
-          return <DashboardContent />;
+        case 'dashboard': return <DashboardContent />;
+        case 'properties': return <PropertiesContent />;
+        case 'bookings': return <BookingsContent />;
+        case 'reviews': return <ReviewsContent />;
+        case 'settings': return <SettingsContent />;
+        default: return <DashboardContent />;
       }
     } else {
       // Hotel dashboard tabs
       switch (activeTab) {
-        case 'dashboard':
-          return children || <DashboardContent />;
-        case 'properties':
-          return <PropertiesContent />;
-        case 'bookings':
-          return <BookingsContent />;
-        case 'guests':
-          return <GuestsContent />;
-        case 'analytics':
-          return <AnalyticsContent />;
-        case 'settings':
-          return <SettingsContent />;
-        default:
-          return children || <DashboardContent />;
+        case 'dashboard': return children || <DashboardContent />;
+        case 'properties': return <PropertiesContent />;
+        case 'bookings': return <BookingsContent />;
+        case 'guests': return <GuestsContent />;
+        case 'analytics': return <AnalyticsContent />;
+        case 'settings': return <SettingsContent />;
+        default: return children || <DashboardContent />;
       }
     }
   };

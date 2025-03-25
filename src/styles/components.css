@@ -1,8 +1,5 @@
+
 @layer components {
-  /* Any remaining general component styles can stay here */
-  
-  /* Add any new global component styles here */
-  
   /* Layout utilities */
   .page-container {
     @apply container mx-auto px-4 py-8 md:px-6;
@@ -18,5 +15,20 @@
   
   .section-description {
     @apply text-muted-foreground mb-8 max-w-3xl;
+  }
+  
+  /* Flex layouts */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  
+  /* Responsive grid layouts */
+  .grid-auto-fit {
+    @apply grid grid-cols-1;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 300px)), 1fr));
   }
 }

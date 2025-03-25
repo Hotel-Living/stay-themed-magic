@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterState } from "@/components/FilterSection";
@@ -12,14 +12,17 @@ import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 import { Starfield } from "@/components/Starfield";
 
+// Default initial filters
+const DEFAULT_FILTERS: FilterState = {
+  country: null,
+  month: null,
+  theme: null,
+  priceRange: null
+};
+
 export default function Index() {
   const { isLoading: isAuthLoading, user, profile } = useAuth();
-  const [filters, setFilters] = useState<FilterState>({
-    country: null,
-    month: null,
-    theme: null,
-    priceRange: null
-  });
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   
   // Fetch themes
   const { data: themes = [], isLoading: isThemesLoading } = useThemes();
@@ -27,9 +30,13 @@ export default function Index() {
   // Fetch hotels with filters
   const { data: hotels = [], isLoading: isHotelsLoading } = useHotels(filters, !isAuthLoading);
   
-  const handleFilterChange = (newFilters: FilterState) => {
+  // Memoized callback to prevent unnecessary re-renders
+  const handleFilterChange = useCallback((newFilters: FilterState) => {
     setFilters(newFilters);
-  };
+  }, []);
+  
+  // Extract theme names for the filter dropdown
+  const themeNames = themes.map((theme: Theme) => theme.name);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,7 +50,7 @@ export default function Index() {
         {/* Filter Section */}
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
-          availableThemes={themes.map((theme: Theme) => theme.name)}
+          availableThemes={themeNames}
         />
         
         {/* Hotels Section */}

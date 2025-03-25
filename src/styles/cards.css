@@ -1,7 +1,8 @@
 
 @layer components {
+  /* Base card styles */
   .card {
-    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden;
   }
   
   .card-header {
@@ -24,7 +25,7 @@
     @apply flex items-center p-6 pt-0;
   }
   
-  /* Keep the glass card styles from components.css */
+  /* Glass card variations */
   .glass-card {
     @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
   }
@@ -56,5 +57,22 @@
   
   .hotel-card-location {
     @apply text-white/70 text-sm mb-2;
+  }
+  
+  /* Dashboard card styles */
+  .dashboard-card {
+    @apply glass-card p-4 h-full;
+  }
+  
+  .stat-card {
+    @apply glass-card p-5 flex flex-col space-y-2;
+  }
+  
+  .stat-value {
+    @apply text-2xl font-bold;
+  }
+  
+  .stat-label {
+    @apply text-sm text-white/70;
   }
 }

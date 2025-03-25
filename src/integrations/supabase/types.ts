@@ -197,31 +197,37 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          email_verified: boolean
           first_name: string | null
           id: string
           is_hotel_owner: boolean | null
           last_name: string | null
           phone: string | null
+          role: string
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          email_verified?: boolean
           first_name?: string | null
           id: string
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
+          role?: string
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
+          email_verified?: boolean
           first_name?: string | null
           id?: string
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
+          role?: string
           updated_at?: string
         }
         Relationships: []

@@ -4,7 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { BookingsContent } from "@/components/dashboard/BookingsContent";
+import BookingsContent from "@/components/dashboard/BookingsContent";
 import { Starfield } from "@/components/Starfield";
 import { handleApiError } from "@/utils/errorHandling";
 

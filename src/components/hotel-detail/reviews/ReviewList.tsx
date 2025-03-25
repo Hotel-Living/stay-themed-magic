@@ -48,6 +48,8 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
     return <ReviewEmptyState />;
   }
   
+  const showFilteredEmptyState = ratingFilter !== null && filteredReviews.length === 0;
+  
   return (
     <div id="reviews-section" className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
@@ -62,7 +64,7 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
         />
       </div>
       
-      {currentReviews.length > 0 ? (
+      {filteredReviews.length > 0 && !showFilteredEmptyState ? (
         <>
           {currentReviews.map((review, index) => (
             <ReviewListItem key={review.id || index} review={review} />
@@ -73,28 +75,23 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
-
-          {ratingFilter !== null && filteredReviews.length === 0 && (
-            <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10">
-              <p className="text-muted-foreground">No {ratingFilter}-star reviews found</p>
-              <button 
-                className="text-fuchsia-500 mt-2 text-sm hover:underline"
-                onClick={() => handleRatingFilterChange(null)}
-              >
-                Clear filter
-              </button>
-            </div>
-          )}
         </>
       ) : (
         <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10">
-          <p className="text-muted-foreground">No {ratingFilter}-star reviews found</p>
-          <button 
-            className="text-fuchsia-500 mt-2 text-sm hover:underline"
-            onClick={() => handleRatingFilterChange(null)}
-          >
-            Clear filter
-          </button>
+          <p className="text-muted-foreground">
+            {ratingFilter !== null 
+              ? `No ${ratingFilter}-star reviews found` 
+              : "No reviews match your filters"}
+          </p>
+          {ratingFilter !== null && (
+            <button 
+              className="text-fuchsia-500 mt-2 text-sm hover:underline"
+              onClick={() => handleRatingFilterChange(null)}
+              aria-label="Clear rating filter"
+            >
+              Clear filter
+            </button>
+          )}
         </div>
       )}
     </div>

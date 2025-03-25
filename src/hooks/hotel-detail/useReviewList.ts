@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Review } from "./types";
 
 type SortOption = "newest" | "oldest" | "highest" | "lowest";
@@ -24,49 +24,41 @@ interface UseReviewListReturn {
 }
 
 /**
- * Custom hook to handle review list sorting and pagination
+ * Custom hook to handle review list sorting, filtering and pagination
  */
 export function useReviewList({
   reviews,
   reviewsPerPage = 5,
   initialSortOption = "newest"
 }: UseReviewListOptions): UseReviewListReturn {
-  const [sortedReviews, setSortedReviews] = useState<Review[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>(initialSortOption);
   const [currentPage, setCurrentPage] = useState(1);
   const [ratingFilter, setRatingFilter] = useState<number | null>(null);
   
   // Apply sorting whenever sort option or reviews change
-  useEffect(() => {
+  const sortedReviews = useMemo(() => {
     if (!reviews || reviews.length === 0) {
-      setSortedReviews([]);
-      return;
+      return [];
     }
     
     const sortReviews = [...reviews];
     
     switch(sortOption) {
       case "newest":
-        sortReviews.sort((a, b) => 
+        return sortReviews.sort((a, b) => 
           new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime()
         );
-        break;
       case "oldest":
-        sortReviews.sort((a, b) => 
+        return sortReviews.sort((a, b) => 
           new Date(a.created_at || "").getTime() - new Date(b.created_at || "").getTime()
         );
-        break;
       case "highest":
-        sortReviews.sort((a, b) => b.rating - a.rating);
-        break;
+        return sortReviews.sort((a, b) => b.rating - a.rating);
       case "lowest":
-        sortReviews.sort((a, b) => a.rating - b.rating);
-        break;
+        return sortReviews.sort((a, b) => a.rating - b.rating);
       default:
-        break;
+        return sortReviews;
     }
-    
-    setSortedReviews(sortReviews);
   }, [reviews, sortOption]);
 
   // Apply rating filter to sorted reviews
@@ -79,14 +71,14 @@ export function useReviewList({
   
   // Calculate pagination values based on filtered reviews
   const totalPages = useMemo(() => 
-    Math.ceil(filteredReviews.length / reviewsPerPage),
+    Math.max(1, Math.ceil(filteredReviews.length / reviewsPerPage)),
     [filteredReviews.length, reviewsPerPage]
   );
   
-  // Reset to first page when filter changes
+  // Reset to first page when filter or sort changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [ratingFilter]);
+  }, [ratingFilter, sortOption]);
   
   // Get current page reviews
   const currentReviews = useMemo(() => {
@@ -95,21 +87,18 @@ export function useReviewList({
     return filteredReviews.slice(indexOfFirstReview, indexOfLastReview);
   }, [filteredReviews, currentPage, reviewsPerPage]);
   
-  // Handle sort option change
-  const handleSortChange = (value: SortOption) => {
+  // Memoize handlers to prevent unnecessary re-renders
+  const handleSortChange = useCallback((value: SortOption) => {
     setSortOption(value);
-    setCurrentPage(1); // Reset to first page when sort changes
-  };
+  }, []);
   
-  // Handle page changes
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(Math.min(Math.max(1, page), totalPages));
+  }, [totalPages]);
 
-  // Handle rating filter change
-  const handleRatingFilterChange = (rating: number | null) => {
+  const handleRatingFilterChange = useCallback((rating: number | null) => {
     setRatingFilter(rating);
-  };
+  }, []);
   
   return {
     sortedReviews,

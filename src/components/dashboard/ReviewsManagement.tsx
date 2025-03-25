@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, Mail, AlertTriangle } from 'lucide-react';
 import ReviewItem from './ReviewItem';
@@ -132,7 +131,7 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const [selectedReview, setSelectedReview] = useState<DashboardReview | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { sendNotification, isLoading: isSendingNotification } = useSendNotification();
+  const { sendNotification, isSending } = useSendNotification();
   
   const filteredByPropertyReviews = useMemo(() => {
     if (!propertyFilter) return reviews;
@@ -209,14 +208,10 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     
     try {
       const promises = unnotifiedReviews.map(async (review) => {
-        await sendNotification({
-          type: 'review',
-          recipient: hotelOwnerEmail,
-          data: {
-            hotelName: review.property,
-            rating: review.rating,
-            comment: review.comment,
-          }
+        await sendNotification('review', hotelOwnerEmail, {
+          hotelName: review.property,
+          rating: review.rating,
+          comment: review.comment,
         });
         
         return { ...review, notified: true };
@@ -278,10 +273,10 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
                 size="sm"
                 className="gap-1 text-amber-400 border-amber-400/20 hover:bg-amber-400/10"
                 onClick={sendEmailNotifications}
-                disabled={isSendingNotification}
+                disabled={isSending}
               >
                 <Mail className="w-3 h-3" />
-                {isSendingNotification ? "Sending..." : `Notify (${unnotifiedReviews.length})`}
+                {isSending ? "Sending..." : `Notify (${unnotifiedReviews.length})`}
               </Button>
             )}
             
@@ -473,7 +468,6 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         </Table>
       )}
 
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-6">
           <div className="text-sm text-foreground/70">
@@ -503,7 +497,6 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         </div>
       )}
 
-      {/* Response Dialog */}
       <ReviewResponseDialog
         review={selectedReview}
         isOpen={isDialogOpen}

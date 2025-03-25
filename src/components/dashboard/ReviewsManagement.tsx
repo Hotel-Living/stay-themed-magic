@@ -21,21 +21,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Review } from '@/hooks/hotel-detail/types';
-
-// Define a dashboard-specific review interface that extends the base Review type
-interface DashboardReview {
-  id: string;
-  name: string;
-  rating: number;
-  property: string;
-  comment: string;
-  date: string;
-  isResponded?: boolean;
-  // Include required fields from the imported Review type
-  hotel_id: string;
-  user_id: string;
-  created_at?: string;
-}
+import { DashboardReview } from './types';
+import ReviewResponseDialog from './ReviewResponseDialog';
+import { useToast } from '@/hooks/use-toast';
 
 const mockReviews: DashboardReview[] = [
   {
@@ -58,6 +46,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Great facilities and tech workshops. Would recommend for longer stays.',
     date: '1 week ago',
     isResponded: true,
+    response: 'Thank you for your feedback, Lisa! We're glad you enjoyed our workshops and facilities.',
     hotel_id: 'hotel-2',
     user_id: 'user-2',
     created_at: '2023-03-18T12:00:00Z'
@@ -82,6 +71,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Perfect for digital nomads! The coworking space and networking events were outstanding.',
     date: '3 weeks ago',
     isResponded: true,
+    response: 'We appreciate your kind words, Sarah! Our goal is to create the perfect environment for digital nomads.',
     hotel_id: 'hotel-2',
     user_id: 'user-4',
     created_at: '2023-03-04T12:00:00Z'
@@ -94,6 +84,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Disappointing stay. The room was not as advertised and the Wi-Fi was constantly down.',
     date: '1 month ago',
     isResponded: true,
+    response: 'We sincerely apologize for the issues you experienced, David. We've since upgraded our Wi-Fi system and updated our room descriptions.',
     hotel_id: 'hotel-1',
     user_id: 'user-5',
     created_at: '2023-02-25T12:00:00Z'
@@ -118,6 +109,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Good value for money. The language classes were excellent.',
     date: '2 months ago',
     isResponded: true,
+    response: 'Thank you for your review, Robert! We take pride in our language classes and are glad you found them valuable.',
     hotel_id: 'hotel-1',
     user_id: 'user-7',
     created_at: '2023-01-25T12:00:00Z'
@@ -134,6 +126,9 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const [reviews, setReviews] = useState<DashboardReview[]>(mockReviews);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('card');
+  const [selectedReview, setSelectedReview] = useState<DashboardReview | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
   
   // Filter reviews by property if a property filter is provided
   const filteredByPropertyReviews = useMemo(() => {
@@ -163,14 +158,36 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     initialSortOption: 'newest'
   });
 
-  const respondToReview = (reviewId: string) => {
-    setReviews(prevReviews => 
-      prevReviews.map(review => 
-        review.id === reviewId 
-          ? { ...review, isResponded: true } 
-          : review
-      )
-    );
+  const openResponseDialog = (review: DashboardReview) => {
+    setSelectedReview(review);
+    setIsDialogOpen(true);
+  };
+
+  const closeResponseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedReview(null);
+  };
+
+  const respondToReview = (reviewId: string, responseText: string) => {
+    return new Promise<void>((resolve) => {
+      // Simulate API call with setTimeout
+      setTimeout(() => {
+        setReviews(prevReviews => 
+          prevReviews.map(review => 
+            review.id === reviewId 
+              ? { ...review, isResponded: true, response: responseText } 
+              : review
+          )
+        );
+        
+        toast({
+          title: "Response submitted",
+          description: "Your response has been successfully submitted.",
+        });
+        
+        resolve();
+      }, 500);
+    });
   };
 
   return (
@@ -278,20 +295,24 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
                   comment={review.comment}
                   date={review.date}
                 />
-                {!review.isResponded && (
+                
+                {review.isResponded ? (
+                  <div className="mt-2 ml-6 p-3 bg-fuchsia-800/10 rounded-lg border border-fuchsia-800/20">
+                    <div className="flex justify-between">
+                      <p className="text-xs font-semibold text-fuchsia-300 mb-1">Your Response:</p>
+                      <span className="text-xs text-green-400">Responded</span>
+                    </div>
+                    <p className="text-sm text-foreground/80">{review.response}</p>
+                  </div>
+                ) : (
                   <div className="mt-2 flex justify-end">
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => respondToReview(review.id)}
+                      onClick={() => openResponseDialog(review)}
                     >
                       Respond to Review
                     </Button>
-                  </div>
-                )}
-                {review.isResponded && (
-                  <div className="mt-2 text-right">
-                    <span className="text-xs text-green-400">Responded</span>
                   </div>
                 )}
               </div>
@@ -336,11 +357,20 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
                     )}
                   </TableCell>
                   <TableCell>
-                    {!review.isResponded && (
+                    {review.isResponded ? (
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        className="text-fuchsia-300 hover:text-foreground"
+                        onClick={() => openResponseDialog(review)}
+                      >
+                        View Response
+                      </Button>
+                    ) : (
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={() => respondToReview(review.id)}
+                        onClick={() => openResponseDialog(review)}
                       >
                         Respond
                       </Button>
@@ -388,6 +418,14 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
           </div>
         </div>
       )}
+
+      {/* Response Dialog */}
+      <ReviewResponseDialog
+        review={selectedReview}
+        isOpen={isDialogOpen}
+        onClose={closeResponseDialog}
+        onRespond={respondToReview}
+      />
     </div>
   );
 }

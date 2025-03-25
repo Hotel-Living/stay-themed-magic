@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatCard } from "@/components/dashboard/StatCard";
-import { Users, Home, DollarSign, Calendar, TrendingUp, Star } from "lucide-react";
+import { Users, Home, DollarSign, Calendar, TrendingUp, Star, BarChart3 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 
 export function AnalyticsContent() {
@@ -123,7 +123,7 @@ export function AnalyticsContent() {
       trend: "up" as const,
     },
     {
-      title: "Revenue per Available Room",
+      title: "Revenue per Room",
       value: "$97",
       change: "+7%",
       icon: TrendingUp,

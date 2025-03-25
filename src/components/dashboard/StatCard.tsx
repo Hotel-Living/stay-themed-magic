@@ -13,7 +13,7 @@ interface StatCardProps {
 
 export function StatCard({ title, value, change, icon: Icon, trend = "neutral" }: StatCardProps) {
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
@@ -52,8 +52,13 @@ export function StatCard({ title, value, change, icon: Icon, trend = "neutral" }
             )}
           </div>
           {Icon && (
-            <div className="p-2 bg-primary/10 rounded-full">
-              <Icon className="h-5 w-5 text-primary" />
+            <div className={cn(
+              "p-2 rounded-full",
+              trend === "up" ? "bg-green-500/10 text-green-500" : 
+              trend === "down" ? "bg-red-500/10 text-red-500" : 
+              "bg-primary/10 text-primary"
+            )}>
+              <Icon className="h-5 w-5" />
             </div>
           )}
         </div>

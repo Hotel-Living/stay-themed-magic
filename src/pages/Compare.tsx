@@ -9,10 +9,32 @@ import { useHotelDetail } from "@/hooks/useHotelDetail";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
+// Define proper types for the hotel data to avoid type issues
+interface HotelForComparison {
+  id: string;
+  name: string;
+  price_per_month: number;
+  category: number;
+  city: string;
+  country: string;
+  available_months: string[];
+  amenities: string[];
+  hotel_images?: { image_url: string; is_main?: boolean }[];
+  main_image_url?: string;
+}
+
+// Define types for comparison categories
+interface ComparisonCategory {
+  name: string;
+  key: keyof HotelForComparison;
+  secondKey?: keyof HotelForComparison;
+  formatter: (value: any, secondValue?: any) => string | number;
+}
+
 export default function Compare() {
   const [searchParams] = useSearchParams();
   const [hotelIds, setHotelIds] = useState<string[]>([]);
-  const [hotels, setHotels] = useState<any[]>([]);
+  const [hotels, setHotels] = useState<HotelForComparison[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,7 +60,7 @@ export default function Compare() {
         );
         
         const results = await Promise.all(hotelPromises);
-        setHotels(results.filter(Boolean));
+        setHotels(results.filter(Boolean) as HotelForComparison[]);
         setIsLoading(false);
       } catch (err) {
         console.error("Error fetching hotels:", err);
@@ -50,14 +72,34 @@ export default function Compare() {
     fetchHotels();
   }, [hotelIds]);
 
-  // Define comparison categories
-  const categories = [
-    { name: "Price per Month", key: "price_per_month", formatter: (value: number) => `$${value.toLocaleString()}` },
-    { name: "Category", key: "category", formatter: (value: number) => "⭐".repeat(value) },
-    { name: "Location", key: "city", secondKey: "country", formatter: (city: string, country: string) => `${city}, ${country}` },
-    { name: "Available Months", key: "available_months", formatter: (months: string[]) => months?.length || 0 },
-    { name: "Amenities", key: "amenities", formatter: (amenities: string[]) => 
-      amenities?.length ? amenities.join(", ") : "None listed" 
+  // Define comparison categories with proper typing
+  const categories: ComparisonCategory[] = [
+    { 
+      name: "Price per Month", 
+      key: "price_per_month", 
+      formatter: (value: number) => `$${value.toLocaleString()}` 
+    },
+    { 
+      name: "Category", 
+      key: "category", 
+      formatter: (value: number) => "⭐".repeat(value) 
+    },
+    { 
+      name: "Location", 
+      key: "city", 
+      secondKey: "country", 
+      formatter: (city: string, country: string) => `${city}, ${country}` 
+    },
+    { 
+      name: "Available Months", 
+      key: "available_months", 
+      formatter: (months: string[]) => months?.length || 0 
+    },
+    { 
+      name: "Amenities", 
+      key: "amenities", 
+      formatter: (amenities: string[]) => 
+        amenities?.length ? amenities.join(", ") : "None listed" 
     },
   ];
 
@@ -182,7 +224,7 @@ export default function Compare() {
                     ) : (
                       hotels.map(hotel => {
                         let value;
-                        if (category.secondKey) {
+                        if (category.secondKey && hotel[category.key] && hotel[category.secondKey]) {
                           value = category.formatter(hotel[category.key], hotel[category.secondKey]);
                         } else {
                           value = category.formatter(hotel[category.key]);

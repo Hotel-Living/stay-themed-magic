@@ -35,7 +35,7 @@ export function useResponseTemplates(propertyId?: string | null) {
           {
             id: 'default-friendly',
             name: 'Default Friendly',
-            content: 'Thanks so much for sharing your experience with us! We're glad you stayed with us and hope to see you again soon!',
+            content: 'Thanks so much for sharing your experience with us! We\'re glad you stayed with us and hope to see you again soon!',
             tone: 'friendly'
           },
           {

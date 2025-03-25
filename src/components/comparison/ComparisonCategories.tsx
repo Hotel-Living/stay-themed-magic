@@ -1,0 +1,74 @@
+
+import { Skeleton } from "@/components/ui/skeleton";
+import { HotelForComparison, ComparisonCategory } from "./types";
+
+interface ComparisonCategoriesProps {
+  hotels: HotelForComparison[];
+  isLoading: boolean;
+  hotelIds: string[];
+}
+
+export function ComparisonCategories({ hotels, isLoading, hotelIds }: ComparisonCategoriesProps) {
+  // Define comparison categories with proper typing
+  const categories: ComparisonCategory[] = [
+    { 
+      name: "Price per Month", 
+      key: "price_per_month", 
+      formatter: (value: number) => `$${value.toLocaleString()}` 
+    },
+    { 
+      name: "Category", 
+      key: "category", 
+      formatter: (value: number) => "⭐".repeat(value) 
+    },
+    { 
+      name: "Location", 
+      key: "city", 
+      secondKey: "country", 
+      formatter: (city: string, country: string) => `${city}, ${country}` 
+    },
+    { 
+      name: "Available Months", 
+      key: "available_months", 
+      formatter: (months: string[]) => months?.length || 0 
+    },
+    { 
+      name: "Amenities", 
+      key: "amenities", 
+      formatter: (amenities: string[]) => 
+        amenities?.length ? amenities.join(", ") : "None listed" 
+    },
+  ];
+
+  return (
+    <>
+      {categories.map(category => (
+        <tr key={category.name} className="even:bg-gray-900/20">
+          <td className="px-6 py-4 text-sm font-medium text-white">{category.name}</td>
+          {isLoading ? (
+            Array(hotelIds.length).fill(0).map((_, index) => (
+              <td key={index} className="px-6 py-4 text-center">
+                <Skeleton className="h-6 w-2/3 mx-auto bg-white/10" />
+              </td>
+            ))
+          ) : (
+            hotels.map(hotel => {
+              let value;
+              if (category.secondKey && hotel[category.key] && hotel[category.secondKey]) {
+                value = category.formatter(hotel[category.key], hotel[category.secondKey]);
+              } else {
+                value = category.formatter(hotel[category.key]);
+              }
+              
+              return (
+                <td key={hotel.id} className="px-6 py-4 text-center text-white/90">
+                  {value}
+                </td>
+              );
+            })
+          )}
+        </tr>
+      ))}
+    </>
+  );
+}

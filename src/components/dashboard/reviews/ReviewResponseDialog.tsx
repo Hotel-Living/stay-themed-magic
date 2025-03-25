@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
-import { Star, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { DashboardReview } from '../types';
+import { useToast } from '@/hooks/use-toast';
+import { ReviewCard } from './dialog/ReviewCard';
+import { ResponseInput } from './dialog/ResponseInput';
+import { ResponseAlerts } from './dialog/ResponseAlerts';
 import {
   Dialog,
   DialogContent,
@@ -10,10 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
-import { DashboardReview } from '../types';
-import { useToast } from '@/hooks/use-toast';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 interface ReviewResponseDialogProps {
   review: DashboardReview | null;
@@ -127,83 +128,21 @@ export function ReviewResponseDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="border rounded-lg p-4 my-4 bg-fuchsia-950/20 border-fuchsia-800/20">
-          <div className="flex justify-between items-start mb-2">
-            <div>
-              <p className="font-medium">{review.name}</p>
-              <p className="text-xs text-foreground/60">{review.property}</p>
-            </div>
-            <div className="flex">
-              {Array.from({ length: review.rating }).map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-              ))}
-            </div>
-          </div>
-          <p className="text-sm text-foreground/80 mb-2">{review.comment}</p>
-          <p className="text-xs text-foreground/60">{review.date}</p>
-        </div>
+        <ReviewCard review={review} />
 
         <div className="mt-2">
-          <div className="flex justify-between items-center mb-2">
-            <label htmlFor="response" className="text-sm font-medium">
-              Your Response
-            </label>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-1 text-fuchsia-400 border-fuchsia-400/20 hover:bg-fuchsia-400/10"
-              onClick={generateAIResponse}
-              disabled={isGenerating}
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-3 h-3" />
-                  AI Suggest
-                </>
-              )}
-            </Button>
-          </div>
-
-          {generationError && (
-            <Alert variant="destructive" className="mb-3">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {generationError}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {responseSource === 'template' && !generationError && (
-            <Alert className="mb-3 bg-amber-500/10 border-amber-500/30 text-amber-500">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                This is a template-based response as our AI system was unavailable. Feel free to edit it.
-              </AlertDescription>
-            </Alert>
-          )}
-
-          <Textarea
-            id="response"
-            value={response}
-            onChange={(e) => setResponse(e.target.value)}
-            placeholder="Write your response here..."
-            className="mt-1 h-32"
+          <ResponseInput 
+            response={response}
+            setResponse={setResponse}
+            isGenerating={isGenerating}
+            generateAIResponse={generateAIResponse}
           />
           
-          {isGenerating && (
-            <div className="mt-2 flex items-center gap-2 text-xs text-fuchsia-400">
-              <div className="relative w-4 h-4">
-                <div className="absolute inset-0 rounded-full border-2 border-fuchsia-400/20 border-t-fuchsia-400 animate-spin"></div>
-              </div>
-              <p>Creating a personalized response based on the guest's feedback...</p>
-            </div>
-          )}
+          <ResponseAlerts 
+            generationError={generationError}
+            responseSource={responseSource}
+            isGenerating={isGenerating}
+          />
         </div>
 
         <DialogFooter>

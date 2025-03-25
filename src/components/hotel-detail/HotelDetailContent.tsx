@@ -10,6 +10,7 @@ import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 import { useHotelDetail } from "@/hooks/useHotelDetail";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
   // Extract image URLs from hotel_images
@@ -35,13 +36,22 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
-      <Link 
-        to="/" 
-        className="inline-flex items-center gap-1 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition mb-6"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        Back to hotels
-      </Link>
+      <div className="flex justify-between items-start mb-6">
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-1 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Back to hotels
+        </Link>
+        
+        {!isLoading && hotel?.id && (
+          <FavoriteButton 
+            hotelId={hotel.id} 
+            variant="button" 
+          />
+        )}
+      </div>
       
       {/* Hotel Header */}
       <HotelHeader 

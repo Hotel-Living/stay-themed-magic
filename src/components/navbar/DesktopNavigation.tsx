@@ -1,8 +1,10 @@
 
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { useAuthStatus } from "@/hooks/useAuthStatus";
 import { UserNavigation } from "./UserNavigation";
+import { useFavorites } from "@/hooks/useFavorites";
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
 
 interface DesktopNavigationProps {
   getInitials: () => string;
@@ -10,77 +12,45 @@ interface DesktopNavigationProps {
 }
 
 export function DesktopNavigation({ getInitials, signOut }: DesktopNavigationProps) {
-  const { user, profile } = useAuth();
-  const { isHotelOwner } = useAuthStatus();
-
+  const { user } = useAuth();
+  const { favorites } = useFavorites();
+  
   return (
-    <div className="hidden md:flex items-center gap-6">
+    <nav className="hidden md:flex items-center space-x-6">
+      <div className="flex items-center space-x-6">
+        <Link to="/search" className="text-white hover:text-fuchsia-200 transition">Browse</Link>
+        <Link to="/services" className="text-white hover:text-fuchsia-200 transition">Services</Link>
+        <Link to="/values" className="text-white hover:text-fuchsia-200 transition">Values</Link>
+        <Link to="/customer-service" className="text-white hover:text-fuchsia-200 transition">Support</Link>
+        
+        {user && (
+          <Link 
+            to="/favorites" 
+            className="text-white hover:text-fuchsia-200 transition flex items-center gap-1 relative"
+          >
+            <Heart className="w-4 h-4" />
+            <span>Favorites</span>
+            {favorites.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-fuchsia-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                {favorites.length > 9 ? '9+' : favorites.length}
+              </span>
+            )}
+          </Link>
+        )}
+      </div>
+      
       {user ? (
-        <>
-          <Link 
-            to="/" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            HOME
-          </Link>
-          
-          <Link 
-            to="/search" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            EXPLORE
-          </Link>
-          
-          <Link 
-            to="/faq" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            FAQ
-          </Link>
-          
-          {isHotelOwner && (
-            <Link 
-              to="/hotel-dashboard" 
-              className="text-white font-bold hover:text-white/80 text-sm"
-            >
-              MY HOTELS
-            </Link>
-          )}
-          
-          <UserNavigation 
-            profile={profile} 
-            getInitials={getInitials} 
-            signOut={signOut} 
-          />
-        </>
+        <UserNavigation getInitials={getInitials} signOut={signOut} />
       ) : (
-        <>
-          <Link 
-            to="/signup" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            REGISTER
+        <div className="flex items-center space-x-4">
+          <Link to="/login" className="text-white hover:text-fuchsia-200 transition">
+            Sign in
           </Link>
-          <Link 
-            to="/login" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            LOGIN
-          </Link>
-          <Link 
-            to="/faq" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            FAQ
-          </Link>
-          <Link 
-            to="/hoteles" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            HOTELS
-          </Link>
-        </>
+          <Button asChild>
+            <Link to="/signup">Sign up</Link>
+          </Button>
+        </div>
       )}
-    </div>
+    </nav>
   );
 }

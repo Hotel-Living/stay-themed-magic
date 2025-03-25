@@ -14,6 +14,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import HotelDetail from "@/pages/HotelDetail";
 import Search from "@/pages/Search";
+import Favorites from "@/pages/Favorites";
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
 import Bookings from "@/pages/Bookings";
@@ -43,6 +44,7 @@ function App() {
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/hotel/:id" element={<HotelDetail />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/favorites" element={<Favorites />} />
               <Route
                 path="/dashboard"
                 element={

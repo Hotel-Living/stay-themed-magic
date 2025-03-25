@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Profile } from "@/integrations/supabase/types-custom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { handleAuthError } from "@/utils/errorHandling";
 
 export function useSignUp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +13,24 @@ export function useSignUp() {
 
   const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
     try {
+      if (!email || !password) {
+        toast({
+          title: "Error de validación",
+          description: "Por favor, introduce un email y contraseña válidos",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (password.length < 6) {
+        toast({
+          title: "Contraseña débil",
+          description: "La contraseña debe tener al menos 6 caracteres",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       setIsLoading(true);
       
       const metadata = {
@@ -31,9 +50,14 @@ export function useSignUp() {
       });
 
       if (error) {
+        handleAuthError(error);
+        return;
+      }
+
+      if (data?.user?.identities?.length === 0) {
         toast({
-          title: "Error al registrarse",
-          description: error.message,
+          title: "Email ya registrado",
+          description: "Este email ya está registrado. Por favor, inicia sesión.",
           variant: "destructive",
         });
         return;
@@ -46,11 +70,7 @@ export function useSignUp() {
 
       navigate("/");
     } catch (error: any) {
-      toast({
-        title: "Error al registrarse",
-        description: error.message || "Ha ocurrido un error",
-        variant: "destructive",
-      });
+      handleAuthError(error);
     } finally {
       setIsLoading(false);
     }

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { Profile } from "@/integrations/supabase/types-custom";
@@ -8,11 +8,14 @@ import { handleSupabaseError, handleAppError } from "@/utils/errorHandling";
 
 export function useProfileOperations() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string) => {
     try {
+      setIsLoading(true);
       console.log("Fetching profile for user:", userId);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -36,16 +39,28 @@ export function useProfileOperations() {
       };
       
       setProfile(completeProfile);
+      return completeProfile;
     } catch (error) {
       console.error('Error in fetchProfile:', error);
       handleAppError(error, "Error loading your profile");
+      return null;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [toast]);
 
-  const updateProfile = async (user: User | null, data: Partial<Profile>) => {
-    if (!user) return;
+  const updateProfile = useCallback(async (user: User | null, data: Partial<Profile>) => {
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "Usuario no encontrado. Por favor, inicia sesión de nuevo.",
+        variant: "destructive",
+      });
+      return null;
+    }
     
     try {
+      setIsLoading(true);
       console.log("Updating profile for user:", user.id, data);
       
       const { error } = await supabase
@@ -55,23 +70,29 @@ export function useProfileOperations() {
 
       if (error) {
         handleSupabaseError(error, "Error al actualizar perfil");
-        return;
+        return null;
       }
 
       // Re-fetch profile to get updated data
-      await fetchProfile(user.id);
+      const updatedProfile = await fetchProfile(user.id);
 
       toast({
         title: "Perfil actualizado",
         description: "Tu perfil ha sido actualizado con éxito",
       });
+      
+      return updatedProfile;
     } catch (error: any) {
       handleAppError(error, "Error al actualizar perfil");
+      return null;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [fetchProfile, toast]);
 
   return {
     profile,
+    isLoading,
     fetchProfile,
     updateProfile
   };

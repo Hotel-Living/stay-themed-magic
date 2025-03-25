@@ -1,5 +1,6 @@
 
-import { Session, User } from "@supabase/supabase-js";
+import { Session, User, AuthError } from "@supabase/supabase-js";
+import { Profile } from "@/integrations/supabase/types-custom";
 
 // Mock user and session objects
 export const mockUser: User = {
@@ -21,10 +22,23 @@ export const mockSession: Session = {
   user: mockUser
 };
 
+export const mockProfile: Profile = {
+  id: "profile-id",
+  first_name: "Test",
+  last_name: "User",
+  role: "guest",
+  email_verified: false,
+  avatar_url: null,
+  phone: null,
+  is_hotel_owner: false,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
+
 // Create a mock Supabase client
 export const mockSupabaseClient = {
   auth: {
-    getSession: jest.fn().mockResolvedValue({ data: { session: mockSession } }),
+    getSession: jest.fn().mockResolvedValue({ data: { session: mockSession }, error: null }),
     signUp: jest.fn().mockResolvedValue({ data: { user: mockUser, session: mockSession }, error: null }),
     signInWithPassword: jest.fn().mockResolvedValue({ data: { user: mockUser, session: mockSession }, error: null }),
     signOut: jest.fn().mockResolvedValue({ error: null }),
@@ -36,17 +50,14 @@ export const mockSupabaseClient = {
     select: jest.fn().mockReturnThis(),
     eq: jest.fn().mockReturnThis(),
     single: jest.fn().mockResolvedValue({ 
-      data: { 
-        id: "profile-id", 
-        first_name: "Test", 
-        last_name: "User",
-        role: "guest",
-        email_verified: false
-      }, 
+      data: mockProfile, 
       error: null 
     }),
     update: jest.fn().mockReturnThis()
-  })
+  }),
+  functions: {
+    invoke: jest.fn().mockResolvedValue({ data: {}, error: null })
+  }
 };
 
 // Mock the Supabase module

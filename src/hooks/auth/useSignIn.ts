@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { handleAuthError } from "@/utils/errorHandling";
 
 export function useSignIn() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,6 +12,15 @@ export function useSignIn() {
 
   const signIn = async (email: string, password: string) => {
     try {
+      if (!email || !password) {
+        toast({
+          title: "Error de validación",
+          description: "Por favor, introduce un email y contraseña válidos",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       setIsLoading(true);
       
       console.log("Signing in user:", email);
@@ -21,11 +31,7 @@ export function useSignIn() {
       });
 
       if (error) {
-        toast({
-          title: "Error al iniciar sesión",
-          description: error.message,
-          variant: "destructive",
-        });
+        handleAuthError(error);
         return;
       }
 
@@ -36,11 +42,7 @@ export function useSignIn() {
 
       navigate("/");
     } catch (error: any) {
-      toast({
-        title: "Error al iniciar sesión",
-        description: error.message || "Ha ocurrido un error",
-        variant: "destructive",
-      });
+      handleAuthError(error);
     } finally {
       setIsLoading(false);
     }

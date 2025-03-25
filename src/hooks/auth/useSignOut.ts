@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { handleAuthError } from "@/utils/errorHandling";
 
 export function useSignOut() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,11 +19,7 @@ export function useSignOut() {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        toast({
-          title: "Error al cerrar sesión",
-          description: error.message,
-          variant: "destructive",
-        });
+        handleAuthError(error);
         return;
       }
 
@@ -31,13 +28,10 @@ export function useSignOut() {
         description: "Has cerrado sesión con éxito",
       });
 
-      navigate("/login");
+      // Use replace instead of navigate to prevent going back to authenticated routes
+      navigate("/login", { replace: true });
     } catch (error: any) {
-      toast({
-        title: "Error al cerrar sesión",
-        description: error.message || "Ha ocurrido un error",
-        variant: "destructive",
-      });
+      handleAuthError(error);
     } finally {
       setIsLoading(false);
     }

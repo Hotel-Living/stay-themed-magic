@@ -15,7 +15,7 @@ import {
 // Tab content imports
 import DashboardContent from './DashboardContent';
 import PropertiesContent from './PropertiesContent';
-import BookingsContent from './BookingsContent';
+import { BookingsContent } from './BookingsContent';
 import GuestsContent from './GuestsContent';
 import AnalyticsContent from './AnalyticsContent';
 import SettingsContent from './SettingsContent';
@@ -90,7 +90,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       switch (activeTab) {
         case 'dashboard': return <DashboardContent />;
         case 'properties': return <PropertiesContent />;
-        case 'bookings': return <BookingsContent />;
+        case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
         case 'reviews': return <ReviewsContent />;
         case 'settings': return <SettingsContent />;
         default: return <DashboardContent />;
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       switch (activeTab) {
         case 'dashboard': return children || <DashboardContent />;
         case 'properties': return <PropertiesContent />;
-        case 'bookings': return <BookingsContent />;
+        case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
         case 'guests': return <GuestsContent />;
         case 'analytics': return <AnalyticsContent />;
         case 'settings': return <SettingsContent />;

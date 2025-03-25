@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { BookingItem } from './BookingItem';
-import { EmptyState } from './EmptyState';
+import BookingItem from './BookingItem';
+import EmptyState from './EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface BookingsContentProps {
@@ -35,7 +35,7 @@ export const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLo
       <EmptyState 
         title="No bookings yet"
         description="You haven't made any bookings yet. Start exploring hotels and make your first reservation!"
-        icon="calendar"
+        icon={<span className="w-10 h-10">📅</span>}
         actionLink="/"
         actionText="Explore Hotels"
       />
@@ -45,8 +45,16 @@ export const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLo
   return (
     <div className="space-y-4">
       {bookings.map((booking) => (
-        <BookingItem key={booking.id} booking={booking} />
+        <BookingItem 
+          key={booking.id} 
+          name={booking.hotels?.name || "Unknown Hotel"}
+          dates={`${new Date(booking.check_in).toLocaleDateString()} - ${new Date(booking.check_out).toLocaleDateString()}`}
+          property={booking.hotels?.city || "Unknown Location"}
+          status={booking.status || "pending"}
+        />
       ))}
     </div>
   );
 };
+
+export default BookingsContent;

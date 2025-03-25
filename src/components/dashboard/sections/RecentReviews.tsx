@@ -24,7 +24,6 @@ export function RecentReviews() {
         />
       </div>
       <LinkButton 
-        href="#" 
         className="w-full mt-4 py-2 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition"
         onClick={(e) => {
           e.preventDefault();

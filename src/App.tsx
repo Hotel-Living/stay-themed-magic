@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Starfield } from "@/components/Starfield";
+import { AuthProvider } from "@/context/AuthContext";
 
 // Pages
 import Index from "./pages/Index";
@@ -32,25 +33,27 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Starfield />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/hotel/:id" element={<HotelDetail />} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
-          <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/our-values" element={<OurValues />} />
-          <Route path="/our-services" element={<OurServices />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/customer-service" element={<CustomerService />} />
-          <Route path="/hoteles" element={<HotelDashboard />} />
-          <Route path="/signin" element={<Login />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/hotel/:id" element={<HotelDetail />} />
+            <Route path="/user-dashboard" element={<UserDashboard />} />
+            <Route path="/hotel-dashboard" element={<HotelDashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/our-values" element={<OurValues />} />
+            <Route path="/our-services" element={<OurServices />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/customer-service" element={<CustomerService />} />
+            <Route path="/hoteles" element={<HotelDashboard />} />
+            <Route path="/signin" element={<Login />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

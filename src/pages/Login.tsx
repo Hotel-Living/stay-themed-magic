@@ -1,73 +1,40 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { Lock, Mail, Eye, EyeOff } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signIn, isLoading } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
       return;
     }
     
-    setLoading(true);
-    
-    // Simulate authentication
-    setTimeout(() => {
-      setLoading(false);
-      
-      // Basic validation
-      if (email === "user@example.com" && password === "password") {
-        toast({
-          title: "Success",
-          description: "You have been logged in successfully",
-        });
-        navigate("/user-dashboard");
-      } else if (email === "hotel@example.com" && password === "password") {
-        toast({
-          title: "Success",
-          description: "You have been logged in successfully",
-        });
-        navigate("/hotel-dashboard");
-      } else {
-        toast({
-          title: "Error",
-          description: "Invalid email or password",
-          variant: "destructive",
-        });
-      }
-    }, 1500);
+    await signIn(email, password);
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-md mx-auto px-4 py-16">
+        <div className="container max-w-lg mx-auto px-4 py-16">
           <div className="glass-card rounded-2xl overflow-hidden">
             <div className="p-8">
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-                <p className="text-muted-foreground">Sign in to your Hotel-Living account</p>
+                <p className="text-muted-foreground">Sign in to manage your account</p>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
@@ -82,7 +49,7 @@ export default function Login() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-[#5A1876]/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -102,7 +69,7 @@ export default function Login() {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full py-3 pl-11 pr-12 bg-[#5A1876]/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-3 pl-11 pr-12 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your password"
                     />
                     <button
@@ -119,12 +86,19 @@ export default function Login() {
                   </div>
                 </div>
                 
-                {/* Forgot Password */}
-                <div className="flex justify-end">
-                  <Link 
-                    to="/forgot-password" 
-                    className="text-sm text-fuchsia-400 hover:text-fuchsia-300 transition"
-                  >
+                {/* Remember me and Forgot Password */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      id="remember"
+                      type="checkbox"
+                      className="w-4 h-4 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
+                    />
+                    <label htmlFor="remember" className="ml-2 text-sm text-muted-foreground">
+                      Remember me
+                    </label>
+                  </div>
+                  <Link to="/forgot-password" className="text-sm text-fuchsia-400 hover:text-fuchsia-300 transition">
                     Forgot password?
                   </Link>
                 </div>
@@ -132,35 +106,18 @@ export default function Login() {
                 {/* Login Button */}
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={isLoading}
                   className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
                 >
-                  {loading ? "Signing in..." : "Sign In"}
+                  {isLoading ? "Signing in..." : "Sign In"}
                 </button>
-                
-                {/* Demo Accounts */}
-                <div className="text-center text-sm text-muted-foreground">
-                  <p className="mb-2">Demo Accounts:</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="p-2 bg-[#5A1876]/30 rounded-lg">
-                      <p>User Account:</p>
-                      <p className="text-fuchsia-300">user@example.com</p>
-                      <p>password</p>
-                    </div>
-                    <div className="p-2 bg-[#5A1876]/30 rounded-lg">
-                      <p>Hotel Account:</p>
-                      <p className="text-fuchsia-300">hotel@example.com</p>
-                      <p>password</p>
-                    </div>
-                  </div>
-                </div>
               </form>
               
               <div className="mt-8 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Don't have an account?{" "}
+                  Don't have an account yet?{" "}
                   <Link to="/signup" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
-                    Sign up
+                    Create an account
                   </Link>
                 </p>
               </div>
@@ -168,6 +125,12 @@ export default function Login() {
           </div>
         </div>
       </main>
+      
+      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20">
+        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
+          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }

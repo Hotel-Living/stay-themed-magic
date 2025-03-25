@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Building, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -12,44 +12,29 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState<"user" | "hotel">("user");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { toast } = useToast();
+  const { signUp, isLoading } = useAuth();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!name || !email || !password || !confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
       return;
     }
     
     if (password !== confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match",
-        variant: "destructive",
-      });
       return;
     }
     
-    setLoading(true);
+    // Divides the name into first and last name
+    const nameParts = name.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ');
     
-    // Simulate registration
-    setTimeout(() => {
-      setLoading(false);
-      
-      toast({
-        title: "Account created",
-        description: "Your account has been created successfully",
-      });
-      
-      navigate(accountType === "user" ? "/user-dashboard" : "/hotel-dashboard");
-    }, 1500);
+    await signUp(email, password, {
+      first_name: firstName,
+      last_name: lastName || null,
+      is_hotel_owner: accountType === "hotel"
+    });
   };
   
   return (
@@ -214,10 +199,10 @@ export default function SignUp() {
                 {/* Sign Up Button */}
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={isLoading}
                   className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
                 >
-                  {loading ? "Creating account..." : "Create Account"}
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </button>
               </form>
               

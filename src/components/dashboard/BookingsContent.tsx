@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Calendar, Search, Filter, Check, X, Clock, ArrowUpDown, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -69,7 +68,6 @@ export const BookingsContent = () => {
           
         if (error) throw error;
         
-        // Transform data
         const formattedBookings = data.map((booking: any) => ({
           ...booking,
           user_name: booking.profiles ? `${booking.profiles.first_name} ${booking.profiles.last_name}` : 'Unknown Guest',
@@ -88,16 +86,13 @@ export const BookingsContent = () => {
     fetchBookings();
   }, [user]);
 
-  // Filter and sort bookings
   useEffect(() => {
     let filtered = [...bookings];
     
-    // Apply status filter
     if (statusFilter !== 'all') {
       filtered = filtered.filter(booking => booking.status === statusFilter);
     }
     
-    // Apply search
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(booking => 
@@ -107,7 +102,6 @@ export const BookingsContent = () => {
       );
     }
     
-    // Apply sorting
     filtered.sort((a, b) => {
       const dateA = new Date(a[sortField]);
       const dateB = new Date(b[sortField]);
@@ -131,7 +125,6 @@ export const BookingsContent = () => {
         
       if (error) throw error;
       
-      // Update local state
       setBookings(bookings.map(booking => 
         booking.id === bookingId ? { ...booking, status: newStatus } : booking
       ));
@@ -150,8 +143,8 @@ export const BookingsContent = () => {
     }
   };
 
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
       setSelectedBookings(filteredBookings.map(booking => booking.id));
     } else {
       setSelectedBookings([]);
@@ -177,7 +170,6 @@ export const BookingsContent = () => {
         
       if (error) throw error;
       
-      // Update local state
       setBookings(bookings.map(booking => 
         selectedBookings.includes(booking.id) ? { ...booking, status: action } : booking
       ));
@@ -484,3 +476,4 @@ export const BookingsContent = () => {
 };
 
 export default BookingsContent;
+

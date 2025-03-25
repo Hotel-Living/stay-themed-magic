@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Users, Search, Filter } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -10,7 +9,6 @@ type Guest = {
   id: string;
   first_name: string;
   last_name: string;
-  email?: string; // Made optional to fix TS error
   created_at: string;
   phone?: string;
   avatar_url?: string;
@@ -58,7 +56,6 @@ export const GuestsContent = () => {
           id: profile.id,
           first_name: profile.first_name,
           last_name: profile.last_name,
-          email: profile.email || undefined, // Handle optional email
           created_at: profile.created_at,
           phone: profile.phone,
           avatar_url: profile.avatar_url
@@ -77,8 +74,7 @@ export const GuestsContent = () => {
 
   const filteredGuests = guests.filter(guest => {
     const fullName = `${guest.first_name} ${guest.last_name}`.toLowerCase();
-    return fullName.includes(searchTerm.toLowerCase()) || 
-           (guest.email && guest.email.toLowerCase().includes(searchTerm.toLowerCase()));
+    return fullName.includes(searchTerm.toLowerCase());
   });
 
   if (isLoading) {
@@ -134,7 +130,6 @@ export const GuestsContent = () => {
           <thead>
             <tr className="border-b border-fuchsia-800/20">
               <th className="text-left py-3 px-4 font-medium text-sm">Guest Name</th>
-              <th className="text-left py-3 px-4 font-medium text-sm">Email</th>
               <th className="text-left py-3 px-4 font-medium text-sm">Phone</th>
               <th className="text-left py-3 px-4 font-medium text-sm">Joined</th>
               <th className="text-left py-3 px-4 font-medium text-sm">Actions</th>
@@ -151,7 +146,6 @@ export const GuestsContent = () => {
                     <span>{guest.first_name} {guest.last_name}</span>
                   </div>
                 </td>
-                <td className="py-4 px-4 text-muted-foreground">{guest.email || 'N/A'}</td>
                 <td className="py-4 px-4 text-muted-foreground">{guest.phone || 'N/A'}</td>
                 <td className="py-4 px-4 text-muted-foreground">
                   {new Date(guest.created_at).toLocaleDateString()}

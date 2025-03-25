@@ -9,6 +9,7 @@ export type Profile = {
   updated_at: string;
   role: 'guest' | 'hotel_owner' | 'admin';
   email_verified: boolean;
+  bio?: string | null;
 }
 
 export type Hotel = {

@@ -34,9 +34,9 @@ interface FilterSectionProps {
     theme?: string;
     priceRange?: string;
   };
+  availableThemes?: string[];
 }
 
-// Main FilterSection component
 export const FilterSection = ({ 
   onFilterChange, 
   showSearchButton = false, 
@@ -51,9 +51,9 @@ export const FilterSection = ({
     month: "Month",
     theme: "Theme",
     priceRange: "Price per Month"
-  }
+  },
+  availableThemes = [] // Set default value for availableThemes
 }: FilterSectionProps) => {
-  // Filter states
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -61,31 +61,24 @@ export const FilterSection = ({
     priceRange: null
   });
   
-  // Dropdown open states
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   
-  // Refs for dropdown containers to detect outside clicks
   const countryRef = useRef<HTMLDivElement>(null);
   const monthRef = useRef<HTMLDivElement>(null);
   const themeRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
   
-  // Theme search query
   const [themeQuery, setThemeQuery] = useState("");
   
-  // Open theme category state
   const [openThemeCategory, setOpenThemeCategory] = useState<string | null>(null);
   
-  // Navigation hook
   const navigate = useNavigate();
   
-  // All available months
   const months = [
     "january", "february", "march", "april", "may", "june", 
     "july", "august", "september", "october", "november", "december"
   ];
   
-  // Available countries - updated to include Egypt and Turkey
   const availableCountries = [
     { value: "spain", label: "Spain 🇪🇸" },
     { value: "france", label: "France 🇫🇷" },
@@ -95,7 +88,6 @@ export const FilterSection = ({
     { value: "turkey", label: "Turkey 🇹🇷" }
   ];
   
-  // Updated price ranges
   const priceRanges = [
     { value: 1000, label: "Up to 1.000 $" },
     { value: 1500, label: "1.000 $ to 1.500 $" },
@@ -103,17 +95,14 @@ export const FilterSection = ({
     { value: 3000, label: "More than 2.000 $" }
   ];
   
-  // Toggle dropdown visibility
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
   
-  // Toggle theme category
   const toggleThemeCategory = (category: string) => {
     setOpenThemeCategory(openThemeCategory === category ? null : category);
   };
   
-  // Update filters and notify parent component
   const updateFilter = (key: keyof FilterState, value: any) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
@@ -121,14 +110,12 @@ export const FilterSection = ({
     setOpenDropdown(null);
   };
   
-  // Clear a specific filter
   const clearFilter = (key: keyof FilterState) => {
     const newFilters = { ...filters, [key]: null };
     setFilters(newFilters);
     onFilterChange(newFilters);
   };
   
-  // Clear all filters
   const clearAllFilters = () => {
     const clearedFilters = {
       country: null,
@@ -140,9 +127,7 @@ export const FilterSection = ({
     onFilterChange(clearedFilters);
   };
   
-  // Handle search button click
   const handleSearch = () => {
-    // Construct query parameters
     const params = new URLSearchParams();
     
     if (filters.country) params.append("country", filters.country);
@@ -150,17 +135,14 @@ export const FilterSection = ({
     if (filters.theme) params.append("theme", filters.theme.id);
     if (filters.priceRange) params.append("price", filters.priceRange.toString());
     
-    // Navigate to search page with filters
     navigate(`/search?${params.toString()}`);
   };
   
-  // Filter themes based on search query
   const filteredThemes = allThemes.filter(theme => 
     theme.name.toLowerCase().includes(themeQuery.toLowerCase()) ||
     theme.category.toLowerCase().includes(themeQuery.toLowerCase())
   );
   
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (openDropdown === "country" && countryRef.current && !countryRef.current.contains(event.target as Node)) {
@@ -183,25 +165,20 @@ export const FilterSection = ({
     };
   }, [openDropdown]);
   
-  // Function to determine if any filters are active
   const hasActiveFilters = () => {
     return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
   };
 
-  // Determine the background color for the form wrapper based on the prop
   const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#9C23A5]/80' : 'bg-[#5A1876]/80';
   
-  // Determine the filter button background color based on the prop
   const filterBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]/90' : 'bg-fuchsia-950/50';
   
-  // Determine the search button background color based on the prop
   const searchBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]' : 'bg-fuchsia-600';
   const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#4a1166]' : 'hover:bg-fuchsia-500';
   
   return (
     <div className={`glass-card filter-dropdown-container rounded-xl ${compactSpacing ? 'p-3 md:p-4' : 'p-4 md:p-5'} ${formWrapperBgColor}`}>
       <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"} ${compactSpacing ? 'gap-2' : ''}`}>
-        {/* Country filter */}
         <div 
           ref={countryRef}
           className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
@@ -252,7 +229,6 @@ export const FilterSection = ({
           )}
         </div>
         
-        {/* Month filter */}
         <div 
           ref={monthRef}
           className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
@@ -305,7 +281,6 @@ export const FilterSection = ({
           )}
         </div>
         
-        {/* Theme filter */}
         <div 
           ref={themeRef}
           className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
@@ -356,7 +331,6 @@ export const FilterSection = ({
                 </div>
               ) : useCollapsibleThemes ? (
                 <div className="space-y-2">
-                  {/* Group themes by category with collapsible sections */}
                   {themeCategories.map(category => (
                     <Collapsible key={category.category}>
                       <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-xs uppercase rounded-md hover:bg-fuchsia-900/40">
@@ -385,7 +359,6 @@ export const FilterSection = ({
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {/* Group themes by category */}
                   {Array.from(
                     new Set(filteredThemes.map(theme => theme.category))
                   ).map(category => (
@@ -415,7 +388,6 @@ export const FilterSection = ({
           )}
         </div>
         
-        {/* Price filter */}
         <div 
           ref={priceRef}
           className={`filter-dropdown relative ${verticalLayout ? "w-full" : expandedLayout ? "flex-1" : "flex-1 min-w-[160px]"}`}
@@ -467,7 +439,6 @@ export const FilterSection = ({
         </div>
       </div>
       
-      {/* Button row - only show if requested or in vertical layout */}
       {(showSearchButton || verticalLayout) && (
         <div className={`flex ${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} gap-2`}>
           {hasActiveFilters() && (

@@ -35,12 +35,9 @@ export default function HotelDetail() {
       
       <main className="flex-1 pt-16">
         {isLoading ? (
-          <div className="container max-w-6xl mx-auto px-4 py-16 text-center">
-            <div className="w-16 h-16 border-4 border-fuchsia-500/50 border-t-fuchsia-500 rounded-full animate-spin mx-auto"></div>
-            <p className="mt-4 text-foreground/70">Loading hotel details...</p>
-          </div>
+          <HotelDetailContent hotel={{} as any} isLoading={true} />
         ) : hotel ? (
-          <HotelDetailContent hotel={hotel} />
+          <HotelDetailContent hotel={hotel} isLoading={false} />
         ) : (
           <HotelNotFound />
         )}

@@ -10,23 +10,23 @@ import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 
-export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
+export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
   // Extract image URLs from hotel_images
-  const imageUrls = hotel.hotel_images ? 
+  const imageUrls = hotel?.hotel_images ? 
     hotel.hotel_images.map((img) => img.image_url) : 
     [];
   
   // Extract themes from hotel_themes and map to HotelTheme type
-  const themes: HotelTheme[] = hotel.hotel_themes ? 
+  const themes: HotelTheme[] = hotel?.hotel_themes ? 
     hotel.hotel_themes.map((themeItem) => themeItem.themes) : 
     [];
   
   // Use dynamic data from the API instead of static data
-  const availableMonths = hotel.available_months || [];
-  const amenities = hotel.amenities || [];
+  const availableMonths = hotel?.available_months || [];
+  const amenities = hotel?.amenities || [];
   
   // Use the average rating from the API
-  const averageRating = hotel.average_rating || 0;
+  const averageRating = hotel?.average_rating || 0;
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -40,41 +40,56 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
       
       {/* Hotel Header */}
       <HotelHeader 
-        name={hotel.name}
-        stars={hotel.category || 0}
-        city={hotel.city}
-        country={hotel.country}
+        name={hotel?.name || ''}
+        stars={hotel?.category || 0}
+        city={hotel?.city || ''}
+        country={hotel?.country || ''}
         availableMonthsCount={availableMonths.length}
         themes={themes}
+        isLoading={isLoading}
       />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           {/* Gallery */}
           <HotelGallery 
-            images={imageUrls.length > 0 ? imageUrls : [hotel.main_image_url]} 
-            hotelName={hotel.name} 
+            images={imageUrls.length > 0 ? imageUrls : [hotel?.main_image_url || '']} 
+            hotelName={hotel?.name || ''}
+            isLoading={isLoading}
           />
           
           {/* Description */}
-          <HotelDescription description={hotel.description || "No description available."} />
+          <HotelDescription 
+            description={hotel?.description || "No description available."} 
+            isLoading={isLoading}
+          />
           
           {/* Reviews */}
-          <HotelReviews hotelId={hotel.id} averageRating={averageRating} />
+          <HotelReviews 
+            hotelId={hotel?.id || ''} 
+            averageRating={averageRating}
+            isLoading={isLoading} 
+          />
           
           {/* Amenities */}
-          <HotelAmenities amenities={amenities} />
+          <HotelAmenities 
+            amenities={amenities}
+            isLoading={isLoading}
+          />
           
           {/* Available months */}
-          <HotelAvailableMonths months={availableMonths} />
+          <HotelAvailableMonths 
+            months={availableMonths}
+            isLoading={isLoading}
+          />
         </div>
         
         {/* Booking Form */}
         <div className="lg:col-span-1">
           <BookingForm 
-            hotelId={hotel.id} 
-            hotelName={hotel.name} 
-            pricePerMonth={hotel.price_per_month} 
+            hotelId={hotel?.id || ''} 
+            hotelName={hotel?.name || ''} 
+            pricePerMonth={hotel?.price_per_month || 0} 
           />
         </div>
       </div>

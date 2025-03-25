@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Star, Calendar } from "lucide-react";
 import { HotelThemes } from "./ThemeTag";
 import { Theme } from "@/utils/data";
 
@@ -14,6 +14,7 @@ export interface HotelCardProps {
   pricePerMonth: number;
   themes: string[] | Theme[];
   image: string;
+  availableMonths?: string[];
 }
 
 export function HotelCard({ 
@@ -24,7 +25,8 @@ export function HotelCard({
   stars, 
   pricePerMonth, 
   themes, 
-  image 
+  image,
+  availableMonths = []
 }: HotelCardProps) {
   // Convert string themes to Theme objects if needed
   const themeObjects = themes.map(theme => {
@@ -68,7 +70,16 @@ export function HotelCard({
             <span>{city}, {country}</span>
           </div>
           
-          <p className="text-sm text-foreground/80 mb-4 line-clamp-2"></p>
+          {availableMonths.length > 0 && (
+            <div className="flex items-center gap-2 text-sm text-fuchsia-400/80 mb-3">
+              <Calendar className="w-4 h-4" />
+              <span>
+                {availableMonths.length === 1 
+                  ? `${availableMonths[0]} available` 
+                  : `${availableMonths.length} months available`}
+              </span>
+            </div>
+          )}
           
           <div className="flex items-center justify-between">
             <div className="text-lg font-bold text-gradient">${pricePerMonth}/month</div>

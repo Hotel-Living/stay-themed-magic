@@ -2,6 +2,7 @@
 import { Star, MapPin, Calendar } from "lucide-react";
 import { HotelThemes } from "@/components/ThemeTag";
 import { HotelHeaderProps, HotelTheme } from "@/types/hotel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function HotelHeader({ 
   name, 
@@ -9,8 +10,26 @@ export function HotelHeader({
   city, 
   country, 
   availableMonthsCount, 
-  themes 
-}: HotelHeaderProps) {
+  themes,
+  isLoading
+}: HotelHeaderProps & { isLoading?: boolean }) {
+  if (isLoading) {
+    return (
+      <div className="mb-8">
+        <Skeleton className="h-10 w-3/4 mb-2" />
+        <div className="flex items-center gap-3 mb-4">
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-5 w-40" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="h-8 w-24 rounded-full" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-8">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">

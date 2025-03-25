@@ -40,12 +40,12 @@ export function useReviewsData(propertyFilter: string | null) {
       property: review.hotel_name || 'Unknown Property',
       comment: review.comment || '',
       date: getRelativeTimeString(review.created_at),
-      isResponded: !!review.response,
-      response: review.response,
+      isResponded: !!review.response_text, // Changed from response to response_text
+      response: review.response_text, // Changed from response to response_text
       hotel_id: review.hotel_id,
       user_id: review.user_id,
       created_at: review.created_at,
-      notified: review.notified || false
+      notified: review.is_notified || false // Changed from notified to is_notified
     };
   }, []);
 

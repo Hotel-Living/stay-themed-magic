@@ -1,6 +1,5 @@
 
-import React, { useMemo } from 'react';
-import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
+import React from 'react';
 import { useReviewsData } from '@/hooks/dashboard/useReviewsData';
 import { useReviewOperations } from '@/hooks/dashboard/useReviewOperations';
 import { ReviewsHeader } from './reviews/ReviewsHeader';
@@ -8,9 +7,10 @@ import { ReviewsFilters } from './reviews/ReviewsFilters';
 import { ReviewsCardView } from './reviews/ReviewsCardView';
 import { ReviewsTableView } from './reviews/ReviewsTableView';
 import { ReviewsPagination } from './reviews/ReviewsPagination';
-import ReviewResponseDialog from './ReviewResponseDialog';
+import { ReviewsLoading } from './reviews/ReviewsLoading';
+import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
+import { ReviewResponseDialog } from './reviews/ReviewResponseDialog';
 import { DashboardReview } from './types';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type ViewMode = 'card' | 'table';
 
@@ -31,12 +31,12 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const { reviews, isSending, respondToReview, sendNotifications } = useReviewOperations(fetchedReviews, refetch);
   
   // Filter unnotified reviews
-  const unnotifiedReviews = useMemo(() => {
+  const unnotifiedReviews = React.useMemo(() => {
     return reviews.filter(review => !review.notified);
   }, [reviews]);
   
   // Apply tab filtering
-  const tabFilteredReviews = useMemo(() => {
+  const tabFilteredReviews = React.useMemo(() => {
     switch(activeTab) {
       case 'unresponded':
         return reviews.filter(r => !r.isResponded);
@@ -82,28 +82,11 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
 
   const handleRespondToReview = async (reviewId: string, response: string) => {
     await respondToReview(reviewId, response);
+    closeResponseDialog();
   };
 
   if (isLoading) {
-    return (
-      <div className="glass-card rounded-2xl p-6 space-y-6">
-        <div className="flex justify-between mb-6">
-          <Skeleton className="h-8 w-40" />
-          <div className="flex gap-4">
-            <Skeleton className="h-8 w-32" />
-            <Skeleton className="h-8 w-24" />
-          </div>
-        </div>
-        <div className="space-y-6">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="space-y-2">
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-10 w-32 ml-auto" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <ReviewsLoading />;
   }
 
   return (

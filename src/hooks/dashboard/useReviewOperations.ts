@@ -23,7 +23,7 @@ export function useReviewOperations(initialReviews: DashboardReview[], refetchRe
       // Update the review in the database
       const { error } = await supabase
         .from('reviews')
-        .update({ response: responseText })
+        .update({ response_text: responseText })  // Changed 'response' to 'response_text' to match the schema
         .eq('id', reviewId);
 
       if (error) throw error;
@@ -74,7 +74,7 @@ export function useReviewOperations(initialReviews: DashboardReview[], refetchRe
         // Mark the review as notified in the database
         const { error } = await supabase
           .from('reviews')
-          .update({ notified: true })
+          .update({ is_notified: true })  // Changed 'notified' to 'is_notified' to match the schema
           .eq('id', review.id);
           
         if (error) throw error;

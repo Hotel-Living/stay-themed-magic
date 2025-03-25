@@ -7,7 +7,7 @@ interface StatCardProps {
   title: string;
   value: string;
   change?: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   trend?: "up" | "down" | "neutral";
 }
 
@@ -51,11 +51,16 @@ export function StatCard({ title, value, change, icon: Icon, trend = "neutral" }
               </p>
             )}
           </div>
-          <div className="p-2 bg-primary/10 rounded-full">
-            <Icon className="h-5 w-5 text-primary" />
-          </div>
+          {Icon && (
+            <div className="p-2 bg-primary/10 rounded-full">
+              <Icon className="h-5 w-5 text-primary" />
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
   );
 }
+
+// Add a default export that points to the same component
+export default StatCard;

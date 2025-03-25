@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
@@ -16,7 +17,7 @@ import DashboardContent from './DashboardContent';
 import PropertiesContent from './PropertiesContent';
 import BookingsContent from './BookingsContent';
 import GuestsContent from './GuestsContent';
-import AnalyticsContent from './AnalyticsContent';
+import { AnalyticsContent } from './AnalyticsContent';
 import SettingsContent from './SettingsContent';
 import ReviewsContent from './ReviewsContent';
 

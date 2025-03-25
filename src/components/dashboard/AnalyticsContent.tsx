@@ -92,42 +92,42 @@ export function AnalyticsContent() {
       value: "157",
       change: "+12%",
       icon: Calendar,
-      trend: "up",
+      trend: "up" as const,
     },
     {
       title: "Revenue",
       value: "$157,000",
       change: "+23%",
       icon: DollarSign,
-      trend: "up",
+      trend: "up" as const,
     },
     {
       title: "Average Occupancy",
       value: "83%",
       change: "+5%",
       icon: Home,
-      trend: "up",
+      trend: "up" as const,
     },
     {
       title: "Total Visitors",
       value: "3,120",
       change: "+18%",
       icon: Users,
-      trend: "up",
+      trend: "up" as const,
     },
     {
       title: "Average Rating",
       value: "4.7",
       change: "+0.2",
       icon: Star,
-      trend: "up",
+      trend: "up" as const,
     },
     {
       title: "Revenue per Available Room",
       value: "$97",
       change: "+7%",
       icon: TrendingUp,
-      trend: "up",
+      trend: "up" as const,
     },
   ];
 
@@ -332,3 +332,6 @@ export function AnalyticsContent() {
     </div>
   );
 }
+
+// Add a default export that points to the same component
+export default AnalyticsContent;

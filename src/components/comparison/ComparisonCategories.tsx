@@ -2,6 +2,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { HotelForComparison, ComparisonCategory } from "./types";
 import { TableRow, TableCell } from "@/components/ui/table";
+import { Star } from "lucide-react";
 
 interface ComparisonCategoriesProps {
   hotels: HotelForComparison[];
@@ -21,6 +22,19 @@ export function ComparisonCategories({ hotels, isLoading, hotelIds }: Comparison
       name: "Category", 
       key: "category", 
       formatter: (value: number) => "⭐".repeat(value) 
+    },
+    {
+      name: "Rating",
+      key: "average_rating",
+      formatter: (value: number) => {
+        if (!value && value !== 0) return "No ratings yet";
+        return (
+          <div className="flex items-center justify-center gap-1">
+            <span>{value.toFixed(1)}</span>
+            <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+          </div>
+        );
+      }
     },
     { 
       name: "Location", 

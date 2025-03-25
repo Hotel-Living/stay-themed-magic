@@ -9,6 +9,7 @@ export interface HotelForComparison {
   country: string;
   available_months: string[];
   amenities: string[];
+  average_rating?: number;
   hotel_images?: { image_url: string; is_main?: boolean }[];
   main_image_url?: string;
 }
@@ -18,5 +19,5 @@ export interface ComparisonCategory {
   name: string;
   key: keyof HotelForComparison;
   secondKey?: keyof HotelForComparison;
-  formatter: (value: any, secondValue?: any) => string | number;
+  formatter: (value: any, secondValue?: any) => string | number | JSX.Element;
 }

@@ -1,9 +1,23 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
+
+// Extended interface to include additional properties like average_rating
+interface HotelWithDetails extends Hotel {
+  hotel_images: HotelImage[];
+  hotel_themes: {
+    theme_id: string;
+    themes: {
+      id: string;
+      name: string;
+    }
+  }[];
+  average_rating?: number;
+}
 
 // Function to fetch a specific hotel by ID
-export const fetchHotelById = async (id: string) => {
+export const fetchHotelById = async (id: string): Promise<HotelWithDetails | null> => {
   if (!id) return null;
   
   // First fetch the hotel with its images and themes
@@ -37,7 +51,7 @@ export const fetchHotelById = async (id: string) => {
     data.average_rating = 0; // No reviews yet
   }
   
-  return data;
+  return data as HotelWithDetails;
 };
 
 // Hook to get a specific hotel by ID

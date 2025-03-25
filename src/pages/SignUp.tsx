@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -218,6 +217,12 @@ export default function SignUp() {
                   </label>
                 </div>
                 
+                {/* Add note about email verification */}
+                <div className="bg-blue-500/15 text-blue-500 p-3 rounded-lg text-sm">
+                  <p className="font-medium">Important:</p>
+                  <p>You'll need to verify your email address before you can sign in. We'll send you a verification link after registration.</p>
+                </div>
+                
                 {/* Signup Button */}
                 <button
                   type="submit"
@@ -249,3 +254,4 @@ export default function SignUp() {
     </div>
   );
 }
+

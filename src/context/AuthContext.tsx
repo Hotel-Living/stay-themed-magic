@@ -34,7 +34,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user && event !== 'SIGNED_OUT') {
+          // When the user signs in or session changes, fetch their profile
           await fetchProfile(session.user.id);
+          
+          // Check if the user is newly verified
+          if (event === 'USER_UPDATED' && session.user.email_confirmed_at) {
+            toast({
+              title: "¡Correo verificado!",
+              description: "Tu dirección de correo ha sido verificada correctamente.",
+            });
+          }
         } else if (event === 'SIGNED_OUT') {
           setUser(null);
           setSession(null);

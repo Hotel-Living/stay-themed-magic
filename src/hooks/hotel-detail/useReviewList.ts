@@ -5,14 +5,14 @@ import { Review } from "./types";
 type SortOption = "newest" | "oldest" | "highest" | "lowest";
 
 interface UseReviewListOptions {
-  reviews: Review[];
+  reviews: any[]; // Changed to accept any array type with rating and created_at fields
   reviewsPerPage?: number;
   initialSortOption?: SortOption;
 }
 
 interface UseReviewListReturn {
-  sortedReviews: Review[];
-  currentReviews: Review[];
+  sortedReviews: any[];
+  currentReviews: any[];
   currentPage: number;
   totalPages: number;
   sortOption: SortOption;
@@ -20,7 +20,7 @@ interface UseReviewListReturn {
   handleSortChange: (value: SortOption) => void;
   handlePageChange: (page: number) => void;
   handleRatingFilterChange: (rating: number | null) => void;
-  filteredReviews: Review[];
+  filteredReviews: any[];
 }
 
 /**
@@ -45,13 +45,17 @@ export function useReviewList({
     
     switch(sortOption) {
       case "newest":
-        return sortReviews.sort((a, b) => 
-          new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime()
-        );
+        return sortReviews.sort((a, b) => {
+          const dateA = a.created_at || a.date || "";
+          const dateB = b.created_at || b.date || "";
+          return new Date(dateB).getTime() - new Date(dateA).getTime();
+        });
       case "oldest":
-        return sortReviews.sort((a, b) => 
-          new Date(a.created_at || "").getTime() - new Date(b.created_at || "").getTime()
-        );
+        return sortReviews.sort((a, b) => {
+          const dateA = a.created_at || a.date || "";
+          const dateB = b.created_at || b.date || "";
+          return new Date(dateA).getTime() - new Date(dateB).getTime();
+        });
       case "highest":
         return sortReviews.sort((a, b) => b.rating - a.rating);
       case "lowest":

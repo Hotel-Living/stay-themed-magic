@@ -21,7 +21,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export interface Review {
+// Define a dashboard-specific review interface that extends the base Review type
+interface DashboardReview {
   id: string;
   name: string;
   rating: number;
@@ -29,9 +30,13 @@ export interface Review {
   comment: string;
   date: string;
   isResponded?: boolean;
+  // Include required fields from the imported Review type
+  hotel_id: string;
+  user_id: string;
+  created_at?: string;
 }
 
-const mockReviews: Review[] = [
+const mockReviews: DashboardReview[] = [
   {
     id: '1',
     name: 'James Wilson',
@@ -39,7 +44,10 @@ const mockReviews: Review[] = [
     property: 'Parador de Granada',
     comment: 'Amazing experience! The Spanish language immersion program exceeded my expectations.',
     date: '3 days ago',
-    isResponded: false
+    isResponded: false,
+    hotel_id: 'hotel-1',
+    user_id: 'user-1',
+    created_at: '2023-03-22T12:00:00Z'
   },
   {
     id: '2',
@@ -48,7 +56,10 @@ const mockReviews: Review[] = [
     property: 'TechHub Barcelona',
     comment: 'Great facilities and tech workshops. Would recommend for longer stays.',
     date: '1 week ago',
-    isResponded: true
+    isResponded: true,
+    hotel_id: 'hotel-2',
+    user_id: 'user-2',
+    created_at: '2023-03-18T12:00:00Z'
   },
   {
     id: '3',
@@ -57,7 +68,10 @@ const mockReviews: Review[] = [
     property: 'Parador de Granada',
     comment: 'Good location but the amenities could be improved. The staff was very friendly though.',
     date: '2 weeks ago',
-    isResponded: false
+    isResponded: false,
+    hotel_id: 'hotel-1',
+    user_id: 'user-3',
+    created_at: '2023-03-11T12:00:00Z'
   },
   {
     id: '4',
@@ -66,7 +80,10 @@ const mockReviews: Review[] = [
     property: 'TechHub Barcelona',
     comment: 'Perfect for digital nomads! The coworking space and networking events were outstanding.',
     date: '3 weeks ago',
-    isResponded: true
+    isResponded: true,
+    hotel_id: 'hotel-2',
+    user_id: 'user-4',
+    created_at: '2023-03-04T12:00:00Z'
   },
   {
     id: '5',
@@ -75,7 +92,10 @@ const mockReviews: Review[] = [
     property: 'Parador de Granada',
     comment: 'Disappointing stay. The room was not as advertised and the Wi-Fi was constantly down.',
     date: '1 month ago',
-    isResponded: true
+    isResponded: true,
+    hotel_id: 'hotel-1',
+    user_id: 'user-5',
+    created_at: '2023-02-25T12:00:00Z'
   },
   {
     id: '6',
@@ -84,7 +104,10 @@ const mockReviews: Review[] = [
     property: 'TechHub Barcelona',
     comment: 'Loved the community feel and the rooftop workspaces. Will definitely be back!',
     date: '1 month ago',
-    isResponded: false
+    isResponded: false,
+    hotel_id: 'hotel-2',
+    user_id: 'user-6',
+    created_at: '2023-02-25T14:00:00Z'
   },
   {
     id: '7',
@@ -93,14 +116,17 @@ const mockReviews: Review[] = [
     property: 'Parador de Granada',
     comment: 'Good value for money. The language classes were excellent.',
     date: '2 months ago',
-    isResponded: true
+    isResponded: true,
+    hotel_id: 'hotel-1',
+    user_id: 'user-7',
+    created_at: '2023-01-25T12:00:00Z'
   }
 ];
 
 type ViewMode = 'card' | 'table';
 
 export function ReviewsManagement() {
-  const [reviews, setReviews] = useState<Review[]>(mockReviews);
+  const [reviews, setReviews] = useState<DashboardReview[]>(mockReviews);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('card');
   
@@ -226,7 +252,7 @@ export function ReviewsManagement() {
       {viewMode === 'card' ? (
         <div className="space-y-6">
           {currentReviews.length > 0 ? (
-            currentReviews.map(review => (
+            currentReviews.map((review: DashboardReview) => (
               <div key={review.id} className="relative">
                 <ReviewItem 
                   name={review.name} 
@@ -273,7 +299,7 @@ export function ReviewsManagement() {
           </TableHeader>
           <TableBody>
             {currentReviews.length > 0 ? (
-              currentReviews.map(review => (
+              currentReviews.map((review: DashboardReview) => (
                 <TableRow key={review.id}>
                   <TableCell className="font-medium">{review.name}</TableCell>
                   <TableCell>{review.property}</TableCell>

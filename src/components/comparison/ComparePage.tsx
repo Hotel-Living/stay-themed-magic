@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import { CompareTable } from "./CompareTable";
 import { CompareError } from "./CompareError";
 import { CompareEmpty } from "./CompareEmpty";
-import { HotelForComparison } from "./types";
+import { HotelForComparison, SortOption } from "./types";
 
 export default function ComparePage() {
   const [searchParams] = useSearchParams();
@@ -16,6 +16,7 @@ export default function ComparePage() {
   const [hotels, setHotels] = useState<HotelForComparison[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortOption, setSortOption] = useState<SortOption | null>(null);
 
   // Extract hotel IDs from URL params
   useEffect(() => {
@@ -60,6 +61,47 @@ export default function ComparePage() {
     setHotels(hotels.filter(hotel => hotel.id !== id));
   };
 
+  // Handle sorting
+  const handleSort = (column: keyof HotelForComparison) => {
+    setSortOption(prev => {
+      if (prev && prev.column === column) {
+        // Toggle direction if same column
+        return { column, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      // Default to ascending for new column
+      return { column, direction: 'asc' };
+    });
+  };
+
+  // Apply sorting to hotels array
+  const sortedHotels = [...hotels].sort((a, b) => {
+    if (!sortOption) return 0;
+    
+    const { column, direction } = sortOption;
+    
+    // Handle undefined or null values
+    if (a[column] === undefined && b[column] === undefined) return 0;
+    if (a[column] === undefined) return direction === 'asc' ? 1 : -1;
+    if (b[column] === undefined) return direction === 'asc' ? -1 : 1;
+    
+    // Compare arrays by length
+    if (Array.isArray(a[column]) && Array.isArray(b[column])) {
+      const aLength = a[column].length;
+      const bLength = b[column].length;
+      return direction === 'asc' ? aLength - bLength : bLength - aLength;
+    }
+    
+    // Regular comparison for numbers and strings
+    if (typeof a[column] === 'number' && typeof b[column] === 'number') {
+      return direction === 'asc' ? a[column] - b[column] : b[column] - a[column];
+    }
+    
+    // String comparison
+    const aStr = String(a[column]);
+    const bStr = String(b[column]);
+    return direction === 'asc' ? aStr.localeCompare(bStr) : bStr.localeCompare(aStr);
+  });
+
   return (
     <div className="min-h-screen flex flex-col">
       <Starfield />
@@ -84,10 +126,12 @@ export default function ComparePage() {
         
         {(hotels.length > 0 || isLoading) && (
           <CompareTable 
-            hotels={hotels} 
+            hotels={sortedHotels} 
             isLoading={isLoading} 
             hotelIds={hotelIds}
             onRemoveHotel={removeHotel}
+            sortOption={sortOption}
+            onSortChange={handleSort}
           />
         )}
       </main>

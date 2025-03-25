@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { HotelForComparison } from "./types";
+import { HotelForComparison, SortOption } from "./types";
 import { ComparisonCategories } from "./ComparisonCategories";
 import {
   Table,
@@ -19,9 +19,18 @@ interface CompareTableProps {
   isLoading: boolean;
   hotelIds: string[];
   onRemoveHotel: (id: string) => void;
+  sortOption: SortOption | null;
+  onSortChange: (column: keyof HotelForComparison) => void;
 }
 
-export function CompareTable({ hotels, isLoading, hotelIds, onRemoveHotel }: CompareTableProps) {
+export function CompareTable({ 
+  hotels, 
+  isLoading, 
+  hotelIds, 
+  onRemoveHotel,
+  sortOption,
+  onSortChange
+}: CompareTableProps) {
   return (
     <div className="overflow-x-auto">
       <Table className="w-full glass-card rounded-xl overflow-hidden">
@@ -86,7 +95,13 @@ export function CompareTable({ hotels, isLoading, hotelIds, onRemoveHotel }: Com
             )}
           </TableRow>
           
-          <ComparisonCategories hotels={hotels} isLoading={isLoading} hotelIds={hotelIds} />
+          <ComparisonCategories 
+            hotels={hotels} 
+            isLoading={isLoading} 
+            hotelIds={hotelIds} 
+            sortOption={sortOption}
+            onSortChange={onSortChange}
+          />
           
           {/* Action buttons */}
           <TableRow className="hover:bg-gray-900/20">

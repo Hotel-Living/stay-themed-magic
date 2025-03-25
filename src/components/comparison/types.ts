@@ -20,4 +20,11 @@ export interface ComparisonCategory {
   key: keyof HotelForComparison;
   secondKey?: keyof HotelForComparison;
   formatter: (value: any, secondValue?: any) => string | number | JSX.Element;
+  sortable?: boolean;
+}
+
+// Define sort options
+export interface SortOption {
+  column: keyof HotelForComparison;
+  direction: 'asc' | 'desc';
 }

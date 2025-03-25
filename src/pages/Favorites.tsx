@@ -1,72 +1,127 @@
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { HotelCard } from "@/components/HotelCard";
 import { useFavorites } from "@/hooks/useFavorites";
-import { useHotels } from "@/hooks/useHotels";
-import { useAuth } from "@/context/AuthContext";
-import { SearchResultsList } from "@/components/search/SearchResultsList";
-import { Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Hotel } from "@/integrations/supabase/types-custom";
+import { Heart, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Favorites() {
-  const { user, isLoading: isAuthLoading } = useAuth();
   const { favorites, isLoading: isFavoritesLoading } = useFavorites();
-  const { data: hotels = [], isLoading: isHotelsLoading } = useHotels({}, !isAuthLoading);
-  
-  // Filter hotels to only include favorited ones
-  const favoriteHotels = hotels.filter(hotel => favorites.includes(hotel.id));
-  const isLoading = isAuthLoading || isFavoritesLoading || isHotelsLoading;
+  const [favoriteHotels, setFavoriteHotels] = useState<Hotel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Scroll to top on page load
-    window.scrollTo(0, 0);
-  }, []);
+    // Ensure user is authenticated
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    const fetchFavoriteHotels = async () => {
+      if (favorites.length === 0) {
+        setFavoriteHotels([]);
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .from('hotels')
+          .select(`
+            *,
+            hotel_images(image_url, is_main),
+            hotel_themes(theme_id, themes:themes(id, name))
+          `)
+          .in('id', favorites);
+
+        if (error) throw error;
+        
+        setFavoriteHotels(data || []);
+      } catch (error) {
+        console.error('Error fetching favorite hotels:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (!isFavoritesLoading) {
+      fetchFavoriteHotels();
+    }
+  }, [favorites, isFavoritesLoading, navigate, user]);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-16">
-        <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-2 text-white">Your Favorites</h1>
-          <p className="text-white/70 mb-8">Hotels you've saved for later</p>
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="glass-card rounded-xl p-6 mb-8">
+          <h1 className="text-3xl font-bold mb-4 flex items-center gap-2">
+            <Heart className="h-8 w-8 text-fuchsia-500" />
+            Your Favorite Hotels
+          </h1>
+          <p className="text-white/70 mb-6">
+            View and manage your saved hotels. Click on any hotel to view details or remove it from your favorites.
+          </p>
           
-          {!isLoading && (!user || favoriteHotels.length === 0) ? (
-            <div className="glass-card rounded-xl p-8 text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-fuchsia-900/20 flex items-center justify-center mb-4">
-                <Heart className="w-8 h-8 text-fuchsia-400" />
-              </div>
-              
-              {!user ? (
-                <>
-                  <h2 className="text-xl font-bold mb-2 text-white">Sign in to see your favorites</h2>
-                  <p className="text-white/70 mb-6">Create an account or sign in to save your favorite hotels</p>
-                  <div className="flex justify-center gap-4">
-                    <Button asChild>
-                      <Link to="/login">Sign In</Link>
-                    </Button>
-                    <Button variant="outline" asChild>
-                      <Link to="/signup">Create Account</Link>
-                    </Button>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array(3).fill(0).map((_, i) => (
+                <div key={i} className="glass-card rounded-xl overflow-hidden animate-pulse">
+                  <div className="h-48 bg-white/5"></div>
+                  <div className="p-4 space-y-3">
+                    <div className="h-6 w-3/4 bg-white/10 rounded"></div>
+                    <div className="flex gap-2">
+                      <div className="h-5 w-16 bg-white/10 rounded-full"></div>
+                      <div className="h-5 w-16 bg-white/10 rounded-full"></div>
+                    </div>
+                    <div className="flex justify-between pt-2">
+                      <div className="h-5 w-20 bg-white/10 rounded"></div>
+                      <div className="h-4 w-16 bg-white/10 rounded"></div>
+                    </div>
                   </div>
-                </>
-              ) : (
-                <>
-                  <h2 className="text-xl font-bold mb-2 text-white">No favorites yet</h2>
-                  <p className="text-white/70 mb-6">Save hotels you like by clicking the heart icon</p>
-                  <Button asChild>
-                    <Link to="/">Browse Hotels</Link>
-                  </Button>
-                </>
-              )}
+                </div>
+              ))}
+            </div>
+          ) : favoriteHotels.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {favoriteHotels.map(hotel => (
+                <HotelCard 
+                  key={hotel.id}
+                  id={hotel.id}
+                  name={hotel.name}
+                  city={hotel.city}
+                  country={hotel.country}
+                  stars={hotel.category || 0}
+                  pricePerMonth={hotel.price_per_month}
+                  themes={hotel.hotel_themes?.map(theme => theme.themes.name) || []}
+                  image={hotel.main_image_url || ''}
+                />
+              ))}
             </div>
           ) : (
-            <SearchResultsList 
-              filteredHotels={favoriteHotels} 
-              isLoading={isLoading} 
-            />
+            <div className="text-center py-20">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
+                <Heart className="w-10 h-10 text-fuchsia-400" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-white">No favorites yet</h3>
+              <p className="text-white/70 mb-6">You haven't saved any hotels to your favorites yet.</p>
+              <Button 
+                onClick={() => navigate('/search')} 
+                className="flex items-center gap-2"
+              >
+                <Search className="w-4 h-4" />
+                Browse Hotels
+              </Button>
+            </div>
           )}
         </div>
       </main>

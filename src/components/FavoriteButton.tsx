@@ -25,7 +25,7 @@ export function FavoriteButton({
 
   const favorited = isFavorite(hotelId);
   
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!user) {
       toast({
         title: "Authentication required",
@@ -35,7 +35,7 @@ export function FavoriteButton({
     }
     
     setIsPending(true);
-    toggleFavorite(hotelId);
+    await toggleFavorite(hotelId);
     setIsPending(false);
   };
 

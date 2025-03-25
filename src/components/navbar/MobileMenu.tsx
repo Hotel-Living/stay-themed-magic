@@ -1,134 +1,153 @@
-
-import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/AuthContext";
-import { useFavorites } from "@/hooks/useFavorites";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Search,
+  Settings,
+  Heart,
+  HelpCircle,
+  Home,
+  Calendar,
+  LogOut,
+  X
+} from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback
+} from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { Logo } from "@/components/Logo";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  signOut: () => Promise<void>;
   getInitials: () => string;
+  signOut: () => Promise<void>;
 }
 
-export function MobileMenu({ isOpen, onClose, signOut, getInitials }: MobileMenuProps) {
-  const { user, profile } = useAuth();
-  const { favorites } = useFavorites();
-  
-  const handleSignOut = async () => {
-    await signOut();
-    onClose();
-  };
-  
+interface MobileNavLinkProps {
+  href: string;
+  label: React.ReactNode;
+  icon: React.ReactNode;
+  onClick?: () => void;
+}
+
+function MobileNavLink({ href, label, icon, onClick }: MobileNavLinkProps) {
   return (
-    <div 
+    <Button
+      variant="ghost"
+      className="w-full justify-start gap-3 text-white/90 hover:text-white font-normal"
+      asChild
+    >
+      <Link to={href} onClick={onClick}>
+        {icon}
+        <span>{label}</span>
+      </Link>
+    </Button>
+  );
+}
+
+export function MobileMenu({ 
+  getInitials, 
+  signOut, 
+  isOpen, 
+  onClose 
+}: MobileMenuProps) {
+  const { user } = useAuth();
+  const { favorites } = useFavorites();
+
+  return (
+    <div
       className={cn(
-        "fixed inset-0 h-screen bg-[#860477]/95 backdrop-blur-xl translate-x-full transition-transform duration-300 z-40 md:hidden",
-        isOpen && "translate-x-0"
+        "fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-opacity",
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
     >
-      <div className="container h-full px-4 py-8 flex flex-col">
-        {/* User info or sign in/up */}
-        {user ? (
-          <div className="border-b border-[#c266af]/30 pb-6 mb-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Avatar className="h-14 w-14">
-                {profile?.avatar_url ? (
-                  <img src={profile.avatar_url} alt={profile?.first_name || 'User avatar'} />
-                ) : (
-                  <AvatarFallback className="bg-fuchsia-800 text-white">{getInitials()}</AvatarFallback>
-                )}
-              </Avatar>
-              <div>
-                <p className="font-semibold text-white">
-                  {profile?.first_name && profile?.last_name
-                    ? `${profile.first_name} ${profile.last_name}`
-                    : 'Welcome'}
-                </p>
-                <p className="text-sm text-white/70">{user.email}</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <Button 
-                asChild
-                className="flex-1" 
-                variant="outline"
-                onClick={onClose}
-              >
-                <Link to="/dashboard">Dashboard</Link>
-              </Button>
-              <Button 
-                variant="destructive" 
-                className="flex-1"
-                onClick={handleSignOut}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign out
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="border-b border-[#c266af]/30 pb-6 mb-6">
-            <p className="text-white mb-4">Sign in to enjoy all features</p>
-            <div className="flex gap-3">
-              <Button 
-                asChild
-                variant="outline"
-                className="flex-1" 
-                onClick={onClose}
-              >
-                <Link to="/login">Sign in</Link>
-              </Button>
-              <Button 
-                asChild
-                className="flex-1"
-                onClick={onClose}
-              >
-                <Link to="/signup">Sign up</Link>
-              </Button>
-            </div>
-          </div>
+      <div
+        className={cn(
+          "fixed inset-y-0 right-0 w-full max-w-xs bg-gradient-to-b from-fuchsia-950 to-gray-950 p-6 shadow-lg transform transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "translate-x-full"
         )}
-        
-        {/* Main navigation */}
-        <nav className="flex flex-col text-lg space-y-5">
-          <Link to="/" className="text-white" onClick={onClose}>Home</Link>
-          <Link to="/search" className="text-white" onClick={onClose}>Browse Hotels</Link>
-          
-          {user && (
-            <Link 
-              to="/favorites" 
-              className="text-white flex items-center gap-2" 
-              onClick={onClose}
-            >
-              <Heart className="w-5 h-5" />
-              Favorites
-              {favorites.length > 0 && (
-                <span className="bg-fuchsia-500 text-white text-xs px-2 py-0.5 rounded-full">
-                  {favorites.length}
-                </span>
-              )}
-            </Link>
-          )}
-          
-          {user && (
-            <Link to="/bookings" className="text-white" onClick={onClose}>My Bookings</Link>
-          )}
-          
-          <Link to="/services" className="text-white" onClick={onClose}>Our Services</Link>
-          <Link to="/values" className="text-white" onClick={onClose}>Our Values</Link>
-          <Link to="/customer-service" className="text-white" onClick={onClose}>Customer Service</Link>
-          <Link to="/faq" className="text-white" onClick={onClose}>FAQ</Link>
-        </nav>
-        
-        {/* Legal links */}
-        <div className="mt-auto pt-6 border-t border-[#c266af]/30">
-          <div className="flex gap-4 text-sm text-white/70">
-            <Link to="/terms" className="hover:text-white transition" onClick={onClose}>Terms</Link>
-            <Link to="/privacy" className="hover:text-white transition" onClick={onClose}>Privacy</Link>
+      >
+        <div className="flex justify-between items-center mb-8">
+          <Logo />
+          <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-6 w-6" />
+          </Button>
+        </div>
+
+        <div className="space-y-6">
+          {/* Main navigation links */}
+          <div className="space-y-3">
+            <MobileNavLink href="/search" label="Browse Hotels" icon={<Search className="h-5 w-5" />} onClick={onClose} />
+            <MobileNavLink href="/services" label="Our Services" icon={<Settings className="h-5 w-5" />} onClick={onClose} />
+            <MobileNavLink href="/values" label="Our Values" icon={<Heart className="h-5 w-5" />} onClick={onClose} />
+            <MobileNavLink href="/customer-service" label="Customer Service" icon={<HelpCircle className="h-5 w-5" />} onClick={onClose} />
+            
+            {/* Add Favorites link for authenticated users */}
+            {user && (
+              <MobileNavLink 
+                href="/favorites" 
+                label={
+                  <div className="flex items-center">
+                    <span>Favorites</span>
+                    {favorites.length > 0 && (
+                      <span className="ml-2 text-xs bg-fuchsia-500 text-white px-1.5 py-0.5 rounded-full">
+                        {favorites.length}
+                      </span>
+                    )}
+                  </div>
+                } 
+                icon={<Heart className="h-5 w-5" />} 
+                onClick={onClose} 
+              />
+            )}
+          </div>
+
+          {/* Authentication section */}
+          <div className="pt-6 border-t border-fuchsia-800/20">
+            {user ? (
+              // User is logged in
+              <>
+                <div className="flex items-center gap-3 mb-4">
+                  <Avatar>
+                    <AvatarFallback className="bg-fuchsia-800/30">
+                      {getInitials()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-medium">My Account</p>
+                    <p className="text-sm text-white/70">{user.email}</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <MobileNavLink href="/dashboard" label="Dashboard" icon={<Home className="h-5 w-5" />} onClick={onClose} />
+                  <MobileNavLink href="/bookings" label="My Bookings" icon={<Calendar className="h-5 w-5" />} onClick={onClose} />
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start gap-3 text-white/90 hover:text-white font-normal" 
+                    onClick={() => { 
+                      signOut();
+                      onClose();
+                    }}
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Sign Out
+                  </Button>
+                </div>
+              </>
+            ) : (
+              // User is not logged in
+              <div className="flex flex-col gap-3">
+                <Button asChild>
+                  <Link to="/login" onClick={onClose}>Sign In</Link>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link to="/signup" onClick={onClose}>Create Account</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

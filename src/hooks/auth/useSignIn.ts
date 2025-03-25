@@ -29,9 +29,8 @@ export function useSignIn() {
         email,
         password,
         options: {
-          // Set the session expiration time based on rememberMe option
-          // Default is 1 hour, extended to 30 days if rememberMe is true
-          expiresIn: rememberMe ? 60 * 60 * 24 * 30 : 60 * 60
+          // For longer sessions when 'remember me' is checked, we'll use cookies 
+          // instead of trying to set expiresIn which isn't available in the options type
         }
       });
 

@@ -29,11 +29,7 @@ describe("usePasswordReset hook", () => {
   });
 
   it("should call resetPasswordForEmail and show success toast", async () => {
-    mockSupabaseClient.auth.resetPasswordForEmail = jest.fn().mockResolvedValue({
-      data: {},
-      error: null
-    });
-    
+    // The mock is already set up in the mockSupabaseClient
     const { result } = renderHook(() => usePasswordReset());
     const mockToast = useToast().toast;
     const testEmail = "test@example.com";
@@ -58,11 +54,7 @@ describe("usePasswordReset hook", () => {
   });
 
   it("should call updateUser and show success toast when updating password", async () => {
-    mockSupabaseClient.auth.updateUser = jest.fn().mockResolvedValue({
-      data: {},
-      error: null
-    });
-    
+    // The mock is already set up in the mockSupabaseClient
     const { result } = renderHook(() => usePasswordReset());
     const mockToast = useToast().toast;
     const newPassword = "newStrongPassword123";
@@ -92,6 +84,7 @@ describe("usePasswordReset hook", () => {
       await result.current.requestPasswordReset("invalid-email");
     });
     
+    // Should not call resetPasswordForEmail for invalid email
     expect(mockSupabaseClient.auth.resetPasswordForEmail).not.toHaveBeenCalled();
     
     expect(mockToast).toHaveBeenCalledWith({
@@ -110,6 +103,7 @@ describe("usePasswordReset hook", () => {
       expect(success).toBe(false);
     });
     
+    // Should not call updateUser for weak password
     expect(mockSupabaseClient.auth.updateUser).not.toHaveBeenCalled();
     
     expect(mockToast).toHaveBeenCalledWith({

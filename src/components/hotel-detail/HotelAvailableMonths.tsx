@@ -1,10 +1,8 @@
 
-interface HotelAvailableMonthsProps {
-  months: string[];
-}
+import { HotelAvailableMonthsProps } from "@/types/hotel";
 
 export function HotelAvailableMonths({ months }: HotelAvailableMonthsProps) {
-  if (months.length === 0) {
+  if (!months || months.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-4">Available Months</h2>

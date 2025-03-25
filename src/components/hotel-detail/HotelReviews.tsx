@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { HotelReviewsProps } from "@/types/hotel";
 
 interface Review {
   id: string;
@@ -14,11 +15,6 @@ interface Review {
   first_name?: string;
   last_name?: string;
   avatar_url?: string;
-}
-
-interface HotelReviewsProps {
-  hotelId: string;
-  averageRating?: number;
 }
 
 export function HotelReviews({ hotelId, averageRating = 0 }: HotelReviewsProps) {

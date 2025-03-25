@@ -8,32 +8,7 @@ import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
 import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
-import { Hotel, HotelImage } from "@/integrations/supabase/types-custom";
-
-// Properly typed interface for the component props
-interface HotelDetailContentProps {
-  hotel: {
-    id: string;
-    name: string;
-    description: string | null;
-    city: string;
-    country: string;
-    category: number | null;
-    price_per_month: number;
-    main_image_url: string | null;
-    average_rating?: number;
-    amenities?: string[];
-    available_months?: string[];
-    hotel_images: HotelImage[];
-    hotel_themes: {
-      theme_id: string;
-      themes: {
-        id: string;
-        name: string;
-      }
-    }[];
-  };
-}
+import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 
 export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
   // Extract image URLs from hotel_images
@@ -41,9 +16,9 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
     hotel.hotel_images.map((img) => img.image_url) : 
     [];
   
-  // Extract themes from hotel_themes
-  const themes = hotel.hotel_themes ? 
-    hotel.hotel_themes.map((theme) => theme.themes) : 
+  // Extract themes from hotel_themes and map to HotelTheme type
+  const themes: HotelTheme[] = hotel.hotel_themes ? 
+    hotel.hotel_themes.map((themeItem) => themeItem.themes) : 
     [];
   
   // Use dynamic data from the API instead of static data
@@ -76,7 +51,10 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           {/* Gallery */}
-          <HotelGallery images={imageUrls.length > 0 ? imageUrls : [hotel.main_image_url]} hotelName={hotel.name} />
+          <HotelGallery 
+            images={imageUrls.length > 0 ? imageUrls : [hotel.main_image_url]} 
+            hotelName={hotel.name} 
+          />
           
           {/* Description */}
           <HotelDescription description={hotel.description || "No description available."} />

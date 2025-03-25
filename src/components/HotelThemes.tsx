@@ -1,8 +1,8 @@
 
-import { Theme } from "@/utils/data";
+import { HotelTheme } from "@/types/hotel";
 
 interface HotelThemesDisplayProps {
-  themes: Theme[];
+  themes: HotelTheme[];
 }
 
 export function HotelThemesDisplay({ themes }: HotelThemesDisplayProps) {
@@ -20,16 +20,14 @@ export function HotelThemesDisplay({ themes }: HotelThemesDisplayProps) {
   
   // Group valid themes by category
   const groupedThemes = validThemes.reduce((acc, theme) => {
-    if (!theme || !theme.category) {
-      return acc;
-    }
+    const category = theme.category || 'General';
     
-    if (!acc[theme.category]) {
-      acc[theme.category] = [];
+    if (!acc[category]) {
+      acc[category] = [];
     }
-    acc[theme.category].push(theme);
+    acc[category].push(theme);
     return acc;
-  }, {} as Record<string, Theme[]>);
+  }, {} as Record<string, HotelTheme[]>);
 
   return (
     <div className="w-full bg-[#5A1876]/80 backdrop-blur-sm rounded-lg p-4 border border-[#5A1876]/20">

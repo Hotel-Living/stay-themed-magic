@@ -1,12 +1,9 @@
 
 import { Check } from "lucide-react";
-
-interface HotelAmenitiesProps {
-  amenities: string[];
-}
+import { HotelAmenitiesProps } from "@/types/hotel";
 
 export function HotelAmenities({ amenities }: HotelAmenitiesProps) {
-  if (amenities.length === 0) {
+  if (!amenities || amenities.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-6 mb-8">
         <h2 className="text-xl font-bold mb-4">Amenities</h2>

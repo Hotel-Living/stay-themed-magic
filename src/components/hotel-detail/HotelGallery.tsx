@@ -1,10 +1,6 @@
 
 import { useState, useEffect } from "react";
-
-interface HotelGalleryProps {
-  images: string[];
-  hotelName: string;
-}
+import { HotelGalleryProps } from "@/types/hotel";
 
 export function HotelGallery({ images, hotelName }: HotelGalleryProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);

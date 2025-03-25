@@ -1,7 +1,5 @@
 
-interface HotelDescriptionProps {
-  description: string;
-}
+import { HotelDescriptionProps } from "@/types/hotel";
 
 export function HotelDescription({ description }: HotelDescriptionProps) {
   return (

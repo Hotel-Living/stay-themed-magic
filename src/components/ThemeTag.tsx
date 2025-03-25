@@ -1,9 +1,9 @@
 
 import { cn } from "@/lib/utils";
-import { Theme } from "@/utils/data";
+import { HotelTheme } from "@/types/hotel";
 
 interface ThemeTagProps {
-  theme: Theme;
+  theme: HotelTheme;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 }
@@ -28,7 +28,7 @@ export function ThemeTag({ theme, className, size = 'md' }: ThemeTagProps) {
   );
 }
 
-export function HotelThemes({ themes, size = 'md', className }: { themes: Theme[], size?: 'sm' | 'md' | 'lg', className?: string }) {
+export function HotelThemes({ themes, size = 'md', className }: { themes: HotelTheme[], size?: 'sm' | 'md' | 'lg', className?: string }) {
   // Add safety check for null or undefined themes
   if (!themes || themes.length === 0) {
     return null;

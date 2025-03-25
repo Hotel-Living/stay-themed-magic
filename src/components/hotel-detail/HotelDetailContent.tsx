@@ -8,7 +8,7 @@ import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
 import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
-import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
+import { Hotel, HotelImage } from "@/integrations/supabase/types-custom";
 
 // Properly typed interface for the component props
 interface HotelDetailContentProps {
@@ -22,6 +22,8 @@ interface HotelDetailContentProps {
     price_per_month: number;
     main_image_url: string | null;
     average_rating?: number;
+    amenities?: string[];
+    available_months?: string[];
     hotel_images: HotelImage[];
     hotel_themes: {
       theme_id: string;
@@ -44,13 +46,12 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
     hotel.hotel_themes.map((theme) => theme.themes) : 
     [];
   
-  // For demo purposes, using static months and amenities
-  // In a real application, these would come from the database
-  const availableMonths = ["January", "February", "March", "April", "May", "June"];
-  const amenities = ["Free WiFi", "Pool", "Gym", "Spa", "Restaurant", "Room Service"];
+  // Use dynamic data from the API instead of static data
+  const availableMonths = hotel.available_months || [];
+  const amenities = hotel.amenities || [];
   
-  // Calculate average rating (in a real app, this would come from aggregating reviews)
-  const averageRating = hotel.average_rating || 4.5;
+  // Use the average rating from the API
+  const averageRating = hotel.average_rating || 0;
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -65,7 +66,7 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
       {/* Hotel Header */}
       <HotelHeader 
         name={hotel.name}
-        stars={hotel.category || 4}
+        stars={hotel.category || 0}
         city={hotel.city}
         country={hotel.country}
         availableMonthsCount={availableMonths.length}

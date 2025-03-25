@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
-// Extended interface to include additional properties like average_rating
+// Extended interface to include additional properties like average_rating, amenities, and available_months
 interface HotelWithDetails extends Hotel {
   hotel_images: HotelImage[];
   hotel_themes: {
@@ -14,6 +14,8 @@ interface HotelWithDetails extends Hotel {
     }
   }[];
   average_rating?: number;
+  amenities?: string[];
+  available_months?: string[];
 }
 
 // Function to fetch a specific hotel by ID
@@ -53,6 +55,41 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   } else {
     hotelData.average_rating = 0; // No reviews yet
   }
+
+  // For demo purposes, using realistic amenities based on hotel category/type
+  // In a real application, these would come from a separate table in the database
+  hotelData.amenities = [
+    "Free WiFi", 
+    "Air Conditioning", 
+    "Daily Housekeeping"
+  ];
+  
+  // Add more amenities based on hotel category
+  if (hotelData.category && hotelData.category >= 3) {
+    hotelData.amenities.push("Pool", "Gym");
+  }
+  
+  if (hotelData.category && hotelData.category >= 4) {
+    hotelData.amenities.push("Spa", "Room Service", "Restaurant");
+  }
+  
+  if (hotelData.category && hotelData.category >= 5) {
+    hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  }
+  
+  // For demo purposes, generate available months based on current date
+  // In a real application, these would come from a bookings/availability table
+  const currentMonth = new Date().getMonth();
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
+  // Generate next 6 available months starting from current month
+  hotelData.available_months = Array.from({ length: 6 }, (_, i) => {
+    const monthIndex = (currentMonth + i) % 12;
+    return monthNames[monthIndex];
+  });
   
   return hotelData;
 };

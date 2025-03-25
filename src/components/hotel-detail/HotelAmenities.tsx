@@ -6,6 +6,15 @@ interface HotelAmenitiesProps {
 }
 
 export function HotelAmenities({ amenities }: HotelAmenitiesProps) {
+  if (amenities.length === 0) {
+    return (
+      <div className="glass-card rounded-2xl p-6 mb-8">
+        <h2 className="text-xl font-bold mb-4">Amenities</h2>
+        <p className="text-foreground/60 italic">No amenities listed for this property.</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
       <h2 className="text-xl font-bold mb-4">Amenities</h2>

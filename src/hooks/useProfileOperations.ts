@@ -4,7 +4,7 @@ import { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { Profile } from "@/integrations/supabase/types-custom";
 import { useToast } from "@/hooks/use-toast";
-import { handleSupabaseError, handleAppError } from "@/utils/errorHandling";
+import { handleSupabaseError, handleApiError } from "@/utils/errorHandling";
 
 export function useProfileOperations() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -42,7 +42,7 @@ export function useProfileOperations() {
       return completeProfile;
     } catch (error) {
       console.error('Error in fetchProfile:', error);
-      handleAppError(error, "Error loading your profile");
+      handleApiError(error, "Error loading your profile");
       return null;
     } finally {
       setIsLoading(false);
@@ -83,7 +83,7 @@ export function useProfileOperations() {
       
       return updatedProfile;
     } catch (error: any) {
-      handleAppError(error, "Error al actualizar perfil");
+      handleApiError(error, "Error al actualizar perfil");
       return null;
     } finally {
       setIsLoading(false);

@@ -8,7 +8,7 @@ interface ProfileFormProps {
   formData: {
     first_name: string;
     last_name: string;
-    bio: string;
+    bio?: string; // Make bio optional
   };
   userEmail: string | undefined;
   isLoading: boolean;
@@ -65,7 +65,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           className="w-full px-3 py-2 bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 h-24"
           placeholder="Tell us a bit about yourself"
           name="bio"
-          value={formData.bio}
+          value={formData.bio || ''}
           onChange={onChange}
         ></textarea>
       </div>

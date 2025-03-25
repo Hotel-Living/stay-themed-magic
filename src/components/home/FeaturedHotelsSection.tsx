@@ -5,9 +5,10 @@ import { HotelCard } from "@/components/HotelCard";
 interface FeaturedHotelsSectionProps {
   hotels: any[];
   isLoading: boolean;
+  filtersActive?: boolean; // Add this prop
 }
 
-export function FeaturedHotelsSection({ hotels, isLoading }: FeaturedHotelsSectionProps) {
+export function FeaturedHotelsSection({ hotels, isLoading, filtersActive }: FeaturedHotelsSectionProps) {
   if (isLoading) {
     return (
       <section className="py-8 px-4">

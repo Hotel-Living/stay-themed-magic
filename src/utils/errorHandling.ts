@@ -1,4 +1,3 @@
-
 import { PostgrestError } from '@supabase/supabase-js';
 import { toast } from '@/hooks/use-toast';
 
@@ -16,6 +15,22 @@ function isPostgrestError(error: unknown): error is PostgrestError {
 // Type guard to check if error is ApiError
 function isApiError(error: unknown): error is ApiError {
   return typeof error === 'object' && error !== null && 'message' in error;
+}
+
+/**
+ * Handle Supabase-specific errors
+ */
+export function handleSupabaseError(error: unknown, title = "Error"): void {
+  if (isPostgrestError(error)) {
+    toast({
+      title,
+      description: error.message,
+      variant: "destructive",
+    });
+    console.error(`Supabase error (${error.code}):`, error.message);
+  } else {
+    handleApiError(error, title);
+  }
 }
 
 /**
@@ -81,6 +96,9 @@ export function handleApiError(error: unknown, title = "Error"): void {
     console.error("Unexpected error:", error);
   }
 }
+
+// Alias for backwards compatibility - keeping both functions for now
+export const handleAppError = handleApiError;
 
 /**
  * Get more user-friendly auth error messages

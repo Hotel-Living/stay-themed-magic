@@ -23,6 +23,8 @@ export default function UserDashboard() {
           {/* Show email verification banner if needed */}
           <EmailVerificationBanner />
           
+          <h1 className="text-3xl font-bold mb-6">My Dashboard</h1>
+          
           <DashboardLayout>
             <DashboardContent />
           </DashboardLayout>

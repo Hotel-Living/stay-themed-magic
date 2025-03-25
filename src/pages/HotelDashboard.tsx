@@ -27,10 +27,10 @@ export default function HotelDashboard() {
           {/* Show email verification banner if needed */}
           <EmailVerificationBanner />
           
+          <h1 className="text-3xl font-bold mb-6">Hotel Owner Dashboard</h1>
+          
           <DashboardLayout>
             <div>
-              <h1 className="text-3xl font-bold mb-6">Hotel Owner Dashboard</h1>
-              
               <div className="mb-8">
                 <h2 className="text-xl font-semibold mb-4">Your Properties</h2>
                 {userHotels.length > 0 ? (

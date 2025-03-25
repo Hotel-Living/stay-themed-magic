@@ -5,7 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ReviewCard } from './dialog/ReviewCard';
 import { ResponseInput } from './dialog/ResponseInput';
 import { ResponseAlerts } from './dialog/ResponseAlerts';
-import { useAIResponseGenerator } from '@/hooks/dashboard/useAIResponseGenerator';
+import { useAIResponseGenerator, ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
 import {
   Dialog,
   DialogContent,
@@ -69,9 +69,9 @@ export function ReviewResponseDialog({
   };
 
   // Handler for AI generation that uses the hook
-  const handleGenerateAIResponse = () => {
+  const handleGenerateAIResponse = (tone: ResponseTone) => {
     if (review) {
-      generateAIResponse(review, setResponse);
+      generateAIResponse(review, setResponse, tone);
     }
   };
 

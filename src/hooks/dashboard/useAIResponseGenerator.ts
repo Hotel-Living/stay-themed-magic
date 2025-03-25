@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DashboardReview } from '@/components/dashboard/types';
 
+export type ResponseTone = 'professional' | 'friendly' | 'apologetic';
+
 export function useAIResponseGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
@@ -11,7 +13,8 @@ export function useAIResponseGenerator() {
 
   const generateAIResponse = async (
     review: DashboardReview,
-    setResponse: (value: string) => void
+    setResponse: (value: string) => void,
+    tone: ResponseTone = 'professional'
   ) => {
     setIsGenerating(true);
     setGenerationError(null);
@@ -26,6 +29,7 @@ export function useAIResponseGenerator() {
           rating: review.rating,
           comment: review.comment,
           property: review.property,
+          tone: tone, // Pass the selected tone to the API
         }),
       });
 
@@ -42,7 +46,7 @@ export function useAIResponseGenerator() {
         
         toast({
           title: data.source === 'ai' ? "AI response generated" : "Template response generated",
-          description: "Response created with assistance. Please review and edit before submitting.",
+          description: `Response created with a ${tone} tone. Please review and edit before submitting.`,
         });
       } else {
         throw new Error(data.error || 'Failed to generate response');

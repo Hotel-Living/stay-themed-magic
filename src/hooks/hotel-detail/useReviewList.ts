@@ -80,6 +80,13 @@ export function useReviewList({
     setCurrentPage(1);
   }, [ratingFilter, sortOption]);
   
+  // Ensure current page is valid if totalPages changes
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+  
   // Get current page reviews
   const currentReviews = useMemo(() => {
     const indexOfLastReview = currentPage * reviewsPerPage;

@@ -8,6 +8,7 @@ import { ReviewListSkeleton } from "./ReviewListSkeleton";
 import { ReviewListPagination } from "./ReviewListPagination";
 import { ReviewRatingFilter } from "./ReviewRatingFilter";
 import { useReviewList } from "@/hooks/hotel-detail/useReviewList";
+import { FilterX } from "lucide-react";
 
 interface ReviewListProps {
   reviews: Review[];
@@ -66,26 +67,35 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
       
       {filteredReviews.length > 0 && !showFilteredEmptyState ? (
         <>
-          {currentReviews.map((review, index) => (
-            <ReviewListItem key={review.id || index} review={review} />
-          ))}
+          <div className="space-y-6">
+            {currentReviews.map((review, index) => (
+              <ReviewListItem key={review.id || index} review={review} />
+            ))}
+          </div>
           
-          <ReviewListPagination 
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+          {totalPages > 1 && (
+            <ReviewListPagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </>
       ) : (
-        <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10">
-          <p className="text-muted-foreground">
+        <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10 animate-fade-in">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 rounded-full bg-secondary/80">
+              <FilterX className="h-6 w-6 text-fuchsia-400" />
+            </div>
+          </div>
+          <p className="text-muted-foreground mb-3">
             {ratingFilter !== null 
               ? `No ${ratingFilter}-star reviews found` 
               : "No reviews match your filters"}
           </p>
           {ratingFilter !== null && (
             <button 
-              className="text-fuchsia-500 mt-2 text-sm hover:underline"
+              className="text-fuchsia-500 font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-background rounded px-2 py-1 transition-colors"
               onClick={() => handleRatingFilterChange(null)}
               aria-label="Clear rating filter"
             >

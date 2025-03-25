@@ -11,9 +11,10 @@ export default function Search() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   
+  // Parse initial filters from URL params, ensuring they match the expected types
   const initialFilters: FilterState = {
-    country: searchParams.get("country") || null,
-    month: searchParams.get("month") || null,
+    country: (searchParams.get("country") as FilterState["country"]) || null,
+    month: (searchParams.get("month") as FilterState["month"]) || null,
     theme: null,
     priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
   };
@@ -38,20 +39,22 @@ export default function Search() {
   };
   
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
-    const currentValues = [...(filters[filterType as keyof typeof filters] as string[] || [])];
+    const currentArray = Array.isArray(filters[filterType as keyof FilterState]) 
+      ? [...(filters[filterType as keyof FilterState] as string[])]
+      : [];
     
     if (isChecked) {
-      if (!currentValues.includes(value)) {
-        currentValues.push(value);
+      if (!currentArray.includes(value)) {
+        currentArray.push(value);
       }
     } else {
-      const index = currentValues.indexOf(value);
+      const index = currentArray.indexOf(value);
       if (index !== -1) {
-        currentValues.splice(index, 1);
+        currentArray.splice(index, 1);
       }
     }
     
-    handleFilterChange(filterType, currentValues);
+    handleFilterChange(filterType, currentArray);
   };
   
   const handlePageChange = (newPage: number) => {
@@ -69,9 +72,10 @@ export default function Search() {
   
   // Reset filters and pagination when URL changes
   useEffect(() => {
-    const newFilters = {
-      country: searchParams.get("country") || null,
-      month: searchParams.get("month") || null,
+    // Parse params ensuring they match the expected types
+    const newFilters: FilterState = {
+      country: (searchParams.get("country") as FilterState["country"]) || null,
+      month: (searchParams.get("month") as FilterState["month"]) || null,
       theme: null,
       priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
     };

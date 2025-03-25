@@ -1,11 +1,10 @@
 
 import { HotelCard } from "@/components/HotelCard";
 import { Compass } from "lucide-react";
-import { Hotel } from "@/integrations/supabase/types-custom";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface SearchResultsListProps {
-  filteredHotels: Hotel[];
+  filteredHotels: any[];
   isLoading?: boolean;
 }
 
@@ -35,19 +34,30 @@ export function SearchResultsList({ filteredHotels, isLoading = false }: SearchR
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredHotels.map(hotel => (
-          <HotelCard 
-            key={hotel.id}
-            id={hotel.id}
-            name={hotel.name}
-            city={hotel.city}
-            country={hotel.country}
-            stars={hotel.category || 0}
-            pricePerMonth={hotel.price_per_month}
-            themes={hotel.hotel_themes?.map(theme => theme.themes.name) || []}
-            image={hotel.main_image_url || ''}
-          />
-        ))}
+        {filteredHotels.map(hotel => {
+          // Extract the main image
+          const mainImage = hotel.hotel_images?.find((img: any) => img.is_main)?.image_url || 
+                         hotel.hotel_images?.[0]?.image_url || 
+                         hotel.main_image_url ||
+                         '/placeholder.svg';
+          
+          // Extract the themes
+          const hotelThemes = hotel.hotel_themes?.map((ht: any) => ht.themes?.name).filter(Boolean) || [];
+          
+          return (
+            <HotelCard 
+              key={hotel.id}
+              id={hotel.id}
+              name={hotel.name}
+              city={hotel.city}
+              country={hotel.country}
+              stars={hotel.category || 0}
+              pricePerMonth={hotel.price_per_month}
+              themes={hotelThemes}
+              image={mainImage}
+            />
+          );
+        })}
       </div>
       
       {filteredHotels.length === 0 && (
@@ -63,7 +73,7 @@ export function SearchResultsList({ filteredHotels, isLoading = false }: SearchR
   );
 }
 
-function HotelCardSkeleton() {
+export function HotelCardSkeleton() {
   return (
     <div className="glass-card rounded-xl overflow-hidden">
       <div className="h-48 bg-white/5">

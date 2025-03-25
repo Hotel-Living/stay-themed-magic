@@ -1,9 +1,9 @@
-
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 import { useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { fetchHotelById } from "./hotels/fetchHotels";
 
 // Extended interface to include additional properties like average_rating, amenities, and available_months
 interface HotelWithDetails extends Hotel {
@@ -29,6 +29,9 @@ export interface Review {
   comment: string;
   created_at?: string;
   user_name?: string;
+  profiles?: {
+    full_name?: string;
+  } | null;
 }
 
 // Generate hotel amenities based on category
@@ -75,27 +78,13 @@ const getAvailableMonths = (): string[] => {
   });
 };
 
-// Function to fetch a specific hotel by ID
-export const fetchHotelById = async (id: string): Promise<HotelWithDetails | null> => {
+// Enhanced fetchHotelById with additional data
+export const fetchHotelWithDetails = async (id: string): Promise<HotelWithDetails | null> => {
   if (!id) return null;
   
   // First fetch the hotel with its images and themes
-  const { data, error } = await supabase
-    .from('hotels')
-    .select(`
-      *,
-      hotel_images(image_url, is_main),
-      hotel_themes(theme_id, themes:themes(id, name))
-    `)
-    .eq('id', id)
-    .single();
-  
-  if (error) {
-    throw error;
-  }
-  
-  // Create a properly typed object with our hotel data
-  const hotelData = data as HotelWithDetails;
+  const hotelData = await fetchHotelById(id) as HotelWithDetails;
+  if (!hotelData) return null;
   
   // Now fetch the average rating for this hotel
   const { data: ratingData, error: ratingError } = await supabase
@@ -183,10 +172,10 @@ export function useHotelDetail(id: string | undefined, enabled = true) {
   
   const hotelDetailsQuery = useQuery({
     queryKey: ['hotel', id],
-    queryFn: () => id ? fetchHotelById(id) : null,
+    queryFn: () => id ? fetchHotelWithDetails(id) : null,
     enabled: !!id && enabled,
     staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch for 5 minutes
-    cacheTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes (renamed from cacheTime)
     // Prefetch on hover from list page
     onSuccess: (data) => {
       // Prefetch related data if the hotel exists

@@ -17,6 +17,7 @@ export interface HotelCardProps {
   category?: string;
   unavailable?: boolean;
   imageLoading?: 'lazy' | 'eager';
+  availableMonths?: string[];
 }
 
 export function HotelCard({ 
@@ -30,7 +31,8 @@ export function HotelCard({
   themes = [],
   category,
   unavailable = false,
-  imageLoading = 'lazy'
+  imageLoading = 'lazy',
+  availableMonths = []
 }: HotelCardProps) {
   const navigate = useNavigate();
   
@@ -48,14 +50,12 @@ export function HotelCard({
       )}
       onClick={handleClick}
     >
-      {/* Add FavoriteButton in the top right */}
       {!unavailable && (
         <div className="absolute top-2 right-2 z-10">
           <FavoriteButton hotelId={id} />
         </div>
       )}
 
-      {/* Keep existing image section */}
       <div className="h-48 relative">
         <Image
           src={image || "/images/placeholder-hotel.jpg"}
@@ -68,31 +68,20 @@ export function HotelCard({
         
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-12 pb-2 px-4">
           <div className="flex items-center">
-            {/* Keep existing stars rendering */}
-            <div className="flex items-center">
-              {[...Array(Math.floor(stars))].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              ))}
-              {stars % 1 !== 0 && (
-                <StarHalfIcon className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              )}
-            </div>
-            
-            {category && (
-              <div className="ml-2 text-xs px-2 py-0.5 bg-white/20 rounded-full">
-                {category}
-              </div>
+            {[...Array(Math.floor(stars))].map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            ))}
+            {stars % 1 !== 0 && (
+              <StarHalfIcon className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             )}
           </div>
         </div>
       </div>
       
-      {/* Keep existing hotel information section */}
       <div className="p-4">
         <h3 className="font-bold text-lg mb-1">{name}</h3>
         <p className="text-white/70 text-sm mb-2">{city}, {country}</p>
         
-        {/* Keep existing themes rendering */}
         <div className="flex flex-wrap gap-1 mb-3">
           {themes.slice(0, 3).map((theme, index) => (
             <span 
@@ -109,7 +98,6 @@ export function HotelCard({
           )}
         </div>
         
-        {/* Keep existing price section */}
         <div className="flex justify-between items-center mt-2">
           <div>
             <span className="font-bold text-xl">${pricePerMonth}</span>

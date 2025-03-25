@@ -1,7 +1,6 @@
 
-import { Hotel, Theme } from "@/integrations/supabase/types-custom";
-import { HotelCard } from "@/components/HotelCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { HotelCard } from "@/components/HotelCard";
 
 interface FeaturedHotelsSectionProps {
   hotels: any[];
@@ -52,6 +51,7 @@ export function FeaturedHotelsSection({ hotels, isLoading }: FeaturedHotelsSecti
               // Extract the main image
               const mainImage = hotel.hotel_images?.find((img: any) => img.is_main)?.image_url || 
                                hotel.hotel_images?.[0]?.image_url || 
+                               hotel.main_image_url || 
                                '/placeholder.svg';
               
               // Extract the themes

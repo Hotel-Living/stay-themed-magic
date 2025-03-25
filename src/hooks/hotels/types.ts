@@ -22,4 +22,4 @@ export interface FetchHotelsOptions {
 
 // Re-export FilterState to avoid circular dependencies
 import { FilterState } from "@/components/filters/FilterTypes";
-export { FilterState };
+export type { FilterState };

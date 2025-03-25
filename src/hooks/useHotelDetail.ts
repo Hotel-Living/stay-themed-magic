@@ -1,3 +1,4 @@
+
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
@@ -113,7 +114,7 @@ export const fetchHotelWithDetails = async (id: string): Promise<HotelWithDetail
 export const fetchHotelReviews = async (hotelId: string): Promise<Review[]> => {
   const { data, error } = await supabase
     .from('reviews')
-    .select('*, profiles(full_name)')
+    .select('*')
     .eq('hotel_id', hotelId)
     .order('created_at', { ascending: false });
     
@@ -121,7 +122,7 @@ export const fetchHotelReviews = async (hotelId: string): Promise<Review[]> => {
   
   return (data || []).map(review => ({
     ...review,
-    user_name: review.profiles?.full_name || 'Anonymous'
+    user_name: 'Anonymous'  // Default name if no profile info
   }));
 };
 
@@ -176,11 +177,12 @@ export function useHotelDetail(id: string | undefined, enabled = true) {
     enabled: !!id && enabled,
     staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch for 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes (renamed from cacheTime)
-    // Prefetch on hover from list page
-    onSuccess: (data) => {
-      // Prefetch related data if the hotel exists
-      if (data && data.id) {
-        prefetchRelatedData(data.id);
+    meta: {
+      onSuccess: (data) => {
+        // Prefetch related data if the hotel exists
+        if (data && data.id) {
+          prefetchRelatedData(data.id);
+        }
       }
     }
   });

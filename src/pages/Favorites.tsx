@@ -5,15 +5,30 @@ import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
 import { useFavorites } from "@/hooks/useFavorites";
 import { supabase } from "@/integrations/supabase/client";
-import { Hotel } from "@/integrations/supabase/types-custom";
+import { Hotel, HotelTheme } from "@/integrations/supabase/types-custom";
 import { Heart, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 
+// Extended type for hotel with themes data
+interface HotelWithThemes extends Hotel {
+  hotel_themes?: {
+    theme_id: string;
+    themes: {
+      id: string;
+      name: string;
+    }
+  }[];
+  hotel_images?: {
+    image_url: string;
+    is_main: boolean;
+  }[];
+}
+
 export default function Favorites() {
   const { favorites, isLoading: isFavoritesLoading } = useFavorites();
-  const [favoriteHotels, setFavoriteHotels] = useState<Hotel[]>([]);
+  const [favoriteHotels, setFavoriteHotels] = useState<HotelWithThemes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { user } = useAuth();

@@ -12,7 +12,7 @@ interface DesktopNavigationProps {
 }
 
 export function DesktopNavigation({ getInitials, signOut }: DesktopNavigationProps) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { favorites } = useFavorites();
   
   return (
@@ -40,7 +40,7 @@ export function DesktopNavigation({ getInitials, signOut }: DesktopNavigationPro
       </div>
       
       {user ? (
-        <UserNavigation getInitials={getInitials} signOut={signOut} />
+        <UserNavigation profile={profile} getInitials={getInitials} signOut={signOut} />
       ) : (
         <div className="flex items-center space-x-4">
           <Link to="/login" className="text-white hover:text-fuchsia-200 transition">

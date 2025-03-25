@@ -22,13 +22,16 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-type SortOption = {
-  value: string;
+// This should match the type in useReviewList.ts
+type SortOption = "newest" | "oldest" | "highest" | "lowest";
+
+type SortOptionConfig = {
+  value: SortOption;
   label: string;
   description?: string;
 }
 
-const sortOptions: SortOption[] = [
+const sortOptions: SortOptionConfig[] = [
   { value: "newest", label: "Newest first", description: "Show most recent reviews at the top" },
   { value: "oldest", label: "Oldest first", description: "Show earliest reviews at the top" },
   { value: "highest", label: "Highest rating", description: "Show best ratings first" },
@@ -36,13 +39,13 @@ const sortOptions: SortOption[] = [
 ];
 
 interface ReviewSorterProps {
-  onSortChange: (value: string) => void;
-  initialValue?: string;
+  onSortChange: (value: SortOption) => void;
+  initialValue?: SortOption;
 }
 
 export function ReviewSorter({ onSortChange, initialValue = "newest" }: ReviewSorterProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState<SortOption>(initialValue);
 
   return (
     <div className="flex items-center space-x-2">
@@ -89,8 +92,8 @@ export function ReviewSorter({ onSortChange, initialValue = "newest" }: ReviewSo
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue);
-                    onSortChange(currentValue);
+                    setValue(currentValue as SortOption);
+                    onSortChange(currentValue as SortOption);
                     setOpen(false);
                   }}
                   className="flex flex-col items-start py-2 aria-selected:bg-fuchsia-900/20"

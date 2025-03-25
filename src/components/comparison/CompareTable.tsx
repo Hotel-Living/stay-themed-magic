@@ -39,7 +39,7 @@ export function CompareTable({
           <TooltipProvider>
             <Tooltip delayDuration={300}>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 text-xs text-white/70 bg-fuchsia-900/20 px-3 py-1 rounded-full">
+                <div className="flex items-center gap-2 text-xs text-white/70 bg-fuchsia-900/20 px-3 py-1 rounded-full cursor-help">
                   <Info className="h-3.5 w-3.5" />
                   <span>Highlighted cells show best options</span>
                 </div>

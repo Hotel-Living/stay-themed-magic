@@ -23,6 +23,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import CustomerService from "./pages/CustomerService";
 import NotFound from "./pages/NotFound";
+import CodeStats from "./pages/CodeStats";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/customer-service" element={<CustomerService />} />
+            <Route path="/code-stats" element={<CodeStats />} />
             <Route path="/hoteles" element={<HotelDashboard />} />
             <Route path="/signin" element={<Login />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -50,12 +50,24 @@ const BookingsPagination: React.FC<BookingsPaginationProps> = ({
     return pageLinks;
   };
 
+  const handlePrevClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <Pagination className="mt-8">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious 
-            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            onClick={handlePrevClick}
             aria-disabled={currentPage === 1}
             className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
           />
@@ -65,7 +77,7 @@ const BookingsPagination: React.FC<BookingsPaginationProps> = ({
         
         <PaginationItem>
           <PaginationNext 
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            onClick={handleNextClick}
             aria-disabled={currentPage === totalPages}
             className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
           />

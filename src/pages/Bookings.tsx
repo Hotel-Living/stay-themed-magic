@@ -1,54 +1,28 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import BookingsContent from "@/components/dashboard/BookingsContent";
 import { Starfield } from "@/components/Starfield";
-import { handleApiError } from "@/utils/errorHandling";
+import { useRealtimeBookings } from "@/hooks/useRealtimeBookings";
+import BookingsContent from "@/components/dashboard/BookingsContent";
+import { toast } from "@/hooks/use-toast";
 
 export default function Bookings() {
   const { user } = useAuth();
-  const [bookings, setBookings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { bookings, isLoading, error, isReconnecting, reconnect } = useRealtimeBookings();
 
   useEffect(() => {
     document.title = "My Bookings | Hotel-Living";
     
-    const fetchBookings = async () => {
-      if (!user) return;
-      
-      try {
-        setIsLoading(true);
-        
-        const { data, error } = await supabase
-          .from('bookings')
-          .select(`
-            *,
-            hotels(
-              id, name, city, country, main_image_url,
-              hotel_images(image_url, is_main)
-            )
-          `)
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-        
-        if (error) {
-          handleApiError(error, "Error loading bookings");
-          return;
-        }
-        
-        setBookings(data || []);
-      } catch (error) {
-        handleApiError(error, "Error loading bookings");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchBookings();
-  }, [user]);
+    if (error) {
+      toast({
+        title: "Error loading bookings",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -58,6 +32,18 @@ export default function Bookings() {
       <main className="flex-1 pt-16">
         <div className="container max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
+          
+          {isReconnecting && (
+            <div className="mb-4 p-2 bg-amber-500/20 text-amber-300 rounded-md flex items-center justify-between">
+              <span>Reconnecting to real-time updates...</span>
+              <button 
+                onClick={reconnect}
+                className="text-xs bg-amber-500/30 hover:bg-amber-500/50 px-2 py-1 rounded-md transition-colors"
+              >
+                Retry Now
+              </button>
+            </div>
+          )}
           
           <BookingsContent 
             bookings={bookings} 

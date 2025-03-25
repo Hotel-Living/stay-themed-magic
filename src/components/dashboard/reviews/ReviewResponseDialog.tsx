@@ -78,8 +78,8 @@ export function ReviewResponseDialog({
       setResponse(data.generatedResponse);
       
       toast({
-        title: "Response generated",
-        description: "AI-powered response suggestion created. Feel free to edit it before submitting.",
+        title: "AI response generated",
+        description: "Response created with AI assistance. Please review and edit before submitting.",
       });
       
     } catch (error) {
@@ -148,7 +148,7 @@ export function ReviewResponseDialog({
           />
           {isGenerating && (
             <p className="text-xs text-fuchsia-400 mt-1 animate-pulse">
-              Generating a thoughtful response...
+              Creating a personalized response based on the guest's feedback...
             </p>
           )}
         </div>

@@ -25,13 +25,15 @@ export function ComparisonCategories({
       name: "Price per Month", 
       key: "price_per_month", 
       formatter: (value: number) => `$${value.toLocaleString()}`,
-      sortable: true
+      sortable: true,
+      highlightBest: 'lowest'
     },
     { 
       name: "Category", 
       key: "category", 
       formatter: (value: number) => "⭐".repeat(value),
-      sortable: true
+      sortable: true,
+      highlightBest: 'highest'
     },
     {
       name: "Rating",
@@ -45,7 +47,8 @@ export function ComparisonCategories({
           </div>
         );
       },
-      sortable: true
+      sortable: true,
+      highlightBest: 'highest'
     },
     { 
       name: "Location", 
@@ -58,14 +61,16 @@ export function ComparisonCategories({
       name: "Available Months", 
       key: "available_months", 
       formatter: (months: string[]) => months?.length || 0,
-      sortable: true
+      sortable: true,
+      highlightBest: 'highest'
     },
     { 
       name: "Amenities", 
       key: "amenities", 
       formatter: (amenities: string[]) => 
         amenities?.length ? amenities.join(", ") : "None listed",
-      sortable: false
+      sortable: false,
+      highlightPresence: true
     },
   ];
 
@@ -81,6 +86,48 @@ export function ComparisonCategories({
     return <div className="h-4 w-4 ml-2 inline-block opacity-0 group-hover:opacity-30">
       <ArrowUpAZ className="h-4 w-4" />
     </div>;
+  };
+
+  // Function to determine if a cell should be highlighted as the best value
+  const getHighlightClass = (category: ComparisonCategory, value: any, hotelIndex: number) => {
+    if (isLoading || !category.highlightBest || hotels.length <= 1) return "";
+    
+    // For numeric values, find the best (max or min) value in this category
+    if (typeof value === "number") {
+      const values = hotels.map(h => {
+        const val = category.secondKey ? h[category.key] : h[category.key];
+        return typeof val === "number" ? val : 0;
+      });
+      
+      const bestValue = category.highlightBest === 'highest' 
+        ? Math.max(...values) 
+        : Math.min(...values);
+      
+      // If this hotel has the best value, highlight it
+      if (value === bestValue) {
+        return "bg-fuchsia-900/30 text-white font-medium";
+      }
+    }
+    
+    // For arrays (like amenities), highlight if this hotel has items that others don't
+    if (category.highlightPresence && Array.isArray(value) && value.length > 0) {
+      // Check if this hotel has any unique items
+      const otherHotels = [...hotels];
+      otherHotels.splice(hotelIndex, 1);
+      
+      const uniqueItems = value.filter(item => {
+        return !otherHotels.some(hotel => {
+          const otherValue = hotel[category.key];
+          return Array.isArray(otherValue) && otherValue.includes(item);
+        });
+      });
+      
+      if (uniqueItems.length > 0) {
+        return "bg-fuchsia-900/30 text-white font-medium";
+      }
+    }
+    
+    return "";
   };
 
   return (
@@ -103,7 +150,7 @@ export function ComparisonCategories({
               </TableCell>
             ))
           ) : (
-            hotels.map(hotel => {
+            hotels.map((hotel, hotelIndex) => {
               let value;
               if (category.secondKey && hotel[category.key] && hotel[category.secondKey]) {
                 value = category.formatter(hotel[category.key], hotel[category.secondKey]);
@@ -111,8 +158,13 @@ export function ComparisonCategories({
                 value = category.formatter(hotel[category.key]);
               }
               
+              const highlightClass = getHighlightClass(category, hotel[category.key], hotelIndex);
+              
               return (
-                <TableCell key={hotel.id} className="px-6 py-4 text-center text-white/90">
+                <TableCell 
+                  key={hotel.id} 
+                  className={`px-6 py-4 text-center text-white/90 transition-colors duration-300 ${highlightClass}`}
+                >
                   {value}
                 </TableCell>
               );

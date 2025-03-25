@@ -21,6 +21,8 @@ export interface ComparisonCategory {
   secondKey?: keyof HotelForComparison;
   formatter: (value: any, secondValue?: any) => string | number | JSX.Element;
   sortable?: boolean;
+  highlightBest?: 'highest' | 'lowest' | false;
+  highlightPresence?: boolean;
 }
 
 // Define sort options

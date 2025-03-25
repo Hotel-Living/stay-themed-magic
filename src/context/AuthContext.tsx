@@ -80,7 +80,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       console.log("Profile data:", data);
-      setProfile(data);
+      
+      // Make sure we're setting a complete Profile object with all required fields
+      // If role or email_verified are missing, provide default values
+      const completeProfile: Profile = {
+        ...data,
+        role: data.role || 'guest',
+        email_verified: data.email_verified ?? false
+      };
+      
+      setProfile(completeProfile);
     } catch (error) {
       console.error('Error in fetchProfile:', error);
       handleAppError(error, "Error loading your profile");

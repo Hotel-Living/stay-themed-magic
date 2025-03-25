@@ -1,29 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, Mail, AlertTriangle } from 'lucide-react';
-import ReviewItem from './ReviewItem';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Review } from '@/hooks/hotel-detail/types';
-import { DashboardReview } from './types';
+import { useReviewOperations } from '@/hooks/dashboard/useReviewOperations';
+import { ReviewsHeader } from './reviews/ReviewsHeader';
+import { ReviewsFilters } from './reviews/ReviewsFilters';
+import { ReviewsCardView } from './reviews/ReviewsCardView';
+import { ReviewsTableView } from './reviews/ReviewsTableView';
+import { ReviewsPagination } from './reviews/ReviewsPagination';
 import ReviewResponseDialog from './ReviewResponseDialog';
-import { useToast } from '@/hooks/use-toast';
-import { useSendNotification } from '@/hooks/useSendNotification';
+import { DashboardReview } from './types';
 
 const mockReviews: DashboardReview[] = [
   {
@@ -125,13 +109,11 @@ interface ReviewsManagementProps {
 }
 
 export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
-  const [reviews, setReviews] = useState<DashboardReview[]>(mockReviews);
+  const { reviews, isSending, respondToReview, sendNotifications } = useReviewOperations(mockReviews);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('card');
   const [selectedReview, setSelectedReview] = useState<DashboardReview | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
-  const { sendNotification, isSending } = useSendNotification();
   
   const filteredByPropertyReviews = useMemo(() => {
     if (!propertyFilter) return reviews;
@@ -141,6 +123,19 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const unnotifiedReviews = useMemo(() => {
     return filteredByPropertyReviews.filter(review => !review.notified);
   }, [filteredByPropertyReviews]);
+  
+  const tabFilteredReviews = useMemo(() => {
+    switch(activeTab) {
+      case 'unresponded':
+        return filteredByPropertyReviews.filter(r => !r.isResponded);
+      case 'positive':
+        return filteredByPropertyReviews.filter(r => r.rating >= 4);
+      case 'negative':
+        return filteredByPropertyReviews.filter(r => r.rating <= 3);
+      default:
+        return filteredByPropertyReviews;
+    }
+  }, [activeTab, filteredByPropertyReviews]);
   
   const {
     filteredReviews,
@@ -153,13 +148,7 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     handlePageChange,
     handleRatingFilterChange
   } = useReviewList({
-    reviews: activeTab === 'all' 
-      ? filteredByPropertyReviews 
-      : activeTab === 'unresponded' 
-        ? filteredByPropertyReviews.filter(r => !r.isResponded) 
-        : activeTab === 'positive' 
-          ? filteredByPropertyReviews.filter(r => r.rating >= 4) 
-          : filteredByPropertyReviews.filter(r => r.rating <= 3),
+    reviews: tabFilteredReviews,
     reviewsPerPage: 4,
     initialSortOption: 'newest'
   });
@@ -174,328 +163,51 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     setSelectedReview(null);
   };
 
-  const respondToReview = (reviewId: string, responseText: string) => {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        setReviews(prevReviews => 
-          prevReviews.map(review => 
-            review.id === reviewId 
-              ? { ...review, isResponded: true, response: responseText } 
-              : review
-          )
-        );
-        
-        toast({
-          title: "Response submitted",
-          description: "Your response has been successfully submitted.",
-        });
-        
-        resolve();
-      }, 500);
-    });
-  };
-
-  const sendEmailNotifications = async () => {
-    if (unnotifiedReviews.length === 0) {
-      toast({
-        title: "No new reviews",
-        description: "There are no new unnotified reviews.",
-      });
-      return;
-    }
-    
-    const hotelOwnerEmail = "owner@example.com";
-    
-    try {
-      const promises = unnotifiedReviews.map(async (review) => {
-        await sendNotification('review', hotelOwnerEmail, {
-          hotelName: review.property,
-          rating: review.rating,
-          comment: review.comment,
-        });
-        
-        return { ...review, notified: true };
-      });
-      
-      const updatedReviews = await Promise.all(promises);
-      
-      setReviews(prevReviews => 
-        prevReviews.map(review => 
-          unnotifiedReviews.some(ur => ur.id === review.id)
-            ? { ...review, notified: true }
-            : review
-        )
-      );
-      
-      toast({
-        title: "Notifications sent",
-        description: `Sent ${unnotifiedReviews.length} notifications to hotel owner.`,
-      });
-    } catch (error) {
-      toast({
-        title: "Error sending notifications",
-        description: error instanceof Error ? error.message : "An unknown error occurred",
-        variant: "destructive",
-      });
-    }
+  const handleSendNotifications = () => {
+    sendNotifications(unnotifiedReviews);
   };
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">
-          {propertyFilter ? `Reviews for ${propertyFilter}` : 'Guest Reviews'}
-        </h2>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-sm text-foreground/70">
-            <div className="flex items-center mr-4">
-              <Star className="w-4 h-4 text-yellow-400 mr-1" />
-              <span>
-                {filteredByPropertyReviews.length > 0 
-                  ? (filteredByPropertyReviews.reduce((sum, r) => sum + r.rating, 0) / filteredByPropertyReviews.length).toFixed(1) 
-                  : '0'} Avg
-              </span>
-            </div>
-            <div className="flex items-center mr-4">
-              <MessageCircle className="w-4 h-4 text-fuchsia-400 mr-1" />
-              <span>{filteredByPropertyReviews.length} Total</span>
-            </div>
-            <div className="flex items-center">
-              <ThumbsUp className="w-4 h-4 text-green-400 mr-1" />
-              <span>{filteredByPropertyReviews.filter(r => r.rating >= 4).length} Positive</span>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            {unnotifiedReviews.length > 0 && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-1 text-amber-400 border-amber-400/20 hover:bg-amber-400/10"
-                onClick={sendEmailNotifications}
-                disabled={isSending}
-              >
-                <Mail className="w-3 h-3" />
-                {isSending ? "Sending..." : `Notify (${unnotifiedReviews.length})`}
-              </Button>
-            )}
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className={viewMode === 'card' ? 'bg-primary/10' : ''}
-              onClick={() => setViewMode('card')}
-            >
-              Card
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm"
-              className={viewMode === 'table' ? 'bg-primary/10' : ''}
-              onClick={() => setViewMode('table')}
-            >
-              Table
-            </Button>
-          </div>
-        </div>
-      </div>
+      <ReviewsHeader 
+        propertyFilter={propertyFilter}
+        filteredReviews={filteredByPropertyReviews}
+        unnotifiedReviews={unnotifiedReviews}
+        isSending={isSending}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        onSendNotifications={handleSendNotifications}
+      />
 
-      <div className="flex flex-col md:flex-row gap-4 mb-6 justify-between items-start md:items-center">
-        <Tabs defaultValue="all" className="w-full max-w-md" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-4 w-full">
-            <TabsTrigger value="all">All Reviews</TabsTrigger>
-            <TabsTrigger value="unresponded">Unresponded</TabsTrigger>
-            <TabsTrigger value="positive">Positive</TabsTrigger>
-            <TabsTrigger value="negative">Negative</TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        <div className="flex gap-2 items-center">
-          <SlidersHorizontal className="h-4 w-4 text-foreground/70" />
-          <Select
-            value={sortOption}
-            onValueChange={(value) => handleSortChange(value as any)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest">Newest First</SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
-              <SelectItem value="highest">Highest Rating</SelectItem>
-              <SelectItem value="lowest">Lowest Rating</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          <Select
-            value={ratingFilter ? ratingFilter.toString() : 'all'}
-            onValueChange={(value) => handleRatingFilterChange(value === 'all' ? null : Number(value))}
-          >
-            <SelectTrigger className="w-[160px]">
-              <SelectValue placeholder="Filter by rating" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Ratings</SelectItem>
-              <SelectItem value="5">5 Stars Only</SelectItem>
-              <SelectItem value="4">4 Stars Only</SelectItem>
-              <SelectItem value="3">3 Stars Only</SelectItem>
-              <SelectItem value="2">2 Stars Only</SelectItem>
-              <SelectItem value="1">1 Star Only</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      <ReviewsFilters 
+        activeTab={activeTab}
+        sortOption={sortOption}
+        ratingFilter={ratingFilter}
+        onTabChange={setActiveTab}
+        onSortChange={handleSortChange}
+        onRatingFilterChange={handleRatingFilterChange}
+      />
 
       {viewMode === 'card' ? (
-        <div className="space-y-6">
-          {currentReviews.length > 0 ? (
-            currentReviews.map((review: DashboardReview) => (
-              <div key={review.id} className="relative">
-                <ReviewItem 
-                  name={review.name} 
-                  rating={review.rating}
-                  property={review.property}
-                  comment={review.comment}
-                  date={review.date}
-                />
-                
-                {!review.notified && (
-                  <div className="absolute top-2 right-2">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-400/20 text-amber-400">
-                      <AlertTriangle className="w-3 h-3 mr-1" />
-                      New
-                    </span>
-                  </div>
-                )}
-                
-                {review.isResponded ? (
-                  <div className="mt-2 ml-6 p-3 bg-fuchsia-800/10 rounded-lg border border-fuchsia-800/20">
-                    <div className="flex justify-between">
-                      <p className="text-xs font-semibold text-fuchsia-300 mb-1">Your Response:</p>
-                      <span className="text-xs text-green-400">Responded</span>
-                    </div>
-                    <p className="text-sm text-foreground/80">{review.response}</p>
-                  </div>
-                ) : (
-                  <div className="mt-2 flex justify-end">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => openResponseDialog(review)}
-                    >
-                      Respond to Review
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <div className="text-center py-10">
-              <p className="text-foreground/70">No reviews match your filter</p>
-            </div>
-          )}
-        </div>
+        <ReviewsCardView 
+          reviews={currentReviews}
+          openResponseDialog={openResponseDialog}
+        />
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Guest</TableHead>
-              <TableHead>Property</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentReviews.length > 0 ? (
-              currentReviews.map((review: DashboardReview) => (
-                <TableRow key={review.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center">
-                      {!review.notified && (
-                        <AlertTriangle className="w-3 h-3 mr-1 text-amber-400" />
-                      )}
-                      {review.name}
-                    </div>
-                  </TableCell>
-                  <TableCell>{review.property}</TableCell>
-                  <TableCell>
-                    <div className="flex">
-                      {Array.from({ length: review.rating }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell>{review.date}</TableCell>
-                  <TableCell>
-                    {review.isResponded ? (
-                      <span className="text-xs text-green-400">Responded</span>
-                    ) : (
-                      <span className="text-xs text-amber-400">Pending</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {review.isResponded ? (
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        className="text-fuchsia-300 hover:text-foreground"
-                        onClick={() => openResponseDialog(review)}
-                      >
-                        View Response
-                      </Button>
-                    ) : (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => openResponseDialog(review)}
-                      >
-                        Respond
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-6">
-                  <p className="text-foreground/70">No reviews match your filter</p>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <ReviewsTableView 
+          reviews={currentReviews}
+          openResponseDialog={openResponseDialog}
+        />
       )}
 
-      {totalPages > 1 && (
-        <div className="flex justify-between items-center mt-6">
-          <div className="text-sm text-foreground/70">
-            Showing {currentReviews.length} of {filteredReviews.length} reviews
-          </div>
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
+      <ReviewsPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalReviews={filteredReviews.length}
+        reviewsPerPage={4}
+        currentCount={currentReviews.length}
+        onPageChange={handlePageChange}
+      />
 
       <ReviewResponseDialog
         review={selectedReview}

@@ -75,11 +75,10 @@ export function ReviewSorter({ onSortChange, initialValue = "newest" }: ReviewSo
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-full md:w-[300px] p-0" 
+          className="w-full md:w-[300px] p-0 bg-background/95 backdrop-blur-md border-fuchsia-900/30 shadow-md" 
           align="end"
           side="bottom"
           sideOffset={5}
-          className="bg-background/95 backdrop-blur-md border-fuchsia-900/30 shadow-md"
         >
           <Command>
             <CommandInput placeholder="Search sort options..." />

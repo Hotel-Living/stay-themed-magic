@@ -1,6 +1,5 @@
-
 import React, { useState, useMemo } from 'react';
-import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
+import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, Mail, AlertTriangle } from 'lucide-react';
 import ReviewItem from './ReviewItem';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -24,6 +23,7 @@ import { Review } from '@/hooks/hotel-detail/types';
 import { DashboardReview } from './types';
 import ReviewResponseDialog from './ReviewResponseDialog';
 import { useToast } from '@/hooks/use-toast';
+import { useSendNotification } from '@/hooks/useSendNotification';
 
 const mockReviews: DashboardReview[] = [
   {
@@ -36,7 +36,8 @@ const mockReviews: DashboardReview[] = [
     isResponded: false,
     hotel_id: 'hotel-1',
     user_id: 'user-1',
-    created_at: '2023-03-22T12:00:00Z'
+    created_at: '2023-03-22T12:00:00Z',
+    notified: true
   },
   {
     id: '2',
@@ -49,7 +50,8 @@ const mockReviews: DashboardReview[] = [
     response: "Thank you for your feedback, Lisa! We're glad you enjoyed our workshops and facilities.",
     hotel_id: 'hotel-2',
     user_id: 'user-2',
-    created_at: '2023-03-18T12:00:00Z'
+    created_at: '2023-03-18T12:00:00Z',
+    notified: true
   },
   {
     id: '3',
@@ -129,12 +131,16 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const [selectedReview, setSelectedReview] = useState<DashboardReview | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { sendNotification, isLoading: isSendingNotification } = useSendNotification();
   
-  // Filter reviews by property if a property filter is provided
   const filteredByPropertyReviews = useMemo(() => {
     if (!propertyFilter) return reviews;
     return reviews.filter(review => review.property === propertyFilter);
   }, [reviews, propertyFilter]);
+  
+  const unnotifiedReviews = useMemo(() => {
+    return filteredByPropertyReviews.filter(review => !review.notified);
+  }, [filteredByPropertyReviews]);
   
   const {
     filteredReviews,
@@ -170,7 +176,6 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
 
   const respondToReview = (reviewId: string, responseText: string) => {
     return new Promise<void>((resolve) => {
-      // Simulate API call with setTimeout
       setTimeout(() => {
         setReviews(prevReviews => 
           prevReviews.map(review => 
@@ -188,6 +193,55 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         resolve();
       }, 500);
     });
+  };
+
+  const sendEmailNotifications = async () => {
+    if (unnotifiedReviews.length === 0) {
+      toast({
+        title: "No new reviews",
+        description: "There are no new unnotified reviews.",
+      });
+      return;
+    }
+    
+    const hotelOwnerEmail = "owner@example.com";
+    
+    try {
+      const promises = unnotifiedReviews.map(async (review) => {
+        await sendNotification({
+          type: 'review',
+          recipient: hotelOwnerEmail,
+          data: {
+            hotelName: review.property,
+            rating: review.rating,
+            comment: review.comment,
+          }
+        });
+        
+        return { ...review, notified: true };
+      });
+      
+      const updatedReviews = await Promise.all(promises);
+      
+      setReviews(prevReviews => 
+        prevReviews.map(review => 
+          unnotifiedReviews.some(ur => ur.id === review.id)
+            ? { ...review, notified: true }
+            : review
+        )
+      );
+      
+      toast({
+        title: "Notifications sent",
+        description: `Sent ${unnotifiedReviews.length} notifications to hotel owner.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error sending notifications",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -217,6 +271,19 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
           </div>
           
           <div className="flex items-center gap-2">
+            {unnotifiedReviews.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1 text-amber-400 border-amber-400/20 hover:bg-amber-400/10"
+                onClick={sendEmailNotifications}
+                disabled={isSendingNotification}
+              >
+                <Mail className="w-3 h-3" />
+                {isSendingNotification ? "Sending..." : `Notify (${unnotifiedReviews.length})`}
+              </Button>
+            )}
+            
             <Button 
               variant="outline" 
               size="sm" 
@@ -296,6 +363,15 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
                   date={review.date}
                 />
                 
+                {!review.notified && (
+                  <div className="absolute top-2 right-2">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-400/20 text-amber-400">
+                      <AlertTriangle className="w-3 h-3 mr-1" />
+                      New
+                    </span>
+                  </div>
+                )}
+                
                 {review.isResponded ? (
                   <div className="mt-2 ml-6 p-3 bg-fuchsia-800/10 rounded-lg border border-fuchsia-800/20">
                     <div className="flex justify-between">
@@ -339,7 +415,14 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
             {currentReviews.length > 0 ? (
               currentReviews.map((review: DashboardReview) => (
                 <TableRow key={review.id}>
-                  <TableCell className="font-medium">{review.name}</TableCell>
+                  <TableCell className="font-medium">
+                    <div className="flex items-center">
+                      {!review.notified && (
+                        <AlertTriangle className="w-3 h-3 mr-1 text-amber-400" />
+                      )}
+                      {review.name}
+                    </div>
+                  </TableCell>
                   <TableCell>{review.property}</TableCell>
                   <TableCell>
                     <div className="flex">
@@ -389,45 +472,5 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         </Table>
       )}
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-between items-center mt-6">
-          <div className="text-sm text-foreground/70">
-            Showing {currentReviews.length} of {filteredReviews.length} reviews
-          </div>
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      )}
+      {
 
-      {/* Response Dialog */}
-      <ReviewResponseDialog
-        review={selectedReview}
-        isOpen={isDialogOpen}
-        onClose={closeResponseDialog}
-        onRespond={respondToReview}
-      />
-    </div>
-  );
-}
-
-export default ReviewsManagement;

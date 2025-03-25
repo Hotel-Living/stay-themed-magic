@@ -15,4 +15,12 @@ export interface DashboardReview {
   hotel_id: string;
   user_id: string;
   created_at?: string;
+  notified?: boolean;
+}
+
+// Settings for review email notifications
+export interface ReviewNotificationSettings {
+  enabled: boolean;
+  minRatingToNotify: number; // Only notify for reviews with this rating or lower
+  notifyOnAll: boolean; // If true, notify on all reviews, regardless of rating
 }

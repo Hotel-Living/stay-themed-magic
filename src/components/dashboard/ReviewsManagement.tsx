@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal, Mail, AlertTriangle } from 'lucide-react';
 import ReviewItem from './ReviewItem';
@@ -472,5 +473,45 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         </Table>
       )}
 
-      {
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-between items-center mt-6">
+          <div className="text-sm text-foreground/70">
+            Showing {currentReviews.length} of {filteredReviews.length} reviews
+          </div>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
 
+      {/* Response Dialog */}
+      <ReviewResponseDialog
+        review={selectedReview}
+        isOpen={isDialogOpen}
+        onClose={closeResponseDialog}
+        onRespond={respondToReview}
+      />
+    </div>
+  );
+}
+
+export default ReviewsManagement;

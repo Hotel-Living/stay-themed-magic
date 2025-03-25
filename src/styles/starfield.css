@@ -1,0 +1,35 @@
+
+/* Animated background */
+.starfield {
+  background-color: #5B0155;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  animation: starMovement linear infinite;
+}
+
+@keyframes starMovement {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
+  }
+}
+

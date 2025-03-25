@@ -10,6 +10,7 @@ import { FeaturedHotelsSection } from "@/components/home/FeaturedHotelsSection";
 import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
+import { Starfield } from "@/components/Starfield";
 
 export default function Index() {
   const { isLoading: isAuthLoading, user, profile } = useAuth();
@@ -32,6 +33,7 @@ export default function Index() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16 pb-8 text-white flex flex-col justify-center">

@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { EmailVerificationBanner } from "@/components/auth/EmailVerificationBanner";
+import { Starfield } from "@/components/Starfield";
 
 export default function UserDashboard() {
   const { user, profile, isLoading } = useAuth();
@@ -15,6 +16,7 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { SearchLayout } from "@/components/search/SearchLayout";
@@ -6,6 +7,7 @@ import { SearchContent } from "@/components/search/SearchContent";
 import { useHotels, PaginationOptions, SortOption } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/data";
+import { Starfield } from "@/components/Starfield";
 
 export default function Search() {
   const location = useLocation();
@@ -79,42 +81,45 @@ export default function Search() {
   }, [location.search, searchParams]);
   
   return (
-    <SearchLayout>
-      <h1 className="text-2xl font-bold mb-6 text-white">Search Results</h1>
-      
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="w-full md:w-1/3 lg:w-1/4">
-          <div className="sticky top-20">
-            <FilterSidebar 
-              activeFilters={{
-                ...filters,
-                propertyType: null,
-                propertyStyle: null,
-                roomTypes: [],
-                hotelFeatures: [],
-                roomFeatures: [],
-                meals: [],
-                lengthOfStay: null,
-                activities: [],
-                location: null,
-                category: null
-              }}
-              handleFilterChange={handleFilterChange}
-              handleArrayFilterChange={handleArrayFilterChange}
-            />
-          </div>
-        </div>
+    <>
+      <Starfield />
+      <SearchLayout>
+        <h1 className="text-2xl font-bold mb-6 text-white">Search Results</h1>
         
-        <SearchContent 
-          hotels={hotels}
-          isLoading={isLoading}
-          error={error}
-          pagination={pagination}
-          onSortChange={handleSortChange}
-          onPageChange={handlePageChange}
-          onClearFilters={handleClearFilters}
-        />
-      </div>
-    </SearchLayout>
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="w-full md:w-1/3 lg:w-1/4">
+            <div className="sticky top-20">
+              <FilterSidebar 
+                activeFilters={{
+                  ...filters,
+                  propertyType: null,
+                  propertyStyle: null,
+                  roomTypes: [],
+                  hotelFeatures: [],
+                  roomFeatures: [],
+                  meals: [],
+                  lengthOfStay: null,
+                  activities: [],
+                  location: null,
+                  category: null
+                }}
+                handleFilterChange={handleFilterChange}
+                handleArrayFilterChange={handleArrayFilterChange}
+              />
+            </div>
+          </div>
+          
+          <SearchContent 
+            hotels={hotels}
+            isLoading={isLoading}
+            error={error}
+            pagination={pagination}
+            onSortChange={handleSortChange}
+            onPageChange={handlePageChange}
+            onClearFilters={handleClearFilters}
+          />
+        </div>
+      </SearchLayout>
+    </>
   );
 }

@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useProfileOperations } from '@/hooks/useProfileOperations';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2, Camera } from 'lucide-react';
 
 export const ProfileSettings = () => {
   const { user, profile } = useAuth();
   const { updateProfile } = useProfileOperations();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     first_name: profile?.first_name || '',
     last_name: profile?.last_name || '',
     bio: profile?.bio || '',
+    avatar_url: profile?.avatar_url || '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -43,6 +49,83 @@ export const ProfileSettings = () => {
     }
   };
 
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    
+    try {
+      setIsUploading(true);
+      
+      // Check if file is an image and size is reasonable
+      if (!file.type.startsWith('image/')) {
+        throw new Error('Please upload an image file');
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB
+        throw new Error('File size exceeds 5MB limit');
+      }
+      
+      // Create a unique file name to avoid collisions
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+      
+      // Upload the file to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+        
+      if (uploadError) throw uploadError;
+      
+      // Get the public URL for the uploaded file
+      const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+      const avatarUrl = data.publicUrl;
+      
+      // Update formData with the new avatar URL
+      setFormData(prev => ({ ...prev, avatar_url: avatarUrl }));
+      
+      // Update profile with the new avatar URL
+      await updateProfile(user, { avatar_url: avatarUrl });
+      
+      toast({
+        title: "Avatar updated",
+        description: "Your profile picture has been updated successfully.",
+      });
+    } catch (error: any) {
+      console.error("Error uploading avatar:", error);
+      toast({
+        title: "Upload failed",
+        description: error.message || "There was a problem uploading your profile picture.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Function to render the avatar with initials fallback
+  const renderAvatar = () => {
+    if (formData.avatar_url) {
+      return (
+        <img 
+          src={formData.avatar_url} 
+          alt="Profile" 
+          className="w-24 h-24 rounded-full object-cover"
+        />
+      );
+    } else {
+      return (
+        <div className="w-24 h-24 rounded-full bg-fuchsia-800/30 flex items-center justify-center text-xl font-medium">
+          {profile?.first_name?.[0]}{profile?.last_name?.[0]}
+        </div>
+      );
+    }
+  };
+
   return (
     <div>
       <h3 className="text-lg font-medium mb-4">Profile Settings</h3>
@@ -50,13 +133,44 @@ export const ProfileSettings = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">Profile Photo</label>
-          <div className="flex items-center">
-            <div className="w-16 h-16 rounded-full bg-fuchsia-800/30 flex items-center justify-center text-lg font-medium">
-              {profile?.first_name?.[0]}{profile?.last_name?.[0]}
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="relative group">
+              {renderAvatar()}
+              
+              <button 
+                type="button"
+                onClick={triggerFileInput}
+                className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <Loader2 className="w-6 h-6 text-white animate-spin" />
+                ) : (
+                  <Camera className="w-6 h-6 text-white" />
+                )}
+              </button>
             </div>
-            <button className="ml-4 px-3 py-1 text-sm bg-fuchsia-800/30 hover:bg-fuchsia-700/40 rounded-lg transition-colors">
-              Upload Photo
-            </button>
+            
+            <div className="flex flex-col">
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleFileSelect} 
+                className="hidden" 
+                accept="image/*"
+              />
+              <button
+                type="button"
+                onClick={triggerFileInput}
+                className="px-4 py-2 bg-fuchsia-800/30 hover:bg-fuchsia-700/40 rounded-lg transition-colors text-sm"
+                disabled={isUploading}
+              >
+                {isUploading ? 'Uploading...' : 'Change Photo'}
+              </button>
+              <p className="text-xs text-muted-foreground mt-1">
+                Recommended: Square JPG or PNG, max 5MB
+              </p>
+            </div>
           </div>
         </div>
 

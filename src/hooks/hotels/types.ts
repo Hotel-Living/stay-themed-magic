@@ -10,16 +10,13 @@ export type PaginationOptions = {
   limit: number;
 };
 
-// Filter parameters type
-export type FilterParams = Record<string, any>;
-
 // Types for fetching hotels
 export interface FetchHotelsOptions {
-  filters: FilterState;
+  filters: import("@/components/filters/FilterTypes").FilterState;
   pagination?: PaginationOptions;
   sortOption?: SortOption;
 }
 
 // Re-export FilterState to avoid circular dependencies
-import { FilterState } from "@/components/filters/FilterTypes";
+import type { FilterState } from "@/components/filters/FilterTypes";
 export type { FilterState };

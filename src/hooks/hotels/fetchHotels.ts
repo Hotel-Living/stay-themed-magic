@@ -1,6 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { FilterState } from "@/components/filters/FilterTypes";
+import type { FilterState } from "@/components/filters/FilterTypes";
 import { PaginationOptions, SortOption } from "./types";
 import { createFilterParams } from "./filterUtils";
 

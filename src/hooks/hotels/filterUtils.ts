@@ -1,5 +1,5 @@
 
-import { FilterState } from "@/components/filters/FilterTypes";
+import type { FilterState } from "@/components/filters/FilterTypes";
 
 /**
  * Creates filter parameters for Supabase queries based on the provided filters

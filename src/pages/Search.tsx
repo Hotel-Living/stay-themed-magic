@@ -6,6 +6,7 @@ import { FilterSidebar } from "@/components/search/FilterSidebar";
 import { SearchContent } from "@/components/search/SearchContent";
 import { useHotels, PaginationOptions, SortOption } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
+import { Theme } from "@/utils/data";
 
 export default function Search() {
   const location = useLocation();

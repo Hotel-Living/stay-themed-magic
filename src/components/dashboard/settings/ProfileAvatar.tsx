@@ -1,11 +1,11 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Loader2, Camera, Upload } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { useToast } from '@/hooks/use-toast';
+import { useFileUpload } from '@/hooks/useFileUpload';
 
 interface ProfileAvatarProps {
   user: User | null;
@@ -19,57 +19,33 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
   onAvatarChange 
 }) => {
   const { toast } = useToast();
-  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { isUploading, uploadFile } = useFileUpload({
+    bucketName: 'avatars',
+    folderPath: 'avatars',
+    fileSizeLimit: 5, // 5MB
+    fileTypes: ['image/*']
+  });
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
     
     try {
-      setIsUploading(true);
+      const avatarUrl = await uploadFile(file, user.id);
       
-      // Check if file is an image and size is reasonable
-      if (!file.type.startsWith('image/')) {
-        throw new Error('Please upload an image file');
-      }
-      
-      if (file.size > 5 * 1024 * 1024) { // 5MB
-        throw new Error('File size exceeds 5MB limit');
-      }
-      
-      // Create a unique file name to avoid collisions
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `avatars/${fileName}`;
-      
-      // Upload the file to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file);
+      if (avatarUrl) {
+        // Update parent component with the new avatar URL
+        onAvatarChange(avatarUrl);
         
-      if (uploadError) throw uploadError;
-      
-      // Get the public URL for the uploaded file
-      const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
-      const avatarUrl = data.publicUrl;
-      
-      // Update parent component with the new avatar URL
-      onAvatarChange(avatarUrl);
-      
-      toast({
-        title: "Avatar updated",
-        description: "Your profile picture has been updated successfully.",
-      });
-    } catch (error: any) {
-      console.error("Error uploading avatar:", error);
-      toast({
-        title: "Upload failed",
-        description: error.message || "There was a problem uploading your profile picture.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsUploading(false);
+        toast({
+          title: "Avatar updated",
+          description: "Your profile picture has been updated successfully.",
+        });
+      }
+    } catch (error) {
+      // Error handling is done in the hook
+      console.error("Error in handleFileSelect:", error);
     }
   };
 

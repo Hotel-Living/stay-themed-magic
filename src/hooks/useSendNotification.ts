@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { handleSupabaseError } from "@/utils/errorHandling";
 
 type NotificationType = 'booking' | 'review' | 'message';
 
@@ -17,6 +18,15 @@ export function useSendNotification() {
     setIsSending(true);
     
     try {
+      // Validate inputs
+      if (!recipient || !recipient.includes('@')) {
+        throw new Error("Invalid email recipient");
+      }
+      
+      if (!type || !['booking', 'review', 'message'].includes(type)) {
+        throw new Error("Invalid notification type");
+      }
+      
       const { data: response, error } = await supabase.functions.invoke('send-notification', {
         body: { type, recipient, data }
       });
@@ -32,11 +42,28 @@ export function useSendNotification() {
       return response;
     } catch (error: any) {
       console.error("Error sending notification:", error);
-      toast({
-        title: "Error Sending Notification",
-        description: error.message || "Failed to send notification",
-        variant: "destructive"
-      });
+      
+      // Handle specific error cases
+      if (error.message?.includes("network") || error.message?.includes("fetch")) {
+        toast({
+          title: "Network Error",
+          description: "Unable to connect to notification service. Please check your internet connection.",
+          variant: "destructive"
+        });
+      } else if (error.message?.includes("email")) {
+        toast({
+          title: "Email Error",
+          description: error.message || "There was a problem with the recipient email address",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Error Sending Notification",
+          description: error.message || "Failed to send notification",
+          variant: "destructive"
+        });
+      }
+      
       return null;
     } finally {
       setIsSending(false);

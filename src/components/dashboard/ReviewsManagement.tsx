@@ -46,7 +46,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Great facilities and tech workshops. Would recommend for longer stays.',
     date: '1 week ago',
     isResponded: true,
-    response: 'Thank you for your feedback, Lisa! We're glad you enjoyed our workshops and facilities.',
+    response: "Thank you for your feedback, Lisa! We're glad you enjoyed our workshops and facilities.",
     hotel_id: 'hotel-2',
     user_id: 'user-2',
     created_at: '2023-03-18T12:00:00Z'
@@ -71,7 +71,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Perfect for digital nomads! The coworking space and networking events were outstanding.',
     date: '3 weeks ago',
     isResponded: true,
-    response: 'We appreciate your kind words, Sarah! Our goal is to create the perfect environment for digital nomads.',
+    response: "We appreciate your kind words, Sarah! Our goal is to create the perfect environment for digital nomads.",
     hotel_id: 'hotel-2',
     user_id: 'user-4',
     created_at: '2023-03-04T12:00:00Z'
@@ -84,7 +84,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Disappointing stay. The room was not as advertised and the Wi-Fi was constantly down.',
     date: '1 month ago',
     isResponded: true,
-    response: 'We sincerely apologize for the issues you experienced, David. We've since upgraded our Wi-Fi system and updated our room descriptions.',
+    response: "We sincerely apologize for the issues you experienced, David. We've since upgraded our Wi-Fi system and updated our room descriptions.",
     hotel_id: 'hotel-1',
     user_id: 'user-5',
     created_at: '2023-02-25T12:00:00Z'
@@ -109,7 +109,7 @@ const mockReviews: DashboardReview[] = [
     comment: 'Good value for money. The language classes were excellent.',
     date: '2 months ago',
     isResponded: true,
-    response: 'Thank you for your review, Robert! We take pride in our language classes and are glad you found them valuable.',
+    response: "Thank you for your review, Robert! We take pride in our language classes and are glad you found them valuable.",
     hotel_id: 'hotel-1',
     user_id: 'user-7',
     created_at: '2023-01-25T12:00:00Z'

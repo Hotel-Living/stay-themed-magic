@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { HotelReviewsProps } from "@/types/hotel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Review {
   id: string;
@@ -17,7 +18,7 @@ interface Review {
   avatar_url?: string;
 }
 
-export function HotelReviews({ hotelId, averageRating = 0 }: HotelReviewsProps) {
+export function HotelReviews({ hotelId, averageRating = 0, isLoading: externalLoading }: HotelReviewsProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
@@ -88,6 +89,35 @@ export function HotelReviews({ hotelId, averageRating = 0 }: HotelReviewsProps) 
       />
     ));
   };
+  
+  // If external loading state is provided and true, show loading state
+  if (externalLoading) {
+    return (
+      <div className="glass-card rounded-2xl p-6 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <Skeleton className="h-7 w-40" />
+          <Skeleton className="h-5 w-36" />
+        </div>
+        <div className="space-y-6">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className="border-b border-fuchsia-900/10 pb-6 last:border-0 last:pb-0">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="w-10 h-10 rounded-full" />
+                  <div>
+                    <Skeleton className="h-5 w-32 mb-1" />
+                    <Skeleton className="h-4 w-24" />
+                  </div>
+                </div>
+                <Skeleton className="h-4 w-20" />
+              </div>
+              <Skeleton className="h-16 w-full mt-2" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">

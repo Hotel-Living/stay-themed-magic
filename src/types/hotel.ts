@@ -29,19 +29,23 @@ export interface HotelDetailProps {
 
 export interface HotelAmenitiesProps {
   amenities: string[];
+  isLoading?: boolean;
 }
 
 export interface HotelAvailableMonthsProps {
   months: string[];
+  isLoading?: boolean;
 }
 
 export interface HotelDescriptionProps {
   description: string;
+  isLoading?: boolean;
 }
 
 export interface HotelGalleryProps {
   images: string[];
   hotelName: string;
+  isLoading?: boolean;
 }
 
 export interface HotelHeaderProps {
@@ -51,13 +55,16 @@ export interface HotelHeaderProps {
   country: string;
   availableMonthsCount: number;
   themes: HotelTheme[];
+  isLoading?: boolean;
 }
 
 export interface HotelReviewsProps {
   hotelId: string;
   averageRating?: number;
+  isLoading?: boolean;
 }
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
+  isLoading?: boolean;
 }

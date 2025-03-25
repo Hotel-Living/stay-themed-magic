@@ -35,6 +35,9 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     throw error;
   }
   
+  // Create a properly typed object with our hotel data
+  const hotelData = data as HotelWithDetails;
+  
   // Now fetch the average rating for this hotel
   const { data: ratingData, error: ratingError } = await supabase
     .from('reviews')
@@ -46,12 +49,12 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   } else if (ratingData && ratingData.length > 0) {
     // Calculate average rating
     const sum = ratingData.reduce((acc, review) => acc + review.rating, 0);
-    data.average_rating = sum / ratingData.length;
+    hotelData.average_rating = sum / ratingData.length;
   } else {
-    data.average_rating = 0; // No reviews yet
+    hotelData.average_rating = 0; // No reviews yet
   }
   
-  return data as HotelWithDetails;
+  return hotelData;
 };
 
 // Hook to get a specific hotel by ID

@@ -8,7 +8,7 @@ export const SettingsContent = () => {
     <EmptyState 
       icon={<Settings className="w-8 h-8" />}
       title="Settings"
-      description="Account and property management settings will be available here."
+      description="Account settings, preferences, and property management options will be available here. Check back soon for more customization options."
     />
   );
 };

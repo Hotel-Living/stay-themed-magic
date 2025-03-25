@@ -8,7 +8,7 @@ export const GuestsContent = () => {
     <EmptyState 
       icon={<Users className="w-8 h-8" />}
       title="No Guests Yet"
-      description="Information about guests who have booked your properties will appear here."
+      description="Information about guests who have booked your properties will appear here when you receive bookings. Make sure your properties are listed to attract guests."
     />
   );
 };

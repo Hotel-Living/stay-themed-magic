@@ -259,7 +259,9 @@ export type Database = {
           created_at: string
           hotel_id: string | null
           id: string
+          is_notified: boolean | null
           rating: number
+          response_text: string | null
           updated_at: string
           user_id: string | null
         }
@@ -268,7 +270,9 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_notified?: boolean | null
           rating: number
+          response_text?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -277,7 +281,9 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_notified?: boolean | null
           rating?: number
+          response_text?: string | null
           updated_at?: string
           user_id?: string | null
         }

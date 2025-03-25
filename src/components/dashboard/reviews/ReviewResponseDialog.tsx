@@ -42,6 +42,7 @@ export function ReviewResponseDialog({
     setIsSubmitting(true);
     try {
       await onRespond(review.id, response);
+      onClose();
     } catch (error) {
       console.error('Failed to submit response:', error);
     } finally {

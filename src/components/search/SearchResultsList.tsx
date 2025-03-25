@@ -2,6 +2,7 @@
 import { HotelCard } from "@/components/HotelCard";
 import { Compass } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CompareButton } from "@/components/comparison/CompareButton";
 
 interface SearchResultsListProps {
   filteredHotels: any[];
@@ -45,17 +46,21 @@ export function SearchResultsList({ filteredHotels, isLoading = false }: SearchR
           const hotelThemes = hotel.hotel_themes?.map((ht: any) => ht.themes?.name).filter(Boolean) || [];
           
           return (
-            <HotelCard 
-              key={hotel.id}
-              id={hotel.id}
-              name={hotel.name}
-              city={hotel.city}
-              country={hotel.country}
-              stars={hotel.category || 0}
-              pricePerMonth={hotel.price_per_month}
-              themes={hotelThemes}
-              image={mainImage}
-            />
+            <div key={hotel.id} className="relative">
+              <div className="absolute top-3 right-3 z-10">
+                <CompareButton hotelId={hotel.id} hotelName={hotel.name} />
+              </div>
+              <HotelCard 
+                id={hotel.id}
+                name={hotel.name}
+                city={hotel.city}
+                country={hotel.country}
+                stars={hotel.category || 0}
+                pricePerMonth={hotel.price_per_month}
+                themes={hotelThemes}
+                image={mainImage}
+              />
+            </div>
           );
         })}
       </div>

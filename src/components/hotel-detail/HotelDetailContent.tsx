@@ -12,6 +12,7 @@ import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 import { useHotelDetail } from "@/hooks/useHotelDetail";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { RatingDisplay } from "./reviews/RatingDisplay";
+import { CompareButton } from "@/components/comparison/CompareButton";
 
 export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
   // Extract image URLs from hotel_images
@@ -49,12 +50,21 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
           Back to hotels
         </Link>
         
-        {!isLoading && hotel?.id && (
-          <FavoriteButton 
-            hotelId={hotel.id} 
-            variant="button" 
-          />
-        )}
+        <div className="flex items-center gap-2">
+          {!isLoading && hotel?.id && (
+            <>
+              <CompareButton 
+                hotelId={hotel.id} 
+                hotelName={hotel.name} 
+                variant="button" 
+              />
+              <FavoriteButton 
+                hotelId={hotel.id} 
+                variant="button" 
+              />
+            </>
+          )}
+        </div>
       </div>
       
       {/* Hotel Header */}

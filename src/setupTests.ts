@@ -34,17 +34,15 @@ global.console = {
 };
 
 // Mock Supabase
-jest.mock("@/integrations/supabase/client", () => {
-  return {
-    supabase: {
-      auth: {
-        getSession: jest.fn(),
-        signUp: jest.fn(),
-        signInWithPassword: jest.fn(),
-        signOut: jest.fn(),
-        onAuthStateChange: jest.fn(),
-      },
-      from: jest.fn(),
+jest.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      getSession: jest.fn(),
+      signUp: jest.fn(),
+      signInWithPassword: jest.fn(),
+      signOut: jest.fn(),
+      onAuthStateChange: jest.fn(),
     },
-  };
-});
+    from: jest.fn(),
+  },
+}));

@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DashboardReview } from '../types';
 import { useToast } from '@/hooks/use-toast';
 import { ReviewCard } from './dialog/ReviewCard';
 import { ResponseInput } from './dialog/ResponseInput';
 import { ResponseAlerts } from './dialog/ResponseAlerts';
 import { useAIResponseGenerator, ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
+import { useResponseTemplates } from '@/hooks/dashboard/useResponseTemplates';
 import {
   Dialog,
   DialogContent,
@@ -39,11 +40,19 @@ export function ReviewResponseDialog({
     isGenerating, 
     generationError, 
     responseSource, 
-    generateAIResponse 
+    generateAIResponse,
+    useTemplateResponse
   } = useAIResponseGenerator();
+  
+  // Use the templates hook
+  const { 
+    templates, 
+    isLoading: isLoadingTemplates, 
+    applyTemplate 
+  } = useResponseTemplates(review?.property ? review.property : null);
 
   // Reset form when dialog opens with new review
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen && review) {
       setResponse(review.response || '');
     }
@@ -75,6 +84,26 @@ export function ReviewResponseDialog({
     }
   };
 
+  // Handler for template selection
+  const handleTemplateSelect = (templateId: string) => {
+    const templateContent = applyTemplate(templateId);
+    if (templateContent && review) {
+      setResponse(templateContent);
+      
+      // Find the tone of the selected template
+      const selectedTemplate = templates.find(t => t.id === templateId);
+      if (selectedTemplate) {
+        // Mark response as coming from template
+        useTemplateResponse(templateContent, selectedTemplate.tone);
+        
+        toast({
+          title: "Template applied",
+          description: `"${selectedTemplate.name}" template applied. Feel free to edit it.`,
+        });
+      }
+    }
+  };
+
   if (!review) return null;
 
   return (
@@ -95,6 +124,9 @@ export function ReviewResponseDialog({
             setResponse={setResponse}
             isGenerating={isGenerating}
             generateAIResponse={handleGenerateAIResponse}
+            templates={templates}
+            isLoadingTemplates={isLoadingTemplates}
+            onTemplateSelect={handleTemplateSelect}
           />
           
           <ResponseAlerts 

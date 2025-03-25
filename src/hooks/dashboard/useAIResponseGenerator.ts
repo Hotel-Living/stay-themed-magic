@@ -66,10 +66,17 @@ export function useAIResponseGenerator() {
     }
   };
 
+  // Function to use a template instead of AI
+  const useTemplateResponse = (templateContent: string, tone: ResponseTone) => {
+    setResponseSource('template');
+    return templateContent;
+  };
+
   return {
     isGenerating,
     generationError,
     responseSource,
     generateAIResponse,
+    useTemplateResponse
   };
 }

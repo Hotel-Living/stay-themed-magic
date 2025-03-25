@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Sparkles, Loader2, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { 
@@ -11,19 +11,26 @@ import {
   SelectValue, 
 } from '@/components/ui/select';
 import { ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
+import { ResponseTemplate } from '@/hooks/dashboard/useResponseTemplates';
 
 interface ResponseInputProps {
   response: string;
   setResponse: (value: string) => void;
   isGenerating: boolean;
   generateAIResponse: (tone: ResponseTone) => void;
+  templates: ResponseTemplate[];
+  isLoadingTemplates: boolean;
+  onTemplateSelect: (templateId: string) => void;
 }
 
 export function ResponseInput({ 
   response, 
   setResponse, 
   isGenerating, 
-  generateAIResponse 
+  generateAIResponse,
+  templates,
+  isLoadingTemplates,
+  onTemplateSelect
 }: ResponseInputProps) {
   const [selectedTone, setSelectedTone] = useState<ResponseTone>('professional');
   
@@ -34,6 +41,10 @@ export function ResponseInput({
   const handleGenerateResponse = () => {
     generateAIResponse(selectedTone);
   };
+
+  const handleTemplateChange = (templateId: string) => {
+    onTemplateSelect(templateId);
+  };
   
   return (
     <>
@@ -42,6 +53,25 @@ export function ResponseInput({
           Your Response
         </label>
         <div className="flex items-center gap-2">
+          <Select 
+            disabled={isLoadingTemplates} 
+            onValueChange={handleTemplateChange}
+          >
+            <SelectTrigger className="w-[150px] h-8 text-xs">
+              <SelectValue placeholder="Use template" />
+            </SelectTrigger>
+            <SelectContent>
+              {templates.map((template) => (
+                <SelectItem key={template.id} value={template.id}>
+                  <div className="flex items-center">
+                    <FileText className="w-3 h-3 mr-2" />
+                    <span>{template.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
           <Select value={selectedTone} onValueChange={handleToneChange}>
             <SelectTrigger className="w-[130px] h-8 text-xs">
               <SelectValue placeholder="Select tone" />
@@ -52,6 +82,7 @@ export function ResponseInput({
               <SelectItem value="apologetic">Apologetic</SelectItem>
             </SelectContent>
           </Select>
+          
           <Button
             type="button"
             variant="outline"

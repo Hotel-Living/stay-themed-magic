@@ -1,0 +1,93 @@
+
+@layer components {
+  /* Text styling */
+  .text-gradient {
+    @apply bg-gradient-to-br from-fuchsia-400 via-magenta-500 to-fuchsia-600 bg-clip-text text-transparent;
+  }
+  
+  .text-stroke {
+    -webkit-text-stroke: 1px theme('colors.fuchsia.500');
+  }
+  
+  .glow {
+    text-shadow: 0 0 10px theme('colors.fuchsia.500'), 
+                0 0 20px theme('colors.fuchsia.600');
+  }
+  
+  /* Button styles */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+  
+  .btn-outline {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+  }
+  
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors;
+  }
+  
+  .badge-primary {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+  
+  .badge-secondary {
+    @apply bg-secondary/10 text-secondary-foreground border border-secondary/20;
+  }
+  
+  /* Avatar and image styles */
+  .avatar {
+    @apply relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full;
+  }
+  
+  .avatar-sm {
+    @apply h-8 w-8;
+  }
+  
+  .avatar-lg {
+    @apply h-12 w-12;
+  }
+  
+  /* Border effects */
+  .glowing-border {
+    @apply relative;
+  }
+  
+  .glowing-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    @apply rounded-lg bg-gradient-to-br from-fuchsia-500 via-magenta-500 to-fuchsia-600;
+    z-index: -1;
+    animation: pulse 2s infinite;
+  }
+  
+  /* Extra small text for legal stuff */
+  .text-2xs {
+    font-size: 0.65rem;
+    line-height: 1rem;
+  }
+}
+
+/* Make sure footer stays at bottom but allows for filter dropdown expansion */
+.filter-dropdown-container {
+  overflow: visible;
+  z-index: 10;
+  position: relative;
+}
+
+/* Remove the button inside button error */
+.filter-dropdown button button {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+}

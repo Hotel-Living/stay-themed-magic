@@ -1,0 +1,30 @@
+
+@layer components {
+  .form-container {
+    @apply space-y-6 w-full max-w-md mx-auto;
+  }
+  
+  .form-group {
+    @apply space-y-2;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-foreground;
+  }
+  
+  .form-input {
+    @apply w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  
+  .form-error {
+    @apply text-sm text-destructive mt-1;
+  }
+  
+  .form-helper {
+    @apply text-xs text-muted-foreground mt-1;
+  }
+  
+  .form-submit {
+    @apply w-full bg-primary hover:bg-primary/90 text-white font-medium rounded-lg px-4 py-3 transition-colors;
+  }
+}

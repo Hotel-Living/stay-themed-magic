@@ -1,7 +1,9 @@
 
 @import './styles/base.css';
 @import './styles/components.css';
+@import './styles/forms.css';
+@import './styles/cards.css';
+@import './styles/ui-elements.css';
 @import './styles/animations.css';
 @import './styles/scrollbar.css';
 @import './styles/starfield.css';
-

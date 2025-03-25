@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { PlusCircle, FileText, HelpCircle, Users, DollarSign, Building } from "lucide-react";
-import StatCard from "./StatCard";  // Using default import
+import StatCard from "./StatCard";
 import BookingItem from "./BookingItem";
 import ReviewItem from "./ReviewItem";
 import ActionCard from "./ActionCard";
@@ -85,7 +85,10 @@ export default function DashboardContent() {
               handlePropertyTabClick();
             }}
           >
-            <span className="text-fuchsia-300 font-medium">+ Add Property</span>
+            <span className="text-fuchsia-300 font-medium flex items-center">
+              <PlusCircle className="w-4 h-4 mr-2" />
+              Add Property
+            </span>
           </Link>
         </div>
       </div>
@@ -149,7 +152,7 @@ export default function DashboardContent() {
         <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <ActionCard 
-            title="+ A Property" 
+            title="Add Property" 
             description="List a new hotel property" 
             icon={<PlusCircle className="w-5 h-5" />}
             onClick={handlePropertyTabClick}

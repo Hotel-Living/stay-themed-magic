@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
@@ -16,9 +17,10 @@ import DashboardContent from './DashboardContent';
 import PropertiesContent from './PropertiesContent';
 import BookingsContent from './BookingsContent';
 import GuestsContent from './GuestsContent';
-import AnalyticsContent from './AnalyticsContent';  // Update to use default import
+import AnalyticsContent from './AnalyticsContent';
 import SettingsContent from './SettingsContent';
 import ReviewsContent from './ReviewsContent';
+import AddProperty from './AddProperty';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -29,13 +31,15 @@ interface NavItemProps {
   label: string;
   active?: boolean;
   onClick?: () => void;
+  dataTab?: string;
 }
 
 // Navigation item component extracted for reusability
-const NavItem = ({ icon, label, active, onClick }: NavItemProps) => {
+const NavItem = ({ icon, label, active, onClick, dataTab }: NavItemProps) => {
   return (
     <button
       onClick={onClick}
+      data-tab={dataTab}
       className={`flex items-center w-full p-3 rounded-lg transition-colors ${
         active
           ? 'bg-fuchsia-950 text-fuchsia-300'
@@ -74,6 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
         { id: 'guests', icon: <UsersIcon className="w-5 h-5" />, label: 'Guests' },
         { id: 'analytics', icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics' },
+        { id: 'addProperty', icon: <BuildingIcon className="w-5 h-5" />, label: 'Add Property' },
         { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
       ];
     }
@@ -102,6 +107,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
         case 'guests': return <GuestsContent />;
         case 'analytics': return <AnalyticsContent />;
+        case 'addProperty': return <AddProperty />;
         case 'settings': return <SettingsContent />;
         default: return children || <DashboardContent />;
       }
@@ -127,6 +133,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 label={item.label}
                 active={activeTab === item.id}
                 onClick={() => handleTabChange(item.id)}
+                dataTab={item.id}
               />
             ))}
           </div>

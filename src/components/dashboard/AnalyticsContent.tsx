@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -130,12 +131,19 @@ export function AnalyticsContent() {
     },
   ];
 
+  // Filter data based on selected timeframe
   const filterDataByTimeframe = (data: any[]) => {
     if (timeframe === "year") return data;
     if (timeframe === "quarter") return data.slice(data.length - 3);
     if (timeframe === "month") return data.slice(data.length - 1);
     return data;
   };
+
+  // Get filtered data for each chart
+  const filteredBookingData = filterDataByTimeframe(bookingData);
+  const filteredRevenueData = filterDataByTimeframe(revenueData);
+  const filteredVisitorData = filterDataByTimeframe(visitorData);
+  const filteredOccupancyData = filterDataByTimeframe(occupancyRateData);
 
   return (
     <div className="space-y-6">
@@ -175,7 +183,7 @@ export function AnalyticsContent() {
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={revenueData}>
+                <LineChart data={filteredRevenueData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -202,7 +210,7 @@ export function AnalyticsContent() {
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={bookingData}>
+                <BarChart data={filteredBookingData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -223,7 +231,7 @@ export function AnalyticsContent() {
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={visitorData}>
+                <LineChart data={filteredVisitorData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -249,7 +257,7 @@ export function AnalyticsContent() {
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={occupancyRateData}>
+                <LineChart data={filteredOccupancyData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis domain={[0, 100]} />

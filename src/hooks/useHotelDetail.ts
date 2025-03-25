@@ -1,5 +1,5 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
@@ -96,9 +96,28 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
 
 // Hook to get a specific hotel by ID
 export function useHotelDetail(id: string | undefined, enabled = true) {
+  const queryClient = useQueryClient();
+  
   return useQuery({
     queryKey: ['hotel', id],
     queryFn: () => id ? fetchHotelById(id) : null,
-    enabled: !!id && enabled
+    enabled: !!id && enabled,
+    staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch for 5 minutes
+    cacheTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    // Prefetch on hover from list page (assuming we'd implement this elsewhere)
+    onSuccess: (data) => {
+      // We could also prefetch related data here
+      if (data) {
+        // For example, prefetch reviews for this hotel
+        queryClient.prefetchQuery({
+          queryKey: ['hotelReviews', data.id],
+          queryFn: () => supabase
+            .from('reviews')
+            .select('*')
+            .eq('hotel_id', data.id)
+            .then(res => res.data)
+        });
+      }
+    }
   });
 }

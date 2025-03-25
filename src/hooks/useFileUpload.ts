@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -42,24 +42,25 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     onBeforeUpload,
   } = options;
 
-  function defaultFileNameGenerator(fileName: string, userId: string): string {
+  // Memoize this function as it doesn't depend on state
+  const defaultFileNameGenerator = useCallback((fileName: string, userId: string): string => {
     const fileExt = fileName.split('.').pop();
     return `${userId}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-  }
+  }, []);
 
   /**
    * Reset the upload state (useful after errors or completed uploads)
    */
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setIsUploading(false);
     setProgress(0);
     setError(null);
-  };
+  }, []);
 
   /**
    * Validate file against configured constraints
    */
-  const validateFile = (file: File): { valid: boolean; errorMessage?: string } => {
+  const validateFile = useCallback((file: File): { valid: boolean; errorMessage?: string } => {
     // Validate file type
     const validType = fileTypes.some(type => {
       if (type.endsWith('/*')) {
@@ -86,9 +87,10 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     }
 
     return { valid: true };
-  };
+  }, [fileTypes, fileSizeLimit]);
 
-  const uploadFile = async (file: File, userId: string): Promise<string | null> => {
+  // Memoize the upload function to prevent unnecessary recreations
+  const uploadFile = useCallback(async (file: File, userId: string): Promise<string | null> => {
     try {
       resetState();
       setIsUploading(true);
@@ -119,14 +121,20 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
         ? `${folderPath}/${fileName}` 
         : fileName;
       
-      // Simulate progress as Supabase doesn't provide upload progress
-      const progressInterval = setInterval(() => {
-        setProgress(prevProgress => {
-          const newProgress = Math.min(prevProgress + 10, 85);
-          if (onProgress) onProgress(newProgress);
-          return newProgress;
-        });
-      }, 300);
+      // Use a more efficient progress simulation that won't cause unnecessary renders
+      let progressTimer: NodeJS.Timeout | null = null;
+      
+      const simulateProgress = () => {
+        progressTimer = setInterval(() => {
+          setProgress(prev => {
+            const newProgress = Math.min(prev + 10, 85);
+            if (onProgress) onProgress(newProgress);
+            return newProgress;
+          });
+        }, 300);
+      };
+      
+      simulateProgress();
       
       // Upload the file to Supabase Storage
       const { error: uploadError } = await supabase.storage
@@ -134,7 +142,9 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
         .upload(filePath, file);
         
       // Clear progress simulation
-      clearInterval(progressInterval);
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
       
       if (uploadError) throw uploadError;
       
@@ -165,7 +175,23 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     } finally {
       setIsUploading(false);
     }
-  };
+  }, [
+    bucketName, 
+    folderPath, 
+    generateFileName, 
+    onBeforeUpload, 
+    onProgress, 
+    resetState, 
+    toast, 
+    validateFile
+  ]);
 
-  return { isUploading, progress, uploadFile, error, resetState };
+  // Return memoized value to prevent unnecessary re-renders of components using this hook
+  return useMemo(() => ({ 
+    isUploading, 
+    progress, 
+    uploadFile, 
+    error, 
+    resetState 
+  }), [isUploading, progress, uploadFile, error, resetState]);
 }

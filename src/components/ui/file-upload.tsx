@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Loader2, Upload } from 'lucide-react';
@@ -19,7 +19,8 @@ interface FileUploadProps {
   size?: "default" | "sm" | "lg" | "icon";
 }
 
-export const FileUpload: React.FC<FileUploadProps> = ({
+// Using memo to prevent unnecessary re-renders
+export const FileUpload: React.FC<FileUploadProps> = memo(({
   userId,
   onFileUploaded,
   bucketName,
@@ -43,7 +44,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     onProgress: () => setShowProgress(true),
   });
 
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Memoize callback to prevent unnecessary re-renders
+  const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     
@@ -65,14 +67,28 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         resetState();
       }, 1500);
     }
-  };
+  }, [uploadFile, userId, onFileUploaded, resetState]);
 
-  const triggerFileInput = () => {
+  const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click();
-  };
+  }, []);
 
   // Generate accept attribute for file input
   const acceptAttribute = fileTypes.join(',');
+
+  // Use memo for potentially expensive rendering
+  const progressIndicator = React.useMemo(() => {
+    if (!showProgress) return null;
+    
+    return (
+      <div className="mt-2 w-full">
+        <Progress value={progress} className="h-1" />
+        <p className="text-xs text-right text-muted-foreground mt-1">
+          {progress === 100 ? 'Complete' : `${Math.round(progress)}%`}
+        </p>
+      </div>
+    );
+  }, [showProgress, progress]);
 
   return (
     <div className="w-full">
@@ -105,14 +121,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         )}
       </Button>
       
-      {showProgress && (
-        <div className="mt-2 w-full">
-          <Progress value={progress} className="h-1" />
-          <p className="text-xs text-right text-muted-foreground mt-1">
-            {progress === 100 ? 'Complete' : `${Math.round(progress)}%`}
-          </p>
-        </div>
-      )}
+      {progressIndicator}
     </div>
   );
-};
+});
+
+FileUpload.displayName = 'FileUpload';

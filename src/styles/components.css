@@ -1,7 +1,7 @@
 
 @layer components {
   /* ==============================
-     Layout utilities
+     Layout Containers
      ============================== */
   .page-container {
     @apply container mx-auto px-4 py-8 md:px-6;
@@ -11,6 +11,9 @@
     @apply py-8 md:py-12;
   }
   
+  /* ==============================
+     Typography
+     ============================== */
   .section-title {
     @apply text-2xl md:text-3xl font-bold mb-6 text-gradient;
   }
@@ -20,7 +23,7 @@
   }
   
   /* ==============================
-     Flex layout helpers
+     Flexbox Helpers
      ============================== */
   .flex-center {
     @apply flex items-center justify-center;
@@ -31,7 +34,7 @@
   }
   
   /* ==============================
-     Responsive grid layouts
+     Grid Layouts
      ============================== */
   .grid-auto-fit {
     @apply grid grid-cols-1;

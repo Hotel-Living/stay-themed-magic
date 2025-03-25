@@ -1,14 +1,14 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ProfileAvatar } from './ProfileAvatar';
 import { ProfileForm } from './ProfileForm';
 import { useProfileForm } from '@/hooks/useProfileForm';
 
-export const ProfileSettings = () => {
+export const ProfileSettings = React.memo(() => {
   const { user, profile } = useAuth();
   
-  const initialData = React.useMemo(() => ({
+  const initialData = useMemo(() => ({
     first_name: profile?.first_name || '',
     last_name: profile?.last_name || '',
     bio: profile?.bio || '',
@@ -45,6 +45,8 @@ export const ProfileSettings = () => {
       />
     </div>
   );
-};
+});
+
+ProfileSettings.displayName = 'ProfileSettings';
 
 export default ProfileSettings;

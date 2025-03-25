@@ -1,9 +1,10 @@
 
+import React from 'react';
 import { useHotels } from "@/hooks/useHotels";
 import { useSearchFilters } from "./context/SearchFiltersContext";
 import { SearchContent } from "./SearchContent";
 
-export function SearchResults() {
+export const SearchResults = React.memo(() => {
   const { 
     filters, 
     pagination, 
@@ -32,4 +33,6 @@ export function SearchResults() {
       onClearFilters={handleClearFilters}
     />
   );
-}
+});
+
+SearchResults.displayName = 'SearchResults';

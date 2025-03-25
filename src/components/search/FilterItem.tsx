@@ -14,6 +14,7 @@ interface FilterItemProps {
   defaultOpen?: boolean;
   className?: string;
   contentClassName?: string;
+  variant?: "purple" | "dark" | "light";
 }
 
 export const FilterItem = memo(function FilterItem({ 
@@ -21,15 +22,29 @@ export const FilterItem = memo(function FilterItem({
   children, 
   defaultOpen = false,
   className,
-  contentClassName
+  contentClassName,
+  variant = "purple"
 }: FilterItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  
+  // Determine background color based on variant
+  const getBgColor = () => {
+    switch (variant) {
+      case "light":
+        return "bg-fuchsia-900/20";
+      case "dark":
+        return "bg-[#3A1054]/70";
+      case "purple":
+      default:
+        return "bg-[#5A1876]/50";
+    }
+  };
   
   return (
     <Collapsible 
       open={isOpen} 
       onOpenChange={setIsOpen}
-      className={cn("bg-[#5A1876]/50 rounded-lg p-3", className)}
+      className={cn(getBgColor(), "rounded-lg p-3", className)}
     >
       <CollapsibleTrigger className="flex items-center justify-between w-full font-medium text-sm">
         <span>{title}</span>

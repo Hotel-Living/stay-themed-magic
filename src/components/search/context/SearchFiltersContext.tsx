@@ -16,8 +16,10 @@ interface SearchFiltersContextType {
   handleClearFilters: () => void;
 }
 
+// Create context with undefined default value
 const SearchFiltersContext = createContext<SearchFiltersContextType | undefined>(undefined);
 
+// Hook for consuming the context
 export function useSearchFilters() {
   const context = useContext(SearchFiltersContext);
   if (context === undefined) {
@@ -30,7 +32,7 @@ interface SearchFiltersProviderProps {
   children: ReactNode;
 }
 
-// Default initial state for filters
+// Default values outside component to avoid recreating on every render
 const DEFAULT_FILTERS: FilterState = {
   country: null,
   month: null,
@@ -38,13 +40,11 @@ const DEFAULT_FILTERS: FilterState = {
   priceRange: null
 };
 
-// Default pagination settings
 const DEFAULT_PAGINATION: PaginationOptions = { 
   page: 1, 
   limit: 10 
 };
 
-// Default sort option
 const DEFAULT_SORT: SortOption = { 
   field: 'price_per_month', 
   direction: 'asc' 
@@ -64,17 +64,18 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
     };
   }, [searchParams]);
   
+  // State management
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [pagination, setPagination] = useState<PaginationOptions>(DEFAULT_PAGINATION);
   const [sortOption, setSortOption] = useState<SortOption>(DEFAULT_SORT);
   
-  // Memoized handlers to prevent unnecessary re-renders
+  // Memoized handlers
   const handleFilterChange = useCallback((filterType: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
-    setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page when filters change
+    // Reset to first page when filters change
+    setPagination(prev => ({ ...prev, page: 1 })); 
   }, []);
   
-  // Handle array filters by converting Theme to the correct format
   const handleArrayFilterChange = useCallback((filterType: string, value: Theme | string, isChecked: boolean) => {
     if (filterType === 'theme') {
       handleFilterChange(filterType, isChecked ? value : null);
@@ -101,7 +102,7 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
   }, [location.search, getInitialFiltersFromUrl]);
   
   // Memoize context value to prevent unnecessary renders
-  const value = useMemo(() => ({
+  const contextValue = useMemo(() => ({
     filters,
     pagination,
     sortOption,
@@ -122,7 +123,7 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
   ]);
   
   return (
-    <SearchFiltersContext.Provider value={value}>
+    <SearchFiltersContext.Provider value={contextValue}>
       {children}
     </SearchFiltersContext.Provider>
   );

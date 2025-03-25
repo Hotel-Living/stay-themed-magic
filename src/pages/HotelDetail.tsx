@@ -2,28 +2,44 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
-import { hotels } from "@/utils/data";
 import { HotelDetailContent } from "@/components/hotel-detail/HotelDetailContent";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
+import { useHotelDetail } from "@/hooks/useHotelDetail";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
-  const [hotel, setHotel] = useState(hotels.find(h => h.id === id));
+  const { toast } = useToast();
+  
+  // Use the Supabase hook to fetch hotel data
+  const { data: hotel, isLoading, error } = useHotelDetail(id);
   
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
-    // Update hotel if id changes
-    setHotel(hotels.find(h => h.id === id));
-  }, [id]);
+    // Show error toast if there's an error fetching the hotel
+    if (error) {
+      toast({
+        title: "Error loading hotel",
+        description: "There was a problem loading the hotel details. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Error fetching hotel data:", error);
+    }
+  }, [error, toast]);
   
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
-        {hotel ? (
+        {isLoading ? (
+          <div className="container max-w-6xl mx-auto px-4 py-16 text-center">
+            <div className="w-16 h-16 border-4 border-fuchsia-500/50 border-t-fuchsia-500 rounded-full animate-spin mx-auto"></div>
+            <p className="mt-4 text-foreground/70">Loading hotel details...</p>
+          </div>
+        ) : hotel ? (
           <HotelDetailContent hotel={hotel} />
         ) : (
           <HotelNotFound />

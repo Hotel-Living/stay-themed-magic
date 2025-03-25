@@ -7,12 +7,29 @@ import { HotelDescription } from "./HotelDescription";
 import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
 import { BookingForm } from "@/components/BookingForm";
+import { Theme } from "@/utils/data";
 
+// Updated interface for Supabase data structure
 interface HotelDetailContentProps {
   hotel: any;
 }
 
 export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
+  // Extract image URLs from hotel_images
+  const imageUrls = hotel.hotel_images ? 
+    hotel.hotel_images.map((img: any) => img.image_url) : 
+    [];
+  
+  // Extract themes from hotel_themes
+  const themes = hotel.hotel_themes ? 
+    hotel.hotel_themes.map((theme: any) => theme.themes) : 
+    [];
+  
+  // For demo purposes, using static months and amenities
+  // In a real application, these would come from the database
+  const availableMonths = ["January", "February", "March", "April", "May", "June"];
+  const amenities = ["Free WiFi", "Pool", "Gym", "Spa", "Restaurant", "Room Service"];
+  
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
       <Link 
@@ -26,26 +43,26 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
       {/* Hotel Header */}
       <HotelHeader 
         name={hotel.name}
-        stars={hotel.stars}
+        stars={hotel.category || 4}
         city={hotel.city}
         country={hotel.country}
-        availableMonthsCount={hotel.availableMonths.length}
-        themes={hotel.themes}
+        availableMonthsCount={availableMonths.length}
+        themes={themes}
       />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           {/* Gallery */}
-          <HotelGallery images={hotel.images} hotelName={hotel.name} />
+          <HotelGallery images={imageUrls.length > 0 ? imageUrls : [hotel.main_image_url]} hotelName={hotel.name} />
           
           {/* Description */}
-          <HotelDescription description={hotel.longDescription} />
+          <HotelDescription description={hotel.description || "No description available."} />
           
           {/* Amenities */}
-          <HotelAmenities amenities={hotel.amenities} />
+          <HotelAmenities amenities={amenities} />
           
           {/* Available months */}
-          <HotelAvailableMonths months={hotel.availableMonths} />
+          <HotelAvailableMonths months={availableMonths} />
         </div>
         
         {/* Booking Form */}
@@ -53,7 +70,7 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
           <BookingForm 
             hotelId={hotel.id} 
             hotelName={hotel.name} 
-            pricePerMonth={hotel.pricePerMonth} 
+            pricePerMonth={hotel.price_per_month} 
           />
         </div>
       </div>

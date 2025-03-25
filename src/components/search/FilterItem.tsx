@@ -1,5 +1,5 @@
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, memo } from "react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -13,13 +13,15 @@ interface FilterItemProps {
   children: ReactNode;
   defaultOpen?: boolean;
   className?: string;
+  contentClassName?: string;
 }
 
-export function FilterItem({ 
+export const FilterItem = memo(function FilterItem({ 
   title, 
   children, 
   defaultOpen = false,
-  className
+  className,
+  contentClassName
 }: FilterItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   
@@ -37,9 +39,11 @@ export function FilterItem({
           <ChevronRight className="h-4 w-4 transition-transform" />
         )}
       </CollapsibleTrigger>
-      <CollapsibleContent className="pt-2 pl-2 space-y-2 animate-accordion-down">
+      <CollapsibleContent 
+        className={cn("pt-2 pl-2 space-y-2 animate-accordion-down", contentClassName)}
+      >
         {children}
       </CollapsibleContent>
     </Collapsible>
   );
-}
+});

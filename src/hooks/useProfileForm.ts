@@ -1,66 +1,64 @@
 
-import { useState } from 'react';
-import { useProfileOperations } from '@/hooks/useProfileOperations';
+import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { handleApiError } from '@/utils/errorHandling';
 
 interface ProfileFormData {
   first_name: string;
   last_name: string;
-  bio: string;
-  avatar_url: string;
+  bio?: string;
+  avatar_url?: string;
 }
 
-interface UseProfileFormProps {
+interface UseProfileFormOptions {
   initialData: ProfileFormData;
-  userId: string | undefined;
+  userId?: string;
 }
 
-export function useProfileForm({ initialData, userId }: UseProfileFormProps) {
-  const { updateProfile } = useProfileOperations();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+export function useProfileForm({ initialData, userId }: UseProfileFormOptions) {
   const [formData, setFormData] = useState<ProfileFormData>(initialData);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const { updateProfile } = useAuth();
+  
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleAvatarChange = (url: string) => {
+  }, []);
+  
+  const handleAvatarChange = useCallback((url: string) => {
     setFormData(prev => ({ ...prev, avatar_url: url }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  }, []);
+  
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!userId) {
       toast({
         title: "Error",
         description: "User ID is required to update profile",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
     
-    setIsLoading(true);
-    
     try {
-      await updateProfile({ id: userId }, formData);
+      setIsLoading(true);
+      
+      await updateProfile(formData);
+      
       toast({
         title: "Profile updated",
-        description: "Your profile information has been updated successfully.",
+        description: "Your profile has been updated successfully"
       });
     } catch (error) {
-      console.error("Error updating profile:", error);
-      toast({
-        title: "Update failed",
-        description: "There was a problem updating your profile. Please try again.",
-        variant: "destructive",
-      });
+      handleApiError(error, "Profile Update Failed");
     } finally {
       setIsLoading(false);
     }
-  };
-
+  }, [formData, userId, toast, updateProfile]);
+  
   return {
     formData,
     isLoading,

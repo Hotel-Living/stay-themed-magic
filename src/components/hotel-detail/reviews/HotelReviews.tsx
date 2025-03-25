@@ -6,6 +6,7 @@ import { Review } from "@/hooks/useHotelDetail";
 import { ReviewList } from "./ReviewList";
 import { ReviewForm } from "./ReviewForm";
 import { RatingDisplay } from "./RatingDisplay";
+import { memo } from "react";
 
 interface HotelReviewsProps {
   hotelId: string;
@@ -15,7 +16,7 @@ interface HotelReviewsProps {
   isLoading?: boolean;
 }
 
-export function HotelReviews({ 
+export const HotelReviews = memo(function HotelReviews({ 
   hotelId, 
   averageRating = 0, 
   reviews = [],
@@ -26,7 +27,11 @@ export function HotelReviews({
   
   if (isLoading) {
     return (
-      <div className="glass-card rounded-2xl p-6 mb-8">
+      <section 
+        className="glass-card rounded-2xl p-6 mb-8" 
+        aria-label="Loading reviews"
+        aria-busy="true"
+      >
         <div className="flex items-center justify-between gap-2 mb-6">
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-8 w-24" />
@@ -47,20 +52,27 @@ export function HotelReviews({
             <Skeleton className="h-16 w-full" />
           </div>
         </div>
-      </div>
+      </section>
     );
   }
   
   return (
-    <div className="glass-card rounded-2xl p-6 mb-8">
+    <section 
+      className="glass-card rounded-2xl p-6 mb-8" 
+      aria-label="Guest reviews"
+      id="reviews-section"
+    >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-xl font-bold flex items-center gap-2">
           Guest Reviews
-          <MessageSquare className="w-5 h-5 text-fuchsia-400" />
+          <MessageSquare className="w-5 h-5 text-fuchsia-400" aria-hidden="true" />
         </h2>
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <RatingDisplay rating={averageRating} reviewCount={reviews.length} />
+          <RatingDisplay 
+            rating={averageRating} 
+            reviewCount={reviews.length} 
+          />
           
           {user && onAddReview && (
             <ReviewForm 
@@ -74,6 +86,6 @@ export function HotelReviews({
       
       {/* Reviews list with pagination and sorting */}
       <ReviewList reviews={reviews} isLoading={isLoading} />
-    </div>
+    </section>
   );
-}
+});

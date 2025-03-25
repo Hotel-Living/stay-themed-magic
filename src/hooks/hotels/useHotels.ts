@@ -35,6 +35,31 @@ export function useHotels(
     });
   }, [queryClient]);
   
+  // Memoize the onSuccess callback
+  const onSuccessCallback = useCallback((hotels: any[]) => {
+    // Use requestIdleCallback for non-critical prefetching when browser is idle
+    if (window.requestIdleCallback) {
+      const idleCallbackId = window.requestIdleCallback(() => {
+        hotels.forEach(hotel => {
+          prefetchHotelDetails(hotel.id);
+        });
+      });
+      
+      // Return cleanup function to cancel idle callback if component unmounts
+      return () => window.cancelIdleCallback(idleCallbackId);
+    } else {
+      // Fallback for browsers that don't support requestIdleCallback
+      const timeoutId = setTimeout(() => {
+        hotels.forEach(hotel => {
+          prefetchHotelDetails(hotel.id);
+        });
+      }, 200);
+      
+      // Return cleanup function to cancel timeout if component unmounts
+      return () => clearTimeout(timeoutId);
+    }
+  }, [prefetchHotelDetails]);
+  
   return useQuery({
     queryKey,
     queryFn: () => fetchHotels(filters, pagination, sortOption),
@@ -42,24 +67,7 @@ export function useHotels(
     staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch for 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes (renamed from cacheTime)
     meta: {
-      onSuccess: (hotels) => {
-        // Prefetch individual hotel details when hotel list is loaded
-        // Use window.requestIdleCallback or setTimeout to defer non-critical prefetching
-        if (window.requestIdleCallback) {
-          window.requestIdleCallback(() => {
-            hotels.forEach(hotel => {
-              prefetchHotelDetails(hotel.id);
-            });
-          });
-        } else {
-          // Fallback for browsers that don't support requestIdleCallback
-          setTimeout(() => {
-            hotels.forEach(hotel => {
-              prefetchHotelDetails(hotel.id);
-            });
-          }, 200);
-        }
-      }
+      onSuccess: onSuccessCallback
     }
   });
 }

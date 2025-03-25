@@ -1,5 +1,5 @@
 
-import { createContext, ReactNode, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, ReactNode, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/data";
@@ -68,6 +68,7 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
   const [pagination, setPagination] = useState<PaginationOptions>(DEFAULT_PAGINATION);
   const [sortOption, setSortOption] = useState<SortOption>(DEFAULT_SORT);
   
+  // Memoized handlers to prevent unnecessary re-renders
   const handleFilterChange = useCallback((filterType: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
     setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page when filters change
@@ -99,7 +100,8 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
     setPagination(DEFAULT_PAGINATION);
   }, [location.search, getInitialFiltersFromUrl]);
   
-  const value = {
+  // Memoize context value to prevent unnecessary renders
+  const value = useMemo(() => ({
     filters,
     pagination,
     sortOption,
@@ -108,7 +110,16 @@ export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) 
     handlePageChange,
     handleSortChange,
     handleClearFilters
-  };
+  }), [
+    filters, 
+    pagination, 
+    sortOption, 
+    handleFilterChange, 
+    handleArrayFilterChange, 
+    handlePageChange, 
+    handleSortChange, 
+    handleClearFilters
+  ]);
   
   return (
     <SearchFiltersContext.Provider value={value}>

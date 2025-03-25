@@ -1,6 +1,8 @@
 
 @layer components {
-  /* Form containers and layouts */
+  /* ==============================
+     Form containers and layouts
+     ============================== */
   .form-container {
     @apply space-y-6 w-full max-w-md mx-auto;
   }
@@ -13,7 +15,9 @@
     @apply space-y-2 w-full;
   }
   
-  /* Form elements */
+  /* ==============================
+     Form input elements
+     ============================== */
   .form-label {
     @apply block text-sm font-medium text-foreground;
   }
@@ -29,7 +33,9 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   }
   
-  /* Feedback elements */
+  /* ==============================
+     Feedback and helper elements
+     ============================== */
   .form-error {
     @apply text-sm text-destructive mt-1;
   }
@@ -38,7 +44,9 @@
     @apply text-xs text-muted-foreground mt-1;
   }
   
-  /* Action buttons */
+  /* ==============================
+     Form action buttons
+     ============================== */
   .form-submit {
     @apply w-full bg-primary hover:bg-primary/90 text-white font-medium rounded-lg px-4 py-3 transition-colors;
   }

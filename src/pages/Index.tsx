@@ -1,8 +1,8 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterState } from "@/components/FilterSection";
+import { FilterState } from "@/components/filters/FilterTypes";
 import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
@@ -11,6 +11,7 @@ import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 import { Starfield } from "@/components/Starfield";
+import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
 
 // Default initial filters
 const DEFAULT_FILTERS: FilterState = {
@@ -21,14 +22,17 @@ const DEFAULT_FILTERS: FilterState = {
 };
 
 export default function Index() {
-  const { isLoading: isAuthLoading, user, profile } = useAuth();
+  const { isLoading: isAuthLoading, user } = useAuth();
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   
   // Fetch themes
   const { data: themes = [], isLoading: isThemesLoading } = useThemes();
   
-  // Fetch hotels with filters
-  const { data: hotels = [], isLoading: isHotelsLoading } = useHotels(filters, !isAuthLoading);
+  // Fetch hotels with filters, only when auth is loaded
+  const { 
+    data: hotels = [], 
+    isLoading: isHotelsLoading 
+  } = useHotels(filters, !isAuthLoading);
   
   // Memoized callback to prevent unnecessary re-renders
   const handleFilterChange = useCallback((newFilters: FilterState) => {
@@ -36,7 +40,14 @@ export default function Index() {
   }, []);
   
   // Extract theme names for the filter dropdown
-  const themeNames = themes.map((theme: Theme) => theme.name);
+  const themeNames = useMemo(() => {
+    return themes.map((theme: Theme) => theme.name);
+  }, [themes]);
+  
+  // Determine if any filters are active
+  const areFiltersActive = useMemo(() => {
+    return hasActiveFilters(filters);
+  }, [filters]);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -57,6 +68,7 @@ export default function Index() {
         <FeaturedHotelsSection 
           hotels={hotels} 
           isLoading={isHotelsLoading} 
+          filtersActive={areFiltersActive}
         />
       </main>
       

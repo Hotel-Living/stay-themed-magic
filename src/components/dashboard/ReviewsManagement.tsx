@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useMemo } from 'react';
 import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
+import { useReviewsData } from '@/hooks/dashboard/useReviewsData';
 import { useReviewOperations } from '@/hooks/dashboard/useReviewOperations';
 import { ReviewsHeader } from './reviews/ReviewsHeader';
 import { ReviewsFilters } from './reviews/ReviewsFilters';
@@ -8,99 +10,7 @@ import { ReviewsTableView } from './reviews/ReviewsTableView';
 import { ReviewsPagination } from './reviews/ReviewsPagination';
 import ReviewResponseDialog from './ReviewResponseDialog';
 import { DashboardReview } from './types';
-
-const mockReviews: DashboardReview[] = [
-  {
-    id: '1',
-    name: 'James Wilson',
-    rating: 5,
-    property: 'Parador de Granada',
-    comment: 'Amazing experience! The Spanish language immersion program exceeded my expectations.',
-    date: '3 days ago',
-    isResponded: false,
-    hotel_id: 'hotel-1',
-    user_id: 'user-1',
-    created_at: '2023-03-22T12:00:00Z',
-    notified: true
-  },
-  {
-    id: '2',
-    name: 'Lisa Garcia',
-    rating: 4,
-    property: 'TechHub Barcelona',
-    comment: 'Great facilities and tech workshops. Would recommend for longer stays.',
-    date: '1 week ago',
-    isResponded: true,
-    response: "Thank you for your feedback, Lisa! We're glad you enjoyed our workshops and facilities.",
-    hotel_id: 'hotel-2',
-    user_id: 'user-2',
-    created_at: '2023-03-18T12:00:00Z',
-    notified: true
-  },
-  {
-    id: '3',
-    name: 'Michael Johnson',
-    rating: 3,
-    property: 'Parador de Granada',
-    comment: 'Good location but the amenities could be improved. The staff was very friendly though.',
-    date: '2 weeks ago',
-    isResponded: false,
-    hotel_id: 'hotel-1',
-    user_id: 'user-3',
-    created_at: '2023-03-11T12:00:00Z'
-  },
-  {
-    id: '4',
-    name: 'Sarah Thompson',
-    rating: 5,
-    property: 'TechHub Barcelona',
-    comment: 'Perfect for digital nomads! The coworking space and networking events were outstanding.',
-    date: '3 weeks ago',
-    isResponded: true,
-    response: "We appreciate your kind words, Sarah! Our goal is to create the perfect environment for digital nomads.",
-    hotel_id: 'hotel-2',
-    user_id: 'user-4',
-    created_at: '2023-03-04T12:00:00Z'
-  },
-  {
-    id: '5',
-    name: 'David Lee',
-    rating: 2,
-    property: 'Parador de Granada',
-    comment: 'Disappointing stay. The room was not as advertised and the Wi-Fi was constantly down.',
-    date: '1 month ago',
-    isResponded: true,
-    response: "We sincerely apologize for the issues you experienced, David. We've since upgraded our Wi-Fi system and updated our room descriptions.",
-    hotel_id: 'hotel-1',
-    user_id: 'user-5',
-    created_at: '2023-02-25T12:00:00Z'
-  },
-  {
-    id: '6',
-    name: 'Emma Rodriguez',
-    rating: 5,
-    property: 'TechHub Barcelona',
-    comment: 'Loved the community feel and the rooftop workspaces. Will definitely be back!',
-    date: '1 month ago',
-    isResponded: false,
-    hotel_id: 'hotel-2',
-    user_id: 'user-6',
-    created_at: '2023-02-25T14:00:00Z'
-  },
-  {
-    id: '7',
-    name: 'Robert Chen',
-    rating: 4,
-    property: 'Parador de Granada',
-    comment: 'Good value for money. The language classes were excellent.',
-    date: '2 months ago',
-    isResponded: true,
-    response: "Thank you for your review, Robert! We take pride in our language classes and are glad you found them valuable.",
-    hotel_id: 'hotel-1',
-    user_id: 'user-7',
-    created_at: '2023-01-25T12:00:00Z'
-  }
-];
+import { Skeleton } from '@/components/ui/skeleton';
 
 type ViewMode = 'card' | 'table';
 
@@ -109,34 +19,37 @@ interface ReviewsManagementProps {
 }
 
 export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
-  const { reviews, isSending, respondToReview, sendNotifications } = useReviewOperations(mockReviews);
-  const [activeTab, setActiveTab] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<ViewMode>('card');
-  const [selectedReview, setSelectedReview] = useState<DashboardReview | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = React.useState<string>('all');
+  const [viewMode, setViewMode] = React.useState<ViewMode>('card');
+  const [selectedReview, setSelectedReview] = React.useState<DashboardReview | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  // Fetch reviews data from the API
+  const { reviews: fetchedReviews, isLoading, refetch } = useReviewsData(propertyFilter);
   
-  const filteredByPropertyReviews = useMemo(() => {
-    if (!propertyFilter) return reviews;
-    return reviews.filter(review => review.property === propertyFilter);
-  }, [reviews, propertyFilter]);
+  // Use the review operations with real data
+  const { reviews, isSending, respondToReview, sendNotifications } = useReviewOperations(fetchedReviews, refetch);
   
+  // Filter unnotified reviews
   const unnotifiedReviews = useMemo(() => {
-    return filteredByPropertyReviews.filter(review => !review.notified);
-  }, [filteredByPropertyReviews]);
+    return reviews.filter(review => !review.notified);
+  }, [reviews]);
   
+  // Apply tab filtering
   const tabFilteredReviews = useMemo(() => {
     switch(activeTab) {
       case 'unresponded':
-        return filteredByPropertyReviews.filter(r => !r.isResponded);
+        return reviews.filter(r => !r.isResponded);
       case 'positive':
-        return filteredByPropertyReviews.filter(r => r.rating >= 4);
+        return reviews.filter(r => r.rating >= 4);
       case 'negative':
-        return filteredByPropertyReviews.filter(r => r.rating <= 3);
+        return reviews.filter(r => r.rating <= 3);
       default:
-        return filteredByPropertyReviews;
+        return reviews;
     }
-  }, [activeTab, filteredByPropertyReviews]);
+  }, [activeTab, reviews]);
   
+  // Use the review list hook for pagination and sorting
   const {
     filteredReviews,
     currentReviews,
@@ -167,11 +80,37 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     sendNotifications(unnotifiedReviews);
   };
 
+  const handleRespondToReview = async (reviewId: string, response: string) => {
+    await respondToReview(reviewId, response);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="glass-card rounded-2xl p-6 space-y-6">
+        <div className="flex justify-between mb-6">
+          <Skeleton className="h-8 w-40" />
+          <div className="flex gap-4">
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-8 w-24" />
+          </div>
+        </div>
+        <div className="space-y-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="space-y-2">
+              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-10 w-32 ml-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="glass-card rounded-2xl p-6">
       <ReviewsHeader 
         propertyFilter={propertyFilter}
-        filteredReviews={filteredByPropertyReviews}
+        filteredReviews={reviews}
         unnotifiedReviews={unnotifiedReviews}
         isSending={isSending}
         viewMode={viewMode}
@@ -213,7 +152,7 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         review={selectedReview}
         isOpen={isDialogOpen}
         onClose={closeResponseDialog}
-        onRespond={respondToReview}
+        onRespond={handleRespondToReview}
       />
     </div>
   );

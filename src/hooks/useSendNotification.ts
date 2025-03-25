@@ -1,10 +1,12 @@
 
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { handleApiError } from "@/utils/errorHandling";
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
-type NotificationType = 'booking' | 'review' | 'message';
+export type NotificationType = 'review' | 'booking' | 'message';
+
+export interface NotificationData {
+  [key: string]: any;
+}
 
 export function useSendNotification() {
   const [isSending, setIsSending] = useState(false);
@@ -13,58 +15,33 @@ export function useSendNotification() {
   const sendNotification = async (
     type: NotificationType, 
     recipient: string, 
-    data: Record<string, any>
+    data: NotificationData
   ) => {
     setIsSending(true);
     
     try {
-      // Validate inputs
-      if (!recipient || !recipient.includes('@')) {
-        throw new Error("Invalid email recipient");
-      }
+      // This is a mock implementation. In a real app, you would call an API endpoint.
+      // For example:
+      // const response = await fetch('/api/notifications', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ type, recipient, data }),
+      // });
       
-      if (!type || !['booking', 'review', 'message'].includes(type)) {
-        throw new Error("Invalid notification type");
-      }
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      const { data: response, error } = await supabase.functions.invoke('send-notification', {
-        body: { type, recipient, data }
-      });
+      console.log(`Notification sent: Type=${type}, Recipient=${recipient}, Data=`, data);
       
-      if (error) throw error;
-      
-      console.log("Notification sent:", response);
+      return { success: true };
+    } catch (error) {
+      console.error('Error sending notification:', error);
       toast({
-        title: "Notification Sent",
-        description: `${type.charAt(0).toUpperCase() + type.slice(1)} notification sent to ${recipient}`
+        title: 'Notification failed',
+        description: error instanceof Error ? error.message : 'An unknown error occurred',
+        variant: 'destructive',
       });
-      
-      return response;
-    } catch (error: any) {
-      console.error("Error sending notification:", error);
-      
-      // Handle specific error cases
-      if (error.message?.includes("network") || error.message?.includes("fetch")) {
-        toast({
-          title: "Network Error",
-          description: "Unable to connect to notification service. Please check your internet connection.",
-          variant: "destructive"
-        });
-      } else if (error.message?.includes("email")) {
-        toast({
-          title: "Email Error",
-          description: error.message || "There was a problem with the recipient email address",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error Sending Notification",
-          description: error.message || "Failed to send notification",
-          variant: "destructive"
-        });
-      }
-      
-      return null;
+      throw error;
     } finally {
       setIsSending(false);
     }

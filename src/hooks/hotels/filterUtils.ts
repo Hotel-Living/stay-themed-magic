@@ -1,12 +1,11 @@
 
 import { FilterState } from "@/components/filters/FilterTypes";
-import { FilterParams } from "./types";
 
 /**
  * Creates filter parameters for Supabase queries based on the provided filters
  */
-export const createFilterParams = (filters: FilterState): FilterParams => {
-  const params: FilterParams = {};
+export const createFilterParams = (filters: FilterState): Record<string, any> => {
+  const params: Record<string, any> = {};
   
   if (filters.country) {
     params.country = filters.country;

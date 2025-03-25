@@ -21,6 +21,12 @@ interface UseFileUploadReturn {
   resetState: () => void;
 }
 
+// Default file name generator function - defined before it's used
+const defaultFileNameGenerator = (fileName: string, userId: string): string => {
+  const fileExt = fileName.split('.').pop();
+  return `${userId}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+};
+
 /**
  * Hook for uploading files to Supabase storage
  * @param options Upload configuration options
@@ -41,12 +47,6 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     onProgress,
     onBeforeUpload,
   } = options;
-
-  // Memoize this function as it doesn't depend on state
-  const defaultFileNameGenerator = useCallback((fileName: string, userId: string): string => {
-    const fileExt = fileName.split('.').pop();
-    return `${userId}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-  }, []);
 
   /**
    * Reset the upload state (useful after errors or completed uploads)

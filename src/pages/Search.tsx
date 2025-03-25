@@ -38,7 +38,16 @@ export default function Search() {
     setPagination(prev => ({ ...prev, page: 1 }));
   };
   
+  // Fix the type conversion issue - ensure we're handling arrays correctly
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
+    // Handle arrays correctly based on the filter type
+    if (filterType === 'theme') {
+      // For theme, we're dealing with a single theme object, not an array
+      handleFilterChange(filterType, isChecked ? value : null);
+      return;
+    }
+    
+    // For other array types (if we add them in the future)
     const currentArray = Array.isArray(filters[filterType as keyof FilterState]) 
       ? [...(filters[filterType as keyof FilterState] as string[])]
       : [];
@@ -54,7 +63,7 @@ export default function Search() {
       }
     }
     
-    handleFilterChange(filterType, currentArray);
+    handleFilterChange(filterType, currentArray.length > 0 ? currentArray : null);
   };
   
   const handlePageChange = (newPage: number) => {

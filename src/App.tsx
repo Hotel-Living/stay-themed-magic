@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Starfield } from "@/components/Starfield";
 import { AuthProvider } from "@/context/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 // Pages
 import Index from "./pages/Index";
@@ -15,7 +16,7 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-// Import FAQ component with correct casing
+import Bookings from "./pages/Bookings";
 import FAQ from "./pages/FAQ";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
@@ -39,8 +40,21 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/search" element={<Search />} />
             <Route path="/hotel/:id" element={<HotelDetail />} />
-            <Route path="/user-dashboard" element={<UserDashboard />} />
-            <Route path="/hotel-dashboard" element={<HotelDashboard />} />
+            <Route path="/user-dashboard" element={
+              <ProtectedRoute>
+                <UserDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/bookings" element={
+              <ProtectedRoute>
+                <Bookings />
+              </ProtectedRoute>
+            } />
+            <Route path="/hotel-dashboard" element={
+              <ProtectedRoute requireHotelOwner={true}>
+                <HotelDashboard />
+              </ProtectedRoute>
+            } />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/faq" element={<FAQ />} />

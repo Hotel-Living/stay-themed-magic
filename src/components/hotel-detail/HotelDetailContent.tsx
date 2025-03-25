@@ -8,22 +8,40 @@ import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
 import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
-import { Theme } from "@/utils/data";
+import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
-// Updated interface for Supabase data structure
+// Properly typed interface for the component props
 interface HotelDetailContentProps {
-  hotel: any;
+  hotel: {
+    id: string;
+    name: string;
+    description: string | null;
+    city: string;
+    country: string;
+    category: number | null;
+    price_per_month: number;
+    main_image_url: string | null;
+    average_rating?: number;
+    hotel_images: HotelImage[];
+    hotel_themes: {
+      theme_id: string;
+      themes: {
+        id: string;
+        name: string;
+      }
+    }[];
+  };
 }
 
 export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
   // Extract image URLs from hotel_images
   const imageUrls = hotel.hotel_images ? 
-    hotel.hotel_images.map((img: any) => img.image_url) : 
+    hotel.hotel_images.map((img) => img.image_url) : 
     [];
   
   // Extract themes from hotel_themes
   const themes = hotel.hotel_themes ? 
-    hotel.hotel_themes.map((theme: any) => theme.themes) : 
+    hotel.hotel_themes.map((theme) => theme.themes) : 
     [];
   
   // For demo purposes, using static months and amenities

@@ -1,6 +1,6 @@
 
 import { Review } from "@/hooks/useHotelDetail";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ReviewSorter } from "./ReviewSorter";
 import { ReviewListItem } from "./ReviewListItem";
 import { ReviewEmptyState } from "./ReviewEmptyState";
@@ -25,12 +25,31 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
     handleSortChange,
     handlePageChange,
     handleRatingFilterChange,
-    filteredReviews
+    filteredReviews,
+    sortedReviews
   } = useReviewList({
     reviews,
     reviewsPerPage: 5,
     initialSortOption: "newest"
   });
+  
+  // Calculate review counts by rating for the filter badges
+  const reviewCountsByRating = useMemo(() => {
+    const counts: Record<number, number> = {};
+    // Initialize all ratings with 0
+    [1, 2, 3, 4, 5].forEach(rating => {
+      counts[rating] = 0;
+    });
+    
+    // Count reviews for each rating
+    sortedReviews.forEach(review => {
+      if (counts[review.rating] !== undefined) {
+        counts[review.rating]++;
+      }
+    });
+    
+    return counts;
+  }, [sortedReviews]);
   
   // Handle scroll to top when page changes
   useEffect(() => {
@@ -56,7 +75,8 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
       <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
         <ReviewRatingFilter 
           onRatingChange={handleRatingFilterChange} 
-          currentRating={ratingFilter} 
+          currentRating={ratingFilter}
+          reviewCounts={reviewCountsByRating}
         />
 
         <ReviewSorter 
@@ -67,7 +87,7 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
       
       {filteredReviews.length > 0 && !showFilteredEmptyState ? (
         <>
-          <div className="space-y-6">
+          <div className="space-y-6 animate-fade-in-up">
             {currentReviews.map((review, index) => (
               <ReviewListItem key={review.id || index} review={review} />
             ))}

@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { LoadingButton } from "@/components/auth/LoadingButton";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const { signIn, isLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,7 +20,7 @@ export default function Login() {
       return;
     }
     
-    await signIn(email, password);
+    await signIn(email, password, rememberMe);
   };
 
   return (
@@ -51,6 +53,8 @@ export default function Login() {
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your email"
+                      aria-label="Email"
+                      required
                     />
                   </div>
                 </div>
@@ -71,11 +75,14 @@ export default function Login() {
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full py-3 pl-11 pr-12 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your password"
+                      aria-label="Password"
+                      required
                     />
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 flex items-center pr-3"
                       onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? (
                         <EyeOff className="w-5 h-5 text-muted-foreground" />
@@ -92,7 +99,10 @@ export default function Login() {
                     <input
                       id="remember"
                       type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
                       className="w-4 h-4 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
+                      aria-label="Remember me"
                     />
                     <label htmlFor="remember" className="ml-2 text-sm text-muted-foreground">
                       Remember me
@@ -104,13 +114,14 @@ export default function Login() {
                 </div>
                 
                 {/* Login Button */}
-                <button
+                <LoadingButton
                   type="submit"
-                  disabled={isLoading}
-                  className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
+                  isLoading={isLoading}
+                  loadingText="Signing in..."
+                  className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors"
                 >
-                  {isLoading ? "Signing in..." : "Sign In"}
-                </button>
+                  Sign In
+                </LoadingButton>
               </form>
               
               <div className="mt-8 text-center">

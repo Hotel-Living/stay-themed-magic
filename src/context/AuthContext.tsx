@@ -1,84 +1,130 @@
 
-import React, { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
-import { AuthContextType } from "@/types/auth";
-import { useAuthOperations } from "@/hooks/useAuthOperations";
-import { useProfileOperations } from "@/hooks/useProfileOperations";
 import { Profile } from "@/integrations/supabase/types-custom";
+import { useProfileOperations } from "@/hooks/useProfileOperations";
+import { useSignUp } from "@/hooks/auth/useSignUp";
+import { useSignIn } from "@/hooks/auth/useSignIn";
+import { useSignOut } from "@/hooks/auth/useSignOut";
+import { usePasswordReset } from "@/hooks/auth/usePasswordReset";
+import { AuthContextType } from "@/types/auth";
+import { useToast } from "@/hooks/use-toast";
+import { handleAuthError } from "@/utils/errorHandling";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { 
-    user, 
-    setUser, 
-    session, 
-    setSession, 
-    isLoading, 
-    setIsLoading, 
-    signUp, 
-    signIn, 
-    signOut 
-  } = useAuthOperations();
-  
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { profile, fetchProfile, updateProfile: updateProfileData } = useProfileOperations();
+  const { signUp: signUpHook } = useSignUp();
+  const { signIn: signInHook } = useSignIn();
+  const { signOut: signOutHook } = useSignOut();
+  const { requestPasswordReset, updatePassword } = usePasswordReset();
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Set up auth state listener FIRST
+    // Set up auth state listener FIRST to ensure we don't miss auth changes during initialization
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
-        console.log("Auth state changed:", event);
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
+      async (event, session) => {
+        console.log("Auth state changed:", event, session?.user?.id);
+        setSession(session);
+        setUser(session?.user ?? null);
         
-        if (currentSession?.user) {
-          await fetchProfile(currentSession.user.id);
+        if (session?.user && event !== 'SIGNED_OUT') {
+          await fetchProfile(session.user.id);
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setSession(null);
         }
-        
-        setIsLoading(false);
       }
     );
 
     // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      console.log("Initial session check:", currentSession ? "User logged in" : "No session");
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      
-      if (currentSession?.user) {
-        fetchProfile(currentSession.user.id);
+    const initAuth = async () => {
+      try {
+        setIsLoading(true);
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        }
+      } catch (error) {
+        console.error("Error initializing auth:", error);
+      } finally {
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
-    });
+    };
 
+    initAuth();
+    
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [fetchProfile]);
 
-  const updateProfile = async (data: Partial<Profile>) => {
-    setIsLoading(true);
-    await updateProfileData(user, data);
-    setIsLoading(false);
+  const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
+    await signUpHook(email, password, userData);
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        profile,
-        session,
-        isLoading,
-        signUp,
-        signIn,
-        signOut,
-        updateProfile,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const signIn = async (email: string, password: string, rememberMe = false) => {
+    await signInHook(email, password, rememberMe);
+  };
+
+  const signOut = async () => {
+    await signOutHook();
+  };
+
+  const updateProfile = async (data: Partial<Profile>) => {
+    if (!user) return;
+    await updateProfileData(user, data);
+  };
+
+  const resendVerificationEmail = async (email: string) => {
+    try {
+      setIsLoading(true);
+      
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+      });
+      
+      if (error) {
+        handleAuthError(error);
+        return;
+      }
+      
+      toast({
+        title: "Email enviado",
+        description: "Se ha enviado un nuevo enlace de verificación a tu correo electrónico",
+      });
+    } catch (error: any) {
+      handleAuthError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const value: AuthContextType = {
+    user,
+    session,
+    profile,
+    isLoading,
+    signUp,
+    signIn,
+    signOut,
+    updateProfile,
+    requestPasswordReset,
+    updatePassword,
+    resendVerificationEmail
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

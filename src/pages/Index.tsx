@@ -6,8 +6,6 @@ import { FilterState } from "@/components/filters/FilterTypes";
 import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
-import { FeaturedHotelsSection } from "@/components/home/FeaturedHotelsSection";
-import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 import { Starfield } from "@/components/Starfield";
@@ -27,12 +25,6 @@ export default function Index() {
   
   // Fetch themes
   const { data: themes = [], isLoading: isThemesLoading } = useThemes();
-  
-  // Fetch hotels with filters, only when auth is loaded
-  const { 
-    data: hotels = [], 
-    isLoading: isHotelsLoading 
-  } = useHotels(filters, !isAuthLoading);
   
   // Memoized callback to prevent unnecessary re-renders
   const handleFilterChange = useCallback((newFilters: FilterState) => {
@@ -62,13 +54,6 @@ export default function Index() {
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
           availableThemes={themeNames}
-        />
-        
-        {/* Hotels Section */}
-        <FeaturedHotelsSection 
-          hotels={hotels} 
-          isLoading={isHotelsLoading} 
-          filtersActive={areFiltersActive}
         />
       </main>
       

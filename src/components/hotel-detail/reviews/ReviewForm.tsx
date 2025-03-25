@@ -23,11 +23,20 @@ interface ReviewFormProps {
 export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
   const [isAddReviewOpen, setIsAddReviewOpen] = useState(false);
   const [newRating, setNewRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleRatingChange = (rating: number) => {
     setNewRating(rating);
+  };
+  
+  const handleMouseEnter = (rating: number) => {
+    setHoverRating(rating);
+  };
+  
+  const handleMouseLeave = () => {
+    setHoverRating(0);
   };
   
   const handleAddReview = async () => {
@@ -59,7 +68,7 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
           Write a review
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Share your experience</DialogTitle>
           <DialogDescription>
@@ -68,14 +77,31 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
         </DialogHeader>
         
         <div className="my-4">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star 
-                key={i} 
-                className={`w-6 h-6 cursor-pointer ${i < newRating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
-                onClick={() => handleRatingChange(i + 1)}
-              />
-            ))}
+          <div className="flex flex-col items-center gap-2 mb-4">
+            <div className="flex items-center justify-center gap-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star 
+                  key={i} 
+                  className={`w-8 h-8 cursor-pointer transition-all hover:scale-110 ${
+                    i < (hoverRating || newRating) 
+                      ? 'fill-yellow-400 text-yellow-400' 
+                      : 'text-gray-400'
+                  }`}
+                  onClick={() => handleRatingChange(i + 1)}
+                  onMouseEnter={() => handleMouseEnter(i + 1)}
+                  onMouseLeave={handleMouseLeave}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-foreground/80 mt-1">
+              {
+                newRating === 1 ? "Poor" :
+                newRating === 2 ? "Fair" :
+                newRating === 3 ? "Good" :
+                newRating === 4 ? "Very good" :
+                "Excellent"
+              }
+            </span>
           </div>
           
           <Textarea

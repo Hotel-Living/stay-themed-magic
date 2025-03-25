@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
@@ -10,6 +11,7 @@ import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 import { useHotelDetail } from "@/hooks/useHotelDetail";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { RatingDisplay } from "./reviews/RatingDisplay";
 
 export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
   // Extract image URLs from hotel_images
@@ -32,6 +34,9 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   // Use the enhanced hotel detail hook to get reviews and add review functionality
   const { useHotelReviews, addReview } = useHotelDetail(hotel?.id, false);
   const { data: reviews = [], isLoading: isReviewsLoading } = useHotelReviews(hotel?.id, !isLoading && !!hotel?.id);
+  
+  // Add detailed rating section above the reviews
+  const showDetailedRating = !isLoading && !isReviewsLoading && reviews.length > 0;
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -58,8 +63,8 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
         stars={hotel?.category || 0}
         city={hotel?.city || ''}
         country={hotel?.country || ''}
-        availableMonthsCount={availableMonths.length}
-        themes={themes}
+        availableMonthsCount={hotel?.available_months?.length || 0}
+        themes={hotel?.hotel_themes?.map(themeItem => themeItem.themes) || []}
         isLoading={isLoading}
       />
       
@@ -67,7 +72,9 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
         <div className="lg:col-span-2">
           {/* Gallery */}
           <HotelGallery 
-            images={imageUrls.length > 0 ? imageUrls : [hotel?.main_image_url || '']} 
+            images={hotel?.hotel_images?.length > 0 ? 
+              hotel.hotel_images.map(img => img.image_url) : 
+              [hotel?.main_image_url || '']} 
             hotelName={hotel?.name || ''}
             isLoading={isLoading}
           />
@@ -78,10 +85,22 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             isLoading={isLoading}
           />
           
+          {/* Detailed Rating Display */}
+          {showDetailedRating && (
+            <div className="glass-card rounded-2xl p-6 mb-8">
+              <h2 className="text-xl font-bold mb-4">Rating Summary</h2>
+              <RatingDisplay 
+                rating={hotel?.average_rating || 0} 
+                reviewCount={reviews.length} 
+                showDetails={true} 
+              />
+            </div>
+          )}
+          
           {/* Reviews */}
           <HotelReviews 
             hotelId={hotel?.id || ''} 
-            averageRating={averageRating}
+            averageRating={hotel?.average_rating || 0}
             reviews={reviews}
             onAddReview={addReview}
             isLoading={isLoading || isReviewsLoading} 
@@ -89,13 +108,13 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
           
           {/* Amenities */}
           <HotelAmenities 
-            amenities={amenities}
+            amenities={hotel?.amenities || []}
             isLoading={isLoading}
           />
           
           {/* Available months */}
           <HotelAvailableMonths 
-            months={availableMonths}
+            months={hotel?.available_months || []}
             isLoading={isLoading}
           />
         </div>

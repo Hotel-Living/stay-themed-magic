@@ -53,25 +53,26 @@ export function HotelReviews({
   
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-xl font-bold flex items-center gap-2">
           Guest Reviews
           <MessageSquare className="w-5 h-5 text-fuchsia-400" />
         </h2>
         
-        <RatingDisplay rating={averageRating} reviewCount={reviews.length} />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <RatingDisplay rating={averageRating} reviewCount={reviews.length} />
+          
+          {user && onAddReview && (
+            <ReviewForm 
+              hotelId={hotelId} 
+              userId={user.id} 
+              onAddReview={onAddReview} 
+            />
+          )}
+        </div>
       </div>
       
-      {/* Add review button */}
-      {user && onAddReview && (
-        <ReviewForm 
-          hotelId={hotelId} 
-          userId={user.id} 
-          onAddReview={onAddReview} 
-        />
-      )}
-      
-      {/* Reviews list */}
+      {/* Reviews list with pagination and sorting */}
       <ReviewList reviews={reviews} isLoading={isLoading} />
     </div>
   );

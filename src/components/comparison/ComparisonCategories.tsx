@@ -1,6 +1,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { HotelForComparison, ComparisonCategory } from "./types";
+import { TableRow, TableCell } from "@/components/ui/table";
 
 interface ComparisonCategoriesProps {
   hotels: HotelForComparison[];
@@ -43,13 +44,13 @@ export function ComparisonCategories({ hotels, isLoading, hotelIds }: Comparison
   return (
     <>
       {categories.map(category => (
-        <tr key={category.name} className="even:bg-gray-900/20">
-          <td className="px-6 py-4 text-sm font-medium text-white">{category.name}</td>
+        <TableRow key={category.name} className="even:bg-gray-900/20 hover:bg-gray-900/30">
+          <TableCell className="px-6 py-4 text-sm font-medium text-white">{category.name}</TableCell>
           {isLoading ? (
             Array(hotelIds.length).fill(0).map((_, index) => (
-              <td key={index} className="px-6 py-4 text-center">
+              <TableCell key={index} className="px-6 py-4 text-center">
                 <Skeleton className="h-6 w-2/3 mx-auto bg-white/10" />
-              </td>
+              </TableCell>
             ))
           ) : (
             hotels.map(hotel => {
@@ -61,13 +62,13 @@ export function ComparisonCategories({ hotels, isLoading, hotelIds }: Comparison
               }
               
               return (
-                <td key={hotel.id} className="px-6 py-4 text-center text-white/90">
+                <TableCell key={hotel.id} className="px-6 py-4 text-center text-white/90">
                   {value}
-                </td>
+                </TableCell>
               );
             })
           )}
-        </tr>
+        </TableRow>
       ))}
     </>
   );

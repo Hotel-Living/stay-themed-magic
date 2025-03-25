@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
@@ -6,7 +5,7 @@ import { HotelGallery } from "./HotelGallery";
 import { HotelDescription } from "./HotelDescription";
 import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
-import { HotelReviews } from "./HotelReviews";
+import { HotelReviews } from "./reviews/HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 import { useHotelDetail } from "@/hooks/useHotelDetail";

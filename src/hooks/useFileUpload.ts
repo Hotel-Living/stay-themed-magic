@@ -9,12 +9,16 @@ interface FileUploadOptions {
   fileSizeLimit?: number; // in MB
   fileTypes?: string[];
   generateFileName?: (originalName: string, userId: string) => string;
+  onProgress?: (progress: number) => void;
+  onBeforeUpload?: (file: File) => boolean | Promise<boolean>;
 }
 
 interface UseFileUploadReturn {
   isUploading: boolean;
+  progress: number;
   uploadFile: (file: File, userId: string) => Promise<string | null>;
   error: Error | null;
+  resetState: () => void;
 }
 
 /**
@@ -24,6 +28,7 @@ interface UseFileUploadReturn {
  */
 export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
   const [isUploading, setIsUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<Error | null>(null);
   const { toast } = useToast();
   
@@ -33,6 +38,8 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     fileSizeLimit = 5, // Default 5MB
     fileTypes = ['image/*'], // Default to images
     generateFileName = defaultFileNameGenerator,
+    onProgress,
+    onBeforeUpload,
   } = options;
 
   function defaultFileNameGenerator(fileName: string, userId: string): string {
@@ -40,29 +47,69 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     return `${userId}-${Math.random().toString(36).substring(2)}.${fileExt}`;
   }
 
+  /**
+   * Reset the upload state (useful after errors or completed uploads)
+   */
+  const resetState = () => {
+    setIsUploading(false);
+    setProgress(0);
+    setError(null);
+  };
+
+  /**
+   * Validate file against configured constraints
+   */
+  const validateFile = (file: File): { valid: boolean; errorMessage?: string } => {
+    // Validate file type
+    const validType = fileTypes.some(type => {
+      if (type.endsWith('/*')) {
+        const generalType = type.split('/')[0];
+        return file.type.startsWith(`${generalType}/`);
+      }
+      return file.type === type;
+    });
+    
+    if (!validType) {
+      return { 
+        valid: false, 
+        errorMessage: `File type not supported. Please upload: ${fileTypes.join(', ')}` 
+      };
+    }
+    
+    // Validate file size
+    const fileSizeInMB = file.size / (1024 * 1024);
+    if (fileSizeInMB > fileSizeLimit) {
+      return { 
+        valid: false, 
+        errorMessage: `File size exceeds ${fileSizeLimit}MB limit` 
+      };
+    }
+
+    return { valid: true };
+  };
+
   const uploadFile = async (file: File, userId: string): Promise<string | null> => {
     try {
-      setError(null);
+      resetState();
       setIsUploading(true);
       
-      // Validate file type
-      const validType = fileTypes.some(type => {
-        if (type.endsWith('/*')) {
-          const generalType = type.split('/')[0];
-          return file.type.startsWith(`${generalType}/`);
+      // Run custom before-upload validation if provided
+      if (onBeforeUpload) {
+        const shouldProceed = await onBeforeUpload(file);
+        if (!shouldProceed) {
+          throw new Error("Upload rejected by custom validation");
         }
-        return file.type === type;
-      });
-      
-      if (!validType) {
-        throw new Error(`File type not supported. Please upload: ${fileTypes.join(', ')}`);
       }
       
-      // Validate file size
-      const fileSizeInMB = file.size / (1024 * 1024);
-      if (fileSizeInMB > fileSizeLimit) {
-        throw new Error(`File size exceeds ${fileSizeLimit}MB limit`);
+      // Validate file against constraints
+      const validation = validateFile(file);
+      if (!validation.valid) {
+        throw new Error(validation.errorMessage);
       }
+      
+      // Set initial progress
+      setProgress(10);
+      if (onProgress) onProgress(10);
       
       // Generate a unique file name
       const fileName = generateFileName(file.name, userId);
@@ -72,16 +119,38 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
         ? `${folderPath}/${fileName}` 
         : fileName;
       
+      // Simulate progress as Supabase doesn't provide upload progress
+      const progressInterval = setInterval(() => {
+        setProgress(prevProgress => {
+          const newProgress = Math.min(prevProgress + 10, 85);
+          if (onProgress) onProgress(newProgress);
+          return newProgress;
+        });
+      }, 300);
+      
       // Upload the file to Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from(bucketName)
         .upload(filePath, file);
         
+      // Clear progress simulation
+      clearInterval(progressInterval);
+      
       if (uploadError) throw uploadError;
+      
+      // Set final progress
+      setProgress(100);
+      if (onProgress) onProgress(100);
       
       // Get the public URL for the uploaded file
       const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath);
       const fileUrl = data.publicUrl;
+      
+      // Show success toast
+      toast({
+        title: "Upload complete",
+        description: "Your file has been uploaded successfully.",
+      });
       
       return fileUrl;
     } catch (err: any) {
@@ -98,5 +167,5 @@ export function useFileUpload(options: FileUploadOptions): UseFileUploadReturn {
     }
   };
 
-  return { isUploading, uploadFile, error };
+  return { isUploading, progress, uploadFile, error, resetState };
 }

@@ -1,11 +1,12 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Loader2, Camera, Upload } from 'lucide-react';
 import { User } from '@supabase/supabase-js';
 import { useToast } from '@/hooks/use-toast';
 import { useFileUpload } from '@/hooks/useFileUpload';
+import { Progress } from '@/components/ui/progress';
 
 interface ProfileAvatarProps {
   user: User | null;
@@ -20,11 +21,38 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
 }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { isUploading, uploadFile } = useFileUpload({
+  const [showProgress, setShowProgress] = useState(false);
+  const { isUploading, progress, uploadFile, resetState } = useFileUpload({
     bucketName: 'avatars',
     folderPath: 'avatars',
     fileSizeLimit: 5, // 5MB
-    fileTypes: ['image/*']
+    fileTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+    onProgress: () => setShowProgress(true),
+    onBeforeUpload: (file) => {
+      // Optional custom validation
+      const img = new Image();
+      const promise = new Promise<boolean>((resolve) => {
+        img.onload = () => {
+          // Validate image dimensions if needed
+          // For example, ensure it's square
+          const isSquarish = Math.abs(img.width - img.height) < 100;
+          if (!isSquarish) {
+            toast({
+              title: "Image not ideal",
+              description: "For best results, please use a square image.",
+              variant: "destructive",
+            });
+          }
+          resolve(true); // We still allow the upload even if not square
+        };
+        img.onerror = () => {
+          resolve(false);
+        };
+      });
+      
+      img.src = URL.createObjectURL(file);
+      return promise;
+    }
   });
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +74,17 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
     } catch (error) {
       // Error handling is done in the hook
       console.error("Error in handleFileSelect:", error);
+    } finally {
+      // Reset file input so the same file can be selected again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      // Hide progress after a delay
+      setTimeout(() => {
+        setShowProgress(false);
+        resetState();
+      }, 1500);
     }
   };
 
@@ -87,7 +126,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
           </button>
         </div>
         
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <input 
             type="file" 
             ref={fileInputRef}
@@ -115,6 +154,16 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
               </>
             )}
           </Button>
+          
+          {showProgress && (
+            <div className="mt-2 w-full">
+              <Progress value={progress} className="h-1 bg-fuchsia-950/30" />
+              <p className="text-xs text-right text-muted-foreground mt-1">
+                {progress === 100 ? 'Complete' : `${Math.round(progress)}%`}
+              </p>
+            </div>
+          )}
+          
           <p className="text-xs text-muted-foreground mt-1">
             Recommended: Square JPG or PNG, max 5MB
           </p>

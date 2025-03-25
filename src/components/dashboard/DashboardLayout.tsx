@@ -17,7 +17,7 @@ import DashboardContent from './DashboardContent';
 import PropertiesContent from './PropertiesContent';
 import BookingsContent from './BookingsContent';
 import GuestsContent from './GuestsContent';
-import { AnalyticsContent } from './AnalyticsContent';
+import AnalyticsContent from './AnalyticsContent';  // Update to use default import
 import SettingsContent from './SettingsContent';
 import ReviewsContent from './ReviewsContent';
 

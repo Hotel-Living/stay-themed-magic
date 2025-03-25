@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { PlusCircle, FileText, HelpCircle } from "lucide-react";
-import { StatCard } from "./StatCard";
+import StatCard from "./StatCard";  // Using default import since we've added a default export
 import BookingItem from "./BookingItem";
 import ReviewItem from "./ReviewItem";
 import ActionCard from "./ActionCard";

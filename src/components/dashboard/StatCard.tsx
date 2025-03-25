@@ -62,5 +62,5 @@ export function StatCard({ title, value, change, icon: Icon, trend = "neutral" }
   );
 }
 
-// Add a default export that points to the same component
+// Adding a default export for the StatCard component
 export default StatCard;

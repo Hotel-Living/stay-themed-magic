@@ -27,6 +27,7 @@ interface FilterSectionProps {
   expandedLayout?: boolean;
   compactSpacing?: boolean;
   useBoldLabels?: boolean;
+  usePurpleFilterBackground?: boolean;
   placeholders?: {
     country?: string;
     month?: string;
@@ -44,6 +45,7 @@ export const FilterSection = ({
   expandedLayout = false,
   compactSpacing = false,
   useBoldLabels = false,
+  usePurpleFilterBackground = false,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -185,9 +187,19 @@ export const FilterSection = ({
   const hasActiveFilters = () => {
     return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
   };
+
+  // Determine the background color for the form wrapper based on the prop
+  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#9C23A5]/80' : 'bg-[#5A1876]/80';
+  
+  // Determine the filter button background color based on the prop
+  const filterBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]/90' : 'bg-fuchsia-950/50';
+  
+  // Determine the search button background color based on the prop
+  const searchBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]' : 'bg-fuchsia-600';
+  const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#4a1166]' : 'hover:bg-fuchsia-500';
   
   return (
-    <div className={`glass-card filter-dropdown-container rounded-xl ${compactSpacing ? 'p-3 md:p-4' : 'p-4 md:p-5'} bg-[#5A1876]/80`}>
+    <div className={`glass-card filter-dropdown-container rounded-xl ${compactSpacing ? 'p-3 md:p-4' : 'p-4 md:p-5'} ${formWrapperBgColor}`}>
       <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"} ${compactSpacing ? 'gap-2' : ''}`}>
         {/* Country filter */}
         <div 
@@ -196,7 +208,7 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("country")}
-            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
+            className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.country ? (
@@ -247,7 +259,7 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("month")}
-            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
+            className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.month ? (
@@ -300,7 +312,7 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("theme")}
-            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
+            className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.theme ? (
@@ -410,7 +422,7 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("price")}
-            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
+            className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.priceRange ? (
@@ -468,7 +480,7 @@ export const FilterSection = ({
           )}
           <button
             onClick={handleSearch}
-            className="flex-1 px-4 py-2 rounded-lg bg-fuchsia-600 text-white hover:bg-fuchsia-500 text-sm font-medium transition-colors flex items-center justify-center"
+            className={`flex-1 px-4 py-2 rounded-lg ${searchBgColor} text-white ${searchHoverBgColor} text-sm font-medium transition-colors flex items-center justify-center`}
           >
             <Search className="w-4 h-4 mr-2" /> Search
           </button>

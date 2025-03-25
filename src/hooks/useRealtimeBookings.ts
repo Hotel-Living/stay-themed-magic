@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
@@ -11,8 +10,14 @@ export function useRealtimeBookings(hotelId?: string) {
   const { user } = useAuth();
   const { toast } = useToast();
   const channelRef = useRef<ReturnType<typeof supabase.channel>>();
+  
+  const prevFilterRef = useRef<string | null>(null);
+  const bookingsRef = useRef<Booking[]>([]);
 
-  // Memoize the fetch function to avoid recreating it on each render
+  useEffect(() => {
+    bookingsRef.current = bookings;
+  }, [bookings]);
+
   const fetchBookings = useCallback(async () => {
     if (!user) {
       setBookings([]);
@@ -26,7 +31,6 @@ export function useRealtimeBookings(hotelId?: string) {
         .from('bookings')
         .select('*');
       
-      // Filter by user ID if no hotel ID is provided
       if (!hotelId) {
         query = query.eq('user_id', user.id);
       } else {
@@ -38,6 +42,7 @@ export function useRealtimeBookings(hotelId?: string) {
       if (error) throw error;
       
       setBookings(data as Booking[]);
+      bookingsRef.current = data as Booking[];
     } catch (error: any) {
       console.error("Error fetching bookings:", error);
       toast({
@@ -50,7 +55,6 @@ export function useRealtimeBookings(hotelId?: string) {
     }
   }, [user, hotelId, toast]);
 
-  // Handle booking updates efficiently to avoid unnecessary re-renders
   const updateBookingState = useCallback((newBooking: Booking, eventType: 'INSERT' | 'UPDATE' | 'DELETE') => {
     if (eventType === 'INSERT') {
       setBookings(prev => [...prev, newBooking]);
@@ -82,38 +86,49 @@ export function useRealtimeBookings(hotelId?: string) {
       return;
     }
 
-    // Initial fetch of bookings
-    fetchBookings();
-
-    // Subscribe to real-time updates with proper cleanup
-    const channel = supabase
-      .channel('booking-changes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'bookings',
-        filter: hotelId 
-          ? `hotel_id=eq.${hotelId}` 
-          : `user_id=eq.${user.id}`
-      }, (payload) => {
-        console.log('Real-time booking update:', payload);
-        
-        if (payload.eventType === 'INSERT') {
-          updateBookingState(payload.new as Booking, 'INSERT');
-        } else if (payload.eventType === 'UPDATE') {
-          updateBookingState(payload.new as Booking, 'UPDATE');
-        } else if (payload.eventType === 'DELETE') {
-          updateBookingState(payload.old as Booking, 'DELETE');
-        }
-      })
-      .subscribe();
+    const currentFilter = hotelId ? `hotel_id=eq.${hotelId}` : `user_id=eq.${user.id}`;
     
-    // Store the channel reference for cleanup
-    channelRef.current = channel;
+    const hasFilterChanged = currentFilter !== prevFilterRef.current;
+    
+    fetchBookings();
+    
+    if (hasFilterChanged) {
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+      }
+      
+      const channel = supabase
+        .channel(`booking-changes-${hotelId || user.id}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'bookings',
+          filter: currentFilter
+        }, (payload) => {
+          console.log('Real-time booking update:', payload);
+          
+          if (payload.eventType === 'INSERT') {
+            updateBookingState(payload.new as Booking, 'INSERT');
+          } else if (payload.eventType === 'UPDATE') {
+            updateBookingState(payload.new as Booking, 'UPDATE');
+          } else if (payload.eventType === 'DELETE') {
+            updateBookingState(payload.old as Booking, 'DELETE');
+          }
+        })
+        .subscribe((status) => {
+          console.log(`Realtime subscription status: ${status}`);
+        });
+      
+      channelRef.current = channel;
+      
+      prevFilterRef.current = currentFilter;
+    }
 
     return () => {
       if (channelRef.current) {
+        console.log('Removing realtime channel subscription');
         supabase.removeChannel(channelRef.current);
+        channelRef.current = undefined;
       }
     };
   }, [user, hotelId, fetchBookings, updateBookingState]);

@@ -2,9 +2,24 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { FilterState } from "@/components/FilterSection";
+import { useCallback, useMemo } from "react";
+
+// Memoized function to create filter parameters for Supabase queries
+const createFilterParams = (filters: FilterState) => {
+  const params: Record<string, any> = {};
+  
+  if (filters.country) {
+    params.country = filters.country;
+  }
+  
+  // Add more filters as needed
+  
+  return params;
+};
 
 // Function to fetch hotels with filters
 export const fetchHotels = async (filters: FilterState) => {
+  // Create a base query
   let query = supabase
     .from('hotels')
     .select(`
@@ -13,13 +28,16 @@ export const fetchHotels = async (filters: FilterState) => {
       hotel_themes(theme_id, themes:themes(id, name))
     `);
   
-  // Apply filters efficiently
-  if (filters.country) {
-    query = query.eq('country', filters.country);
-  }
+  // Get filter parameters and apply them efficiently
+  const filterParams = createFilterParams(filters);
   
-  // Add more filters as needed
-
+  // Apply each filter parameter to the query
+  Object.entries(filterParams).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      query = query.eq(key, value);
+    }
+  });
+  
   const { data, error } = await query;
   
   if (error) {
@@ -34,7 +52,16 @@ export function useHotels(filters: FilterState, enabled = true) {
   const queryClient = useQueryClient();
   
   // Create a stable filter key by stringifying the filters
-  const filterKey = JSON.stringify(filters);
+  const filterKey = useMemo(() => JSON.stringify(filters), [filters]);
+  
+  // Memoize the prefetch function to avoid recreating it on each render
+  const prefetchHotelDetails = useCallback((hotelId: string) => {
+    queryClient.prefetchQuery({
+      queryKey: ['hotel', hotelId],
+      queryFn: () => fetchHotelById(hotelId),
+      staleTime: 5 * 60 * 1000 // 5 minutes
+    });
+  }, [queryClient]);
   
   return useQuery({
     queryKey: ['hotels', filterKey],
@@ -44,13 +71,21 @@ export function useHotels(filters: FilterState, enabled = true) {
     cacheTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
     onSuccess: (hotels) => {
       // Prefetch individual hotel details when hotel list is loaded
-      hotels.forEach(hotel => {
-        queryClient.prefetchQuery({
-          queryKey: ['hotel', hotel.id],
-          queryFn: () => fetchHotelById(hotel.id),
-          staleTime: 5 * 60 * 1000 // 5 minutes
+      // Use window.requestIdleCallback or setTimeout to defer non-critical prefetching
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => {
+          hotels.forEach(hotel => {
+            prefetchHotelDetails(hotel.id);
+          });
         });
-      });
+      } else {
+        // Fallback for browsers that don't support requestIdleCallback
+        setTimeout(() => {
+          hotels.forEach(hotel => {
+            prefetchHotelDetails(hotel.id);
+          });
+        }, 200);
+      }
     }
   });
 }

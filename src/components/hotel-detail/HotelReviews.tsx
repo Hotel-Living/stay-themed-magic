@@ -1,3 +1,4 @@
+
 import { Star } from "lucide-react";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -190,8 +191,5 @@ export const HotelReviews = React.memo(({ hotelId, averageRating = 0, isLoading:
 
 HotelReviews.displayName = "HotelReviews";
 
-export function HotelReviews({ hotelId, averageRating = 0, isLoading: externalLoading }: HotelReviewsProps) {
-  return (
-    <HotelReviews hotelId={hotelId} averageRating={averageRating} isLoading={externalLoading} />
-  );
-}
+// Fix duplicate component export
+export { HotelReviews };

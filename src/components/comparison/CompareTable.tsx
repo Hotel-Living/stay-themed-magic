@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { X, Info } from "lucide-react";
+import { X, Info, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { HotelForComparison, SortOption } from "./types";
@@ -35,7 +35,11 @@ export function CompareTable({
   return (
     <div className="space-y-3">
       {hotels.length > 1 && !isLoading && (
-        <div className="flex justify-end">
+        <div className="flex justify-between items-center mb-2">
+          <div className="md:hidden flex items-center text-xs text-white/70">
+            <ArrowRight className="h-3.5 w-3.5 mr-1 animate-pulse" />
+            <span>Scroll to compare</span>
+          </div>
           <TooltipProvider>
             <Tooltip delayDuration={300}>
               <TooltipTrigger asChild>
@@ -55,20 +59,25 @@ export function CompareTable({
         </div>
       )}
       
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto relative rounded-xl shadow-lg">
+        {/* Scroll indicator gradient for mobile */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/50 to-transparent pointer-events-none md:hidden z-10"></div>
+        
         <Table className="w-full glass-card rounded-xl overflow-hidden">
           <TableHeader>
             <TableRow className="bg-fuchsia-950/40 hover:bg-fuchsia-950/40">
-              <TableHead className="px-6 py-4 text-left text-sm font-semibold text-white">Features</TableHead>
+              <TableHead className="w-[120px] md:w-auto px-4 md:px-6 py-4 text-left text-sm font-semibold text-white sticky left-0 bg-fuchsia-950/40 z-20">
+                Features
+              </TableHead>
               {isLoading ? (
                 Array(hotelIds.length).fill(0).map((_, index) => (
-                  <TableHead key={index} className="px-6 py-4 text-center min-w-[250px]">
+                  <TableHead key={index} className="px-4 md:px-6 py-4 text-center min-w-[180px] md:min-w-[250px]">
                     <Skeleton className="h-6 w-3/4 mx-auto bg-white/10" />
                   </TableHead>
                 ))
               ) : (
                 hotels.map(hotel => (
-                  <TableHead key={hotel.id} className="px-6 py-4 text-center min-w-[250px] relative">
+                  <TableHead key={hotel.id} className="px-4 md:px-6 py-4 text-center min-w-[180px] md:min-w-[250px] relative">
                     <button 
                       className="absolute top-2 right-2 text-white/50 hover:text-white"
                       onClick={() => onRemoveHotel(hotel.id)}
@@ -78,7 +87,7 @@ export function CompareTable({
                     </button>
                     <Link 
                       to={`/hotel/${hotel.id}`} 
-                      className="text-lg font-bold text-white hover:text-fuchsia-400 transition"
+                      className="text-base md:text-lg font-bold text-white hover:text-fuchsia-400 transition"
                     >
                       {hotel.name}
                     </Link>
@@ -89,11 +98,13 @@ export function CompareTable({
           </TableHeader>
           <TableBody>
             <TableRow className="hover:bg-gray-900/20">
-              <TableCell className="px-6 py-4 text-sm font-medium text-white">Image</TableCell>
+              <TableCell className="w-[120px] md:w-auto px-4 md:px-6 py-4 text-sm font-medium text-white sticky left-0 bg-black/80 backdrop-blur-sm z-10">
+                Image
+              </TableCell>
               {isLoading ? (
                 Array(hotelIds.length).fill(0).map((_, index) => (
-                  <TableCell key={index} className="px-6 py-4 text-center">
-                    <Skeleton className="h-40 w-full mx-auto bg-white/10" />
+                  <TableCell key={index} className="px-4 md:px-6 py-4 text-center">
+                    <Skeleton className="h-28 md:h-40 w-full mx-auto bg-white/10" />
                   </TableCell>
                 ))
               ) : (
@@ -104,12 +115,12 @@ export function CompareTable({
                                 '/placeholder.svg';
                   
                   return (
-                    <TableCell key={hotel.id} className="px-6 py-4 text-center">
+                    <TableCell key={hotel.id} className="px-4 md:px-6 py-4 text-center">
                       <Link to={`/hotel/${hotel.id}`}>
                         <img 
                           src={mainImage} 
                           alt={hotel.name} 
-                          className="h-40 w-full object-cover rounded-lg" 
+                          className="h-28 md:h-40 w-full object-cover rounded-lg" 
                         />
                       </Link>
                     </TableCell>
@@ -128,17 +139,19 @@ export function CompareTable({
             
             {/* Action buttons */}
             <TableRow className="hover:bg-gray-900/20">
-              <TableCell className="px-6 py-4 text-sm font-medium text-white">Actions</TableCell>
+              <TableCell className="w-[120px] md:w-auto px-4 md:px-6 py-4 text-sm font-medium text-white sticky left-0 bg-black/80 backdrop-blur-sm z-10">
+                Actions
+              </TableCell>
               {isLoading ? (
                 Array(hotelIds.length).fill(0).map((_, index) => (
-                  <TableCell key={index} className="px-6 py-4 text-center">
+                  <TableCell key={index} className="px-4 md:px-6 py-4 text-center">
                     <Skeleton className="h-10 w-1/2 mx-auto bg-white/10" />
                   </TableCell>
                 ))
               ) : (
                 hotels.map(hotel => (
-                  <TableCell key={hotel.id} className="px-6 py-4 text-center">
-                    <Button asChild className="bg-fuchsia-600 hover:bg-fuchsia-700">
+                  <TableCell key={hotel.id} className="px-4 md:px-6 py-4 text-center">
+                    <Button asChild className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full md:w-auto">
                       <Link to={`/hotel/${hotel.id}`}>View Details</Link>
                     </Button>
                   </TableCell>

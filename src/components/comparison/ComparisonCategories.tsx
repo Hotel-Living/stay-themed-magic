@@ -135,7 +135,7 @@ export function ComparisonCategories({
       {categories.map(category => (
         <TableRow key={category.name} className="even:bg-gray-900/20 hover:bg-gray-900/30">
           <TableCell 
-            className={`px-6 py-4 text-sm font-medium text-white ${category.sortable ? 'cursor-pointer group' : ''}`}
+            className={`w-[120px] md:w-auto px-4 md:px-6 py-4 text-sm font-medium text-white sticky left-0 bg-black/80 backdrop-blur-sm z-10 ${category.sortable ? 'cursor-pointer group' : ''}`}
             onClick={() => category.sortable ? onSortChange(category.key) : null}
           >
             <div className="flex items-center">
@@ -145,7 +145,7 @@ export function ComparisonCategories({
           </TableCell>
           {isLoading ? (
             Array(hotelIds.length).fill(0).map((_, index) => (
-              <TableCell key={index} className="px-6 py-4 text-center">
+              <TableCell key={index} className="px-4 md:px-6 py-4 text-center">
                 <Skeleton className="h-6 w-2/3 mx-auto bg-white/10" />
               </TableCell>
             ))
@@ -163,7 +163,7 @@ export function ComparisonCategories({
               return (
                 <TableCell 
                   key={hotel.id} 
-                  className={`px-6 py-4 text-center text-white/90 transition-colors duration-300 ${highlightClass}`}
+                  className={`px-4 md:px-6 py-4 text-center text-white/90 transition-colors duration-300 ${highlightClass}`}
                 >
                   {value}
                 </TableCell>

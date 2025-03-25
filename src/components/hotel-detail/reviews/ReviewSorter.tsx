@@ -1,5 +1,5 @@
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, SortAsc } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -19,64 +19,78 @@ import { useState } from "react";
 type SortOption = {
   value: string;
   label: string;
+  description?: string;
 }
 
 const sortOptions: SortOption[] = [
-  { value: "newest", label: "Newest first" },
-  { value: "oldest", label: "Oldest first" },
-  { value: "highest", label: "Highest rating" },
-  { value: "lowest", label: "Lowest rating" },
+  { value: "newest", label: "Newest first", description: "Show most recent reviews at the top" },
+  { value: "oldest", label: "Oldest first", description: "Show earliest reviews at the top" },
+  { value: "highest", label: "Highest rating", description: "Show best ratings first" },
+  { value: "lowest", label: "Lowest rating", description: "Show critical reviews first" },
 ];
 
 interface ReviewSorterProps {
   onSortChange: (value: string) => void;
+  initialValue?: string;
 }
 
-export function ReviewSorter({ onSortChange }: ReviewSorterProps) {
+export function ReviewSorter({ onSortChange, initialValue = "newest" }: ReviewSorterProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("newest");
+  const [value, setValue] = useState(initialValue);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full md:w-[200px] justify-between text-sm"
-          size="sm"
-        >
-          {value ? sortOptions.find((option) => option.value === value)?.label : "Sort by"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full md:w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search sort options..." />
-          <CommandEmpty>No sort option found.</CommandEmpty>
-          <CommandGroup>
-            {sortOptions.map((option) => (
-              <CommandItem
-                key={option.value}
-                value={option.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue);
-                  onSortChange(currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === option.value ? "opacity-100" : "opacity-0"
+    <div className="flex items-center space-x-2">
+      <SortAsc className="h-4 w-4 text-muted-foreground" />
+      <span className="text-sm text-muted-foreground mr-2">Sort by:</span>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full md:w-[200px] justify-between text-sm"
+            size="sm"
+          >
+            {value ? sortOptions.find((option) => option.value === value)?.label : "Sort by"}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full md:w-[300px] p-0" align="end">
+          <Command>
+            <CommandInput placeholder="Search sort options..." />
+            <CommandEmpty>No sort option found.</CommandEmpty>
+            <CommandGroup>
+              {sortOptions.map((option) => (
+                <CommandItem
+                  key={option.value}
+                  value={option.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue);
+                    onSortChange(currentValue);
+                    setOpen(false);
+                  }}
+                  className="flex flex-col items-start py-2"
+                >
+                  <div className="flex w-full items-center">
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4 flex-shrink-0",
+                        value === option.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    <span className="font-medium">{option.label}</span>
+                  </div>
+                  {option.description && (
+                    <span className="ml-6 text-xs text-muted-foreground">
+                      {option.description}
+                    </span>
                   )}
-                />
-                {option.label}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

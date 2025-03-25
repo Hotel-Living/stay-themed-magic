@@ -1,6 +1,6 @@
 
 import { Review } from "@/hooks/useHotelDetail";
-import { User, Star } from "lucide-react";
+import { User, Star, MessageSquare } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import { ReviewSorter } from "./ReviewSorter";
@@ -111,38 +111,46 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
 
   if (isLoading) {
     return (
-      <>
-        <div className="flex items-center gap-4 mb-6">
-          <Skeleton className="h-16 w-16 rounded-full" />
-          <div className="space-y-2 flex-1">
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-16 w-full" />
-          </div>
+      <div className="space-y-6">
+        <div className="flex justify-end mb-4">
+          <Skeleton className="h-10 w-[200px]" />
         </div>
         
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-16 w-16 rounded-full" />
-          <div className="space-y-2 flex-1">
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-16 w-full" />
+        {Array(2).fill(0).map((_, i) => (
+          <div key={i} className="border-t border-fuchsia-900/20 pt-4">
+            <div className="flex gap-4">
+              <Skeleton className="h-10 w-10 rounded-full flex-shrink-0" />
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-20" />
+                </div>
+                <Skeleton className="h-20 w-full" />
+              </div>
+            </div>
           </div>
-        </div>
-      </>
+        ))}
+      </div>
     );
   }
   
   if (reviews.length === 0) {
     return (
-      <p className="text-foreground/60 italic text-center py-4">
-        No reviews yet. Be the first to share your experience!
-      </p>
+      <div className="text-center py-8 border-t border-fuchsia-900/20">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
+          <MessageSquare className="w-8 h-8 text-fuchsia-400" />
+        </div>
+        <p className="text-foreground/60 italic">
+          No reviews yet. Be the first to share your experience!
+        </p>
+      </div>
     );
   }
   
   return (
     <div id="reviews-section" className="space-y-6">
       <div className="flex justify-end mb-4">
-        <ReviewSorter onSortChange={handleSortChange} />
+        <ReviewSorter onSortChange={handleSortChange} initialValue={sortOption} />
       </div>
       
       {currentReviews.map((review, index) => (
@@ -151,7 +159,7 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-fuchsia-800/30 flex items-center justify-center">
               <User className="w-5 h-5 text-fuchsia-300" />
             </div>
-            <div>
+            <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <span className="font-medium">{review.user_name || "Anonymous"}</span>
                 <div className="flex items-center">
@@ -164,7 +172,11 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
                 </div>
                 {review.created_at && (
                   <span className="text-xs text-foreground/60">
-                    {new Date(review.created_at).toLocaleDateString()}
+                    {new Date(review.created_at).toLocaleDateString(undefined, {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
                   </span>
                 )}
               </div>
@@ -179,7 +191,10 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
           <PaginationContent>
             {currentPage > 1 && (
               <PaginationItem>
-                <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
+                <PaginationPrevious 
+                  aria-label="Go to previous page" 
+                  onClick={() => handlePageChange(currentPage - 1)} 
+                />
               </PaginationItem>
             )}
             
@@ -187,7 +202,10 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
             
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                <PaginationNext 
+                  aria-label="Go to next page" 
+                  onClick={() => handlePageChange(currentPage + 1)} 
+                />
               </PaginationItem>
             )}
           </PaginationContent>

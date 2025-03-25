@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ReviewFormProps {
   hotelId: string;
@@ -26,6 +27,8 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
   const [hoverRating, setHoverRating] = useState(0);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [characterCount, setCharacterCount] = useState(0);
+  const { toast } = useToast();
   
   const handleRatingChange = (rating: number) => {
     setNewRating(rating);
@@ -38,8 +41,21 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
   const handleMouseLeave = () => {
     setHoverRating(0);
   };
+
+  useEffect(() => {
+    setCharacterCount(newComment.length);
+  }, [newComment]);
   
   const handleAddReview = async () => {
+    if (newComment.trim().length < 10) {
+      toast({
+        title: "Review too short",
+        description: "Please provide a more detailed comment (at least 10 characters)",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     try {
       setIsSubmitting(true);
       
@@ -54,11 +70,30 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
       setNewRating(5);
       setNewComment("");
       setIsAddReviewOpen(false);
+
+      toast({
+        title: "Review submitted",
+        description: "Thank you for sharing your experience!",
+      });
     } catch (error) {
       console.error("Error adding review:", error);
+      toast({
+        title: "Error submitting review",
+        description: "Please try again later",
+        variant: "destructive"
+      });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const getRatingLabel = () => {
+    const rating = hoverRating || newRating;
+    return rating === 1 ? "Poor" :
+          rating === 2 ? "Fair" :
+          rating === 3 ? "Good" :
+          rating === 4 ? "Very good" :
+          "Excellent";
   };
   
   return (
@@ -93,23 +128,24 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
                 />
               ))}
             </div>
-            <span className="text-sm text-foreground/80 mt-1">
-              {
-                newRating === 1 ? "Poor" :
-                newRating === 2 ? "Fair" :
-                newRating === 3 ? "Good" :
-                newRating === 4 ? "Very good" :
-                "Excellent"
-              }
+            <span className="text-sm text-foreground/80 mt-1 font-medium">
+              {getRatingLabel()}
             </span>
           </div>
           
-          <Textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Share details of your experience at this hotel..."
-            className="min-h-[120px]"
-          />
+          <div className="space-y-2">
+            <Textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Share details of your experience at this hotel..."
+              className="min-h-[120px]"
+            />
+            <div className="flex justify-end">
+              <span className={`text-xs ${characterCount < 10 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                {characterCount}/500 characters {characterCount < 10 ? '(minimum 10)' : ''}
+              </span>
+            </div>
+          </div>
         </div>
         
         <DialogFooter>
@@ -118,7 +154,7 @@ export function ReviewForm({ hotelId, userId, onAddReview }: ReviewFormProps) {
           </Button>
           <Button 
             onClick={handleAddReview} 
-            disabled={isSubmitting || !newComment.trim()}
+            disabled={isSubmitting || newComment.trim().length < 10}
           >
             {isSubmitting ? "Submitting..." : "Submit Review"}
           </Button>

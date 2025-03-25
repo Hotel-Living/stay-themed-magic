@@ -42,16 +42,16 @@ export default function FAQ() {
       
       <main className="flex-1 pt-16 pb-12">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-center text-[#844B8E]">Frequently Asked Questions</h1>
+          <h1 className="text-3xl font-bold mb-8 text-center text-fuchsia-300">Frequently Asked Questions</h1>
           
-          <div className="rounded-lg overflow-hidden bg-[#E3F2FD]">
-            <Accordion type="single" collapsible className="w-full divide-y divide-blue-100">
+          <div className="rounded-lg overflow-hidden glass-card bg-[#5A1876]/80">
+            <Accordion type="single" collapsible className="w-full divide-y divide-fuchsia-800/20">
               {faqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="border-none">
-                  <AccordionTrigger className="px-6 py-4 text-[#844B8E] font-medium text-lg hover:bg-blue-50">
+                  <AccordionTrigger className="px-6 py-4 text-white font-medium text-lg hover:bg-fuchsia-800/20">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-4 text-[#844B8E]">
+                  <AccordionContent className="px-6 pb-4 text-white/90">
                     <p>{faq.answer}</p>
                   </AccordionContent>
                 </AccordionItem>
@@ -60,8 +60,8 @@ export default function FAQ() {
           </div>
           
           <div className="mt-12 text-center">
-            <h2 className="text-xl font-semibold mb-4 text-[#844B8E]">Still have questions?</h2>
-            <p className="mb-6 text-[#844B8E]">Our customer service team is ready to help you with any inquiries.</p>
+            <h2 className="text-xl font-semibold mb-4 text-fuchsia-300">Still have questions?</h2>
+            <p className="mb-6 text-white/90">Our customer service team is ready to help you with any inquiries.</p>
             <a 
               href="/customer-service" 
               className="inline-block px-6 py-3 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-500 transition-colors"

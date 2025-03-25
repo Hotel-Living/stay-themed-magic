@@ -32,7 +32,7 @@ export function HotelThemesDisplay({ themes }: HotelThemesDisplayProps) {
   }, {} as Record<string, Theme[]>);
 
   return (
-    <div className="w-full bg-[#5A1876]/10 backdrop-blur-sm rounded-lg p-4 border border-[#5A1876]/20">
+    <div className="w-full bg-[#5A1876]/80 backdrop-blur-sm rounded-lg p-4 border border-[#5A1876]/20">
       <h3 className="text-sm uppercase tracking-wide text-fuchsia-300 font-medium mb-3">Hotel Themes</h3>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

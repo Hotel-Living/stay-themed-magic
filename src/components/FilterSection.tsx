@@ -25,6 +25,8 @@ interface FilterSectionProps {
   verticalLayout?: boolean;
   useCollapsibleThemes?: boolean;
   expandedLayout?: boolean;
+  compactSpacing?: boolean;
+  useBoldLabels?: boolean;
   placeholders?: {
     country?: string;
     month?: string;
@@ -40,6 +42,8 @@ export const FilterSection = ({
   verticalLayout = false,
   useCollapsibleThemes = false,
   expandedLayout = false,
+  compactSpacing = false,
+  useBoldLabels = false,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -183,8 +187,8 @@ export const FilterSection = ({
   };
   
   return (
-    <div className={`glass-card filter-dropdown-container rounded-xl p-4 md:p-5 ${verticalLayout ? "" : "relative z-20"}`}>
-      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"}`}>
+    <div className={`glass-card filter-dropdown-container rounded-xl ${compactSpacing ? 'p-3 md:p-4' : 'p-4 md:p-5'} bg-[#5A1876]/80`}>
+      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"} ${compactSpacing ? 'gap-2' : ''}`}>
         {/* Country filter */}
         <div 
           ref={countryRef}
@@ -192,12 +196,12 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("country")}
-            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.country ? (
                 <>
-                  <span className="truncate mr-2">
+                  <span className={`truncate mr-2 ${useBoldLabels ? 'font-semibold' : ''}`}>
                     {availableCountries.find(c => c.value === filters.country)?.label || filters.country}
                   </span>
                   <button
@@ -211,7 +215,7 @@ export const FilterSection = ({
                   </button>
                 </>
               ) : (
-                <span className="text-foreground/70">{placeholders.country}</span>
+                <span className={`text-foreground/70 ${useBoldLabels ? 'font-semibold' : ''}`}>{placeholders.country}</span>
               )}
             </div>
             <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "country" ? "rotate-180" : "")} />
@@ -243,12 +247,12 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("month")}
-            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.month ? (
                 <>
-                  <span className="capitalize truncate mr-2">
+                  <span className={`capitalize truncate mr-2 ${useBoldLabels ? 'font-semibold' : ''}`}>
                     {filters.month}
                   </span>
                   <button
@@ -262,7 +266,7 @@ export const FilterSection = ({
                   </button>
                 </>
               ) : (
-                <span className="text-foreground/70">{placeholders.month}</span>
+                <span className={`text-foreground/70 ${useBoldLabels ? 'font-semibold' : ''}`}>{placeholders.month}</span>
               )}
             </div>
             <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "month" ? "rotate-180" : "")} />
@@ -296,12 +300,12 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("theme")}
-            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.theme ? (
                 <>
-                  <span className="truncate mr-2">
+                  <span className={`truncate mr-2 ${useBoldLabels ? 'font-semibold' : ''}`}>
                     {filters.theme.name}
                   </span>
                   <button
@@ -315,7 +319,7 @@ export const FilterSection = ({
                   </button>
                 </>
               ) : (
-                <span className="text-foreground/70">{placeholders.theme}</span>
+                <span className={`text-foreground/70 ${useBoldLabels ? 'font-semibold' : ''}`}>{placeholders.theme}</span>
               )}
             </div>
             <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "theme" ? "rotate-180" : "")} />
@@ -406,12 +410,12 @@ export const FilterSection = ({
         >
           <button
             onClick={() => toggleDropdown("price")}
-            className="w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors"
+            className={`w-full flex items-center justify-between bg-fuchsia-950/50 rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
           >
             <div className="flex items-center">
               {filters.priceRange ? (
                 <>
-                  <span className="truncate mr-2">
+                  <span className={`truncate mr-2 ${useBoldLabels ? 'font-semibold' : ''}`}>
                     {priceRanges.find(p => p.value === filters.priceRange)?.label || `$${filters.priceRange}`}
                   </span>
                   <button
@@ -425,7 +429,7 @@ export const FilterSection = ({
                   </button>
                 </>
               ) : (
-                <span className="text-foreground/70">{placeholders.priceRange}</span>
+                <span className={`text-foreground/70 ${useBoldLabels ? 'font-semibold' : ''}`}>{placeholders.priceRange}</span>
               )}
             </div>
             <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === "price" ? "rotate-180" : "")} />
@@ -453,7 +457,7 @@ export const FilterSection = ({
       
       {/* Button row - only show if requested or in vertical layout */}
       {(showSearchButton || verticalLayout) && (
-        <div className={`flex ${verticalLayout ? "mt-4" : "mt-3"} gap-2`}>
+        <div className={`flex ${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} gap-2`}>
           {hasActiveFilters() && (
             <button
               onClick={clearAllFilters}

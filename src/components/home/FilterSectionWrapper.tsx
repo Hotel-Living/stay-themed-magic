@@ -10,7 +10,7 @@ interface FilterSectionWrapperProps {
 export function FilterSectionWrapper({ onFilterChange, availableThemes }: FilterSectionWrapperProps) {
   return (
     <section className="py-0 px-4">
-      <div className="container max-w-3xl mx-auto">
+      <div className="container max-w-6xl mx-auto">
         <FilterSection 
           onFilterChange={onFilterChange} 
           showSearchButton={true} 
@@ -21,8 +21,7 @@ export function FilterSectionWrapper({ onFilterChange, availableThemes }: Filter
             priceRange: "Price per Month?"
           }}
           useCollapsibleThemes={true}
-          expandedLayout={false}
-          verticalLayout={true}
+          expandedLayout={true}
           compactSpacing={true}
           useBoldLabels={true}
           usePurpleFilterBackground={true}

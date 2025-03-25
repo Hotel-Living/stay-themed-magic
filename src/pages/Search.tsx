@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
-import { hotels, Hotel, themeCategories } from "@/utils/data";
+import { Hotel, hotels, themeCategories } from "@/utils/data";
 import { Compass, ChevronRight, PlusCircle } from "lucide-react";
 import {
   Collapsible,
@@ -36,7 +35,7 @@ export default function Search() {
   // Handle theme separately since it needs to be looked up by ID
   const themeId = searchParams.get("theme");
   if (themeId) {
-    const allThemes = hotels.flatMap(hotel => hotel.themes);
+    const allThemes = themeCategories.flatMap(category => category.themes);
     const foundTheme = allThemes.find(theme => theme.id === themeId);
     if (foundTheme) {
       initialFilters.theme = foundTheme;
@@ -83,13 +82,13 @@ export default function Search() {
       // Convert country to lowercase for case-insensitive comparison
       const countryLower = filters.country.toLowerCase();
       results = results.filter(hotel => 
-        hotel.country.toLowerCase() === countryLower.charAt(0).toUpperCase() + countryLower.slice(1)
+        hotel.country.toLowerCase() === countryLower
       );
     }
     
     if (filters.month) {
       // Convert month to proper case for comparison with hotel data
-      const monthProperCase = filters.month.charAt(0).toUpperCase() + filters.month.slice(1) as any;
+      const monthProperCase = filters.month.charAt(0).toUpperCase() + filters.month.slice(1).toLowerCase();
       results = results.filter(hotel => hotel.availableMonths.includes(monthProperCase));
     }
     
@@ -497,7 +496,17 @@ export default function Search() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredHotels.map(hotel => (
-                  <HotelCard key={hotel.id} hotel={hotel} />
+                  <HotelCard 
+                    key={hotel.id}
+                    id={hotel.id}
+                    name={hotel.name}
+                    city={hotel.city}
+                    country={hotel.country}
+                    stars={hotel.stars}
+                    pricePerMonth={hotel.pricePerMonth}
+                    themes={hotel.themes.map(theme => theme.name)}
+                    image={hotel.images[0]}
+                  />
                 ))}
               </div>
               

@@ -2,8 +2,9 @@
 import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
 import { HotelThemes } from "./ThemeTag";
+import { Theme } from "@/utils/data";
 
-// Define the new props interface that matches how the component is being used
+// Define the props interface that matches how the component is being used
 export interface HotelCardProps {
   id: string;
   name: string;
@@ -11,7 +12,7 @@ export interface HotelCardProps {
   country: string;
   stars: number;
   pricePerMonth: number;
-  themes: string[];
+  themes: string[] | Theme[];
   image: string;
 }
 
@@ -25,6 +26,14 @@ export function HotelCard({
   themes, 
   image 
 }: HotelCardProps) {
+  // Convert string themes to Theme objects if needed
+  const themeObjects = themes.map(theme => {
+    if (typeof theme === 'string') {
+      return { id: theme, name: theme, category: 'Unknown' } as Theme;
+    }
+    return theme;
+  });
+
   return (
     <Link 
       to={`/hotel/${id}`} 
@@ -47,9 +56,9 @@ export function HotelCard({
         
         <div className="p-5">
           <div className="mb-2">
-            <HotelThemes themes={themes.slice(0, 2)} size="sm" />
-            {themes.length > 2 && (
-              <span className="text-xs text-fuchsia-400 ml-2">+{themes.length - 2} more</span>
+            <HotelThemes themes={themeObjects.slice(0, 2)} size="sm" />
+            {themeObjects.length > 2 && (
+              <span className="text-xs text-fuchsia-400 ml-2">+{themeObjects.length - 2} more</span>
             )}
           </div>
           

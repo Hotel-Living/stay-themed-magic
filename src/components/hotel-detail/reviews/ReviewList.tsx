@@ -9,6 +9,7 @@ import { ReviewListPagination } from "./ReviewListPagination";
 import { ReviewRatingFilter } from "./ReviewRatingFilter";
 import { useReviewList } from "@/hooks/hotel-detail/useReviewList";
 import { FilterX } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ReviewListProps {
   reviews: Review[];
@@ -102,25 +103,27 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
           )}
         </>
       ) : (
-        <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10 animate-fade-in">
+        <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10 animate-fade-in shadow-sm">
           <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-full bg-secondary/80">
+            <div className="p-3 rounded-full bg-fuchsia-900/10">
               <FilterX className="h-6 w-6 text-fuchsia-400" />
             </div>
           </div>
-          <p className="text-muted-foreground mb-3">
+          <p className="text-muted-foreground mb-4 font-medium">
             {ratingFilter !== null 
               ? `No ${ratingFilter}-star reviews found` 
               : "No reviews match your filters"}
           </p>
           {ratingFilter !== null && (
-            <button 
-              className="text-fuchsia-500 font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-offset-2 focus:ring-offset-background rounded px-2 py-1 transition-colors"
+            <Button 
+              variant="outline"
+              size="sm"
+              className="border-fuchsia-900/20 hover:bg-fuchsia-900/10 transition-colors"
               onClick={() => handleRatingFilterChange(null)}
               aria-label="Clear rating filter"
             >
-              Clear filter
-            </button>
+              Show all reviews
+            </Button>
           )}
         </div>
       )}

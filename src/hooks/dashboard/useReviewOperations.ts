@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useSendNotification } from '@/hooks/useSendNotification';
 import { DashboardReview } from '@/components/dashboard/types';
@@ -11,12 +11,12 @@ export function useReviewOperations(initialReviews: DashboardReview[], refetchRe
   const { toast } = useToast();
   const { sendNotification, isSending } = useSendNotification();
 
-  // Update the local state when initialReviews changes (from API)
-  useState(() => {
+  // Fix: Use useEffect instead of useState to sync reviews with initialReviews
+  useEffect(() => {
     if (initialReviews !== reviews) {
       setReviews(initialReviews);
     }
-  });
+  }, [initialReviews]);
 
   const respondToReview = useCallback(async (reviewId: string, responseText: string) => {
     try {

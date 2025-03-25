@@ -9,7 +9,7 @@ interface BookingsContentProps {
   isLoading: boolean;
 }
 
-export const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }) => {
+const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }) => {
   if (isLoading) {
     return (
       <div className="space-y-4">

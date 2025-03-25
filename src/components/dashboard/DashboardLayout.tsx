@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
@@ -15,7 +14,7 @@ import {
 // Tab content imports
 import DashboardContent from './DashboardContent';
 import PropertiesContent from './PropertiesContent';
-import { BookingsContent } from './BookingsContent';
+import BookingsContent from './BookingsContent';
 import GuestsContent from './GuestsContent';
 import AnalyticsContent from './AnalyticsContent';
 import SettingsContent from './SettingsContent';

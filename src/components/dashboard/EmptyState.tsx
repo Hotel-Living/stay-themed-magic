@@ -1,25 +1,27 @@
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 interface EmptyStateProps {
-  icon: ReactNode;
+  icon: React.ReactNode;
   title: string;
-  description?: string;
+  description: string;
+  action?: React.ReactNode;
 }
 
-export const EmptyState = ({ icon, title, description }: EmptyStateProps) => {
+const EmptyState = ({ icon, title, description, action }: EmptyStateProps) => {
   return (
-    <div className="glass-card rounded-2xl p-6 h-full flex flex-col items-center justify-center py-16 text-center">
-      <div className="w-16 h-16 rounded-full bg-fuchsia-950/50 flex items-center justify-center mb-4">
-        <div className="text-fuchsia-400/50">
-          {icon}
-        </div>
+    <div className="glass-card rounded-xl p-8 text-center">
+      <div className="flex justify-center mb-4 text-fuchsia-400">
+        {icon}
       </div>
-      <h2 className="text-lg font-semibold mb-2">{title}</h2>
-      {description && (
-        <p className="text-sm text-muted-foreground max-w-md">
-          {description}
-        </p>
+      <h2 className="text-xl font-bold mb-2">{title}</h2>
+      <p className="text-muted-foreground mb-4 max-w-md mx-auto">
+        {description}
+      </p>
+      {action && (
+        <div className="mt-4">
+          {action}
+        </div>
       )}
     </div>
   );

@@ -8,11 +8,21 @@ import {
   UsersIcon, 
   BarChart3Icon, 
   SettingsIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  MessageSquare
 } from 'lucide-react';
 
+// Tab content imports
+import DashboardContent from './DashboardContent';
+import PropertiesContent from './PropertiesContent';
+import BookingsContent from './BookingsContent';
+import GuestsContent from './GuestsContent';
+import AnalyticsContent from './AnalyticsContent';
+import SettingsContent from './SettingsContent';
+import ReviewsContent from './ReviewsContent';
+
 interface DashboardLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 interface NavItemProps {
@@ -55,6 +65,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         { icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard', id: 'dashboard' },
         { icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties', id: 'properties' },
         { icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings', id: 'bookings' },
+        { icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews', id: 'reviews' },
         { icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings', id: 'settings' },
       ]
     : [
@@ -68,6 +79,44 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
+  };
+
+  // Render the appropriate content based on the active tab
+  const renderTabContent = () => {
+    if (isUserDashboard) {
+      switch (activeTab) {
+        case 'dashboard':
+          return <DashboardContent />;
+        case 'properties':
+          return <PropertiesContent />;
+        case 'bookings':
+          return <BookingsContent />;
+        case 'reviews':
+          return <ReviewsContent />;
+        case 'settings':
+          return <SettingsContent />;
+        default:
+          return <DashboardContent />;
+      }
+    } else {
+      // Hotel dashboard tabs
+      switch (activeTab) {
+        case 'dashboard':
+          return children || <DashboardContent />;
+        case 'properties':
+          return <PropertiesContent />;
+        case 'bookings':
+          return <BookingsContent />;
+        case 'guests':
+          return <GuestsContent />;
+        case 'analytics':
+          return <AnalyticsContent />;
+        case 'settings':
+          return <SettingsContent />;
+        default:
+          return children || <DashboardContent />;
+      }
+    }
   };
 
   return (
@@ -97,7 +146,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       
       {/* Main content */}
       <div className="flex-1">
-        {children}
+        {renderTabContent()}
       </div>
     </div>
   );

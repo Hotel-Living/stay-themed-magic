@@ -4,7 +4,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import DashboardContent from "@/components/dashboard/DashboardContent";
 import { EmailVerificationBanner } from "@/components/auth/EmailVerificationBanner";
 
 export default function UserDashboard() {
@@ -25,9 +24,7 @@ export default function UserDashboard() {
           
           <h1 className="text-3xl font-bold mb-6">My Dashboard</h1>
           
-          <DashboardLayout>
-            <DashboardContent />
-          </DashboardLayout>
+          <DashboardLayout />
         </div>
       </main>
       

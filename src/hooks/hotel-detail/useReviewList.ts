@@ -16,8 +16,11 @@ interface UseReviewListReturn {
   currentPage: number;
   totalPages: number;
   sortOption: SortOption;
+  ratingFilter: number | null;
   handleSortChange: (value: SortOption) => void;
   handlePageChange: (page: number) => void;
+  handleRatingFilterChange: (rating: number | null) => void;
+  filteredReviews: Review[];
 }
 
 /**
@@ -31,6 +34,7 @@ export function useReviewList({
   const [sortedReviews, setSortedReviews] = useState<Review[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>(initialSortOption);
   const [currentPage, setCurrentPage] = useState(1);
+  const [ratingFilter, setRatingFilter] = useState<number | null>(null);
   
   // Apply sorting whenever sort option or reviews change
   useEffect(() => {
@@ -64,19 +68,32 @@ export function useReviewList({
     
     setSortedReviews(sortReviews);
   }, [reviews, sortOption]);
+
+  // Apply rating filter to sorted reviews
+  const filteredReviews = useMemo(() => {
+    if (ratingFilter === null) {
+      return sortedReviews;
+    }
+    return sortedReviews.filter(review => review.rating === ratingFilter);
+  }, [sortedReviews, ratingFilter]);
   
-  // Calculate pagination values
+  // Calculate pagination values based on filtered reviews
   const totalPages = useMemo(() => 
-    Math.ceil(sortedReviews.length / reviewsPerPage),
-    [sortedReviews.length, reviewsPerPage]
+    Math.ceil(filteredReviews.length / reviewsPerPage),
+    [filteredReviews.length, reviewsPerPage]
   );
+  
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [ratingFilter]);
   
   // Get current page reviews
   const currentReviews = useMemo(() => {
     const indexOfLastReview = currentPage * reviewsPerPage;
     const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-    return sortedReviews.slice(indexOfFirstReview, indexOfLastReview);
-  }, [sortedReviews, currentPage, reviewsPerPage]);
+    return filteredReviews.slice(indexOfFirstReview, indexOfLastReview);
+  }, [filteredReviews, currentPage, reviewsPerPage]);
   
   // Handle sort option change
   const handleSortChange = (value: SortOption) => {
@@ -88,14 +105,22 @@ export function useReviewList({
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  // Handle rating filter change
+  const handleRatingFilterChange = (rating: number | null) => {
+    setRatingFilter(rating);
+  };
   
   return {
     sortedReviews,
+    filteredReviews,
     currentReviews,
     currentPage,
     totalPages,
     sortOption,
+    ratingFilter,
     handleSortChange,
-    handlePageChange
+    handlePageChange,
+    handleRatingFilterChange
   };
 }

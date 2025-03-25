@@ -6,6 +6,7 @@ import { ReviewListItem } from "./ReviewListItem";
 import { ReviewEmptyState } from "./ReviewEmptyState";
 import { ReviewListSkeleton } from "./ReviewListSkeleton";
 import { ReviewListPagination } from "./ReviewListPagination";
+import { ReviewRatingFilter } from "./ReviewRatingFilter";
 import { useReviewList } from "@/hooks/hotel-detail/useReviewList";
 
 interface ReviewListProps {
@@ -19,8 +20,11 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
     currentPage,
     totalPages,
     sortOption,
+    ratingFilter,
     handleSortChange,
-    handlePageChange
+    handlePageChange,
+    handleRatingFilterChange,
+    filteredReviews
   } = useReviewList({
     reviews,
     reviewsPerPage: 5,
@@ -46,22 +50,53 @@ export function ReviewList({ reviews, isLoading }: ReviewListProps) {
   
   return (
     <div id="reviews-section" className="space-y-6">
-      <div className="flex justify-end mb-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+        <ReviewRatingFilter 
+          onRatingChange={handleRatingFilterChange} 
+          currentRating={ratingFilter} 
+        />
+
         <ReviewSorter 
           onSortChange={handleSortChange} 
           initialValue={sortOption} 
         />
       </div>
       
-      {currentReviews.map((review, index) => (
-        <ReviewListItem key={review.id || index} review={review} />
-      ))}
-      
-      <ReviewListPagination 
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {currentReviews.length > 0 ? (
+        <>
+          {currentReviews.map((review, index) => (
+            <ReviewListItem key={review.id || index} review={review} />
+          ))}
+          
+          <ReviewListPagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+
+          {ratingFilter !== null && filteredReviews.length === 0 && (
+            <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10">
+              <p className="text-muted-foreground">No {ratingFilter}-star reviews found</p>
+              <button 
+                className="text-fuchsia-500 mt-2 text-sm hover:underline"
+                onClick={() => handleRatingFilterChange(null)}
+              >
+                Clear filter
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="text-center p-8 bg-background/50 rounded-lg border border-fuchsia-900/10">
+          <p className="text-muted-foreground">No {ratingFilter}-star reviews found</p>
+          <button 
+            className="text-fuchsia-500 mt-2 text-sm hover:underline"
+            onClick={() => handleRatingFilterChange(null)}
+          >
+            Clear filter
+          </button>
+        </div>
+      )}
     </div>
   );
 }

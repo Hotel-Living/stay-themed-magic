@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import BookingItem from './BookingItem';
 import EmptyState from './EmptyState';
@@ -39,9 +38,8 @@ const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }
   // Filter bookings by status and search term
   const filteredBookings = bookings.filter(booking => {
     const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
-    const hotelName = booking.hotels?.name?.toLowerCase() || '';
-    const matchesSearch = !searchTerm || 
-      hotelName.includes(searchTerm.toLowerCase());
+    const hotelName = ''; // Hotel name is not available in the Booking type
+    const matchesSearch = !searchTerm || hotelName.includes(searchTerm.toLowerCase());
     
     return matchesStatus && matchesSearch;
   });
@@ -126,7 +124,7 @@ const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Search hotels"
+              placeholder="Search bookings"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9"
@@ -178,7 +176,7 @@ const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Search hotels"
+            placeholder="Search bookings"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-9"
@@ -212,9 +210,9 @@ const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }
           <BookingItem 
             key={booking.id} 
             booking={booking}
-            name={booking.hotels?.name || "Unknown Hotel"}
+            name="Hotel Name"
             dates={`${new Date(booking.check_in).toLocaleDateString()} - ${new Date(booking.check_out).toLocaleDateString()}`}
-            property={booking.hotels?.city || "Unknown Location"}
+            property="Unknown Location"
             status={booking.status || "pending"}
           />
         ))}

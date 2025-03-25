@@ -1,7 +1,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchHotels, fetchHotelById } from "./fetchHotels";
-import { FilterState } from "@/components/filters/FilterTypes";
+import type { FilterState } from "@/components/filters/FilterTypes";
 import { PaginationOptions, SortOption } from "./types";
 import { useCallback, useMemo } from "react";
 

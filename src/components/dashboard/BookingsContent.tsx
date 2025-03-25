@@ -38,8 +38,7 @@ const BookingsContent: React.FC<BookingsContentProps> = ({ bookings, isLoading }
   // Filter bookings by status and search term
   const filteredBookings = bookings.filter(booking => {
     const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
-    const hotelName = ''; // Hotel name is not available in the Booking type
-    const matchesSearch = !searchTerm || hotelName.includes(searchTerm.toLowerCase());
+    const matchesSearch = !searchTerm || searchTerm.toLowerCase() === '';
     
     return matchesStatus && matchesSearch;
   });

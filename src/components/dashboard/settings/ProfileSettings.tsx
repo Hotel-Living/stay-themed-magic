@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Camera } from 'lucide-react';
+import { Loader2, Camera, Upload } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export const ProfileSettings = () => {
   const { user, profile } = useAuth();
@@ -107,23 +108,11 @@ export const ProfileSettings = () => {
     fileInputRef.current?.click();
   };
 
-  // Function to render the avatar with initials fallback
-  const renderAvatar = () => {
-    if (formData.avatar_url) {
-      return (
-        <img 
-          src={formData.avatar_url} 
-          alt="Profile" 
-          className="w-24 h-24 rounded-full object-cover"
-        />
-      );
-    } else {
-      return (
-        <div className="w-24 h-24 rounded-full bg-fuchsia-800/30 flex items-center justify-center text-xl font-medium">
-          {profile?.first_name?.[0]}{profile?.last_name?.[0]}
-        </div>
-      );
-    }
+  // Function to get initials for avatar fallback
+  const getInitials = () => {
+    const first = formData.first_name?.[0] || '';
+    const last = formData.last_name?.[0] || '';
+    return first + last;
   };
 
   return (
@@ -135,7 +124,14 @@ export const ProfileSettings = () => {
           <label className="block text-sm font-medium mb-1">Profile Photo</label>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="relative group">
-              {renderAvatar()}
+              <Avatar className="w-24 h-24 border-2 border-fuchsia-800/30">
+                {formData.avatar_url ? (
+                  <AvatarImage src={formData.avatar_url} alt="Profile" />
+                ) : null}
+                <AvatarFallback className="bg-fuchsia-800/30 text-xl font-medium">
+                  {getInitials()}
+                </AvatarFallback>
+              </Avatar>
               
               <button 
                 type="button"
@@ -159,14 +155,26 @@ export const ProfileSettings = () => {
                 className="hidden" 
                 accept="image/*"
               />
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={triggerFileInput}
-                className="px-4 py-2 bg-fuchsia-800/30 hover:bg-fuchsia-700/40 rounded-lg transition-colors text-sm"
+                className="bg-fuchsia-800/30 hover:bg-fuchsia-700/40 border-fuchsia-800/30"
+                size="sm"
                 disabled={isUploading}
               >
-                {isUploading ? 'Uploading...' : 'Change Photo'}
-              </button>
+                {isUploading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload Photo
+                  </>
+                )}
+              </Button>
               <p className="text-xs text-muted-foreground mt-1">
                 Recommended: Square JPG or PNG, max 5MB
               </p>
@@ -222,10 +230,17 @@ export const ProfileSettings = () => {
         <div className="pt-4">
           <Button 
             type="submit"
-            className="px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-700 text-white rounded-lg transition-colors"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700"
             disabled={isLoading}
           >
-            {isLoading ? 'Saving...' : 'Save Changes'}
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              'Save Changes'
+            )}
           </Button>
         </div>
       </form>

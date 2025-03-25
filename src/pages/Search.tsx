@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { SearchLayout } from "@/components/search/SearchLayout";
@@ -20,11 +19,16 @@ export default function Search() {
     priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
   };
   
-  const [filters, setFilters] = useState<FilterState>(initialFilters);
+  const [filters, setFilters] = useState<FilterState>({
+    country: null,
+    month: null,
+    theme: null,
+    priceRange: null
+  });
+  
   const [pagination, setPagination] = useState<PaginationOptions>({ page: 1, limit: 10 });
   const [sortOption, setSortOption] = useState<SortOption>({ field: 'price_per_month', direction: 'asc' });
   
-  // Use our enhanced useHotels hook
   const { data: hotels = [], isLoading, error } = useHotels(
     filters, 
     true, 
@@ -32,39 +36,16 @@ export default function Search() {
     sortOption
   );
   
-  const handleFilterChange = (filterType: string, value: any) => {
-    const newFilters = { ...filters, [filterType]: value };
-    setFilters(newFilters);
-    // Reset to page 1 when filters change
+  const handleFilterChange = (filterType: keyof FilterState, value: any) => {
+    setFilters(prev => ({ ...prev, [filterType]: value }));
     setPagination(prev => ({ ...prev, page: 1 }));
   };
   
-  // Fix the type conversion issue - ensure we're handling arrays correctly
-  const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
-    // Handle arrays correctly based on the filter type
+  // Handle array filters by converting Theme to the correct format
+  const handleArrayFilterChange = (filterType: string, value: Theme | string, isChecked: boolean) => {
     if (filterType === 'theme') {
-      // For theme, we're dealing with a single theme object, not an array
       handleFilterChange(filterType, isChecked ? value : null);
-      return;
     }
-    
-    // For other array types (if we add them in the future)
-    const currentArray = Array.isArray(filters[filterType as keyof FilterState]) 
-      ? [...(filters[filterType as keyof FilterState] as string[])]
-      : [];
-    
-    if (isChecked) {
-      if (!currentArray.includes(value)) {
-        currentArray.push(value);
-      }
-    } else {
-      const index = currentArray.indexOf(value);
-      if (index !== -1) {
-        currentArray.splice(index, 1);
-      }
-    }
-    
-    handleFilterChange(filterType, currentArray.length > 0 ? currentArray : null);
   };
   
   const handlePageChange = (newPage: number) => {
@@ -77,15 +58,18 @@ export default function Search() {
   };
   
   const handleClearFilters = () => {
-    setFilters(initialFilters);
+    setFilters({
+      country: null,
+      month: null,
+      theme: null,
+      priceRange: null
+    });
   };
   
-  // Reset filters and pagination when URL changes
   useEffect(() => {
-    // Parse params ensuring they match the expected types
     const newFilters: FilterState = {
-      country: (searchParams.get("country") as FilterState["country"]) || null,
-      month: (searchParams.get("month") as FilterState["month"]) || null,
+      country: searchParams.get("country") as FilterState["country"] || null,
+      month: searchParams.get("month") as FilterState["month"] || null,
       theme: null,
       priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
     };
@@ -99,7 +83,6 @@ export default function Search() {
       <h1 className="text-2xl font-bold mb-6 text-white">Search Results</h1>
       
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Filters sidebar */}
         <div className="w-full md:w-1/3 lg:w-1/4">
           <div className="sticky top-20">
             <FilterSidebar 
@@ -122,7 +105,6 @@ export default function Search() {
           </div>
         </div>
         
-        {/* Search Results Content */}
         <SearchContent 
           hotels={hotels}
           isLoading={isLoading}

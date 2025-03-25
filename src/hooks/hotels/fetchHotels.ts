@@ -2,7 +2,23 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { FilterState } from "@/components/filters/FilterTypes";
 import { PaginationOptions, SortOption } from "./types";
-import { createFilterParams } from "./filterUtils";
+
+/**
+ * Creates filter parameters for Supabase queries based on the provided filters
+ */
+const createFilterParams = (filters: FilterState) => {
+  const params: Record<string, any> = {};
+  
+  if (filters.country) {
+    params.country = filters.country;
+  }
+  
+  if (filters.theme?.id) {
+    params.theme_id = filters.theme.id;
+  }
+  
+  return params;
+};
 
 /**
  * Fetches hotels with filters, pagination and sorting

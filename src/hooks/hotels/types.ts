@@ -17,6 +17,5 @@ export interface FetchHotelsOptions {
   sortOption?: SortOption;
 }
 
-// Re-export FilterState to avoid circular dependencies
-import type { FilterState } from "@/components/filters/FilterTypes";
-export type { FilterState };
+// Re-export FilterState type
+export type { FilterState } from "@/components/filters/FilterTypes";

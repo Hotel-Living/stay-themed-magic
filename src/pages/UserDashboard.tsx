@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { DashboardContent } from "@/components/dashboard/DashboardContent";
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import DashboardContent from "@/components/dashboard/DashboardContent";
 import { EmailVerificationBanner } from "@/components/auth/EmailVerificationBanner";
 
 export default function UserDashboard() {

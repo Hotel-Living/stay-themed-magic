@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const fetchHotelById = async (id: string) => {
   if (!id) return null;
   
+  // First fetch the hotel with its images and themes
   const { data, error } = await supabase
     .from('hotels')
     .select(`
@@ -18,6 +19,22 @@ export const fetchHotelById = async (id: string) => {
   
   if (error) {
     throw error;
+  }
+  
+  // Now fetch the average rating for this hotel
+  const { data: ratingData, error: ratingError } = await supabase
+    .from('reviews')
+    .select('rating')
+    .eq('hotel_id', id);
+  
+  if (ratingError) {
+    console.error("Error fetching ratings:", ratingError);
+  } else if (ratingData && ratingData.length > 0) {
+    // Calculate average rating
+    const sum = ratingData.reduce((acc, review) => acc + review.rating, 0);
+    data.average_rating = sum / ratingData.length;
+  } else {
+    data.average_rating = 0; // No reviews yet
   }
   
   return data;

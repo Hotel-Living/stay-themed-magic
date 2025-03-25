@@ -6,6 +6,7 @@ import { HotelGallery } from "./HotelGallery";
 import { HotelDescription } from "./HotelDescription";
 import { HotelAmenities } from "./HotelAmenities";
 import { HotelAvailableMonths } from "./HotelAvailableMonths";
+import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { Theme } from "@/utils/data";
 
@@ -29,6 +30,9 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
   // In a real application, these would come from the database
   const availableMonths = ["January", "February", "March", "April", "May", "June"];
   const amenities = ["Free WiFi", "Pool", "Gym", "Spa", "Restaurant", "Room Service"];
+  
+  // Calculate average rating (in a real app, this would come from aggregating reviews)
+  const averageRating = hotel.average_rating || 4.5;
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -57,6 +61,9 @@ export function HotelDetailContent({ hotel }: HotelDetailContentProps) {
           
           {/* Description */}
           <HotelDescription description={hotel.description || "No description available."} />
+          
+          {/* Reviews */}
+          <HotelReviews hotelId={hotel.id} averageRating={averageRating} />
           
           {/* Amenities */}
           <HotelAmenities amenities={amenities} />

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import ReviewItem from "../ReviewItem";
+import { LinkButton } from "@/components/ui/link-button";
 
 export function RecentReviews() {
   return (
@@ -22,9 +23,19 @@ export function RecentReviews() {
           date="1 week ago"
         />
       </div>
-      <button className="w-full mt-4 py-2 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition">
+      <LinkButton 
+        href="#" 
+        className="w-full mt-4 py-2 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition"
+        onClick={(e) => {
+          e.preventDefault();
+          const reviewsTab = document.querySelector('button[data-tab="reviews"]');
+          if (reviewsTab instanceof HTMLElement) {
+            reviewsTab.click();
+          }
+        }}
+      >
         View all reviews
-      </button>
+      </LinkButton>
     </div>
   );
 }

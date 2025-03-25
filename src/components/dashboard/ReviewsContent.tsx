@@ -1,18 +1,18 @@
 
 import React from 'react';
-import { MessageSquare } from 'lucide-react';
-import EmptyState from './EmptyState';
+import ReviewsManagement from './ReviewsManagement';
 
-export const ReviewsContent = () => {
+export function ReviewsContent() {
   return (
-    <EmptyState 
-      icon={<MessageSquare className="w-8 h-8" />}
-      title="No Reviews Yet"
-      description="Guest reviews for your stays will appear here. After completing a stay, you can come back to see what others thought about their experience."
-      actionLink="/search"
-      actionText="Explore Properties"
-    />
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold mb-4">Reviews Management</h2>
+      <p className="text-foreground/70 mb-6">
+        Manage and respond to guest reviews for your properties.
+      </p>
+      
+      <ReviewsManagement />
+    </div>
   );
-};
+}
 
 export default ReviewsContent;

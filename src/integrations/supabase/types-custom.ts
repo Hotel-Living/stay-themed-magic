@@ -1,4 +1,3 @@
-
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -8,6 +7,8 @@ export type Profile = {
   is_hotel_owner: boolean;
   created_at: string;
   updated_at: string;
+  role: 'guest' | 'hotel_owner' | 'admin';
+  email_verified: boolean;
 }
 
 export type Hotel = {

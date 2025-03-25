@@ -34,7 +34,9 @@ export default function Bookings() {
           throw error;
         }
 
-        setBookings(data || []);
+        // Cast the data to the correct type to ensure TypeScript compatibility
+        const typedData = data as unknown as (Booking & { hotel: Hotel })[];
+        setBookings(typedData || []);
       } catch (error) {
         handleSupabaseError(error as any, "Error loading your bookings");
       } finally {

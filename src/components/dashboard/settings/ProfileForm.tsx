@@ -8,7 +8,7 @@ interface ProfileFormProps {
   formData: {
     first_name: string;
     last_name: string;
-    bio?: string; // Make bio optional
+    bio?: string; // Bio is optional
   };
   userEmail: string | undefined;
   isLoading: boolean;
@@ -88,4 +88,4 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
       </div>
     </form>
   );
-};
+}

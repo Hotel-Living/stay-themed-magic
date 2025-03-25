@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Star, ThumbsUp, MessageCircle, ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
 import ReviewItem from './ReviewItem';
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Review } from '@/hooks/hotel-detail/types';
 
 // Define a dashboard-specific review interface that extends the base Review type
 interface DashboardReview {
@@ -125,10 +126,20 @@ const mockReviews: DashboardReview[] = [
 
 type ViewMode = 'card' | 'table';
 
-export function ReviewsManagement() {
+interface ReviewsManagementProps {
+  propertyFilter: string | null;
+}
+
+export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const [reviews, setReviews] = useState<DashboardReview[]>(mockReviews);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('card');
+  
+  // Filter reviews by property if a property filter is provided
+  const filteredByPropertyReviews = useMemo(() => {
+    if (!propertyFilter) return reviews;
+    return reviews.filter(review => review.property === propertyFilter);
+  }, [reviews, propertyFilter]);
   
   const {
     filteredReviews,
@@ -142,12 +153,12 @@ export function ReviewsManagement() {
     handleRatingFilterChange
   } = useReviewList({
     reviews: activeTab === 'all' 
-      ? reviews 
+      ? filteredByPropertyReviews 
       : activeTab === 'unresponded' 
-        ? reviews.filter(r => !r.isResponded) 
+        ? filteredByPropertyReviews.filter(r => !r.isResponded) 
         : activeTab === 'positive' 
-          ? reviews.filter(r => r.rating >= 4) 
-          : reviews.filter(r => r.rating <= 3),
+          ? filteredByPropertyReviews.filter(r => r.rating >= 4) 
+          : filteredByPropertyReviews.filter(r => r.rating <= 3),
     reviewsPerPage: 4,
     initialSortOption: 'newest'
   });
@@ -165,20 +176,26 @@ export function ReviewsManagement() {
   return (
     <div className="glass-card rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">Guest Reviews</h2>
+        <h2 className="text-xl font-bold">
+          {propertyFilter ? `Reviews for ${propertyFilter}` : 'Guest Reviews'}
+        </h2>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-sm text-foreground/70">
             <div className="flex items-center mr-4">
               <Star className="w-4 h-4 text-yellow-400 mr-1" />
-              <span>4.6 Avg</span>
+              <span>
+                {filteredByPropertyReviews.length > 0 
+                  ? (filteredByPropertyReviews.reduce((sum, r) => sum + r.rating, 0) / filteredByPropertyReviews.length).toFixed(1) 
+                  : '0'} Avg
+              </span>
             </div>
             <div className="flex items-center mr-4">
               <MessageCircle className="w-4 h-4 text-fuchsia-400 mr-1" />
-              <span>{reviews.length} Total</span>
+              <span>{filteredByPropertyReviews.length} Total</span>
             </div>
             <div className="flex items-center">
               <ThumbsUp className="w-4 h-4 text-green-400 mr-1" />
-              <span>{reviews.filter(r => r.rating >= 4).length} Positive</span>
+              <span>{filteredByPropertyReviews.filter(r => r.rating >= 4).length} Positive</span>
             </div>
           </div>
           

@@ -2,7 +2,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { HotelForComparison, ComparisonCategory, SortOption } from "./types";
 import { TableRow, TableCell } from "@/components/ui/table";
-import { Star, ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import { Star, ArrowDownAZ, ArrowUpAZ, ArrowUp, ArrowDown } from "lucide-react";
 
 interface ComparisonCategoriesProps {
   hotels: HotelForComparison[];
@@ -55,7 +55,7 @@ export function ComparisonCategories({
       key: "city", 
       secondKey: "country", 
       formatter: (city: string, country: string) => `${city}, ${country}`,
-      sortable: false 
+      sortable: true
     },
     { 
       name: "Available Months", 
@@ -79,8 +79,8 @@ export function ComparisonCategories({
     
     if (sortOption?.column === category.key) {
       return sortOption.direction === 'asc' 
-        ? <ArrowUpAZ className="h-4 w-4 ml-2 inline-block" /> 
-        : <ArrowDownAZ className="h-4 w-4 ml-2 inline-block" />;
+        ? <ArrowUp className="h-4 w-4 ml-2 inline-block" /> 
+        : <ArrowDown className="h-4 w-4 ml-2 inline-block" />;
     }
     
     return <div className="h-4 w-4 ml-2 inline-block opacity-0 group-hover:opacity-30">

@@ -1,195 +1,209 @@
 
-import { Star } from "lucide-react";
-import { useEffect, useState, useCallback, useMemo } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { HotelReviewsProps } from "@/types/hotel";
+import { useState } from "react";
+import { Star, MessageSquare, User } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/context/AuthContext";
+import { Review } from "@/hooks/useHotelDetail";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-interface Review {
-  id: string;
-  rating: number;
-  comment: string;
-  created_at: string;
-  user_id: string;
-  // User details - these will be added via join
-  first_name?: string;
-  last_name?: string;
-  avatar_url?: string;
+interface HotelReviewsProps {
+  hotelId: string;
+  averageRating?: number;
+  reviews?: Review[];
+  onAddReview?: (review: Review) => void;
+  isLoading?: boolean;
 }
 
-export const HotelReviews = React.memo(({ hotelId, averageRating = 0, isLoading: externalLoading }: HotelReviewsProps) => {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
-
-  // Fetch reviews for the specific hotel
-  useEffect(() => {
-    const fetchReviews = async () => {
-      if (!hotelId) return;
-      
-      try {
-        setIsLoading(true);
-        
-        const { data, error } = await supabase
-          .from('reviews')
-          .select(`
-            *,
-            profiles:profiles(first_name, last_name, avatar_url)
-          `)
-          .eq('hotel_id', hotelId)
-          .order('created_at', { ascending: false });
-        
-        if (error) {
-          throw error;
-        }
-        
-        // Transform data to flatten the profiles information
-        const transformedData = data.map((review: any) => {
-          return {
-            ...review,
-            first_name: review.profiles?.first_name || 'Anonymous',
-            last_name: review.profiles?.last_name || 'User',
-            avatar_url: review.profiles?.avatar_url
-          };
-        });
-        
-        setReviews(transformedData);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-        toast({
-          title: "Error loading reviews",
-          description: "Could not load reviews for this hotel.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
+export function HotelReviews({ 
+  hotelId, 
+  averageRating = 0, 
+  reviews = [],
+  onAddReview,
+  isLoading = false 
+}: HotelReviewsProps) {
+  const { user } = useAuth();
+  const [isAddReviewOpen, setIsAddReviewOpen] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Format the rating to one decimal place
+  const formattedRating = averageRating ? averageRating.toFixed(1) : "0.0";
+  
+  const handleRatingChange = (rating: number) => {
+    setNewRating(rating);
+  };
+  
+  const handleAddReview = async () => {
+    if (!user || !onAddReview) return;
     
-    fetchReviews();
-  }, [hotelId, toast]);
+    try {
+      setIsSubmitting(true);
+      
+      await onAddReview({
+        hotel_id: hotelId,
+        user_id: user.id,
+        rating: newRating,
+        comment: newComment
+      });
+      
+      // Reset form and close dialog
+      setNewRating(5);
+      setNewComment("");
+      setIsAddReviewOpen(false);
+    } catch (error) {
+      console.error("Error adding review:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
-  // Format date to readable format - memoize to avoid recalculation
-  const formatDate = useCallback((dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  }, []);
-  
-  // Render stars for a rating - memoize this function
-  const renderStars = useCallback((rating: number) => {
-    return Array.from({ length: 5 }).map((_, index) => (
-      <Star 
-        key={index} 
-        className={`w-4 h-4 ${index < rating ? "fill-fuchsia-400 text-fuchsia-400" : "text-foreground/30"}`} 
-      />
-    ));
-  }, []);
-  
-  // Memoize the average rating display to prevent unnecessary re-renders
-  const ratingDisplay = useMemo(() => (
-    <div className="flex items-center gap-2">
-      <div className="flex items-center">
-        {renderStars(Math.round(averageRating))}
-      </div>
-      <span className="text-foreground/70">
-        {averageRating.toFixed(1)} / 5 ({reviews.length} {reviews.length === 1 ? "review" : "reviews"})
-      </span>
-    </div>
-  ), [averageRating, renderStars, reviews.length]);
-  
-  // Memoize loading state to prevent unnecessary re-renders
-  const loadingState = useMemo(() => (
-    <div className="glass-card rounded-2xl p-6 mb-8">
-      <div className="flex items-center justify-between mb-6">
-        <Skeleton className="h-7 w-40" />
-        <Skeleton className="h-5 w-36" />
-      </div>
-      <div className="space-y-6">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <div key={i} className="border-b border-fuchsia-900/10 pb-6 last:border-0 last:pb-0">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-3">
-                <Skeleton className="w-10 h-10 rounded-full" />
-                <div>
-                  <Skeleton className="h-5 w-32 mb-1" />
-                  <Skeleton className="h-4 w-24" />
-                </div>
-              </div>
-              <Skeleton className="h-4 w-20" />
-            </div>
-            <Skeleton className="h-16 w-full mt-2" />
+  if (isLoading) {
+    return (
+      <div className="glass-card rounded-2xl p-6 mb-8">
+        <div className="flex items-center justify-between gap-2 mb-6">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-8 w-24" />
+        </div>
+        
+        <div className="flex items-center gap-4 mb-6">
+          <Skeleton className="h-16 w-16 rounded-full" />
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-16 w-full" />
           </div>
-        ))}
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-16 w-16 rounded-full" />
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-16 w-full" />
+          </div>
+        </div>
       </div>
-    </div>
-  ), []);
-  
-  // If external loading state is provided and true, show loading state
-  if (externalLoading) {
-    return loadingState;
+    );
   }
   
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">Guest Reviews</h2>
-        {ratingDisplay}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          Guest Reviews
+          <MessageSquare className="w-5 h-5 text-fuchsia-400" />
+        </h2>
+        
+        <div className="flex items-center gap-2">
+          <div className="flex items-center">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star 
+                key={i} 
+                className={`w-4 h-4 ${i < Math.round(averageRating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`} 
+              />
+            ))}
+          </div>
+          <span className="font-bold text-lg">{formattedRating}</span>
+          <span className="text-sm text-foreground/60">({reviews.length} reviews)</span>
+        </div>
       </div>
       
-      {isLoading ? (
-        <div className="text-center py-10">
-          <div className="w-10 h-10 border-4 border-fuchsia-500/30 border-t-fuchsia-500 rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-foreground/70">Loading reviews...</p>
-        </div>
-      ) : reviews.length > 0 ? (
+      {/* Add review button */}
+      {user && onAddReview && (
+        <Dialog open={isAddReviewOpen} onOpenChange={setIsAddReviewOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="sm" className="mb-6">
+              Write a review
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Share your experience</DialogTitle>
+              <DialogDescription>
+                Rate and review your stay at this hotel.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="my-4">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star 
+                    key={i} 
+                    className={`w-6 h-6 cursor-pointer ${i < newRating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+                    onClick={() => handleRatingChange(i + 1)}
+                  />
+                ))}
+              </div>
+              
+              <Textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Share details of your experience at this hotel..."
+                className="min-h-[120px]"
+              />
+            </div>
+            
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsAddReviewOpen(false)}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleAddReview} 
+                disabled={isSubmitting || !newComment.trim()}
+              >
+                {isSubmitting ? "Submitting..." : "Submit Review"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+      
+      {/* Reviews list */}
+      {reviews.length > 0 ? (
         <div className="space-y-6">
-          {reviews.map((review) => (
-            <div key={review.id} className="border-b border-fuchsia-900/10 pb-6 last:border-0 last:pb-0">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 font-bold overflow-hidden">
-                    {review.avatar_url ? (
-                      <img 
-                        src={review.avatar_url} 
-                        alt={review.first_name} 
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : (
-                      review.first_name?.[0] || 'A'
+          {reviews.map((review, index) => (
+            <div key={review.id || index} className="border-t border-fuchsia-900/20 pt-4">
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-fuchsia-800/30 flex items-center justify-center">
+                  <User className="w-5 h-5 text-fuchsia-300" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-medium">{review.user_name || "Anonymous"}</span>
+                    <div className="flex items-center">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`w-3 h-3 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`} 
+                        />
+                      ))}
+                    </div>
+                    {review.created_at && (
+                      <span className="text-xs text-foreground/60">
+                        {new Date(review.created_at).toLocaleDateString()}
+                      </span>
                     )}
                   </div>
-                  <div>
-                    <h3 className="font-medium">{review.first_name} {review.last_name?.[0] || ''}.</h3>
-                    <p className="text-sm text-foreground/60">{formatDate(review.created_at)}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  {renderStars(review.rating)}
+                  <p className="text-foreground/80">{review.comment}</p>
                 </div>
               </div>
-              {review.comment && (
-                <p className="mt-2 text-foreground/80 whitespace-pre-line">{review.comment}</p>
-              )}
             </div>
           ))}
         </div>
       ) : (
-        <div className="text-center py-10 text-foreground/60">
-          <p>No reviews yet for this hotel.</p>
-          <p className="text-sm mt-1">Be the first to leave a review!</p>
-        </div>
+        <p className="text-foreground/60 italic text-center py-4">
+          No reviews yet. Be the first to share your experience!
+        </p>
       )}
     </div>
   );
-});
-
-HotelReviews.displayName = "HotelReviews";
-
-// Fix duplicate component export
-export { HotelReviews };
+}

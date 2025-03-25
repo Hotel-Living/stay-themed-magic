@@ -1,8 +1,9 @@
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 import { useMemo } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 // Extended interface to include additional properties like average_rating, amenities, and available_months
 interface HotelWithDetails extends Hotel {
@@ -17,6 +18,17 @@ interface HotelWithDetails extends Hotel {
   average_rating?: number;
   amenities?: string[];
   available_months?: string[];
+}
+
+// Review type
+export interface Review {
+  id?: string;
+  hotel_id: string;
+  user_id: string;
+  rating: number;
+  comment: string;
+  created_at?: string;
+  user_name?: string;
 }
 
 // Generate hotel amenities based on category
@@ -108,24 +120,68 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   return hotelData;
 };
 
+// Function to fetch reviews for a hotel
+export const fetchHotelReviews = async (hotelId: string): Promise<Review[]> => {
+  const { data, error } = await supabase
+    .from('reviews')
+    .select('*, profiles(full_name)')
+    .eq('hotel_id', hotelId)
+    .order('created_at', { ascending: false });
+    
+  if (error) throw error;
+  
+  return (data || []).map(review => ({
+    ...review,
+    user_name: review.profiles?.full_name || 'Anonymous'
+  }));
+};
+
 // Hook to get a specific hotel by ID
 export function useHotelDetail(id: string | undefined, enabled = true) {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   // Memoize the prefetch function for related data
   const prefetchRelatedData = useMemo(() => (hotelId: string) => {
     // Prefetch reviews for this hotel
     queryClient.prefetchQuery({
       queryKey: ['hotelReviews', hotelId],
-      queryFn: () => supabase
-        .from('reviews')
-        .select('*')
-        .eq('hotel_id', hotelId)
-        .then(res => res.data)
+      queryFn: () => fetchHotelReviews(hotelId)
     });
   }, [queryClient]);
   
-  return useQuery({
+  // Mutation to add a review
+  const addReviewMutation = useMutation({
+    mutationFn: async (review: Review) => {
+      const { data, error } = await supabase
+        .from('reviews')
+        .insert([review])
+        .select();
+        
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch hotel details and reviews
+      if (id) {
+        queryClient.invalidateQueries({ queryKey: ['hotel', id] });
+        queryClient.invalidateQueries({ queryKey: ['hotelReviews', id] });
+      }
+      toast({
+        title: "Review added",
+        description: "Your review has been successfully added.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error adding review",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+  
+  const hotelDetailsQuery = useQuery({
     queryKey: ['hotel', id],
     queryFn: () => id ? fetchHotelById(id) : null,
     enabled: !!id && enabled,
@@ -139,4 +195,20 @@ export function useHotelDetail(id: string | undefined, enabled = true) {
       }
     }
   });
+  
+  // Hook to get reviews for a hotel
+  const useHotelReviews = (hotelId: string | undefined, enabled = true) => {
+    return useQuery({
+      queryKey: ['hotelReviews', hotelId],
+      queryFn: () => hotelId ? fetchHotelReviews(hotelId) : [],
+      enabled: !!hotelId && enabled,
+      staleTime: 5 * 60 * 1000
+    });
+  };
+  
+  return {
+    ...hotelDetailsQuery,
+    useHotelReviews,
+    addReview: addReviewMutation.mutate
+  };
 }

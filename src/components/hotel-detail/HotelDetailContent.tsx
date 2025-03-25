@@ -9,6 +9,7 @@ import { HotelAvailableMonths } from "./HotelAvailableMonths";
 import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
+import { useHotelDetail } from "@/hooks/useHotelDetail";
 
 export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
   // Extract image URLs from hotel_images
@@ -27,6 +28,10 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   
   // Use the average rating from the API
   const averageRating = hotel?.average_rating || 0;
+  
+  // Use the enhanced hotel detail hook to get reviews and add review functionality
+  const { useHotelReviews, addReview } = useHotelDetail(hotel?.id, false);
+  const { data: reviews = [], isLoading: isReviewsLoading } = useHotelReviews(hotel?.id, !isLoading && !!hotel?.id);
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -68,7 +73,9 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
           <HotelReviews 
             hotelId={hotel?.id || ''} 
             averageRating={averageRating}
-            isLoading={isLoading} 
+            reviews={reviews}
+            onAddReview={addReview}
+            isLoading={isLoading || isReviewsLoading} 
           />
           
           {/* Amenities */}

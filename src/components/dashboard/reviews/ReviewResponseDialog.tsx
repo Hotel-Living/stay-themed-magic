@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Star, Sparkles, AlertCircle } from 'lucide-react';
+import { Star, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -156,8 +156,17 @@ export function ReviewResponseDialog({
               onClick={generateAIResponse}
               disabled={isGenerating}
             >
-              <Sparkles className="w-3 h-3" />
-              {isGenerating ? "Generating..." : "AI Suggest"}
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3 h-3" />
+                  AI Suggest
+                </>
+              )}
             </Button>
           </div>
 
@@ -188,9 +197,12 @@ export function ReviewResponseDialog({
           />
           
           {isGenerating && (
-            <p className="text-xs text-fuchsia-400 mt-1 animate-pulse">
-              Creating a personalized response based on the guest's feedback...
-            </p>
+            <div className="mt-2 flex items-center gap-2 text-xs text-fuchsia-400">
+              <div className="relative w-4 h-4">
+                <div className="absolute inset-0 rounded-full border-2 border-fuchsia-400/20 border-t-fuchsia-400 animate-spin"></div>
+              </div>
+              <p>Creating a personalized response based on the guest's feedback...</p>
+            </div>
           )}
         </div>
 
@@ -202,7 +214,12 @@ export function ReviewResponseDialog({
             onClick={handleSubmit} 
             disabled={!response.trim() || isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Response"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : "Submit Response"}
           </Button>
         </DialogFooter>
       </DialogContent>

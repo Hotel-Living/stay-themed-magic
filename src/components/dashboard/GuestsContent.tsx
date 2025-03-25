@@ -10,7 +10,7 @@ type Guest = {
   id: string;
   first_name: string;
   last_name: string;
-  email: string;
+  email?: string; // Made optional to fix TS error
   created_at: string;
   phone?: string;
   avatar_url?: string;
@@ -53,7 +53,18 @@ export const GuestsContent = () => {
           
         if (profilesError) throw profilesError;
         
-        setGuests(profiles as Guest[]);
+        // Convert profiles to Guest type with type assertion
+        const guestProfiles = profiles.map(profile => ({
+          id: profile.id,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          email: profile.email || undefined, // Handle optional email
+          created_at: profile.created_at,
+          phone: profile.phone,
+          avatar_url: profile.avatar_url
+        })) as Guest[];
+        
+        setGuests(guestProfiles);
       } catch (error) {
         console.error('Error fetching guests:', error);
       } finally {
@@ -140,7 +151,7 @@ export const GuestsContent = () => {
                     <span>{guest.first_name} {guest.last_name}</span>
                   </div>
                 </td>
-                <td className="py-4 px-4 text-muted-foreground">{guest.email}</td>
+                <td className="py-4 px-4 text-muted-foreground">{guest.email || 'N/A'}</td>
                 <td className="py-4 px-4 text-muted-foreground">{guest.phone || 'N/A'}</td>
                 <td className="py-4 px-4 text-muted-foreground">
                   {new Date(guest.created_at).toLocaleDateString()}

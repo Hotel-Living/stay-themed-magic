@@ -66,8 +66,16 @@ Keep the response concise (under 200 words) and end with an appropriate sign-off
               { role: 'user', content: prompt }
             ],
             temperature: 0.7,
+            max_tokens: 500,
+            timeout: 60
           }),
         });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("OpenAI API error:", errorData);
+          throw new Error(`OpenAI API error: ${response.status} - ${JSON.stringify(errorData)}`);
+        }
 
         const data = await response.json();
         if (data.choices && data.choices[0] && data.choices[0].message) {
@@ -77,9 +85,25 @@ Keep the response concise (under 200 words) and end with an appropriate sign-off
           throw new Error("Invalid response structure from OpenAI");
         }
       } catch (openAIError) {
-        console.error("Error with OpenAI, falling back to template:", openAIError);
-        // Fall back to template-based system if OpenAI fails
+        console.error("Error with OpenAI:", openAIError);
+        
+        // Provide a more specific error message based on the error
+        let errorMessage = "An error occurred with the AI service";
+        
+        if (openAIError.message.includes("429")) {
+          errorMessage = "AI service is currently experiencing high demand. Please try again later.";
+        } else if (openAIError.message.includes("401") || openAIError.message.includes("403")) {
+          errorMessage = "Authentication error with AI service. Please check API credentials.";
+        } else if (openAIError.message.includes("timeout") || openAIError.message.includes("504")) {
+          errorMessage = "AI service request timed out. Please try again later.";
+        }
+        
+        // Fall back to template-based system
+        console.log("Falling back to template-based response due to:", errorMessage);
         responseTemplate = generateTemplateResponse(rating, comment, property);
+        
+        // Include a note about the fallback
+        responseTemplate = `${responseTemplate}\n\n[Note: This is a template-based response as our AI system is currently unavailable. ${errorMessage}]`;
       }
     } else {
       // No API key, use template-based system
@@ -90,6 +114,7 @@ Keep the response concise (under 200 words) and end with an appropriate sign-off
     return new Response(JSON.stringify({
       success: true,
       generatedResponse: responseTemplate,
+      source: openAIApiKey ? 'ai' : 'template'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
@@ -97,8 +122,14 @@ Keep the response concise (under 200 words) and end with an appropriate sign-off
   } catch (error) {
     console.error("Error in generate-review-response function:", error);
     
+    // Create a user-friendly error message
+    const userMessage = error instanceof Error 
+      ? `Error: ${error.message}` 
+      : "An unknown error occurred while generating the response";
+    
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : "Unknown error" 
+      error: userMessage,
+      success: false
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,

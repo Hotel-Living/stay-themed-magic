@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Star, Sparkles } from 'lucide-react';
+import { Star, Sparkles, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,6 +13,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { DashboardReview } from '../types';
 import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface ReviewResponseDialogProps {
   review: DashboardReview | null;
@@ -30,12 +31,16 @@ export function ReviewResponseDialog({
   const [response, setResponse] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState<string | null>(null);
+  const [responseSource, setResponseSource] = useState<'ai' | 'template' | null>(null);
   const { toast } = useToast();
 
   // Reset form when dialog opens with new review
   React.useEffect(() => {
     if (isOpen && review) {
       setResponse(review.response || '');
+      setGenerationError(null);
+      setResponseSource(null);
     }
   }, [isOpen, review]);
 
@@ -48,6 +53,11 @@ export function ReviewResponseDialog({
       onClose();
     } catch (error) {
       console.error('Failed to submit response:', error);
+      toast({
+        title: "Failed to submit response",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -57,6 +67,8 @@ export function ReviewResponseDialog({
     if (!review) return;
 
     setIsGenerating(true);
+    setGenerationError(null);
+    
     try {
       const response = await fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/generate-review-response', {
         method: 'POST',
@@ -71,22 +83,31 @@ export function ReviewResponseDialog({
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate response');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate response');
       }
 
       const data = await response.json();
-      setResponse(data.generatedResponse);
       
-      toast({
-        title: "AI response generated",
-        description: "Response created with AI assistance. Please review and edit before submitting.",
-      });
+      if (data.success) {
+        setResponse(data.generatedResponse);
+        setResponseSource(data.source || 'template');
+        
+        toast({
+          title: data.source === 'ai' ? "AI response generated" : "Template response generated",
+          description: "Response created with assistance. Please review and edit before submitting.",
+        });
+      } else {
+        throw new Error(data.error || 'Failed to generate response');
+      }
       
     } catch (error) {
-      console.error('Error generating AI response:', error);
+      console.error('Error generating response:', error);
+      setGenerationError(error instanceof Error ? error.message : "Could not generate a response. Please try again or write a response manually.");
+      
       toast({
         title: "Generation failed",
-        description: "Could not generate an AI response. Please try again or write a response manually.",
+        description: error instanceof Error ? error.message : "Could not generate a response",
         variant: "destructive",
       });
     } finally {
@@ -139,6 +160,25 @@ export function ReviewResponseDialog({
               {isGenerating ? "Generating..." : "AI Suggest"}
             </Button>
           </div>
+
+          {generationError && (
+            <Alert variant="destructive" className="mb-3">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {generationError}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {responseSource === 'template' && !generationError && (
+            <Alert className="mb-3 bg-amber-500/10 border-amber-500/30 text-amber-500">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                This is a template-based response as our AI system was unavailable. Feel free to edit it.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Textarea
             id="response"
             value={response}
@@ -146,6 +186,7 @@ export function ReviewResponseDialog({
             placeholder="Write your response here..."
             className="mt-1 h-32"
           />
+          
           {isGenerating && (
             <p className="text-xs text-fuchsia-400 mt-1 animate-pulse">
               Creating a personalized response based on the guest's feedback...

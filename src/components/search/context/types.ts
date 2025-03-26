@@ -1,7 +1,7 @@
 
 // Define filter state types
 export interface SearchFilterState {
-  priceRange: [number, number] | null;
+  priceRange: number | null;
   propertyType: string | null;
   propertyStyle: string | null;
   roomTypes: string[];
@@ -14,7 +14,7 @@ export interface SearchFilterState {
   category: string | null;
   country: string | null;
   month: string | null;
-  theme: string | null;
+  theme: any | null; // Using any here for compatibility
   amenities: string[]; 
   distance: number | null;
   rating: number | null;

@@ -20,7 +20,7 @@ export const SearchResults = React.memo(() => {
     country: filters.country as CountryType,
     month: filters.month as MonthType,
     theme: filters.theme ? filters.theme.id : null,
-    priceRange: filters.priceRange
+    priceRange: filters.priceRange ? (Array.isArray(filters.priceRange) ? filters.priceRange[0] : filters.priceRange) : null
   };
 
   // Fetch the hotels using the filters

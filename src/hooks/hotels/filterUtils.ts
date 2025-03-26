@@ -11,7 +11,8 @@ export const createFilterParams = (filters: FilterState): Record<string, any> =>
     params.country = filters.country;
   }
   
-  if (filters.theme?.id) {
+  if (filters.theme) {
+    // Now we're passing just the theme ID instead of the whole object
     params.theme_id = filters.theme.id;
   }
   

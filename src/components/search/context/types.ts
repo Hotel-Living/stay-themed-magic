@@ -1,6 +1,7 @@
 
-// Define filter state types
-export interface SearchFilterState {
+import { Theme } from "@/utils/data";
+
+export interface SearchFiltersState {
   priceRange: number | null;
   propertyType: string | null;
   propertyStyle: string | null;
@@ -14,47 +15,24 @@ export interface SearchFilterState {
   category: string | null;
   country: string | null;
   month: string | null;
-  theme: any | null; // Using any here for compatibility
-  amenities: string[]; 
+  theme: string | Theme | null;
+  amenities: string[];
   distance: number | null;
   rating: number | null;
 }
 
-// Define pagination state type
 export interface PaginationState {
   page: number;
   limit: number;
 }
 
-// Define the context type
-export interface SearchFiltersContextType {
-  filters: SearchFilterState;
+export interface SearchContextProps {
+  filters: SearchFiltersState;
   pagination: PaginationState;
-  sortOption: string;
-  handleFilterChange: (key: keyof SearchFilterState, value: any) => void;
-  handleArrayFilterChange: (key: keyof SearchFilterState, value: string[]) => void;
-  handlePageChange: (page: number) => void;
-  handleSortChange: (option: string) => void;
+  sortOption: string | null;
+  handleFilterChange: (key: string, value: any) => void;
+  handleArrayFilterChange: (key: string, value: string[]) => void;
   handleClearFilters: () => void;
+  handleSortChange: (option: string) => void;
+  handlePageChange: (page: number) => void;
 }
-
-// Default filter values
-export const DEFAULT_FILTERS: SearchFilterState = {
-  priceRange: null,
-  propertyType: null,
-  propertyStyle: null,
-  roomTypes: [],
-  hotelFeatures: [],
-  roomFeatures: [],
-  meals: [],
-  lengthOfStay: null,
-  activities: [],
-  location: null,
-  category: null,
-  country: null,
-  month: null,
-  theme: null,
-  amenities: [],
-  distance: null,
-  rating: null,
-};

@@ -44,7 +44,8 @@ export function BulkResponseDialog({
     handleSelectAll,
     handleSelectReview,
     handleToneChange,
-    handleGenerate
+    handleGenerate,
+    handleCustomResponse
   } = useBulkResponse(reviews, onComplete);
 
   const handleSubmitAll = async () => {
@@ -91,7 +92,7 @@ export function BulkResponseDialog({
         <DialogHeader>
           <DialogTitle>Bulk Response Generator</DialogTitle>
           <DialogDescription>
-            Select reviews and generate AI responses for all of them at once.
+            Select reviews and generate AI responses or add a custom response for all of them at once.
           </DialogDescription>
         </DialogHeader>
 
@@ -103,6 +104,7 @@ export function BulkResponseDialog({
               isGenerating={isGenerating}
               onGenerate={handleGenerate}
               selectedReviewsCount={selectedReviews.length}
+              onCustomResponse={handleCustomResponse}
             />
           </div>
           

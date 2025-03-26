@@ -57,6 +57,30 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
     );
   };
 
+  const handleCustomResponse = (responseText: string) => {
+    if (selectedReviews.length === 0) {
+      toast({
+        title: "No reviews selected",
+        description: "Please select at least one review to apply this response to.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Create a record with the same response for all selected reviews
+    const customResponses: Record<string, string> = {};
+    selectedReviews.forEach(reviewId => {
+      customResponses[reviewId] = responseText;
+    });
+    
+    setGeneratedResponses(prev => ({...prev, ...customResponses}));
+    
+    toast({
+      title: "Custom response applied",
+      description: `Applied to ${selectedReviews.length} selected reviews.`,
+    });
+  };
+
   return {
     selectedReviews,
     selectedTone,
@@ -67,6 +91,7 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
     handleSelectAll,
     handleSelectReview,
     handleToneChange,
-    handleGenerate
+    handleGenerate,
+    handleCustomResponse
   };
 }

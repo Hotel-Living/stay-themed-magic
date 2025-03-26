@@ -12,7 +12,7 @@ import { ChevronRight } from "lucide-react";
 
 interface ThemeDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
   value: Theme | string | null;
-  onSelect: (value: Theme) => void;
+  onSelect: (value: Theme | string) => void;
   themeRef: React.RefObject<HTMLDivElement>;
   useCollapsibleThemes?: boolean;
 }

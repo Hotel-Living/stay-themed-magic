@@ -20,6 +20,7 @@ export default function HotelDetail() {
     ...hotelData,
     description: hotelData.description || "No description available", // Ensure description is not undefined
     category: hotelData.category || 0, // Ensure category is not undefined
+    main_image_url: hotelData.main_image_url || "", // Ensure main_image_url is not undefined
     hotel_themes: hotelData.hotel_themes || [],
     hotel_images: hotelData.hotel_images || []
   } : null;

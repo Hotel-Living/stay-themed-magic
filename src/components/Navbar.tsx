@@ -6,6 +6,7 @@ import { useNavbar } from "@/hooks/useNavbar";
 import { DesktopNavigation } from "./navbar/DesktopNavigation";
 import { MobileMenu } from "./navbar/MobileMenu";
 import { LanguageSelector } from "./LanguageSelector";
+import { CurrencySelector } from "./CurrencySelector";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Navbar() {
@@ -20,7 +21,10 @@ export function Navbar() {
         </div>
         
         <div className="flex items-center gap-4">
-          <LanguageSelector />
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+            <CurrencySelector />
+          </div>
           <DesktopNavigation 
             getInitials={getInitials} 
             signOut={signOut} 

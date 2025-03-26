@@ -5,10 +5,10 @@ import { SearchResultsList } from './SearchResultsList';
 import { SearchError } from './SearchError';
 import { EmptySearch } from './EmptySearch';
 import { SearchPagination } from './SearchPagination';
-import type { Hotel } from '@/types/hotel';
+import type { HotelDetailProps } from '@/types/hotel';
 
 interface SearchContentProps {
-  hotels: Hotel[];
+  hotels: HotelDetailProps[];
   isLoading: boolean;
   error: Error | null;
   pagination: { page: number; limit: number };

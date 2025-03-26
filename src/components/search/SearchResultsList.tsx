@@ -2,10 +2,10 @@
 import React from 'react';
 import { HotelCard } from '@/components/HotelCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import type { Hotel } from '@/types/hotel';
+import type { HotelDetailProps } from '@/types/hotel';
 
 interface SearchResultsListProps {
-  items: Hotel[];
+  items: HotelDetailProps[];
   isLoading: boolean;
 }
 

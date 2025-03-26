@@ -1,15 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Save, X } from 'lucide-react';
+import { Plus, Save, X, FileText } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/hooks/use-toast';
+import { ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
 
 interface Template {
   id: string;
   name: string;
   content: string;
+  tone?: ResponseTone;
 }
 
 interface ResponseTemplateManagerProps {
@@ -20,22 +23,58 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
   const [templates, setTemplates] = useState<Template[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [newTemplate, setNewTemplate] = useState({ name: '', content: '' });
+  const { toast } = useToast();
+
+  // Load templates from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedTemplates = localStorage.getItem('responseTemplates');
+      if (savedTemplates) {
+        setTemplates(JSON.parse(savedTemplates));
+      }
+    } catch (error) {
+      console.error('Error loading templates from localStorage:', error);
+    }
+  }, []);
+
+  // Save templates to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem('responseTemplates', JSON.stringify(templates));
+    } catch (error) {
+      console.error('Error saving templates to localStorage:', error);
+    }
+  }, [templates]);
 
   const handleCreateTemplate = () => {
     if (newTemplate.name && newTemplate.content) {
       const template = {
         id: crypto.randomUUID(),
         name: newTemplate.name,
-        content: newTemplate.content
+        content: newTemplate.content,
+        tone: 'professional' as ResponseTone // Default tone
       };
-      setTemplates([...templates, template]);
+      
+      const updatedTemplates = [...templates, template];
+      setTemplates(updatedTemplates);
       setNewTemplate({ name: '', content: '' });
       setIsCreating(false);
+      
+      toast({
+        title: "Template saved",
+        description: `"${template.name}" has been saved to your templates.`,
+      });
     }
   };
 
   const handleDeleteTemplate = (id: string) => {
+    const templateToDelete = templates.find(t => t.id === id);
     setTemplates(templates.filter(t => t.id !== id));
+    
+    toast({
+      title: "Template deleted",
+      description: templateToDelete ? `"${templateToDelete.name}" has been removed.` : "Template has been removed.",
+    });
   };
 
   return (
@@ -122,6 +161,7 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-center">
+            <FileText className="h-12 w-12 text-muted-foreground/40 mb-2" />
             <p className="text-sm text-muted-foreground">
               No templates yet. Create one to get started!
             </p>

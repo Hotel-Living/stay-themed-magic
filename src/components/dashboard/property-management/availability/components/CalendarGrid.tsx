@@ -1,5 +1,5 @@
 
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { isSameDay } from 'date-fns';
 import { DateButton } from './DateButton';
 import { EmptyCalendarMessage } from './EmptyCalendarMessage';
@@ -21,13 +21,16 @@ export const CalendarGrid = memo(function CalendarGrid({
   calculatePotentialPeriodLength,
   onDateSelect
 }: CalendarGridProps) {
-  if (weekdayDates.length === 0) {
+  const hasWeekdayDates = weekdayDates.length > 0;
+  
+  if (!hasWeekdayDates) {
     return <EmptyCalendarMessage weekdayName={weekdayName} />;
   }
   
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
       {weekdayDates.map(date => {
+        const dateKey = date.toISOString();
         const isSelected = isDateInSelectedPeriod(date);
         const isSelecting = selectionStart && isSameDay(date, selectionStart);
         let potentialPeriod = null;
@@ -38,7 +41,7 @@ export const CalendarGrid = memo(function CalendarGrid({
         
         return (
           <DateButton 
-            key={date.toISOString()}
+            key={dateKey}
             date={date}
             isSelected={isSelected}
             isSelecting={isSelecting}

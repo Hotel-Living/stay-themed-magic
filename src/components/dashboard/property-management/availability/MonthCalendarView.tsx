@@ -43,7 +43,7 @@ export function MonthCalendarView({
   // Memoize the month date
   const monthDate = useMemo(() => new Date(year, month), [year, month]);
   
-  // Generate all days of the selected weekday in the specified month - memoized for performance
+  // Generate all days of the selected weekday in the specified month
   const weekdayDates = useMemo(() => {
     const dates: Date[] = [];
     const start = startOfMonth(monthDate);
@@ -65,30 +65,25 @@ export function MonthCalendarView({
     return dates;
   }, [monthDate, selectedWeekday]);
   
-  // Check if a date is in a selected period - memoized for performance
+  // Check if a date is in a selected period
   const isDateInSelectedPeriod = useCallback((date: Date) => {
-    return selectedPeriods.some(period => {
-      // Check if date is between start and end, inclusive
-      return date >= period.start && date <= period.end;
-    });
+    return selectedPeriods.some(period => 
+      date >= period.start && date <= period.end
+    );
   }, [selectedPeriods]);
   
-  // Calculate what period length would be if selecting this date - memoized for performance
+  // Calculate potential period length
   const calculatePotentialPeriodLength = useCallback((date: Date) => {
     if (!selectionStart) return null;
     
     const days = Math.abs(differenceInDays(date, selectionStart)) + 1;
-    
-    // Check if the period length would be valid
     const isValid = validPeriodLengths.includes(days);
     
     return { days, isValid };
   }, [selectionStart, validPeriodLengths]);
   
   // Handle date selection
-  const handleSelect = useCallback((date: Date | null) => {
-    if (!date) return;
-    
+  const handleSelect = useCallback((date: Date) => {
     if (selectionStart === null) {
       // Start a new selection
       setSelectionStart(date);
@@ -98,14 +93,9 @@ export function MonthCalendarView({
       });
     } else {
       // Complete the selection
-      let startDate, endDate;
-      if (date < selectionStart) {
-        startDate = date;
-        endDate = selectionStart;
-      } else {
-        startDate = selectionStart;
-        endDate = date;
-      }
+      const [startDate, endDate] = date < selectionStart 
+        ? [date, selectionStart] 
+        : [selectionStart, date];
       
       // Calculate days in the period (inclusive)
       const days = differenceInDays(endDate, startDate) + 1;

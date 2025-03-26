@@ -1,6 +1,6 @@
 
-import React, { memo } from 'react';
-import { format, isSameDay } from 'date-fns';
+import React, { memo, useCallback } from 'react';
+import { format } from 'date-fns';
 
 interface DateButtonProps {
   date: Date;
@@ -17,9 +17,12 @@ export const DateButton = memo(function DateButton({
   potentialPeriod,
   onSelect
 }: DateButtonProps) {
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     onSelect(date);
   }, [date, onSelect]);
+
+  const formattedWeekday = format(date, 'EEEE');
+  const formattedDay = format(date, 'd');
 
   return (
     <button
@@ -31,8 +34,8 @@ export const DateButton = memo(function DateButton({
         ${potentialPeriod && !potentialPeriod.isValid ? 'opacity-50' : ''}
       `}
     >
-      <span className="text-sm">{format(date, 'EEEE')}</span>
-      <span className="text-lg font-bold">{format(date, 'd')}</span>
+      <span className="text-sm">{formattedWeekday}</span>
+      <span className="text-lg font-bold">{formattedDay}</span>
       
       {potentialPeriod && (
         <span className={`text-xs mt-1 px-2 py-0.5 rounded-full ${

@@ -46,6 +46,19 @@ export function DialogControls({
     }
   };
   
+  // Get tone badge color
+  const getToneBadgeColor = (tone: ResponseTone) => {
+    switch (tone) {
+      case 'professional': return 'bg-blue-100 text-blue-800';
+      case 'friendly': return 'bg-green-100 text-green-800';
+      case 'apologetic': return 'bg-amber-100 text-amber-800';
+      case 'enthusiastic': return 'bg-purple-100 text-purple-800';
+      case 'formal': return 'bg-gray-100 text-gray-800';
+      case 'grateful': return 'bg-pink-100 text-pink-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+  
   return (
     <div className="space-y-6">
       <Tabs defaultValue="ai-generation" onValueChange={setActiveTab} value={activeTab}>
@@ -60,29 +73,52 @@ export function DialogControls({
             <Select value={selectedTone} onValueChange={onToneChange}>
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Select tone">
-                  <span className={getToneColor(selectedTone)}>
-                    {selectedTone.charAt(0).toUpperCase() + selectedTone.slice(1)}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={getToneColor(selectedTone)}>
+                      {selectedTone.charAt(0).toUpperCase() + selectedTone.slice(1)}
+                    </span>
+                    <Badge className={`text-xs ${getToneBadgeColor(selectedTone)}`} variant="outline">
+                      {selectedTone}
+                    </Badge>
+                  </div>
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="professional">
-                  <span className="text-blue-600">Professional</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-blue-600">Professional</span>
+                    <Badge className="bg-blue-100 text-blue-800 text-xs" variant="outline">professional</Badge>
+                  </div>
                 </SelectItem>
                 <SelectItem value="friendly">
-                  <span className="text-green-600">Friendly</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">Friendly</span>
+                    <Badge className="bg-green-100 text-green-800 text-xs" variant="outline">friendly</Badge>
+                  </div>
                 </SelectItem>
                 <SelectItem value="apologetic">
-                  <span className="text-amber-600">Apologetic</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-600">Apologetic</span>
+                    <Badge className="bg-amber-100 text-amber-800 text-xs" variant="outline">apologetic</Badge>
+                  </div>
                 </SelectItem>
                 <SelectItem value="enthusiastic">
-                  <span className="text-purple-600">Enthusiastic</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-purple-600">Enthusiastic</span>
+                    <Badge className="bg-purple-100 text-purple-800 text-xs" variant="outline">enthusiastic</Badge>
+                  </div>
                 </SelectItem>
                 <SelectItem value="formal">
-                  <span className="text-gray-600">Formal</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Formal</span>
+                    <Badge className="bg-gray-100 text-gray-800 text-xs" variant="outline">formal</Badge>
+                  </div>
                 </SelectItem>
                 <SelectItem value="grateful">
-                  <span className="text-pink-600">Grateful</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-pink-600">Grateful</span>
+                    <Badge className="bg-pink-100 text-pink-800 text-xs" variant="outline">grateful</Badge>
+                  </div>
                 </SelectItem>
               </SelectContent>
             </Select>

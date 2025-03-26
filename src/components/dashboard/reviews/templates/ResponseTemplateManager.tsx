@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Save, X, FileText } from 'lucide-react';
+import { Plus, Save, X, FileText, Search, Filter } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
@@ -15,6 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from '@/components/ui/badge';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface Template {
   id: string;
@@ -35,6 +40,9 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
     content: '',
     tone: 'professional' as ResponseTone 
   });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toneFilter, setToneFilter] = useState<ResponseTone | 'all'>('all');
+  const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
   const { toast } = useToast();
 
   // Load templates from localStorage on component mount
@@ -83,6 +91,10 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
     const templateToDelete = templates.find(t => t.id === id);
     setTemplates(templates.filter(t => t.id !== id));
     
+    if (previewTemplate?.id === id) {
+      setPreviewTemplate(null);
+    }
+    
     toast({
       title: "Template deleted",
       description: templateToDelete ? `"${templateToDelete.name}" has been removed.` : "Template has been removed.",
@@ -102,6 +114,15 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
     }
   };
 
+  // Filter templates based on search query and tone filter
+  const filteredTemplates = templates.filter(template => {
+    const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          template.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTone = toneFilter === 'all' || template.tone === toneFilter;
+    
+    return matchesSearch && matchesTone;
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -115,6 +136,49 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
           <Plus className="w-4 h-4" />
           New Template
         </Button>
+      </div>
+
+      {/* Search and filter bar */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search templates..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-8"
+          />
+        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Filter className="h-4 w-4" />
+              Filter
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-52">
+            <div className="space-y-2">
+              <h4 className="font-medium">Filter by tone</h4>
+              <Select 
+                value={toneFilter} 
+                onValueChange={(value) => setToneFilter(value as ResponseTone | 'all')}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Filter by tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All tones</SelectItem>
+                  <SelectItem value="professional">Professional</SelectItem>
+                  <SelectItem value="friendly">Friendly</SelectItem>
+                  <SelectItem value="apologetic">Apologetic</SelectItem>
+                  <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
+                  <SelectItem value="formal">Formal</SelectItem>
+                  <SelectItem value="grateful">Grateful</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {isCreating && (
@@ -169,51 +233,94 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
         </div>
       )}
 
-      <ScrollArea className="h-[200px] border rounded-lg p-4">
-        {templates.length > 0 ? (
-          <div className="space-y-3">
-            {templates.map((template) => (
-              <div 
-                key={template.id} 
-                className="p-3 border rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-medium text-sm">{template.name}</h4>
-                    <Badge className={`text-xs ${getToneBadgeColor(template.tone)}`} variant="outline">
-                      {template.tone}
-                    </Badge>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ScrollArea className="h-[200px] border rounded-lg p-4">
+          {filteredTemplates.length > 0 ? (
+            <div className="space-y-3">
+              {filteredTemplates.map((template) => (
+                <div 
+                  key={template.id} 
+                  className="p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                  onClick={() => setPreviewTemplate(template)}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-medium text-sm">{template.name}</h4>
+                      <Badge className={`text-xs ${getToneBadgeColor(template.tone)}`} variant="outline">
+                        {template.tone}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectTemplate(template.content);
+                        }}
+                        className="text-xs text-blue-500 hover:underline"
+                      >
+                        Use
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteTemplate(template.id);
+                        }}
+                        className="text-xs text-red-500 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => onSelectTemplate(template.content)}
-                      className="text-xs text-blue-500 hover:underline"
-                    >
-                      Use
-                    </button>
-                    <button
-                      onClick={() => handleDeleteTemplate(template.id)}
-                      className="text-xs text-red-500 hover:underline"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <p className="text-xs text-muted-foreground line-clamp-2">
+                    {template.content}
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground line-clamp-2">
-                  {template.content}
-                </p>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <FileText className="h-12 w-12 text-muted-foreground/40 mb-2" />
+              <p className="text-sm text-muted-foreground">
+                {templates.length === 0 
+                  ? "No templates yet. Create one to get started!" 
+                  : "No matching templates found."}
+              </p>
+            </div>
+          )}
+        </ScrollArea>
+        
+        {/* Template preview section */}
+        <div className="border rounded-lg p-4 h-[200px] flex flex-col">
+          {previewTemplate ? (
+            <>
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h4 className="font-medium">{previewTemplate.name}</h4>
+                  <Badge className={`text-xs ${getToneBadgeColor(previewTemplate.tone)}`} variant="outline">
+                    {previewTemplate.tone}
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => onSelectTemplate(previewTemplate.content)}
+                >
+                  Use Template
+                </Button>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <FileText className="h-12 w-12 text-muted-foreground/40 mb-2" />
-            <p className="text-sm text-muted-foreground">
-              No templates yet. Create one to get started!
-            </p>
-          </div>
-        )}
-      </ScrollArea>
+              <ScrollArea className="flex-1 mt-2">
+                <p className="text-sm">{previewTemplate.content}</p>
+              </ScrollArea>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <p className="text-sm text-muted-foreground">
+                Select a template to preview its content
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -48,13 +48,13 @@ export function SearchContent({
   const advancedFilterCount = countAdvancedFilters();
   
   if (error) {
-    return <SearchError error={error} onClearFilters={onClearFilters} />;
+    return <SearchError message={error.message} onClearFilters={onClearFilters} />;
   }
 
   return (
     <div className="flex-1">
       <SearchHeader 
-        resultsCount={hotels.length} 
+        count={hotels.length} 
         isLoading={isLoading}
         onSortChange={onSortChange} 
       />
@@ -72,15 +72,15 @@ export function SearchContent({
         <EmptySearch onClearFilters={onClearFilters} />
       ) : (
         <>
-          <SearchResultsList hotels={hotels} isLoading={isLoading} />
+          <SearchResultsList items={hotels} isLoading={isLoading} />
           
           {!isLoading && hotels.length > 0 && (
             <div className="mt-6">
               <SearchPagination 
-                currentPage={pagination.page} 
-                totalItems={50} // This would ideally come from an API
+                page={pagination.page} 
+                total={50} // This would ideally come from an API
                 pageSize={pagination.limit}
-                onPageChange={onPageChange}
+                onChange={onPageChange}
               />
             </div>
           )}

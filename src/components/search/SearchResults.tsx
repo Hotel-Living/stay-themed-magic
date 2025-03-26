@@ -14,9 +14,17 @@ export const SearchResults = React.memo(() => {
     handleClearFilters 
   } = useSearchFilters();
 
+  // Create a type-compatible filter object for the useHotels hook
+  const searchFilters = {
+    country: filters.country,
+    month: filters.month,
+    theme: filters.theme,
+    priceRange: filters.priceRange
+  };
+
   // Fetch the hotels using the filters
   const { data: hotels = [], isLoading, error } = useHotels(
-    filters, 
+    searchFilters, 
     true, 
     pagination, 
     sortOption

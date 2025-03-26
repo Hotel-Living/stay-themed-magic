@@ -88,16 +88,42 @@ export function FilterSidebar({
   handleArrayFilterChange,
   onClearAll 
 }: FilterSidebarProps) {
+  // Helper function to convert options to array of values
+  const mapOptionsToValues = (options: { value: string, label: string }[]) => {
+    return options.map(option => option.value);
+  };
+  
+  // Helper function to handle checkbox filter changes
+  const handleOptionChange = (key: string, value: string, isChecked: boolean) => {
+    const currentValues = activeFilters[key as keyof typeof activeFilters] as string[] || [];
+    let newValues: string[];
+    
+    if (isChecked) {
+      newValues = [...currentValues, value];
+    } else {
+      newValues = currentValues.filter(v => v !== value);
+    }
+    
+    handleArrayFilterChange(key, newValues);
+  };
+  
+  const hasActiveFilters = Object.values(activeFilters).some(v => 
+    v !== null && (Array.isArray(v) ? v.length > 0 : true)
+  );
+  
   return (
     <div className="glass-card p-5 rounded-xl space-y-4">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-bold">Filters</h2>
-        <FilterActions onClearAll={onClearAll} hasActiveFilters={Object.values(activeFilters).some(v => v !== null && (Array.isArray(v) ? v.length > 0 : true))} />
+        <FilterActions 
+          onClearAll={onClearAll} 
+          hasActiveFilters={hasActiveFilters} 
+        />
       </div>
       
       <PriceRangeFilter 
-        value={activeFilters.priceRange} 
-        onChange={(value) => handleFilterChange('priceRange', value)} 
+        activePrice={activeFilters.priceRange ? activeFilters.priceRange[0] : null} 
+        onChange={(value) => handleFilterChange('priceRange', value ? [value, value] : null)} 
       />
       
       <div className="border-t border-foreground/10 pt-4">
@@ -116,56 +142,56 @@ export function FilterSidebar({
       
       <div className="border-t border-foreground/10 pt-4">
         <CountryFilter 
-          value={activeFilters.country} 
+          activeCountry={activeFilters.country} 
           onChange={(value) => handleFilterChange('country', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <MonthFilter 
-          value={activeFilters.month} 
+          activeMonth={activeFilters.month} 
           onChange={(value) => handleFilterChange('month', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <ThemeFilter 
-          value={activeFilters.theme} 
+          activeTheme={activeFilters.theme} 
           onChange={(value) => handleFilterChange('theme', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <PropertyTypeFilter 
-          value={activeFilters.propertyType} 
+          activePropertyType={activeFilters.propertyType} 
           onChange={(value) => handleFilterChange('propertyType', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <PropertyStyleFilter 
-          value={activeFilters.propertyStyle} 
+          activePropertyStyle={activeFilters.propertyStyle} 
           onChange={(value) => handleFilterChange('propertyStyle', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <CategoryFilter 
-          value={activeFilters.category} 
+          activeCategory={activeFilters.category} 
           onChange={(value) => handleFilterChange('category', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <LocationFilter 
-          value={activeFilters.location} 
+          activeLocation={activeFilters.location} 
           onChange={(value) => handleFilterChange('location', value)} 
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <LengthOfStayFilter 
-          value={activeFilters.lengthOfStay} 
+          activeLength={activeFilters.lengthOfStay} 
           onChange={(value) => handleFilterChange('lengthOfStay', value)} 
         />
       </div>
@@ -182,7 +208,7 @@ export function FilterSidebar({
           title="Room Types" 
           options={ROOM_TYPES} 
           selectedValues={activeFilters.roomTypes} 
-          onChange={(value) => handleArrayFilterChange('roomTypes', value)} 
+          onChange={(value, isChecked) => handleOptionChange('roomTypes', value, isChecked)} 
         />
       </div>
       
@@ -191,7 +217,7 @@ export function FilterSidebar({
           title="Hotel Features" 
           options={HOTEL_FEATURES} 
           selectedValues={activeFilters.hotelFeatures} 
-          onChange={(value) => handleArrayFilterChange('hotelFeatures', value)} 
+          onChange={(value, isChecked) => handleOptionChange('hotelFeatures', value, isChecked)} 
         />
       </div>
       
@@ -200,7 +226,7 @@ export function FilterSidebar({
           title="Room Features" 
           options={ROOM_FEATURES} 
           selectedValues={activeFilters.roomFeatures} 
-          onChange={(value) => handleArrayFilterChange('roomFeatures', value)} 
+          onChange={(value, isChecked) => handleOptionChange('roomFeatures', value, isChecked)} 
         />
       </div>
       
@@ -209,7 +235,7 @@ export function FilterSidebar({
           title="Meals" 
           options={MEALS} 
           selectedValues={activeFilters.meals} 
-          onChange={(value) => handleArrayFilterChange('meals', value)} 
+          onChange={(value, isChecked) => handleOptionChange('meals', value, isChecked)} 
         />
       </div>
       
@@ -218,7 +244,7 @@ export function FilterSidebar({
           title="Activities" 
           options={ACTIVITIES} 
           selectedValues={activeFilters.activities} 
-          onChange={(value) => handleArrayFilterChange('activities', value)} 
+          onChange={(value, isChecked) => handleOptionChange('activities', value, isChecked)} 
         />
       </div>
     </div>

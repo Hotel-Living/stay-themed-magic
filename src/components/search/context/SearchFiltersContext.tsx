@@ -1,130 +1,118 @@
 
-import { createContext, ReactNode, useContext, useState, useEffect, useCallback, useMemo } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { FilterState } from "@/components/filters/FilterTypes";
-import { Theme } from "@/utils/data";
-import { PaginationOptions, SortOption } from "@/hooks/useHotels";
+import React, { createContext, useState, useContext, useCallback } from 'react';
+
+// Extended filter state to include new filters
+interface SearchFilterState {
+  priceRange: [number, number] | null;
+  propertyType: string | null;
+  propertyStyle: string | null;
+  roomTypes: string[];
+  hotelFeatures: string[];
+  roomFeatures: string[];
+  meals: string[];
+  lengthOfStay: string | null;
+  activities: string[];
+  location: string | null;
+  category: string | null;
+  country: string | null;
+  month: string | null;
+  theme: string | null;
+  amenities: string[]; // New filter
+  distance: number | null; // New filter
+  rating: number | null; // New filter
+}
+
+interface PaginationState {
+  page: number;
+  limit: number;
+}
 
 interface SearchFiltersContextType {
-  filters: FilterState;
-  pagination: PaginationOptions;
-  sortOption: SortOption;
-  handleFilterChange: (filterType: keyof FilterState, value: any) => void;
-  handleArrayFilterChange: (filterType: string, value: Theme | string, isChecked: boolean) => void;
-  handlePageChange: (newPage: number) => void;
-  handleSortChange: (field: string, direction: 'asc' | 'desc') => void;
+  filters: SearchFilterState;
+  pagination: PaginationState;
+  sortOption: string;
+  handleFilterChange: (key: keyof SearchFilterState, value: any) => void;
+  handleArrayFilterChange: (key: keyof SearchFilterState, value: string[]) => void;
+  handlePageChange: (page: number) => void;
+  handleSortChange: (option: string) => void;
   handleClearFilters: () => void;
 }
 
-// Create context with undefined default value
-const SearchFiltersContext = createContext<SearchFiltersContextType | undefined>(undefined);
-
-// Hook for consuming the context
-export function useSearchFilters() {
-  const context = useContext(SearchFiltersContext);
-  if (context === undefined) {
-    throw new Error("useSearchFilters must be used within a SearchFiltersProvider");
-  }
-  return context;
-}
-
-interface SearchFiltersProviderProps {
-  children: ReactNode;
-}
-
-// Default values outside component to avoid recreating on every render
-const DEFAULT_FILTERS: FilterState = {
+// Default filter values
+const DEFAULT_FILTERS: SearchFilterState = {
+  priceRange: null,
+  propertyType: null,
+  propertyStyle: null,
+  roomTypes: [],
+  hotelFeatures: [],
+  roomFeatures: [],
+  meals: [],
+  lengthOfStay: null,
+  activities: [],
+  location: null,
+  category: null,
   country: null,
   month: null,
   theme: null,
-  priceRange: null
+  amenities: [], // New filter default
+  distance: null, // New filter default
+  rating: null, // New filter default
 };
 
-const DEFAULT_PAGINATION: PaginationOptions = { 
-  page: 1, 
-  limit: 10 
-};
+const SearchFiltersContext = createContext<SearchFiltersContextType | undefined>(undefined);
 
-const DEFAULT_SORT: SortOption = { 
-  field: 'price_per_month', 
-  direction: 'asc' 
-};
+export function SearchFiltersProvider({ children }: { children: React.ReactNode }) {
+  const [filters, setFilters] = useState<SearchFilterState>(DEFAULT_FILTERS);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10 });
+  const [sortOption, setSortOption] = useState('relevance');
 
-export function SearchFiltersProvider({ children }: SearchFiltersProviderProps) {
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
-  
-  // Parse initial filters from URL params
-  const getInitialFiltersFromUrl = useCallback(() => {
-    return {
-      country: (searchParams.get("country") as FilterState["country"]) || null,
-      month: (searchParams.get("month") as FilterState["month"]) || null,
-      theme: null,
-      priceRange: searchParams.get("price") ? Number(searchParams.get("price")) : null
-    };
-  }, [searchParams]);
-  
-  // State management
-  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
-  const [pagination, setPagination] = useState<PaginationOptions>(DEFAULT_PAGINATION);
-  const [sortOption, setSortOption] = useState<SortOption>(DEFAULT_SORT);
-  
-  // Memoized handlers
-  const handleFilterChange = useCallback((filterType: keyof FilterState, value: any) => {
-    setFilters(prev => ({ ...prev, [filterType]: value }));
-    // Reset to first page when filters change
-    setPagination(prev => ({ ...prev, page: 1 })); 
+  const handleFilterChange = useCallback((key: keyof SearchFilterState, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+    // Reset to page 1 when filters change
+    setPagination(prev => ({ ...prev, page: 1 }));
   }, []);
-  
-  const handleArrayFilterChange = useCallback((filterType: string, value: Theme | string, isChecked: boolean) => {
-    if (filterType === 'theme') {
-      handleFilterChange(filterType, isChecked ? value : null);
-    }
-  }, [handleFilterChange]);
-  
-  const handlePageChange = useCallback((newPage: number) => {
-    setPagination(prev => ({ ...prev, page: newPage }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const handleArrayFilterChange = useCallback((key: keyof SearchFilterState, value: string[]) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+    // Reset to page 1 when filters change
+    setPagination(prev => ({ ...prev, page: 1 }));
   }, []);
-  
-  const handleSortChange = useCallback((field: string, direction: 'asc' | 'desc') => {
-    setSortOption({ field, direction });
+
+  const handlePageChange = useCallback((page: number) => {
+    setPagination(prev => ({ ...prev, page }));
   }, []);
-  
+
+  const handleSortChange = useCallback((option: string) => {
+    setSortOption(option);
+  }, []);
+
   const handleClearFilters = useCallback(() => {
     setFilters(DEFAULT_FILTERS);
+    setPagination(prev => ({ ...prev, page: 1 }));
   }, []);
-  
-  // Update filters when the URL changes
-  useEffect(() => {
-    setFilters(getInitialFiltersFromUrl());
-    setPagination(DEFAULT_PAGINATION);
-  }, [location.search, getInitialFiltersFromUrl]);
-  
-  // Memoize context value to prevent unnecessary renders
-  const contextValue = useMemo(() => ({
-    filters,
-    pagination,
-    sortOption,
-    handleFilterChange,
-    handleArrayFilterChange,
-    handlePageChange,
-    handleSortChange,
-    handleClearFilters
-  }), [
-    filters, 
-    pagination, 
-    sortOption, 
-    handleFilterChange, 
-    handleArrayFilterChange, 
-    handlePageChange, 
-    handleSortChange, 
-    handleClearFilters
-  ]);
-  
+
   return (
-    <SearchFiltersContext.Provider value={contextValue}>
+    <SearchFiltersContext.Provider 
+      value={{ 
+        filters, 
+        pagination, 
+        sortOption, 
+        handleFilterChange, 
+        handleArrayFilterChange,
+        handlePageChange,
+        handleSortChange,
+        handleClearFilters
+      }}
+    >
       {children}
     </SearchFiltersContext.Provider>
   );
+}
+
+export function useSearchFilters() {
+  const context = useContext(SearchFiltersContext);
+  if (context === undefined) {
+    throw new Error('useSearchFilters must be used within a SearchFiltersProvider');
+  }
+  return context;
 }

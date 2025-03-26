@@ -31,6 +31,7 @@ export const SearchResults = React.memo(() => {
       onSortChange={handleSortChange}
       onPageChange={handlePageChange}
       onClearFilters={handleClearFilters}
+      activeFilters={filters}
     />
   );
 });

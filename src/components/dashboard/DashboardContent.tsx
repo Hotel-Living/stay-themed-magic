@@ -8,9 +8,14 @@ import { mockBookings } from './data/mockData';
 
 export default function DashboardContent() {
   const handlePropertyTabClick = () => {
-    const propertyTab = document.querySelector('button[data-tab="addProperty"]');
+    const propertyTab = document.querySelector('button[data-tab="propertyManagement"]');
     if (propertyTab instanceof HTMLElement) {
       propertyTab.click();
+    } else {
+      const addPropertyTab = document.querySelector('button[data-tab="addProperty"]');
+      if (addPropertyTab instanceof HTMLElement) {
+        addPropertyTab.click();
+      }
     }
   };
   

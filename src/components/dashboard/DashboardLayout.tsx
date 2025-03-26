@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
@@ -20,6 +21,7 @@ import AnalyticsContent from './AnalyticsContent';
 import SettingsContent from './SettingsContent';
 import ReviewsContent from './ReviewsContent';
 import AddProperty from './AddProperty';
+import PropertyManagement from './PropertyManagement';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -73,11 +75,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     } else {
       return [
         { id: 'dashboard', icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard' },
-        { id: 'properties', icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties' },
+        { id: 'propertyManagement', icon: <BuildingIcon className="w-5 h-5" />, label: 'Property Management' },
         { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
         { id: 'guests', icon: <UsersIcon className="w-5 h-5" />, label: 'Guests' },
         { id: 'analytics', icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics' },
         { id: 'addProperty', icon: <BuildingIcon className="w-5 h-5" />, label: 'Add Property' },
+        { id: 'reviews', icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews' },
         { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
       ];
     }
@@ -102,11 +105,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       // Hotel dashboard tabs
       switch (activeTab) {
         case 'dashboard': return children || <DashboardContent />;
+        case 'propertyManagement': return <PropertyManagement />;
         case 'properties': return <PropertiesContent />;
         case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
         case 'guests': return <GuestsContent />;
         case 'analytics': return <AnalyticsContent />;
         case 'addProperty': return <AddProperty />;
+        case 'reviews': return <ReviewsContent />;
         case 'settings': return <SettingsContent />;
         default: return children || <DashboardContent />;
       }

@@ -22,21 +22,25 @@ export const UserNavigation = () => {
       
       {user ? (
         <LinkButton
-          href="/dashboard"
+          asChild
           variant="gradient"
           className="text-white"
           aria-label="Go to user dashboard"
         >
-          {t("nav.dashboard")}
+          <Link to="/dashboard">
+            {t("nav.dashboard")}
+          </Link>
         </LinkButton>
       ) : (
         <LinkButton
-          href="/login"
+          asChild
           variant="gradient"
           className="text-white"
           aria-label="Login to your account"
         >
-          {t("nav.login")}
+          <Link to="/login">
+            {t("nav.login")}
+          </Link>
         </LinkButton>
       )}
     </div>

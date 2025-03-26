@@ -9,7 +9,8 @@ import {
   BarChart3Icon, 
   SettingsIcon,
   ChevronRightIcon,
-  MessageSquare
+  MessageSquare,
+  PercentIcon
 } from 'lucide-react';
 
 // Tab content imports
@@ -22,6 +23,7 @@ import SettingsContent from './SettingsContent';
 import ReviewsContent from './ReviewsContent';
 import AddProperty from './AddProperty';
 import PropertyManagement from './PropertyManagement';
+import PromotionalTools from './PromotionalTools';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -79,7 +81,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
         { id: 'guests', icon: <UsersIcon className="w-5 h-5" />, label: 'Guests' },
         { id: 'analytics', icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics' },
-        { id: 'addProperty', icon: <BuildingIcon className="w-5 h-5" />, label: 'Add Property' },
+        { id: 'promotions', icon: <PercentIcon className="w-5 h-5" />, label: 'Promotions' },
         { id: 'reviews', icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews' },
         { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
       ];
@@ -110,7 +112,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
         case 'guests': return <GuestsContent />;
         case 'analytics': return <AnalyticsContent />;
-        case 'addProperty': return <AddProperty />;
+        case 'promotions': return <PromotionalTools />;
         case 'reviews': return <ReviewsContent />;
         case 'settings': return <SettingsContent />;
         default: return children || <DashboardContent />;

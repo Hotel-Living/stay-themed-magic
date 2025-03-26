@@ -5,6 +5,9 @@
 
 /* ... keep existing code */
 
+/* Import starfield styles */
+@import './styles/starfield.css';
+
 /* Chat Support Styles */
 .loader {
   border: 3px solid rgba(255, 255, 255, 0.3);

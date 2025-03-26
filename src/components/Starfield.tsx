@@ -1,5 +1,6 @@
 
 import { useEffect, useRef } from 'react';
+import '../styles/starfield.css';
 
 export function Starfield() {
   const starfieldRef = useRef<HTMLDivElement>(null);
@@ -18,7 +19,7 @@ export function Starfield() {
       const centerY = windowHeight / 2;
       
       // Number of stars based on screen size
-      const starCount = Math.max(70, Math.floor((windowWidth * windowHeight) / 2500));
+      const starCount = Math.max(100, Math.floor((windowWidth * windowHeight) / 2000));
       
       // Define color palette for dynamic star colors
       const colorPalette = [

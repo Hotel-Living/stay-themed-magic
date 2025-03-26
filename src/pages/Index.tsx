@@ -12,7 +12,16 @@ import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 
 export default function Index() {
-  const { isLoading: isAuthLoading, user, profile } = useAuth();
+  // Add a try-catch to prevent the app from crashing if the auth context isn't available
+  let authData = { isLoading: true, user: null, profile: null };
+  try {
+    authData = useAuth();
+  } catch (error) {
+    console.error("Auth context not available:", error);
+  }
+  
+  const { isLoading: isAuthLoading, user, profile } = authData;
+  
   const [filters, setFilters] = useState<FilterState>({
     country: null,
     month: null,

@@ -15,7 +15,6 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-// Import FAQ component with correct casing
 import FAQ from "./pages/FAQ";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
@@ -25,16 +24,23 @@ import CustomerService from "./pages/CustomerService";
 import NotFound from "./pages/NotFound";
 import CodeStats from "./pages/CodeStats";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
-        <Starfield />
         <AuthProvider>
+          <Starfield />
+          <Toaster />
+          <Sonner />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/search" element={<Search />} />

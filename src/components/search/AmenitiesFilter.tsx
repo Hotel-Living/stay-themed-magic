@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { CheckboxFilter } from './CheckboxFilter';
 
@@ -20,6 +21,10 @@ const AMENITIES_OPTIONS = [
 ];
 
 export function AmenitiesFilter({ activeFilters, onChange }: AmenitiesFilterProps) {
+  // Extract just the labels for the CheckboxFilter component
+  const amenityLabels = AMENITIES_OPTIONS.map(option => option.label);
+  
+  // Handle option changes and map back to the expected format
   const handleOptionChange = (selectedOptions: string[]) => {
     onChange(selectedOptions);
   };
@@ -27,7 +32,7 @@ export function AmenitiesFilter({ activeFilters, onChange }: AmenitiesFilterProp
   return (
     <CheckboxFilter
       title="Amenities"
-      options={AMENITIES_OPTIONS.map(option => option.label)}
+      options={amenityLabels}
       selectedOptions={activeFilters}
       onChange={handleOptionChange}
     />

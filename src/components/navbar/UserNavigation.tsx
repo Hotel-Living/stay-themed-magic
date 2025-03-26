@@ -22,7 +22,7 @@ export const UserNavigation = () => {
       {user ? (
         <LinkButton
           href="/dashboard"
-          variant="glass"
+          variant="gradient"
           className="text-white"
           aria-label="Go to user dashboard"
         >
@@ -31,7 +31,7 @@ export const UserNavigation = () => {
       ) : (
         <LinkButton
           href="/login"
-          variant="glass"
+          variant="gradient"
           className="text-white"
           aria-label="Login to your account"
         >

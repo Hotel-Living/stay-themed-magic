@@ -27,10 +27,7 @@ export function Navbar() {
             <CurrencySelector />
             <ThemeToggle />
           </div>
-          <DesktopNavigation 
-            getInitials={getInitials} 
-            signOut={signOut} 
-          />
+          <DesktopNavigation />
           
           {/* Mobile menu button */}
           <button 

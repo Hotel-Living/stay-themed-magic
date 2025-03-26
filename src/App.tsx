@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
@@ -55,8 +54,8 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} storageKey="hotel-living-theme">
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} storageKey="hotel-living-theme">
         <Router>
           <AccessibilityProvider>
             <LanguageProvider>
@@ -137,9 +136,37 @@ function App() {
             </LanguageProvider>
           </AccessibilityProvider>
         </Router>
-      </QueryClientProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
+
+// Import all pages after App definition to avoid circular dependencies
+import Index from "@/pages/Index";
+import Search from "@/pages/Search";
+import HotelDetail from "@/pages/HotelDetail";
+import Compare from "@/pages/Compare";
+import FAQ from "@/pages/FAQ";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import CustomerService from "@/pages/CustomerService";
+import OurServices from "@/pages/OurServices";
+import OurValues from "@/pages/OurValues";
+import NotFound from "@/pages/NotFound";
+
+// Auth pages
+import Login from "@/pages/Login";
+import SignUp from "@/pages/SignUp";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+
+// Protected pages
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import Bookings from "@/pages/Bookings";
+import Favorites from "@/pages/Favorites";
+
+// Utility pages
+import CodeStats from "@/pages/CodeStats";
 
 export default App;

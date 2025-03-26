@@ -91,7 +91,7 @@ export const FilterSection = ({
             // Extract the ID if it's a Theme object, otherwise use the value directly
             const themeValue = typeof value === 'object' && value !== null && 'id' in value
               ? value.id 
-              : value;
+              : value as string;
             updateFilter("theme", themeValue);
           }}
           themeRef={themeRef}

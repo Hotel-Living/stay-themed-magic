@@ -1,156 +1,115 @@
-import {
-  Search,
-  Settings,
-  Heart,
-  HelpCircle,
-  Home,
-  Calendar,
-  LogOut,
-  X
-} from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback
-} from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { Logo } from "@/components/Logo";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  getInitials: () => string;
   signOut: () => Promise<void>;
+  getInitials: () => string;
 }
 
-interface MobileNavLinkProps {
-  href: string;
-  label: React.ReactNode;
-  icon: React.ReactNode;
-  onClick?: () => void;
-}
-
-function MobileNavLink({ href, label, icon, onClick }: MobileNavLinkProps) {
-  return (
-    <Button
-      variant="ghost"
-      className="w-full justify-start gap-3 text-white/90 hover:text-white font-normal"
-      asChild
-    >
-      <Link to={href} onClick={onClick}>
-        {icon}
-        <span>{label}</span>
-      </Link>
-    </Button>
-  );
-}
-
-export function MobileMenu({ 
-  getInitials, 
-  signOut, 
-  isOpen, 
-  onClose 
-}: MobileMenuProps) {
+export const MobileMenu: React.FC<MobileMenuProps> = ({
+  isOpen,
+  onClose,
+  signOut,
+  getInitials,
+}) => {
   const { user } = useAuth();
-  const { favorites } = useFavorites();
-
+  const { t } = useLanguage();
+  
+  if (!isOpen) return null;
+  
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-opacity",
-        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-      )}
-    >
-      <div
-        className={cn(
-          "fixed inset-y-0 right-0 w-full max-w-xs bg-gradient-to-b from-fuchsia-950 to-gray-950 p-6 shadow-lg transform transition-transform duration-300 ease-in-out",
-          isOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex justify-between items-center mb-8">
-          <Logo />
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-6 w-6" />
-          </Button>
-        </div>
-
-        <div className="space-y-6">
-          {/* Main navigation links */}
-          <div className="space-y-3">
-            <MobileNavLink href="/search" label="Browse Hotels" icon={<Search className="h-5 w-5" />} onClick={onClose} />
-            <MobileNavLink href="/services" label="Our Services" icon={<Settings className="h-5 w-5" />} onClick={onClose} />
-            <MobileNavLink href="/values" label="Our Values" icon={<Heart className="h-5 w-5" />} onClick={onClose} />
-            <MobileNavLink href="/customer-service" label="Customer Service" icon={<HelpCircle className="h-5 w-5" />} onClick={onClose} />
-            
-            {/* Add Favorites link for authenticated users */}
-            {user && (
-              <MobileNavLink 
-                href="/favorites" 
-                label={
-                  <div className="flex items-center">
-                    <span>Favorites</span>
-                    {favorites.length > 0 && (
-                      <span className="ml-2 text-xs bg-fuchsia-500 text-white px-1.5 py-0.5 rounded-full">
-                        {favorites.length}
-                      </span>
-                    )}
-                  </div>
-                } 
-                icon={<Heart className="h-5 w-5" />} 
-                onClick={onClose} 
-              />
-            )}
-          </div>
-
-          {/* Authentication section */}
-          <div className="pt-6 border-t border-fuchsia-800/20">
-            {user ? (
-              // User is logged in
-              <>
-                <div className="flex items-center gap-3 mb-4">
-                  <Avatar>
-                    <AvatarFallback className="bg-fuchsia-800/30">
-                      {getInitials()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium">My Account</p>
-                    <p className="text-sm text-white/70">{user.email}</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <MobileNavLink href="/dashboard" label="Dashboard" icon={<Home className="h-5 w-5" />} onClick={onClose} />
-                  <MobileNavLink href="/bookings" label="My Bookings" icon={<Calendar className="h-5 w-5" />} onClick={onClose} />
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-start gap-3 text-white/90 hover:text-white font-normal" 
-                    onClick={() => { 
-                      signOut();
-                      onClose();
-                    }}
-                  >
-                    <LogOut className="h-5 w-5" />
-                    Sign Out
-                  </Button>
-                </div>
-              </>
-            ) : (
-              // User is not logged in
-              <div className="flex flex-col gap-3">
-                <Button asChild>
-                  <Link to="/login" onClick={onClose}>Sign In</Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link to="/signup" onClick={onClose}>Create Account</Link>
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+    <div className="md:hidden absolute top-full left-0 right-0 bg-[#860477] backdrop-blur-xl border-b border-[#c266af] animate-in slide-in-from-top-5 duration-300">
+      <nav className="container px-4 sm:px-6 py-4">
+        <ul className="space-y-3">
+          <li>
+            <Link 
+              to="/" 
+              className="block py-2 text-white hover:text-white/90"
+              onClick={onClose}
+            >
+              {t("nav.home")}
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/search" 
+              className="block py-2 text-white hover:text-white/90"
+              onClick={onClose}
+            >
+              {t("nav.search")}
+            </Link>
+          </li>
+          
+          {user ? (
+            <>
+              <li>
+                <Link 
+                  to="/bookings" 
+                  className="block py-2 text-white hover:text-white/90"
+                  onClick={onClose}
+                >
+                  {t("nav.bookings")}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/favorites" 
+                  className="block py-2 text-white hover:text-white/90"
+                  onClick={onClose}
+                >
+                  {t("nav.favorites")}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/dashboard" 
+                  className="block py-2 text-white hover:text-white/90"
+                  onClick={onClose}
+                >
+                  {t("nav.dashboard")}
+                </Link>
+              </li>
+              <li>
+                <button 
+                  className="block w-full text-left py-2 text-white hover:text-white/90"
+                  onClick={() => {
+                    signOut();
+                    onClose();
+                  }}
+                >
+                  {t("nav.logout")}
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link 
+                  to="/login" 
+                  className="block py-2 text-white hover:text-white/90"
+                  onClick={onClose}
+                >
+                  {t("nav.login")}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/signup" 
+                  className="block py-2 text-white hover:text-white/90"
+                  onClick={onClose}
+                >
+                  {t("nav.signup")}
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
     </div>
   );
-}
+};

@@ -1,56 +1,69 @@
 
+import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import { UserNavigation } from "./UserNavigation";
-import { useFavorites } from "@/hooks/useFavorites";
-import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface DesktopNavigationProps {
   getInitials: () => string;
   signOut: () => Promise<void>;
 }
 
-export function DesktopNavigation({ getInitials, signOut }: DesktopNavigationProps) {
-  const { user, profile } = useAuth();
-  const { favorites } = useFavorites();
+export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
+  getInitials,
+  signOut,
+}) => {
+  const { user } = useAuth();
+  const { t } = useLanguage();
   
   return (
-    <nav className="hidden md:flex items-center space-x-6">
-      <div className="flex items-center space-x-6">
-        <Link to="/search" className="text-white hover:text-fuchsia-200 transition">Browse</Link>
-        <Link to="/services" className="text-white hover:text-fuchsia-200 transition">Services</Link>
-        <Link to="/values" className="text-white hover:text-fuchsia-200 transition">Values</Link>
-        <Link to="/customer-service" className="text-white hover:text-fuchsia-200 transition">Support</Link>
-        
-        {user && (
-          <Link 
-            to="/favorites" 
-            className="text-white hover:text-fuchsia-200 transition flex items-center gap-1 relative"
-          >
-            <Heart className="w-4 h-4" />
-            <span>Favorites</span>
-            {favorites.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-fuchsia-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                {favorites.length > 9 ? '9+' : favorites.length}
-              </span>
-            )}
+    <nav className="hidden md:flex items-center gap-6">
+      <ul className="flex items-center gap-6">
+        <li>
+          <Link to="/" className="text-white hover:text-white/90">
+            {t("nav.home")}
           </Link>
+        </li>
+        <li>
+          <Link to="/search" className="text-white hover:text-white/90">
+            {t("nav.search")}
+          </Link>
+        </li>
+        {user && (
+          <>
+            <li>
+              <Link to="/bookings" className="text-white hover:text-white/90">
+                {t("nav.bookings")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/favorites" className="text-white hover:text-white/90">
+                {t("nav.favorites")}
+              </Link>
+            </li>
+          </>
         )}
-      </div>
+      </ul>
       
       {user ? (
-        <UserNavigation profile={profile} getInitials={getInitials} signOut={signOut} />
+        <UserNavigation getInitials={getInitials} signOut={signOut} />
       ) : (
-        <div className="flex items-center space-x-4">
-          <Link to="/login" className="text-white hover:text-fuchsia-200 transition">
-            Sign in
+        <div className="flex items-center gap-3">
+          <Link
+            to="/login"
+            className="text-sm font-medium text-white"
+          >
+            {t("nav.login")}
           </Link>
-          <Button asChild>
-            <Link to="/signup">Sign up</Link>
-          </Button>
+          <Link
+            to="/signup"
+            className="px-3 py-2 text-sm font-medium text-fuchsia-600 bg-white rounded-md hover:bg-white/90"
+          >
+            {t("nav.signup")}
+          </Link>
         </div>
       )}
     </nav>
   );
-}
+};

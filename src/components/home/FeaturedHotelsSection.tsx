@@ -1,19 +1,22 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { HotelCard } from "@/components/HotelCard";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FeaturedHotelsSectionProps {
   hotels: any[];
   isLoading: boolean;
-  filtersActive?: boolean; // Add this prop
+  filtersActive?: boolean;
 }
 
 export function FeaturedHotelsSection({ hotels, isLoading, filtersActive }: FeaturedHotelsSectionProps) {
+  const { t } = useLanguage();
+  
   if (isLoading) {
     return (
       <section className="py-8 px-4">
         <div className="container max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6">Featured Hotels</h2>
+          <h2 className="text-3xl font-bold mb-6">{t("home.featured")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="glass-card rounded-2xl overflow-hidden animate-pulse">
@@ -39,21 +42,21 @@ export function FeaturedHotelsSection({ hotels, isLoading, filtersActive }: Feat
   return (
     <section className="py-8 px-4">
       <div className="container max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-6">Featured Hotels</h2>
+        <h2 className="text-3xl font-bold mb-6">{t("home.featured")}</h2>
         
         {hotels.length === 0 ? (
           <div className="text-center py-12 glass-card rounded-2xl p-8">
-            <p className="text-muted-foreground mb-4">No hotels found matching your criteria.</p>
-            <p className="text-fuchsia-400">Try adjusting your filters or check back later.</p>
+            <p className="text-muted-foreground mb-4">{t("home.nohotels")}</p>
+            <p className="text-fuchsia-400">{t("home.tryagain")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {hotels.map((hotel: any) => {
               // Extract the main image
               const mainImage = hotel.hotel_images?.find((img: any) => img.is_main)?.image_url || 
-                               hotel.hotel_images?.[0]?.image_url || 
-                               hotel.main_image_url || 
-                               '/placeholder.svg';
+                              hotel.hotel_images?.[0]?.image_url || 
+                              hotel.main_image_url || 
+                              '/placeholder.svg';
               
               // Extract the themes
               const hotelThemes = hotel.hotel_themes?.map((ht: any) => ht.themes?.name).filter(Boolean) || [];

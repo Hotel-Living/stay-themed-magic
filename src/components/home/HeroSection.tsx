@@ -1,7 +1,10 @@
 
 import { Check } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function HeroSection() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-4 px-4 overflow-hidden">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
@@ -13,7 +16,7 @@ export function HeroSection() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-          The Future of Living
+          {t("home.hero.title")}
         </h1>
         
         <p className="text-xl md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold"
@@ -24,14 +27,14 @@ export function HeroSection() {
              WebkitBackgroundClip: 'text',
              WebkitTextFillColor: 'transparent'
            }}>
-          Live in Hotels  -  Boost your Life
+          {t("home.hero.subtitle")}
         </p>
         
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-2">
           <div className="space-y-0.5">
             {[
-              "Get rid of household chores", 
-              "Select hotels upon favourite themes"
+              t("home.feature.1"), 
+              t("home.feature.2")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
@@ -44,8 +47,8 @@ export function HeroSection() {
           
           <div className="space-y-0.5">
             {[
-              "Boost your social life", 
-              "Find and enjoy your favorite people"
+              t("home.feature.3"), 
+              t("home.feature.4")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">

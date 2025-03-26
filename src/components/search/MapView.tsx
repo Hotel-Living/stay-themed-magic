@@ -134,7 +134,7 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
         </div>
       )}
       
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{__html: `
         .mapboxgl-popup-content {
           background-color: rgba(20, 20, 35, 0.95);
           color: white;
@@ -152,7 +152,7 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
         .mapboxgl-popup-close-button {
           color: white;
         }
-      `}</style>
+      `}} />
     </div>
   );
 }

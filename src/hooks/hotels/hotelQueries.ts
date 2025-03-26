@@ -47,3 +47,6 @@ export const applyPagination = (query: any, pagination?: PaginationOptions) => {
   
   return query;
 };
+
+// Re-export buildBaseHotelQuery to fix the import error
+export { buildBaseHotelQuery };

@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true
   },
   global: {
-    fetch: (...args) => {
+    fetch: (...args: Parameters<typeof fetch>) => {
       return fetch(...args).catch(err => {
         console.error('Supabase fetch error:', err);
         // Return a mock response that won't break the app

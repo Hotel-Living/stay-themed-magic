@@ -6,6 +6,7 @@ import { PropertyForm } from './property-management/PropertyForm';
 import { PropertyGallery } from './property-management/PropertyGallery';
 import { PropertyCalendar } from './property-management/PropertyCalendar';
 import { PropertyPromotions } from './property-management/PropertyPromotions';
+import { PropertyAvailability } from './property-management/PropertyAvailability';
 
 export function PropertyManagement() {
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
@@ -23,7 +24,8 @@ export function PropertyManagement() {
         <TabsList className="w-full max-w-md mb-6">
           <TabsTrigger value="properties">Properties</TabsTrigger>
           <TabsTrigger value="add">Add Property</TabsTrigger>
-          <TabsTrigger value="calendar">Availability</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar</TabsTrigger>
+          <TabsTrigger value="availability">Availability</TabsTrigger>
           <TabsTrigger value="promotions">Promotions</TabsTrigger>
         </TabsList>
         
@@ -40,6 +42,10 @@ export function PropertyManagement() {
         
         <TabsContent value="calendar">
           <PropertyCalendar propertyId={selectedProperty} />
+        </TabsContent>
+        
+        <TabsContent value="availability">
+          <PropertyAvailability propertyId={selectedProperty} />
         </TabsContent>
         
         <TabsContent value="promotions">

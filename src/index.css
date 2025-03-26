@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ... keep existing code */
-
 /* Import starfield styles */
 @import './styles/starfield.css';
 
@@ -35,5 +33,3 @@
     background-position: 0% 50%;
   }
 }
-
-/* ... keep existing code */

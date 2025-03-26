@@ -12,6 +12,7 @@ import { Loader2, Wand2 } from "lucide-react";
 import { ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
 import { ResponseTemplateManager } from '../templates/ResponseTemplateManager';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
 interface DialogControlsProps {
   selectedTone: ResponseTone;
@@ -32,6 +33,19 @@ export function DialogControls({
 }: DialogControlsProps) {
   const [activeTab, setActiveTab] = useState<string>("ai-generation");
   
+  // Get tone display color
+  const getToneColor = (tone: ResponseTone) => {
+    switch (tone) {
+      case 'professional': return 'text-blue-600';
+      case 'friendly': return 'text-green-600';
+      case 'apologetic': return 'text-amber-600';
+      case 'enthusiastic': return 'text-purple-600';
+      case 'formal': return 'text-gray-600';
+      case 'grateful': return 'text-pink-600';
+      default: return '';
+    }
+  };
+  
   return (
     <div className="space-y-6">
       <Tabs defaultValue="ai-generation" onValueChange={setActiveTab} value={activeTab}>
@@ -45,15 +59,31 @@ export function DialogControls({
           <div className="flex items-center gap-4">
             <Select value={selectedTone} onValueChange={onToneChange}>
               <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select tone" />
+                <SelectValue placeholder="Select tone">
+                  <span className={getToneColor(selectedTone)}>
+                    {selectedTone.charAt(0).toUpperCase() + selectedTone.slice(1)}
+                  </span>
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="professional">Professional</SelectItem>
-                <SelectItem value="friendly">Friendly</SelectItem>
-                <SelectItem value="apologetic">Apologetic</SelectItem>
-                <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
-                <SelectItem value="formal">Formal</SelectItem>
-                <SelectItem value="grateful">Grateful</SelectItem>
+                <SelectItem value="professional">
+                  <span className="text-blue-600">Professional</span>
+                </SelectItem>
+                <SelectItem value="friendly">
+                  <span className="text-green-600">Friendly</span>
+                </SelectItem>
+                <SelectItem value="apologetic">
+                  <span className="text-amber-600">Apologetic</span>
+                </SelectItem>
+                <SelectItem value="enthusiastic">
+                  <span className="text-purple-600">Enthusiastic</span>
+                </SelectItem>
+                <SelectItem value="formal">
+                  <span className="text-gray-600">Formal</span>
+                </SelectItem>
+                <SelectItem value="grateful">
+                  <span className="text-pink-600">Grateful</span>
+                </SelectItem>
               </SelectContent>
             </Select>
             

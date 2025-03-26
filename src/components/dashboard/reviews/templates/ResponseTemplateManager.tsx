@@ -7,12 +7,20 @@ import { Plus, Save, X, FileText } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { ResponseTone } from '@/hooks/dashboard/useAIResponseGenerator';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from '@/components/ui/badge';
 
 interface Template {
   id: string;
   name: string;
   content: string;
-  tone?: ResponseTone;
+  tone: ResponseTone;
 }
 
 interface ResponseTemplateManagerProps {
@@ -22,7 +30,11 @@ interface ResponseTemplateManagerProps {
 export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateManagerProps) {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const [newTemplate, setNewTemplate] = useState({ name: '', content: '' });
+  const [newTemplate, setNewTemplate] = useState({ 
+    name: '', 
+    content: '',
+    tone: 'professional' as ResponseTone 
+  });
   const { toast } = useToast();
 
   // Load templates from localStorage on component mount
@@ -52,12 +64,12 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
         id: crypto.randomUUID(),
         name: newTemplate.name,
         content: newTemplate.content,
-        tone: 'professional' as ResponseTone // Default tone
+        tone: newTemplate.tone
       };
       
       const updatedTemplates = [...templates, template];
       setTemplates(updatedTemplates);
-      setNewTemplate({ name: '', content: '' });
+      setNewTemplate({ name: '', content: '', tone: 'professional' });
       setIsCreating(false);
       
       toast({
@@ -75,6 +87,19 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
       title: "Template deleted",
       description: templateToDelete ? `"${templateToDelete.name}" has been removed.` : "Template has been removed.",
     });
+  };
+
+  // Get badge color based on tone
+  const getToneBadgeColor = (tone: ResponseTone) => {
+    switch (tone) {
+      case 'professional': return 'bg-blue-100 text-blue-800';
+      case 'friendly': return 'bg-green-100 text-green-800';
+      case 'apologetic': return 'bg-amber-100 text-amber-800';
+      case 'enthusiastic': return 'bg-purple-100 text-purple-800';
+      case 'formal': return 'bg-gray-100 text-gray-800';
+      case 'grateful': return 'bg-pink-100 text-pink-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
   };
 
   return (
@@ -99,6 +124,22 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
             value={newTemplate.name}
             onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
           />
+          <Select 
+            value={newTemplate.tone} 
+            onValueChange={(value) => setNewTemplate({ ...newTemplate, tone: value as ResponseTone })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select tone" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="professional">Professional</SelectItem>
+              <SelectItem value="friendly">Friendly</SelectItem>
+              <SelectItem value="apologetic">Apologetic</SelectItem>
+              <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
+              <SelectItem value="formal">Formal</SelectItem>
+              <SelectItem value="grateful">Grateful</SelectItem>
+            </SelectContent>
+          </Select>
           <Textarea
             placeholder="Template content"
             value={newTemplate.content}
@@ -111,7 +152,7 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
               size="sm"
               onClick={() => {
                 setIsCreating(false);
-                setNewTemplate({ name: '', content: '' });
+                setNewTemplate({ name: '', content: '', tone: 'professional' });
               }}
             >
               <X className="w-4 h-4 mr-1" />
@@ -137,7 +178,12 @@ export function ResponseTemplateManager({ onSelectTemplate }: ResponseTemplateMa
                 className="p-3 border rounded-lg hover:bg-muted/50 transition-colors"
               >
                 <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-medium text-sm">{template.name}</h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-medium text-sm">{template.name}</h4>
+                    <Badge className={`text-xs ${getToneBadgeColor(template.tone)}`} variant="outline">
+                      {template.tone}
+                    </Badge>
+                  </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() => onSelectTemplate(template.content)}

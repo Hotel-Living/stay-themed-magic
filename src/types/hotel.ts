@@ -1,4 +1,3 @@
-
 import { HotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -25,6 +24,7 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
+  owner_id?: string; // Add this field to solve the HotelDashboard error
 }
 
 export interface HotelAmenitiesProps {

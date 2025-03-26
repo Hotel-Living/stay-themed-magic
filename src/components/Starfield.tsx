@@ -13,6 +13,7 @@ export function Starfield() {
     
     // Create stars
     const createStars = () => {
+      // Get viewport dimensions
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const centerX = windowWidth / 2;

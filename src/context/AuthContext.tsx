@@ -12,6 +12,7 @@ import { AuthContextType } from "@/types/auth";
 import { useToast } from "@/hooks/use-toast";
 import { handleAuthError } from "@/utils/errorHandling";
 
+// Create the AuthContext with a default undefined value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -75,7 +76,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchProfile]);
+  }, [fetchProfile, toast]);
 
   const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
     await signUpHook(email, password, userData);

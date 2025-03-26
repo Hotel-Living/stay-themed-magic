@@ -1,141 +1,80 @@
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef } from "react";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { useNavigate } from "react-router-dom";
+import { Theme } from "@/utils/data";
 
-type DropdownType = "country" | "month" | "theme" | "price" | null;
+type FilterKey = keyof FilterState;
+
+type DropdownType = FilterKey | null;
 
 interface UseFilterStateProps {
   onFilterChange: (filters: FilterState) => void;
-  initialFilters?: FilterState;
+  initialFilters?: Partial<FilterState>;
 }
 
 export const useFilterState = ({ 
   onFilterChange, 
-  initialFilters = { country: null, month: null, theme: null, priceRange: null } 
+  initialFilters = {}
 }: UseFilterStateProps) => {
-  // State for filters
-  const [filters, setFilters] = useState<FilterState>(initialFilters);
+  const [filters, setFilters] = useState<FilterState>({
+    country: initialFilters.country || null,
+    month: initialFilters.month || null,
+    theme: initialFilters.theme || null,
+    priceRange: initialFilters.priceRange || null
+  });
   
-  // State for active dropdown
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null);
   
-  // Refs for dropdown elements
   const countryRef = useRef<HTMLDivElement>(null);
   const monthRef = useRef<HTMLDivElement>(null);
   const themeRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
   
-  const navigate = useNavigate();
+  const toggleDropdown = (dropdown: DropdownType) => {
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
   
-  // Toggle dropdown visibility
-  const toggleDropdown = useCallback((dropdown: DropdownType) => {
-    setOpenDropdown(prev => prev === dropdown ? null : dropdown);
-  }, []);
-  
-  // Update filter value
-  const updateFilter = useCallback((
-    key: keyof FilterState, 
-    value: string | number | null
-  ) => {
-    setFilters(prev => {
-      const newFilters = { ...prev, [key]: value };
-      onFilterChange(newFilters);
-      return newFilters;
-    });
+  const updateFilter = (key: FilterKey, value: string | number | Theme) => {
+    const newFilters = { 
+      ...filters,
+      [key]: value 
+    };
+    
+    setFilters(newFilters);
+    onFilterChange(newFilters);
     setOpenDropdown(null);
-  }, [onFilterChange]);
+  };
   
-  // Clear specific filter
-  const clearFilter = useCallback((key: keyof FilterState) => {
-    setFilters(prev => {
-      const newFilters = { ...prev, [key]: null };
-      onFilterChange(newFilters);
-      return newFilters;
-    });
-  }, [onFilterChange]);
-  
-  // Clear all filters
-  const clearAllFilters = useCallback(() => {
-    const resetFilters = { 
-      country: null, 
-      month: null, 
-      theme: null, 
-      priceRange: null 
-    };
-    setFilters(resetFilters);
-    onFilterChange(resetFilters);
-  }, [onFilterChange]);
-  
-  // Handle search button action
-  const handleSearch = useCallback(() => {
-    // Construct query parameters
-    const queryParams = new URLSearchParams();
-    
-    if (filters.country) {
-      queryParams.append("country", filters.country);
-    }
-    if (filters.month) {
-      queryParams.append("month", filters.month);
-    }
-    if (filters.theme) {
-      if (typeof filters.theme === 'string') {
-        queryParams.append("theme", filters.theme);
-      } else {
-        queryParams.append("theme", filters.theme.id);
-      }
-    }
-    if (filters.priceRange) {
-      queryParams.append("price", filters.priceRange.toString());
-    }
-    
-    // Navigate to search page with params
-    navigate({
-      pathname: "/search",
-      search: queryParams.toString()
-    });
-  }, [filters, navigate]);
-  
-  // Check if any filters are active
-  const hasActiveFilters = useCallback(() => {
-    return Object.values(filters).some(value => value !== null);
-  }, [filters]);
-  
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        openDropdown === "country" && 
-        countryRef.current && 
-        !countryRef.current.contains(event.target as Node)
-      ) {
-        setOpenDropdown(null);
-      } else if (
-        openDropdown === "month" && 
-        monthRef.current && 
-        !monthRef.current.contains(event.target as Node)
-      ) {
-        setOpenDropdown(null);
-      } else if (
-        openDropdown === "theme" && 
-        themeRef.current && 
-        !themeRef.current.contains(event.target as Node)
-      ) {
-        setOpenDropdown(null);
-      } else if (
-        openDropdown === "price" && 
-        priceRef.current && 
-        !priceRef.current.contains(event.target as Node)
-      ) {
-        setOpenDropdown(null);
-      }
+  const clearFilter = (key: FilterKey) => {
+    const newFilters = { 
+      ...filters,
+      [key]: null 
     };
     
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    setFilters(newFilters);
+    onFilterChange(newFilters);
+  };
+  
+  const clearAllFilters = () => {
+    const emptyFilters: FilterState = {
+      country: null,
+      month: null,
+      theme: null,
+      priceRange: null
     };
-  }, [openDropdown]);
+    
+    setFilters(emptyFilters);
+    onFilterChange(emptyFilters);
+  };
+  
+  const handleSearch = () => {
+    // Trigger search with current filters
+    onFilterChange(filters);
+  };
+  
+  const hasActiveFilters = (): boolean => {
+    return Object.values(filters).some(filter => filter !== null);
+  };
   
   return {
     filters,

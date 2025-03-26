@@ -1,5 +1,5 @@
 
-import { FilterDropdownProps } from "./FilterTypes";
+import { FilterDropdownProps, ThemeType } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
 import React, { useState } from "react";
 import { Theme, allThemes, themeCategories } from "@/utils/data";
@@ -11,8 +11,8 @@ import {
 import { ChevronRight } from "lucide-react";
 
 interface ThemeDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
-  value: Theme | string | null;
-  onSelect: (value: Theme | string) => void;
+  value: ThemeType | null;
+  onSelect: (value: ThemeType) => void;
   themeRef: React.RefObject<HTMLDivElement>;
   useCollapsibleThemes?: boolean;
 }

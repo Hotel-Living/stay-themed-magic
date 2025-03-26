@@ -1,39 +1,18 @@
 
 import { Theme } from "@/utils/data";
 
-// Country type for better type safety
-export type CountryType = "spain" | "france" | "italy" | "usa" | "egypt" | "turkey" | null;
+export type CountryType = string;
+export type MonthType = string;
+export type ThemeType = string | Theme;
+export type PriceRangeType = string | number;
 
-// Month type for better type safety
-export type MonthType = "january" | "february" | "march" | "april" | "may" | "june" | 
-                       "july" | "august" | "september" | "october" | "november" | "december" | null;
-
-// Define the structure of filter state
 export interface FilterState {
-  country: CountryType;
-  month: MonthType;
-  theme: Theme | string | null;
-  priceRange: number | null;
+  country: CountryType | null;
+  month: MonthType | null;
+  theme: ThemeType | null;
+  priceRange: PriceRangeType | null;
 }
 
-// Base interface for filter dropdowns
-export interface BaseFilterProps {
-  placeholder: string;
-  isOpen: boolean;
-  toggleDropdown: () => void;
-  clearFilter: () => void;
-  filterBgColor: string;
-  compactSpacing?: boolean;
-  useBoldLabels?: boolean;
-}
-
-// Props interface for the FilterDropdown component
-export interface FilterDropdownProps extends BaseFilterProps {
-  label: string;
-  value: any;
-}
-
-// Props interface for the FilterSection component
 export interface FilterSectionProps {
   onFilterChange: (filters: FilterState) => void;
   showSearchButton?: boolean;
@@ -49,5 +28,19 @@ export interface FilterSectionProps {
     theme?: string;
     priceRange?: string;
   };
-  availableThemes?: string[];
+  availableThemes?: Theme[];
+}
+
+export interface FilterDropdownProps {
+  label: string;
+  value: any;
+  placeholder: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  clearFilter: () => void;
+  filterBgColor: string;
+  compactSpacing: boolean;
+  useBoldLabels: boolean;
+  dropdownRef?: React.RefObject<HTMLDivElement>;
+  children?: React.ReactNode;
 }

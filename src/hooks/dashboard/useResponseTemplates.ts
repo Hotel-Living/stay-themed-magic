@@ -2,12 +2,13 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { ResponseTone } from './useAIResponseGenerator';
 
 export interface ResponseTemplate {
   id: string;
   name: string;
   content: string;
-  tone: 'professional' | 'friendly' | 'apologetic';
+  tone: ResponseTone;
   property_id?: string | null;
 }
 

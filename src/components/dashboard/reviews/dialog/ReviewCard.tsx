@@ -9,20 +9,27 @@ interface ReviewCardProps {
 
 export function ReviewCard({ review }: ReviewCardProps) {
   return (
-    <div className="border rounded-lg p-4 my-4 bg-fuchsia-950/20 border-fuchsia-800/20">
+    <div className="p-4 bg-fuchsia-900/10 rounded-lg border border-fuchsia-900/20">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <p className="font-medium">{review.name}</p>
-          <p className="text-xs text-foreground/60">{review.property}</p>
+          <span className="font-medium">{review.name}</span>
+          <div className="flex items-center text-xs text-muted-foreground">
+            <span>{review.property}</span>
+            <span className="mx-1">•</span>
+            <span>{review.date}</span>
+          </div>
         </div>
         <div className="flex">
-          {Array.from({ length: review.rating }).map((_, i) => (
-            <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star 
+              key={i} 
+              size={16} 
+              className={i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'} 
+            />
           ))}
         </div>
       </div>
-      <p className="text-sm text-foreground/80 mb-2">{review.comment}</p>
-      <p className="text-xs text-foreground/60">{review.date}</p>
+      <p className="text-sm">{review.comment}</p>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export function Starfield() {
       const centerY = windowHeight / 2;
       
       // Number of stars based on screen size
-      const starCount = Math.max(100, Math.floor((windowWidth * windowHeight) / 2000));
+      const starCount = Math.max(150, Math.floor((windowWidth * windowHeight) / 1500));
       
       // Define color palette for dynamic star colors
       const colorPalette = [

@@ -33,8 +33,8 @@ export function HeroSection() {
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-2">
           <div className="space-y-0.5">
             {[
-              t("services.services.verified.title"), 
-              t("services.services.support.title")
+              t("hero.features.feature1"),
+              t("hero.features.feature2")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
@@ -47,8 +47,8 @@ export function HeroSection() {
           
           <div className="space-y-0.5">
             {[
-              t("services.services.flexible.title"), 
-              t("services.services.payments.title")
+              t("hero.features.feature3"),
+              t("hero.features.feature4")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">

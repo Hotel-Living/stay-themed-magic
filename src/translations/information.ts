@@ -1,11 +1,17 @@
 // Hero section translations
 export const heroTranslation = {
-  title: "Find Your Perfect Long-Term Stay",
-  subtitle: "Discover amazing hotels for monthly stays around the world",
-  searchButton: "Search Hotels",
+  title: "The Future of Living",
+  subtitle: "Live in Hotels - Boost your Life",
+  searchButton: "Search",
   exploreButton: "Explore",
   placeholder: "Where do you want to stay?",
   popularDestinations: "Popular Destinations",
+  features: {
+    feature1: "Get rid of household chores",
+    feature2: "Select hotels upon favourite themes",
+    feature3: "Boost your social life",
+    feature4: "Find and enjoy your favorite people"
+  }
 };
 
 // Services section translations

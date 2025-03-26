@@ -1,11 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SearchHeader } from './SearchHeader';
 import { SearchResultsList } from './SearchResultsList';
 import { SearchError } from './SearchError';
 import { EmptySearch } from './EmptySearch';
 import { SearchPagination } from './SearchPagination';
 import type { HotelDetailProps } from '@/types/hotel';
+import { ViewToggle, ViewMode } from './ViewToggle';
+import { MapView } from './MapView';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchContentProps {
   hotels: HotelDetailProps[];
@@ -28,6 +31,9 @@ export function SearchContent({
   onClearFilters,
   activeFilters
 }: SearchContentProps) {
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const navigate = useNavigate();
+  
   // Count active advanced filters
   const countAdvancedFilters = () => {
     if (!activeFilters) return 0;
@@ -47,17 +53,24 @@ export function SearchContent({
   
   const advancedFilterCount = countAdvancedFilters();
   
+  const handleHotelSelect = (hotelId: string) => {
+    navigate(`/hotel/${hotelId}`);
+  };
+  
   if (error) {
     return <SearchError message={error.message} onClearFilters={onClearFilters} />;
   }
 
   return (
     <div className="flex-1">
-      <SearchHeader 
-        count={hotels.length} 
-        isLoading={isLoading}
-        onSortChange={onSortChange} 
-      />
+      <div className="flex justify-between items-center mb-4">
+        <SearchHeader 
+          count={hotels.length} 
+          isLoading={isLoading}
+          onSortChange={onSortChange} 
+        />
+        <ViewToggle activeView={viewMode} onChange={setViewMode} />
+      </div>
       
       {advancedFilterCount > 0 && (
         <div className="mb-4 p-3 bg-fuchsia-900/30 rounded-lg text-sm">
@@ -72,9 +85,17 @@ export function SearchContent({
         <EmptySearch onClearFilters={onClearFilters} />
       ) : (
         <>
-          <SearchResultsList items={hotels} isLoading={isLoading} />
+          {viewMode === 'list' ? (
+            <SearchResultsList items={hotels} isLoading={isLoading} />
+          ) : (
+            <MapView 
+              hotels={hotels} 
+              isLoading={isLoading} 
+              onHotelSelect={handleHotelSelect}
+            />
+          )}
           
-          {!isLoading && hotels.length > 0 && (
+          {!isLoading && hotels.length > 0 && viewMode === 'list' && (
             <div className="mt-6">
               <SearchPagination 
                 page={pagination.page} 

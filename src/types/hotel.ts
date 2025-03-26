@@ -24,7 +24,9 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
-  owner_id?: string; // Add this field to solve the HotelDashboard error
+  owner_id?: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface HotelAmenitiesProps {

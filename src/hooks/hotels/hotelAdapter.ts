@@ -20,7 +20,9 @@ export function adaptHotelData(apiHotels: any[]): HotelDetailProps[] {
     available_months: hotel.available_months || [],
     hotel_images: ensureHotelImagesFormat(hotel.hotel_images, hotel.id),
     hotel_themes: hotel.hotel_themes || [],
-    owner_id: hotel.owner_id // Add this to fix HotelDashboard filter
+    owner_id: hotel.owner_id,
+    latitude: hotel.latitude,
+    longitude: hotel.longitude
   }));
 }
 

@@ -16,7 +16,7 @@ export function HeroSection() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-          {t("hero.title")}
+          {t("home.hero.title")}
         </h1>
         
         <p className="text-xl md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold"
@@ -27,14 +27,14 @@ export function HeroSection() {
              WebkitBackgroundClip: 'text',
              WebkitTextFillColor: 'transparent'
            }}>
-          {t("hero.subtitle")}
+          {t("home.hero.subtitle")}
         </p>
         
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-2">
           <div className="space-y-0.5">
             {[
-              t("services.services.verified.title"), 
-              t("services.services.support.title")
+              t("home.feature.1"), 
+              t("home.feature.2")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
@@ -47,8 +47,8 @@ export function HeroSection() {
           
           <div className="space-y-0.5">
             {[
-              t("services.services.flexible.title"), 
-              t("services.services.payments.title")
+              t("home.feature.3"), 
+              t("home.feature.4")
             ].map((slogan, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
                 <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">

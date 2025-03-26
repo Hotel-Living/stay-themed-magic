@@ -7,6 +7,7 @@ import {
   termsTranslation,
   privacyTranslation,
   customerServiceTranslation,
+  homeTranslation
 } from "./information";
 import { navTranslation } from "./nav";
 import { footerTranslation } from "./footer";
@@ -39,7 +40,8 @@ const translations = {
   auth: authTranslation,
   dashboard: dashboardTranslation,
   search: searchTranslation,
-  recommendations: recommendationsTranslation
+  recommendations: recommendationsTranslation,
+  home: homeTranslation
 };
 
 export default translations;

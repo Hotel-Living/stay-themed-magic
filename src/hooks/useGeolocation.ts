@@ -3,24 +3,24 @@ import { useState, useEffect } from 'react';
 
 interface GeoLocation {
   country: string;
-  countryCode: string;  // Added countryCode
-  language: string;     // Added language
+  countryCode: string;  
+  language: string;     
   city: string;
   latitude: number;
   longitude: number;
-  isLoading: boolean;   // This will replace 'loading'
+  isLoading: boolean;   
   error: string | null;
 }
 
 export const useGeolocation = () => {
   const [location, setLocation] = useState<GeoLocation>({
     country: '',
-    countryCode: '',    // Added countryCode
-    language: '',       // Added language
+    countryCode: '',    
+    language: '',       
     city: '',
     latitude: 0,
     longitude: 0,
-    isLoading: true,    // This will replace 'loading'
+    isLoading: true,    
     error: null
   });
 
@@ -44,8 +44,8 @@ export const useGeolocation = () => {
       
       setLocation({
         country: data.country_name || '',
-        countryCode: data.country_code || '',  // Added from API response
-        language: data.languages?.split(',')[0]?.split('-')[0] || 'en',  // Extract first language
+        countryCode: data.country_code || '',  
+        language: data.languages?.split(',')[0]?.split('-')[0] || 'en',  
         city: data.city || '',
         latitude: data.latitude || 0,
         longitude: data.longitude || 0,
@@ -55,16 +55,11 @@ export const useGeolocation = () => {
     } catch (error: any) {
       // Handle fetch errors gracefully and don't crash the app
       console.error('Error detecting location:', error);
-      setLocation({
-        country: '',
-        countryCode: '',
-        language: '',
-        city: '',
-        latitude: 0,
-        longitude: 0,
+      setLocation(prevLocation => ({
+        ...prevLocation,
         isLoading: false,
         error: error?.message || 'Failed to detect location'
-      });
+      }));
     }
   };
 

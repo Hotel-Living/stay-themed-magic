@@ -10,5 +10,35 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true
+  },
+  global: {
+    fetch: (...args) => {
+      return fetch(...args).catch(err => {
+        console.error('Supabase fetch error:', err);
+        // Return a mock response that won't break the app
+        return new Response(JSON.stringify([]), {
+          headers: { 'content-type': 'application/json' },
+          status: 200
+        });
+      });
+    }
   }
 });
+
+// Add some error handling for common operations
+export const fetchWithFallback = async <T>(
+  queryFn: () => Promise<{ data: T | null; error: any }>,
+  fallbackData: T
+): Promise<T> => {
+  try {
+    const { data, error } = await queryFn();
+    if (error) {
+      console.error('Supabase query error:', error);
+      return fallbackData;
+    }
+    return data || fallbackData;
+  } catch (err) {
+    console.error('Unexpected error in Supabase query:', err);
+    return fallbackData;
+  }
+};

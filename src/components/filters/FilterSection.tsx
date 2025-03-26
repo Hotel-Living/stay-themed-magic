@@ -88,12 +88,11 @@ export const FilterSection = ({
           compactSpacing={compactSpacing}
           useBoldLabels={useBoldLabels}
           onSelect={(value) => {
-            // Convert Theme object to string if it's an object
-            if (typeof value === 'object' && value !== null) {
-              updateFilter("theme", value.id);
-            } else {
-              updateFilter("theme", value);
-            }
+            // Extract the ID if it's a Theme object, otherwise use the value directly
+            const themeValue = typeof value === 'object' && value !== null 
+              ? value.id 
+              : value;
+            updateFilter("theme", themeValue);
           }}
           themeRef={themeRef}
           useCollapsibleThemes={useCollapsibleThemes}

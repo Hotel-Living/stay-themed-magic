@@ -3,20 +3,24 @@ import { useState, useEffect } from 'react';
 
 interface GeoLocation {
   country: string;
+  countryCode: string;  // Added countryCode
+  language: string;     // Added language
   city: string;
   latitude: number;
   longitude: number;
-  isLoading: boolean;
+  isLoading: boolean;   // This will replace 'loading'
   error: string | null;
 }
 
 export const useGeolocation = () => {
   const [location, setLocation] = useState<GeoLocation>({
     country: '',
+    countryCode: '',    // Added countryCode
+    language: '',       // Added language
     city: '',
     latitude: 0,
     longitude: 0,
-    isLoading: true,
+    isLoading: true,    // This will replace 'loading'
     error: null
   });
 
@@ -40,6 +44,8 @@ export const useGeolocation = () => {
       
       setLocation({
         country: data.country_name || '',
+        countryCode: data.country_code || '',  // Added from API response
+        language: data.languages?.split(',')[0]?.split('-')[0] || 'en',  // Extract first language
         city: data.city || '',
         latitude: data.latitude || 0,
         longitude: data.longitude || 0,
@@ -51,6 +57,8 @@ export const useGeolocation = () => {
       console.error('Error detecting location:', error);
       setLocation({
         country: '',
+        countryCode: '',
+        language: '',
         city: '',
         latitude: 0,
         longitude: 0,

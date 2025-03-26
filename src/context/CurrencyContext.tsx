@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useGeolocation } from "@/hooks/useGeolocation";
 
@@ -66,7 +67,7 @@ const defaultContext: CurrencyContextType = {
 const CurrencyContext = createContext<CurrencyContextType>(defaultContext);
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { countryCode: geoCountryCode, loading: geoLoading } = useGeolocation();
+  const geoLocation = useGeolocation();
   
   // Get currency from localStorage, geolocation, or default to USD
   const getInitialCurrency = (): Currency => {
@@ -77,8 +78,8 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
     
     // Then check geolocation if available
-    if (!geoLoading && geoCountryCode) {
-      const geoCurrency = COUNTRY_TO_CURRENCY[geoCountryCode] || "USD";
+    if (!geoLocation.isLoading && geoLocation.countryCode) {
+      const geoCurrency = COUNTRY_TO_CURRENCY[geoLocation.countryCode] || "USD";
       if (CURRENCIES[geoCurrency]) {
         return CURRENCIES[geoCurrency];
       }
@@ -92,10 +93,10 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Update currency once geolocation is loaded
   useEffect(() => {
-    if (!geoLoading) {
+    if (!geoLocation.isLoading) {
       setCurrencyState(getInitialCurrency());
     }
-  }, [geoLoading, geoCountryCode]);
+  }, [geoLocation.isLoading, geoLocation.countryCode]);
 
   // Set currency and save to localStorage
   const setCurrency = (code: CurrencyCode) => {

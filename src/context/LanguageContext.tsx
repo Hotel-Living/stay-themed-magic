@@ -28,7 +28,7 @@ export type TranslationData = {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { language: geoLanguage, loading: geoLoading } = useGeolocation();
+  const geoLocation = useGeolocation();
   
   // Get language from localStorage, geolocation, browser language, or default to English
   const getBrowserLanguage = (): Language => {
@@ -44,8 +44,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return savedLanguage;
     }
     
-    if (!geoLoading && geoLanguage && ["en", "es", "fr", "de", "it"].includes(geoLanguage)) {
-      return geoLanguage as Language;
+    if (!geoLocation.isLoading && geoLocation.language && ["en", "es", "fr", "de", "it"].includes(geoLocation.language)) {
+      return geoLocation.language as Language;
     }
     
     return getBrowserLanguage();
@@ -57,10 +57,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Update language once geolocation is loaded
   useEffect(() => {
-    if (!geoLoading) {
+    if (!geoLocation.isLoading) {
       setLanguageState(getInitialLanguage());
     }
-  }, [geoLoading, geoLanguage]);
+  }, [geoLocation.isLoading, geoLocation.language]);
 
   // Set language and save to localStorage
   const setLanguage = (newLanguage: Language) => {

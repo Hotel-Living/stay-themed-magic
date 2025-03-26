@@ -23,7 +23,18 @@ export function SearchResultsList({ items, isLoading }: SearchResultsListProps) 
   return (
     <div className="grid grid-cols-1 gap-6">
       {items.map((hotel) => (
-        <HotelCard key={hotel.id} hotel={hotel as any} />
+        <HotelCard 
+          key={hotel.id} 
+          id={hotel.id}
+          name={hotel.name}
+          city={hotel.city}
+          country={hotel.country}
+          stars={hotel.average_rating || 4}
+          pricePerMonth={hotel.price_per_month}
+          image={hotel.main_image_url || ''}
+          themes={hotel.hotel_themes?.map(theme => theme.themes.name) || []}
+          category={hotel.category?.toString() || ''}
+        />
       ))}
     </div>
   );

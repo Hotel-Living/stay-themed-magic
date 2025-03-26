@@ -4,6 +4,7 @@ import { fetchHotels, fetchHotelById } from "./fetchHotels";
 import type { FilterState } from "@/components/filters/FilterTypes";
 import { PaginationOptions, SortOption } from "./types";
 import { useCallback, useMemo } from "react";
+import { adaptHotelData } from "./hotelAdapter";
 
 /**
  * Hook to get hotels with filters, pagination and sorting
@@ -62,7 +63,10 @@ export function useHotels(
   
   return useQuery({
     queryKey,
-    queryFn: () => fetchHotels(filters, pagination, sortOption),
+    queryFn: async () => {
+      const data = await fetchHotels(filters, pagination, sortOption);
+      return adaptHotelData(data);
+    },
     enabled,
     staleTime: 5 * 60 * 1000, // 5 minutes - data won't refetch for 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes (renamed from cacheTime)

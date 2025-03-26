@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DashboardReview } from '@/components/dashboard/types';
 import { ReviewCard } from './ReviewCard';
+import { ResponseEditor } from './ResponseEditor';
 
 interface ReviewSelectionListProps {
   unrespondedReviews: DashboardReview[];
@@ -11,6 +12,9 @@ interface ReviewSelectionListProps {
   onSelectAll: (checked: boolean) => void;
   onSelectReview: (reviewId: string, checked: boolean) => void;
   generatedResponses: Record<string, string>;
+  editingReviewId: string | null;
+  onStartEditing: (reviewId: string) => void;
+  onUpdateResponse: (reviewId: string, newResponse: string) => void;
 }
 
 export function ReviewSelectionList({
@@ -19,6 +23,9 @@ export function ReviewSelectionList({
   onSelectAll,
   onSelectReview,
   generatedResponses,
+  editingReviewId,
+  onStartEditing,
+  onUpdateResponse,
 }: ReviewSelectionListProps) {
   return (
     <>
@@ -47,9 +54,23 @@ export function ReviewSelectionList({
                   />
                   <div className="flex-1">
                     <ReviewCard review={review} />
-                    {generatedResponses[review.id] && (
+                    {generatedResponses[review.id] && editingReviewId === review.id ? (
+                      <ResponseEditor 
+                        reviewId={review.id}
+                        responseText={generatedResponses[review.id]}
+                        onUpdateResponse={onUpdateResponse}
+                      />
+                    ) : generatedResponses[review.id] && (
                       <div className="mt-2 text-sm border-t pt-2">
-                        <p className="font-medium text-xs mb-1 text-fuchsia-500">Generated Response:</p>
+                        <div className="flex justify-between items-center mb-1">
+                          <p className="font-medium text-xs text-fuchsia-500">Generated Response:</p>
+                          <button 
+                            onClick={() => onStartEditing(review.id)}
+                            className="text-xs text-blue-500 hover:underline"
+                          >
+                            Edit
+                          </button>
+                        </div>
                         <p className="text-xs line-clamp-3">{generatedResponses[review.id]}</p>
                       </div>
                     )}

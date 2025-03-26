@@ -9,6 +9,7 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
   const [selectedTone, setSelectedTone] = useState<ResponseTone>('professional');
   const [isProcessing, setIsProcessing] = useState(false);
   const [generatedResponses, setGeneratedResponses] = useState<Record<string, string>>({});
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
   const { toast } = useToast();
   
   const { generateBulkResponses, isGenerating } = useAIResponseGenerator();
@@ -17,6 +18,7 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
   useEffect(() => {
     setSelectedReviews([]);
     setGeneratedResponses({});
+    setEditingReviewId(null);
   }, [reviews]);
 
   const handleSelectAll = (checked: boolean) => {
@@ -81,6 +83,19 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
     });
   };
 
+  const handleStartEditing = (reviewId: string) => {
+    setEditingReviewId(reviewId);
+  };
+
+  const handleUpdateResponse = (reviewId: string, newResponse: string) => {
+    // Update the response and exit edit mode
+    setGeneratedResponses(prev => ({
+      ...prev,
+      [reviewId]: newResponse
+    }));
+    setEditingReviewId(null);
+  };
+
   return {
     selectedReviews,
     selectedTone,
@@ -88,10 +103,13 @@ export function useBulkResponse(reviews: DashboardReview[], onComplete: () => vo
     setIsProcessing,
     generatedResponses,
     isGenerating,
+    editingReviewId,
     handleSelectAll,
     handleSelectReview,
     handleToneChange,
     handleGenerate,
-    handleCustomResponse
+    handleCustomResponse,
+    handleStartEditing,
+    handleUpdateResponse
   };
 }

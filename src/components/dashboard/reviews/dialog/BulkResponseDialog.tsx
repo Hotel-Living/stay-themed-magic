@@ -41,11 +41,14 @@ export function BulkResponseDialog({
     setIsProcessing,
     generatedResponses,
     isGenerating,
+    editingReviewId,
     handleSelectAll,
     handleSelectReview,
     handleToneChange,
     handleGenerate,
-    handleCustomResponse
+    handleCustomResponse,
+    handleStartEditing,
+    handleUpdateResponse
   } = useBulkResponse(reviews, onComplete);
 
   const handleSubmitAll = async () => {
@@ -53,6 +56,16 @@ export function BulkResponseDialog({
       toast({
         title: "No responses to submit",
         description: "Please generate responses first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Don't allow submission if currently editing
+    if (editingReviewId) {
+      toast({
+        title: "Editing in progress",
+        description: "Please save or cancel your current edit before submitting.",
         variant: "destructive",
       });
       return;
@@ -114,6 +127,9 @@ export function BulkResponseDialog({
             onSelectAll={handleSelectAll}
             onSelectReview={handleSelectReview}
             generatedResponses={generatedResponses}
+            editingReviewId={editingReviewId}
+            onStartEditing={handleStartEditing}
+            onUpdateResponse={handleUpdateResponse}
           />
         </div>
 
@@ -123,7 +139,7 @@ export function BulkResponseDialog({
           </Button>
           <Button 
             onClick={handleSubmitAll} 
-            disabled={isProcessing || Object.keys(generatedResponses).length === 0}
+            disabled={isProcessing || Object.keys(generatedResponses).length === 0 || editingReviewId !== null}
           >
             {isProcessing ? (
               <>

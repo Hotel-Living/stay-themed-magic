@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useReviewsData } from '@/hooks/dashboard/useReviewsData';
 import { useReviewOperations } from '@/hooks/dashboard/useReviewOperations';
@@ -10,7 +9,7 @@ import { ReviewsPagination } from './reviews/ReviewsPagination';
 import { ReviewsLoading } from './reviews/ReviewsLoading';
 import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
 import { ReviewResponseDialog } from './reviews/ReviewResponseDialog';
-import { BulkResponseDialog } from './reviews/BulkResponseDialog';
+import { BulkResponseDialog } from './reviews/dialog/BulkResponseDialog';
 import { DashboardReview } from './types';
 import { Button } from '@/components/ui/button';
 import { MessageSquare } from 'lucide-react';

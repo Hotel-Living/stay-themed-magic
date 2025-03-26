@@ -4,7 +4,7 @@ import { Theme } from "@/utils/data";
 export type CountryType = string;
 export type MonthType = string;
 export type ThemeType = string | Theme;
-export type PriceRangeType = string | number;
+export type PriceRangeType = number | string;
 
 export interface FilterState {
   country: CountryType | null;

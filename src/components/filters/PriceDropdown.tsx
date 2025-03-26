@@ -28,11 +28,14 @@ export function PriceDropdown({
     { value: 3000, label: "More than 2.000 $" }
   ];
 
-  const label = priceRanges.find(p => p.value === value)?.label || (value ? `$${value}` : "");
+  const getLabel = () => {
+    const foundPrice = priceRanges.find(p => p.value === (typeof value === 'string' ? parseInt(value) : value));
+    return foundPrice?.label || (value ? `$${value}` : "");
+  };
 
   return (
     <FilterDropdown
-      label={label}
+      label={getLabel()}
       value={value}
       placeholder={placeholder}
       isOpen={isOpen}

@@ -1,91 +1,74 @@
 
 import { useState, useEffect } from 'react';
 
-type GeolocationInfo = {
+interface GeoLocation {
   country: string;
-  countryCode: string;
-  currency: string;
-  language: string;
-  loading: boolean;
+  city: string;
+  latitude: number;
+  longitude: number;
+  isLoading: boolean;
   error: string | null;
-};
+}
 
 export const useGeolocation = () => {
-  const [geoInfo, setGeoInfo] = useState<GeolocationInfo>({
+  const [location, setLocation] = useState<GeoLocation>({
     country: '',
-    countryCode: '',
-    currency: 'USD',
-    language: 'en',
-    loading: true,
+    city: '',
+    latitude: 0,
+    longitude: 0,
+    isLoading: true,
     error: null
   });
 
-  useEffect(() => {
-    const fetchGeoInfo = async () => {
-      try {
-        // Use ipapi.co for IP geolocation
-        const response = await fetch('https://ipapi.co/json/');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch location data');
-        }
-        
-        const data = await response.json();
-        
-        // Map currency code based on country
-        let currencyCode = data.currency || 'USD';
-        
-        // Map language code based on country/location
-        let languageCode = 'en';
-        
-        // Simple mapping of common countries to languages
-        if (data.country_code) {
-          switch(data.country_code.toLowerCase()) {
-            case 'es':
-            case 'mx':
-            case 'ar':
-            case 'co':
-            case 'pe':
-            case 'cl':
-              languageCode = 'es';
-              break;
-            case 'fr':
-            case 'be':
-            case 'ch':
-              languageCode = 'fr';
-              break;
-            case 'de':
-            case 'at':
-              languageCode = 'de';
-              break;
-            case 'it':
-              languageCode = 'it';
-              break;
-            default:
-              languageCode = 'en';
-          }
-        }
-        
-        setGeoInfo({
-          country: data.country_name || '',
-          countryCode: data.country_code || '',
-          currency: currencyCode,
-          language: languageCode,
-          loading: false,
-          error: null
-        });
-      } catch (error) {
-        console.error('Error detecting location:', error);
-        setGeoInfo(prev => ({
-          ...prev,
-          loading: false,
-          error: 'Failed to detect location'
-        }));
+  // Function to fetch geolocation info from ipapi.co
+  const fetchGeoInfo = async () => {
+    try {
+      const response = await fetch('https://ipapi.co/json/', { 
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+        // Add timeout to prevent long-hanging requests
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      
+      const data = await response.json();
+      
+      setLocation({
+        country: data.country_name || '',
+        city: data.city || '',
+        latitude: data.latitude || 0,
+        longitude: data.longitude || 0,
+        isLoading: false,
+        error: null
+      });
+    } catch (error: any) {
+      // Handle fetch errors gracefully and don't crash the app
+      console.error('Error detecting location:', error);
+      setLocation({
+        country: '',
+        city: '',
+        latitude: 0,
+        longitude: 0,
+        isLoading: false,
+        error: error?.message || 'Failed to detect location'
+      });
+    }
+  };
 
+  useEffect(() => {
+    // Initial fetch of geolocation data
     fetchGeoInfo();
+    
+    // Cleanup function
+    return () => {
+      // Nothing to clean up
+    };
   }, []);
 
-  return geoInfo;
+  return location;
 };

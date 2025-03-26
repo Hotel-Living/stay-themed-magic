@@ -1,7 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Booking } from '@/integrations/supabase/types-custom';
+import { Share2 } from 'lucide-react';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface BookingDetailsProps {
   booking: Booking;
@@ -22,6 +25,13 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
   canCancel,
   onCancelClick
 }) => {
+  const { t } = useLanguage();
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  
+  // Create share message for the booking
+  const shareTitle = `I'm staying at ${booking.hotel_name || 'a great hotel'} with Hotel Living!`;
+  const shareDescription = `I'll be checking in on ${checkInDate.toLocaleDateString()} for a ${stayDuration}-day stay.`;
+  
   return (
     <div className="p-4 pt-0 border-t border-fuchsia-800/20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -48,7 +58,32 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
         </div>
       </div>
       
+      {/* Social sharing section */}
+      {showShareOptions && (
+        <div className="flex items-center justify-between border-t border-fuchsia-800/20 pt-4 mb-4">
+          <span className="text-xs text-fuchsia-300">{t("share.shareBooking")}</span>
+          <SocialShareButtons 
+            title={shareTitle}
+            description={shareDescription}
+            size="sm"
+          />
+        </div>
+      )}
+      
       <div className="flex justify-end gap-2 mt-4">
+        <Button
+          variant="outline"
+          size="sm"
+          className="text-xs flex items-center gap-1"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowShareOptions(!showShareOptions);
+          }}
+        >
+          <Share2 className="w-3 h-3" />
+          {t("share.share")}
+        </Button>
+        
         <Button
           variant="outline"
           size="sm"

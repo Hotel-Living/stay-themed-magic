@@ -26,6 +26,21 @@ export const recommendationsTranslation = {
   exploreCta: "Explore Hotels"
 };
 
+// Add translations for social sharing
+export const shareTranslation = {
+  share: "Share",
+  facebook: "Share on Facebook",
+  twitter: "Share on Twitter",
+  linkedin: "Share on LinkedIn",
+  copyLink: "Copy Link",
+  linkCopied: "Link Copied!",
+  linkCopiedDesc: "Link has been copied to your clipboard",
+  error: "Error",
+  copyError: "Could not copy link. Please try again.",
+  shareHotel: "Share this hotel",
+  shareBooking: "Share your booking"
+};
+
 const translations = {
   nav: navTranslation,
   footer: footerTranslation,
@@ -39,7 +54,8 @@ const translations = {
   auth: authTranslation,
   dashboard: dashboardTranslation,
   search: searchTranslation,
-  recommendations: recommendationsTranslation
+  recommendations: recommendationsTranslation,
+  share: shareTranslation
 };
 
 export default translations;

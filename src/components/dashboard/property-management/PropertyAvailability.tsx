@@ -12,14 +12,19 @@ import { useToast } from '@/hooks/use-toast';
 import { AvailabilityYearSelector } from './availability/AvailabilityYearSelector';
 import { WeekdaySelector } from './availability/WeekdaySelector';
 import { MonthCalendarView } from './availability/MonthCalendarView';
+import { Button } from '@/components/ui/button';
+import { differenceInDays } from 'date-fns';
 
 interface PropertyAvailabilityProps {
   propertyId: string | null;
 }
 
+// Valid period lengths in days
+const VALID_PERIOD_LENGTHS = [8, 16, 24, 32];
+
 export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) {
   const { toast } = useToast();
-  const [selectedWeekday, setSelectedWeekday] = useState<number>(1); // Default to Monday
+  const [selectedWeekday, setSelectedWeekday] = useState<number>(1); // Default to Monday (index 1)
   const [selectedMonths, setSelectedMonths] = useState<Record<string, boolean>>({});
   const [expandedMonth, setExpandedMonth] = useState<{ year: number; month: number } | null>(null);
   const [selectedPeriods, setSelectedPeriods] = useState<Array<{ start: Date; end: Date }>>([]);
@@ -51,12 +56,24 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
   const handlePeriodSelect = (start: Date, end: Date | null) => {
     if (!end) return;
     
+    const days = differenceInDays(end, start) + 1; // +1 to include the end day
+    
+    // Check if the selected period matches one of our valid periods
+    if (!VALID_PERIOD_LENGTHS.includes(days)) {
+      toast({
+        title: "Invalid period length",
+        description: `Selected period must be ${VALID_PERIOD_LENGTHS.join(', ')} days exactly. Your selection was ${days} days.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const newPeriod = { start, end };
     setSelectedPeriods([...selectedPeriods, newPeriod]);
     
     toast({
       title: "Period added to availability",
-      description: `Period from ${start.toLocaleDateString()} to ${end.toLocaleDateString()} is now available for bookings.`,
+      description: `${days}-day period from ${start.toLocaleDateString()} to ${end.toLocaleDateString()} is now available for bookings.`,
     });
   };
   
@@ -101,7 +118,7 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
               <CardHeader>
                 <CardTitle className="text-base">Availability Settings</CardTitle>
                 <CardDescription>
-                  Select available months and weekdays for check-ins/outs
+                  Select available months and check-in/out weekday
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -119,6 +136,21 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
                     expandedMonth={expandedMonth}
                   />
                 </div>
+
+                <div className="space-y-2 border-t pt-4">
+                  <h3 className="text-sm font-medium mb-2">VALID PERIOD LENGTHS</h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    {VALID_PERIOD_LENGTHS.map(days => (
+                      <div key={days} className="bg-fuchsia-950/10 p-2 rounded-md text-center">
+                        <span className="text-lg font-semibold">{days}</span>
+                        <span className="text-xs block">days</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    You can only set availability periods of exactly 8, 16, 24, or 32 days
+                  </p>
+                </div>
               </CardContent>
             </Card>
             
@@ -126,23 +158,34 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">Selected Periods</CardTitle>
+                <CardDescription>
+                  All selected periods must start and end on {new Date(2023, 0, selectedWeekday + 1).toLocaleString('default', { weekday: 'long' })}s
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {selectedPeriods.length > 0 ? (
                   <ul className="space-y-2">
-                    {selectedPeriods.map((period, index) => (
-                      <li key={index} className="flex justify-between items-center p-2 hover:bg-fuchsia-950/10 rounded">
-                        <span className="text-sm">
-                          {period.start.toLocaleDateString()} - {period.end.toLocaleDateString()}
-                        </span>
-                        <button 
-                          onClick={() => handleRemovePeriod(index)}
-                          className="text-red-500 hover:text-red-700 text-xs"
-                        >
-                          Remove
-                        </button>
-                      </li>
-                    ))}
+                    {selectedPeriods.map((period, index) => {
+                      const days = differenceInDays(period.end, period.start) + 1;
+                      return (
+                        <li key={index} className="flex justify-between items-center p-2 hover:bg-fuchsia-950/10 rounded">
+                          <div>
+                            <span className="text-sm">
+                              {period.start.toLocaleDateString()} - {period.end.toLocaleDateString()}
+                            </span>
+                            <span className="text-xs text-fuchsia-400 block">
+                              {days} days
+                            </span>
+                          </div>
+                          <button 
+                            onClick={() => handleRemovePeriod(index)}
+                            className="text-red-500 hover:text-red-700 text-xs"
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 ) : (
                   <p className="text-center py-4 text-sm text-muted-foreground">
@@ -165,7 +208,7 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
                 </CardTitle>
                 <CardDescription>
                   {expandedMonth ? 
-                    `Select specific ${new Date(2023, 0, selectedWeekday + 1).toLocaleString('default', { weekday: 'long' })}s for availability` : 
+                    `Select periods of ${VALID_PERIOD_LENGTHS.join(', ')} days starting and ending on ${new Date(2023, 0, selectedWeekday + 1).toLocaleString('default', { weekday: 'long' })}s` : 
                     'Select a month to view detailed calendar'
                   }
                 </CardDescription>
@@ -178,6 +221,7 @@ export function PropertyAvailability({ propertyId }: PropertyAvailabilityProps) 
                     selectedWeekday={selectedWeekday}
                     selectedPeriods={selectedPeriods}
                     onPeriodSelect={handlePeriodSelect}
+                    validPeriodLengths={VALID_PERIOD_LENGTHS}
                   />
                 ) : (
                   <div className="flex items-center justify-center p-12 border border-dashed rounded-lg">

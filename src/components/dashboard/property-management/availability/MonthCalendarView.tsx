@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Calendar } from '@/components/ui/calendar';
-import { addDays, format, isSameDay, isSameMonth, startOfMonth, endOfMonth } from 'date-fns';
+import { addDays, differenceInDays, format, isSameDay, isSameMonth, startOfMonth, endOfMonth } from 'date-fns';
+import { useToast } from '@/hooks/use-toast';
 
 interface MonthCalendarViewProps {
   year: number;
@@ -9,6 +10,7 @@ interface MonthCalendarViewProps {
   selectedWeekday: number;
   selectedPeriods: Array<{ start: Date; end: Date }>;
   onPeriodSelect: (start: Date, end: Date | null) => void;
+  validPeriodLengths: number[];
 }
 
 export function MonthCalendarView({
@@ -16,8 +18,10 @@ export function MonthCalendarView({
   month,
   selectedWeekday,
   selectedPeriods,
-  onPeriodSelect
+  onPeriodSelect,
+  validPeriodLengths
 }: MonthCalendarViewProps) {
+  const { toast } = useToast();
   const monthDate = new Date(year, month);
   const [selectionStart, setSelectionStart] = React.useState<Date | null>(null);
   
@@ -60,37 +64,83 @@ export function MonthCalendarView({
     if (selectionStart === null) {
       // Start a new selection
       setSelectionStart(date);
+      toast({
+        title: "Selection started",
+        description: `Started selection from ${format(date, 'MMMM d, yyyy')}. Select another ${format(new Date(2023, 0, selectedWeekday + 1), 'EEEE')} to complete the period.`,
+      });
     } else {
       // Complete the selection
+      let startDate, endDate;
       if (date < selectionStart) {
-        onPeriodSelect(date, selectionStart);
+        startDate = date;
+        endDate = selectionStart;
       } else {
-        onPeriodSelect(selectionStart, date);
+        startDate = selectionStart;
+        endDate = date;
       }
+      
+      // Calculate days in the period (inclusive)
+      const days = differenceInDays(endDate, startDate) + 1;
+      
+      // Check if the period length is valid
+      if (!validPeriodLengths.includes(days)) {
+        toast({
+          title: "Invalid period length",
+          description: `Periods must be exactly ${validPeriodLengths.join(', ')} days. Your selection was ${days} days.`,
+          variant: "destructive",
+        });
+        setSelectionStart(null);
+        return;
+      }
+      
+      onPeriodSelect(startDate, endDate);
       setSelectionStart(null);
     }
   };
   
-  // Custom rendering for the calendar
-  const renderDay = (day: Date) => {
-    // Only render days that match the selected weekday
-    const isWeekdayMatch = day.getDay() === selectedWeekday;
-    if (!isWeekdayMatch) return null;
+  // Calculate what period length would be if selecting this date
+  const calculatePotentialPeriodLength = (date: Date) => {
+    if (!selectionStart) return null;
     
-    const isSelected = isDateInSelectedPeriod(day);
-    const isSelecting = selectionStart && isSameDay(day, selectionStart);
+    const days = Math.abs(differenceInDays(date, selectionStart)) + 1;
+    
+    // Check if the period length would be valid
+    const isValid = validPeriodLengths.includes(days);
+    
+    return { days, isValid };
+  };
+  
+  // Render a date button with period length information
+  const renderDateButton = (date: Date) => {
+    const isSelected = isDateInSelectedPeriod(date);
+    const isSelecting = selectionStart && isSameDay(date, selectionStart);
+    let potentialPeriod = null;
+    
+    if (selectionStart && !isSameDay(date, selectionStart)) {
+      potentialPeriod = calculatePotentialPeriodLength(date);
+    }
     
     return (
-      <div 
+      <button
+        onClick={() => handleSelect(date)}
         className={`
-          flex items-center justify-center h-10 w-10 rounded-full
+          p-2 rounded-lg flex flex-col items-center justify-center relative
           ${isSelected ? 'bg-fuchsia-600 text-white' : 'bg-fuchsia-100 text-fuchsia-800 hover:bg-fuchsia-200'}
           ${isSelecting ? 'ring-2 ring-fuchsia-600' : ''}
-          cursor-pointer
+          ${potentialPeriod && !potentialPeriod.isValid ? 'opacity-50' : ''}
         `}
       >
-        {format(day, 'd')}
-      </div>
+        <span className="text-sm">{format(date, 'EEEE')}</span>
+        <span className="text-lg font-bold">{format(date, 'd')}</span>
+        
+        {potentialPeriod && (
+          <span className={`text-xs mt-1 px-2 py-0.5 rounded-full ${
+            potentialPeriod.isValid ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+          }`}>
+            {potentialPeriod.days} days
+          </span>
+        )}
+      </button>
     );
   };
   
@@ -104,6 +154,7 @@ export function MonthCalendarView({
           <p className="text-fuchsia-300">
             Started selection from {format(selectionStart, 'MMMM d, yyyy')}. 
             Select another {format(new Date(2023, 0, selectedWeekday + 1), 'EEEE')} to complete the period.
+            Valid periods: {validPeriodLengths.join(', ')} days.
           </p>
         ) : (
           <p>Click on a {format(new Date(2023, 0, selectedWeekday + 1), 'EEEE')} to start selecting a period.</p>
@@ -112,20 +163,7 @@ export function MonthCalendarView({
       
       {weekdayDates.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
-          {weekdayDates.map((date) => (
-            <button
-              key={date.toISOString()}
-              onClick={() => handleSelect(date)}
-              className={`
-                p-2 rounded-lg flex flex-col items-center justify-center
-                ${isDateInSelectedPeriod(date) ? 'bg-fuchsia-600 text-white' : 'bg-fuchsia-100 text-fuchsia-800 hover:bg-fuchsia-200'}
-                ${selectionStart && isSameDay(date, selectionStart) ? 'ring-2 ring-fuchsia-600' : ''}
-              `}
-            >
-              <span className="text-sm">{format(date, 'EEEE')}</span>
-              <span className="text-lg font-bold">{format(date, 'd')}</span>
-            </button>
-          ))}
+          {weekdayDates.map((date) => renderDateButton(date))}
         </div>
       ) : (
         <p className="text-center py-4 text-muted-foreground">

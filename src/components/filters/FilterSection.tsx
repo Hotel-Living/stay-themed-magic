@@ -6,6 +6,7 @@ import { ThemeDropdown } from "./ThemeDropdown";
 import { PriceDropdown } from "./PriceDropdown";
 import { FilterActions } from "./FilterActions";
 import { useFilterState } from "@/hooks/useFilterState";
+import { Theme } from "@/utils/data";
 
 export const FilterSection = ({ 
   onFilterChange, 

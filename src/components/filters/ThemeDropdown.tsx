@@ -11,7 +11,7 @@ import {
 import { ChevronRight } from "lucide-react";
 
 interface ThemeDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
-  value: Theme | null;
+  value: Theme | string | null;
   onSelect: (value: Theme) => void;
   themeRef: React.RefObject<HTMLDivElement>;
   useCollapsibleThemes?: boolean;
@@ -42,9 +42,23 @@ export function ThemeDropdown({
     theme.category.toLowerCase().includes(themeQuery.toLowerCase())
   );
 
+  // Get the appropriate label for display
+  const getThemeLabel = (): string => {
+    if (!value) return "";
+    
+    if (typeof value === 'string') {
+      // Find the theme by ID if value is a string
+      const theme = allThemes.find(t => t.id === value);
+      return theme ? theme.name : value;
+    }
+    
+    // If it's a Theme object, use its name
+    return value.name;
+  };
+
   return (
     <FilterDropdown
-      label={value?.name || ""}
+      label={getThemeLabel()}
       value={value}
       placeholder={placeholder}
       isOpen={isOpen}
@@ -85,7 +99,8 @@ export function ThemeDropdown({
                       key={theme.id}
                       onClick={() => onSelect(theme)}
                       className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                        value?.id === theme.id
+                        (typeof value === 'string' ? value === theme.id : 
+                         value?.id === theme.id)
                           ? "bg-fuchsia-500/20 text-white"
                           : "hover:bg-fuchsia-900/40"
                       }`}
@@ -112,7 +127,8 @@ export function ThemeDropdown({
                     key={theme.id}
                     onClick={() => onSelect(theme)}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                      value?.id === theme.id
+                      (typeof value === 'string' ? value === theme.id : 
+                       value?.id === theme.id)
                         ? "bg-fuchsia-500/20 text-white"
                         : "hover:bg-fuchsia-900/40"
                     }`}

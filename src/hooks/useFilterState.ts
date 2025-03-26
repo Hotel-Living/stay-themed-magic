@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FilterState } from '@/components/filters/FilterTypes';
+import { Theme } from '@/utils/data';
 
 interface UseFilterStateProps {
   onFilterChange: (filters: FilterState) => void;
@@ -57,8 +58,16 @@ export function useFilterState({ onFilterChange }: UseFilterStateProps) {
     
     if (filters.country) params.append("country", filters.country);
     if (filters.month) params.append("month", filters.month);
-    if (filters.theme) params.append("theme", filters.theme.id);
-    if (filters.priceRange) params.append("price", filters.priceRange.toString());
+    
+    if (filters.theme) {
+      // Handle both string and object theme types
+      const themeId = typeof filters.theme === 'string' ? filters.theme : filters.theme.id;
+      params.append("theme", themeId);
+    }
+    
+    if (filters.priceRange !== null) {
+      params.append("price", filters.priceRange.toString());
+    }
     
     navigate(`/search?${params.toString()}`);
   };

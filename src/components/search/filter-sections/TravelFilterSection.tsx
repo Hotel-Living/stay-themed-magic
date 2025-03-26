@@ -5,12 +5,13 @@ import { MonthFilter } from '../MonthFilter';
 import { ThemeFilter } from '../ThemeFilter';
 import { LengthOfStayFilter } from '../LengthOfStayFilter';
 import { LocationFilter } from '../LocationFilter';
+import { Theme } from '@/utils/data';
 
 interface TravelFilterSectionProps {
   activeFilters: {
     country: string | null;
     month: string | null;
-    theme: string | null;
+    theme: string | Theme | null;
     lengthOfStay: string | null;
     location: string | null;
   };

@@ -1,11 +1,7 @@
 
 import { useState, useRef } from "react";
-import { FilterState } from "@/components/filters/FilterTypes";
+import { FilterState, FilterKey, DropdownType } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/data";
-
-type FilterKey = keyof FilterState;
-
-type DropdownType = FilterKey | null;
 
 interface UseFilterStateProps {
   onFilterChange: (filters: FilterState) => void;

@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useThemes } from "@/hooks/useThemes";
-import { Theme } from "@/utils/data";
+import { Theme, allThemes } from "@/utils/data";
 import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
 import { RecommendationsSection } from "@/components/recommendations/RecommendationsSection";
 
@@ -31,9 +31,9 @@ export default function Index() {
     setFilters(newFilters);
   }, []);
   
-  // Extract theme names for the filter dropdown
-  const themeNames = useMemo(() => {
-    return themes.map((theme: Theme) => theme.name);
+  // Use fetched themes or fall back to imported allThemes
+  const availableThemes = useMemo(() => {
+    return themes.length > 0 ? themes : allThemes;
   }, [themes]);
   
   // Determine if any filters are active
@@ -52,7 +52,7 @@ export default function Index() {
         {/* Filter Section */}
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
-          availableThemes={themeNames}
+          availableThemes={availableThemes}
         />
         
         {/* AI-Powered Recommendations Section */}

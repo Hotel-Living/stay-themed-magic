@@ -13,6 +13,9 @@ export interface FilterState {
   priceRange: PriceRangeType | null;
 }
 
+export type FilterKey = keyof FilterState;
+export type DropdownType = FilterKey | null;
+
 export interface FilterSectionProps {
   onFilterChange: (filters: FilterState) => void;
   showSearchButton?: boolean;

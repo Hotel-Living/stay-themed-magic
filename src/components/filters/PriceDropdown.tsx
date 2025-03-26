@@ -1,11 +1,11 @@
 
-import { FilterDropdownProps } from "./FilterTypes";
+import { FilterDropdownProps, PriceRangeType } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
 import React from "react";
 
 interface PriceDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
-  value: number | null;
-  onSelect: (value: number) => void;
+  value: PriceRangeType | null;
+  onSelect: (value: PriceRangeType) => void;
   priceRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -28,7 +28,7 @@ export function PriceDropdown({
     { value: 3000, label: "More than 2.000 $" }
   ];
 
-  const label = priceRanges.find(p => p.value === value)?.label || `$${value}`;
+  const label = priceRanges.find(p => p.value === value)?.label || (value ? `$${value}` : "");
 
   return (
     <FilterDropdown

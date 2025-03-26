@@ -1,5 +1,5 @@
 
-import { FilterState, FilterSectionProps } from "./FilterTypes";
+import { FilterState, FilterSectionProps, DropdownType } from "./FilterTypes";
 import { CountryDropdown } from "./CountryDropdown";
 import { MonthDropdown } from "./MonthDropdown";
 import { ThemeDropdown } from "./ThemeDropdown";
@@ -87,11 +87,12 @@ export const FilterSection = ({
           filterBgColor={filterBgColor}
           compactSpacing={compactSpacing}
           useBoldLabels={useBoldLabels}
-          onSelect={(value) => {
-            if (typeof value === 'object' && value !== null && 'id' in value) {
-              updateFilter("theme", value.id);
+          onSelect={(themeValue) => {
+            // If themeValue is a Theme object, extract its id
+            if (typeof themeValue === 'object' && themeValue !== null && 'id' in themeValue) {
+              updateFilter("theme", themeValue);
             } else {
-              updateFilter("theme", value as string);
+              updateFilter("theme", themeValue as string);
             }
           }}
           themeRef={themeRef}
@@ -102,8 +103,8 @@ export const FilterSection = ({
         <PriceDropdown
           value={filters.priceRange}
           placeholder={placeholders.priceRange || "Price per Month"}
-          isOpen={openDropdown === "price"}
-          toggleDropdown={() => toggleDropdown("price")}
+          isOpen={openDropdown === "priceRange"}
+          toggleDropdown={() => toggleDropdown("priceRange")}
           clearFilter={() => clearFilter("priceRange")}
           filterBgColor={filterBgColor}
           compactSpacing={compactSpacing}

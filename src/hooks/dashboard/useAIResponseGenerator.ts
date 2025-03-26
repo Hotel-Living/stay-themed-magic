@@ -66,6 +66,89 @@ export function useAIResponseGenerator() {
     }
   };
 
+  // Function to generate responses for multiple reviews
+  const generateBulkResponses = async (
+    reviews: DashboardReview[],
+    tone: ResponseTone = 'professional',
+    onComplete: (responses: Record<string, string>) => void
+  ) => {
+    if (reviews.length === 0) return;
+    
+    setIsGenerating(true);
+    setGenerationError(null);
+    
+    const responses: Record<string, string> = {};
+    let successCount = 0;
+    let errorCount = 0;
+    
+    try {
+      // Process reviews sequentially to not overwhelm the API
+      for (const review of reviews) {
+        try {
+          const response = await fetch('https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/generate-review-response', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              rating: review.rating,
+              comment: review.comment,
+              property: review.property,
+              tone: tone,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to generate response');
+          }
+
+          const data = await response.json();
+          
+          if (data.success) {
+            responses[review.id] = data.generatedResponse;
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          console.error(`Error generating response for review ${review.id}:`, error);
+          errorCount++;
+        }
+      }
+      
+      // Call the completion callback with all generated responses
+      onComplete(responses);
+      
+      // Show a toast with the results
+      if (successCount > 0) {
+        toast({
+          title: `Generated ${successCount} responses`,
+          description: errorCount > 0 
+            ? `${errorCount} reviews could not be processed.` 
+            : `All responses generated successfully with ${tone} tone.`,
+        });
+      } else {
+        toast({
+          title: "Bulk generation failed",
+          description: "Could not generate any responses. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error in bulk generation:', error);
+      setGenerationError(error instanceof Error ? error.message : "Bulk generation failed. Please try again later.");
+      
+      toast({
+        title: "Bulk generation failed",
+        description: error instanceof Error ? error.message : "Could not generate responses",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   // Function to use a template instead of AI
   const useTemplateResponse = (templateContent: string, tone: ResponseTone) => {
     setResponseSource('template');
@@ -77,6 +160,7 @@ export function useAIResponseGenerator() {
     generationError,
     responseSource,
     generateAIResponse,
+    generateBulkResponses,
     useTemplateResponse
   };
 }

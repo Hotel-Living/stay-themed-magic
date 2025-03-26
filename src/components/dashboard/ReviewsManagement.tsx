@@ -10,7 +10,10 @@ import { ReviewsPagination } from './reviews/ReviewsPagination';
 import { ReviewsLoading } from './reviews/ReviewsLoading';
 import { useReviewList } from '@/hooks/hotel-detail/useReviewList';
 import { ReviewResponseDialog } from './reviews/ReviewResponseDialog';
+import { BulkResponseDialog } from './reviews/BulkResponseDialog';
 import { DashboardReview } from './types';
+import { Button } from '@/components/ui/button';
+import { MessageSquare } from 'lucide-react';
 
 type ViewMode = 'card' | 'table';
 
@@ -23,6 +26,7 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   const [viewMode, setViewMode] = React.useState<ViewMode>('card');
   const [selectedReview, setSelectedReview] = React.useState<DashboardReview | null>(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [isBulkDialogOpen, setIsBulkDialogOpen] = React.useState(false);
 
   // Fetch reviews data from the API
   const { reviews: fetchedReviews, isLoading, refetch } = useReviewsData(propertyFilter);
@@ -33,6 +37,11 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
   // Filter unnotified reviews
   const unnotifiedReviews = React.useMemo(() => {
     return reviews.filter(review => !review.notified);
+  }, [reviews]);
+
+  // Filter unresponded reviews
+  const unrespondedReviews = React.useMemo(() => {
+    return reviews.filter(review => !review.isResponded);
   }, [reviews]);
   
   // Apply tab filtering
@@ -76,6 +85,14 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
     setSelectedReview(null);
   };
 
+  const openBulkResponseDialog = () => {
+    setIsBulkDialogOpen(true);
+  };
+
+  const closeBulkResponseDialog = () => {
+    setIsBulkDialogOpen(false);
+  };
+
   const handleSendNotifications = () => {
     sendNotifications(unnotifiedReviews);
   };
@@ -110,6 +127,20 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         onRatingFilterChange={handleRatingFilterChange}
       />
 
+      {unrespondedReviews.length > 0 && (
+        <div className="my-4 flex justify-end">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={openBulkResponseDialog}
+            className="gap-2"
+          >
+            <MessageSquare className="h-4 w-4" />
+            Bulk Respond ({unrespondedReviews.length})
+          </Button>
+        </div>
+      )}
+
       {viewMode === 'card' ? (
         <ReviewsCardView 
           reviews={currentReviews}
@@ -136,6 +167,13 @@ export function ReviewsManagement({ propertyFilter }: ReviewsManagementProps) {
         isOpen={isDialogOpen}
         onClose={closeResponseDialog}
         onRespond={handleRespondToReview}
+      />
+
+      <BulkResponseDialog
+        reviews={reviews}
+        isOpen={isBulkDialogOpen}
+        onClose={closeBulkResponseDialog}
+        onComplete={refetch}
       />
     </div>
   );

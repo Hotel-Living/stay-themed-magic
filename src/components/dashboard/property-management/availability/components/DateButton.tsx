@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { format, isSameDay } from 'date-fns';
 
 interface DateButtonProps {
@@ -10,16 +10,20 @@ interface DateButtonProps {
   onSelect: (date: Date) => void;
 }
 
-export function DateButton({
+export const DateButton = memo(function DateButton({
   date,
   isSelected,
   isSelecting,
   potentialPeriod,
   onSelect
 }: DateButtonProps) {
+  const handleClick = React.useCallback(() => {
+    onSelect(date);
+  }, [date, onSelect]);
+
   return (
     <button
-      onClick={() => onSelect(date)}
+      onClick={handleClick}
       className={`
         p-2 rounded-lg flex flex-col items-center justify-center relative
         ${isSelected ? 'bg-fuchsia-600 text-white' : 'bg-fuchsia-100 text-fuchsia-800 hover:bg-fuchsia-200'}
@@ -39,4 +43,4 @@ export function DateButton({
       )}
     </button>
   );
-}
+});

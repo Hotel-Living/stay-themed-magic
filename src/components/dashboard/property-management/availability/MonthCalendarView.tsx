@@ -32,7 +32,6 @@ export function MonthCalendarView({
   validPeriodLengths
 }: MonthCalendarViewProps) {
   const { toast } = useToast();
-  const monthDate = useMemo(() => new Date(year, month), [year, month]);
   const [selectionStart, setSelectionStart] = useState<Date | null>(null);
   
   // Format weekday name for consistent display
@@ -40,6 +39,9 @@ export function MonthCalendarView({
     format(new Date(2023, 0, selectedWeekday + 1), 'EEEE'),
     [selectedWeekday]
   );
+  
+  // Memoize the month date
+  const monthDate = useMemo(() => new Date(year, month), [year, month]);
   
   // Generate all days of the selected weekday in the specified month - memoized for performance
   const weekdayDates = useMemo(() => {

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { isSameDay } from 'date-fns';
 import { DateButton } from './DateButton';
 import { EmptyCalendarMessage } from './EmptyCalendarMessage';
@@ -13,7 +13,7 @@ interface CalendarGridProps {
   onDateSelect: (date: Date) => void;
 }
 
-export function CalendarGrid({
+export const CalendarGrid = memo(function CalendarGrid({
   weekdayDates,
   weekdayName,
   selectionStart,
@@ -49,4 +49,4 @@ export function CalendarGrid({
       })}
     </div>
   );
-}
+});

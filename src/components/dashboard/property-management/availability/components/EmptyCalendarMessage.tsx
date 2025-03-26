@@ -1,14 +1,16 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 
 interface EmptyCalendarMessageProps {
   weekdayName: string;
 }
 
-export function EmptyCalendarMessage({ weekdayName }: EmptyCalendarMessageProps) {
+export const EmptyCalendarMessage = memo(function EmptyCalendarMessage({ 
+  weekdayName 
+}: EmptyCalendarMessageProps) {
   return (
     <p className="text-center py-4 text-muted-foreground">
       No {weekdayName}s available in this month.
     </p>
   );
-}
+});

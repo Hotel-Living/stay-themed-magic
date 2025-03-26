@@ -1,12 +1,12 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 
 interface CalendarFooterProps {
   weekdayName: string;
   validPeriodLengths: number[];
 }
 
-export function CalendarFooter({ 
+export const CalendarFooter = memo(function CalendarFooter({ 
   weekdayName, 
   validPeriodLengths 
 }: CalendarFooterProps) {
@@ -19,4 +19,4 @@ export function CalendarFooter({
       </p>
     </div>
   );
-}
+});

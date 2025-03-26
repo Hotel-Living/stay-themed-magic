@@ -10,6 +10,7 @@ import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 import { Starfield } from "@/components/Starfield";
 import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
+import { RecommendationsSection } from "@/components/recommendations/RecommendationsSection";
 
 // Default initial filters
 const DEFAULT_FILTERS: FilterState = {
@@ -55,6 +56,9 @@ export default function Index() {
           onFilterChange={handleFilterChange}
           availableThemes={themeNames}
         />
+        
+        {/* AI-Powered Recommendations Section */}
+        {user && <RecommendationsSection />}
       </main>
       
       <Footer />

@@ -12,7 +12,7 @@ export type MonthType = "january" | "february" | "march" | "april" | "may" | "ju
 export interface FilterState {
   country: CountryType;
   month: MonthType;
-  theme: Theme | null;
+  theme: Theme | string | null;
   priceRange: number | null;
 }
 

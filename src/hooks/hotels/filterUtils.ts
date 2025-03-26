@@ -12,11 +12,16 @@ export const createFilterParams = (filters: FilterState): Record<string, any> =>
   }
   
   if (filters.theme) {
-    // Now we're passing just the theme ID instead of the whole object
-    params.theme_id = filters.theme.id;
+    // Handle both string and object theme types
+    const themeId = typeof filters.theme === 'string' ? filters.theme : 
+                    typeof filters.theme === 'object' && filters.theme !== null ? filters.theme.id : null;
+    
+    if (themeId) {
+      params.theme_id = themeId;
+    }
   }
   
-  if (filters.priceRange) {
+  if (filters.priceRange !== null) {
     // Create price range filter based on the price range value
     switch (filters.priceRange) {
       case 1000:
@@ -62,8 +67,19 @@ export const applyFiltersToUrl = (baseUrl: string, filters: FilterState): string
   
   if (filters.country) params.append("country", filters.country);
   if (filters.month) params.append("month", filters.month);
-  if (filters.theme) params.append("theme", filters.theme.id);
-  if (filters.priceRange) params.append("price", filters.priceRange.toString());
+  
+  if (filters.theme) {
+    const themeId = typeof filters.theme === 'string' ? filters.theme : 
+                   typeof filters.theme === 'object' && filters.theme !== null ? filters.theme.id : null;
+    
+    if (themeId) {
+      params.append("theme", themeId);
+    }
+  }
+  
+  if (filters.priceRange !== null) {
+    params.append("price", filters.priceRange.toString());
+  }
   
   const queryString = params.toString();
   return queryString ? `${baseUrl}?${queryString}` : baseUrl;

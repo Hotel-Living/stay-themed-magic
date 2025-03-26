@@ -27,7 +27,7 @@ const countries = [
 
 export const UserPreferencesSettings = () => {
   const { preferences, isLoading, savePreferences } = useUserPreferences();
-  const { themes } = useThemes();
+  const { data: themes = [], isLoading: isThemesLoading } = useThemes();
   const { toast } = useToast();
   
   const [formData, setFormData] = useState<PreferencesFormData>({
@@ -154,11 +154,15 @@ export const UserPreferencesSettings = () => {
                 <SelectValue placeholder="Select a theme" />
               </SelectTrigger>
               <SelectContent>
-                {themes?.map(theme => (
-                  <SelectItem key={theme.id} value={theme.name}>
-                    {theme.name}
-                  </SelectItem>
-                ))}
+                {isThemesLoading ? (
+                  <SelectItem value="loading" disabled>Loading themes...</SelectItem>
+                ) : (
+                  themes.map(theme => (
+                    <SelectItem key={theme.id} value={theme.name}>
+                      {theme.name}
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
             <Button 

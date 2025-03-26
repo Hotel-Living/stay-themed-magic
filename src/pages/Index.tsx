@@ -32,7 +32,7 @@ export default function Index() {
   }, []);
   
   // Use fetched themes or fall back to imported allThemes
-  const availableThemes = useMemo(() => {
+  const availableThemes = useMemo<Theme[]>(() => {
     return themes.length > 0 ? themes : allThemes;
   }, [themes]);
   

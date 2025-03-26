@@ -14,9 +14,7 @@ export function SearchFilters() {
     <div className="w-full md:w-1/3 lg:w-1/4">
       <div className="sticky top-20">
         <FilterSidebar 
-          activeFilters={{
-            ...filters
-          }}
+          activeFilters={filters}
           handleFilterChange={handleFilterChange}
           handleArrayFilterChange={handleArrayFilterChange}
           onClearAll={handleClearFilters}

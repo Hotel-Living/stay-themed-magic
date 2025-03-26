@@ -10,7 +10,7 @@ import { FilterActions } from './FilterActions';
 // Interface for the FilterSidebar component
 interface FilterSidebarProps {
   activeFilters: {
-    priceRange: [number, number] | null;
+    priceRange: number | null;
     propertyType: string | null;
     propertyStyle: string | null;
     roomTypes: string[];
@@ -23,7 +23,7 @@ interface FilterSidebarProps {
     category: string | null;
     country: string | null;
     month: string | null;
-    theme: string | null;
+    theme: any | null;
     amenities?: string[];
     distance?: number | null;
     rating?: number | null;

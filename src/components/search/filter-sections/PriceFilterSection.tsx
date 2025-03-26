@@ -6,7 +6,7 @@ import { DistanceFilter } from '../DistanceFilter';
 
 interface PriceFilterSectionProps {
   activeFilters: {
-    priceRange: [number, number] | null;
+    priceRange: number | null;
     rating?: number | null;
     distance?: number | null;
   };
@@ -20,8 +20,8 @@ export function PriceFilterSection({
   return (
     <>
       <PriceRangeFilter 
-        activePrice={activeFilters.priceRange ? activeFilters.priceRange[0] : null} 
-        onChange={(value) => handleFilterChange('priceRange', value ? [value, value] : null)} 
+        activePrice={activeFilters.priceRange} 
+        onChange={(value) => handleFilterChange('priceRange', value)} 
       />
       
       <div className="border-t border-foreground/10 pt-4">

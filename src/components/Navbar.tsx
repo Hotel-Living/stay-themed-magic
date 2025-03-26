@@ -7,6 +7,7 @@ import { DesktopNavigation } from "./navbar/DesktopNavigation";
 import { MobileMenu } from "./navbar/MobileMenu";
 import { LanguageSelector } from "./LanguageSelector";
 import { CurrencySelector } from "./CurrencySelector";
+import { ThemeToggle } from "./ThemeToggle";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Navbar() {
@@ -14,7 +15,7 @@ export function Navbar() {
   const { t } = useLanguage();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-primary/90 dark:bg-[#860477]/90 backdrop-blur-xl border-b border-primary/20 dark:border-[#c266af]/20">
       <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />
@@ -24,6 +25,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <LanguageSelector />
             <CurrencySelector />
+            <ThemeToggle />
           </div>
           <DesktopNavigation 
             getInitials={getInitials} 
@@ -37,9 +39,9 @@ export function Navbar() {
             aria-label={isMenuOpen ? t("nav.close") : t("nav.menu")}
           >
             {isMenuOpen ? (
-              <X className="w-5 h-5 text-white" />
+              <X className="w-5 h-5 text-foreground" />
             ) : (
-              <Menu className="w-5 h-5 text-white" />
+              <Menu className="w-5 h-5 text-foreground" />
             )}
           </button>
         </div>

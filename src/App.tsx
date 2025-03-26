@@ -53,7 +53,7 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="hotel-living-theme">
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} storageKey="hotel-living-theme">
       <QueryClientProvider client={queryClient}>
         <Router>
           <LanguageProvider>

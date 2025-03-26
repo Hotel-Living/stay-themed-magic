@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DashboardReview } from '@/components/dashboard/types';
 
-export type ResponseTone = 'professional' | 'friendly' | 'apologetic';
+export type ResponseTone = 'professional' | 'friendly' | 'apologetic' | 'enthusiastic' | 'formal' | 'grateful';
 
 export function useAIResponseGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);

@@ -30,6 +30,9 @@ export function DialogControls({
           <SelectItem value="professional">Professional</SelectItem>
           <SelectItem value="friendly">Friendly</SelectItem>
           <SelectItem value="apologetic">Apologetic</SelectItem>
+          <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
+          <SelectItem value="formal">Formal</SelectItem>
+          <SelectItem value="grateful">Grateful</SelectItem>
         </SelectContent>
       </Select>
       

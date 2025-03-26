@@ -1,44 +1,45 @@
 
-// Generate hotel amenities based on category
-export const getHotelAmenities = (category?: number): string[] => {
-  // Base amenities that all hotels have
+/**
+ * Get amenities for a hotel based on category
+ */
+export const getHotelAmenities = (category?: number | null): string[] => {
   const baseAmenities = [
-    "Free WiFi", 
-    "Air Conditioning", 
-    "Daily Housekeeping"
+    "Free WiFi",
+    "Air conditioning",
+    "Workspace",
+    "Kitchen",
+    "Washing machine"
   ];
   
-  if (!category) return baseAmenities;
-  
-  let amenities = [...baseAmenities];
-  
-  // Add more amenities based on hotel category
-  if (category >= 3) {
-    amenities.push("Pool", "Gym");
+  // Add more amenities for higher category hotels
+  if (category && category >= 3) {
+    baseAmenities.push("Swimming pool", "Fitness center");
   }
   
-  if (category >= 4) {
-    amenities.push("Spa", "Room Service", "Restaurant");
+  if (category && category >= 4) {
+    baseAmenities.push("Spa", "Room service");
   }
   
-  if (category >= 5) {
-    amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  if (category && category >= 5) {
+    baseAmenities.push("Concierge service", "Valet parking");
   }
   
-  return amenities;
+  return baseAmenities;
 };
 
-// Generate available months based on current date
+/**
+ * Get available months for hotel booking
+ */
 export const getAvailableMonths = (): string[] => {
-  const currentMonth = new Date().getMonth();
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  const currentDate = new Date();
+  const months = [];
   
-  // Generate next 6 available months starting from current month
-  return Array.from({ length: 6 }, (_, i) => {
-    const monthIndex = (currentMonth + i) % 12;
-    return monthNames[monthIndex];
-  });
+  // Generate the next 12 months from current date
+  for (let i = 0; i < 12; i++) {
+    const month = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
+    const monthString = month.toLocaleString('default', { month: 'long', year: 'numeric' });
+    months.push(monthString);
+  }
+  
+  return months;
 };

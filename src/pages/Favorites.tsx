@@ -5,22 +5,31 @@ import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
 import { useFavorites } from "@/hooks/useFavorites";
 import { supabase } from "@/integrations/supabase/client";
-import { Hotel, HotelTheme } from "@/integrations/supabase/types-custom";
+import { Hotel } from "@/integrations/supabase/types-custom";
 import { Heart, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 
-// Extended type for hotel with themes data
-interface HotelWithThemes extends Hotel {
+// Extended type for hotel with themes data that's safely compatible with the actual structure
+interface HotelWithThemes {
+  id: string;
+  name: string;
+  city: string;
+  country: string;
+  description?: string;
+  price_per_month: number;
+  category?: number;
+  main_image_url?: string;
   hotel_themes?: {
-    theme_id: string;
     themes: {
       id: string;
       name: string;
     }
   }[];
   hotel_images?: {
+    id: string;
+    hotel_id: string;
     image_url: string;
     is_main: boolean;
   }[];
@@ -53,8 +62,8 @@ export default function Favorites() {
           .from('hotels')
           .select(`
             *,
-            hotel_images(image_url, is_main),
-            hotel_themes(theme_id, themes:themes(id, name))
+            hotel_images(id, hotel_id, image_url, is_main),
+            hotel_themes(id, hotel_id, theme_id, themes:themes(id, name))
           `)
           .in('id', favorites);
 

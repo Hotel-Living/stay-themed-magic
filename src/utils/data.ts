@@ -81,3 +81,11 @@ export const themeCategories: ThemeCategory[] = [
     themes: allThemes.filter(theme => theme.category === "Special"),
   },
 ];
+
+// Duration options for booking
+export const durations = [
+  { id: "short", value: 8, label: "8 days" },
+  { id: "medium", value: 15, label: "15 days" },
+  { id: "long", value: 21, label: "21 days" },
+  { id: "monthly", value: 30, label: "30 days" }
+];

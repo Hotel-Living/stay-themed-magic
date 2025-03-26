@@ -1,56 +1,53 @@
 
 import { FilterState } from "@/components/filters/FilterTypes";
 
-// Check if any filters are active
-export const hasActiveFilters = (filters: FilterState): boolean => {
-  return (
-    filters.country !== null ||
-    filters.month !== null ||
-    filters.theme !== null ||
-    filters.priceRange !== null
-  );
-};
-
-// Convert filter state to API query params
-export const filtersToQueryParams = (filters: FilterState): Record<string, string> => {
-  const params: Record<string, string> = {};
+/**
+ * Convert filter state to database filter parameters
+ */
+export const createFilterParams = (filters: FilterState): Record<string, any> => {
+  const params: Record<string, any> = {};
   
   if (filters.country) {
     params.country = filters.country;
   }
   
-  if (filters.month) {
-    params.month = filters.month;
-  }
+  // Month filtering would likely be handled via a contains operation
+  // in the actual database query, not as a direct parameter
   
-  if (filters.theme) {
-    if (typeof filters.theme === 'string') {
-      params.theme = filters.theme;
-    } else {
-      params.theme = filters.theme.id;
-    }
-  }
+  // Theme would be handled via a join or contains operation
+  // for the actual database query
   
-  if (filters.priceRange) {
-    params.price = filters.priceRange.toString();
-  }
+  // Price range would be handled via a range operation
+  // in the actual database query
   
   return params;
 };
 
-// Parse query params into filter state
-export const queryParamsToFilters = (
-  params: URLSearchParams
-): FilterState => {
-  const country = params.get('country');
-  const month = params.get('month');
-  const theme = params.get('theme');
-  const price = params.get('price');
+/**
+ * Create query parameters for API requests from filter state
+ */
+export const createQueryParams = (filters: FilterState): URLSearchParams => {
+  const params = new URLSearchParams();
   
-  return {
-    country: country as any,
-    month: month as any,
-    theme: theme,
-    priceRange: price ? parseInt(price) : null
-  };
+  if (filters.country) {
+    params.append('country', filters.country);
+  }
+  
+  if (filters.month) {
+    params.append('month', filters.month);
+  }
+  
+  if (filters.theme) {
+    if (typeof filters.theme === 'string') {
+      params.append('theme', filters.theme);
+    } else {
+      params.append('theme', filters.theme.id);
+    }
+  }
+  
+  if (filters.priceRange) {
+    params.append('price', filters.priceRange.toString());
+  }
+  
+  return params;
 };

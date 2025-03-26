@@ -1,10 +1,13 @@
 
-import { Hotel, HotelImage } from "@/integrations/supabase/types-custom";
+import { Hotel } from "@/integrations/supabase/types-custom";
+import { HotelImage } from "@/integrations/supabase/types-custom";
 
 // Extended interface to include additional properties like average_rating, amenities, and available_months
-export interface HotelWithDetails extends Hotel {
+export interface HotelWithDetails extends Omit<Hotel, 'hotel_themes'> {
   hotel_images: HotelImage[];
   hotel_themes: {
+    id: string;
+    hotel_id: string;
     theme_id: string;
     themes: {
       id: string;

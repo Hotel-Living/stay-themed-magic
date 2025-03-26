@@ -13,6 +13,8 @@ const translations = {
   "nav.login": "Anmelden",
   "nav.signup": "Registrieren",
   "nav.logout": "Abmelden",
+  "nav.menu": "Menü",
+  "nav.close": "Schließen",
   
   // Home page
   "home.hero.title": "Die Zukunft des Wohnens",

@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useGeolocation } from "@/hooks/useGeolocation";
 
 // Available languages
 export type Language = "en" | "es" | "fr" | "de" | "it";
@@ -27,22 +28,39 @@ export type TranslationData = {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Get language from localStorage or use browser language or default to English
+  const { language: geoLanguage, loading: geoLoading } = useGeolocation();
+  
+  // Get language from localStorage, geolocation, browser language, or default to English
   const getBrowserLanguage = (): Language => {
     const browserLang = navigator.language.split("-")[0];
     return (["en", "es", "fr", "de", "it"].includes(browserLang) ? browserLang : "en") as Language;
   };
 
   const getInitialLanguage = (): Language => {
+    // Priority: localStorage > geolocation > browser language > default
     const savedLanguage = localStorage.getItem("userLanguage") as Language;
-    return (savedLanguage && ["en", "es", "fr", "de", "it"].includes(savedLanguage)) 
-      ? savedLanguage 
-      : getBrowserLanguage();
+    
+    if (savedLanguage && ["en", "es", "fr", "de", "it"].includes(savedLanguage)) {
+      return savedLanguage;
+    }
+    
+    if (!geoLoading && geoLanguage && ["en", "es", "fr", "de", "it"].includes(geoLanguage)) {
+      return geoLanguage as Language;
+    }
+    
+    return getBrowserLanguage();
   };
 
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [language, setLanguageState] = useState<Language>("en"); // Default, will be updated
   const [translations, setTranslations] = useState<TranslationData>({});
   const [isLoading, setIsLoading] = useState(true);
+
+  // Update language once geolocation is loaded
+  useEffect(() => {
+    if (!geoLoading) {
+      setLanguageState(getInitialLanguage());
+    }
+  }, [geoLoading, geoLanguage]);
 
   // Set language and save to localStorage
   const setLanguage = (newLanguage: Language) => {

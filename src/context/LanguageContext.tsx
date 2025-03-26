@@ -22,9 +22,9 @@ const defaultContext: LanguageContextType = {
 // Create context
 const LanguageContext = createContext<LanguageContextType>(defaultContext);
 
-// Translation data
+// Translation data can be nested objects or strings
 export type TranslationData = {
-  [key: string]: string;
+  [key: string]: string | Record<string, any>;
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -90,11 +90,29 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     loadTranslations();
   }, [language]);
 
-  // Translation function with parameter support
+  // Translation function with parameter support and dot notation
   const t = (key: string, params?: Record<string, string | number>): string => {
     if (isLoading) return key;
     
-    let text = translations[key] || key;
+    // Handle dot notation for nested objects
+    const keys = key.split('.');
+    let value: any = translations;
+    
+    // Traverse the nested objects
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return key; // Key not found, return the original key
+      }
+    }
+    
+    // If the final value is not a string, return the original key
+    if (typeof value !== 'string') {
+      return key;
+    }
+    
+    let text = value;
     
     // Replace parameters in the string if they exist
     if (params) {

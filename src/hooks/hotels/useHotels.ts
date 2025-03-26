@@ -64,7 +64,7 @@ export function useHotels(
   return useQuery({
     queryKey,
     queryFn: async () => {
-      const data = await fetchHotels(filters, pagination, sortOption);
+      const data = await fetchHotels(filters, sortOption, pagination);
       return adaptHotelData(data);
     },
     enabled,

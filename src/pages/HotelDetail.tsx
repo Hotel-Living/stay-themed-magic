@@ -19,6 +19,7 @@ export default function HotelDetail() {
   const hotel: HotelDetailProps | null = hotelData ? {
     ...hotelData,
     description: hotelData.description || "No description available", // Ensure description is not undefined
+    category: hotelData.category || 0, // Ensure category is not undefined
     hotel_themes: hotelData.hotel_themes || [],
     hotel_images: hotelData.hotel_images || []
   } : null;

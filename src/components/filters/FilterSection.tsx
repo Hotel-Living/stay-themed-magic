@@ -88,7 +88,7 @@ export const FilterSection = ({
           compactSpacing={compactSpacing}
           useBoldLabels={useBoldLabels}
           onSelect={(value) => {
-            // Convert Theme object to string or directly use string
+            // Convert Theme object to string if it's an object
             if (typeof value === 'object' && value !== null) {
               updateFilter("theme", value.id);
             } else {

@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useThemes } from "@/hooks/useThemes";
-import { Theme } from "@/integrations/supabase/types-custom";
+import { Theme } from "@/utils/data";
 import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
 import { RecommendationsSection } from "@/components/recommendations/RecommendationsSection";
 

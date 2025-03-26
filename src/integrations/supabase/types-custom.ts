@@ -88,6 +88,8 @@ export interface Profile {
   avatar_url?: string | null;
   phone?: string | null;
   is_hotel_owner?: boolean;
+  bio?: string; // Added bio field
   created_at: string;
   updated_at: string;
 }
+

@@ -51,3 +51,16 @@ export const createQueryParams = (filters: FilterState): URLSearchParams => {
   
   return params;
 };
+
+/**
+ * Check if there are any active filters
+ */
+export const hasActiveFilters = (filters: FilterState): boolean => {
+  return Boolean(
+    filters.country || 
+    filters.month || 
+    filters.theme || 
+    filters.priceRange
+  );
+};
+

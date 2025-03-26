@@ -1,10 +1,23 @@
 
-@import './styles/base.css';
-@import './styles/components.css';
-@import './styles/forms.css';
-@import './styles/cards.css';
-@import './styles/ui-elements.css';
-@import './styles/animations.css';
-@import './styles/scrollbar.css';
-@import './styles/starfield.css';
-@import './styles/accessibility.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ... keep existing code */
+
+/* Chat Support Styles */
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid #b026b9;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ... keep existing code */

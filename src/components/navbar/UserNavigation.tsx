@@ -1,16 +1,15 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Button } from '@/components/ui/button';
+import { LinkButton } from '@/components/ui/link-button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { CurrencySelector } from '@/components/CurrencySelector';
-import { useLanguage } from '@/context/LanguageContext';
 import { AccessibilityMenu } from '@/components/AccessibilityMenu';
+import { useLanguage } from '@/context/LanguageContext';
 
 export const UserNavigation = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
 
   return (
@@ -20,26 +19,24 @@ export const UserNavigation = () => {
       <ThemeToggle />
       <AccessibilityMenu />
       
-      {isAuthenticated ? (
-        <Button
-          as={Link}
-          to="/dashboard"
+      {user ? (
+        <LinkButton
+          href="/dashboard"
           variant="glass"
           className="text-white"
           aria-label="Go to user dashboard"
         >
           {t("nav.dashboard")}
-        </Button>
+        </LinkButton>
       ) : (
-        <Button
-          as={Link}
-          to="/login"
+        <LinkButton
+          href="/login"
           variant="glass"
           className="text-white"
           aria-label="Login to your account"
         >
           {t("nav.login")}
-        </Button>
+        </LinkButton>
       )}
     </div>
   );

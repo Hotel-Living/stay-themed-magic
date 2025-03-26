@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CheckboxFilter } from './CheckboxFilter';
 
@@ -21,20 +20,16 @@ const AMENITIES_OPTIONS = [
 ];
 
 export function AmenitiesFilter({ activeFilters, onChange }: AmenitiesFilterProps) {
-  const handleChange = (value: string, isChecked: boolean) => {
-    if (isChecked) {
-      onChange([...activeFilters, value]);
-    } else {
-      onChange(activeFilters.filter(item => item !== value));
-    }
+  const handleOptionChange = (selectedOptions: string[]) => {
+    onChange(selectedOptions);
   };
   
   return (
     <CheckboxFilter
       title="Amenities"
-      options={AMENITIES_OPTIONS.map(option => option.value)}
-      selectedValues={activeFilters}
-      onChange={handleChange}
+      options={AMENITIES_OPTIONS.map(option => option.label)}
+      selectedOptions={activeFilters}
+      onChange={handleOptionChange}
     />
   );
 }

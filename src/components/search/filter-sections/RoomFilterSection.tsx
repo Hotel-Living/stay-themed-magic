@@ -17,106 +17,87 @@ export function RoomFilterSection({
   activeFilters, 
   handleArrayFilterChange 
 }: RoomFilterSectionProps) {
-  // Room types options
   const ROOM_TYPES = [
-    { value: 'single', label: 'Single Room' },
-    { value: 'double', label: 'Double Room' },
-    { value: 'suite', label: 'Suite' },
-    { value: 'penthouse', label: 'Penthouse' },
+    'Single Room',
+    'Double Room',
+    'Suite',
+    'Penthouse'
   ];
 
-  // Hotel features options
   const HOTEL_FEATURES = [
-    { value: 'pool', label: 'Swimming Pool' },
-    { value: 'spa', label: 'Spa' },
-    { value: 'gym', label: 'Fitness Center' },
-    { value: 'restaurant', label: 'Restaurant' },
-    { value: 'bar', label: 'Bar/Lounge' },
+    'Swimming Pool',
+    'Spa',
+    'Fitness Center',
+    'Restaurant',
+    'Bar/Lounge'
   ];
 
-  // Room features options
   const ROOM_FEATURES = [
-    { value: 'balcony', label: 'Balcony' },
-    { value: 'kitchen', label: 'Kitchen' },
-    { value: 'jacuzzi', label: 'Jacuzzi' },
-    { value: 'workspace', label: 'Workspace' },
+    'Balcony',
+    'Kitchen',
+    'Jacuzzi',
+    'Workspace'
   ];
 
-  // Meal options
   const MEALS = [
-    { value: 'breakfast', label: 'Breakfast Included' },
-    { value: 'halfBoard', label: 'Half Board' },
-    { value: 'fullBoard', label: 'Full Board' },
-    { value: 'allInclusive', label: 'All Inclusive' },
+    'Breakfast Included',
+    'Half Board',
+    'Full Board',
+    'All Inclusive'
   ];
 
-  // Activities options
   const ACTIVITIES = [
-    { value: 'hiking', label: 'Hiking' },
-    { value: 'skiing', label: 'Skiing' },
-    { value: 'snorkeling', label: 'Snorkeling' },
-    { value: 'golf', label: 'Golf' },
-    { value: 'yoga', label: 'Yoga' },
+    'Hiking',
+    'Skiing',
+    'Snorkeling',
+    'Golf',
+    'Yoga'
   ];
-
-  // Helper function to handle checkbox filter changes
-  const handleOptionChange = (key: string, value: string, isChecked: boolean) => {
-    const currentValues = activeFilters[key as keyof typeof activeFilters] as string[] || [];
-    let newValues: string[];
-    
-    if (isChecked) {
-      newValues = [...currentValues, value];
-    } else {
-      newValues = currentValues.filter(v => v !== value);
-    }
-    
-    handleArrayFilterChange(key, newValues);
-  };
 
   return (
     <>
       <div className="border-t border-foreground/10 pt-4">
         <CheckboxFilter 
           title="Room Types" 
-          options={ROOM_TYPES} 
-          selectedValues={activeFilters.roomTypes} 
-          onChange={(value, isChecked) => handleOptionChange('roomTypes', value, isChecked)} 
+          options={ROOM_TYPES}
+          selectedOptions={activeFilters.roomTypes}
+          onChange={(value) => handleArrayFilterChange('roomTypes', value)}
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <CheckboxFilter 
           title="Hotel Features" 
-          options={HOTEL_FEATURES} 
-          selectedValues={activeFilters.hotelFeatures} 
-          onChange={(value, isChecked) => handleOptionChange('hotelFeatures', value, isChecked)} 
+          options={HOTEL_FEATURES}
+          selectedOptions={activeFilters.hotelFeatures}
+          onChange={(value) => handleArrayFilterChange('hotelFeatures', value)}
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <CheckboxFilter 
           title="Room Features" 
-          options={ROOM_FEATURES} 
-          selectedValues={activeFilters.roomFeatures} 
-          onChange={(value, isChecked) => handleOptionChange('roomFeatures', value, isChecked)} 
+          options={ROOM_FEATURES}
+          selectedOptions={activeFilters.roomFeatures}
+          onChange={(value) => handleArrayFilterChange('roomFeatures', value)}
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <CheckboxFilter 
           title="Meals" 
-          options={MEALS} 
-          selectedValues={activeFilters.meals} 
-          onChange={(value, isChecked) => handleOptionChange('meals', value, isChecked)} 
+          options={MEALS}
+          selectedOptions={activeFilters.meals}
+          onChange={(value) => handleArrayFilterChange('meals', value)}
         />
       </div>
       
       <div className="border-t border-foreground/10 pt-4">
         <CheckboxFilter 
           title="Activities" 
-          options={ACTIVITIES} 
-          selectedValues={activeFilters.activities} 
-          onChange={(value, isChecked) => handleOptionChange('activities', value, isChecked)} 
+          options={ACTIVITIES}
+          selectedOptions={activeFilters.activities}
+          onChange={(value) => handleArrayFilterChange('activities', value)}
         />
       </div>
     </>

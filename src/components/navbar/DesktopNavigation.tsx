@@ -5,15 +5,7 @@ import { UserNavigation } from "./UserNavigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
-interface DesktopNavigationProps {
-  getInitials: () => string;
-  signOut: () => Promise<void>;
-}
-
-export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
-  getInitials,
-  signOut,
-}) => {
+export const DesktopNavigation = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
   
@@ -46,24 +38,7 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         )}
       </ul>
       
-      {user ? (
-        <UserNavigation getInitials={getInitials} signOut={signOut} />
-      ) : (
-        <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="text-sm font-medium text-white"
-          >
-            {t("nav.login")}
-          </Link>
-          <Link
-            to="/signup"
-            className="px-3 py-2 text-sm font-medium text-fuchsia-600 bg-white rounded-md hover:bg-white/90"
-          >
-            {t("nav.signup")}
-          </Link>
-        </div>
-      )}
+      <UserNavigation />
     </nav>
   );
 };

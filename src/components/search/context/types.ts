@@ -26,7 +26,7 @@ export interface PaginationState {
   limit: number;
 }
 
-export interface SearchContextProps {
+export interface SearchFiltersContextType {
   filters: SearchFiltersState;
   pagination: PaginationState;
   sortOption: string | null;
@@ -36,3 +36,28 @@ export interface SearchContextProps {
   handleSortChange: (option: string) => void;
   handlePageChange: (page: number) => void;
 }
+
+// Default filter values
+export const DEFAULT_FILTERS: SearchFiltersState = {
+  priceRange: null,
+  propertyType: null,
+  propertyStyle: null,
+  roomTypes: [],
+  hotelFeatures: [],
+  roomFeatures: [],
+  meals: [],
+  lengthOfStay: null,
+  activities: [],
+  location: null,
+  category: null,
+  country: null,
+  month: null,
+  theme: null,
+  amenities: [],
+  distance: null,
+  rating: null,
+};
+
+// Renamed to align with new type name but kept for backward compatibility
+export type SearchFilterState = SearchFiltersState;
+export type SearchContextProps = SearchFiltersContextType;

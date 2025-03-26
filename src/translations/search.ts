@@ -17,6 +17,7 @@ export const searchTranslation = {
     more: "More Filters",
     guestRating: "Guest Rating",
     distanceFrom: "Distance from Center",
+    starsAndAbove: "stars and above",
     showResults: "Show Results"
   },
   sorting: {

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { List, Map } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export type ViewMode = 'list' | 'map';
 
@@ -11,6 +12,8 @@ interface ViewToggleProps {
 }
 
 export function ViewToggle({ activeView, onChange }: ViewToggleProps) {
+  const { t } = useLanguage();
+  
   return (
     <div className="flex bg-background/20 backdrop-blur-sm rounded-lg p-1 w-fit">
       <Button
@@ -24,7 +27,7 @@ export function ViewToggle({ activeView, onChange }: ViewToggleProps) {
         onClick={() => onChange('list')}
       >
         <List className="h-4 w-4" />
-        <span>List</span>
+        <span>{t("search.results.list")}</span>
       </Button>
       
       <Button
@@ -38,7 +41,7 @@ export function ViewToggle({ activeView, onChange }: ViewToggleProps) {
         onClick={() => onChange('map')}
       >
         <Map className="h-4 w-4" />
-        <span>Map</span>
+        <span>{t("search.results.map")}</span>
       </Button>
     </div>
   );

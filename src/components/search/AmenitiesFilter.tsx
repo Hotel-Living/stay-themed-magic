@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { CheckboxFilter } from './CheckboxFilter';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface AmenitiesFilterProps {
   activeFilters: string[];
@@ -21,8 +22,10 @@ const AMENITIES_OPTIONS = [
 ];
 
 export function AmenitiesFilter({ activeFilters, onChange }: AmenitiesFilterProps) {
+  const { t } = useLanguage();
+  
   // Extract just the labels for the CheckboxFilter component
-  const amenityLabels = AMENITIES_OPTIONS.map(option => option.label);
+  const amenityLabels = AMENITIES_OPTIONS.map(option => t(`amenities.${option.value}`) || option.label);
   
   // Handle option changes and map back to the expected format
   const handleOptionChange = (selectedOptions: string[]) => {
@@ -31,7 +34,7 @@ export function AmenitiesFilter({ activeFilters, onChange }: AmenitiesFilterProp
   
   return (
     <CheckboxFilter
-      title="Amenities"
+      title={t("search.filters.amenities")}
       options={amenityLabels}
       selectedOptions={activeFilters}
       onChange={handleOptionChange}

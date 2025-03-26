@@ -9,6 +9,7 @@ import type { HotelDetailProps } from '@/types/hotel';
 import { ViewToggle, ViewMode } from './ViewToggle';
 import { MapView } from './MapView';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface SearchContentProps {
   hotels: HotelDetailProps[];
@@ -33,6 +34,7 @@ export function SearchContent({
 }: SearchContentProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   // Count active advanced filters
   const countAdvancedFilters = () => {
@@ -75,8 +77,8 @@ export function SearchContent({
       {advancedFilterCount > 0 && (
         <div className="mb-4 p-3 bg-fuchsia-900/30 rounded-lg text-sm">
           <p className="text-fuchsia-200">
-            <span className="font-semibold">{advancedFilterCount} advanced filter{advancedFilterCount !== 1 ? 's' : ''}</span> applied, 
-            refining your search results to match your specific preferences.
+            <span className="font-semibold">{advancedFilterCount} {t("search.filters.advancedFilter", { count: advancedFilterCount })}</span>{" "}
+            {t("search.filters.appliedMessage")}
           </p>
         </div>
       )}

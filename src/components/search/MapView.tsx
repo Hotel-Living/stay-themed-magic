@@ -5,6 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import type { HotelDetailProps } from '@/types/hotel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MapPin } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Replace with your Mapbox token
 // For production, store this in environment variables
@@ -17,15 +18,16 @@ interface MapViewProps {
 }
 
 export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
+  const { t } = useLanguage();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
 
+  // Initialize map
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
     
-    // Initialize Mapbox
     mapboxgl.accessToken = MAPBOX_TOKEN;
     
     const newMap = new mapboxgl.Map({
@@ -43,6 +45,7 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
     
     map.current = newMap;
     
+    // Cleanup function
     return () => {
       newMap.remove();
       map.current = null;
@@ -63,26 +66,15 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
     const bounds = new mapboxgl.LngLatBounds();
     
     hotels.forEach(hotel => {
-      // Skip hotels without lat/lng (in a real app, you would geocode addresses)
       // For demo, generate random coordinates near the actual country
       const randomLng = Math.random() * 20 - 10;
       const randomLat = Math.random() * 10 - 5;
       
-      // Create a custom marker element
-      const el = document.createElement('div');
-      el.className = 'hotel-marker';
-      el.innerHTML = `<div class="w-6 h-6 bg-fuchsia-600 rounded-full flex items-center justify-center shadow-lg hover:bg-fuchsia-500 transition-colors">
-        <span class="text-white" style="transform: translateY(-1px)">$</span>
-      </div>`;
+      // Create marker element
+      const el = createMarkerElement();
       
-      // Create tooltip content
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-        <div class="p-2 max-w-xs">
-          <h3 class="font-semibold">${hotel.name}</h3>
-          <p class="text-sm">${hotel.city}, ${hotel.country}</p>
-          <p class="text-sm font-medium mt-1">$${hotel.price_per_month}/month</p>
-        </div>
-      `);
+      // Create popup content
+      const popup = createPopup(hotel);
       
       // Create and add the marker
       const marker = new mapboxgl.Marker(el)
@@ -112,6 +104,27 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
     }
   }, [hotels, mapLoaded, isLoading, onHotelSelect]);
 
+  // Helper function to create marker element
+  const createMarkerElement = () => {
+    const el = document.createElement('div');
+    el.className = 'hotel-marker';
+    el.innerHTML = `<div class="w-6 h-6 bg-fuchsia-600 rounded-full flex items-center justify-center shadow-lg hover:bg-fuchsia-500 transition-colors">
+      <span class="text-white" style="transform: translateY(-1px)">$</span>
+    </div>`;
+    return el;
+  };
+
+  // Helper function to create popup
+  const createPopup = (hotel: HotelDetailProps) => {
+    return new mapboxgl.Popup({ offset: 25 }).setHTML(`
+      <div class="p-2 max-w-xs">
+        <h3 class="font-semibold">${hotel.name}</h3>
+        <p class="text-sm">${hotel.city}, ${hotel.country}</p>
+        <p class="text-sm font-medium mt-1">$${hotel.price_per_month}/month</p>
+      </div>
+    `);
+  };
+
   if (isLoading) {
     return (
       <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
@@ -130,7 +143,7 @@ export function MapView({ hotels, isLoading, onHotelSelect }: MapViewProps) {
       {hotels.length === 0 && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50">
           <MapPin className="w-12 h-12 text-muted-foreground mb-2" />
-          <p className="text-muted-foreground">No hotels found to display on map</p>
+          <p className="text-muted-foreground">{t("search.results.notFound")}</p>
         </div>
       )}
       

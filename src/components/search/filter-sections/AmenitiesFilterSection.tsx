@@ -3,6 +3,7 @@ import React from 'react';
 import { AmenitiesFilter } from '../AmenitiesFilter';
 import { DistanceFilter } from '../DistanceFilter';
 import { RatingFilter } from '../RatingFilter';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface AmenitiesFilterSectionProps {
   activeFilters: {
@@ -19,8 +20,12 @@ export function AmenitiesFilterSection({
   handleFilterChange,
   handleArrayFilterChange 
 }: AmenitiesFilterSectionProps) {
+  const { t } = useLanguage();
+  
   return (
     <div className="border-t border-foreground/10 pt-4">
+      <h3 className="text-sm font-medium mb-3 text-foreground/80">{t("search.filters.amenities")}</h3>
+      
       <AmenitiesFilter 
         activeFilters={activeFilters.amenities || []} 
         onChange={(value) => handleArrayFilterChange('amenities', value)} 

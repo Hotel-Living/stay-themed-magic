@@ -1,73 +1,56 @@
 
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
+import { useNavbar } from "@/hooks/useNavbar";
+import { DesktopNavigation } from "./navbar/DesktopNavigation";
+import { MobileMenu } from "./navbar/MobileMenu";
+import { LanguageSelector } from "./LanguageSelector";
+import { CurrencySelector } from "./CurrencySelector";
+import { ThemeToggle } from "./ThemeToggle";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isMenuOpen, toggleMenu, closeMenu, getInitials, signOut } = useNavbar();
+  const { t } = useLanguage();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-primary/90 dark:bg-[#860477]/90 backdrop-blur-xl border-b border-primary/20 dark:border-[#c266af]/20">
       <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-6">
-          <Link 
-            to="/signup" 
-            className="text-white font-bold hover:text-white/80 text-sm"
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+            <CurrencySelector />
+            <ThemeToggle />
+          </div>
+          <DesktopNavigation />
+          
+          {/* Mobile menu button */}
+          <button 
+            className="md:hidden flex items-center" 
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? t("nav.close") : t("nav.menu")}
           >
-            REGISTER
-          </Link>
-          <Link 
-            to="/login" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            LOGIN
-          </Link>
-          <Link 
-            to="/faq" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            FAQ
-          </Link>
-          <Link 
-            to="/hoteles" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            HOTELS
-          </Link>
+            {isMenuOpen ? (
+              <X className="w-5 h-5 text-foreground" />
+            ) : (
+              <Menu className="w-5 h-5 text-foreground" />
+            )}
+          </button>
         </div>
-        
-        {/* Mobile menu button */}
-        <button 
-          className="md:hidden flex items-center" 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? (
-            <X className="w-5 h-5 text-white" />
-          ) : (
-            <Menu className="w-5 h-5 text-white" />
-          )}
-        </button>
       </div>
       
       {/* Mobile menu */}
-      <div className={cn(
-        "fixed inset-0 top-10 bg-[#860477]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden",
-        isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-      )}>
-        <nav className="flex flex-col space-y-4">
-          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">REGISTER</Link>
-          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">LOGIN</Link>
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">HOTELS</Link>
-        </nav>
-      </div>
+      <MobileMenu 
+        isOpen={isMenuOpen} 
+        onClose={closeMenu} 
+        signOut={signOut} 
+        getInitials={getInitials} 
+      />
     </header>
   );
 }

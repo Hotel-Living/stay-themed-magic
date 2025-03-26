@@ -1,110 +1,155 @@
 
-import React, { ReactNode } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Link } from "react-router-dom";
-import { LogOut, HelpCircle, Building } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
+import { 
+  HomeIcon, 
+  BuildingIcon, 
+  CalendarIcon, 
+  UsersIcon, 
+  BarChart3Icon, 
+  SettingsIcon,
+  ChevronRightIcon,
+  MessageSquare,
+  PercentIcon
+} from 'lucide-react';
 
-interface DashboardTab {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
+// Tab content imports
+import DashboardContent from './DashboardContent';
+import PropertiesContent from './PropertiesContent';
+import BookingsContent from './BookingsContent';
+import GuestsContent from './GuestsContent';
+import AnalyticsContent from './AnalyticsContent';
+import SettingsContent from './SettingsContent';
+import ReviewsContent from './ReviewsContent';
+import AddProperty from './AddProperty';
+import PropertyManagement from './PropertyManagement';
+import PromotionalTools from './PromotionalTools';
 
 interface DashboardLayoutProps {
-  children: ReactNode;
-  activeTab: string;
-  tabs: DashboardTab[];
-  setActiveTab: (tab: string) => void;
+  children?: React.ReactNode;
 }
 
-export default function DashboardLayout({
-  children,
-  activeTab,
-  tabs,
-  setActiveTab,
-}: DashboardLayoutProps) {
+interface NavItemProps {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+  dataTab?: string;
+}
+
+// Navigation item component extracted for reusability
+const NavItem = ({ icon, label, active, onClick, dataTab }: NavItemProps) => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      
-      <main className="flex-1 pt-16">
-        <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Hotel Management</h1>
+    <button
+      onClick={onClick}
+      data-tab={dataTab}
+      className={`flex items-center w-full p-3 rounded-lg transition-colors ${
+        active
+          ? 'bg-fuchsia-950 text-fuchsia-300'
+          : 'hover:bg-fuchsia-950/50 text-foreground/80 hover:text-foreground'
+      }`}
+    >
+      <div className="flex items-center flex-1">
+        <span className="mr-3">{icon}</span>
+        <span>{label}</span>
+      </div>
+      <ChevronRightIcon className="w-4 h-4 opacity-50" />
+    </button>
+  );
+};
+
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
+
+  const isUserDashboard = location.pathname === '/dashboard';
+  
+  // Using useMemo to avoid recreating the navigation items on each render
+  const navItems = useMemo(() => {
+    if (isUserDashboard) {
+      return [
+        { id: 'dashboard', icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard' },
+        { id: 'properties', icon: <BuildingIcon className="w-5 h-5" />, label: 'Properties' },
+        { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
+        { id: 'reviews', icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews' },
+        { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
+      ];
+    } else {
+      return [
+        { id: 'dashboard', icon: <HomeIcon className="w-5 h-5" />, label: 'Dashboard' },
+        { id: 'propertyManagement', icon: <BuildingIcon className="w-5 h-5" />, label: 'Property Management' },
+        { id: 'bookings', icon: <CalendarIcon className="w-5 h-5" />, label: 'Bookings' },
+        { id: 'guests', icon: <UsersIcon className="w-5 h-5" />, label: 'Guests' },
+        { id: 'analytics', icon: <BarChart3Icon className="w-5 h-5" />, label: 'Analytics' },
+        { id: 'promotions', icon: <PercentIcon className="w-5 h-5" />, label: 'Promotions' },
+        { id: 'reviews', icon: <MessageSquare className="w-5 h-5" />, label: 'Reviews' },
+        { id: 'settings', icon: <SettingsIcon className="w-5 h-5" />, label: 'Settings' },
+      ];
+    }
+  }, [isUserDashboard]);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+  };
+
+  // Render the appropriate content based on the active tab
+  const renderTabContent = () => {
+    if (isUserDashboard) {
+      switch (activeTab) {
+        case 'dashboard': return <DashboardContent />;
+        case 'properties': return <PropertiesContent />;
+        case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
+        case 'reviews': return <ReviewsContent />;
+        case 'settings': return <SettingsContent />;
+        default: return <DashboardContent />;
+      }
+    } else {
+      // Hotel dashboard tabs
+      switch (activeTab) {
+        case 'dashboard': return children || <DashboardContent />;
+        case 'propertyManagement': return <PropertyManagement />;
+        case 'properties': return <PropertiesContent />;
+        case 'bookings': return <BookingsContent bookings={[]} isLoading={false} />;
+        case 'guests': return <GuestsContent />;
+        case 'analytics': return <AnalyticsContent />;
+        case 'promotions': return <PromotionalTools />;
+        case 'reviews': return <ReviewsContent />;
+        case 'settings': return <SettingsContent />;
+        default: return children || <DashboardContent />;
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col md:flex-row gap-6">
+      {/* Sidebar */}
+      <div className="md:w-64 flex-shrink-0">
+        <div className="glass-card rounded-xl p-4 sticky top-24">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold ml-3">
+              {isUserDashboard ? 'User Dashboard' : 'Hotel Dashboard'}
+            </h2>
+          </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
-            <aside className="lg:col-span-1">
-              <div className="glass-card rounded-2xl overflow-hidden mb-8">
-                <div className="p-6 text-center border-b border-fuchsia-900/20">
-                  <div className="w-20 h-20 bg-[#5A1876]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Building className="w-10 h-10 text-fuchsia-300" />
-                  </div>
-                  <h2 className="font-bold mb-1">Hotel Partner</h2>
-                  <p className="text-sm text-muted-foreground">Verified Account</p>
-                </div>
-                
-                <nav className="p-2">
-                  {tabs.map(tab => (
-                    <button
-                      key={tab.id}
-                      data-tab={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={cn(
-                        "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
-                        activeTab === tab.id
-                          ? "bg-[#5A1876]/20 text-fuchsia-200"
-                          : "hover:bg-[#5A1876]/10 text-foreground/80"
-                      )}
-                    >
-                      {tab.icon}
-                      {tab.label}
-                    </button>
-                  ))}
-                  
-                  <div className="px-4 py-3">
-                    <div className="h-px bg-fuchsia-900/20 my-2"></div>
-                  </div>
-                  
-                  <Link
-                    to="/login"
-                    className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    Log Out
-                  </Link>
-                </nav>
-              </div>
-              
-              <div className="glass-card rounded-2xl p-5">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
-                    <HelpCircle className="w-5 h-5 text-fuchsia-300" />
-                  </div>
-                  <h3 className="font-bold">Need Help?</h3>
-                </div>
-                <p className="text-sm text-foreground/80 mb-4">
-                  Our support team is available 24/7 to assist you with any questions.
-                </p>
-                <button className="w-full py-2 rounded-lg bg-[#5A1876]/20 hover:bg-[#5A1876]/30 text-fuchsia-200 text-sm font-medium transition-colors">
-                  Contact Support
-                </button>
-              </div>
-            </aside>
-            
-            {/* Main Content */}
-            <div className="lg:col-span-3">
-              {children}
-            </div>
+          <div className="space-y-1">
+            {navItems.map((item) => (
+              <NavItem
+                key={item.id}
+                icon={item.icon}
+                label={item.label}
+                active={activeTab === item.id}
+                onClick={() => handleTabChange(item.id)}
+                dataTab={item.id}
+              />
+            ))}
           </div>
         </div>
-      </main>
+      </div>
       
-      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20 mt-10">
-        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
-          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
-        </div>
-      </footer>
+      {/* Main content */}
+      <div className="flex-1">
+        {renderTabContent()}
+      </div>
     </div>
   );
 }

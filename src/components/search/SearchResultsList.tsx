@@ -1,46 +1,41 @@
 
-import { HotelCard } from "@/components/HotelCard";
-import { Compass } from "lucide-react";
-import { Hotel } from "@/utils/data";
+import React from 'react';
+import { HotelCard } from '@/components/HotelCard';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { HotelDetailProps } from '@/types/hotel';
 
 interface SearchResultsListProps {
-  filteredHotels: Hotel[];
+  items: HotelDetailProps[];
+  isLoading: boolean;
 }
 
-export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
-  return (
-    <>
-      <h2 className="text-lg font-bold mb-6 text-white">
-        {filteredHotels.length > 0 
-          ? `Found ${filteredHotels.length} hotels` 
-          : "No hotels match your filters"}
-      </h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredHotels.map(hotel => (
-          <HotelCard 
-            key={hotel.id}
-            id={hotel.id}
-            name={hotel.name}
-            city={hotel.city}
-            country={hotel.country}
-            stars={hotel.stars}
-            pricePerMonth={hotel.pricePerMonth}
-            themes={hotel.themes.map(theme => theme.name)}
-            image={hotel.images[0]}
-          />
+export function SearchResultsList({ items, isLoading }: SearchResultsListProps) {
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 gap-6">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Skeleton key={index} className="h-64 w-full rounded-xl" />
         ))}
       </div>
-      
-      {filteredHotels.length === 0 && (
-        <div className="text-center py-20">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
-            <Compass className="w-10 h-10 text-fuchsia-400" />
-          </div>
-          <h3 className="text-xl font-bold mb-2 text-white">No matching hotels</h3>
-          <p className="text-white/70 mb-6">Try adjusting your filters to find more options.</p>
-        </div>
-      )}
-    </>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-6">
+      {items.map((hotel) => (
+        <HotelCard 
+          key={hotel.id} 
+          id={hotel.id}
+          name={hotel.name}
+          city={hotel.city}
+          country={hotel.country}
+          stars={hotel.average_rating || 4}
+          pricePerMonth={hotel.price_per_month}
+          image={hotel.main_image_url || ''}
+          themes={hotel.hotel_themes?.map(theme => theme.themes.name) || []}
+          category={hotel.category?.toString() || ''}
+        />
+      ))}
+    </div>
   );
 }

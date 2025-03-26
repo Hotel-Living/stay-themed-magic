@@ -1,10 +1,10 @@
+import { useNavigate } from "react-router-dom";
+import { Star, StarHalfIcon, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { LinkButton } from "@/components/ui/link-button";
+import { Image } from "@/components/ui/image";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
-import { Link } from "react-router-dom";
-import { Star, Calendar } from "lucide-react";
-import { HotelThemes } from "./ThemeTag";
-import { Theme } from "@/utils/data";
-
-// Define the props interface that matches how the component is being used
 export interface HotelCardProps {
   id: string;
   name: string;
@@ -12,8 +12,11 @@ export interface HotelCardProps {
   country: string;
   stars: number;
   pricePerMonth: number;
-  themes: string[] | Theme[];
-  image: string;
+  image?: string;
+  themes?: string[];
+  category?: string;
+  unavailable?: boolean;
+  imageLoading?: 'lazy' | 'eager';
   availableMonths?: string[];
 }
 
@@ -24,71 +27,108 @@ export function HotelCard({
   country, 
   stars, 
   pricePerMonth, 
-  themes, 
-  image,
+  image, 
+  themes = [],
+  category,
+  unavailable = false,
+  imageLoading = 'lazy',
   availableMonths = []
 }: HotelCardProps) {
-  // Convert string themes to Theme objects if needed
-  const themeObjects = themes.map(theme => {
-    if (typeof theme === 'string') {
-      return { id: theme, name: theme, category: 'Unknown' } as Theme;
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    if (!unavailable) {
+      navigate(`/hotel/${id}`);
     }
-    return theme;
-  });
-
+  };
+  
   return (
-    <Link 
-      to={`/hotel/${id}`} 
-      className="group block animate-fade-in"
+    <div 
+      className={cn(
+        "glass-card rounded-xl overflow-hidden transition-all hover:shadow-2xl relative",
+        unavailable ? "opacity-60 cursor-not-allowed" : "cursor-pointer hover:scale-[1.02]"
+      )}
+      onClick={handleClick}
     >
-      <div className="glass-card-hover overflow-hidden rounded-2xl transition-all duration-500 group-hover:shadow-[0_10px_30px_rgba(217,70,239,0.3)]">
-        <div className="aspect-[4/3] overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
-          <img 
-            src={image} 
-            alt={name}
-            className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-          />
-          <div className="absolute top-3 left-3 rounded-full bg-black/40 backdrop-blur-md px-3 py-1 flex items-center gap-1 z-20">
-            {Array.from({ length: stars }).map((_, i) => (
-              <Star key={i} className="w-3 h-3 fill-fuchsia-400 text-fuchsia-400" />
-            ))}
-          </div>
+      {!unavailable && (
+        <div className="absolute top-2 right-2 z-10">
+          <FavoriteButton hotelId={id} />
         </div>
+      )}
+
+      <div className="h-48 relative">
+        <Image
+          src={image || "/images/placeholder-hotel.jpg"}
+          alt={name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          loading={imageLoading}
+        />
         
-        <div className="p-5">
-          <div className="mb-2">
-            <HotelThemes themes={themeObjects.slice(0, 2)} size="sm" />
-            {themeObjects.length > 2 && (
-              <span className="text-xs text-fuchsia-400 ml-2">+{themeObjects.length - 2} more</span>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pt-12 pb-2 px-4">
+          <div className="flex items-center">
+            {[...Array(Math.floor(stars))].map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            ))}
+            {stars % 1 !== 0 && (
+              <StarHalfIcon className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             )}
-          </div>
-          
-          <h3 className="text-xl font-bold mb-1 group-hover:text-fuchsia-300 transition-colors">{name}</h3>
-          
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-            <span>{city}, {country}</span>
-          </div>
-          
-          {availableMonths.length > 0 && (
-            <div className="flex items-center gap-2 text-sm text-fuchsia-400/80 mb-3">
-              <Calendar className="w-4 h-4" />
-              <span>
-                {availableMonths.length === 1 
-                  ? `${availableMonths[0]} available` 
-                  : `${availableMonths.length} months available`}
-              </span>
-            </div>
-          )}
-          
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-bold text-gradient">${pricePerMonth}/month</div>
-            <span className="text-xs text-fuchsia-400 px-3 py-1 rounded-full bg-fuchsia-400/10 border border-fuchsia-400/20">
-              Available
-            </span>
           </div>
         </div>
       </div>
-    </Link>
+      
+      <div className="p-4">
+        <h3 className="font-bold text-lg mb-1">{name}</h3>
+        <p className="text-white/70 text-sm mb-2">{city}, {country}</p>
+        
+        <div className="flex flex-wrap gap-1 mb-3">
+          {themes.slice(0, 3).map((theme, index) => (
+            <span 
+              key={index}
+              className="text-xs px-2 py-0.5 bg-fuchsia-500/20 rounded-full"
+            >
+              {theme}
+            </span>
+          ))}
+          {themes.length > 3 && (
+            <span className="text-xs px-2 py-0.5 bg-fuchsia-500/10 rounded-full">
+              +{themes.length - 3} more
+            </span>
+          )}
+        </div>
+        
+        <div className="flex justify-between items-center mt-2">
+          <div>
+            <span className="font-bold text-xl">${pricePerMonth}</span>
+            <span className="text-white/70 text-sm"> /month</span>
+          </div>
+          <LinkButton className="text-xs">
+            View Details
+            <ChevronRight className="h-3 w-3" />
+          </LinkButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function HotelCardSkeleton() {
+  return (
+    <div className="glass-card rounded-xl overflow-hidden">
+      <div className="h-48 bg-white/5 animate-pulse"></div>
+      <div className="p-4 space-y-3">
+        <div className="h-6 w-3/4 bg-white/10 rounded animate-pulse"></div>
+        <div className="h-4 w-1/2 bg-white/10 rounded animate-pulse"></div>
+        <div className="flex gap-2">
+          <div className="h-5 w-16 bg-white/10 rounded-full animate-pulse"></div>
+          <div className="h-5 w-16 bg-white/10 rounded-full animate-pulse"></div>
+        </div>
+        <div className="flex justify-between pt-2">
+          <div className="h-5 w-20 bg-white/10 rounded animate-pulse"></div>
+          <div className="h-4 w-16 bg-white/10 rounded animate-pulse"></div>
+        </div>
+      </div>
+    </div>
   );
 }

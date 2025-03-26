@@ -1,9 +1,12 @@
 
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
-type NotificationType = 'booking' | 'review' | 'message';
+export type NotificationType = 'review' | 'booking' | 'message';
+
+export interface NotificationData {
+  [key: string]: any;
+}
 
 export function useSendNotification() {
   const [isSending, setIsSending] = useState(false);
@@ -12,32 +15,33 @@ export function useSendNotification() {
   const sendNotification = async (
     type: NotificationType, 
     recipient: string, 
-    data: Record<string, any>
+    data: NotificationData
   ) => {
     setIsSending(true);
     
     try {
-      const { data: response, error } = await supabase.functions.invoke('send-notification', {
-        body: { type, recipient, data }
-      });
+      // This is a mock implementation. In a real app, you would call an API endpoint.
+      // For example:
+      // const response = await fetch('/api/notifications', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ type, recipient, data }),
+      // });
       
-      if (error) throw error;
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.log("Notification sent:", response);
+      console.log(`Notification sent: Type=${type}, Recipient=${recipient}, Data=`, data);
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Error sending notification:', error);
       toast({
-        title: "Notification Sent",
-        description: `${type.charAt(0).toUpperCase() + type.slice(1)} notification sent to ${recipient}`
+        title: 'Notification failed',
+        description: error instanceof Error ? error.message : 'An unknown error occurred',
+        variant: 'destructive',
       });
-      
-      return response;
-    } catch (error: any) {
-      console.error("Error sending notification:", error);
-      toast({
-        title: "Error Sending Notification",
-        description: error.message || "Failed to send notification",
-        variant: "destructive"
-      });
-      return null;
+      throw error;
     } finally {
       setIsSending(false);
     }

@@ -1,0 +1,7 @@
+
+# The project ID matches what's in the URL of your Supabase project.
+# i.e. https://pgdzrvdwgoomjnnegkcn.supabase.co
+project_id = "pgdzrvdwgoomjnnegkcn"
+
+# Use a 90s timeout to allow for potentially slower responses from OpenAI
+timeout_ms = 90000

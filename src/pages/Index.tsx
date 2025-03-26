@@ -1,43 +1,45 @@
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterState } from "@/components/FilterSection";
+import { FilterState } from "@/components/filters/FilterTypes";
 import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
-import { FeaturedHotelsSection } from "@/components/home/FeaturedHotelsSection";
-import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
-import { Theme } from "@/integrations/supabase/types-custom";
+import { Theme, allThemes } from "@/utils/data";
+import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
+import { RecommendationsSection } from "@/components/recommendations/RecommendationsSection";
+
+// Default initial filters
+const DEFAULT_FILTERS: FilterState = {
+  country: null,
+  month: null,
+  theme: null,
+  priceRange: null
+};
 
 export default function Index() {
-  // Add a try-catch to prevent the app from crashing if the auth context isn't available
-  let authData = { isLoading: true, user: null, profile: null };
-  try {
-    authData = useAuth();
-  } catch (error) {
-    console.error("Auth context not available:", error);
-  }
-  
-  const { isLoading: isAuthLoading, user, profile } = authData;
-  
-  const [filters, setFilters] = useState<FilterState>({
-    country: null,
-    month: null,
-    theme: null,
-    priceRange: null
-  });
+  const { isLoading: isAuthLoading, user } = useAuth();
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   
   // Fetch themes
   const { data: themes = [], isLoading: isThemesLoading } = useThemes();
   
-  // Fetch hotels with filters
-  const { data: hotels = [], isLoading: isHotelsLoading } = useHotels(filters, !isAuthLoading);
-  
-  const handleFilterChange = (newFilters: FilterState) => {
+  // Memoized callback to prevent unnecessary re-renders
+  const handleFilterChange = useCallback((newFilters: FilterState) => {
     setFilters(newFilters);
-  };
+  }, []);
+  
+  // Use fetched themes or fall back to imported allThemes
+  const availableThemes = useMemo<Theme[]>(() => {
+    return themes.length > 0 ? themes : allThemes;
+  }, [themes]);
+  
+  // Determine if any filters are active
+  const areFiltersActive = useMemo(() => {
+    return hasActiveFilters(filters);
+  }, [filters]);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -50,14 +52,11 @@ export default function Index() {
         {/* Filter Section */}
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
-          availableThemes={themes.map((theme: Theme) => theme.name)}
+          availableThemes={availableThemes}
         />
         
-        {/* Hotels Section */}
-        <FeaturedHotelsSection 
-          hotels={hotels} 
-          isLoading={isHotelsLoading} 
-        />
+        {/* AI-Powered Recommendations Section */}
+        {user && <RecommendationsSection />}
       </main>
       
       <Footer />

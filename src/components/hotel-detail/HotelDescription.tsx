@@ -2,11 +2,14 @@
 import { HotelDescriptionProps } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FileText } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function HotelDescription({ 
   description, 
   isLoading 
 }: HotelDescriptionProps & { isLoading?: boolean }) {
+  const { t } = useLanguage();
+  
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6 mb-8">
@@ -22,7 +25,7 @@ export function HotelDescription({
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        About this hotel
+        {t("hotel.about")}
         <FileText className="w-5 h-5 text-fuchsia-400" />
       </h2>
       {description ? (
@@ -31,7 +34,7 @@ export function HotelDescription({
         </p>
       ) : (
         <p className="text-foreground/60 italic">
-          No description available for this hotel.
+          {t("hotel.nodescription")}
         </p>
       )}
     </div>

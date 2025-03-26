@@ -1,0 +1,53 @@
+
+@layer utilities {
+  /* Animation for color changing text */
+  .animate-text {
+    background-size: 200% 200%;
+    animation: text-shine 1.5s linear infinite;
+  }
+  
+  /* Slower animation for color changing text */
+  .animate-text-slow {
+    background-size: 200% 200%;
+    animation: text-shine 8.4s linear infinite;
+  }
+
+  @keyframes text-shine {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Custom animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+}
+

@@ -6,13 +6,24 @@ import { HotelDetailContent } from "@/components/hotel-detail/HotelDetailContent
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useHotelDetail } from "@/hooks/useHotelDetail";
 import { useToast } from "@/hooks/use-toast";
+import { HotelDetailProps } from "@/types/hotel";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   
   // Use the Supabase hook to fetch hotel data
-  const { data: hotel, isLoading, error } = useHotelDetail(id);
+  const { data: hotelData, isLoading, error } = useHotelDetail(id);
+  
+  // Ensure hotel data matches the required format for HotelDetailProps
+  const hotel: HotelDetailProps | null = hotelData ? {
+    ...hotelData,
+    description: hotelData.description || "No description available", // Ensure description is not undefined
+    category: hotelData.category || 0, // Ensure category is not undefined
+    main_image_url: hotelData.main_image_url || "", // Ensure main_image_url is not undefined
+    hotel_themes: hotelData.hotel_themes || [],
+    hotel_images: hotelData.hotel_images || []
+  } : null;
   
   useEffect(() => {
     // Scroll to top when component mounts
@@ -35,7 +46,7 @@ export default function HotelDetail() {
       
       <main className="flex-1 pt-16">
         {isLoading ? (
-          <HotelDetailContent hotel={{} as any} isLoading={true} />
+          <HotelDetailContent hotel={{} as HotelDetailProps} isLoading={true} />
         ) : hotel ? (
           <HotelDetailContent hotel={hotel} isLoading={false} />
         ) : (

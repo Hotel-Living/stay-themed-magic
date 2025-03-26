@@ -1,116 +1,95 @@
 
-export type Profile = {
+// Custom type definitions for Supabase data structures
+
+// Theme data structure
+export interface Theme {
   id: string;
-  first_name: string | null;
-  last_name: string | null;
-  avatar_url: string | null;
-  phone: string | null;
-  is_hotel_owner: boolean;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  category: string;
+  description?: string;
+  created_at?: string;
 }
 
-export type Hotel = {
+// Hotel data structure
+export interface Hotel {
   id: string;
-  owner_id: string;
   name: string;
-  description: string | null;
-  country: string;
+  description?: string;
   city: string;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
+  country: string;
+  address?: string;
+  category?: number;
   price_per_month: number;
-  main_image_url: string | null;
-  category: number | null;
-  property_type: string | null;
-  style: string | null;
-  is_featured: boolean;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  main_image_url?: string;
+  latitude?: number;
+  longitude?: number;
+  available_months?: string[];
+  amenities?: string[];
+  hotel_images?: HotelImage[];
+  hotel_themes?: HotelTheme[];
+  reviews?: Review[];
 }
 
-export type Theme = {
-  id: string;
-  name: string;
-  description: string | null;
-  created_at: string;
-}
-
-export type HotelTheme = {
-  id: string;
-  hotel_id: string;
-  theme_id: string;
-}
-
-export type HotelImage = {
+// Hotel image structure
+export interface HotelImage {
   id: string;
   hotel_id: string;
   image_url: string;
   is_main: boolean;
-  created_at: string;
+  created_at?: string;
 }
 
-export type Booking = {
+// Hotel theme structure
+export interface HotelTheme {
+  id: string;
+  hotel_id: string;
+  theme_id: string;
+  themes?: {
+    id: string;
+    name: string;
+  };
+}
+
+// Review structure
+export interface Review {
+  id: string;
+  hotel_id: string;
+  user_id: string;
+  rating: number;
+  comment?: string;
+  created_at: string;
+  user_name?: string;
+  profiles?: {
+    full_name?: string;
+  } | null;
+}
+
+// Booking structure
+export interface Booking {
   id: string;
   user_id: string;
   hotel_id: string;
   check_in: string;
   check_out: string;
   total_price: number;
-  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  status: 'confirmed' | 'pending' | 'cancelled' | 'completed';
   created_at: string;
   updated_at: string;
 }
 
-export type Review = {
+// User profile structure
+export interface Profile {
   id: string;
-  user_id: string;
-  hotel_id: string;
-  rating: number;
-  comment: string | null;
+  first_name?: string;
+  last_name?: string;
+  role: 'guest' | 'hotel_owner' | 'admin';
+  email_verified: boolean;
+  avatar_url?: string | null;
+  phone?: string | null;
+  is_hotel_owner?: boolean;
+  bio?: string; // Added bio field
   created_at: string;
   updated_at: string;
 }
 
-export type Database = {
-  public: {
-    Tables: {
-      profiles: {
-        Row: Profile;
-        Insert: Omit<Profile, "created_at" | "updated_at">;
-        Update: Partial<Omit<Profile, "id" | "created_at" | "updated_at">>;
-      };
-      hotels: {
-        Row: Hotel;
-        Insert: Omit<Hotel, "id" | "created_at" | "updated_at">;
-        Update: Partial<Omit<Hotel, "id" | "created_at" | "updated_at">>;
-      };
-      themes: {
-        Row: Theme;
-        Insert: Omit<Theme, "id" | "created_at">;
-        Update: Partial<Omit<Theme, "id" | "created_at">>;
-      };
-      hotel_themes: {
-        Row: HotelTheme;
-        Insert: Omit<HotelTheme, "id">;
-        Update: Partial<Omit<HotelTheme, "id">>;
-      };
-      hotel_images: {
-        Row: HotelImage;
-        Insert: Omit<HotelImage, "id" | "created_at">;
-        Update: Partial<Omit<HotelImage, "id" | "created_at">>;
-      };
-      bookings: {
-        Row: Booking;
-        Insert: Omit<Booking, "id" | "created_at" | "updated_at">;
-        Update: Partial<Omit<Booking, "id" | "created_at" | "updated_at">>;
-      };
-      reviews: {
-        Row: Review;
-        Insert: Omit<Review, "id" | "created_at" | "updated_at">;
-        Update: Partial<Omit<Review, "id" | "created_at" | "updated_at">>;
-      };
-    };
-  };
-};

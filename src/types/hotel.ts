@@ -11,12 +11,12 @@ export interface HotelTheme {
 export interface HotelDetailProps {
   id: string;
   name: string;
-  description: string | null;
+  description: string;
   city: string;
   country: string;
-  category: number | null;
+  category: number;
   price_per_month: number;
-  main_image_url: string | null;
+  main_image_url: string;
   average_rating?: number;
   amenities?: string[];
   available_months?: string[];
@@ -25,6 +25,9 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
+  owner_id?: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface HotelAmenitiesProps {

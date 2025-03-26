@@ -1,88 +1,73 @@
 
-import { useState } from "react";
-import { 
-  LayoutDashboard, 
-  Calculator,
-  PlusCircle,
-  Building, 
-  Calendar, 
-  CreditCard,
-  Users,
-  BarChart3,
-  MessageSquare, 
-  Settings, 
-  LogOut
-} from "lucide-react";
-
-// Import refactored components
+import { useEffect } from "react";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import DashboardContent from "@/components/dashboard/DashboardContent";
-import AddProperty from "@/components/dashboard/AddProperty";
-import CalculatorContent from "@/components/dashboard/Calculator";
-import PropertiesContent from "@/components/dashboard/PropertiesContent";
-import BookingsContent from "@/components/dashboard/BookingsContent";
-import GuestsContent from "@/components/dashboard/GuestsContent";
-import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
-import ReviewsContent from "@/components/dashboard/ReviewsContent";
-import FinancesContent from "@/components/dashboard/FinancesContent";
-import SettingsContent from "@/components/dashboard/SettingsContent";
-
-interface DashboardTab {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
+import { useAuth } from "@/context/AuthContext";
+import { useHotels } from "@/hooks/useHotels";
+import { FilterState } from "@/components/FilterSection";
+import { EmailVerificationBanner } from "@/components/auth/EmailVerificationBanner";
 
 export default function HotelDashboard() {
-  const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const { user, profile } = useAuth();
+  const { data: hotels = [] } = useHotels({} as FilterState);
   
-  const tabs: DashboardTab[] = [
-    { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { id: "calculator", label: "Hotel-Living Calculator", icon: <Calculator className="w-5 h-5" /> },
-    { id: "addProperty", label: "+ A Property", icon: <PlusCircle className="w-5 h-5" /> },
-    { id: "properties", label: "My Properties", icon: <Building className="w-5 h-5" /> },
-    { id: "bookings", label: "Bookings", icon: <Calendar className="w-5 h-5" /> },
-    { id: "guests", label: "Guests", icon: <Users className="w-5 h-5" /> },
-    { id: "analytics", label: "Analytics", icon: <BarChart3 className="w-5 h-5" /> },
-    { id: "reviews", label: "Reviews", icon: <MessageSquare className="w-5 h-5" /> },
-    { id: "finances", label: "Finances", icon: <CreditCard className="w-5 h-5" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
-  ];
-  
-  const renderContent = () => {
-    switch (activeTab) {
-      case "dashboard":
-        return <DashboardContent />;
-      case "calculator":
-        return <CalculatorContent />;
-      case "addProperty":
-        return <AddProperty />;
-      case "properties":
-        return <PropertiesContent />;
-      case "bookings":
-        return <BookingsContent />;
-      case "guests":
-        return <GuestsContent />;
-      case "analytics":
-        return <AnalyticsContent />;
-      case "reviews":
-        return <ReviewsContent />;
-      case "finances":
-        return <FinancesContent />;
-      case "settings":
-        return <SettingsContent />;
-      default:
-        return <DashboardContent />;
-    }
-  };
+  const userHotels = hotels.filter(hotel => hotel.owner_id === user?.id);
+
+  useEffect(() => {
+    document.title = "Hotel Dashboard | Hotel-Living";
+  }, []);
   
   return (
-    <DashboardLayout 
-      activeTab={activeTab}
-      tabs={tabs}
-      setActiveTab={setActiveTab}
-    >
-      {renderContent()}
-    </DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-1 pt-16">
+        <div className="container max-w-7xl mx-auto px-4 py-6">
+          {/* Show email verification banner if needed */}
+          <EmailVerificationBanner />
+          
+          <h1 className="text-3xl font-bold mb-6">Hotel Owner Dashboard</h1>
+          
+          <DashboardLayout>
+            <div>
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">Your Properties</h2>
+                {userHotels.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {userHotels.map(hotel => (
+                      <div key={hotel.id} className="glass-card p-6 rounded-xl">
+                        <h3 className="text-lg font-medium mb-2">{hotel.name}</h3>
+                        <p className="text-muted-foreground mb-4">{hotel.city}, {hotel.country}</p>
+                        <div className="flex justify-between">
+                          <span className="text-sm bg-fuchsia-400/20 text-fuchsia-400 px-3 py-1 rounded-full">
+                            {hotel.category} stars
+                          </span>
+                          <span className="text-sm">
+                            ${hotel.price_per_month}/month
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 glass-card rounded-xl">
+                    <h3 className="text-lg font-medium mb-2">No properties yet</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Get started by adding your first property
+                    </p>
+                    <button className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg transition-colors">
+                      Add Property
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </DashboardLayout>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
   );
 }

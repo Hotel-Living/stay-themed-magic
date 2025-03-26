@@ -4,7 +4,15 @@ import { authTranslation } from './auth';
 import { searchTranslation } from './search';
 import { dashboardTranslation } from './dashboard';
 import { footerTranslation } from './footer';
-import { informationTranslation } from './information';
+import { 
+  heroTranslation,
+  servicesTranslation,
+  valuesTranslation,
+  faqTranslation,
+  termsTranslation,
+  privacyTranslation,
+  customerServiceTranslation
+} from './information';
 import { chatTranslation } from './chat';
 
 const en = {
@@ -13,7 +21,15 @@ const en = {
   search: searchTranslation,
   dashboard: dashboardTranslation,
   footer: footerTranslation,
-  information: informationTranslation,
+  information: {
+    hero: heroTranslation,
+    services: servicesTranslation,
+    values: valuesTranslation,
+    faq: faqTranslation,
+    terms: termsTranslation,
+    privacy: privacyTranslation,
+    customerService: customerServiceTranslation
+  },
   chat: chatTranslation,
 };
 

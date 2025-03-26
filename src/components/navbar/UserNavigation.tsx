@@ -7,6 +7,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { CurrencySelector } from '@/components/CurrencySelector';
 import { AccessibilityMenu } from '@/components/AccessibilityMenu';
 import { useLanguage } from '@/context/LanguageContext';
+import { Link } from 'react-router-dom';
 
 export const UserNavigation = () => {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ export const UserNavigation = () => {
       
       {user ? (
         <LinkButton
-          to="/dashboard"
+          href="/dashboard"
           variant="gradient"
           className="text-white"
           aria-label="Go to user dashboard"
@@ -30,7 +31,7 @@ export const UserNavigation = () => {
         </LinkButton>
       ) : (
         <LinkButton
-          to="/login"
+          href="/login"
           variant="gradient"
           className="text-white"
           aria-label="Login to your account"

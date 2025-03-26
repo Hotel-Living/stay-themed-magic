@@ -8,7 +8,6 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
-import { Starfield } from "@/components/Starfield";
 import { hasActiveFilters } from "@/hooks/hotels/filterUtils";
 import { RecommendationsSection } from "@/components/recommendations/RecommendationsSection";
 
@@ -44,7 +43,6 @@ export default function Index() {
   
   return (
     <div className="min-h-screen flex flex-col">
-      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16 pb-8 text-white flex flex-col justify-center">

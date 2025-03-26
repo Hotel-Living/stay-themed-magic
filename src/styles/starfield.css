@@ -1,7 +1,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #5B0155;
+  background: linear-gradient(135deg, #5B0155 0%, #110375 100%);
   position: fixed;
   top: 0;
   left: 0;
@@ -14,6 +14,17 @@
   position: absolute;
   border-radius: 50%;
   animation: starMovement linear infinite;
+  filter: blur(0.5px);
+}
+
+.star:nth-child(3n) {
+  filter: blur(0);
+  box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.4);
+}
+
+.star:nth-child(7n) {
+  filter: blur(0);
+  box-shadow: 0 0 6px 1px rgba(255, 240, 0, 0.7);
 }
 
 @keyframes starMovement {
@@ -33,3 +44,14 @@
   }
 }
 
+@keyframes text-shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

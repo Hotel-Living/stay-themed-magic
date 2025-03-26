@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
-import { Starfield } from "@/components/Starfield";
 import { useRealtimeBookings } from "@/hooks/useRealtimeBookings";
 import BookingsContent from "@/components/dashboard/BookingsContent";
 import { toast } from "@/hooks/use-toast";
@@ -26,7 +25,6 @@ export default function Bookings() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

@@ -68,6 +68,7 @@ const BookingItem = ({ booking, name, dates, property, status }: BookingItemProp
             stayDuration={stayDuration}
             canCancel={canCancel}
             onCancelClick={() => setShowCancelDialog(true)}
+            hotelName={property} // Pass the property name as the hotel name
           />
         )}
       </div>

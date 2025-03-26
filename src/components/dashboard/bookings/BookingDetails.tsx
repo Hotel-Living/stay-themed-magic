@@ -14,6 +14,7 @@ interface BookingDetailsProps {
   checkOutDate: Date;
   canCancel: boolean;
   onCancelClick: () => void;
+  hotelName?: string; // Add hotelName as an optional prop
 }
 
 const BookingDetails: React.FC<BookingDetailsProps> = ({
@@ -23,13 +24,14 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
   checkInDate,
   checkOutDate,
   canCancel,
-  onCancelClick
+  onCancelClick,
+  hotelName = 'a great hotel' // Default value if not provided
 }) => {
   const { t } = useLanguage();
   const [showShareOptions, setShowShareOptions] = useState(false);
   
   // Create share message for the booking
-  const shareTitle = `I'm staying at ${booking.hotel_name || 'a great hotel'} with Hotel Living!`;
+  const shareTitle = `I'm staying at ${hotelName} with Hotel Living!`;
   const shareDescription = `I'll be checking in on ${checkInDate.toLocaleDateString()} for a ${stayDuration}-day stay.`;
   
   return (

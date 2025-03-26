@@ -12,7 +12,7 @@ export function SearchLayout({ children }: SearchLayoutProps) {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-16">
+      <main id="main-content" className="flex-1 pt-16" tabIndex={-1}>
         <div className="container max-w-6xl mx-auto px-4 py-8">
           {children}
         </div>

@@ -9,6 +9,8 @@ import { ComparisonProvider } from "@/components/comparison/ComparisonContext";
 import { ComparisonBar } from "@/components/comparison/ComparisonBar";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { AccessibilityProvider } from "@/context/AccessibilityContext";
+import { SkipToContent } from "@/components/SkipToContent";
 
 // Page imports - organized by sections
 // Public pages
@@ -56,81 +58,84 @@ function App() {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={true} storageKey="hotel-living-theme">
       <QueryClientProvider client={queryClient}>
         <Router>
-          <LanguageProvider>
-            <CurrencyProvider>
-              <AuthProvider>
-                <ComparisonProvider>
-                  <Routes>
-                    {/* Public routes */}
-                    <Route path="/" element={<Index />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/hotel/:id" element={<HotelDetail />} />
-                    <Route path="/compare" element={<Compare />} />
+          <AccessibilityProvider>
+            <LanguageProvider>
+              <CurrencyProvider>
+                <AuthProvider>
+                  <ComparisonProvider>
+                    <SkipToContent />
+                    <Routes>
+                      {/* Public routes */}
+                      <Route path="/" element={<Index />} />
+                      <Route path="/search" element={<Search />} />
+                      <Route path="/hotel/:id" element={<HotelDetail />} />
+                      <Route path="/compare" element={<Compare />} />
+                      
+                      {/* Auth routes */}
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<SignUp />} />
+                      <Route path="/forgot-password" element={<ForgotPassword />} />
+                      <Route path="/reset-password" element={<ResetPassword />} />
+                      
+                      {/* Protected routes */}
+                      <Route
+                        path="/dashboard"
+                        element={
+                          <ProtectedRoute>
+                            <UserDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/host"
+                        element={
+                          <ProtectedRoute>
+                            <HotelDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/bookings"
+                        element={
+                          <ProtectedRoute>
+                            <Bookings />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/favorites"
+                        element={
+                          <ProtectedRoute>
+                            <Favorites />
+                          </ProtectedRoute>
+                        }
+                      />
+                      
+                      {/* Information pages */}
+                      <Route path="/faq" element={<FAQ />} />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/customer-service" element={<CustomerService />} />
+                      <Route path="/services" element={<OurServices />} />
+                      <Route path="/values" element={<OurValues />} />
+                      
+                      {/* Utility pages */}
+                      <Route path="/stats" element={<CodeStats />} />
+                      
+                      {/* Catch-all */}
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
                     
-                    {/* Auth routes */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
+                    {/* Comparison bar */}
+                    <ComparisonBar />
                     
-                    {/* Protected routes */}
-                    <Route
-                      path="/dashboard"
-                      element={
-                        <ProtectedRoute>
-                          <UserDashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/host"
-                      element={
-                        <ProtectedRoute>
-                          <HotelDashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/bookings"
-                      element={
-                        <ProtectedRoute>
-                          <Bookings />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/favorites"
-                      element={
-                        <ProtectedRoute>
-                          <Favorites />
-                        </ProtectedRoute>
-                      }
-                    />
-                    
-                    {/* Information pages */}
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="/terms" element={<Terms />} />
-                    <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/customer-service" element={<CustomerService />} />
-                    <Route path="/services" element={<OurServices />} />
-                    <Route path="/values" element={<OurValues />} />
-                    
-                    {/* Utility pages */}
-                    <Route path="/stats" element={<CodeStats />} />
-                    
-                    {/* Catch-all */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                  
-                  {/* Comparison bar */}
-                  <ComparisonBar />
-                  
-                  {/* Toast notifications */}
-                  <Toaster />
-                </ComparisonProvider>
-              </AuthProvider>
-            </CurrencyProvider>
-          </LanguageProvider>
+                    {/* Toast notifications */}
+                    <Toaster />
+                  </ComparisonProvider>
+                </AuthProvider>
+              </CurrencyProvider>
+            </LanguageProvider>
+          </AccessibilityProvider>
         </Router>
       </QueryClientProvider>
     </ThemeProvider>

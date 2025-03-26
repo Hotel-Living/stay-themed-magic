@@ -1,56 +1,51 @@
 
 import { FilterItem } from "./FilterItem";
-
-interface CheckboxOption {
-  value: string;
-  label: string;
-}
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface CheckboxFilterProps {
   title: string;
-  options: string[] | CheckboxOption[];
-  selectedValues: string[];
-  onChange: (value: string, isChecked: boolean) => void;
+  options: string[];
+  selectedOptions: string[];
+  onChange: (value: string[]) => void;
 }
 
 export function CheckboxFilter({ 
   title, 
   options, 
-  selectedValues, 
+  selectedOptions, 
   onChange 
 }: CheckboxFilterProps) {
-  // Determine if options are strings or objects with value/label
-  const getOptionLabel = (option: string | CheckboxOption) => {
-    if (typeof option === 'string') {
-      return option;
+  const handleChange = (option: string, checked: boolean) => {
+    if (checked) {
+      onChange([...selectedOptions, option]);
+    } else {
+      onChange(selectedOptions.filter(item => item !== option));
     }
-    return option.label;
   };
-  
-  const getOptionValue = (option: string | CheckboxOption) => {
-    if (typeof option === 'string') {
-      return option;
-    }
-    return option.value;
-  };
-  
+
   return (
     <FilterItem title={title}>
-      <div className="space-y-2">
+      <div className="space-y-2" role="group" aria-label={title}>
         {options.map(option => {
-          const value = getOptionValue(option);
-          const label = getOptionLabel(option);
+          const id = `${title}-${option}`.toLowerCase().replace(/\s+/g, '-');
           
           return (
-            <label key={value} className="flex items-start space-x-2">
-              <input 
-                type="checkbox" 
-                checked={selectedValues.includes(value)}
-                onChange={(e) => onChange(value, e.target.checked)}
-                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mt-0.5" 
+            <div key={option} className="flex items-start space-x-2">
+              <Checkbox 
+                id={id}
+                checked={selectedOptions.includes(option)}
+                onCheckedChange={(checked) => handleChange(option, checked as boolean)}
+                aria-labelledby={`${id}-label`}
               />
-              <span className="text-sm">{label}</span>
-            </label>
+              <Label 
+                htmlFor={id}
+                id={`${id}-label`}
+                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {option}
+              </Label>
+            </div>
           );
         })}
       </div>

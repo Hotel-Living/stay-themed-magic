@@ -40,22 +40,30 @@ export const FilterItem = memo(function FilterItem({
     }
   };
   
+  const filterId = `filter-${title.toLowerCase().replace(/\s+/g, '-')}`;
+  
   return (
     <Collapsible 
       open={isOpen} 
       onOpenChange={setIsOpen}
       className={cn(getBgColor(), "rounded-lg p-3", className)}
     >
-      <CollapsibleTrigger className="flex items-center justify-between w-full font-medium text-sm">
-        <span>{title}</span>
+      <CollapsibleTrigger 
+        className="flex items-center justify-between w-full font-medium text-sm"
+        aria-expanded={isOpen}
+        aria-controls={filterId}
+      >
+        <span id={`${filterId}-label`}>{title}</span>
         {isOpen ? (
-          <ChevronDown className="h-4 w-4 transition-transform" />
+          <ChevronDown className="h-4 w-4 transition-transform" aria-hidden="true" />
         ) : (
-          <ChevronRight className="h-4 w-4 transition-transform" />
+          <ChevronRight className="h-4 w-4 transition-transform" aria-hidden="true" />
         )}
       </CollapsibleTrigger>
       <CollapsibleContent 
         className={cn("pt-2 pl-2 space-y-2 animate-accordion-down", contentClassName)}
+        id={filterId}
+        aria-labelledby={`${filterId}-label`}
       >
         {children}
       </CollapsibleContent>

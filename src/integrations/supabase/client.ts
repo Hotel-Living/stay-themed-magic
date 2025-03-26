@@ -1,5 +1,6 @@
 
 import { createClient } from '@supabase/supabase-js';
+import { handleApiError } from '@/utils/errorHandling';
 
 // Supabase client configuration with fallback values for development
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://xyzcompany.supabase.co';

@@ -79,8 +79,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         console.error(`Failed to load translations for ${language}:`, error);
         // Fallback to English
         if (language !== "en") {
-          const fallbackModule = await import(`../translations/en.ts`);
-          setTranslations(fallbackModule.default);
+          try {
+            const fallbackModule = await import(`../translations/en.ts`);
+            setTranslations(fallbackModule.default);
+          } catch (fallbackError) {
+            console.error("Even fallback translations failed to load:", fallbackError);
+            setTranslations({});
+          }
         }
       } finally {
         setIsLoading(false);

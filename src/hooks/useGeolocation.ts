@@ -27,14 +27,19 @@ export const useGeolocation = () => {
   // Function to fetch geolocation info from ipapi.co
   const fetchGeoInfo = async () => {
     try {
+      // Attempt to fetch geolocation data with a timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+      
       const response = await fetch('https://ipapi.co/json/', { 
         method: 'GET',
         headers: {
           'Accept': 'application/json',
         },
-        // Add timeout to prevent long-hanging requests
-        signal: AbortSignal.timeout(5000)
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -53,13 +58,23 @@ export const useGeolocation = () => {
         error: null
       });
     } catch (error: any) {
-      // Handle fetch errors gracefully and don't crash the app
       console.error('Error detecting location:', error);
-      setLocation(prevLocation => ({
-        ...prevLocation,
+      
+      // Use navigator.language as a fallback for language detection
+      const browserLang = navigator.language || 'en';
+      const detectedLanguage = browserLang.split('-')[0];
+      
+      // Provide fallback values when geolocation fails
+      setLocation({
+        country: 'United States', // Default country
+        countryCode: 'US',        // Default country code
+        language: detectedLanguage,
+        city: '',
+        latitude: 0,
+        longitude: 0,
         isLoading: false,
         error: error?.message || 'Failed to detect location'
-      }));
+      });
     }
   };
 

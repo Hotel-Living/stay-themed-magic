@@ -15,6 +15,7 @@ export const UserPreferencesSettings = () => {
   const [formData, setFormData] = useState<PreferencesFormData>({
     favorite_themes: [],
     preferred_countries: [],
+    language_preferences: [],
     price_range_min: 0,
     price_range_max: 5000
   });
@@ -27,6 +28,7 @@ export const UserPreferencesSettings = () => {
       setFormData({
         favorite_themes: preferences.favorite_themes || [],
         preferred_countries: preferences.preferred_countries || [],
+        language_preferences: preferences.language_preferences || [],
         price_range_min: preferences.price_range_min || 0,
         price_range_max: preferences.price_range_max || 5000
       });
@@ -47,6 +49,13 @@ export const UserPreferencesSettings = () => {
     }));
   };
   
+  const handleRemoveLanguage = (language: string) => {
+    setFormData(prev => ({
+      ...prev,
+      language_preferences: prev.language_preferences.filter(l => l !== language)
+    }));
+  };
+  
   const handleAddTheme = (theme: string) => {
     setFormData(prev => ({
       ...prev,
@@ -58,6 +67,13 @@ export const UserPreferencesSettings = () => {
     setFormData(prev => ({
       ...prev,
       preferred_countries: [...prev.preferred_countries, country]
+    }));
+  };
+  
+  const handleAddLanguage = (language: string) => {
+    setFormData(prev => ({
+      ...prev,
+      language_preferences: [...prev.language_preferences, language]
     }));
   };
   
@@ -97,6 +113,8 @@ export const UserPreferencesSettings = () => {
         onThemeRemove={handleRemoveTheme}
         onCountryAdd={handleAddCountry}
         onCountryRemove={handleRemoveCountry}
+        onLanguageAdd={handleAddLanguage}
+        onLanguageRemove={handleRemoveLanguage}
         onPriceRangeChange={handlePriceRangeChange}
         onSubmit={handleSubmit}
       />

@@ -5,6 +5,7 @@ import { Loader2, Save } from 'lucide-react';
 import { ThemesSection } from './ThemesSection';
 import { CountriesSection } from './CountriesSection';
 import { PriceRangeSection } from './PriceRangeSection';
+import { LanguagePreferencesSection } from './LanguagePreferencesSection';
 import { PreferencesFormData } from '@/types/preferences';
 
 interface PreferencesFormProps {
@@ -16,6 +17,8 @@ interface PreferencesFormProps {
   onThemeRemove: (theme: string) => void;
   onCountryAdd: (country: string) => void;
   onCountryRemove: (country: string) => void;
+  onLanguageAdd: (language: string) => void;
+  onLanguageRemove: (language: string) => void;
   onPriceRangeChange: (values: number[]) => void;
   onSubmit: (e: React.FormEvent) => void;
 }
@@ -29,6 +32,8 @@ export const PreferencesForm: React.FC<PreferencesFormProps> = ({
   onThemeRemove,
   onCountryAdd,
   onCountryRemove,
+  onLanguageAdd,
+  onLanguageRemove,
   onPriceRangeChange,
   onSubmit
 }) => {
@@ -48,6 +53,13 @@ export const PreferencesForm: React.FC<PreferencesFormProps> = ({
         preferredCountries={formData.preferred_countries}
         onCountryAdd={onCountryAdd}
         onCountryRemove={onCountryRemove}
+      />
+      
+      {/* Language Preferences Section */}
+      <LanguagePreferencesSection 
+        languagePreferences={formData.language_preferences}
+        onLanguageAdd={onLanguageAdd}
+        onLanguageRemove={onLanguageRemove}
       />
       
       {/* Price Range Section */}

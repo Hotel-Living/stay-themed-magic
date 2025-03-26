@@ -4,6 +4,7 @@ export interface UserPreferences {
   user_id: string;
   favorite_themes: string[];
   preferred_countries: string[];
+  language_preferences: string[];
   price_range_min: number;
   price_range_max: number;
   created_at: string;
@@ -13,6 +14,7 @@ export interface UserPreferences {
 export interface PreferencesFormData {
   favorite_themes: string[];
   preferred_countries: string[];
+  language_preferences: string[];
   price_range_min: number;
   price_range_max: number;
 }

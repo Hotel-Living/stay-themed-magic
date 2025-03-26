@@ -330,6 +330,7 @@ export type Database = {
           created_at: string | null
           favorite_themes: string[] | null
           id: string
+          language_preferences: string[] | null
           preferred_countries: string[] | null
           price_range_max: number | null
           price_range_min: number | null
@@ -340,6 +341,7 @@ export type Database = {
           created_at?: string | null
           favorite_themes?: string[] | null
           id?: string
+          language_preferences?: string[] | null
           preferred_countries?: string[] | null
           price_range_max?: number | null
           price_range_min?: number | null
@@ -350,6 +352,7 @@ export type Database = {
           created_at?: string | null
           favorite_themes?: string[] | null
           id?: string
+          language_preferences?: string[] | null
           preferred_countries?: string[] | null
           price_range_max?: number | null
           price_range_min?: number | null

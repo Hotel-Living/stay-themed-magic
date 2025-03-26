@@ -1,4 +1,3 @@
-
 // Hero section translations
 export const heroTranslation = {
   title: "Find Your Perfect Long-Term Stay",
@@ -7,20 +6,6 @@ export const heroTranslation = {
   exploreButton: "Explore",
   placeholder: "Where do you want to stay?",
   popularDestinations: "Popular Destinations",
-};
-
-// Additional translation for the home page features
-export const homeTranslation = {
-  hero: {
-    title: "Find Your Perfect Long-Term Stay",
-    subtitle: "Discover amazing hotels for monthly stays around the world"
-  },
-  feature: {
-    "1": "Verified Properties",
-    "2": "24/7 Support",
-    "3": "Flexible Bookings",
-    "4": "Secure Payments"
-  }
 };
 
 // Services section translations

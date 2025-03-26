@@ -1,86 +1,56 @@
 
-import type { FilterState } from "@/components/filters/FilterTypes";
+import { FilterState } from "@/components/filters/FilterTypes";
 
-/**
- * Creates filter parameters for Supabase queries based on the provided filters
- */
-export const createFilterParams = (filters: FilterState): Record<string, any> => {
-  const params: Record<string, any> = {};
+// Check if any filters are active
+export const hasActiveFilters = (filters: FilterState): boolean => {
+  return (
+    filters.country !== null ||
+    filters.month !== null ||
+    filters.theme !== null ||
+    filters.priceRange !== null
+  );
+};
+
+// Convert filter state to API query params
+export const filtersToQueryParams = (filters: FilterState): Record<string, string> => {
+  const params: Record<string, string> = {};
   
   if (filters.country) {
     params.country = filters.country;
   }
   
-  if (filters.theme) {
-    // Handle both string and object theme types
-    const themeId = typeof filters.theme === 'string' ? filters.theme : 
-                    typeof filters.theme === 'object' && filters.theme !== null ? filters.theme.id : null;
-    
-    if (themeId) {
-      params.theme_id = themeId;
-    }
-  }
-  
-  if (filters.priceRange !== null) {
-    // Create price range filter based on the price range value
-    switch (filters.priceRange) {
-      case 1000:
-        params.max_price = 1000;
-        break;
-      case 1500:
-        params.min_price = 1000;
-        params.max_price = 1500;
-        break;
-      case 2000:
-        params.min_price = 1500;
-        params.max_price = 2000;
-        break;
-      case 3000:
-        params.min_price = 2000;
-        break;
-      default:
-        // No specific range, apply exact price filter
-        params.exact_price = filters.priceRange;
-    }
-  }
-  
-  // Add month filtering logic if implemented in the future
   if (filters.month) {
-    params.available_month = filters.month;
+    params.month = filters.month;
+  }
+  
+  if (filters.theme) {
+    if (typeof filters.theme === 'string') {
+      params.theme = filters.theme;
+    } else {
+      params.theme = filters.theme.id;
+    }
+  }
+  
+  if (filters.priceRange) {
+    params.price = filters.priceRange.toString();
   }
   
   return params;
 };
 
-/**
- * Utility function to check if filters are active
- */
-export const hasActiveFilters = (filters: FilterState): boolean => {
-  return Object.values(filters).some(value => value !== null);
-};
-
-/**
- * Apply the filters to a base URL
- */
-export const applyFiltersToUrl = (baseUrl: string, filters: FilterState): string => {
-  const params = new URLSearchParams();
+// Parse query params into filter state
+export const queryParamsToFilters = (
+  params: URLSearchParams
+): FilterState => {
+  const country = params.get('country');
+  const month = params.get('month');
+  const theme = params.get('theme');
+  const price = params.get('price');
   
-  if (filters.country) params.append("country", filters.country);
-  if (filters.month) params.append("month", filters.month);
-  
-  if (filters.theme) {
-    const themeId = typeof filters.theme === 'string' ? filters.theme : 
-                   typeof filters.theme === 'object' && filters.theme !== null ? filters.theme.id : null;
-    
-    if (themeId) {
-      params.append("theme", themeId);
-    }
-  }
-  
-  if (filters.priceRange !== null) {
-    params.append("price", filters.priceRange.toString());
-  }
-  
-  const queryString = params.toString();
-  return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+  return {
+    country: country as any,
+    month: month as any,
+    theme: theme,
+    priceRange: price ? parseInt(price) : null
+  };
 };

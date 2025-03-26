@@ -3,14 +3,11 @@ import { Check } from "lucide-react";
 import { HotelAmenitiesProps } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Coffee } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 
 export function HotelAmenities({ 
   amenities,
   isLoading 
 }: HotelAmenitiesProps & { isLoading?: boolean }) {
-  const { t } = useLanguage();
-  
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6 mb-8">
@@ -34,10 +31,10 @@ export function HotelAmenities({
     return (
       <div className="glass-card rounded-2xl p-6 mb-8">
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          {t("hotel.amenities")}
+          Amenities
           <Coffee className="w-5 h-5 text-fuchsia-400" />
         </h2>
-        <p className="text-foreground/60 italic">{t("hotel.noamenities")}</p>
+        <p className="text-foreground/60 italic">No amenities listed for this property.</p>
       </div>
     );
   }
@@ -45,7 +42,7 @@ export function HotelAmenities({
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        {t("hotel.amenities")}
+        Amenities
         <Coffee className="w-5 h-5 text-fuchsia-400" />
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

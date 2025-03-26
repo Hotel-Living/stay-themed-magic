@@ -60,27 +60,6 @@ export type Database = {
           },
         ]
       }
-      favorites: {
-        Row: {
-          created_at: string
-          hotel_id: string
-          id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          hotel_id: string
-          id?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          hotel_id?: string
-          id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       hotel_images: {
         Row: {
           created_at: string
@@ -218,37 +197,31 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          email_verified: boolean
           first_name: string | null
           id: string
           is_hotel_owner: boolean | null
           last_name: string | null
           phone: string | null
-          role: string
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          email_verified?: boolean
           first_name?: string | null
           id: string
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
-          role?: string
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          email_verified?: boolean
           first_name?: string | null
           id?: string
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
-          role?: string
           updated_at?: string
         }
         Relationships: []
@@ -259,9 +232,7 @@ export type Database = {
           created_at: string
           hotel_id: string | null
           id: string
-          is_notified: boolean | null
           rating: number
-          response_text: string | null
           updated_at: string
           user_id: string | null
         }
@@ -270,9 +241,7 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
-          is_notified?: boolean | null
           rating: number
-          response_text?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -281,9 +250,7 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
-          is_notified?: boolean | null
           rating?: number
-          response_text?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -322,42 +289,6 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
-        }
-        Relationships: []
-      }
-      user_preferences: {
-        Row: {
-          created_at: string | null
-          favorite_themes: string[] | null
-          id: string
-          language_preferences: string[] | null
-          preferred_countries: string[] | null
-          price_range_max: number | null
-          price_range_min: number | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          favorite_themes?: string[] | null
-          id?: string
-          language_preferences?: string[] | null
-          preferred_countries?: string[] | null
-          price_range_max?: number | null
-          price_range_min?: number | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          favorite_themes?: string[] | null
-          id?: string
-          language_preferences?: string[] | null
-          preferred_countries?: string[] | null
-          price_range_max?: number | null
-          price_range_min?: number | null
-          updated_at?: string | null
-          user_id?: string
         }
         Relationships: []
       }

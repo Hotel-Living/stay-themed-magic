@@ -2,4 +2,4 @@
 pgdzrvdwgoomjnnegkcn.supabase.co
 
 [global.env]
-RESEND_API_KEY = "{{RESEND_API_KEY}}"
+# Add environment variables here

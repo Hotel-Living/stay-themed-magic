@@ -12,25 +12,13 @@ export function Starfield() {
     
     // Create stars
     const createStars = () => {
-      // Get viewport dimensions
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const centerX = windowWidth / 2;
       const centerY = windowHeight / 2;
       
       // Number of stars based on screen size
-      const starCount = Math.max(150, Math.floor((windowWidth * windowHeight) / 1500));
-      
-      // Define color palette for dynamic star colors
-      const colorPalette = [
-        '#FFF000', // Bright yellow
-        '#FFFFFF', // White
-        '#F7F700', // Golden yellow
-        '#B1900F', // Amber
-        '#FF9DF5', // Light pink
-        '#B919B0', // Magenta 
-        '#8B5CF6', // Purple
-      ];
+      const starCount = Math.max(70, Math.floor((windowWidth * windowHeight) / 2500));
       
       for (let i = 0; i < starCount; i++) {
         // Calculate position from center with random angle
@@ -52,15 +40,15 @@ export function Starfield() {
         star.style.left = `${x}px`;
         star.style.top = `${y}px`;
         
-        // Set color from the palette randomly
-        const colorIndex = Math.floor(Math.random() * colorPalette.length);
-        star.style.backgroundColor = colorPalette[colorIndex];
+        // Set color between white and bright yellow
+        const isYellow = Math.random() > 0.7;
+        star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
         
         // Set opacity based on size for depth effect
         star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
         
-        // Animation duration based on distance from center
-        const duration = 4 + Math.random() * 6; // 4-10s
+        // Animation duration based on distance from center - FASTER
+        const duration = 4 + Math.random() * 6; // Reduced from 10-25s to 4-10s
         star.style.animation = `starMovement ${duration}s linear infinite`;
         
         // Set the starting position for animation

@@ -1,123 +1,30 @@
-import { PostgrestError } from '@supabase/supabase-js';
-import { toast } from '@/hooks/use-toast';
 
-interface ApiError {
-  message: string;
-  code?: string;
-  status?: number;
-}
-
-// Type guard to check if error is PostgrestError
-function isPostgrestError(error: unknown): error is PostgrestError {
-  return typeof error === 'object' && error !== null && 'code' in error && 'message' in error;
-}
-
-// Type guard to check if error is ApiError
-function isApiError(error: unknown): error is ApiError {
-  return typeof error === 'object' && error !== null && 'message' in error;
-}
+import { PostgrestError } from "@supabase/supabase-js";
+import { toast } from "@/hooks/use-toast";
 
 /**
- * Handle Supabase-specific errors
+ * Handles Supabase errors and displays appropriate toasts
  */
-export function handleSupabaseError(error: unknown, title = "Error"): void {
-  if (isPostgrestError(error)) {
-    toast({
-      title,
-      description: error.message,
-      variant: "destructive",
-    });
-    console.error(`Supabase error (${error.code}):`, error.message);
-  } else {
-    handleApiError(error, title);
-  }
-}
-
-/**
- * Handle auth-related errors
- */
-export function handleAuthError(error: unknown): void {
-  if (isPostgrestError(error)) {
-    const errorMessage = getAuthErrorMessage(error.code, error.message);
-    toast({
-      title: "Authentication Error",
-      description: errorMessage,
-      variant: "destructive",
-    });
-    console.error(`Auth error (${error.code}):`, error.message);
-  } else if (isApiError(error)) {
-    toast({
-      title: "Authentication Error",
-      description: error.message,
-      variant: "destructive",
-    });
-    console.error("Auth error:", error.message);
-  } else {
-    toast({
-      title: "Authentication Error",
-      description: "An unexpected error occurred. Please try again.",
-      variant: "destructive",
-    });
-    console.error("Unexpected auth error:", error);
-  }
-}
-
-/**
- * Handle API-related errors
- */
-export function handleApiError(error: unknown, title = "Error"): void {
-  if (isPostgrestError(error)) {
-    toast({
-      title,
-      description: error.message,
-      variant: "destructive",
-    });
-    console.error(`API error (${error.code}):`, error.message);
-  } else if (isApiError(error)) {
-    toast({
-      title,
-      description: error.message,
-      variant: "destructive",
-    });
-    console.error("API error:", error.message);
-  } else if (error instanceof Error) {
-    toast({
-      title,
-      description: error.message,
-      variant: "destructive",
-    });
-    console.error("Error:", error.message);
-  } else {
-    toast({
-      title,
-      description: "An unexpected error occurred. Please try again.",
-      variant: "destructive",
-    });
-    console.error("Unexpected error:", error);
-  }
-}
-
-// Alias for backwards compatibility - keeping both functions for now
-export const handleAppError = handleApiError;
-
-/**
- * Get more user-friendly auth error messages
- */
-function getAuthErrorMessage(code?: string, fallbackMessage?: string): string {
-  if (!code) return fallbackMessage || "Authentication failed";
+export const handleSupabaseError = (error: PostgrestError | null, customMessage?: string) => {
+  console.error("Supabase error:", error);
   
-  switch (code) {
-    case "P0001":
-      return "Invalid credentials. Please check your email and password.";
-    case "22P02":
-      return "Invalid input format. Please check your information.";
-    case "23505":
-      return "This email is already registered. Please use a different email or try to log in.";
-    case "42501":
-      return "You don't have permission to perform this action.";
-    case "42P01":
-      return "The requested resource doesn't exist.";
-    default:
-      return fallbackMessage || "Authentication failed. Please try again.";
-  }
-}
+  if (!error) return;
+
+  // Common error codes and their user-friendly messages
+  const errorMessages: Record<string, string> = {
+    "23505": "This record already exists.",
+    "23503": "This action references a record that doesn't exist.",
+    "42P01": "The requested resource could not be found.",
+    "42501": "You don't have permission to perform this action.",
+    "22P02": "Invalid input format.",
+    "23502": "Required information is missing.",
+  };
+
+  const message = errorMessages[error.code] || customMessage || error.message || "An unexpected error occurred";
+  
+  toast({
+    title: "Error",
+    description: message,
+    variant: "destructive",
+  });
+};

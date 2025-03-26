@@ -3,33 +3,179 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import starfield styles */
-@import './styles/starfield.css';
+@layer base {
+  :root {
+    --background: 280 50% 3%;
+    --foreground: 280 10% 98%;
 
-/* Chat Support Styles */
-.loader {
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 3px solid #b026b9;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
-}
+    --card: 280 50% 5%;
+    --card-foreground: 280 10% 98%;
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    --popover: 280 45% 6%;
+    --popover-foreground: 280 10% 98%;
 
-/* Text animations */
-@keyframes text-shine {
-  0% {
-    background-position: 0% 50%;
+    --primary: 316 73% 52%;
+    --primary-foreground: 280 10% 98%;
+
+    --secondary: 280 50% 8%;
+    --secondary-foreground: 280 10% 98%;
+
+    --muted: 280 50% 12%;
+    --muted-foreground: 280 10% 60%;
+
+    --accent: 311 90% 60%;
+    --accent-foreground: 280 10% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 280 10% 98%;
+
+    --border: 280 50% 15%;
+    --input: 280 50% 15%;
+    --ring: 316 73% 52%;
+
+    --radius: 1rem;
   }
-  50% {
-    background-position: 100% 50%;
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/80 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary;
+  }
+  
+  /* Make sure footer stays at bottom but allows for filter dropdown expansion */
+  .filter-dropdown-container {
+    overflow: visible;
+    z-index: 10;
+    position: relative;
+  }
+  
+  /* Extra small text for legal stuff */
+  .text-2xs {
+    font-size: 0.65rem;
+    line-height: 1rem;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl bg-black/30 border border-white/10 shadow-[0_4px_15px_rgba(217,70,239,0.15)];
+  }
+  
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-white/10 hover:shadow-[0_8px_25px_rgba(217,70,239,0.25)];
+  }
+
+  .neo-blur {
+    @apply backdrop-blur-2xl bg-black/40 border border-fuchsia-500/20;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-fuchsia-400 via-magenta-500 to-fuchsia-600 bg-clip-text text-transparent;
+  }
+  
+  .text-stroke {
+    -webkit-text-stroke: 1px theme('colors.fuchsia.500');
+  }
+  
+  .glow {
+    text-shadow: 0 0 10px theme('colors.fuchsia.500'), 
+                0 0 20px theme('colors.fuchsia.600');
+  }
+  
+  .glowing-border {
+    @apply relative;
+  }
+  
+  .glowing-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    @apply rounded-lg bg-gradient-to-br from-fuchsia-500 via-magenta-500 to-fuchsia-600;
+    z-index: -1;
+    animation: pulse 2s infinite;
+  }
+}
+
+@layer utilities {
+  /* Animation for color changing text */
+  .animate-text {
+    background-size: 200% 200%;
+    animation: text-shine 1.5s linear infinite;
+  }
+  
+  /* Slower animation for color changing text */
+  .animate-text-slow {
+    background-size: 200% 200%;
+    animation: text-shine 8.4s linear infinite;
+  }
+
+  @keyframes text-shine {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+}
+
+/* Animated background */
+.starfield {
+  background-color: #5B0155; /* Reverted to the original color from #5A1876 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  animation: starMovement linear infinite;
+}
+
+@keyframes starMovement {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
   }
   100% {
-    background-position: 0% 50%;
+    opacity: 0;
+    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
   }
+}
+
+/* Remove the button inside button error */
+.filter-dropdown button button {
+  all: unset;
+  cursor: pointer;
+  display: flex;
 }

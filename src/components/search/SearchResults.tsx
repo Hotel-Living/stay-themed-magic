@@ -3,7 +3,7 @@ import React from 'react';
 import { useHotels } from "@/hooks/useHotels";
 import { useSearchFilters } from "./context/SearchFiltersContext";
 import { SearchContent } from "./SearchContent";
-import { CountryType, MonthType } from "@/components/filters/FilterTypes";
+import type { Theme } from "@/integrations/supabase/types-custom";
 
 export const SearchResults = React.memo(() => {
   const { 
@@ -17,9 +17,9 @@ export const SearchResults = React.memo(() => {
 
   // Create a type-compatible filter object for the useHotels hook
   const searchFilters = {
-    country: filters.country as CountryType,
-    month: filters.month as MonthType,
-    theme: filters.theme,
+    country: filters.country,
+    month: filters.month,
+    theme: filters.theme ? { id: filters.theme } as Theme : null,
     priceRange: filters.priceRange
   };
 

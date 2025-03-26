@@ -325,6 +325,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          created_at: string | null
+          favorite_themes: string[] | null
+          id: string
+          preferred_countries: string[] | null
+          price_range_max: number | null
+          price_range_min: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          favorite_themes?: string[] | null
+          id?: string
+          preferred_countries?: string[] | null
+          price_range_max?: number | null
+          price_range_min?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          favorite_themes?: string[] | null
+          id?: string
+          preferred_countries?: string[] | null
+          price_range_max?: number | null
+          price_range_min?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

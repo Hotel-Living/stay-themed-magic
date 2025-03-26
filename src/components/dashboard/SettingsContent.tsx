@@ -7,9 +7,10 @@ import NotificationSettings from './settings/NotificationSettings';
 import SecuritySettings from './settings/SecuritySettings';
 import BillingSettings from './settings/BillingSettings';
 import HelpSupportSettings from './settings/HelpSupportSettings';
+import UserPreferencesSettings from './settings/UserPreferencesSettings';
 
 // Define tabs for settings
-type SettingsTab = 'profile' | 'notifications' | 'security' | 'billing' | 'help';
+type SettingsTab = 'profile' | 'notifications' | 'security' | 'billing' | 'help' | 'preferences';
 
 export const SettingsContent = () => {
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
@@ -23,6 +24,8 @@ export const SettingsContent = () => {
     switch (activeTab) {
       case 'profile':
         return <ProfileSettings />;
+      case 'preferences':
+        return <UserPreferencesSettings />;
       case 'notifications':
         return <NotificationSettings />;
       case 'security':

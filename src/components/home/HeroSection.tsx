@@ -16,7 +16,7 @@ export function HeroSection() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-          {t("hero.title")}
+          {t("information.hero.title")}
         </h1>
         
         <p className="text-xl md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold"
@@ -27,36 +27,38 @@ export function HeroSection() {
              WebkitBackgroundClip: 'text',
              WebkitTextFillColor: 'transparent'
            }}>
-          {t("hero.subtitle")}
+          {t("information.hero.subtitle")}
         </p>
         
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-2">
           <div className="space-y-0.5">
-            {[
-              t("hero.features.feature1"),
-              t("hero.features.feature2")
-            ].map((slogan, index) => (
-              <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-                <p className="text-left font-medium">{slogan}</p>
+            <div className="flex items-center gap-2 p-2 rounded-lg">
+              <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <Check className="w-4 h-4 text-white" />
               </div>
-            ))}
+              <p className="text-left font-medium">{t("information.hero.features.feature1")}</p>
+            </div>
+            <div className="flex items-center gap-2 p-2 rounded-lg">
+              <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <Check className="w-4 h-4 text-white" />
+              </div>
+              <p className="text-left font-medium">{t("information.hero.features.feature2")}</p>
+            </div>
           </div>
           
           <div className="space-y-0.5">
-            {[
-              t("hero.features.feature3"),
-              t("hero.features.feature4")
-            ].map((slogan, index) => (
-              <div key={index} className="flex items-center gap-2 p-2 rounded-lg">
-                <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-                <p className="text-left font-medium">{slogan}</p>
+            <div className="flex items-center gap-2 p-2 rounded-lg">
+              <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <Check className="w-4 h-4 text-white" />
               </div>
-            ))}
+              <p className="text-left font-medium">{t("information.hero.features.feature3")}</p>
+            </div>
+            <div className="flex items-center gap-2 p-2 rounded-lg">
+              <div className="w-6 h-6 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <Check className="w-4 h-4 text-white" />
+              </div>
+              <p className="text-left font-medium">{t("information.hero.features.feature4")}</p>
+            </div>
           </div>
         </div>
       </div>

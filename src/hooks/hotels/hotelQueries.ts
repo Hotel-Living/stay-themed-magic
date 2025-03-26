@@ -3,7 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import type { FilterState } from "@/components/filters/FilterTypes";
 import { PaginationOptions, SortOption } from "./types";
 import { createFilterParams } from "./filterUtils";
-import { buildBaseHotelQuery } from "./buildBaseHotelQuery";
+
+/**
+ * Builds a base query for hotel data with related tables
+ */
+export const buildBaseHotelQuery = () => {
+  return supabase
+    .from('hotels')
+    .select(`
+      *,
+      hotel_images(image_url, is_main),
+      hotel_themes(theme_id, themes:themes(id, name))
+    `);
+};
 
 /**
  * Applies filters to a hotel query
@@ -47,6 +59,3 @@ export const applyPagination = (query: any, pagination?: PaginationOptions) => {
   
   return query;
 };
-
-// Re-export buildBaseHotelQuery to fix the import error
-export { buildBaseHotelQuery };

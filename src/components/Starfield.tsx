@@ -1,6 +1,5 @@
 
 import { useEffect, useRef } from 'react';
-import '../styles/starfield.css';
 
 export function Starfield() {
   const starfieldRef = useRef<HTMLDivElement>(null);

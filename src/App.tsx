@@ -13,7 +13,6 @@ import { AccessibilityProvider } from "@/context/AccessibilityContext";
 import { SkipToContent } from "@/components/SkipToContent";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Starfield } from "@/components/Starfield";
-import './index.css';
 
 // Page imports - organized by sections
 // Public pages

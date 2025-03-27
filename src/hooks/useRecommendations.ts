@@ -37,16 +37,10 @@ export function useRecommendations() {
       }
       
       try {
-        // Set timeout to prevent hanging requests
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        
+        // Function calls now have timeout built into the supabase client
         const { data, error } = await supabase.functions.invoke('get-recommendations', {
           body: { user_id: user.id }
-          // Removed the 'signal' property as it's not supported in FunctionInvokeOptions
         });
-        
-        clearTimeout(timeoutId);
         
         if (error) {
           console.error("Error fetching recommendations:", error);

@@ -43,10 +43,7 @@ export default function Index() {
   }, [filters]);
   
   return (
-    <div className="min-h-screen flex flex-col relative">
-      {/* Simple gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-b from-purple-900 to-blue-900 -z-10"></div>
-      
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16 pb-8 text-white flex flex-col justify-center">

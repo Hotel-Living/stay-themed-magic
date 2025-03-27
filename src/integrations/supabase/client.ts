@@ -14,9 +14,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   global: {
     fetch: async (url, options) => {
       try {
-        // Add a timeout to fetch requests to prevent hanging
+        // Add a shorter timeout to fetch requests to prevent hanging
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
         
         // Add the abort signal to the options
         const fetchOptions = options ? { ...options, signal: controller.signal } : { signal: controller.signal };
@@ -27,7 +27,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       } catch (err) {
         console.error('Supabase fetch error:', err);
         // Return a mock response that won't break the app
-        return new Response(JSON.stringify([]), {
+        return new Response(JSON.stringify({ data: [] }), {
           headers: { 'content-type': 'application/json' },
           status: 200
         });

@@ -75,6 +75,7 @@ export const useFilterState = ({
   return {
     filters,
     openDropdown,
+    setOpenDropdown,
     countryRef,
     monthRef,
     themeRef,

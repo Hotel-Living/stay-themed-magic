@@ -3,10 +3,17 @@ import { FilterDropdownProps } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
 import React from "react";
 
-interface MonthDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
+interface MonthDropdownProps {
   value: string | null;
-  onSelect: (value: string) => void;
+  placeholder: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  filterBgColor: string;
+  compactSpacing: boolean;
+  useBoldLabels: boolean;
   monthRef: React.RefObject<HTMLDivElement>;
+  onSelect: (value: string) => void;
+  closeDropdown: () => void;
 }
 
 export function MonthDropdown({
@@ -14,17 +21,22 @@ export function MonthDropdown({
   placeholder,
   isOpen,
   toggleDropdown,
-  clearFilter,
   filterBgColor,
   compactSpacing,
   useBoldLabels,
+  monthRef,
   onSelect,
-  monthRef
+  closeDropdown
 }: MonthDropdownProps) {
   const months = [
     "january", "february", "march", "april", "may", "june", 
     "july", "august", "september", "october", "november", "december"
   ];
+  
+  const clearFilter = () => {
+    onSelect(""); // This will effectively clear the filter
+    closeDropdown();
+  };
 
   return (
     <FilterDropdown

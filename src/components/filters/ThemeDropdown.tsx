@@ -10,11 +10,19 @@ import {
 } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
 
-interface ThemeDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
+interface ThemeDropdownProps {
   value: ThemeType | null;
-  onSelect: (value: ThemeType) => void;
+  placeholder: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  filterBgColor: string;
+  compactSpacing: boolean;
+  useBoldLabels: boolean;
   themeRef: React.RefObject<HTMLDivElement>;
-  useCollapsibleThemes?: boolean;
+  onSelect: (value: ThemeType) => void;
+  closeDropdown: () => void;
+  useCollapsible?: boolean;
+  availableThemes: Theme[];
 }
 
 export function ThemeDropdown({
@@ -22,13 +30,14 @@ export function ThemeDropdown({
   placeholder,
   isOpen,
   toggleDropdown,
-  clearFilter,
   filterBgColor,
   compactSpacing,
   useBoldLabels,
-  onSelect,
   themeRef,
-  useCollapsibleThemes = false
+  onSelect,
+  closeDropdown,
+  useCollapsible = false,
+  availableThemes = []
 }: ThemeDropdownProps) {
   const [themeQuery, setThemeQuery] = useState("");
   const [openThemeCategory, setOpenThemeCategory] = useState<string | null>(null);
@@ -41,6 +50,11 @@ export function ThemeDropdown({
     theme.name.toLowerCase().includes(themeQuery.toLowerCase()) ||
     theme.category.toLowerCase().includes(themeQuery.toLowerCase())
   );
+  
+  const clearFilter = () => {
+    onSelect(null as any); // This will effectively clear the filter
+    closeDropdown();
+  };
 
   // Get the appropriate label for display
   const getThemeLabel = (): string => {
@@ -84,7 +98,7 @@ export function ThemeDropdown({
         <div className="text-center py-3 text-sm text-foreground/60">
           No themes found
         </div>
-      ) : useCollapsibleThemes ? (
+      ) : useCollapsible ? (
         <div className="space-y-2 max-h-60 overflow-y-auto">
           {themeCategories.map(category => (
             <Collapsible key={category.category}>

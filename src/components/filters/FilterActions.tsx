@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 interface FilterActionsProps {
   hasActiveFilters: boolean;
-  clearAllFilters: () => void;
+  onClearAll: () => void;
   handleSearch: () => void;
   verticalLayout?: boolean;
   compactSpacing?: boolean;
@@ -14,18 +14,18 @@ interface FilterActionsProps {
 
 export function FilterActions({
   hasActiveFilters,
-  clearAllFilters,
+  onClearAll,
   handleSearch,
   verticalLayout = false,
   compactSpacing = false,
-  searchBgColor,
-  searchHoverBgColor
+  searchBgColor = "bg-fuchsia-600",
+  searchHoverBgColor = "hover:bg-fuchsia-500"
 }: FilterActionsProps) {
   return (
     <div className={`flex ${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} gap-2`}>
       {hasActiveFilters && (
         <button
-          onClick={clearAllFilters}
+          onClick={onClearAll}
           className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors"
         >
           Clear All

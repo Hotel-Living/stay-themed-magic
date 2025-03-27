@@ -3,10 +3,17 @@ import { FilterDropdownProps } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
 import React from "react";
 
-interface CountryDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
+interface CountryDropdownProps {
   value: string | null;
-  onSelect: (value: string) => void;
+  placeholder: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  filterBgColor: string;
+  compactSpacing: boolean;
+  useBoldLabels: boolean;
   countryRef: React.RefObject<HTMLDivElement>;
+  onSelect: (value: string) => void;
+  closeDropdown: () => void;
 }
 
 export function CountryDropdown({
@@ -14,12 +21,12 @@ export function CountryDropdown({
   placeholder,
   isOpen,
   toggleDropdown,
-  clearFilter,
   filterBgColor,
   compactSpacing,
   useBoldLabels,
+  countryRef,
   onSelect,
-  countryRef
+  closeDropdown
 }: CountryDropdownProps) {
   const availableCountries = [
     { value: "spain", label: "Spain 🇪🇸" },
@@ -31,6 +38,11 @@ export function CountryDropdown({
   ];
 
   const label = value ? availableCountries.find(c => c.value === value)?.label || value : "";
+  
+  const clearFilter = () => {
+    onSelect(""); // This will effectively clear the filter
+    closeDropdown();
+  };
 
   return (
     <FilterDropdown

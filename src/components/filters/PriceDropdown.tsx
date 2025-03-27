@@ -3,10 +3,17 @@ import { FilterDropdownProps, PriceRangeType } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
 import React from "react";
 
-interface PriceDropdownProps extends Omit<FilterDropdownProps, 'label' | 'value'> {
+interface PriceDropdownProps {
   value: PriceRangeType | null;
-  onSelect: (value: PriceRangeType) => void;
+  placeholder: string;
+  isOpen: boolean;
+  toggleDropdown: () => void;
+  filterBgColor: string;
+  compactSpacing: boolean;
+  useBoldLabels: boolean;
   priceRef: React.RefObject<HTMLDivElement>;
+  onSelect: (value: PriceRangeType) => void;
+  closeDropdown: () => void;
 }
 
 export function PriceDropdown({
@@ -14,12 +21,12 @@ export function PriceDropdown({
   placeholder,
   isOpen,
   toggleDropdown,
-  clearFilter,
   filterBgColor,
   compactSpacing,
   useBoldLabels,
+  priceRef,
   onSelect,
-  priceRef
+  closeDropdown
 }: PriceDropdownProps) {
   const priceRanges = [
     { value: 1000, label: "Up to 1.000 $" },
@@ -27,6 +34,11 @@ export function PriceDropdown({
     { value: 2000, label: "1.500 $ to 2.000 $" },
     { value: 3000, label: "More than 2.000 $" }
   ];
+  
+  const clearFilter = () => {
+    onSelect(null as any); // This will effectively clear the filter
+    closeDropdown();
+  };
 
   const getLabel = () => {
     const foundPrice = priceRanges.find(p => p.value === (typeof value === 'string' ? parseInt(value) : value));

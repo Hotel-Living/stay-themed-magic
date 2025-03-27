@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
@@ -44,6 +45,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   const {
     filters,
     openDropdown,
+    setOpenDropdown,
     countryRef,
     monthRef,
     themeRef,
@@ -108,7 +110,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setOpenDropdown]);
   
   return (
     <section className="text-white">
@@ -130,8 +132,15 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           </button>
           {openDropdown === 'country' && (
             <CountryDropdown
+              value={filters.country}
+              placeholder={placeholders.country || 'Country'}
+              isOpen={openDropdown === 'country'}
+              toggleDropdown={() => toggleDropdown('country')}
+              filterBgColor={usePurpleFilterBackground ? 'bg-fuchsia-900/40' : 'bg-secondary'}
+              compactSpacing={compactSpacing}
+              useBoldLabels={useBoldLabels}
+              countryRef={countryRef}
               onSelect={(value) => updateFilter('country', value)}
-              onClear={() => clearFilter('country')}
               closeDropdown={() => setOpenDropdown(null)}
             />
           )}
@@ -154,8 +163,15 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           </button>
           {openDropdown === 'month' && (
             <MonthDropdown
+              value={filters.month}
+              placeholder={placeholders.month || 'Month'}
+              isOpen={openDropdown === 'month'}
+              toggleDropdown={() => toggleDropdown('month')}
+              filterBgColor={usePurpleFilterBackground ? 'bg-fuchsia-900/40' : 'bg-secondary'}
+              compactSpacing={compactSpacing}
+              useBoldLabels={useBoldLabels}
+              monthRef={monthRef}
               onSelect={(value) => updateFilter('month', value)}
-              onClear={() => clearFilter('month')}
               closeDropdown={() => setOpenDropdown(null)}
             />
           )}
@@ -168,7 +184,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
             onClick={() => toggleDropdown('theme')}
           >
             <span className={dropdownLabelClasses()}>
-              {filters.theme?.name || placeholders.theme || 'Theme'}
+              {typeof filters.theme === 'object' && filters.theme ? 
+                filters.theme.name : 
+                (placeholders.theme || 'Theme')}
             </span>
             {openDropdown === 'theme' ? (
               <ChevronUp className={dropdownIconClasses()} />
@@ -178,8 +196,15 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           </button>
           {openDropdown === 'theme' && (
             <ThemeDropdown
+              value={filters.theme}
+              placeholder={placeholders.theme || 'Theme'}
+              isOpen={openDropdown === 'theme'}
+              toggleDropdown={() => toggleDropdown('theme')}
+              filterBgColor={usePurpleFilterBackground ? 'bg-fuchsia-900/40' : 'bg-secondary'}
+              compactSpacing={compactSpacing}
+              useBoldLabels={useBoldLabels}
+              themeRef={themeRef}
               onSelect={(value) => updateFilter('theme', value)}
-              onClear={() => clearFilter('theme')}
               closeDropdown={() => setOpenDropdown(null)}
               useCollapsible={useCollapsibleThemes}
               availableThemes={availableThemes}
@@ -204,8 +229,15 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           </button>
           {openDropdown === 'priceRange' && (
             <PriceDropdown
+              value={filters.priceRange}
+              placeholder={placeholders.priceRange || 'Price per Month'}
+              isOpen={openDropdown === 'priceRange'}
+              toggleDropdown={() => toggleDropdown('priceRange')}
+              filterBgColor={usePurpleFilterBackground ? 'bg-fuchsia-900/40' : 'bg-secondary'}
+              compactSpacing={compactSpacing}
+              useBoldLabels={useBoldLabels}
+              priceRef={priceRef}
               onSelect={(value) => updateFilter('priceRange', value)}
-              onClear={() => clearFilter('priceRange')}
               closeDropdown={() => setOpenDropdown(null)}
             />
           )}
@@ -216,6 +248,9 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
       <FilterActions 
         onClearAll={clearAllFilters} 
         hasActiveFilters={hasActiveFilters()} 
+        handleSearch={handleSearch}
+        searchBgColor="bg-fuchsia-600"
+        searchHoverBgColor="hover:bg-fuchsia-500"
       />
       
       {/* Search Button */}

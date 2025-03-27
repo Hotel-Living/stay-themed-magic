@@ -20,7 +20,8 @@ const DEFAULT_FILTERS: FilterState = {
 };
 
 export default function Index() {
-  const { isLoading: isAuthLoading, user } = useAuth();
+  // Safe auth usage with fallback for when auth is loading
+  const { isLoading: isAuthLoading, user } = useAuth() || { isLoading: true, user: null };
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   
   // Fetch themes
@@ -55,7 +56,7 @@ export default function Index() {
           availableThemes={availableThemes}
         />
         
-        {/* AI-Powered Recommendations Section */}
+        {/* AI-Powered Recommendations Section - only shown when user is logged in */}
         {user && <RecommendationsSection />}
       </main>
       

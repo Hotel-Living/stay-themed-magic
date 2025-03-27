@@ -1,6 +1,5 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { handleApiError } from '@/utils/errorHandling';
 
 // Supabase client configuration with fallback values for development
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://xyzcompany.supabase.co';
@@ -13,15 +12,17 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true
   },
   global: {
-    fetch: (...args: Parameters<typeof fetch>) => {
-      return fetch(...args).catch(err => {
+    fetch: async (...args) => {
+      try {
+        return await fetch(...args);
+      } catch (err) {
         console.error('Supabase fetch error:', err);
         // Return a mock response that won't break the app
         return new Response(JSON.stringify([]), {
           headers: { 'content-type': 'application/json' },
           status: 200
         });
-      });
+      }
     }
   }
 });

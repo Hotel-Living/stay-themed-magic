@@ -41,7 +41,7 @@ export function useSendNotification() {
         toast({
           title: 'Network offline',
           description: 'Your notification will be sent when the connection is restored',
-          variant: 'warning',
+          variant: 'default', // Changed from 'warning' to 'default' as 'warning' is not a valid variant
         });
         
         // Store in local storage for later sending

@@ -42,8 +42,8 @@ export function useRecommendations() {
         const timeoutId = setTimeout(() => controller.abort(), 5000);
         
         const { data, error } = await supabase.functions.invoke('get-recommendations', {
-          body: { user_id: user.id },
-          signal: controller.signal
+          body: { user_id: user.id }
+          // Removed the 'signal' property as it's not supported in FunctionInvokeOptions
         });
         
         clearTimeout(timeoutId);

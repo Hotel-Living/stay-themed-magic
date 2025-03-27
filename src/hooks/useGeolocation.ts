@@ -10,6 +10,7 @@ interface GeoLocation {
   longitude: number;
   isLoading: boolean;   
   error: string | null;
+  isOnline: boolean;
 }
 
 export const useGeolocation = () => {
@@ -21,12 +22,18 @@ export const useGeolocation = () => {
     latitude: 0,
     longitude: 0,
     isLoading: true,    
-    error: null
+    error: null,
+    isOnline: navigator.onLine
   });
 
   // Function to fetch geolocation info from ipapi.co
   const fetchGeoInfo = async () => {
     try {
+      // First check if we're online
+      if (!navigator.onLine) {
+        throw new Error("Network offline");
+      }
+
       // Attempt to fetch geolocation data with a timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
@@ -55,7 +62,8 @@ export const useGeolocation = () => {
         latitude: data.latitude || 0,
         longitude: data.longitude || 0,
         isLoading: false,
-        error: null
+        error: null,
+        isOnline: true
       });
     } catch (error: any) {
       console.error('Error detecting location:', error);
@@ -73,19 +81,35 @@ export const useGeolocation = () => {
         latitude: 0,
         longitude: 0,
         isLoading: false,
-        error: error?.message || 'Failed to detect location'
+        error: error?.message || 'Failed to detect location',
+        isOnline: navigator.onLine
       });
     }
   };
 
+  // Network status listener
+  useEffect(() => {
+    const handleOnline = () => {
+      setLocation(prev => ({ ...prev, isOnline: true }));
+      fetchGeoInfo(); // Try to fetch again when back online
+    };
+    
+    const handleOffline = () => {
+      setLocation(prev => ({ ...prev, isOnline: false }));
+    };
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
   useEffect(() => {
     // Initial fetch of geolocation data
     fetchGeoInfo();
-    
-    // Cleanup function
-    return () => {
-      // Nothing to clean up
-    };
   }, []);
 
   return location;

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 export type NotificationType = 'review' | 'booking' | 'message';
@@ -10,7 +10,22 @@ export interface NotificationData {
 
 export function useSendNotification() {
   const [isSending, setIsSending] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const { toast } = useToast();
+
+  // Listen for online/offline status changes
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   const sendNotification = async (
     type: NotificationType, 
@@ -20,7 +35,28 @@ export function useSendNotification() {
     setIsSending(true);
     
     try {
-      // This is a mock implementation. In a real app, you would call an API endpoint.
+      // Check network status first
+      if (!isOnline) {
+        console.warn('Notification queued: Network offline');
+        toast({
+          title: 'Network offline',
+          description: 'Your notification will be sent when the connection is restored',
+          variant: 'warning',
+        });
+        
+        // Store in local storage for later sending
+        try {
+          const pendingNotifications = JSON.parse(localStorage.getItem('pendingNotifications') || '[]');
+          pendingNotifications.push({ type, recipient, data, timestamp: Date.now() });
+          localStorage.setItem('pendingNotifications', JSON.stringify(pendingNotifications));
+        } catch (storageError) {
+          console.error('Error storing notification for later:', storageError);
+        }
+        
+        return { success: false, offline: true };
+      }
+      
+      // This is a mock implementation in development. In production, it would call an API endpoint.
       // For example:
       // const response = await fetch('/api/notifications', {
       //   method: 'POST',
@@ -48,5 +84,30 @@ export function useSendNotification() {
     }
   };
 
-  return { sendNotification, isSending };
+  // Function to attempt sending any pending notifications when coming back online
+  useEffect(() => {
+    if (isOnline) {
+      try {
+        const pendingNotifications = JSON.parse(localStorage.getItem('pendingNotifications') || '[]');
+        if (pendingNotifications.length > 0) {
+          toast({
+            title: 'Reconnected',
+            description: `Sending ${pendingNotifications.length} pending notification(s)`,
+          });
+          
+          // Process pending notifications
+          pendingNotifications.forEach(async (notification: any) => {
+            await sendNotification(notification.type, notification.recipient, notification.data);
+          });
+          
+          // Clear pending notifications
+          localStorage.setItem('pendingNotifications', '[]');
+        }
+      } catch (error) {
+        console.error('Error processing pending notifications:', error);
+      }
+    }
+  }, [isOnline]);
+
+  return { sendNotification, isSending, isOnline };
 }

@@ -14,7 +14,16 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   global: {
     fetch: async (url: string, options?: RequestInit) => {
       try {
-        return await fetch(url, options);
+        // Add a timeout to fetch requests to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        // Add the abort signal to the options
+        const fetchOptions = options ? { ...options, signal: controller.signal } : { signal: controller.signal };
+        
+        const response = await fetch(url, fetchOptions);
+        clearTimeout(timeoutId);
+        return response;
       } catch (err) {
         console.error('Supabase fetch error:', err);
         // Return a mock response that won't break the app
@@ -42,5 +51,16 @@ export const fetchWithFallback = async <T>(
   } catch (err) {
     console.error('Unexpected error in Supabase query:', err);
     return fallbackData;
+  }
+};
+
+// Add a function to check network status
+export const checkSupabaseConnection = async (): Promise<boolean> => {
+  try {
+    const { error } = await supabase.from('themes').select('count', { count: 'exact', head: true });
+    return !error;
+  } catch (err) {
+    console.error('Failed to connect to Supabase:', err);
+    return false;
   }
 };

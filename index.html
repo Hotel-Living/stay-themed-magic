@@ -10,14 +10,74 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <title>Hotel Life</title>
     <script>
-      // Simple script to detect network issues
-      window.addEventListener('offline', function() {
-        console.warn('Network connection lost. App may have limited functionality.');
-      });
-      window.addEventListener('online', function() {
-        console.log('Network connection restored.');
-        // Optionally refresh data here if needed
-      });
+      // Enhanced network detection script
+      (function() {
+        let isOffline = !navigator.onLine;
+        let offlineNotificationShown = false;
+        let reconnectAttempts = 0;
+        
+        function showOfflineNotification() {
+          if (!offlineNotificationShown) {
+            console.warn('Network connection lost. App may have limited functionality.');
+            
+            // Create offline notification element
+            const notification = document.createElement('div');
+            notification.id = 'offline-notification';
+            notification.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; background-color: #f44336; color: white; text-align: center; padding: 10px; z-index: 9999;';
+            notification.textContent = 'You are currently offline. Some features may be limited.';
+            document.body.prepend(notification);
+            
+            offlineNotificationShown = true;
+          }
+        }
+        
+        function hideOfflineNotification() {
+          if (offlineNotificationShown) {
+            console.log('Network connection restored.');
+            const notification = document.getElementById('offline-notification');
+            if (notification) {
+              notification.remove();
+            }
+            offlineNotificationShown = false;
+          }
+        }
+        
+        // Initial check
+        if (isOffline) {
+          window.addEventListener('DOMContentLoaded', showOfflineNotification);
+        }
+        
+        window.addEventListener('offline', function() {
+          isOffline = true;
+          showOfflineNotification();
+        });
+        
+        window.addEventListener('online', function() {
+          isOffline = false;
+          hideOfflineNotification();
+          console.log('Network connection restored. Refreshing data...');
+          
+          // Optional: Reload the page or key resources
+          // location.reload();
+        });
+        
+        // Periodically check connection to key services
+        setInterval(function() {
+          if (navigator.onLine && !document.hidden) {
+            fetch('https://xyzcompany.supabase.co/rest/v1/health', { 
+              method: 'HEAD',
+              cache: 'no-store',
+              mode: 'no-cors'
+            }).catch(function() {
+              // Failed to reach Supabase, but browser thinks we're online
+              reconnectAttempts++;
+              if (reconnectAttempts > 3) {
+                console.warn('Unable to reach server despite browser reporting online status');
+              }
+            });
+          }
+        }, 30000); // Check every 30 seconds
+      })();
     </script>
   </head>
   <body>

@@ -20,24 +20,30 @@ export function useRecommendations() {
         return [];
       }
       
-      const { data, error } = await supabase.functions.invoke('get-recommendations', {
-        body: { user_id: user.id }
-      });
-      
-      if (error) {
-        console.error("Error fetching recommendations:", error);
-        throw error;
+      try {
+        const { data, error } = await supabase.functions.invoke('get-recommendations', {
+          body: { user_id: user.id }
+        });
+        
+        if (error) {
+          console.error("Error fetching recommendations:", error);
+          return [];  // Return empty array instead of throwing
+        }
+        
+        // Transform and adapt the data
+        const recommendations = data?.recommendations || [];
+        return recommendations.map((recommendation: any) => ({
+          hotel: adaptHotelData([recommendation])[0],
+          confidence: recommendation.confidence
+        }));
+      } catch (err) {
+        console.error("Failed to fetch recommendations:", err);
+        return []; // Return empty array on any error
       }
-      
-      // Transform and adapt the data
-      const recommendations = data.recommendations || [];
-      return recommendations.map((recommendation: any) => ({
-        hotel: adaptHotelData([recommendation])[0],
-        confidence: recommendation.confidence
-      }));
     },
     enabled: !!user,
     staleTime: 10 * 60 * 1000, // 10 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
+    retry: 1, // Only retry once
   });
 }

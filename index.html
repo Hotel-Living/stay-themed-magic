@@ -9,6 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <title>Hotel Life</title>
+    <script>
+      // Simple script to detect network issues
+      window.addEventListener('offline', function() {
+        console.warn('Network connection lost. App may have limited functionality.');
+      });
+      window.addEventListener('online', function() {
+        console.log('Network connection restored.');
+        // Optionally refresh data here if needed
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

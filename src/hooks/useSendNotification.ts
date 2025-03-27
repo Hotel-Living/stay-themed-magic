@@ -29,7 +29,7 @@ export function useSendNotification() {
       // });
       
       // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500)); // Reduced from 1000ms
       
       console.log(`Notification sent: Type=${type}, Recipient=${recipient}, Data=`, data);
       
@@ -41,7 +41,8 @@ export function useSendNotification() {
         description: error instanceof Error ? error.message : 'An unknown error occurred',
         variant: 'destructive',
       });
-      throw error;
+      // Return a default response instead of throwing
+      return { success: false, error };
     } finally {
       setIsSending(false);
     }

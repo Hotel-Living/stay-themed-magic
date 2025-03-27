@@ -10,11 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <title>Hotel Life</title>
     <script>
-      // Enhanced network detection script
+      // Simplified network detection script
       (function() {
         let isOffline = !navigator.onLine;
         let offlineNotificationShown = false;
-        let reconnectAttempts = 0;
         
         function showOfflineNotification() {
           if (!offlineNotificationShown) {
@@ -47,6 +46,7 @@
           window.addEventListener('DOMContentLoaded', showOfflineNotification);
         }
         
+        // Event listeners for online/offline status
         window.addEventListener('offline', function() {
           isOffline = true;
           showOfflineNotification();
@@ -55,28 +55,8 @@
         window.addEventListener('online', function() {
           isOffline = false;
           hideOfflineNotification();
-          console.log('Network connection restored. Refreshing data...');
-          
-          // Optional: Reload the page or key resources
-          // location.reload();
+          console.log('Network connection restored.');
         });
-        
-        // Periodically check connection to key services
-        setInterval(function() {
-          if (navigator.onLine && !document.hidden) {
-            fetch('https://xyzcompany.supabase.co/rest/v1/health', { 
-              method: 'HEAD',
-              cache: 'no-store',
-              mode: 'no-cors'
-            }).catch(function() {
-              // Failed to reach Supabase, but browser thinks we're online
-              reconnectAttempts++;
-              if (reconnectAttempts > 3) {
-                console.warn('Unable to reach server despite browser reporting online status');
-              }
-            });
-          }
-        }, 30000); // Check every 30 seconds
       })();
     </script>
   </head>

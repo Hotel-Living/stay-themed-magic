@@ -8,7 +8,7 @@ import { ComparisonProvider } from "@/components/comparison/ComparisonContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { AccessibilityProvider } from "@/context/AccessibilityContext";
-import { Starfield } from "@/components/Starfield";
+// Removed Starfield import
 import AppRoutes from "./AppRoutes";
 
 // Create a client with better caching strategy
@@ -33,8 +33,7 @@ function App() {
               <LanguageProvider>
                 <CurrencyProvider>
                   <ComparisonProvider>
-                    {/* Global Starfield background that appears on all pages */}
-                    <Starfield />
+                    {/* Removed Starfield component */}
                     
                     {/* All routes are now defined in AppRoutes component */}
                     <AppRoutes />

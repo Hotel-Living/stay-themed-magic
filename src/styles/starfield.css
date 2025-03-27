@@ -1,5 +1,5 @@
 
-/* Animated background */
+/* Keeping minimal styles for backward compatibility */
 .starfield {
   background: linear-gradient(135deg, #5B0155 0%, #110375 100%);
   position: fixed;
@@ -8,39 +8,4 @@
   width: 100%;
   height: 100%;
   z-index: -10;
-  overflow: hidden;
-}
-
-.star {
-  position: absolute;
-  border-radius: 50%;
-  animation: starMovement linear infinite;
-  filter: blur(0.5px);
-}
-
-.star:nth-child(3n) {
-  filter: blur(0);
-  box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.4);
-}
-
-.star:nth-child(7n) {
-  filter: blur(0);
-  box-shadow: 0 0 6px 1px rgba(255, 240, 0, 0.7);
-}
-
-@keyframes starMovement {
-  0% {
-    opacity: 0;
-    transform: translate(0, 0) scale(0.5);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
-  }
 }

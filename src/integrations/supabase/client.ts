@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true
   },
   global: {
-    fetch: async (url: string, options?: RequestInit) => {
+    fetch: async (url, options) => {
       try {
         // Add a timeout to fetch requests to prevent hanging
         const controller = new AbortController();

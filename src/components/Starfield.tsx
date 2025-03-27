@@ -1,11 +1,15 @@
 
 import { useEffect, useRef, useState } from 'react';
+import '../styles/starfield.css';
 
 export function Starfield() {
   const starfieldRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    // Mark component as mounted
+    setMounted(true);
+    
     if (!starfieldRef.current) return;
     
     const starfield = starfieldRef.current;
@@ -19,13 +23,11 @@ export function Starfield() {
         // Get viewport dimensions
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        const centerX = windowWidth / 2;
-        const centerY = windowHeight / 2;
         
         // Reduce star count for better performance
-        const starCount = Math.min(100, Math.floor((windowWidth * windowHeight) / 8000));
+        const starCount = Math.min(100, Math.floor((windowWidth * windowHeight) / 10000));
         
-        // Define color palette for dynamic star colors
+        // Define color palette for stars
         const colorPalette = [
           '#FFFFFF', // White
           '#F7F700', // Golden yellow
@@ -37,10 +39,6 @@ export function Starfield() {
         const fragment = document.createDocumentFragment();
         
         for (let i = 0; i < starCount; i++) {
-          // Calculate position from center with random angle
-          const angle = Math.random() * Math.PI * 2;
-          const distance = Math.random() * Math.min(windowWidth, windowHeight) * 0.8;
-          
           const star = document.createElement('div');
           star.className = 'star';
           
@@ -49,31 +47,32 @@ export function Starfield() {
           star.style.width = `${size}px`;
           star.style.height = `${size}px`;
           
-          // Position relative to center
-          const x = centerX + Math.cos(angle) * distance;
-          const y = centerY + Math.sin(angle) * distance;
+          // Random position in the viewport
+          const x = Math.random() * windowWidth;
+          const y = Math.random() * windowHeight;
           
           star.style.left = `${x}px`;
           star.style.top = `${y}px`;
           
-          // Set color from the palette randomly
+          // Random color from palette
           const colorIndex = Math.floor(Math.random() * colorPalette.length);
           star.style.backgroundColor = colorPalette[colorIndex];
           
-          // Set opacity based on size for depth effect
-          star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
+          // Random opacity for depth effect
+          star.style.opacity = (0.5 + Math.random() * 0.5).toString();
           
-          // Animation duration based on distance from center
-          const duration = 5 + Math.random() * 5; // 5-10s
-          star.style.animation = `starMovement ${duration}s linear infinite`;
+          // Animation duration
+          const duration = 5 + Math.random() * 15;
+          star.style.animationDuration = `${duration}s`;
           
-          // Set the starting position for animation
-          star.style.setProperty('--start-x', `${x}px`);
-          star.style.setProperty('--start-y', `${y}px`);
+          // Movement direction
+          const startX = x;
+          const startY = y;
+          const endX = startX + (Math.random() * 100 - 50);
+          const endY = startY + (Math.random() * 100 - 50);
           
-          // Set the end position (moving away from center)
-          const endX = x + (x - centerX) * 2;
-          const endY = y + (y - centerY) * 2;
+          star.style.setProperty('--start-x', `${startX}px`);
+          star.style.setProperty('--start-y', `${startY}px`);
           star.style.setProperty('--end-x', `${endX}px`);
           star.style.setProperty('--end-y', `${endY}px`);
           
@@ -83,39 +82,44 @@ export function Starfield() {
         starfield.appendChild(fragment);
       } catch (err) {
         console.error('Error creating starfield:', err);
-        setIsVisible(false);
       }
     };
     
-    // Only create stars if they should be visible
-    if (isVisible) {
-      createStars();
-    }
+    createStars();
     
-    // Recreate stars on window resize, but with debounce for performance
+    // Recreate stars on window resize, with debounce
     let resizeTimer: number | null = null;
     const handleResize = () => {
       if (resizeTimer) window.clearTimeout(resizeTimer);
       
       resizeTimer = window.setTimeout(() => {
-        if (isVisible) {
-          createStars();
-        }
+        createStars();
       }, 200);
     };
     
     window.addEventListener('resize', handleResize);
     
+    // Ensure stars are recreated when coming back to a tab
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        createStars();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     return () => {
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (resizeTimer) window.clearTimeout(resizeTimer);
     };
-  }, [isVisible]);
+  }, []);
   
-  // If stars aren't visible, provide a simple gradient background
-  if (!isVisible) {
-    return <div className="fixed inset-0 -z-10 bg-gradient-to-b from-purple-900 to-blue-900"></div>;
-  }
-  
-  return <div ref={starfieldRef} className="starfield fixed inset-0 -z-10"></div>;
+  return (
+    <div 
+      ref={starfieldRef} 
+      className="starfield"
+      style={{ opacity: mounted ? 1 : 0, transition: 'opacity 0.5s ease' }}
+    />
+  );
 }

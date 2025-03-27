@@ -36,7 +36,7 @@ function App() {
                     {/* Global Starfield background that appears on all pages */}
                     <Starfield />
                     
-                    {/* All routes are now defined in AppRoutes component */}
+                    {/* All routes are defined in AppRoutes component */}
                     <AppRoutes />
                     
                     {/* Toast notifications */}

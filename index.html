@@ -14,8 +14,6 @@
       (function() {
         let isOffline = !navigator.onLine;
         let offlineNotificationShown = false;
-        let reconnectAttempts = 0;
-        let initialPageLoad = true;
         
         function showOfflineNotification() {
           if (!offlineNotificationShown) {
@@ -57,23 +55,10 @@
         window.addEventListener('online', function() {
           isOffline = false;
           hideOfflineNotification();
-          console.log('Network connection restored.');
           
-          // Reset reconnect counter
-          reconnectAttempts = 0;
-          
-          // On first load, don't reload the page
-          if (!initialPageLoad) {
-            // Send a custom event that React components can listen for
-            window.dispatchEvent(new CustomEvent('app:networkReconnected'));
-          }
-          initialPageLoad = false;
+          // Send a custom event that React components can listen for
+          window.dispatchEvent(new CustomEvent('app:networkReconnected'));
         });
-        
-        // Mark initial page load as complete after a short delay
-        setTimeout(function() {
-          initialPageLoad = false;
-        }, 3000);
         
         // Add a more reliable network check
         window.checkNetworkConnection = function() {

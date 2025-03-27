@@ -1,5 +1,5 @@
 
-/* Animated background */
+/* Animated starfield background */
 .starfield {
   background: linear-gradient(135deg, #5B0155 0%, #110375 100%);
   position: fixed;
@@ -14,8 +14,9 @@
 .star {
   position: absolute;
   border-radius: 50%;
+  background-color: white;
   animation: starMovement linear infinite;
-  filter: blur(0.5px);
+  pointer-events: none;
 }
 
 .star:nth-child(3n) {
@@ -41,6 +42,6 @@
   }
   100% {
     opacity: 0;
-    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.5);
+    transform: translate(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y))) scale(1.2);
   }
 }

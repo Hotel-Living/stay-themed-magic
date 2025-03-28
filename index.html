@@ -10,21 +10,36 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <title>Hotel Life</title>
     <script>
-      // Optimized network detection script
+      // Optimized network detection script with better error handling
       (function() {
         let isOffline = !navigator.onLine;
         let offlineNotificationShown = false;
+        let checkingConnection = false;
         
         function showOfflineNotification() {
           if (!offlineNotificationShown) {
             console.warn('Network connection lost. App may have limited functionality.');
             
+            // Remove any existing notification first to prevent duplicates
+            const existingNotification = document.getElementById('offline-notification');
+            if (existingNotification) {
+              existingNotification.remove();
+            }
+            
             // Create offline notification element
             const notification = document.createElement('div');
             notification.id = 'offline-notification';
-            notification.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; background-color: #f44336; color: white; text-align: center; padding: 10px; z-index: 9999;';
+            notification.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; background-color: #f44336; color: white; text-align: center; padding: 10px; z-index: 9999; font-family: system-ui, sans-serif;';
             notification.textContent = 'You are currently offline. Some features may be limited.';
-            document.body.prepend(notification);
+            
+            // Only append after DOM is loaded
+            if (document.body) {
+              document.body.prepend(notification);
+            } else {
+              window.addEventListener('DOMContentLoaded', function() {
+                document.body.prepend(notification);
+              });
+            }
             
             offlineNotificationShown = true;
           }
@@ -38,32 +53,67 @@
               notification.remove();
             }
             offlineNotificationShown = false;
+            
+            // Send a custom event that React components can listen for
+            try {
+              window.dispatchEvent(new CustomEvent('app:networkReconnected'));
+            } catch (e) {
+              console.error('Failed to dispatch networkReconnected event', e);
+            }
           }
         }
         
-        // Initial check
-        if (isOffline) {
-          window.addEventListener('DOMContentLoaded', showOfflineNotification);
+        // Practical connection test function
+        function testConnection() {
+          if (checkingConnection) return;
+          
+          checkingConnection = true;
+          const startTime = Date.now();
+          
+          // Try to fetch a small file to test actual connectivity
+          fetch('/favicon.ico', { 
+            method: 'HEAD',
+            cache: 'no-store',
+            mode: 'no-cors',
+            signal: AbortSignal.timeout(3000) // 3 second timeout
+          })
+          .then(() => {
+            isOffline = false;
+            hideOfflineNotification();
+          })
+          .catch(() => {
+            isOffline = true;
+            showOfflineNotification();
+          })
+          .finally(() => {
+            checkingConnection = false;
+            console.log(`Connection check completed in ${Date.now() - startTime}ms`);
+          });
         }
         
-        // Event listeners for online/offline status
+        // Check connection status when online/offline events fire
         window.addEventListener('offline', function() {
           isOffline = true;
           showOfflineNotification();
         });
         
         window.addEventListener('online', function() {
-          isOffline = false;
-          hideOfflineNotification();
-          
-          // Send a custom event that React components can listen for
-          window.dispatchEvent(new CustomEvent('app:networkReconnected'));
+          // Don't immediately assume we're online - test the connection
+          testConnection();
         });
         
-        // Add a more reliable network check
-        window.checkNetworkConnection = function() {
-          return navigator.onLine;
-        };
+        // Initial check with a small delay to let page load
+        if (isOffline) {
+          window.addEventListener('DOMContentLoaded', showOfflineNotification);
+        } else {
+          // Still test actual connectivity after page load
+          window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testConnection, 1000);
+          });
+        }
+        
+        // Add a connection checking function to the window
+        window.checkNetworkConnection = testConnection;
       })();
     </script>
   </head>

@@ -4,7 +4,8 @@ import { supabase, fetchWithFallback } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { adaptHotelData } from "@/hooks/hotels/hotelAdapter";
 import { HotelDetailProps } from "@/types/hotel";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export interface RecommendationResult {
   hotel: HotelDetailProps;
@@ -14,20 +15,50 @@ export interface RecommendationResult {
 export function useRecommendations() {
   const { user } = useAuth();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const { toast } = useToast();
+  
+  // Function to handle reconnection
+  const handleReconnection = useCallback(() => {
+    if (!isOnline && navigator.onLine) {
+      setIsOnline(true);
+      toast({
+        title: "Connected",
+        description: "Your network connection has been restored.",
+        variant: "default"
+      });
+    }
+  }, [isOnline, toast]);
   
   // Listen for online/offline status changes
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = () => {
+      setIsOnline(true);
+      handleReconnection();
+    };
+    
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast({
+        title: "Offline",
+        description: "You are currently offline. Some features may be limited.",
+        variant: "destructive"
+      });
+    };
+    
+    const handleNetworkReconnect = () => {
+      handleReconnection();
+    };
     
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+    window.addEventListener('app:networkReconnected', handleNetworkReconnect);
     
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('app:networkReconnected', handleNetworkReconnect);
     };
-  }, []);
+  }, [handleReconnection, toast]);
   
   return useQuery({
     queryKey: ['recommendations', user?.id, isOnline],
@@ -37,10 +68,17 @@ export function useRecommendations() {
       }
       
       try {
+        // Set timeout for the function call
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
         // Function calls now have timeout built into the supabase client
         const { data, error } = await supabase.functions.invoke('get-recommendations', {
-          body: { user_id: user.id }
+          body: { user_id: user.id },
+          signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
         
         if (error) {
           console.error("Error fetching recommendations:", error);
@@ -55,6 +93,12 @@ export function useRecommendations() {
         }));
       } catch (err) {
         console.error("Failed to fetch recommendations:", err);
+        
+        // If we have an abort error, it means the request timed out
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          console.warn("Recommendations request timed out");
+        }
+        
         return []; // Return empty array on any error
       }
     },

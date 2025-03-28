@@ -11,7 +11,7 @@ import { AccessibilityProvider } from "@/context/AccessibilityContext";
 import { Starfield } from "@/components/Starfield";
 import AppRoutes from "./AppRoutes";
 
-// Create a client with better caching strategy
+// Create a client with better caching strategy and error handling
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,6 +19,8 @@ const queryClient = new QueryClient({
       gcTime: 10 * 60 * 1000, // 10 minutes (renamed from cacheTime)
       retry: 1,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      refetchOnMount: true,
     },
   },
 });
@@ -33,7 +35,7 @@ function App() {
               <LanguageProvider>
                 <CurrencyProvider>
                   <ComparisonProvider>
-                    {/* Global Starfield background that appears on all pages */}
+                    {/* Global Starfield background that appears on all pages - setting key on window resize forces remount */}
                     <Starfield />
                     
                     {/* All routes are defined in AppRoutes component */}

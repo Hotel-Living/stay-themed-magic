@@ -1,6 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, invokeFunctionWithFallback } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { adaptHotelData } from "@/hooks/hotels/hotelAdapter";
 import { HotelDetailProps } from "@/types/hotel";
@@ -12,107 +12,136 @@ export interface RecommendationResult {
   confidence: number;
 }
 
+// Fallback recommendations when offline
+const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
+  {
+    hotel: {
+      id: "offline-rec-1",
+      name: "Offline Beach Resort",
+      description: "A beautiful beach resort (offline data)",
+      stars: 4,
+      price_per_month: 1500,
+      country: "Mexico",
+      city: "Cancun",
+      images: ["/placeholder.svg"],
+      mainImage: "/placeholder.svg",
+      themes: ["Beach", "Luxury"],
+      amenities: ["Pool", "Spa", "Restaurant"],
+      available_months: ["January", "February", "March"]
+    },
+    confidence: 0.85
+  },
+  {
+    hotel: {
+      id: "offline-rec-2",
+      name: "Offline Mountain Lodge",
+      description: "A cozy mountain lodge (offline data)",
+      stars: 5,
+      price_per_month: 2200,
+      country: "Switzerland",
+      city: "Zermatt",
+      images: ["/placeholder.svg"],
+      mainImage: "/placeholder.svg",
+      themes: ["Mountain", "Winter"],
+      amenities: ["Fireplace", "Hot Tub", "Restaurant"],
+      available_months: ["June", "July", "August"]
+    },
+    confidence: 0.92
+  }
+];
+
 export function useRecommendations() {
+  // Get network status
+  const isOnline = window.appNetwork?.isOnline() ?? navigator.onLine;
+  const [networkStatus, setNetworkStatus] = useState(isOnline);
   const { user } = useAuth();
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const { toast } = useToast();
   
-  // Function to handle reconnection
-  const handleReconnection = useCallback(() => {
-    if (!isOnline && navigator.onLine) {
-      setIsOnline(true);
-      toast({
-        title: "Connected",
-        description: "Your network connection has been restored.",
-        variant: "default"
-      });
-    }
-  }, [isOnline, toast]);
-  
-  // Listen for online/offline status changes
+  // Listen for network changes
   useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true);
-      handleReconnection();
+    const handleNetworkChange = (event: Event | CustomEvent) => {
+      const isNowOnline = (event as CustomEvent)?.detail?.online ?? navigator.onLine;
+      setNetworkStatus(isNowOnline);
+      
+      // Only show toast if status changed
+      if (isNowOnline !== networkStatus) {
+        if (isNowOnline) {
+          toast({
+            title: "Connected",
+            description: "Your network connection has been restored.",
+            variant: "default"
+          });
+        } else {
+          toast({
+            title: "Offline",
+            description: "You are currently offline. Using cached data.",
+            variant: "destructive"
+          });
+        }
+      }
     };
     
-    const handleOffline = () => {
-      setIsOnline(false);
-      toast({
-        title: "Offline",
-        description: "You are currently offline. Some features may be limited.",
-        variant: "destructive"
-      });
-    };
-    
-    const handleNetworkReconnect = () => {
-      handleReconnection();
-    };
-    
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    window.addEventListener('app:networkReconnected', handleNetworkReconnect);
+    // Listen for both standard events and our custom event
+    window.addEventListener('online', handleNetworkChange);
+    window.addEventListener('offline', handleNetworkChange);
+    window.addEventListener('app:networkStateChanged', handleNetworkChange);
     
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      window.removeEventListener('app:networkReconnected', handleNetworkReconnect);
+      window.removeEventListener('online', handleNetworkChange);
+      window.removeEventListener('offline', handleNetworkChange);
+      window.removeEventListener('app:networkStateChanged', handleNetworkChange);
     };
-  }, [handleReconnection, toast]);
+  }, [networkStatus, toast]);
   
   return useQuery({
-    queryKey: ['recommendations', user?.id, isOnline],
+    queryKey: ['recommendations', user?.id, networkStatus],
     queryFn: async (): Promise<RecommendationResult[]> => {
-      if (!user || !isOnline) {
+      if (!user) {
+        console.log("No user found, returning empty recommendations");
         return [];
       }
       
+      // If we're offline, return fallback data immediately
+      if (!networkStatus) {
+        console.log("Offline mode: using fallback recommendations");
+        return FALLBACK_RECOMMENDATIONS;
+      }
+      
       try {
-        // Set timeout for the function call
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        console.log("Fetching recommendations for user:", user.id);
         
-        // Call the function without passing the signal to the invoke options
-        // since it's not supported in FunctionInvokeOptions type
-        const { data, error } = await supabase.functions.invoke('get-recommendations', {
-          body: { user_id: user.id }
-        });
+        // Use our helper that handles timeouts and fallbacks
+        const data = await invokeFunctionWithFallback<{recommendations: any[]}>(
+          'get-recommendations',
+          { body: { user_id: user.id } },
+          { recommendations: [] }
+        );
         
-        clearTimeout(timeoutId);
-        
-        if (controller.signal.aborted) {
-          console.warn("Recommendations request timed out");
+        // Safety check for recommendations property
+        if (!data || !data.recommendations) {
+          console.warn("Invalid recommendations data structure:", data);
           return [];
         }
         
-        if (error) {
-          console.error("Error fetching recommendations:", error);
-          return [];  // Return empty array instead of throwing
-        }
-        
         // Transform and adapt the data
-        const recommendations = data?.recommendations || [];
-        return recommendations.map((recommendation: any) => ({
+        console.log(`Received ${data.recommendations.length} recommendations`);
+        return data.recommendations.map((recommendation: any) => ({
           hotel: adaptHotelData([recommendation])[0],
-          confidence: recommendation.confidence
+          confidence: recommendation.confidence || 0.5
         }));
       } catch (err) {
         console.error("Failed to fetch recommendations:", err);
         
-        // If we have an abort error, it means the request timed out
-        if (err instanceof DOMException && err.name === 'AbortError') {
-          console.warn("Recommendations request timed out");
-        }
-        
-        return []; // Return empty array on any error
+        // Return fallback recommendations on error
+        return FALLBACK_RECOMMENDATIONS.slice(0, 1); // Just return one as a fallback
       }
     },
-    enabled: !!user && isOnline,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    gcTime: 30 * 60 * 1000, // 30 minutes
-    retry: isOnline ? 3 : 0, // Retry more times if online
-    retryDelay: attempt => Math.min(1000 * 2 ** attempt, 30000), // Exponential backoff
-    refetchOnReconnect: true, // Refetch when coming back online
+    enabled: !!user, // Only run when we have a user
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes 
+    retry: networkStatus ? 1 : 0, // Retry once if online, don't retry if offline
+    retryDelay: 1000, // 1 second delay between retries
+    refetchOnReconnect: false, // Manual control instead of automatic
     refetchOnMount: true
   });
 }

@@ -19,15 +19,25 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
       id: "offline-rec-1",
       name: "Offline Beach Resort",
       description: "A beautiful beach resort (offline data)",
-      stars: 4,
+      category: 4,
       price_per_month: 1500,
       country: "Mexico",
       city: "Cancun",
-      images: ["/placeholder.svg"],
-      mainImage: "/placeholder.svg",
-      themes: ["Beach", "Luxury"],
+      hotel_images: [{ 
+        id: "img-1", 
+        hotel_id: "offline-rec-1", 
+        image_url: "/placeholder.svg", 
+        is_main: true, 
+        created_at: new Date().toISOString() 
+      }],
+      main_image_url: "/placeholder.svg",
+      hotel_themes: [
+        { theme_id: "theme-1", hotel_id: "offline-rec-1", id: "ht-1", themes: { id: "1", name: "Beach" } },
+        { theme_id: "theme-2", hotel_id: "offline-rec-1", id: "ht-2", themes: { id: "2", name: "Luxury" } }
+      ],
       amenities: ["Pool", "Spa", "Restaurant"],
-      available_months: ["January", "February", "March"]
+      available_months: ["January", "February", "March"],
+      average_rating: 4
     },
     confidence: 0.85
   },
@@ -36,15 +46,25 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
       id: "offline-rec-2",
       name: "Offline Mountain Lodge",
       description: "A cozy mountain lodge (offline data)",
-      stars: 5,
+      category: 5,
       price_per_month: 2200,
       country: "Switzerland",
       city: "Zermatt",
-      images: ["/placeholder.svg"],
-      mainImage: "/placeholder.svg",
-      themes: ["Mountain", "Winter"],
+      hotel_images: [{ 
+        id: "img-2", 
+        hotel_id: "offline-rec-2", 
+        image_url: "/placeholder.svg", 
+        is_main: true, 
+        created_at: new Date().toISOString() 
+      }],
+      main_image_url: "/placeholder.svg",
+      hotel_themes: [
+        { theme_id: "theme-3", hotel_id: "offline-rec-2", id: "ht-3", themes: { id: "3", name: "Mountain" } },
+        { theme_id: "theme-4", hotel_id: "offline-rec-2", id: "ht-4", themes: { id: "4", name: "Winter" } }
+      ],
       amenities: ["Fireplace", "Hot Tub", "Restaurant"],
-      available_months: ["June", "July", "August"]
+      available_months: ["June", "July", "August"],
+      average_rating: 5
     },
     confidence: 0.92
   }
@@ -52,7 +72,7 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
 
 export function useRecommendations() {
   // Get network status
-  const isOnline = window.appNetwork?.isOnline() ?? navigator.onLine;
+  const isOnline = typeof window !== 'undefined' && navigator.onLine;
   const [networkStatus, setNetworkStatus] = useState(isOnline);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -60,12 +80,12 @@ export function useRecommendations() {
   // Listen for network changes
   useEffect(() => {
     const handleNetworkChange = (event: Event | CustomEvent) => {
-      const isNowOnline = (event as CustomEvent)?.detail?.online ?? navigator.onLine;
-      setNetworkStatus(isNowOnline);
+      const newOnlineStatus = (event as CustomEvent)?.detail?.online ?? navigator.onLine;
+      setNetworkStatus(newOnlineStatus);
       
       // Only show toast if status changed
-      if (isNowOnline !== networkStatus) {
-        if (isNowOnline) {
+      if (isOnline !== newOnlineStatus) {
+        if (newOnlineStatus) {
           toast({
             title: "Connected",
             description: "Your network connection has been restored.",
@@ -91,7 +111,7 @@ export function useRecommendations() {
       window.removeEventListener('offline', handleNetworkChange);
       window.removeEventListener('app:networkStateChanged', handleNetworkChange);
     };
-  }, [networkStatus, toast]);
+  }, [networkStatus, toast, isOnline]);
   
   return useQuery({
     queryKey: ['recommendations', user?.id, networkStatus],

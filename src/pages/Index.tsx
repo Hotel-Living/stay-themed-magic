@@ -23,7 +23,7 @@ const DEFAULT_FILTERS: FilterState = {
 
 export default function Index() {
   // Network status detection
-  const [isOnline, setIsOnline] = useState(window.appNetwork?.isOnline() ?? navigator.onLine);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const { toast } = useToast();
   
   // Safe auth usage with fallback for when auth is loading

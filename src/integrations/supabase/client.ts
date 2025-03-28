@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase client configuration with fallback values for development
@@ -65,8 +64,8 @@ const mockData = generateFallbackData();
 
 // Network status helper
 const isOnline = () => {
-  // Use the global helper if available, otherwise fallback to navigator.onLine
-  return window.appNetwork?.isOnline() ?? navigator.onLine;
+  // Simply use navigator.onLine
+  return typeof window !== 'undefined' && navigator.onLine;
 };
 
 // Offline-first Supabase client configuration

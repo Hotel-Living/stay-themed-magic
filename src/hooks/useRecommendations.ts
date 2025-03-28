@@ -70,7 +70,7 @@ export function useRecommendations() {
       try {
         // Set timeout for the function call
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
         
         // Call the function without passing the signal to the invoke options
         // since it's not supported in FunctionInvokeOptions type
@@ -79,6 +79,11 @@ export function useRecommendations() {
         });
         
         clearTimeout(timeoutId);
+        
+        if (controller.signal.aborted) {
+          console.warn("Recommendations request timed out");
+          return [];
+        }
         
         if (error) {
           console.error("Error fetching recommendations:", error);
@@ -105,7 +110,8 @@ export function useRecommendations() {
     enabled: !!user && isOnline,
     staleTime: 10 * 60 * 1000, // 10 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
-    retry: isOnline ? 1 : 0, // Only retry once if online
+    retry: isOnline ? 2 : 0, // Retry twice if online
     refetchOnReconnect: true, // Refetch when coming back online
+    refetchOnMount: true
   });
 }

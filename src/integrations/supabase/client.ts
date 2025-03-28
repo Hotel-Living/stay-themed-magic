@@ -16,14 +16,14 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       try {
         // Add a shorter timeout to fetch requests to prevent hanging
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000); // Shorter 3 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
         
         // Add the abort signal to the options
         const fetchOptions = options ? { ...options, signal: controller.signal } : { signal: controller.signal };
         
         // Add a retry mechanism
         let retries = 0;
-        const MAX_RETRIES = 1;
+        const MAX_RETRIES = 2;
         
         while (retries <= MAX_RETRIES) {
           try {
@@ -34,8 +34,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             retries++;
             if (retries > MAX_RETRIES) throw err;
             
-            // Wait before retrying (simple exponential backoff)
-            await new Promise(resolve => setTimeout(resolve, 500 * retries));
+            // Wait before retrying (exponential backoff)
+            await new Promise(resolve => setTimeout(resolve, 1000 * retries));
           }
         }
         
@@ -50,12 +50,11 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       }
     }
   },
-  // Add shorter timeouts to the requests
   db: {
     schema: 'public'
   },
   realtime: {
-    timeout: 5000 // 5 seconds for realtime
+    timeout: 10000 // 10 seconds for realtime
   }
 });
 
@@ -67,7 +66,7 @@ export const fetchWithFallback = async <T>(
   try {
     // Set a timeout for the entire operation
     const timeoutPromise = new Promise<{ data: null; error: Error }>((_, reject) => {
-      setTimeout(() => reject({ data: null, error: new Error('Query timeout') }), 5000);
+      setTimeout(() => reject({ data: null, error: new Error('Query timeout') }), 8000);
     });
     
     // Race between the actual query and the timeout

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <title>Hotel Life</title>
     <script>
-      // Optimized network detection script with better error handling
+      // Simplified network detection script
       (function() {
         let isOffline = !navigator.onLine;
         let offlineNotificationShown = false;
@@ -63,19 +63,18 @@
           }
         }
         
-        // Practical connection test function
+        // Simpler connection test function
         function testConnection() {
           if (checkingConnection) return;
           
           checkingConnection = true;
-          const startTime = Date.now();
           
           // Try to fetch a small file to test actual connectivity
           fetch('/favicon.ico', { 
             method: 'HEAD',
             cache: 'no-store',
             mode: 'no-cors',
-            signal: AbortSignal.timeout(3000) // 3 second timeout
+            signal: AbortSignal.timeout(2000) // 2 second timeout
           })
           .then(() => {
             isOffline = false;
@@ -87,7 +86,6 @@
           })
           .finally(() => {
             checkingConnection = false;
-            console.log(`Connection check completed in ${Date.now() - startTime}ms`);
           });
         }
         
@@ -102,13 +100,13 @@
           testConnection();
         });
         
-        // Initial check with a small delay to let page load
+        // Initial check
         if (isOffline) {
           window.addEventListener('DOMContentLoaded', showOfflineNotification);
         } else {
           // Still test actual connectivity after page load
           window.addEventListener('DOMContentLoaded', function() {
-            setTimeout(testConnection, 1000);
+            setTimeout(testConnection, 500);
           });
         }
         

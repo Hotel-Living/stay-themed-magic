@@ -36,6 +36,7 @@
   background-color: white;
   animation: starMovement linear infinite;
   pointer-events: none;
+  z-index: 0;
 }
 
 .star:nth-child(3n) {

@@ -17,13 +17,19 @@ export function Starfield() {
     starfield.innerHTML = '';
     
     try {
+      // Add the fallback class first as a safety measure
+      if (!hasFallbackRendered) {
+        starfield.classList.add('fallback-starfield');
+        setHasFallbackRendered(true);
+      }
+      
       // Get viewport dimensions
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       
       // Reduce star count for better performance - even fewer stars for mobile
       const isMobile = window.innerWidth < 768;
-      const starCount = Math.min(isMobile ? 50 : 100, Math.floor((windowWidth * windowHeight) / 12000));
+      const starCount = Math.min(isMobile ? 30 : 70, Math.floor((windowWidth * windowHeight) / 15000));
       
       // Define color palette for stars
       const colorPalette = [
@@ -40,8 +46,8 @@ export function Starfield() {
         const star = document.createElement('div');
         star.className = 'star';
         
-        // Random size between 1px and 2.5px (smaller stars for better performance)
-        const size = Math.random() * 1.5 + 1;
+        // Random size between 1px and 2px (smaller stars for better performance)
+        const size = Math.random() * 1 + 1;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         
@@ -60,14 +66,14 @@ export function Starfield() {
         star.style.opacity = (0.5 + Math.random() * 0.5).toString();
         
         // Animation duration - shorter for better performance
-        const duration = 5 + Math.random() * 10;
+        const duration = 4 + Math.random() * 8;
         star.style.animationDuration = `${duration}s`;
         
         // Movement direction - smaller movement range for better performance
         const startX = x;
         const startY = y;
-        const endX = startX + (Math.random() * 80 - 40);
-        const endY = startY + (Math.random() * 80 - 40);
+        const endX = startX + (Math.random() * 60 - 30);
+        const endY = startY + (Math.random() * 60 - 30);
         
         star.style.setProperty('--start-x', `${startX}px`);
         star.style.setProperty('--start-y', `${startY}px`);
@@ -78,13 +84,12 @@ export function Starfield() {
       }
       
       starfield.appendChild(fragment);
-      setHasFallbackRendered(true);
     } catch (err) {
       console.error('Error creating starfield:', err);
-      // If we failed to create the stars dynamically, set a fallback
+      // If we failed to create the stars dynamically, ensure the fallback is applied
       if (!hasFallbackRendered) {
-        setHasFallbackRendered(true);
         starfield.classList.add('fallback-starfield');
+        setHasFallbackRendered(true);
       }
     }
   }, [hasFallbackRendered]);
@@ -93,8 +98,10 @@ export function Starfield() {
     // Mark component as mounted
     setMounted(true);
     
-    // Initial creation of stars
-    createStars();
+    // Initial creation of stars with a small delay to ensure DOM is ready
+    const initialTimer = setTimeout(() => {
+      createStars();
+    }, 100);
     
     // Recreate stars on window resize, with debounce
     let resizeTimer: number | null = null;
@@ -103,7 +110,7 @@ export function Starfield() {
       
       resizeTimer = window.setTimeout(() => {
         createStars();
-      }, 300); // Longer debounce time
+      }, 400); // Longer debounce time
     };
     
     window.addEventListener('resize', handleResize);
@@ -130,6 +137,7 @@ export function Starfield() {
       window.removeEventListener('online', handleNetworkReconnect);
       window.removeEventListener('app:networkReconnected', handleNetworkReconnect);
       if (resizeTimer) window.clearTimeout(resizeTimer);
+      clearTimeout(initialTimer);
     };
   }, [createStars]);
   

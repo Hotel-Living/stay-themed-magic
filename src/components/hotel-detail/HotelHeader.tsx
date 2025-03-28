@@ -3,7 +3,6 @@ import { Star, MapPin, Calendar } from "lucide-react";
 import { HotelThemes } from "@/components/ThemeTag";
 import { HotelHeaderProps, HotelTheme } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLanguage } from "@/context/LanguageContext";
 
 export function HotelHeader({ 
   name, 
@@ -14,8 +13,6 @@ export function HotelHeader({
   themes,
   isLoading
 }: HotelHeaderProps & { isLoading?: boolean }) {
-  const { t } = useLanguage();
-  
   if (isLoading) {
     return (
       <div className="mb-8">

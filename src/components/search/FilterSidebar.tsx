@@ -1,15 +1,21 @@
 
-import React from 'react';
-import { RoomFilterSection } from './filter-sections/RoomFilterSection';
-import { PropertyFilterSection } from './filter-sections/PropertyFilterSection';
-import { TravelFilterSection } from './filter-sections/TravelFilterSection';
-import { AmenitiesFilterSection } from './filter-sections/AmenitiesFilterSection';
-import { PriceFilterSection } from './filter-sections/PriceFilterSection';
-import { FilterActions } from './FilterActions';
+import { PriceRangeFilter } from "./PriceRangeFilter";
+import { LengthOfStayFilter } from "./LengthOfStayFilter";
+import { MonthFilter } from "./MonthFilter";
+import { ThemeFilter } from "./ThemeFilter";
+import { CategoryFilter } from "./CategoryFilter";
+import { CountryFilter } from "./CountryFilter";
+import { LocationFilter } from "./LocationFilter";
+import { CheckboxFilter } from "./CheckboxFilter";
+import { PropertyTypeFilter } from "./PropertyTypeFilter";
+import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { Theme } from "@/utils/data";
 
-// Interface for the FilterSidebar component
 interface FilterSidebarProps {
   activeFilters: {
+    country: string | null;
+    month: string | null;
+    theme: Theme | null;
     priceRange: number | null;
     propertyType: string | null;
     propertyStyle: string | null;
@@ -21,63 +27,95 @@ interface FilterSidebarProps {
     activities: string[];
     location: string | null;
     category: string | null;
-    country: string | null;
-    month: string | null;
-    theme: any | null;
-    amenities?: string[];
-    distance?: number | null;
-    rating?: number | null;
   };
-  handleFilterChange: (key: string, value: any) => void;
-  handleArrayFilterChange: (key: string, value: string[]) => void;
-  onClearAll?: () => void;
+  handleFilterChange: (filterType: string, value: any) => void;
+  handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
 }
 
 export function FilterSidebar({ 
   activeFilters, 
-  handleFilterChange, 
-  handleArrayFilterChange,
-  onClearAll 
+  handleFilterChange,
+  handleArrayFilterChange 
 }: FilterSidebarProps) {
-  // Calculate if any active filters exist
-  const hasActiveFilters = Object.values(activeFilters).some(v => 
-    v !== null && (Array.isArray(v) ? v.length > 0 : true)
-  );
-  
+  // Room types, hotel features, etc.
+  const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
+  const hotelFeatures = ["Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", "24/7 Reception", "Room Service"];
+  const roomFeatures = ["Air Conditioning", "TV", "Mini Bar", "Balcony", "Sea View", "Mountain View", "Kitchen", "Workspace"];
+  const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Self Catering"];
+
   return (
-    <div className="glass-card p-5 rounded-xl space-y-4">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-bold">Filters</h2>
-        <FilterActions 
-          onClearAll={onClearAll} 
-          hasActiveFilters={hasActiveFilters} 
-        />
-      </div>
-      
-      <PriceFilterSection 
-        activeFilters={activeFilters}
-        handleFilterChange={handleFilterChange}
+    <div className="glass-card rounded-xl p-4 space-y-3">
+      <PriceRangeFilter 
+        activePrice={activeFilters.priceRange}
+        onChange={(value) => handleFilterChange("priceRange", value)}
       />
       
-      <TravelFilterSection 
-        activeFilters={activeFilters}
-        handleFilterChange={handleFilterChange}
+      <LengthOfStayFilter 
+        activeLength={activeFilters.lengthOfStay}
+        onChange={(value) => handleFilterChange("lengthOfStay", value)}
       />
       
-      <PropertyFilterSection 
-        activeFilters={activeFilters}
-        handleFilterChange={handleFilterChange}
+      <MonthFilter 
+        activeMonth={activeFilters.month}
+        onChange={(value) => handleFilterChange("month", value)}
       />
       
-      <AmenitiesFilterSection 
-        activeFilters={activeFilters}
-        handleFilterChange={handleFilterChange}
-        handleArrayFilterChange={handleArrayFilterChange}
+      <ThemeFilter 
+        activeTheme={activeFilters.theme}
+        onChange={(value) => handleFilterChange("theme", value)}
       />
       
-      <RoomFilterSection 
-        activeFilters={activeFilters}
-        handleArrayFilterChange={handleArrayFilterChange}
+      <CategoryFilter 
+        activeCategory={activeFilters.category}
+        onChange={(value) => handleFilterChange("category", value)}
+      />
+      
+      <CountryFilter 
+        activeCountry={activeFilters.country}
+        onChange={(value) => handleFilterChange("country", value)}
+      />
+      
+      <LocationFilter 
+        activeLocation={activeFilters.location}
+        onChange={(value) => handleFilterChange("location", value)}
+      />
+      
+      <CheckboxFilter 
+        title="MEALS"
+        options={mealOptions}
+        selectedOptions={activeFilters.meals}
+        onChange={(value, isChecked) => handleArrayFilterChange("meals", value, isChecked)}
+      />
+      
+      <PropertyTypeFilter 
+        activePropertyType={activeFilters.propertyType}
+        onChange={(value) => handleFilterChange("propertyType", value)}
+      />
+      
+      <PropertyStyleFilter 
+        activePropertyStyle={activeFilters.propertyStyle}
+        onChange={(value) => handleFilterChange("propertyStyle", value)}
+      />
+      
+      <CheckboxFilter 
+        title="ROOM TYPES"
+        options={roomTypes}
+        selectedOptions={activeFilters.roomTypes}
+        onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)}
+      />
+      
+      <CheckboxFilter 
+        title="HOTEL FEATURES"
+        options={hotelFeatures}
+        selectedOptions={activeFilters.hotelFeatures}
+        onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)}
+      />
+      
+      <CheckboxFilter 
+        title="ROOM FEATURES"
+        options={roomFeatures}
+        selectedOptions={activeFilters.roomFeatures}
+        onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)}
       />
     </div>
   );

@@ -1,45 +1,25 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { ReactNode } from 'react';
 
 interface EmptyStateProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
-  description: string;
-  action?: React.ReactNode;
-  actionLink?: string;
-  actionText?: string;
+  description?: string;
 }
 
-const EmptyState = ({ 
-  icon, 
-  title, 
-  description, 
-  action,
-  actionLink,
-  actionText
-}: EmptyStateProps) => {
+export const EmptyState = ({ icon, title, description }: EmptyStateProps) => {
   return (
-    <div className="glass-card rounded-xl p-8 text-center flex flex-col items-center justify-center min-h-[300px]">
-      <div className="flex justify-center mb-4 text-fuchsia-400 bg-fuchsia-500/10 p-4 rounded-full">
-        {icon}
-      </div>
-      <h2 className="text-xl font-bold mb-2">{title}</h2>
-      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-        {description}
-      </p>
-      {action && (
-        <div className="mt-2">
-          {action}
+    <div className="glass-card rounded-2xl p-6 h-full flex flex-col items-center justify-center py-16 text-center">
+      <div className="w-16 h-16 rounded-full bg-fuchsia-950/50 flex items-center justify-center mb-4">
+        <div className="text-fuchsia-400/50">
+          {icon}
         </div>
-      )}
-      {actionLink && actionText && (
-        <Link 
-          to={actionLink} 
-          className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          {actionText}
-        </Link>
+      </div>
+      <h2 className="text-lg font-semibold mb-2">{title}</h2>
+      {description && (
+        <p className="text-sm text-muted-foreground max-w-md">
+          {description}
+        </p>
       )}
     </div>
   );

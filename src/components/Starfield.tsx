@@ -1,135 +1,83 @@
 
-import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react';
-import '../styles/starfield.css';
+import { useEffect, useRef } from 'react';
 
 export function Starfield() {
   const starfieldRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [useFallback, setUseFallback] = useState(false);
   
-  // Simplified star creation function that won't fail
-  const createStars = useCallback(() => {
+  useEffect(() => {
     if (!starfieldRef.current) return;
     
-    try {
-      const starfield = starfieldRef.current;
-      
-      // Clear previous stars
-      if (starfield.children.length > 0) {
-        starfield.innerHTML = '';
-      }
-      
-      // Apply fallback if needed
-      if (useFallback) {
-        return;
-      }
-      
-      // Get viewport dimensions
+    const starfield = starfieldRef.current;
+    starfield.innerHTML = '';
+    
+    // Create stars
+    const createStars = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
+      const centerX = windowWidth / 2;
+      const centerY = windowHeight / 2;
       
-      // Reduce star count for better performance
-      const isMobile = window.innerWidth < 768;
-      const starCount = Math.min(isMobile ? 15 : 30, Math.floor((windowWidth * windowHeight) / 25000));
+      // Number of stars based on screen size
+      const starCount = Math.max(70, Math.floor((windowWidth * windowHeight) / 2500));
       
-      // Simple color palette for stars
-      const colorPalette = [
-        '#FFFFFF', // White
-        '#F7F7FF', // Off-white
-        '#EEEEEE', // Light gray
-      ];
-      
-      // Use document fragment for better performance
-      const fragment = document.createDocumentFragment();
-      
-      // Create stars with minimal properties
       for (let i = 0; i < starCount; i++) {
+        // Calculate position from center with random angle
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * Math.min(windowWidth, windowHeight) * 0.8;
+        
         const star = document.createElement('div');
         star.className = 'star';
         
-        // Fixed size for better performance
-        const size = 1.5;
+        // Random size between 1px and 3px
+        const size = Math.random() * 2 + 1;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         
-        // Random position in the viewport
-        const x = Math.random() * windowWidth;
-        const y = Math.random() * windowHeight;
+        // Position relative to center
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
         
         star.style.left = `${x}px`;
         star.style.top = `${y}px`;
         
-        // Simple color from palette
-        const colorIndex = Math.floor(Math.random() * colorPalette.length);
-        star.style.backgroundColor = colorPalette[colorIndex];
+        // Set color between white and bright yellow
+        const isYellow = Math.random() > 0.7;
+        star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
         
-        // Fixed opacity
-        star.style.opacity = "0.7";
+        // Set opacity based on size for depth effect
+        star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
         
-        fragment.appendChild(star);
+        // Animation duration based on distance from center - FASTER
+        const duration = 4 + Math.random() * 6; // Reduced from 10-25s to 4-10s
+        star.style.animation = `starMovement ${duration}s linear infinite`;
+        
+        // Set the starting position for animation
+        star.style.setProperty('--start-x', `${x}px`);
+        star.style.setProperty('--start-y', `${y}px`);
+        
+        // Set the end position (moving away from center)
+        const endX = x + (x - centerX) * 2;
+        const endY = y + (y - centerY) * 2;
+        star.style.setProperty('--end-x', `${endX}px`);
+        star.style.setProperty('--end-y', `${endY}px`);
+        
+        starfield.appendChild(star);
       }
-      
-      starfield.appendChild(fragment);
-    } catch (err) {
-      console.error('Error creating starfield, switching to fallback:', err);
-      setUseFallback(true);
-    }
-  }, [useFallback]);
-  
-  // Use layout effect to ensure this runs early in the render cycle
-  useLayoutEffect(() => {
-    try {
-      // Apply fallback immediately to ensure something renders
-      if (starfieldRef.current) {
-        starfieldRef.current.classList.add('fallback-starfield');
-      }
-      
-      // Set component as mounted
-      setMounted(true);
-    } catch (e) {
-      console.error('Critical starfield initialization error:', e);
-    }
+    };
+    
+    createStars();
+    
+    // Recreate stars on window resize
+    const handleResize = () => {
+      createStars();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
   
-  // Main effect for star creation
-  useEffect(() => {
-    if (!mounted) return;
-    
-    try {
-      // Initial creation of stars
-      createStars();
-      
-      // Handle resize with debounce
-      let resizeTimer: number | null = null;
-      const handleResize = () => {
-        if (resizeTimer) window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(() => {
-          try {
-            createStars();
-          } catch (e) {
-            console.error('Failed to recreate stars on resize:', e);
-            setUseFallback(true);
-          }
-        }, 500);
-      };
-      
-      window.addEventListener('resize', handleResize);
-      
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        if (resizeTimer) window.clearTimeout(resizeTimer);
-      };
-    } catch (e) {
-      console.error('Error in starfield effect:', e);
-      setUseFallback(true);
-    }
-  }, [mounted, createStars]);
-  
-  return (
-    <div 
-      ref={starfieldRef} 
-      className={`starfield ${useFallback ? 'fallback-starfield' : ''}`}
-      aria-hidden="true"
-    />
-  );
+  return <div ref={starfieldRef} className="starfield fixed inset-0 -z-10"></div>;
 }

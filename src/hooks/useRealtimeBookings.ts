@@ -1,124 +1,98 @@
 
-import { useEffect, useCallback, useRef } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { Booking } from "@/integrations/supabase/types-custom";
-import { useBookingsSubscription } from "./bookings/useBookingsSubscription";
-import { useBookingsFetcher } from "./bookings/useBookingsFetcher";
-import { useReconnectionHandler } from "./bookings/useReconnectionHandler";
 
 export function useRealtimeBookings(hotelId?: string) {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  const prevFilterRef = useRef<string | null>(null);
-  
-  // Get the core functionality from our composable hooks
-  const {
-    bookings,
-    isLoading,
-    error,
-    setError,
-    fetchBookings,
-    updateBookingState
-  } = useBookingsFetcher();
-
-  const reconnectHandler = useCallback(() => {
-    // Remove existing channel if any
-    if (channelRef.current) {
-      supabase.removeChannel(channelRef.current);
-      channelRef.current = undefined;
-    }
-    
-    // Create a new channel
-    const channel = setupSubscription();
-    if (channel) {
-      channelRef.current = channel.subscribe((status) => {
-        console.log(`Realtime subscription status: ${status}`);
-        
-        if (status === 'SUBSCRIBED') {
-          // Successfully connected
-          resetReconnection();
-        } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-          // Handle connection error
-          handleSubscriptionError();
-        }
-      });
-    }
-    
-    // Refetch data
-    fetchBookings(user?.id, hotelId);
-  }, [user, hotelId]);
-
-  const {
-    isReconnecting,
-    handleSubscriptionError,
-    reconnect: triggerReconnect,
-    resetReconnection,
-    cleanupReconnection
-  } = useReconnectionHandler({
-    onReconnect: reconnectHandler
-  });
-
-  const {
-    setupSubscription,
-    cleanup: cleanupSubscription,
-    channelRef
-  } = useBookingsSubscription({
-    hotelId,
-    userId: user?.id,
-    onUpdate: updateBookingState
-  });
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!user) {
+      setBookings([]);
+      setIsLoading(false);
       return;
     }
 
-    const currentFilter = hotelId ? `hotel_id=eq.${hotelId}` : `user_id=eq.${user.id}`;
-    const hasFilterChanged = currentFilter !== prevFilterRef.current;
-    
-    fetchBookings(user.id, hotelId);
-    
-    if (hasFilterChanged) {
-      if (channelRef.current) {
-        supabase.removeChannel(channelRef.current);
-        channelRef.current = undefined;
-      }
-      
-      const channel = setupSubscription();
-      if (channel) {
-        channelRef.current = channel.subscribe((status) => {
-          console.log(`Realtime subscription status: ${status}`);
-          
-          if (status === 'SUBSCRIBED') {
-            // Successfully connected
-            resetReconnection();
-          } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-            // Handle connection error
-            handleSubscriptionError();
-          }
+    // Initial fetch of bookings
+    const fetchBookings = async () => {
+      setIsLoading(true);
+      try {
+        let query = supabase
+          .from('bookings')
+          .select('*');
+        
+        // Filter by user ID if no hotel ID is provided
+        if (!hotelId) {
+          query = query.eq('user_id', user.id);
+        } else {
+          query = query.eq('hotel_id', hotelId);
+        }
+        
+        const { data, error } = await query;
+        
+        if (error) throw error;
+        
+        setBookings(data as Booking[]);
+      } catch (error: any) {
+        console.error("Error fetching bookings:", error);
+        toast({
+          title: "Error fetching bookings",
+          description: error.message,
+          variant: "destructive",
         });
+      } finally {
+        setIsLoading(false);
       }
-      
-      prevFilterRef.current = currentFilter;
-    }
+    };
+
+    fetchBookings();
+
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel('booking-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'bookings',
+        filter: hotelId 
+          ? `hotel_id=eq.${hotelId}` 
+          : `user_id=eq.${user.id}`
+      }, (payload) => {
+        console.log('Real-time booking update:', payload);
+        
+        if (payload.eventType === 'INSERT') {
+          setBookings(prev => [...prev, payload.new as Booking]);
+          toast({
+            title: "New Booking",
+            description: "A new booking has been created."
+          });
+        } else if (payload.eventType === 'UPDATE') {
+          setBookings(prev => prev.map(booking => 
+            booking.id === payload.new.id ? payload.new as Booking : booking
+          ));
+          toast({
+            title: "Booking Updated",
+            description: "A booking has been updated."
+          });
+        } else if (payload.eventType === 'DELETE') {
+          setBookings(prev => prev.filter(booking => booking.id !== payload.old.id));
+          toast({
+            title: "Booking Removed",
+            description: "A booking has been cancelled."
+          });
+        }
+      })
+      .subscribe();
 
     return () => {
-      cleanupSubscription();
-      cleanupReconnection();
+      supabase.removeChannel(channel);
     };
-  }, [user, hotelId, fetchBookings, setupSubscription, cleanupSubscription, 
-      cleanupReconnection, resetReconnection, handleSubscriptionError]);
+  }, [user, hotelId, toast]);
 
-  // Public API for manual reconnection
-  const reconnect = useCallback(() => {
-    triggerReconnect();
-  }, [triggerReconnect]);
-
-  return { 
-    bookings, 
-    isLoading,
-    error,
-    isReconnecting,
-    reconnect
-  };
+  return { bookings, isLoading };
 }

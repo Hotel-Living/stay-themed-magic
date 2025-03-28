@@ -2,11 +2,8 @@
 import { HotelAvailableMonthsProps } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 
 export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonthsProps & { isLoading?: boolean }) {
-  const { t } = useLanguage();
-  
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
@@ -27,10 +24,10 @@ export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonths
     return (
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          {t("hotel.months")}
+          Available Months
           <Calendar className="w-5 h-5 text-fuchsia-400" />
         </h2>
-        <p className="text-foreground/60 italic">{t("hotel.nomonths")}</p>
+        <p className="text-foreground/60 italic">No available months at the moment.</p>
       </div>
     );
   }
@@ -38,7 +35,7 @@ export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonths
   return (
     <div className="glass-card rounded-2xl p-6">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        {t("hotel.months")}
+        Available Months
         <Calendar className="w-5 h-5 text-fuchsia-400" />
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">

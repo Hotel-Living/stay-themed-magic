@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { FilterItem } from "./FilterItem";
-import { themeCategories } from "@/utils/data";
+import { Theme, themeCategories } from "@/utils/data";
 import {
   Collapsible,
   CollapsibleContent,
@@ -10,8 +10,8 @@ import {
 import { ChevronRight } from "lucide-react";
 
 interface ThemeFilterProps {
-  activeTheme: string | any | null;
-  onChange: (value: string) => void;
+  activeTheme: Theme | null;
+  onChange: (value: Theme) => void;
 }
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
@@ -20,10 +20,6 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   const toggleCategory = (category: string) => {
     setOpenCategory(openCategory === category ? null : category);
   };
-
-  // Determine the active theme ID
-  const activeThemeId = typeof activeTheme === 'string' ? activeTheme : 
-                        (activeTheme && typeof activeTheme === 'object' ? activeTheme.id : null);
 
   return (
     <FilterItem title="THEME">
@@ -45,8 +41,8 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
                     <input 
                       type="radio" 
                       name="theme"
-                      checked={activeThemeId === theme.id}
-                      onChange={() => onChange(theme.id)}
+                      checked={activeTheme?.id === theme.id}
+                      onChange={() => onChange(theme)}
                       className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
                     />
                     <span className="text-sm">{theme.name}</span>

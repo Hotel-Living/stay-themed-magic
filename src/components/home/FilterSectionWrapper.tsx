@@ -1,11 +1,10 @@
 
-import { FilterState } from "@/components/filters/FilterTypes";
-import { FilterSection } from "@/components/filters/FilterSection";
-import { Theme } from "@/utils/data";
+import { FilterSection, FilterState } from "@/components/FilterSection";
+import { Theme } from "@/integrations/supabase/types-custom";
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;
-  availableThemes: Theme[];
+  availableThemes: string[];
 }
 
 export function FilterSectionWrapper({ onFilterChange, availableThemes }: FilterSectionWrapperProps) {

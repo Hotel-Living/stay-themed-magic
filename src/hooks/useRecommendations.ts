@@ -32,8 +32,8 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
       }],
       main_image_url: "/placeholder.svg",
       hotel_themes: [
-        { theme_id: "theme-1", hotel_id: "offline-rec-1", id: "ht-1", themes: { id: "1", name: "Beach" } },
-        { theme_id: "theme-2", hotel_id: "offline-rec-1", id: "ht-2", themes: { id: "2", name: "Luxury" } }
+        { theme_id: "theme-1", themes: { id: "1", name: "Beach" } },
+        { theme_id: "theme-2", themes: { id: "2", name: "Luxury" } }
       ],
       amenities: ["Pool", "Spa", "Restaurant"],
       available_months: ["January", "February", "March"],
@@ -59,8 +59,8 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
       }],
       main_image_url: "/placeholder.svg",
       hotel_themes: [
-        { theme_id: "theme-3", hotel_id: "offline-rec-2", id: "ht-3", themes: { id: "3", name: "Mountain" } },
-        { theme_id: "theme-4", hotel_id: "offline-rec-2", id: "ht-4", themes: { id: "4", name: "Winter" } }
+        { theme_id: "theme-3", themes: { id: "3", name: "Mountain" } },
+        { theme_id: "theme-4", themes: { id: "4", name: "Winter" } }
       ],
       amenities: ["Fireplace", "Hot Tub", "Restaurant"],
       available_months: ["June", "July", "August"],

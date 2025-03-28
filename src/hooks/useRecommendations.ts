@@ -1,6 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { supabase, fetchWithFallback } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { adaptHotelData } from "@/hooks/hotels/hotelAdapter";
 import { HotelDetailProps } from "@/types/hotel";
@@ -110,7 +110,8 @@ export function useRecommendations() {
     enabled: !!user && isOnline,
     staleTime: 10 * 60 * 1000, // 10 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
-    retry: isOnline ? 2 : 0, // Retry twice if online
+    retry: isOnline ? 3 : 0, // Retry more times if online
+    retryDelay: attempt => Math.min(1000 * 2 ** attempt, 30000), // Exponential backoff
     refetchOnReconnect: true, // Refetch when coming back online
     refetchOnMount: true
   });

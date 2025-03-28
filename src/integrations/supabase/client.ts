@@ -9,7 +9,8 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIU
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
-    autoRefreshToken: true
+    autoRefreshToken: true,
+    detectSessionInUrl: true
   },
   global: {
     fetch: async (url, options) => {
@@ -23,19 +24,23 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         
         // Add a retry mechanism
         let retries = 0;
-        const MAX_RETRIES = 2;
+        const MAX_RETRIES = 3;
         
         while (retries <= MAX_RETRIES) {
           try {
             const response = await fetch(url, fetchOptions);
             clearTimeout(timeoutId);
+            if (!response.ok && (response.status >= 500 || response.status === 0)) {
+              // Only retry on server errors or network failures
+              throw new Error(`Server error: ${response.status}`);
+            }
             return response;
           } catch (err) {
             retries++;
             if (retries > MAX_RETRIES) throw err;
             
             // Wait before retrying (exponential backoff)
-            await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+            await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retries)));
           }
         }
         
@@ -54,7 +59,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     schema: 'public'
   },
   realtime: {
-    timeout: 10000 // 10 seconds for realtime
+    timeout: 10000, // 10 seconds for realtime
+    params: {
+      eventsPerSecond: 10
+    }
   }
 });
 

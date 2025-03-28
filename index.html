@@ -14,7 +14,6 @@
       (function() {
         let isOffline = !navigator.onLine;
         let offlineNotificationShown = false;
-        let checkingConnection = false;
         
         function showOfflineNotification() {
           if (!offlineNotificationShown) {
@@ -63,32 +62,6 @@
           }
         }
         
-        // Simpler connection test function
-        function testConnection() {
-          if (checkingConnection) return;
-          
-          checkingConnection = true;
-          
-          // Try to fetch a small file to test actual connectivity
-          fetch('/favicon.ico', { 
-            method: 'HEAD',
-            cache: 'no-store',
-            mode: 'no-cors',
-            signal: AbortSignal.timeout(2000) // 2 second timeout
-          })
-          .then(() => {
-            isOffline = false;
-            hideOfflineNotification();
-          })
-          .catch(() => {
-            isOffline = true;
-            showOfflineNotification();
-          })
-          .finally(() => {
-            checkingConnection = false;
-          });
-        }
-        
         // Check connection status when online/offline events fire
         window.addEventListener('offline', function() {
           isOffline = true;
@@ -96,22 +69,14 @@
         });
         
         window.addEventListener('online', function() {
-          // Don't immediately assume we're online - test the connection
-          testConnection();
+          isOffline = false;
+          hideOfflineNotification();
         });
         
         // Initial check
         if (isOffline) {
           window.addEventListener('DOMContentLoaded', showOfflineNotification);
-        } else {
-          // Still test actual connectivity after page load
-          window.addEventListener('DOMContentLoaded', function() {
-            setTimeout(testConnection, 500);
-          });
         }
-        
-        // Add a connection checking function to the window
-        window.checkNetworkConnection = testConnection;
       })();
     </script>
   </head>

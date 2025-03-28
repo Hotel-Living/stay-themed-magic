@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase client configuration with fallback values for development
@@ -62,10 +63,9 @@ const generateFallbackData = () => {
 // Global mock data store
 const mockData = generateFallbackData();
 
-// Network status helper
+// Network status helper that works everywhere
 const isOnline = () => {
-  // Simply use navigator.onLine
-  return typeof window !== 'undefined' && navigator.onLine;
+  return typeof navigator !== 'undefined' && navigator.onLine;
 };
 
 // Offline-first Supabase client configuration
@@ -181,7 +181,7 @@ export const invokeFunctionWithFallback = async <T>(
     
     // Set a timeout for the entire operation
     const timeoutPromise = new Promise<{ data: null; error: Error }>((_, reject) => {
-      setTimeout(() => reject({ data: null, error: new Error('Function timeout') }), 3000);
+      setTimeout(() => reject({ data: null, error: new Error('Function timeout') }), 5000);
     });
     
     // Attempt to call the function with a racing timeout
@@ -216,7 +216,7 @@ export const fetchWithFallback = async <T>(
     
     // Set a timeout for the entire operation
     const timeoutPromise = new Promise<{ data: null; error: Error }>((_, reject) => {
-      setTimeout(() => reject({ data: null, error: new Error('Query timeout') }), 3000);
+      setTimeout(() => reject({ data: null, error: new Error('Query timeout') }), 5000);
     });
     
     // Race between the actual query and the timeout

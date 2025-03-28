@@ -71,21 +71,22 @@ const FALLBACK_RECOMMENDATIONS: RecommendationResult[] = [
 ];
 
 export function useRecommendations() {
-  // Get network status
-  const isOnline = typeof window !== 'undefined' && navigator.onLine;
-  const [networkStatus, setNetworkStatus] = useState(isOnline);
-  const { user } = useAuth();
+  // Get network status in a way that works safely in any browser environment
+  const [networkStatus, setNetworkStatus] = useState(typeof navigator !== 'undefined' && navigator.onLine);
+  const { user } = useAuth() || { user: null };
   const { toast } = useToast();
   
-  // Listen for network changes
+  // Listen for network changes with a robust approach
   useEffect(() => {
-    const handleNetworkChange = (event: Event | CustomEvent) => {
-      const newOnlineStatus = (event as CustomEvent)?.detail?.online ?? navigator.onLine;
-      setNetworkStatus(newOnlineStatus);
+    const handleNetworkChange = () => {
+      const isNowOnline = typeof navigator !== 'undefined' && navigator.onLine;
       
-      // Only show toast if status changed
-      if (isOnline !== newOnlineStatus) {
-        if (newOnlineStatus) {
+      // Only update if status changed
+      if (networkStatus !== isNowOnline) {
+        setNetworkStatus(isNowOnline);
+        
+        // Show toast on status change
+        if (isNowOnline) {
           toast({
             title: "Connected",
             description: "Your network connection has been restored.",
@@ -101,21 +102,23 @@ export function useRecommendations() {
       }
     };
     
-    // Listen for both standard events and our custom event
+    // Initialize on mount
+    handleNetworkChange();
+    
+    // Set up event listeners
     window.addEventListener('online', handleNetworkChange);
     window.addEventListener('offline', handleNetworkChange);
-    window.addEventListener('app:networkStateChanged', handleNetworkChange);
     
     return () => {
       window.removeEventListener('online', handleNetworkChange);
       window.removeEventListener('offline', handleNetworkChange);
-      window.removeEventListener('app:networkStateChanged', handleNetworkChange);
     };
-  }, [networkStatus, toast, isOnline]);
+  }, [networkStatus, toast]);
   
   return useQuery({
     queryKey: ['recommendations', user?.id, networkStatus],
     queryFn: async (): Promise<RecommendationResult[]> => {
+      // Safety check for user
       if (!user) {
         console.log("No user found, returning empty recommendations");
         return [];

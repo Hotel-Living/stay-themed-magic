@@ -38,14 +38,35 @@ export default function Index() {
   
   // Handle network status changes
   useEffect(() => {
-    const handleNetworkChange = (event: Event | CustomEvent) => {
-      const newOnlineStatus = (event as CustomEvent)?.detail?.online ?? navigator.onLine;
-      setIsOnline(newOnlineStatus);
+    const handleNetworkChange = () => {
+      const newOnlineStatus = navigator.onLine;
+      
+      // Only update and notify if status changed
+      if (isOnline !== newOnlineStatus) {
+        setIsOnline(newOnlineStatus);
+        
+        if (newOnlineStatus) {
+          toast({
+            title: "Connected",
+            description: "Your network connection has been restored.",
+            variant: "default"
+          });
+        } else {
+          toast({
+            title: "Offline Mode",
+            description: "You're currently viewing Hotel Life in offline mode. Some features may be limited.",
+            variant: "destructive"
+          });
+        }
+      }
     };
     
+    // Set initial state
+    handleNetworkChange();
+    
+    // Listen for changes
     window.addEventListener('online', handleNetworkChange);
     window.addEventListener('offline', handleNetworkChange);
-    window.addEventListener('app:networkStateChanged', handleNetworkChange);
     
     // Set app as ready after a timeout to ensure rendering
     const readyTimer = setTimeout(() => {
@@ -55,10 +76,9 @@ export default function Index() {
     return () => {
       window.removeEventListener('online', handleNetworkChange);
       window.removeEventListener('offline', handleNetworkChange);
-      window.removeEventListener('app:networkStateChanged', handleNetworkChange);
       clearTimeout(readyTimer);
     };
-  }, []);
+  }, [isOnline, toast]);
   
   // Memoized callback to prevent unnecessary re-renders
   const handleFilterChange = useCallback((newFilters: FilterState) => {

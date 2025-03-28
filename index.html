@@ -12,27 +12,26 @@
     <script>
       // Simple network detection that won't block page loading
       (function() {
-        // Initial network state
-        window._networkState = {
-          online: navigator.onLine,
-          notifications: { shown: false }
-        };
+        // Check if we're running in a browser environment
+        if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
         
-        function updateNetworkState(isOnline) {
-          window._networkState.online = isOnline;
+        // Initial network state
+        var isOnline = navigator.onLine;
+        var notificationShown = false;
+        
+        function updateNetworkState(online) {
+          isOnline = online;
           
           // Dispatch a custom event for React components
           try {
-            window.dispatchEvent(new CustomEvent('app:networkStateChanged', { 
-              detail: { online: isOnline } 
-            }));
+            window.dispatchEvent(new Event(online ? 'online' : 'offline'));
           } catch (e) {
             console.error('Failed to dispatch network event', e);
           }
         }
         
         function showOfflineNotification() {
-          if (window._networkState.notifications.shown) return;
+          if (notificationShown) return;
           
           try {
             const notification = document.createElement('div');
@@ -42,7 +41,7 @@
             
             if (document.body) {
               document.body.prepend(notification);
-              window._networkState.notifications.shown = true;
+              notificationShown = true;
             }
           } catch (err) {
             console.warn('Failed to show offline notification', err);
@@ -54,7 +53,7 @@
             const notification = document.getElementById('offline-notification');
             if (notification) {
               notification.remove();
-              window._networkState.notifications.shown = false;
+              notificationShown = false;
             }
           } catch (err) {
             console.warn('Failed to hide offline notification', err);
@@ -70,21 +69,12 @@
         window.addEventListener('online', function() {
           updateNetworkState(true);
           hideOfflineNotification();
-          
-          // Notify app components specifically about reconnection
-          window.dispatchEvent(new CustomEvent('app:networkReconnected'));
         });
         
         // Initial check - only show notification if offline
-        if (!navigator.onLine) {
+        if (!isOnline) {
           window.addEventListener('DOMContentLoaded', showOfflineNotification);
         }
-        
-        // Expose helper functions globally
-        window.appNetwork = {
-          isOnline: function() { return window._networkState.online; },
-          getState: function() { return {...window._networkState}; }
-        };
       })();
     </script>
   </head>

@@ -6,6 +6,18 @@
 /* Import starfield styles */
 @import './styles/starfield.css';
 
+@layer base {
+  :root {
+    --background: 280 50% 97%;
+    --foreground: 280 10% 10%;
+    /* Rest of colors from styles/base.css */
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
 /* Chat Support Styles */
 .loader {
   border: 3px solid rgba(255, 255, 255, 0.3);

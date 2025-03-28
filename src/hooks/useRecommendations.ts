@@ -72,10 +72,10 @@ export function useRecommendations() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
         
-        // Function calls now have timeout built into the supabase client
+        // Call the function without passing the signal to the invoke options
+        // since it's not supported in FunctionInvokeOptions type
         const { data, error } = await supabase.functions.invoke('get-recommendations', {
-          body: { user_id: user.id },
-          signal: controller.signal
+          body: { user_id: user.id }
         });
         
         clearTimeout(timeoutId);

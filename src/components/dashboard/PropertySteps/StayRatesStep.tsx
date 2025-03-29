@@ -35,39 +35,40 @@ export default function StayRatesStep() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold mb-6">ADD A NEW PROPERTY</h2>
-      
       <div>
         <Collapsible className="w-full" defaultOpen>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <label className="block text-sm font-medium text-foreground/90 mb-3">
+            <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">
               STAYS RATES
             </label>
             <ChevronRight className="h-4 w-4" />
           </CollapsibleTrigger>
           <CollapsibleContent>
             <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-              <h3 className="text-sm font-medium mb-2">Important Notice</h3>
+              <h3 className="text-sm font-medium mb-2 uppercase">IMPORTANT NOTICE</h3>
               <p className="text-xs text-foreground/80">
                 All rates are set <span className="font-bold">PER PERSON</span>. Rates will be displayed to customers accordingly.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-4 mb-6">
               <div>
-                <label className="block text-sm mb-1">Select Currency</label>
-                <Select value={currency} onValueChange={setCurrency}>
-                  <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
-                    <SelectValue placeholder="Select currency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currencies.map((curr) => (
-                      <SelectItem key={curr.code} value={curr.code}>
-                        {curr.symbol} {curr.name} ({curr.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="block text-sm mb-1 uppercase">SELECT CURRENCY</label>
+                <div className="flex flex-wrap gap-2">
+                  {currencies.map((curr) => (
+                    <button
+                      key={curr.code}
+                      className={`py-2 px-3 text-sm border rounded-lg transition-colors ${
+                        currency === curr.code
+                          ? "bg-fuchsia-500/20 border-fuchsia-500/50"
+                          : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
+                      }`}
+                      onClick={() => setCurrency(curr.code)}
+                    >
+                      {curr.symbol} {curr.code}
+                    </button>
+                  ))}
+                </div>
               </div>
               
               <div className="space-y-4">
@@ -78,7 +79,7 @@ export default function StayRatesStep() {
                     onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
                     className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
                   />
-                  <span className="text-sm">Enable automatic price increase per booking</span>
+                  <span className="text-sm uppercase">ENABLE AUTOMATIC PRICE INCREASE PER BOOKING</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -96,7 +97,7 @@ export default function StayRatesStep() {
                 
                 {enablePriceIncrease && (
                   <div>
-                    <label className="block text-sm mb-1">Price increase percentage</label>
+                    <label className="block text-sm mb-1 uppercase">PRICE INCREASE PERCENTAGE</label>
                     <div className="flex items-center">
                       <input 
                         type="number" 
@@ -117,16 +118,16 @@ export default function StayRatesStep() {
             </div>
             
             <div className="space-y-6">
-              <h3 className="text-sm font-medium">Rate Table</h3>
+              <h3 className="text-sm font-medium uppercase">RATE TABLE</h3>
               
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[640px] border-collapse">
                   <thead className="bg-fuchsia-900/30">
                     <tr>
-                      <th className="p-2 text-left text-xs font-medium">Room Type</th>
-                      <th className="p-2 text-left text-xs font-medium">Stay Length</th>
-                      <th className="p-2 text-left text-xs font-medium">Meal Plan</th>
-                      <th className="p-2 text-left text-xs font-medium">Price Per Person</th>
+                      <th className="p-2 text-left text-xs font-medium uppercase">ROOM TYPE</th>
+                      <th className="p-2 text-left text-xs font-medium uppercase">STAY LENGTH</th>
+                      <th className="p-2 text-left text-xs font-medium uppercase">MEAL PLAN</th>
+                      <th className="p-2 text-left text-xs font-medium uppercase">PRICE PER PERSON</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-fuchsia-800/20">
@@ -143,6 +144,7 @@ export default function StayRatesStep() {
                                   type="number" 
                                   className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 pl-6 text-xs"
                                   placeholder="0.00"
+                                  required
                                 />
                                 <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs">
                                   {currencies.find(c => c.code === currency)?.symbol}

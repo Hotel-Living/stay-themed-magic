@@ -5,21 +5,25 @@ export default function BasicInfoStep() {
   return (
     <div className="space-y-5">
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-1">
-          Hotel Name
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          HOTEL NAME
         </label>
         <input 
           type="text" 
           className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
           placeholder="Enter hotel name"
+          required
         />
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-1">
-          Category
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          CATEGORY
         </label>
-        <select className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30">
+        <select 
+          className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
+          required
+        >
           <option value="">Select hotel category</option>
           <option value="1">1 Star</option>
           <option value="2">2 Stars</option>
@@ -31,10 +35,13 @@ export default function BasicInfoStep() {
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-1">
-          Type of Property
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          TYPE OF PROPERTY
         </label>
-        <select className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30">
+        <select 
+          className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
+          required
+        >
           <option value="">Select property type</option>
           <option value="hotel">Hotel</option>
           <option value="boutique">Hotel Boutique</option>
@@ -44,10 +51,13 @@ export default function BasicInfoStep() {
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-1">
-          Style of Property
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          STYLE OF PROPERTY
         </label>
-        <select className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30">
+        <select 
+          className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
+          required
+        >
           <option value="">Select property style</option>
           <option value="classic">Classic</option>
           <option value="classic-elegant">Classic Elegant</option>
@@ -60,12 +70,13 @@ export default function BasicInfoStep() {
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-1">
-          Hotel Description
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          HOTEL DESCRIPTION
         </label>
         <textarea 
           className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[120px]"
           placeholder="Enter a detailed description of your hotel"
+          required
         ></textarea>
       </div>
     </div>

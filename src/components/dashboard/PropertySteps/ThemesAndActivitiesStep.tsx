@@ -7,16 +7,30 @@ import {
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
 
-// Defining new theme categories
+// Defining new theme categories with updated structure
 const themeCategories = [
   {
     category: "FOODS & DRINKS",
     subcategories: [
       {
         name: "Culinary",
-        themes: [
-          { id: "world-cuisines", name: "World Cuisines" },
-          { id: "cuisine-learning", name: "Cuisine Learning" }
+        submenus: [
+          {
+            name: "World Cuisines",
+            options: [
+              { id: "spain", name: "Spain", suboptions: ["Spanish", "Castilian", "Andalusian", "Basque", "Galician", "Catalonian"] },
+              { id: "france", name: "France", suboptions: ["French"] },
+              { id: "italy", name: "Italian", suboptions: ["Toscana"] }
+            ]
+          },
+          {
+            name: "Cuisine Learning",
+            options: [
+              { id: "meat", name: "Meat" },
+              { id: "fish", name: "Fish" },
+              { id: "seafood", name: "Seafood" }
+            ]
+          }
         ]
       },
       {
@@ -61,14 +75,40 @@ const themeCategories = [
     ]
   },
   {
-    category: "LANGUAGES",
+    category: "MUSIC",
     themes: [
-      { id: "english", name: "English" },
-      { id: "spanish", name: "Spanish" },
-      { id: "french", name: "French" },
-      { id: "german", name: "German" },
-      { id: "chinese", name: "Chinese" },
-      { id: "japanese", name: "Japanese" }
+      { id: "rock", name: "Rock" },
+      { id: "opera", name: "Opera" },
+      { id: "symphonic", name: "Symphonic" },
+      { id: "classical", name: "Classical" },
+      { id: "pop", name: "Pop" }
+    ]
+  },
+  {
+    category: "LANGUAGES",
+    subcategories: [
+      {
+        name: "Practice",
+        themes: [
+          { id: "english-practice", name: "English" },
+          { id: "spanish-practice", name: "Spanish" },
+          { id: "french-practice", name: "French" },
+          { id: "german-practice", name: "German" },
+          { id: "chinese-practice", name: "Chinese" },
+          { id: "japanese-practice", name: "Japanese" }
+        ]
+      },
+      {
+        name: "Learning",
+        themes: [
+          { id: "english-learning", name: "English" },
+          { id: "spanish-learning", name: "Spanish" },
+          { id: "french-learning", name: "French" },
+          { id: "german-learning", name: "German" },
+          { id: "chinese-learning", name: "Chinese" },
+          { id: "japanese-learning", name: "Japanese" }
+        ]
+      }
     ]
   },
   {
@@ -119,14 +159,19 @@ const themeCategories = [
 
 export default function ThemesAndActivitiesStep() {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   
   const toggleCategory = (category: string) => {
     setOpenCategory(openCategory === category ? null : category);
   };
   
+  const toggleSubmenu = (submenu: string) => {
+    setOpenSubmenu(openSubmenu === submenu ? null : submenu);
+  };
+  
   return (
     <div className="space-y-4">
-      <label className="block text-xl font-bold text-foreground/90 mb-2">
+      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase">
         THEMES
       </label>
       
@@ -138,40 +183,97 @@ export default function ThemesAndActivitiesStep() {
       </button>
       
       <div>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-1.5">
           {/* Map through all theme categories */}
           {themeCategories.map((category) => (
-            <Collapsible key={category.category}>
-              <div className="bg-[#5A1876]/30 rounded-lg p-3 border border-fuchsia-800/30">
+            <Collapsible key={category.category} className="mb-1">
+              <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
                 <CollapsibleTrigger 
                   className="flex items-center justify-between w-full font-medium"
                   onClick={() => toggleCategory(category.category)}
                 >
-                  <h4>{category.category}</h4>
+                  <h4 className="uppercase">{category.category}</h4>
                   <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
                 </CollapsibleTrigger>
                 
                 <CollapsibleContent>
                   {category.subcategories ? (
-                    <div className="space-y-2 mt-2">
+                    <div className="space-y-1 mt-1">
                       {category.subcategories.map((subcategory) => (
                         <div key={subcategory.name} className="bg-[#5A1876]/20 rounded-lg p-2 border border-fuchsia-800/20">
-                          <h5 className="font-medium mb-1">{subcategory.name}</h5>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {subcategory.themes.map((theme) => (
-                              <label key={theme.id} className="flex items-start">
-                                <input 
-                                  type="checkbox" 
-                                  className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                                />
-                                <span className="text-sm">{theme.name}</span>
-                              </label>
-                            ))}
-                            <div className="flex items-center">
-                              <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                              <span className="text-xs text-fuchsia-400">Add new theme</span>
+                          <h5 className="font-medium mb-1 uppercase">{subcategory.name}</h5>
+                          
+                          {subcategory.submenus ? (
+                            <div className="space-y-1">
+                              {subcategory.submenus.map((submenu) => (
+                                <Collapsible key={submenu.name} className="mb-1">
+                                  <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
+                                    <CollapsibleTrigger 
+                                      className="flex items-center justify-between w-full text-sm"
+                                      onClick={() => toggleSubmenu(submenu.name)}
+                                    >
+                                      <span className="uppercase">{submenu.name}</span>
+                                      <ChevronRight className={`h-3 w-3 transform transition-transform ${openSubmenu === submenu.name ? 'rotate-90' : ''}`} />
+                                    </CollapsibleTrigger>
+                                    
+                                    <CollapsibleContent>
+                                      <div className="mt-1 space-y-1">
+                                        {submenu.options.map((option) => (
+                                          <div key={option.id} className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10">
+                                            <label className="flex items-start mb-1">
+                                              <input 
+                                                type="checkbox" 
+                                                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                                              />
+                                              <span className="text-sm">{option.name}</span>
+                                            </label>
+                                            
+                                            {option.suboptions && (
+                                              <div className="pl-6 grid grid-cols-2 gap-1">
+                                                {option.suboptions.map((suboption) => (
+                                                  <label key={suboption} className="flex items-start">
+                                                    <input 
+                                                      type="checkbox" 
+                                                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-3 w-3 mr-1 mt-0.5" 
+                                                    />
+                                                    <span className="text-xs">{suboption}</span>
+                                                  </label>
+                                                ))}
+                                                <div className="flex items-center">
+                                                  <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+                                                  <span className="text-xs text-fuchsia-400">Add other</span>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                        ))}
+                                        <div className="flex items-center">
+                                          <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                                          <span className="text-xs text-fuchsia-400">Add new option</span>
+                                        </div>
+                                      </div>
+                                    </CollapsibleContent>
+                                  </div>
+                                </Collapsible>
+                              ))}
                             </div>
-                          </div>
+                          ) : (
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+                              {subcategory.themes.map((theme) => (
+                                <label key={theme.id} className="flex items-start">
+                                  <input 
+                                    type="checkbox" 
+                                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                                  />
+                                  <span className="text-sm">{theme.name}</span>
+                                </label>
+                              ))}
+                              <div className="flex items-center">
+                                <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                                <span className="text-xs text-fuchsia-400">Add new theme</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))}
                       <div className="flex items-center mt-1">
@@ -180,7 +282,7 @@ export default function ThemesAndActivitiesStep() {
                       </div>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-1 mt-1">
                       {category.themes.map((theme) => (
                         <label key={theme.id} className="flex items-start">
                           <input 

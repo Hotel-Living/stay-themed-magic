@@ -1,7 +1,6 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import BasicInfoStep from "./PropertySteps/BasicInfoStep";
 import LocationStep from "./PropertySteps/LocationStep";
 import PicturesStep from "./PropertySteps/PicturesStep";
@@ -10,9 +9,11 @@ import ThemesAndActivitiesStep from "./PropertySteps/ThemesAndActivitiesStep";
 import HotelFeaturesStep from "./PropertySteps/HotelFeaturesStep";
 import StayRatesStep from "./PropertySteps/StayRatesStep";
 import HotelFaqAndTermsStep from "./PropertySteps/HotelFaqAndTermsStep";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AddProperty() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [hasNewItems, setHasNewItems] = useState(false);
   const totalSteps = 6;
   
   // Step titles in all caps
@@ -28,15 +29,57 @@ export default function AddProperty() {
   const [hotelFeaturesOpen, setHotelFeaturesOpen] = useState(false);
   const [roomFeaturesOpen, setRoomFeaturesOpen] = useState(false);
   
+  const { toast } = useToast();
+  
   const goToNextStep = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
+    if (validateCurrentStep()) {
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+        window.scrollTo(0, 0);
+      }
+    } else {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields before proceeding.",
+        variant: "destructive",
+      });
     }
   };
   
   const goToPreviousStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+  
+  const validateCurrentStep = () => {
+    // This is a placeholder for form validation logic
+    // In a real application, we would validate all required fields
+    return true;
+  };
+  
+  const handleSubmitProperty = () => {
+    if (validateCurrentStep()) {
+      if (hasNewItems) {
+        toast({
+          title: "Property Submitted for Review",
+          description: "Your property has been submitted and is awaiting administrator approval.",
+          duration: 5000,
+        });
+      } else {
+        toast({
+          title: "Property Published",
+          description: "Your property has been successfully published!",
+          duration: 5000,
+        });
+      }
+    } else {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields before submitting.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -97,6 +140,37 @@ export default function AddProperty() {
           className="bg-fuchsia-500 h-2 rounded-full transition-all duration-300"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
+      </div>
+      
+      {/* Top Navigation Controls */}
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={goToPreviousStep}
+          className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+            currentStep === 1 
+              ? "bg-fuchsia-800/20 text-fuchsia-300/50 cursor-not-allowed" 
+              : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+          }`}
+          disabled={currentStep === 1}
+        >
+          Previous
+        </button>
+        
+        {currentStep === totalSteps ? (
+          <button
+            onClick={handleSubmitProperty}
+            className="rounded-lg px-4 py-1.5 bg-green-600/80 hover:bg-green-600 text-white text-sm font-medium transition-colors"
+          >
+            Submit Property
+          </button>
+        ) : (
+          <button
+            onClick={goToNextStep}
+            className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
+          >
+            Next
+          </button>
+        )}
       </div>
       
       {/* Step Content */}
@@ -160,7 +234,7 @@ export default function AddProperty() {
           <div className="space-y-6">
             <Collapsible open={hotelFeaturesOpen} onOpenChange={setHotelFeaturesOpen} className="w-full">
               <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-fuchsia-900/30 hover:bg-fuchsia-900/40 rounded-lg text-left">
-                <h3 className="text-lg font-semibold">Hotel Features</h3>
+                <h3 className="text-lg font-semibold uppercase">HOTEL FEATURES</h3>
                 {hotelFeaturesOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="pt-4 pb-2">
@@ -170,7 +244,7 @@ export default function AddProperty() {
             
             <Collapsible open={roomFeaturesOpen} onOpenChange={setRoomFeaturesOpen} className="w-full">
               <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-fuchsia-900/30 hover:bg-fuchsia-900/40 rounded-lg text-left">
-                <h3 className="text-lg font-semibold">Room Features</h3>
+                <h3 className="text-lg font-semibold uppercase">ROOM FEATURES</h3>
                 {roomFeaturesOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="pt-4 pb-2">
@@ -251,6 +325,15 @@ export default function AddProperty() {
         {currentStep === 6 && <HotelFaqAndTermsStep />}
       </div>
       
+      {/* Required Fields Notification */}
+      <div className="bg-amber-900/20 border border-amber-500/30 p-3 rounded-lg mb-6 flex items-start">
+        <AlertCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+        <div>
+          <p className="text-sm font-medium">IMPORTANT</p>
+          <p className="text-xs text-foreground/80">All fields marked as required must be completed before proceeding. If you add any new items, your property submission will require administrator approval before being published.</p>
+        </div>
+      </div>
+      
       {/* Navigation Buttons */}
       <div className="flex items-center justify-between">
         <button
@@ -267,6 +350,7 @@ export default function AddProperty() {
         
         {currentStep === totalSteps ? (
           <button
+            onClick={handleSubmitProperty}
             className="rounded-lg px-6 py-2 bg-green-600/80 hover:bg-green-600 text-white text-sm font-medium transition-colors"
           >
             Submit Property

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import PriceTable from "./PriceTable";
 
 export default function StayRatesStep() {
   const [currency, setCurrency] = useState("USD");

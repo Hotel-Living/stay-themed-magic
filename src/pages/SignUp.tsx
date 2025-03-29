@@ -42,20 +42,20 @@ export default function SignUp() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-lg mx-auto px-4 py-16">
+        <div className="container max-w-lg mx-auto px-4 py-12">
           <div style={{
-            background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+            background: 'linear-gradient(-45deg, #860477, #B919B0)',
             backgroundSize: '200% 200%',
             animation: 'text-shine 2s linear infinite',
           }} className="glass-card rounded-2xl overflow-hidden">
-            <div className="p-8 bg-black/60 backdrop-blur-sm">
-              <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold mb-2">Create Account</h1>
+            <div className="p-6 bg-black/60 backdrop-blur-sm">
+              <div className="text-center mb-6">
+                <h1 className="text-2xl font-bold mb-1">Create Account</h1>
                 <p className="text-muted-foreground text-sm">Join Hotel-Living and discover themed stays</p>
               </div>
               
               {/* Account Type Selector */}
-              <div className="flex gap-4 mb-8">
+              <div className="flex gap-4 mb-6">
                 <button
                   type="button"
                   onClick={() => setAccountType("user")}
@@ -82,9 +82,9 @@ export default function SignUp() {
                 </button>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name Field */}
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <label htmlFor="name" className="text-xs font-medium">
                     {accountType === "user" ? "Full Name" : "Hotel Name"}
                   </label>
@@ -108,7 +108,7 @@ export default function SignUp() {
                 </div>
                 
                 {/* Email Field */}
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <label htmlFor="email" className="text-xs font-medium">
                     Email
                   </label>
@@ -128,7 +128,7 @@ export default function SignUp() {
                 </div>
                 
                 {/* Password Field */}
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <label htmlFor="password" className="text-xs font-medium">
                     Password
                   </label>
@@ -159,7 +159,7 @@ export default function SignUp() {
                 </div>
                 
                 {/* Confirm Password Field */}
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <label htmlFor="confirmPassword" className="text-xs font-medium">
                     Confirm Password
                   </label>
@@ -179,7 +179,7 @@ export default function SignUp() {
                 </div>
                 
                 {/* Terms and Conditions */}
-                <div className="flex items-start">
+                <div className="flex items-start mt-3">
                   <div className="flex items-center h-4">
                     <input
                       id="terms"
@@ -204,13 +204,13 @@ export default function SignUp() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2 text-sm rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
+                  className="w-full py-2 text-sm rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70 mt-4"
                 >
                   {isLoading ? "Creating account..." : "Create Account"}
                 </button>
               </form>
               
-              <div className="mt-6 text-center">
+              <div className="mt-4 text-center">
                 <p className="text-xs text-muted-foreground">
                   Already have an account?{" "}
                   <Link to="/login" className="text-fuchsia-400 hover:text-fuchsia-300 transition">

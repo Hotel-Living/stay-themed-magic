@@ -6,80 +6,48 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
+import { FeaturesList } from "./features/FeaturesList";
 
-const hotelFeatures = [
-  "Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", 
-  "24/7 Reception", "Room Service", "Bar", "Lounge", 
-  "Business Center", "Conference Rooms", "Laundry Service",
-  "Concierge", "Airport Shuttle", "Pet Friendly"
-];
-
-const roomFeatures = [
-  "Air Conditioning", "Private Bathroom", "TV", "Safe", "Mini Bar", 
-  "Coffee Machine", "Kettle", "Hairdryer", "Iron", "Work Desk",
-  "Balcony", "Sea View", "Mountain View", "City View", "Bathtub",
-  "Walk-in Shower", "King Bed", "Queen Bed", "Twin Beds", "Sofa Bed",
-  "High-speed Internet", "Blackout Curtains", "Soundproof", "Room Service"
-];
+// Moving data to separate files for better maintainability
+import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
 export default function HotelFeaturesStep() {
   return (
     <div className="space-y-6">
-      <div>
-        <Collapsible className="w-full" defaultOpen={false}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
-              HOTEL FEATURES
-            </label>
-            <ChevronRight className="h-4 w-4" />
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {hotelFeatures.map((feature) => (
-                <label key={feature} className="flex items-start">
-                  <input 
-                    type="checkbox" 
-                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                  />
-                  <span className="text-sm">{feature}</span>
-                </label>
-              ))}
-              <div className="flex items-center">
-                <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                <span className="text-sm text-fuchsia-400">Add new feature</span>
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
+      {/* Hotel Features Section */}
+      <FeatureCollapsible 
+        title="HOTEL FEATURES" 
+        features={hotelFeatures} 
+      />
       
-      <div>
-        <Collapsible className="w-full" defaultOpen={false}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
-              ROOM FEATURES
-            </label>
-            <ChevronRight className="h-4 w-4" />
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {roomFeatures.map((feature) => (
-                <label key={feature} className="flex items-start">
-                  <input 
-                    type="checkbox" 
-                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                  />
-                  <span className="text-sm">{feature}</span>
-                </label>
-              ))}
-              <div className="flex items-center">
-                <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                <span className="text-sm text-fuchsia-400">Add new feature</span>
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
+      {/* Room Features Section */}
+      <FeatureCollapsible 
+        title="ROOM FEATURES" 
+        features={roomFeatures} 
+      />
+    </div>
+  );
+}
+
+interface FeatureCollapsibleProps {
+  title: string;
+  features: string[];
+}
+
+function FeatureCollapsible({ title, features }: FeatureCollapsibleProps) {
+  return (
+    <div>
+      <Collapsible className="w-full" defaultOpen={false}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+          <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
+            {title}
+          </label>
+          <ChevronRight className="h-4 w-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <FeaturesList features={features} />
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }

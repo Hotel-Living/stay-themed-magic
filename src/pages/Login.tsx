@@ -28,7 +28,7 @@ export default function Login() {
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-16">
           <div style={{
-            background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+            background: 'linear-gradient(-45deg, #AA017A, #65086A)',
             backgroundSize: '200% 200%',
             animation: 'text-shine 2s linear infinite',
           }} className="glass-card rounded-2xl overflow-hidden">

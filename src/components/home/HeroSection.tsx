@@ -1,4 +1,3 @@
-
 import { Check } from "lucide-react";
 export function HeroSection() {
   return <section className="py-4 px-4 overflow-hidden">
@@ -9,9 +8,7 @@ export function HeroSection() {
         animation: 'text-shine 2s linear infinite',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
-      }} className="md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold text-4xl">
-          Live in Hotels - Boost your Life
-        </p>
+      }} className="md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold text-4xl">LIVE IN HOTELS - BOOST YOUR LIFE</p>
         
         <h1 style={{
         background: 'linear-gradient(-45deg, #B1900F, #F7F700)',

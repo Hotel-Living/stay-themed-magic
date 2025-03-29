@@ -166,7 +166,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #AA017A; /* Changed from #5B0155 to #AA017A */
+  background-color: #5B0155; /* Changed back from #AA017A to #5B0155 */
   position: fixed;
   top: 0;
   left: 0;

@@ -1,8 +1,18 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 
 export default function LocationStep() {
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [customCountry, setCustomCountry] = useState("");
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCountry(e.target.value);
+    if (e.target.value !== "other") {
+      setCustomCountry("");
+    }
+  };
+
   return (
     <div className="space-y-5">
       <h3 className="text-xl font-bold uppercase mb-4">LOCATION</h3>
@@ -27,6 +37,8 @@ export default function LocationStep() {
           <select 
             className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
             required
+            value={selectedCountry}
+            onChange={handleCountryChange}
           >
             <option value="">Select country</option>
             <option value="es">Spain</option>
@@ -35,6 +47,19 @@ export default function LocationStep() {
             <option value="us">United States</option>
             <option value="other">Add another country</option>
           </select>
+          
+          {selectedCountry === "other" && (
+            <div className="mt-2">
+              <input
+                type="text"
+                className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30"
+                placeholder="Enter country name"
+                value={customCountry}
+                onChange={(e) => setCustomCountry(e.target.value)}
+                required
+              />
+            </div>
+          )}
         </div>
         
         <div>

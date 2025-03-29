@@ -18,9 +18,26 @@ const themeCategories = [
           {
             name: "World Cuisines",
             options: [
-              { id: "spain", name: "Spain", suboptions: ["Spanish", "Castilian", "Andalusian", "Basque", "Galician", "Catalonian"] },
-              { id: "france", name: "France", suboptions: ["French"] },
-              { id: "italy", name: "Italian", suboptions: ["Toscana"] }
+              { 
+                id: "spain", 
+                name: "Spain", 
+                suboptions: ["Spanish", "Castilian", "Andalusian", "Basque", "Galician", "Catalonian"] 
+              },
+              { 
+                id: "france", 
+                name: "France", 
+                suboptions: ["French"] 
+              },
+              { 
+                id: "italy", 
+                name: "Italian", 
+                suboptions: ["Toscana"] 
+              },
+              { 
+                id: "add-other", 
+                name: "Add other", 
+                isAddOption: true 
+              }
             ]
           },
           {
@@ -28,7 +45,8 @@ const themeCategories = [
             options: [
               { id: "meat", name: "Meat" },
               { id: "fish", name: "Fish" },
-              { id: "seafood", name: "Seafood" }
+              { id: "seafood", name: "Seafood" },
+              { id: "add-other", name: "Add other", isAddOption: true }
             ]
           }
         ]
@@ -39,7 +57,8 @@ const themeCategories = [
           { id: "wine", name: "Wine" },
           { id: "beer", name: "Beer" },
           { id: "cocktails", name: "Cocktails" },
-          { id: "spirits", name: "Spirits" }
+          { id: "spirits", name: "Spirits" },
+          { id: "add-other", name: "Add other", isAddOption: true }
         ]
       }
     ]
@@ -52,7 +71,8 @@ const themeCategories = [
       { id: "swimming", name: "Swimming" },
       { id: "diving", name: "Diving" },
       { id: "yoga", name: "Yoga" },
-      { id: "fitness", name: "Fitness" }
+      { id: "fitness", name: "Fitness" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -62,7 +82,8 @@ const themeCategories = [
       { id: "sculpture", name: "Sculpture" },
       { id: "photography", name: "Photography" },
       { id: "architecture", name: "Architecture" },
-      { id: "design", name: "Design" }
+      { id: "design", name: "Design" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -71,7 +92,8 @@ const themeCategories = [
       { id: "history", name: "History" },
       { id: "museums", name: "Museums" },
       { id: "local-traditions", name: "Local Traditions" },
-      { id: "festivals", name: "Festivals" }
+      { id: "festivals", name: "Festivals" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -81,7 +103,8 @@ const themeCategories = [
       { id: "opera", name: "Opera" },
       { id: "symphonic", name: "Symphonic" },
       { id: "classical", name: "Classical" },
-      { id: "pop", name: "Pop" }
+      { id: "pop", name: "Pop" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -95,7 +118,8 @@ const themeCategories = [
           { id: "french-practice", name: "French" },
           { id: "german-practice", name: "German" },
           { id: "chinese-practice", name: "Chinese" },
-          { id: "japanese-practice", name: "Japanese" }
+          { id: "japanese-practice", name: "Japanese" },
+          { id: "add-other-practice", name: "Add other", isAddOption: true }
         ]
       },
       {
@@ -106,7 +130,8 @@ const themeCategories = [
           { id: "french-learning", name: "French" },
           { id: "german-learning", name: "German" },
           { id: "chinese-learning", name: "Chinese" },
-          { id: "japanese-learning", name: "Japanese" }
+          { id: "japanese-learning", name: "Japanese" },
+          { id: "add-other-learning", name: "Add other", isAddOption: true }
         ]
       }
     ]
@@ -117,7 +142,8 @@ const themeCategories = [
       { id: "ballroom", name: "Ballroom" },
       { id: "latin", name: "Latin" },
       { id: "contemporary", name: "Contemporary" },
-      { id: "traditional", name: "Traditional" }
+      { id: "traditional", name: "Traditional" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -125,7 +151,8 @@ const themeCategories = [
     themes: [
       { id: "digital", name: "Digital" },
       { id: "innovation", name: "Innovation" },
-      { id: "smart-home", name: "Smart Home" }
+      { id: "smart-home", name: "Smart Home" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -134,7 +161,8 @@ const themeCategories = [
       { id: "astronomy", name: "Astronomy" },
       { id: "biology", name: "Biology" },
       { id: "physics", name: "Physics" },
-      { id: "chemistry", name: "Chemistry" }
+      { id: "chemistry", name: "Chemistry" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -143,7 +171,8 @@ const themeCategories = [
       { id: "poetry", name: "Poetry" },
       { id: "novels", name: "Novels" },
       { id: "short-stories", name: "Short Stories" },
-      { id: "book-clubs", name: "Book Clubs" }
+      { id: "book-clubs", name: "Book Clubs" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   },
   {
@@ -152,7 +181,8 @@ const themeCategories = [
       { id: "board-games", name: "Board Games" },
       { id: "card-games", name: "Card Games" },
       { id: "chess", name: "Chess" },
-      { id: "video-games", name: "Video Games" }
+      { id: "video-games", name: "Video Games" },
+      { id: "add-other", name: "Add other", isAddOption: true }
     ]
   }
 ];
@@ -171,7 +201,7 @@ export default function ThemesAndActivitiesStep() {
   
   return (
     <div className="space-y-4">
-      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase">
+      <label className="block text-3xl font-bold text-foreground/90 mb-2 uppercase">
         THEMES
       </label>
       
@@ -183,13 +213,13 @@ export default function ThemesAndActivitiesStep() {
       </button>
       
       <div>
-        <div className="grid grid-cols-1 gap-1.5">
+        <div className="grid grid-cols-1 gap-1">
           {/* Map through all theme categories */}
           {themeCategories.map((category) => (
-            <Collapsible key={category.category} className="mb-1">
+            <Collapsible key={category.category} className="mb-0.5">
               <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
                 <CollapsibleTrigger 
-                  className="flex items-center justify-between w-full font-medium"
+                  className="flex items-center justify-between w-full font-medium h-8"
                   onClick={() => toggleCategory(category.category)}
                 >
                   <h4 className="uppercase">{category.category}</h4>
@@ -198,18 +228,18 @@ export default function ThemesAndActivitiesStep() {
                 
                 <CollapsibleContent>
                   {category.subcategories ? (
-                    <div className="space-y-1 mt-1">
+                    <div className="space-y-0.5 mt-1">
                       {category.subcategories.map((subcategory) => (
-                        <div key={subcategory.name} className="bg-[#5A1876]/20 rounded-lg p-2 border border-fuchsia-800/20">
+                        <div key={subcategory.name} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
                           <h5 className="font-medium mb-1 uppercase">{subcategory.name}</h5>
                           
                           {subcategory.submenus ? (
-                            <div className="space-y-1">
+                            <div className="space-y-0.5">
                               {subcategory.submenus.map((submenu) => (
-                                <Collapsible key={submenu.name} className="mb-1">
+                                <Collapsible key={submenu.name} className="mb-0.5">
                                   <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
                                     <CollapsibleTrigger 
-                                      className="flex items-center justify-between w-full text-sm"
+                                      className="flex items-center justify-between w-full text-sm h-6"
                                       onClick={() => toggleSubmenu(submenu.name)}
                                     >
                                       <span className="uppercase">{submenu.name}</span>
@@ -217,40 +247,51 @@ export default function ThemesAndActivitiesStep() {
                                     </CollapsibleTrigger>
                                     
                                     <CollapsibleContent>
-                                      <div className="mt-1 space-y-1">
+                                      <div className="mt-1 space-y-0.5">
                                         {submenu.options.map((option) => (
-                                          <div key={option.id} className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10">
-                                            <label className="flex items-start mb-1">
-                                              <input 
-                                                type="checkbox" 
-                                                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                                              />
-                                              <span className="text-sm">{option.name}</span>
-                                            </label>
-                                            
-                                            {option.suboptions && (
-                                              <div className="pl-6 grid grid-cols-2 gap-1">
-                                                {option.suboptions.map((suboption) => (
-                                                  <label key={suboption} className="flex items-start">
-                                                    <input 
-                                                      type="checkbox" 
-                                                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-3 w-3 mr-1 mt-0.5" 
-                                                    />
-                                                    <span className="text-xs">{suboption}</span>
-                                                  </label>
-                                                ))}
-                                                <div className="flex items-center">
-                                                  <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
-                                                  <span className="text-xs text-fuchsia-400">Add other</span>
-                                                </div>
-                                              </div>
+                                          <div key={option.id} className={`bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10 ${option.isAddOption ? 'flex items-center' : ''}`}>
+                                            {option.isAddOption ? (
+                                              <>
+                                                <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+                                                <span className="text-xs text-fuchsia-400">{option.name}</span>
+                                              </>
+                                            ) : (
+                                              <>
+                                                <label className="flex items-start mb-1">
+                                                  <input 
+                                                    type="checkbox" 
+                                                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                                                  />
+                                                  <span className="text-sm">{option.name}</span>
+                                                </label>
+                                                
+                                                {option.suboptions && (
+                                                  <div className="pl-6 grid grid-cols-2 gap-1">
+                                                    {option.suboptions.map((suboption) => (
+                                                      <label key={suboption} className="flex items-start">
+                                                        <input 
+                                                          type="checkbox" 
+                                                          className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-3 w-3 mr-1 mt-0.5" 
+                                                        />
+                                                        <span className="text-xs">{suboption}</span>
+                                                      </label>
+                                                    ))}
+                                                    <div className="flex items-center">
+                                                      <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+                                                      <span className="text-xs text-fuchsia-400">Add other</span>
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </>
                                             )}
                                           </div>
                                         ))}
-                                        <div className="flex items-center">
-                                          <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                                          <span className="text-xs text-fuchsia-400">Add new option</span>
-                                        </div>
+                                        {!submenu.options.some(opt => opt.isAddOption) && (
+                                          <div className="flex items-center">
+                                            <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                                            <span className="text-xs text-fuchsia-400">Add new option</span>
+                                          </div>
+                                        )}
                                       </div>
                                     </CollapsibleContent>
                                   </div>
@@ -260,18 +301,27 @@ export default function ThemesAndActivitiesStep() {
                           ) : (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
                               {subcategory.themes.map((theme) => (
-                                <label key={theme.id} className="flex items-start">
-                                  <input 
-                                    type="checkbox" 
-                                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                                  />
-                                  <span className="text-sm">{theme.name}</span>
-                                </label>
+                                theme.isAddOption ? (
+                                  <div key={theme.id} className="flex items-center">
+                                    <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                                    <span className="text-xs text-fuchsia-400">{theme.name}</span>
+                                  </div>
+                                ) : (
+                                  <label key={theme.id} className="flex items-start">
+                                    <input 
+                                      type="checkbox" 
+                                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                                    />
+                                    <span className="text-sm">{theme.name}</span>
+                                  </label>
+                                )
                               ))}
-                              <div className="flex items-center">
-                                <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                                <span className="text-xs text-fuchsia-400">Add new theme</span>
-                              </div>
+                              {!subcategory.themes.some(theme => theme.isAddOption) && (
+                                <div className="flex items-center">
+                                  <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                                  <span className="text-xs text-fuchsia-400">Add new theme</span>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -284,18 +334,27 @@ export default function ThemesAndActivitiesStep() {
                   ) : (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-1 mt-1">
                       {category.themes.map((theme) => (
-                        <label key={theme.id} className="flex items-start">
-                          <input 
-                            type="checkbox" 
-                            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                          />
-                          <span className="text-sm">{theme.name}</span>
-                        </label>
+                        theme.isAddOption ? (
+                          <div key={theme.id} className="flex items-center">
+                            <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                            <span className="text-xs text-fuchsia-400">{theme.name}</span>
+                          </div>
+                        ) : (
+                          <label key={theme.id} className="flex items-start">
+                            <input 
+                              type="checkbox" 
+                              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                            />
+                            <span className="text-sm">{theme.name}</span>
+                          </label>
+                        )
                       ))}
-                      <div className="flex items-center">
-                        <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                        <span className="text-xs text-fuchsia-400">Add new theme</span>
-                      </div>
+                      {!category.themes.some(theme => theme.isAddOption) && (
+                        <div className="flex items-center">
+                          <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                          <span className="text-xs text-fuchsia-400">Add new theme</span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CollapsibleContent>

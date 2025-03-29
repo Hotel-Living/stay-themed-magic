@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
@@ -185,87 +186,11 @@ export default function AddProperty() {
         {currentStep === 2 && (
           <div className="space-y-8">
             <RoomsAndPricingStep />
-            <div className="pt-4">
-              <div className="mb-4">
-                <div className="grid grid-cols-7 gap-2">
-                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                    <button 
-                      key={day}
-                      className="py-2 px-1 text-xs border border-fuchsia-500/30 rounded-lg hover:bg-fuchsia-500/20 focus:bg-fuchsia-500/30 focus:border-fuchsia-500/50"
-                    >
-                      {day}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold uppercase mb-2">Room Types</h3>
-              <div className="bg-fuchsia-900/20 p-4 rounded-lg mb-3">
-                <h4 className="font-medium mb-2">Single Room</h4>
-                <div className="grid grid-cols-2 gap-4 mb-3">
-                  <div>
-                    <label className="text-xs mb-1 block">Maximum Occupancy</label>
-                    <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="1" />
-                  </div>
-                  <div>
-                    <label className="text-xs mb-1 block">Room Size (sq ft/m)</label>
-                    <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="Size" />
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label className="text-xs mb-1 block">Description</label>
-                  <textarea className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" rows={2} placeholder="Describe this room type"></textarea>
-                </div>
-                <div>
-                  <label className="text-xs mb-1 block">Upload Images</label>
-                  <div className="border-2 border-dashed border-fuchsia-500/30 rounded-lg p-4 text-center">
-                    <p className="text-sm text-foreground/60">Drag & drop or click to upload</p>
-                  </div>
-                </div>
-              </div>
-              <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg">
-                + Add Room Type
-              </button>
-            </div>
           </div>
         )}
         {currentStep === 3 && (
           <div className="space-y-6">
-            <Collapsible open={hotelFeaturesOpen} onOpenChange={setHotelFeaturesOpen} className="w-full">
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-fuchsia-900/30 hover:bg-fuchsia-900/40 rounded-lg text-left">
-                <h3 className="text-lg font-semibold uppercase">HOTEL FEATURES</h3>
-                {hotelFeaturesOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-              </CollapsibleTrigger>
-              <CollapsibleContent className="pt-4 pb-2">
-                <HotelFeaturesStep />
-              </CollapsibleContent>
-            </Collapsible>
-            
-            <Collapsible open={roomFeaturesOpen} onOpenChange={setRoomFeaturesOpen} className="w-full">
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-fuchsia-900/30 hover:bg-fuchsia-900/40 rounded-lg text-left">
-                <h3 className="text-lg font-semibold uppercase">ROOM FEATURES</h3>
-                {roomFeaturesOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-              </CollapsibleTrigger>
-              <CollapsibleContent className="pt-4 pb-2">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {["Private Bathroom", "TV", "Safe", "Mini Fridge", "Air Conditioning", "Heating", "Desk", "Wardrobe", "Iron", "Hairdryer", "Coffee Machine", "Balcony"].map(feature => (
-                      <div key={feature} className="flex items-center space-x-2">
-                        <input type="checkbox" id={`room-${feature.toLowerCase().replace(/\s/g, '-')}`} className="rounded-sm bg-fuchsia-950/50 border-fuchsia-500/50 text-fuchsia-500" />
-                        <label htmlFor={`room-${feature.toLowerCase().replace(/\s/g, '-')}`} className="text-sm">{feature}</label>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="pt-2">
-                    <button className="text-sm text-fuchsia-400 hover:text-fuchsia-300">
-                      + Add New Feature
-                    </button>
-                  </div>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+            <HotelFeaturesStep />
           </div>
         )}
         {currentStep === 4 && (
@@ -275,10 +200,10 @@ export default function AddProperty() {
         )}
         {currentStep === 5 && (
           <div className="space-y-8">
-            <h3 className="text-lg font-semibold mb-4">Stay Rates</h3>
+            <h3 className="text-lg font-semibold uppercase mb-4">STAY RATES</h3>
             <div className="bg-fuchsia-900/20 rounded-lg p-4 mb-4">
-              <h4 className="font-medium mb-3">Currency</h4>
-              <div className="grid grid-cols-3 gap-3">
+              <h4 className="font-medium mb-3 uppercase">CURRENCY</h4>
+              <div className="flex flex-wrap gap-2">
                 {["USD", "EUR", "GBP", "JPY", "CNY"].map(currency => (
                   <button 
                     key={currency}
@@ -292,7 +217,7 @@ export default function AddProperty() {
             
             {/* Automatic Price Increase Section */}
             <div className="bg-fuchsia-900/20 rounded-lg p-4 mb-4">
-              <h4 className="font-medium mb-2">Automatic Price Increase</h4>
+              <h4 className="font-medium mb-2 uppercase">AUTOMATIC PRICE INCREASE</h4>
               <p className="text-sm text-foreground/70 mb-3">Set a percentage increase that will automatically apply as rooms get booked</p>
               
               <div className="flex items-center mb-3">
@@ -329,7 +254,7 @@ export default function AddProperty() {
       <div className="bg-amber-900/20 border border-amber-500/30 p-3 rounded-lg mb-6 flex items-start">
         <AlertCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
         <div>
-          <p className="text-sm font-medium">IMPORTANT</p>
+          <p className="text-sm font-medium uppercase">IMPORTANT</p>
           <p className="text-xs text-foreground/80">All fields marked as required must be completed before proceeding. If you add any new items, your property submission will require administrator approval before being published.</p>
         </div>
       </div>

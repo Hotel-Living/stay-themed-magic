@@ -25,12 +25,10 @@ const roomFeatures = [
 export default function HotelFeaturesStep() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold mb-4">ADD A NEW PROPERTY</h2>
-      
       <div>
-        <Collapsible className="w-full">
+        <Collapsible className="w-full" defaultOpen={false}>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <label className="block text-sm font-medium text-foreground/90 mb-2">
+            <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
               HOTEL FEATURES
             </label>
             <ChevronRight className="h-4 w-4" />
@@ -56,9 +54,9 @@ export default function HotelFeaturesStep() {
       </div>
       
       <div>
-        <Collapsible className="w-full">
+        <Collapsible className="w-full" defaultOpen={false}>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <label className="block text-sm font-medium text-foreground/90 mb-2">
+            <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
               ROOM FEATURES
             </label>
             <ChevronRight className="h-4 w-4" />

@@ -10,7 +10,7 @@ export function HeroSection() {
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
       }} className="md:text-3xl mb-10 max-w-5xl mx-auto tracking-tight font-bold text-4xl">
-          Live in Hotels and Boost your Life
+          Live in Hotels - Boost your Life
         </p>
         
         <h1 style={{
@@ -20,7 +20,7 @@ export function HeroSection() {
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
       }} className="md:text-7xl font-bold mb-2 tracking-tight text-4xl">
-          Live the Future Life
+          Live the Future
         </h1>
         
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-2">

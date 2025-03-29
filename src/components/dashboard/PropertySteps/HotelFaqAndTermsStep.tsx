@@ -26,8 +26,6 @@ export default function HotelFaqAndTermsStep() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold mb-6">ADD A NEW PROPERTY</h2>
-      
       <div>
         <Collapsible className="w-full" defaultOpen>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
@@ -39,7 +37,7 @@ export default function HotelFaqAndTermsStep() {
           <CollapsibleContent>
             <div className="space-y-4">
               {faqItems.map((item, index) => (
-                <div key={index} className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30">
+                <div key={index} className="bg-[#65086A]/20 rounded-lg p-4 border border-fuchsia-800/30">
                   <div className="flex justify-between items-start mb-2">
                     <input
                       type="text"

@@ -33,7 +33,7 @@ export default function LocationStep() {
             <option value="fr">France</option>
             <option value="it">Italy</option>
             <option value="us">United States</option>
-            <option value="other">Other countries...</option>
+            <option value="other">Add another country</option>
           </select>
         </div>
         

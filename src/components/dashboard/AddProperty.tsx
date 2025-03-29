@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
@@ -148,7 +149,7 @@ export default function AddProperty() {
           onClick={goToPreviousStep}
           className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
             currentStep === 1 
-              ? "bg-fuchsia-800/20 text-fuchsia-300/50 cursor-not-allowed" 
+              ? "invisible" 
               : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
           }`}
           disabled={currentStep === 1}

@@ -2,13 +2,16 @@
 import { Check } from "lucide-react";
 
 export function HeroSection() {
-  return <section className="py-4 px-4 overflow-hidden">
+  return <section className="py-2 px-4 overflow-hidden">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
-        <img 
-          src="/lovable-uploads/914f59f1-db2c-4340-8d61-340368c895ca.png" 
-          alt="Live in Hotels - Boost your Life" 
-          className="mx-auto mb-10 max-w-full"
-        />
+        <div className="mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-1">
+            <span className="text-gradient">Live in Hotels</span>
+          </h1>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-3">
+            <span className="text-white">Boost your Life</span>
+          </h2>
+        </div>
         
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5 mb-1">
           <div className="space-y-0.25">

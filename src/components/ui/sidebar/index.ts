@@ -20,12 +20,16 @@ export {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarProvider,
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-  useSidebar,
+  TooltipProvider,
 } from "./sidebar-components";
 
-// Re-export the context and hooks for direct usage
-export { SidebarContext, type SidebarContext as SidebarContextType } from "./sidebar-context";
+// Export the context and hooks for direct usage
+export { 
+  SidebarContext, 
+  SidebarProvider,
+  useSidebar,
+  type SidebarContext as SidebarContextType 
+} from "./sidebar-context";

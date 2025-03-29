@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
@@ -162,7 +161,7 @@ export default function AddProperty() {
             onClick={handleSubmitProperty}
             className="rounded-lg px-4 py-1.5 bg-green-600/80 hover:bg-green-600 text-white text-sm font-medium transition-colors"
           >
-            Submit Property
+            Next
           </button>
         ) : (
           <button

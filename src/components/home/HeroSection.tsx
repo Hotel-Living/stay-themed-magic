@@ -4,11 +4,11 @@ import { Check } from "lucide-react";
 export function HeroSection() {
   return <section className="py-4 px-4 overflow-hidden">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
-        <div className="mb-5">
+        <div className="pt-8 mb-5">
           <h1 className="text-6xl md:text-7xl font-bold mb-2">
             <span className="bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent animate-text-slow">Live in Hotels</span>
           </h1>
-          <h2 className="text-4xl md:text-5xl font-semibold mb-3">
+          <h2 className="text-4xl md:text-5xl font-semibold mb-8">
             <span className="bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent animate-text-slow">Boost your Life</span>
           </h2>
         </div>

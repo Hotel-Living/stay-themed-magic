@@ -21,6 +21,7 @@ import OurServices from "./pages/OurServices";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import CustomerService from "./pages/CustomerService";
+import IntellectualProperty from "./pages/IntellectualProperty";
 import NotFound from "./pages/NotFound";
 import CodeStats from "./pages/CodeStats";
 
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/customer-service" element={<CustomerService />} />
+            <Route path="/intellectual-property" element={<IntellectualProperty />} />
             <Route path="/code-stats" element={<CodeStats />} />
             <Route path="/hoteles" element={<HotelDashboard />} />
             <Route path="/signin" element={<Login />} />

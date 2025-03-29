@@ -5,18 +5,23 @@ import LocationStep from "./PropertySteps/LocationStep";
 import PicturesStep from "./PropertySteps/PicturesStep";
 import RoomsAndPricingStep from "./PropertySteps/RoomsAndPricingStep";
 import ThemesAndActivitiesStep from "./PropertySteps/ThemesAndActivitiesStep";
+import HotelFeaturesStep from "./PropertySteps/HotelFeaturesStep";
+import StayRatesStep from "./PropertySteps/StayRatesStep";
+import HotelFaqAndTermsStep from "./PropertySteps/HotelFaqAndTermsStep";
 
 export default function AddProperty() {
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 5;
+  const totalSteps = 7;
   
   // Step titles in all caps
   const stepTitles = [
     "BASIC INFO",
-    "LOCATION",
-    "PICTURES",
+    "LOCATION & PICTURES",
     "ROOMS & PRICING",
-    "THEMES"
+    "HOTEL FEATURES",
+    "THEMES",
+    "STAYS RATES",
+    "FAQ & TERMS"
   ];
   
   const goToNextStep = () => {
@@ -34,7 +39,7 @@ export default function AddProperty() {
   return (
     <div className="glass-card rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">Add a New Property</h2>
+        <h2 className="text-xl font-bold">ADD A NEW PROPERTY</h2>
         <div className="text-sm text-foreground/60">
           Step {currentStep} of {totalSteps}
         </div>
@@ -54,10 +59,17 @@ export default function AddProperty() {
       {/* Step Content */}
       <div className="mb-8">
         {currentStep === 1 && <BasicInfoStep />}
-        {currentStep === 2 && <LocationStep />}
-        {currentStep === 3 && <PicturesStep />}
-        {currentStep === 4 && <RoomsAndPricingStep />}
+        {currentStep === 2 && (
+          <div className="space-y-8">
+            <LocationStep />
+            <PicturesStep />
+          </div>
+        )}
+        {currentStep === 3 && <RoomsAndPricingStep />}
+        {currentStep === 4 && <HotelFeaturesStep />}
         {currentStep === 5 && <ThemesAndActivitiesStep />}
+        {currentStep === 6 && <StayRatesStep />}
+        {currentStep === 7 && <HotelFaqAndTermsStep />}
       </div>
       
       {/* Navigation Buttons */}

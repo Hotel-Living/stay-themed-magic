@@ -6,7 +6,6 @@ import { FilterState } from "@/components/FilterSection";
 import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
-import { FeaturedHotelsSection } from "@/components/home/FeaturedHotelsSection";
 import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
@@ -51,12 +50,6 @@ export default function Index() {
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
           availableThemes={themes.map((theme: Theme) => theme.name)}
-        />
-        
-        {/* Hotels Section */}
-        <FeaturedHotelsSection 
-          hotels={hotels} 
-          isLoading={isHotelsLoading} 
         />
       </main>
       

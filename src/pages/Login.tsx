@@ -27,29 +27,33 @@ export default function Login() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-16">
-          <div className="glass-card rounded-2xl overflow-hidden">
-            <div className="p-8">
+          <div style={{
+            background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+            backgroundSize: '200% 200%',
+            animation: 'text-shine 2s linear infinite',
+          }} className="glass-card rounded-2xl overflow-hidden">
+            <div className="p-8 bg-black/60 backdrop-blur-sm">
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-                <p className="text-muted-foreground">Sign in to manage your account</p>
+                <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
+                <p className="text-muted-foreground text-sm">Sign in to manage your account</p>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
+                  <label htmlFor="email" className="text-xs font-medium">
                     Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Mail className="w-5 h-5 text-muted-foreground" />
+                      <Mail className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <input
                       id="email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-3 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -57,19 +61,19 @@ export default function Login() {
                 
                 {/* Password Field */}
                 <div className="space-y-2">
-                  <label htmlFor="password" className="text-sm font-medium">
+                  <label htmlFor="password" className="text-xs font-medium">
                     Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Lock className="w-5 h-5 text-muted-foreground" />
+                      <Lock className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full py-3 pl-11 pr-12 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-9 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your password"
                     />
                     <button
@@ -78,9 +82,9 @@ export default function Login() {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="w-5 h-5 text-muted-foreground" />
+                        <EyeOff className="w-4 h-4 text-muted-foreground" />
                       ) : (
-                        <Eye className="w-5 h-5 text-muted-foreground" />
+                        <Eye className="w-4 h-4 text-muted-foreground" />
                       )}
                     </button>
                   </div>
@@ -92,13 +96,13 @@ export default function Login() {
                     <input
                       id="remember"
                       type="checkbox"
-                      className="w-4 h-4 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
+                      className="w-3 h-3 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
                     />
-                    <label htmlFor="remember" className="ml-2 text-sm text-muted-foreground">
+                    <label htmlFor="remember" className="ml-2 text-xs text-muted-foreground">
                       Remember me
                     </label>
                   </div>
-                  <Link to="/forgot-password" className="text-sm text-fuchsia-400 hover:text-fuchsia-300 transition">
+                  <Link to="/forgot-password" className="text-xs text-fuchsia-400 hover:text-fuchsia-300 transition">
                     Forgot password?
                   </Link>
                 </div>
@@ -107,14 +111,14 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
+                  className="w-full py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium text-sm transition-colors disabled:opacity-70"
                 >
                   {isLoading ? "Signing in..." : "Sign In"}
                 </button>
               </form>
               
-              <div className="mt-8 text-center">
-                <p className="text-sm text-muted-foreground">
+              <div className="mt-6 text-center">
+                <p className="text-xs text-muted-foreground">
                   Don't have an account yet?{" "}
                   <Link to="/signup" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                     Create an account

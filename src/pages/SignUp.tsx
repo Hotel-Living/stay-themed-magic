@@ -43,11 +43,15 @@ export default function SignUp() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-16">
-          <div className="glass-card rounded-2xl overflow-hidden">
-            <div className="p-8">
+          <div style={{
+            background: 'linear-gradient(-45deg, #B1900F, #F7F700)',
+            backgroundSize: '200% 200%',
+            animation: 'text-shine 2s linear infinite',
+          }} className="glass-card rounded-2xl overflow-hidden">
+            <div className="p-8 bg-black/60 backdrop-blur-sm">
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-                <p className="text-muted-foreground">Join Hotel-Living and discover themed stays</p>
+                <h1 className="text-2xl font-bold mb-2">Create Account</h1>
+                <p className="text-muted-foreground text-sm">Join Hotel-Living and discover themed stays</p>
               </div>
               
               {/* Account Type Selector */}
@@ -55,25 +59,25 @@ export default function SignUp() {
                 <button
                   type="button"
                   onClick={() => setAccountType("user")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors text-sm ${
                     accountType === "user"
                       ? "bg-fuchsia-500/20 text-fuchsia-200 border border-fuchsia-500/50"
                       : "bg-secondary/50 text-foreground/80 border border-border"
                   }`}
                 >
-                  <User className="w-5 h-5" />
+                  <User className="w-4 h-4" />
                   Traveler
                 </button>
                 <button
                   type="button"
                   onClick={() => setAccountType("hotel")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors text-sm ${
                     accountType === "hotel"
                       ? "bg-fuchsia-500/20 text-fuchsia-200 border border-fuchsia-500/50"
                       : "bg-secondary/50 text-foreground/80 border border-border"
                   }`}
                 >
-                  <Building className="w-5 h-5" />
+                  <Building className="w-4 h-4" />
                   Hotel Owner
                 </button>
               </div>
@@ -81,15 +85,15 @@ export default function SignUp() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Name Field */}
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
+                  <label htmlFor="name" className="text-xs font-medium">
                     {accountType === "user" ? "Full Name" : "Hotel Name"}
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       {accountType === "user" ? (
-                        <User className="w-5 h-5 text-muted-foreground" />
+                        <User className="w-4 h-4 text-muted-foreground" />
                       ) : (
-                        <Building className="w-5 h-5 text-muted-foreground" />
+                        <Building className="w-4 h-4 text-muted-foreground" />
                       )}
                     </div>
                     <input
@@ -97,7 +101,7 @@ export default function SignUp() {
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-3 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder={accountType === "user" ? "Enter your full name" : "Enter your hotel name"}
                     />
                   </div>
@@ -105,19 +109,19 @@ export default function SignUp() {
                 
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
+                  <label htmlFor="email" className="text-xs font-medium">
                     Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Mail className="w-5 h-5 text-muted-foreground" />
+                      <Mail className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <input
                       id="email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-3 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -125,19 +129,19 @@ export default function SignUp() {
                 
                 {/* Password Field */}
                 <div className="space-y-2">
-                  <label htmlFor="password" className="text-sm font-medium">
+                  <label htmlFor="password" className="text-xs font-medium">
                     Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Lock className="w-5 h-5 text-muted-foreground" />
+                      <Lock className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full py-3 pl-11 pr-12 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-9 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Create a password"
                     />
                     <button
@@ -146,9 +150,9 @@ export default function SignUp() {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="w-5 h-5 text-muted-foreground" />
+                        <EyeOff className="w-4 h-4 text-muted-foreground" />
                       ) : (
-                        <Eye className="w-5 h-5 text-muted-foreground" />
+                        <Eye className="w-4 h-4 text-muted-foreground" />
                       )}
                     </button>
                   </div>
@@ -156,19 +160,19 @@ export default function SignUp() {
                 
                 {/* Confirm Password Field */}
                 <div className="space-y-2">
-                  <label htmlFor="confirmPassword" className="text-sm font-medium">
+                  <label htmlFor="confirmPassword" className="text-xs font-medium">
                     Confirm Password
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Lock className="w-5 h-5 text-muted-foreground" />
+                      <Lock className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <input
                       id="confirmPassword"
                       type={showPassword ? "text" : "password"}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full py-3 pl-11 pr-4 bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
+                      className="w-full py-2 pl-9 pr-3 text-sm bg-secondary/50 border border-border rounded-lg focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 transition-colors"
                       placeholder="Confirm your password"
                     />
                   </div>
@@ -176,15 +180,15 @@ export default function SignUp() {
                 
                 {/* Terms and Conditions */}
                 <div className="flex items-start">
-                  <div className="flex items-center h-5">
+                  <div className="flex items-center h-4">
                     <input
                       id="terms"
                       type="checkbox"
-                      className="w-4 h-4 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
+                      className="w-3 h-3 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
                       required
                     />
                   </div>
-                  <label htmlFor="terms" className="ml-2 text-sm text-muted-foreground">
+                  <label htmlFor="terms" className="ml-2 text-xs text-muted-foreground">
                     I agree to the{" "}
                     <Link to="/terms" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                       Terms and Conditions
@@ -200,14 +204,14 @@ export default function SignUp() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
+                  className="w-full py-2 text-sm rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70"
                 >
                   {isLoading ? "Creating account..." : "Create Account"}
                 </button>
               </form>
               
-              <div className="mt-8 text-center">
-                <p className="text-sm text-muted-foreground">
+              <div className="mt-6 text-center">
+                <p className="text-xs text-muted-foreground">
                   Already have an account?{" "}
                   <Link to="/login" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                     Sign in

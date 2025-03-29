@@ -4,12 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Link } from "react-router-dom";
 import { LogOut, HelpCircle, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface DashboardTab {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
+import { DashboardTab } from "@/types/dashboard";
 
 interface DashboardLayoutProps {
   children: ReactNode;

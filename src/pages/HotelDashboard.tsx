@@ -10,8 +10,7 @@ import {
   Users,
   BarChart3,
   MessageSquare, 
-  Settings, 
-  LogOut
+  Settings
 } from "lucide-react";
 
 // Import refactored components
@@ -27,11 +26,7 @@ import ReviewsContent from "@/components/dashboard/ReviewsContent";
 import FinancesContent from "@/components/dashboard/FinancesContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
 
-interface DashboardTab {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-}
+import { DashboardTab } from "@/types/dashboard";
 
 export default function HotelDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");

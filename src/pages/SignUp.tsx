@@ -42,20 +42,20 @@ export default function SignUp() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-lg mx-auto px-4 py-12">
+        <div className="container max-w-lg mx-auto px-4 py-8">
           <div style={{
             background: 'linear-gradient(-45deg, #860477, #B919B0)',
             backgroundSize: '200% 200%',
             animation: 'text-shine 2s linear infinite',
           }} className="glass-card rounded-2xl overflow-hidden">
             <div className="p-6 bg-black/60 backdrop-blur-sm">
-              <div className="text-center mb-6">
+              <div className="text-center mb-4">
                 <h1 className="text-2xl font-bold mb-1">Create Account</h1>
                 <p className="text-muted-foreground text-sm">Join Hotel-Living and discover themed stays</p>
               </div>
               
               {/* Account Type Selector */}
-              <div className="flex gap-4 mb-6">
+              <div className="flex gap-4 mb-4">
                 <button
                   type="button"
                   onClick={() => setAccountType("user")}
@@ -82,7 +82,7 @@ export default function SignUp() {
                 </button>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Name Field */}
                 <div className="space-y-1">
                   <label htmlFor="name" className="text-xs font-medium">
@@ -179,7 +179,7 @@ export default function SignUp() {
                 </div>
                 
                 {/* Terms and Conditions */}
-                <div className="flex items-start mt-3">
+                <div className="flex items-start mt-2">
                   <div className="flex items-center h-4">
                     <input
                       id="terms"
@@ -204,13 +204,13 @@ export default function SignUp() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2 text-sm rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70 mt-4"
+                  className="w-full py-2 text-sm rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-colors disabled:opacity-70 mt-3"
                 >
                   {isLoading ? "Creating account..." : "Create Account"}
                 </button>
               </form>
               
-              <div className="mt-4 text-center">
+              <div className="mt-3 text-center">
                 <p className="text-xs text-muted-foreground">
                   Already have an account?{" "}
                   <Link to="/login" className="text-fuchsia-400 hover:text-fuchsia-300 transition">

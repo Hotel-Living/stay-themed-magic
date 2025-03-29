@@ -4,8 +4,6 @@ import React from "react";
 export default function BasicInfoStep() {
   return (
     <div className="space-y-5">
-      <h3 className="text-lg font-semibold mb-4">BASIC INFORMATION</h3>
-      
       <div>
         <label className="block text-sm font-medium text-foreground/90 mb-1">
           Hotel Name

@@ -13,11 +13,10 @@ import HotelFaqAndTermsStep from "./PropertySteps/HotelFaqAndTermsStep";
 
 export default function AddProperty() {
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 7;
+  const totalSteps = 6;
   
   // Step titles in all caps
   const stepTitles = [
-    "ADD A NEW PROPERTY",
     "ADD A NEW PROPERTY",
     "ADD A NEW PROPERTY",
     "ADD A NEW PROPERTY",
@@ -114,7 +113,6 @@ export default function AddProperty() {
             <RoomsAndPricingStep />
             <div className="pt-4">
               <div className="mb-4">
-                <h3 className="text-lg font-semibold uppercase mb-2">Preferred Weekday for all Check-ins/outs</h3>
                 <div className="grid grid-cols-7 gap-2">
                   {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
                     <button 

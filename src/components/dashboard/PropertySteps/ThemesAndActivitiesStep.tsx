@@ -125,27 +125,26 @@ export default function ThemesAndActivitiesStep() {
   };
   
   return (
-    <div className="space-y-5">
-      <h2 className="text-xl font-bold mb-6">ADD A NEW PROPERTY</h2>
+    <div className="space-y-4">
+      <label className="block text-xl font-bold text-foreground/90 mb-2">
+        THEMES
+      </label>
       
       <p className="text-sm text-foreground/90 mb-4">
         Make your hotel stand out from the competition boosting it with group themes to attract your best and perfect guests
       </p>
-      <button className="inline-flex items-center px-4 py-2 rounded-lg bg-[#5A1876]/80 hover:bg-[#5A1876] text-white text-sm font-medium transition-colors mb-6">
+      <button className="inline-flex items-center px-4 py-2 rounded-lg bg-[#5A1876]/80 hover:bg-[#5A1876] text-white text-sm font-medium transition-colors mb-4">
         More Information
       </button>
       
       <div>
-        <label className="block text-sm font-medium text-foreground/90 mb-3">
-          THEMES
-        </label>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-2">
           {/* Map through all theme categories */}
           {themeCategories.map((category) => (
             <Collapsible key={category.category}>
-              <div className="bg-[#5A1876]/30 rounded-lg p-4 border border-fuchsia-800/30">
+              <div className="bg-[#5A1876]/30 rounded-lg p-3 border border-fuchsia-800/30">
                 <CollapsibleTrigger 
-                  className="flex items-center justify-between w-full font-medium mb-2"
+                  className="flex items-center justify-between w-full font-medium"
                   onClick={() => toggleCategory(category.category)}
                 >
                   <h4>{category.category}</h4>
@@ -154,11 +153,11 @@ export default function ThemesAndActivitiesStep() {
                 
                 <CollapsibleContent>
                   {category.subcategories ? (
-                    <div className="space-y-4 mt-2">
+                    <div className="space-y-2 mt-2">
                       {category.subcategories.map((subcategory) => (
-                        <div key={subcategory.name} className="bg-[#5A1876]/20 rounded-lg p-3 border border-fuchsia-800/20">
-                          <h5 className="font-medium mb-2">{subcategory.name}</h5>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div key={subcategory.name} className="bg-[#5A1876]/20 rounded-lg p-2 border border-fuchsia-800/20">
+                          <h5 className="font-medium mb-1">{subcategory.name}</h5>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                             {subcategory.themes.map((theme) => (
                               <label key={theme.id} className="flex items-start">
                                 <input 
@@ -169,19 +168,19 @@ export default function ThemesAndActivitiesStep() {
                               </label>
                             ))}
                             <div className="flex items-center">
-                              <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                              <span className="text-sm text-fuchsia-400">Add new theme</span>
+                              <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                              <span className="text-xs text-fuchsia-400">Add new theme</span>
                             </div>
                           </div>
                         </div>
                       ))}
-                      <div className="flex items-center mt-2">
-                        <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                        <span className="text-sm text-fuchsia-400">Add new subcategory</span>
+                      <div className="flex items-center mt-1">
+                        <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                        <span className="text-xs text-fuchsia-400">Add new subcategory</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
                       {category.themes.map((theme) => (
                         <label key={theme.id} className="flex items-start">
                           <input 
@@ -192,8 +191,8 @@ export default function ThemesAndActivitiesStep() {
                         </label>
                       ))}
                       <div className="flex items-center">
-                        <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                        <span className="text-sm text-fuchsia-400">Add new theme</span>
+                        <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                        <span className="text-xs text-fuchsia-400">Add new theme</span>
                       </div>
                     </div>
                   )}
@@ -203,8 +202,8 @@ export default function ThemesAndActivitiesStep() {
           ))}
           
           <div className="flex items-center">
-            <PlusCircle className="w-5 h-5 mr-2 text-fuchsia-400" />
-            <span className="text-fuchsia-400 font-medium">Add new theme category</span>
+            <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+            <span className="text-sm text-fuchsia-400">Add new theme category</span>
           </div>
         </div>
       </div>

@@ -189,9 +189,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setIsLoading(true);
       
+      // First check if we have a valid session before trying to sign out
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        console.log("No active session found, redirecting to login without calling signOut");
+        // Clear local state regardless
+        setUser(null);
+        setProfile(null);
+        setSession(null);
+        
+        toast({
+          title: "Sesión finalizada",
+          description: "Tu sesión ha finalizado",
+        });
+        
+        navigate("/login");
+        return;
+      }
+      
+      console.log("Active session found, signing out properly");
       const { error } = await supabase.auth.signOut();
 
       if (error) {
+        console.error("Error signing out:", error);
         toast({
           title: "Error al cerrar sesión",
           description: error.message,
@@ -200,6 +221,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
+      // Clear state explicitly
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      
       toast({
         title: "Sesión cerrada",
         description: "Has cerrado sesión con éxito",
@@ -207,6 +233,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       navigate("/login");
     } catch (error: any) {
+      console.error("Error in signOut function:", error);
       toast({
         title: "Error al cerrar sesión",
         description: error.message || "Ha ocurrido un error",

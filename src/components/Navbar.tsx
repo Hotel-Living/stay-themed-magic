@@ -5,13 +5,43 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, session } = useAuth();
+  const { toast } = useToast();
 
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
+
+  const handleLogout = async () => {
+    try {
+      // Close the mobile menu if it's open
+      if (isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+      
+      if (!session) {
+        console.log("No active session found, cannot logout properly");
+        toast({
+          title: "Error",
+          description: "No session found. Please refresh the page and try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      await signOut();
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast({
+        title: "Error",
+        description: "Could not complete logout. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">
@@ -30,7 +60,7 @@ export function Navbar() {
                 DASHBOARD
               </Link>
               <button 
-                onClick={() => signOut()} 
+                onClick={handleLogout} 
                 className="text-white font-bold hover:text-white/80 text-sm"
               >
                 LOGOUT
@@ -96,10 +126,7 @@ export function Navbar() {
                 DASHBOARD
               </Link>
               <button 
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  signOut();
-                }} 
+                onClick={handleLogout} 
                 className="text-white font-bold hover:text-white/80 text-center text-sm"
               >
                 LOGOUT

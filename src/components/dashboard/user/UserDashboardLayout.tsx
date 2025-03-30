@@ -5,6 +5,7 @@ import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -19,7 +20,8 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab,
 }: UserDashboardLayoutProps) {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, session } = useAuth();
+  const { toast } = useToast();
   
   // Use profile data or fallback to defaults
   const userName = profile?.first_name && profile?.last_name 
@@ -30,6 +32,29 @@ export default function UserDashboardLayout({
   const membershipType = 'Premium Member';
 
   console.log("Current profile in UserDashboardLayout:", profile);
+
+  const handleLogout = async () => {
+    try {
+      if (!session) {
+        console.log("No active session found in dashboard, cannot logout properly");
+        toast({
+          title: "Error",
+          description: "No session found. Please refresh the page and try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      await signOut();
+    } catch (error) {
+      console.error("Error during logout from dashboard:", error);
+      toast({
+        title: "Error",
+        description: "Could not complete logout. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -73,7 +98,7 @@ export default function UserDashboardLayout({
                   </div>
                   
                   <button
-                    onClick={signOut}
+                    onClick={handleLogout}
                     className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-fuchsia-500/10 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />

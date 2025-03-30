@@ -39,7 +39,8 @@ const extractAllThemes = () => {
                 // Add suboptions if they exist
                 // Type check to make sure the 'suboptions' property exists before accessing it
                 if ('suboptions' in option && option.suboptions) {
-                  option.suboptions.forEach(suboption => {
+                  // Cast to array to ensure TypeScript knows it's an array
+                  (option.suboptions as string[]).forEach(suboption => {
                     allThemes.push(suboption);
                   });
                 }

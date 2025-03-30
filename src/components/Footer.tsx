@@ -1,10 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
 export function Footer() {
   return <footer className="py-4 px-4 border-t border-[#c266af] bg-[#860477]">
-      <div className="container max-w-6xl mx-auto">
+      <div className="container max-w-6xl mx-auto bg-[#90049c]">
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-4" />
           
@@ -33,7 +32,7 @@ export function Footer() {
           </div>
           
           <div className="flex flex-wrap gap-4 justify-center mb-4">
-            <Link to="/hotels" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/hoteles" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               HOTELS
             </Link>
             <Link to="/signup" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">

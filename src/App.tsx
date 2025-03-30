@@ -15,6 +15,7 @@ import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import HotelSignUp from "./pages/HotelSignUp";
 import FAQ from "./pages/FAQ";
 import OurValues from "./pages/OurValues";
 import OurServices from "./pages/OurServices";
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/hotel-dashboard" element={<HotelDashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/hotel-signup" element={<HotelSignUp />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/our-values" element={<OurValues />} />
             <Route path="/our-services" element={<OurServices />} />

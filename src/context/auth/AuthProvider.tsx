@@ -39,10 +39,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             fetchProfile(currentSession.user.id).then(profileData => {
               setProfile(profileData);
               setIsLoading(false);
-              if (profileData) {
-                // Only handle the redirect when the auth state changes to SIGNED_IN
-                // avoiding redirects on refresh or other auth events
-                if (event === 'SIGNED_IN') {
+              
+              // Handle redirect ONLY on explicit sign in event
+              if (event === 'SIGNED_IN') {
+                console.log("SIGNED_IN event detected, redirecting based on role");
+                if (profileData) {
                   redirectBasedOnUserRole(profileData);
                 }
               }
@@ -154,12 +155,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         console.log("Profile data after login:", profileData);
         
-        // Properly redirect based on user role
-        if (profileData?.is_hotel_owner) {
-          console.log("User is a hotel owner, redirecting to hotel dashboard");
+        // Force immediate redirect to the appropriate dashboard based on role
+        if (profileData?.is_hotel_owner === true) {
+          console.log("HOTEL OWNER LOGIN DETECTED - Redirecting to hotel dashboard");
           window.location.href = '/hotel-dashboard';
         } else {
-          console.log("User is a traveler, redirecting to user dashboard");
+          console.log("TRAVELER LOGIN DETECTED - Redirecting to user dashboard");
           window.location.href = '/user-dashboard';
         }
       }

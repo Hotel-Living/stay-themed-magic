@@ -25,26 +25,37 @@ export const fetchProfile = async (userId: string): Promise<Profile | null> => {
 };
 
 export const redirectBasedOnUserRole = (profile: Profile | null) => {
-  // Only redirect if we are on the home page or login/signup pages
+  // Check if there's a profile with role information
+  if (!profile) {
+    console.log("No profile data available for redirection");
+    return;
+  }
+
+  // Current path to determine context
   const currentPath = window.location.pathname;
   const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup'];
+  const hotelOwnerPaths = ['/hotel-dashboard', '/hoteles'];
+  const travelerPaths = ['/user-dashboard'];
   
-  if (publicPaths.includes(currentPath)) {
-    if (profile?.is_hotel_owner === true) {
-      console.log("User is a hotel owner, redirecting to hotel dashboard");
+  console.log(`Current path: ${currentPath}, User is hotel owner: ${profile.is_hotel_owner}`);
+  
+  // HOTEL OWNER LOGIC
+  if (profile.is_hotel_owner === true) {
+    // If on public pages or traveler pages, redirect to hotel dashboard
+    if (publicPaths.includes(currentPath) || travelerPaths.includes(currentPath)) {
+      console.log("Hotel owner detected, redirecting to hotel dashboard");
       window.location.href = '/hotel-dashboard';
-    } else {
-      console.log("User is a traveler, redirecting to user dashboard");
-      window.location.href = '/user-dashboard';
+      return;
     }
-  } else if (currentPath === '/hotel-dashboard' && profile?.is_hotel_owner === false) {
-    // Redirect travelers away from hotel dashboard
-    console.log("Traveler detected in hotel dashboard, redirecting to user dashboard");
-    window.location.href = '/user-dashboard';
-  } else if (currentPath === '/user-dashboard' && profile?.is_hotel_owner === true) {
-    // Redirect hotel owners away from user dashboard
-    console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
-    window.location.href = '/hotel-dashboard';
+  } 
+  // TRAVELER LOGIC
+  else if (profile.is_hotel_owner === false) {
+    // If on public pages or hotel owner pages, redirect to user dashboard
+    if (publicPaths.includes(currentPath) || hotelOwnerPaths.includes(currentPath)) {
+      console.log("Traveler detected, redirecting to user dashboard");
+      window.location.href = '/user-dashboard';
+      return;
+    }
   }
 };
 

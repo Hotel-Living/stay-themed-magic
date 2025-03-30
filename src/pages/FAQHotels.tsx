@@ -92,7 +92,7 @@ export default function FAQHotels() {
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1">
-              {hotelFaqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap bg-[#ad07b6]">
+              {hotelFaqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg capitalize whitespace-nowrap bg-[#ad07b6] text-sm font-normal">
                   {category.name}
                 </TabsTrigger>)}
             </TabsList>

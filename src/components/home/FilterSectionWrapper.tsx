@@ -1,6 +1,6 @@
 
 import { FilterSection, FilterState } from "@/components/filters";
-import { Theme } from "@/utils/themes"; // Updated import for Theme type
+import { Theme } from "@/utils/themes";
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;

@@ -1,7 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { FilterState } from "@/components/FilterSection";
+import { FilterState } from "@/components/filters";
 
 // Function to fetch hotels with filters
 export const fetchHotels = async (filters: FilterState) => {

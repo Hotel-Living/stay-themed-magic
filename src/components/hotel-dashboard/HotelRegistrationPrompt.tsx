@@ -59,6 +59,6 @@ export const HotelRegistrationPrompt = () => {
       </div>
     </div>
   );
-};
+}
 
 export default HotelRegistrationPrompt;

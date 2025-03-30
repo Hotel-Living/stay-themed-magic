@@ -33,11 +33,26 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
 
   // Current path to determine context
   const currentPath = window.location.pathname;
-  const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup'];
+  
+  // Group paths by authorization type
+  const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup', '/hotel-login'];
   const hotelOwnerPaths = ['/hotel-dashboard', '/hoteles'];
   const travelerPaths = ['/user-dashboard'];
   
   console.log(`Current path: ${currentPath}, User is hotel owner: ${profile.is_hotel_owner}`);
+  
+  // Handle hotel login page specially
+  if (currentPath === '/hotel-login') {
+    if (profile.is_hotel_owner === true) {
+      console.log("Hotel owner on hotel login page, redirecting to hotel dashboard");
+      window.location.href = '/hotel-dashboard';
+      return;
+    } else {
+      console.log("Non-hotel owner on hotel login page, redirecting to user dashboard");
+      window.location.href = '/user-dashboard';
+      return;
+    }
+  }
   
   // HOTEL OWNER LOGIC
   if (profile.is_hotel_owner === true) {

@@ -155,8 +155,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         console.log("Profile data after login:", profileData);
         
-        // Force immediate redirect to the appropriate dashboard based on role
-        if (profileData?.is_hotel_owner === true) {
+        // Detect if we're on the hotel login page
+        const isHotelLogin = window.location.pathname.includes('hotel-login');
+        
+        // Force immediate redirect based on where the login happened
+        if (isHotelLogin) {
+          console.log("HOTEL LOGIN DETECTED - Redirecting to hotel dashboard");
+          window.location.href = '/hotel-dashboard';
+        } else if (profileData?.is_hotel_owner === true) {
           console.log("HOTEL OWNER LOGIN DETECTED - Redirecting to hotel dashboard");
           window.location.href = '/hotel-dashboard';
         } else {

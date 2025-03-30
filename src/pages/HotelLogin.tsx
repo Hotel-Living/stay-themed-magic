@@ -25,6 +25,7 @@ export default function HotelLogin() {
     console.log("Hotel owner login attempt with:", email);
     await signIn(email, password);
     // Redirection is handled in AuthContext after profile is fetched
+    // For hotel logins, we'll force redirect to /hotel-dashboard
   };
 
   const toggleShowPassword = () => setShowPassword(!showPassword);

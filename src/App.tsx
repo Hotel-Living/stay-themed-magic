@@ -16,6 +16,9 @@ import UserDashboard from './pages/UserDashboard';
 import HotelDetail from './pages/HotelDetail';
 import Search from './pages/Search';
 import FAQ from './pages/FAQ';
+import FAQTravelers from './pages/FAQTravelers';
+import FAQHotels from './pages/FAQHotels';
+import Hotels from './pages/Hotels';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
@@ -47,7 +50,10 @@ function App() {
                   <Route path="/user-dashboard" element={<UserDashboard />} />
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
+                  <Route path="/hotels" element={<Hotels />} />
                   <Route path="/faq" element={<FAQ />} />
+                  <Route path="/faq-travelers" element={<FAQTravelers />} />
+                  <Route path="/faq-hotels" element={<FAQHotels />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />

@@ -32,7 +32,17 @@ export function Navbar() {
         return;
       }
       
+      console.log("Attempting to sign out from Navbar...");
       await signOut();
+      
+      // Additional safety measure to ensure page reset
+      setTimeout(() => {
+        if (window.location.pathname !== '/login') {
+          console.log("Forcing redirect to login page");
+          window.location.href = "/login";
+        }
+      }, 500);
+      
     } catch (error) {
       console.error("Error during logout:", error);
       toast({

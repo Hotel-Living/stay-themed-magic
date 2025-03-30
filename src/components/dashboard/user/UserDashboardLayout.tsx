@@ -43,6 +43,14 @@ export default function UserDashboardLayout({
     }
   }, [profile, navigate]);
 
+  // Check if user is authenticated
+  useEffect(() => {
+    if (!user && !session) {
+      console.log("No user detected in dashboard, redirecting to login");
+      navigate('/login');
+    }
+  }, [user, session, navigate]);
+
   const handleLogout = async () => {
     try {
       if (!session) {

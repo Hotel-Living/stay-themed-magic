@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -207,7 +208,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           description: "Tu sesión ha finalizado",
         });
         
-        navigate("/login");
+        // Force redirect to login page
+        window.location.href = "/login";
         return;
       }
       
@@ -234,7 +236,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         description: "Has cerrado sesión con éxito",
       });
 
-      navigate("/login");
+      // Force page redirect using window.location instead of navigate to ensure complete reset
+      window.location.href = "/login";
     } catch (error: any) {
       console.error("Error in signOut function:", error);
       toast({

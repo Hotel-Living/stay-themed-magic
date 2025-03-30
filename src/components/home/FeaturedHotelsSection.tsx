@@ -1,5 +1,6 @@
 
-import { Hotel, Theme } from "@/integrations/supabase/types-custom";
+import { Hotel } from "@/utils/hotels"; // Updated import for Hotel type
+import { Theme } from "@/utils/themes"; // Updated import for Theme type
 import { HotelCard } from "@/components/HotelCard";
 import { Skeleton } from "@/components/ui/skeleton";
 

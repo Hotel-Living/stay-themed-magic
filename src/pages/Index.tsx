@@ -7,8 +7,8 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
-import { Theme } from "@/integrations/supabase/types-custom";
-import { themeCategories } from "@/utils/data";
+import { Theme } from "@/utils/themes"; // Updated import for Theme type
+import { themeCategories } from "@/utils/themes"; // Updated import for theme data
 
 export default function Index() {
   // Use try-catch to avoid issues with auth context on initial load

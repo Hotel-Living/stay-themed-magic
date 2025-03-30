@@ -1,6 +1,6 @@
 
 import { FilterSection, FilterState } from "@/components/FilterSection";
-import { Theme } from "@/integrations/supabase/types-custom";
+import { Theme } from "@/utils/themes"; // Updated import for Theme type
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;

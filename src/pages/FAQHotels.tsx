@@ -104,7 +104,7 @@ export default function FAQHotels() {
                         <h2 className="font-semibold text-[#f9d3f6]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
-                        <p className="text-[#f1b4f8]">{faq.answer}</p>
+                        <p className="text-[#f4d0f8]">{faq.answer}</p>
                       </AccordionContent>
                     </AccordionItem>)}
                 </Accordion>

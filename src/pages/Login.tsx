@@ -30,7 +30,7 @@ export default function Login() {
           backgroundSize: '200% 200%',
           animation: 'text-shine 2s linear infinite'
         }} className="glass-card rounded-2xl overflow-hidden">
-            <div className="p-8 backdrop-blur-sm bg-[#480654]">
+            <div className="p-8 backdrop-blur-sm bg-[#5d0170]">
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold mb-2">Traveler Login</h1>
                 <p className="text-muted-foreground text-sm">Sign in to your traveler account</p>

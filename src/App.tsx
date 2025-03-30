@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
-import Starfield from 'react-starfield';
+import { Starfield } from "@/components/Starfield";
 
 import Index from './pages/Index';
 import Login from './pages/Login';
@@ -31,12 +31,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <div className="min-h-screen bg-black bg-gradient-to-bl from-fuchsia-950/80 via-black to-indigo-950/30">
-      <Starfield
-        starCount={1000}
-        starColor={[255, 255, 255]}
-        speedFactor={0.05}
-        backgroundColor="transparent"
-      />
+      <Starfield />
       <div className="relative z-10">
         <BrowserRouter>
           <AuthProvider>

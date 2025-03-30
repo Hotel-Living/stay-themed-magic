@@ -135,14 +135,14 @@ export default function FAQTravelers() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-2 text-center text-gradient">Traveler FAQ</h1>
+          <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#d069fa]">Traveler FAQ</h1>
           <p className="text-center text-muted-foreground mb-8">
             Find answers to common questions about booking and staying with Hotels Life
           </p>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1">
-              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap">
+              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap bg-[#a600bd]">
                   {category.name}
                 </TabsTrigger>)}
             </TabsList>

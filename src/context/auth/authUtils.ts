@@ -27,7 +27,9 @@ export const fetchProfile = async (userId: string): Promise<Profile | null> => {
 export const redirectBasedOnUserRole = (profile: Profile | null) => {
   // Only redirect if we are on the home page or login/signup pages
   const currentPath = window.location.pathname;
-  if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
+  const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup'];
+  
+  if (publicPaths.includes(currentPath)) {
     if (profile?.is_hotel_owner === true) {
       console.log("User is a hotel owner, redirecting to hotel dashboard");
       window.location.href = '/hotel-dashboard';
@@ -35,6 +37,14 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
       console.log("User is a traveler, redirecting to user dashboard");
       window.location.href = '/user-dashboard';
     }
+  } else if (currentPath === '/hotel-dashboard' && profile?.is_hotel_owner === false) {
+    // Redirect travelers away from hotel dashboard
+    console.log("Traveler detected in hotel dashboard, redirecting to user dashboard");
+    window.location.href = '/user-dashboard';
+  } else if (currentPath === '/user-dashboard' && profile?.is_hotel_owner === true) {
+    // Redirect hotel owners away from user dashboard
+    console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
+    window.location.href = '/hotel-dashboard';
   }
 };
 

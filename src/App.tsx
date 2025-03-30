@@ -1,76 +1,74 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from './components/ui/theme-provider';
+import { Toaster } from "@/components/ui/toaster"
+import Starfield from 'react-starfield';
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Starfield } from "@/components/Starfield";
-import { AuthProvider } from "@/context/AuthContext";
+import Index from './pages/Index';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import HotelLogin from './pages/HotelLogin';
+import HotelSignUp from './pages/HotelSignUp';
+import HotelDashboard from './pages/HotelDashboard';
+import UserDashboard from './pages/UserDashboard';
+import HotelDetail from './pages/HotelDetail';
+import Search from './pages/Search';
+import FAQ from './pages/FAQ';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import NotFound from './pages/NotFound';
+import OurValues from './pages/OurValues';
+import OurServices from './pages/OurServices';
+import IntellectualProperty from './pages/IntellectualProperty';
+import CustomerService from './pages/CustomerService';
+import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
+import AuthProvider from './context/auth/AuthProvider';
 
-// Pages
-import Index from "./pages/Index";
-import Search from "./pages/Search";
-import HotelDetail from "./pages/HotelDetail";
-import UserDashboard from "./pages/UserDashboard";
-import HotelDashboard from "./pages/HotelDashboard";
-import Login from "./pages/Login";
-import HotelLogin from "./pages/HotelLogin";
-import SignUp from "./pages/SignUp";
-import HotelSignUp from "./pages/HotelSignUp";
-import FAQ from "./pages/FAQ";
-import OurValues from "./pages/OurValues";
-import OurServices from "./pages/OurServices";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import CustomerService from "./pages/CustomerService";
-import IntellectualProperty from "./pages/IntellectualProperty";
-import NotFound from "./pages/NotFound";
-import CodeStats from "./pages/CodeStats";
+const queryClient = new QueryClient();
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <Starfield />
-          <Toaster />
-          <Sonner />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/hotel/:id" element={<HotelDetail />} />
-            <Route path="/user-dashboard" element={<UserDashboard />} />
-            <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/hotel-login" element={<HotelLogin />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/hotel-signup" element={<HotelSignUp />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/our-values" element={<OurValues />} />
-            <Route path="/our-services" element={<OurServices />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/customer-service" element={<CustomerService />} />
-            <Route path="/intellectual-property" element={<IntellectualProperty />} />
-            <Route path="/code-stats" element={<CodeStats />} />
-            <Route path="/hoteles" element={<HotelDashboard />} />
-            <Route path="/signin" element={<Login />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <div className="min-h-screen bg-black bg-gradient-to-bl from-fuchsia-950/80 via-black to-indigo-950/30">
+      <Starfield
+        starCount={1000}
+        starColor={[255, 255, 255]}
+        speedFactor={0.05}
+        backgroundColor="transparent"
+      />
+      <div className="relative z-10">
+        <BrowserRouter>
+          <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+              <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/hotel-login" element={<HotelLogin />} />
+                  <Route path="/hotel-signup" element={<HotelSignUp />} />
+                  <Route path="/hotel-dashboard" element={<HotelDashboard />} />
+                  <Route path="/user-dashboard" element={<UserDashboard />} />
+                  <Route path="/hotel/:id" element={<HotelDetail />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
+                  <Route path="/our-values" element={<OurValues />} />
+                  <Route path="/our-services" element={<OurServices />} />
+                  <Route path="/intellectual-property" element={<IntellectualProperty />} />
+                  <Route path="/customer-service" element={<CustomerService />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                <Toaster />
+              </ThemeProvider>
+            </QueryClientProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </div>
+    </div>
+  );
+}
 
 export default App;

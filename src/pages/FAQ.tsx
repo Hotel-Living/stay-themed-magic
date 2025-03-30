@@ -11,6 +11,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function FAQ() {
+  // Added main tabs for customer vs hotel FAQs
+  const [audienceTab, setAudienceTab] = useState("customers");
   const [activeTab, setActiveTab] = useState("general");
 
   const faqCategories = [
@@ -47,6 +49,22 @@ export default function FAQ() {
       {
         question: "Do I need to participate in themed activities?",
         answer: "Not at all! While the themed activities and communities are a major benefit of Hotels Life, participation is entirely optional. You can enjoy the hotel's amenities and your private space without attending any events. However, most guests find that the community aspect and shared interests significantly enhance their experience."
+      },
+      {
+        question: "Can I stay in hotels at excellent prices?",
+        answer: "Absolutely! We offer competitive pricing for extended stays that are often comparable to what you would pay for traditional housing, but with all the added benefits of hotel living and none of the hassles."
+      },
+      {
+        question: "How can I enjoy new places, themes, and people continuously?",
+        answer: "Our platform makes it easy to move between different themed hotels, allowing you to experience new locations, themes, and communities without the commitment of long-term leases or property ownership. You can try a music-themed hotel one month and switch to a culinary-focused property the next."
+      },
+      {
+        question: "What are renewable stays of 8, 16, 24, and 32 days?",
+        answer: "These are our flexible stay packages that allow you to extend your stay in increments that fit your schedule. Start with an 8-day stay and extend to 16, 24, or 32 days as needed, maintaining the same great rate and accommodations."
+      },
+      {
+        question: "How do I eliminate household chores?",
+        answer: "When you stay with us, you leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
       }
     ],
     booking: [
@@ -61,6 +79,18 @@ export default function FAQ() {
       {
         question: "Is there a membership fee or subscription?",
         answer: "No, there's no mandatory membership fee. You only pay for your stays. However, we do offer an optional Hotels Life+ subscription that provides benefits like priority booking, rate discounts, enhanced room selection, and exclusive events for frequent users of our platform."
+      },
+      {
+        question: "How do I select a hotel based on my favorite themes?",
+        answer: "Our advanced filtering system allows you to search for hotels based on themes that interest you. Simply select your preferred theme from our extensive list, and we'll show you properties that offer activities, facilities, and communities centered around that interest."
+      },
+      {
+        question: "Can I replace multiple unpredictable bills with a single fixed payment?",
+        answer: "Yes! One of the major benefits of our service is financial predictability. Your monthly rate typically includes all utilities, internet, housekeeping, and amenities, so you don't have to worry about unexpected bills or maintenance costs."
+      },
+      {
+        question: "How does direct payment at the hotel work?",
+        answer: "You can reserve your stay with just 10% of the total rate. The remaining balance is paid directly to the hotel upon arrival, eliminating middleman fees and giving you the opportunity to verify that everything meets your expectations before completing your payment."
       }
     ],
     stay: [
@@ -79,6 +109,22 @@ export default function FAQ() {
       {
         question: "Is there housekeeping service?",
         answer: "Yes, standard housekeeping is included in all stays. Most properties offer weekly full cleaning with fresh linens and towels, and some offer more frequent service. Additional cleaning can be arranged for an extra fee. You can set your housekeeping preferences through your profile or directly with the hotel."
+      },
+      {
+        question: "How can I multiply my social life, activities, and standard of living?",
+        answer: "Our themed hotels naturally create communities of like-minded individuals. Regular events, shared spaces, and common interests make it easy to connect with others. Many guests report that their social circles expand significantly when staying at our properties."
+      },
+      {
+        question: "How does Hotels Life help eliminate loneliness or isolation?",
+        answer: "By living in a community of people who share your interests, you'll naturally develop connections. Our hotels are designed with community spaces that encourage interaction, and our themed activities provide natural conversation starters, making it easier to form meaningful relationships."
+      },
+      {
+        question: "What security benefits do hotels provide?",
+        answer: "Hotels offer a level of security that's difficult to achieve in private residences. Features typically include 24/7 staffing, security cameras in public areas, secure access systems, fire safety equipment, emergency response protocols, and sometimes security personnel. This comprehensive approach provides peace of mind, especially when staying in unfamiliar locations."
+      },
+      {
+        question: "What daily services and attentions can I expect?",
+        answer: "Beyond standard housekeeping, our hotels offer concierge services, maintenance assistance, dining options, and activity coordination. Many properties also provide amenities like fitness centers, pools, business centers, and social spaces. Premium properties may offer additional services like laundry, personal shopping, or private transportation."
       }
     ],
     payment: [
@@ -93,6 +139,14 @@ export default function FAQ() {
       {
         question: "Can I pay monthly or must I pay for the entire stay upfront?",
         answer: "For stays longer than one month, you can choose to pay monthly. The first month is charged at booking to secure your reservation, and subsequent months are automatically charged on the same day each month. For stays of 6+ months, we offer additional payment options, including quarterly payments with modest discounts."
+      },
+      {
+        question: "Is the cost comparable to living alone?",
+        answer: "In many cases, yes. When you factor in all the costs of traditional living (rent/mortgage, utilities, internet, maintenance, furnishings, etc.) plus the value of included services like housekeeping, amenities, and community activities, Hotels Life often provides excellent value. Many members find that the total cost is similar to or even less than their previous living arrangements, especially in major cities."
+      },
+      {
+        question: "Can I generate monthly income by renting out my usual home?",
+        answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotels Life experience. This can help offset the cost of your hotel stays or even generate additional income. We don't directly manage this process, but many members use property management services or platforms like Airbnb to handle their rentals."
       }
     ],
     themes: [
@@ -107,6 +161,14 @@ export default function FAQ() {
       {
         question: "Can I suggest new themes or activities?",
         answer: "Absolutely! We welcome guest input and many of our current themes were suggested by our community. You can submit theme ideas through your account dashboard. For activities at your current hotel, speak directly with the community manager - most properties are eager to incorporate guest-led activities and events."
+      },
+      {
+        question: "How can I use your exclusive filters for themes, activities, and services?",
+        answer: "Our advanced search system allows you to filter properties by specific themes, available activities, and service offerings. You can also combine these filters with location preferences, price ranges, and available dates to find the perfect property for your interests and needs."
+      },
+      {
+        question: "Is Hotels Life ideal for specific groups of people?",
+        answer: "Our service is particularly popular among digital nomads, active retirees, online workers, students, and individuals with independent resources. Solo travelers and couples often find our model especially appealing as it provides both privacy and community. However, we welcome everyone interested in our lifestyle concept, regardless of background or circumstance."
       }
     ],
     hosting: [
@@ -129,6 +191,97 @@ export default function FAQ() {
     ]
   };
 
+  // Hotel FAQ content (translated from Spanish)
+  const hotelFaqCategories = [
+    { id: "benefits", name: "Benefits" },
+    { id: "programs", name: "Programs" },
+    { id: "operation", name: "Operation" },
+    { id: "integration", name: "Integration" }
+  ];
+  
+  const hotelFaqsByCategory = {
+    benefits: [
+      {
+        question: "What occupancy rate can I expect?",
+        answer: "100% occupancy year-round. Our model ensures that traditionally empty rooms are filled, providing consistent revenue throughout the year."
+      },
+      {
+        question: "Will I have empty rooms with this model?",
+        answer: "Zero traditionally vacant rooms. Our system maximizes occupancy by focusing on extended stays and themed experiences that attract guests consistently."
+      },
+      {
+        question: "What extra benefits will my hotel receive?",
+        answer: "Enormous extra benefits including higher average daily rate, reduced operational costs, increased staff stability, and additional revenue from themed activities and services."
+      },
+      {
+        question: "What types of stays are most profitable?",
+        answer: "Profitable stays of 8, 16, 24, and 32 days. These extended stays reduce turnover costs while maintaining healthy revenue streams."
+      },
+      {
+        question: "How does reduced turnover benefit my hotel?",
+        answer: "Low turnover = Lower Costs = Higher Profits. With fewer check-ins and check-outs, you'll significantly reduce cleaning, administrative, and operational expenses."
+      },
+      {
+        question: "How are arrivals and departures managed?",
+        answer: "Just one weekly day for check-ins and check-outs = Zero gaps between reservations. This simplified schedule optimizes staff resources and ensures seamless transitions between guests."
+      },
+      {
+        question: "Will I lose revenue from empty rooms?",
+        answer: "Zero losses from vacant rooms. Our model ensures continuous occupancy, eliminating the revenue dips that traditional hotels experience during low seasons or between bookings."
+      },
+      {
+        question: "How does this affect staff management?",
+        answer: "Staff stability = Dedication = Professionalism. With consistent occupancy and predictable operations, you can maintain a stable workforce, reducing training costs and improving service quality."
+      },
+      {
+        question: "How do themes help attract guests?",
+        answer: "Group themes that attract and retain favorite audiences. Our themed approach creates communities of guests with shared interests, leading to higher satisfaction, longer stays, and stronger word-of-mouth referrals."
+      }
+    ],
+    programs: [
+      {
+        question: "What unique offerings can I provide to guests?",
+        answer: "Unprecedented opportunities, services, activities, and benefits. Our platform helps you develop and promote unique experiences that differentiate your property from traditional hotels."
+      },
+      {
+        question: "How can my hotel become a community center?",
+        answer: "Finally become a center of citizen life given your size and resources. Our model transforms your property into a vibrant hub for both travelers and locals, creating additional revenue streams and strengthening community ties."
+      },
+      {
+        question: "What financing options are available?",
+        answer: "Multiply benefits and financing possibilities with our exclusive Room Monetization Programs. We offer innovative financing solutions that allow you to leverage your property assets more effectively."
+      }
+    ],
+    operation: [
+      {
+        question: "How is the payment process structured?",
+        answer: "Direct payment at the hotel. Guests reserve with 10% of the rate through our platform, then pay the remaining balance directly to you upon arrival, ensuring immediate cash flow and reducing transaction fees."
+      },
+      {
+        question: "What operational changes will I need to make?",
+        answer: "Our system requires minimal changes to your existing operations. We provide training and ongoing support to help your staff adapt to the extended-stay model and themed activities."
+      },
+      {
+        question: "How are themed activities organized?",
+        answer: "We help you develop and implement themed activities based on your property's strengths and available resources. These can range from simple weekly events to comprehensive programs, depending on your capacity and guest interests."
+      }
+    ],
+    integration: [
+      {
+        question: "How long does it take to integrate with your platform?",
+        answer: "The integration process typically takes 4-6 weeks, including theme development, staff training, and setup of operational systems. We provide step-by-step guidance throughout the entire process."
+      },
+      {
+        question: "Can I maintain my existing booking systems?",
+        answer: "Yes, our platform can integrate with most major property management systems. You can continue using your existing systems while adding our extended-stay and themed offerings."
+      },
+      {
+        question: "What marketing support do you provide?",
+        answer: "Comprehensive marketing support including listing optimization, themed content creation, professional photography assistance, and promotion through our global channels and targeted campaigns."
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -137,40 +290,103 @@ export default function FAQ() {
         <div className="container max-w-6xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8 text-center text-fuchsia-300">Frequently Asked Questions</h1>
           
-          <Tabs defaultValue="general" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="mb-8 overflow-x-auto">
-              <TabsList className="inline-flex w-auto p-1 h-auto bg-[#5A1876]/80 rounded-lg">
-                {faqCategories.map((category) => (
+          {/* Main tabs for Customers vs Hotels */}
+          <div className="mb-10">
+            <Tabs defaultValue="customers" value={audienceTab} onValueChange={setAudienceTab} className="w-full">
+              <div className="flex justify-center mb-6">
+                <TabsList className="grid grid-cols-2 w-full max-w-md bg-[#5A1876]/80 rounded-lg">
                   <TabsTrigger 
-                    key={category.id} 
-                    value={category.id}
-                    className="px-4 py-2 text-sm font-medium rounded-md data-[state=active]:bg-fuchsia-800 data-[state=active]:text-white"
+                    value="customers"
+                    className="px-8 py-3 text-base font-medium rounded-md data-[state=active]:bg-fuchsia-800 data-[state=active]:text-white"
                   >
-                    {category.name}
+                    FOR CUSTOMERS
                   </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-            
-            {faqCategories.map((category) => (
-              <TabsContent key={category.id} value={category.id} className="mt-0">
-                <div className="rounded-lg overflow-hidden glass-card bg-[#5A1876]/80">
-                  <Accordion type="single" collapsible className="w-full divide-y divide-fuchsia-800/20">
-                    {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => (
-                      <AccordionItem key={index} value={`item-${index}`} className="border-none">
-                        <AccordionTrigger className="px-6 py-4 text-white font-medium text-lg hover:bg-fuchsia-800/20">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-4 text-white/90">
-                          <p>{faq.answer}</p>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
+                  <TabsTrigger 
+                    value="hotels"
+                    className="px-8 py-3 text-base font-medium rounded-md data-[state=active]:bg-fuchsia-800 data-[state=active]:text-white"
+                  >
+                    FOR HOTELS
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              
+              {/* CUSTOMER FAQ CONTENT */}
+              <TabsContent value="customers" className="mt-0">
+                <Tabs defaultValue="general" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                  <div className="mb-8 overflow-x-auto">
+                    <TabsList className="inline-flex w-auto p-1 h-auto bg-[#5A1876]/80 rounded-lg">
+                      {faqCategories.map((category) => (
+                        <TabsTrigger 
+                          key={category.id} 
+                          value={category.id}
+                          className="px-4 py-2 text-sm font-medium rounded-md data-[state=active]:bg-fuchsia-800 data-[state=active]:text-white"
+                        >
+                          {category.name}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </div>
+                  
+                  {faqCategories.map((category) => (
+                    <TabsContent key={category.id} value={category.id} className="mt-0">
+                      <div className="rounded-lg overflow-hidden glass-card bg-[#5A1876]/80">
+                        <Accordion type="single" collapsible className="w-full divide-y divide-fuchsia-800/20">
+                          {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index}`} className="border-none">
+                              <AccordionTrigger className="px-6 py-4 text-white font-medium text-lg hover:bg-fuchsia-800/20">
+                                {faq.question}
+                              </AccordionTrigger>
+                              <AccordionContent className="px-6 pb-4 text-white/90">
+                                <p>{faq.answer}</p>
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                      </div>
+                    </TabsContent>
+                  ))}
+                </Tabs>
               </TabsContent>
-            ))}
-          </Tabs>
+              
+              {/* HOTEL FAQ CONTENT */}
+              <TabsContent value="hotels" className="mt-0">
+                <Tabs defaultValue="benefits" className="w-full">
+                  <div className="mb-8 overflow-x-auto">
+                    <TabsList className="inline-flex w-auto p-1 h-auto bg-[#5A1876]/80 rounded-lg">
+                      {hotelFaqCategories.map((category) => (
+                        <TabsTrigger 
+                          key={category.id} 
+                          value={category.id}
+                          className="px-4 py-2 text-sm font-medium rounded-md data-[state=active]:bg-fuchsia-800 data-[state=active]:text-white"
+                        >
+                          {category.name}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </div>
+                  
+                  {hotelFaqCategories.map((category) => (
+                    <TabsContent key={category.id} value={category.id} className="mt-0">
+                      <div className="rounded-lg overflow-hidden glass-card bg-[#5A1876]/80">
+                        <Accordion type="single" collapsible className="w-full divide-y divide-fuchsia-800/20">
+                          {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index}`} className="border-none">
+                              <AccordionTrigger className="px-6 py-4 text-white font-medium text-lg hover:bg-fuchsia-800/20">
+                                {faq.question}
+                              </AccordionTrigger>
+                              <AccordionContent className="px-6 pb-4 text-white/90">
+                                <p>{faq.answer}</p>
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                      </div>
+                    </TabsContent>
+                  ))}
+                </Tabs>
+              </TabsContent>
+            </Tabs>
+          </div>
           
           <div className="mt-12 text-center">
             <h2 className="text-xl font-semibold mb-4 text-fuchsia-300">Still have questions?</h2>

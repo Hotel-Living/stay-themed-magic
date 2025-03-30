@@ -8,6 +8,7 @@ import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useHotels } from "@/hooks/useHotels";
 import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
+import { themeCategories } from "@/utils/data";
 
 export default function Index() {
   // Use try-catch to avoid issues with auth context on initial load
@@ -37,6 +38,11 @@ export default function Index() {
     setFilters(newFilters);
   };
   
+  // Create a list of all theme names from the themeCategories
+  const allThemeNames = themeCategories.flatMap(category => 
+    category.themes.map(theme => theme.name)
+  );
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -48,7 +54,7 @@ export default function Index() {
         {/* Filter Section */}
         <FilterSectionWrapper 
           onFilterChange={handleFilterChange}
-          availableThemes={themes.map((theme: Theme) => theme.name)}
+          availableThemes={allThemeNames}
         />
       </main>
       

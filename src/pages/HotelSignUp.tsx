@@ -51,7 +51,7 @@ export default function HotelSignUp() {
               {
                 text: "Already have an account?",
                 linkText: "Sign in",
-                linkUrl: "/login"
+                linkUrl: "/hotel-login"
               },
               {
                 text: "Looking to book a stay?",
@@ -122,7 +122,7 @@ export default function HotelSignUp() {
                 label={
                   <>
                     I confirm that I am authorized to list this property and agree to the{" "}
-                    <Link to="/terms" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
+                    <Link to="/hotel-partner-agreement" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                       Hotel Partner Agreement
                     </Link>
                   </>

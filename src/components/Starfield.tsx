@@ -14,55 +14,39 @@ export function Starfield() {
     const createStars = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      const centerX = windowWidth / 2;
-      const centerY = windowHeight / 2;
       
-      // Number of stars based on screen size - increased for better visibility
-      const starCount = Math.max(100, Math.floor((windowWidth * windowHeight) / 2000));
+      // Significantly increased star count for better visibility
+      const starCount = Math.floor((windowWidth * windowHeight) / 800);
       
       for (let i = 0; i < starCount; i++) {
-        // Calculate position from center with random angle
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * Math.min(windowWidth, windowHeight) * 0.8;
-        
         const star = document.createElement('div');
         star.className = 'star';
         
-        // Random size between 1px and 3px
-        const size = Math.random() * 2 + 1;
+        // Random size between 1px and 4px (increased max size)
+        const size = Math.random() * 3 + 1;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         
-        // Position relative to center
-        const x = centerX + Math.cos(angle) * distance;
-        const y = centerY + Math.sin(angle) * distance;
+        // Position randomly across the entire screen
+        const x = Math.random() * windowWidth;
+        const y = Math.random() * windowHeight;
         
         star.style.left = `${x}px`;
         star.style.top = `${y}px`;
         
-        // Set color between white and bright yellow
-        const isYellow = Math.random() > 0.7;
+        // Brighter colors with more yellow stars
+        const isYellow = Math.random() > 0.5;
         star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
         
-        // Set opacity based on size for depth effect
-        star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
+        // Increased base opacity for better visibility
+        star.style.opacity = `${0.7 + (size - 1) * 0.3}`;
         
-        // Animation duration based on distance from center
-        const duration = 3 + Math.random() * 5; // Faster animation (3-8s)
-        star.style.animation = `starMovement ${duration}s linear infinite`;
+        // Faster animation for more dynamic effect
+        const duration = 2 + Math.random() * 4; // 2-6s
+        star.style.animation = `twinkle ${duration}s ease-in-out infinite`;
         
-        // Set the starting position for animation
-        star.style.setProperty('--start-x', `${x}px`);
-        star.style.setProperty('--start-y', `${y}px`);
-        
-        // Set the end position (moving away from center)
-        const endX = x + (x - centerX) * 2;
-        const endY = y + (y - centerY) * 2;
-        star.style.setProperty('--end-x', `${endX}px`);
-        star.style.setProperty('--end-y', `${endY}px`);
-        
-        // Add random delay to make animation less synchronized
-        const delay = Math.random() * 3;
+        // Random delay to stagger animations
+        const delay = Math.random() * 5;
         star.style.animationDelay = `${delay}s`;
         
         starfield.appendChild(star);

@@ -30,7 +30,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#4a0155] bg-gradient-to-bl from-purple-900/90 via-[#4a0155] to-indigo-950/70">
+    <div className="min-h-screen">
       <Starfield />
       <div className="relative z-10">
         <BrowserRouter>

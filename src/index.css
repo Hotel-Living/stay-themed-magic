@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -166,19 +165,35 @@
 
 /* Animated background */
 .starfield {
-  background-color: #4a0155; /* Deep purple to match the app background */
+  background-color: #150026; /* Darker purple background for better star visibility */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
+  overflow: hidden;
 }
 
 .star {
   position: absolute;
   border-radius: 50%;
-  animation: starMovement linear infinite;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 }
 
 @keyframes starMovement {

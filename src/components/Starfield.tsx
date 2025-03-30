@@ -17,8 +17,8 @@ export function Starfield() {
       const centerX = windowWidth / 2;
       const centerY = windowHeight / 2;
       
-      // Number of stars based on screen size
-      const starCount = Math.max(70, Math.floor((windowWidth * windowHeight) / 2500));
+      // Number of stars based on screen size - increased for better visibility
+      const starCount = Math.max(100, Math.floor((windowWidth * windowHeight) / 2000));
       
       for (let i = 0; i < starCount; i++) {
         // Calculate position from center with random angle
@@ -47,8 +47,8 @@ export function Starfield() {
         // Set opacity based on size for depth effect
         star.style.opacity = `${0.5 + (size - 1) * 0.25}`;
         
-        // Animation duration based on distance from center - FASTER
-        const duration = 4 + Math.random() * 6; // Reduced from 10-25s to 4-10s
+        // Animation duration based on distance from center
+        const duration = 3 + Math.random() * 5; // Faster animation (3-8s)
         star.style.animation = `starMovement ${duration}s linear infinite`;
         
         // Set the starting position for animation
@@ -60,6 +60,10 @@ export function Starfield() {
         const endY = y + (y - centerY) * 2;
         star.style.setProperty('--end-x', `${endX}px`);
         star.style.setProperty('--end-y', `${endY}px`);
+        
+        // Add random delay to make animation less synchronized
+        const delay = Math.random() * 3;
+        star.style.animationDelay = `${delay}s`;
         
         starfield.appendChild(star);
       }

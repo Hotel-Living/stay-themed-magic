@@ -166,7 +166,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #4a0155; /* Changed to deep purple to match the image */
+  background-color: #4a0155; /* Deep purple to match the app background */
   position: fixed;
   top: 0;
   left: 0;

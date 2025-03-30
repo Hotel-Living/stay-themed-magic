@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { durations } from "@/utils/data";
+import { durations } from "@/utils/booking";
 import { CalendarIcon, Check, Loader2 } from "lucide-react";
 import { format, addDays } from "date-fns";
 import { cn } from "@/lib/utils";

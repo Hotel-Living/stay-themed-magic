@@ -1,10 +1,8 @@
-
 import { Link } from "react-router-dom";
 import { Star, Calendar } from "lucide-react";
 import { HotelThemes } from "./ThemeTag";
-import { Theme } from "@/utils/data";
+import { Theme } from "@/utils/themes";
 
-// Define the props interface that matches how the component is being used
 export interface HotelCardProps {
   id: string;
   name: string;
@@ -28,7 +26,6 @@ export function HotelCard({
   image,
   availableMonths = []
 }: HotelCardProps) {
-  // Convert string themes to Theme objects if needed
   const themeObjects = themes.map(theme => {
     if (typeof theme === 'string') {
       return { id: theme, name: theme, category: 'Unknown' } as Theme;

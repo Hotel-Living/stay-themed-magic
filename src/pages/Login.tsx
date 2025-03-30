@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
       return;
     }
     
-    console.log("Login attempt with:", email);
+    console.log("Traveler login attempt with:", email);
     await signIn(email, password);
     // Redirection is now handled in AuthContext after profile is fetched
   };
@@ -36,8 +36,14 @@ export default function Login() {
           }} className="glass-card rounded-2xl overflow-hidden">
             <div className="p-8 bg-black/60 backdrop-blur-sm">
               <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
-                <p className="text-muted-foreground text-sm">Sign in to manage your account</p>
+                <h1 className="text-2xl font-bold mb-2">Traveler Login</h1>
+                <p className="text-muted-foreground text-sm">Sign in to your traveler account</p>
+                
+                <div className="flex justify-center mt-4">
+                  <div className="p-3 bg-fuchsia-900/30 rounded-full">
+                    <User className="w-6 h-6 text-primary" />
+                  </div>
+                </div>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -115,7 +121,7 @@ export default function Login() {
                   disabled={isLoading}
                   className="w-full py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium text-sm transition-colors disabled:opacity-70"
                 >
-                  {isLoading ? "Signing in..." : "Sign In"}
+                  {isLoading ? "Signing in..." : "Sign In as Traveler"}
                 </button>
               </form>
               
@@ -123,7 +129,14 @@ export default function Login() {
                 <p className="text-xs text-muted-foreground">
                   Don't have an account yet?{" "}
                   <Link to="/signup" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
-                    Create an account
+                    Create a traveler account
+                  </Link>
+                </p>
+                
+                <p className="text-xs text-muted-foreground mt-2">
+                  Are you a hotel owner?{" "}
+                  <Link to="/hotel-login" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
+                    Sign in as Hotel Partner
                   </Link>
                 </p>
               </div>

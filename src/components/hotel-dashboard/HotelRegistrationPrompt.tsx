@@ -1,11 +1,8 @@
-
 import { Link } from "react-router-dom";
 import { Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 export const HotelRegistrationPrompt = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <div className="p-4 bg-background/80 backdrop-blur-md border-b border-border fixed w-full z-10">
         <div className="container flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-white">Hotel-Living</Link>
@@ -15,7 +12,7 @@ export const HotelRegistrationPrompt = () => {
       <div className="flex-1 flex items-center justify-center pt-16">
         <div className="container max-w-xl p-6 text-center">
           <div className="glass-card rounded-2xl overflow-hidden">
-            <div className="p-8 bg-black/60 backdrop-blur-sm">
+            <div className="p-8 backdrop-blur-sm bg-[#68047c]">
               <Building className="w-16 h-16 mx-auto mb-4 text-primary" />
               <h1 className="text-3xl font-bold mb-4">Hotel Partner Portal</h1>
               <p className="text-muted-foreground mb-8">
@@ -57,8 +54,6 @@ export const HotelRegistrationPrompt = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
+    </div>;
+};
 export default HotelRegistrationPrompt;

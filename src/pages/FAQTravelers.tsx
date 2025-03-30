@@ -151,7 +151,7 @@ export default function FAQTravelers() {
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
                       <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#e7acf2] bg-[#570569]">
-                        <h2 className="font-semibold">{faq.question}</h2>
+                        <h2 className="font-semibold text-[#f8faf8]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
                         <p>{faq.answer}</p>

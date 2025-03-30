@@ -48,8 +48,8 @@ const createDefaultProfile = async (userId: string): Promise<Profile | null> => 
     const userEmail = authUser.user.email || '';
     const metadata = authUser.user.user_metadata || {};
     
-    // Default profile data
-    const profileData: Partial<Profile> = {
+    // FIX: Ensure id field is not optional by separating it from the Partial<Profile> type
+    const profileData = {
       id: userId,
       first_name: metadata.first_name || null,
       last_name: metadata.last_name || null,

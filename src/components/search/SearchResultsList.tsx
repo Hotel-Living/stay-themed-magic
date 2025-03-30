@@ -17,19 +17,28 @@ export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredHotels.map(hotel => (
-          <HotelCard 
-            key={hotel.id}
-            id={hotel.id}
-            name={hotel.name}
-            city={hotel.city}
-            country={hotel.country}
-            stars={hotel.stars}
-            pricePerMonth={hotel.pricePerMonth}
-            themes={hotel.themes.map(theme => theme.name)}
-            image={hotel.images[0]}
-          />
-        ))}
+        {filteredHotels.map(hotel => {
+          // Ensure themes are properly handled - map only if theme exists and has a name
+          const safeThemes = hotel.themes
+            ? hotel.themes
+                .filter(theme => theme && theme.name) // Filter out any null or undefined themes
+                .map(theme => theme.name)
+            : [];
+          
+          return (
+            <HotelCard 
+              key={hotel.id}
+              id={hotel.id}
+              name={hotel.name}
+              city={hotel.city}
+              country={hotel.country}
+              stars={hotel.stars}
+              pricePerMonth={hotel.pricePerMonth}
+              themes={safeThemes}
+              image={hotel.images[0]}
+            />
+          );
+        })}
       </div>
       
       {filteredHotels.length === 0 && (

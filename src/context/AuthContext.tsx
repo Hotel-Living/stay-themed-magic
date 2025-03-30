@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
         console.log("Auth state changed:", event, currentSession?.user?.email);
@@ -36,7 +34,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
-          // Use setTimeout to prevent Supabase deadlock
           setTimeout(() => {
             fetchProfile(currentSession.user.id);
           }, 0);
@@ -48,7 +45,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       console.log("Current session check:", currentSession?.user?.email);
       setSession(currentSession);
@@ -124,48 +120,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
-      console.log("Signing in with:", email);
-      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
-        console.error("Sign in error:", error);
-        toast({
-          title: "Error al iniciar sesión",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
+        setError(error.message);
+        console.error("Auth error:", error);
+        return { success: false, error: error.message };
       }
 
-      console.log("Sign in successful:", data.user?.email);
-      toast({
-        title: "¡Bienvenido de nuevo!",
-        description: "Has iniciado sesión con éxito",
-      });
+      if (data?.user) {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", data.user.id)
+          .single();
 
-      // Redirect to the appropriate dashboard based on user type
-      // For now, we're assuming travelers should go to the user dashboard
-      // and hotel owners should go to the hotel dashboard
-      if (profile?.user_type === 'hotel_owner') {
-        navigate("/hotel-dashboard");
-      } else {
-        // Default to user dashboard for travelers or unspecified user types
-        navigate("/user-dashboard");
+        setProfile(profileData || null);
+        
+        if (profileData?.is_hotel_owner) {
+          navigate('/hotel-dashboard');
+        } else {
+          navigate('/user-dashboard');
+        }
+
+        return { success: true };
       }
-    } catch (error: any) {
-      console.error("Sign in exception:", error);
-      toast({
-        title: "Error al iniciar sesión",
-        description: error.message || "Ha ocurrido un error",
-        variant: "destructive",
-      });
+
+      return { success: false, error: "No user data returned" };
+    } catch (err) {
+      console.error("Sign-in error:", err);
+      setError("An unexpected error occurred during sign in");
+      return { success: false, error: "An unexpected error occurred" };
     } finally {
       setIsLoading(false);
     }
@@ -223,7 +221,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      // Re-fetch profile to get updated data
       await fetchProfile(user.id);
 
       toast({

@@ -11,7 +11,7 @@ export function Navbar() {
   const { user, profile, signOut } = useAuth();
 
   const isLoggedIn = !!user;
-  const isHotelOwner = profile?.user_type === 'hotel_owner';
+  const isHotelOwner = profile?.is_hotel_owner === true;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">

@@ -27,7 +27,8 @@ export default function UserDashboardLayout({
     ? `${profile.first_name} ${profile.last_name}`
     : profile?.first_name || 'Traveller';
   
-  const membershipType = profile?.membership_type || 'Premium Member';
+  // Set a default membership type since the field doesn't exist in the Profile type
+  const membershipType = 'Premium Member';
 
   return (
     <div className="min-h-screen flex flex-col">

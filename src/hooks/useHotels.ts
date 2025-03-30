@@ -1,6 +1,6 @@
+
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Hotel } from '@/types/hotel';
 import { FilterState } from '@/components/filters';
 
 interface UseHotelsProps {
@@ -8,7 +8,7 @@ interface UseHotelsProps {
 }
 
 export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
-  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterState>(initialFilters || {
@@ -27,7 +27,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       try {
         let query = supabase
           .from('hotels')
-          .select('*');
+          .select('*, hotel_images(*), hotel_themes(theme_id, themes:themes(*))');
 
         if (filters.searchTerm) {
           query = query.ilike('name', `%${filters.searchTerm}%`);
@@ -37,29 +37,31 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
           query = query.contains('themes', [filters.theme]);
         }
 
-        if (filters.minPrice !== undefined) {
-          query = query.gte('price_per_month', filters.minPrice);
+        if (filters.minPrice !== undefined || filters.priceRange?.min !== undefined) {
+          const minPrice = filters.minPrice || filters.priceRange?.min || 0;
+          query = query.gte('price_per_month', minPrice);
         }
 
-        if (filters.maxPrice !== undefined) {
-          query = query.lte('price_per_month', filters.maxPrice);
+        if (filters.maxPrice !== undefined || filters.priceRange?.max !== undefined) {
+          const maxPrice = filters.maxPrice || filters.priceRange?.max || 1000;
+          query = query.lte('price_per_month', maxPrice);
         }
 
         if (filters.stars && filters.stars.length > 0) {
-          query = query.in('stars', filters.stars);
+          query = query.in('category', filters.stars);
         }
 
-        const { data, error } = await query;
+        const { data, error: supabaseError } = await query;
 
-        if (error) {
-          console.error("Supabase error:", error);
-          setError(`Failed to fetch hotels: ${error.message}`);
+        if (supabaseError) {
+          console.error("Supabase error:", supabaseError);
+          setError(`Failed to fetch hotels: ${supabaseError.message}`);
         } else {
-          setHotels(data as Hotel[]);
+          setHotels(data || []);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Unexpected error:", err);
-        setError(`An unexpected error occurred: ${err}`);
+        setError(`An unexpected error occurred: ${err.message}`);
       } finally {
         setLoading(false);
       }

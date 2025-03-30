@@ -1,13 +1,17 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
-import { Theme } from '@/utils/themes';
+import { allThemes } from '@/utils/themes';
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;
-  availableThemes: string[];
+  availableThemes?: string[];
 }
 
-export function FilterSectionWrapper({ onFilterChange, availableThemes }: FilterSectionWrapperProps) {
+export function FilterSectionWrapper({ onFilterChange, availableThemes = [] }: FilterSectionWrapperProps) {
+  // If no availableThemes are provided, use theme names from allThemes
+  const themes = availableThemes.length > 0 ? availableThemes : allThemes.map(theme => theme.name);
+  
   return (
     <section className="py-0 px-4">
       <div className="container max-w-6xl mx-auto">
@@ -25,7 +29,7 @@ export function FilterSectionWrapper({ onFilterChange, availableThemes }: Filter
           compactSpacing={true}
           useBoldLabels={true}
           usePurpleFilterBackground={true}
-          availableThemes={availableThemes}
+          availableThemes={themes}
         />
       </div>
     </section>

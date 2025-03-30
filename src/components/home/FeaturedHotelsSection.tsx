@@ -1,15 +1,17 @@
 
-import { Hotel } from "@/utils/hotels"; // Updated import for Hotel type
-import { Theme } from "@/utils/themes"; // Updated import for Theme type
+import { useEffect, useState } from 'react';
 import { HotelCard } from "@/components/HotelCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FilterState } from '@/components/filters';
+import { useHotels } from '@/hooks/useHotels';
 
 interface FeaturedHotelsSectionProps {
-  hotels: any[];
-  isLoading: boolean;
+  filters: FilterState;
 }
 
-export function FeaturedHotelsSection({ hotels, isLoading }: FeaturedHotelsSectionProps) {
+export function FeaturedHotelsSection({ filters }: FeaturedHotelsSectionProps) {
+  const { hotels, loading: isLoading, error } = useHotels({ initialFilters: filters });
+  
   if (isLoading) {
     return (
       <section className="py-8 px-4">
@@ -37,19 +39,33 @@ export function FeaturedHotelsSection({ hotels, isLoading }: FeaturedHotelsSecti
     );
   }
   
+  if (error) {
+    return (
+      <section className="py-8 px-4">
+        <div className="container max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6">Featured Hotels</h2>
+          <div className="text-center py-12 glass-card rounded-2xl p-8">
+            <p className="text-red-400 mb-4">Error loading hotels: {error}</p>
+            <p className="text-fuchsia-400">Please try again later.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+  
   return (
     <section className="py-8 px-4">
       <div className="container max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold mb-6">Featured Hotels</h2>
         
-        {hotels.length === 0 ? (
+        {(!hotels || hotels.length === 0) ? (
           <div className="text-center py-12 glass-card rounded-2xl p-8">
             <p className="text-muted-foreground mb-4">No hotels found matching your criteria.</p>
             <p className="text-fuchsia-400">Try adjusting your filters or check back later.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hotels.map((hotel: any) => {
+            {hotels.map((hotel) => {
               // Extract the main image
               const mainImage = hotel.hotel_images?.find((img: any) => img.is_main)?.image_url || 
                                hotel.hotel_images?.[0]?.image_url || 
@@ -70,7 +86,7 @@ export function FeaturedHotelsSection({ hotels, isLoading }: FeaturedHotelsSecti
                   country={hotel.country}
                   stars={hotel.category || 3}
                   pricePerMonth={hotel.price_per_month}
-                  themes={hotelThemes}
+                  themes={hotelThemes.map((name: string) => ({ id: name.toLowerCase().replace(/\s+/g, '-'), name, category: 'Unknown' }))}
                   image={mainImage}
                   availableMonths={availableMonths}
                 />

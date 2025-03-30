@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FilterState } from "./FilterTypes";
@@ -47,6 +47,9 @@ export const FilterDropdown = ({
       case 'theme':
         return value.name;
       case 'priceRange':
+        if (typeof value === 'object' && value !== null) {
+          return `$${value.min} - $${value.max}`;
+        }
         return options.find((p: any) => p.value === value)?.label || `$${value}`;
       default:
         return value;

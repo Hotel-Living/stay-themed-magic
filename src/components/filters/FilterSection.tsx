@@ -22,9 +22,12 @@ export const FilterSection = ({
     month: "Month",
     theme: "Theme",
     priceRange: "Price per Month"
-  }
+  },
+  availableThemes = []
 }: FilterSectionProps) => {
   const [filters, setFilters] = useState<FilterState>({
+    themes: [],
+    amenities: [],
     country: null,
     month: null,
     theme: null,
@@ -63,7 +66,9 @@ export const FilterSection = ({
       country: null,
       month: null,
       theme: null,
-      priceRange: null
+      priceRange: null,
+      themes: [],
+      amenities: []
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
@@ -75,7 +80,7 @@ export const FilterSection = ({
     if (filters.country) params.append("country", filters.country);
     if (filters.month) params.append("month", filters.month);
     if (filters.theme) params.append("theme", filters.theme.id);
-    if (filters.priceRange) params.append("price", filters.priceRange.toString());
+    if (typeof filters.priceRange === 'number') params.append("price", filters.priceRange.toString());
     
     navigate(`/search?${params.toString()}`);
   };

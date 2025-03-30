@@ -13,7 +13,9 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterState>(initialFilters || {
     searchTerm: '',
-    theme: '',
+    theme: null,
+    country: null,
+    month: null,
     minPrice: 0,
     maxPrice: 1000,
     stars: [],
@@ -37,14 +39,31 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
           query = query.contains('themes', [filters.theme]);
         }
 
-        if (filters.minPrice !== undefined || filters.priceRange?.min !== undefined) {
-          const minPrice = filters.minPrice || filters.priceRange?.min || 0;
+        if (filters.country) {
+          query = query.eq('country', filters.country);
+        }
+
+        if (filters.month) {
+          query = query.contains('available_months', [filters.month]);
+        }
+
+        if (filters.minPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined)) {
+          const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);
           query = query.gte('price_per_month', minPrice);
         }
 
-        if (filters.maxPrice !== undefined || filters.priceRange?.max !== undefined) {
-          const maxPrice = filters.maxPrice || filters.priceRange?.max || 1000;
+        if (filters.maxPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.max !== undefined)) {
+          const maxPrice = filters.maxPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.max : 1000);
           query = query.lte('price_per_month', maxPrice);
+        }
+
+        // Handle numeric priceRange (for dropdown selection)
+        if (typeof filters.priceRange === 'number') {
+          if (filters.priceRange > 2000) {
+            query = query.gte('price_per_month', 2000);
+          } else {
+            query = query.lte('price_per_month', filters.priceRange);
+          }
         }
 
         if (filters.stars && filters.stars.length > 0) {

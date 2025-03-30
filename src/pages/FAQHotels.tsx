@@ -85,7 +85,7 @@ export default function FAQHotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-2 text-center text-gradient">Hotel Partner FAQ</h1>
+          <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#f067ff]">Hotel Partner FAQ</h1>
           <p className="text-center text-muted-foreground mb-8">
             Find answers to common questions about joining Hotels Life as a property partner
           </p>

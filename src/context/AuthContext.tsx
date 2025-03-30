@@ -31,11 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
+        console.log("Auth state changed:", event, currentSession?.user?.email);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
-          await fetchProfile(currentSession.user.id);
+          // Use setTimeout to prevent Supabase deadlock
+          setTimeout(() => {
+            fetchProfile(currentSession.user.id);
+          }, 0);
         } else {
           setProfile(null);
         }
@@ -46,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      console.log("Current session check:", currentSession?.user?.email);
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
@@ -122,6 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     try {
       setIsLoading(true);
+      console.log("Signing in with:", email);
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -129,6 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
+        console.error("Sign in error:", error);
         toast({
           title: "Error al iniciar sesión",
           description: error.message,
@@ -137,6 +144,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
+      console.log("Sign in successful:", data.user?.email);
       toast({
         title: "¡Bienvenido de nuevo!",
         description: "Has iniciado sesión con éxito",
@@ -144,6 +152,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       navigate("/");
     } catch (error: any) {
+      console.error("Sign in exception:", error);
       toast({
         title: "Error al iniciar sesión",
         description: error.message || "Ha ocurrido un error",

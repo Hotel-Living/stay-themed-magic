@@ -18,6 +18,7 @@ export default function Login() {
       return;
     }
     
+    console.log("Login attempt with:", email);
     await signIn(email, password);
   };
 

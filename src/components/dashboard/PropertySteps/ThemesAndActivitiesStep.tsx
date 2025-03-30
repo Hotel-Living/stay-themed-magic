@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { PlusCircle, ChevronRight } from "lucide-react";
 import {
@@ -8,7 +7,7 @@ import {
 } from "@/components/ui/collapsible";
 
 // Defining new theme categories with updated structure
-const themeCategories = [
+export const themeCategories = [
   {
     category: "FOODS & DRINKS",
     subcategories: [

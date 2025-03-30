@@ -5,7 +5,6 @@ import { Footer } from '@/components/Footer';
 import { HeroSection } from '@/components/home/HeroSection';
 import { FilterState } from '@/components/filters';
 import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
-import { FeaturedHotelsSection } from '@/components/home/FeaturedHotelsSection';
 import { useThemes } from '@/hooks/useThemes';
 
 export default function Index() {
@@ -31,7 +30,6 @@ export default function Index() {
       <main className="flex-1">
         <HeroSection />
         <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
-        <FeaturedHotelsSection filters={filters} />
       </main>
       
       <Footer />

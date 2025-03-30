@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +13,7 @@ export default function Login() {
     signIn,
     isLoading
   } = useAuth();
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -20,6 +23,7 @@ export default function Login() {
     await signIn(email, password);
     // Redirection is now handled in AuthContext after profile is fetched
   };
+  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
@@ -33,13 +37,9 @@ export default function Login() {
             <div className="p-8 backdrop-blur-sm bg-[#5d0170]">
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold mb-2">Traveler Login</h1>
-                <p className="text-muted-foreground text-sm">Sign in to your traveler account</p>
+                <p className="text-muted-foreground text-sm mb-8">Sign in to your traveler account</p>
                 
-                <div className="flex justify-center mt-4">
-                  <div className="p-3 bg-fuchsia-900/30 rounded-full">
-                    <User className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
+                {/* Red icon removed */}
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-5">

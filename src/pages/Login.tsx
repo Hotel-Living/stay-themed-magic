@@ -35,11 +35,9 @@ export default function Login() {
           animation: 'text-shine 2s linear infinite'
         }} className="glass-card rounded-2xl overflow-hidden">
             <div className="p-8 backdrop-blur-sm bg-[#5d0170]">
-              <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold mb-2">Traveler Login</h1>
-                <p className="text-muted-foreground text-sm mb-8">Sign in to your traveler account</p>
-                
-                {/* Red icon removed */}
+              <div className="text-center mb-6">
+                <h1 className="text-2xl font-bold mb-6">Traveler Login</h1>
+                {/* Removed "Sign in to your traveler account" line */}
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-5">

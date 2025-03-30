@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { themeCategories } from '@/components/dashboard/PropertySteps/ThemesAndActivitiesStep';
+import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
 
 // Flatten the themes from the complex nested structure to use in filters
 const extractAllThemes = () => {
@@ -64,11 +66,11 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
   const allPropertyThemes = extractAllThemes();
   
   return (
-    <section className="py-0 px-4">
+    <section className="py-0 px-4 mb-16">
       <div className="container max-w-6xl mx-auto">
         <FilterSection 
           onFilterChange={onFilterChange} 
-          showSearchButton={true} 
+          showSearchButton={false}
           placeholders={{
             month: "Month?",
             country: "Country?",
@@ -82,6 +84,16 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
           usePurpleFilterBackground={true}
           availableThemes={allPropertyThemes}
         />
+        
+        <div className="flex justify-center mt-3">
+          <Button 
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center"
+            size="lg"
+          >
+            <Search className="w-4 h-4 mr-2" />
+            Search
+          </Button>
+        </div>
       </div>
     </section>
   );

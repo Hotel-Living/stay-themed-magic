@@ -3,7 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, Search, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { allThemes, Theme, themeCategories, countries } from "@/utils/data";
+import { allThemes, Theme, themeCategories } from "@/utils/themes";
+import { countries } from "@/utils/countries";
 import { 
   Collapsible,
   CollapsibleContent,

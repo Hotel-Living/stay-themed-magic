@@ -9,7 +9,7 @@ import { LocationFilter } from "./LocationFilter";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
-import { Theme } from "@/utils/data";
+import { Theme } from "@/utils/themes";
 
 interface FilterSidebarProps {
   activeFilters: {

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { FilterItem } from "./FilterItem";
-import { Theme, themeCategories } from "@/utils/data";
+import { Theme, themeCategories } from "@/utils/themes";
 import {
   Collapsible,
   CollapsibleContent,

@@ -1,12 +1,17 @@
 
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
+import { useAuth } from "@/context/AuthContext";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
+
+  const isLoggedIn = !!user;
+  const isHotelOwner = profile?.user_type === 'hotel_owner';
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#860477] backdrop-blur-xl border-b border-[#c266af]">
@@ -16,18 +21,37 @@ export function Navbar() {
         </div>
         
         <div className="hidden md:flex items-center gap-6">
-          <Link 
-            to="/signup" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            REGISTER
-          </Link>
-          <Link 
-            to="/login" 
-            className="text-white font-bold hover:text-white/80 text-sm"
-          >
-            LOGIN
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link 
+                to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} 
+                className="text-white font-bold hover:text-white/80 text-sm"
+              >
+                DASHBOARD
+              </Link>
+              <button 
+                onClick={() => signOut()} 
+                className="text-white font-bold hover:text-white/80 text-sm"
+              >
+                LOGOUT
+              </button>
+            </>
+          ) : (
+            <>
+              <Link 
+                to="/signup" 
+                className="text-white font-bold hover:text-white/80 text-sm"
+              >
+                REGISTER
+              </Link>
+              <Link 
+                to="/login" 
+                className="text-white font-bold hover:text-white/80 text-sm"
+              >
+                LOGIN
+              </Link>
+            </>
+          )}
           <Link 
             to="/faq" 
             className="text-white font-bold hover:text-white/80 text-sm"
@@ -62,8 +86,43 @@ export function Navbar() {
         isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       )}>
         <nav className="flex flex-col space-y-4">
-          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">REGISTER</Link>
-          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">LOGIN</Link>
+          {isLoggedIn ? (
+            <>
+              <Link 
+                to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} 
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-white font-bold hover:text-white/80 text-center text-sm"
+              >
+                DASHBOARD
+              </Link>
+              <button 
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  signOut();
+                }} 
+                className="text-white font-bold hover:text-white/80 text-center text-sm"
+              >
+                LOGOUT
+              </button>
+            </>
+          ) : (
+            <>
+              <Link 
+                to="/signup" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-white font-bold hover:text-white/80 text-center text-sm"
+              >
+                REGISTER
+              </Link>
+              <Link 
+                to="/login" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-white font-bold hover:text-white/80 text-center text-sm"
+              >
+                LOGIN
+              </Link>
+            </>
+          )}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">FAQ</Link>
           <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">HOTELS</Link>
         </nav>

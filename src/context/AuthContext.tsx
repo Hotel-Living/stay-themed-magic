@@ -150,7 +150,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         description: "Has iniciado sesión con éxito",
       });
 
-      navigate("/");
+      // Redirect to the appropriate dashboard based on user type
+      // For now, we're assuming travelers should go to the user dashboard
+      // and hotel owners should go to the hotel dashboard
+      if (profile?.user_type === 'hotel_owner') {
+        navigate("/hotel-dashboard");
+      } else {
+        // Default to user dashboard for travelers or unspecified user types
+        navigate("/user-dashboard");
+      }
     } catch (error: any) {
       console.error("Sign in exception:", error);
       toast({

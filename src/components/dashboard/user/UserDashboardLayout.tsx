@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
+import { useAuth } from "@/context/AuthContext";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -19,6 +20,15 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab,
 }: UserDashboardLayoutProps) {
+  const { user, profile, signOut } = useAuth();
+  
+  // Use profile data or fallback to defaults
+  const userName = profile?.first_name && profile?.last_name 
+    ? `${profile.first_name} ${profile.last_name}`
+    : profile?.first_name || 'Traveller';
+  
+  const membershipType = profile?.membership_type || 'Premium Member';
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -35,8 +45,8 @@ export default function UserDashboardLayout({
                   <div className="w-20 h-20 bg-fuchsia-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
                     <div className="w-10 h-10 text-fuchsia-300">{tabs.find(tab => tab.id === "profile")?.icon}</div>
                   </div>
-                  <h2 className="font-bold mb-1">Alex Johnson</h2>
-                  <p className="text-sm text-muted-foreground">Premium Member</p>
+                  <h2 className="font-bold mb-1">{userName}</h2>
+                  <p className="text-sm text-muted-foreground">{membershipType}</p>
                 </div>
                 
                 <nav className="p-2">
@@ -60,13 +70,13 @@ export default function UserDashboardLayout({
                     <div className="h-px bg-fuchsia-900/20 my-2"></div>
                   </div>
                   
-                  <Link
-                    to="/login"
+                  <button
+                    onClick={signOut}
                     className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-fuchsia-500/10 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />
                     Log Out
-                  </Link>
+                  </button>
                 </nav>
               </div>
             </aside>

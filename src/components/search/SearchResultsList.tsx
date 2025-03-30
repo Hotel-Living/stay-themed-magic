@@ -32,7 +32,7 @@ export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
               name={hotel.name}
               city={hotel.city}
               country={hotel.country}
-              stars={hotel.stars}
+              stars={hotel.stars || 0} // Provide default value in case stars is undefined
               pricePerMonth={hotel.pricePerMonth}
               themes={safeThemes}
               image={hotel.images[0]}

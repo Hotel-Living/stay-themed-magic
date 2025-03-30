@@ -135,6 +135,14 @@ export const themeCategories = [
 // Create a flat list of all themes for easier access
 export const allThemes = themeCategories.flatMap(category => category.themes);
 
+// Duration options for booking
+export const durations = [
+  { id: 1, value: 7 },
+  { id: 2, value: 14 },
+  { id: 3, value: 21 },
+  { id: 4, value: 28 }
+];
+
 // Mock country data
 export const countries = [
   { id: "spain", name: "Spain", flag: "🇪🇸" },
@@ -156,6 +164,7 @@ export interface Hotel {
   mainImage: string;
   images: string[];
   pricePerMonth: number;
+  stars: number;  // Ensuring stars property is defined in the interface
   rating: number;
   reviews: number;
   themes: Theme[];

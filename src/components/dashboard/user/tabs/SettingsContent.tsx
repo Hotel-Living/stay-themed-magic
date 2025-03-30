@@ -1,18 +1,33 @@
 
 import React, { useState } from "react";
-import { Globe, Plus, Save } from "lucide-react";
+import { Globe, Plus, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
+import { 
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { themeCategories } from "@/utils/data";
+import { themeCategories, currencyOptions } from "@/utils/themeConstants";
+import { useAuth } from "@/context/auth/AuthContext";
 
 export default function SettingsContent() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [currency, setCurrency] = useState("USD");
   const [newTheme, setNewTheme] = useState("");
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -30,11 +45,19 @@ export default function SettingsContent() {
   const handleAddTheme = (theme: string) => {
     if (theme && !selectedThemes.includes(theme)) {
       setSelectedThemes([...selectedThemes, theme]);
+      toast({
+        title: "Theme added",
+        description: `${theme} has been added to your preferences.`,
+      });
     }
   };
   
   const handleRemoveTheme = (theme: string) => {
     setSelectedThemes(selectedThemes.filter(t => t !== theme));
+    toast({
+      title: "Theme removed",
+      description: `${theme} has been removed from your preferences.`,
+    });
   };
   
   const handleSaveSettings = () => {
@@ -65,10 +88,14 @@ export default function SettingsContent() {
   
   return (
     <div className="space-y-8">
-      <div className="glass-card rounded-xl p-6">
-        <h2 className="text-xl font-bold mb-6">Theme Preferences</h2>
-        
-        <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Theme Preferences</CardTitle>
+          <CardDescription>
+            Select themes that interest you to get personalized hotel recommendations
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
           <div>
             <Label htmlFor="themes" className="text-base">Your Favorite Themes</Label>
             <p className="text-sm text-muted-foreground mb-3">
@@ -80,14 +107,15 @@ export default function SettingsContent() {
                 <Badge 
                   key={theme} 
                   variant="secondary"
-                  className="bg-fuchsia-900/30 hover:bg-fuchsia-900/50 px-3 py-1 text-sm"
+                  className="bg-fuchsia-900/30 hover:bg-fuchsia-900/50 px-3 py-1 text-sm group"
                 >
                   {theme}
                   <button 
                     className="ml-2 text-fuchsia-300 hover:text-white"
                     onClick={() => handleRemoveTheme(theme)}
+                    aria-label={`Remove ${theme}`}
                   >
-                    ×
+                    <X className="h-3 w-3" />
                   </button>
                 </Badge>
               ))}
@@ -102,15 +130,60 @@ export default function SettingsContent() {
                   <SelectValue placeholder="Select a theme" />
                 </SelectTrigger>
                 <SelectContent>
-                  {availableThemes.map(theme => (
-                    <SelectItem key={theme} value={theme}>{theme}</SelectItem>
-                  ))}
+                  {availableThemes.length > 0 ? (
+                    availableThemes.map(theme => (
+                      <SelectItem key={theme} value={theme}>{theme}</SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="none" disabled>All themes selected</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
           </div>
           
-          <div className="border-t border-fuchsia-800/20 pt-6">
+          <div className="mt-8">
+            <Label className="text-base">Browse Available Themes</Label>
+            <p className="text-sm text-muted-foreground mb-3">
+              Explore our curated collection of themed hotel experiences
+            </p>
+            
+            <Accordion type="single" collapsible className="w-full">
+              {themeCategories.map((category, index) => (
+                <AccordionItem key={index} value={`category-${index}`}>
+                  <AccordionTrigger className="text-fuchsia-200 hover:text-fuchsia-100">
+                    {category.name}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-2 pl-2">
+                      {category.themes.map((theme, themeIndex) => (
+                        <div key={themeIndex} className="flex items-start justify-between py-2 border-b border-fuchsia-800/20 last:border-none">
+                          <div>
+                            <h4 className="font-medium">{theme.name}</h4>
+                            <p className="text-sm text-muted-foreground">{theme.description}</p>
+                          </div>
+                          {!selectedThemes.includes(theme.name) ? (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className="ml-2 mt-1 h-8 bg-fuchsia-900/20 hover:bg-fuchsia-800/30"
+                              onClick={() => handleAddTheme(theme.name)}
+                            >
+                              Add
+                            </Button>
+                          ) : (
+                            <Badge variant="outline" className="ml-2 mt-1 bg-fuchsia-900/40">Added</Badge>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+          
+          <div className="border-t border-fuchsia-800/20 pt-6 mt-6">
             <Label className="text-base">Suggest a New Theme</Label>
             <p className="text-sm text-muted-foreground mb-4">
               Don't see a theme that matches your interest? Suggest a new one!
@@ -148,13 +221,15 @@ export default function SettingsContent() {
               </Button>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
       
-      <div className="glass-card rounded-xl p-6">
-        <h2 className="text-xl font-bold mb-6">Currency & Regional Preferences</h2>
-        
-        <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Currency & Regional Preferences</CardTitle>
+          <CardDescription>Customize how prices and regional information are displayed</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div>
             <Label htmlFor="currency" className="text-base">Preferred Currency</Label>
             <div className="flex items-center gap-2 mt-2">
@@ -164,23 +239,24 @@ export default function SettingsContent() {
                   <SelectValue placeholder="Select currency" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USD">USD ($)</SelectItem>
-                  <SelectItem value="EUR">EUR (€)</SelectItem>
-                  <SelectItem value="GBP">GBP (£)</SelectItem>
-                  <SelectItem value="JPY">JPY (¥)</SelectItem>
-                  <SelectItem value="CAD">CAD ($)</SelectItem>
-                  <SelectItem value="AUD">AUD ($)</SelectItem>
+                  {currencyOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
       
-      <div className="glass-card rounded-xl p-6">
-        <h2 className="text-xl font-bold mb-6">Notification Settings</h2>
-        
-        <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Notification Settings</CardTitle>
+          <CardDescription>Manage how and when you receive updates</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <Label htmlFor="emailNotifications" className="text-base">Email Notifications</Label>
@@ -194,8 +270,8 @@ export default function SettingsContent() {
               onCheckedChange={setEmailNotifications}
             />
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
       
       <div className="flex justify-end">
         <Button onClick={handleSaveSettings} className="flex items-center gap-2">

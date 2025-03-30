@@ -8,24 +8,30 @@ import { AuthCard } from "@/components/auth/AuthCard";
 import { InputField } from "@/components/auth/InputField";
 import { PasswordField } from "@/components/auth/PasswordField";
 import { SubmitButton } from "@/components/auth/SubmitButton";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HotelLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, isLoading } = useAuth();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
+      toast({
+        title: "Campos requeridos",
+        description: "Por favor, completa todos los campos",
+        variant: "destructive",
+      });
       return;
     }
     
     console.log("Hotel owner login attempt with:", email);
     await signIn(email, password);
     // Redirection is handled in AuthContext after profile is fetched
-    // For hotel logins, we'll force redirect to /hotel-dashboard
   };
 
   const toggleShowPassword = () => setShowPassword(!showPassword);

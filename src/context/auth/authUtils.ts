@@ -34,28 +34,22 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
   // Current path to determine context
   const currentPath = window.location.pathname;
   
-  // Group paths by authorization type
+  // Define path groups
   const publicPaths = ['/', '/login', '/signup', '/signin', '/hotel-signup', '/hotel-login'];
   const hotelOwnerPaths = ['/hotel-dashboard', '/hoteles'];
   const travelerPaths = ['/user-dashboard'];
   
   console.log(`Current path: ${currentPath}, User is hotel owner: ${profile.is_hotel_owner}`);
   
-  // Handle hotel login page specially
-  if (currentPath === '/hotel-login') {
-    if (profile.is_hotel_owner === true) {
+  // *** HOTEL OWNER LOGIC ***
+  if (profile.is_hotel_owner === true) {
+    // Special case for hotel login page
+    if (currentPath === '/hotel-login') {
       console.log("Hotel owner on hotel login page, redirecting to hotel dashboard");
       window.location.href = '/hotel-dashboard';
       return;
-    } else {
-      console.log("Non-hotel owner on hotel login page, redirecting to user dashboard");
-      window.location.href = '/user-dashboard';
-      return;
     }
-  }
-  
-  // HOTEL OWNER LOGIC
-  if (profile.is_hotel_owner === true) {
+    
     // If on public pages or traveler pages, redirect to hotel dashboard
     if (publicPaths.includes(currentPath) || travelerPaths.includes(currentPath)) {
       console.log("Hotel owner detected, redirecting to hotel dashboard");
@@ -63,8 +57,15 @@ export const redirectBasedOnUserRole = (profile: Profile | null) => {
       return;
     }
   } 
-  // TRAVELER LOGIC
+  // *** TRAVELER LOGIC ***
   else if (profile.is_hotel_owner === false) {
+    // Special case for traveler login page
+    if (currentPath === '/login' || currentPath === '/signin') {
+      console.log("Traveler on login page, redirecting to user dashboard");
+      window.location.href = '/user-dashboard';
+      return;
+    }
+    
     // If on public pages or hotel owner pages, redirect to user dashboard
     if (publicPaths.includes(currentPath) || hotelOwnerPaths.includes(currentPath)) {
       console.log("Traveler detected, redirecting to user dashboard");

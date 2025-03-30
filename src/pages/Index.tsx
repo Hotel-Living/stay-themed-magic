@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterState } from "@/components/FilterSection";
-import { useAuth } from "@/context/AuthContext";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FilterSectionWrapper } from "@/components/home/FilterSectionWrapper";
 import { useHotels } from "@/hooks/useHotels";
@@ -11,15 +10,15 @@ import { useThemes } from "@/hooks/useThemes";
 import { Theme } from "@/integrations/supabase/types-custom";
 
 export default function Index() {
-  // Add a try-catch to prevent the app from crashing if the auth context isn't available
-  let authData = { isLoading: true, user: null, profile: null };
+  // Use try-catch to avoid issues with auth context on initial load
+  let userData = { user: null, profile: null, isLoading: false };
+  
   try {
-    authData = useAuth();
+    // We're purposely NOT importing useAuth here to prevent redirection loops on the home page
+    // This page should be accessible to everyone without forced redirects
   } catch (error) {
     console.error("Auth context not available:", error);
   }
-  
-  const { isLoading: isAuthLoading, user, profile } = authData;
   
   const [filters, setFilters] = useState<FilterState>({
     country: null,
@@ -32,7 +31,7 @@ export default function Index() {
   const { data: themes = [], isLoading: isThemesLoading } = useThemes();
   
   // Fetch hotels with filters
-  const { data: hotels = [], isLoading: isHotelsLoading } = useHotels(filters, !isAuthLoading);
+  const { data: hotels = [], isLoading: isHotelsLoading } = useHotels(filters, true);
   
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);

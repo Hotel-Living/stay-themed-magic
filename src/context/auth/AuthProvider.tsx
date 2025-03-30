@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { Profile } from "@/integrations/supabase/types-custom";
 import AuthContext from "./AuthContext";
-import { fetchProfile, redirectBasedOnUserRole, updateUserProfile } from "./authUtils";
+import { fetchProfile, updateUserProfile } from "./authUtils";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -35,18 +35,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
+          // Use setTimeout to defer profile fetch to next event loop
+          // This prevents potential recursive issues with onAuthStateChange
           setTimeout(() => {
             fetchProfile(currentSession.user.id).then(profileData => {
               setProfile(profileData);
               setIsLoading(false);
-              
-              // Handle redirect ONLY on explicit sign in event
-              if (event === 'SIGNED_IN') {
-                console.log("SIGNED_IN event detected, redirecting based on role");
-                if (profileData) {
-                  redirectBasedOnUserRole(profileData);
-                }
-              }
             });
           }, 0);
         } else {
@@ -66,15 +60,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
       
-      console.log("Current session check:", data.session?.user?.email);
+      console.log("Initial session check:", data.session?.user?.email);
       setSession(data.session);
       setUser(data.session?.user ?? null);
       
       if (data.session?.user) {
         const profileData = await fetchProfile(data.session.user.id);
         setProfile(profileData);
-        // Don't redirect during initial session check to prevent unwanted redirects
-        // when the user is already on the correct page
       }
       
       setIsLoading(false);
@@ -115,7 +107,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         description: "Registro completado con éxito",
       });
 
-      navigate("/");
+      // Redirect based on account type
+      if (userData?.is_hotel_owner === true) {
+        window.location.href = "/hotel-dashboard";
+      } else {
+        window.location.href = "/user-dashboard";
+      }
     } catch (error: any) {
       toast({
         title: "Error al registrarse",
@@ -132,6 +129,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setIsLoading(true);
       setAuthError(null);
+      
+      // Determine login type from the current URL
+      const isHotelLogin = window.location.pathname.includes('hotel-login');
+      console.log(`Login attempt from: ${window.location.pathname}, isHotelLogin: ${isHotelLogin}`);
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -150,24 +151,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (data?.user) {
+        // Fetch profile data
         const profileData = await fetchProfile(data.user.id);
         setProfile(profileData);
         
         console.log("Profile data after login:", profileData);
         
-        // Detect if we're on the hotel login page
-        const isHotelLogin = window.location.pathname.includes('hotel-login');
-        
-        // Force immediate redirect based on where the login happened
+        // Handle redirection based on login type and user role
         if (isHotelLogin) {
-          console.log("HOTEL LOGIN DETECTED - Redirecting to hotel dashboard");
-          window.location.href = '/hotel-dashboard';
-        } else if (profileData?.is_hotel_owner === true) {
-          console.log("HOTEL OWNER LOGIN DETECTED - Redirecting to hotel dashboard");
-          window.location.href = '/hotel-dashboard';
+          if (profileData?.is_hotel_owner === true) {
+            // Hotel owner logged in through hotel login page
+            console.log("Hotel owner login confirmed, redirecting to hotel dashboard");
+            window.location.href = '/hotel-dashboard';
+          } else {
+            // Non-hotel owner tried to log in through hotel login
+            console.error("Non-hotel owner tried to log in through hotel login");
+            toast({
+              title: "Acceso denegado",
+              description: "Esta cuenta no está registrada como propietario de hotel",
+              variant: "destructive",
+            });
+          }
         } else {
-          console.log("TRAVELER LOGIN DETECTED - Redirecting to user dashboard");
-          window.location.href = '/user-dashboard';
+          // Regular traveler login
+          if (profileData?.is_hotel_owner === true) {
+            console.log("Hotel owner detected on traveler login, redirecting to hotel dashboard");
+            window.location.href = '/hotel-dashboard';
+          } else {
+            console.log("Traveler login confirmed, redirecting to user dashboard");
+            window.location.href = '/user-dashboard';
+          }
         }
       }
     } catch (err: any) {
@@ -229,9 +242,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
       setProfile(null);
       setSession(null);
-      
-      // Clear localStorage to ensure no stale auth data persists
-      localStorage.removeItem('hotel-living-auth-key');
       
       toast({
         title: "Sesión cerrada",

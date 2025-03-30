@@ -1,145 +1,169 @@
 
 import React, { useState } from "react";
-import { CheckIcon, UserIcon } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth/AuthContext";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function ProfileContent() {
-  const { profile, updateProfile } = useAuth();
+const ProfileContent = () => {
+  const { profile, user, updateProfile } = useAuth();
   const { toast } = useToast();
-  
-  // Form state
   const [firstName, setFirstName] = useState(profile?.first_name || "");
   const [lastName, setLastName] = useState(profile?.last_name || "");
   const [phone, setPhone] = useState(profile?.phone || "");
-  const [isEditMode, setIsEditMode] = useState(false);
-  
-  const fullName = profile?.first_name && profile?.last_name 
-    ? `${profile.first_name} ${profile.last_name}` 
-    : profile?.first_name || "Unnamed User";
-    
-  const handleSaveProfile = async () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profile) return;
+
+    setIsSubmitting(true);
     try {
       await updateProfile({
         first_name: firstName,
         last_name: lastName,
         phone: phone,
       });
-      
-      setIsEditMode(false);
-      
+
       toast({
         title: "Profile updated",
-        description: "Your profile information has been saved",
+        description: "Your profile has been updated successfully.",
       });
+      setIsEditing(false);
     } catch (error) {
+      console.error("Error updating profile:", error);
       toast({
-        title: "Error",
-        description: "Failed to update profile",
         variant: "destructive",
+        title: "Error",
+        description: "There was an error updating your profile. Please try again.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
-  
-  const handleCancelEdit = () => {
-    // Reset form values to current profile
-    setFirstName(profile?.first_name || "");
-    setLastName(profile?.last_name || "");
-    setPhone(profile?.phone || "");
-    setIsEditMode(false);
+
+  const getInitials = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
+    }
+    if (user?.email) {
+      return user.email[0].toUpperCase();
+    }
+    return "U";
   };
-  
+
   return (
     <div className="space-y-6">
-      <div className="glass-card rounded-xl overflow-hidden">
-        <div className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
-          
-          {/* Profile picture or avatar */}
-          <div className="flex flex-col sm:flex-row gap-6 items-center mb-6">
-            <div className="w-24 h-24 rounded-full bg-fuchsia-500/20 flex items-center justify-center">
-              <UserIcon className="w-12 h-12 text-fuchsia-300" />
-            </div>
-            
-            <div className="text-center sm:text-left">
-              <h3 className="text-lg font-medium">{fullName}</h3>
-              <p className="text-sm text-muted-foreground">{profile?.email_verified ? "Email verified" : "Email not verified"}</p>
-              
-              {!isEditMode && (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="mt-2"
-                  onClick={() => setIsEditMode(true)}
-                >
-                  Edit Profile
-                </Button>
-              )}
+      <Card>
+        <CardHeader>
+          <CardTitle>Profile Information</CardTitle>
+          <CardDescription>Manage your personal information and preferences</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <Avatar className="h-20 w-20">
+              <AvatarImage src={profile?.avatar_url || ""} />
+              <AvatarFallback className="text-lg font-semibold">{getInitials()}</AvatarFallback>
+            </Avatar>
+            <div className="space-y-1">
+              <h3 className="text-xl font-semibold">
+                {profile?.first_name || ""} {profile?.last_name || ""}
+              </h3>
+              <div className="text-sm text-muted-foreground flex flex-col sm:flex-row sm:gap-2">
+                <span>{user?.email}</span>
+                <Badge variant={user?.email_verified ? "default" : "outline"} className="max-w-fit">
+                  {user?.email_verified ? "Verified" : "Unverified"}
+                </Badge>
+              </div>
             </div>
           </div>
-          
-          {/* Profile form */}
-          <div className={`space-y-4 ${isEditMode ? 'opacity-100' : 'opacity-60'}`}>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">First Name</label>
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  disabled={!isEditMode}
-                  className="w-full p-2 rounded-md bg-secondary/40 border border-border"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Last Name</label>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  disabled={!isEditMode}
-                  className="w-full p-2 rounded-md bg-secondary/40 border border-border"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Email</label>
-              <input
-                type="email"
-                value={profile?.email_verified ? "Verified email address" : "Email not verified"}
-                disabled
-                className="w-full p-2 rounded-md bg-secondary/40 border border-border"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Phone Number</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                disabled={!isEditMode}
-                className="w-full p-2 rounded-md bg-secondary/40 border border-border"
-              />
-            </div>
-            
-            {isEditMode && (
-              <div className="flex gap-2 justify-end pt-2">
-                <Button variant="outline" onClick={handleCancelEdit}>
-                  Cancel
-                </Button>
-                <Button onClick={handleSaveProfile}>
-                  <CheckIcon className="w-4 h-4 mr-2" />
-                  Save Changes
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isEditing ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="firstName" className="text-sm font-medium">
+                      First Name
+                    </label>
+                    <Input
+                      id="firstName"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="First Name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="lastName" className="text-sm font-medium">
+                      Last Name
+                    </label>
+                    <Input
+                      id="lastName"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Last Name"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="text-sm font-medium">
+                    Phone Number
+                  </label>
+                  <Input
+                    id="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Phone Number"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Saving..." : "Save Changes"}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsEditing(false)}
+                    disabled={isSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground">First Name</p>
+                    <p className="font-medium">{profile?.first_name || "-"}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm text-muted-foreground">Last Name</p>
+                    <p className="font-medium">{profile?.last_name || "-"}</p>
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="font-medium">{user?.email || "-"}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Phone Number</p>
+                  <p className="font-medium">{profile?.phone || "-"}</p>
+                </div>
+                <Button type="button" onClick={() => setIsEditing(true)}>
+                  Edit Profile
                 </Button>
               </div>
             )}
-          </div>
-        </div>
-      </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
-}
+};
+
+export default ProfileContent;

@@ -28,10 +28,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Initialize auth state and set up listeners
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
         console.log("Auth state changed:", event, currentSession?.user?.email);
+        
+        if (event === 'SIGNED_OUT') {
+          // Clear all auth state when signed out
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          return;
+        }
+        
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
@@ -47,17 +57,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      console.log("Current session check:", currentSession?.user?.email);
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
+    // Initial session check
+    const checkInitialSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
       
-      if (currentSession?.user) {
-        fetchProfile(currentSession.user.id);
+      if (error) {
+        console.error("Error checking session:", error);
+        setIsLoading(false);
+        return;
       }
       
-      setIsLoading(false);
-    });
+      console.log("Current session check:", data.session?.user?.email);
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
+      
+      if (data.session?.user) {
+        fetchProfile(data.session.user.id);
+      } else {
+        setIsLoading(false);
+      }
+    };
+    
+    checkInitialSession();
 
     return () => {
       subscription.unsubscribe();
@@ -74,11 +95,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('Error fetching profile:', error);
+        setIsLoading(false);
         return;
       }
 
       console.log("Fetched profile:", data);
       setProfile(data);
+      setIsLoading(false);
       
       // After fetching the profile, check if we need to redirect the user based on role
       // Only redirect if we are on the home page or login/signup pages
@@ -94,9 +117,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch (error) {
       console.error('Error in fetchProfile:', error);
+      setIsLoading(false);
     }
   };
 
+  // Signup function
   const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
     try {
       setIsLoading(true);
@@ -136,6 +161,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Sign in function
   const signIn = async (email: string, password: string) => {
     try {
       setIsLoading(true);
@@ -170,10 +196,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         if (profileData?.is_hotel_owner) {
           console.log("Redirecting to hotel dashboard");
-          navigate('/hotel-dashboard');
+          window.location.href = '/hotel-dashboard';
         } else {
           console.log("Redirecting to user dashboard");
-          navigate('/user-dashboard');
+          window.location.href = '/user-dashboard';
         }
       }
     } catch (err: any) {
@@ -189,6 +215,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Sign out function with aggressive cleanup
   const signOut = async () => {
     try {
       setIsLoading(true);
@@ -197,7 +224,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { data: sessionData } = await supabase.auth.getSession();
       
       if (!sessionData.session) {
-        console.log("No active session found, redirecting to login without calling signOut");
+        console.log("No active session found, redirecting to login without calling signOut API");
         // Clear local state regardless
         setUser(null);
         setProfile(null);
@@ -208,13 +235,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           description: "Tu sesión ha finalizado",
         });
         
-        // Force redirect to login page
+        // Force page reload to clear any persistent state
         window.location.href = "/login";
         return;
       }
       
       console.log("Active session found, signing out properly");
-      const { error } = await supabase.auth.signOut();
+      
+      // Call signOut API with proper signout options to invalidate all sessions
+      const { error } = await supabase.auth.signOut({
+        scope: 'global' // Sign out from all sessions, not just current browser
+      });
 
       if (error) {
         console.error("Error signing out:", error);
@@ -231,12 +262,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setProfile(null);
       setSession(null);
       
+      // Clear localStorage to ensure no stale auth data persists
+      localStorage.removeItem('hotel-living-auth-key');
+      
       toast({
         title: "Sesión cerrada",
         description: "Has cerrado sesión con éxito",
       });
 
-      // Force page redirect using window.location instead of navigate to ensure complete reset
+      // Completely reload the application to clear any application state
       window.location.href = "/login";
     } catch (error: any) {
       console.error("Error in signOut function:", error);
@@ -250,6 +284,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Update profile function
   const updateProfile = async (data: Partial<Profile>) => {
     if (!user) return;
     

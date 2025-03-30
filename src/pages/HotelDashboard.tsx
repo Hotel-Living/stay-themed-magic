@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Calculator,
@@ -25,11 +26,27 @@ import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
 import ReviewsContent from "@/components/dashboard/ReviewsContent";
 import FinancesContent from "@/components/dashboard/FinancesContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
-
+import { useAuth } from "@/context/AuthContext";
 import { DashboardTab } from "@/types/dashboard";
 
 export default function HotelDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const { user, profile, session } = useAuth();
+  const navigate = useNavigate();
+  
+  // Check if user is authenticated and is a hotel owner
+  useEffect(() => {
+    if (!user || !session) {
+      console.log("No authenticated user detected in hotel dashboard, redirecting to login");
+      window.location.href = "/login";
+      return;
+    }
+    
+    if (profile && profile.is_hotel_owner === false) {
+      console.log("Non-hotel owner detected in hotel dashboard, redirecting to user dashboard");
+      navigate('/user-dashboard');
+    }
+  }, [user, profile, session, navigate]);
   
   const tabs: DashboardTab[] = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
@@ -70,6 +87,11 @@ export default function HotelDashboard() {
         return <DashboardContent />;
     }
   };
+  
+  // If not authenticated, don't render anything
+  if (!user || !session) {
+    return null;
+  }
   
   return (
     <DashboardLayout 

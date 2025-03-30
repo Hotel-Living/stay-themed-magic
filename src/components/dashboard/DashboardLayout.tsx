@@ -1,10 +1,12 @@
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -19,12 +21,60 @@ export default function DashboardLayout({
   tabs,
   setActiveTab,
 }: DashboardLayoutProps) {
-  const { profile, signOut } = useAuth();
+  const { profile, signOut, user, session } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  
+  // Check if user is authenticated
+  useEffect(() => {
+    if (!user || !session) {
+      console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
+      window.location.href = "/login";
+    }
+  }, [user, session]);
   
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name 
     ? `${profile.first_name} ${profile.last_name}`
     : profile?.first_name || 'Hotel Partner';
+
+  const handleLogout = async () => {
+    try {
+      if (!session) {
+        console.log("No active session found in hotel dashboard, redirecting to login");
+        toast({
+          title: "Session Error",
+          description: "No active session found. Redirecting to login page.",
+          variant: "destructive",
+        });
+        window.location.href = "/login";
+        return;
+      }
+      
+      await signOut();
+      
+      // Force redirect and ensure cache clearing
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+      });
+      
+      // Ensure we completely reload the application and clear any cached state
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Error during logout from hotel dashboard:", error);
+      toast({
+        title: "Error",
+        description: "Could not complete logout. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // If not authenticated, don't render anything
+  if (!user || !session) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -69,7 +119,7 @@ export default function DashboardLayout({
                   </div>
                   
                   <button
-                    onClick={signOut}
+                    onClick={handleLogout}
                     className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />

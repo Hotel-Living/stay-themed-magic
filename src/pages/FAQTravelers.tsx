@@ -136,7 +136,7 @@ export default function FAQTravelers() {
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#d069fa]">Traveler FAQ</h1>
-          <p className="text-center text-muted-foreground mb-8">
+          <p className="text-center mb-8 text-[#f7fbf7]">
             Find answers to common questions about booking and staying with Hotels Life
           </p>
           

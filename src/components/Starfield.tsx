@@ -15,8 +15,8 @@ export function Starfield() {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       
-      // Create many stars for better visibility
-      const starCount = Math.floor((windowWidth * windowHeight) / 600);
+      // Reduce star count by 60% (multiply by 0.4)
+      const starCount = Math.floor((windowWidth * windowHeight) / 600 * 0.4);
       
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
@@ -42,8 +42,9 @@ export function Starfield() {
         // Higher base opacity for better visibility
         star.style.opacity = `${0.8 + (size - 1) * 0.2}`;
         
-        // Random speed for forward movement
-        const speed = 2 + Math.random() * 8; // 2-10s range for speed variety
+        // Slow down animation speed by 50% (multiply by 2)
+        // Original was 2-10s range, now 4-20s range
+        const speed = (2 + Math.random() * 8) * 2;
         star.style.animation = `moveForward ${speed}s linear infinite`;
         
         // Random delay to stagger animations

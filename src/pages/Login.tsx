@@ -20,6 +20,7 @@ export default function Login() {
     
     console.log("Login attempt with:", email);
     await signIn(email, password);
+    // Redirection is now handled in AuthContext after profile is fetched
   };
 
   return (

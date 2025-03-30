@@ -1,11 +1,12 @@
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ export default function UserDashboardLayout({
 }: UserDashboardLayoutProps) {
   const { user, profile, signOut, session } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   // Use profile data or fallback to defaults
   const userName = profile?.first_name && profile?.last_name 
@@ -32,6 +34,14 @@ export default function UserDashboardLayout({
   const membershipType = 'Premium Member';
 
   console.log("Current profile in UserDashboardLayout:", profile);
+  
+  // Check if user is a hotel owner and redirect if necessary
+  useEffect(() => {
+    if (profile && profile.is_hotel_owner === true) {
+      console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
+      navigate('/hotel-dashboard');
+    }
+  }, [profile, navigate]);
 
   const handleLogout = async () => {
     try {

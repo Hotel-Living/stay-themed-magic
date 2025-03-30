@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -30,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
+      (event, currentSession) => {
         console.log("Auth state changed:", event, currentSession?.user?.email);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
@@ -80,13 +79,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log("Fetched profile:", data);
       setProfile(data);
       
-      // After fetching the profile, redirect the user based on their role
-      if (data?.is_hotel_owner) {
-        console.log("User is a hotel owner, redirecting to hotel dashboard");
-        navigate('/hotel-dashboard');
-      } else {
-        console.log("User is a traveler, redirecting to user dashboard");
-        navigate('/user-dashboard');
+      // After fetching the profile, check if we need to redirect the user based on role
+      // Only redirect if we are on the home page or login/signup pages
+      const currentPath = window.location.pathname;
+      if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
+        if (data?.is_hotel_owner === true) {
+          console.log("User is a hotel owner, redirecting to hotel dashboard");
+          navigate('/hotel-dashboard');
+        } else {
+          console.log("User is a traveler, redirecting to user dashboard");
+          navigate('/user-dashboard');
+        }
       }
     } catch (error) {
       console.error('Error in fetchProfile:', error);

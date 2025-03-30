@@ -1,6 +1,6 @@
-
-import { FilterSection, FilterState } from "@/components/filters";
-import { Theme } from "@/utils/themes";
+import { useState } from 'react';
+import { FilterSection, FilterState } from '@/components/filters';
+import { Theme } from '@/utils/themes';
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;

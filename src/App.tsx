@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
@@ -43,6 +43,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/signin" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/hotel-login" element={<HotelLogin />} />
                   <Route path="/hotel-signup" element={<HotelSignUp />} />
@@ -51,6 +52,7 @@ function App() {
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/hoteles" element={<Hotels />} /> {/* Add Spanish variant route */}
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/faq-travelers" element={<FAQTravelers />} />
                   <Route path="/faq-hotels" element={<FAQHotels />} />

@@ -1,7 +1,7 @@
 
 import { HotelCard } from "@/components/HotelCard";
 import { Compass } from "lucide-react";
-import { Hotel } from "@/utils/data";
+import { Hotel } from "@/utils/hotels"; // Updated import from the hotels module
 
 interface SearchResultsListProps {
   filteredHotels: Hotel[];
@@ -22,7 +22,7 @@ export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
           const safeThemes = hotel.themes
             ? hotel.themes
                 .filter(theme => theme && theme.name) // Filter out any null or undefined themes
-                .map(theme => theme.name)
+                .map(theme => theme) // Just pass the theme object directly
             : [];
           
           return (
@@ -35,7 +35,8 @@ export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
               stars={hotel.stars || 0} // Provide default value in case stars is undefined
               pricePerMonth={hotel.pricePerMonth}
               themes={safeThemes}
-              image={hotel.images[0]}
+              image={hotel.mainImage || hotel.images[0]} // Use mainImage or first image if available
+              availableMonths={hotel.availableMonths}
             />
           );
         })}

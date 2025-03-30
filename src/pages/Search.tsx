@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Hotel, themeCategories } from "@/utils/data";
+import { Hotel } from "@/utils/hotels"; // Updated import for Hotel type
+import { themeCategories, allThemes, Theme } from "@/utils/themes"; // Updated imports for theme data
 import { FilterSidebar } from "@/components/search/FilterSidebar";
 import { SearchResultsList } from "@/components/search/SearchResultsList";
-import { Theme } from "@/utils/data";
 
-// Import the hotels from data.ts
-import { hotels } from "@/utils/data";
+// Import the hotels from hotels.ts
+import { hotels } from "@/utils/hotels"; // Updated import for hotel data
 
 export default function Search() {
   const location = useLocation();

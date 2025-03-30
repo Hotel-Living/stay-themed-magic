@@ -15,35 +15,36 @@ export function Starfield() {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       
-      // Significantly increased star count for better visibility
-      const starCount = Math.floor((windowWidth * windowHeight) / 800);
+      // Create many stars for better visibility
+      const starCount = Math.floor((windowWidth * windowHeight) / 600);
       
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.className = 'star';
         
-        // Random size between 1px and 4px (increased max size)
+        // Random size between 1px and 4px
         const size = Math.random() * 3 + 1;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         
-        // Position randomly across the entire screen
+        // Random position across the screen
         const x = Math.random() * windowWidth;
+        // Start from further back (higher z value) for 3D effect
         const y = Math.random() * windowHeight;
         
         star.style.left = `${x}px`;
         star.style.top = `${y}px`;
         
         // Brighter colors with more yellow stars
-        const isYellow = Math.random() > 0.5;
+        const isYellow = Math.random() > 0.6;
         star.style.backgroundColor = isYellow ? '#FFF000' : '#FFFFFF';
         
-        // Increased base opacity for better visibility
-        star.style.opacity = `${0.7 + (size - 1) * 0.3}`;
+        // Higher base opacity for better visibility
+        star.style.opacity = `${0.8 + (size - 1) * 0.2}`;
         
-        // Faster animation for more dynamic effect
-        const duration = 2 + Math.random() * 4; // 2-6s
-        star.style.animation = `twinkle ${duration}s ease-in-out infinite`;
+        // Random speed for forward movement
+        const speed = 2 + Math.random() * 8; // 2-10s range for speed variety
+        star.style.animation = `moveForward ${speed}s linear infinite`;
         
         // Random delay to stagger animations
         const delay = Math.random() * 5;
@@ -57,6 +58,7 @@ export function Starfield() {
     
     // Recreate stars on window resize
     const handleResize = () => {
+      starfield.innerHTML = '';
       createStars();
     };
     

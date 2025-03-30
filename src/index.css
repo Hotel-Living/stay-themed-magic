@@ -165,7 +165,8 @@
 
 /* Animated background */
 .starfield {
-  background-color: #150026; /* Darker purple background for better star visibility */
+  background-color: #4a0155; /* Return to deep purple color */
+  background-image: linear-gradient(to bottom left, #4a0155, #310142, #1e0142);
   position: fixed;
   top: 0;
   left: 0;
@@ -173,12 +174,31 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
+  perspective: 500px;
 }
 
 .star {
   position: absolute;
   border-radius: 50%;
   z-index: 1;
+  transform-style: preserve-3d;
+}
+
+@keyframes moveForward {
+  0% {
+    transform: translateZ(-300px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(100px);
+    opacity: 0;
+  }
 }
 
 @keyframes twinkle {

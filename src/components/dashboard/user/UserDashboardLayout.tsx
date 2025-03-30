@@ -1,7 +1,6 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
@@ -29,6 +28,8 @@ export default function UserDashboardLayout({
   
   // Set a default membership type since the field doesn't exist in the Profile type
   const membershipType = 'Premium Member';
+
+  console.log("Current profile in UserDashboardLayout:", profile);
 
   return (
     <div className="min-h-screen flex flex-col">

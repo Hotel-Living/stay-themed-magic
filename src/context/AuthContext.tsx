@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +24,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -75,7 +77,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
+      console.log("Fetched profile:", data);
       setProfile(data);
+      
+      // After fetching the profile, redirect the user based on their role
+      if (data?.is_hotel_owner) {
+        console.log("User is a hotel owner, redirecting to hotel dashboard");
+        navigate('/hotel-dashboard');
+      } else {
+        console.log("User is a traveler, redirecting to user dashboard");
+        navigate('/user-dashboard');
+      }
     } catch (error) {
       console.error('Error in fetchProfile:', error);
     }
@@ -120,25 +132,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signIn = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    setIsLoading(true);
-
+  const signIn = async (email: string, password: string) => {
     try {
+      setIsLoading(true);
+      setAuthError(null);
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
-        setError(error.message);
+        setAuthError(error.message);
         console.error("Auth error:", error);
-        return { success: false, error: error.message };
+        toast({
+          title: "Error al iniciar sesión",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
       }
 
       if (data?.user) {
@@ -150,20 +162,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         setProfile(profileData || null);
         
+        console.log("Profile data after login:", profileData);
+        
         if (profileData?.is_hotel_owner) {
+          console.log("Redirecting to hotel dashboard");
           navigate('/hotel-dashboard');
         } else {
+          console.log("Redirecting to user dashboard");
           navigate('/user-dashboard');
         }
-
-        return { success: true };
       }
-
-      return { success: false, error: "No user data returned" };
-    } catch (err) {
+    } catch (err: any) {
       console.error("Sign-in error:", err);
-      setError("An unexpected error occurred during sign in");
-      return { success: false, error: "An unexpected error occurred" };
+      setAuthError("An unexpected error occurred during sign in");
+      toast({
+        title: "Error al iniciar sesión",
+        description: err.message || "Ha ocurrido un error inesperado",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

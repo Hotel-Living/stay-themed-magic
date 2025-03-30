@@ -18,7 +18,7 @@ export default function Hotels() {
           </p>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <Card className="glass-card-hover rounded-xl overflow-hidden">
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95]">
               <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Building className="h-6 w-6 text-fuchsia-400" />

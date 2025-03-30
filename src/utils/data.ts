@@ -188,6 +188,7 @@ export const hotels: Hotel[] = [
       "https://placehold.co/600x400/33021f/ffffff.webp?text=Hotel+Image+3"
     ],
     pricePerMonth: 1200,
+    stars: 4,  // Adding stars property
     rating: 4.7,
     reviews: 128,
     themes: [
@@ -212,6 +213,7 @@ export const hotels: Hotel[] = [
       "https://placehold.co/600x400/33021f/ffffff.webp?text=Hotel+Image+3"
     ],
     pricePerMonth: 1500,
+    stars: 3,  // Adding stars property
     rating: 4.5,
     reviews: 92,
     themes: [
@@ -235,6 +237,7 @@ export const hotels: Hotel[] = [
       "https://placehold.co/600x400/33021f/ffffff.webp?text=Hotel+Image+3"
     ],
     pricePerMonth: 1800,
+    stars: 5,  // Adding stars property
     rating: 4.8,
     reviews: 154,
     themes: [
@@ -259,6 +262,7 @@ export const hotels: Hotel[] = [
       "https://placehold.co/600x400/33021f/ffffff.webp?text=Hotel+Image+3"
     ],
     pricePerMonth: 2200,
+    stars: 5,  // Adding stars property
     rating: 4.9,
     reviews: 201,
     themes: [

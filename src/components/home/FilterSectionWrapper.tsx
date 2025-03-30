@@ -1,5 +1,5 @@
 
-import { FilterSection, FilterState } from "@/components/FilterSection";
+import { FilterSection, FilterState } from "@/components/filters";
 import { Theme } from "@/utils/themes"; // Updated import for Theme type
 
 interface FilterSectionWrapperProps {

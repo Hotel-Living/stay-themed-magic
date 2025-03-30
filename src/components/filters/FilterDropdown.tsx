@@ -16,7 +16,7 @@ interface FilterDropdownProps {
   filterBgColor: string;
   compactSpacing: boolean;
   useBoldLabels: boolean;
-  renderOptions: (type: keyof FilterState) => React.ReactNode;
+  renderOptions: (type: keyof FilterState, props?: any) => React.ReactNode;
 }
 
 export const FilterDropdown = ({
@@ -68,6 +68,26 @@ export const FilterDropdown = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [toggleOpen]);
+
+  useEffect(() => {
+    const handleFilterUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
+      if (customEvent.detail.key === type) {
+        onChange(customEvent.detail.key, customEvent.detail.value);
+      }
+    };
+
+    const dropdownContainer = dropdownRef.current;
+    if (dropdownContainer) {
+      dropdownContainer.addEventListener('filter:update', handleFilterUpdate as EventListener);
+    }
+
+    return () => {
+      if (dropdownContainer) {
+        dropdownContainer.removeEventListener('filter:update', handleFilterUpdate as EventListener);
+      }
+    };
+  }, [onChange, type]);
 
   return (
     <div ref={dropdownRef} className="filter-dropdown relative flex-1 min-w-[160px]">

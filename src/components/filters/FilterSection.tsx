@@ -1,12 +1,12 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
-import { Theme } from "@/utils/themes";
 import { FilterState, FilterSectionProps } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
-import { ThemeOptions } from "./ThemeOptions";
-import { months, availableCountries, priceRanges } from "./FilterUtils";
+import { FilterButton } from "./FilterButton";
+import { FilterContainer } from "./FilterContainer";
+import { availableCountries, months, priceRanges } from "./FilterUtils";
+import { renderDropdownOptions } from "./FilterDropdownOptions";
 
 export const FilterSection = ({ 
   onFilterChange, 
@@ -94,158 +94,92 @@ export const FilterSection = ({
   const searchBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]' : 'bg-fuchsia-600';
   const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#4a1166]' : 'hover:bg-fuchsia-500';
   
-  // Render dropdown options based on filter type
-  const renderDropdownOptions = (type: keyof FilterState) => {
-    switch (type) {
-      case 'country':
-        return availableCountries.map(country => (
-          <button
-            key={country.value}
-            onClick={() => updateFilter("country", country.value)}
-            className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-              filters.country === country.value
-                ? "bg-fuchsia-500/20 text-white"
-                : "hover:bg-fuchsia-900/40"
-            }`}
-          >
-            {country.label}
-          </button>
-        ));
-        
-      case 'month':
-        return (
-          <div className="grid grid-cols-2">
-            {months.map(month => (
-              <button
-                key={month}
-                onClick={() => updateFilter("month", month)}
-                className={`text-left px-3 py-2 rounded-md text-sm transition-colors capitalize ${
-                  filters.month === month
-                    ? "bg-fuchsia-500/20 text-white"
-                    : "hover:bg-fuchsia-900/40"
-                }`}
-              >
-                {month}
-              </button>
-            ))}
-          </div>
-        );
-        
-      case 'theme':
-        return (
-          <ThemeOptions
-            themeQuery={themeQuery}
-            setThemeQuery={setThemeQuery}
-            activeTheme={filters.theme}
-            updateFilter={updateFilter}
-            useCollapsibleThemes={useCollapsibleThemes}
-            openThemeCategory={openThemeCategory}
-            toggleThemeCategory={toggleThemeCategory}
-          />
-        );
-        
-      case 'priceRange':
-        return priceRanges.map(price => (
-          <button
-            key={price.value}
-            onClick={() => updateFilter("priceRange", price.value)}
-            className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-              filters.priceRange === price.value
-                ? "bg-fuchsia-500/20 text-white"
-                : "hover:bg-fuchsia-900/40"
-            }`}
-          >
-            {price.label}
-          </button>
-        ));
-        
-      default:
-        return null;
-    }
-  };
-  
   return (
-    <div className={`glass-card filter-dropdown-container rounded-xl ${compactSpacing ? 'p-3 md:p-4' : 'p-4 md:p-5'} ${formWrapperBgColor}`}>
-      <div className={`flex ${verticalLayout ? "flex-col space-y-3" : expandedLayout ? "flex-row gap-3 w-full" : "flex-wrap gap-3"} ${compactSpacing ? 'gap-2' : ''}`}>
-        <FilterDropdown
-          type="country"
-          label={placeholders.country || "Country"}
-          value={filters.country}
-          options={availableCountries}
-          onChange={updateFilter}
-          onClear={clearFilter}
-          isOpen={openDropdown === "country"}
-          toggleOpen={toggleDropdown}
-          filterBgColor={filterBgColor}
-          compactSpacing={compactSpacing}
-          useBoldLabels={useBoldLabels}
-          renderOptions={renderDropdownOptions}
-        />
-        
-        <FilterDropdown
-          type="month"
-          label={placeholders.month || "Month"}
-          value={filters.month}
-          options={months}
-          onChange={updateFilter}
-          onClear={clearFilter}
-          isOpen={openDropdown === "month"}
-          toggleOpen={toggleDropdown}
-          filterBgColor={filterBgColor}
-          compactSpacing={compactSpacing}
-          useBoldLabels={useBoldLabels}
-          renderOptions={renderDropdownOptions}
-        />
-        
-        <FilterDropdown
-          type="theme"
-          label={placeholders.theme || "Theme"}
-          value={filters.theme}
-          options={[]}
-          onChange={updateFilter}
-          onClear={clearFilter}
-          isOpen={openDropdown === "theme"}
-          toggleOpen={toggleDropdown}
-          filterBgColor={filterBgColor}
-          compactSpacing={compactSpacing}
-          useBoldLabels={useBoldLabels}
-          renderOptions={renderDropdownOptions}
-        />
-        
-        <FilterDropdown
-          type="priceRange"
-          label={placeholders.priceRange || "Price per Month"}
-          value={filters.priceRange}
-          options={priceRanges}
-          onChange={updateFilter}
-          onClear={clearFilter}
-          isOpen={openDropdown === "price"}
-          toggleOpen={toggleDropdown}
-          filterBgColor={filterBgColor}
-          compactSpacing={compactSpacing}
-          useBoldLabels={useBoldLabels}
-          renderOptions={renderDropdownOptions}
-        />
-      </div>
+    <FilterContainer
+      verticalLayout={verticalLayout}
+      expandedLayout={expandedLayout}
+      compactSpacing={compactSpacing}
+      formWrapperBgColor={formWrapperBgColor}
+    >
+      <FilterDropdown
+        type="country"
+        label={placeholders.country || "Country"}
+        value={filters.country}
+        options={availableCountries}
+        onChange={updateFilter}
+        onClear={clearFilter}
+        isOpen={openDropdown === "country"}
+        toggleOpen={toggleDropdown}
+        filterBgColor={filterBgColor}
+        compactSpacing={compactSpacing}
+        useBoldLabels={useBoldLabels}
+        renderOptions={renderDropdownOptions}
+      />
+      
+      <FilterDropdown
+        type="month"
+        label={placeholders.month || "Month"}
+        value={filters.month}
+        options={months}
+        onChange={updateFilter}
+        onClear={clearFilter}
+        isOpen={openDropdown === "month"}
+        toggleOpen={toggleDropdown}
+        filterBgColor={filterBgColor}
+        compactSpacing={compactSpacing}
+        useBoldLabels={useBoldLabels}
+        renderOptions={renderDropdownOptions}
+      />
+      
+      <FilterDropdown
+        type="theme"
+        label={placeholders.theme || "Theme"}
+        value={filters.theme}
+        options={[]}
+        onChange={updateFilter}
+        onClear={clearFilter}
+        isOpen={openDropdown === "theme"}
+        toggleOpen={toggleDropdown}
+        filterBgColor={filterBgColor}
+        compactSpacing={compactSpacing}
+        useBoldLabels={useBoldLabels}
+        renderOptions={(type) => renderDropdownOptions(type, {
+          filters,
+          updateFilter,
+          themeQuery,
+          setThemeQuery,
+          useCollapsibleThemes,
+          openThemeCategory,
+          toggleThemeCategory
+        })}
+      />
+      
+      <FilterDropdown
+        type="priceRange"
+        label={placeholders.priceRange || "Price per Month"}
+        value={filters.priceRange}
+        options={priceRanges}
+        onChange={updateFilter}
+        onClear={clearFilter}
+        isOpen={openDropdown === "price"}
+        toggleOpen={toggleDropdown}
+        filterBgColor={filterBgColor}
+        compactSpacing={compactSpacing}
+        useBoldLabels={useBoldLabels}
+        renderOptions={renderDropdownOptions}
+      />
       
       {(showSearchButton || verticalLayout) && (
-        <div className={`flex ${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} gap-2`}>
-          {hasActiveFilters() && (
-            <button
-              onClick={clearAllFilters}
-              className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors"
-            >
-              Clear All
-            </button>
-          )}
-          <button
-            onClick={handleSearch}
-            className={`flex-1 px-4 py-2 rounded-lg ${searchBgColor} text-white ${searchHoverBgColor} text-sm font-medium transition-colors flex items-center justify-center`}
-          >
-            <Search className="w-4 h-4 mr-2" /> Search
-          </button>
+        <div className={`${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} w-full`}>
+          <FilterButton
+            hasActiveFilters={hasActiveFilters()}
+            onClearAllFilters={clearAllFilters}
+            onSearch={handleSearch}
+            searchBgColor={searchBgColor}
+            searchHoverBgColor={searchHoverBgColor}
+          />
         </div>
       )}
-    </div>
+    </FilterContainer>
   );
 };

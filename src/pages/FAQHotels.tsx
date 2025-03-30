@@ -101,7 +101,7 @@ export default function FAQHotels() {
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
                       <AccordionTrigger className="px-4 py-3 text-left hover:no-underline">
-                        <h2 className="font-semibold">{faq.question}</h2>
+                        <h2 className="font-semibold text-[#f9d3f6]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
                         <p className="text-[#f1b4f8]">{faq.answer}</p>

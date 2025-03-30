@@ -37,7 +37,8 @@ const extractAllThemes = () => {
                 allThemes.push(option.name);
                 
                 // Add suboptions if they exist
-                if (option.suboptions) {
+                // Type check to make sure the 'suboptions' property exists before accessing it
+                if ('suboptions' in option && option.suboptions) {
                   option.suboptions.forEach(suboption => {
                     allThemes.push(suboption);
                   });

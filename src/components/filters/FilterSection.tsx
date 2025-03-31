@@ -17,6 +17,7 @@ export const FilterSection = ({
   compactSpacing = false,
   useBoldLabels = false,
   usePurpleFilterBackground = false,
+  fullHeightDropdowns = false,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -113,6 +114,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        fullHeightDropdowns={fullHeightDropdowns}
         renderOptions={renderDropdownOptions}
       />
       
@@ -128,6 +130,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        fullHeightDropdowns={fullHeightDropdowns}
         renderOptions={renderDropdownOptions}
       />
       
@@ -143,6 +146,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        fullHeightDropdowns={fullHeightDropdowns}
         renderOptions={(type) => renderDropdownOptions(type, {
           filters,
           updateFilter,
@@ -166,6 +170,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        fullHeightDropdowns={fullHeightDropdowns}
         renderOptions={renderDropdownOptions}
       />
       

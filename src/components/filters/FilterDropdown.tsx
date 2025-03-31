@@ -16,6 +16,7 @@ interface FilterDropdownProps {
   filterBgColor: string;
   compactSpacing: boolean;
   useBoldLabels: boolean;
+  fullHeightDropdowns?: boolean;
   renderOptions: (type: keyof FilterState, props?: any) => React.ReactNode;
 }
 
@@ -31,6 +32,7 @@ export const FilterDropdown = ({
   filterBgColor,
   compactSpacing,
   useBoldLabels,
+  fullHeightDropdowns = false,
   renderOptions
 }: FilterDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -89,8 +91,11 @@ export const FilterDropdown = ({
     };
   }, [onChange, type]);
 
+  // Calculate the maximum height for the dropdown content
+  const dropdownMaxHeight = fullHeightDropdowns ? 'max-h-[400px]' : 'max-h-60';
+
   return (
-    <div ref={dropdownRef} className="filter-dropdown relative flex-1 min-w-[160px]">
+    <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]">
       <button
         onClick={() => toggleOpen(type)}
         className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-2 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-1.5' : ''}`}
@@ -119,7 +124,7 @@ export const FilterDropdown = ({
       </button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-60 overflow-y-auto">
+        <div className={`absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-50 ${dropdownMaxHeight} overflow-y-auto`}>
           {renderOptions(type)}
         </div>
       )}

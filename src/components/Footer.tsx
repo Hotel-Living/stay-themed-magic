@@ -1,8 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
-
 export function Footer() {
   return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8]">
       <div className="container max-w-6xl mx-auto">
@@ -49,7 +47,7 @@ export function Footer() {
         <Separator className="bg-white/40 mb-2" />
         
         <div className="text-center text-xs text-white/80">
-          <p className="mb-2">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
+          <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
         </div>
       </div>
     </footer>;

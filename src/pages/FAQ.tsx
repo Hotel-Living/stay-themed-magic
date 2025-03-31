@@ -18,8 +18,8 @@ export default function FAQ() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient text-[#c360f4]">Frequently Asked Questions</h1>
-          <p className="text-lg text-center mb-12 text-[#cf92ec] font-medium">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient text-[#eedbf7]">Frequently Asked Questions</h1>
+          <p className="text-lg text-center mb-12 font-medium text-[#e3d6e9]">
             Choose the FAQ category relevant to you
           </p>
           

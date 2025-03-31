@@ -89,10 +89,25 @@ export const FilterDropdown = ({
     };
   }, [onChange, type]);
 
+  const handleToggleOpen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleOpen(type);
+  };
+
+  const handleClearClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClear(type);
+  };
+
+  // Prevent the dropdown from closing when clicking inside the content
+  const handleDropdownContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div ref={dropdownRef} className="filter-dropdown relative flex-1 min-w-[160px]">
+    <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]">
       <button
-        onClick={() => toggleOpen(type)}
+        onClick={handleToggleOpen}
         className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-2 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-1.5' : ''}`}
       >
         <div className="flex items-center">
@@ -102,10 +117,7 @@ export const FilterDropdown = ({
                 {getDisplayLabel()}
               </span>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClear(type);
-                }}
+                onClick={handleClearClick}
                 className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -119,7 +131,10 @@ export const FilterDropdown = ({
       </button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-60 overflow-y-auto">
+        <div 
+          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-60 overflow-y-auto"
+          onClick={handleDropdownContentClick}
+        >
           {renderOptions(type)}
         </div>
       )}

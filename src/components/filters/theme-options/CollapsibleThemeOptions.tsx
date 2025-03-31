@@ -82,31 +82,31 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
       };
     };
 
-    // Filter categories while maintaining the expected structure
+    // Create a deep copy of the themeCategories structure to modify
     const filtered = themeCategories
       .map(category => {
-        // Filter direct themes in category
-        const filteredThemes = category.themes 
-          ? category.themes.filter(themeMatches) 
-          : [];
+        // Create a new category object with the same structure
+        const newCategory = { ...category };
         
-        // Filter subcategories
-        const filteredSubcategories = category.subcategories 
-          ? category.subcategories
-              .map(filterSubcategoryThemes)
-              .filter(subcategory => subcategory.hasMatches)
-          : [];
+        // If the category has themes, filter them
+        if (newCategory.themes) {
+          newCategory.themes = newCategory.themes.filter(themeMatches);
+        }
         
-        // Ensure we maintain the exact structure as in themeCategories
+        // If the category has subcategories, filter them
+        if (newCategory.subcategories) {
+          newCategory.subcategories = newCategory.subcategories
+            .map(filterSubcategoryThemes)
+            .filter(subcategory => subcategory.hasMatches);
+        }
+        
+        // Check if this category has any matches
+        const hasThemeMatches = newCategory.themes && newCategory.themes.length > 0;
+        const hasSubcategoryMatches = newCategory.subcategories && newCategory.subcategories.length > 0;
+        
         return {
-          category: category.category,
-          subcategories: category.subcategories 
-            ? filteredSubcategories 
-            : undefined,
-          themes: category.themes 
-            ? filteredThemes 
-            : undefined,
-          hasMatches: filteredThemes.length > 0 || filteredSubcategories.length > 0
+          ...newCategory,
+          hasMatches: hasThemeMatches || hasSubcategoryMatches
         };
       })
       .filter(category => category.hasMatches);

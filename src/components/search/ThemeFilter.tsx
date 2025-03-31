@@ -22,9 +22,14 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
     onChange(value);
   };
 
+  // Prevent dropdown from closing when clicking inside
+  const handleContainerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <FilterItem title="THEME">
-      <div className="bg-fuchsia-950/30 rounded-lg p-2">
+      <div className="bg-fuchsia-950/30 rounded-lg p-2" onClick={handleContainerClick}>
         <ThemeSearchInput 
           themeQuery={themeQuery}
           setThemeQuery={setThemeQuery}

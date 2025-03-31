@@ -1,6 +1,4 @@
-
 import { Check } from "lucide-react";
-
 export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-16">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
@@ -19,7 +17,7 @@ export function HeroSection() {
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-left font-medium text-sm">{slogan}</p>
+                <p className="text-left font-medium text-sm text-[#5d0478]">{slogan}</p>
               </div>)}
           </div>
           

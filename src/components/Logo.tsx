@@ -9,7 +9,7 @@ export function Logo({ className }: { className?: string }) {
     >
       <div className="flex items-center gap-2">
         <img 
-          src="/lovable-uploads/2b7ba670-5b90-4de2-b91f-e2a999c06b30.png" 
+          src="/lovable-uploads/6a8f03bf-4d50-4216-8288-cb10fe973731.png" 
           alt="Hotel-Living Logo"
           className="h-12"
         />

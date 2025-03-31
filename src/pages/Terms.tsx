@@ -62,7 +62,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">OUR VALUES</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#f6e7f8]">OUR VALUES</h3>
               <p className="mb-4">
                 You agree to:
               </p>
@@ -77,7 +77,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">PRICES</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#e2dce2]">PRICES</h3>
               <p className="mb-4">
                 When you make a Reservation, you agree to pay the cost of the Travel Experience, including all applicable charges and taxes.
               </p>
@@ -93,7 +93,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">PAYMENT</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#efe6ef]">PAYMENT</h3>
               <p className="mb-4">
                 We are responsible for charging you a non-refundable deposit for your reservation. We (or, sometimes, our affiliate in the country of origin of the payment) will be responsible for managing the payment and ensuring that the transaction with the Service Provider is completed.
               </p>
@@ -113,7 +113,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">CONDITIONS</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#faeefb]">CONDITIONS</h3>
               <p className="mb-4">
                 When you make a Reservation, you are accepting the applicable conditions shown during the booking process. You will find the Service Providers' cancellation conditions, as well as any other conditions (age requirements, damage/security deposits, additional supplements for group Reservations, extra beds, breakfast, pets, accepted cards, etc.), on our Platform: on the Service Provider's information page, during the booking process, in the "Please note" section and/or in the confirmation email or ticket (if applicable).
               </p>
@@ -132,14 +132,14 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">PRIVACY AND COOKIES</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#f2e1f4]">PRIVACY AND COOKIES</h3>
               <p className="mb-4">
                 If you book accommodation, a flight, or a tourist attraction, consult our Privacy and Cookies Policy for more information about privacy, cookies, and how we can contact you and process your personal data.
               </p>
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">ACCESSIBILITY REQUESTS</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#eae2eb]">ACCESSIBILITY REQUESTS</h3>
               <p className="mb-4">
                 If you have any accessibility requests:
               </p>
@@ -150,7 +150,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">INTELLECTUAL PROPERTY RIGHTS</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#f6e5f8]">INTELLECTUAL PROPERTY RIGHTS</h3>
               <p className="mb-4">
                 Unless otherwise indicated, all rights to our Platform (technology, content, trademarks, appearance, etc.) are owned by Hotel-Living.com (or its licensors) and, by using our Platform, you agree to do so only for the intended purpose and respecting the conditions established below in paragraphs A14.2 and A14.3.
               </p>
@@ -182,7 +182,7 @@ export default function Terms() {
             </section>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">DICTIONARY</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#e9e1ea]">DICTIONARY</h3>
               <p className="mb-4">
                 "Account" refers to an account (with Hotel-Living.com or a Group Company), through which you can book Travel Experiences on our Platform.
               </p>

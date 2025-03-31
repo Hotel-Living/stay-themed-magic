@@ -93,7 +93,7 @@ export default function DashboardLayout({
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
                 
                 
-                <nav className="p-2">
+                <nav className="p-2 bg-[#4d044e]">
                   {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
                       {tab.icon}
                       {tab.label}
@@ -120,7 +120,7 @@ export default function DashboardLayout({
                 <p className="text-sm text-foreground/80 mb-4">
                   Our support team is available 24/7 to assist you with any questions.
                 </p>
-                <button className="w-full py-2 rounded-lg bg-[#5A1876]/20 hover:bg-[#5A1876]/30 text-fuchsia-200 text-sm font-medium transition-colors">
+                <button className="w-full py-2 rounded-lg text-fuchsia-200 text-sm font-medium transition-colors bg-[#4c024d]">
                   Contact Support
                 </button>
               </div>

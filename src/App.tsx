@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
+import { AuthProvider } from './context/auth/AuthProvider';
 
 import Index from './pages/Index';
 import Login from './pages/Login';
@@ -29,7 +30,6 @@ import CustomerService from './pages/CustomerService';
 import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import AuthProvider from './context/auth/AuthProvider';
 
 const queryClient = new QueryClient();
 
@@ -38,10 +38,10 @@ function App() {
     <div className="min-h-screen">
       <Starfield />
       <div className="relative z-10">
-        <BrowserRouter>
-          <AuthProvider>
-            <QueryClientProvider client={queryClient}>
-              <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <BrowserRouter>
+              <AuthProvider>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/login" element={<Login />} />
@@ -70,10 +70,10 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Toaster />
-              </ThemeProvider>
-            </QueryClientProvider>
-          </AuthProvider>
-        </BrowserRouter>
+              </AuthProvider>
+            </BrowserRouter>
+          </ThemeProvider>
+        </QueryClientProvider>
       </div>
     </div>
   );

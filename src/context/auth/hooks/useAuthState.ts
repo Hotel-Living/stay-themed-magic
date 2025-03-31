@@ -75,11 +75,9 @@ export function useAuthState() {
 
   return {
     user,
-    setUser,
     profile,
     setProfile,
     session,
-    setSession,
     isLoading,
     setIsLoading
   };

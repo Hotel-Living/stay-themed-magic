@@ -1,10 +1,7 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-
 export default function IntellectualProperty() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-20 pb-16">
@@ -37,15 +34,12 @@ export default function IntellectualProperty() {
               </p>
               
               <h2 className="text-xl font-semibold mt-8 mb-4">Contact Information</h2>
-              <p>
-                For inquiries regarding intellectual property rights, permissions, or franchising opportunities, please contact our legal department at legal@hotel-living.com.
-              </p>
+              <p>For inquiries regarding intellectual property rights, permissions, or franchising opportunities, please find below our page ¨Intelectual Property¨.</p>
             </div>
           </div>
         </div>
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

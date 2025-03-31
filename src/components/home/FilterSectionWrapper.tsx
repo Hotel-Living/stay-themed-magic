@@ -66,33 +66,35 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
   const allPropertyThemes = extractAllThemes();
   
   return (
-    <section className="py-0 px-4 mb-32 mt-24">
+    <section className="py-0 px-4 mb-32 mt-12">
       <div className="container max-w-6xl mx-auto">
-        <FilterSection 
-          onFilterChange={onFilterChange} 
-          showSearchButton={false}
-          placeholders={{
-            month: "Month?",
-            country: "Country?",
-            theme: "Theme?",
-            priceRange: "Price per Month?"
-          }}
-          useCollapsibleThemes={true}
-          expandedLayout={true}
-          compactSpacing={true}
-          useBoldLabels={true}
-          usePurpleFilterBackground={true}
-          availableThemes={allPropertyThemes}
-        />
-        
-        <div className="flex justify-center mt-0">
-          <Button 
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-3.5"
-            size="lg"
-          >
-            <Search className="w-5 h-5 mr-2" />
-            Search
-          </Button>
+        <div className="bg-[#C026D3] rounded-lg p-4">
+          <FilterSection 
+            onFilterChange={onFilterChange} 
+            showSearchButton={false}
+            placeholders={{
+              month: "Month?",
+              country: "Country?",
+              theme: "Theme?",
+              priceRange: "Price per Month?"
+            }}
+            useCollapsibleThemes={true}
+            expandedLayout={true}
+            compactSpacing={true}
+            useBoldLabels={true}
+            usePurpleFilterBackground={true}
+            availableThemes={allPropertyThemes}
+          />
+          
+          <div className="flex justify-center mt-0">
+            <Button 
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-3.5"
+              size="lg"
+            >
+              <Search className="w-5 h-5 mr-2" />
+              Search
+            </Button>
+          </div>
         </div>
       </div>
     </section>

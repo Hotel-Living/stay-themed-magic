@@ -83,26 +83,33 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
     };
 
     // Filter categories while maintaining the expected structure
-    const filtered = themeCategories.map(category => {
-      // Filter direct themes in category
-      const filteredThemes = category.themes 
-        ? category.themes.filter(themeMatches) 
-        : [];
-      
-      // Filter subcategories
-      const filteredSubcategories = category.subcategories 
-        ? category.subcategories
-            .map(filterSubcategoryThemes)
-            .filter(subcategory => subcategory.hasMatches)
-        : [];
-      
-      return {
-        category: category.category,
-        themes: filteredThemes,
-        subcategories: filteredSubcategories,
-        hasMatches: filteredThemes.length > 0 || filteredSubcategories.length > 0
-      };
-    }).filter(category => category.hasMatches);
+    const filtered = themeCategories
+      .map(category => {
+        // Filter direct themes in category
+        const filteredThemes = category.themes 
+          ? category.themes.filter(themeMatches) 
+          : [];
+        
+        // Filter subcategories
+        const filteredSubcategories = category.subcategories 
+          ? category.subcategories
+              .map(filterSubcategoryThemes)
+              .filter(subcategory => subcategory.hasMatches)
+          : [];
+        
+        // Ensure we maintain the exact structure as in themeCategories
+        return {
+          category: category.category,
+          subcategories: category.subcategories 
+            ? filteredSubcategories 
+            : undefined,
+          themes: category.themes 
+            ? filteredThemes 
+            : undefined,
+          hasMatches: filteredThemes.length > 0 || filteredSubcategories.length > 0
+        };
+      })
+      .filter(category => category.hasMatches);
     
     setFilteredCategories(filtered);
     

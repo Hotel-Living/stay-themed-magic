@@ -103,7 +103,7 @@ export default function FAQHotels() {
             {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => <TabsContent key={category.id} value={category.id} className="hotel-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#860493]">
+                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#71037c]">
                         <h2 className="font-semibold text-[#f9d3f6]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">

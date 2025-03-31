@@ -120,7 +120,7 @@ export default function DashboardLayout({
                 <p className="text-sm text-foreground/80 mb-4">
                   Our support team is available 24/7 to assist you with any questions.
                 </p>
-                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors bg-[#4c024d] text-slate-50">
+                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-slate-50 bg-[#770477]">
                   Contact Support
                 </button>
               </div>

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Eye, EyeOff, Lock, Mail, Building } from "lucide-react";
@@ -17,7 +17,6 @@ export default function HotelLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, isLoading } = useAuth();
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +34,8 @@ export default function HotelLogin() {
     await signIn(email, password);
     // Redirection is handled in AuthContext after profile is fetched
   };
+
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -82,7 +83,7 @@ export default function HotelLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 showPassword={showPassword}
-                toggleShowPassword={() => setShowPassword(!showPassword)}
+                toggleShowPassword={toggleShowPassword}
               />
               
               <div className="flex items-center justify-between">
@@ -96,10 +97,7 @@ export default function HotelLogin() {
                     Remember me
                   </label>
                 </div>
-                <Link 
-                  to="/forgot-password" 
-                  className="text-xs text-fuchsia-400 hover:text-fuchsia-300 transition"
-                >
+                <Link to="/forgot-password" className="text-xs text-fuchsia-400 hover:text-fuchsia-300 transition">
                   Forgot password?
                 </Link>
               </div>

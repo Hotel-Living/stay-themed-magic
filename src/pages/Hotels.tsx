@@ -1,16 +1,13 @@
-
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building } from "lucide-react";
-
+import { Users, Building } from "lucide-react";
 export default function Hotels() {
   const navigate = useNavigate();
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
@@ -27,9 +24,12 @@ export default function Hotels() {
                   <Building className="h-6 w-6 text-fuchsia-400" />
                 </div>
                 <CardTitle className="text-xl text-center">Existing Partners</CardTitle>
+                <CardDescription className="text-center">
+                  Access your hotel dashboard to manage your property
+                </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-6">
-                <Button onClick={() => navigate("/hotel-login")} className="text-white font-medium bg-[#860493] hover:bg-fuchsia-700">
+                <Button onClick={() => navigate("/hotel-login")} className="text-white font-medium bg-[#860493]">
                   Hotel Partner Login
                 </Button>
               </CardContent>
@@ -41,9 +41,12 @@ export default function Hotels() {
                   <Building className="h-6 w-6 text-fuchsia-400" />
                 </div>
                 <CardTitle className="text-xl text-center">New Partners</CardTitle>
+                <CardDescription className="text-center">
+                  Register your property to join our global network
+                </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-6">
-                <Button onClick={() => navigate("/hotel-signup")} className="text-white font-medium bg-[#860493] hover:bg-fuchsia-700">
+                <Button onClick={() => navigate("/hotel-signup")} className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium">
                   Register as Hotel Partner
                 </Button>
               </CardContent>
@@ -67,19 +70,14 @@ export default function Hotels() {
               </div>
             </div>
             <div className="mt-8">
-              <Button 
-                onClick={() => navigate("/faq-hotels")} 
-                variant="link" 
-                className="text-fuchsia-400 hover:text-fuchsia-300 underline"
-              >
+              <Link to="/faq-hotels" className="text-fuchsia-400 hover:text-fuchsia-300 underline">
                 Learn more about becoming a Hotel Partner
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

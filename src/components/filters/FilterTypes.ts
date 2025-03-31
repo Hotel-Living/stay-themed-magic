@@ -1,15 +1,19 @@
 
-import { ReactNode } from "react";
 import { Theme } from "@/utils/themes";
 
+// Update FilterState interface to match what's being used
 export interface FilterState {
-  country?: string | null;
-  month?: string | null;
-  theme?: Theme | null;
-  priceRange?: number | { min: number; max: number } | null;
   themes?: string[];
   amenities?: string[];
+  priceRange?: { min: number; max: number } | number | null;
   rating?: number;
+  searchTerm?: string;
+  theme?: Theme | null;
+  minPrice?: number;
+  maxPrice?: number;
+  stars?: number[];
+  country?: string | null;
+  month?: string | null;
 }
 
 export interface FilterSectionProps {
@@ -21,7 +25,6 @@ export interface FilterSectionProps {
   compactSpacing?: boolean;
   useBoldLabels?: boolean;
   usePurpleFilterBackground?: boolean;
-  fullHeightDropdowns?: boolean; // Added new prop
   placeholders?: {
     country?: string;
     month?: string;
@@ -30,21 +33,3 @@ export interface FilterSectionProps {
   };
   availableThemes?: string[];
 }
-
-export interface FilterContainerProps {
-  children: ReactNode;
-  verticalLayout?: boolean;
-  expandedLayout?: boolean;
-  compactSpacing?: boolean;
-  formWrapperBgColor?: string;
-}
-
-export interface FilterButtonProps {
-  hasActiveFilters: boolean;
-  onClearAllFilters: () => void;
-  onSearch: () => void;
-  searchBgColor?: string;
-  searchHoverBgColor?: string;
-}
-
-// Add any additional types needed for the filters

@@ -43,7 +43,9 @@ export default function HotelPartnerAgreement() {
               
               <h3>2. PARTNER OBLIGATIONS</h3>
               
-              <p>As a Hotel Partner, you agree to:</p>
+              <p>As a Hotel Partner, you agree to:
+
+            </p>
               
               <ol type="a">
                 <li>Maintain the quality standards required by the Company</li>
@@ -73,12 +75,15 @@ export default function HotelPartnerAgreement() {
               </p>
               
               <p>
-                <strong>Cancellation Policy:</strong> Standard cancellations made 30+ days before arrival receive 
+                <strong>
+Cancellation Policy:</strong> Standard cancellations made 30+ days before arrival receive 
                 a full refund. Cancellations within 30 days are subject to your property's cancellation policy, 
                 which must be clearly communicated during registration.
               </p>
               
-              <h3>4. THEME IMPLEMENTATION</h3>
+              <h3>
+
+4. THEME IMPLEMENTATION</h3>
               
               <p>
                 Partners must implement at least one approved theme from our selection. Each theme requires:
@@ -112,7 +117,9 @@ export default function HotelPartnerAgreement() {
                 maintain quality standards or violates guest trust.
               </p>
               
-              <h3>6. ADDITIONAL TERMS</h3>
+              <h3>
+
+6. ADDITIONAL TERMS</h3>
               
               <p>
                 <strong>Intellectual Property:</strong> The Company owns all intellectual property related to the 

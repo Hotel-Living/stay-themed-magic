@@ -46,6 +46,12 @@ export const AlphabeticalThemeList = ({
     setDisplayCount(prev => prev + 10);
   };
   
+  const handleThemeClick = (e: React.MouseEvent, theme: Theme) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onChange(theme);
+  };
+  
   const visibleThemes = filteredThemes.slice(0, displayCount);
   const hasMoreThemes = displayCount < filteredThemes.length;
   
@@ -62,10 +68,7 @@ export const AlphabeticalThemeList = ({
               key={theme.id}
               theme={theme}
               isActive={activeTheme?.id === theme.id}
-              onClick={(e) => {
-                e.stopPropagation();
-                onChange(theme);
-              }}
+              onClick={(e) => handleThemeClick(e, theme)}
             />
           ))}
           

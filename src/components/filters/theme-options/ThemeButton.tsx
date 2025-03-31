@@ -6,7 +6,7 @@ import { Theme } from "@/utils/themes";
 interface ThemeButtonProps {
   theme: Theme;
   isActive: boolean;
-  onClick: () => void;
+  onClick: (e?: React.MouseEvent) => void;
   variant?: "default" | "submenu";
 }
 

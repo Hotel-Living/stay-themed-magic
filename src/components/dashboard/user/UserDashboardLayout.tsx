@@ -25,6 +25,9 @@ export default function UserDashboardLayout({
   const { toast } = useToast();
   const navigate = useNavigate();
   
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   // Use profile data or fallback to defaults
   const userName = profile?.first_name && profile?.last_name 
     ? `${profile.first_name} ${profile.last_name}`
@@ -37,19 +40,25 @@ export default function UserDashboardLayout({
   
   // Check if user is a hotel owner and redirect if necessary
   useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
     if (profile && profile.is_hotel_owner === true) {
       console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
       navigate('/hotel-dashboard');
     }
-  }, [profile, navigate]);
+  }, [profile, navigate, isDevelopment]);
 
   // Check if user is authenticated
   useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
     if (!user && !session) {
       console.log("No user detected in dashboard, redirecting to login");
       navigate('/login');
     }
-  }, [user, session, navigate]);
+  }, [user, session, navigate, isDevelopment]);
 
   const handleLogout = async () => {
     try {

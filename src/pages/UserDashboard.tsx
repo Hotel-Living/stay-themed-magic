@@ -19,9 +19,34 @@ import PaymentsContent from "@/components/dashboard/user/tabs/PaymentsContent";
 import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
 import SettingsContent from "@/components/dashboard/user/tabs/SettingsContent";
 import { DashboardTab } from "@/types/dashboard";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const { user, profile, session } = useAuth();
+  const navigate = useNavigate();
+  
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  // Check if user is authenticated and is not a hotel owner
+  useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
+    if (!user || !session) {
+      console.log("No authenticated user detected in user dashboard");
+      navigate('/login');
+      return;
+    }
+    
+    if (profile && profile.is_hotel_owner === true) {
+      console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
+      navigate('/hotel-dashboard');
+    }
+  }, [user, profile, session, navigate, isDevelopment]);
   
   const tabs: DashboardTab[] = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },

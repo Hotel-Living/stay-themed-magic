@@ -25,13 +25,19 @@ export default function DashboardLayout({
   const { toast } = useToast();
   const navigate = useNavigate();
   
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
   // Check if user is authenticated
   useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
     if (!user || !session) {
       console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
       window.location.href = "/login";
     }
-  }, [user, session]);
+  }, [user, session, isDevelopment]);
   
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name 
@@ -71,8 +77,8 @@ export default function DashboardLayout({
     }
   };
 
-  // If not authenticated, don't render anything
-  if (!user || !session) {
+  // If not authenticated and not in development mode, don't render anything
+  if (!user && !session && !isDevelopment) {
     return null;
   }
 

@@ -15,8 +15,17 @@ export default function HotelDashboard() {
   const { user, profile, session } = useAuth();
   const navigate = useNavigate();
   
+  // For development purposes - allow access to the dashboard without authentication
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  // Get dashboard tabs configuration
+  const tabs = getDashboardTabs();
+  
   // Check if user is authenticated and is a hotel owner
   useEffect(() => {
+    // Skip the auth check in development mode
+    if (isDevelopment) return;
+    
     if (!user || !session) {
       console.log("No authenticated user detected in hotel dashboard");
       // Don't redirect immediately, we'll show a registration prompt instead
@@ -27,13 +36,10 @@ export default function HotelDashboard() {
       console.log("Non-hotel owner detected in hotel dashboard, redirecting to user dashboard");
       navigate('/user-dashboard');
     }
-  }, [user, profile, session, navigate]);
+  }, [user, profile, session, navigate, isDevelopment]);
   
-  // Get dashboard tabs configuration
-  const tabs = getDashboardTabs();
-  
-  // If not authenticated, show registration options
-  if (!user || !session) {
+  // If not authenticated and not in development mode, show registration options
+  if (!user && !session && !isDevelopment) {
     return (
       <div className="min-h-screen flex flex-col">
         <HotelRegistrationPrompt />

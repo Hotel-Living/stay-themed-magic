@@ -62,28 +62,27 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
             <span>{category.category}</span>
             <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
           </CollapsibleTrigger>
-          <CollapsibleContent>
+          <CollapsibleContent className="mt-1">
             {/* If category has subcategories */}
             {category.subcategories ? (
-              <div className="pl-3 space-y-1 mt-1">
+              <div className="pl-3 space-y-1">
                 {category.subcategories.map(subcategory => (
                   <div key={subcategory.name} className="rounded-md">
                     {/* Subcategory header as collapsible */}
                     <Collapsible 
                       open={openSubcategories[subcategory.name] || false}
-                      onOpenChange={() => setOpenSubcategories(prev => ({
-                        ...prev,
-                        [subcategory.name]: !prev[subcategory.name]
-                      }))}
                     >
-                      <CollapsibleTrigger className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium rounded-md hover:bg-fuchsia-900/30">
+                      <CollapsibleTrigger 
+                        className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium rounded-md hover:bg-fuchsia-900/30"
+                        onClick={(e) => toggleSubcategory(subcategory.name, e)}
+                      >
                         <span>{subcategory.name}</span>
                         <ChevronRight className={`h-3 w-3 transform transition-transform ${openSubcategories[subcategory.name] ? 'rotate-90' : ''}`} />
                       </CollapsibleTrigger>
-                      <CollapsibleContent>
+                      <CollapsibleContent className="pt-1">
                         {/* If subcategory has themes */}
                         {subcategory.themes && (
-                          <div className="pl-2 pt-1 space-y-1">
+                          <div className="pl-2 space-y-1">
                             {subcategory.themes.filter(theme => !theme.isAddOption).map(theme => {
                               // Find the corresponding theme in allThemes
                               const fullTheme = allThemes.find(t => t.id === theme.id) || {
@@ -106,22 +105,22 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
                         
                         {/* If subcategory has submenus */}
                         {subcategory.submenus && (
-                          <div className="pl-2 pt-1 space-y-1">
+                          <div className="pl-2 space-y-1">
                             {subcategory.submenus.map(submenu => (
                               <Collapsible 
                                 key={submenu.name}
                                 open={openSubmenus[submenu.name] || false}
-                                onOpenChange={() => setOpenSubmenus(prev => ({
-                                  ...prev,
-                                  [submenu.name]: !prev[submenu.name]
-                                }))}
                               >
-                                <CollapsibleTrigger className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium rounded-md hover:bg-fuchsia-900/20">
+                                <CollapsibleTrigger 
+                                  className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium rounded-md hover:bg-fuchsia-900/20"
+                                  onClick={(e) => toggleSubmenu(submenu.name, e)}
+                                >
                                   <span>{submenu.name}</span>
                                   <ChevronRight className={`h-3 w-3 transform transition-transform ${openSubmenus[submenu.name] ? 'rotate-90' : ''}`} />
                                 </CollapsibleTrigger>
-                                <CollapsibleContent>
-                                  <div className="pl-2 pt-1 space-y-1">
+                                
+                                <CollapsibleContent className="mt-1">
+                                  <div className="pl-2 space-y-1">
                                     {submenu.options.filter(option => !option.isAddOption).map(option => {
                                       // Cast option to ThemeOption to properly type-check
                                       const typedOption = option as ThemeOption;
@@ -181,7 +180,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
               </div>
             ) : (
               /* Direct themes in category */
-              <div className="pl-3 pt-1 space-y-1">
+              <div className="pl-3 space-y-1">
                 {category.themes.filter(theme => !theme.isAddOption).map(theme => {
                   // Find the corresponding theme in allThemes
                   const fullTheme = allThemes.find(t => t.id === theme.id) || {

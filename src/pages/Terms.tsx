@@ -1,20 +1,17 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
-
 export default function Terms() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-20 px-4 text-white">
-        <div className="container max-w-4xl mx-auto py-10">
-          <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
+        <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456]">
+          <h1 className="font-bold mb-6 text-2xl">Terms & Conditions</h1>
           
           <div className="prose prose-invert max-w-none">
-            <h2 className="text-2xl font-semibold mb-4">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
+            <h2 className="font-semibold mb-4 text-xl">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
             <p className="text-sm text-right text-gray-400 mb-6">Updated on 12/11/2024</p>
             
             <p className="mb-4">
@@ -29,7 +26,7 @@ export default function Terms() {
             </ul>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">ABOUT HOTEL-LIVING</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">ABOUT HOTEL-LIVING</h3>
               <p className="mb-4">
                 When you book accommodation, Hotel-Living.com is the provider and responsible for the Platform, but not for the Travel Experience itself (see section A4.4).
               </p>
@@ -258,6 +255,5 @@ export default function Terms() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -6,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Building } from "lucide-react";
-
 export default function Hotels() {
   const navigate = useNavigate();
   return <div className="min-h-screen flex flex-col">
@@ -14,7 +12,7 @@ export default function Hotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient my-0 text-[#ce42dd] text-4xl">Hotel Partner Portal</h1>
+          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient my-0 text-4xl text-[#f1d9f4]">Hotel Partner Portal</h1>
           <p className="text-lg text-center mb-12 text-foreground/90">
             Join our network of themed hotels or access your hotel dashboard
           </p>
@@ -50,7 +48,7 @@ export default function Hotels() {
           </div>
           
           <div className="mt-12 text-center">
-            <h2 className="text-2xl font-bold mb-4 text-gradient text-[#c356fa]">Why Join Hotels Life?</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gradient text-[#ebd4ee]">Why Join Hotels Life?</h2>
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="glass-card p-6 rounded-xl bg-[#6a0a95]">
                 <h3 className="text-lg font-semibold mb-2">100% Occupancy</h3>

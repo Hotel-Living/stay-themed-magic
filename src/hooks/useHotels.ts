@@ -67,7 +67,11 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
         }
 
         if (filters.stars && filters.stars.length > 0) {
-          query = query.in('category', filters.stars);
+          // Convert string array to numbers if needed for the database query
+          const numericStars = filters.stars.map(star => 
+            typeof star === 'string' ? parseInt(star, 10) : star
+          );
+          query = query.in('category', numericStars);
         }
 
         const { data, error: supabaseError } = await query;

@@ -1,4 +1,3 @@
-
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -7,43 +6,44 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-
 interface DashboardLayoutProps {
   children: ReactNode;
   activeTab: string;
   tabs: DashboardTab[];
   setActiveTab: (tab: string) => void;
 }
-
 export default function DashboardLayout({
   children,
   activeTab,
   tabs,
-  setActiveTab,
+  setActiveTab
 }: DashboardLayoutProps) {
-  const { profile, signOut, user, session } = useAuth();
-  const { toast } = useToast();
+  const {
+    profile,
+    signOut,
+    user,
+    session
+  } = useAuth();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-  
+
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
-  
+
   // Check if user is authenticated
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
-    
     if (!user || !session) {
       console.log("No authenticated user detected in hotel dashboard layout, redirecting to login");
       window.location.href = "/login";
     }
   }, [user, session, isDevelopment]);
-  
-  // Use profile data or fallback to defaults
-  const partnerName = profile?.first_name && profile?.last_name 
-    ? `${profile.first_name} ${profile.last_name}`
-    : profile?.first_name || 'Hotel Partner';
 
+  // Use profile data or fallback to defaults
+  const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
   const handleLogout = async () => {
     try {
       if (!session) {
@@ -51,20 +51,19 @@ export default function DashboardLayout({
         toast({
           title: "Session Error",
           description: "No active session found. Redirecting to login page.",
-          variant: "destructive",
+          variant: "destructive"
         });
         window.location.href = "/login";
         return;
       }
-      
       await signOut();
-      
+
       // Force redirect and ensure cache clearing
       toast({
         title: "Logged Out",
-        description: "You have been successfully logged out.",
+        description: "You have been successfully logged out."
       });
-      
+
       // Ensure we completely reload the application and clear any cached state
       window.location.href = "/login";
     } catch (error) {
@@ -72,7 +71,7 @@ export default function DashboardLayout({
       toast({
         title: "Error",
         description: "Could not complete logout. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -81,9 +80,7 @@ export default function DashboardLayout({
   if (!user && !session && !isDevelopment) {
     return null;
   }
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
@@ -94,40 +91,19 @@ export default function DashboardLayout({
             {/* Sidebar */}
             <aside className="lg:col-span-1">
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
-                <div className="p-6 text-center border-b border-fuchsia-900/20">
-                  <div className="w-20 h-20 bg-[#5A1876]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Building className="w-10 h-10 text-fuchsia-300" />
-                  </div>
-                  <h2 className="font-bold mb-1">{partnerName}</h2>
-                  <p className="text-sm text-muted-foreground">Verified Account</p>
-                </div>
+                
                 
                 <nav className="p-2">
-                  {tabs.map(tab => (
-                    <button
-                      key={tab.id}
-                      data-tab={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={cn(
-                        "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
-                        activeTab === tab.id
-                          ? "bg-[#5A1876]/20 text-fuchsia-200"
-                          : "hover:bg-[#5A1876]/10 text-foreground/80"
-                      )}
-                    >
+                  {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
                       {tab.icon}
                       {tab.label}
-                    </button>
-                  ))}
+                    </button>)}
                   
                   <div className="px-4 py-3">
                     <div className="h-px bg-fuchsia-900/20 my-2"></div>
                   </div>
                   
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors"
-                  >
+                  <button onClick={handleLogout} className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors">
                     <LogOut className="w-5 h-5" />
                     Log Out
                   </button>
@@ -163,6 +139,5 @@ export default function DashboardLayout({
           &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }

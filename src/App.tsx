@@ -27,6 +27,8 @@ import OurServices from './pages/OurServices';
 import IntellectualProperty from './pages/IntellectualProperty';
 import CustomerService from './pages/CustomerService';
 import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import AuthProvider from './context/auth/AuthProvider';
 
 const queryClient = new QueryClient();
@@ -63,6 +65,8 @@ function App() {
                   <Route path="/our-services" element={<OurServices />} />
                   <Route path="/intellectual-property" element={<IntellectualProperty />} />
                   <Route path="/customer-service" element={<CustomerService />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Toaster />

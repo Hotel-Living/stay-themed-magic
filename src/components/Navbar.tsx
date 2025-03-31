@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const {
@@ -18,9 +19,9 @@ export function Navbar() {
   } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
+
   const handleLogout = async () => {
     try {
-      // Close the mobile menu if it's open
       if (isMenuOpen) {
         setIsMenuOpen(false);
       }
@@ -36,7 +37,6 @@ export function Navbar() {
       console.log("Attempting to sign out from Navbar...");
       await signOut();
 
-      // Additional safety measure to ensure page reset
       setTimeout(() => {
         if (window.location.pathname !== '/login') {
           console.log("Forcing redirect to login page");
@@ -52,6 +52,7 @@ export function Navbar() {
       });
     }
   };
+
   return <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-[#c266af] bg-[#860493]">
       <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
         <div className="flex items-center gap-6">
@@ -82,13 +83,11 @@ export function Navbar() {
           </Link>
         </div>
         
-        {/* Mobile menu button */}
         <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
           {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
         </button>
       </div>
       
-      {/* Mobile menu */}
       <div className={cn("fixed inset-0 top-10 bg-[#860477]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           {isLoggedIn ? <>

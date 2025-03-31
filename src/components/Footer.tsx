@@ -1,6 +1,8 @@
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
+
 export function Footer() {
   return <footer className="py-4 px-4 border-t border-[#c266af] bg-[#860493]">
       <div className="container max-w-6xl mx-auto bg-[#860493]">

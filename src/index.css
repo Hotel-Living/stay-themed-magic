@@ -142,16 +142,16 @@
 }
 
 @layer utilities {
-  /* Animation for color changing text */
+  /* Animation for color changing text - 200% slower (from 1.5s to 4.5s) */
   .animate-text {
     background-size: 200% 200%;
-    animation: text-shine 1.5s linear infinite;
+    animation: text-shine 4.5s linear infinite;
   }
   
-  /* Slower animation for color changing text */
+  /* Slower animation for color changing text - also made slower */
   .animate-text-slow {
     background-size: 200% 200%;
-    animation: text-shine 8.4s linear infinite;
+    animation: text-shine 25.2s linear infinite;
   }
 
   @keyframes text-shine {

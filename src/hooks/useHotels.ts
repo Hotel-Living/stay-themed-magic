@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { FilterState } from '@/components/filters';
+import { FilterState } from '@/components/filters/FilterTypes';
 
 interface UseHotelsProps {
   initialFilters?: FilterState;

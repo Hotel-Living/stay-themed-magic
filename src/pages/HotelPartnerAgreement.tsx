@@ -142,7 +142,9 @@ Cancellation Policy:</strong> Standard cancellations made 30+ days before arriva
                 provide proof upon request.
               </p>
               
-              <h3>7. AGREEMENT ACCEPTANCE</h3>
+              <h3>
+
+7. AGREEMENT ACCEPTANCE</h3>
               
               <p>
                 By registering as a Hotel Partner, you acknowledge that you have read, understood, and agree to be 

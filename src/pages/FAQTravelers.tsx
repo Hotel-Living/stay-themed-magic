@@ -142,7 +142,7 @@ export default function FAQTravelers() {
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1">
-              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap bg-[#a600bd]">
+              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap bg-[#730483]">
                   {category.name}
                 </TabsTrigger>)}
             </TabsList>
@@ -150,7 +150,7 @@ export default function FAQTravelers() {
             {faqCategories.map(category => <TabsContent key={category.id} value={category.id} className="customer-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#860493]">
+                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#550477]">
                         <h2 className="font-semibold text-[#f8faf8]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">

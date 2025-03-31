@@ -39,7 +39,7 @@ export function FilterSidebar({
   const hotelFeatures = ["Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", "24/7 Reception", "Room Service"];
   const roomFeatures = ["Air Conditioning", "TV", "Mini Bar", "Balcony", "Sea View", "Mountain View", "Kitchen", "Workspace"];
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Self Catering"];
-  return <div className="glass-card rounded-xl p-4 space-y-3 bg-[#860493] py-[14px] px-[14px]">
+  return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#340554]">
       <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
       
       <LengthOfStayFilter activeLength={activeFilters.lengthOfStay} onChange={value => handleFilterChange("lengthOfStay", value)} />

@@ -5,10 +5,10 @@ export function HeroSection() {
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-8 mb-2">
           <h1 className="text-6xl md:text-7xl font-bold mb-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            <span className="bg-gradient-to-r from-[#D5A121] to-[#ffff00] bg-clip-text animate-text text-transparent">Live in Hotels</span>
+            <span className="bg-gradient-to-r from-yellow-400 to-white bg-clip-text animate-text-slow text-transparent">Live in Hotels</span>
           </h1>
           <h2 className="text-4xl md:text-5xl font-semibold mb-11 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            <span className="bg-gradient-to-r from-[#D5A121] to-[#ffff00] bg-clip-text animate-text text-transparent">Boost your Life</span>
+            <span className="bg-gradient-to-r from-yellow-400 to-white bg-clip-text animate-text-slow text-transparent">Boost your Life!</span>
           </h2>
         </div>
         

@@ -21,8 +21,8 @@ export function Logo({ className }: { className?: string }) {
     >
       <div 
         className={cn(
-          "absolute inset-0 -z-10 opacity-70",
-          isAnimating && "bg-gradient-to-r from-[#860493] via-[#AA32A0] to-[#D946EF] bg-[length:220%_220%] animate-text-slow"
+          "absolute inset-0 -z-10 opacity-80",
+          isAnimating && "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow"
         )}
       />
       <img 

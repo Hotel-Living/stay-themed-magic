@@ -8,10 +8,10 @@ export function Footer() {
   const [hovered, setHovered] = useState(false);
 
   return <footer 
-      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 ${
+      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 wave-bg ${
         hovered 
-          ? "bg-gradient-to-r from-[#860493] via-[#AA32A0] to-[#D946EF] bg-[length:200%_200%] animate-text-slow" 
-          : "bg-[#860493]"
+          ? "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow" 
+          : "bg-[#4A90E2]"
       }`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -45,19 +45,19 @@ export function Footer() {
           </div>
           
           <div className="flex flex-wrap gap-4 justify-center mb-4">
-            <Link to="/hoteles" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/hoteles" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               HOTELS
             </Link>
-            <Link to="/signup" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/signup" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               REGISTER
             </Link>
-            <Link to="/signin" className="bg-white text-[#860477] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/signin" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               SIGN IN
             </Link>
           </div>
         </div>
         
-        <Separator className="bg-[#c266af]/40 mb-2" />
+        <Separator className="bg-white/40 mb-2" />
         
         <div className="text-center text-xs text-white/80">
           <p className="mb-2">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>

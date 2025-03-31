@@ -27,7 +27,7 @@ export default function BasicInfoStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           TYPE OF PROPERTY
         </label>
-        <select className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30" required>
+        <select required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]">
           <option value="">Select property type</option>
           <option value="hotel">Hotel</option>
           <option value="boutique">Hotel Boutique</option>

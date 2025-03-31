@@ -12,7 +12,7 @@ export default function Hotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient my-0 text-4xl text-[#f1d9f4]">Hotel Partner Portal</h1>
+          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient my-0 text-4xl text-[#f1d9f4] py-0">Hotel Partner Portal</h1>
           <p className="text-lg text-center mb-12 text-foreground/90">
             Join our network of themed hotels or access your hotel dashboard
           </p>

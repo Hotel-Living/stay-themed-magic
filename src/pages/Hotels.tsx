@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Building } from "lucide-react";
+
 export default function Hotels() {
   const navigate = useNavigate();
   return <div className="min-h-screen flex flex-col">

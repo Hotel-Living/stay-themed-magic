@@ -27,8 +27,8 @@ export default function Login() {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-16">
-        <div className="container max-w-lg mx-auto px-4 py-12">
+      <main className="flex-1 pt-14">
+        <div className="container max-w-lg mx-auto px-4 py-10">
           <div style={{
           background: 'linear-gradient(-45deg, #AA017A, #65086A)',
           backgroundSize: '200% 200%',

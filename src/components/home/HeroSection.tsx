@@ -1,14 +1,15 @@
 
 import { Check } from "lucide-react";
+
 export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            <span className="text-[#FFF701] animate-text-slow">Live in Hotels</span>
+            <span className="bg-gradient-to-r from-[#FFF701] via-[#FFD700] to-[#FFF701] bg-size-200 animate-text-slow bg-clip-text text-transparent">Live in Hotels</span>
           </h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            <span className="text-[#FFF701] animate-text-slow">Boost your Life!</span>
+            <span className="bg-gradient-to-r from-[#FFF701] via-[#FFD700] to-[#FFF701] bg-size-200 animate-text-slow bg-clip-text text-transparent">Boost your Life!</span>
           </h2>
         </div>
         

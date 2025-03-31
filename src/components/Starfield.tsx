@@ -12,13 +12,13 @@ export function Starfield() {
     
     // Create stars for the starfield effect
     const createStars = () => {
-      // Generate 100 stars
-      for (let i = 0; i < 100; i++) {
+      // Generate 150 stars - increasing the number for more visibility
+      for (let i = 0; i < 150; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         
-        // Random size between 1px and 3px
-        const size = Math.random() * 2 + 1;
+        // Random size between 2px and 4px - increasing size for better visibility
+        const size = Math.random() * 2 + 2;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         

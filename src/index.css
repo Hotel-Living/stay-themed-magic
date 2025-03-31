@@ -166,7 +166,7 @@
 
 /* Animated background */
 .starfield {
-  background-color: #EFF5F9; /* Changed to light blue background */
+  background-color: #EFF5F9; /* Light blue background */
   position: fixed;
   top: 0;
   left: 0;
@@ -178,9 +178,9 @@
 
 /* Star animation */
 @keyframes twinkle {
-  0% { opacity: 0.2; }
+  0% { opacity: 0.3; }
   50% { opacity: 1; }
-  100% { opacity: 0.2; }
+  100% { opacity: 0.3; }
 }
 
 @keyframes move {
@@ -190,8 +190,9 @@
 
 .star {
   position: absolute;
-  background-color: white;
+  background-color: #6A6AD5; /* Changed to blue for better contrast against light background */
   border-radius: 50%;
   pointer-events: none;
+  box-shadow: 0 0 3px 1px rgba(106, 106, 213, 0.7); /* Added glow effect */
   animation: twinkle 3s infinite ease-in-out, move 20s linear forwards;
 }

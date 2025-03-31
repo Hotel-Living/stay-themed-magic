@@ -3,8 +3,8 @@ import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
 export function Footer() {
   return <footer className="py-4 px-4 border-t border-[#c266af] bg-[#860493]">
-      <div className="container max-w-6xl mx-auto bg-[#860477]">
-        <div className="flex flex-col items-center justify-center">
+      <div className="container max-w-6xl mx-auto bg-[#860493]">
+        <div className="flex flex-col items-center justify-center bg-[t#860493] bg-[#860493]">
           <Logo className="mb-4" />
           
           <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto bg-[#860493]">

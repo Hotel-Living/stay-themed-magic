@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { Footer } from "@/components/Footer";
 
 // Import refactored components
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -24,7 +23,10 @@ export default function HotelDashboard() {
   // Check if user is authenticated and is a hotel owner
   useEffect(() => {
     // Skip the auth check in development mode
-    if (isDevelopment) return;
+    if (isDevelopment) {
+      console.log("Development mode: bypassing authentication for hotel dashboard");
+      return;
+    }
     
     if (!user || !session) {
       console.log("No authenticated user detected in hotel dashboard");
@@ -43,9 +45,6 @@ export default function HotelDashboard() {
     return (
       <div className="min-h-screen flex flex-col">
         <HotelRegistrationPrompt />
-        <div className="mt-auto">
-          <Footer />
-        </div>
       </div>
     );
   }
@@ -59,7 +58,6 @@ export default function HotelDashboard() {
       >
         <TabContentSelector activeTab={activeTab} />
       </DashboardLayout>
-      <Footer />
     </div>
   );
 }

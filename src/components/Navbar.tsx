@@ -20,6 +20,7 @@ export function Navbar() {
   } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
+  const isDevelopment = process.env.NODE_ENV === 'development';
 
   const handleLogout = async () => {
     try {
@@ -59,13 +60,18 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
-          {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-medium hover:text-white/80 text-base uppercase">
-                Dashboard
+          {isLoggedIn || isDevelopment ? <>
+              <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
+                Hotel Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
-                Logout
-              </button>
+              <Link to="/user-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
+                User Dashboard
+              </Link>
+              {!isDevelopment && (
+                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
+                  Logout
+                </button>
+              )}
             </> : <>
               <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
                 Register
@@ -92,13 +98,18 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
-          {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                Dashboard
+          {isLoggedIn || isDevelopment ? <>
+              <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Hotel Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                Logout
-              </button>
+              <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                User Dashboard
+              </Link>
+              {!isDevelopment && (
+                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                  Logout
+                </button>
+              )}
             </> : <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                 Register

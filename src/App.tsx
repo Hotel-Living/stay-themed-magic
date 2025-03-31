@@ -30,6 +30,7 @@ import CustomerService from './pages/CustomerService';
 import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import AddPropertyPage from './pages/AddPropertyPage';
 
 const queryClient = new QueryClient();
 
@@ -54,7 +55,7 @@ function App() {
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
-                  <Route path="/hoteles" element={<Hotels />} /> {/* Add Spanish variant route */}
+                  <Route path="/hoteles" element={<Hotels />} /> 
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/faq-travelers" element={<FAQTravelers />} />
                   <Route path="/faq-hotels" element={<FAQHotels />} />
@@ -67,6 +68,7 @@ function App() {
                   <Route path="/customer-service" element={<CustomerService />} />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Toaster />

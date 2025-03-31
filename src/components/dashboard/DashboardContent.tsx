@@ -23,12 +23,8 @@ export default function DashboardContent() {
           <StatCard title="Total Bookings" value="28" change="+4" />
           <StatCard title="This Month Revenue" value="$4,580" change="+12%" />
           <Link 
-            to="/hotel-dashboard/add-property" 
+            to="/add-property" 
             className="flex items-center justify-center bg-fuchsia-950/30 rounded-lg p-4 hover:bg-fuchsia-900/30 transition-colors"
-            onClick={(e) => {
-              e.preventDefault();
-              handlePropertyTabClick();
-            }}
           >
             <span className="text-fuchsia-300 font-medium">+ A Property</span>
           </Link>
@@ -94,7 +90,7 @@ export default function DashboardContent() {
             title="+ A Property" 
             description="List a new hotel property" 
             icon={<PlusCircle className="w-5 h-5" />}
-            onClick={handlePropertyTabClick}
+            onClick={() => window.location.href = '/add-property'}
           />
           <ActionCard 
             title="Reports" 

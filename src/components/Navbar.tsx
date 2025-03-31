@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -73,6 +74,9 @@ export function Navbar() {
                 Login
               </Link>
             </>}
+          <Link to="/add-property" className="text-white font-medium hover:text-white/80 text-base uppercase">
+            Add Property
+          </Link>
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
             FAQ
           </Link>
@@ -103,6 +107,9 @@ export function Navbar() {
                 Login
               </Link>
             </>}
+          <Link to="/add-property" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Add Property
+          </Link>
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
         </nav>

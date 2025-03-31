@@ -16,6 +16,14 @@ interface CollapsibleThemeOptionsProps {
   toggleCategory: (category: string) => void;
 }
 
+// Define a proper interface for the option object that may have suboptions
+interface ThemeOption {
+  id: string;
+  name: string;
+  isAddOption?: boolean;
+  suboptions?: string[];
+}
+
 export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = ({
   activeTheme,
   updateFilter,
@@ -115,27 +123,30 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
                                 <CollapsibleContent>
                                   <div className="pl-2 pt-1 space-y-1">
                                     {submenu.options.filter(option => !option.isAddOption).map(option => {
+                                      // Cast option to ThemeOption to properly type-check
+                                      const typedOption = option as ThemeOption;
+                                      
                                       // Create a theme object
                                       const optionTheme = {
-                                        id: option.id,
-                                        name: option.name,
+                                        id: typedOption.id,
+                                        name: typedOption.name,
                                         category: category.category
                                       };
                                       
                                       return (
-                                        <div key={option.id}>
+                                        <div key={typedOption.id}>
                                           <ThemeButton
                                             theme={optionTheme}
-                                            isActive={activeTheme?.id === option.id}
+                                            isActive={activeTheme?.id === typedOption.id}
                                             onClick={() => updateFilter("theme", optionTheme)}
                                           />
                                           
-                                          {/* If option has suboptions */}
-                                          {option.suboptions && (
+                                          {/* Only render suboptions if they exist */}
+                                          {typedOption.suboptions && typedOption.suboptions.length > 0 && (
                                             <div className="pl-4 pt-1 space-y-1">
-                                              {option.suboptions.map((suboption, index) => {
+                                              {typedOption.suboptions.map((suboption, index) => {
                                                 // Create a theme object for suboption
-                                                const suboOptionId = `${option.id}-${index}`;
+                                                const suboOptionId = `${typedOption.id}-${index}`;
                                                 const suboOptionTheme = {
                                                   id: suboOptionId,
                                                   name: suboption,

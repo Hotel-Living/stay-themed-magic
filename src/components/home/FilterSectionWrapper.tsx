@@ -13,9 +13,9 @@ const extractAllThemes = () => {
   themeCategories.forEach(category => {
     if (category.themes) {
       category.themes.forEach(theme => {
-        if (!theme.isAddOption) {
-          allThemes.push(theme.name);
-        }
+        // Check if the theme exists and add it to the allThemes array
+        // Remove the isAddOption check as it doesn't exist on the theme type
+        allThemes.push(theme.name);
       });
     }
   });

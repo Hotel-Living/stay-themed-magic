@@ -10,6 +10,11 @@ export interface FilterState {
   themes?: string[];
   amenities?: string[];
   rating?: number;
+  // Add missing properties from the errors
+  searchTerm?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  stars?: string[];
 }
 
 export interface FilterSectionProps {
@@ -21,7 +26,7 @@ export interface FilterSectionProps {
   compactSpacing?: boolean;
   useBoldLabels?: boolean;
   usePurpleFilterBackground?: boolean;
-  fullHeightDropdowns?: boolean; // Added new prop
+  fullHeightDropdowns?: boolean;
   placeholders?: {
     country?: string;
     month?: string;

@@ -72,7 +72,7 @@ export function Navbar() {
       "fixed top-0 left-0 right-0 z-50 border-b border-[#c266af] transition-all duration-500",
       scrolled 
         ? "bg-[#860493]/95 backdrop-blur-lg" 
-        : "bg-gradient-to-r from-[#860493] to-[#B919B0] animate-text-slow"
+        : "bg-gradient-to-r from-[#860493] via-[#AA32A0] to-[#D946EF] bg-[length:200%_200%] animate-text-slow"
     )}>
       <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
         <div className="flex items-center gap-6">
@@ -108,7 +108,7 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-10 bg-[#860477]/95 backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
+      <div className={cn("fixed inset-0 top-10 bg-gradient-to-r from-[#860493] via-[#AA32A0] to-[#D946EF] bg-[length:200%_200%] animate-text-slow backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           {isLoggedIn ? <>
               <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">

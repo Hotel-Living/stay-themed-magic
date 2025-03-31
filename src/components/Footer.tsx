@@ -10,7 +10,7 @@ export function Footer() {
   return <footer 
       className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 ${
         hovered 
-          ? "bg-gradient-to-r from-[#860493] to-[#B919B0] animate-text-slow" 
+          ? "bg-gradient-to-r from-[#860493] via-[#AA32A0] to-[#D946EF] bg-[length:200%_200%] animate-text-slow" 
           : "bg-[#860493]"
       }`}
       onMouseEnter={() => setHovered(true)}

@@ -148,18 +148,27 @@
     animation: text-shine 4.5s linear infinite;
   }
   
-  /* Slower animation for color changing text - also made slower */
+  /* Slower animation for color changing text - enhanced for lateral wave effect */
   .animate-text-slow {
     background-size: 200% 200%;
-    animation: text-shine 25.2s linear infinite;
+    animation: text-shine 18s ease-in-out infinite;
   }
 
   @keyframes text-shine {
-    0%, 100% {
+    0% {
       background-position: 0% 50%;
+    }
+    25% {
+      background-position: 100% 50%;
     }
     50% {
       background-position: 100% 50%;
+    }
+    75% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
   

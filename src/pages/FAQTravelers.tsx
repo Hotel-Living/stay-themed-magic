@@ -154,7 +154,7 @@ export default function FAQTravelers() {
                         <h2 className="font-semibold text-[#f8faf8]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
-                        <p className="text-[#f5faf5]">{faq.answer}</p>
+                        <p className="text-slate-50">{faq.answer}</p>
                       </AccordionContent>
                     </AccordionItem>)}
                 </Accordion>

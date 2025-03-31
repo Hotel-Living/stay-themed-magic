@@ -66,7 +66,7 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
   const allPropertyThemes = extractAllThemes();
   
   return (
-    <section className="py-0 px-4 mb-32">
+    <section className="py-0 px-4 mb-32 mt-24">
       <div className="container max-w-6xl mx-auto">
         <FilterSection 
           onFilterChange={onFilterChange} 
@@ -85,9 +85,9 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
           availableThemes={allPropertyThemes}
         />
         
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-0">
           <Button 
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-6"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-3.5"
             size="lg"
           >
             <Search className="w-5 h-5 mr-2" />

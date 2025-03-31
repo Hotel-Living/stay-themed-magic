@@ -12,18 +12,22 @@ export function Starfield() {
     
     // Create stars for the starfield effect
     const createStars = () => {
-      // Generate 150 stars - increasing the number for more visibility
-      for (let i = 0; i < 150; i++) {
+      // Generate 200 stars for better immersion
+      for (let i = 0; i < 200; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         
-        // Random size between 2px and 4px - increasing size for better visibility
-        const size = Math.random() * 2 + 2;
+        // Random size between 2px and 6px
+        const size = Math.random() * 4 + 2;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         
         // Random position
         star.style.left = `${Math.random() * 100}%`;
+        
+        // Random starting z-index for 3D effect (between -50 and 50)
+        const zIndex = Math.floor(Math.random() * 100) - 50;
+        star.style.zIndex = `${zIndex}`;
         
         // Random starting position
         star.style.top = `${Math.random() * 100}vh`;
@@ -32,8 +36,12 @@ export function Starfield() {
         star.style.animationDelay = `${Math.random() * 5}s`;
         
         // Random animation duration for the movement
-        const duration = Math.random() * 15 + 15; // 15-30s
-        star.style.animationDuration = `3s, ${duration}s`;
+        const duration = Math.random() * 15 + 10; // 10-25s
+        star.style.animationDuration = `3s, ${duration}s, ${duration}s`;
+        
+        // Apply a random color class
+        const colorClass = `star-color-${Math.floor(Math.random() * 5)}`;
+        star.classList.add(colorClass);
         
         starfield.appendChild(star);
       }

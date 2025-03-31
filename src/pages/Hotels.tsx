@@ -12,7 +12,7 @@ export default function Hotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient text-[t#860493] my-0 text-[#ce42dd]">Hotel Partner Portal</h1>
+          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient my-0 text-[#ce42dd] text-4xl">Hotel Partner Portal</h1>
           <p className="text-lg text-center mb-12 text-foreground/90">
             Join our network of themed hotels or access your hotel dashboard
           </p>
@@ -29,7 +29,7 @@ export default function Hotels() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-6">
-                <Button onClick={() => navigate("/hotel-login")} className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium">
+                <Button onClick={() => navigate("/hotel-login")} className="text-white font-medium bg-[#860493]">
                   Hotel Partner Login
                 </Button>
               </CardContent>

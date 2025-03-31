@@ -1,14 +1,12 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-
 export default function HotelPartnerAgreement() {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16 pb-12">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-center text-[#e1b0e6]">Hotel Partner Agreement</h1>
+          <h1 className="text-3xl font-bold mb-8 text-center text-[#f0dff2]">Hotel Partner Agreement</h1>
           
           <div className="glass-card rounded-xl p-8">
             <div className="prose prose-invert max-w-none">
@@ -18,11 +16,9 @@ export default function HotelPartnerAgreement() {
                 Last Updated: March 30, 2025
               </p>
               
-              <p>
-                This Hotel Partner Agreement ("Agreement") is entered into between Hotels Life, Inc. ("Company") 
-                and the hotel or property owner ("Partner") who completes the registration process on our platform. 
-                This Agreement governs the Partner's participation in our extended-stay, theme-based accommodation program.
-              </p>
+              <p>This Hotel Partner Agreement ("Agreement") is entered into between Hotels Life, Inc. ("Company") and the hotel or property owner ("Partner") who completes the registration process on our platform. This Agreement governs the Partner's participation in our extended-stay, theme-based accommodation program.
+
+            </p>
               
               <h3>1. PROGRAM BENEFITS</h3>
               
@@ -40,7 +36,9 @@ export default function HotelPartnerAgreement() {
                 <li>Theme-based guest communities that increase retention</li>
                 <li>Unique service opportunities and activities</li>
                 <li>Community integration possibilities</li>
-                <li>Exclusive room monetization programs</li>
+                <li>Exclusive room monetization programs
+
+              </li>
               </ul>
               
               <h3>2. PARTNER OBLIGATIONS</h3>
@@ -57,7 +55,9 @@ export default function HotelPartnerAgreement() {
                 <li>Provide accurate information about your property</li>
                 <li>Process payments directly from guests</li>
                 <li>Pay the agreed commission to the Company</li>
-                <li>Participate in regular quality assurance reviews</li>
+                <li>Participate in regular quality assurance reviews
+
+              </li>
               </ol>
               
               <h3>3. BOOKING AND FINANCIAL TERMS</h3>

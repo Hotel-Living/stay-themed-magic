@@ -1,11 +1,8 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
-
 export default function OurServices() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Starfield />
       <Navbar />
       
@@ -18,7 +15,7 @@ export default function OurServices() {
             <p className="text-sm text-right text-gray-400 mb-6">Updated on 12/11/2024</p>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">1. How Our Service Works</h3>
+              <h3 className="text-xl font-medium mb-4 text-[#f6e9f8]">1. How Our Service Works</h3>
               <p className="mb-4">
                 The Hotel-Living revolution connects hotels and society to drive new economic opportunities and new ways of living.
               </p>
@@ -31,7 +28,7 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">2. Who We Work With</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">2. Who We Work With</h3>
               <p className="mb-4">
                 Only Service Providers with whom we have a contractual relationship will appear on our Platform. These may also offer other purchase options, generally for short stays outside our Platform, so the products they offer on our platform are not necessarily the only ones offered by the establishments.
               </p>
@@ -44,21 +41,21 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">3. How We Make Money</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">3. How We Make Money</h3>
               <p className="mb-4">
                 We do not buy or (re)sell any product or service. We simply charge a commission to the Service Provider, and we do not charge you any booking fee.
               </p>
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">4. Search Results</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">4. Search Results</h3>
               <p className="mb-4">
                 The search results we offer show all Accommodations (hotels, apartments, etc.) that match your search. If you wish, you can use different filters to narrow down the results.
               </p>
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">5. Reviews</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">5. Reviews</h3>
               <p className="mb-4">
                 Each review score ranges from 1 to 10. To obtain the overall score we show you, we simply add up the scores of the reviews we have received and divide the total by the number of review scores we have received.
               </p>
@@ -99,7 +96,7 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">6. Prices</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">6. Prices</h3>
               <p className="mb-4">
                 Service Providers are responsible for setting the rates shown on our Platform. However, we may offer advantages or other benefits by assuming the cost of doing so.
               </p>
@@ -112,7 +109,7 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">7. Star Classification and Review Score</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">7. Star Classification and Review Score</h3>
               <p className="mb-4">
                 We do not assign the star classification. According to local regulations, the star classification is assigned by (a) the Service Provider itself or (b) independent third parties (e.g., hotel classification organizations). In any case, the star classification indicates the status of the Accommodation in terms of price, facilities, and available services, among other things. We do not impose our own standards on star classifications and do not review them, but if we discover that a star classification is inaccurate, we will ask the Service Provider to prove they deserve it... or adjust it!
               </p>
@@ -125,7 +122,7 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">8. Help</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">8. Help</h3>
               <p className="mb-4">
                 If you have any questions or something doesn't go as planned, contact us. You can do this by accessing your Reservation or through our Help page, where you will also find some frequently asked questions that will be helpful.
               </p>
@@ -149,7 +146,7 @@ export default function OurServices() {
             </section>
             
             <section className="mb-10">
-              <h3 className="text-xl font-medium mb-4 text-fuchsia-300">9. Overbooking</h3>
+              <h3 className="text-xl font-medium mb-4 text-slate-50">9. Overbooking</h3>
               <p className="mb-4">
                 Once your Reservation is confirmed, the Service Provider is obligated to fulfill it. If the Service Provider has an "overbooking", they will be responsible for finding a solution as quickly as possible, although we will offer them certain guidelines and practical help.
               </p>
@@ -159,6 +156,5 @@ export default function OurServices() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

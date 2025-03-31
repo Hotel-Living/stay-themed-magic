@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -6,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Building } from "lucide-react";
-
 export default function Hotels() {
   const navigate = useNavigate();
   return <div className="min-h-screen flex flex-col">
@@ -14,7 +12,7 @@ export default function Hotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient">Hotel Partner Portal</h1>
+          <h1 className="md:text-4xl font-bold mb-6 text-center text-gradient text-[t#860493] my-0 text-[#ce42dd]">Hotel Partner Portal</h1>
           <p className="text-lg text-center mb-12 text-foreground/90">
             Join our network of themed hotels or access your hotel dashboard
           </p>

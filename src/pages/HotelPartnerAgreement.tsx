@@ -91,9 +91,9 @@ export default function HotelPartnerAgreement() {
                 <li>Appropriate décor and atmosphere</li>
               </ul>
               
-              <p>
-                The Company will provide theme implementation guidelines and ongoing support.
-              </p>
+              <p>The Company will provide theme implementation guidelines and ongoing support.
+
+            </p>
               
               <h3>5. TERM AND TERMINATION</h3>
               

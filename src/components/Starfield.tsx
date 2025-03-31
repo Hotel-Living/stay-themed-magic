@@ -52,7 +52,8 @@ export function Starfield() {
           }}
         />
       ))}
-      <div className="overlay absolute inset-0 bg-black/40 backdrop-blur-sm" />
+      {/* Reduced opacity by 20% (from 0.4 to 0.32) and blur by 30% (from 3px to 2.1px) */}
+      <div className="overlay absolute inset-0 bg-black/32 backdrop-blur-[2.1px]" />
     </div>
   );
 }

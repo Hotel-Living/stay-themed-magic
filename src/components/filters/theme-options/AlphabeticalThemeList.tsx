@@ -41,6 +41,7 @@ export const AlphabeticalThemeList = ({
   }, [themeQuery]);
   
   const handleLoadMore = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     setDisplayCount(prev => prev + 10);
   };
@@ -53,7 +54,7 @@ export const AlphabeticalThemeList = ({
   }
   
   return (
-    <div className="mt-2" onClick={e => e.stopPropagation()}>
+    <div className="mt-2">
       <ScrollArea className="h-[280px] pr-2">
         <div className="space-y-1">
           {visibleThemes.map((theme) => (
@@ -61,7 +62,10 @@ export const AlphabeticalThemeList = ({
               key={theme.id}
               theme={theme}
               isActive={activeTheme?.id === theme.id}
-              onClick={() => onChange(theme)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange(theme);
+              }}
             />
           ))}
           

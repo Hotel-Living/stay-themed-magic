@@ -14,6 +14,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   const [themeQuery, setThemeQuery] = useState("");
   
   const handleContainerClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
   };
 

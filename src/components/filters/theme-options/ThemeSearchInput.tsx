@@ -18,16 +18,21 @@ export const ThemeSearchInput: React.FC<ThemeSearchInputProps> = ({
   };
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     e.stopPropagation();
     setThemeQuery(e.target.value);
   };
   
   const handleInputClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
   };
   
   return (
-    <div className="mb-2 relative" onClick={(e) => e.stopPropagation()}>
+    <div className="mb-2 relative" onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }}>
       <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
         <Search className="h-4 w-4 text-fuchsia-400" />
       </div>

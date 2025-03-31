@@ -47,17 +47,26 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         
         if (!profileData) {
           console.log("No profile found for authenticated user, creating one...");
-          // Get user metadata from auth
-          const { data: userData } = await supabase.auth.getUser();
-          const metadata = userData?.user?.user_metadata || {};
           
-          // Create profile with metadata
-          const isHotelOwner = metadata.is_hotel_owner === true;
+          // Create profile with metadata from current user session
+          const metadata = data.user.user_metadata || {};
+          
+          // Create profile with is_hotel_owner flag based on login context or metadata
+          const isHotelOwner = isHotelLogin || metadata.is_hotel_owner === true;
           profileData = await updateUserProfile(data.user, {
             first_name: metadata.first_name || null,
             last_name: metadata.last_name || null,
             is_hotel_owner: isHotelOwner,
           });
+        } else {
+          // If logging in through hotel login but not marked as hotel owner,
+          // update the profile to mark as hotel owner
+          if (isHotelLogin && !profileData.is_hotel_owner) {
+            console.log("Updating profile to mark as hotel owner");
+            profileData = await updateUserProfile(data.user, {
+              is_hotel_owner: true
+            });
+          }
         }
         
         setProfile(profileData);
@@ -70,7 +79,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
             console.log("Hotel owner login confirmed, redirecting to hotel dashboard");
             window.location.href = '/hotel-dashboard';
           } else {
-            // Non-hotel owner tried to log in through hotel login
+            // This case shouldn't happen now with our updated logic
             console.error("Non-hotel owner tried to log in through hotel login");
             toast({
               title: "Acceso denegado",

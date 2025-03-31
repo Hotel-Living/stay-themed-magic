@@ -35,20 +35,19 @@ export const fetchProfile = async (userId: string): Promise<Profile | null> => {
 // Helper function to create a default profile if one doesn't exist
 const createDefaultProfile = async (userId: string): Promise<Profile | null> => {
   try {
-    // First, check if user exists in auth system
-    const { data: authUser } = await supabase.auth.admin.getUserById(userId);
+    // Get user session to check metadata instead of using admin API
+    const { data: sessionData } = await supabase.auth.getSession();
+    const user = sessionData?.session?.user;
     
-    if (!authUser || !authUser.user) {
-      console.error("Cannot create profile: User does not exist in auth system");
+    if (!user) {
+      console.error("Cannot create profile: No authenticated user found");
       return null;
     }
     
-    // Get email from auth user to determine if this is a hotel account
-    // based on domain or registration path
-    const userEmail = authUser.user.email || '';
-    const metadata = authUser.user.user_metadata || {};
+    // Get metadata from current user session
+    const metadata = user.user_metadata || {};
     
-    // FIX: Ensure id field is not optional by separating it from the Partial<Profile> type
+    // Create profile with metadata from current session
     const profileData = {
       id: userId,
       first_name: metadata.first_name || null,

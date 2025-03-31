@@ -13,7 +13,7 @@ export const BookingItem = ({
   property,
   status
 }: BookingItemProps) => {
-  return <div className="flex items-start p-3 rounded-lg border border-fuchsia-800/20 bg-[#f1c2f1]">
+  return <div className="flex items-start p-3 rounded-lg border border-fuchsia-800/20 bg-[#f1d5f8]">
       <div className="w-10 h-10 rounded-full bg-fuchsia-500/20 flex-shrink-0 flex items-center justify-center mr-3">
         <Calendar className="w-5 h-5 text-fuchsia-300" />
       </div>

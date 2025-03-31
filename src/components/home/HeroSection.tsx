@@ -19,8 +19,7 @@ export function HeroSection() {
                   <Check className="w-3 h-3 text-white" />
                 </div>
                 <p className="text-left font-medium text-lg text-white" style={{ 
-                  WebkitTextStroke: '1px #860493',
-                  textStroke: '1px #860493'
+                  WebkitTextStroke: '0.5px #860493'
                 }}>
                   {slogan}
                 </p>
@@ -33,8 +32,7 @@ export function HeroSection() {
                   <Check className="w-3 h-3 text-white" />
                 </div>
                 <p className="text-left font-medium text-lg text-white" style={{ 
-                  WebkitTextStroke: '1px #860493',
-                  textStroke: '1px #860493'
+                  WebkitTextStroke: '0.5px #860493'
                 }}>
                   {slogan}
                 </p>

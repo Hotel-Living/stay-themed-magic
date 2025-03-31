@@ -53,7 +53,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
       return theme.name.toLowerCase().includes(lowercaseQuery);
     };
 
-    // Filter subcategory themes
+    // Filter subcategory themes and maintain proper structure
     const filterSubcategoryThemes = (subcategory: any) => {
       const filteredThemes = subcategory.themes 
         ? subcategory.themes.filter(themeMatches) 
@@ -62,16 +62,16 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
       // Filter submenus
       const filteredSubmenus = subcategory.submenus 
         ? subcategory.submenus
-            .map(submenu => ({
+            .map((submenu: any) => ({
               ...submenu,
-              options: submenu.options.filter(option => 
+              options: submenu.options.filter((option: any) => 
                 themeMatches(option) || 
                 (option.suboptions && option.suboptions.some(
-                  suboption => suboption.toLowerCase().includes(lowercaseQuery)
+                  (suboption: string) => suboption.toLowerCase().includes(lowercaseQuery)
                 ))
               )
             }))
-            .filter(submenu => submenu.options.length > 0)
+            .filter((submenu: any) => submenu.options.length > 0)
         : [];
         
       return {
@@ -82,7 +82,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
       };
     };
 
-    // Filter categories
+    // Filter categories while maintaining the expected structure
     const filtered = themeCategories.map(category => {
       // Filter direct themes in category
       const filteredThemes = category.themes 
@@ -97,7 +97,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
         : [];
       
       return {
-        ...category,
+        category: category.category,
         themes: filteredThemes,
         subcategories: filteredSubcategories,
         hasMatches: filteredThemes.length > 0 || filteredSubcategories.length > 0

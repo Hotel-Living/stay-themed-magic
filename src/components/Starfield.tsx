@@ -1,62 +1,45 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function Starfield() {
-  const starfieldRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Array of background images
+  const backgroundImages = [
+    "/lovable-uploads/25eccc08-b169-49e6-9ed8-6dc9dc877882.png",
+    "/lovable-uploads/0d3c0697-3280-440c-b107-47cdc3fcc664.png",
+    "/lovable-uploads/77229d3f-d9ac-4d81-8cb5-93468fe7a350.png",
+    "/lovable-uploads/6db26442-2739-42c5-a4f9-35772b324196.png"
+  ];
   
   useEffect(() => {
-    if (!starfieldRef.current) return;
-    
-    const starfield = starfieldRef.current;
-    starfield.innerHTML = '';
-    
-    // Create stars for the starfield effect
-    const createStars = () => {
-      // Generate 200 stars for better immersion
-      for (let i = 0; i < 200; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        
-        // Random size between 2px and 6px
-        const size = Math.random() * 4 + 2;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        
-        // Random position
-        star.style.left = `${Math.random() * 100}%`;
-        
-        // Random starting z-index for 3D effect (between -50 and 50)
-        const zIndex = Math.floor(Math.random() * 100) - 50;
-        star.style.zIndex = `${zIndex}`;
-        
-        // Random starting position
-        star.style.top = `${Math.random() * 100}vh`;
-        
-        // Random animation delay
-        star.style.animationDelay = `${Math.random() * 5}s`;
-        
-        // Random animation duration for the movement
-        const duration = Math.random() * 15 + 10; // 10-25s
-        star.style.animationDuration = `3s, ${duration}s, ${duration}s`;
-        
-        // Apply a random color class
-        const colorClass = `star-color-${Math.floor(Math.random() * 5)}`;
-        star.classList.add(colorClass);
-        
-        starfield.appendChild(star);
-      }
-    };
-    
-    // Initial creation
-    createStars();
-    
-    // Recreate stars every 20 seconds to ensure we always have stars
-    const interval = setInterval(createStars, 20000);
+    // Handle image transition effect
+    const transitionInterval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % backgroundImages.length
+      );
+    }, 8000); // Change image every 8 seconds
     
     return () => {
-      clearInterval(interval);
+      clearInterval(transitionInterval);
     };
-  }, []);
+  }, [backgroundImages.length]);
   
-  return <div ref={starfieldRef} className="starfield fixed inset-0 -z-10"></div>;
+  return (
+    <div ref={bgRef} className="background-slideshow fixed inset-0 -z-10">
+      {backgroundImages.map((image, index) => (
+        <div 
+          key={index}
+          className={`bg-slide absolute inset-0 transition-opacity duration-3000 ease-in-out bg-cover bg-center bg-no-repeat`}
+          style={{
+            backgroundImage: `url(${image})`,
+            opacity: index === currentImageIndex ? 1 : 0,
+            zIndex: index === currentImageIndex ? -10 : -20,
+          }}
+        />
+      ))}
+      <div className="overlay absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    </div>
+  );
 }

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -162,11 +161,15 @@
       background-position: 100% 50%;
     }
   }
+  
+  /* Custom duration for longer transitions */
+  .duration-3000 {
+    transition-duration: 3000ms;
+  }
 }
 
-/* Animated background */
-.starfield {
-  background-color: #EFF5F9; /* Light blue background */
+/* Background slideshow */
+.background-slideshow {
   position: fixed;
   top: 0;
   left: 0;
@@ -174,59 +177,22 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  perspective: 500px;
 }
 
-/* Star animation */
-@keyframes twinkle {
-  0% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0.3; transform: scale(0.8); }
+.bg-slide {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 3s ease-in-out;
 }
 
-@keyframes move {
-  0% { transform: translateZ(-50px) translateY(100vh); }
-  100% { transform: translateZ(400px) translateY(-100px); }
-}
-
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.star {
+.overlay {
   position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  transform-style: preserve-3d;
-  animation: 
-    twinkle 3s infinite ease-in-out, 
-    move 20s linear forwards,
-    rotate 20s linear infinite;
-}
-
-/* Star colors */
-.star-color-0 {
-  background-color: #6A6AD5; /* Blue */
-  box-shadow: 0 0 4px 2px rgba(106, 106, 213, 0.7);
-}
-
-.star-color-1 {
-  background-color: #D946EF; /* Magenta */
-  box-shadow: 0 0 4px 2px rgba(217, 70, 239, 0.7);
-}
-
-.star-color-2 {
-  background-color: #0EA5E9; /* Ocean Blue */
-  box-shadow: 0 0 4px 2px rgba(14, 165, 233, 0.7);
-}
-
-.star-color-3 {
-  background-color: #F97316; /* Orange */
-  box-shadow: 0 0 4px 2px rgba(249, 115, 22, 0.7);
-}
-
-.star-color-4 {
-  background-color: #8B5CF6; /* Purple */
-  box-shadow: 0 0 4px 2px rgba(139, 92, 246, 0.7);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
 }

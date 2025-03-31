@@ -21,7 +21,7 @@ export const HotelRegistrationPrompt = () => {
               
               <div className="space-y-4">
                 <Link to="/hotel-signup">
-                  <Button className="w-full py-6 text-lg">
+                  <Button className="w-full py-6 text-lg bg-[t#860493] bg-[#860493]">
                     Register as a Hotel Partner
                   </Button>
                 </Link>

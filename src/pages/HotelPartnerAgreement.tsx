@@ -1,15 +1,12 @@
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-
 export default function HotelPartnerAgreement() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16 pb-12">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-center text-fuchsia-300">Hotel Partner Agreement</h1>
+          <h1 className="text-3xl font-bold mb-8 text-center text-[#e1b0e6]">Hotel Partner Agreement</h1>
           
           <div className="glass-card rounded-xl p-8">
             <div className="prose prose-invert max-w-none">
@@ -148,6 +145,5 @@ export default function HotelPartnerAgreement() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

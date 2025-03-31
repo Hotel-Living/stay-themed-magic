@@ -28,7 +28,7 @@ export default function Login() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-lg mx-auto px-4 py-16">
+        <div className="container max-w-lg mx-auto px-4 py-12">
           <div style={{
           background: 'linear-gradient(-45deg, #AA017A, #65086A)',
           backgroundSize: '200% 200%',
@@ -37,7 +37,6 @@ export default function Login() {
             <div className="p-8 backdrop-blur-sm bg-[#5d0170]">
               <div className="text-center mb-6">
                 <h1 className="text-2xl font-bold mb-6">Traveler Login</h1>
-                {/* Removed "Sign in to your traveler account" line */}
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-5">

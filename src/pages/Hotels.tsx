@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -35,8 +36,8 @@ export default function Hotels() {
               </CardContent>
             </Card>
             
-            <Card className="glass-card-hover rounded-xl overflow-hidden">
-              <CardHeader className="pb-4">
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95]">
+              <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Building className="h-6 w-6 text-fuchsia-400" />
                 </div>
@@ -56,15 +57,15 @@ export default function Hotels() {
           <div className="mt-12 text-center">
             <h2 className="text-2xl font-bold mb-4 text-gradient">Why Join Hotels Life?</h2>
             <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="glass-card p-6 rounded-xl">
+              <div className="glass-card p-6 rounded-xl bg-[#6a0a95]">
                 <h3 className="text-lg font-semibold mb-2">100% Occupancy</h3>
                 <p className="text-sm text-foreground/80">Fill your vacant rooms with long-term guests year-round</p>
               </div>
-              <div className="glass-card p-6 rounded-xl">
+              <div className="glass-card p-6 rounded-xl bg-[#6a0a95]">
                 <h3 className="text-lg font-semibold mb-2">Increased Revenue</h3>
                 <p className="text-sm text-foreground/80">Higher average daily rates with reduced operational costs</p>
               </div>
-              <div className="glass-card p-6 rounded-xl">
+              <div className="glass-card p-6 rounded-xl bg-[#6a0a95]">
                 <h3 className="text-lg font-semibold mb-2">Global Network</h3>
                 <p className="text-sm text-foreground/80">Access to international guests seeking themed experiences</p>
               </div>

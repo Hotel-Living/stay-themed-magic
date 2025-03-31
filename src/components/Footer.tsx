@@ -34,14 +34,14 @@ export function Footer() {
           </div>
           
           <div className="flex flex-wrap gap-4 justify-center mb-4">
-            <Link to="/hoteles" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
-              HOTELS
+            <Link to="/hoteles" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+              Hotels
             </Link>
-            <Link to="/signup" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
-              REGISTER
+            <Link to="/signup" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+              Register
             </Link>
-            <Link to="/signin" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
-              SIGN IN
+            <Link to="/signin" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+              Sign In
             </Link>
           </div>
         </div>

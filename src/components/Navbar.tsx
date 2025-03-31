@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -56,31 +55,29 @@ export function Navbar() {
 
   return <header className="fixed top-0 left-0 right-0 z-50 bg-[#9B019C] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Logo />
-        </div>
+        <Logo />
         
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-8">
           {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-medium hover:text-white/80 text-base">
-                DASHBOARD
+              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-medium hover:text-white/80 text-base uppercase">
+                Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base">
-                LOGOUT
+              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
+                Logout
               </button>
             </> : <>
-              <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base">
-                REGISTER
+              <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
+                Register
               </Link>
-              <Link to="/login" className="text-white font-medium hover:text-white/80 text-base">
-                LOGIN
+              <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
+                Login
               </Link>
             </>}
-          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base">
+          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
             FAQ
           </Link>
-          <Link to="/hoteles" className="text-white font-medium hover:text-white/80 text-base">
-            HOTELS
+          <Link to="/hoteles" className="text-white font-medium hover:text-white/80 text-base uppercase">
+            Hotels
           </Link>
         </div>
         
@@ -92,22 +89,22 @@ export function Navbar() {
       <div className={cn("fixed inset-0 top-[56px] bg-[#9B019C] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
-                DASHBOARD
+              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base">
-                LOGOUT
+              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Logout
               </button>
             </> : <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
-                REGISTER
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Register
               </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
-                LOGIN
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Login
               </Link>
             </>}
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">HOTELS</Link>
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
+          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
         </nav>
       </div>
     </header>;

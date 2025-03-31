@@ -1,8 +1,8 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
@@ -54,9 +54,7 @@ export function Navbar() {
   };
 
   return <header className="fixed top-0 left-0 right-0 z-50 bg-[#9B019C] shadow-md">
-      <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
-        <Logo />
-        
+      <div className="container px-4 sm:px-6 py-4 flex items-center justify-end">
         <div className="hidden md:flex items-center gap-8">
           {isLoggedIn ? <>
               <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-medium hover:text-white/80 text-base uppercase">

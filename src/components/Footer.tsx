@@ -7,8 +7,6 @@ export function Footer() {
   return <footer className="py-4 px-4 bg-[#9B019C] border-t border-[#c266af]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <Logo className="mb-4" />
-          
           <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
             <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium">
               FAQ

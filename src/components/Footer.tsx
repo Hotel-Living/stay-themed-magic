@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-4" />
           
-          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
+          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto bg-[#860493]">
             <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium">
               FAQ
             </Link>

@@ -34,16 +34,13 @@ export const ThemeOptions: React.FC<ThemeOptionsProps> = ({
         setThemeQuery={setThemeQuery}
       />
       
-      {filteredThemes.length === 0 ? (
-        <div className="text-center py-3 text-sm text-foreground/60">
-          No themes found
-        </div>
-      ) : useCollapsibleThemes ? (
+      {useCollapsibleThemes ? (
         <CollapsibleThemeOptions 
           activeTheme={activeTheme}
           updateFilter={updateFilter}
           openCategory={openThemeCategory}
           toggleCategory={toggleThemeCategory}
+          themeQuery={themeQuery}
         />
       ) : (
         <GroupedThemeOptions 

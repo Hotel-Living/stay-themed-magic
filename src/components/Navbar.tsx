@@ -69,7 +69,7 @@ export function Navbar() {
   };
 
   return <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 border-b border-[#c266af] transition-all duration-500 wave-bg sky-bg",
+      "fixed top-0 left-0 right-0 z-50 border-b border-[#c266af] transition-all duration-500",
       scrolled 
         ? "bg-[#4A90E2]/90 backdrop-blur-lg" 
         : "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow"

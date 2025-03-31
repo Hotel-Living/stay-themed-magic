@@ -8,7 +8,7 @@ export function Footer() {
   const [hovered, setHovered] = useState(false);
 
   return <footer 
-      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 wave-bg ${
+      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 ${
         hovered 
           ? "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow" 
           : "bg-[#4A90E2]"

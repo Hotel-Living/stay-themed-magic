@@ -3,7 +3,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("benefits");
 
@@ -24,7 +23,6 @@ export default function FAQHotels() {
     id: "video",
     name: "Video"
   }];
-  
   const hotelFaqsByCategory = {
     benefits: [{
       question: "What occupancy rate can I expect?",
@@ -85,7 +83,6 @@ export default function FAQHotels() {
       answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, theme setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
     }]
   };
-
   return <div className="min-h-screen flex flex-col faq-page">
       <Navbar />
       
@@ -106,7 +103,7 @@ export default function FAQHotels() {
             {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => <TabsContent key={category.id} value={category.id} className="hotel-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#87058c]">
+                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#860493]">
                         <h2 className="font-semibold text-[#f9d3f6]">{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
@@ -120,12 +117,7 @@ export default function FAQHotels() {
               <div className="glass-card rounded-lg overflow-hidden border-none p-6">
                 <h2 className="font-semibold text-[#f9d3f6] text-xl mb-4 text-center">Watch Our Explainer Video</h2>
                 <div className="aspect-video w-full max-w-3xl mx-auto">
-                  <iframe 
-                    className="w-full h-full rounded-lg shadow-lg"
-                    src="https://www.youtube.com/embed/NEn7uG_fb8M" 
-                    title="Hotels Life Partner Program Overview"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen>
+                  <iframe className="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/NEn7uG_fb8M" title="Hotels Life Partner Program Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
                   </iframe>
                 </div>
               </div>

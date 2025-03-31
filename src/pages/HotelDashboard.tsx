@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { Footer } from "@/components/Footer";
 
 // Import refactored components
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -33,16 +34,26 @@ export default function HotelDashboard() {
   
   // If not authenticated, show registration options
   if (!user || !session) {
-    return <HotelRegistrationPrompt />;
+    return (
+      <div className="min-h-screen flex flex-col">
+        <HotelRegistrationPrompt />
+        <div className="mt-auto">
+          <Footer />
+        </div>
+      </div>
+    );
   }
   
   return (
-    <DashboardLayout 
-      activeTab={activeTab}
-      tabs={tabs}
-      setActiveTab={setActiveTab}
-    >
-      <TabContentSelector activeTab={activeTab} />
-    </DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <DashboardLayout 
+        activeTab={activeTab}
+        tabs={tabs}
+        setActiveTab={setActiveTab}
+      >
+        <TabContentSelector activeTab={activeTab} />
+      </DashboardLayout>
+      <Footer />
+    </div>
   );
 }

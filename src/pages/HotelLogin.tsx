@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { Eye, EyeOff, Lock, Mail, Building } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { AuthCard } from "@/components/auth/AuthCard";
@@ -110,6 +111,8 @@ export default function HotelLogin() {
           </AuthCard>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   User, 
   Building
 } from "lucide-react";
+import { Footer } from "@/components/Footer";
 import UserDashboardLayout from "@/components/dashboard/user/UserDashboardLayout";
 import DashboardContent from "@/components/dashboard/user/tabs/DashboardContent";
 import BookingsContent from "@/components/dashboard/user/tabs/BookingsContent";
@@ -46,12 +47,15 @@ export default function UserDashboard() {
   };
   
   return (
-    <UserDashboardLayout
-      activeTab={activeTab}
-      tabs={tabs}
-      setActiveTab={setActiveTab}
-    >
-      {renderContent()}
-    </UserDashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <UserDashboardLayout
+        activeTab={activeTab}
+        tabs={tabs}
+        setActiveTab={setActiveTab}
+      >
+        {renderContent()}
+      </UserDashboardLayout>
+      <Footer />
+    </div>
   );
 }

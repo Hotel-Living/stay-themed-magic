@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Footer } from "@/components/Footer";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { AuthCard } from "@/components/auth/AuthCard";
+import { InputField } from "@/components/auth/InputField";
+import { PasswordField } from "@/components/auth/PasswordField";
+import { SubmitButton } from "@/components/auth/SubmitButton";
+import { useToast } from "@/hooks/use-toast";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +18,7 @@ export default function Login() {
     signIn,
     isLoading
   } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -20,16 +28,14 @@ export default function Login() {
     await signIn(email, password);
     // Redirection is now handled in AuthContext after profile is fetched
   };
-  return <div className="min-h-screen flex flex-col">
+
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-14">
-        <div className="container max-w-lg mx-auto px-4 py-10">
-          <div style={{
-          background: 'linear-gradient(-45deg, #AA017A, #65086A)',
-          backgroundSize: '200% 200%',
-          animation: 'text-shine 2s linear infinite'
-        }} className="glass-card rounded-2xl overflow-hidden">
+      <main className="flex-1 pt-16">
+        <div className="container max-w-lg mx-auto px-4 py-8">
+          <AuthCard>
             <div className="p-8 backdrop-blur-sm bg-[#5d0170]">
               <div className="text-center mb-6">
                 <h1 className="text-2xl font-bold mb-6">Traveler Login</h1>
@@ -79,9 +85,9 @@ export default function Login() {
                 </div>
                 
                 {/* Login Button */}
-                <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg text-white font-medium text-sm transition-colors disabled:opacity-70 bg-[#860493]">
+                <SubmitButton type="submit" disabled={isLoading} className="w-full py-2 rounded-lg text-white font-medium text-sm transition-colors disabled:opacity-70 bg-[#860493]">
                   {isLoading ? "Signing in..." : "Sign In as Traveler"}
-                </button>
+                </SubmitButton>
               </form>
               
               <div className="mt-6 text-center">
@@ -100,14 +106,11 @@ export default function Login() {
                 </p>
               </div>
             </div>
-          </div>
+          </AuthCard>
         </div>
       </main>
       
-      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20">
-        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
-          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
-        </div>
-      </footer>
-    </div>;
+      <Footer />
+    </div>
+  );
 }

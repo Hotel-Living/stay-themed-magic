@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -54,7 +53,7 @@ export function Navbar() {
     }
   };
 
-  return <header className="fixed top-0 left-0 right-0 z-50 bg-[#860493] shadow-md">
+  return <header className="bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <Logo />
         

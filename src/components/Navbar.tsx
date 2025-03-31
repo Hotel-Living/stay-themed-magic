@@ -54,7 +54,7 @@ export function Navbar() {
     }
   };
 
-  return <header className="fixed top-0 left-0 right-0 z-50 bg-[#FF0099] shadow-md">
+  return <header className="fixed top-0 left-0 right-0 z-50 bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-4 flex items-center justify-between">
         <Logo />
         
@@ -87,7 +87,7 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-[56px] bg-[#FF0099] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
+      <div className={cn("fixed inset-0 top-[56px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           {isLoggedIn ? <>
               <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">

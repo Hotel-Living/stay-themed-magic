@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
 
 export function Footer() {
-  return <footer className="py-4 px-4 bg-[#FF0099] border-t border-[#ff66cc]">
+  return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-6" />
@@ -34,13 +34,13 @@ export function Footer() {
           </div>
           
           <div className="flex flex-wrap gap-4 justify-center mb-4">
-            <Link to="/hoteles" className="bg-white text-[#FF0099] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+            <Link to="/hoteles" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
               Hotels
             </Link>
-            <Link to="/signup" className="bg-white text-[#FF0099] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+            <Link to="/signup" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
               Register
             </Link>
-            <Link to="/signin" className="bg-white text-[#FF0099] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+            <Link to="/signin" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
               Sign In
             </Link>
           </div>

@@ -67,7 +67,7 @@ export function FilterSectionWrapper({
         }} useCollapsibleThemes={true} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={allPropertyThemes} />
           
           <div className="flex justify-center mt-0">
-            <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-2" size="sm">
+            <Button size="sm" className="text-white w-full max-w-6xl flex items-center justify-center py-2 bg-[#860493]">
               <Search className="w-4 h-4 mr-2" />
               Search
             </Button>

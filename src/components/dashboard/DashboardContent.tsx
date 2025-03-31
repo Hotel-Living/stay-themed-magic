@@ -25,7 +25,7 @@ export default function DashboardContent() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div className="glass-card rounded-2xl p-6 bg-[#62006b]">
+        <div className="glass-card rounded-2xl p-6 bg-[#430453]">
           <h2 className="text-xl font-bold mb-4">Recent Bookings</h2>
           <div className="space-y-4">
             <BookingItem name="Emma Thompson" dates="Nov 15 - Nov 23" property="Parador de Granada" status="confirmed" />

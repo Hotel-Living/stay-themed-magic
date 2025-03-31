@@ -1,13 +1,13 @@
 
 import { Check } from "lucide-react";
 export function HeroSection() {
-  return <section className="py-0 px-4 overflow-hidden pt-6">
+  return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
-          <h1 className="text-6xl md:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
             <span className="text-[#FFF701] animate-text-slow">Live in Hotels</span>
           </h1>
-          <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
             <span className="text-[#FFF701] animate-text-slow">Boost your Life!</span>
           </h2>
         </div>
@@ -18,7 +18,7 @@ export function HeroSection() {
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-left font-bold text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
+                <p className="text-left font-bold text-sm sm:text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
                   {slogan}
                 </p>
               </div>)}
@@ -29,7 +29,7 @@ export function HeroSection() {
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-left font-bold text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
+                <p className="text-left font-bold text-sm sm:text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
                   {slogan}
                 </p>
               </div>)}

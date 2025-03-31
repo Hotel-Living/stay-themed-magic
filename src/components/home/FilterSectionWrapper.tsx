@@ -19,7 +19,7 @@ export function FilterSectionWrapper({
   const themeNames = themes ? themes.map(theme => theme.name) : [];
   
   return (
-    <section className="py-0 px-4 mb-32 mt-12">
+    <section className="py-0 px-4 mb-32 mt-12 w-full">
       <div className="container max-w-6xl mx-auto">
         <div className="rounded-lg p-2 bg-[#860493]">
           <FilterSection 

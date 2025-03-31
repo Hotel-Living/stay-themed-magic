@@ -35,9 +35,9 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden w-full">
       <Starfield />
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <BrowserRouter>

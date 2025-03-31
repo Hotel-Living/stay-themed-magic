@@ -144,13 +144,13 @@
 @layer utilities {
   /* Animation for color changing text - 200% slower (from 1.5s to 4.5s) */
   .animate-text {
-    background-size: 200% 200%;
+    background-size: 220% 220%;
     animation: text-shine 4.5s linear infinite;
   }
   
   /* Slower animation for color changing text - enhanced for lateral wave effect */
   .animate-text-slow {
-    background-size: 200% 200%;
+    background-size: 220% 220%;
     animation: text-shine 18s ease-in-out infinite;
   }
 

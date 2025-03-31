@@ -110,7 +110,7 @@ export default function DashboardLayout({
                 </nav>
               </div>
               
-              <div className="glass-card rounded-2xl p-5">
+              <div className="glass-card rounded-2xl p-5 bg-[#430453]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
@@ -120,7 +120,7 @@ export default function DashboardLayout({
                 <p className="text-sm text-foreground/80 mb-4">
                   Our support team is available 24/7 to assist you with any questions.
                 </p>
-                <button className="w-full py-2 rounded-lg text-fuchsia-200 text-sm font-medium transition-colors bg-[#4c024d]">
+                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors bg-[#4c024d] text-slate-50">
                   Contact Support
                 </button>
               </div>

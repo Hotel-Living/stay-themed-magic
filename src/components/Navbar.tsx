@@ -1,6 +1,7 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
@@ -8,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const {
     user,
     profile,
@@ -19,6 +21,19 @@ export function Navbar() {
   } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
+
+  // Add scroll event listener for dynamic background effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
 
   const handleLogout = async () => {
     try {
@@ -53,7 +68,12 @@ export function Navbar() {
     }
   };
 
-  return <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-[#c266af] bg-[#860493]">
+  return <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 border-b border-[#c266af] transition-all duration-500",
+      scrolled 
+        ? "bg-[#860493]/95 backdrop-blur-lg" 
+        : "bg-gradient-to-r from-[#860493] to-[#B919B0] animate-text-slow"
+    )}>
       <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />

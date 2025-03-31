@@ -2,14 +2,25 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
+import { useState, useEffect } from "react";
 
 export function Footer() {
-  return <footer className="py-4 px-4 border-t border-[#c266af] bg-[#860493]">
-      <div className="container max-w-6xl mx-auto bg-[#860493]">
-        <div className="flex flex-col items-center justify-center bg-[t#860493] bg-[#860493]">
+  const [hovered, setHovered] = useState(false);
+
+  return <footer 
+      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 ${
+        hovered 
+          ? "bg-gradient-to-r from-[#860493] to-[#B919B0] animate-text-slow" 
+          : "bg-[#860493]"
+      }`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="container max-w-6xl mx-auto">
+        <div className="flex flex-col items-center justify-center">
           <Logo className="mb-4" />
           
-          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto bg-[#860493]">
+          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
             <Link to="/faq" className="text-white hover:text-white/90 text-xs font-medium">
               FAQ
             </Link>

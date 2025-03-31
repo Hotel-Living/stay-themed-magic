@@ -12,7 +12,7 @@ export function HeroSection() {
           </h2>
         </div>
         
-        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 mb-0.5 bg-white/15 rounded-lg backdrop-blur-sm p-2">
+        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 mb-0.5 bg-white/15 rounded-lg backdrop-blur-sm p-2 border-2 border-[#B919B0] shadow-[0_0_10px_rgba(185,25,176,0.6)]">
           <div className="space-y-0.125">
             {["Get rid of household chores", "Select hotels upon favourite themes"].map((slogan, index) => <div key={index} className="flex items-center gap-2 p-0.5 rounded-lg">
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">

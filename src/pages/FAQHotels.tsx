@@ -3,7 +3,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("benefits");
 
@@ -84,14 +83,13 @@ export default function FAQHotels() {
       answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, theme setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
     }]
   };
-
   return <div className="min-h-screen flex flex-col faq-page">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#f067ff]">Hotel Partner FAQ</h1>
-          <p className="text-center text-muted-foreground mb-8">
+          <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#f5ecf6]">Hotel Partner FAQ</h1>
+          <p className="text-center mb-8 font-bold text-[#f0e3f2]">
             Find answers to common questions about joining Hotels Life as a property partner
           </p>
           

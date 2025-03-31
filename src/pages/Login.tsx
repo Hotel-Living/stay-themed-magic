@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +11,6 @@ export default function Login() {
     signIn,
     isLoading
   } = useAuth();
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -23,7 +20,6 @@ export default function Login() {
     await signIn(email, password);
     // Redirection is now handled in AuthContext after profile is fetched
   };
-  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
@@ -83,7 +79,7 @@ export default function Login() {
                 </div>
                 
                 {/* Login Button */}
-                <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium text-sm transition-colors disabled:opacity-70">
+                <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg text-white font-medium text-sm transition-colors disabled:opacity-70 bg-[#860493]">
                   {isLoading ? "Signing in..." : "Sign In as Traveler"}
                 </button>
               </form>

@@ -18,9 +18,7 @@ export function HeroSection() {
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-left font-medium text-lg text-white" style={{ 
-                  WebkitTextStroke: '0.5px #860493'
-                }}>
+                <p className="text-left font-bold text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
                   {slogan}
                 </p>
               </div>)}
@@ -31,9 +29,7 @@ export function HeroSection() {
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-left font-medium text-lg text-white" style={{ 
-                  WebkitTextStroke: '0.5px #860493'
-                }}>
+                <p className="text-left font-bold text-lg text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]">
                   {slogan}
                 </p>
               </div>)}

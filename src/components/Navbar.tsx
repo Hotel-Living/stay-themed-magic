@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
-import { Menu, X, User } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
@@ -9,7 +9,6 @@ import { useToast } from "@/hooks/use-toast";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const {
     user,
     profile,
@@ -21,19 +20,6 @@ export function Navbar() {
   } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
-
-  // Add scroll event listener for dynamic background effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrolled]);
 
   const handleLogout = async () => {
     try {
@@ -68,37 +54,32 @@ export function Navbar() {
     }
   };
 
-  return <header className={cn(
-      "fixed top-0 left-0 right-0 z-50 border-b border-[#c266af] transition-all duration-500",
-      scrolled 
-        ? "bg-[#4A90E2]/90 backdrop-blur-lg" 
-        : "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow"
-    )}>
-      <div className="container px-4 sm:px-6 py-1 flex items-center justify-between">
+  return <header className="fixed top-0 left-0 right-0 z-50 bg-[#9B019C] shadow-md">
+      <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />
         </div>
         
         <div className="hidden md:flex items-center gap-6">
           {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-bold hover:text-white/80 text-sm">
+              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} className="text-white font-medium hover:text-white/80 text-base">
                 DASHBOARD
               </Link>
-              <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-sm">
+              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base">
                 LOGOUT
               </button>
             </> : <>
-              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-sm">
+              <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base">
                 REGISTER
               </Link>
-              <Link to="/login" className="text-white font-bold hover:text-white/80 text-sm">
+              <Link to="/login" className="text-white font-medium hover:text-white/80 text-base">
                 LOGIN
               </Link>
             </>}
-          <Link to="/faq" className="text-white font-bold hover:text-white/80 text-sm">
+          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base">
             FAQ
           </Link>
-          <Link to="/hoteles" className="text-white font-bold hover:text-white/80 text-sm">
+          <Link to="/hoteles" className="text-white font-medium hover:text-white/80 text-base">
             HOTELS
           </Link>
         </div>
@@ -108,25 +89,25 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-10 bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow backdrop-blur-lg z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
+      <div className={cn("fixed inset-0 top-[56px] bg-[#9B019C] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           {isLoggedIn ? <>
-              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">
+              <Link to={isHotelOwner ? "/hotel-dashboard" : "/user-dashboard"} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
                 DASHBOARD
               </Link>
-              <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-center text-sm">
+              <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base">
                 LOGOUT
               </button>
             </> : <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
                 REGISTER
               </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">
                 LOGIN
               </Link>
             </>}
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-sm">HOTELS</Link>
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">FAQ</Link>
+          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base">HOTELS</Link>
         </nav>
       </div>
     </header>;

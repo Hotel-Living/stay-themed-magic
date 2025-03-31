@@ -2,20 +2,9 @@
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
-import { useState, useEffect } from "react";
 
 export function Footer() {
-  const [hovered, setHovered] = useState(false);
-
-  return <footer 
-      className={`py-4 px-4 border-t border-[#c266af] transition-all duration-700 ${
-        hovered 
-          ? "bg-gradient-to-r from-[#4A90E2] via-[#67A9F0] to-[#87CEFA] bg-[length:220%_220%] animate-text-slow" 
-          : "bg-[#4A90E2]"
-      }`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+  return <footer className="py-4 px-4 bg-[#9B019C] border-t border-[#c266af]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <Logo className="mb-4" />
@@ -45,13 +34,13 @@ export function Footer() {
           </div>
           
           <div className="flex flex-wrap gap-4 justify-center mb-4">
-            <Link to="/hoteles" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/hoteles" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               HOTELS
             </Link>
-            <Link to="/signup" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/signup" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               REGISTER
             </Link>
-            <Link to="/signin" className="bg-white text-[#4A90E2] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
+            <Link to="/signin" className="bg-white text-[#9B019C] hover:bg-white/90 px-3 py-1 text-xs rounded-md">
               SIGN IN
             </Link>
           </div>

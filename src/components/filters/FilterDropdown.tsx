@@ -93,7 +93,7 @@ export const FilterDropdown = ({
     <div ref={dropdownRef} className="filter-dropdown relative flex-1 min-w-[160px]">
       <button
         onClick={() => toggleOpen(type)}
-        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-3 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-2' : ''}`}
+        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-2 text-sm hover:bg-fuchsia-900/50 transition-colors ${compactSpacing ? 'py-1.5' : ''}`}
       >
         <div className="flex items-center">
           {value ? (

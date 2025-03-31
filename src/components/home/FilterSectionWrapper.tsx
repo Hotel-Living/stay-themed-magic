@@ -68,7 +68,7 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
   return (
     <section className="py-0 px-4 mb-32 mt-12">
       <div className="container max-w-6xl mx-auto">
-        <div className="bg-[#C026D3] rounded-lg p-4">
+        <div className="bg-[#C026D3] rounded-lg p-2">
           <FilterSection 
             onFilterChange={onFilterChange} 
             showSearchButton={false}
@@ -88,10 +88,10 @@ export function FilterSectionWrapper({ onFilterChange }: FilterSectionWrapperPro
           
           <div className="flex justify-center mt-0">
             <Button 
-              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-3.5"
-              size="lg"
+              className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white w-full max-w-6xl flex items-center justify-center py-2"
+              size="sm"
             >
-              <Search className="w-5 h-5 mr-2" />
+              <Search className="w-4 h-4 mr-2" />
               Search
             </Button>
           </div>

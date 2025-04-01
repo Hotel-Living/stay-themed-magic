@@ -9,7 +9,7 @@ export function HeroSection() {
           <div className="flex justify-center mb-4">
             <div className="relative w-1/4 mx-auto">
               <div className="rounded-lg px-3 py-1.5 border-2 border-[#D946EF] bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
-                <p className="text-sm sm:text-xl md:text-2xl font-bold animate-pulse-glow"
+                <p className="text-sm sm:text-xl md:text-2xl font-bold animate-pulse-glow whitespace-nowrap"
                    style={{
                      color: "#fff",
                      textShadow: "0 0 7px #D946EF, 0 0 10px #D946EF, 0 0 21px #D946EF",

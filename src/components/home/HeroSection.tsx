@@ -5,11 +5,11 @@ export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
-          <div className="flex justify-center mb-1">
+          <div className="flex justify-center mb-0">
             <img 
               src="/lovable-uploads/5a721bae-4f56-434a-b0c0-d52babc44a5b.png" 
               alt="The Future is Here" 
-              className="max-w-xs w-full h-auto"
+              className="max-w-xs w-1/2 h-auto"
             />
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">

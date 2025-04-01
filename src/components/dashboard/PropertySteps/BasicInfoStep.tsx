@@ -56,7 +56,7 @@ export default function BasicInfoStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           HOTEL DESCRIPTION
         </label>
-        <textarea className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[120px]" placeholder="Enter a detailed description of your hotel" required></textarea>
+        <textarea placeholder="Enter a detailed description of your hotel" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[120px] bg-[#5c0869]"></textarea>
       </div>
     </div>;
 }

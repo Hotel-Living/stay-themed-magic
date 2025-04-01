@@ -17,8 +17,13 @@ export function FilterSectionWrapper({
     data: themes
   } = useThemes();
 
-  // Extract theme names for the filter dropdown
-  const themeNames = themes ? themes.map(theme => theme.name) : [];
+  // Extract theme category names for the main theme filter dropdown
+  const themeCategories = [
+    "Art", "Business", "Culture", "Education", "Entertainment", 
+    "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
+    "Languages", "Lifestyle", "Nature", "Personal Development", 
+    "Relationships", "Science and Technology", "Social Impact", "Sports"
+  ];
   
   return <section className="py-0 px-2 mb-24 mt-8 w-full">
       <div className="container max-w-5xl mx-auto">
@@ -32,12 +37,12 @@ export function FilterSectionWrapper({
               theme: "Theme?",
               priceRange: "Price per Month?"
             }} 
-            useCollapsibleThemes={true} 
+            useCollapsibleThemes={false} 
             expandedLayout={true} 
             compactSpacing={true} 
             useBoldLabels={true} 
             usePurpleFilterBackground={true} 
-            availableThemes={themeNames} 
+            availableThemes={themeCategories} 
           />
           
           <div className="flex justify-center mt-0 bg-[#860493]">

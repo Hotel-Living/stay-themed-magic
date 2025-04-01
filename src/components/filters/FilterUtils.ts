@@ -1,77 +1,109 @@
 
-import { Theme, allThemes } from "@/utils/themes";
-import { FilterState } from "./FilterTypes";
-
-// Month options
-export const months = [
-  "january", "february", "march", "april", 
-  "may", "june", "july", "august", 
-  "september", "october", "november", "december"
-];
-
-// Country options
+// Countries
 export const availableCountries = [
-  { value: "us", label: "United States" },
-  { value: "es", label: "Spain" },
-  { value: "fr", label: "France" },
-  { value: "it", label: "Italy" },
-  { value: "de", label: "Germany" },
-  { value: "gb", label: "United Kingdom" },
-  { value: "jp", label: "Japan" },
-  { value: "ca", label: "Canada" },
-  { value: "mx", label: "Mexico" },
-  { value: "br", label: "Brazil" },
-  { value: "cn", label: "China" },
-  { value: "au", label: "Australia" },
-  { value: "nz", label: "New Zealand" }
+  { value: "US", label: "United States" },
+  { value: "UK", label: "United Kingdom" },
+  { value: "CA", label: "Canada" },
+  { value: "AU", label: "Australia" },
+  { value: "DE", label: "Germany" },
+  { value: "FR", label: "France" },
+  { value: "IT", label: "Italy" },
+  { value: "ES", label: "Spain" },
+  { value: "JP", label: "Japan" },
+  { value: "CN", label: "China" },
+  { value: "BR", label: "Brazil" },
+  { value: "MX", label: "Mexico" },
+  { value: "IN", label: "India" },
+  { value: "ZA", label: "South Africa" },
+  { value: "AE", label: "United Arab Emirates" },
+  { value: "SG", label: "Singapore" },
+  { value: "NL", label: "Netherlands" },
+  { value: "SE", label: "Sweden" },
+  { value: "NO", label: "Norway" },
+  { value: "FI", label: "Finland" },
 ];
 
-// Price range options
+// Months
+export const months = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+// Theme categories
+export const themeCategories = [
+  "Art", "Business", "Culture", "Education", "Entertainment", 
+  "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
+  "Languages", "Lifestyle", "Nature", "Personal Development", 
+  "Relationships", "Science and Technology", "Social Impact", "Sports"
+];
+
+// Price ranges
 export const priceRanges = [
-  { value: 500, label: "Under $500" },
-  { value: 1000, label: "$500 - $1,000" },
-  { value: 1500, label: "$1,000 - $1,500" },
-  { value: 2000, label: "$1,500 - $2,000" },
-  { value: 2500, label: "$2,000 - $2,500" },
-  { value: 3000, label: "$2,500 - $3,000" },
-  { value: 3500, label: "$3,000 - $3,500" },
-  { value: 4000, label: "$3,500 - $4,000" },
-  { value: 4500, label: "$4,000 - $4,500" },
-  { value: 5000, label: "$4,500 - $5,000" },
-  { value: 10000, label: "$5,000+" }
+  { value: 1000, label: "Up to 1.000 $" },
+  { value: 1500, label: "1.000 $ to 1.500 $" },
+  { value: 2000, label: "1.500 $ to 2.000 $" },
+  { value: 3000, label: "More than 2.000 $" }
 ];
 
-// Create default filter state
-export const createDefaultFilters = (): FilterState => ({
-  searchTerm: '',
-  theme: null,
-  country: null,
-  month: null,
-  minPrice: 0,
-  maxPrice: 1000,
-  stars: [],
-  themes: [],
-  amenities: [],
-  priceRange: null
-});
+// Length of stay options
+export const stayLengths = [
+  { value: "1-month", label: "1 Month" },
+  { value: "3-months", label: "3 Months" },
+  { value: "6-months", label: "6 Months" },
+  { value: "1-year", label: "1 Year" },
+  { value: "long-term", label: "Long Term" }
+];
 
-// Update filter state
-export const updateFiltersState = (
-  currentFilters: FilterState,
-  newFilters: Partial<FilterState>
-): FilterState => {
-  return { ...currentFilters, ...newFilters };
-};
+// Property types
+export const propertyTypes = [
+  "Hotel", 
+  "Boutique Hotel", 
+  "Resort", 
+  "Villa", 
+  "Apartment", 
+  "Guesthouse", 
+  "Hostel"
+];
 
-// Filter themes by search query
-export const filterThemesByQuery = (query: string): Theme[] => {
-  if (!query.trim()) {
-    return allThemes;
-  }
-  
-  const lowercaseQuery = query.toLowerCase();
-  return allThemes.filter(theme => 
-    theme.name.toLowerCase().includes(lowercaseQuery) || 
-    (theme.category && theme.category.toLowerCase().includes(lowercaseQuery))
-  );
-};
+// Property styles
+export const propertyStyles = [
+  "Modern", 
+  "Classic", 
+  "Luxury", 
+  "Budget", 
+  "Boutique", 
+  "Historic", 
+  "Eco-friendly"
+];
+
+// Location types
+export const locationTypes = [
+  "Beach", 
+  "Mountain", 
+  "City Center", 
+  "Countryside", 
+  "Forest", 
+  "Desert", 
+  "Island"
+];
+
+// Categories
+export const categories = [
+  "5-star", 
+  "4-star", 
+  "3-star", 
+  "Budget", 
+  "Luxury", 
+  "Family-friendly", 
+  "Adults-only"
+];

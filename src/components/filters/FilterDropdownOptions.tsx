@@ -42,7 +42,7 @@ const renderCountryOptions = (type: keyof FilterState) => {
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: country.value } 
       }))}
-      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-fuchsia-900/40`}
+      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
     >
       {country.label}
     </button>
@@ -58,7 +58,7 @@ const renderMonthOptions = (type: keyof FilterState) => {
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
             detail: { key: type, value: month } 
           }))}
-          className={`text-left px-3 py-2 rounded-md text-sm transition-colors capitalize hover:bg-fuchsia-900/40`}
+          className={`text-left px-3 py-2 rounded-md text-sm transition-colors capitalize hover:bg-[#460F54]`}
         >
           {month}
         </button>
@@ -78,6 +78,32 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
     toggleThemeCategory 
   } = props;
 
+  // Show only main theme categories if !useCollapsibleThemes
+  if (!useCollapsibleThemes) {
+    const themeCategories = [
+      "Art", "Business", "Culture", "Education", "Entertainment", 
+      "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
+      "Languages", "Lifestyle", "Nature", "Personal Development", 
+      "Relationships", "Science and Technology", "Social Impact", "Sports"
+    ];
+    
+    return (
+      <div className="grid grid-cols-1">
+        {themeCategories.map((category) => (
+          <button
+            key={category}
+            onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
+              detail: { key: 'theme', value: { id: category, name: category } } 
+            }))}
+            className={`text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+    );
+  }
+  
   return (
     <ThemeOptions
       themeQuery={themeQuery}
@@ -92,13 +118,20 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
 };
 
 const renderPriceOptions = (type: keyof FilterState) => {
-  return priceRanges.map((price) => (
+  const pricingOptions = [
+    { value: 1000, label: "Up to 1.000 $" },
+    { value: 1500, label: "1.000 $ to 1.500 $" },
+    { value: 2000, label: "1.500 $ to 2.000 $" },
+    { value: 3000, label: "More than 2.000 $" }
+  ];
+  
+  return pricingOptions.map((price) => (
     <button
       key={price.value}
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: price.value } 
       }))}
-      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-fuchsia-900/40`}
+      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
     >
       {price.label}
     </button>

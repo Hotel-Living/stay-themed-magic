@@ -8,7 +8,7 @@ export function HeroSection() {
           {/* New 1950s style neon sign slogan - 20% smaller with reduced padding */}
           <div className="flex justify-center mb-4">
             <div className="relative w-[30%] mx-auto">
-              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-black/30 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className="text-lg sm:text-xl md:text-2xl font-bold animate-pulse-glow truncate max-w-full text-center"
                    style={{
                      color: "#fff",

@@ -5,6 +5,13 @@ export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
+          <div className="flex justify-center mb-4">
+            <div className="bg-[#FFF600] rounded-xl border-4 border-[#B919B0] px-6 py-2 shadow-lg max-w-md mx-auto">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#B919B0]">
+                The Future is Here!
+              </h2>
+            </div>
+          </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
             <span className="bg-gradient-to-r from-[#FFF600] via-[#FFF600] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
           </h1>

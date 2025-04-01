@@ -89,10 +89,10 @@ export const FilterSection = ({
     return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
   };
 
-  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#9C23A5]/80' : 'bg-[#5A1876]/80';
-  const filterBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]/90' : 'bg-fuchsia-950/50';
-  const searchBgColor = usePurpleFilterBackground ? 'bg-[#5A1876]' : 'bg-fuchsia-600';
-  const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#4a1166]' : 'hover:bg-fuchsia-500';
+  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#860493]/90' : 'bg-[#5A1876]/80';
+  const filterBgColor = usePurpleFilterBackground ? 'bg-[#860493]' : 'bg-fuchsia-950/50';
+  const searchBgColor = usePurpleFilterBackground ? 'bg-[#860493]' : 'bg-fuchsia-600';
+  const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#7c0387]' : 'hover:bg-fuchsia-500';
   
   return (
     <FilterContainer
@@ -170,7 +170,7 @@ export const FilterSection = ({
       />
       
       {(showSearchButton || verticalLayout) && (
-        <div className={`${verticalLayout ? "mt-4" : compactSpacing ? "mt-2" : "mt-3"} w-full`}>
+        <div className={`${verticalLayout ? "mt-3" : compactSpacing ? "mt-1" : "mt-2"} w-full`}>
           <FilterButton
             hasActiveFilters={hasActiveFilters()}
             onClearAllFilters={clearAllFilters}

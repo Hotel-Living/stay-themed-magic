@@ -12,7 +12,6 @@ import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
 import ReviewsContent from "@/components/dashboard/ReviewsContent";
 import FinancesContent from "@/components/dashboard/FinancesContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
-import SeasonalPlanningContent from "@/components/dashboard/SeasonalPlanningContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -36,8 +35,6 @@ export const TabContentSelector: React.FC<TabContentSelectorProps> = ({ activeTa
       return <AnalyticsContent />;
     case "reviews":
       return <ReviewsContent />;
-    case "seasonalPlanning":
-      return <SeasonalPlanningContent />;
     case "finances":
       return <FinancesContent />;
     case "settings":

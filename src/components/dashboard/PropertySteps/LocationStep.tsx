@@ -34,7 +34,7 @@ export default function LocationStep() {
           </select>
           
           {selectedCountry === "other" && <div className="mt-2">
-              <input type="text" className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30" placeholder="Enter country name" value={customCountry} onChange={e => setCustomCountry(e.target.value)} required />
+              <input type="text" placeholder="Enter country name" value={customCountry} onChange={e => setCustomCountry(e.target.value)} required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
             </div>}
         </div>
         

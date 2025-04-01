@@ -39,20 +39,6 @@ export default function Hotels() {
             <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95]">
               <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
-                  <Building className="h-6 w-6 text-fuchsia-400" />
-                </div>
-                <CardTitle className="text-xl text-center">New Partners</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center pb-6">
-                <Button onClick={() => navigate("/hotel-signup")} className="bg-[#860493] hover:bg-[#460F54] text-white font-medium">
-                  Register as Hotel Partner
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95]">
-              <CardHeader className="pb-4 bg-[#6d0591]">
-                <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <HelpCircle className="h-6 w-6 text-fuchsia-400" />
                 </div>
                 <CardTitle className="text-xl text-center">FAQ</CardTitle>
@@ -60,6 +46,20 @@ export default function Hotels() {
               <CardContent className="text-center pb-6">
                 <Button onClick={() => navigate("/faq-hotels")} className="bg-[#860493] hover:bg-[#460F54] text-white font-medium">
                   View FAQ for Hotels
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95]">
+              <CardHeader className="pb-4 bg-[#6d0591]">
+                <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
+                  <Building className="h-6 w-6 text-fuchsia-400" />
+                </div>
+                <CardTitle className="text-xl text-center">New Partners</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center pb-6">
+                <Button onClick={() => navigate("/hotel-signup")} className="bg-[#860493] hover:bg-[#460F54] text-white font-medium">
+                  Register as Hotel Partner
                 </Button>
               </CardContent>
             </Card>

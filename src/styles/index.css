@@ -1,0 +1,18 @@
+
+/* Base styles and Tailwind directives */
+@import './base.css';
+
+/* Component styles */
+@import './components.css';
+
+/* Utility animations */
+@import './animations.css';
+
+/* Layout utilities */
+@import './layout.css';
+
+/* Custom scrollbar */
+@import './scrollbar.css';
+
+/* Background styles */
+@import './background.css';

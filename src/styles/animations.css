@@ -1,0 +1,36 @@
+
+@layer utilities {
+  /* Animation for color changing text */
+  .animate-text {
+    background-size: 200% auto;
+    animation: text-shine 9s linear infinite;
+  }
+  
+  /* Slower animation for color changing text - for lateral wave effect */
+  .animate-text-slow {
+    background-size: 200% auto;
+    animation: text-shine 12s ease-in-out infinite;
+  }
+
+  /* Background size utility for gradients */
+  .bg-size-200 {
+    background-size: 200% auto;
+  }
+
+  @keyframes text-shine {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Custom duration for longer transitions */
+  .duration-3000 {
+    transition-duration: 3000ms;
+  }
+}

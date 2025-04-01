@@ -26,7 +26,7 @@ export function FilterSectionWrapper({
   ];
   
   return <section className="py-0 px-2 mb-24 mt-8 w-full">
-      <div className="container max-w-4xl mx-auto">
+      <div className="container max-w-3xl mx-auto"> {/* Reduced from max-w-4xl (25% narrower) */}
         <div className="rounded-lg p-1 bg-[#5F0368]">
           <FilterSection 
             onFilterChange={onFilterChange} 

@@ -42,7 +42,7 @@ const renderCountryOptions = (type: keyof FilterState) => {
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: country.value } 
       }))}
-      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
+      className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]" 
     >
       {country.label}
     </button>
@@ -58,7 +58,7 @@ const renderMonthOptions = (type: keyof FilterState) => {
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
             detail: { key: type, value: month } 
           }))}
-          className={`text-left px-3 py-2 rounded-md text-sm transition-colors capitalize hover:bg-[#460F54]`}
+          className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors capitalize hover:bg-[#460F54]"
         >
           {month}
         </button>
@@ -95,7 +95,7 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
             onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
               detail: { key: 'theme', value: { id: category, name: category } } 
             }))}
-            className={`text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
+            className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
           >
             {category}
           </button>
@@ -131,7 +131,7 @@ const renderPriceOptions = (type: keyof FilterState) => {
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: price.value } 
       }))}
-      className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-[#460F54]`}
+      className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
     >
       {price.label}
     </button>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FilterState, FilterSectionProps } from "./FilterTypes";
@@ -89,9 +88,9 @@ export const FilterSection = ({
     return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
   };
 
-  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#860493]/90' : 'bg-[#5A1876]/80';
-  const filterBgColor = usePurpleFilterBackground ? 'bg-[#860493]' : 'bg-fuchsia-950/50';
-  const searchBgColor = usePurpleFilterBackground ? 'bg-[#860493]' : 'bg-fuchsia-600';
+  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#5F0368]/90' : 'bg-[#5A1876]/80';
+  const filterBgColor = usePurpleFilterBackground ? 'bg-[#5F0368]' : 'bg-fuchsia-950/50';
+  const searchBgColor = usePurpleFilterBackground ? 'bg-[#5F0368]' : 'bg-fuchsia-600';
   const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#7c0387]' : 'hover:bg-fuchsia-500';
   
   return (

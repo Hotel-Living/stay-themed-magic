@@ -110,7 +110,7 @@ export const FilterDropdown = ({
         <div className="flex items-center">
           {value ? (
             <>
-              <span className={`truncate mr-2 ${useBoldLabels ? 'font-semibold' : ''}`}>
+              <span className="truncate mr-2 font-bold"> {/* Always using font-bold */}
                 {getDisplayLabel()}
               </span>
               <button
@@ -121,7 +121,7 @@ export const FilterDropdown = ({
               </button>
             </>
           ) : (
-            <span className={`text-foreground/70 ${useBoldLabels ? 'font-semibold' : ''}`}>{label}</span>
+            <span className="text-foreground/70 font-bold">{label}</span> {/* Always using font-bold */}
           )}
         </div>
         <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />

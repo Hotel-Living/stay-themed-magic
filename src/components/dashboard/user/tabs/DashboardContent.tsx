@@ -26,7 +26,7 @@ export default function DashboardContent() {
           <h2 className="text-xl font-bold">Upcoming Stay</h2>
         </div>
         
-        <div className="p-6">
+        <div className="p-6 bg-[#5c0869]">
           {upcomingStay ? <div className="flex flex-col md:flex-row gap-6">
               <div className="md:w-1/3">
                 <img src="/placeholder.svg" alt={upcomingStay.hotelName} className="w-full aspect-video object-cover rounded-lg" />

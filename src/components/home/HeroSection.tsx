@@ -5,11 +5,11 @@ export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
-          {/* New 1950s style neon sign slogan */}
+          {/* New 1950s style neon sign slogan - 20% smaller with reduced padding */}
           <div className="flex justify-center mb-4">
-            <div className="relative w-3/8 mx-auto">
-              <div className="rounded-lg px-4 py-2 border-2 border-[#D946EF] bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
-                <p className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse-glow"
+            <div className="relative w-[30%] mx-auto">
+              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+                <p className="text-lg sm:text-xl md:text-2xl font-bold animate-pulse-glow truncate max-w-full text-center"
                    style={{
                      color: "#fff",
                      textShadow: "0 0 7px #D946EF, 0 0 10px #D946EF, 0 0 21px #D946EF",

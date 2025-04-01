@@ -60,6 +60,12 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
+          <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
+            Register
+          </Link>
+          <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
+            Login
+          </Link>
           {isLoggedIn || isDevelopment ? (
             <>
               {!isDevelopment && (
@@ -68,16 +74,7 @@ export function Navbar() {
                 </button>
               )}
             </>
-          ) : (
-            <>
-              <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                Register
-              </Link>
-              <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                Login
-              </Link>
-            </>
-          )}
+          ) : null}
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
             FAQ
           </Link>
@@ -93,6 +90,12 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
+          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Register
+          </Link>
+          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Login
+          </Link>
           {isLoggedIn || isDevelopment ? (
             <>
               {!isDevelopment && (
@@ -101,16 +104,7 @@ export function Navbar() {
                 </button>
               )}
             </>
-          ) : (
-            <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                Register
-              </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                Login
-              </Link>
-            </>
-          )}
+          ) : null}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
         </nav>

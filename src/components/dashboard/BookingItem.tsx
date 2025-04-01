@@ -1,17 +1,22 @@
+
 import React from 'react';
 import { Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 interface BookingItemProps {
   name: string;
   dates: string;
   property: string;
   status: 'confirmed' | 'pending' | 'cancelled';
+  amount?: string;
 }
+
 export const BookingItem = ({
   name,
   dates,
   property,
-  status
+  status,
+  amount
 }: BookingItemProps) => {
   return <div className="flex items-start p-3 rounded-lg border border-fuchsia-800/20 bg-[#eaf8ea]">
       <div className="w-10 h-10 rounded-full bg-fuchsia-500/20 flex-shrink-0 flex items-center justify-center mr-3">
@@ -21,10 +26,12 @@ export const BookingItem = ({
         <p className="truncate text-[#096e13] font-bold text-lg">{name}</p>
         <p className="truncate text-[#034a0a] text-base font-medium">{property}</p>
         <p className="text-[#044f0b] font-medium text-base">{dates}</p>
+        {amount && <p className="text-[#044f0b] font-medium">{amount}</p>}
       </div>
       <div className={cn("px-2 py-1 text-xs rounded-full", status === 'confirmed' ? "bg-green-500/20 text-green-300" : status === 'pending' ? "bg-amber-500/20 text-amber-300" : "bg-red-500/20 text-red-300")}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </div>
     </div>;
 };
+
 export default BookingItem;

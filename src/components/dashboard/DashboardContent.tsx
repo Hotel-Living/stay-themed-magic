@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -79,14 +78,14 @@ export const DashboardContent = () => {
       dates: 'Mar 15 - Apr 15, 2023',
       property: 'Luxury Villa',
       amount: '$1,200',
-      status: 'confirmed'
+      status: 'confirmed' as 'confirmed' | 'pending' | 'cancelled'
     },
     {
       name: 'Jane Doe',
       dates: 'Apr 1 - Apr 30, 2023',
       property: 'Beachfront Apartment',
       amount: '$980',
-      status: 'pending'
+      status: 'pending' as 'confirmed' | 'pending' | 'cancelled'
     }
   ];
 

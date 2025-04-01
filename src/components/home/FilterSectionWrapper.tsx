@@ -26,8 +26,8 @@ export function FilterSectionWrapper({
   ];
   
   return <section className="py-0 px-2 mb-24 mt-8 w-full">
-      <div className="container max-w-5xl mx-auto">
-        <div className="rounded-lg p-1 bg-[#860493]">
+      <div className="container max-w-4xl mx-auto">
+        <div className="rounded-lg p-1 bg-[#5F0368]">
           <FilterSection 
             onFilterChange={onFilterChange} 
             showSearchButton={false} 
@@ -45,10 +45,10 @@ export function FilterSectionWrapper({
             availableThemes={themeCategories} 
           />
           
-          <div className="flex justify-center mt-0 bg-[#860493]">
+          <div className="flex justify-center mt-0 bg-[#5F0368]">
             <Button 
               size="sm" 
-              className="text-white w-full max-w-6xl flex items-center justify-center py-1 bg-[#860493] hover:bg-[#460F54] font-bold"
+              className="text-white w-full max-w-6xl flex items-center justify-center py-1 bg-[#5F0368] hover:bg-[#460F54] font-bold"
             >
               <Search className="w-4 h-4 mr-2" />
               Search

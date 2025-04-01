@@ -13,8 +13,8 @@ export default function Privacy() {
         <div className="container max-w-4xl mx-auto py-10">
           <h1 className="text-3xl font-bold mb-6">Privacy & Cookies</h1>
           
-          <div className="prose prose-invert max-w-none space-y-6">
-            <p className="text-lg">Last updated: 12/11/2024</p>
+          <div className="prose prose-invert max-w-none space-y-6 text-sm"> {/* Changed text size to small (body size) */}
+            <p className="text-base">Last updated: 12/11/2024</p>
             
             <p>First things first: we care deeply about your privacy. When you use Hotel-Living.com services, you're trusting us, and we value that trust greatly. That's why we're committed to protecting and safeguarding all the personal data you provide to us. We look after our customers' interests and are transparent when it comes to processing your personal data.</p>
             

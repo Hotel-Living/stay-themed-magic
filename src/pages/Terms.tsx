@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
+
 export default function Terms() {
   return <div className="min-h-screen flex flex-col">
       <Starfield />
@@ -10,13 +11,14 @@ export default function Terms() {
         <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456]">
           <h1 className="font-bold mb-6 text-2xl">Terms & Conditions</h1>
           
-          <div className="prose prose-invert max-w-none">
-            <h2 className="font-semibold mb-4 text-xl">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
-            <p className="text-sm text-right text-gray-400 mb-6">Updated on 12/11/2024</p>
+          <div className="prose prose-invert max-w-none text-sm">
+            <h2 className="font-semibold mb-4 text-lg">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
+            <p className="text-xs text-right text-gray-400 mb-6">Updated on 12/11/2024</p>
             
             <p className="mb-4">
               By completing your Reservation, you are accepting these Conditions and any other provisions that have been provided to you during the booking process.
             </p>
+            
             <p className="mb-4">
               If any provision of these Conditions is (or becomes) invalid or unenforceable:
             </p>

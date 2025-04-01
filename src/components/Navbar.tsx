@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -59,26 +60,24 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
-          {isLoggedIn || isDevelopment ? <>
-              <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                Hotel Dashboard
-              </Link>
-              <Link to="/user-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                User Dashboard
-              </Link>
+          {isLoggedIn || isDevelopment ? (
+            <>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
                   Logout
                 </button>
               )}
-            </> : <>
+            </>
+          ) : (
+            <>
               <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
                 Register
               </Link>
               <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
                 Login
               </Link>
-            </>}
+            </>
+          )}
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
             FAQ
           </Link>
@@ -94,26 +93,24 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
-          {isLoggedIn || isDevelopment ? <>
-              <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                Hotel Dashboard
-              </Link>
-              <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                User Dashboard
-              </Link>
+          {isLoggedIn || isDevelopment ? (
+            <>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                   Logout
                 </button>
               )}
-            </> : <>
+            </>
+          ) : (
+            <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                 Register
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                 Login
               </Link>
-            </>}
+            </>
+          )}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
         </nav>

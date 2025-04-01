@@ -1,61 +1,193 @@
-import { Link } from "react-router-dom";
-import { PlusCircle, FileText, HelpCircle } from "lucide-react";
-import StatCard from "./StatCard";
-import BookingItem from "./BookingItem";
-import ReviewItem from "./ReviewItem";
-import ActionCard from "./ActionCard";
-export default function DashboardContent() {
-  const handlePropertyTabClick = () => {
-    const propertyTab = document.querySelector('button[data-tab="addProperty"]');
-    if (propertyTab instanceof HTMLElement) {
-      propertyTab.click();
+
+import React from 'react';
+import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import StatCard from './StatCard';
+import ActionCard from './ActionCard';
+import ReviewItem from './ReviewItem';
+import BookingItem from './BookingItem';
+import { useReviewNotifications } from '@/hooks/useReviewNotifications';
+import { Button } from '@/components/ui/button';
+
+export const DashboardContent = () => {
+  const navigate = useNavigate();
+  const { notifications, newNotificationsCount, loading: notificationsLoading } = useReviewNotifications();
+  
+  const stats = [
+    {
+      title: 'Total Bookings',
+      value: '32',
+      change: '+12%',
+      trend: 'up',
+      icon: <Calendar className="w-4 h-4" />
+    },
+    {
+      title: 'Revenue',
+      value: '$8,320',
+      change: '+18%',
+      trend: 'up',
+      icon: <BarChart2 className="w-4 h-4" />
+    },
+    {
+      title: 'Avg. Rating',
+      value: '4.8',
+      change: '+0.3',
+      trend: 'up',
+      icon: <Star className="w-4 h-4" />
+    },
+    {
+      title: 'Guests',
+      value: '64',
+      change: '+24%',
+      trend: 'up',
+      icon: <Users className="w-4 h-4" />
     }
-  };
-  return <>
-      <div className="glass-card rounded-2xl p-6 mb-8 bg-[#430453]">
-        <h2 className="text-xl font-bold mb-4">Quick Stats</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard title="Active Properties" value="2" change="+1" />
-          <StatCard title="Total Bookings" value="28" change="+4" />
-          <StatCard title="This Month Revenue" value="$4,580" change="+12%" />
-          <Link to="/add-property" className="flex items-center justify-center bg-fuchsia-950/30 rounded-lg p-4 hover:bg-fuchsia-900/30 transition-colors">
-            <span className="text-fuchsia-300 font-medium">+ A Property</span>
-          </Link>
+  ];
+
+  const actions = [
+    {
+      title: 'Add Property',
+      description: 'List a new hotel or apartment.',
+      icon: <Building className="w-5 h-5" />,
+      onClick: () => navigate('/add-property')
+    },
+    {
+      title: 'View Bookings',
+      description: 'Manage upcoming and past reservations.',
+      icon: <Calendar className="w-5 h-5" />,
+      onClick: () => navigate('/bookings')
+    },
+    {
+      title: 'View Analytics',
+      description: 'See detailed performance metrics.',
+      icon: <BarChart2 className="w-5 h-5" />,
+      onClick: () => navigate('/analytics')
+    },
+    {
+      title: 'Manage Reviews',
+      description: 'Respond to guest feedback.',
+      icon: <MessageSquare className="w-5 h-5" />,
+      onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      )
+    }
+  ];
+
+  const recentBookings = [
+    {
+      name: 'John Smith',
+      dates: 'Mar 15 - Apr 15, 2023',
+      property: 'Luxury Villa',
+      amount: '$1,200',
+      status: 'confirmed'
+    },
+    {
+      name: 'Jane Doe',
+      dates: 'Apr 1 - Apr 30, 2023',
+      property: 'Beachfront Apartment',
+      amount: '$980',
+      status: 'pending'
+    }
+  ];
+
+  return (
+    <div className="space-y-8">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((stat, i) => (
+          <StatCard key={i} {...stat} />
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="glass-card rounded-2xl p-6">
+        <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {actions.map((action, i) => (
+            <ActionCard key={i} {...action} />
+          ))}
         </div>
       </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div className="glass-card rounded-2xl p-6 bg-[#430453]">
-          <h2 className="text-xl font-bold mb-4">Recent Bookings</h2>
-          <div className="space-y-4">
-            <BookingItem name="Emma Thompson" dates="Nov 15 - Nov 23" property="Parador de Granada" status="confirmed" />
-            <BookingItem name="Michael Chen" dates="Dec 5 - Dec 21" property="TechHub Barcelona" status="pending" />
-            <BookingItem name="Sarah Johnson" dates="Jan 10 - Jan 18" property="Parador de Granada" status="confirmed" />
+
+      {/* Two Column Layout for Reviews and Bookings */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Reviews with Notifications */}
+        <div className="glass-card rounded-2xl p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Recent Reviews</h2>
+            {newNotificationsCount > 0 && (
+              <div className="bg-fuchsia-500 text-white text-xs px-2 py-1 rounded-full">
+                {newNotificationsCount} new
+              </div>
+            )}
           </div>
-          <button className="w-full mt-4 py-2 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition">
-            View all bookings
-          </button>
+          
+          {notificationsLoading ? (
+            <div className="animate-pulse space-y-4 py-4">
+              <div className="h-20 bg-fuchsia-500/10 rounded"></div>
+              <div className="h-20 bg-fuchsia-500/10 rounded"></div>
+            </div>
+          ) : notifications.length > 0 ? (
+            <div className="space-y-4">
+              {notifications.slice(0, 3).map((notification, i) => (
+                <div key={i} className={`${notification.isNew ? 'border-l-2 border-fuchsia-500 pl-3' : ''}`}>
+                  <ReviewItem
+                    name="Guest"
+                    rating={notification.rating}
+                    property={notification.hotelName}
+                    comment="Click to view full review and respond"
+                    date={new Date(notification.timestamp).toLocaleDateString()}
+                  />
+                </div>
+              ))}
+              <Button 
+                variant="outline" 
+                className="w-full mt-2" 
+                onClick={() => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(
+                  new MouseEvent('click', { bubbles: true })
+                )}
+              >
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Manage Reviews
+              </Button>
+            </div>
+          ) : (
+            <div className="text-center py-8 text-foreground/60">
+              <MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <p>No reviews yet</p>
+            </div>
+          )}
         </div>
-        
-        <div className="glass-card rounded-2xl p-6 bg-[#430453]">
-          <h2 className="text-xl font-bold mb-4">Recent Reviews</h2>
-          <div className="space-y-4">
-            <ReviewItem name="James Wilson" rating={5} property="Parador de Granada" comment="Amazing experience! The Spanish language immersion program exceeded my expectations." date="3 days ago" />
-            <ReviewItem name="Lisa Garcia" rating={4} property="TechHub Barcelona" comment="Great facilities and tech workshops. Would recommend for longer stays." date="1 week ago" />
-          </div>
-          <button className="w-full mt-4 py-2 text-sm text-fuchsia-400 hover:text-fuchsia-300 transition">
-            View all reviews
-          </button>
+
+        {/* Recent Bookings */}
+        <div className="glass-card rounded-2xl p-6">
+          <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
+          {recentBookings.length > 0 ? (
+            <div className="space-y-4">
+              {recentBookings.map((booking, i) => (
+                <BookingItem key={i} {...booking} />
+              ))}
+              <Button 
+                variant="outline" 
+                className="w-full mt-2"
+                onClick={() => document.querySelector('[data-tab="bookings"]')?.dispatchEvent(
+                  new MouseEvent('click', { bubbles: true })
+                )}
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                View All Bookings
+              </Button>
+            </div>
+          ) : (
+            <div className="text-center py-8 text-foreground/60">
+              <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <p>No bookings yet</p>
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className="glass-card rounded-2xl p-6 bg-[#430453]">
-        <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <ActionCard title="+ A Property" description="List a new hotel property" icon={<PlusCircle className="w-5 h-5" />} onClick={() => window.location.href = '/add-property'} />
-          <ActionCard title="Reports" description="View monthly performance reports" icon={<FileText className="w-5 h-5" />} />
-          <ActionCard title="Support" description="Contact our partner support team" icon={<HelpCircle className="w-5 h-5" />} />
-        </div>
-      </div>
-    </>;
-}
+    </div>
+  );
+};
+
+export default DashboardContent;

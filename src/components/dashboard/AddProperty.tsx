@@ -77,7 +77,7 @@ export default function AddProperty() {
           Previous
         </button>
         
-        {currentStep === totalSteps ? <button onClick={handleSubmitProperty} className="rounded-lg px-4 py-1.5 bg-green-600/80 hover:bg-green-600 text-white text-sm font-medium transition-colors">
+        {currentStep === totalSteps ? <button onClick={handleSubmitProperty} className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80">
             Next
           </button> : <button onClick={goToNextStep} className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors">
             Next

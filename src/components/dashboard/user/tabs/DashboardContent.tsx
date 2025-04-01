@@ -82,7 +82,7 @@ export default function DashboardContent() {
       
       {/* Recent Activities */}
       <div className="glass-card rounded-2xl overflow-hidden">
-        <div className="p-6 border-b border-fuchsia-900/20">
+        <div className="p-6 border-b border-fuchsia-900/20 bg-[#5c0869]">
           <h2 className="text-xl font-bold">Recent Activity</h2>
         </div>
         

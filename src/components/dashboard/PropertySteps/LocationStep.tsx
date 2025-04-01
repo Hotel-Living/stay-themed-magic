@@ -42,7 +42,7 @@ export default function LocationStep() {
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             CITY
           </label>
-          <select className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30" required>
+          <select required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]">
             <option value="">Select city</option>
             <option value="madrid">Madrid</option>
             <option value="barcelona">Barcelona</option>

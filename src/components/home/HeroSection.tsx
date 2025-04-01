@@ -2,9 +2,9 @@
 import { Check } from "lucide-react";
 
 export function HeroSection() {
-  return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
+  return <section className="py-0 px-4 overflow-hidden pt-4 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
-        <div className="pt-6 mb-0.5">
+        <div className="pt-4 mb-0.5">
           {/* New 1950s style neon sign slogan - 20% smaller with reduced padding */}
           <div className="flex justify-center mb-1">
             <div className="relative w-[30%] mx-auto">

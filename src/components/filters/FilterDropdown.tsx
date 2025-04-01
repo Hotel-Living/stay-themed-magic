@@ -105,7 +105,7 @@ export const FilterDropdown = ({
     <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]" onClick={e => e.stopPropagation()}>
       <button
         onClick={handleToggleOpen}
-        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-2 text-sm hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1.5' : ''}`}
+        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 text-sm hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border border-fuchsia-400/20`}
       >
         <div className="flex items-center">
           {value ? (
@@ -129,7 +129,7 @@ export const FilterDropdown = ({
       
       {isOpen && (
         <div 
-          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-800/30 shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-fuchsia-400/30 shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
           onClick={e => e.stopPropagation()}
         >
           <div onClick={e => e.stopPropagation()}>

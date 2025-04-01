@@ -1,4 +1,5 @@
 
+
 @layer utilities {
   /* Animation for color changing text */
   .animate-text {
@@ -17,6 +18,11 @@
     background-size: 200% auto;
   }
 
+  /* Neon sign pulsing glow animation */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite alternate;
+  }
+
   @keyframes text-shine {
     0% {
       background-position: 0% 50%;
@@ -29,8 +35,21 @@
     }
   }
   
+  /* Neon sign pulsing animation */
+  @keyframes pulse-glow {
+    from {
+      opacity: 0.8;
+      text-shadow: 0 0 7px #D946EF, 0 0 10px #D946EF, 0 0 21px #D946EF;
+    }
+    to {
+      opacity: 1;
+      text-shadow: 0 0 10px #D946EF, 0 0 20px #D946EF, 0 0 30px #D946EF, 0 0 40px #D946EF;
+    }
+  }
+  
   /* Custom duration for longer transitions */
   .duration-3000 {
     transition-duration: 3000ms;
   }
 }
+

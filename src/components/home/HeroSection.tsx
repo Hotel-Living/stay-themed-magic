@@ -5,6 +5,21 @@ export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
+          {/* New 1950s style neon sign slogan */}
+          <div className="flex justify-center mb-4">
+            <div className="relative w-1/2 mx-auto">
+              <div className="rounded-lg px-4 py-2 border-2 border-[#D946EF] bg-black/50 backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse-glow"
+                   style={{
+                     color: "#fff",
+                     textShadow: "0 0 7px #D946EF, 0 0 10px #D946EF, 0 0 21px #D946EF",
+                   }}>
+                  The Future is Here!
+                </p>
+              </div>
+            </div>
+          </div>
+          
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
             <span className="bg-gradient-to-r from-[#FFF600] via-[#FFF600] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
           </h1>

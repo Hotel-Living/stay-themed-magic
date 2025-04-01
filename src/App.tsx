@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
 import { AuthProvider } from './context/auth/AuthProvider';
 
-// Pages
 import Index from './pages/Index';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';

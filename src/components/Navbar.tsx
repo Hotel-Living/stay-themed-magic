@@ -6,12 +6,9 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
-import { LanguageSelector } from "./LanguageSelector";
-import { useTranslation } from "react-i18next";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { t } = useTranslation();
   const {
     user,
     profile,
@@ -65,34 +62,33 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {isLoggedIn || isDevelopment ? <>
               <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                {t('navbar.hotelDashboard')}
+                Hotel Dashboard
               </Link>
               <Link to="/user-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                {t('navbar.userDashboard')}
+                User Dashboard
               </Link>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
-                  {t('navbar.logout')}
+                  Logout
                 </button>
               )}
             </> : <>
               <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                {t('navbar.register')}
+                Register
               </Link>
               <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
-                {t('navbar.login')}
+                Login
               </Link>
             </>}
           <Link to="/add-property" className="text-white font-medium hover:text-white/80 text-base uppercase">
-            {t('navbar.addProperty')}
+            Add Property
           </Link>
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
-            {t('navbar.faq')}
+            FAQ
           </Link>
           <Link to="/hoteles" className="text-white font-medium hover:text-white/80 text-base uppercase">
-            {t('navbar.hotels')}
+            Hotels
           </Link>
-          <LanguageSelector />
         </div>
         
         <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
@@ -104,36 +100,29 @@ export function Navbar() {
         <nav className="flex flex-col space-y-4">
           {isLoggedIn || isDevelopment ? <>
               <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                {t('navbar.hotelDashboard')}
+                Hotel Dashboard
               </Link>
               <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                {t('navbar.userDashboard')}
+                User Dashboard
               </Link>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                  {t('navbar.logout')}
+                  Logout
                 </button>
               )}
             </> : <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                {t('navbar.register')}
+                Register
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                {t('navbar.login')}
+                Login
               </Link>
             </>}
           <Link to="/add-property" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            {t('navbar.addProperty')}
+            Add Property
           </Link>
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            {t('navbar.faq')}
-          </Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            {t('navbar.hotels')}
-          </Link>
-          <div className="flex justify-center pt-2">
-            <LanguageSelector />
-          </div>
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
+          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
         </nav>
       </div>
     </header>;

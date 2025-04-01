@@ -107,3 +107,19 @@ export const categories = [
   "Family-friendly", 
   "Adults-only"
 ];
+
+// Import theme data for filtering
+import { allThemes, themeCategories as themeCategoriesToFilter } from '@/utils/themes';
+
+// Function to filter themes based on search query
+export const filterThemesByQuery = (query: string) => {
+  if (!query || query.trim() === '') {
+    return allThemes;
+  }
+  
+  const lowercaseQuery = query.toLowerCase();
+  return allThemes.filter(theme => 
+    theme.name.toLowerCase().includes(lowercaseQuery) || 
+    (theme.category && theme.category.toLowerCase().includes(lowercaseQuery))
+  );
+};

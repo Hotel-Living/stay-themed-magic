@@ -45,6 +45,7 @@ export default function HotelLogin() {
         <div className="container max-w-lg mx-auto px-4 py-8">
           <AuthCard 
             title="Hotel Partner Login" 
+            subtitle=""
             footerLinks={[
               {
                 text: "Don't have a hotel partner account?",

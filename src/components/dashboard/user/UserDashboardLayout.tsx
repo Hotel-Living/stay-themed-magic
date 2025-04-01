@@ -98,7 +98,7 @@ export default function UserDashboardLayout({
                   <p className="text-sm text-muted-foreground">{membershipType}</p>
                 </div>
                 
-                <nav className="p-2">
+                <nav className="p-2 bg-[#5c0869]">
                   {tabs.map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-fuchsia-500/20 text-fuchsia-200" : "hover:bg-fuchsia-500/10 text-foreground/80")}>
                       {tab.icon}
                       {tab.label}

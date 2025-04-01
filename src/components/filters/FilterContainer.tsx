@@ -17,7 +17,7 @@ export const FilterContainer: React.FC<FilterContainerProps> = ({
   formWrapperBgColor,
 }) => {
   return (
-    <div className={`neo-blur filter-dropdown-container rounded-lg ${compactSpacing ? 'p-0.5' : 'p-2 md:p-3'} ${formWrapperBgColor} border border-fuchsia-400/40`}>
+    <div className={`neo-blur filter-dropdown-container rounded-lg ${compactSpacing ? 'p-0.5' : 'p-2 md:p-3'} ${formWrapperBgColor} border-2 border-fuchsia-400/70 shadow-md`}>
       <div className={`flex ${verticalLayout ? "flex-col space-y-1" : expandedLayout ? "flex-row gap-1 w-full" : "flex-wrap gap-1"}`}>
         {children}
       </div>

@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -103,7 +104,7 @@ export const FilterDropdown = ({
     <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]" onClick={e => e.stopPropagation()}>
       <button
         onClick={handleToggleOpen}
-        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 text-sm hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border-2 border-fuchsia-400/30`}
+        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 text-sm hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border-2 border-fuchsia-400/70`}
       >
         <div className="flex items-center">
           {value ? (
@@ -119,7 +120,7 @@ export const FilterDropdown = ({
               </button>
             </>
           ) : (
-            <span className="text-foreground/70 font-bold">{label}</span>
+            <span className={`text-foreground/70 ${useBoldLabels ? 'font-bold' : ''}`}>{label}</span>
           )}
         </div>
         <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />
@@ -127,7 +128,7 @@ export const FilterDropdown = ({
       
       {isOpen && (
         <div 
-          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border-2 border-fuchsia-400/40 shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border-2 border-fuchsia-400/70 shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
           onClick={e => e.stopPropagation()}
         >
           <div onClick={e => e.stopPropagation()}>

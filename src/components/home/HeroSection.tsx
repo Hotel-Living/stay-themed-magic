@@ -5,9 +5,9 @@ export function HeroSection() {
   return <section className="py-0 px-4 overflow-hidden pt-6 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className="pt-6 mb-1">
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center mb-1">
             <img 
-              src="/lovable-uploads/6a8f03bf-4d50-4216-8288-cb10fe973731.png" 
+              src="/lovable-uploads/5a721bae-4f56-434a-b0c0-d52babc44a5b.png" 
               alt="The Future is Here" 
               className="max-w-xs w-full h-auto"
             />

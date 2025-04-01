@@ -1,7 +1,7 @@
 import React from "react";
 import { AlertCircle } from "lucide-react";
 export default function ImportantNotice() {
-  return <div className="bg-amber-900/20 border border-amber-500/30 p-3 rounded-lg mb-6 flex items-start">
+  return <div className="border border-amber-500/30 p-3 rounded-lg mb-6 flex items-start bg-[#5c0869]">
       <AlertCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
       <div>
         <p className="text-sm font-medium uppercase">IMPORTANT</p>

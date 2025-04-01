@@ -45,7 +45,6 @@ export default function HotelLogin() {
         <div className="container max-w-lg mx-auto px-4 py-8">
           <AuthCard 
             title="Hotel Partner Login" 
-            subtitle="Sign in to manage your properties"
             footerLinks={[
               {
                 text: "Don't have a hotel partner account?",
@@ -58,13 +57,7 @@ export default function HotelLogin() {
                 linkUrl: "/login"
               }
             ]}
-          >
-            <div className="flex justify-center mb-4">
-              <div className="p-3 bg-fuchsia-900/30 rounded-full">
-                <Building className="w-8 h-8 text-primary" />
-              </div>
-            </div>
-            
+          >            
             <form onSubmit={handleSubmit} className="space-y-3">
               <InputField
                 id="email"

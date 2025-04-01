@@ -1,0 +1,30 @@
+
+{
+  "navbar": {
+    "register": "Register",
+    "login": "Login",
+    "userDashboard": "User Dashboard",
+    "hotelDashboard": "Hotel Dashboard",
+    "addProperty": "Add Property",
+    "faq": "FAQ",
+    "hotels": "Hotels",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "myAccount": "My Account",
+    "premium": "Premium Member",
+    "profile": "Profile",
+    "bookings": "Bookings",
+    "payments": "Payments",
+    "saved": "Saved",
+    "history": "History",
+    "settings": "Settings",
+    "logout": "Log Out"
+  },
+  "hotelDashboard": {
+    "hotelManagement": "Hotel Management"
+  },
+  "footer": {
+    "copyright": "© {{year}} Hotel-Living.com. All rights reserved."
+  }
+}

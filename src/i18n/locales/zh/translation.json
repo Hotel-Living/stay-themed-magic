@@ -1,0 +1,30 @@
+
+{
+  "navbar": {
+    "register": "注册",
+    "login": "登录",
+    "userDashboard": "用户面板",
+    "hotelDashboard": "酒店面板",
+    "addProperty": "添加物业",
+    "faq": "常见问题",
+    "hotels": "酒店",
+    "logout": "登出"
+  },
+  "dashboard": {
+    "myAccount": "我的账户",
+    "premium": "高级会员",
+    "profile": "个人资料",
+    "bookings": "预订",
+    "payments": "付款",
+    "saved": "已保存",
+    "history": "历史",
+    "settings": "设置",
+    "logout": "登出"
+  },
+  "hotelDashboard": {
+    "hotelManagement": "酒店管理"
+  },
+  "footer": {
+    "copyright": "© {{year}} Hotel-Living.com. 版权所有。"
+  }
+}

@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut } from "lucide-react";
@@ -6,18 +7,22 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 interface UserDashboardLayoutProps {
   children: ReactNode;
   activeTab: string;
   tabs: DashboardTab[];
   setActiveTab: (tab: string) => void;
 }
+
 export default function UserDashboardLayout({
   children,
   activeTab,
   tabs,
   setActiveTab
 }: UserDashboardLayoutProps) {
+  const { t } = useTranslation();
   const {
     user,
     profile,
@@ -36,7 +41,7 @@ export default function UserDashboardLayout({
   const userName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Traveller';
 
   // Set a default membership type since the field doesn't exist in the Profile type
-  const membershipType = 'Premium Member';
+  const membershipType = t('dashboard.premium');
   console.log("Current profile in UserDashboardLayout:", profile);
 
   // Check if user is a hotel owner and redirect if necessary
@@ -58,6 +63,7 @@ export default function UserDashboardLayout({
       navigate('/login');
     }
   }, [user, session, navigate, isDevelopment]);
+  
   const handleLogout = async () => {
     try {
       if (!session) {
@@ -79,12 +85,13 @@ export default function UserDashboardLayout({
       });
     }
   };
+  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">My Account</h1>
+          <h1 className="text-3xl font-bold mb-8">{t('dashboard.myAccount')}</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}
@@ -110,7 +117,7 @@ export default function UserDashboardLayout({
                   
                   <button onClick={handleLogout} className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-fuchsia-500/10 transition-colors">
                     <LogOut className="w-5 h-5" />
-                    Log Out
+                    {t('dashboard.logout')}
                   </button>
                 </nav>
               </div>
@@ -126,7 +133,7 @@ export default function UserDashboardLayout({
       
       <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20 mt-10">
         <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
-          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
+          {t('footer.copyright', { year: new Date().getFullYear() })}
         </div>
       </footer>
     </div>;

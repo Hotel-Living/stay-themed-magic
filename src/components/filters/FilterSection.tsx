@@ -161,7 +161,7 @@ export const FilterSection = ({
         options={priceRanges}
         onChange={updateFilter}
         onClear={clearFilter}
-        isOpen={openDropdown === "price"}
+        isOpen={openDropdown === "priceRange"}
         toggleOpen={toggleDropdown}
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}

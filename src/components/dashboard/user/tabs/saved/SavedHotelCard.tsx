@@ -1,8 +1,8 @@
 
 import React from "react";
-import { MapPin, Star, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
 import { SavedHotel } from "@/components/dashboard/hooks/useSavedHotels";
+import SavedHotelContent from "./SavedHotelContent";
+import SavedHotelActions from "./SavedHotelActions";
 
 interface SavedHotelCardProps {
   hotel: SavedHotel;
@@ -24,48 +24,19 @@ export default function SavedHotelCard({ hotel, onRemove }: SavedHotelCardProps)
         />
       </div>
       
-      <div className="p-4">
-        <h3 className="font-bold text-lg mb-1">{hotel.hotels.name || 'Unknown Hotel'}</h3>
-        <div className="flex items-center text-sm text-muted-foreground mb-2">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span>
-            {hotel.hotels ? `${hotel.hotels.city}, ${hotel.hotels.country}` : 'Unknown Location'}
-          </span>
-        </div>
-        <div className="flex mb-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-          ))}
-        </div>
-        <p className="text-sm line-clamp-2 text-muted-foreground mb-3">
-          {hotel.hotels.description || 'No description available'}
-        </p>
-        
-        <div className="flex justify-between items-center mt-4">
-          <div>
-            <span className="block text-lg font-bold">
-              ${hotel.hotels.price_per_month || 0}
-            </span>
-            <span className="text-xs text-muted-foreground">per month</span>
-          </div>
-          
-          <div className="flex gap-2">
-            <button 
-              onClick={() => onRemove(hotel.id)}
-              className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-200 text-sm rounded"
-            >
-              Remove
-            </button>
-            
-            <Link 
-              to={`/hotel/${hotel.hotels.id}`} 
-              className="px-3 py-1 bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-200 text-sm rounded flex items-center"
-            >
-              View <ExternalLink className="w-3 h-3 ml-1" />
-            </Link>
-          </div>
-        </div>
-      </div>
+      <SavedHotelContent 
+        name={hotel.hotels.name}
+        city={hotel.hotels.city}
+        country={hotel.hotels.country}
+        description={hotel.hotels.description}
+        price={hotel.hotels.price_per_month}
+      />
+      
+      <SavedHotelActions 
+        hotelId={hotel.hotels.id}
+        favoriteId={hotel.id}
+        onRemove={onRemove}
+      />
     </div>
   );
 }

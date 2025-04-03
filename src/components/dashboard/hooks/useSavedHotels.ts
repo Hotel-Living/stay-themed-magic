@@ -30,26 +30,42 @@ export function useSavedHotels() {
     try {
       setIsLoading(true);
       
-      const { data, error } = await supabase
+      // First get all favorites
+      const { data: favoritesData, error: favoritesError } = await supabase
         .from('favorites')
-        .select(`
-          id, 
-          created_at,
-          hotels (
-            id, 
-            name, 
-            description, 
-            city, 
-            country, 
-            price_per_month,
-            main_image_url
-          )
-        `)
+        .select('id, created_at, hotel_id')
         .eq('user_id', user.id);
       
-      if (error) throw error;
+      if (favoritesError) throw favoritesError;
       
-      setSavedHotels(data || []);
+      // Then process each favorite to get hotel details
+      const processedHotels: SavedHotel[] = [];
+      
+      for (const favorite of favoritesData || []) {
+        // Fetch hotel details for each favorite
+        const { data: hotelData, error: hotelError } = await supabase
+          .from('hotels')
+          .select('id, name, description, city, country, price_per_month, main_image_url')
+          .eq('id', favorite.hotel_id)
+          .single();
+        
+        if (!hotelError && hotelData) {
+          processedHotels.push({
+            id: favorite.id,
+            created_at: favorite.created_at,
+            hotels: hotelData
+          });
+        } else {
+          // Add with null hotel if there was an error fetching hotel data
+          processedHotels.push({
+            id: favorite.id,
+            created_at: favorite.created_at,
+            hotels: null
+          });
+        }
+      }
+      
+      setSavedHotels(processedHotels);
     } catch (error) {
       console.error("Error fetching saved hotels:", error);
       toast({

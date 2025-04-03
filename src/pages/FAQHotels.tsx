@@ -1,13 +1,20 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Building, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export default function FAQHotels() {
-  const [activeTab, setActiveTab] = useState("benefits");
+  const [activeTab, setActiveTab] = useState("video");
 
   // Hotel FAQ content (translated from Spanish)
   const hotelFaqCategories = [{
+    id: "video",
+    name: "Video"
+  }, {
     id: "benefits",
     name: "Benefits"
   }, {
@@ -19,10 +26,8 @@ export default function FAQHotels() {
   }, {
     id: "integration",
     name: "Integration"
-  }, {
-    id: "video",
-    name: "Video"
   }];
+  
   const hotelFaqsByCategory = {
     benefits: [{
       question: "What occupancy rate can I expect?",
@@ -83,6 +88,7 @@ export default function FAQHotels() {
       answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, theme setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
     }]
   };
+  
   return <div className="min-h-screen flex flex-col faq-page">
       <Navbar />
       
@@ -100,6 +106,30 @@ export default function FAQHotels() {
                 </TabsTrigger>)}
             </TabsList>
             
+            <TabsContent value="video" className="hotel-text">
+              <div className="glass-card rounded-lg overflow-hidden border-none p-6">
+                <h2 className="font-semibold text-[#f9d3f6] text-xl mb-4 text-center">Watch Our Explainer Video</h2>
+                <div className="aspect-video w-full max-w-3xl mx-auto">
+                  <iframe className="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/NEn7uG_fb8M" title="Hotels Life Partner Program Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+                  </iframe>
+                </div>
+                
+                <div className="mt-8 border-t-2 border-fuchsia-400/30 pt-6">
+                  <h3 className="text-[#f9d3f6] text-lg font-semibold mb-4 text-center">Ready to join Hotels Life?</h3>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link to="/hotel-signup" className="bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center">
+                      <Building className="mr-2 h-5 w-5" />
+                      Register Your Hotel
+                    </Link>
+                    <Link to="/hotel-login" className="bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center">
+                      <Mail className="mr-2 h-5 w-5" />
+                      Partner Login
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+              
             {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => <TabsContent key={category.id} value={category.id} className="hotel-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
@@ -111,17 +141,21 @@ export default function FAQHotels() {
                       </AccordionContent>
                     </AccordionItem>)}
                 </Accordion>
-              </TabsContent>)}
-              
-            <TabsContent value="video" className="hotel-text">
-              <div className="glass-card rounded-lg overflow-hidden border-none p-6">
-                <h2 className="font-semibold text-[#f9d3f6] text-xl mb-4 text-center">Watch Our Explainer Video</h2>
-                <div className="aspect-video w-full max-w-3xl mx-auto">
-                  <iframe className="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/NEn7uG_fb8M" title="Hotels Life Partner Program Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
-                  </iframe>
+                
+                <div className="mt-8 border-t-2 border-fuchsia-400/30 pt-6">
+                  <h3 className="text-[#f9d3f6] text-lg font-semibold mb-4 text-center">Ready to join Hotels Life?</h3>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link to="/hotel-signup" className="bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center">
+                      <Building className="mr-2 h-5 w-5" />
+                      Register Your Hotel
+                    </Link>
+                    <Link to="/hotel-login" className="bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center">
+                      <Mail className="mr-2 h-5 w-5" />
+                      Partner Login
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </TabsContent>
+              </TabsContent>)}
           </Tabs>
         </div>
       </main>

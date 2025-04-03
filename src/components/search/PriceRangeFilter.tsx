@@ -1,5 +1,6 @@
 
 import { FilterItem } from "./FilterItem";
+import { priceRanges } from "@/components/filters/FilterUtils";
 
 interface PriceFilterProps {
   activePrice: number | null;
@@ -7,13 +8,6 @@ interface PriceFilterProps {
 }
 
 export function PriceRangeFilter({ activePrice, onChange }: PriceFilterProps) {
-  const priceRanges = [
-    { value: 1000, label: "Up to 1.000 $" },
-    { value: 1500, label: "1.000 $ to 1.500 $" },
-    { value: 2000, label: "1.500 $ to 2.000 $" },
-    { value: 3000, label: "More than 2.000 $" }
-  ];
-
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, value: number) => {
     e.stopPropagation();
     onChange(value);

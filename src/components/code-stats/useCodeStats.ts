@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 type FileStats = {
   path: string;
   lineCount: number;
 };
 
-export function CodeStatsCounter() {
+export function useCodeStats() {
   const [totalLines, setTotalLines] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -152,84 +152,6 @@ export function CodeStatsCounter() {
     
     fetchCodeStats();
   }, []);
-  
-  return (
-    <div className="glass-card rounded-2xl p-6 my-8 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Hotel Living Codebase Statistics</h2>
-      
-      {isLoading ? (
-        <div className="flex justify-center items-center py-10">
-          <div className="w-10 h-10 border-4 border-fuchsia-500/30 border-t-fuchsia-500 rounded-full animate-spin"></div>
-          <p className="ml-4 text-foreground/70">Calculating code statistics...</p>
-        </div>
-      ) : error ? (
-        <div className="bg-red-100 text-red-700 p-4 rounded-md">
-          {error}
-        </div>
-      ) : (
-        <div>
-          <div className="bg-fuchsia-100/10 p-6 rounded-xl mb-6 text-center border border-fuchsia-500/20">
-            <p className="text-4xl font-bold text-fuchsia-400 mb-2">{totalLines.toLocaleString()}</p>
-            <p className="text-foreground/70">Total lines of code</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="bg-fuchsia-100/5 p-4 rounded-xl border border-fuchsia-500/10">
-              <p className="text-xl font-bold text-fuchsia-300 mb-1">
-                {fileStats.length.toLocaleString()}
-              </p>
-              <p className="text-foreground/70 text-sm">Total files</p>
-            </div>
-            
-            <div className="bg-fuchsia-100/5 p-4 rounded-xl border border-fuchsia-500/10">
-              <p className="text-xl font-bold text-fuchsia-300 mb-1">
-                {Math.round(totalLines / fileStats.length).toLocaleString()}
-              </p>
-              <p className="text-foreground/70 text-sm">Average lines per file</p>
-            </div>
-          </div>
-          
-          <details className="group">
-            <summary className="cursor-pointer text-fuchsia-400 hover:text-fuchsia-300 transition flex items-center gap-2 mb-4">
-              <span className="font-medium">View file breakdown</span>
-              <span className="text-xs group-open:rotate-180 transition">▼</span>
-            </summary>
-            
-            <div className="mt-4 overflow-hidden overflow-y-auto max-h-[400px] pr-2 pb-2">
-              <table className="w-full text-sm">
-                <thead className="sticky top-0 bg-background">
-                  <tr className="border-b border-fuchsia-500/10">
-                    <th className="text-left py-2 px-1 text-foreground/70">File Path</th>
-                    <th className="text-right py-2 px-1 text-foreground/70">Lines</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {fileStats
-                    .sort((a, b) => b.lineCount - a.lineCount)
-                    .map((file, index) => (
-                      <tr 
-                        key={index} 
-                        className="border-b border-fuchsia-500/5 hover:bg-fuchsia-500/5 transition"
-                      >
-                        <td className="py-2 px-1 text-foreground/80 font-mono text-xs truncate max-w-xs">
-                          {file.path}
-                        </td>
-                        <td className="py-2 px-1 text-right text-foreground/80">
-                          {file.lineCount.toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </details>
-          
-          <p className="text-xs text-foreground/50 mt-6">
-            Note: This is an approximation based on manual analysis of the codebase structure.
-            The actual count may vary slightly.
-          </p>
-        </div>
-      )}
-    </div>
-  );
+
+  return { totalLines, isLoading, error, fileStats };
 }

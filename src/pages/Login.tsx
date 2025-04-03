@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
@@ -17,18 +17,49 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const {
     signIn,
-    isLoading
+    isLoading,
+    user
   } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/user-dashboard');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
       return;
     }
     
     console.log("Traveler login attempt with:", email);
-    await signIn(email, password);
+    try {
+      const result = await signIn(email, password);
+      if (result.error) {
+        toast({
+          title: "Error al iniciar sesión",
+          description: result.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast({
+        title: "Error al iniciar sesión",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    }
     // Redirection is now handled in AuthContext after profile is fetched
   };
 

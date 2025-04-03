@@ -13,29 +13,41 @@ export function useAuthState() {
 
   // Initialize auth state and set up listeners
   useEffect(() => {
+    console.log("Setting up auth state listener");
+    
+    // First, set up the auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
+      async (event, currentSession) => {
         console.log("Auth state changed:", event, currentSession?.user?.email);
         
         if (event === 'SIGNED_OUT') {
           // Clear all auth state when signed out
+          console.log("User signed out, clearing state");
           setSession(null);
           setUser(null);
           setProfile(null);
+          setIsLoading(false);
           return;
         }
         
+        // Update session and user immediately
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
+        // Defer profile fetch to prevent deadlocks
         if (currentSession?.user) {
           // Use setTimeout to defer profile fetch to next event loop
           // This prevents potential recursive issues with onAuthStateChange
-          setTimeout(() => {
-            fetchProfile(currentSession.user.id).then(profileData => {
+          setTimeout(async () => {
+            try {
+              const profileData = await fetchProfile(currentSession.user.id);
+              console.log("Profile fetched:", profileData);
               setProfile(profileData);
+            } catch (error) {
+              console.error("Error fetching profile:", error);
+            } finally {
               setIsLoading(false);
-            });
+            }
           }, 0);
         } else {
           setProfile(null);
@@ -44,31 +56,47 @@ export function useAuthState() {
       }
     );
 
-    // Initial session check
+    // Then check for existing session
     const checkInitialSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error("Error checking session:", error);
+      try {
+        console.log("Checking initial session...");
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Error checking session:", error);
+          setIsLoading(false);
+          return;
+        }
+        
+        console.log("Initial session check:", data.session?.user?.email);
+        
+        // Update session and user
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+        
+        // Fetch profile if user is logged in
+        if (data.session?.user) {
+          try {
+            const profileData = await fetchProfile(data.session.user.id);
+            console.log("Initial profile:", profileData);
+            setProfile(profileData);
+          } catch (error) {
+            console.error("Error fetching initial profile:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error in initial session check:", error);
+      } finally {
         setIsLoading(false);
-        return;
       }
-      
-      console.log("Initial session check:", data.session?.user?.email);
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-      
-      if (data.session?.user) {
-        const profileData = await fetchProfile(data.session.user.id);
-        setProfile(profileData);
-      }
-      
-      setIsLoading(false);
     };
     
+    // Run initial session check
     checkInitialSession();
 
+    // Clean up subscription
     return () => {
+      console.log("Cleaning up auth subscription");
       subscription.unsubscribe();
     };
   }, []);

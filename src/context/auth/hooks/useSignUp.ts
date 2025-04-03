@@ -1,92 +1,87 @@
 
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/integrations/supabase/types-custom";
 import { fetchProfile, updateUserProfile } from "../authUtils";
+import { useToast } from "@/hooks/use-toast";
 
 interface SignUpProps {
   setIsLoading: (isLoading: boolean) => void;
   setProfile: (profile: Profile | null) => void;
 }
 
+interface SignUpResult {
+  success: boolean;
+  error: string | null;
+}
+
 export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
+  const [authError, setAuthError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    userData?: Partial<Profile>
+  ): Promise<SignUpResult> => {
     try {
       setIsLoading(true);
+      setAuthError(null);
       
-      // Determine if this is a hotel owner signup
-      const isHotelOwner = userData?.is_hotel_owner === true;
-      console.log(`Signing up user as ${isHotelOwner ? 'hotel owner' : 'traveler'} with email: ${email}`);
+      // Determine if signing up as hotel owner
+      const isHotelSignUp = window.location.pathname.includes('hotel-signup');
+      console.log(`SignUp attempt from: ${window.location.pathname}, isHotelSignUp: ${isHotelSignUp}`);
       
-      // Add is_hotel_owner to user metadata for later reference during profile creation
-      const metadata = {
-        first_name: userData?.first_name,
-        last_name: userData?.last_name,
-        is_hotel_owner: isHotelOwner
-      };
+      // If hotel signup but no userData or is_hotel_owner flag not set
+      if (isHotelSignUp) {
+        userData = {
+          ...userData,
+          is_hotel_owner: true
+        };
+      }
       
+      // Sign up with Supabase
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: metadata
+          data: userData // Store user data in user_metadata
         }
-      });
-
-      if (error) {
-        toast({
-          title: "Error al registrarse",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (data.user) {
-        console.log("User created successfully:", data.user.id);
-        
-        // Ensure profile exists with proper flag
-        try {
-          // Attempt to fetch profile
-          const profileData = await fetchProfile(data.user.id);
-          
-          if (!profileData) {
-            // If no profile exists, create one explicitly with user data
-            console.log("No profile found after signup, creating one...");
-            await updateUserProfile(data.user, {
-              id: data.user.id,
-              first_name: userData?.first_name || null,
-              last_name: userData?.last_name || null,
-              is_hotel_owner: isHotelOwner,
-            });
-          } else {
-            // If profile exists but needs update
-            console.log("Updating existing profile with user data");
-            await updateUserProfile(data.user, userData || {});
-          }
-        } catch (profileError) {
-          console.error("Error ensuring profile exists:", profileError);
-        }
-      }
-
-      toast({
-        title: "¡Cuenta creada!",
-        description: "Por favor, verifica tu correo electrónico para activar tu cuenta",
       });
       
-    } catch (error: any) {
-      toast({
-        title: "Error al registrarse",
-        description: error.message || "Ha ocurrido un error",
-        variant: "destructive",
-      });
+      if (error) {
+        console.error("Sign-up error:", error);
+        setAuthError(error.message);
+        return { success: false, error: error.message };
+      }
+      
+      if (data.user) {
+        console.log("User signed up successfully:", data.user.email);
+        
+        // Normally profiles are created automatically via a trigger,
+        // but we'll check and create one explicitly if needed
+        let profileData = await fetchProfile(data.user.id);
+        
+        if (!profileData && userData) {
+          console.log("Creating profile explicitly for new user");
+          profileData = await updateUserProfile(data.user, userData);
+        }
+        
+        setProfile(profileData);
+        
+        // Return success without redirecting - let the component handle redirection
+        return { success: true, error: null };
+      }
+      
+      return { success: false, error: "Unknown error during signup" };
+    } catch (err: any) {
+      console.error("Sign-up error:", err);
+      setAuthError(err.message || "An unexpected error occurred");
+      return { success: false, error: err.message || "An unexpected error occurred" };
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { signUp };
+  return { signUp, authError };
 }

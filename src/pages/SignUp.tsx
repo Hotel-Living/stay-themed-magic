@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Mail, User } from "lucide-react";
@@ -10,6 +10,7 @@ import { InputField } from "@/components/auth/InputField";
 import { PasswordField } from "@/components/auth/PasswordField";
 import { TermsCheckbox } from "@/components/auth/TermsCheckbox";
 import { SubmitButton } from "@/components/auth/SubmitButton";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -17,16 +18,38 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const { signUp, isLoading } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!name || !email || !password || !confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
       return;
     }
     
     if (password !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Passwords don't match",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!acceptTerms) {
+      toast({
+        title: "Error",
+        description: "You must accept the terms and conditions",
+        variant: "destructive"
+      });
       return;
     }
     
@@ -35,11 +58,34 @@ export default function SignUp() {
     const firstName = nameParts[0];
     const lastName = nameParts.slice(1).join(' ');
     
-    await signUp(email, password, {
-      first_name: firstName,
-      last_name: lastName || null,
-      is_hotel_owner: false // Always set to false for travelers
-    });
+    try {
+      const result = await signUp(email, password, {
+        first_name: firstName,
+        last_name: lastName || null,
+        is_hotel_owner: false // Always set to false for travelers
+      });
+      
+      if (result && result.error) {
+        toast({
+          title: "Registration Error",
+          description: result.error,
+          variant: "destructive"
+        });
+      } else if (result && result.success) {
+        toast({
+          title: "Registration Successful",
+          description: "You can now log in with your credentials"
+        });
+        navigate('/login');
+      }
+    } catch (error: any) {
+      console.error("Signup error:", error);
+      toast({
+        title: "Registration Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive"
+      });
+    }
   };
   
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -109,6 +155,8 @@ export default function SignUp() {
               
               <TermsCheckbox
                 id="terms"
+                checked={acceptTerms}
+                onChange={() => setAcceptTerms(!acceptTerms)}
                 label={
                   <>
                     I agree to the{" "}

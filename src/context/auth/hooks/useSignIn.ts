@@ -10,11 +10,16 @@ interface SignInProps {
   setProfile: (profile: Profile | null) => void;
 }
 
+interface SignInResult {
+  success: boolean;
+  error: string | null;
+}
+
 export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string): Promise<SignInResult> => {
     try {
       setIsLoading(true);
       setAuthError(null);
@@ -31,12 +36,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       if (error) {
         setAuthError(error.message);
         console.error("Auth error:", error);
-        toast({
-          title: "Error al iniciar sesión",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
+        return { success: false, error: error.message };
       }
 
       if (data?.user) {
@@ -88,6 +88,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
             });
             // Sign out the user since they're not a hotel owner
             await supabase.auth.signOut();
+            return { success: false, error: "Esta cuenta no está registrada como propietario de hotel" };
           }
         } else {
           // Regular traveler login
@@ -99,15 +100,18 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
             window.location.href = '/user-dashboard';
           }
         }
+        
+        return { success: true, error: null };
       }
+      
+      return { success: false, error: "Authentication failed" };
     } catch (err: any) {
       console.error("Sign-in error:", err);
       setAuthError("An unexpected error occurred during sign in");
-      toast({
-        title: "Error al iniciar sesión",
-        description: err.message || "Ha ocurrido un error inesperado",
-        variant: "destructive",
-      });
+      return { 
+        success: false, 
+        error: err.message || "Ha ocurrido un error inesperado" 
+      };
     } finally {
       setIsLoading(false);
     }

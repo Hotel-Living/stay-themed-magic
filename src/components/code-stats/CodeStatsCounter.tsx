@@ -7,7 +7,7 @@ import { CodeStatsErrorState } from "./ErrorState";
 import { ContentContainer } from "./ContentContainer";
 
 export function CodeStatsCounter() {
-  const { totalLines, isLoading, error, fileStats } = useCodeStats();
+  const { totalLines, totalSizeInBytes, isLoading, error, fileStats } = useCodeStats();
   
   return (
     <div className="glass-card rounded-2xl p-6 my-8 max-w-4xl mx-auto">
@@ -18,7 +18,11 @@ export function CodeStatsCounter() {
       ) : error ? (
         <CodeStatsErrorState error={error} />
       ) : (
-        <ContentContainer totalLines={totalLines} fileStats={fileStats} />
+        <ContentContainer 
+          totalLines={totalLines} 
+          totalSizeInBytes={totalSizeInBytes} 
+          fileStats={fileStats} 
+        />
       )}
     </div>
   );

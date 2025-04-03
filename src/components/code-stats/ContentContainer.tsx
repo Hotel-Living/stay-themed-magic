@@ -8,21 +8,31 @@ import { FooterNote } from "./FooterNote";
 type FileStats = {
   path: string;
   lineCount: number;
+  sizeInBytes: number;
 };
 
 interface ContentContainerProps {
   totalLines: number;
+  totalSizeInBytes: number;
   fileStats: FileStats[];
 }
 
-export const ContentContainer: React.FC<ContentContainerProps> = ({ totalLines, fileStats }) => {
+export const ContentContainer: React.FC<ContentContainerProps> = ({ 
+  totalLines, 
+  totalSizeInBytes,
+  fileStats 
+}) => {
   return (
     <div>
-      <TotalLinesCard totalLines={totalLines} />
+      <TotalLinesCard 
+        totalLines={totalLines} 
+        totalSizeInBytes={totalSizeInBytes} 
+      />
       
       <StatsSummaryCards 
         fileCount={fileStats.length} 
-        averageLinesPerFile={totalLines / fileStats.length} 
+        averageLinesPerFile={totalLines / fileStats.length}
+        averageSizePerFile={totalSizeInBytes / fileStats.length}
       />
       
       <FileBreakdownTable fileStats={fileStats} />

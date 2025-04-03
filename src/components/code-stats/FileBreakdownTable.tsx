@@ -4,6 +4,7 @@ import React from "react";
 type FileStats = {
   path: string;
   lineCount: number;
+  sizeInBytes: number;
 };
 
 interface FileBreakdownTableProps {
@@ -11,6 +12,17 @@ interface FileBreakdownTableProps {
 }
 
 export const FileBreakdownTable: React.FC<FileBreakdownTableProps> = ({ fileStats }) => {
+  // Function to format file size
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) {
+      return bytes + " B";
+    } else if (bytes < 1024 * 1024) {
+      return (bytes / 1024).toFixed(1) + " KB";
+    } else {
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+  };
+
   return (
     <details className="group">
       <summary className="cursor-pointer text-fuchsia-400 hover:text-fuchsia-300 transition flex items-center gap-2 mb-4">
@@ -24,11 +36,12 @@ export const FileBreakdownTable: React.FC<FileBreakdownTableProps> = ({ fileStat
             <tr className="border-b border-fuchsia-500/10">
               <th className="text-left py-2 px-1 text-foreground/70">File Path</th>
               <th className="text-right py-2 px-1 text-foreground/70">Lines</th>
+              <th className="text-right py-2 px-1 text-foreground/70">Size</th>
             </tr>
           </thead>
           <tbody>
             {fileStats
-              .sort((a, b) => b.lineCount - a.lineCount)
+              .sort((a, b) => b.sizeInBytes - a.sizeInBytes)
               .map((file, index) => (
                 <tr 
                   key={index} 
@@ -39,6 +52,9 @@ export const FileBreakdownTable: React.FC<FileBreakdownTableProps> = ({ fileStat
                   </td>
                   <td className="py-2 px-1 text-right text-foreground/80">
                     {file.lineCount.toLocaleString()}
+                  </td>
+                  <td className="py-2 px-1 text-right text-foreground/80">
+                    {formatFileSize(file.sizeInBytes)}
                   </td>
                 </tr>
               ))}

@@ -42,6 +42,11 @@ footer {
   margin-top: 20px;
 }
 
+/* Mobile footer logo size adjustment */
+.footer-logo-mobile img {
+  height: 25px !important; /* This makes the logo 200% smaller than the default 51px height */
+}
+
 /* Add more spacing for mobile views */
 @media (max-width: 768px) {
   main {

@@ -11,8 +11,10 @@ export function Footer() {
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
-            {/* No scaling on the logo anymore - to match header size */}
-            <Logo />
+            {/* Add a footer-logo class for specific styling in mobile view */}
+            <div className={isMobile ? "footer-logo-mobile" : ""}>
+              <Logo />
+            </div>
           </div>
           
           <div className={`flex flex-wrap justify-center gap-x-10 ${isMobile ? "gap-y-0 text-xs" : "gap-y-4"} mb-2 max-w-full mx-auto`}>

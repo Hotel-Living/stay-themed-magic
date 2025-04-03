@@ -36,7 +36,7 @@ export default function RecentActivityCard({ activities, isLoading }: RecentActi
           activities.map((activity, index) => (
             <ActivityItem 
               key={index}
-              icon={activity.icon} 
+              iconName={activity.iconName} 
               title={activity.title} 
               description={activity.description} 
               time={activity.time} 

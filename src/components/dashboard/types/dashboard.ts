@@ -8,7 +8,7 @@ export interface DashboardTab {
 }
 
 export interface RecentActivity {
-  icon: ReactNode;
+  iconName: string;
   title: string;
   description: string;
   time: string;

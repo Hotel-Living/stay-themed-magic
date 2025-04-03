@@ -1,14 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { 
-  CreditCard, 
-  Building, 
-  Calendar, 
-  Activity,
-  CheckCircle,
-  BookOpen,
-  Clock
-} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -172,7 +163,7 @@ export function useDashboardData() {
     if (bookingsData) {
       bookingsData.forEach(booking => {
         activities.push({
-          icon: <Calendar className="w-5 h-5 text-blue-400" />,
+          iconName: "Calendar",
           title: "New Booking",
           description: `You booked ${booking.hotels?.name || 'a hotel'}`,
           time: formatDistanceToNow(new Date(booking.created_at), { addSuffix: true }),
@@ -200,7 +191,7 @@ export function useDashboardData() {
     if (favoritesData) {
       favoritesData.forEach(favorite => {
         activities.push({
-          icon: <Building className="w-5 h-5 text-fuchsia-400" />,
+          iconName: "Building",
           title: "Saved Hotel",
           description: `You saved ${favorite.hotels?.name || 'a hotel'} to your favorites`,
           time: formatDistanceToNow(new Date(favorite.created_at), { addSuffix: true }),

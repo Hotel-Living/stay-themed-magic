@@ -135,7 +135,7 @@ export const FilterSection = ({
         type="theme"
         label={placeholders.theme || "Theme"}
         value={filters.theme}
-        options={[]}
+        options={availableThemes}
         onChange={updateFilter}
         onClear={clearFilter}
         isOpen={openDropdown === "theme"}

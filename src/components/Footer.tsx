@@ -10,30 +10,30 @@ export function Footer() {
   return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <div className={isMobile ? "scale-[1.6] mb-8" : "mb-6"}>
+          <div className={isMobile ? "scale-[2.5] mb-8" : "mb-6"}>
             <Logo />
           </div>
           
           <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
-            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               FAQ
             </Link>
-            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Our Values
             </Link>
-            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Our Services
             </Link>
-            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Privacy & Cookies
             </Link>
-            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Terms & Conditions
             </Link>
-            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Customer Service
             </Link>
-            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               Intellectual Property
             </Link>
           </div>
@@ -53,7 +53,7 @@ export function Footer() {
         
         <Separator className="bg-white/40 mb-2" />
         
-        <div className={`text-center text-xs text-white/80 ${isMobile ? "mt-8 mb-6" : ""}`}>
+        <div className={`text-center text-xs text-white/80 ${isMobile ? "mt-16 mb-6" : ""}`}>
           <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
         </div>
       </div>

@@ -49,7 +49,8 @@ export const FilterDropdown = ({
         if (typeof value === 'object' && value !== null) {
           return `$${value.min} - $${value.max}`;
         }
-        return options.find((p: any) => p.value === value)?.label || `$${value}`;
+        const priceOption = options.find((p: any) => p.value === value);
+        return priceOption ? priceOption.label : `$${value}`;
       default:
         return value;
     }
@@ -68,25 +69,11 @@ export const FilterDropdown = ({
     };
   }, [toggleOpen]);
 
-  useEffect(() => {
-    const handleFilterUpdate = (e: Event) => {
-      const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
-      if (customEvent.detail.key === type) {
-        onChange(customEvent.detail.key, customEvent.detail.value);
-      }
-    };
-
-    const dropdownContainer = dropdownRef.current;
-    if (dropdownContainer) {
-      dropdownContainer.addEventListener('filter:update', handleFilterUpdate as EventListener);
-    }
-
-    return () => {
-      if (dropdownContainer) {
-        dropdownContainer.removeEventListener('filter:update', handleFilterUpdate as EventListener);
-      }
-    };
-  }, [onChange, type]);
+  // Event handler for filter options
+  const handleOptionSelect = (value: any) => {
+    onChange(type, value);
+    toggleOpen(""); // Close dropdown after selection
+  };
 
   const handleToggleOpen = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -131,8 +118,42 @@ export const FilterDropdown = ({
           className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border-2 border-fuchsia-400/70 shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
           onClick={e => e.stopPropagation()}
         >
-          <div onClick={e => e.stopPropagation()}>
-            {renderOptions(type)}
+          <div className="space-y-1">
+            {type === "country" && options.map((country) => (
+              <button
+                key={country.value}
+                onClick={() => handleOptionSelect(country.value)}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+              >
+                {country.label}
+              </button>
+            ))}
+
+            {type === "month" && options.map((month) => (
+              <button
+                key={month}
+                onClick={() => handleOptionSelect(month)}
+                className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors capitalize hover:bg-[#460F54]"
+              >
+                {month}
+              </button>
+            ))}
+
+            {type === "theme" && (
+              <div className="grid grid-cols-1">
+                {type === "theme" && renderOptions(type)}
+              </div>
+            )}
+
+            {type === "priceRange" && options.map((price) => (
+              <button
+                key={price.value}
+                onClick={() => handleOptionSelect(price.value)}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+              >
+                {price.label}
+              </button>
+            ))}
           </div>
         </div>
       )}

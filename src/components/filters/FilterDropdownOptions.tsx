@@ -27,7 +27,7 @@ export const renderDropdownOptions = (
       if (props) {
         return renderThemeOptions(props);
       }
-      return null;
+      return renderSimpleThemeOptions(type);
     case "priceRange":
       return renderPriceOptions(type);
     default:
@@ -67,6 +67,31 @@ const renderMonthOptions = (type: keyof FilterState) => {
   );
 };
 
+const renderSimpleThemeOptions = (type: keyof FilterState) => {
+  const themeCategories = [
+    "Art", "Business", "Culture", "Education", "Entertainment", 
+    "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
+    "Languages", "Lifestyle", "Nature", "Personal Development", 
+    "Relationships", "Science and Technology", "Social Impact", "Sports"
+  ];
+  
+  return (
+    <div className="grid grid-cols-1">
+      {themeCategories.map((category) => (
+        <button
+          key={category}
+          onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
+            detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
+          }))}
+          className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  );
+};
+
 const renderThemeOptions = (props: ThemeOptionsProps) => {
   const { 
     filters, 
@@ -92,7 +117,7 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
           <button
             key={category}
             onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-              detail: { key: 'theme', value: { id: category, name: category } } 
+              detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
             }))}
             className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
           >

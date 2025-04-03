@@ -5,6 +5,7 @@ import { useThemes } from '@/hooks/useThemes';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useNavigate } from 'react-router-dom';
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;
@@ -16,6 +17,17 @@ export function FilterSectionWrapper({
 }: FilterSectionWrapperProps) {
   const { data: themes } = useThemes();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+
+  // State to track active filters
+  const [activeFilters, setActiveFilters] = useState<FilterState>({
+    themes: [],
+    amenities: [],
+    country: null,
+    month: null,
+    theme: null,
+    priceRange: null
+  });
 
   // Extract theme category names for the main theme filter dropdown
   const themeCategories = [
@@ -25,11 +37,29 @@ export function FilterSectionWrapper({
     "Relationships", "Science and Technology", "Social Impact", "Sports"
   ];
   
+  const handleFilterChange = (newFilters: FilterState) => {
+    setActiveFilters(newFilters);
+    onFilterChange(newFilters);
+  };
+
+  const handleSearch = () => {
+    // Build query params from activeFilters
+    const params = new URLSearchParams();
+    
+    if (activeFilters.country) params.append("country", activeFilters.country);
+    if (activeFilters.month) params.append("month", activeFilters.month);
+    if (activeFilters.theme) params.append("theme", activeFilters.theme.id);
+    if (typeof activeFilters.priceRange === 'number') params.append("price", activeFilters.priceRange.toString());
+    
+    // Navigate to search page with filter parameters
+    navigate(`/search?${params.toString()}`);
+  };
+  
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div className="rounded-lg p-1 bg-[#981DA1] shadow-lg border-3 border-fuchsia-400/80">
           <FilterSection 
-            onFilterChange={onFilterChange} 
+            onFilterChange={handleFilterChange} 
             showSearchButton={false} 
             placeholders={{
               month: "Month?",
@@ -50,6 +80,7 @@ export function FilterSectionWrapper({
             <Button 
               size="sm" 
               className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#981DA1] hover:bg-[#460F54] font-bold border-t-2 border-fuchsia-400/70"
+              onClick={handleSearch}
             >
               <Search className="w-4 h-4 mr-2" />
               Search

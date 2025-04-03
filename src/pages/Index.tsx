@@ -6,6 +6,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { FilterState } from '@/components/filters';
 import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
 import { useThemes } from '@/hooks/useThemes';
+import { useHotels } from '@/hooks/useHotels';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -16,8 +17,12 @@ export default function Index() {
     rating: 0,
   });
 
+  // Initialize useHotels hook to prepare for filtering
+  const { updateFilters } = useHotels({ initialFilters: filters });
+
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
+    updateFilters(newFilters);
   };
 
   // Extract theme names for the filter dropdown

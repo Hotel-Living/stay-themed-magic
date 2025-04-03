@@ -4,6 +4,7 @@ import { Calendar, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { formatDate } from "../../utils/dateUtils";
 
 export default function BookingsContent() {
   const [bookings, setBookings] = useState([]);
@@ -41,12 +42,6 @@ export default function BookingsContent() {
     
     fetchBookings();
   }, [user, toast]);
-  
-  // Helper function to format dates for display
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-  };
   
   if (isLoading) {
     return (

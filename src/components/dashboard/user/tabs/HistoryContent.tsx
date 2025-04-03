@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from "react";
-import { History, Loader2, Star, Calendar } from "lucide-react";
+import { History, Loader2, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { formatDate, calculateDaysBetween } from "../../utils/dateUtils";
 
 export default function HistoryContent() {
   const [pastStays, setPastStays] = useState([]);
@@ -19,23 +20,9 @@ export default function HistoryContent() {
         setIsLoading(true);
         
         const today = new Date().toISOString().split('T')[0];
-        
         const { data, error } = await supabase
           .from('bookings')
-          .select(`
-            id,
-            check_in,
-            check_out,
-            total_price,
-            status,
-            hotels (
-              id,
-              name,
-              city,
-              country,
-              main_image_url
-            )
-          `)
+          .select('*, hotels(name, city, country)')
           .eq('user_id', user.id)
           .lt('check_out', today)
           .order('check_out', { ascending: false });
@@ -44,9 +31,9 @@ export default function HistoryContent() {
         
         setPastStays(data || []);
       } catch (error) {
-        console.error("Error fetching past stays:", error);
+        console.error("Error fetching stay history:", error);
         toast({
-          title: "Error loading history",
+          title: "Error loading stay history",
           description: "We couldn't load your stay history. Please try again later.",
           variant: "destructive"
         });
@@ -57,20 +44,6 @@ export default function HistoryContent() {
     
     fetchPastStays();
   }, [user, toast]);
-  
-  // Helper function to format dates for display
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-  };
-  
-  // Helper function to calculate days between dates
-  const calculateDays = (checkIn, checkOut) => {
-    const startDate = new Date(checkIn);
-    const endDate = new Date(checkOut);
-    const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-    return days;
-  };
   
   if (isLoading) {
     return (
@@ -90,60 +63,63 @@ export default function HistoryContent() {
       
       {pastStays.length > 0 ? (
         <div className="space-y-6">
-          {pastStays.map((stay) => (
-            <div key={stay.id} className="border border-fuchsia-900/20 rounded-lg overflow-hidden">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/3">
-                  <img 
-                    src={stay.hotels?.main_image_url || "/placeholder.svg"} 
-                    alt={stay.hotels?.name} 
-                    className="w-full h-full object-cover aspect-video"
-                  />
-                </div>
-                
-                <div className="p-4 flex-1">
-                  <h3 className="font-bold text-lg mb-1">{stay.hotels?.name || 'Unknown Hotel'}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {stay.hotels ? `${stay.hotels.city}, ${stay.hotels.country}` : 'Unknown Location'}
-                  </p>
-                  
-                  <div className="flex mb-3">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
-                    <div className="bg-fuchsia-950/30 p-2 rounded">
-                      <p className="text-xs text-muted-foreground">Check-in</p>
-                      <p className="font-medium">{formatDate(stay.check_in)}</p>
-                    </div>
-                    <div className="bg-fuchsia-950/30 p-2 rounded">
-                      <p className="text-xs text-muted-foreground">Check-out</p>
-                      <p className="font-medium">{formatDate(stay.check_out)}</p>
-                    </div>
-                    <div className="bg-fuchsia-950/30 p-2 rounded">
-                      <p className="text-xs text-muted-foreground">Duration</p>
-                      <p className="font-medium">{calculateDays(stay.check_in, stay.check_out)} days</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center mt-3">
-                    <div>
-                      <span className="block text-lg font-bold">
-                        ${stay.total_price}
-                      </span>
-                      <span className="text-xs text-muted-foreground">total price</span>
+          {pastStays.map((stay) => {
+            const days = calculateDaysBetween(stay.check_in, stay.check_out);
+            
+            return (
+              <div key={stay.id} className="border border-fuchsia-900/20 rounded-lg overflow-hidden">
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="md:w-1/4">
+                      <img 
+                        src="/placeholder.svg" 
+                        alt={stay.hotels?.name || "Hotel"} 
+                        className="aspect-video object-cover rounded-lg w-full"
+                      />
                     </div>
                     
-                    <button className="px-4 py-2 bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-200 text-sm rounded">
-                      Book Again
-                    </button>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">{stay.hotels?.name || 'Unknown Hotel'}</h3>
+                      <p className="text-muted-foreground mb-2">{stay.hotels ? `${stay.hotels.city}, ${stay.hotels.country}` : 'Unknown Location'}</p>
+                      
+                      <div className="flex space-x-1 mb-4">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star 
+                            key={star}
+                            className="w-4 h-4 fill-amber-400 text-amber-400"
+                          />
+                        ))}
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Dates</p>
+                          <p className="font-medium">{formatDate(stay.check_in)} - {formatDate(stay.check_out)}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Duration</p>
+                          <p className="font-medium">{days} days</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Total</p>
+                          <p className="font-medium">${stay.total_price}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <button className="px-3 py-1 bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-200 text-sm rounded">
+                          Book Again
+                        </button>
+                        <button className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded">
+                          Leave Review
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="text-center py-8">
@@ -151,7 +127,7 @@ export default function HistoryContent() {
             <History className="w-8 h-8 text-fuchsia-400" />
           </div>
           <h3 className="text-lg font-bold mb-2">No stay history</h3>
-          <p className="text-muted-foreground mb-6">You don't have any past stays with us yet.</p>
+          <p className="text-muted-foreground mb-6">You don't have any past stays.</p>
           <a href="/" className="inline-block py-2 px-4 rounded-lg bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-200 text-sm font-medium transition-colors">
             Browse Hotels
           </a>

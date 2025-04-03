@@ -1,13 +1,21 @@
 
 import { useState, useEffect } from "react";
+import { 
+  CreditCard, 
+  Building, 
+  Calendar, 
+  Activity,
+  CheckCircle,
+  BookOpen,
+  Clock
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { formatDistanceToNow } from "date-fns";
 import { RecentActivity, UpcomingStay } from "../types/dashboard";
-import { Clock, Star } from "lucide-react";
-import { formatTimeAgo, calculateDaysBetween } from "../utils/dateUtils";
 
-export const useDashboardData = () => {
+export function useDashboardData() {
   const [upcomingStay, setUpcomingStay] = useState<UpcomingStay | null>(null);
   const [bookingsCount, setBookingsCount] = useState<number>(0);
   const [completedStaysCount, setCompletedStaysCount] = useState<number>(0);
@@ -17,130 +25,31 @@ export const useDashboardData = () => {
   
   const { user } = useAuth();
   const { toast } = useToast();
-
+  
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!user) return;
-      
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
+    
+    const fetchData = async () => {
       try {
         setIsLoading(true);
         
-        // Fetch upcoming bookings
-        const today = new Date().toISOString().split('T')[0];
-        const { data: upcomingBookings, error: bookingsError } = await supabase
-          .from('bookings')
-          .select('*, hotels(name, city, country)')
-          .eq('user_id', user.id)
-          .gte('check_in', today)
-          .order('check_in', { ascending: true })
-          .limit(1);
-          
-        if (bookingsError) throw bookingsError;
-        
-        // Set upcoming stay if exists
-        if (upcomingBookings && upcomingBookings.length > 0) {
-          const booking = upcomingBookings[0];
-          const days = calculateDaysBetween(booking.check_in, booking.check_out);
-          
-          setUpcomingStay({
-            hotelId: booking.hotel_id,
-            hotelName: booking.hotels?.name || 'Unknown Hotel',
-            location: booking.hotels ? `${booking.hotels.city}, ${booking.hotels.country}` : 'Unknown Location',
-            checkIn: booking.check_in,
-            checkOut: booking.check_out,
-            days: days
-          });
-        }
-        
-        // Count all bookings
-        const { count: totalBookings, error: countError } = await supabase
-          .from('bookings')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .gte('check_in', today);
-          
-        if (countError) throw countError;
-        setBookingsCount(totalBookings || 0);
-        
-        // Count completed stays
-        const { count: completedCount, error: completedError } = await supabase
-          .from('bookings')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .lt('check_out', today);
-          
-        if (completedError) throw completedError;
-        setCompletedStaysCount(completedCount || 0);
-        
-        // Count saved hotels (favorites)
-        const { count: favoritesCount, error: favoritesError } = await supabase
-          .from('favorites')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id);
-          
-        if (favoritesError) throw favoritesError;
-        setSavedHotelsCount(favoritesCount || 0);
-        
-        // For simplicity, we'll create recent activities based on user actions
-        const recentItems: RecentActivity[] = [];
-        
-        // Add booking activities
-        const { data: recentBookings, error: recentBookingsError } = await supabase
-          .from('bookings')
-          .select('created_at, hotels(name)')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-          .limit(3);
-          
-        if (!recentBookingsError && recentBookings) {
-          recentBookings.forEach(booking => {
-            recentItems.push({
-              icon: <Clock className="w-5 h-5" />,
-              title: "Booking confirmed",
-              description: `Your booking at ${booking.hotels?.name || 'a hotel'} has been confirmed.`,
-              time: formatTimeAgo(booking.created_at),
-              created_at: booking.created_at
-            });
-          });
-        }
-        
-        // Add favorite activities
-        const { data: recentFavorites, error: recentFavoritesError } = await supabase
-          .from('favorites')
-          .select('created_at, hotels(name)')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-          .limit(3);
-          
-        if (!recentFavoritesError && recentFavorites) {
-          recentFavorites.forEach(favorite => {
-            if (favorite.hotels) {
-              recentItems.push({
-                icon: <Star className="w-5 h-5" />,
-                title: "Hotel saved",
-                description: `You saved ${favorite.hotels.name || 'a hotel'} to your favorites.`,
-                time: formatTimeAgo(favorite.created_at),
-                created_at: favorite.created_at
-              });
-            }
-          });
-        }
-        
-        // Sort activities by time
-        recentItems.sort((a, b) => {
-          if (a.created_at && b.created_at) {
-            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-          }
-          return 0;
-        });
-        
-        setRecentActivities(recentItems.slice(0, 3));
+        // Fetch counts from different tables
+        await Promise.all([
+          fetchBookingsCount(),
+          fetchCompletedStays(),
+          fetchSavedHotelsCount(),
+          fetchUpcomingStay(),
+          fetchRecentActivities()
+        ]);
         
       } catch (error) {
-        console.error("Error fetching user dashboard data:", error);
+        console.error("Error fetching dashboard data:", error);
         toast({
           title: "Error loading dashboard",
-          description: "We couldn't load your dashboard data. Please try again later.",
+          description: "We couldn't load some of your dashboard data. Please try again later.",
           variant: "destructive"
         });
       } finally {
@@ -148,9 +57,168 @@ export const useDashboardData = () => {
       }
     };
     
-    fetchUserData();
-  }, [user, toast]);
-
+    fetchData();
+  }, [user]);
+  
+  const fetchBookingsCount = async () => {
+    if (!user) return;
+    
+    const { count, error } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+    
+    if (error) throw error;
+    
+    setBookingsCount(count || 0);
+  };
+  
+  const fetchCompletedStays = async () => {
+    if (!user) return;
+    
+    const { count, error } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('status', 'completed');
+    
+    if (error) throw error;
+    
+    setCompletedStaysCount(count || 0);
+  };
+  
+  const fetchSavedHotelsCount = async () => {
+    if (!user) return;
+    
+    const { count, error } = await supabase
+      .from('favorites')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+    
+    if (error) throw error;
+    
+    setSavedHotelsCount(count || 0);
+  };
+  
+  const fetchUpcomingStay = async () => {
+    if (!user) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        id,
+        check_in,
+        check_out,
+        hotels:hotel_id (
+          id,
+          name,
+          city,
+          country
+        )
+      `)
+      .eq('user_id', user.id)
+      .eq('status', 'confirmed')
+      .gte('check_in', today)
+      .order('check_in', { ascending: true })
+      .limit(1);
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0 && data[0].hotels) {
+      const booking = data[0];
+      const checkIn = new Date(booking.check_in);
+      const checkOut = new Date(booking.check_out);
+      
+      // Calculate number of days
+      const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      setUpcomingStay({
+        hotelId: booking.hotels.id,
+        hotelName: booking.hotels.name,
+        location: `${booking.hotels.city}, ${booking.hotels.country}`,
+        checkIn: booking.check_in,
+        checkOut: booking.check_out,
+        days: diffDays
+      });
+    } else {
+      setUpcomingStay(null);
+    }
+  };
+  
+  const fetchRecentActivities = async () => {
+    if (!user) return;
+    
+    const activities: RecentActivity[] = [];
+    
+    // Fetch recent bookings
+    const { data: bookingsData, error: bookingsError } = await supabase
+      .from('bookings')
+      .select(`
+        id,
+        created_at,
+        hotels:hotel_id (
+          name
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(2);
+    
+    if (bookingsError) throw bookingsError;
+    
+    if (bookingsData) {
+      bookingsData.forEach(booking => {
+        activities.push({
+          icon: <Calendar className="w-5 h-5 text-blue-400" />,
+          title: "New Booking",
+          description: `You booked ${booking.hotels?.name || 'a hotel'}`,
+          time: formatDistanceToNow(new Date(booking.created_at), { addSuffix: true }),
+          created_at: booking.created_at
+        });
+      });
+    }
+    
+    // Fetch recent saved hotels
+    const { data: favoritesData, error: favoritesError } = await supabase
+      .from('favorites')
+      .select(`
+        id,
+        created_at,
+        hotels:hotel_id (
+          name
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(2);
+    
+    if (favoritesError) throw favoritesError;
+    
+    if (favoritesData) {
+      favoritesData.forEach(favorite => {
+        activities.push({
+          icon: <Building className="w-5 h-5 text-fuchsia-400" />,
+          title: "Saved Hotel",
+          description: `You saved ${favorite.hotels?.name || 'a hotel'} to your favorites`,
+          time: formatDistanceToNow(new Date(favorite.created_at), { addSuffix: true }),
+          created_at: favorite.created_at
+        });
+      });
+    }
+    
+    // Sort all activities by created_at date
+    activities.sort((a, b) => {
+      if (!a.created_at || !b.created_at) return 0;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    });
+    
+    // Take the most recent 5
+    setRecentActivities(activities.slice(0, 5));
+  };
+  
   return {
     upcomingStay,
     bookingsCount,
@@ -159,4 +227,4 @@ export const useDashboardData = () => {
     recentActivities,
     isLoading
   };
-};
+}

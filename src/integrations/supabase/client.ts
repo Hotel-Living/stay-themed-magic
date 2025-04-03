@@ -16,7 +16,7 @@ export const supabase = createClient<Database>(
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      storageKey: 'hotel-living-auth-key',
+      storageKey: 'hotel-living-auth-key', // Adding a specific storage key for easier debugging
     }
   }
 );

@@ -32,4 +32,5 @@ export interface FilterSectionProps {
     priceRange?: string;
   };
   availableThemes?: string[];
+  useLargerMobileText?: boolean;
 }

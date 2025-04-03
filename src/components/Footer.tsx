@@ -10,11 +10,11 @@ export function Footer() {
   return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8]">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <div className={isMobile ? "scale-[2.5] mb-8" : "mb-6"}>
+          <div className={isMobile ? "scale-[4] mb-8" : "mb-6"}>
             <Logo />
           </div>
           
-          <div className="flex flex-wrap justify-center gap-10 mb-4 max-w-full mx-auto">
+          <div className={`flex flex-wrap justify-center gap-x-10 ${isMobile ? "gap-y-2" : "gap-y-4"} mb-4 max-w-full mx-auto`}>
             <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
               FAQ
             </Link>
@@ -38,7 +38,7 @@ export function Footer() {
             </Link>
           </div>
           
-          <div className="flex flex-wrap gap-4 justify-center mb-4">
+          <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-8" : "mb-4"}`}>
             <Link to="/hotels" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
               Hotels
             </Link>

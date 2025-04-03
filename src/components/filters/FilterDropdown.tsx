@@ -16,6 +16,7 @@ interface FilterDropdownProps {
   filterBgColor: string;
   compactSpacing: boolean;
   useBoldLabels: boolean;
+  useLargerMobileText?: boolean;
   renderOptions: (type: keyof FilterState, props?: any) => React.ReactNode;
 }
 
@@ -31,6 +32,7 @@ export const FilterDropdown = ({
   filterBgColor,
   compactSpacing,
   useBoldLabels,
+  useLargerMobileText = false,
   renderOptions
 }: FilterDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -87,11 +89,14 @@ export const FilterDropdown = ({
     onClear(type);
   };
 
+  const labelFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
+  const optionFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
+
   return (
     <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]" onClick={e => e.stopPropagation()}>
       <button
         onClick={handleToggleOpen}
-        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 text-sm hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border-2 border-fuchsia-400/70`}
+        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 ${labelFontSize} hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border-2 border-fuchsia-400/70`}
       >
         <div className="flex items-center">
           {value ? (
@@ -123,7 +128,7 @@ export const FilterDropdown = ({
               <button
                 key={country.value}
                 onClick={() => handleOptionSelect(country.value)}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+                className={`w-full text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
               >
                 {country.label}
               </button>
@@ -133,7 +138,7 @@ export const FilterDropdown = ({
               <button
                 key={month}
                 onClick={() => handleOptionSelect(month)}
-                className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors capitalize hover:bg-[#460F54]"
+                className={`text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
               >
                 {month}
               </button>
@@ -149,7 +154,7 @@ export const FilterDropdown = ({
               <button
                 key={price.value}
                 onClick={() => handleOptionSelect(price.value)}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+                className={`w-full text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
               >
                 {price.label}
               </button>

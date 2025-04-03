@@ -7,7 +7,8 @@ interface LengthOfStayFilterProps {
 }
 
 export function LengthOfStayFilter({ activeLength, onChange }: LengthOfStayFilterProps) {
-  const lengthOfStayOptions = ["1-3 months", "3-6 months", "6-12 months", "12+ months"];
+  // These options should match what's available in RoomsAndPricingStep.tsx
+  const lengthOfStayOptions = ["8 days", "16 days", "24 days", "32 days"];
 
   return (
     <FilterItem title="LENGTH OF STAY">

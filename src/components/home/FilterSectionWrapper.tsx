@@ -74,6 +74,7 @@ export function FilterSectionWrapper({
             usePurpleFilterBackground={true} 
             availableThemes={themeCategories}
             verticalLayout={isMobile}
+            useLargerMobileText={isMobile}
           />
           
           <div className="flex justify-center bg-[#981DA1]">

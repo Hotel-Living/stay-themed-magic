@@ -12,44 +12,48 @@ interface ThemeOptionsProps {
   useCollapsibleThemes: boolean;
   openThemeCategory: string | null;
   toggleThemeCategory: (category: string) => void;
+  useLargerMobileText?: boolean;
 }
 
 export const renderDropdownOptions = (
   type: keyof FilterState,
   props?: ThemeOptionsProps
 ) => {
+  const useLargerMobileText = props?.useLargerMobileText || false;
+  const optionFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
+
   switch (type) {
     case "country":
-      return renderCountryOptions(type);
+      return renderCountryOptions(type, optionFontSize);
     case "month":
-      return renderMonthOptions(type);
+      return renderMonthOptions(type, optionFontSize);
     case "theme":
       if (props) {
         return renderThemeOptions(props);
       }
-      return renderSimpleThemeOptions(type);
+      return renderSimpleThemeOptions(type, optionFontSize);
     case "priceRange":
-      return renderPriceOptions(type);
+      return renderPriceOptions(type, optionFontSize);
     default:
       return null;
   }
 };
 
-const renderCountryOptions = (type: keyof FilterState) => {
+const renderCountryOptions = (type: keyof FilterState, fontSize: string) => {
   return availableCountries.map((country) => (
     <button
       key={country.value}
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: country.value } 
       }))}
-      className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]" 
+      className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`} 
     >
       {country.label}
     </button>
   ));
 };
 
-const renderMonthOptions = (type: keyof FilterState) => {
+const renderMonthOptions = (type: keyof FilterState, fontSize: string) => {
   return (
     <div className="grid grid-cols-2">
       {months.map((month) => (
@@ -58,7 +62,7 @@ const renderMonthOptions = (type: keyof FilterState) => {
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
             detail: { key: type, value: month } 
           }))}
-          className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors capitalize hover:bg-[#460F54]"
+          className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
         >
           {month}
         </button>
@@ -67,7 +71,7 @@ const renderMonthOptions = (type: keyof FilterState) => {
   );
 };
 
-const renderSimpleThemeOptions = (type: keyof FilterState) => {
+const renderSimpleThemeOptions = (type: keyof FilterState, fontSize: string) => {
   const themeCategories = [
     "Art", "Business", "Culture", "Education", "Entertainment", 
     "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
@@ -83,7 +87,7 @@ const renderSimpleThemeOptions = (type: keyof FilterState) => {
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
             detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
           }))}
-          className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+          className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
         >
           {category}
         </button>
@@ -100,7 +104,8 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
     setThemeQuery, 
     useCollapsibleThemes, 
     openThemeCategory, 
-    toggleThemeCategory 
+    toggleThemeCategory,
+    useLargerMobileText
   } = props;
 
   if (!useCollapsibleThemes) {
@@ -111,6 +116,8 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
       "Relationships", "Science and Technology", "Social Impact", "Sports"
     ];
     
+    const optionFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
+    
     return (
       <div className="grid grid-cols-1">
         {themeCategories.map((category) => (
@@ -119,7 +126,7 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
             onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
               detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
             }))}
-            className="text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+            className={`text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
           >
             {category}
           </button>
@@ -137,18 +144,19 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
       useCollapsibleThemes={useCollapsibleThemes}
       openThemeCategory={openThemeCategory}
       toggleThemeCategory={toggleThemeCategory}
+      useLargerMobileText={useLargerMobileText}
     />
   );
 };
 
-const renderPriceOptions = (type: keyof FilterState) => {
+const renderPriceOptions = (type: keyof FilterState, fontSize: string) => {
   return priceRanges.map((price) => (
     <button
       key={price.value}
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
         detail: { key: type, value: price.value } 
       }))}
-      className="w-full text-left px-3 py-2 rounded-md text-sm font-bold transition-colors hover:bg-[#460F54]"
+      className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
     >
       {price.label}
     </button>

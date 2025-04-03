@@ -26,7 +26,7 @@ export default function RoomsAndPricingStep() {
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
             <label className="block text-sm font-medium text-foreground/90 uppercase">
-              LENGTH OF STAYS
+              LENGTH OF STAY
             </label>
             <ChevronRight className="h-4 w-4" />
           </CollapsibleTrigger>

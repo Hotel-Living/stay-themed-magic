@@ -23,7 +23,8 @@ export const FilterSection = ({
     theme: "Theme",
     priceRange: "Price per Month"
   },
-  availableThemes = []
+  availableThemes = [],
+  useLargerMobileText = false
 }: FilterSectionProps) => {
   const [filters, setFilters] = useState<FilterState>({
     themes: [],
@@ -113,6 +114,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
       />
       
@@ -128,6 +130,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
       />
       
@@ -143,6 +146,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        useLargerMobileText={useLargerMobileText}
         renderOptions={(type) => renderDropdownOptions(type, {
           filters,
           updateFilter,
@@ -150,7 +154,8 @@ export const FilterSection = ({
           setThemeQuery,
           useCollapsibleThemes,
           openThemeCategory,
-          toggleThemeCategory
+          toggleThemeCategory,
+          useLargerMobileText
         })}
       />
       
@@ -166,6 +171,7 @@ export const FilterSection = ({
         filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
+        useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
       />
       

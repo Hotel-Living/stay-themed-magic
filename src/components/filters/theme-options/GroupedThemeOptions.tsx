@@ -7,33 +7,57 @@ interface GroupedThemeOptionsProps {
   filteredThemes: Theme[];
   activeTheme: Theme | null;
   updateFilter: (key: string, value: any) => void;
+  useLargerMobileText?: boolean; // Added this property
 }
 
 export const GroupedThemeOptions: React.FC<GroupedThemeOptionsProps> = ({
   filteredThemes,
   activeTheme,
-  updateFilter
+  updateFilter,
+  useLargerMobileText = false // Added default value
 }) => {
+  // Group themes by their category
+  const groupedThemes = filteredThemes.reduce<Record<string, Theme[]>>((acc, theme) => {
+    const category = theme.category || "Other";
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(theme);
+    return acc;
+  }, {});
+
+  const buttonFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
+
   return (
-    <div className="space-y-2">
-      {Array.from(
-        new Set(filteredThemes.map(theme => theme.category))
-      ).map(category => (
-        <div key={category} className="mb-2">
-          <div className="text-xs uppercase text-foreground/60 mb-1 px-3">{category}</div>
-          {filteredThemes
-            .filter(theme => theme.category === category)
-            .map(theme => (
-              <ThemeButton
-                key={theme.id}
-                theme={theme}
-                isActive={activeTheme?.id === theme.id}
-                onClick={() => updateFilter("theme", theme)}
-              />
-            ))
-          }
+    <div className="space-y-4">
+      {Object.keys(groupedThemes).length === 0 ? (
+        <div className="text-center py-2 text-sm text-foreground/70">
+          No themes found. Try a different search term.
         </div>
-      ))}
+      ) : (
+        Object.entries(groupedThemes).map(([category, themes]) => (
+          <div key={category} className="space-y-1">
+            <h3 className={`font-medium text-foreground ${useLargerMobileText ? 'text-base' : 'text-sm'}`}>
+              {category}
+            </h3>
+            <div className="space-y-1">
+              {themes.map((theme) => (
+                <button
+                  key={theme.id}
+                  onClick={() => updateFilter("theme", theme)}
+                  className={`w-full text-left px-3 py-2 rounded-md ${buttonFontSize} transition-colors ${
+                    activeTheme?.id === theme.id
+                      ? "bg-fuchsia-700/60 text-white font-medium"
+                      : "hover:bg-fuchsia-900/40"
+                  }`}
+                >
+                  {theme.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };

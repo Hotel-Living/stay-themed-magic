@@ -1,37 +1,12 @@
 
 import React from "react";
-import { ChevronRight } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Theme, allThemes } from "@/utils/themes";
-import { ThemeButton } from "./ThemeButton";
+import { ChevronDown } from "lucide-react";
+import { Theme } from "@/utils/themes";
 import { ThemeSubcategory } from "./ThemeSubcategory";
+import { ThemeButton } from "./ThemeButton";
 
 interface ThemeCategoryProps {
-  category: {
-    category: string;
-    subcategories?: Array<{
-      name: string;
-      themes?: Array<{ 
-        id: string; 
-        name: string;
-        isAddOption?: boolean;
-      }>;
-      submenus?: Array<{
-        name: string;
-        options: Array<{
-          id: string;
-          name: string;
-          suboptions?: string[];
-          isAddOption?: boolean;
-        }>;
-      }>;
-    }>;
-    themes?: Array<{ 
-      id: string; 
-      name: string;
-      isAddOption?: boolean;
-    }>;
-  };
+  category: any;
   activeTheme: Theme | null;
   updateFilter: (key: string, value: any) => void;
   openCategory: string | null;
@@ -40,6 +15,7 @@ interface ThemeCategoryProps {
   toggleSubcategory: (subcategory: string, e: React.MouseEvent) => void;
   openSubmenus: Record<string, boolean>;
   toggleSubmenu: (submenu: string, e: React.MouseEvent) => void;
+  useLargerMobileText?: boolean; // Added property
 }
 
 export const ThemeCategory: React.FC<ThemeCategoryProps> = ({
@@ -51,60 +27,57 @@ export const ThemeCategory: React.FC<ThemeCategoryProps> = ({
   openSubcategories,
   toggleSubcategory,
   openSubmenus,
-  toggleSubmenu
+  toggleSubmenu,
+  useLargerMobileText = false // Added default value
 }) => {
+  const isOpen = openCategory === category.category;
+  
   return (
-    <Collapsible 
-      key={category.category} 
-      open={openCategory === category.category}
-      onOpenChange={() => toggleCategory(category.category)}
-    >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-xs font-medium uppercase rounded-md hover:bg-fuchsia-900/40">
+    <div className="border border-fuchsia-800/30 rounded-md overflow-hidden">
+      <button
+        onClick={() => toggleCategory(category.category)}
+        className={`w-full flex items-center justify-between px-3 py-2 ${useLargerMobileText ? 'text-base' : 'text-sm'} font-medium transition-colors hover:bg-fuchsia-900/40`}
+      >
         <span>{category.category}</span>
-        <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
-      </CollapsibleTrigger>
-      <CollapsibleContent className="mt-1 pb-1">
-        {/* If category has subcategories */}
-        {category.subcategories ? (
-          <div className="pl-3 space-y-1">
-            {category.subcategories.map(subcategory => (
-              <ThemeSubcategory
-                key={subcategory.name}
-                subcategory={subcategory}
-                category={category.category}
-                activeTheme={activeTheme}
-                updateFilter={updateFilter}
-                openSubcategories={openSubcategories}
-                toggleSubcategory={toggleSubcategory}
-                openSubmenus={openSubmenus}
-                toggleSubmenu={toggleSubmenu}
-                allThemes={allThemes}
-              />
-            ))}
-          </div>
-        ) : (
-          /* Direct themes in category */
-          <div className="pl-3 space-y-1">
-            {(category.themes || []).filter(theme => !theme.isAddOption).map(theme => {
-              // Find the corresponding theme in allThemes
-              const fullTheme = allThemes.find(t => t.id === theme.id) || {
-                id: theme.id, 
-                name: theme.name,
-                category: category.category
-              };
-              
-              return (
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      
+      {isOpen && (
+        <div className="p-2 space-y-2 bg-fuchsia-950/30">
+          {category.themes && category.themes.length > 0 && (
+            <div className="space-y-1">
+              {category.themes.map((theme: Theme) => (
                 <ThemeButton
                   key={theme.id}
-                  theme={fullTheme}
+                  theme={theme}
                   isActive={activeTheme?.id === theme.id}
-                  onClick={() => updateFilter("theme", fullTheme)}
+                  onClick={() => updateFilter("theme", theme)}
                 />
-              );
-            })}
-          </div>
-        )}
-      </CollapsibleContent>
-    </Collapsible>
+              ))}
+            </div>
+          )}
+          
+          {category.subcategories && category.subcategories.length > 0 && (
+            <div className="space-y-2">
+              {category.subcategories.map((subcategory: any) => (
+                <ThemeSubcategory
+                  key={subcategory.name}
+                  subcategory={subcategory}
+                  activeTheme={activeTheme}
+                  updateFilter={updateFilter}
+                  isOpen={openSubcategories[subcategory.name] || false}
+                  toggleSubcategory={(e) => toggleSubcategory(subcategory.name, e)}
+                  openSubmenus={openSubmenus}
+                  toggleSubmenu={toggleSubmenu}
+                  useLargerMobileText={useLargerMobileText} // Pass to subcategory
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };

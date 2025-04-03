@@ -9,6 +9,7 @@ interface CollapsibleThemeOptionsProps {
   openCategory: string | null;
   toggleCategory: (category: string) => void;
   themeQuery?: string; // Add optional search query prop
+  useLargerMobileText?: boolean; // Added this property
 }
 
 export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = ({
@@ -16,7 +17,8 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
   updateFilter,
   openCategory,
   toggleCategory,
-  themeQuery = "" // Default to empty string
+  themeQuery = "", // Default to empty string
+  useLargerMobileText = false // Added default value
 }) => {
   // Track open subcategories and submenus
   const [openSubcategories, setOpenSubcategories] = useState<Record<string, boolean>>({});
@@ -141,6 +143,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
             toggleSubcategory={toggleSubcategory}
             openSubmenus={openSubmenus}
             toggleSubmenu={toggleSubmenu}
+            useLargerMobileText={useLargerMobileText} // Pass to ThemeCategory
           />
         ))
       )}

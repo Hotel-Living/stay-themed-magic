@@ -1,64 +1,55 @@
 
-import React, { useState } from "react";
-import { ChevronRight } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import React from "react";
+import { ChevronDown } from "lucide-react";
 import { Theme } from "@/utils/themes";
 import { ThemeSubmenuOption } from "./ThemeSubmenuOption";
 
 interface ThemeSubmenuProps {
-  submenu: {
-    name: string;
-    options: Array<{
-      id: string;
-      name: string;
-      suboptions?: string[];
-      isAddOption?: boolean;
-    }>;
-  };
+  submenu: any;
   activeTheme: Theme | null;
   updateFilter: (key: string, value: any) => void;
-  category: string;
-  openSubmenus: Record<string, boolean>;
-  toggleSubmenu: (submenu: string, e: React.MouseEvent) => void;
+  isOpen: boolean;
+  toggleSubmenu: (e: React.MouseEvent) => void;
+  useLargerMobileText?: boolean; // Added property
 }
 
 export const ThemeSubmenu: React.FC<ThemeSubmenuProps> = ({
   submenu,
   activeTheme,
   updateFilter,
-  category,
-  openSubmenus,
-  toggleSubmenu
+  isOpen,
+  toggleSubmenu,
+  useLargerMobileText = false // Added default value
 }) => {
   return (
-    <Collapsible 
-      key={submenu.name}
-      open={Boolean(openSubmenus[submenu.name])}
-      className="mb-1"
-    >
-      <CollapsibleTrigger 
-        className="flex items-center justify-between w-full px-2 py-1 text-xs font-medium rounded-md hover:bg-fuchsia-900/20"
-        onClick={(e) => toggleSubmenu(submenu.name, e)}
+    <div className="border border-fuchsia-800/20 rounded-md overflow-hidden">
+      <button
+        onClick={toggleSubmenu}
+        className={`w-full flex items-center justify-between px-2.5 py-1 ${useLargerMobileText ? 'text-sm' : 'text-xs'} font-medium transition-colors hover:bg-fuchsia-900/40`}
       >
-        <span className="flex-grow text-left pr-1">{submenu.name}</span>
-        <ChevronRight 
-          className={`h-3 w-3 ml-1 flex-shrink-0 transform transition-transform ${openSubmenus[submenu.name] ? 'rotate-90' : ''}`}
+        <span>{submenu.name}</span>
+        <ChevronDown
+          className={`h-3 w-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
-      </CollapsibleTrigger>
+      </button>
       
-      <CollapsibleContent className="mt-1 pl-2">
-        <div className="space-y-1">
-          {submenu.options.filter(option => !option.isAddOption).map(option => (
-            <ThemeSubmenuOption
-              key={option.id}
-              option={option}
-              activeTheme={activeTheme}
-              updateFilter={updateFilter}
-              category={category}
-            />
-          ))}
+      {isOpen && (
+        <div className="p-1 space-y-1 bg-fuchsia-950/10">
+          {submenu.options && submenu.options.length > 0 && (
+            <div className="space-y-0.5">
+              {submenu.options.map((option: any) => (
+                <ThemeSubmenuOption
+                  key={option.id}
+                  option={option}
+                  activeTheme={activeTheme}
+                  updateFilter={updateFilter}
+                  useLargerMobileText={useLargerMobileText} // Pass to option
+                />
+              ))}
+            </div>
+          )}
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+    </div>
   );
 };

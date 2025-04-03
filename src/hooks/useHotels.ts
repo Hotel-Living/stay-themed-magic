@@ -22,6 +22,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setError(null);
 
       try {
+        // Fetch real hotels data from Supabase for authenticated hotel owners
         const data = await fetchHotelsWithFilters(filters);
         setHotels(data);
       } catch (err: any) {

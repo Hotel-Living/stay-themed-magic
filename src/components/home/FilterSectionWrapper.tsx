@@ -4,6 +4,7 @@ import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;
@@ -13,9 +14,8 @@ interface FilterSectionWrapperProps {
 export function FilterSectionWrapper({
   onFilterChange
 }: FilterSectionWrapperProps) {
-  const {
-    data: themes
-  } = useThemes();
+  const { data: themes } = useThemes();
+  const isMobile = useIsMobile();
 
   // Extract theme category names for the main theme filter dropdown
   const themeCategories = [
@@ -42,7 +42,8 @@ export function FilterSectionWrapper({
             compactSpacing={true} 
             useBoldLabels={true} 
             usePurpleFilterBackground={true} 
-            availableThemes={themeCategories} 
+            availableThemes={themeCategories}
+            verticalLayout={isMobile}
           />
           
           <div className="flex justify-center bg-[#981DA1]">

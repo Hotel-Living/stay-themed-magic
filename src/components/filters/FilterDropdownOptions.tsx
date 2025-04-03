@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FilterState } from "./FilterTypes";
 import { ThemeOptions } from "./ThemeOptions";
@@ -78,7 +77,6 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
     toggleThemeCategory 
   } = props;
 
-  // Show only main theme categories if !useCollapsibleThemes
   if (!useCollapsibleThemes) {
     const themeCategories = [
       "Art", "Business", "Culture", "Education", "Entertainment", 
@@ -118,14 +116,7 @@ const renderThemeOptions = (props: ThemeOptionsProps) => {
 };
 
 const renderPriceOptions = (type: keyof FilterState) => {
-  const pricingOptions = [
-    { value: 1000, label: "Up to 1.000 $" },
-    { value: 1500, label: "1.000 $ to 1.500 $" },
-    { value: 2000, label: "1.500 $ to 2.000 $" },
-    { value: 3000, label: "More than 2.000 $" }
-  ];
-  
-  return pricingOptions.map((price) => (
+  return priceRanges.map((price) => (
     <button
       key={price.value}
       onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
@@ -138,7 +129,6 @@ const renderPriceOptions = (type: keyof FilterState) => {
   ));
 };
 
-// Setup global event handlers for the filter options
 document.addEventListener('updateFilter', (e: any) => {
   const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
   const filterDropdown = document.querySelector('.filter-dropdown-container');

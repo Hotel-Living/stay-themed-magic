@@ -1,5 +1,6 @@
 
 import { ReactNode } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface TermsCheckboxProps {
   id: string;
@@ -15,15 +16,14 @@ export function TermsCheckbox({
   onChange = () => {}
 }: TermsCheckboxProps) {
   return (
-    <div className="flex items-start mt-2">
-      <input
-        id={id}
-        type="checkbox"
-        className="w-3 h-3 mt-1 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500"
-        checked={checked}
-        onChange={onChange}
+    <div className="flex items-start mt-2 space-x-2">
+      <Checkbox 
+        id={id} 
+        checked={checked} 
+        onCheckedChange={onChange}
+        className="mt-1"
       />
-      <label htmlFor={id} className="ml-2 text-xs text-muted-foreground">
+      <label htmlFor={id} className="text-xs text-muted-foreground cursor-pointer">
         {label}
       </label>
     </div>

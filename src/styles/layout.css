@@ -36,3 +36,15 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+
+/* Ensure footer has spacing from content */
+footer {
+  margin-top: 20px;
+}
+
+/* Add more spacing for mobile views */
+@media (max-width: 768px) {
+  main {
+    margin-bottom: 20px;
+  }
+}

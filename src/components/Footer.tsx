@@ -7,45 +7,46 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function Footer() {
   const isMobile = useIsMobile();
   
-  return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8]">
+  return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8] mt-20">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <div className={isMobile ? "scale-[4] mb-8" : "mb-6"}>
+          <div className={isMobile ? "mb-4" : "mb-6"}>
+            {/* No scaling on the logo anymore - to match header size */}
             <Logo />
           </div>
           
-          <div className={`flex flex-wrap justify-center gap-x-10 ${isMobile ? "gap-y-2" : "gap-y-4"} mb-4 max-w-full mx-auto`}>
-            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+          <div className={`flex flex-wrap justify-center gap-x-10 ${isMobile ? "gap-y-0 text-xs" : "gap-y-4"} mb-2 max-w-full mx-auto`}>
+            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               FAQ
             </Link>
-            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Our Values
             </Link>
-            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Our Services
             </Link>
-            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Privacy & Cookies
             </Link>
-            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Terms & Conditions
             </Link>
-            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Customer Service
             </Link>
-            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-xl" : "text-xs"} font-medium`}>
+            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
               Intellectual Property
             </Link>
           </div>
           
-          <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-8" : "mb-4"}`}>
-            <Link to="/hotels" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+          <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
+            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-lg" : "text-xs"} rounded-md uppercase`}>
               Hotels
             </Link>
-            <Link to="/signup" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+            <Link to="/signup" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-lg" : "text-xs"} rounded-md uppercase`}>
               Register
             </Link>
-            <Link to="/login" className="bg-white text-[#860493] hover:bg-white/90 px-3 py-1 text-xs rounded-md uppercase">
+            <Link to="/login" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-lg" : "text-xs"} rounded-md uppercase`}>
               Sign In
             </Link>
           </div>
@@ -53,7 +54,7 @@ export function Footer() {
         
         <Separator className="bg-white/40 mb-2" />
         
-        <div className={`text-center text-xs text-white/80 ${isMobile ? "mt-16 mb-6" : ""}`}>
+        <div className={`text-center text-xs text-white/80 ${isMobile ? "mt-8 mb-6" : ""}`}>
           <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -5,21 +6,26 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Building } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 export default function FAQ() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  
   const navigateToTravelerFAQ = () => {
     navigate("/faq-travelers");
   };
   const navigateToHotelFAQ = () => {
     navigate("/faq-hotels");
   };
+  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-5xl mx-auto px-4 py-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient text-[#eedbf7]">Frequently Asked Questions</h1>
-          <p className="text-lg text-center mb-12 font-medium text-[#e3d6e9]">
+          <h1 className={`${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} font-bold mb-6 text-center text-gradient text-[#eedbf7]`}>Frequently Asked Questions</h1>
+          <p className={`${isMobile ? "text-xl" : "text-lg"} text-center mb-12 font-medium text-[#e3d6e9]`}>
             Choose the FAQ category relevant to you
           </p>
           
@@ -29,13 +35,13 @@ export default function FAQ() {
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Users className="h-6 w-6 text-fuchsia-400" />
                 </div>
-                <CardTitle className="text-xl text-center">For Travelers</CardTitle>
-                <CardDescription className="text-center">
+                <CardTitle className={`${isMobile ? "text-2xl" : "text-xl"} text-center`}>For Travelers</CardTitle>
+                <CardDescription className={`text-center ${isMobile ? "text-lg" : ""}`}>
                   Information for guests looking to book stays
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-6">
-                <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium">
+                <Button className={`bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium ${isMobile ? "text-lg py-2 px-6" : ""}`}>
                   View Traveler FAQs
                 </Button>
               </CardContent>
@@ -46,13 +52,13 @@ export default function FAQ() {
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Building className="h-6 w-6 text-fuchsia-400" />
                 </div>
-                <CardTitle className="text-xl text-center">For Hotel Partners</CardTitle>
-                <CardDescription className="text-center">
+                <CardTitle className={`${isMobile ? "text-2xl" : "text-xl"} text-center`}>For Hotel Partners</CardTitle>
+                <CardDescription className={`text-center ${isMobile ? "text-lg" : ""}`}>
                   Information for hotels looking to join our platform
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center pb-6">
-                <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium">
+                <Button className={`bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium ${isMobile ? "text-lg py-2 px-6" : ""}`}>
                   View Hotel Partner FAQs
                 </Button>
               </CardContent>

@@ -3,8 +3,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 export default function FAQTravelers() {
   const [activeTab, setActiveTab] = useState("general");
+  const isMobile = useIsMobile();
+  
   const faqCategories = [{
     id: "general",
     name: "General"
@@ -21,6 +25,7 @@ export default function FAQTravelers() {
     id: "themes",
     name: "Themes"
   }];
+  
   const faqsByCategory = {
     general: [{
       question: "What is Hotels Life all about?",
@@ -130,19 +135,20 @@ export default function FAQTravelers() {
       answer: "Our service is particularly popular among digital nomads, active retirees, online workers, students, and individuals with independent resources. Solo travelers and couples often find our model especially appealing as it provides both privacy and community. However, we welcome everyone interested in our lifestyle concept, regardless of background or circumstance."
     }]
   };
+  
   return <div className="min-h-screen flex flex-col faq-page">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-2 text-center text-gradient text-[#f5e9fa]">Traveler FAQ</h1>
-          <p className="text-center mb-8 text-[#f7fbf7]">
+          <h1 className={`${isMobile ? "text-4xl" : "text-3xl"} font-bold mb-2 text-center text-gradient text-[#f5e9fa]`}>Traveler FAQ</h1>
+          <p className={`text-center mb-8 text-[#f7fbf7] ${isMobile ? "text-xl" : ""}`}>
             Find answers to common questions about booking and staying with Hotels Life
           </p>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1">
-              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-4 py-1.5 rounded-lg text-sm capitalize whitespace-nowrap bg-[#730483]">
+            <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
+              {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-sm"} bg-[#730483]`}>
                   {category.name}
                 </TabsTrigger>)}
             </TabsList>
@@ -150,11 +156,11 @@ export default function FAQTravelers() {
             {faqCategories.map(category => <TabsContent key={category.id} value={category.id} className="customer-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className="px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#550477]">
-                        <h2 className="text-[#f8faf8] font-bold text-base">{faq.question}</h2>
+                      <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#550477] ${isMobile ? "text-xl" : ""}`}>
+                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-xl" : "text-base"}`}>{faq.question}</h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pb-4 pt-0">
-                        <p className="text-slate-50">{faq.answer}</p>
+                        <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>{faq.answer}</p>
                       </AccordionContent>
                     </AccordionItem>)}
                 </Accordion>

@@ -105,7 +105,7 @@ export default function StepTwo({
                     <Input id="room-capacity" type="number" min="1" value={newRoom.capacity} onChange={e => setNewRoom({
                     ...newRoom,
                     capacity: parseInt(e.target.value) || 1
-                  })} />
+                  })} className="bg-[#531254]" />
                   </div>
                   
                   

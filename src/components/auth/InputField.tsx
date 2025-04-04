@@ -1,7 +1,5 @@
-
 import { LucideIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
 interface InputFieldProps {
   id: string;
   label: string;
@@ -11,7 +9,6 @@ interface InputFieldProps {
   placeholder: string;
   Icon: LucideIcon;
 }
-
 export function InputField({
   id,
   label,
@@ -21,8 +18,7 @@ export function InputField({
   placeholder,
   Icon
 }: InputFieldProps) {
-  return (
-    <div className="space-y-1">
+  return <div className="space-y-1">
       <label htmlFor={id} className="text-xs font-medium">
         {label}
       </label>
@@ -30,15 +26,7 @@ export function InputField({
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <Icon className="w-4 h-4 text-muted-foreground" />
         </div>
-        <Input 
-          id={id} 
-          type={type} 
-          value={value} 
-          onChange={onChange} 
-          placeholder={placeholder} 
-          className="w-full py-2 pl-9 pr-3 text-sm rounded-lg bg-background border-border focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500" 
-        />
+        <Input id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} className="w-full py-2 pl-9 pr-3 text-sm rounded-lg border-border focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 bg-[#55036c]" />
       </div>
-    </div>
-  );
+    </div>;
 }

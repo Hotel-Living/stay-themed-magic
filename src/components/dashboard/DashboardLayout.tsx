@@ -93,7 +93,7 @@ export default function DashboardLayout({
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
                 
                 
-                <nav className="p-2 bg-[#ba39f6]">
+                <nav className="p-2 bg-[#5c0869]">
                   {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
                       {tab.icon}
                       {tab.label}

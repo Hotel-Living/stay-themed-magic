@@ -3,7 +3,7 @@ import React from "react";
 
 // Import refactored components
 import DashboardContent from "@/components/dashboard/DashboardContent";
-import AddProperty from "@/components/dashboard/AddProperty";
+import AddProperty from "@/components/dashboard/AddProperty"; // This import remains the same
 import CalculatorContent from "@/components/dashboard/Calculator";
 import PropertiesContent from "@/components/dashboard/PropertiesContent";
 import BookingsContent from "@/components/dashboard/BookingsContent";

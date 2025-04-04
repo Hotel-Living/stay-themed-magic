@@ -323,7 +323,7 @@ export default function ThemesAndActivitiesStep() {
           {/* Map through all theme categories */}
           {themeCategories.map(category => <Collapsible key={category.category} className="mb-0.5">
               <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
-                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 my-0 bg-[#7c047f] rounded-none">
+                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 bg-[#7c047f] rounded-none my-[24px]">
                   <h4 className="uppercase text-white">{category.category}</h4>
                   <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
                 </CollapsibleTrigger>

@@ -76,7 +76,7 @@ export default function StepTwo({
         </div>
         
         <Collapsible className="w-full border rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full flex items-center justify-center py-4 bg-[#430453] text-white hover:bg-[#380445] transition-colors">
+          <CollapsibleTrigger className="w-full flex items-center justify-center py-4 text-white transition-colors bg-[#760276]">
             <Plus className="mr-2 h-5 w-5" />
             ADD ROOM TYPE
           </CollapsibleTrigger>

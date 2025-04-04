@@ -12,7 +12,7 @@ export default function StepIndicator({
   return <>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold uppercase">{stepTitle}</h2>
-        <div className="text-sm text-foreground/60">
+        <div className="text-sm text-foreground/60 rounded-lg bg-[#7505a7]">
           Step {currentStep} of {totalSteps}
         </div>
       </div>

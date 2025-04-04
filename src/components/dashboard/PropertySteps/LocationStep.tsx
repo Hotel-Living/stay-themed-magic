@@ -10,7 +10,7 @@ export default function LocationStep() {
     }
   };
   return <div className="space-y-5">
-      <h3 className="text-xl font-bold uppercase mb-4">LOCATION</h3>
+      <h3 className="text-xl font-bold uppercase mb-4 text-slate-50">LOCATION</h3>
       
       <div>
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">

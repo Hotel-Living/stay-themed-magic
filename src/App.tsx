@@ -1,5 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/auth/AuthProvider";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -30,36 +31,38 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/hotels" element={<Hotels />} />
-        <Route path="/hotel/:id" element={<HotelDetail />} />
-        <Route path="/hotel-signup" element={<HotelSignUp />} />
-        <Route path="/hotel-login" element={<HotelLogin />} />
-        <Route path="/hotel-dashboard/*" element={<HotelDashboard />} />
-        <Route path="/dashboard/*" element={<UserDashboard />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/faq-hotels" element={<FAQHotels />} />
-        <Route path="/faq-travelers" element={<FAQTravelers />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/customer-service" element={<CustomerService />} />
-        <Route path="/our-values" element={<OurValues />} />
-        <Route path="/our-services" element={<OurServices />} />
-        <Route path="/intellectual-property" element={<IntellectualProperty />} />
-        <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
-        <Route path="/code-stats" element={<CodeStats />} />
-        <Route path="/add-property" element={<AddPropertyPage />} />
-        <Route path="/theme-information" element={<ThemeInformationPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/hotels" element={<Hotels />} />
+          <Route path="/hotel/:id" element={<HotelDetail />} />
+          <Route path="/hotel-signup" element={<HotelSignUp />} />
+          <Route path="/hotel-login" element={<HotelLogin />} />
+          <Route path="/hotel-dashboard/*" element={<HotelDashboard />} />
+          <Route path="/dashboard/*" element={<UserDashboard />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/faq-hotels" element={<FAQHotels />} />
+          <Route path="/faq-travelers" element={<FAQTravelers />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/customer-service" element={<CustomerService />} />
+          <Route path="/our-values" element={<OurValues />} />
+          <Route path="/our-services" element={<OurServices />} />
+          <Route path="/intellectual-property" element={<IntellectualProperty />} />
+          <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
+          <Route path="/code-stats" element={<CodeStats />} />
+          <Route path="/add-property" element={<AddPropertyPage />} />
+          <Route path="/theme-information" element={<ThemeInformationPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

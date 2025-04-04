@@ -33,6 +33,10 @@ export default function UploadArea({ onFilesSelected }: UploadAreaProps) {
       
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
+        toast({
+          title: "Files added",
+          description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
+        });
       } else {
         toast({
           title: "Invalid file type",
@@ -51,6 +55,10 @@ export default function UploadArea({ onFilesSelected }: UploadAreaProps) {
       
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
+        toast({
+          title: "Files added",
+          description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
+        });
       } else {
         toast({
           title: "Invalid file type",

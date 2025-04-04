@@ -1,29 +1,66 @@
+
 import React from "react";
+
 interface StepNavigationProps {
   currentStep: number;
   totalSteps: number;
   onPrevious: () => void;
   onNext: () => void;
   onSubmit: () => void;
-  showPrevious?: boolean;
+  showPrevious: boolean;
+  isNextDisabled?: boolean;
 }
+
 export default function StepNavigation({
   currentStep,
   totalSteps,
   onPrevious,
   onNext,
   onSubmit,
-  showPrevious = true
+  showPrevious,
+  isNextDisabled = false
 }: StepNavigationProps) {
-  return <div className="flex items-center justify-between">
-      <button onClick={onPrevious} className={`rounded-lg px-6 py-2 text-sm font-medium transition-colors ${!showPrevious || currentStep === 1 ? "bg-fuchsia-800/20 text-fuchsia-300/50 cursor-not-allowed" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"}`} disabled={!showPrevious || currentStep === 1}>
-        Previous
-      </button>
+  return (
+    <div className="flex items-center justify-between mt-8">
+      {showPrevious ? (
+        <button
+          type="button"
+          onClick={onPrevious}
+          className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+        >
+          Previous
+        </button>
+      ) : (
+        <div></div> // Empty div to maintain flex layout
+      )}
       
-      {currentStep === totalSteps ? <button onClick={onSubmit} className="rounded-lg px-6 py-2 text-white text-sm font-medium transition-colors bg-[#9718af]/80">
+      {currentStep === totalSteps ? (
+        <button
+          type="button"
+          onClick={onSubmit}
+          disabled={isNextDisabled}
+          className={`inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+            isNextDisabled
+              ? "bg-fuchsia-700/30 text-fuchsia-100/50 cursor-not-allowed"
+              : "bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+          }`}
+        >
           Submit Property
-        </button> : <button onClick={onNext} className="rounded-lg px-6 py-2 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors">
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={isNextDisabled}
+          className={`inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+            isNextDisabled
+              ? "bg-fuchsia-700/30 text-fuchsia-100/50 cursor-not-allowed"
+              : "bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+          }`}
+        >
           Next
-        </button>}
-    </div>;
+        </button>
+      )}
+    </div>
+  );
 }

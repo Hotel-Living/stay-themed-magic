@@ -1,7 +1,6 @@
 
 import { useState, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 interface UploadedImage {
@@ -27,73 +26,48 @@ export function usePropertyImages() {
   }, []);
 
   const removeUploadedImage = useCallback(async (index: number) => {
-    const imageToRemove = uploadedImages[index];
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
     
-    // If this is a placeholder, just remove from state
-    if (!imageToRemove.url.startsWith('http')) {
-      setUploadedImages(prev => prev.filter((_, i) => i !== index));
-      return;
-    }
-    
-    try {
-      // Extract the file path from the URL
-      const imagePath = imageToRemove.url.split('/').pop();
-      
-      if (imagePath) {
-        await supabase.storage
-          .from('hotel-images')
-          .remove([imagePath]);
-        
-        setUploadedImages(prev => prev.filter((_, i) => i !== index));
-        
-        toast({
-          title: "Image removed",
-          description: "The image has been removed successfully.",
-        });
-      }
-    } catch (error) {
-      console.error("Error removing image:", error);
-      toast({
-        title: "Error removing image",
-        description: "There was a problem removing the image.",
-        variant: "destructive",
-      });
-    }
-  }, [uploadedImages, toast]);
+    toast({
+      title: "Image removed",
+      description: "The image has been removed successfully.",
+    });
+  }, [toast]);
 
   const uploadFiles = useCallback(async () => {
-    if (!user || files.length === 0) return;
+    if (files.length === 0) {
+      toast({
+        title: "No files to upload",
+        description: "Please select files first.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setUploading(true);
     
     try {
+      // For demo purposes, simulate uploading by creating object URLs
       const newUploadedImages = [...uploadedImages];
       
       for (const file of files) {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
-        const filePath = `${user.id}/${fileName}`;
+        // Create a local URL for the file (this is a demo, not real uploading)
+        const fileUrl = URL.createObjectURL(file);
         
-        const { data, error } = await supabase.storage
-          .from('hotel-images')
-          .upload(filePath, file);
-        
-        if (error) {
-          throw error;
-        }
-        
-        const { data: urlData } = supabase.storage
-          .from('hotel-images')
-          .getPublicUrl(data.path);
-          
         newUploadedImages.push({
-          url: urlData.publicUrl,
-          isMain: false
+          url: fileUrl,
+          isMain: newUploadedImages.length === 0, // First image is main by default
+          id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
         });
       }
       
       setUploadedImages(newUploadedImages);
       setFiles([]);
+      
+      // If it's the first upload, set the first image as main
+      if (mainImageIndex === -1 && newUploadedImages.length > 0) {
+        setMainImageIndex(0);
+      }
       
       toast({
         title: "Upload successful",
@@ -109,7 +83,7 @@ export function usePropertyImages() {
     } finally {
       setUploading(false);
     }
-  }, [user, files, uploadedImages, toast]);
+  }, [files, uploadedImages, toast, mainImageIndex]);
   
   const setMainImage = useCallback((index: number) => {
     setUploadedImages(prev => 

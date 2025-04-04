@@ -19,6 +19,18 @@ export default function RoomsAndPricingStep() {
   const mealPlans = ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
+  const [selectedMealPlan, setSelectedMealPlan] = useState("");
+  const [selectedWeekday, setSelectedWeekday] = useState("Monday"); // Set Monday as default
+  
+  // Fields validation
+  const [stayLengthsValid, setStayLengthsValid] = useState(false);
+  const [mealPlanValid, setMealPlanValid] = useState(false);
+  const [weekdayValid, setWeekdayValid] = useState(true); // Already has a default, so valid
+
+  const handleMealPlanChange = (plan: string) => {
+    setSelectedMealPlan(plan);
+    setMealPlanValid(true);
+  };
   
   return (
     <div className="space-y-6">
@@ -39,12 +51,20 @@ export default function RoomsAndPricingStep() {
                     <label key={length} className="flex items-center">
                       <input 
                         type="checkbox" 
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
+                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setStayLengthsValid(true);
+                          }
+                        }}
                       />
                       <span className="text-sm">{length}</span>
                     </label>
                   ))}
                 </div>
+                {!stayLengthsValid && (
+                  <p className="text-red-400 text-xs mt-1">Please select at least one stay length</p>
+                )}
               </div>
             </div>
           </CollapsibleContent>
@@ -62,18 +82,20 @@ export default function RoomsAndPricingStep() {
           <CollapsibleContent>
             <div className="grid grid-cols-1 gap-4 mt-2">
               <div>
-                <label className="block text-sm mb-1 uppercase">MEAL PLANS OFFERED</label>
-                <div className="space-y-2">
-                  {mealPlans.map((plan) => (
-                    <label key={plan} className="flex items-start">
-                      <input 
-                        type="checkbox" 
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                      />
-                      <span className="text-sm">{plan}</span>
-                    </label>
-                  ))}
-                </div>
+                <label className="block text-sm mb-1 uppercase">MEAL PLAN OFFERED</label>
+                <Select onValueChange={handleMealPlanChange}>
+                  <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
+                    <SelectValue placeholder="Select a meal plan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mealPlans.map((plan) => (
+                      <SelectItem key={plan} value={plan}>{plan}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {!mealPlanValid && (
+                  <p className="text-red-400 text-xs mt-1">Please select a meal plan</p>
+                )}
               </div>
             </div>
           </CollapsibleContent>
@@ -95,7 +117,9 @@ export default function RoomsAndPricingStep() {
                   <input 
                     type="radio" 
                     name="preferred-weekday"
-                    className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1" 
+                    className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
+                    checked={selectedWeekday === day}
+                    onChange={() => setSelectedWeekday(day)}
                   />
                   <span className="text-xs text-center">{day}</span>
                 </label>

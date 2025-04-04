@@ -1,42 +1,47 @@
+
 import React from "react";
+
 interface PriceTableProps {
   roomType: string;
   mealTypes: string[];
   stayDurations: number[];
 }
-export default function PriceTable({
-  roomType,
-  mealTypes,
-  stayDurations
-}: PriceTableProps) {
-  return <div className="mb-8 border border-fuchsia-700/30 rounded-lg overflow-hidden">
-      <table className="w-full text-sm">
+
+export default function PriceTable({ roomType, mealTypes, stayDurations }: PriceTableProps) {
+  return (
+    <div className="mb-6 overflow-x-auto">
+      <div className="bg-fuchsia-800/40 p-3 rounded-t-lg">
+        <h3 className="text-base font-medium text-center">{roomType}</h3>
+        <p className="text-xs text-center mt-1">(Rates per person)</p>
+      </div>
+      
+      <table className="w-full border-collapse">
         <thead>
           <tr className="bg-fuchsia-900/50">
-            <th colSpan={stayDurations.length + 1} className="px-4 py-3 text-center font-bold uppercase bg-[#5c0869]">
-              {roomType}
-            </th>
-          </tr>
-          <tr className="bg-fuchsia-900/50">
-            <th colSpan={stayDurations.length + 1} className="px-4 py-2 text-center text-sm">
-              (Rates per person)
-            </th>
-          </tr>
-          <tr className="bg-fuchsia-900/30">
-            <th className="px-4 py-2"></th>
-            <th colSpan={stayDurations.length} className="px-4 py-2 text-right font-bold uppercase">DAYS</th>
-          </tr>
-          <tr className="bg-fuchsia-900/30">
-            <th className="px-4 py-2"></th>
-            {stayDurations.map(days => <th key={days} className="px-4 py-2 text-center font-bold bg-[#70047a]">{days}</th>)}
+            <th className="p-2 text-left text-xs"></th>
+            {stayDurations.map(duration => (
+              <th key={duration} className="p-2 text-center text-xs">{duration} DAYS</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {mealTypes.map((meal, index) => <tr key={meal} className={index % 2 === 0 ? "bg-fuchsia-900/10" : "bg-fuchsia-900/20"}>
-              <td className="px-4 py-3 font-bold uppercase bg-[#63046c]">{meal}</td>
-              {stayDurations.map(days => <td key={days} className="px-4 py-3 text-center bg-[#660692]">XX</td>)}
-            </tr>)}
+          {mealTypes.map((mealType, index) => (
+            <tr key={mealType} className={index % 2 === 0 ? "bg-fuchsia-900/20" : "bg-fuchsia-900/30"}>
+              <td className="p-2 text-xs font-medium">{mealType}</td>
+              {stayDurations.map(duration => (
+                <td key={`${mealType}-${duration}`} className="p-2 text-center text-xs">
+                  <input 
+                    type="number" 
+                    className="w-16 bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 text-center"
+                    placeholder="0.00" 
+                    required
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
-    </div>;
+    </div>
+  );
 }

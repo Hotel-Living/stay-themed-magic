@@ -14,12 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import PriceTable from "./PriceTable";
 
 export default function StayRatesStep() {
   const [currency, setCurrency] = useState("USD");
   const [enablePriceIncrease, setEnablePriceIncrease] = useState(false);
   const [priceIncreasePercentage, setPriceIncreasePercentage] = useState(20);
+  const [ratesFilled, setRatesFilled] = useState(false);
+  const [rates, setRates] = useState({});
 
   const currencies = [
     { code: "USD", symbol: "$", name: "US Dollar" },
@@ -33,6 +34,19 @@ export default function StayRatesStep() {
   const roomTypes = ["Single", "Double", "Suite", "Apartment"];
   const stayOptions = ["8 days", "16 days", "24 days", "32 days"];
   const mealOptions = ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
+
+  const handleRateChange = (roomType, stayLength, mealOption, value) => {
+    const key = `${roomType}-${stayLength}-${mealOption}`;
+    setRates(prev => ({
+      ...prev,
+      [key]: value
+    }));
+
+    // Check if at least one rate has been entered
+    if (value) {
+      setRatesFilled(true);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -134,31 +148,41 @@ export default function StayRatesStep() {
                   <tbody className="divide-y divide-fuchsia-800/20">
                     {roomTypes.map(roomType => 
                       stayOptions.map(stayOption => 
-                        mealOptions.map((mealOption, idx) => (
-                          <tr key={`${roomType}-${stayOption}-${mealOption}`} className={idx % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
-                            <td className="p-2 text-xs">{roomType}</td>
-                            <td className="p-2 text-xs">{stayOption}</td>
-                            <td className="p-2 text-xs">{mealOption}</td>
-                            <td className="p-2">
-                              <div className="relative">
-                                <input 
-                                  type="number" 
-                                  className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 pl-6 text-xs"
-                                  placeholder="0.00"
-                                  required
-                                />
-                                <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs">
-                                  {currencies.find(c => c.code === currency)?.symbol}
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
+                        mealOptions.map((mealOption, idx) => {
+                          const rateKey = `${roomType}-${stayOption}-${mealOption}`;
+                          
+                          return (
+                            <tr key={rateKey} className={idx % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
+                              <td className="p-2 text-xs">{roomType}</td>
+                              <td className="p-2 text-xs">{stayOption}</td>
+                              <td className="p-2 text-xs">{mealOption}</td>
+                              <td className="p-2">
+                                <div className="relative">
+                                  <input 
+                                    type="number" 
+                                    className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 pl-6 text-xs"
+                                    placeholder="0.00"
+                                    required
+                                    value={rates[rateKey] || ""}
+                                    onChange={(e) => handleRateChange(roomType, stayOption, mealOption, e.target.value)}
+                                  />
+                                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs">
+                                    {currencies.find(c => c.code === currency)?.symbol}
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
                       )
                     )}
                   </tbody>
                 </table>
               </div>
+              
+              {!ratesFilled && (
+                <p className="text-red-400 text-xs mt-1">Please enter at least one rate</p>
+              )}
             </div>
           </CollapsibleContent>
         </Collapsible>

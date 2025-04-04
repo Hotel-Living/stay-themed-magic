@@ -88,7 +88,7 @@ export default function StepTwo({
                   <Input id="room-name" value={newRoom.name} onChange={e => setNewRoom({
                   ...newRoom,
                   name: e.target.value
-                })} placeholder="e.g. Deluxe Double" />
+                })} placeholder="e.g. Deluxe Double" className="bg-[#520359]" />
                 </div>
                 
                 <div>
@@ -108,13 +108,7 @@ export default function StepTwo({
                   })} />
                   </div>
                   
-                  <div>
-                    <Label htmlFor="room-price">Base Price <span className="text-red-500">*</span></Label>
-                    <Input id="room-price" type="number" min="0" value={newRoom.basePrice} onChange={e => setNewRoom({
-                    ...newRoom,
-                    basePrice: parseInt(e.target.value) || 0
-                  })} />
-                  </div>
+                  
                 </div>
                 
                 <div className="flex justify-end gap-2 mt-4">

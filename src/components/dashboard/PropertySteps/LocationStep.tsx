@@ -57,7 +57,7 @@ export default function LocationStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           LOCATION ON MAP
         </label>
-        <div className="w-full h-64 rounded-lg border border-fuchsia-800/30 flex items-center justify-center bg-[#5c0869]">
+        <div className="w-full h-64 rounded-lg border border-fuchsia-800/30 flex items-center justify-center bg-[#760276]">
           <div className="text-center">
             <MapPin className="w-8 h-8 mx-auto mb-2 text-fuchsia-400/50" />
             <p className="text-sm text-foreground/60">Google Maps will be loaded here</p>

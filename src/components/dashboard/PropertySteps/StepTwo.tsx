@@ -1,21 +1,26 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Plus, Trash2, CheckCircle, AlertCircle } from "lucide-react";
+import { Plus, Trash2, CheckCircle, AlertCircle, Upload, Image } from "lucide-react";
 import RoomsAndPricingStep from "./RoomsAndPricingStep";
+
 interface RoomType {
   id: string;
   name: string;
   description: string;
   capacity: number;
   basePrice: number;
+  images?: File[];
 }
+
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean) => void;
 }
+
 export default function StepTwo({
   onValidationChange = () => {}
 }: StepTwoProps) {
@@ -24,7 +29,8 @@ export default function StepTwo({
     name: '',
     description: '',
     capacity: 1,
-    basePrice: 0
+    basePrice: 0,
+    images: []
   });
   const [error, setError] = useState<string>("");
   const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false);
@@ -53,7 +59,8 @@ export default function StepTwo({
         name: '',
         description: '',
         capacity: 1,
-        basePrice: 0
+        basePrice: 0,
+        images: []
       });
       setIsRoomDialogOpen(false);
     }
@@ -63,10 +70,39 @@ export default function StepTwo({
   const handleRemoveRoomType = (id: string) => {
     setRoomTypes(roomTypes.filter(room => room.id !== id));
   };
+
+  // Handle file selection for room images
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileList = Array.from(e.target.files);
+      setNewRoom({
+        ...newRoom,
+        images: [...(newRoom.images || []), ...fileList]
+      });
+    }
+  };
+
+  // Handle file selection for an existing room
+  const handleExistingRoomImageSelect = (e: React.ChangeEvent<HTMLInputElement>, roomId: string) => {
+    if (e.target.files) {
+      const fileList = Array.from(e.target.files);
+      setRoomTypes(roomTypes.map(room => {
+        if (room.id === roomId) {
+          return {
+            ...room,
+            images: [...(room.images || []), ...fileList]
+          };
+        }
+        return room;
+      }));
+    }
+  };
+
   useEffect(() => {
     // Validate whenever room types change
     checkValidation();
   }, [roomTypes]);
+  
   return <div className="space-y-8">
       <RoomsAndPricingStep />
       
@@ -108,7 +144,34 @@ export default function StepTwo({
                   })} className="bg-[#850588]" />
                   </div>
                   
-                  
+                  <div>
+                    <Label htmlFor="room-price">Base Price <span className="text-red-500">*</span></Label>
+                    <Input id="room-price" type="number" min="0" value={newRoom.basePrice} onChange={e => setNewRoom({
+                    ...newRoom,
+                    basePrice: parseFloat(e.target.value) || 0
+                  })} className="bg-[#850588]" />
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="room-images">Room Images</Label>
+                  <div className="mt-2 flex items-center">
+                    <label className="flex items-center gap-2 px-4 py-2 bg-[#850588] hover:bg-[#9505a1] transition-colors rounded-lg cursor-pointer">
+                      <Image className="w-4 h-4" />
+                      <span>Upload Room Photos</span>
+                      <input
+                        id="room-images"
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleImageSelect}
+                      />
+                    </label>
+                    {newRoom.images && newRoom.images.length > 0 && (
+                      <span className="ml-3 text-sm">{newRoom.images.length} image(s) selected</span>
+                    )}
+                  </div>
                 </div>
                 
                 <div className="flex justify-end gap-2 mt-4">
@@ -125,10 +188,26 @@ export default function StepTwo({
         {roomTypes.length > 0 && <div className="mt-4 space-y-3">
             <h4 className="font-medium">Added Room Types:</h4>
             {roomTypes.map(room => <div key={room.id} className="p-4 border rounded-md flex justify-between items-center">
-                <div>
+                <div className="flex-1">
                   <div className="font-medium">{room.name}</div>
                   <div className="text-sm text-muted-foreground">
                     {room.description || 'No description'} | Capacity: {room.capacity} | Base Price: ${room.basePrice}
+                  </div>
+                  <div className="mt-2">
+                    <label className="flex items-center gap-2 px-3 py-1.5 bg-[#850588] hover:bg-[#9505a1] transition-colors text-white text-sm rounded-lg cursor-pointer inline-block">
+                      <Upload className="w-3 h-3" />
+                      <span>Upload Room Photos</span>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => handleExistingRoomImageSelect(e, room.id)}
+                      />
+                    </label>
+                    {room.images && room.images.length > 0 && (
+                      <span className="ml-3 text-sm">{room.images.length} image(s) selected</span>
+                    )}
                   </div>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => handleRemoveRoomType(room.id)} className="text-red-500 hover:text-red-700">

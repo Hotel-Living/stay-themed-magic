@@ -69,12 +69,12 @@ export default function StayRatesStep() {
             <div className="grid grid-cols-1 gap-4 mb-6">
               <div>
                 <div className="flex items-center mb-2">
-                  <label className="block text-sm uppercase mr-3">SELECT CURRENCY</label>
-                  <div className="flex flex-wrap gap-1">
+                  <label className="block text-sm uppercase whitespace-nowrap mr-3">SELECT CURRENCY:</label>
+                  <div className="flex items-center flex-wrap gap-1">
                     {currencies.map((curr) => (
                       <button
                         key={curr.code}
-                        className={`py-1 px-2 text-xs border rounded-lg transition-colors ${
+                        className={`py-0.5 px-1.5 text-xs border rounded-md transition-colors ${
                           currency === curr.code
                             ? "bg-fuchsia-500/20 border-fuchsia-500/50"
                             : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"

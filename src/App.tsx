@@ -1,83 +1,65 @@
 
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@/components/ui/theme-provider';
-import { Toaster } from "@/components/ui/toaster";
-import { Starfield } from "@/components/Starfield";
-import { AuthProvider } from './context/auth/AuthProvider';
-
-import Index from './pages/Index';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import HotelLogin from './pages/HotelLogin';
-import HotelSignUp from './pages/HotelSignUp';
-import HotelDashboard from './pages/HotelDashboard';
-import UserDashboard from './pages/UserDashboard';
-import HotelDetail from './pages/HotelDetail';
-import Search from './pages/Search';
-import FAQ from './pages/FAQ';
-import FAQTravelers from './pages/FAQTravelers';
-import FAQHotels from './pages/FAQHotels';
-import Hotels from './pages/Hotels';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import NotFound from './pages/NotFound';
-import OurValues from './pages/OurValues';
-import OurServices from './pages/OurServices';
-import IntellectualProperty from './pages/IntellectualProperty';
-import CustomerService from './pages/CustomerService';
-import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import AddPropertyPage from './pages/AddPropertyPage';
-
-const queryClient = new QueryClient();
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Search from "./pages/Search";
+import Hotels from "./pages/Hotels";
+import HotelDetail from "./pages/HotelDetail";
+import HotelSignUp from "./pages/HotelSignUp";
+import HotelLogin from "./pages/HotelLogin";
+import HotelDashboard from "./pages/HotelDashboard";
+import UserDashboard from "./pages/UserDashboard";
+import FAQ from "./pages/FAQ";
+import FAQHotels from "./pages/FAQHotels";
+import FAQTravelers from "./pages/FAQTravelers";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import CustomerService from "./pages/CustomerService";
+import OurValues from "./pages/OurValues";
+import OurServices from "./pages/OurServices";
+import IntellectualProperty from "./pages/IntellectualProperty";
+import HotelPartnerAgreement from "./pages/HotelPartnerAgreement";
+import NotFound from "./pages/NotFound";
+import CodeStats from "./pages/CodeStats";
+import AddPropertyPage from "./pages/AddPropertyPage";
+import ThemeInformationPage from "./pages/ThemeInformationPage";
+import "./App.css";
 
 function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden w-full">
-      <Starfield />
-      <div className="relative z-10 w-full">
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <BrowserRouter>
-              <AuthProvider>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signin" element={<Login />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/hotel-login" element={<HotelLogin />} />
-                  <Route path="/hotel-signup" element={<HotelSignUp />} />
-                  <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-                  <Route path="/user-dashboard" element={<UserDashboard />} />
-                  <Route path="/hotel/:id" element={<HotelDetail />} />
-                  <Route path="/search" element={<Search />} />
-                  <Route path="/hotels" element={<Hotels />} />
-                  <Route path="/hoteles" element={<Hotels />} /> 
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/faq-travelers" element={<FAQTravelers />} />
-                  <Route path="/faq-hotels" element={<FAQHotels />} />
-                  <Route path="/terms" element={<Terms />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
-                  <Route path="/our-values" element={<OurValues />} />
-                  <Route path="/our-services" element={<OurServices />} />
-                  <Route path="/intellectual-property" element={<IntellectualProperty />} />
-                  <Route path="/customer-service" element={<CustomerService />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
-                  <Route path="/add-property" element={<AddPropertyPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <Toaster />
-              </AuthProvider>
-            </BrowserRouter>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/hotels" element={<Hotels />} />
+        <Route path="/hotel/:id" element={<HotelDetail />} />
+        <Route path="/hotel-signup" element={<HotelSignUp />} />
+        <Route path="/hotel-login" element={<HotelLogin />} />
+        <Route path="/hotel-dashboard/*" element={<HotelDashboard />} />
+        <Route path="/dashboard/*" element={<UserDashboard />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/faq-hotels" element={<FAQHotels />} />
+        <Route path="/faq-travelers" element={<FAQTravelers />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/customer-service" element={<CustomerService />} />
+        <Route path="/our-values" element={<OurValues />} />
+        <Route path="/our-services" element={<OurServices />} />
+        <Route path="/intellectual-property" element={<IntellectualProperty />} />
+        <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
+        <Route path="/code-stats" element={<CodeStats />} />
+        <Route path="/add-property" element={<AddPropertyPage />} />
+        <Route path="/theme-information" element={<ThemeInformationPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

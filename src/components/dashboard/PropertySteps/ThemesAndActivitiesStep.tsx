@@ -1,6 +1,8 @@
+
 import React, { useState } from "react";
 import { PlusCircle, ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Link } from "react-router-dom";
 
 // Defining new theme categories with updated structure
 export const themeCategories = [{
@@ -297,15 +299,19 @@ export const themeCategories = [{
     isAddOption: true
   }]
 }];
+
 export default function ThemesAndActivitiesStep() {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  
   const toggleCategory = (category: string) => {
     setOpenCategory(openCategory === category ? null : category);
   };
+  
   const toggleSubmenu = (submenu: string) => {
     setOpenSubmenu(openSubmenu === submenu ? null : submenu);
   };
+  
   return <div className="space-y-4">
       <label className="block text-3xl font-bold text-foreground/90 mb-2 uppercase bg-[#900492]">
         THEMES
@@ -314,16 +320,17 @@ export default function ThemesAndActivitiesStep() {
       <p className="text-sm text-foreground/90 mb-4">
         Make your hotel stand out from the competition boosting it with group themes to attract your best and perfect guests
       </p>
-      <button className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80">
+      
+      <Link to="/theme-information" className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd]">
         More Information
-      </button>
+      </Link>
       
       <div>
-        <div className="grid grid-cols-1 gap-1">
+        <div className="grid grid-cols-1 gap-0.5">
           {/* Map through all theme categories */}
-          {themeCategories.map(category => <Collapsible key={category.category} className="mb-0.5">
+          {themeCategories.map(category => <Collapsible key={category.category} className="mb-0">
               <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
-                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 rounded-none my-[24px] bg-[#af09be]">
+                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 rounded-none my-0 py-1 bg-[#af09be]">
                   <h4 className="uppercase text-white">{category.category}</h4>
                   <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
                 </CollapsibleTrigger>
@@ -407,8 +414,6 @@ export default function ThemesAndActivitiesStep() {
                 </CollapsibleContent>
               </div>
             </Collapsible>)}
-          
-          
         </div>
       </div>
     </div>;

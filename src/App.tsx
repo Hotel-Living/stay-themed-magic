@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
 import { AuthProvider } from './context/auth/AuthProvider';
+import { DashboardAccess } from './components/DashboardAccess';
 
 import Index from './pages/Index';
 import Login from './pages/Login';
@@ -36,13 +37,13 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden w-full">
-      <Starfield />
-      <div className="relative z-10 w-full">
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <BrowserRouter>
-              <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <AuthProvider>
+          <div className="min-h-screen overflow-x-hidden w-full">
+            <Starfield />
+            <div className="relative z-10 w-full">
+              <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/login" element={<Login />} />
@@ -55,7 +56,7 @@ function App() {
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
-                  <Route path="/hoteles" element={<Hotels />} /> 
+                  <Route path="/hoteles" element={<Navigate to="/hotels" />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/faq-travelers" element={<FAQTravelers />} />
                   <Route path="/faq-hotels" element={<FAQHotels />} />
@@ -71,13 +72,14 @@ function App() {
                   <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                <DashboardAccess />
                 <Toaster />
-              </AuthProvider>
-            </BrowserRouter>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </div>
-    </div>
+              </BrowserRouter>
+            </div>
+          </div>
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

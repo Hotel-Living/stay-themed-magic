@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { ChevronRight, PlusCircle } from "lucide-react";
+import { ChevronRight, PlusCircle, Upload } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,6 +21,14 @@ export default function RoomTypeSection({ onValidationChange }: { onValidationCh
       if (roomTypes.length === 0) {
         onValidationChange(true);
       }
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, roomType: string) => {
+    // Handle file upload logic here
+    if (e.target.files && e.target.files.length > 0) {
+      console.log(`Files selected for ${roomType}:`, e.target.files);
+      // Add your file handling logic here
     }
   };
 
@@ -54,6 +62,17 @@ export default function RoomTypeSection({ onValidationChange }: { onValidationCh
               <label className="text-xs mb-1 block uppercase">UPLOAD IMAGES</label>
               <div className="border-2 border-dashed border-fuchsia-500/30 rounded-lg p-4 text-center">
                 <p className="text-sm text-foreground/60">Drag & drop or click to upload</p>
+                <label className="inline-flex items-center mt-2 px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors cursor-pointer">
+                  <Upload className="w-4 h-4 mr-2" /> 
+                  Upload Room Photos
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => handleFileUpload(e, roomType)}
+                  />
+                </label>
               </div>
             </div>
           </div>

@@ -68,21 +68,23 @@ export default function StayRatesStep() {
             
             <div className="grid grid-cols-1 gap-4 mb-6">
               <div>
-                <label className="block text-sm mb-1 uppercase">SELECT CURRENCY</label>
-                <div className="flex flex-wrap gap-2">
-                  {currencies.map((curr) => (
-                    <button
-                      key={curr.code}
-                      className={`py-2 px-3 text-sm border rounded-lg transition-colors ${
-                        currency === curr.code
-                          ? "bg-fuchsia-500/20 border-fuchsia-500/50"
-                          : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
-                      }`}
-                      onClick={() => setCurrency(curr.code)}
-                    >
-                      {curr.symbol} {curr.code}
-                    </button>
-                  ))}
+                <div className="flex items-center mb-2">
+                  <label className="block text-sm uppercase mr-3">SELECT CURRENCY</label>
+                  <div className="flex flex-wrap gap-1">
+                    {currencies.map((curr) => (
+                      <button
+                        key={curr.code}
+                        className={`py-1 px-2 text-xs border rounded-lg transition-colors ${
+                          currency === curr.code
+                            ? "bg-fuchsia-500/20 border-fuchsia-500/50"
+                            : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
+                        }`}
+                        onClick={() => setCurrency(curr.code)}
+                      >
+                        {curr.symbol} {curr.code}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               

@@ -128,7 +128,7 @@ export default function AddPropertyForm() {
   const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {
     return <PriceTable roomType={roomType} mealTypes={mealTypes} stayDurations={stayDurations} />;
   };
-  return <div className="glass-card rounded-2xl p-6 bg-[#7c05b3]">
+  return <div className="glass-card rounded-2xl p-6 py-[25px] px-[21px] bg-[#741098]">
       <StepIndicator currentStep={currentStep} totalSteps={totalSteps} stepTitle={stepTitles[currentStep - 1]} />
       
       {/* Top Navigation Controls */}

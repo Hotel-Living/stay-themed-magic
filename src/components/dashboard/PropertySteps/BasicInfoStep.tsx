@@ -5,7 +5,7 @@ export default function BasicInfoStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           HOTEL NAME
         </label>
-        <input type="text" placeholder="Enter hotel name" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#cb7dcb]" />
+        <input type="text" placeholder="Enter hotel name" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#860586]" />
       </div>
       
       <div>

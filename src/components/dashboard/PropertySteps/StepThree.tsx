@@ -43,13 +43,13 @@ export default function StepThree({
       
       <div className="space-y-4 mt-8">
         <div className="mb-4">
-          <h3 className="font-normal text-base">MEAL PLANS</h3>
-          <p className="text-sm text-muted-foreground">Select the meal plans you offer at your property.</p>
+          
+          
         </div>
         
         <div className="grid gap-4">
           <div>
-            <Label htmlFor="mealPlan">Meal Plan <span className="text-red-500">*</span></Label>
+            
             <Select onValueChange={handleMealPlanChange} value={mealPlans[0]}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a meal plan" />

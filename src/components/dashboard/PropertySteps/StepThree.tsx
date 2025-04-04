@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -41,29 +42,14 @@ export default function StepThree({
   return <div className="space-y-6">
       <HotelFeaturesStep />
       
-      <div className="space-y-4 mt-8">
-        <div className="mb-4">
-          
-          
-          <Select onValueChange={handleMealPlanChange}>
-            <SelectTrigger id="meal-plan" className="w-full">
-              <SelectValue placeholder="Select a meal plan" />
-            </SelectTrigger>
-            <SelectContent>
-              {mealPlanOptions.map(option => <SelectItem key={option} value={option}>
-                  {option}
-                </SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
-        
-        {error ? <div className="p-3 rounded-md text-red-200 flex items-center gap-2 bg-[#540ea9]/20">
-            
-            
-          </div> : mealPlans.length > 0 ? <div className="p-3 rounded-md bg-green-500/20 text-green-200 flex items-center gap-2">
-            <CheckCircle className="h-5 w-5" />
-            <span>Meal plan selected: {mealPlans.join(', ')}</span>
-          </div> : null}
-      </div>
+      {/* Removed the white box with meal options */}
+      
+      {error ? <div className="p-3 rounded-md text-red-200 flex items-center gap-2 bg-[#540ea9]/20">
+          <AlertCircle className="h-5 w-5" />
+          <span>{error}</span>
+        </div> : mealPlans.length > 0 ? <div className="p-3 rounded-md bg-green-500/20 text-green-200 flex items-center gap-2">
+          <CheckCircle className="h-5 w-5" />
+          <span>Meal plan selected: {mealPlans.join(', ')}</span>
+        </div> : null}
     </div>;
 }

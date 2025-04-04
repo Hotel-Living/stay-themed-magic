@@ -1,29 +1,65 @@
 
-import React from "react";
-import { PlusCircle, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { PlusCircle, ChevronRight, Send } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { FeaturesList } from "./features/FeaturesList";
 
 // Moving data to separate files for better maintainability
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
 export default function HotelFeaturesStep() {
+  const { toast } = useToast();
+  const [showHotelFeatureInput, setShowHotelFeatureInput] = useState(false);
+  const [showRoomFeatureInput, setShowRoomFeatureInput] = useState(false);
+  const [newHotelFeature, setNewHotelFeature] = useState("");
+  const [newRoomFeature, setNewRoomFeature] = useState("");
+
+  const handleSubmitFeature = (type: "hotel" | "room", feature: string) => {
+    if (!feature.trim()) return;
+    
+    toast({
+      title: "Feature suggestion submitted",
+      description: `Your "${feature}" feature suggestion has been sent to the administrators for approval.`,
+    });
+
+    if (type === "hotel") {
+      setNewHotelFeature("");
+      setShowHotelFeatureInput(false);
+    } else {
+      setNewRoomFeature("");
+      setShowRoomFeatureInput(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Hotel Features Section */}
       <FeatureCollapsible 
         title="HOTEL FEATURES" 
-        features={hotelFeatures} 
+        features={hotelFeatures}
+        showInput={showHotelFeatureInput}
+        setShowInput={setShowHotelFeatureInput}
+        newFeature={newHotelFeature}
+        setNewFeature={setNewHotelFeature}
+        onSubmit={() => handleSubmitFeature("hotel", newHotelFeature)}
       />
       
       {/* Room Features Section */}
       <FeatureCollapsible 
         title="ROOM FEATURES" 
-        features={roomFeatures} 
+        features={roomFeatures}
+        showInput={showRoomFeatureInput}
+        setShowInput={setShowRoomFeatureInput}
+        newFeature={newRoomFeature}
+        setNewFeature={setNewRoomFeature}
+        onSubmit={() => handleSubmitFeature("room", newRoomFeature)}
       />
     </div>
   );
@@ -32,9 +68,22 @@ export default function HotelFeaturesStep() {
 interface FeatureCollapsibleProps {
   title: string;
   features: string[];
+  showInput: boolean;
+  setShowInput: (show: boolean) => void;
+  newFeature: string;
+  setNewFeature: (feature: string) => void;
+  onSubmit: () => void;
 }
 
-function FeatureCollapsible({ title, features }: FeatureCollapsibleProps) {
+function FeatureCollapsible({ 
+  title, 
+  features,
+  showInput,
+  setShowInput,
+  newFeature,
+  setNewFeature,
+  onSubmit
+}: FeatureCollapsibleProps) {
   return (
     <div>
       <Collapsible className="w-full" defaultOpen={false}>
@@ -45,7 +94,41 @@ function FeatureCollapsible({ title, features }: FeatureCollapsibleProps) {
           <ChevronRight className="h-4 w-4" />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <FeaturesList features={features} />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {features.map((feature) => (
+                <label key={feature} className="flex items-start">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                  />
+                  <span className="text-sm">{feature}</span>
+                </label>
+              ))}
+              <div className="flex items-center cursor-pointer" onClick={() => setShowInput(true)}>
+                <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
+                <span className="text-sm text-fuchsia-400">Add new feature</span>
+              </div>
+            </div>
+
+            {showInput && (
+              <div className="mt-2 flex items-center gap-2">
+                <Input
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  placeholder="Enter new feature suggestion"
+                  className="bg-fuchsia-950/30 border-fuchsia-500/30"
+                />
+                <Button 
+                  size="sm"
+                  onClick={onSubmit}
+                  className="bg-fuchsia-600 hover:bg-fuchsia-700"
+                >
+                  <Send className="w-4 h-4 mr-1" /> Send
+                </Button>
+              </div>
+            )}
+          </div>
         </CollapsibleContent>
       </Collapsible>
     </div>

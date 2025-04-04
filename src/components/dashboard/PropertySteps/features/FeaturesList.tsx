@@ -4,9 +4,10 @@ import { PlusCircle } from "lucide-react";
 
 interface FeaturesListProps {
   features: string[];
+  onAddNewFeature?: () => void;
 }
 
-export function FeaturesList({ features }: FeaturesListProps) {
+export function FeaturesList({ features, onAddNewFeature }: FeaturesListProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       {features.map((feature) => (
@@ -18,7 +19,10 @@ export function FeaturesList({ features }: FeaturesListProps) {
           <span className="text-sm">{feature}</span>
         </label>
       ))}
-      <div className="flex items-center">
+      <div 
+        className="flex items-center cursor-pointer"
+        onClick={onAddNewFeature}
+      >
         <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
         <span className="text-sm text-fuchsia-400">Add new feature</span>
       </div>

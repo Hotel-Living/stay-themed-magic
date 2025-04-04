@@ -62,10 +62,7 @@ export default function StepThree({
             </Select>
           </div>
           
-          {error && <div className="p-3 rounded-md bg-red-50 text-red-700 flex items-center gap-2">
-              <AlertCircle className="h-5 w-5" />
-              <span>{error}</span>
-            </div>}
+          {error}
           
           {mealPlans.length > 0 && !error && <div className="p-3 rounded-md bg-green-50 text-green-700 flex items-center gap-2">
               <CheckCircle className="h-5 w-5" />

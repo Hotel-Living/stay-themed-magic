@@ -56,7 +56,7 @@ export default function StepThree({ onValidationChange = () => {} }: StepThreePr
       
       <div className="space-y-4 mt-8">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold">Meal Plans Offered</h3>
+          <h3 className="text-lg font-semibold">Meal Plans</h3>
           <p className="text-sm text-muted-foreground">Select the meal plans you offer at your property.</p>
         </div>
         
@@ -67,9 +67,9 @@ export default function StepThree({ onValidationChange = () => {} }: StepThreePr
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a meal plan" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#5A1876]/30 border border-fuchsia-800/30">
                 {mealPlanOptions.map((plan) => (
-                  <SelectItem key={plan} value={plan}>
+                  <SelectItem key={plan} value={plan} className="text-foreground hover:bg-[#5A1876]/20">
                     {plan}
                   </SelectItem>
                 ))}

@@ -96,7 +96,7 @@ export default function StepTwo({
                   <Input id="room-description" value={newRoom.description} onChange={e => setNewRoom({
                   ...newRoom,
                   description: e.target.value
-                })} placeholder="Brief description of the room" />
+                })} placeholder="Brief description of the room" className="bg-[#531254]" />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">

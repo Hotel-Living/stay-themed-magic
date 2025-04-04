@@ -1,0 +1,51 @@
+
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+interface RoomTypeDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onAdd: (roomType: string) => void;
+}
+
+export default function RoomTypeDialog({ isOpen, onClose, onAdd }: RoomTypeDialogProps) {
+  const [newRoomType, setNewRoomType] = useState("");
+
+  const handleAddRoomType = () => {
+    if (newRoomType.trim()) {
+      onAdd(newRoomType);
+      setNewRoomType("");
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="bg-[#430453] text-white">
+        <DialogHeader>
+          <DialogTitle className="text-xl">Add New Room Type</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label className="text-right text-sm">Room Type</label>
+            <input 
+              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2"
+              value={newRoomType}
+              onChange={(e) => setNewRoomType(e.target.value)}
+              placeholder="e.g. Double Room, Suite, etc."
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button 
+            onClick={handleAddRoomType} 
+            disabled={!newRoomType.trim()}
+            className="bg-fuchsia-600 hover:bg-fuchsia-700"
+          >
+            Add Room Type
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

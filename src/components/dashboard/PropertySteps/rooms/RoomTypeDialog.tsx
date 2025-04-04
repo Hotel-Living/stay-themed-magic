@@ -21,15 +21,15 @@ export default function RoomTypeDialog({ isOpen, onClose, onAdd }: RoomTypeDialo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-white">
+      <DialogContent className="bg-[#430453] text-black">
         <DialogHeader>
-          <DialogTitle className="text-xl">Add New Room Type</DialogTitle>
+          <DialogTitle className="text-xl text-white">Add New Room Type</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="text-right text-sm">Room Type</label>
+            <label className="text-right text-sm text-white">Room Type</label>
             <input 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2"
+              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
               value={newRoomType}
               onChange={(e) => setNewRoomType(e.target.value)}
               placeholder="e.g. Double Room, Suite, etc."
@@ -40,7 +40,7 @@ export default function RoomTypeDialog({ isOpen, onClose, onAdd }: RoomTypeDialo
           <Button 
             onClick={handleAddRoomType} 
             disabled={!newRoomType.trim()}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
           >
             Add Room Type
           </Button>

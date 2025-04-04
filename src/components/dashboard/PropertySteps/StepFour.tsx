@@ -69,26 +69,27 @@ export default function StepFour({ onValidationChange = () => {} }: StepFourProp
                 Add new theme category
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="text-black">
               <DialogHeader>
-                <DialogTitle>Add New Theme Category</DialogTitle>
+                {/* Removed DialogTitle as requested */}
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div>
-                  <Label htmlFor="theme-name">Theme Name</Label>
+                  <Label htmlFor="theme-name" className="text-black">Theme Name</Label>
                   <Input 
                     id="theme-name" 
                     value={newTheme} 
                     onChange={(e) => setNewTheme(e.target.value)} 
                     placeholder="Enter theme name"
+                    className="text-black"
                   />
                 </div>
               </div>
               <div className="flex justify-end gap-3">
                 <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
+                  <Button variant="outline" className="text-black">Cancel</Button>
                 </DialogClose>
-                <Button type="button" onClick={handleAddTheme} disabled={!newTheme.trim()}>
+                <Button type="button" onClick={handleAddTheme} disabled={!newTheme.trim()} className="text-white">
                   Add Theme
                 </Button>
               </div>

@@ -408,10 +408,7 @@ export default function ThemesAndActivitiesStep() {
               </div>
             </Collapsible>)}
           
-          <div className="flex items-center">
-            <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-            <span className="text-sm text-fuchsia-400">Add new theme category</span>
-          </div>
+          
         </div>
       </div>
     </div>;

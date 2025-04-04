@@ -6,6 +6,7 @@ import StepNavigation from "./PropertySteps/StepNavigation";
 import StepContent from "./PropertySteps/StepContent";
 import ImportantNotice from "./PropertySteps/ImportantNotice";
 import PriceTable from "./PropertySteps/PriceTable";
+import { AlertCircle } from "lucide-react";
 
 export default function AddProperty() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,6 +19,9 @@ export default function AddProperty() {
     5: false, // Stay Rates
     6: false, // FAQ & Terms
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [errorFields, setErrorFields] = useState<string[]>([]);
   const totalSteps = 6;
 
   // Step titles in all caps
@@ -38,6 +42,10 @@ export default function AddProperty() {
         window.scrollTo(0, 0);
       }
     } else {
+      // Show validation errors and list of incomplete fields
+      const fields = getIncompleteFields(currentStep);
+      setErrorFields(fields);
+      
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields before proceeding.",
@@ -54,12 +62,36 @@ export default function AddProperty() {
   };
   
   const validateCurrentStep = () => {
-    // Implement real validation based on the step data
+    // Use the stepValidation state to determine if the current step is valid
     return stepValidation[currentStep];
+  };
+  
+  // Get list of incomplete fields based on current step
+  const getIncompleteFields = (step: number): string[] => {
+    switch(step) {
+      case 1:
+        return ["Property Name", "Property Type", "Description"];
+      case 2:
+        return ["Country", "City", "Address"];
+      case 3:
+        return ["Features", "Meal Plans"];
+      case 4:
+        return ["Themes", "Activities"];
+      case 5:
+        return ["Stay Rates"];
+      case 6:
+        return ["FAQ", "Terms & Conditions"];
+      default:
+        return [];
+    }
   };
   
   const handleSubmitProperty = () => {
     if (validateCurrentStep()) {
+      // Set submitted state
+      setIsSubmitted(true);
+      setSubmitSuccess(true);
+      
       // Reset the form and show a success message
       toast({
         title: "Property Submitted Successfully",
@@ -67,17 +99,24 @@ export default function AddProperty() {
         duration: 5000
       });
       
-      // Reset to step 1 after submission
-      setCurrentStep(1);
-      setStepValidation({
-        1: false,
-        2: false,
-        3: false,
-        4: false,
-        5: false,
-        6: false
-      });
+      // After a delay, reset the form
+      setTimeout(() => {
+        setCurrentStep(1);
+        setStepValidation({
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false
+        });
+        setIsSubmitted(false);
+      }, 5000);
     } else {
+      // Show validation errors
+      const fields = getIncompleteFields(currentStep);
+      setErrorFields(fields);
+      
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields before submitting.",
@@ -122,12 +161,38 @@ export default function AddProperty() {
         )}
       </div>
       
-      {/* Step Content */}
-      <StepContent 
-        currentStep={currentStep} 
-        renderPriceTable={renderPriceTable} 
-        onValidationChange={(isValid) => validateStep(currentStep, isValid)}
-      />
+      {/* Validation Error Banner */}
+      {errorFields.length > 0 && (
+        <div className="mb-6 p-4 border rounded-md bg-red-50 text-red-700">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 mt-0.5" />
+            <div>
+              <p className="font-medium">Please complete all required fields:</p>
+              <ul className="list-disc pl-5 mt-2">
+                {errorFields.map((field, index) => (
+                  <li key={index}>{field}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Show success message if submitted */}
+      {isSubmitted && submitSuccess ? (
+        <div className="p-6 border rounded-md bg-green-50 text-green-700 mb-6">
+          <h3 className="text-lg font-medium mb-2">Property Submitted!</h3>
+          <p>Thank you for submitting your property. It has been successfully received and is now awaiting review.</p>
+          <p className="mt-2">You'll receive a notification once the review is complete.</p>
+        </div>
+      ) : (
+        // Step Content
+        <StepContent 
+          currentStep={currentStep} 
+          renderPriceTable={renderPriceTable} 
+          onValidationChange={(isValid) => validateStep(currentStep, isValid)}
+        />
+      )}
       
       {/* Required Fields Notification */}
       <ImportantNotice />

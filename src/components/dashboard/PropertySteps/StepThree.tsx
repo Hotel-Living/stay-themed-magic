@@ -47,28 +47,7 @@ export default function StepThree({
           
         </div>
         
-        <div className="grid gap-4">
-          <div>
-            
-            <Select onValueChange={handleMealPlanChange} value={mealPlans[0]}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a meal plan" />
-              </SelectTrigger>
-              <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-                {mealPlanOptions.map(plan => <SelectItem key={plan} value={plan} className="text-white hover:bg-[#5A1876]/20">
-                    {plan}
-                  </SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {error}
-          
-          {mealPlans.length > 0 && !error && <div className="p-3 rounded-md bg-green-50 text-green-700 flex items-center gap-2">
-              <CheckCircle className="h-5 w-5" />
-              <span>Meal plan selected successfully</span>
-            </div>}
-        </div>
+        
       </div>
     </div>;
 }

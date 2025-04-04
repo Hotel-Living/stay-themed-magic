@@ -139,11 +139,8 @@ export default function StepTwo({
                   </div>
                   
                   <div>
-                    <Label htmlFor="room-price">Base Price <span className="text-red-500">*</span></Label>
-                    <Input id="room-price" type="number" min="0" value={newRoom.basePrice} onChange={e => setNewRoom({
-                    ...newRoom,
-                    basePrice: parseFloat(e.target.value) || 0
-                  })} className="bg-[#850588]" />
+                    
+                    
                   </div>
                 </div>
                 
@@ -161,7 +158,7 @@ export default function StepTwo({
                 
                 <div className="flex justify-end gap-2 mt-4">
                   
-                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} className="font-normal bg-[#af00b0]">
+                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} className="font-normal bg-[#690884]">
                     Add Room Type
                   </Button>
                 </div>

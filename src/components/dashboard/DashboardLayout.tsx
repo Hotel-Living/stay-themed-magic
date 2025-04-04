@@ -110,7 +110,7 @@ export default function DashboardLayout({
                 </nav>
               </div>
               
-              <div className="glass-card rounded-2xl p-5 bg-[#430453]">
+              <div className="glass-card rounded-2xl p-5 bg-[#bb45ee]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />

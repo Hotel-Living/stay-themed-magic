@@ -13,6 +13,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export default function RoomsAndPricingStep() {
   const stayLengths = ["8 days", "16 days", "24 days", "32 days"];
@@ -21,6 +23,9 @@ export default function RoomsAndPricingStep() {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
   const [selectedMealPlan, setSelectedMealPlan] = useState("");
   const [selectedWeekday, setSelectedWeekday] = useState("Monday"); // Set Monday as default
+  const [newRoomType, setNewRoomType] = useState("");
+  const [roomTypes, setRoomTypes] = useState<string[]>(["Single Room"]);
+  const [dialogOpen, setDialogOpen] = useState(false);
   
   // Fields validation
   const [stayLengthsValid, setStayLengthsValid] = useState(false);
@@ -30,6 +35,14 @@ export default function RoomsAndPricingStep() {
   const handleMealPlanChange = (plan: string) => {
     setSelectedMealPlan(plan);
     setMealPlanValid(true);
+  };
+  
+  const handleAddRoomType = () => {
+    if (newRoomType.trim()) {
+      setRoomTypes([...roomTypes, newRoomType.trim()]);
+      setNewRoomType("");
+      setDialogOpen(false);
+    }
   };
   
   return (
@@ -82,7 +95,6 @@ export default function RoomsAndPricingStep() {
           <CollapsibleContent>
             <div className="grid grid-cols-1 gap-4 mt-2">
               <div>
-                <label className="block text-sm mb-1 uppercase">MEAL PLAN OFFERED</label>
                 <Select onValueChange={handleMealPlanChange}>
                   <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
                     <SelectValue placeholder="Select a meal plan" />
@@ -171,32 +183,64 @@ export default function RoomsAndPricingStep() {
             <ChevronRight className="h-4 w-4" />
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className="bg-fuchsia-900/20 p-4 rounded-lg mb-3">
-              <h4 className="font-medium mb-2 uppercase">SINGLE ROOM</h4>
-              <div className="grid grid-cols-2 gap-4 mb-3">
-                <div>
-                  <label className="text-xs mb-1 block uppercase">MAXIMUM OCCUPANCY</label>
-                  <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="1" required />
+            {roomTypes.map((roomType, index) => (
+              <div key={index} className="bg-fuchsia-900/20 p-4 rounded-lg mb-3">
+                <h4 className="font-medium mb-2 uppercase">{roomType}</h4>
+                <div className="grid grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <label className="text-xs mb-1 block uppercase">MAXIMUM OCCUPANCY</label>
+                    <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="1" required />
+                  </div>
+                  <div>
+                    <label className="text-xs mb-1 block uppercase">ROOM SIZE ({selectedUnit})</label>
+                    <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="Size" required />
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label className="text-xs mb-1 block uppercase">DESCRIPTION</label>
+                  <textarea className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" rows={2} placeholder="Describe this room type" required></textarea>
                 </div>
                 <div>
-                  <label className="text-xs mb-1 block uppercase">ROOM SIZE ({selectedUnit})</label>
-                  <input type="number" min="1" className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" placeholder="Size" required />
+                  <label className="text-xs mb-1 block uppercase">UPLOAD IMAGES</label>
+                  <div className="border-2 border-dashed border-fuchsia-500/30 rounded-lg p-4 text-center">
+                    <p className="text-sm text-foreground/60">Drag & drop or click to upload</p>
+                  </div>
                 </div>
               </div>
-              <div className="mb-3">
-                <label className="text-xs mb-1 block uppercase">DESCRIPTION</label>
-                <textarea className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" rows={2} placeholder="Describe this room type" required></textarea>
-              </div>
-              <div>
-                <label className="text-xs mb-1 block uppercase">UPLOAD IMAGES</label>
-                <div className="border-2 border-dashed border-fuchsia-500/30 rounded-lg p-4 text-center">
-                  <p className="text-sm text-foreground/60">Drag & drop or click to upload</p>
+            ))}
+            
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase flex items-center justify-center">
+                  <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
+                </button>
+              </DialogTrigger>
+              <DialogContent className="bg-[#430453] text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-xl">Add New Room Type</DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <label className="text-right text-sm">Room Type</label>
+                    <input 
+                      className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2"
+                      value={newRoomType}
+                      onChange={(e) => setNewRoomType(e.target.value)}
+                      placeholder="e.g. Double Room, Suite, etc."
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-            <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase">
-              + ADD ROOM TYPE
-            </button>
+                <DialogFooter>
+                  <Button 
+                    onClick={handleAddRoomType} 
+                    disabled={!newRoomType.trim()}
+                    className="bg-fuchsia-600 hover:bg-fuchsia-700"
+                  >
+                    Add Room Type
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CollapsibleContent>
         </Collapsible>
       </div>

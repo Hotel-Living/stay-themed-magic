@@ -180,7 +180,7 @@ export default function AddProperty() {
       
       {/* Show success message if submitted */}
       {isSubmitted && submitSuccess ? (
-        <div className="p-6 border rounded-md bg-[#5A1876]/30 text-foreground mb-6">
+        <div className="p-6 border rounded-md bg-[#5A1876]/30 text-black mb-6">
           <h3 className="text-lg font-medium mb-2">Property Submitted!</h3>
           <p>Thank you for submitting your property. It has been successfully received and is now awaiting review.</p>
           <p className="mt-2">You'll receive a notification once the review is complete.</p>

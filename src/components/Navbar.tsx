@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
@@ -55,6 +55,14 @@ export function Navbar() {
     }
   };
 
+  // Determine the My Account URL based on user type
+  const getMyAccountUrl = () => {
+    if (isHotelOwner) {
+      return "/hotel-dashboard";
+    }
+    return "/user-dashboard";
+  };
+
   return <header className="bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <Logo />
@@ -68,6 +76,10 @@ export function Navbar() {
           </Link>
           {isLoggedIn || isDevelopment ? (
             <>
+              <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-base uppercase flex items-center gap-1">
+                <User className="w-4 h-4" />
+                My Account
+              </Link>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
                   Logout
@@ -98,6 +110,10 @@ export function Navbar() {
           </Link>
           {isLoggedIn || isDevelopment ? (
             <>
+              <Link to={getMyAccountUrl()} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
+                <User className="w-4 h-4" />
+                My Account
+              </Link>
               {!isDevelopment && (
                 <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                   Logout

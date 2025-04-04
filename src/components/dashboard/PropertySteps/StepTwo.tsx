@@ -88,7 +88,7 @@ export default function StepTwo({
                   <Input id="room-name" value={newRoom.name} onChange={e => setNewRoom({
                   ...newRoom,
                   name: e.target.value
-                })} placeholder="e.g. Deluxe Double" className="bg-[#520359]" />
+                })} placeholder="e.g. Deluxe Double" className="bg-[#850390]" />
                 </div>
                 
                 <div>

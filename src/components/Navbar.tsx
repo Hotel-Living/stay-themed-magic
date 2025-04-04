@@ -90,8 +90,11 @@ export function Navbar() {
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
             FAQ
           </Link>
-          <Link to="/hoteles" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-base uppercase">
             Hotels
+          </Link>
+          <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
+            Hotel Dashboard
           </Link>
         </div>
         
@@ -122,7 +125,10 @@ export function Navbar() {
             </>
           ) : null}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
-          <Link to="/hoteles" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
+          <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Hotel Dashboard
+          </Link>
         </nav>
       </div>
     </header>;

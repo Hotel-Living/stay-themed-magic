@@ -17,26 +17,26 @@ export function Footer() {
             </div>
           </div>
           
-          <div className={`flex flex-wrap justify-center gap-x-10 ${isMobile ? "gap-y-0 text-xs" : "gap-y-4"} mb-2 max-w-full mx-auto`}>
-            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 max-w-full mx-auto`}>
+            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               FAQ
             </Link>
-            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Our Values
             </Link>
-            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Our Services
             </Link>
-            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Privacy & Cookies
             </Link>
-            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Terms & Conditions
             </Link>
-            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Customer Service
             </Link>
-            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-xs" : "text-xs"} font-medium`}>
+            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Intellectual Property
             </Link>
           </div>

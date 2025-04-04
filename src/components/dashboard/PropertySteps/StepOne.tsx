@@ -1,10 +1,14 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import BasicInfoStep from "./BasicInfoStep";
 import LocationStep from "./LocationStep";
 import PicturesStep from "./PicturesStep";
 
-export default function StepOne() {
+interface StepOneProps {
+  onValidationChange?: (isValid: boolean) => void;
+}
+
+export default function StepOne({ onValidationChange = () => {} }: StepOneProps) {
   return (
     <div className="space-y-8">
       <BasicInfoStep />

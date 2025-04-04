@@ -42,12 +42,12 @@ export default function StepContent({
 
   return (
     <div className="mb-8">
-      {currentStep === 1 && <StepOne onValidChange={onValidationChange} />}
-      {currentStep === 2 && <StepTwo onValidChange={onValidationChange} />}
-      {currentStep === 3 && <StepThree onValidChange={onValidationChange} />}
-      {currentStep === 4 && <StepFour onValidChange={onValidationChange} />}
-      {currentStep === 5 && <StepFive renderPriceTable={tableFn} onValidChange={onValidationChange} />}
-      {currentStep === 6 && <StepSix onValidChange={onValidationChange} />}
+      {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
+      {currentStep === 2 && <StepTwo onValidationChange={onValidationChange} />}
+      {currentStep === 3 && <StepThree onValidationChange={onValidationChange} />}
+      {currentStep === 4 && <StepFour onValidationChange={onValidationChange} />}
+      {currentStep === 5 && <StepFive renderPriceTable={tableFn} onValidationChange={onValidationChange} />}
+      {currentStep === 6 && <StepSix onValidationChange={onValidationChange} />}
     </div>
   );
 }

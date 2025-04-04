@@ -4,9 +4,10 @@ import PriceTable from "./PriceTable";
 
 interface StepFiveProps {
   renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
-export default function StepFive({ renderPriceTable }: StepFiveProps) {
+export default function StepFive({ renderPriceTable, onValidationChange = () => {} }: StepFiveProps) {
   return (
     <div className="space-y-8">
       <h3 className="text-lg font-semibold uppercase mb-4">STAY RATES</h3>

@@ -1,15 +1,15 @@
-
 import React from "react";
-
 interface StepIndicatorProps {
   currentStep: number;
   totalSteps: number;
   stepTitle: string;
 }
-
-export default function StepIndicator({ currentStep, totalSteps, stepTitle }: StepIndicatorProps) {
-  return (
-    <>
+export default function StepIndicator({
+  currentStep,
+  totalSteps,
+  stepTitle
+}: StepIndicatorProps) {
+  return <>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold uppercase">{stepTitle}</h2>
         <div className="text-sm text-foreground/60">
@@ -18,11 +18,9 @@ export default function StepIndicator({ currentStep, totalSteps, stepTitle }: St
       </div>
       
       <div className="w-full bg-fuchsia-950/50 rounded-full h-2 mb-6">
-        <div 
-          className="bg-fuchsia-500 h-2 rounded-full transition-all duration-300"
-          style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-        ></div>
+        <div style={{
+        width: `${currentStep / totalSteps * 100}%`
+      }} className="h-2 rounded-full transition-all duration-300 bg-[#a100d0]"></div>
       </div>
-    </>
-  );
+    </>;
 }

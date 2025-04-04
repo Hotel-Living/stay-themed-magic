@@ -37,7 +37,7 @@ export default function UploadedImages({
                 Main Photo
               </div>}
           </div>)}
-        <div onClick={onAddMoreClick} className="flex items-center justify-center rounded-lg aspect-[4/3] border border-dashed border-fuchsia-800/40 cursor-pointer transition-colors bg-[#5c0869]">
+        <div onClick={onAddMoreClick} className="flex items-center justify-center rounded-lg aspect-[4/3] border border-dashed border-fuchsia-800/40 cursor-pointer transition-colors bg-[#c21cf1]">
           <button className="p-2 rounded-full bg-fuchsia-500/20 hover:bg-fuchsia-500/30 transition-colors">
             <PlusCircle className="w-6 h-6 text-fuchsia-300" />
           </button>

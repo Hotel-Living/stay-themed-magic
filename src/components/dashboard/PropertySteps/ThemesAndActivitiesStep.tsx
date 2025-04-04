@@ -307,7 +307,7 @@ export default function ThemesAndActivitiesStep() {
     setOpenSubmenu(openSubmenu === submenu ? null : submenu);
   };
   return <div className="space-y-4">
-      <label className="block text-3xl font-bold text-foreground/90 mb-2 uppercase bg-[#900492]">
+      <label className="block text-3xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
         THEMES
       </label>
       

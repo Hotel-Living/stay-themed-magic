@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Plus, Trash2, CheckCircle, AlertCircle, Upload, Image } from "lucide-react";
 import RoomsAndPricingStep from "./RoomsAndPricingStep";
-
 interface RoomType {
   id: string;
   name: string;
@@ -16,11 +14,9 @@ interface RoomType {
   basePrice: number;
   images?: File[];
 }
-
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean) => void;
 }
-
 export default function StepTwo({
   onValidationChange = () => {}
 }: StepTwoProps) {
@@ -97,12 +93,10 @@ export default function StepTwo({
       }));
     }
   };
-
   useEffect(() => {
     // Validate whenever room types change
     checkValidation();
   }, [roomTypes]);
-  
   return <div className="space-y-8">
       <RoomsAndPricingStep />
       
@@ -112,7 +106,7 @@ export default function StepTwo({
         </div>
         
         <Collapsible className="w-full border rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full flex items-center justify-center py-4 text-white transition-colors bg-[#760276]">
+          <CollapsibleTrigger className="w-full flex items-center justify-center py-4 text-white transition-colors bg-[#9c0cc8]">
             <Plus className="mr-2 h-5 w-5" />
             ADD ROOM TYPE
           </CollapsibleTrigger>
@@ -124,7 +118,7 @@ export default function StepTwo({
                   <Input id="room-name" value={newRoom.name} onChange={e => setNewRoom({
                   ...newRoom,
                   name: e.target.value
-                })} placeholder="e.g. Deluxe Double" className="bg-[#850390]" />
+                })} placeholder="e.g. Deluxe Double" className="bg-[#690695]" />
                 </div>
                 
                 <div>
@@ -132,7 +126,7 @@ export default function StepTwo({
                   <Input id="room-description" value={newRoom.description} onChange={e => setNewRoom({
                   ...newRoom,
                   description: e.target.value
-                })} placeholder="Brief description of the room" className="bg-[#7c057e]" />
+                })} placeholder="Brief description of the room" className="bg-[#6d099a]" />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -141,7 +135,7 @@ export default function StepTwo({
                     <Input id="room-capacity" type="number" min="1" value={newRoom.capacity} onChange={e => setNewRoom({
                     ...newRoom,
                     capacity: parseInt(e.target.value) || 1
-                  })} className="bg-[#850588]" />
+                  })} className="bg-[#6e0b9b]" />
                   </div>
                   
                   <div>
@@ -156,21 +150,12 @@ export default function StepTwo({
                 <div>
                   <Label htmlFor="room-images">Room Images</Label>
                   <div className="mt-2 flex items-center">
-                    <label className="flex items-center gap-2 px-4 py-2 bg-[#850588] hover:bg-[#9505a1] transition-colors rounded-lg cursor-pointer">
+                    <label className="flex items-center gap-2 px-4 py-2 transition-colors rounded-lg cursor-pointer bg-[#6e0b9b]">
                       <Image className="w-4 h-4" />
                       <span>Upload Room Photos</span>
-                      <input
-                        id="room-images"
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        multiple
-                        onChange={handleImageSelect}
-                      />
+                      <input id="room-images" type="file" className="hidden" accept="image/*" multiple onChange={handleImageSelect} />
                     </label>
-                    {newRoom.images && newRoom.images.length > 0 && (
-                      <span className="ml-3 text-sm">{newRoom.images.length} image(s) selected</span>
-                    )}
+                    {newRoom.images && newRoom.images.length > 0 && <span className="ml-3 text-sm">{newRoom.images.length} image(s) selected</span>}
                   </div>
                 </div>
                 
@@ -197,17 +182,9 @@ export default function StepTwo({
                     <label className="flex items-center gap-2 px-3 py-1.5 bg-[#850588] hover:bg-[#9505a1] transition-colors text-white text-sm rounded-lg cursor-pointer inline-block">
                       <Upload className="w-3 h-3" />
                       <span>Upload Room Photos</span>
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        multiple
-                        onChange={(e) => handleExistingRoomImageSelect(e, room.id)}
-                      />
+                      <input type="file" className="hidden" accept="image/*" multiple onChange={e => handleExistingRoomImageSelect(e, room.id)} />
                     </label>
-                    {room.images && room.images.length > 0 && (
-                      <span className="ml-3 text-sm">{room.images.length} image(s) selected</span>
-                    )}
+                    {room.images && room.images.length > 0 && <span className="ml-3 text-sm">{room.images.length} image(s) selected</span>}
                   </div>
                 </div>
                 <Button variant="outline" size="sm" onClick={() => handleRemoveRoomType(room.id)} className="text-red-500 hover:text-red-700">

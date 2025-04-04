@@ -31,6 +31,7 @@ import HotelPartnerAgreement from './pages/HotelPartnerAgreement';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import AddPropertyPage from './pages/AddPropertyPage';
+import ThemesInformation from './pages/ThemesInformation';
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ function App() {
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/add-property" element={<AddPropertyPage />} />
+                  <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Toaster />

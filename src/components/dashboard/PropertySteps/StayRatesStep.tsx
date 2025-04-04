@@ -1,18 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronRight, Info } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function StayRatesStep() {
@@ -22,6 +15,13 @@ export default function StayRatesStep() {
   const [ratesFilled, setRatesFilled] = useState(false);
   const [rates, setRates] = useState({});
 
+  // These would come from previous steps in a real implementation
+  // For this example, we're using sample data
+  // In a real implementation, these would be passed down from parent components
+  const roomTypes = ["Single Room", "Double Room", "Suite"];
+  const stayOptions = ["8 days", "16 days", "24 days"]; 
+  const mealOptions = ["Half Board", "Full Board"];
+
   const currencies = [
     { code: "USD", symbol: "$", name: "US Dollar" },
     { code: "EUR", symbol: "€", name: "Euro" },
@@ -29,11 +29,6 @@ export default function StayRatesStep() {
     { code: "JPY", symbol: "¥", name: "Japanese Yen" },
     { code: "CNY", symbol: "¥", name: "Chinese Yuan" }
   ];
-
-  // Example room types and stay options
-  const roomTypes = ["Single", "Double", "Suite", "Apartment"];
-  const stayOptions = ["8 days", "16 days", "24 days", "32 days"];
-  const mealOptions = ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
 
   const handleRateChange = (roomType, stayLength, mealOption, value) => {
     const key = `${roomType}-${stayLength}-${mealOption}`;
@@ -68,21 +63,23 @@ export default function StayRatesStep() {
             
             <div className="grid grid-cols-1 gap-4 mb-6">
               <div>
-                <label className="block text-sm mb-1 uppercase">SELECT CURRENCY</label>
-                <div className="flex flex-wrap gap-2">
-                  {currencies.map((curr) => (
-                    <button
-                      key={curr.code}
-                      className={`py-2 px-3 text-sm border rounded-lg transition-colors ${
-                        currency === curr.code
-                          ? "bg-fuchsia-500/20 border-fuchsia-500/50"
-                          : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
-                      }`}
-                      onClick={() => setCurrency(curr.code)}
-                    >
-                      {curr.symbol} {curr.code}
-                    </button>
-                  ))}
+                <div className="flex items-center flex-wrap gap-2">
+                  <span className="text-sm uppercase">CURRENCY:</span>
+                  <div className="flex flex-row flex-wrap">
+                    {currencies.map((curr) => (
+                      <button
+                        key={curr.code}
+                        className={`py-1 px-2 text-xs border rounded-lg transition-colors ${
+                          currency === curr.code
+                            ? "bg-fuchsia-500/20 border-fuchsia-500/50"
+                            : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
+                        }`}
+                        onClick={() => setCurrency(curr.code)}
+                      >
+                        {curr.symbol} {curr.code}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
               
@@ -133,7 +130,10 @@ export default function StayRatesStep() {
             </div>
             
             <div className="space-y-6">
-              <h3 className="text-sm font-medium uppercase">RATE TABLE</h3>
+              <h3 className="text-sm font-medium uppercase">DYNAMIC RATE TABLE</h3>
+              <p className="text-xs text-foreground/80 mb-4">
+                Based on your selected room types, stay lengths, and meal plans
+              </p>
               
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[640px] border-collapse">
@@ -150,9 +150,12 @@ export default function StayRatesStep() {
                       stayOptions.map(stayOption => 
                         mealOptions.map((mealOption, idx) => {
                           const rateKey = `${roomType}-${stayOption}-${mealOption}`;
+                          const rowIndex = roomTypes.indexOf(roomType) * stayOptions.length * mealOptions.length + 
+                                          stayOptions.indexOf(stayOption) * mealOptions.length + 
+                                          mealOptions.indexOf(mealOption);
                           
                           return (
-                            <tr key={rateKey} className={idx % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
+                            <tr key={rateKey} className={rowIndex % 2 === 0 ? "bg-fuchsia-900/10" : ""}>
                               <td className="p-2 text-xs">{roomType}</td>
                               <td className="p-2 text-xs">{stayOption}</td>
                               <td className="p-2 text-xs">{mealOption}</td>

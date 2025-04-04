@@ -44,18 +44,18 @@ export default function HotelFaqAndTermsStep() {
                   <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
                     NEW QUESTION
                   </label>
-                  <input type="text" className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30" placeholder="Enter question" value={newFaqQuestion} onChange={e => setNewFaqQuestion(e.target.value)} />
+                  <input type="text" placeholder="Enter question" value={newFaqQuestion} onChange={e => setNewFaqQuestion(e.target.value)} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#76027c]" />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
                     ANSWER
                   </label>
-                  <input type="text" className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30" placeholder="Enter answer" value={newFaqAnswer} onChange={e => setNewFaqAnswer(e.target.value)} />
+                  <input type="text" placeholder="Enter answer" value={newFaqAnswer} onChange={e => setNewFaqAnswer(e.target.value)} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#7a0380]" />
                 </div>
               </div>
               
-              <button onClick={addFaqItem} className="rounded-lg px-4 py-2 text-white text-sm font-medium transition-colors bg-[#8c0695]/80">
+              <button onClick={addFaqItem} className="rounded-lg px-4 py-2 text-white text-sm font-medium transition-colors bg-[#7c0482]">
                 Add FAQ
               </button>
             </div>
@@ -75,7 +75,7 @@ export default function HotelFaqAndTermsStep() {
               <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
                 TERMS & CONDITIONS TEXT
               </label>
-              <textarea className="w-full p-2.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 h-48 resize-none" placeholder="Enter terms and conditions" value={termsAndConditions} onChange={e => setTermsAndConditions(e.target.value)} />
+              <textarea placeholder="Enter terms and conditions" value={termsAndConditions} onChange={e => setTermsAndConditions(e.target.value)} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 h-48 resize-none bg-[#810586]" />
             </div>
           </CollapsibleContent>
         </Collapsible>

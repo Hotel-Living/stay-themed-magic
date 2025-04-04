@@ -96,7 +96,7 @@ export default function StepTwo({
                   <Input id="room-description" value={newRoom.description} onChange={e => setNewRoom({
                   ...newRoom,
                   description: e.target.value
-                })} placeholder="Brief description of the room" className="bg-[#531254]" />
+                })} placeholder="Brief description of the room" className="bg-[#7c057e]" />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -105,7 +105,7 @@ export default function StepTwo({
                     <Input id="room-capacity" type="number" min="1" value={newRoom.capacity} onChange={e => setNewRoom({
                     ...newRoom,
                     capacity: parseInt(e.target.value) || 1
-                  })} className="bg-[#531254]" />
+                  })} className="bg-[#850588]" />
                   </div>
                   
                   
@@ -113,7 +113,7 @@ export default function StepTwo({
                 
                 <div className="flex justify-end gap-2 mt-4">
                   
-                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} className="bg-[#bc06a2]">
+                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} className="font-normal bg-[#af00b0]">
                     Add Room Type
                   </Button>
                 </div>

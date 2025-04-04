@@ -59,7 +59,7 @@ export default function StepFour({
           
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="bg-[#5c0869] hover:bg-[#4a0750] text-white">
+              <Button variant="outline" className="text-white bg-[#c102d3]">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add new theme category
               </Button>

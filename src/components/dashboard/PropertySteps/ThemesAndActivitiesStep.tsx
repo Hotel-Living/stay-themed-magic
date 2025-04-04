@@ -314,7 +314,7 @@ export default function ThemesAndActivitiesStep() {
       <p className="text-sm text-foreground/90 mb-4">
         Make your hotel stand out from the competition boosting it with group themes to attract your best and perfect guests
       </p>
-      <button className="inline-flex items-center px-4 py-2 rounded-lg bg-[#5A1876]/80 hover:bg-[#5A1876] text-white text-sm font-medium transition-colors mb-4">
+      <button className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80">
         More Information
       </button>
       
@@ -323,7 +323,7 @@ export default function ThemesAndActivitiesStep() {
           {/* Map through all theme categories */}
           {themeCategories.map(category => <Collapsible key={category.category} className="mb-0.5">
               <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
-                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 bg-[#7c047f] rounded-none my-[24px]">
+                <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 rounded-none my-[24px] bg-[#af09be]">
                   <h4 className="uppercase text-white">{category.category}</h4>
                   <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />
                 </CollapsibleTrigger>

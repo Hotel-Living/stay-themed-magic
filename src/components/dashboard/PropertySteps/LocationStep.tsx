@@ -16,7 +16,7 @@ export default function LocationStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           ADDRESS
         </label>
-        <input type="text" placeholder="Street address" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
+        <input type="text" placeholder="Street address" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#760276]" />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

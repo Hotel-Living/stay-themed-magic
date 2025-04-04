@@ -113,7 +113,7 @@ export default function StepTwo({
                 
                 <div className="flex justify-end gap-2 mt-4">
                   
-                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0}>
+                  <Button onClick={() => handleAddRoomType()} disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} className="bg-[#bc06a2]">
                     Add Room Type
                   </Button>
                 </div>

@@ -85,7 +85,7 @@ export default function DashboardLayout({
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Hotel Management</h1>
+          <h1 className="text-3xl font-bold mb-8">HOTEL MANAGEMENT</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}

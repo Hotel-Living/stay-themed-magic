@@ -6,7 +6,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
-import { durations } from "@/utils/booking";
 import { saveSelectedStayLengths, getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface LengthOfStaySectionProps {
@@ -23,7 +22,16 @@ export default function LengthOfStaySection({
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
   const [stayLengthsValid, setStayLengthsValid] = useState(false);
 
-  const stayLengths = durations.map(d => d.value);
+  // Updated stay lengths to 8, 16, 24, 32 days
+  const stayLengths = [8, 16, 24, 32];
+
+  // Custom durations to replace the imported ones
+  const durations = [
+    { value: 8 },
+    { value: 16 },
+    { value: 24 },
+    { value: 32 }
+  ];
 
   useEffect(() => {
     const storedLengths = getSelectedStayLengths();

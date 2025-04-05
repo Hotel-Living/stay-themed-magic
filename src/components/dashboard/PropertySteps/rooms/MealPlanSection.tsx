@@ -33,8 +33,9 @@ export default function MealPlanSection({
   };
 
   // Only show errors when moving away from the field after touching it
-  const handleBlur = () => {
-    if (touched && !mealPlanValid) {
+  const handleOpenStateChange = (open: boolean) => {
+    setTouched(true);
+    if (!open && touched && !mealPlanValid) {
       setShowErrors(true);
     }
   };
@@ -44,15 +45,14 @@ export default function MealPlanSection({
       <div>
         <Select 
           onValueChange={handleMealPlanChange} 
-          onOpenChange={() => setTouched(true)}
-          onBlur={handleBlur}
+          onOpenChange={handleOpenStateChange}
         >
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
             <SelectValue placeholder="Select a meal plan" />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
             {mealPlans.map((plan) => (
-              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#5A1876]/20">
+              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493]/80">
                 {plan}
               </SelectItem>
             ))}

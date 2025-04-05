@@ -27,6 +27,7 @@ export default function StepThree({
   const [error, setError] = useState<string>("");
   const [isStayMealsOpen, setIsStayMealsOpen] = useState(true);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
+  const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   
   // Check if all required fields are completed
@@ -70,14 +71,14 @@ export default function StepThree({
   
   return (
     <div className="space-y-6">
-      {/* Added bold title */}
-      <h2 className="text-xl font-bold mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
+      {/* Main title is now "ACCOMMODATION TERMS" */}
+      <h2 className="text-xl font-bold mb-4">ACCOMMODATION TERMS</h2>
       
-      {/* Main section with LENGTH OF STAY and MEALS & SERVICES as accordion */}
-      <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isStayMealsOpen} onOpenChange={setIsStayMealsOpen}>
+      {/* LENGTH OF STAY – MEALS & SERVICES as a nested collapsible */}
+      <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isStayLengthMealsOpen} onOpenChange={setIsStayLengthMealsOpen}>
         <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
           <h2 className="text-lg font-medium">LENGTH OF STAY – MEALS & SERVICES</h2>
-          {isStayMealsOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+          {isStayLengthMealsOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
         </CollapsibleTrigger>
         <CollapsibleContent className="p-4">
           <div className="space-y-6">
@@ -118,10 +119,27 @@ export default function StepThree({
         </CollapsibleContent>
       </Collapsible>
       
-      {/* Preferred Weekday Section - Moved to be after Room Types */}
-      <div className="mb-6">
-        <PreferredWeekdaySection />
-      </div>
+      {/* Preferred Weekday Section - Moved to be after Room Types with consistent styling */}
+      <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10">
+        <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
+          <h2 className="text-lg font-medium">PREFERRED WEEKDAY FOR ALL CHECK-INS / OUTS</h2>
+          <ChevronDown className="h-5 w-5" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <div className="grid grid-cols-7 gap-2 mt-2">
+            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+              <label key={day} className="flex flex-col items-center">
+                <input 
+                  type="radio" 
+                  name="preferred-weekday"
+                  className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
+                />
+                <span className="text-xs text-center">{day}</span>
+              </label>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
       
       {/* Validation Messages - Only shown when errors exist and showErrors is true */}
       {error && showErrors && 

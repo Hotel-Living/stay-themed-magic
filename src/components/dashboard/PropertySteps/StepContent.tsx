@@ -4,7 +4,6 @@ import StepOne from "./StepOne";
 import StepThree from "./StepThree";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import StepFive from "./StepFive";
-import StepSix from "./StepSix";
 import PriceTable from "./PriceTable";
 
 interface StepContentProps {
@@ -43,9 +42,26 @@ export default function StepContent({
     <div className="mb-8">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
       {currentStep === 2 && <StepThree onValidationChange={onValidationChange} />}
-      {currentStep === 3 && <ThemesAndActivitiesStep />}
-      {currentStep === 4 && <StepFive renderPriceTable={tableFn} onValidationChange={onValidationChange} />}
-      {currentStep === 5 && <StepSix onValidationChange={onValidationChange} />}
+      {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
+      {currentStep === 4 && (
+        <div className="space-y-8">
+          <StepFive onValidationChange={onValidationChange} />
+          
+          {/* Form confirmation checkbox moved from Step 5 */}
+          <div className="mt-8 space-y-8">
+            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-4 rounded-lg">
+              <input 
+                type="checkbox" 
+                id="finalize-terms" 
+                className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" 
+              />
+              <label htmlFor="finalize-terms" className="text-sm">
+                I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

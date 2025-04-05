@@ -16,21 +16,20 @@ export default function AddPropertyForm() {
     1: false,
     // Basic Info
     2: false,
-    // Features (formerly Step Three)
+    // Accommodation Terms (formerly Step Three)
     3: false,
-    // Rooms & Pricing (formerly Step Four)
+    // Themes & Activities (formerly Step Four)
     4: false,
-    // Stay Rates (formerly Step Five)
-    5: false // FAQ & Terms (formerly Step Six)
+    // FAQ & Terms (formerly Step Five)
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
-  const totalSteps = 5;
+  const totalSteps = 4; // Changed from 5 to 4
 
   // Step titles in all caps
-  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
+  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
   const {
     toast
   } = useToast();
@@ -87,12 +86,10 @@ export default function AddPropertyForm() {
       case 1:
         return ["Property Name", "Property Type", "Description"];
       case 2:
-        return ["Features", "Meal Plans"];
+        return ["Accommodation Terms", "Meal Plans"];
       case 3:
         return ["Themes", "Activities"];
       case 4:
-        return ["Stay Rates"];
-      case 5:
         return ["FAQ", "Terms & Conditions"];
       default:
         return [];
@@ -119,8 +116,7 @@ export default function AddPropertyForm() {
           1: false,
           2: false,
           3: false,
-          4: false,
-          5: false
+          4: false
         });
         setIsSubmitted(false);
       }, 5000);

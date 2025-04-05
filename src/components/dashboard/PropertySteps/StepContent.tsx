@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import StepOne from "./StepOne";
 import StepThree from "./StepThree";
-import StepFour from "./StepFour";
+import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import StepFive from "./StepFive";
 import StepSix from "./StepSix";
 import PriceTable from "./PriceTable";
@@ -43,7 +43,7 @@ export default function StepContent({
     <div className="mb-8">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
       {currentStep === 2 && <StepThree onValidationChange={onValidationChange} />}
-      {currentStep === 3 && <StepFour onValidationChange={onValidationChange} />}
+      {currentStep === 3 && <ThemesAndActivitiesStep />}
       {currentStep === 4 && <StepFive renderPriceTable={tableFn} onValidationChange={onValidationChange} />}
       {currentStep === 5 && <StepSix onValidationChange={onValidationChange} />}
     </div>

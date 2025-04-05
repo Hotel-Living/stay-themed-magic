@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -11,11 +13,13 @@ interface RoomTypeDialogProps {
 
 export default function RoomTypeDialog({ isOpen, onClose, onAdd }: RoomTypeDialogProps) {
   const [newRoomType, setNewRoomType] = useState("");
+  const [baseRate, setBaseRate] = useState("");
 
   const handleAddRoomType = () => {
     if (newRoomType.trim()) {
       onAdd(newRoomType);
       setNewRoomType("");
+      setBaseRate("");
     }
   };
 
@@ -33,6 +37,19 @@ export default function RoomTypeDialog({ isOpen, onClose, onAdd }: RoomTypeDialo
               value={newRoomType}
               onChange={(e) => setNewRoomType(e.target.value)}
               placeholder="e.g. Double Room, Suite, etc."
+            />
+          </div>
+          
+          {/* Added RATES section */}
+          <div className="grid grid-cols-4 items-center gap-4">
+            <label className="text-right text-sm text-white">Base Rate ($)</label>
+            <input 
+              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
+              type="number"
+              min="0"
+              value={baseRate}
+              onChange={(e) => setBaseRate(e.target.value)}
+              placeholder="Enter base rate per night"
             />
           </div>
         </div>

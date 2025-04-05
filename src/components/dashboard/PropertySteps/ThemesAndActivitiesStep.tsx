@@ -1,12 +1,17 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { sortedThemeCategories } from "./themes/themeData";
 import ThemeCategory from "./themes/ThemeCategory";
 
-export default function ThemesAndActivitiesStep() {
+interface ThemesAndActivitiesStepProps {
+  onValidationChange?: (isValid: boolean) => void;
+}
+
+export default function ThemesAndActivitiesStep({ onValidationChange = () => {} }: ThemesAndActivitiesStepProps) {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   
   const toggleCategory = (category: string) => {
     setOpenCategory(openCategory === category ? null : category);
@@ -15,6 +20,24 @@ export default function ThemesAndActivitiesStep() {
   const toggleSubmenu = (submenu: string) => {
     setOpenSubmenu(openSubmenu === submenu ? null : submenu);
   };
+
+  // Track theme selection
+  const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+    setSelectedThemes(prev => {
+      if (isSelected) {
+        return [...prev, themeId];
+      } else {
+        return prev.filter(id => id !== themeId);
+      }
+    });
+  };
+  
+  // Validate based on theme selection
+  useEffect(() => {
+    // Consider the step valid if at least one theme is selected
+    const isValid = selectedThemes.length > 0;
+    onValidationChange(isValid);
+  }, [selectedThemes, onValidationChange]);
   
   return (
     <div className="space-y-4">
@@ -43,10 +66,17 @@ export default function ThemesAndActivitiesStep() {
               toggleCategory={toggleCategory}
               openSubmenus={{ [openSubmenu || '']: !!openSubmenu }}
               toggleSubmenu={toggleSubmenu}
+              onThemeSelect={handleThemeSelection}
             />
           ))}
         </div>
       </div>
+
+      {selectedThemes.length === 0 && (
+        <p className="text-red-400 text-sm mt-2">
+          Please select at least one theme to continue
+        </p>
+      )}
     </div>
   );
 }

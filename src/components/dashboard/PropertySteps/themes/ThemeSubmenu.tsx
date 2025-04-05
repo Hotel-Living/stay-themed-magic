@@ -16,9 +16,10 @@ interface ThemeSubmenuProps {
   };
   isOpen: boolean;
   toggleSubmenu: (submenuName: string) => void;
+  onThemeSelect?: (themeId: string, isSelected: boolean) => void;
 }
 
-const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu }: ThemeSubmenuProps) => {
+const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSubmenuProps) => {
   return (
     <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
       <div 
@@ -42,7 +43,7 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu }: ThemeSubmenuProps) => 
                 option.isAddOption ? "flex items-center" : ""
               }`}
             >
-              <ThemeOption option={option} />
+              <ThemeOption option={option} onThemeSelect={onThemeSelect} />
             </div>
           ))}
           {!submenu.options.some((opt) => opt.isAddOption) && (

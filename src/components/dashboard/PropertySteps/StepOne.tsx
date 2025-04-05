@@ -25,6 +25,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -81,15 +82,72 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
   
   const handleChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Mark field as touched
+    if (!touchedFields[field]) {
+      setTouchedFields(prev => ({ ...prev, [field]: true }));
+    }
+    
     // Clear error when user types
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
     }
   };
   
+  const handleBlur = (field: keyof typeof formData) => {
+    // Mark field as touched
+    setTouchedFields(prev => ({ ...prev, [field]: true }));
+    
+    // Validate the specific field
+    const newErrors = { ...errors };
+    
+    if (field === 'hotelName' && !formData.hotelName.trim()) {
+      newErrors.hotelName = "Hotel name is required";
+    }
+    
+    if (field === 'description' && !formData.description.trim()) {
+      newErrors.description = "Description is required";
+    }
+    
+    if (field === 'country' && !formData.country) {
+      newErrors.country = "Country is required";
+    }
+    
+    if (field === 'address' && !formData.address.trim()) {
+      newErrors.address = "Address is required";
+    }
+    
+    if (field === 'city' && !formData.city.trim()) {
+      newErrors.city = "City is required";
+    }
+    
+    if (field === 'contactName' && !formData.contactName.trim()) {
+      newErrors.contactName = "Contact name is required";
+    }
+    
+    if (field === 'email') {
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required";
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = "Email is invalid";
+      }
+    }
+    
+    if (field === 'phone' && !formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    }
+    
+    setErrors(newErrors);
+  };
+  
   React.useEffect(() => {
     validate();
   }, [formData]);
+
+  // Function to check if we should show error for a field
+  const shouldShowError = (field: keyof typeof formData) => {
+    return touchedFields[field] && errors[field];
+  };
 
   return (
     <div className="space-y-6">
@@ -104,9 +162,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
               id="hotel-name" 
               value={formData.hotelName}
               onChange={e => handleChange("hotelName", e.target.value)}
-              className={errors.hotelName ? "border-red-500" : ""}
+              onBlur={() => handleBlur("hotelName")}
+              className={shouldShowError("hotelName") ? "border-red-500" : ""}
             />
-            {errors.hotelName && <p className="text-red-500 text-sm mt-1">{errors.hotelName}</p>}
+            {shouldShowError("hotelName") && <p className="text-red-500 text-sm mt-1">{errors.hotelName}</p>}
           </div>
           
           <div>
@@ -116,22 +175,24 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
               rows={4}
               value={formData.description}
               onChange={e => handleChange("description", e.target.value)}
-              className={errors.description ? "border-red-500" : ""}
+              onBlur={() => handleBlur("description")}
+              className={shouldShowError("description") ? "border-red-500" : ""}
             />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+            {shouldShowError("description") && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
           </div>
         </div>
         
         <div>
-          <h3 className="text-lg font-medium mb-4">Location</h3>
+          <h3 className="text-lg font-bold uppercase mb-4">LOCATION</h3>
           <div className="space-y-4">
             <div>
               <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
               <Select 
                 value={formData.country}
                 onValueChange={value => handleChange("country", value)}
+                onOpenChange={() => !formData.country && handleBlur("country")}
               >
-                <SelectTrigger className={errors.country ? "border-red-500" : ""}>
+                <SelectTrigger className={shouldShowError("country") ? "border-red-500" : ""}>
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
                 <SelectContent>
@@ -142,7 +203,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                   ))}
                 </SelectContent>
               </Select>
-              {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
+              {shouldShowError("country") && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
             </div>
             
             <div>
@@ -151,9 +212,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 id="address"
                 value={formData.address}
                 onChange={e => handleChange("address", e.target.value)}
-                className={errors.address ? "border-red-500" : ""}
+                onBlur={() => handleBlur("address")}
+                className={shouldShowError("address") ? "border-red-500" : ""}
               />
-              {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+              {shouldShowError("address") && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
             </div>
             
             <div className="grid grid-cols-2 gap-4">
@@ -163,9 +225,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                   id="city"
                   value={formData.city}
                   onChange={e => handleChange("city", e.target.value)}
-                  className={errors.city ? "border-red-500" : ""}
+                  onBlur={() => handleBlur("city")}
+                  className={shouldShowError("city") ? "border-red-500" : ""}
                 />
-                {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+                {shouldShowError("city") && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
               </div>
               <div>
                 <Label htmlFor="postal-code">Postal Code</Label>
@@ -180,7 +243,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
         </div>
         
         <div>
-          <h3 className="text-lg font-medium mb-4">Contact Information</h3>
+          <h3 className="text-lg font-bold uppercase mb-4">CONTACT INFORMATION</h3>
           <div className="space-y-4">
             <div>
               <Label htmlFor="contact-name">Contact Name <span className="text-red-500">*</span></Label>
@@ -188,9 +251,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 id="contact-name"
                 value={formData.contactName}
                 onChange={e => handleChange("contactName", e.target.value)}
-                className={errors.contactName ? "border-red-500" : ""}
+                onBlur={() => handleBlur("contactName")}
+                className={shouldShowError("contactName") ? "border-red-500" : ""}
               />
-              {errors.contactName && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
+              {shouldShowError("contactName") && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
             </div>
             
             <div>
@@ -200,9 +264,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 type="email"
                 value={formData.email}
                 onChange={e => handleChange("email", e.target.value)}
-                className={errors.email ? "border-red-500" : ""}
+                onBlur={() => handleBlur("email")}
+                className={shouldShowError("email") ? "border-red-500" : ""}
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              {shouldShowError("email") && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
             
             <div>
@@ -211,9 +276,10 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 id="phone"
                 value={formData.phone}
                 onChange={e => handleChange("phone", e.target.value)}
-                className={errors.phone ? "border-red-500" : ""}
+                onBlur={() => handleBlur("phone")}
+                className={shouldShowError("phone") ? "border-red-500" : ""}
               />
-              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              {shouldShowError("phone") && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
           </div>
         </div>

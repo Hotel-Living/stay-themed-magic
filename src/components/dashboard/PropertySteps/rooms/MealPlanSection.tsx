@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -21,17 +22,19 @@ export default function MealPlanSection({
   const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry"];
   const [selectedMealPlan, setSelectedMealPlan] = useState("");
   const [mealPlanValid, setMealPlanValid] = useState(false);
+  const [touched, setTouched] = useState(false);
 
   const handleMealPlanChange = (plan: string) => {
     setSelectedMealPlan(plan);
     setMealPlanValid(true);
+    setTouched(true);
     onValidationChange(true);
   };
 
   const mealPlanContent = (
     <div className="grid grid-cols-1 gap-4 mt-2">
       <div>
-        <Select onValueChange={handleMealPlanChange}>
+        <Select onValueChange={handleMealPlanChange} onOpenChange={() => setTouched(true)}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
             <SelectValue placeholder="Select a meal plan" />
           </SelectTrigger>
@@ -43,7 +46,7 @@ export default function MealPlanSection({
             ))}
           </SelectContent>
         </Select>
-        {!mealPlanValid && (
+        {touched && !mealPlanValid && (
           <p className="text-red-400 text-xs mt-1">Please select a meal plan</p>
         )}
       </div>

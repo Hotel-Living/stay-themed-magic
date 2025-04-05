@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
@@ -9,11 +9,10 @@ import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 import CheckInOutSection from "./rooms/CheckInOutSection";
 import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
 
 interface StepThreeProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -26,6 +25,8 @@ export default function StepThree({
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [error, setError] = useState<string>("");
+  const [isStayMealsOpen, setIsStayMealsOpen] = useState(true);
+  const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
   
   // Check if all required fields are completed
   const checkValidation = () => {
@@ -67,52 +68,49 @@ export default function StepThree({
       <h2 className="text-xl font-bold mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
       
       {/* Main section with LENGTH OF STAY and MEALS & SERVICES as accordion */}
-      <div className="mb-6">
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="length-of-stay">
-            <AccordionTrigger className="py-2 px-4 bg-fuchsia-900/20 rounded-t-lg">
-              <span className="text-sm font-medium uppercase">LENGTH OF STAY</span>
-            </AccordionTrigger>
-            <AccordionContent className="bg-fuchsia-900/10 p-4 rounded-b-lg">
-              <LengthOfStaySection 
-                onValidationChange={(isValid) => {
-                  setStayLengthValid(isValid);
-                  checkValidation();
-                }} 
-                showHeader={false}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          
-          <AccordionItem value="meals" className="mt-2">
-            <AccordionTrigger className="py-2 px-4 bg-fuchsia-900/20 rounded-t-lg">
-              <span className="text-sm font-medium uppercase">MEALS & SERVICES</span>
-            </AccordionTrigger>
-            <AccordionContent className="bg-fuchsia-900/10 p-4 rounded-b-lg">
-              <MealPlanSection 
-                onValidationChange={(isValid) => {
-                  setMealPlanValid(isValid);
-                  checkValidation();
-                }}
-                showHeader={false}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
+      <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isStayMealsOpen} onOpenChange={setIsStayMealsOpen}>
+        <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
+          <h2 className="text-lg font-medium">LENGTH OF STAY – MEALS & SERVICES</h2>
+          {isStayMealsOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <div className="space-y-6">
+            <LengthOfStaySection 
+              onValidationChange={(isValid) => {
+                setStayLengthValid(isValid);
+                checkValidation();
+              }} 
+              showHeader={true}
+            />
+            
+            <MealPlanSection 
+              onValidationChange={(isValid) => {
+                setMealPlanValid(isValid);
+                checkValidation();
+              }}
+              showHeader={true}
+            />
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
       
       {/* Room Types Section with updated title - Full width */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4">ROOMS & RATES</h2>
-        <RoomTypeSection 
-          onValidationChange={(isValid) => {
-            checkValidation();
-          }}
-          title="ROOMS & RATES"
-          fullWidth={true}
-          showHeader={false}
-        />
-      </div>
+      <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isRoomsRatesOpen} onOpenChange={setIsRoomsRatesOpen}>
+        <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
+          <h2 className="text-lg font-medium">ROOMS & RATES</h2>
+          {isRoomsRatesOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <RoomTypeSection 
+            onValidationChange={(isValid) => {
+              checkValidation();
+            }}
+            title="ROOMS & RATES"
+            fullWidth={true}
+            showHeader={false}
+          />
+        </CollapsibleContent>
+      </Collapsible>
       
       {/* Preferred Weekday Section - Moved to be after Room Types */}
       <div className="mb-6">

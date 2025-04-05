@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 import ThemeItem from "./ThemeItem";
 
@@ -11,11 +11,16 @@ interface ThemeOptionProps {
     isAddOption?: boolean;
   };
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes?: string[];
 }
 
-const ThemeOption = ({ option, onThemeSelect }: ThemeOptionProps) => {
-  const [selected, setSelected] = useState(false);
+const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOptionProps) => {
+  const [selected, setSelected] = useState(selectedThemes.includes(option.id));
   const [selectedSuboptions, setSelectedSuboptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelected(selectedThemes.includes(option.id));
+  }, [selectedThemes, option.id]);
 
   if (option.isAddOption) {
     return (

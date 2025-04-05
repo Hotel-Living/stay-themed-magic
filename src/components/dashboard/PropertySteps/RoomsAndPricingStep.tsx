@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
-import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
 import RoomTypeSection from "./rooms/RoomTypeSection";
 
 export default function RoomsAndPricingStep() {
@@ -34,11 +33,6 @@ export default function RoomsAndPricingStep() {
             title="MEALS & SERVICES" 
           />
         </div>
-      </div>
-      
-      {/* Preferred Weekday Section */}
-      <div>
-        <PreferredWeekdaySection />
       </div>
       
       {/* Room Type Section */}

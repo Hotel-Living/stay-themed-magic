@@ -7,6 +7,7 @@ import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/RoomTypeSection";
 import CheckInOutSection from "./rooms/CheckInOutSection";
+import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
 
 interface StepThreeProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -76,6 +77,11 @@ export default function StepThree({
             title="MEALS & SERVICES" 
           />
         </div>
+      </div>
+      
+      {/* Preferred Weekday Section - Moved here from Step Two */}
+      <div className="mb-6">
+        <PreferredWeekdaySection />
       </div>
       
       {/* Room Types Section with updated title */}

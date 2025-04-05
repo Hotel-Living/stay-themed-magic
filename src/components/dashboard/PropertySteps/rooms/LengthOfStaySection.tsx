@@ -7,7 +7,15 @@ import {
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
 
-export default function LengthOfStaySection({ onValidationChange }: { onValidationChange: (isValid: boolean) => void }) {
+interface LengthOfStaySectionProps {
+  onValidationChange: (isValid: boolean) => void;
+  title?: string;
+}
+
+export default function LengthOfStaySection({ 
+  onValidationChange,
+  title = "LENGTH OF STAY"
+}: LengthOfStaySectionProps) {
   const stayLengths = ["8 days", "16 days", "24 days", "32 days"];
   const [stayLengthsValid, setStayLengthsValid] = useState(false);
 
@@ -22,7 +30,7 @@ export default function LengthOfStaySection({ onValidationChange }: { onValidati
     <Collapsible className="w-full">
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90 uppercase">
-          LENGTH OF STAY
+          {title}
         </label>
         <ChevronRight className="h-4 w-4" />
       </CollapsibleTrigger>

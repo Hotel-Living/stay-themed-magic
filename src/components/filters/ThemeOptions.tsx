@@ -14,7 +14,8 @@ interface ThemeOptionsProps {
   useCollapsibleThemes: boolean;
   openThemeCategory: string | null;
   toggleThemeCategory: (category: string) => void;
-  useLargerMobileText?: boolean; // Added this property
+  useLargerMobileText?: boolean;
+  sortAlphabetically?: boolean; // Added new prop
 }
 
 export const ThemeOptions: React.FC<ThemeOptionsProps> = ({
@@ -25,7 +26,8 @@ export const ThemeOptions: React.FC<ThemeOptionsProps> = ({
   useCollapsibleThemes,
   openThemeCategory,
   toggleThemeCategory,
-  useLargerMobileText = false // Added default value
+  useLargerMobileText = false,
+  sortAlphabetically = true // Default to alphabetical sorting
 }) => {
   const filteredThemes = filterThemesByQuery(themeQuery);
   
@@ -43,14 +45,16 @@ export const ThemeOptions: React.FC<ThemeOptionsProps> = ({
           openCategory={openThemeCategory}
           toggleCategory={toggleThemeCategory}
           themeQuery={themeQuery}
-          useLargerMobileText={useLargerMobileText} // Pass property to CollapsibleThemeOptions
+          useLargerMobileText={useLargerMobileText}
+          sortAlphabetically={sortAlphabetically} // Pass new prop
         />
       ) : (
         <GroupedThemeOptions 
           filteredThemes={filteredThemes}
           activeTheme={activeTheme}
           updateFilter={updateFilter}
-          useLargerMobileText={useLargerMobileText} // Pass property to GroupedThemeOptions
+          useLargerMobileText={useLargerMobileText}
+          sortAlphabetically={sortAlphabetically} // Pass new prop
         />
       )}
     </>

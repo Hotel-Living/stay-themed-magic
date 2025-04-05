@@ -8,7 +8,15 @@ import {
 } from "@/components/ui/collapsible";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export default function MealPlanSection({ onValidationChange }: { onValidationChange: (isValid: boolean) => void }) {
+interface MealPlanSectionProps {
+  onValidationChange: (isValid: boolean) => void;
+  title?: string;
+}
+
+export default function MealPlanSection({ 
+  onValidationChange,
+  title = "MEALS"
+}: MealPlanSectionProps) {
   const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry"];
   const [selectedMealPlan, setSelectedMealPlan] = useState("");
   const [mealPlanValid, setMealPlanValid] = useState(false);
@@ -23,7 +31,7 @@ export default function MealPlanSection({ onValidationChange }: { onValidationCh
     <Collapsible className="w-full">
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90 uppercase">
-          MEALS
+          {title}
         </label>
         <ChevronRight className="h-4 w-4" />
       </CollapsibleTrigger>

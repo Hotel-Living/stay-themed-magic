@@ -8,7 +8,15 @@ import {
 } from "@/components/ui/collapsible";
 import RoomTypeDialog from "./RoomTypeDialog";
 
-export default function RoomTypeSection({ onValidationChange }: { onValidationChange: (isValid: boolean) => void }) {
+interface RoomTypeSectionProps {
+  onValidationChange: (isValid: boolean) => void;
+  title?: string;
+}
+
+export default function RoomTypeSection({ 
+  onValidationChange,
+  title = "ROOM TYPES"
+}: RoomTypeSectionProps) {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
   const [newRoomType, setNewRoomType] = useState("");
   const [roomTypes, setRoomTypes] = useState<string[]>(["Single Room"]);
@@ -36,7 +44,7 @@ export default function RoomTypeSection({ onValidationChange }: { onValidationCh
     <Collapsible className="w-full">
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90 uppercase">
-          ROOM TYPES
+          {title}
         </label>
         <ChevronRight className="h-4 w-4" />
       </CollapsibleTrigger>

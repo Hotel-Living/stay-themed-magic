@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { PlusCircle, ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -5,6 +6,66 @@ import { Link } from "react-router-dom";
 
 // Defining new theme categories with updated structure
 export const themeCategories = [{
+  category: "ART",
+  themes: [{
+    id: "painting",
+    name: "Painting"
+  }, {
+    id: "sculpture",
+    name: "Sculpture"
+  }, {
+    id: "photography",
+    name: "Photography"
+  }, {
+    id: "architecture",
+    name: "Architecture"
+  }, {
+    id: "design",
+    name: "Design"
+  }, {
+    id: "add-other",
+    name: "Add other",
+    isAddOption: true
+  }]
+}, {
+  category: "CULTURE",
+  themes: [{
+    id: "history",
+    name: "History"
+  }, {
+    id: "museums",
+    name: "Museums"
+  }, {
+    id: "local-traditions",
+    name: "Local Traditions"
+  }, {
+    id: "festivals",
+    name: "Festivals"
+  }, {
+    id: "add-other",
+    name: "Add other",
+    isAddOption: true
+  }]
+}, {
+  category: "DANCE",
+  themes: [{
+    id: "ballroom",
+    name: "Ballroom"
+  }, {
+    id: "latin",
+    name: "Latin"
+  }, {
+    id: "contemporary",
+    name: "Contemporary"
+  }, {
+    id: "traditional",
+    name: "Traditional"
+  }, {
+    id: "add-other",
+    name: "Add other",
+    isAddOption: true
+  }]
+}, {
   category: "FOODS & DRINKS",
   subcategories: [{
     name: "Culinary",
@@ -65,88 +126,19 @@ export const themeCategories = [{
     }]
   }]
 }, {
-  category: "SPORTS",
+  category: "GAMES",
   themes: [{
-    id: "golf",
-    name: "Golf"
+    id: "board-games",
+    name: "Board Games"
   }, {
-    id: "tennis",
-    name: "Tennis"
+    id: "card-games",
+    name: "Card Games"
   }, {
-    id: "swimming",
-    name: "Swimming"
+    id: "chess",
+    name: "Chess"
   }, {
-    id: "diving",
-    name: "Diving"
-  }, {
-    id: "yoga",
-    name: "Yoga"
-  }, {
-    id: "fitness",
-    name: "Fitness"
-  }, {
-    id: "add-other",
-    name: "Add other",
-    isAddOption: true
-  }]
-}, {
-  category: "ART",
-  themes: [{
-    id: "painting",
-    name: "Painting"
-  }, {
-    id: "sculpture",
-    name: "Sculpture"
-  }, {
-    id: "photography",
-    name: "Photography"
-  }, {
-    id: "architecture",
-    name: "Architecture"
-  }, {
-    id: "design",
-    name: "Design"
-  }, {
-    id: "add-other",
-    name: "Add other",
-    isAddOption: true
-  }]
-}, {
-  category: "CULTURE",
-  themes: [{
-    id: "history",
-    name: "History"
-  }, {
-    id: "museums",
-    name: "Museums"
-  }, {
-    id: "local-traditions",
-    name: "Local Traditions"
-  }, {
-    id: "festivals",
-    name: "Festivals"
-  }, {
-    id: "add-other",
-    name: "Add other",
-    isAddOption: true
-  }]
-}, {
-  category: "MUSIC",
-  themes: [{
-    id: "rock",
-    name: "Rock"
-  }, {
-    id: "opera",
-    name: "Opera"
-  }, {
-    id: "symphonic",
-    name: "Symphonic"
-  }, {
-    id: "classical",
-    name: "Classical"
-  }, {
-    id: "pop",
-    name: "Pop"
+    id: "video-games",
+    name: "Video Games"
   }, {
     id: "add-other",
     name: "Add other",
@@ -206,35 +198,41 @@ export const themeCategories = [{
     }]
   }]
 }, {
-  category: "DANCE",
+  category: "LITERATURE",
   themes: [{
-    id: "ballroom",
-    name: "Ballroom"
+    id: "poetry",
+    name: "Poetry"
   }, {
-    id: "latin",
-    name: "Latin"
+    id: "novels",
+    name: "Novels"
   }, {
-    id: "contemporary",
-    name: "Contemporary"
+    id: "short-stories",
+    name: "Short Stories"
   }, {
-    id: "traditional",
-    name: "Traditional"
+    id: "book-clubs",
+    name: "Book Clubs"
   }, {
     id: "add-other",
     name: "Add other",
     isAddOption: true
   }]
 }, {
-  category: "TECHNOLOGY",
+  category: "MUSIC",
   themes: [{
-    id: "digital",
-    name: "Digital"
+    id: "rock",
+    name: "Rock"
   }, {
-    id: "innovation",
-    name: "Innovation"
+    id: "opera",
+    name: "Opera"
   }, {
-    id: "smart-home",
-    name: "Smart Home"
+    id: "symphonic",
+    name: "Symphonic"
+  }, {
+    id: "classical",
+    name: "Classical"
+  }, {
+    id: "pop",
+    name: "Pop"
   }, {
     id: "add-other",
     name: "Add other",
@@ -260,44 +258,51 @@ export const themeCategories = [{
     isAddOption: true
   }]
 }, {
-  category: "LITERATURE",
+  category: "SPORTS",
   themes: [{
-    id: "poetry",
-    name: "Poetry"
+    id: "golf",
+    name: "Golf"
   }, {
-    id: "novels",
-    name: "Novels"
+    id: "tennis",
+    name: "Tennis"
   }, {
-    id: "short-stories",
-    name: "Short Stories"
+    id: "swimming",
+    name: "Swimming"
   }, {
-    id: "book-clubs",
-    name: "Book Clubs"
+    id: "diving",
+    name: "Diving"
+  }, {
+    id: "yoga",
+    name: "Yoga"
+  }, {
+    id: "fitness",
+    name: "Fitness"
   }, {
     id: "add-other",
     name: "Add other",
     isAddOption: true
   }]
 }, {
-  category: "GAMES",
+  category: "TECHNOLOGY",
   themes: [{
-    id: "board-games",
-    name: "Board Games"
+    id: "digital",
+    name: "Digital"
   }, {
-    id: "card-games",
-    name: "Card Games"
+    id: "innovation",
+    name: "Innovation"
   }, {
-    id: "chess",
-    name: "Chess"
-  }, {
-    id: "video-games",
-    name: "Video Games"
+    id: "smart-home",
+    name: "Smart Home"
   }, {
     id: "add-other",
     name: "Add other",
     isAddOption: true
   }]
 }];
+
+// Sort theme categories alphabetically
+themeCategories.sort((a, b) => a.category.localeCompare(b.category));
+
 export default function ThemesAndActivitiesStep() {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -308,7 +313,7 @@ export default function ThemesAndActivitiesStep() {
     setOpenSubmenu(openSubmenu === submenu ? null : submenu);
   };
   return <div className="space-y-4">
-      <label className="block text-3xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
+      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
         THEMES
       </label>
       

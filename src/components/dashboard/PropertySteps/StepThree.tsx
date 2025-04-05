@@ -55,32 +55,35 @@ export default function StepThree({
   
   return (
     <div className="space-y-6">
-      {/* Length of Stay Section */}
+      {/* Length of Stay Section with updated title */}
       <div className="mb-6">
         <LengthOfStaySection 
           onValidationChange={(isValid) => {
             setStayLengthValid(isValid);
             checkValidation();
           }} 
+          title="LENGTH OF STAY - MEALS & SERVICES"
         />
       </div>
       
-      {/* Meal Plans Section */}
+      {/* Meal Plans Section with updated title */}
       <div className="mb-6">
         <MealPlanSection 
           onValidationChange={(isValid) => {
             setMealPlanValid(isValid);
             checkValidation();
-          }} 
+          }}
+          title="MEALS & SERVICES" 
         />
       </div>
       
-      {/* Room Types Section */}
+      {/* Room Types Section with updated title */}
       <div>
         <RoomTypeSection 
           onValidationChange={(isValid) => {
             checkValidation();
-          }} 
+          }}
+          title="ROOMS & RATES"
         />
       </div>
       

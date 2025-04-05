@@ -8,6 +8,12 @@ import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/RoomTypeSection";
 import CheckInOutSection from "./rooms/CheckInOutSection";
 import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface StepThreeProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -57,45 +63,60 @@ export default function StepThree({
   
   return (
     <div className="space-y-6">
-      {/* Main section with LENGTH OF STAY and MEALS & SERVICES */}
+      {/* Main section with LENGTH OF STAY and MEALS & SERVICES as accordion */}
       <div className="mb-6">
         <h2 className="font-medium text-lg mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
-        <div className="space-y-6 pl-2">
-          <LengthOfStaySection 
-            onValidationChange={(isValid) => {
-              setStayLengthValid(isValid);
-              checkValidation();
-            }} 
-            title="LENGTH OF STAY"
-          />
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="length-of-stay">
+            <AccordionTrigger className="py-2 px-4 bg-fuchsia-900/20 rounded-t-lg">
+              <span className="text-sm font-medium uppercase">LENGTH OF STAY</span>
+            </AccordionTrigger>
+            <AccordionContent className="bg-fuchsia-900/10 p-4 rounded-b-lg">
+              <LengthOfStaySection 
+                onValidationChange={(isValid) => {
+                  setStayLengthValid(isValid);
+                  checkValidation();
+                }} 
+                showHeader={false}
+              />
+            </AccordionContent>
+          </AccordionItem>
           
-          <MealPlanSection 
-            onValidationChange={(isValid) => {
-              setMealPlanValid(isValid);
-              checkValidation();
-            }}
-            title="MEALS & SERVICES" 
-          />
-        </div>
+          <AccordionItem value="meals" className="mt-2">
+            <AccordionTrigger className="py-2 px-4 bg-fuchsia-900/20 rounded-t-lg">
+              <span className="text-sm font-medium uppercase">MEALS & SERVICES</span>
+            </AccordionTrigger>
+            <AccordionContent className="bg-fuchsia-900/10 p-4 rounded-b-lg">
+              <MealPlanSection 
+                onValidationChange={(isValid) => {
+                  setMealPlanValid(isValid);
+                  checkValidation();
+                }}
+                showHeader={false}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
       
-      {/* Preferred Weekday Section - Moved here from Step Two */}
+      {/* Room Types Section with updated title - Full width */}
       <div className="mb-6">
-        <PreferredWeekdaySection />
-      </div>
-      
-      {/* Room Types Section with updated title */}
-      <div>
         <RoomTypeSection 
           onValidationChange={(isValid) => {
             checkValidation();
           }}
           title="ROOMS & RATES"
+          fullWidth={true}
         />
       </div>
       
-      {/* Check In/Out Section - Added here after moving from Step Two */}
-      <div>
+      {/* Preferred Weekday Section - Moved to be after Room Types */}
+      <div className="mb-6">
+        <PreferredWeekdaySection />
+      </div>
+      
+      {/* Check In/Out Section - After Preferred Weekday */}
+      <div className="mb-6">
         <CheckInOutSection />
       </div>
       

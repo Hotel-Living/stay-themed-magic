@@ -1,30 +1,86 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
+import { durations } from "@/utils/booking";
+import { saveSelectedStayLengths, getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface LengthOfStaySectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
+  showHeader?: boolean;
 }
 
 export default function LengthOfStaySection({ 
   onValidationChange,
-  title = "LENGTH OF STAY"
+  title = "LENGTH OF STAY",
+  showHeader = true
 }: LengthOfStaySectionProps) {
-  const stayLengths = ["8 days", "16 days", "24 days", "32 days"];
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
   const [stayLengthsValid, setStayLengthsValid] = useState(false);
 
-  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
+  const stayLengths = durations.map(d => `${d.value} days`);
+
+  useEffect(() => {
+    const storedLengths = getSelectedStayLengths();
+    if (storedLengths.length > 0) {
+      setSelectedStayLengths(storedLengths);
       setStayLengthsValid(true);
       onValidationChange(true);
     }
+  }, []);
+
+  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, lengthStr: string) => {
+    const length = parseInt(lengthStr);
+    let newSelectedLengths: number[];
+    
+    if (e.target.checked) {
+      newSelectedLengths = [...selectedStayLengths, length];
+    } else {
+      newSelectedLengths = selectedStayLengths.filter(l => l !== length);
+    }
+    
+    setSelectedStayLengths(newSelectedLengths);
+    
+    saveSelectedStayLengths(newSelectedLengths);
   };
+
+  useEffect(() => {
+    const isValid = selectedStayLengths.length > 0;
+    setStayLengthsValid(isValid);
+    onValidationChange(isValid);
+  }, [selectedStayLengths, onValidationChange]);
+
+  const stayLengthContent = (
+    <div className="grid grid-cols-2 gap-4 mt-2">
+      <div className="col-span-2">
+        <label className="block text-sm mb-1 uppercase">AVAILABLE STAY LENGTHS</label>
+        <div className="grid grid-cols-2 gap-2">
+          {durations.map((duration) => (
+            <label key={duration.value} className="flex items-center">
+              <input 
+                type="checkbox" 
+                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
+                checked={selectedStayLengths.includes(duration.value)}
+                onChange={(e) => handleStayLengthChange(e, duration.value.toString())}
+              />
+              <span className="text-sm">{duration.value} days</span>
+            </label>
+          ))}
+        </div>
+        {!stayLengthsValid && (
+          <p className="text-red-400 text-xs mt-1">Please select at least one stay length</p>
+        )}
+      </div>
+    </div>
+  );
+
+  if (!showHeader) {
+    return stayLengthContent;
+  }
 
   return (
     <Collapsible className="w-full">
@@ -35,26 +91,7 @@ export default function LengthOfStaySection({
         <ChevronRight className="h-4 w-4" />
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="grid grid-cols-2 gap-4 mt-2">
-          <div className="col-span-2">
-            <label className="block text-sm mb-1 uppercase">AVAILABLE STAY LENGTHS</label>
-            <div className="grid grid-cols-2 gap-2">
-              {stayLengths.map((length) => (
-                <label key={length} className="flex items-center">
-                  <input 
-                    type="checkbox" 
-                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
-                    onChange={handleStayLengthChange}
-                  />
-                  <span className="text-sm">{length}</span>
-                </label>
-              ))}
-            </div>
-            {!stayLengthsValid && (
-              <p className="text-red-400 text-xs mt-1">Please select at least one stay length</p>
-            )}
-          </div>
-        </div>
+        {stayLengthContent}
       </CollapsibleContent>
     </Collapsible>
   );

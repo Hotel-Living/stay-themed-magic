@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Plus, Trash2, CheckCircle, AlertCircle } from "lucide-react";
 import RoomsAndPricingStep from "./RoomsAndPricingStep";
+
 interface RoomType {
   id: string;
   name: string;
@@ -13,9 +14,11 @@ interface RoomType {
   capacity: number;
   basePrice: number;
 }
+
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean) => void;
 }
+
 export default function StepTwo({
   onValidationChange = () => {}
 }: StepTwoProps) {
@@ -29,7 +32,6 @@ export default function StepTwo({
   const [error, setError] = useState<string>("");
   const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false);
 
-  // Check if all required fields are completed
   const checkValidation = () => {
     if (roomTypes.length === 0) {
       setError("Please add at least one room type");
@@ -41,7 +43,6 @@ export default function StepTwo({
     return true;
   };
 
-  // Handle adding a new room type
   const handleAddRoomType = () => {
     if (newRoom.name.trim() && newRoom.basePrice > 0) {
       const newRoomType = {
@@ -59,14 +60,14 @@ export default function StepTwo({
     }
   };
 
-  // Handle removing a room type
   const handleRemoveRoomType = (id: string) => {
     setRoomTypes(roomTypes.filter(room => room.id !== id));
   };
+
   useEffect(() => {
-    // Validate whenever room types change
     checkValidation();
   }, [roomTypes]);
+
   return <div className="space-y-8">
       <RoomsAndPricingStep />
       

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
-import CheckInOutSection from "./rooms/CheckInOutSection";
 import RoomTypeSection from "./rooms/RoomTypeSection";
 
 export default function RoomsAndPricingStep() {
@@ -47,11 +46,6 @@ export default function RoomsAndPricingStep() {
         <RoomTypeSection 
           onValidationChange={() => {}} 
         />
-      </div>
-      
-      {/* Check In/Out Section */}
-      <div>
-        <CheckInOutSection />
       </div>
     </div>
   );

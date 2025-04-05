@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/RoomTypeSection";
+import CheckInOutSection from "./rooms/CheckInOutSection";
 
 interface StepThreeProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -85,6 +86,11 @@ export default function StepThree({
           }}
           title="ROOMS & RATES"
         />
+      </div>
+      
+      {/* Check In/Out Section - Added here after moving from Step Two */}
+      <div>
+        <CheckInOutSection />
       </div>
       
       {/* Validation Messages */}

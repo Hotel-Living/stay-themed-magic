@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/accordion";
 import RoomTypeDialog from "./RoomTypeDialog";
 import { durations } from "@/utils/booking";
+import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface RoomTypeSectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   fullWidth?: boolean;
+  showHeader?: boolean;
 }
 
 interface RoomType {
@@ -34,7 +36,8 @@ interface RoomType {
 export default function RoomTypeSection({ 
   onValidationChange,
   title = "ROOM TYPES",
-  fullWidth = false
+  fullWidth = false,
+  showHeader = true
 }: RoomTypeSectionProps) {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([
@@ -53,17 +56,21 @@ export default function RoomTypeSection({
   
   // Get selected stay lengths from localStorage if available
   useEffect(() => {
-    const storedLengths = localStorage.getItem('selectedStayLengths');
-    if (storedLengths) {
-      try {
-        const parsedLengths = JSON.parse(storedLengths);
-        if (Array.isArray(parsedLengths) && parsedLengths.length > 0) {
-          setSelectedStayLengths(parsedLengths);
-        }
-      } catch (e) {
-        console.error("Error parsing stored stay lengths:", e);
-      }
+    const storedLengths = getSelectedStayLengths();
+    if (storedLengths.length > 0) {
+      setSelectedStayLengths(storedLengths);
     }
+    
+    // Listen for updates to stay lengths
+    const handleStayLengthsUpdate = (event: CustomEvent) => {
+      setSelectedStayLengths(event.detail);
+    };
+    
+    window.addEventListener('stayLengthsUpdated', handleStayLengthsUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('stayLengthsUpdated', handleStayLengthsUpdate as EventListener);
+    };
   }, []);
   
   const handleAddRoomType = (roomType: RoomType) => {
@@ -82,19 +89,14 @@ export default function RoomTypeSection({
     }
   };
 
-  return (
-    <div className={`${fullWidth ? "w-full" : ""}`}>
-      <Collapsible className="w-full">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <label className="block text-sm font-medium text-foreground/90 uppercase">
-            {title}
-          </label>
-          <ChevronRight className="h-4 w-4" />
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          {/* Room Types Accordion */}
-          <Accordion type="single" collapsible className="w-full mb-4">
-            {roomTypes.map((roomType, index) => (
+  const mainContent = (
+    <>
+      {/* Available Types of Rooms Accordion */}
+      <div className="mb-6">
+        <h3 className="text-sm font-medium mb-3 uppercase">AVAILABLE TYPES OF ROOMS</h3>
+        {roomTypes.length > 0 ? (
+          <Accordion type="single" collapsible className="w-full">
+            {roomTypes.map((roomType) => (
               <AccordionItem key={roomType.id} value={roomType.id} className="bg-fuchsia-900/20 rounded-lg mb-3 overflow-hidden">
                 <AccordionTrigger className="px-4 py-3 text-left hover:no-underline">
                   <h4 className="font-medium uppercase">{roomType.name}</h4>
@@ -107,13 +109,8 @@ export default function RoomTypeSection({
                         type="number" 
                         min="1" 
                         value={roomType.maxOccupancy}
-                        onChange={(e) => {
-                          const updated = [...roomTypes];
-                          updated[index].maxOccupancy = parseInt(e.target.value) || 1;
-                          setRoomTypes(updated);
-                        }}
+                        readOnly
                         className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
-                        placeholder="1" 
                       />
                     </div>
                     <div>
@@ -122,30 +119,17 @@ export default function RoomTypeSection({
                         type="number" 
                         min="1" 
                         value={roomType.size}
-                        onChange={(e) => {
-                          const updated = [...roomTypes];
-                          updated[index].size = parseInt(e.target.value) || 0;
-                          setRoomTypes(updated);
-                        }}
+                        readOnly
                         className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
-                        placeholder="Size" 
                       />
                     </div>
                   </div>
 
                   <div className="mb-3">
                     <label className="text-xs mb-1 block uppercase">DESCRIPTION</label>
-                    <textarea 
-                      value={roomType.description}
-                      onChange={(e) => {
-                        const updated = [...roomTypes];
-                        updated[index].description = e.target.value;
-                        setRoomTypes(updated);
-                      }}
-                      className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
-                      rows={2} 
-                      placeholder="Describe this room type"
-                    ></textarea>
+                    <p className="text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2">
+                      {roomType.description}
+                    </p>
                   </div>
 
                   {/* Rates Section */}
@@ -159,57 +143,78 @@ export default function RoomTypeSection({
                             type="number" 
                             min="0"
                             value={roomType.rates[duration] || ""}
-                            onChange={(e) => {
-                              const updated = [...roomTypes];
-                              updated[index].rates = {
-                                ...updated[index].rates,
-                                [duration]: parseInt(e.target.value) || 0
-                              };
-                              setRoomTypes(updated);
-                            }}
+                            readOnly
                             className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
-                            placeholder={`Rate for ${duration} days`}
                           />
                         </div>
                       ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-xs mb-1 block uppercase">UPLOAD IMAGES</label>
-                    <div className="border-2 border-dashed border-fuchsia-500/30 rounded-lg p-4 text-center">
-                      <p className="text-sm text-foreground/60">Drag & drop or click to upload</p>
-                      <label className="inline-flex items-center mt-2 px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors cursor-pointer">
-                        <Upload className="w-4 h-4 mr-2" /> 
-                        Upload Room Photos
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          multiple
-                          onChange={(e) => handleFileUpload(e, roomType.name)}
-                        />
-                      </label>
                     </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-          
-          <button 
-            onClick={() => setDialogOpen(true)} 
-            className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase flex items-center justify-center"
-          >
-            <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
-          </button>
+        ) : (
+          <div className="text-center py-4 bg-fuchsia-900/10 rounded-lg">
+            <p className="text-sm text-gray-300">None</p>
+          </div>
+        )}
+      </div>
+      
+      {/* Add Room Type Button */}
+      <div className="mb-6">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="add-room" className="bg-fuchsia-900/20 rounded-lg overflow-hidden">
+            <AccordionTrigger className="px-4 py-3 text-left hover:no-underline">
+              <h4 className="font-medium uppercase flex items-center">
+                <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
+              </h4>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-4">
+              <button 
+                onClick={() => setDialogOpen(true)} 
+                className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase flex items-center justify-center mb-4"
+              >
+                <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
+              </button>
+              
+              <p className="text-sm text-gray-300 mb-2">
+                A dialog will open where you can configure all room details including:
+              </p>
+              <ul className="list-disc pl-5 text-sm text-gray-300 mb-3 space-y-1">
+                <li>Room type name and description</li>
+                <li>Maximum occupancy and size</li>
+                <li>Rates for each configured stay duration</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+      
+      <RoomTypeDialog 
+        isOpen={dialogOpen} 
+        onClose={() => setDialogOpen(false)} 
+        onAdd={handleAddRoomType}
+        availableStayLengths={selectedStayLengths}
+      />
+    </>
+  );
 
-          <RoomTypeDialog 
-            isOpen={dialogOpen} 
-            onClose={() => setDialogOpen(false)} 
-            onAdd={handleAddRoomType}
-            availableStayLengths={selectedStayLengths}
-          />
+  if (!showHeader) {
+    return <div className={`${fullWidth ? "w-full" : ""}`}>{mainContent}</div>;
+  }
+
+  return (
+    <div className={`${fullWidth ? "w-full" : ""}`}>
+      <Collapsible className="w-full">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+          <label className="block text-sm font-medium text-foreground/90 uppercase">
+            {title}
+          </label>
+          <ChevronRight className="h-4 w-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          {mainContent}
         </CollapsibleContent>
       </Collapsible>
     </div>

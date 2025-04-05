@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -22,7 +23,7 @@ export default function LengthOfStaySection({
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
   const [stayLengthsValid, setStayLengthsValid] = useState(false);
 
-  const stayLengths = durations.map(d => `${d.value} days`);
+  const stayLengths = durations.map(d => d.value);
 
   useEffect(() => {
     const storedLengths = getSelectedStayLengths();
@@ -33,8 +34,7 @@ export default function LengthOfStaySection({
     }
   }, []);
 
-  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, lengthStr: string) => {
-    const length = parseInt(lengthStr);
+  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
     let newSelectedLengths: number[];
     
     if (e.target.checked) {
@@ -45,6 +45,7 @@ export default function LengthOfStaySection({
     
     setSelectedStayLengths(newSelectedLengths);
     
+    // Save to context & localStorage for sharing with room type components
     saveSelectedStayLengths(newSelectedLengths);
   };
 
@@ -65,7 +66,7 @@ export default function LengthOfStaySection({
                 type="checkbox" 
                 className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
                 checked={selectedStayLengths.includes(duration.value)}
-                onChange={(e) => handleStayLengthChange(e, duration.value.toString())}
+                onChange={(e) => handleStayLengthChange(e, duration.value)}
               />
               <span className="text-sm">{duration.value} days</span>
             </label>
@@ -73,6 +74,12 @@ export default function LengthOfStaySection({
         </div>
         {!stayLengthsValid && (
           <p className="text-red-400 text-xs mt-1">Please select at least one stay length</p>
+        )}
+        
+        {selectedStayLengths.length > 0 && (
+          <p className="text-green-400 text-xs mt-2">
+            Selected stay lengths will automatically populate rate fields in Room Types section
+          </p>
         )}
       </div>
     </div>

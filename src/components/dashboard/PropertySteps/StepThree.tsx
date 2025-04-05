@@ -63,9 +63,11 @@ export default function StepThree({
   
   return (
     <div className="space-y-6">
+      {/* Added bold title */}
+      <h2 className="text-xl font-bold mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
+      
       {/* Main section with LENGTH OF STAY and MEALS & SERVICES as accordion */}
       <div className="mb-6">
-        <h2 className="font-medium text-lg mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="length-of-stay">
             <AccordionTrigger className="py-2 px-4 bg-fuchsia-900/20 rounded-t-lg">
@@ -101,12 +103,14 @@ export default function StepThree({
       
       {/* Room Types Section with updated title - Full width */}
       <div className="mb-6">
+        <h2 className="text-xl font-bold mb-4">ROOMS & RATES</h2>
         <RoomTypeSection 
           onValidationChange={(isValid) => {
             checkValidation();
           }}
           title="ROOMS & RATES"
           fullWidth={true}
+          showHeader={false}
         />
       </div>
       

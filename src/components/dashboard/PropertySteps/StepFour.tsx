@@ -1,126 +1,110 @@
-
-import React, { useState, useEffect } from "react";
-import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
-import { Button } from "@/components/ui/button";
-import { PlusCircle, X, CheckCircle, AlertCircle } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogClose, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import React from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface StepFourProps {
-  onValidationChange?: (isValid: boolean) => void;
-}
-
-export default function StepFour({
-  onValidationChange = () => {}
-}: StepFourProps) {
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
-  const [error, setError] = useState<string>("");
-  const [newTheme, setNewTheme] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // Check if all required fields are completed
-  const checkValidation = () => {
-    if (selectedThemes.length === 0) {
-      setError("Please select at least one theme for your property");
-      onValidationChange(false);
-      return false;
-    }
-    setError("");
+export default function StepFour({ onValidationChange = () => {} }) {
+  // Simulating validation after component mounts
+  React.useEffect(() => {
     onValidationChange(true);
-    return true;
-  };
+  }, [onValidationChange]);
 
-  // Simulate theme selection (would connect to ThemesAndActivitiesStep in production)
-  const handleThemeSelection = (theme: string) => {
-    if (!selectedThemes.includes(theme)) {
-      // Add theme and sort alphabetically
-      const updatedThemes = [...selectedThemes, theme].sort();
-      setSelectedThemes(updatedThemes);
-    }
+  const themes = [
+    "Beach", "Mountain", "City", "Countryside", "Desert", 
+    "Forest", "Lake", "River", "Island", "Ski Resort"
+  ];
 
-    // Check validation after change
-    setTimeout(checkValidation, 100);
-  };
-
-  // Handle adding a new theme
-  const handleAddTheme = () => {
-    if (newTheme.trim()) {
-      handleThemeSelection(newTheme.trim());
-      setNewTheme("");
-      setIsDialogOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    // Validate on mount and when fields change
-    checkValidation();
-  }, [selectedThemes]);
+  const activities = [
+    "Swimming", "Hiking", "Cycling", "Fishing", "Boating",
+    "Skiing", "Snowboarding", "Golf", "Tennis", "Yoga",
+    "Spa", "Cooking Classes", "Wine Tasting", "Sightseeing"
+  ];
 
   return (
     <div className="space-y-6">
-      <ThemesAndActivitiesStep />
+      {/* Add bold title */}
+      <h2 className="text-xl font-bold mb-4">THEMES</h2>
       
-      <div className="mt-8">
-        <div className="flex justify-between items-center mb-4">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="text-white bg-[#c102d3]">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add new theme category
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="text-black">
-              <DialogHeader>
-                {/* Removed DialogTitle as requested */}
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div>
-                  <Label htmlFor="theme-name" className="text-black">Theme Name</Label>
-                  <Input id="theme-name" value={newTheme} onChange={e => setNewTheme(e.target.value)} placeholder="Enter theme name" className="text-black" />
-                </div>
-              </div>
-              <div className="flex justify-end gap-3">
-                <DialogClose asChild>
-                  <Button variant="outline" className="text-black">Cancel</Button>
-                </DialogClose>
-                <Button type="button" onClick={handleAddTheme} disabled={!newTheme.trim()} className="text-white">
-                  Add Theme
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-        
-        {selectedThemes.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {selectedThemes.map(theme => (
-              <div key={theme} className="px-3 py-1 rounded-full bg-fuchsia-100 text-fuchsia-800 flex items-center gap-1">
-                <span>{theme}</span>
-                <button 
-                  onClick={() => setSelectedThemes(selectedThemes.filter(t => t !== theme))} 
-                  className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-fuchsia-200"
-                >
-                  <X className="w-3 h-3" />
-                </button>
+      <div className="space-y-6">
+        {/* Themes Section */}
+        <div className="bg-fuchsia-900/10 rounded-lg p-4">
+          <h3 className="text-sm font-medium mb-4 uppercase">Select Property Themes</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {themes.map((theme) => (
+              <div key={theme} className="flex items-center space-x-2">
+                <Checkbox id={`theme-${theme}`} />
+                <Label htmlFor={`theme-${theme}`} className="text-sm">{theme}</Label>
               </div>
             ))}
           </div>
-        )}
+        </div>
         
-        {error && (
-          <div className="p-3 rounded-md bg-red-50 text-red-700 flex items-center gap-2">
-            <AlertCircle className="h-5 w-5" />
-            <span>{error}</span>
+        {/* Activities Section */}
+        <div className="bg-fuchsia-900/10 rounded-lg p-4">
+          <h3 className="text-sm font-medium mb-4 uppercase">Available Activities</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {activities.map((activity) => (
+              <div key={activity} className="flex items-center space-x-2">
+                <Checkbox id={`activity-${activity}`} />
+                <Label htmlFor={`activity-${activity}`} className="text-sm">{activity}</Label>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
         
-        {selectedThemes.length > 0 && !error && (
-          <div className="p-3 rounded-md bg-green-50 text-green-700 flex items-center gap-2">
-            <CheckCircle className="h-5 w-5" />
-            <span>{selectedThemes.length} theme(s) selected successfully</span>
+        {/* Custom Activities */}
+        <div className="bg-fuchsia-900/10 rounded-lg p-4">
+          <h3 className="text-sm font-medium mb-4 uppercase">Add Custom Activities</h3>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="activity-name">Activity Name</Label>
+              <Input id="activity-name" placeholder="e.g. Local Pottery Workshop" className="bg-fuchsia-950/30" />
+            </div>
+            <div>
+              <Label htmlFor="activity-description">Description</Label>
+              <Textarea id="activity-description" placeholder="Describe the activity..." className="bg-fuchsia-950/30" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="activity-duration">Duration (hours)</Label>
+                <Input id="activity-duration" type="number" min="0.5" step="0.5" placeholder="2" className="bg-fuchsia-950/30" />
+              </div>
+              <div>
+                <Label htmlFor="activity-price">Price ($)</Label>
+                <Input id="activity-price" type="number" min="0" placeholder="25" className="bg-fuchsia-950/30" />
+              </div>
+            </div>
+            <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase">
+              Add Custom Activity
+            </button>
           </div>
-        )}
+        </div>
+        
+        {/* Accessibility Features */}
+        <div className="bg-fuchsia-900/10 rounded-lg p-4">
+          <h3 className="text-sm font-medium mb-4 uppercase">Accessibility Features</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="wheelchair" />
+              <Label htmlFor="wheelchair" className="text-sm">Wheelchair Accessible</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="elevator" />
+              <Label htmlFor="elevator" className="text-sm">Elevator</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="accessible-bathroom" />
+              <Label htmlFor="accessible-bathroom" className="text-sm">Accessible Bathroom</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="accessible-parking" />
+              <Label htmlFor="accessible-parking" className="text-sm">Accessible Parking</Label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

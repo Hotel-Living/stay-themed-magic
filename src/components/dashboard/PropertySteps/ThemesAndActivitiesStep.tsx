@@ -298,7 +298,6 @@ export const themeCategories = [{
     isAddOption: true
   }]
 }];
-
 export default function ThemesAndActivitiesStep() {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -323,7 +322,7 @@ export default function ThemesAndActivitiesStep() {
       <div>
         <div className="grid grid-cols-1 gap-0.5">
           {themeCategories.map(category => <Collapsible key={category.category} className="mb-0">
-              <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30">
+              <div className="bg-[#5A1876]/30 rounded-lg p-2 border border-fuchsia-800/30 py-0 px-0">
                 <CollapsibleTrigger onClick={() => toggleCategory(category.category)} className="flex items-center justify-between w-full font-medium h-8 rounded-none my-[4px] bg-[#af09be]">
                   <h4 className="uppercase text-white">{category.category}</h4>
                   <ChevronRight className={`h-4 w-4 transform transition-transform ${openCategory === category.category ? 'rotate-90' : ''}`} />

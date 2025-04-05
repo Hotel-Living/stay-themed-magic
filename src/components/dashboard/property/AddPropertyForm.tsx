@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StepIndicator from "../PropertySteps/StepIndicator";
@@ -14,22 +15,20 @@ export default function AddPropertyForm() {
     1: false,
     // Basic Info
     2: false,
-    // Location
+    // Features (formerly Step Three)
     3: false,
-    // Features
+    // Rooms & Pricing (formerly Step Four)
     4: false,
-    // Rooms & Pricing
-    5: false,
-    // Stay Rates
-    6: false // FAQ & Terms
+    // Stay Rates (formerly Step Five)
+    5: false // FAQ & Terms (formerly Step Six)
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorFields, setErrorFields] = useState<string[]>([]);
-  const totalSteps = 6;
+  const totalSteps = 5;
 
   // Step titles in all caps
-  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
+  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
   const {
     toast
   } = useToast();
@@ -73,14 +72,12 @@ export default function AddPropertyForm() {
       case 1:
         return ["Property Name", "Property Type", "Description"];
       case 2:
-        return ["Country", "City", "Address"];
-      case 3:
         return ["Features", "Meal Plans"];
-      case 4:
+      case 3:
         return ["Themes", "Activities"];
-      case 5:
+      case 4:
         return ["Stay Rates"];
-      case 6:
+      case 5:
         return ["FAQ", "Terms & Conditions"];
       default:
         return [];
@@ -107,8 +104,7 @@ export default function AddPropertyForm() {
           2: false,
           3: false,
           4: false,
-          5: false,
-          6: false
+          5: false
         });
         setIsSubmitted(false);
       }, 5000);

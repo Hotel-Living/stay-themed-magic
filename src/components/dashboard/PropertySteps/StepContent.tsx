@@ -1,7 +1,6 @@
 
 import React, { useEffect } from "react";
 import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import StepFive from "./StepFive";
@@ -43,11 +42,10 @@ export default function StepContent({
   return (
     <div className="mb-8">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
-      {currentStep === 2 && <StepTwo onValidationChange={onValidationChange} />}
-      {currentStep === 3 && <StepThree onValidationChange={onValidationChange} />}
-      {currentStep === 4 && <StepFour onValidationChange={onValidationChange} />}
-      {currentStep === 5 && <StepFive renderPriceTable={tableFn} onValidationChange={onValidationChange} />}
-      {currentStep === 6 && <StepSix onValidationChange={onValidationChange} />}
+      {currentStep === 2 && <StepThree onValidationChange={onValidationChange} />}
+      {currentStep === 3 && <StepFour onValidationChange={onValidationChange} />}
+      {currentStep === 4 && <StepFive renderPriceTable={tableFn} onValidationChange={onValidationChange} />}
+      {currentStep === 5 && <StepSix onValidationChange={onValidationChange} />}
     </div>
   );
 }

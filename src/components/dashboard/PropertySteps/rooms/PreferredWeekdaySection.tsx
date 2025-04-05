@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
@@ -9,14 +9,19 @@ import {
 
 export default function PreferredWeekdaySection() {
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  const [selectedWeekday, setSelectedWeekday] = useState("Monday");
+  const [selectedWeekday, setSelectedWeekday] = useState("Monday"); // Monday is default
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Ensure Monday is selected by default when component mounts
+  useEffect(() => {
+    setSelectedWeekday("Monday");
+  }, []);
 
   return (
     <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
         <label className="block text-lg font-medium uppercase">
-          PREFERRED WEEKDAY FOR ALL CHECK-INS / OUTS
+          PREFERRED WEEKDAY FOR ALL CHECK-IN / OUTS
         </label>
         <ChevronRight className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
       </CollapsibleTrigger>

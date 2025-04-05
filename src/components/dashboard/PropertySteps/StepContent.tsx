@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import StepOne from "./StepOne";
 import StepThree from "./StepThree";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
-import StepFive from "./StepFive";
+import HotelFaqAndTermsStep from "./HotelFaqAndTermsStep";
 import PriceTable from "./PriceTable";
 
 interface StepContentProps {
@@ -27,16 +27,6 @@ export default function StepContent({
   );
 
   const tableFn = renderPriceTable || defaultRenderPriceTable;
-  
-  // For demo purposes, set each step to be valid after 2 seconds
-  // In a real app, this would come from form validation in each step
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onValidationChange?.(true);
-    }, 2000);
-    
-    return () => clearTimeout(timer);
-  }, [currentStep, onValidationChange]);
 
   return (
     <div className="mb-8">
@@ -45,9 +35,9 @@ export default function StepContent({
       {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
       {currentStep === 4 && (
         <div className="space-y-8">
-          <StepFive onValidationChange={onValidationChange} />
+          <HotelFaqAndTermsStep onValidationChange={onValidationChange} />
           
-          {/* Form confirmation checkbox moved from Step 5 */}
+          {/* Form confirmation checkbox */}
           <div className="mt-8 space-y-8">
             <div className="flex items-start gap-2 bg-fuchsia-900/10 p-4 rounded-lg">
               <input 

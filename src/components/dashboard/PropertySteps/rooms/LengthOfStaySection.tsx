@@ -35,8 +35,31 @@ export default function LengthOfStaySection({
 
   useEffect(() => {
     const storedLengths = getSelectedStayLengths();
+    
+    // If we have stored lengths, use them
     if (storedLengths.length > 0) {
-      setSelectedStayLengths(storedLengths);
+      // Filter to make sure we only use valid durations (8, 16, 24, 32)
+      const validStoredLengths = storedLengths.filter(len => 
+        stayLengths.includes(len)
+      );
+      
+      if (validStoredLengths.length > 0) {
+        setSelectedStayLengths(validStoredLengths);
+        setStayLengthsValid(true);
+        onValidationChange(true);
+      } else {
+        // If no valid lengths, set the default ones
+        const defaultLengths = [8, 16];
+        setSelectedStayLengths(defaultLengths);
+        saveSelectedStayLengths(defaultLengths);
+        setStayLengthsValid(true);
+        onValidationChange(true);
+      }
+    } else {
+      // No stored lengths, set defaults
+      const defaultLengths = [8, 16];
+      setSelectedStayLengths(defaultLengths);
+      saveSelectedStayLengths(defaultLengths);
       setStayLengthsValid(true);
       onValidationChange(true);
     }

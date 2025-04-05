@@ -52,7 +52,7 @@ export default function MealPlanSection({
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
             {mealPlans.map((plan) => (
-              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493]/80">
+              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
                 {plan}
               </SelectItem>
             ))}

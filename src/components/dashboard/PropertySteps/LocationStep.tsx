@@ -1,14 +1,30 @@
+
 import React, { useState } from "react";
 import { MapPin } from "lucide-react";
+
 export default function LocationStep() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [customCountry, setCustomCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [customCity, setCustomCity] = useState("");
+  
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(e.target.value);
     if (e.target.value !== "other") {
       setCustomCountry("");
     }
+    // Reset city selection when country changes
+    setSelectedCity("");
+    setCustomCity("");
   };
+  
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(e.target.value);
+    if (e.target.value !== "other") {
+      setCustomCity("");
+    }
+  };
+  
   return <div className="space-y-5">
       <h3 className="text-xl font-bold uppercase mb-4 text-slate-50">LOCATION</h3>
       
@@ -42,14 +58,46 @@ export default function LocationStep() {
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             CITY
           </label>
-          <select required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea]">
+          <select required value={selectedCity} onChange={handleCityChange} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea]">
             <option value="">Select city</option>
-            <option value="madrid">Madrid</option>
-            <option value="barcelona">Barcelona</option>
-            <option value="valencia">Valencia</option>
-            <option value="seville">Seville</option>
-            <option value="other">Add new city...</option>
+            {selectedCountry === 'es' && (
+              <>
+                <option value="madrid">Madrid</option>
+                <option value="barcelona">Barcelona</option>
+                <option value="valencia">Valencia</option>
+                <option value="seville">Seville</option>
+              </>
+            )}
+            {selectedCountry === 'fr' && (
+              <>
+                <option value="paris">Paris</option>
+                <option value="nice">Nice</option>
+                <option value="marseille">Marseille</option>
+                <option value="lyon">Lyon</option>
+              </>
+            )}
+            {selectedCountry === 'it' && (
+              <>
+                <option value="rome">Rome</option>
+                <option value="milan">Milan</option>
+                <option value="venice">Venice</option>
+                <option value="florence">Florence</option>
+              </>
+            )}
+            {selectedCountry === 'us' && (
+              <>
+                <option value="newyork">New York</option>
+                <option value="losangeles">Los Angeles</option>
+                <option value="chicago">Chicago</option>
+                <option value="miami">Miami</option>
+              </>
+            )}
+            {selectedCountry && <option value="other">Add new city</option>}
           </select>
+          
+          {selectedCity === "other" && <div className="mt-2">
+              <input type="text" placeholder="Enter city name" value={customCity} onChange={e => setCustomCity(e.target.value)} required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
+            </div>}
         </div>
       </div>
       

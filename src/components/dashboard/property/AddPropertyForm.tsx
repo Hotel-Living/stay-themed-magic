@@ -30,9 +30,7 @@ export default function AddPropertyForm() {
 
   // Step titles in all caps
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
 
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
@@ -97,41 +95,47 @@ export default function AddPropertyForm() {
   };
 
   const handleSubmitProperty = () => {
-    if (validateCurrentStep()) {
-      // Set submitted state
-      setIsSubmitted(true);
-      setSubmitSuccess(true);
-
-      // Reset the form and show a success message
-      toast({
-        title: "Property Submitted Successfully",
-        description: "Your property has been submitted for review.",
-        duration: 5000
-      });
-
-      // After a delay, reset the form
-      setTimeout(() => {
-        setCurrentStep(1);
-        setStepValidation({
-          1: false,
-          2: false,
-          3: false,
-          4: false
-        });
-        setIsSubmitted(false);
-      }, 5000);
-    } else {
-      // Show validation errors
-      const fields = getIncompleteFields(currentStep);
-      setErrorFields(fields);
+    // Check if any steps are invalid
+    const invalidSteps = Object.entries(stepValidation)
+      .filter(([_, isValid]) => !isValid)
+      .map(([step]) => parseInt(step));
+    
+    if (invalidSteps.length > 0) {
+      // Collect all incomplete fields from all invalid steps
+      const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
+      setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
       
       toast({
-        title: "Validation Error",
-        description: "Please fill in all required fields before submitting.",
+        title: "Cannot Submit Property",
+        description: "Please complete all required fields before submitting.",
         variant: "destructive"
       });
+      return;
     }
+    
+    // All steps are valid, proceed with submission
+    setIsSubmitted(true);
+    setSubmitSuccess(true);
+
+    // Reset the form and show a success message
+    toast({
+      title: "Property Submitted Successfully",
+      description: "Your property has been submitted for review.",
+      duration: 5000
+    });
+
+    // After a delay, reset the form
+    setTimeout(() => {
+      setCurrentStep(1);
+      setStepValidation({
+        1: false,
+        2: false,
+        3: false,
+        4: false
+      });
+      setIsSubmitted(false);
+    }, 5000);
   };
 
   // Helper function to render price table

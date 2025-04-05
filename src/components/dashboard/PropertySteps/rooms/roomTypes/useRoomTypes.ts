@@ -10,6 +10,7 @@ export interface RoomType {
   description: string;
   baseRate: number;
   rates: Record<number, number>; // stayDuration -> rate
+  images?: string[];
 }
 
 export function useRoomTypes() {
@@ -52,12 +53,17 @@ export function useRoomTypes() {
     setDialogOpen(false);
   };
   
+  const handleDeleteRoomType = (id: string) => {
+    setRoomTypes(roomTypes.filter(room => room.id !== id));
+  };
+  
   return {
     selectedUnit,
     roomTypes,
     dialogOpen,
     selectedStayLengths,
     setDialogOpen,
-    handleAddRoomType
+    handleAddRoomType,
+    handleDeleteRoomType
   };
 }

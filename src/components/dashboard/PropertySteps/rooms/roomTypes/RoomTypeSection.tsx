@@ -33,7 +33,8 @@ export default function RoomTypeSection({
     dialogOpen,
     selectedStayLengths,
     setDialogOpen,
-    handleAddRoomType
+    handleAddRoomType,
+    handleDeleteRoomType
   } = useRoomTypes();
 
   // Notify parent when room types change
@@ -53,6 +54,7 @@ export default function RoomTypeSection({
             roomTypes={roomTypes} 
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
+            onDelete={handleDeleteRoomType}
           />
         </Accordion>
       </div>

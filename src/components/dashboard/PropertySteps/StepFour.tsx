@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -6,7 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export default function StepFour({ onValidationChange = () => {} }) {
+interface StepFourProps {
+  onValidationChange?: (isValid: boolean) => void;
+}
+
+export default function StepFour({ onValidationChange = () => {} }: StepFourProps) {
   // Simulating validation after component mounts
   React.useEffect(() => {
     onValidationChange(true);

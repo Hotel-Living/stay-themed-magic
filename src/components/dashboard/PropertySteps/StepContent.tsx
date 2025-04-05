@@ -33,7 +33,7 @@ export default function StepContent({
   // In a real app, this would come from form validation in each step
   useEffect(() => {
     const timer = setTimeout(() => {
-      onValidationChange(true);
+      onValidationChange?.(true);
     }, 2000);
     
     return () => clearTimeout(timer);

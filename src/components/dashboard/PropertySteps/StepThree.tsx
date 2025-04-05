@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
-import RoomTypeSection from "./rooms/RoomTypeSection";
+import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 import CheckInOutSection from "./rooms/CheckInOutSection";
 import PreferredWeekdaySection from "./rooms/PreferredWeekdaySection";
 import {

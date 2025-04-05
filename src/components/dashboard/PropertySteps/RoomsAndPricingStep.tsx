@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
-import RoomTypeSection from "./rooms/RoomTypeSection";
+import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 
 export default function RoomsAndPricingStep() {
   const [validations, setValidations] = useState({

@@ -27,6 +27,7 @@ export default function StepThree({
   const [error, setError] = useState<string>("");
   const [isStayMealsOpen, setIsStayMealsOpen] = useState(true);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
   
   // Check if all required fields are completed
   const checkValidation = () => {
@@ -61,6 +62,11 @@ export default function StepThree({
     // Validate on mount and when fields change
     checkValidation();
   }, [mealPlans, stayLengthValid, mealPlanValid]);
+  
+  // Show validation errors only when user tries to navigate away
+  const handleNextStep = () => {
+    setShowErrors(true);
+  };
   
   return (
     <div className="space-y-6">
@@ -117,13 +123,8 @@ export default function StepThree({
         <PreferredWeekdaySection />
       </div>
       
-      {/* Check In/Out Section - After Preferred Weekday */}
-      <div className="mb-6">
-        <CheckInOutSection />
-      </div>
-      
-      {/* Validation Messages */}
-      {error && 
+      {/* Validation Messages - Only shown when errors exist and showErrors is true */}
+      {error && showErrors && 
         <div className="p-3 rounded-md text-red-200 flex items-center gap-2 bg-[#540ea9]/20">
           <AlertCircle className="h-5 w-5" />
           <span>{error}</span>

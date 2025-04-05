@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, Plus, Trash2, Edit2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,10 @@ interface FaqItem {
   question: string;
   answer: string;
   isEditing?: boolean;
+}
+
+interface HotelFaqAndTermsStepProps {
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 // Predefined FAQs
@@ -71,7 +75,7 @@ const predefinedTerms = `TERMS AND CONDITIONS
 12. MODIFICATIONS:
     These terms and conditions are subject to change without notice.`;
 
-export default function HotelFaqAndTermsStep() {
+export default function HotelFaqAndTermsStep({ onValidationChange = () => {} }: HotelFaqAndTermsStepProps) {
   const [faqItems, setFaqItems] = useState<FaqItem[]>(predefinedFaqs);
   const [newFaqQuestion, setNewFaqQuestion] = useState("");
   const [newFaqAnswer, setNewFaqAnswer] = useState("");
@@ -79,6 +83,13 @@ export default function HotelFaqAndTermsStep() {
   const [isOpenFaq, setIsOpenFaq] = useState(true);
   const [isOpenTerms, setIsOpenTerms] = useState(false);
   const [isAddingFaq, setIsAddingFaq] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  useEffect(() => {
+    // Validate based on having at least one FAQ and terms and conditions
+    const isValid = faqItems.length > 0 && termsAndConditions.trim().length > 0;
+    onValidationChange(isValid);
+  }, [faqItems, termsAndConditions, onValidationChange]);
 
   const addFaqItem = () => {
     if (newFaqQuestion && newFaqAnswer) {
@@ -122,7 +133,8 @@ export default function HotelFaqAndTermsStep() {
     setFaqItems(updatedFaqs);
   };
 
-  return <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       <div>
         <Collapsible className="w-full" open={isOpenFaq} onOpenChange={setIsOpenFaq}>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
@@ -259,9 +271,23 @@ export default function HotelFaqAndTermsStep() {
               <p className="text-xs text-fuchsia-300/70 mt-2">
                 This pre-configured template covers standard hotel policies. Feel free to modify it to match your specific requirements.
               </p>
+              
+              <div className="flex items-center space-x-2 mt-6">
+                <input 
+                  type="checkbox"
+                  id="accept-terms"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50"
+                />
+                <Label htmlFor="accept-terms" className="text-sm">
+                  I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms
+                </Label>
+              </div>
             </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
-    </div>;
+    </div>
+  );
 }

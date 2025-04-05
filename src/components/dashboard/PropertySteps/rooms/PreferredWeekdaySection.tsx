@@ -10,16 +10,17 @@ import {
 export default function PreferredWeekdaySection() {
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const [selectedWeekday, setSelectedWeekday] = useState("Monday");
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Collapsible className="w-full">
-      <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-        <label className="block text-sm font-medium text-foreground/90 uppercase">
+    <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
+        <label className="block text-lg font-medium uppercase">
           PREFERRED WEEKDAY FOR ALL CHECK-INS / OUTS
         </label>
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="p-4">
         <div className="grid grid-cols-7 gap-2 mt-2">
           {weekdays.map(day => (
             <label key={day} className="flex flex-col items-center">

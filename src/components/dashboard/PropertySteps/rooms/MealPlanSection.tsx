@@ -23,6 +23,7 @@ export default function MealPlanSection({
   const [selectedMealPlan, setSelectedMealPlan] = useState("");
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleMealPlanChange = (plan: string) => {
     setSelectedMealPlan(plan);
@@ -31,10 +32,21 @@ export default function MealPlanSection({
     onValidationChange(true);
   };
 
+  // Only show errors when moving away from the field after touching it
+  const handleBlur = () => {
+    if (touched && !mealPlanValid) {
+      setShowErrors(true);
+    }
+  };
+
   const mealPlanContent = (
     <div className="grid grid-cols-1 gap-4 mt-2">
       <div>
-        <Select onValueChange={handleMealPlanChange} onOpenChange={() => setTouched(true)}>
+        <Select 
+          onValueChange={handleMealPlanChange} 
+          onOpenChange={() => setTouched(true)}
+          onBlur={handleBlur}
+        >
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
             <SelectValue placeholder="Select a meal plan" />
           </SelectTrigger>
@@ -46,7 +58,7 @@ export default function MealPlanSection({
             ))}
           </SelectContent>
         </Select>
-        {touched && !mealPlanValid && (
+        {touched && !mealPlanValid && showErrors && (
           <p className="text-red-400 text-xs mt-1">Please select a meal plan</p>
         )}
       </div>

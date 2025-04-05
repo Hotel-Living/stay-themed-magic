@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -46,7 +45,7 @@ export default function StepThree({
       
       {error ? <div className="p-3 rounded-md text-red-200 flex items-center gap-2 bg-[#540ea9]/20">
           <AlertCircle className="h-5 w-5" />
-          <span>{error}</span>
+          
         </div> : mealPlans.length > 0 ? <div className="p-3 rounded-md bg-green-500/20 text-green-200 flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
           <span>Meal plan selected: {mealPlans.join(', ')}</span>

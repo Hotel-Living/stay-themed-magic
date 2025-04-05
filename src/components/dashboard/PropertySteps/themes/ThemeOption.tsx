@@ -26,8 +26,7 @@ const ThemeOption = ({ option, onThemeSelect }: ThemeOptionProps) => {
     );
   }
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
+  const handleOptionChange = (isChecked: boolean) => {
     setSelected(isChecked);
     
     if (onThemeSelect) {
@@ -60,7 +59,7 @@ const ThemeOption = ({ option, onThemeSelect }: ThemeOptionProps) => {
           type="checkbox"
           className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
           checked={selected}
-          onChange={handleOptionChange}
+          onChange={(e) => handleOptionChange(e.target.checked)}
         />
         <span className="text-sm">{option.name}</span>
       </label>

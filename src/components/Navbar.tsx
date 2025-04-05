@@ -68,32 +68,32 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/signup" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Register
           </Link>
-          <Link to="/login" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/login" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Login
           </Link>
           {isLoggedIn || isDevelopment ? (
             <>
-              <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-base uppercase flex items-center gap-1">
-                <User className="w-4 h-4" />
+              <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
+                <User className="w-3 h-3" />
                 My Account
               </Link>
               {!isDevelopment && (
-                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-base uppercase">
+                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
                   Logout
                 </button>
               )}
             </>
           ) : null}
-          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             FAQ
           </Link>
-          <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Hotels
           </Link>
-          <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-base uppercase">
+          <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Hotel Dashboard
           </Link>
         </div>

@@ -132,7 +132,7 @@ export default function StayRatesStep() {
                               onChange={(e) => setPriceIncreasePercentage(Number(e.target.value))}
                               min="1"
                               max="100"
-                              className="w-24 bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-2 mr-2"
+                              className="w-24 bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-2 mr-2 text-black"
                             />
                             <span className="text-sm">%</span>
                           </div>
@@ -193,15 +193,12 @@ export default function StayRatesStep() {
                                 <div className="relative">
                                   <input 
                                     type="number" 
-                                    className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 pl-6 text-xs"
+                                    className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 text-xs text-black"
                                     placeholder="0.00"
                                     required
                                     value={rates[rateKey] || ""}
                                     onChange={(e) => handleRateChange(roomType, stayOption, mealOption, e.target.value)}
                                   />
-                                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xs">
-                                    {currencies.find(c => c.code === currency)?.symbol}
-                                  </span>
                                 </div>
                               </td>
                             </tr>

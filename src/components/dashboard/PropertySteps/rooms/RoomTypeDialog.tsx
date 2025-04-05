@@ -24,7 +24,6 @@ export default function RoomTypeDialog({
   const [maxOccupancy, setMaxOccupancy] = useState(1);
   const [roomSize, setRoomSize] = useState(200);
   const [description, setDescription] = useState("");
-  const [baseRate, setBaseRate] = useState("");
   const [rates, setRates] = useState<Record<number, number>>({});
   const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
   const [roomImages, setRoomImages] = useState<File[]>([]);
@@ -54,7 +53,7 @@ export default function RoomTypeDialog({
         maxOccupancy,
         size: roomSize,
         description,
-        baseRate: parseInt(baseRate) || 0,
+        baseRate: 0,
         rates,
         images: roomImagePreviews
       });
@@ -67,7 +66,6 @@ export default function RoomTypeDialog({
     setMaxOccupancy(1);
     setRoomSize(200);
     setDescription("");
-    setBaseRate("");
     setRates({});
     setRoomImages([]);
     setRoomImagePreviews([]);
@@ -102,7 +100,7 @@ export default function RoomTypeDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-black max-w-5xl w-4/5">
+      <DialogContent className="bg-[#430453] text-black max-w-[80%] w-[80%]">
         <DialogHeader>
           <DialogTitle className="text-xl text-white">Add New Room Type</DialogTitle>
         </DialogHeader>
@@ -150,18 +148,6 @@ export default function RoomTypeDialog({
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
               placeholder="Brief description of the room"
-            />
-          </div>
-          
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Base Rate</Label>
-            <Input 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
-              type="number"
-              min="0"
-              value={baseRate}
-              onChange={(e) => setBaseRate(e.target.value)}
-              placeholder="Base nightly rate"
             />
           </div>
           

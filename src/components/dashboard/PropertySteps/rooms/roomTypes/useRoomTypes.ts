@@ -27,7 +27,7 @@ export function useRoomTypes() {
     }
   ]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16]); // Default values
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
   
   // Get selected stay lengths from localStorage if available
   useEffect(() => {

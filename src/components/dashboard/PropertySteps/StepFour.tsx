@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, X, CheckCircle, AlertCircle } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogClose, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 

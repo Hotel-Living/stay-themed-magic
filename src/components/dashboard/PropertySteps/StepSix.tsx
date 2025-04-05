@@ -44,13 +44,13 @@ export default function StepSix({
       
       <div className="space-y-6 mt-8">
         <div>
-          <Label htmlFor="faq-content">FAQ Content <span className="text-red-500">*</span></Label>
-          <Textarea id="faq-content" value={faqContent} onChange={e => setFaqContent(e.target.value)} placeholder="Enter frequently asked questions and answers" className="min-h-32" />
+          
+          
         </div>
         
         <div>
-          <Label htmlFor="terms-content">Terms & Conditions <span className="text-red-500">*</span></Label>
-          <Textarea id="terms-content" value={termsContent} onChange={e => setTermsContent(e.target.value)} placeholder="Enter your property's terms and conditions" className="min-h-32" />
+          
+          
         </div>
         
         <div className="flex items-start gap-2">

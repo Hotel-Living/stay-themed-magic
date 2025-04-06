@@ -89,7 +89,7 @@ export default function SettingsContent() {
         
         <TabsContent value="currency">
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-[#7a0486]">
               <CardTitle>Currency Settings</CardTitle>
               <CardDescription>Select your preferred currency for rates</CardDescription>
             </CardHeader>

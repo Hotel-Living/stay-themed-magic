@@ -134,7 +134,7 @@ export default function DashboardLayout({
         </div>
       </main>
       
-      <footer className="bg-secondary py-6 px-4 border-t border-fuchsia-900/20 mt-10">
+      <footer className="py-6 px-4 border-t border-fuchsia-900/20 mt-10 bg-[#7a0486]">
         <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
           &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
         </div>

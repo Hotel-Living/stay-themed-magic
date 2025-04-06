@@ -1,6 +1,6 @@
 
 import React from "react";
-import HotelFaqAndTermsStep from "./HotelFaqAndTermsStep";
+import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -28,7 +28,7 @@ export default function StepFive({ onValidationChange = () => {}, renderPriceTab
                   <h5 className="font-medium mb-1">What time is check-in and check-out?</h5>
                   <Textarea 
                     defaultValue="Check-in is at 3:00 PM and check-out is at 11:00 AM. Early check-in and late check-out may be available upon request for an additional fee."
-                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20"
+                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20 text-white"
                   />
                 </div>
                 
@@ -36,7 +36,7 @@ export default function StepFive({ onValidationChange = () => {}, renderPriceTab
                   <h5 className="font-medium mb-1">Do you offer airport transfers?</h5>
                   <Textarea 
                     defaultValue="Yes, we offer airport transfers for an additional fee. Please contact us at least 48 hours before your arrival to arrange this service."
-                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20"
+                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20 text-white"
                   />
                 </div>
                 
@@ -44,7 +44,7 @@ export default function StepFive({ onValidationChange = () => {}, renderPriceTab
                   <h5 className="font-medium mb-1">Is breakfast included?</h5>
                   <Textarea 
                     defaultValue="Breakfast is included in some of our room rates. Please check your specific booking for details."
-                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20"
+                    className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-20 text-white"
                   />
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function StepFive({ onValidationChange = () => {}, renderPriceTab
 9. AGE REQUIREMENT: Guests must be at least 18 years of age to check-in.
 
 10. ADDITIONAL GUESTS: Only registered guests are allowed in the rooms. Additional guests must be registered at the front desk."
-                  className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-80"
+                  className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-80 text-white"
                 />
               </div>
             </div>

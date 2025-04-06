@@ -1,9 +1,9 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import StepOne from "./StepOne";
 import StepThree from "./StepThree";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
-import HotelFaqAndTermsStep from "./HotelFaqAndTermsStep";
+import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import PriceTable from "./PriceTable";
 
 interface StepContentProps {
@@ -45,7 +45,7 @@ export default function StepContent({
                 id="finalize-terms" 
                 className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" 
               />
-              <label htmlFor="finalize-terms" className="text-sm">
+              <label htmlFor="finalize-terms" className="text-sm text-white">
                 I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
               </label>
             </div>

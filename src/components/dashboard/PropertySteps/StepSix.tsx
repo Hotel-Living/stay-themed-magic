@@ -49,13 +49,13 @@ export default function StepSix({
       {/* Additional configuration section */}
       <div className="space-y-6 mt-8">
         <div>
-          <Label htmlFor="additional-notes" className="block text-sm font-medium mb-2">
+          <Label htmlFor="additional-notes" className="block text-sm font-medium mb-2 text-white">
             Additional Notes for Hotel-Living Staff
           </Label>
           <Textarea 
             id="additional-notes"
             placeholder="Any additional information or special requests regarding your property listing"
-            className="h-32 bg-fuchsia-950/50 border border-fuchsia-500/30"
+            className="h-32 bg-fuchsia-950/50 border border-fuchsia-500/30 text-white"
           />
           <p className="text-xs text-muted-foreground mt-1">
             This information will be reviewed by our team during the approval process but won't be visible to guests.
@@ -70,7 +70,7 @@ export default function StepSix({
             onChange={e => setTermsAccepted(e.target.checked)} 
             className="mt-1" 
           />
-          <Label htmlFor="finalize-terms" className="text-sm">
+          <Label htmlFor="finalize-terms" className="text-sm text-white">
             I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
           </Label>
         </div>

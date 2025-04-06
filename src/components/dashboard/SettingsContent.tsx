@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,9 +11,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import CheckInOutSection from './PropertySteps/rooms/CheckInOutSection';
 import MealPlanSection from './PropertySteps/rooms/MealPlanSection';
-
 export default function SettingsContent() {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [currency, setCurrency] = useState('USD');
   const [enableAutoPrice, setEnableAutoPrice] = useState(false);
   const [priceIncreasePercent, setPriceIncreasePercent] = useState('20');
@@ -22,16 +22,13 @@ export default function SettingsContent() {
   const [bookingConfirmations, setBookingConfirmations] = useState(true);
   const [reviewAlerts, setReviewAlerts] = useState(true);
   const [paymentNotifications, setPaymentNotifications] = useState(true);
-  
   const handleSaveSettings = () => {
     toast({
       title: "Settings saved",
       description: "Your settings have been updated successfully."
     });
   };
-  
-  return (
-    <div className="space-y-8">
+  return <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">Hotel Settings</h2>
         <Button onClick={handleSaveSettings} className="flex items-center gap-2">
@@ -41,12 +38,12 @@ export default function SettingsContent() {
       </div>
       
       <Tabs defaultValue="checkin" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="checkin">Check-in/out</TabsTrigger>
-          <TabsTrigger value="auto-price">Automatic Increase of Price</TabsTrigger>
-          <TabsTrigger value="currency">Currency</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="policies">Policies</TabsTrigger>
+        <TabsList className="mb-6 bg-[#7a0486]">
+          <TabsTrigger value="checkin" className="bg-[#aa0dba]">Check-in/out</TabsTrigger>
+          <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">Automatic Increase of Price</TabsTrigger>
+          <TabsTrigger value="currency" className="bg-[#aa10ba]">Currency</TabsTrigger>
+          <TabsTrigger value="notifications" className="bg-[#ac11bc]">Notifications</TabsTrigger>
+          <TabsTrigger value="policies" className="bg-[#ad13bd]">Policies</TabsTrigger>
         </TabsList>
         
         <TabsContent value="checkin">
@@ -69,26 +66,14 @@ export default function SettingsContent() {
             <CardContent className="space-y-4 bg-[#860493]">
               <div className="flex items-center justify-between">
                 <Label htmlFor="auto-price-increase">Enable Auto Price Increase</Label>
-                <Switch
-                  id="auto-price-increase"
-                  checked={enableAutoPrice}
-                  onCheckedChange={setEnableAutoPrice}
-                />
+                <Switch id="auto-price-increase" checked={enableAutoPrice} onCheckedChange={setEnableAutoPrice} />
               </div>
               
-              {enableAutoPrice && (
-                <div className="space-y-6">
+              {enableAutoPrice && <div className="space-y-6">
                   <div>
                     <Label className="block text-base mb-2">% of Total Increase</Label>
                     <div className="flex items-center">
-                      <Input
-                        type="number"
-                        value={priceIncreasePercent}
-                        onChange={(e) => setPriceIncreasePercent(e.target.value)}
-                        min="1"
-                        max="100"
-                        className="bg-[#A67CAB] text-black w-36 mr-2 h-12"
-                      />
+                      <Input type="number" value={priceIncreasePercent} onChange={e => setPriceIncreasePercent(e.target.value)} min="1" max="100" className="bg-[#A67CAB] text-black w-36 mr-2 h-12" />
                       <span className="text-2xl">%</span>
                     </div>
                   </div>
@@ -97,8 +82,7 @@ export default function SettingsContent() {
                     <Label htmlFor="min-stay" className="block text-base mb-2">Minimum Stay Requirements</Label>
                     <Input id="min-stay" type="number" min="1" className="bg-[#A67CAB] text-black h-12 w-full" />
                   </div>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
         </TabsContent>
@@ -118,9 +102,7 @@ export default function SettingsContent() {
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                     <SelectContent>
-                      {["USD", "EUR", "GBP", "JPY", "CNY", "AUD", "CAD"].map(currency => (
-                        <SelectItem key={currency} value={currency}>{currency}</SelectItem>
-                      ))}
+                      {["USD", "EUR", "GBP", "JPY", "CNY", "AUD", "CAD"].map(currency => <SelectItem key={currency} value={currency}>{currency}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -143,10 +125,7 @@ export default function SettingsContent() {
                     Receive important updates via email
                   </p>
                 </div>
-                <Switch 
-                  checked={emailNotifications} 
-                  onCheckedChange={setEmailNotifications}
-                />
+                <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
               </div>
               
               <div className="space-y-4 pt-4 border-t border-fuchsia-800/20">
@@ -159,11 +138,7 @@ export default function SettingsContent() {
                       Receive notifications when a new booking is made
                     </p>
                   </div>
-                  <Switch 
-                    checked={bookingConfirmations} 
-                    onCheckedChange={setBookingConfirmations}
-                    disabled={!emailNotifications}
-                  />
+                  <Switch checked={bookingConfirmations} onCheckedChange={setBookingConfirmations} disabled={!emailNotifications} />
                 </div>
                 
                 <div className="flex items-center justify-between">
@@ -173,11 +148,7 @@ export default function SettingsContent() {
                       Get notified when a new review is posted
                     </p>
                   </div>
-                  <Switch 
-                    checked={reviewAlerts} 
-                    onCheckedChange={setReviewAlerts}
-                    disabled={!emailNotifications}
-                  />
+                  <Switch checked={reviewAlerts} onCheckedChange={setReviewAlerts} disabled={!emailNotifications} />
                 </div>
                 
                 <div className="flex items-center justify-between">
@@ -187,11 +158,7 @@ export default function SettingsContent() {
                       Receive alerts for payment processing
                     </p>
                   </div>
-                  <Switch 
-                    checked={paymentNotifications} 
-                    onCheckedChange={setPaymentNotifications}
-                    disabled={!emailNotifications}
-                  />
+                  <Switch checked={paymentNotifications} onCheckedChange={setPaymentNotifications} disabled={!emailNotifications} />
                 </div>
               </div>
             </CardContent>
@@ -200,19 +167,14 @@ export default function SettingsContent() {
         
         <TabsContent value="policies">
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-[#ac12bc]">
               <CardTitle>Hotel Policies</CardTitle>
-              <CardDescription>Configure your hotel's policies</CardDescription>
+              
             </CardHeader>
             <CardContent className="space-y-6 bg-[#860493]">
               <div>
                 <Label htmlFor="cancellation-policy">Cancellation Policy</Label>
-                <Textarea 
-                  id="cancellation-policy" 
-                  className="bg-fuchsia-950/50 min-h-[100px] text-black" 
-                  placeholder="Enter your cancellation policy details..."
-                  defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival."
-                />
+                <Textarea id="cancellation-policy" placeholder="Enter your cancellation policy details..." defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival." className="min-h-[100px] text-black bg-slate-300" />
               </div>
               
               <div>
@@ -260,6 +222,5 @@ export default function SettingsContent() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 }

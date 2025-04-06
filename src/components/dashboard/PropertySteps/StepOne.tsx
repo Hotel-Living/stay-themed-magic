@@ -147,7 +147,7 @@ export default function StepOne({
       <div className="grid gap-6">
         <Collapsible className="w-full bg-white p-0 rounded-md py-0 px-[12px]">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <h3 className="text-lg font-bold uppercase text-[#7A0486]">HOTEL INFORMATION</h3>
+            <h3 className="font-bold uppercase text-[#7A0486] text-base">HOTEL INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-3">
@@ -169,7 +169,7 @@ export default function StepOne({
         
         <Collapsible className="w-full bg-white p-4 rounded-md py-0">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <h3 className="text-lg font-bold uppercase text-[#7A0486]">LOCATION</h3>
+            <h3 className="font-bold uppercase text-[#7A0486] text-base">LOCATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-3">
@@ -227,7 +227,7 @@ export default function StepOne({
         
         <Collapsible className="w-full bg-white p-4 rounded-md py-0">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-            <h3 className="text-lg font-bold uppercase text-[#7A0486]">CONTACT INFORMATION</h3>
+            <h3 className="font-bold uppercase text-[#7A0486] text-base">CONTACT INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-3">
@@ -257,7 +257,7 @@ export default function StepOne({
       {/* Validation status */}
       {Object.keys(errors).length > 0 ? <div className="p-3 rounded-md bg-red-400/20 text-red-500 flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
-          <span className="text-[#f0f0f6]">Please complete all required fields</span>
+          <span className="text-[#f0f0f6] text-sm">Please complete all required fields</span>
         </div> : <div className="p-3 rounded-md bg-green-400/20 text-green-500 flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
           <span>All required information has been provided</span>

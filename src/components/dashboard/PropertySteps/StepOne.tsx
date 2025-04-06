@@ -230,7 +230,7 @@ export default function StepOne({
             <h3 className="font-bold uppercase text-base text-slate-50">CONTACT INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
-          <CollapsibleContent className="pt-2 px-[12px]">
+          <CollapsibleContent className="pt-2 px-[12px] bg-[#7a0486]">
             <div className="space-y-2">
               <div>
                 <Label htmlFor="contact-name" className="text-[#7A0486]">Contact Name <span className="text-red-500">*</span></Label>

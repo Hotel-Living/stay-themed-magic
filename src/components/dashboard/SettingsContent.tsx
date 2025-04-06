@@ -79,8 +79,8 @@ export default function SettingsContent() {
                   </div>
                   
                   <div className="pt-4">
-                    <Label htmlFor="min-stay" className="block text-base mb-2">Minimum Stay Requirements</Label>
-                    <Input id="min-stay" type="number" min="1" className="bg-[#A67CAB] text-black h-12 w-full" />
+                    
+                    
                   </div>
                 </div>}
             </CardContent>

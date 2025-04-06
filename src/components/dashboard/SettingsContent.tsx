@@ -39,11 +39,11 @@ export default function SettingsContent() {
       
       <Tabs defaultValue="checkin" className="w-full">
         <TabsList className="mb-6 bg-[#7a0486]">
-          <TabsTrigger value="checkin" className="bg-[#7a0486]">Check-in/out</TabsTrigger>
+          <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">Check-in/out</TabsTrigger>
           <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">Automatic Increase of Price</TabsTrigger>
-          <TabsTrigger value="currency" className="bg-[#aa10ba]">Currency</TabsTrigger>
-          <TabsTrigger value="notifications" className="bg-[#ac11bc]">Notifications</TabsTrigger>
-          <TabsTrigger value="policies" className="bg-[#ad13bd]">Policies</TabsTrigger>
+          <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">Currency</TabsTrigger>
+          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">Notifications</TabsTrigger>
+          <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">Policies</TabsTrigger>
         </TabsList>
         
         <TabsContent value="checkin">

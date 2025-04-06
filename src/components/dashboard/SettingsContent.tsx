@@ -50,7 +50,7 @@ export default function SettingsContent() {
           <Card>
             <CardHeader className="bg-[#7a0486]">
               <CardTitle>Check-in/out Policy</CardTitle>
-              <CardDescription>Set your hotel's check-in and check-out times</CardDescription>
+              
             </CardHeader>
             <CardContent className="bg-[#860493]">
               <CheckInOutSection />

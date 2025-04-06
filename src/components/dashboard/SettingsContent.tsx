@@ -113,7 +113,7 @@ export default function SettingsContent() {
         
         <TabsContent value="notifications">
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-[#7a0486]">
               <CardTitle>Notification Preferences</CardTitle>
               <CardDescription>Manage how and when you receive notifications</CardDescription>
             </CardHeader>
@@ -121,9 +121,7 @@ export default function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base">Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive important updates via email
-                  </p>
+                  
                 </div>
                 <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
               </div>
@@ -134,9 +132,7 @@ export default function SettingsContent() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-sm">New Booking Confirmations</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Receive notifications when a new booking is made
-                    </p>
+                    
                   </div>
                   <Switch checked={bookingConfirmations} onCheckedChange={setBookingConfirmations} disabled={!emailNotifications} />
                 </div>
@@ -144,9 +140,7 @@ export default function SettingsContent() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-sm">Review Alerts</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Get notified when a new review is posted
-                    </p>
+                    
                   </div>
                   <Switch checked={reviewAlerts} onCheckedChange={setReviewAlerts} disabled={!emailNotifications} />
                 </div>
@@ -154,9 +148,7 @@ export default function SettingsContent() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-sm">Payment Notifications</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Receive alerts for payment processing
-                    </p>
+                    
                   </div>
                   <Switch checked={paymentNotifications} onCheckedChange={setPaymentNotifications} disabled={!emailNotifications} />
                 </div>

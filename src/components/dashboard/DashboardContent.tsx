@@ -67,7 +67,7 @@ export const DashboardContent = () => {
       </div>
 
       {/* Welcome Message for New Hotel Owners */}
-      <div className="glass-card rounded-2xl p-6 bg-fuchsia-500/10 border border-fuchsia-500/20">
+      <div className="glass-card rounded-2xl p-6 border border-fuchsia-500/20 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-2">Welcome to Hotel-Living!</h2>
         <p className="text-foreground/80 mb-4">
           Thank you for registering as a hotel partner. To get started, add your first property using the "Add Property" option below.

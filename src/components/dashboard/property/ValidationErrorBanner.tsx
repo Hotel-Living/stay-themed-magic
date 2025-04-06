@@ -1,27 +1,21 @@
-
 import React from "react";
 import { AlertCircle } from "lucide-react";
-
 interface ValidationErrorBannerProps {
   errorFields: string[];
 }
-
-export default function ValidationErrorBanner({ errorFields }: ValidationErrorBannerProps) {
+export default function ValidationErrorBanner({
+  errorFields
+}: ValidationErrorBannerProps) {
   if (errorFields.length === 0) return null;
-  
-  return (
-    <div className="mb-6 p-4 border rounded-md bg-red-50 text-red-700">
+  return <div className="mb-6 p-4 border rounded-md bg-red-50 text-red-700 py-[3px]">
       <div className="flex items-start gap-2">
         <AlertCircle className="h-5 w-5 mt-0.5" />
         <div>
-          <p className="font-medium">Please complete all required fields:</p>
+          <p className="font-medium text-sm">Please complete all required fields:</p>
           <ul className="list-disc pl-5 mt-2">
-            {errorFields.map((field, index) => (
-              <li key={index}>{field}</li>
-            ))}
+            {errorFields.map((field, index) => <li key={index}>{field}</li>)}
           </ul>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

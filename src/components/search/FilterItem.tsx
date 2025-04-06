@@ -11,12 +11,12 @@ export function FilterItem({
   children
 }: FilterItemProps) {
   return <Collapsible>
-      <div className="p-3 bg-[#860493] rounded-sm py-[4px]">
+      <div className="p-2 bg-[#860493] rounded-sm py-[3px]">
         <CollapsibleTrigger className="flex items-center justify-between w-full font-medium text-sm">
           <span>{title}</span>
           <ChevronRight className="h-4 w-4" />
         </CollapsibleTrigger>
-        <CollapsibleContent className="pt-2 pl-2 space-y-2">
+        <CollapsibleContent className="pt-1 pl-2 space-y-1">
           {children}
         </CollapsibleContent>
       </div>

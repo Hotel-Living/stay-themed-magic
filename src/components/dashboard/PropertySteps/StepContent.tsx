@@ -29,17 +29,17 @@ export default function StepContent({
   const tableFn = renderPriceTable || defaultRenderPriceTable;
 
   return (
-    <div className="mb-8">
+    <div className="mb-4">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
       {currentStep === 2 && <StepThree onValidationChange={onValidationChange} />}
       {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
       {currentStep === 4 && (
-        <div className="space-y-8">
+        <div className="space-y-4">
           <HotelFaqAndTermsStep onValidationChange={onValidationChange} />
           
           {/* Form confirmation checkbox */}
-          <div className="mt-8 space-y-8">
-            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-4 rounded-lg">
+          <div className="mt-4 space-y-4">
+            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
               <input 
                 type="checkbox" 
                 id="finalize-terms" 

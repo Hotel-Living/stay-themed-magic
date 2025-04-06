@@ -32,14 +32,31 @@
 
 /* Reduced spacing for theme items */
 .theme-section .theme-item {
-  margin-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 /* Ensure footer has spacing from content */
 footer {
   margin-top: 20px;
+}
+
+/* Reduce spacing in property form steps */
+.glass-card .space-y-4 > * + * {
+  margin-top: 0.75rem;
+}
+
+.glass-card .space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+/* Reduce label to input spacing */
+.glass-card label + input,
+.glass-card label + textarea,
+.glass-card label + select,
+.glass-card label + .select-container {
+  margin-top: 0.25rem;
 }
 
 /* Mobile footer logo size adjustment */

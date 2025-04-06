@@ -143,11 +143,11 @@ export default function AddPropertyForm() {
     return <PriceTable roomType={roomType} mealTypes={mealTypes} stayDurations={stayDurations} />;
   };
   
-  return <div className="glass-card rounded-2xl p-6 py-[25px] px-[21px] bg-[#741098]">
+  return <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#741098]">
       <StepIndicator currentStep={currentStep} totalSteps={totalSteps} stepTitle={stepTitles[currentStep - 1]} />
       
       {/* Top Navigation Controls */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <button onClick={goToPreviousStep} className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"}`} disabled={currentStep === 1}>
           Previous
         </button>

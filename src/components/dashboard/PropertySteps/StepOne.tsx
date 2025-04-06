@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -140,18 +141,18 @@ export default function StepOne({
   const shouldShowError = (field: keyof typeof formData) => {
     return touchedFields[field] && errors[field];
   };
-  return <div className="space-y-6">
+  return <div className="space-y-4">
       {/* Add bold title */}
-      <h2 className="text-xl font-bold mb-4">MAIN HOTEL DATA</h2>
+      <h2 className="text-xl font-bold mb-2">MAIN HOTEL DATA</h2>
       
-      <div className="grid gap-6">
+      <div className="grid gap-3">
         <Collapsible className="w-full bg-white p-0 rounded-md py-0 px-[12px]">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-0">
             <h3 className="font-bold uppercase text-[#7A0486] text-base">HOTEL INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
-          <CollapsibleContent className="pt-3">
-            <div className="space-y-4">
+          <CollapsibleContent className="pt-2">
+            <div className="space-y-2">
               <div>
                 <Label htmlFor="hotel-name" className="text-[#7A0486]">Hotel Name <span className="text-red-500">*</span></Label>
                 <Input id="hotel-name" value={formData.hotelName} onChange={e => handleChange("hotelName", e.target.value)} onBlur={() => handleBlur("hotelName")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("hotelName") ? "border-red-500" : ""}`} />
@@ -160,20 +161,20 @@ export default function StepOne({
               
               <div>
                 <Label htmlFor="description" className="text-[#7A0486]">Description <span className="text-red-500">*</span></Label>
-                <Textarea id="description" rows={4} value={formData.description} onChange={e => handleChange("description", e.target.value)} onBlur={() => handleBlur("description")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("description") ? "border-red-500" : ""}`} />
+                <Textarea id="description" rows={3} value={formData.description} onChange={e => handleChange("description", e.target.value)} onBlur={() => handleBlur("description")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("description") ? "border-red-500" : ""}`} />
                 {shouldShowError("description") && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
               </div>
             </div>
           </CollapsibleContent>
         </Collapsible>
         
-        <Collapsible className="w-full bg-white p-4 rounded-md py-0">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+        <Collapsible className="w-full bg-white p-0 rounded-md py-0">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px]">
             <h3 className="font-bold uppercase text-[#7A0486] text-base">LOCATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
-          <CollapsibleContent className="pt-3">
-            <div className="space-y-4">
+          <CollapsibleContent className="pt-2 px-[12px]">
+            <div className="space-y-2">
               <div>
                 <Label htmlFor="country" className="text-[#7A0486]">Country <span className="text-red-500">*</span></Label>
                 <Select value={formData.country} onValueChange={value => handleChange("country", value)} onOpenChange={() => !formData.country && handleBlur("country")}>
@@ -198,7 +199,7 @@ export default function StepOne({
                 {shouldShowError("address") && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Label htmlFor="city" className="text-[#7A0486]">City <span className="text-red-500">*</span></Label>
                   <Select value={formData.city} onValueChange={value => handleChange("city", value)} onOpenChange={() => !formData.city && handleBlur("city")}>
@@ -225,13 +226,13 @@ export default function StepOne({
           </CollapsibleContent>
         </Collapsible>
         
-        <Collapsible className="w-full bg-white p-4 rounded-md py-0">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+        <Collapsible className="w-full bg-white p-0 rounded-md py-0">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px]">
             <h3 className="font-bold uppercase text-[#7A0486] text-base">CONTACT INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
-          <CollapsibleContent className="pt-3">
-            <div className="space-y-4">
+          <CollapsibleContent className="pt-2 px-[12px]">
+            <div className="space-y-2">
               <div>
                 <Label htmlFor="contact-name" className="text-[#7A0486]">Contact Name <span className="text-red-500">*</span></Label>
                 <Input id="contact-name" value={formData.contactName} onChange={e => handleChange("contactName", e.target.value)} onBlur={() => handleBlur("contactName")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("contactName") ? "border-red-500" : ""}`} />
@@ -255,10 +256,10 @@ export default function StepOne({
       </div>
       
       {/* Validation status */}
-      {Object.keys(errors).length > 0 ? <div className="p-3 rounded-md bg-red-400/20 text-red-500 flex items-center gap-2">
+      {Object.keys(errors).length > 0 ? <div className="p-2 rounded-md bg-red-400/20 text-red-500 flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
           <span className="text-[#f0f0f6] text-sm">Please complete all required fields</span>
-        </div> : <div className="p-3 rounded-md bg-green-400/20 text-green-500 flex items-center gap-2">
+        </div> : <div className="p-2 rounded-md bg-green-400/20 text-green-500 flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
           <span>All required information has been provided</span>
         </div>}

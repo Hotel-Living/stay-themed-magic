@@ -75,7 +75,7 @@ export const DashboardContent = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="glass-card rounded-2xl p-6 bg-[#a753fa]">
+      <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {actions.map((action, i) => <ActionCard key={i} {...action} />)}

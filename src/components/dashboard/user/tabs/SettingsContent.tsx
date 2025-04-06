@@ -95,7 +95,7 @@ export default function SettingsContent() {
             Select themes that interest you to get personalized hotel recommendations
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 bg-[#860493]">
           <div>
             <Label htmlFor="themes" className="text-base">Your Favorite Themes</Label>
             <p className="text-sm text-muted-foreground mb-3">
@@ -229,7 +229,7 @@ export default function SettingsContent() {
           <CardTitle>Currency & Regional Preferences</CardTitle>
           <CardDescription>Customize how prices and regional information are displayed</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 bg-[#860493]">
           <div>
             <Label htmlFor="currency" className="text-base">Preferred Currency</Label>
             <div className="flex items-center gap-2 mt-2">
@@ -256,7 +256,7 @@ export default function SettingsContent() {
           <CardTitle>Notification Settings</CardTitle>
           <CardDescription>Manage how and when you receive updates</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 bg-[#860493]">
           <div className="flex items-center justify-between">
             <div>
               <Label htmlFor="emailNotifications" className="text-base">Email Notifications</Label>

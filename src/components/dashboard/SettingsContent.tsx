@@ -55,7 +55,7 @@ export default function SettingsContent() {
               <CardTitle>Check-in/out Policy</CardTitle>
               <CardDescription>Set your hotel's check-in and check-out times</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="bg-[#860493]">
               <CheckInOutSection />
             </CardContent>
           </Card>
@@ -66,7 +66,7 @@ export default function SettingsContent() {
             <CardHeader>
               <CardTitle>Progressive price increase as each room is booked out</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 bg-[#860493]">
               <div className="flex items-center justify-between">
                 <Label htmlFor="auto-price-increase">Enable Auto Price Increase</Label>
                 <Switch
@@ -109,7 +109,7 @@ export default function SettingsContent() {
               <CardTitle>Currency Settings</CardTitle>
               <CardDescription>Select your preferred currency for rates</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="bg-[#860493]">
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="currency" className="block text-base mb-2">Preferred Currency</Label>
@@ -135,7 +135,7 @@ export default function SettingsContent() {
               <CardTitle>Notification Preferences</CardTitle>
               <CardDescription>Manage how and when you receive notifications</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 bg-[#860493]">
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base">Email Notifications</Label>
@@ -204,7 +204,7 @@ export default function SettingsContent() {
               <CardTitle>Hotel Policies</CardTitle>
               <CardDescription>Configure your hotel's policies</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 bg-[#860493]">
               <div>
                 <Label htmlFor="cancellation-policy">Cancellation Policy</Label>
                 <Textarea 

@@ -85,7 +85,7 @@ export const DashboardContent = () => {
       {/* Two Column Layout for Reviews and Bookings */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Reviews with Notifications */}
-        <div className="glass-card rounded-2xl p-6 bg-[#a855fb]">
+        <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Recent Reviews</h2>
           </div>

@@ -168,8 +168,8 @@ export default function StepOne({
         </Collapsible>
         
         <Collapsible className="w-full bg-white p-0 rounded-md py-0">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px] text-[#7a0486]">
-            <h3 className="font-bold uppercase text-[#7A0486] text-base">LOCATION</h3>
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px] bg-[#7a0486] text-slate-50">
+            <h3 className="font-bold uppercase text-base text-slate-50">LOCATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 px-[12px]">
@@ -227,7 +227,7 @@ export default function StepOne({
         
         <Collapsible className="w-full bg-white p-0 rounded-md py-0">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px]">
-            <h3 className="font-bold uppercase text-[#7A0486] text-base">CONTACT INFORMATION</h3>
+            <h3 className="font-bold uppercase text-base text-slate-50">CONTACT INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 px-[12px]">

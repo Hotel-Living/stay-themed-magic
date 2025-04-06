@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -256,7 +255,7 @@ export default function StepOne({
       </div>
       
       {/* Validation status */}
-      {Object.keys(errors).length > 0 ? <div className="p-2 rounded-md bg-red-400/20 text-red-500 flex items-center gap-2">
+      {Object.keys(errors).length > 0 ? <div className="p-2 rounded-md text-red-500 flex items-center gap-2 bg-[#041888]/[0.97]">
           <AlertCircle className="h-5 w-5" />
           <span className="text-[#f0f0f6] text-sm">Please complete all required fields</span>
         </div> : <div className="p-2 rounded-md bg-green-400/20 text-green-500 flex items-center gap-2">

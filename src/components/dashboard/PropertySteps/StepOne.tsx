@@ -6,9 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { countries } from "@/utils/countries";
 import { CheckCircle, AlertCircle, ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
 interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
 }
+
 export default function StepOne({
   onValidationChange = () => {}
 }: StepOneProps) {
@@ -23,8 +25,10 @@ export default function StepOne({
     email: "",
     phone: ""
   });
+  
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
     let isValid = true;
@@ -69,6 +73,7 @@ export default function StepOne({
     onValidationChange(isValid);
     return isValid;
   };
+
   const handleChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -91,6 +96,7 @@ export default function StepOne({
       }));
     }
   };
+
   const handleBlur = (field: keyof typeof formData) => {
     // Mark field as touched
     setTouchedFields(prev => ({
@@ -132,6 +138,7 @@ export default function StepOne({
     }
     setErrors(newErrors);
   };
+
   React.useEffect(() => {
     validate();
   }, [formData]);
@@ -140,6 +147,7 @@ export default function StepOne({
   const shouldShowError = (field: keyof typeof formData) => {
     return touchedFields[field] && errors[field];
   };
+
   return <div className="space-y-4">
       {/* Add bold title */}
       <h2 className="text-xl font-bold mb-2">MAIN HOTEL DATA</h2>
@@ -147,8 +155,8 @@ export default function StepOne({
       <div className="grid gap-3">
         <Collapsible className="w-full p-0 rounded-md py-0 px-[12px] bg-[#7a0486]">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-0">
-            <h3 className="font-bold uppercase text-[#7A0486] text-base">HOTEL INFORMATION</h3>
-            <ChevronRight className="h-5 w-5 text-[#7A0486]" />
+            <h3 className="font-bold uppercase text-white text-base">HOTEL INFORMATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2">
             <div className="space-y-2">
@@ -168,9 +176,9 @@ export default function StepOne({
         </Collapsible>
         
         <Collapsible className="w-full bg-white p-0 rounded-md py-0">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px] bg-[#7a0486] text-slate-50">
-            <h3 className="font-bold uppercase text-base text-slate-50">LOCATION</h3>
-            <ChevronRight className="h-5 w-5 text-[#7A0486]" />
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px] bg-[#7a0486] text-white">
+            <h3 className="font-bold uppercase text-base text-white">LOCATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 px-[12px]">
             <div className="space-y-2">
@@ -226,26 +234,26 @@ export default function StepOne({
         </Collapsible>
         
         <Collapsible className="w-full bg-white p-0 rounded-md py-0">
-          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px]">
-            <h3 className="font-bold uppercase text-base text-slate-50">CONTACT INFORMATION</h3>
-            <ChevronRight className="h-5 w-5 text-[#7A0486]" />
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-[12px] bg-[#7a0486]">
+            <h3 className="font-bold uppercase text-base text-white">CONTACT INFORMATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 px-[12px] bg-[#7a0486]">
             <div className="space-y-2">
               <div>
-                <Label htmlFor="contact-name" className="text-[#7A0486]">Contact Name <span className="text-red-500">*</span></Label>
+                <Label htmlFor="contact-name" className="text-white">Contact Name <span className="text-red-500">*</span></Label>
                 <Input id="contact-name" value={formData.contactName} onChange={e => handleChange("contactName", e.target.value)} onBlur={() => handleBlur("contactName")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("contactName") ? "border-red-500" : ""}`} />
                 {shouldShowError("contactName") && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
               </div>
               
               <div>
-                <Label htmlFor="email" className="text-[#7A0486]">Email <span className="text-red-500">*</span></Label>
+                <Label htmlFor="email" className="text-white">Email <span className="text-red-500">*</span></Label>
                 <Input id="email" type="email" value={formData.email} onChange={e => handleChange("email", e.target.value)} onBlur={() => handleBlur("email")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("email") ? "border-red-500" : ""}`} />
                 {shouldShowError("email") && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
               
               <div>
-                <Label htmlFor="phone" className="text-[#7A0486]">Phone <span className="text-red-500">*</span></Label>
+                <Label htmlFor="phone" className="text-white">Phone <span className="text-red-500">*</span></Label>
                 <Input id="phone" value={formData.phone} onChange={e => handleChange("phone", e.target.value)} onBlur={() => handleBlur("phone")} className={`text-[#7A0486] bg-white/90 border-[#7A0486]/30 ${shouldShowError("phone") ? "border-red-500" : ""}`} />
                 {shouldShowError("phone") && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
               </div>

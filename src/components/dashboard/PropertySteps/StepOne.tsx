@@ -145,7 +145,7 @@ export default function StepOne({
       <h2 className="text-xl font-bold mb-4">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-6">
-        <Collapsible className="w-full bg-white p-4 rounded-md py-0 px-[12px]">
+        <Collapsible className="w-full bg-white p-0 rounded-md py-0 px-[12px]">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
             <h3 className="text-lg font-bold uppercase text-[#7A0486]">HOTEL INFORMATION</h3>
             <ChevronRight className="h-5 w-5 text-[#7A0486]" />

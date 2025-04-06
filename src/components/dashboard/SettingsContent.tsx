@@ -60,7 +60,7 @@ export default function SettingsContent() {
         
         <TabsContent value="auto-price">
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-[#7a0486]">
               <CardTitle>Progressive price increase as each room is booked out</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 bg-[#860493]">

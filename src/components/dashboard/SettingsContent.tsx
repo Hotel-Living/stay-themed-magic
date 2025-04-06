@@ -48,7 +48,7 @@ export default function SettingsContent() {
         
         <TabsContent value="checkin">
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-[#7a0486]">
               <CardTitle>Check-in/out Policy</CardTitle>
               <CardDescription>Set your hotel's check-in and check-out times</CardDescription>
             </CardHeader>

@@ -11,7 +11,7 @@ export const StatCard = ({
   change
 }: StatCardProps) => {
   const isPositive = change?.startsWith('+');
-  return <div className="glass-card rounded-lg p-4 bg-[#7a0486]">
+  return <div className="glass-card rounded-lg p-4 bg-[#bd48ef]">
       <p className="text-sm text-foreground/70 mb-1">{title}</p>
       <div className="flex items-baseline justify-between">
         <p className="text-2xl font-bold">{value}</p>

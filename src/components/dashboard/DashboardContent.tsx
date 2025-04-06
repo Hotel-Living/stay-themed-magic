@@ -98,7 +98,7 @@ export const DashboardContent = () => {
         </div>
 
         {/* Recent Bookings */}
-        <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
+        <div className="glass-card rounded-2xl p-6 bg-[#aa58fb]">
           <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
           
           <div className="text-center py-8 text-foreground/60 bg-[#a54afe]">

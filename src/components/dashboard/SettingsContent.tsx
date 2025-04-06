@@ -166,7 +166,7 @@ export default function SettingsContent() {
             <CardContent className="space-y-6 bg-[#860493]">
               <div>
                 <Label htmlFor="cancellation-policy">Cancellation Policy</Label>
-                <Textarea id="cancellation-policy" placeholder="Enter your cancellation policy details..." defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival." className="min-h-[100px] text-black bg-slate-300" />
+                <Textarea id="cancellation-policy" placeholder="Enter your cancellation policy details..." defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival." className="min-h-[100px] text-black bg-slate-50" />
               </div>
               
               <div>

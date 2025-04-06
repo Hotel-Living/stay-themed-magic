@@ -5,7 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { countries } from "@/utils/countries";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, ChevronRight } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -155,135 +156,168 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
       <h2 className="text-xl font-bold mb-4">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-6">
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="hotel-name">Hotel Name <span className="text-red-500">*</span></Label>
-            <Input 
-              id="hotel-name" 
-              value={formData.hotelName}
-              onChange={e => handleChange("hotelName", e.target.value)}
-              onBlur={() => handleBlur("hotelName")}
-              className={`text-black ${shouldShowError("hotelName") ? "border-red-500" : ""}`}
-            />
-            {shouldShowError("hotelName") && <p className="text-red-500 text-sm mt-1">{errors.hotelName}</p>}
-          </div>
-          
-          <div>
-            <Label htmlFor="description">Description <span className="text-red-500">*</span></Label>
-            <Textarea 
-              id="description" 
-              rows={4}
-              value={formData.description}
-              onChange={e => handleChange("description", e.target.value)}
-              onBlur={() => handleBlur("description")}
-              className={`text-black ${shouldShowError("description") ? "border-red-500" : ""}`}
-            />
-            {shouldShowError("description") && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-          </div>
-        </div>
+        <Collapsible className="w-full bg-[#860493] p-4 rounded-md">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+            <h3 className="text-lg font-bold uppercase text-white">HOTEL INFORMATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-3">
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="hotel-name">Hotel Name <span className="text-red-500">*</span></Label>
+                <Input 
+                  id="hotel-name" 
+                  value={formData.hotelName}
+                  onChange={e => handleChange("hotelName", e.target.value)}
+                  onBlur={() => handleBlur("hotelName")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("hotelName") ? "border-red-500" : ""}`}
+                />
+                {shouldShowError("hotelName") && <p className="text-red-500 text-sm mt-1">{errors.hotelName}</p>}
+              </div>
+              
+              <div>
+                <Label htmlFor="description">Description <span className="text-red-500">*</span></Label>
+                <Textarea 
+                  id="description" 
+                  rows={4}
+                  value={formData.description}
+                  onChange={e => handleChange("description", e.target.value)}
+                  onBlur={() => handleBlur("description")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("description") ? "border-red-500" : ""}`}
+                />
+                {shouldShowError("description") && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
         
-        <div>
-          <h3 className="text-lg font-bold uppercase mb-4">LOCATION</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
-              <Select 
-                value={formData.country}
-                onValueChange={value => handleChange("country", value)}
-                onOpenChange={() => !formData.country && handleBlur("country")}
-              >
-                <SelectTrigger className={`text-black ${shouldShowError("country") ? "border-red-500" : ""}`}>
-                  <SelectValue placeholder="Select country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map(country => (
-                    <SelectItem key={country.id} value={country.id}>
-                      {country.name}
+        <Collapsible className="w-full bg-[#860493] p-4 rounded-md">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+            <h3 className="text-lg font-bold uppercase text-white">LOCATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-3">
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
+                <Select 
+                  value={formData.country}
+                  onValueChange={value => handleChange("country", value)}
+                  onOpenChange={() => !formData.country && handleBlur("country")}
+                >
+                  <SelectTrigger className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("country") ? "border-red-500" : ""}`}>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#860493] border-fuchsia-400/30">
+                    {countries.map(country => (
+                      <SelectItem key={country.id} value={country.id} className="text-white hover:bg-fuchsia-700 focus:bg-fuchsia-700">
+                        {country.name}
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="add-new" className="text-green-400 hover:bg-fuchsia-700 focus:bg-fuchsia-700">
+                      + Add New Country
                     </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {shouldShowError("country") && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
-            </div>
-            
-            <div>
-              <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
-              <Input 
-                id="address"
-                value={formData.address}
-                onChange={e => handleChange("address", e.target.value)}
-                onBlur={() => handleBlur("address")}
-                className={`text-black ${shouldShowError("address") ? "border-red-500" : ""}`}
-              />
-              {shouldShowError("address") && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="city">City <span className="text-red-500">*</span></Label>
-                <Input 
-                  id="city"
-                  value={formData.city}
-                  onChange={e => handleChange("city", e.target.value)}
-                  onBlur={() => handleBlur("city")}
-                  className={`text-black ${shouldShowError("city") ? "border-red-500" : ""}`}
-                />
-                {shouldShowError("city") && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+                  </SelectContent>
+                </Select>
+                {shouldShowError("country") && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
               </div>
+              
               <div>
-                <Label htmlFor="postal-code">Postal Code</Label>
+                <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
                 <Input 
-                  id="postal-code"
-                  value={formData.postalCode}
-                  onChange={e => handleChange("postalCode", e.target.value)}
-                  className="text-black"
+                  id="address"
+                  value={formData.address}
+                  onChange={e => handleChange("address", e.target.value)}
+                  onBlur={() => handleBlur("address")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("address") ? "border-red-500" : ""}`}
                 />
+                {shouldShowError("address") && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="city">City <span className="text-red-500">*</span></Label>
+                  <Select 
+                    value={formData.city}
+                    onValueChange={value => handleChange("city", value)}
+                    onOpenChange={() => !formData.city && handleBlur("city")}
+                  >
+                    <SelectTrigger className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("city") ? "border-red-500" : ""}`}>
+                      <SelectValue placeholder="Select city" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#860493] border-fuchsia-400/30">
+                      {["New York", "Los Angeles", "Chicago", "Miami", "Las Vegas", "San Francisco"].map(city => (
+                        <SelectItem key={city} value={city} className="text-white hover:bg-fuchsia-700 focus:bg-fuchsia-700">
+                          {city}
+                        </SelectItem>
+                      ))}
+                      <SelectItem value="add-new" className="text-green-400 hover:bg-fuchsia-700 focus:bg-fuchsia-700">
+                        + Add New City
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {shouldShowError("city") && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="postal-code">Postal Code</Label>
+                  <Input 
+                    id="postal-code"
+                    value={formData.postalCode}
+                    onChange={e => handleChange("postalCode", e.target.value)}
+                    className="text-white bg-[#860493]/50 border-fuchsia-400/30"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
         
-        <div>
-          <h3 className="text-lg font-bold uppercase mb-4">CONTACT INFORMATION</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="contact-name">Contact Name <span className="text-red-500">*</span></Label>
-              <Input 
-                id="contact-name"
-                value={formData.contactName}
-                onChange={e => handleChange("contactName", e.target.value)}
-                onBlur={() => handleBlur("contactName")}
-                className={`text-black ${shouldShowError("contactName") ? "border-red-500" : ""}`}
-              />
-              {shouldShowError("contactName") && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
+        <Collapsible className="w-full bg-[#860493] p-4 rounded-md">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+            <h3 className="text-lg font-bold uppercase text-white">CONTACT INFORMATION</h3>
+            <ChevronRight className="h-5 w-5 text-white" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-3">
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="contact-name">Contact Name <span className="text-red-500">*</span></Label>
+                <Input 
+                  id="contact-name"
+                  value={formData.contactName}
+                  onChange={e => handleChange("contactName", e.target.value)}
+                  onBlur={() => handleBlur("contactName")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("contactName") ? "border-red-500" : ""}`}
+                />
+                {shouldShowError("contactName") && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
+              </div>
+              
+              <div>
+                <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
+                <Input 
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={e => handleChange("email", e.target.value)}
+                  onBlur={() => handleBlur("email")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("email") ? "border-red-500" : ""}`}
+                />
+                {shouldShowError("email") && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              </div>
+              
+              <div>
+                <Label htmlFor="phone">Phone <span className="text-red-500">*</span></Label>
+                <Input 
+                  id="phone"
+                  value={formData.phone}
+                  onChange={e => handleChange("phone", e.target.value)}
+                  onBlur={() => handleBlur("phone")}
+                  className={`text-white bg-[#860493]/50 border-fuchsia-400/30 ${shouldShowError("phone") ? "border-red-500" : ""}`}
+                />
+                {shouldShowError("phone") && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              </div>
             </div>
-            
-            <div>
-              <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
-              <Input 
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={e => handleChange("email", e.target.value)}
-                onBlur={() => handleBlur("email")}
-                className={`text-black ${shouldShowError("email") ? "border-red-500" : ""}`}
-              />
-              {shouldShowError("email") && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
-            
-            <div>
-              <Label htmlFor="phone">Phone <span className="text-red-500">*</span></Label>
-              <Input 
-                id="phone"
-                value={formData.phone}
-                onChange={e => handleChange("phone", e.target.value)}
-                onBlur={() => handleBlur("phone")}
-                className={`text-black ${shouldShowError("phone") ? "border-red-500" : ""}`}
-              />
-              {shouldShowError("phone") && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-            </div>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
       
       {/* Validation status */}

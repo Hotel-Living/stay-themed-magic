@@ -64,8 +64,7 @@ export default function SettingsContent() {
         <TabsContent value="auto-price">
           <Card>
             <CardHeader>
-              <CardTitle>Automatic Price Increase</CardTitle>
-              <CardDescription>Settings for automatic price increase as rooms get booked</CardDescription>
+              <CardTitle>Progressive price increase as each room is booked out</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
@@ -78,39 +77,28 @@ export default function SettingsContent() {
               </div>
               
               {enableAutoPrice && (
-                <div>
-                  <Label htmlFor="price-increase">Price Increase Percentage</Label>
-                  <div className="flex items-center">
-                    <Input
-                      id="price-increase"
-                      type="number"
-                      value={priceIncreasePercent}
-                      onChange={(e) => setPriceIncreasePercent(e.target.value)}
-                      min="1"
-                      max="100"
-                      className="bg-fuchsia-950/50 text-black"
-                    />
-                    <span className="ml-2">%</span>
+                <div className="space-y-6">
+                  <div>
+                    <Label className="block text-base mb-2">% of Total Increase</Label>
+                    <div className="flex items-center">
+                      <Input
+                        type="number"
+                        value={priceIncreasePercent}
+                        onChange={(e) => setPriceIncreasePercent(e.target.value)}
+                        min="1"
+                        max="100"
+                        className="bg-[#A67CAB] text-black w-36 mr-2 h-12"
+                      />
+                      <span className="text-2xl">%</span>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    When 75% of rooms are booked, prices will increase by this percentage
-                  </p>
+                  
+                  <div className="pt-4">
+                    <Label htmlFor="min-stay" className="block text-base mb-2">Minimum Stay Requirements</Label>
+                    <Input id="min-stay" type="number" min="1" className="bg-[#A67CAB] text-black h-12 w-full" />
+                  </div>
                 </div>
               )}
-              
-              <div className="pt-4">
-                <Label htmlFor="min-stay">Minimum Stay Requirements</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div>
-                    <Label htmlFor="peak-min-stay" className="text-sm">Peak Season</Label>
-                    <Input id="peak-min-stay" type="number" min="1" placeholder="3" className="bg-fuchsia-950/50 text-black" />
-                  </div>
-                  <div>
-                    <Label htmlFor="off-min-stay" className="text-sm">Off Season</Label>
-                    <Input id="off-min-stay" type="number" min="1" placeholder="1" className="bg-fuchsia-950/50 text-black" />
-                  </div>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -124,9 +112,9 @@ export default function SettingsContent() {
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="currency">Preferred Currency</Label>
+                  <Label htmlFor="currency" className="block text-base mb-2">Preferred Currency</Label>
                   <Select value={currency} onValueChange={setCurrency}>
-                    <SelectTrigger className="w-full bg-fuchsia-950/50 text-black">
+                    <SelectTrigger className="w-full bg-[#A67CAB] text-black h-12">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                     <SelectContent>

@@ -32,7 +32,7 @@ export default function LocationStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           ADDRESS
         </label>
-        <input type="text" placeholder="Street address" required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3] text-black" />
+        <input type="text" placeholder="Street address" required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]" />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -40,7 +40,7 @@ export default function LocationStep() {
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             COUNTRY
           </label>
-          <select required value={selectedCountry} onChange={handleCountryChange} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3] text-black">
+          <select required value={selectedCountry} onChange={handleCountryChange} className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]">
             <option value="">Select country</option>
             <option value="es">Spain</option>
             <option value="fr">France</option>
@@ -50,7 +50,7 @@ export default function LocationStep() {
           </select>
           
           {selectedCountry === "other" && <div className="mt-2">
-              <input type="text" placeholder="Enter country name" value={customCountry} onChange={e => setCustomCountry(e.target.value)} required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869] text-black" />
+              <input type="text" placeholder="Enter country name" value={customCountry} onChange={e => setCustomCountry(e.target.value)} required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
             </div>}
         </div>
         
@@ -58,7 +58,7 @@ export default function LocationStep() {
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             CITY
           </label>
-          <select required value={selectedCity} onChange={handleCityChange} className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea] text-black">
+          <select required value={selectedCity} onChange={handleCityChange} className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea]">
             <option value="">Select city</option>
             {selectedCountry === 'es' && (
               <>
@@ -100,7 +100,7 @@ export default function LocationStep() {
           </select>
           
           {selectedCity === "other" && <div className="mt-2">
-              <input type="text" placeholder="Enter city name" value={customCity} onChange={e => setCustomCity(e.target.value)} required className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869] text-black" />
+              <input type="text" placeholder="Enter city name" value={customCity} onChange={e => setCustomCity(e.target.value)} required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
             </div>}
         </div>
       </div>

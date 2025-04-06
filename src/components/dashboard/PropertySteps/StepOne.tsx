@@ -163,7 +163,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
               value={formData.hotelName}
               onChange={e => handleChange("hotelName", e.target.value)}
               onBlur={() => handleBlur("hotelName")}
-              className={shouldShowError("hotelName") ? "border-red-500" : ""}
+              className={`text-black ${shouldShowError("hotelName") ? "border-red-500" : ""}`}
             />
             {shouldShowError("hotelName") && <p className="text-red-500 text-sm mt-1">{errors.hotelName}</p>}
           </div>
@@ -176,7 +176,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
               value={formData.description}
               onChange={e => handleChange("description", e.target.value)}
               onBlur={() => handleBlur("description")}
-              className={shouldShowError("description") ? "border-red-500" : ""}
+              className={`text-black ${shouldShowError("description") ? "border-red-500" : ""}`}
             />
             {shouldShowError("description") && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
           </div>
@@ -192,7 +192,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 onValueChange={value => handleChange("country", value)}
                 onOpenChange={() => !formData.country && handleBlur("country")}
               >
-                <SelectTrigger className={shouldShowError("country") ? "border-red-500" : ""}>
+                <SelectTrigger className={`text-black ${shouldShowError("country") ? "border-red-500" : ""}`}>
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
                 <SelectContent>
@@ -213,7 +213,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 value={formData.address}
                 onChange={e => handleChange("address", e.target.value)}
                 onBlur={() => handleBlur("address")}
-                className={shouldShowError("address") ? "border-red-500" : ""}
+                className={`text-black ${shouldShowError("address") ? "border-red-500" : ""}`}
               />
               {shouldShowError("address") && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
             </div>
@@ -226,7 +226,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                   value={formData.city}
                   onChange={e => handleChange("city", e.target.value)}
                   onBlur={() => handleBlur("city")}
-                  className={shouldShowError("city") ? "border-red-500" : ""}
+                  className={`text-black ${shouldShowError("city") ? "border-red-500" : ""}`}
                 />
                 {shouldShowError("city") && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
               </div>
@@ -236,6 +236,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                   id="postal-code"
                   value={formData.postalCode}
                   onChange={e => handleChange("postalCode", e.target.value)}
+                  className="text-black"
                 />
               </div>
             </div>
@@ -252,7 +253,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 value={formData.contactName}
                 onChange={e => handleChange("contactName", e.target.value)}
                 onBlur={() => handleBlur("contactName")}
-                className={shouldShowError("contactName") ? "border-red-500" : ""}
+                className={`text-black ${shouldShowError("contactName") ? "border-red-500" : ""}`}
               />
               {shouldShowError("contactName") && <p className="text-red-500 text-sm mt-1">{errors.contactName}</p>}
             </div>
@@ -265,7 +266,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 value={formData.email}
                 onChange={e => handleChange("email", e.target.value)}
                 onBlur={() => handleBlur("email")}
-                className={shouldShowError("email") ? "border-red-500" : ""}
+                className={`text-black ${shouldShowError("email") ? "border-red-500" : ""}`}
               />
               {shouldShowError("email") && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
@@ -277,7 +278,7 @@ export default function StepOne({ onValidationChange = () => {} }: StepOneProps)
                 value={formData.phone}
                 onChange={e => handleChange("phone", e.target.value)}
                 onBlur={() => handleBlur("phone")}
-                className={shouldShowError("phone") ? "border-red-500" : ""}
+                className={`text-black ${shouldShowError("phone") ? "border-red-500" : ""}`}
               />
               {shouldShowError("phone") && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>

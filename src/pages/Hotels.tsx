@@ -22,10 +22,10 @@ export default function Hotels() {
         <div className="container max-w-5xl mx-auto px-4 py-12">
           {/* Slogans */}
           <div className="text-center mb-12 space-y-2">
-            <h1 className="md:text-3xl font-bold text-center text-gradient my-0 text-3xl text-[#f1d9f4] py-0">No more empty rooms. Ever.</h1>
-            <p className="text-2xl text-center text-foreground/90 font-semibold">We keep your hotel full. All year long.</p>
-            <p className="text-2xl text-center text-foreground/90 font-semibold">Fill every room. Every day.</p>
-            <p className="text-2xl text-center text-foreground/90 font-semibold">From now on, every month is High Season.</p>
+            <h1 className="md:text-3xl font-bold text-center my-0 text-3xl text-[#5D0478] py-0 animate-pulse-glow">No more empty rooms. Ever.</h1>
+            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow">We keep your hotel full. All year long.</p>
+            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow">Fill every room. Every day.</p>
+            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow">From now on, every month is High Season.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">

@@ -5,9 +5,37 @@ import { Hotel } from "@/utils/hotels"; // Updated import from the hotels module
 
 interface SearchResultsListProps {
   filteredHotels: Hotel[];
+  isLoading?: boolean;
+  error?: string | null;
 }
 
-export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
+export function SearchResultsList({ filteredHotels, isLoading, error }: SearchResultsListProps) {
+  // If loading, show loading state
+  if (isLoading) {
+    return (
+      <div className="text-center py-20">
+        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center animate-pulse">
+          <div className="w-10 h-10 bg-fuchsia-400/50 rounded-full"></div>
+        </div>
+        <h3 className="text-xl font-bold mb-2 text-white">Loading hotels...</h3>
+        <p className="text-white/70 mb-6">Please wait while we find your perfect stay.</p>
+      </div>
+    );
+  }
+  
+  // If error, show error state
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-900/20 flex items-center justify-center">
+          <span className="text-red-400 text-3xl">!</span>
+        </div>
+        <h3 className="text-xl font-bold mb-2 text-white">Error loading hotels</h3>
+        <p className="text-white/70 mb-6">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <h2 className="text-lg font-bold mb-6 text-white">
@@ -42,7 +70,7 @@ export function SearchResultsList({ filteredHotels }: SearchResultsListProps) {
         })}
       </div>
       
-      {filteredHotels.length === 0 && (
+      {filteredHotels.length === 0 && !isLoading && !error && (
         <div className="text-center py-20">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
             <Compass className="w-10 h-10 text-fuchsia-400" />

@@ -23,15 +23,15 @@ export function SearchResultsList({ filteredHotels, isLoading, error }: SearchRe
     );
   }
   
-  // If error, show error state
+  // If error, show error state with the new friendly message
   if (error) {
     return (
       <div className="text-center py-20">
         <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-900/20 flex items-center justify-center">
           <span className="text-red-400 text-3xl">!</span>
         </div>
-        <h3 className="text-xl font-bold mb-2 text-white">Error loading hotels</h3>
-        <p className="text-white/70 mb-6">{error}</p>
+        <h3 className="text-xl font-bold mb-2 text-white">No hotels found!</h3>
+        <p className="text-white/70 mb-6">Please, search again. Thanks.</p>
       </div>
     );
   }

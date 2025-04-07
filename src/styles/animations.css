@@ -34,7 +34,7 @@
     }
   }
   
-  /* Neon sign pulsing animation - updated for purple glow for yellow text */
+  /* Neon sign pulsing animation - updated for purple glow for yellow text, without text-stroke */
   @keyframes pulse-glow {
     from {
       opacity: 0.8;

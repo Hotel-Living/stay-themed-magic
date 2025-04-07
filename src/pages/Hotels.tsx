@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -22,10 +21,10 @@ export default function Hotels() {
         <div className="container max-w-5xl mx-auto px-4 py-12">
           {/* Slogans */}
           <div className="text-center mb-12 space-y-2">
-            <h1 className="md:text-3xl font-bold text-center my-0 text-3xl text-[#5D0478] py-0 animate-pulse-glow text-stroke">No more empty rooms. Ever.</h1>
-            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow text-stroke">We keep your hotel full. All year long.</p>
-            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow text-stroke">Fill every room. Every day.</p>
-            <p className="text-2xl text-center text-[#5D0478] font-semibold animate-pulse-glow text-stroke">From now on, every month is High Season.</p>
+            <h1 className="md:text-3xl font-bold text-center my-0 text-3xl text-white py-0 animate-pulse-glow text-stroke">No more empty rooms. Ever.</h1>
+            <p className="text-2xl text-center text-white font-semibold animate-pulse-glow text-stroke">We keep your hotel full. All year long.</p>
+            <p className="text-2xl text-center text-white font-semibold animate-pulse-glow text-stroke">Fill every room. Every day.</p>
+            <p className="text-2xl text-center text-white font-semibold animate-pulse-glow text-stroke">From now on, every month is High Season.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">

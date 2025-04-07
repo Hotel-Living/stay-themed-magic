@@ -7,30 +7,27 @@ import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import { StepValidationState } from "./types";
+
 export default function AddPropertyForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [hasNewItems, setHasNewItems] = useState(false);
   const [stepValidation, setStepValidation] = useState<StepValidationState>({
     1: false,
-    // Basic Info
     2: false,
-    // Accommodation Terms (formerly Step Three)
     3: false,
-    // Themes & Activities (formerly Step Four)
     4: false
-    // FAQ & Terms (formerly Step Five)
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
-  const totalSteps = 4; // Changed from 5 to 4
+  const totalSteps = 4;
 
-  // Step titles in all caps
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
   const {
     toast
   } = useToast();
+
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
       ...prev,
@@ -38,11 +35,8 @@ export default function AddPropertyForm() {
     }));
   };
 
-  // Modified to allow navigation regardless of validation state
   const goToNextStep = () => {
-    // Check validation but proceed anyway
     if (!validateCurrentStep()) {
-      // Show validation errors and list of incomplete fields
       const fields = getIncompleteFields(currentStep);
       setErrorFields(fields);
       setShowValidationErrors(true);
@@ -52,29 +46,27 @@ export default function AddPropertyForm() {
         variant: "destructive"
       });
     } else {
-      // Clear any existing validation errors if step is valid
       setErrorFields([]);
       setShowValidationErrors(false);
     }
 
-    // Always proceed to next step
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
     }
   };
+
   const goToPreviousStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
       window.scrollTo(0, 0);
     }
   };
+
   const validateCurrentStep = () => {
-    // Use the stepValidation state to determine if the current step is valid
     return stepValidation[currentStep];
   };
 
-  // Get list of incomplete fields based on current step
   const getIncompleteFields = (step: number): string[] => {
     switch (step) {
       case 1:
@@ -89,11 +81,10 @@ export default function AddPropertyForm() {
         return [];
     }
   };
+
   const handleSubmitProperty = () => {
-    // Check if any steps are invalid
     const invalidSteps = Object.entries(stepValidation).filter(([_, isValid]) => !isValid).map(([step]) => parseInt(step));
     if (invalidSteps.length > 0) {
-      // Collect all incomplete fields from all invalid steps
       const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
@@ -105,18 +96,15 @@ export default function AddPropertyForm() {
       return;
     }
 
-    // All steps are valid, proceed with submission
     setIsSubmitted(true);
     setSubmitSuccess(true);
 
-    // Reset the form and show a success message
     toast({
       title: "Property Submitted Successfully",
       description: "Your property has been submitted for review.",
       duration: 5000
     });
 
-    // After a delay, reset the form
     setTimeout(() => {
       setCurrentStep(1);
       setStepValidation({
@@ -129,14 +117,13 @@ export default function AddPropertyForm() {
     }, 5000);
   };
 
-  // Helper function to render price table
   const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {
     return <PriceTable roomType={roomType} mealTypes={mealTypes} stayDurations={stayDurations} />;
   };
+
   return <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
       <StepIndicator currentStep={currentStep} totalSteps={totalSteps} stepTitle={stepTitles[currentStep - 1]} />
       
-      {/* Top Navigation Controls */}
       <div className="flex items-center justify-between mb-3">
         <button onClick={goToPreviousStep} className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"}`} disabled={currentStep === 1}>
           Previous
@@ -149,22 +136,15 @@ export default function AddPropertyForm() {
           </button>}
       </div>
       
-      {/* Validation Error Banner */}
       {showValidationErrors && errorFields.length > 0 && <ValidationErrorBanner errorFields={errorFields} />}
       
-      {/* Show success message if submitted */}
       {isSubmitted && submitSuccess ? <SuccessMessage /> :
-    // Step Content
     <StepContent currentStep={currentStep} renderPriceTable={renderPriceTable} onValidationChange={isValid => validateStep(currentStep, isValid)} />}
       
-      {/* Required Fields Notification */}
       <ImportantNotice />
       
-      {/* Navigation Buttons */}
-      <StepNavigation currentStep={currentStep} totalSteps={totalSteps} onPrevious={goToPreviousStep} onNext={goToNextStep} onSubmit={handleSubmitProperty} showPrevious={currentStep !== 1} isNextDisabled={false} // Changed from !stepValidation[currentStep] to always false
-    />
+      <StepNavigation currentStep={currentStep} totalSteps={totalSteps} onPrevious={goToPreviousStep} onNext={goToNextStep} onSubmit={handleSubmitProperty} showPrevious={currentStep !== 1} isNextDisabled={false} />
     </div>;
 }
 
-// Import PriceTable here to avoid circular dependencies
 import PriceTable from "../PropertySteps/PriceTable";

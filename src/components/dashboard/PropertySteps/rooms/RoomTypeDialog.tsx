@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
-import { ImagePlus, Trash } from "lucide-react";
+import RoomInfoForm from "./roomTypes/RoomInfoForm";
+import ImageUploadSection from "./roomTypes/ImageUploadSection";
+import RatesSection from "./roomTypes/RatesSection";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -106,127 +106,29 @@ export default function RoomTypeDialog({
         </DialogHeader>
         
         <div className="grid gap-4 py-4 overflow-y-auto max-h-[70vh]">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Room Type</Label>
-            <Input 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
-              value={newRoomType}
-              onChange={(e) => setNewRoomType(e.target.value)}
-              placeholder="e.g. Double Room, Suite, etc."
-            />
-          </div>
+          <RoomInfoForm
+            newRoomType={newRoomType}
+            maxOccupancy={maxOccupancy}
+            roomSize={roomSize}
+            description={description}
+            onRoomTypeChange={setNewRoomType}
+            onMaxOccupancyChange={setMaxOccupancy}
+            onRoomSizeChange={setRoomSize}
+            onDescriptionChange={setDescription}
+          />
           
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Max Occupancy</Label>
-            <Input 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
-              type="number"
-              min="1"
-              value={maxOccupancy}
-              onChange={(e) => setMaxOccupancy(parseInt(e.target.value) || 1)}
-              placeholder="Maximum number of guests"
-            />
-          </div>
+          <ImageUploadSection
+            roomImages={roomImages}
+            roomImagePreviews={roomImagePreviews}
+            onImageUpload={handleImageUpload}
+            onRemoveImage={removeImage}
+          />
           
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Room Size (sq. ft.)</Label>
-            <Input 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
-              type="number"
-              min="0"
-              value={roomSize}
-              onChange={(e) => setRoomSize(parseInt(e.target.value) || 0)}
-              placeholder="Room size in square feet"
-            />
-          </div>
-          
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Description</Label>
-            <textarea 
-              className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              placeholder="Brief description of the room"
-            />
-          </div>
-          
-          {/* Room Images Upload Section */}
-          <div className="grid grid-cols-4 items-start gap-4">
-            <Label className="text-right text-sm text-white">Room Images</Label>
-            <div className="col-span-3">
-              <div className="flex items-center gap-3 mb-3">
-                <Button 
-                  type="button" 
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2"
-                  onClick={() => document.getElementById('room-images-upload')?.click()}
-                >
-                  <ImagePlus size={16} />
-                  Upload Images
-                </Button>
-                <input 
-                  id="room-images-upload" 
-                  type="file" 
-                  accept="image/*" 
-                  multiple 
-                  className="hidden" 
-                  onChange={handleImageUpload} 
-                />
-                <span className="text-xs text-gray-300">
-                  {roomImages.length} {roomImages.length === 1 ? 'image' : 'images'} selected
-                </span>
-              </div>
-              
-              {/* Image previews */}
-              {roomImagePreviews.length > 0 && (
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {roomImagePreviews.map((preview, index) => (
-                    <div key={index} className="relative group">
-                      <img 
-                        src={preview} 
-                        alt={`Room preview ${index + 1}`} 
-                        className="h-20 w-full object-cover rounded-md" 
-                      />
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="destructive"
-                        className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => removeImage(index)}
-                      >
-                        <Trash size={12} />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Rates section for different stay lengths - Changed title from "RATES FOR STAY DURATIONS" to "RATES" */}
-          <div className="col-span-4 mt-2">
-            <h4 className="font-medium text-white mb-2">RATES</h4>
-            
-            {stayLengths.length > 0 ? (
-              <div className="grid grid-cols-2 gap-4">
-                {stayLengths.map(duration => (
-                  <div key={duration} className="mb-2">
-                    <Label className="text-sm text-white">{duration} Days</Label>
-                    <Input 
-                      className="w-full bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white mt-1"
-                      type="number"
-                      min="0"
-                      value={rates[duration] || ""}
-                      onChange={(e) => handleRateChange(duration, e.target.value)}
-                      placeholder={`Rate for ${duration} days`}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-white text-sm">No stay durations have been configured. Please configure stay durations in the Length of Stay section.</p>
-            )}
-          </div>
+          <RatesSection
+            stayLengths={stayLengths}
+            rates={rates}
+            onRateChange={handleRateChange}
+          />
         </div>
         
         <DialogFooter>

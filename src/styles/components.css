@@ -17,7 +17,8 @@
   }
   
   .text-stroke {
-    -webkit-text-stroke: 1px theme('colors.fuchsia.500');
+    -webkit-text-stroke: 1px #ffffff;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
   }
   
   .glow {

@@ -29,7 +29,7 @@ export default function RoomInfoForm({
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Room Type</Label>
         <Input 
-          className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
+          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
           value={newRoomType}
           onChange={(e) => onRoomTypeChange(e.target.value)}
           placeholder="e.g. Double Room, Suite, etc."
@@ -39,7 +39,7 @@ export default function RoomInfoForm({
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Max Occupancy</Label>
         <Input 
-          className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
+          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
           type="number"
           min="1"
           value={maxOccupancy}
@@ -51,7 +51,7 @@ export default function RoomInfoForm({
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Room Size (sq. ft.)</Label>
         <Input 
-          className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
+          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
           type="number"
           min="0"
           value={roomSize}
@@ -63,7 +63,7 @@ export default function RoomInfoForm({
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Description</Label>
         <textarea 
-          className="col-span-3 bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white"
+          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
           rows={3}

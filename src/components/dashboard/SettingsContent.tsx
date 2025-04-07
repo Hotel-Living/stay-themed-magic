@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,7 +39,7 @@ export default function SettingsContent() {
       </div>
       
       <Tabs defaultValue="checkin" className="w-full">
-        <TabsList className="mb-6 bg-[#7a0486]">
+        <TabsList className="mb-6 bg-[#7a0486] border border-white">
           <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">Check-in/out</TabsTrigger>
           <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">Automatic Increase of Price</TabsTrigger>
           <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">Currency</TabsTrigger>
@@ -48,11 +49,11 @@ export default function SettingsContent() {
         
         <TabsContent value="checkin">
           <Card>
-            <CardHeader className="bg-[#7a0486]">
+            <CardHeader className="bg-[#7a0486] border border-white">
               <CardTitle>Check-in/out Policy</CardTitle>
               
             </CardHeader>
-            <CardContent className="bg-[#860493]">
+            <CardContent className="bg-[#860493] border-x border-b border-white">
               <CheckInOutSection />
             </CardContent>
           </Card>
@@ -60,10 +61,10 @@ export default function SettingsContent() {
         
         <TabsContent value="auto-price">
           <Card>
-            <CardHeader className="bg-[#7a0486]">
+            <CardHeader className="bg-[#7a0486] border border-white">
               <CardTitle>Progressive price increase as each room is booked out</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4 bg-[#860493]">
+            <CardContent className="space-y-4 bg-[#860493] border-x border-b border-white">
               <div className="flex items-center justify-between">
                 <Label htmlFor="auto-price-increase">Enable Auto Price Increase</Label>
                 <Switch id="auto-price-increase" checked={enableAutoPrice} onCheckedChange={setEnableAutoPrice} />
@@ -73,7 +74,7 @@ export default function SettingsContent() {
                   <div>
                     <Label className="block text-base mb-2">% of Total Increase</Label>
                     <div className="flex items-center">
-                      <Input type="number" value={priceIncreasePercent} onChange={e => setPriceIncreasePercent(e.target.value)} min="1" max="100" className="bg-[#A67CAB] text-black w-36 mr-2 h-12" />
+                      <Input type="number" value={priceIncreasePercent} onChange={e => setPriceIncreasePercent(e.target.value)} min="1" max="100" className="bg-[#A67CAB] text-black w-36 mr-2 h-12 border-white" />
                       <span className="text-2xl">%</span>
                     </div>
                   </div>
@@ -89,16 +90,16 @@ export default function SettingsContent() {
         
         <TabsContent value="currency">
           <Card>
-            <CardHeader className="bg-[#7a0486]">
+            <CardHeader className="bg-[#7a0486] border border-white">
               <CardTitle>Currency Settings</CardTitle>
               <CardDescription>Select your preferred currency for rates</CardDescription>
             </CardHeader>
-            <CardContent className="bg-[#860493]">
+            <CardContent className="bg-[#860493] border-x border-b border-white">
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="currency" className="block text-base mb-2">Preferred Currency</Label>
                   <Select value={currency} onValueChange={setCurrency}>
-                    <SelectTrigger className="w-full bg-[#A67CAB] text-black h-12">
+                    <SelectTrigger className="w-full bg-[#A67CAB] text-black h-12 border-white">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                     <SelectContent>
@@ -113,11 +114,11 @@ export default function SettingsContent() {
         
         <TabsContent value="notifications">
           <Card>
-            <CardHeader className="bg-[#7a0486]">
+            <CardHeader className="bg-[#7a0486] border border-white">
               <CardTitle>Notification Preferences</CardTitle>
               <CardDescription>Manage how and when you receive notifications</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 bg-[#860493]">
+            <CardContent className="space-y-6 bg-[#860493] border-x border-b border-white">
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-base">Email Notifications</Label>
@@ -126,7 +127,7 @@ export default function SettingsContent() {
                 <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
               </div>
               
-              <div className="space-y-4 pt-4 border-t border-fuchsia-800/20">
+              <div className="space-y-4 pt-4 border-t border-white">
                 <h4 className="font-medium">Notification Types</h4>
                 
                 <div className="flex items-center justify-between">
@@ -159,20 +160,20 @@ export default function SettingsContent() {
         
         <TabsContent value="policies">
           <Card>
-            <CardHeader className="bg-[#ac12bc]">
+            <CardHeader className="bg-[#ac12bc] border border-white">
               <CardTitle>Hotel Policies</CardTitle>
               
             </CardHeader>
-            <CardContent className="space-y-6 bg-[#860493]">
+            <CardContent className="space-y-6 bg-[#860493] border-x border-b border-white">
               <div>
                 <Label htmlFor="cancellation-policy">Cancellation Policy</Label>
-                <Textarea id="cancellation-policy" placeholder="Enter your cancellation policy details..." defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival." className="min-h-[100px] text-black bg-slate-50" />
+                <Textarea id="cancellation-policy" placeholder="Enter your cancellation policy details..." defaultValue="Guests may cancel free of charge up to 48 hours before arrival. Guests will be charged the full amount if they cancel within 48 hours of arrival." className="min-h-[100px] text-black bg-slate-50 border-[#7A0486]" />
               </div>
               
               <div>
                 <Label htmlFor="pet-policy">Pet Policy</Label>
                 <Select defaultValue="not-allowed">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black">
+                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
                     <SelectValue placeholder="Pet policy" />
                   </SelectTrigger>
                   <SelectContent>
@@ -186,7 +187,7 @@ export default function SettingsContent() {
               <div>
                 <Label htmlFor="smoking-policy">Smoking Policy</Label>
                 <Select defaultValue="non-smoking">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black">
+                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
                     <SelectValue placeholder="Smoking policy" />
                   </SelectTrigger>
                   <SelectContent>
@@ -200,7 +201,7 @@ export default function SettingsContent() {
               <div>
                 <Label htmlFor="children-policy">Children Policy</Label>
                 <Select defaultValue="allowed">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black">
+                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
                     <SelectValue placeholder="Children policy" />
                   </SelectTrigger>
                   <SelectContent>

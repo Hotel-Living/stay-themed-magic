@@ -5,8 +5,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 
 export default function PreferredWeekdaySection() {
   return (
-    <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10">
-      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-fuchsia-800/20 py-[4px]">
+    <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
+      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
         <h2 className="font-medium text-base text-white">PREFERRED WEEKDAY FOR ALL CHECK-INS / OUTS</h2>
         <ChevronDown className="h-5 w-5 text-white" />
       </CollapsibleTrigger>
@@ -17,7 +17,7 @@ export default function PreferredWeekdaySection() {
               <input 
                 type="radio" 
                 name="preferred-weekday" 
-                className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1" 
+                className="rounded-full border-white text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1" 
               />
               <span className="text-xs text-center text-white">{day}</span>
             </label>

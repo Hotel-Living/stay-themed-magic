@@ -24,7 +24,7 @@ export default function RatesSection({
             <div key={duration} className="mb-2">
               <Label className="text-sm text-white">{duration} Days</Label>
               <Input 
-                className="w-full bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2 text-white mt-1"
+                className="w-full bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white mt-1"
                 type="number"
                 min="0"
                 value={rates[duration] || ""}

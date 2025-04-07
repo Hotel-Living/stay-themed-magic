@@ -66,7 +66,7 @@ export default function RoomTypeList({
                   min="1" 
                   value={roomType.maxOccupancy}
                   readOnly
-                  className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
+                  className="w-full text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2" 
                 />
               </div>
               <div>
@@ -76,14 +76,14 @@ export default function RoomTypeList({
                   min="1" 
                   value={roomType.size}
                   readOnly
-                  className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
+                  className="w-full text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2" 
                 />
               </div>
             </div>
 
             <div className="mb-3">
               <label className="text-xs mb-1 block uppercase">DESCRIPTION</label>
-              <p className="text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2">
+              <p className="text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2">
                 {roomType.description}
               </p>
             </div>
@@ -117,7 +117,7 @@ export default function RoomTypeList({
                       min="0"
                       value={roomType.rates[duration] || ""}
                       readOnly
-                      className="w-full text-sm bg-fuchsia-950/50 border border-fuchsia-500/30 rounded-lg p-2" 
+                      className="w-full text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2" 
                     />
                   </div>
                 ))}

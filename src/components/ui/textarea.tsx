@@ -13,7 +13,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={cn(
           "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
           // Default to text-[#7A0486] for white bg and text-white for purple bg
-          "bg-white text-[#7A0486] data-[bg=purple]:bg-[#7A0486] data-[bg=purple]:text-white",
+          // Update border colors based on background
+          "bg-white text-[#7A0486] border-[#7A0486] data-[bg=purple]:bg-[#7A0486] data-[bg=purple]:text-white data-[bg=purple]:border-white",
           className
         )}
         ref={ref}

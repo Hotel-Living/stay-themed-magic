@@ -17,11 +17,11 @@ export default function RoomsRatesSection({
 }: RoomsRatesSectionProps) {
   return (
     <Collapsible 
-      className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" 
+      className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" 
       open={isOpen} 
       onOpenChange={onOpenChange}
     >
-      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-fuchsia-800/20 py-[4px]">
+      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
         <h2 className="font-medium text-base text-white">ROOMS & RATES</h2>
         {isOpen ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
       </CollapsibleTrigger>

@@ -43,11 +43,11 @@ export default function LocationSection({
             onOpenChange={() => !formData.country && handleBlur("country")}
           >
             <SelectTrigger 
-              className={`text-white bg-[#7A0486] border-[#7A0486]/30 ${shouldShowError("country") ? "border-red-500" : ""}`}
+              className={`text-white bg-[#7A0486] border-white ${shouldShowError("country") ? "border-red-500" : ""}`}
             >
               <SelectValue placeholder="Select country" />
             </SelectTrigger>
-            <SelectContent className="bg-white border-[#7A0486]/30">
+            <SelectContent className="bg-white border-[#7A0486]">
               {countries.map(country => (
                 <SelectItem 
                   key={country.id} 
@@ -91,11 +91,11 @@ export default function LocationSection({
               onOpenChange={() => !formData.city && handleBlur("city")}
             >
               <SelectTrigger 
-                className={`text-white bg-[#7A0486] border-[#7A0486]/30 ${shouldShowError("city") ? "border-red-500" : ""}`}
+                className={`text-white bg-[#7A0486] border-white ${shouldShowError("city") ? "border-red-500" : ""}`}
               >
                 <SelectValue placeholder="Select city" />
               </SelectTrigger>
-              <SelectContent className="bg-white border-[#7A0486]/30">
+              <SelectContent className="bg-white border-[#7A0486]">
                 {["New York", "Los Angeles", "Chicago", "Miami", "Las Vegas", "San Francisco"].map(city => (
                   <SelectItem 
                     key={city} 

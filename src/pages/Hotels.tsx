@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -6,16 +5,12 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Building, HelpCircle } from "lucide-react";
-
 export default function Hotels() {
   const navigate = useNavigate();
-  
   const handleCardClick = (path: string) => {
     navigate(path);
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
@@ -28,20 +23,30 @@ export default function Hotels() {
               <p className="md:text-2xl text-xl text-center text-white font-bold">Your hotel, always full. All year long</p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">100% occupancy. Every single day</p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">Turn your dead dates into gold</p>
-              <p className="md:text-2xl text-xl text-center text-white font-bold">Multiply your profits dramatically</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold">Multiply your profits dramatically
+
+            </p>
             </div>
             
             {/* Single line section - triple distance */}
             <div className="space-y-1 mb-16">
-              <p className="md:text-2xl text-xl text-center text-white font-bold">We sell your slow days and keep you in peak season</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold">We sell your slow days and keep you in peak season
+
+            </p>
             </div>
             
             {/* Zero risk section */}
             <div className="space-y-1 mb-16">
-              <p className="md:text-2xl text-xl text-center text-white font-bold">Zero risk. Zero upfront cost. Zero monthly fees</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold">Zero risk. Zero upfront cost. Zero monthly fees
+
+            </p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">You don't have to do a thing</p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">You don't change a thing</p>
-              <p className="md:text-2xl text-xl text-center text-white font-bold">You just sell your empty rooms</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold">You just sell your empty rooms
+
+
+
+            </p>
             </div>
             
             {/* Facts section - left aligned */}
@@ -51,14 +56,20 @@ export default function Hotels() {
                 <p className="md:text-2xl text-xl text-left text-white font-bold">1) The secret is to keep 100% occupancy year-round</p>
                 <p className="md:text-2xl text-xl text-left text-white font-bold">2) After you hit break-even, every room is almost pure profit</p>
                 <p className="md:text-2xl text-xl text-left text-white font-bold">3) 10 empty rooms a day = 3,600 profits lost every year</p>
-                <p className="md:text-2xl text-xl text-left text-white font-bold">4) Selling them at a reduced price add up a true goldmine</p>
+                <p className="md:text-2xl text-xl text-left text-white font-bold">4) Selling them at a reduced price add up a true goldmine
+
+
+
+              </p>
               </div>
             </div>
             
             {/* Smart way section */}
             <div className="pt-2 border-t border-yellow-300/30 mb-16">
               <p className="md:text-2xl text-xl text-center text-white font-bold mb-3">We fill your hotel the smart way:</p>
-              <p className="md:text-2xl text-xl text-center text-white font-bold">Longer stays. Fewer check-ins. Bigger returns</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold">Longer stays. Fewer check-ins. Bigger returns
+
+            </p>
             </div>
             
             {/* Guest attraction section */}
@@ -70,13 +81,14 @@ export default function Hotels() {
               
               <div className="space-y-1">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">Because they want to socialize. Connect</p>
-                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. And they want to stay longer</p>
+                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. 
+And they want to stay longer</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">And they need their household chores being taken care of</p>
               </div>
               
               <div className="space-y-1">
-                <p className="md:text-2xl text-xl text-center text-white font-bold">So, they need your empty rooms and services</p>
-                <p className="md:text-2xl text-xl text-center text-white font-bold">And you want to give them both</p>
+                <p className="md:text-2xl text-xl text-center text-white font-bold">So, they need your rooms and services</p>
+                
               </div>
               
               <div className="space-y-1">
@@ -96,10 +108,7 @@ export default function Hotels() {
           
           {/* Grid of cards */}
           <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <Card 
-              className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105"
-              onClick={() => handleCardClick("/hotel-login")}
-            >
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105" onClick={() => handleCardClick("/hotel-login")}>
               <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Building className="h-6 w-6 text-fuchsia-400" />
@@ -113,10 +122,7 @@ export default function Hotels() {
               </CardContent>
             </Card>
             
-            <Card 
-              className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105"
-              onClick={() => handleCardClick("/faq-hotels")}
-            >
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105" onClick={() => handleCardClick("/faq-hotels")}>
               <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <HelpCircle className="h-6 w-6 text-fuchsia-400" />
@@ -130,10 +136,7 @@ export default function Hotels() {
               </CardContent>
             </Card>
             
-            <Card 
-              className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105"
-              onClick={() => handleCardClick("/hotel-signup")}
-            >
+            <Card className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105" onClick={() => handleCardClick("/hotel-signup")}>
               <CardHeader className="pb-4 bg-[#6d0591]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
                   <Building className="h-6 w-6 text-fuchsia-400" />
@@ -169,6 +172,5 @@ export default function Hotels() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

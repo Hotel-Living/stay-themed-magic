@@ -3,24 +3,40 @@ import React, { useState } from "react";
 import { MapPin } from "lucide-react";
 
 export default function LocationStep() {
+  const [address, setAddress] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [customCountry, setCustomCountry] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [customCity, setCustomCity] = useState("");
+  const [isAddingNewCountry, setIsAddingNewCountry] = useState(false);
+  const [isAddingNewCity, setIsAddingNewCity] = useState(false);
+  const [postalCode, setPostalCode] = useState("");
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCountry(e.target.value);
-    if (e.target.value !== "other") {
+    const value = e.target.value;
+    setSelectedCountry(value);
+    
+    if (value === "other") {
+      setIsAddingNewCountry(true);
+    } else {
+      setIsAddingNewCountry(false);
       setCustomCountry("");
     }
+    
     // Reset city selection when country changes
     setSelectedCity("");
+    setIsAddingNewCity(false);
     setCustomCity("");
   };
   
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(e.target.value);
-    if (e.target.value !== "other") {
+    const value = e.target.value;
+    setSelectedCity(value);
+    
+    if (value === "other") {
+      setIsAddingNewCity(true);
+    } else {
+      setIsAddingNewCity(false);
       setCustomCity("");
     }
   };
@@ -32,7 +48,14 @@ export default function LocationStep() {
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
           ADDRESS
         </label>
-        <input type="text" placeholder="Street address" required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]" />
+        <input 
+          type="text" 
+          placeholder="Street address" 
+          required 
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]" 
+        />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -40,7 +63,12 @@ export default function LocationStep() {
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             COUNTRY
           </label>
-          <select required value={selectedCountry} onChange={handleCountryChange} className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]">
+          <select 
+            required 
+            value={selectedCountry} 
+            onChange={handleCountryChange} 
+            className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]"
+          >
             <option value="">Select country</option>
             <option value="es">Spain</option>
             <option value="fr">France</option>
@@ -49,16 +77,30 @@ export default function LocationStep() {
             <option value="other">Add another country</option>
           </select>
           
-          {selectedCountry === "other" && <div className="mt-2">
-              <input type="text" placeholder="Enter country name" value={customCountry} onChange={e => setCustomCountry(e.target.value)} required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
-            </div>}
+          {isAddingNewCountry && (
+            <div className="mt-2">
+              <input 
+                type="text" 
+                placeholder="Enter country name" 
+                value={customCountry} 
+                onChange={e => setCustomCountry(e.target.value)} 
+                required 
+                className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" 
+              />
+            </div>
+          )}
         </div>
         
         <div>
           <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
             CITY
           </label>
-          <select required value={selectedCity} onChange={handleCityChange} className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea]">
+          <select 
+            required 
+            value={selectedCity} 
+            onChange={handleCityChange} 
+            className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#ba12ea]"
+          >
             <option value="">Select city</option>
             {selectedCountry === 'es' && (
               <>
@@ -99,10 +141,32 @@ export default function LocationStep() {
             {selectedCountry === 'other' && <option value="other">Add new city</option>}
           </select>
           
-          {selectedCity === "other" && <div className="mt-2">
-              <input type="text" placeholder="Enter city name" value={customCity} onChange={e => setCustomCity(e.target.value)} required className="text-black w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" />
-            </div>}
+          {isAddingNewCity && (
+            <div className="mt-2">
+              <input 
+                type="text" 
+                placeholder="Enter city name" 
+                value={customCity} 
+                onChange={e => setCustomCity(e.target.value)} 
+                required 
+                className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#5c0869]" 
+              />
+            </div>
+          )}
         </div>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+          POSTAL CODE
+        </label>
+        <input 
+          type="text" 
+          placeholder="Postal/ZIP code" 
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
+          className="text-white w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#b40fe3]" 
+        />
       </div>
       
       <div>

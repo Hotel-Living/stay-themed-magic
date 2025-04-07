@@ -1,4 +1,6 @@
+
 import React from "react";
+
 export default function BasicInfoStep() {
   return <div className="space-y-5">
       <div>
@@ -19,7 +21,6 @@ export default function BasicInfoStep() {
           <option value="3">3 Stars</option>
           <option value="4">4 Stars</option>
           <option value="5">5 Stars</option>
-          <option value="nr">Not Rated</option>
         </select>
       </div>
       

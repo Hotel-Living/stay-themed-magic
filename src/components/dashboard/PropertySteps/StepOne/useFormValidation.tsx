@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 
 export interface FormData {
   hotelName: string;
+  category: string;
   description: string;
   country: string;
   address: string;
@@ -16,6 +16,7 @@ export interface FormData {
 export default function useFormValidation(onValidationChange: (isValid: boolean) => void) {
   const [formData, setFormData] = useState<FormData>({
     hotelName: "",
+    category: "",
     description: "",
     country: "",
     address: "",
@@ -36,6 +37,10 @@ export default function useFormValidation(onValidationChange: (isValid: boolean)
     // Basic validation
     if (!formData.hotelName.trim()) {
       newErrors.hotelName = "Hotel name is required";
+      isValid = false;
+    }
+    if (!formData.category) {
+      newErrors.category = "Category is required";
       isValid = false;
     }
     if (!formData.description.trim()) {
@@ -109,6 +114,9 @@ export default function useFormValidation(onValidationChange: (isValid: boolean)
     
     if (field === 'hotelName' && !formData.hotelName.trim()) {
       newErrors.hotelName = "Hotel name is required";
+    }
+    if (field === 'category' && !formData.category) {
+      newErrors.category = "Category is required";
     }
     if (field === 'description' && !formData.description.trim()) {
       newErrors.description = "Description is required";

@@ -69,6 +69,8 @@ export default function Hotels() {
               <p className="md:text-2xl text-xl text-center text-white font-bold mb-3">We fill your hotel the smart way:</p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">Longer stays. Fewer check-ins. Bigger returns
 
+
+
             </p>
             </div>
             
@@ -93,7 +95,9 @@ And they want to stay longer</p>
               
               <div className="space-y-1">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">Yes. Themes are the new social revolution</p>
-                <p className="md:text-2xl text-xl text-center text-white font-bold">Think on a theme and let the magic happen</p>
+                <p className="md:text-2xl text-xl text-center text-white font-bold">Think on a theme and let the magic happen
+
+              </p>
               </div>
               
               <div className="space-y-12 mt-6">

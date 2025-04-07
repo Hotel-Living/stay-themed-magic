@@ -1,0 +1,41 @@
+
+name: Daily Repository Backup
+
+on:
+  schedule:
+    # Run at 02:00 UTC every day
+    - cron: '0 2 * * *'
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+      
+      - name: Create backup branch
+        run: |
+          # Create a timestamp for the backup
+          TIMESTAMP=$(date +"%Y-%m-%d")
+          BACKUP_BRANCH="backup/$TIMESTAMP"
+          
+          # Create and push the backup branch
+          git checkout -b $BACKUP_BRANCH
+          git push origin $BACKUP_BRANCH
+          
+          echo "✅ Created backup branch: $BACKUP_BRANCH"
+      
+      - name: List backups
+        run: |
+          echo "Recent backups:"
+          git branch -r | grep backup

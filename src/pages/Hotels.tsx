@@ -25,63 +25,64 @@ export default function Hotels() {
             {/* Main slogans */}
             <div className="space-y-2 mb-6">
               <h1 className="md:text-4xl text-3xl font-bold text-center text-yellow-300 animate-pulse-glow text-stroke">Stop losing money on empty rooms.</h1>
-              <p className="text-2xl text-center text-yellow-300 font-semibold animate-pulse-glow text-stroke">Your hotel, always full. All year long.</p>
-              <p className="text-2xl text-center text-yellow-300 font-semibold animate-pulse-glow text-stroke">100% occupancy. Every single day.</p>
-              <p className="text-2xl text-center text-yellow-300 font-semibold animate-pulse-glow text-stroke">Turn your dead dates into gold.</p>
-              <p className="text-2xl text-center text-yellow-300 font-semibold animate-pulse-glow text-stroke">Multiply your profits—dramatically.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Your hotel, always full. All year long.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">100% occupancy. Every single day.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Turn your dead dates into gold.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Multiply your profits—dramatically.</p>
             </div>
             
             {/* Second section */}
             <div className="space-y-1 mb-6">
-              <p className="text-xl text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">We sell your slow days and keep you in peak season.</p>
-              <p className="text-xl text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Zero risk. Zero upfront cost. Zero monthly fees.</p>
-              <p className="text-xl text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">You don't have to do a thing.</p>
-              <p className="text-xl text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">You don't change a thing.</p>
-              <p className="text-xl text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">You just sell your empty rooms.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">We sell your slow days and keep you in peak season.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Zero risk. Zero upfront cost. Zero monthly fees.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">You don't have to do a thing.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">You don't change a thing.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">You just sell your empty rooms.</p>
             </div>
             
             {/* Facts section */}
             <div className="pt-2 border-t border-yellow-300/30">
-              <h3 className="text-2xl font-bold text-yellow-300 animate-pulse-glow text-stroke mb-3">THE FACTS:</h3>
+              <h3 className="md:text-4xl text-3xl font-bold text-yellow-300 animate-pulse-glow text-stroke mb-3">THE FACTS:</h3>
               <div className="space-y-2">
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">The secret? 100% occupancy—year-round.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">After you hit break-even, every room is almost pure profit.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">10 empty rooms a day = 3,600 lost opportunities a year.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Selling them at a reduced price is still a goldmine.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Any profit beats a daily loss.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Thousands in lost profits add up fast.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">The secret? 100% occupancy—year-round.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">After you hit break-even, every room is almost pure profit.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">10 empty rooms a day = 3,600 lost opportunities a year.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Selling them at a reduced price is still a goldmine.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Any profit beats a daily loss.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Thousands in lost profits add up fast.</p>
               </div>
             </div>
             
             {/* Final section */}
             <div className="pt-2 border-t border-yellow-300/30 space-y-3">
-              <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">We fill your hotel the smart way:<br/>Longer stays. Fewer check-ins. Bigger returns.</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">We fill your hotel the smart way:<br/>Longer stays. Fewer check-ins. Bigger returns.</p>
               
               <div className="space-y-1">
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">You could even attract your ideal guests</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Just by picking a theme and letting people come together.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">They want to socialize. Connect.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">They need your hotel to stay longer—</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Where their household chores are taken care of.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Yes—they need your empty rooms and your services.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">And you want to give them both.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">You could even attract your ideal guests</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Just by picking a theme and letting people come together.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">They want to socialize. Connect.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">They need your hotel to stay longer—</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Where their household chores are taken care of.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Yes—they need your empty rooms and your services.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">And you want to give them both.</p>
               </div>
               
               <div className="space-y-1 pt-2">
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Themes are the new social revolution.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">Just promote a theme—and let the magic happen.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Themes are the new social revolution.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">Just promote a theme—and let the magic happen.</p>
               </div>
               
               <div className="space-y-1 pt-2">
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">We're seamless integration. Zero cost. Massive profits.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">We're consistent, professional, year-round staffing.</p>
-                <p className="text-lg text-center text-yellow-300 font-medium animate-pulse-glow text-stroke">We're steady, high-value revenue—every single month.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">We're seamless integration. Zero cost. Massive profits.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">We're consistent, professional, year-round staffing.</p>
+                <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke">We're steady, high-value revenue—every single month.</p>
               </div>
               
-              <p className="text-2xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke mt-4">Because from now on… every month is peak season</p>
+              <p className="md:text-4xl text-3xl text-center text-yellow-300 font-bold animate-pulse-glow text-stroke mt-4">Because from now on… every month is peak season</p>
             </div>
           </div>
           
+          {/* Grid of cards */}
           <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <Card 
               className="glass-card-hover rounded-xl overflow-hidden bg-[#6a0a95] cursor-pointer transition-transform duration-200 hover:scale-105"

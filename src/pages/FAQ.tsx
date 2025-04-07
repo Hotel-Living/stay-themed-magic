@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Building } from "lucide-react";
+import { Users } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function FAQ() {
@@ -15,9 +15,6 @@ export default function FAQ() {
   const navigateToTravelerFAQ = () => {
     navigate("/faq-travelers");
   };
-  const navigateToHotelFAQ = () => {
-    navigate("/faq-hotels");
-  };
   
   return <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -26,10 +23,10 @@ export default function FAQ() {
         <div className="container max-w-5xl mx-auto px-4 py-12">
           <h1 className={`${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} font-bold mb-6 text-center text-gradient text-[#eedbf7]`}>Frequently Asked Questions</h1>
           <p className={`${isMobile ? "text-xl" : "text-lg"} text-center mb-12 font-medium text-[#e3d6e9]`}>
-            Choose the FAQ category relevant to you
+            Find answers to common questions
           </p>
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <Card className="glass-card-hover rounded-xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300" onClick={navigateToTravelerFAQ}>
               <CardHeader className="pb-4 bg-[#6c0586]">
                 <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
@@ -43,23 +40,6 @@ export default function FAQ() {
               <CardContent className="text-center pb-6">
                 <Button className={`bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium ${isMobile ? "text-lg py-2 px-6" : ""}`}>
                   View Traveler FAQs
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="glass-card-hover rounded-xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300" onClick={navigateToHotelFAQ}>
-              <CardHeader className="pb-4 bg-[#70078b]">
-                <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
-                  <Building className="h-6 w-6 text-fuchsia-400" />
-                </div>
-                <CardTitle className={`${isMobile ? "text-2xl" : "text-xl"} text-center`}>For Hotel Partners</CardTitle>
-                <CardDescription className={`text-center ${isMobile ? "text-lg" : ""}`}>
-                  Information for hotels looking to join our platform
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center pb-6">
-                <Button className={`bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium ${isMobile ? "text-lg py-2 px-6" : ""}`}>
-                  View Hotel Partner FAQs
                 </Button>
               </CardContent>
             </Card>

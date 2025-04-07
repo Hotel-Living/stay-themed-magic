@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 import ThemeItem from "./ThemeItem";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface ThemeOptionProps {
   option: {
@@ -17,16 +19,65 @@ interface ThemeOptionProps {
 const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOptionProps) => {
   const [selected, setSelected] = useState(selectedThemes.includes(option.id));
   const [selectedSuboptions, setSelectedSuboptions] = useState<string[]>([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newItemName, setNewItemName] = useState("");
 
   useEffect(() => {
     setSelected(selectedThemes.includes(option.id));
   }, [selectedThemes, option.id]);
 
+  const handleAddItem = () => {
+    if (newItemName.trim()) {
+      // Here you would typically add the new item to your state/database
+      console.log(`New item added: ${newItemName}`);
+      
+      // Reset the form
+      setNewItemName("");
+      setIsAdding(false);
+      
+      // You can trigger any parent callback here if needed
+    }
+  };
+
   if (option.isAddOption) {
     return (
-      <div className="flex items-center">
-        <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
-        <span className="text-xs text-fuchsia-400">{option.name}</span>
+      <div className="flex flex-col w-full">
+        {isAdding ? (
+          <div className="space-y-2">
+            <Input
+              type="text"
+              placeholder="Enter name"
+              value={newItemName}
+              onChange={(e) => setNewItemName(e.target.value)}
+              className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm"
+            />
+            <div className="flex space-x-2">
+              <Button 
+                size="sm" 
+                onClick={handleAddItem}
+                className="bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-xs py-1"
+              >
+                Add
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={() => setIsAdding(false)}
+                className="bg-transparent text-xs py-1"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div 
+            className="flex items-center cursor-pointer"
+            onClick={() => setIsAdding(true)}
+          >
+            <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+            <span className="text-xs text-fuchsia-400">{option.name}</span>
+          </div>
+        )}
       </div>
     );
   }
@@ -79,9 +130,43 @@ const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOption
               onSelect={(isChecked) => handleSuboptionChange(suboption, isChecked)}
             />
           ))}
-          <div className="flex items-center">
-            <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
-            <span className="text-xs text-fuchsia-400">Add other</span>
+          <div className="flex flex-col w-full">
+            {isAdding ? (
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  placeholder="Enter new option"
+                  value={newItemName}
+                  onChange={(e) => setNewItemName(e.target.value)}
+                  className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs"
+                />
+                <div className="flex space-x-2">
+                  <Button 
+                    size="sm" 
+                    onClick={handleAddItem}
+                    className="bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-xs py-0.5 px-2"
+                  >
+                    Add
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => setIsAdding(false)}
+                    className="bg-transparent text-xs py-0.5 px-2"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div 
+                className="flex items-center cursor-pointer"
+                onClick={() => setIsAdding(true)}
+              >
+                <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+                <span className="text-xs text-fuchsia-400">Add other</span>
+              </div>
+            )}
           </div>
         </div>
       )}

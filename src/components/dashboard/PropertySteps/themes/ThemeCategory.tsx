@@ -1,9 +1,10 @@
 
-import React from "react";
-import { ChevronRight } from "lucide-react";
-import { PlusCircle } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronRight, PlusCircle } from "lucide-react";
 import ThemeSubmenu from "./ThemeSubmenu";
 import ThemeItem from "./ThemeItem";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface ThemeCategoryProps {
   category: {
@@ -55,10 +56,24 @@ const ThemeCategory = ({
   toggleSubmenu,
   onThemeSelect
 }: ThemeCategoryProps) => {
+  const [isAddingCategory, setIsAddingCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
   // Function to handle direct theme selection (for categories with themes array)
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     if (onThemeSelect) {
       onThemeSelect(themeId, isSelected);
+    }
+  };
+
+  const handleAddCategory = () => {
+    if (newCategoryName.trim()) {
+      // Here you would typically add the new category to your state/database
+      console.log(`New category added: ${newCategoryName}`);
+      
+      // Reset the form
+      setNewCategoryName("");
+      setIsAddingCategory(false);
     }
   };
 
@@ -141,10 +156,43 @@ const ThemeCategory = ({
             </div>
           ))}
           
-          <div className="flex items-center">
-            <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-            <span className="text-xs text-fuchsia-400">Add new category</span>
-          </div>
+          {/* Add new category button/input */}
+          {isAddingCategory ? (
+            <div className="p-2 bg-[#5A1876]/10 rounded-lg space-y-2">
+              <Input 
+                type="text"
+                placeholder="Enter category name"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm"
+              />
+              <div className="flex space-x-2">
+                <Button 
+                  size="sm" 
+                  onClick={handleAddCategory}
+                  className="bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-xs"
+                >
+                  Add
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => setIsAddingCategory(false)}
+                  className="bg-transparent text-xs"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div 
+              className="flex items-center cursor-pointer p-2"
+              onClick={() => setIsAddingCategory(true)}
+            >
+              <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+              <span className="text-xs text-fuchsia-400">Add new category</span>
+            </div>
+          )}
         </div>
       )}
     </div>

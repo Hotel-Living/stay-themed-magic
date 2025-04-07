@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -28,15 +29,15 @@ export default function Hotels() {
             </p>
             </div>
             
-            {/* Single line section - triple distance */}
-            <div className="space-y-1 mb-16">
+            {/* Single line section - double spacing */}
+            <div className="space-y-1 mb-20">
               <p className="md:text-2xl text-xl text-center text-white font-bold">We sell your slow days and keep you in peak season
 
             </p>
             </div>
             
             {/* Zero risk section */}
-            <div className="space-y-1 mb-16">
+            <div className="space-y-1 mb-20">
               <p className="md:text-2xl text-xl text-center text-white font-bold">Zero risk. Zero upfront cost. Zero monthly fees
 
             </p>
@@ -50,7 +51,7 @@ export default function Hotels() {
             </div>
             
             {/* Facts section - left aligned */}
-            <div className="pt-2 border-t border-yellow-300/30 mb-16">
+            <div className="pt-2 border-t border-yellow-300/30 mb-20">
               <h3 className="md:text-2xl text-xl font-bold text-white mb-3">THE FACTS:</h3>
               <div className="space-y-2">
                 <p className="md:text-2xl text-xl text-left text-white font-bold">1) The secret is to keep 100% occupancy year-round</p>
@@ -65,7 +66,7 @@ export default function Hotels() {
             </div>
             
             {/* Smart way section */}
-            <div className="pt-2 border-t border-yellow-300/30 mb-16">
+            <div className="pt-2 border-t border-yellow-300/30 mb-20">
               <p className="md:text-2xl text-xl text-center text-white font-bold mb-3">We fill your hotel the smart way:</p>
               <p className="md:text-2xl text-xl text-center text-white font-bold">Longer stays. Fewer check-ins. Bigger returns
 
@@ -81,14 +82,14 @@ export default function Hotels() {
               
               <div className="space-y-1">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">Because they want to socialize. Connect</p>
-                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. 
+                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. 
 And they want to stay longer</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">And they need their household chores being taken care of</p>
               </div>
               
               <div className="space-y-1">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">So, they need your rooms and services</p>
-                
+                <p className="md:text-2xl text-xl text-center text-white font-bold">And you want to give them both</p>
               </div>
               
               <div className="space-y-1">
@@ -96,13 +97,13 @@ And they want to stay longer</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">Think on a theme and let the magic happen</p>
               </div>
               
-              <div className="space-y-6 mt-6">
+              <div className="space-y-12 mt-6">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">We're seamless integration. Zero cost. Massive profits</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">We´re your bridge to consistent, professional, year-round staffing</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">We're steady, high-value revenue every single month</p>
               </div>
               
-              <p className="md:text-2xl text-xl text-center text-white font-bold mt-4">Because from now on… every month is peak season</p>
+              <p className="md:text-2xl text-xl text-center text-white font-bold mt-8">Because from now on… every month is peak season</p>
             </div>
           </div>
           

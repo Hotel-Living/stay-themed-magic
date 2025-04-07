@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -83,13 +84,12 @@ export default function Hotels() {
               
               <div className="space-y-1">
                 <p className="md:text-2xl text-xl text-center text-white font-bold">Because they want to socialize. Connect</p>
-                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. 
-And they want to stay longer</p>
+                <p className="md:text-2xl text-xl text-center text-white font-bold">And they need you and your hotel. And they want to stay longer</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">And they need their household chores being taken care of</p>
               </div>
               
               <div className="space-y-1">
-                <p className="md:text-2xl text-xl text-center text-white font-bold">So, they need your rooms and services</p>
+                <p className="md:text-2xl text-xl text-center text-white font-bold">So, they need your empty rooms and services</p>
                 <p className="md:text-2xl text-xl text-center text-white font-bold">And you want to give them both</p>
               </div>
               

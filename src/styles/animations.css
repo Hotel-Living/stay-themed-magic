@@ -1,6 +1,4 @@
 
-
-
 @layer utilities {
   /* Animation for color changing text */
   .animate-text {
@@ -36,7 +34,7 @@
     }
   }
   
-  /* Neon sign pulsing animation - updated for #5D0478 color */
+  /* Neon sign pulsing animation - updated for purple glow for yellow text */
   @keyframes pulse-glow {
     from {
       opacity: 0.8;
@@ -53,4 +51,3 @@
     transition-duration: 3000ms;
   }
 }
-

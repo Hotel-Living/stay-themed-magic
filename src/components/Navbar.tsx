@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -84,9 +85,12 @@ export function Navbar() {
           <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Hotels
           </Link>
-          <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            Hotel Dashboard
-          </Link>
+          {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
+          {(isHotelOwner || isDevelopment) && (
+            <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+              Hotel Dashboard
+            </Link>
+          )}
         </div>
         
         <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
@@ -114,6 +118,12 @@ export function Navbar() {
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
           
+          {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
+          {(isHotelOwner || isDevelopment) && (
+            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+              Hotel Dashboard
+            </Link>
+          )}
         </nav>
       </div>
     </header>;

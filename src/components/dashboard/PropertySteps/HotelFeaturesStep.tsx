@@ -20,6 +20,8 @@ export default function HotelFeaturesStep() {
   const [showRoomFeatureInput, setShowRoomFeatureInput] = useState(false);
   const [newHotelFeature, setNewHotelFeature] = useState("");
   const [newRoomFeature, setNewRoomFeature] = useState("");
+  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>([]);
+  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>([]);
 
   const handleSubmitFeature = (type: "hotel" | "room", feature: string) => {
     if (!feature.trim()) return;
@@ -38,6 +40,22 @@ export default function HotelFeaturesStep() {
     }
   };
 
+  const handleFeatureChange = (feature: string, isChecked: boolean, type: "hotel" | "room") => {
+    if (type === "hotel") {
+      setSelectedHotelFeatures(prev => 
+        isChecked 
+          ? [...prev, feature] 
+          : prev.filter(f => f !== feature)
+      );
+    } else {
+      setSelectedRoomFeatures(prev => 
+        isChecked 
+          ? [...prev, feature] 
+          : prev.filter(f => f !== feature)
+      );
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Hotel Features Section */}
@@ -49,6 +67,8 @@ export default function HotelFeaturesStep() {
         newFeature={newHotelFeature}
         setNewFeature={setNewHotelFeature}
         onSubmit={() => handleSubmitFeature("hotel", newHotelFeature)}
+        selectedFeatures={selectedHotelFeatures}
+        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "hotel")}
       />
       
       {/* Room Features Section */}
@@ -60,6 +80,8 @@ export default function HotelFeaturesStep() {
         newFeature={newRoomFeature}
         setNewFeature={setNewRoomFeature}
         onSubmit={() => handleSubmitFeature("room", newRoomFeature)}
+        selectedFeatures={selectedRoomFeatures}
+        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "room")}
       />
     </div>
   );
@@ -73,6 +95,8 @@ interface FeatureCollapsibleProps {
   newFeature: string;
   setNewFeature: (feature: string) => void;
   onSubmit: () => void;
+  selectedFeatures: string[];
+  onFeatureChange: (feature: string, isChecked: boolean) => void;
 }
 
 function FeatureCollapsible({ 
@@ -82,14 +106,16 @@ function FeatureCollapsible({
   setShowInput,
   newFeature,
   setNewFeature,
-  onSubmit
+  onSubmit,
+  selectedFeatures,
+  onFeatureChange
 }: FeatureCollapsibleProps) {
   return (
     <div>
       <Collapsible className="w-full" defaultOpen={false}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
           <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
-            {title}
+            {title} <span className="text-red-500">*</span>
           </label>
           <ChevronRight className="h-4 w-4" />
         </CollapsibleTrigger>
@@ -101,6 +127,8 @@ function FeatureCollapsible({
                   <input 
                     type="checkbox" 
                     className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                    checked={selectedFeatures.includes(feature)}
+                    onChange={(e) => onFeatureChange(feature, e.target.checked)}
                   />
                   <span className="text-sm">{feature}</span>
                 </label>

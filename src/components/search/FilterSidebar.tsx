@@ -10,6 +10,8 @@ import { CheckboxFilter } from "./CheckboxFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { Theme } from "@/utils/themes";
+import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
+
 interface FilterSidebarProps {
   activeFilters: {
     country: string | null;
@@ -30,16 +32,18 @@ interface FilterSidebarProps {
   handleFilterChange: (filterType: string, value: any) => void;
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
 }
+
 export function FilterSidebar({
   activeFilters,
   handleFilterChange,
   handleArrayFilterChange
 }: FilterSidebarProps) {
-  // Room types, hotel features, etc.
+  // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
-  const hotelFeatures = ["Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", "24/7 Reception", "Room Service"];
-  const roomFeatures = ["Air Conditioning", "TV", "Mini Bar", "Balcony", "Sea View", "Mountain View", "Kitchen", "Workspace"];
+  
+  // Meal options
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Self Catering"];
+  
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
       <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
       

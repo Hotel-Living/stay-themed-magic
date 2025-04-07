@@ -33,4 +33,5 @@ export interface FilterSectionProps {
   };
   availableThemes?: string[];
   useLargerMobileText?: boolean;
+  textColor?: string;
 }

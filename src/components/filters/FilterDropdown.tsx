@@ -18,6 +18,7 @@ interface FilterDropdownProps {
   useBoldLabels: boolean;
   useLargerMobileText?: boolean;
   renderOptions: (type: keyof FilterState, props?: any) => React.ReactNode;
+  textColor?: string;
 }
 
 export const FilterDropdown = ({
@@ -33,7 +34,8 @@ export const FilterDropdown = ({
   compactSpacing,
   useBoldLabels,
   useLargerMobileText = false,
-  renderOptions
+  renderOptions,
+  textColor = "inherit"
 }: FilterDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   
@@ -101,7 +103,7 @@ export const FilterDropdown = ({
         <div className="flex items-center">
           {value ? (
             <>
-              <span className="truncate mr-2 font-bold">
+              <span className="truncate mr-2 font-bold" style={{ color: textColor }}>
                 {getDisplayLabel()}
               </span>
               <button
@@ -112,10 +114,10 @@ export const FilterDropdown = ({
               </button>
             </>
           ) : (
-            <span className={`text-foreground/70 ${useBoldLabels ? 'font-bold' : ''}`}>{label}</span>
+            <span className={`${useBoldLabels ? 'font-bold' : ''}`} style={{ color: textColor }}>{label}</span>
           )}
         </div>
-        <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />
+        <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} style={{ color: textColor }} />
       </button>
       
       {isOpen && (

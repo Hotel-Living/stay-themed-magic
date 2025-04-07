@@ -75,6 +75,7 @@ export function FilterSectionWrapper({
             availableThemes={themeCategories}
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}
+            textColor="#FFFFFF"
           />
           
           <div className="flex justify-center bg-[#981DA1]">
@@ -84,7 +85,7 @@ export function FilterSectionWrapper({
               onClick={handleSearch}
             >
               <Search className="w-4 h-4 mr-2" />
-              Search
+              <span className="text-white">Search</span>
             </Button>
           </div>
         </div>

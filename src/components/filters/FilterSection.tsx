@@ -24,7 +24,8 @@ export const FilterSection = ({
     priceRange: "Price per Month"
   },
   availableThemes = [],
-  useLargerMobileText = false
+  useLargerMobileText = false,
+  textColor = "inherit"
 }: FilterSectionProps) => {
   const [filters, setFilters] = useState<FilterState>({
     themes: [],
@@ -116,6 +117,7 @@ export const FilterSection = ({
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
+        textColor={textColor}
       />
       
       <FilterDropdown
@@ -132,6 +134,7 @@ export const FilterSection = ({
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
+        textColor={textColor}
       />
       
       <FilterDropdown
@@ -157,6 +160,7 @@ export const FilterSection = ({
           toggleThemeCategory,
           useLargerMobileText
         })}
+        textColor={textColor}
       />
       
       <FilterDropdown
@@ -173,6 +177,7 @@ export const FilterSection = ({
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
+        textColor={textColor}
       />
       
       {(showSearchButton || verticalLayout) && (

@@ -29,6 +29,11 @@ export function CategoryFilter({ activeCategory, onChange }: CategoryFilterProps
           />
           <span className="text-sm flex items-center">
             {category.label}
+            <span className="ml-1 flex">
+              {[...Array(parseInt(category.value))].map((_, i) => (
+                <Star key={i} className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+              ))}
+            </span>
           </span>
         </label>
       ))}

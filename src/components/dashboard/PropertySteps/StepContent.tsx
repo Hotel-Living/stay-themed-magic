@@ -2,6 +2,7 @@
 import React from "react";
 import StepOne from "./StepOne";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
+import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import PriceTable from "./PriceTable";
@@ -31,7 +32,14 @@ export default function StepContent({
   return (
     <div className="mb-4">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
-      {currentStep === 2 && <AccommodationTermsStep onValidationChange={onValidationChange} />}
+      {currentStep === 2 && (
+        <>
+          <AccommodationTermsStep onValidationChange={onValidationChange} />
+          <div className="mt-6">
+            <HotelFeaturesStep />
+          </div>
+        </>
+      )}
       {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
       {currentStep === 4 && (
         <div className="space-y-4">

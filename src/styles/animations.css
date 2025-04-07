@@ -22,6 +22,11 @@
     animation: pulse-glow 2s infinite alternate;
   }
 
+  /* Pure yellow text without glow */
+  .pure-yellow-text {
+    color: #FFFF00;
+  }
+
   @keyframes text-shine {
     0% {
       background-position: 0% 50%;

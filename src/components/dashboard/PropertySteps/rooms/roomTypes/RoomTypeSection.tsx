@@ -1,18 +1,8 @@
 
 import React from "react";
-import { ChevronRight } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
-import {
-  Accordion
-} from "@/components/ui/accordion";
-import RoomTypeDialog from "../RoomTypeDialog";
-import RoomTypeList from "./RoomTypeList";
-import AddRoomTypeButton from "./AddRoomTypeButton";
-import { useRoomTypes } from "./useRoomTypes";
+import RoomTypeContent from "./RoomTypeContent";
+import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
+import { useRoomTypeSection } from "./useRoomTypeSection";
 
 interface RoomTypeSectionProps {
   onValidationChange: (isValid: boolean) => void;
@@ -35,44 +25,18 @@ export default function RoomTypeSection({
     setDialogOpen,
     handleAddRoomType,
     handleDeleteRoomType
-  } = useRoomTypes();
-
-  // Notify parent when room types change
-  React.useEffect(() => {
-    if (roomTypes.length > 0) {
-      onValidationChange(true);
-    }
-  }, [roomTypes, onValidationChange]);
+  } = useRoomTypeSection(onValidationChange);
 
   const mainContent = (
-    <>
-      {/* Available Types of Rooms Accordion */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium mb-3 uppercase">AVAILABLE TYPES OF ROOMS</h3>
-        <Accordion type="single" collapsible className="w-full">
-          <RoomTypeList 
-            roomTypes={roomTypes} 
-            selectedStayLengths={selectedStayLengths}
-            selectedUnit={selectedUnit}
-            onDelete={handleDeleteRoomType}
-          />
-        </Accordion>
-      </div>
-      
-      {/* Add Room Type Button */}
-      <div className="mb-6">
-        <Accordion type="single" collapsible className="w-full">
-          <AddRoomTypeButton onOpenDialog={() => setDialogOpen(true)} />
-        </Accordion>
-      </div>
-      
-      <RoomTypeDialog 
-        isOpen={dialogOpen} 
-        onClose={() => setDialogOpen(false)} 
-        onAdd={handleAddRoomType}
-        availableStayLengths={selectedStayLengths}
-      />
-    </>
+    <RoomTypeContent
+      roomTypes={roomTypes}
+      selectedStayLengths={selectedStayLengths}
+      selectedUnit={selectedUnit}
+      dialogOpen={dialogOpen}
+      setDialogOpen={setDialogOpen}
+      handleAddRoomType={handleAddRoomType}
+      handleDeleteRoomType={handleDeleteRoomType}
+    />
   );
 
   if (!showHeader) {
@@ -81,17 +45,9 @@ export default function RoomTypeSection({
 
   return (
     <div className={`${fullWidth ? "w-full" : ""}`}>
-      <Collapsible className="w-full">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <label className="block text-sm font-medium text-foreground/90 uppercase">
-            {title}
-          </label>
-          <ChevronRight className="h-4 w-4" />
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          {mainContent}
-        </CollapsibleContent>
-      </Collapsible>
+      <CollapsibleRoomTypeSection title={title}>
+        {mainContent}
+      </CollapsibleRoomTypeSection>
     </div>
   );
 }

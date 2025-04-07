@@ -26,6 +26,9 @@ export default function PreferredWeekdaySection() {
         <ChevronRight className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
+        <p className="mb-3 text-sm bg-fuchsia-800/20 p-2 rounded">
+          <strong>Note:</strong> Monday is selected as the default check-in/out day. This helps standardize your property management.
+        </p>
         <div className="grid grid-cols-7 gap-2 mt-2">
           {weekdays.map(day => (
             <label key={day} className="flex flex-col items-center">

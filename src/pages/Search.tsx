@@ -45,30 +45,60 @@ export default function Search() {
     category: null
   });
 
+  // Parse URL parameters when the page loads
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    // Process search params and update filters as needed
+    const newFilters = { ...activeFilters };
+    
+    // Update filters based on URL parameters
+    if (searchParams.has('country')) newFilters.country = searchParams.get('country');
+    if (searchParams.has('month')) newFilters.month = searchParams.get('month');
+    if (searchParams.has('price')) newFilters.priceRange = Number(searchParams.get('price'));
+    if (searchParams.has('theme')) {
+      // Handle theme differently since it's an object
+      const themeId = searchParams.get('theme');
+      // This would need to be enhanced to fetch the actual theme object
+      newFilters.theme = { id: themeId || '', name: themeId || '' } as Theme;
+    }
+    
+    setActiveFilters(newFilters);
+    
+    // Update the filters in the useHotels hook for real-time filtering
+    updateFilters({
+      country: newFilters.country,
+      month: newFilters.month,
+      theme: newFilters.theme,
+      priceRange: newFilters.priceRange
+    });
   }, [location.search]);
 
+  // Handle filter changes
   const handleFilterChange = (filterType: string, value: any) => {
     setActiveFilters(prev => ({ ...prev, [filterType]: value }));
-    // Update the filters in useHotels hook if needed
+    
+    // Real-time filtering: Update the filters in the useHotels hook
+    updateFilters({ [filterType]: value });
   };
 
+  // Handle array filter changes (checkboxes)
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
     setActiveFilters(prev => {
       const currentValues = prev[filterType as keyof typeof prev] as string[] || [];
-      if (isChecked) {
-        return { ...prev, [filterType]: [...currentValues, value] };
-      } else {
-        return { ...prev, [filterType]: currentValues.filter(v => v !== value) };
-      }
+      const newValues = isChecked 
+        ? [...currentValues, value]
+        : currentValues.filter(v => v !== value);
+        
+      return { ...prev, [filterType]: newValues };
     });
-    // Update the filters in useHotels hook if needed
+    
+    // Real-time filtering: Update the useHotels hook with the new array values
+    const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
+    const newValues = isChecked 
+      ? [...currentValues, value]
+      : currentValues.filter(v => v !== value);
+      
+    updateFilters({ [filterType]: newValues });
   };
-
-  // Filter hotels based on activeFilters
-  const filteredHotels = hotels || [];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -85,7 +115,9 @@ export default function Search() {
           </div>
           <div className="w-full md:w-3/4">
             <SearchResultsList 
-              filteredHotels={filteredHotels}
+              filteredHotels={hotels || []}
+              isLoading={loading}
+              error={error}
             />
           </div>
         </div>

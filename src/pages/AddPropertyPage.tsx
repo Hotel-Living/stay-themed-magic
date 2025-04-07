@@ -1,21 +1,36 @@
+
 import React from 'react';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import AddProperty from "@/components/dashboard/AddProperty";
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import { getDashboardTabs } from "@/components/hotel-dashboard/TabConfiguration";
+
 export default function AddPropertyPage() {
-  return <div className="min-h-screen flex flex-col">
+  // Get dashboard tabs configuration
+  const tabs = getDashboardTabs();
+
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">PROPERTY MANAGEMENT</h1>
-          
-          <div className="lg:col-span-3">
-            <AddProperty />
+        <DashboardLayout 
+          activeTab="properties" 
+          tabs={tabs}
+          setActiveTab={() => {}}
+        >
+          <div className="container max-w-6xl mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-8">PROPERTY MANAGEMENT</h1>
+            
+            <div className="lg:col-span-3">
+              <AddProperty />
+            </div>
           </div>
-        </div>
+        </DashboardLayout>
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

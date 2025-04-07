@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -6,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const {
@@ -21,7 +19,6 @@ export function Navbar() {
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
-
   const handleLogout = async () => {
     try {
       if (isMenuOpen) {
@@ -38,7 +35,6 @@ export function Navbar() {
       }
       console.log("Attempting to sign out from Navbar...");
       await signOut();
-
       setTimeout(() => {
         if (window.location.pathname !== '/login') {
           console.log("Forcing redirect to login page");
@@ -62,7 +58,6 @@ export function Navbar() {
     }
     return "/user-dashboard";
   };
-
   return <header className="bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <Logo />
@@ -74,19 +69,15 @@ export function Navbar() {
           <Link to="/login" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Login
           </Link>
-          {isLoggedIn || isDevelopment ? (
-            <>
+          {isLoggedIn || isDevelopment ? <>
               <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
                 <User className="w-3 h-3" />
                 My Account
               </Link>
-              {!isDevelopment && (
-                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+              {!isDevelopment && <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
                   Logout
-                </button>
-              )}
-            </>
-          ) : null}
+                </button>}
+            </> : null}
           <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             FAQ
           </Link>
@@ -111,24 +102,18 @@ export function Navbar() {
           <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             Login
           </Link>
-          {isLoggedIn || isDevelopment ? (
-            <>
+          {isLoggedIn || isDevelopment ? <>
               <Link to={getMyAccountUrl()} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
                 <User className="w-4 h-4" />
                 My Account
               </Link>
-              {!isDevelopment && (
-                <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+              {!isDevelopment && <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
                   Logout
-                </button>
-              )}
-            </>
-          ) : null}
+                </button>}
+            </> : null}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
-          <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            Hotel Dashboard
-          </Link>
+          
         </nav>
       </div>
     </header>;

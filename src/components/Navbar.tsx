@@ -64,11 +64,20 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
+          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+            FAQ
+          </Link>
           <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Register
           </Link>
           <Link to="/login" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Login
+          </Link>
+          <Link to="/affinity-stays" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+            Affinity Stays?
+          </Link>
+          <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+            Hotels
           </Link>
           {isLoggedIn || isDevelopment ? <>
               <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
@@ -79,15 +88,6 @@ export function Navbar() {
                   Logout
                 </button>}
             </> : null}
-          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            FAQ
-          </Link>
-          <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            Hotels
-          </Link>
-          <Link to="/affinity-stays" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            Affinity Stays
-          </Link>
           {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
@@ -103,11 +103,20 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            FAQ
+          </Link>
           <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             Register
           </Link>
           <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             Login
+          </Link>
+          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Affinity Stays?
+          </Link>
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+            Hotels
           </Link>
           {isLoggedIn || isDevelopment ? <>
               <Link to={getMyAccountUrl()} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
@@ -118,9 +127,6 @@ export function Navbar() {
                   Logout
                 </button>}
             </> : null}
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
-          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Affinity Stays</Link>
           
           {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (

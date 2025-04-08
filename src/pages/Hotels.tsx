@@ -39,7 +39,7 @@ export default function Hotels() {
               <TrendingUp className="h-6 w-6 text-yellow-300" />
             </div>
             
-            {/* Zero risk section */}
+            {/* Zero risk section - UPDATED WITH CHECK ICONS */}
             <div className="space-y-4 py-6 mb-12 bg-[#460F54]/40 rounded-lg px-4">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <CheckCircle className="h-6 w-6 text-green-400" />
@@ -47,13 +47,45 @@ export default function Hotels() {
                 <CheckCircle className="h-6 w-6 text-green-400" />
               </div>
               
-              <p className="text-xl text-center text-white font-bold">Zero risk. Zero upfront cost. Zero monthly fees</p>
-              <p className="text-xl text-center text-white font-bold">You don't have to do a thing</p>
-              <p className="text-xl text-center text-white font-bold">You don't change a thing</p>
-              <p className="text-xl text-center text-white font-bold">You just sell your empty rooms</p>
+              <div className="space-y-3 max-w-md mx-auto">
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">Zero risk</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">Zero effort</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">Zero upfront cost</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">Zero monthly fees</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">You don't change a thing</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">You don't do a thing</p>
+                </div>
+                
+                <div className="flex items-center gap-3 bg-[#6a0a95]/40 rounded-lg py-2 px-4">
+                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                  <p className="text-lg text-left text-white font-bold">You just make HUGE PROFITS from your USUALLY EMPTY ROOMS</p>
+                </div>
+              </div>
             </div>
             
-            {/* Facts section - left aligned with icons */}
+            {/* Facts section - UPDATED TEXT */}
             <div className="pt-6 border-t border-yellow-300/30 mb-12 bg-[#860493]/30 rounded-lg p-6">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center">
                 <Star className="h-6 w-6 text-yellow-300 mr-2" /> 
@@ -64,28 +96,28 @@ export default function Hotels() {
                   <div className="bg-[#6a0a95] rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                     <span className="text-lg text-white font-bold">1</span>
                   </div>
-                  <p className="text-xl text-left text-white font-bold">The secret is to keep 100% occupancy year-round</p>
+                  <p className="text-xl text-left text-white font-bold">100% occupancy year-round is the secret</p>
                 </div>
                 
                 <div className="flex items-start">
                   <div className="bg-[#6a0a95] rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                     <span className="text-lg text-white font-bold">2</span>
                   </div>
-                  <p className="text-xl text-left text-white font-bold">After you hit break-even, every room is almost pure profit</p>
+                  <p className="text-xl text-left text-white font-bold">After break-even, empty rooms are the goldmine</p>
                 </div>
                 
                 <div className="flex items-start">
                   <div className="bg-[#6a0a95] rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                     <span className="text-lg text-white font-bold">3</span>
                   </div>
-                  <p className="text-xl text-left text-white font-bold">10 empty rooms a day = 3,600 profits lost every year</p>
+                  <p className="text-xl text-left text-white font-bold">10 empty rooms on average per day? = 3,600 lost profits every year</p>
                 </div>
                 
                 <div className="flex items-start">
                   <div className="bg-[#6a0a95] rounded-full w-8 h-8 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
                     <span className="text-lg text-white font-bold">4</span>
                   </div>
-                  <p className="text-xl text-left text-white font-bold">Selling them at a reduced price add up a true goldmine</p>
+                  <p className="text-xl text-left text-white font-bold">Selling them off at a reduced price make a fortune</p>
                 </div>
               </div>
             </div>

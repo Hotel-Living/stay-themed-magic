@@ -19,7 +19,19 @@ export function HotelStarfield() {
     const stars: {x: number; y: number; z: number; radius: number; color: string}[] = [];
     const starCount = 500; // Number of stars
     const maxDepth = 1000; // Maximum depth
-    const speed = 0.5; // Speed of travel
+    const speed = 0.6; // Speed increased by 20% (from 0.5 to 0.6)
+    
+    // Color palette for stars
+    const starColors = [
+      'rgba(255, 255, 255, 0.9)', // White
+      'rgba(173, 216, 230, 0.9)', // Light blue
+      'rgba(255, 223, 186, 0.9)', // Light orange
+      'rgba(221, 160, 221, 0.9)', // Plum
+      'rgba(175, 238, 238, 0.9)', // Pale turquoise
+      'rgba(240, 128, 128, 0.9)', // Light coral
+      'rgba(152, 251, 152, 0.9)', // Pale green
+      'rgba(255, 182, 193, 0.9)'  // Light pink
+    ];
     
     // Generate random stars
     for (let i = 0; i < starCount; i++) {
@@ -28,7 +40,7 @@ export function HotelStarfield() {
         y: Math.random() * canvas.height - canvas.height / 2,
         z: Math.random() * maxDepth,
         radius: 1 + Math.random() * 1.5,
-        color: `rgba(255, 255, 255, ${0.5 + Math.random() * 0.5})`
+        color: starColors[Math.floor(Math.random() * starColors.length)]
       });
     }
     
@@ -49,6 +61,8 @@ export function HotelStarfield() {
           star.z = maxDepth;
           star.x = Math.random() * canvas.width - canvas.width / 2;
           star.y = Math.random() * canvas.height - canvas.height / 2;
+          // Assign a new random color when star resets
+          star.color = starColors[Math.floor(Math.random() * starColors.length)];
         }
         
         // Calculate star position with perspective

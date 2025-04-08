@@ -31,7 +31,8 @@ export function HeroSection() {
           </h2>
         </div>
         
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0" : "mb-0.5"} bg-white/15 rounded-lg backdrop-blur-sm p-2`}>
+        {/* Widened the container box with the four slogans for mobile */}
+        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-white/15 rounded-lg backdrop-blur-sm p-2`}>
           <div className={`${isMobile ? "space-y-3 pl-0" : "space-y-0.125"}`}>
             {["Get rid of household chores!", "Select hotels upon favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`}>
                 <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
@@ -57,3 +58,4 @@ export function HeroSection() {
       </div>
     </section>;
 }
+

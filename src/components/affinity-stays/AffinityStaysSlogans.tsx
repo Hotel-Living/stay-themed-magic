@@ -13,7 +13,7 @@ export function AffinityStaysSlogans() {
             />
           </div>
           
-          <p className="text-xl text-white mb-2">Created by</p>
+          <p className="text-sm text-white mb-2">Created by</p> {/* 30% smaller text (from text-xl to text-sm) */}
           
           {/* Hotel-Living logo with text */}
           <div className="flex justify-center">
@@ -35,13 +35,14 @@ export function AffinityStaysSlogans() {
           <p className="text-right text-white mt-2 mr-12 text-sm">Howard Schultz</p>
         </div>
         
-        {/* Slogans - reduced size by 40% */}
-        <div className="space-y-4 py-4">
-          <p className="text-xl text-center text-white font-bold">Not just a stay. A shared world</p>
-          <p className="text-xl text-center text-white font-bold">Meet. Share. Belong</p>
-          <p className="text-xl text-center text-white font-bold">Stay with those who get you</p>
-          <p className="text-xl text-center text-white font-bold">Tired of random? Choose your people</p>
-          <p className="text-xl text-center text-white font-bold">Stay, and connect through what you love</p>
+        {/* Added more vertical spacing (mb-8) before slogans */}
+        <div className="space-y-4 py-4 mb-8">
+          {/* Added animate-pulse-glow class for yellow glow effect to all slogans */}
+          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Not just a stay. A shared world</p>
+          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Meet. Share. Belong</p>
+          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Stay with those who get you</p>
+          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Tired of random? Choose your people</p>
+          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Stay, and connect through what you love</p>
         </div>
       </div>
     </>;

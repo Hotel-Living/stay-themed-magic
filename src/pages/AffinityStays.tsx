@@ -4,7 +4,6 @@ import { Footer } from "@/components/Footer";
 import { AffinityStaysSlogans } from "@/components/affinity-stays/AffinityStaysSlogans";
 import { AffinityAccordionMenu } from "@/components/affinity-stays/AffinityAccordionMenu";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-import { HotelFootnote } from "@/components/hotels/HotelFootnote";
 
 export default function AffinityStays() {
   return (
@@ -17,11 +16,6 @@ export default function AffinityStays() {
           {/* Main content */}
           <AffinityStaysSlogans />
           <AffinityAccordionMenu />
-          
-          {/* Hotel Footnote - Fixed spacing and improved visibility */}
-          <div className="w-full flex justify-center my-6">
-            <HotelFootnote />
-          </div>
         </div>
       </main>
       

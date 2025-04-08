@@ -45,7 +45,7 @@ export function FeaturedHotelsSection({ filters }: FeaturedHotelsSectionProps) {
         <div className="container max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-6">Featured Hotels</h2>
           <div className="text-center py-12 glass-card rounded-2xl p-8">
-            <p className="text-red-400 mb-4">Error loading hotels: {error}</p>
+            <p className="text-red-400 mb-4">Error loading hotels</p>
             <p className="text-fuchsia-400">Please try again later.</p>
           </div>
         </div>

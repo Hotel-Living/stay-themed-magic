@@ -37,7 +37,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       <Card className="p-8 text-center">
         <h3 className="text-xl font-semibold mb-2">Error Loading Results</h3>
         <p className="text-muted-foreground">
-          {error.message || "Something went wrong while loading hotels"}
+          Please, search again. Thanks
         </p>
       </Card>
     );

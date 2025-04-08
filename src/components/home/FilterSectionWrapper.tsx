@@ -38,7 +38,7 @@ export function FilterSectionWrapper({
   ];
   
   const handleFilterChange = (newFilters: FilterState) => {
-    setActiveFilters(newFilters);
+    setActiveFilters(prev => ({ ...prev, ...newFilters }));
     onFilterChange(newFilters);
   };
 

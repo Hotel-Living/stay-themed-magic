@@ -85,6 +85,9 @@ export function Navbar() {
           <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Hotels
           </Link>
+          <Link to="/affinity-stays" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+            Affinity Stays
+          </Link>
           {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
@@ -117,6 +120,7 @@ export function Navbar() {
             </> : null}
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">FAQ</Link>
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Hotels</Link>
+          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">Affinity Stays</Link>
           
           {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (

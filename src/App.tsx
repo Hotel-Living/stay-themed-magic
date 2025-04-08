@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -20,6 +21,7 @@ import FAQ from './pages/FAQ';
 import FAQTravelers from './pages/FAQTravelers';
 import FAQHotels from './pages/FAQHotels';
 import Hotels from './pages/Hotels';
+import AffinityStays from './pages/AffinityStays';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
@@ -56,6 +58,7 @@ function App() {
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/affinity-stays" element={<AffinityStays />} />
                   <Route path="/hoteles" element={<Navigate to="/hotels" />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/faq-travelers" element={<FAQTravelers />} />

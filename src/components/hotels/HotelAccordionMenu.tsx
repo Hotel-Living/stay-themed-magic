@@ -1,5 +1,6 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { CheckCircle } from "lucide-react";
 
 export function HotelAccordionMenu() {
   return (
@@ -15,7 +16,7 @@ export function HotelAccordionMenu() {
             <p className="text-lg">Zero monthly fees</p>
             <p className="text-lg">You don't change a thing</p>
             <p className="text-lg">You don't have to do a thing</p>
-            <p className="text-lg">You just sell your empty rooms</p>
+            <p className="text-lg">You just make HUGE PROFITS from your typically vacant rooms</p>
           </AccordionContent>
         </AccordionItem>
 
@@ -25,7 +26,7 @@ export function HotelAccordionMenu() {
             SOME FACTS
           </AccordionTrigger>
           <AccordionContent className="text-white">
-            <ul className="list-disc pl-5 space-y-2">
+            <ul className="space-y-2">
               <li className="text-lg">100% occupancy year-round is the secret</li>
               <li className="text-lg">After break-even, empty rooms are the goldmine</li>
               <li className="text-lg">10 empty rooms on average per day? = 3,600 lost profits every year</li>
@@ -40,8 +41,8 @@ export function HotelAccordionMenu() {
             WE FILL YOUR HOTEL
           </AccordionTrigger>
           <AccordionContent className="text-white space-y-2">
-            <p className="text-lg">On the smart way: longer stays</p>
-            <p className="text-lg">Fewer check-ins. Bigger returns</p>
+            <p className="text-lg">On the smart way</p>
+            <p className="text-lg">Longer stays + Fewer check-ins = Bigger Returns</p>
           </AccordionContent>
         </AccordionItem>
         

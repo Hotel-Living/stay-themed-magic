@@ -18,7 +18,6 @@ export default function Hotels() {
           {/* Main content container */}
           <div className="text-center mb-12 space-y-6 p-8 bg-gradient-to-br from-[#6a0a95] to-[#460F54] rounded-xl shadow-lg border border-[#ad66a8]/30">
             <HotelSlogans />
-            <ZeroRiskSection />
             <HotelAccordionMenu />
             <HotelFootnote />
           </div>

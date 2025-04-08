@@ -4,7 +4,15 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-white mb-2">AFFINITY STAYS</h1>
+          {/* Replace text with logo */}
+          <div className="flex justify-center mb-2">
+            <img 
+              src="/lovable-uploads/bd7e26b6-3e78-4c2e-8af9-7e1fcea8b588.png" 
+              alt="Affinity Stays Logo" 
+              className="h-24 w-auto"
+            />
+          </div>
+          
           <p className="text-xl text-white mb-2">Created by</p>
           
           {/* Hotel-Living logo with text */}
@@ -18,11 +26,11 @@ export function AffinityStaysSlogans() {
           </div>
         </div>
         
-        {/* Quote section */}
+        {/* Quote section - Modified to create two lines by breaking after "share" */}
         <div className="max-w-2xl mx-auto text-center mb-8">
           <p className="text-white italic text-sm">
-            "When you surround yourself with like-minded people who share a passionate 
-            commitment around a common purpose, anything is possible"
+            "When you surround yourself with like-minded people who share<br />
+            a passionate commitment around a common purpose, anything is possible"
           </p>
           <p className="text-right text-white mt-2 mr-12 text-sm">Howard Schultz</p>
         </div>

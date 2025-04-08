@@ -12,8 +12,8 @@ export default function AffinityStays() {
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-8 relative z-10">
-        <div className="container mx-auto px-4 py-8 flex flex-col items-center">
+      <main className="flex-1 pt-4 relative z-10">
+        <div className="container mx-auto px-4 py-4 flex flex-col items-center">
           {/* Main content */}
           <AffinityStaysSlogans />
           <AffinityAccordionMenu />

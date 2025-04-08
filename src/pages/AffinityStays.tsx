@@ -12,14 +12,14 @@ export default function AffinityStays() {
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 relative z-10">
-        <div className="container mx-auto px-4 py-12 flex flex-col items-center">
+      <main className="flex-1 pt-8 relative z-10">
+        <div className="container mx-auto px-4 py-8 flex flex-col items-center">
           {/* Main content */}
           <AffinityStaysSlogans />
           <AffinityAccordionMenu />
           
           {/* Hotel Footnote - Fixed spacing and improved visibility */}
-          <div className="w-full flex justify-center my-12">
+          <div className="w-full flex justify-center my-6">
             <HotelFootnote />
           </div>
         </div>

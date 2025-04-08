@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FilterState, FilterSectionProps } from "./FilterTypes";
 import { FilterDropdown } from "./FilterDropdown";
@@ -53,7 +53,11 @@ export const FilterSection = ({
   const updateFilter = (key: keyof FilterState, value: any) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
+    
+    // Ensure we're calling the parent's onFilterChange
     onFilterChange(newFilters);
+    
+    // Close the dropdown after selection
     setOpenDropdown(null);
   };
   
@@ -93,6 +97,22 @@ export const FilterSection = ({
   const hasActiveFilters = () => {
     return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
   };
+
+  // Register event listener for updateFilter events
+  useEffect(() => {
+    const handleFilterUpdate = (e: CustomEvent) => {
+      if (e.detail && e.detail.key && e.detail.value !== undefined) {
+        updateFilter(e.detail.key as keyof FilterState, e.detail.value);
+      }
+    };
+
+    // Cast as any because CustomEvent with detail isn't recognized directly
+    document.addEventListener('filter:update', handleFilterUpdate as any);
+    
+    return () => {
+      document.removeEventListener('filter:update', handleFilterUpdate as any);
+    };
+  }, []);
 
   const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]/90' : 'bg-[#5A1876]/80';
   const filterBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]' : 'bg-fuchsia-950/50';
@@ -183,8 +203,9 @@ export const FilterSection = ({
         textColor={textColor}
       />
       
-      {(showSearchButton || verticalLayout) && (
-        <div className={`${verticalLayout ? "mt-5" : compactSpacing ? "mt-1" : "mt-2"} w-full`}>
+      {/* Only show the filter button when specifically requested (NOT in the main FilterSectionWrapper) */}
+      {(showSearchButton && !verticalLayout) && (
+        <div className={`${compactSpacing ? "mt-1" : "mt-2"} w-full`}>
           <FilterButton
             hasActiveFilters={hasActiveFilters()}
             onClearAllFilters={clearAllFilters}

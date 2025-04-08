@@ -82,6 +82,7 @@ export function FilterSectionWrapper({
             textColor="#FFFFFF"
           />
           
+          {/* Only render the purple search button, not both buttons */}
           <div className="flex justify-center bg-[#981DA1]">
             <Button 
               size="sm" 

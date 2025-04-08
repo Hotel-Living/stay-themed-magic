@@ -33,7 +33,7 @@ export default function FAQ() {
                   <Users className="h-6 w-6 text-fuchsia-400" />
                 </div>
                 <CardTitle className={`${isMobile ? "text-2xl" : "text-xl"} text-center`}>For Travelers</CardTitle>
-                <CardDescription className={`text-center ${isMobile ? "text-lg" : ""}`}>
+                <CardDescription className={`text-center ${isMobile ? "text-lg font-bold text-white" : ""}`}>
                   Information for guests looking to book stays
                 </CardDescription>
               </CardHeader>

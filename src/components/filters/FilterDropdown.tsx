@@ -1,27 +1,27 @@
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { ChevronDown, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { FilterState } from "./FilterTypes";
+import { useOnClickOutside } from "@/hooks/use-click-outside";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FilterDropdownProps {
-  type: keyof FilterState;
+  type: string;
   label: string;
   value: any;
   options: any[];
-  onChange: (key: keyof FilterState, value: any) => void;
-  onClear: (key: keyof FilterState) => void;
+  onChange: (key: string, value: any) => void;
+  onClear: (key: string) => void;
   isOpen: boolean;
-  toggleOpen: (type: string) => void;
+  toggleOpen: (dropdown: string) => void;
   filterBgColor: string;
   compactSpacing: boolean;
   useBoldLabels: boolean;
-  useLargerMobileText?: boolean;
-  renderOptions: (type: keyof FilterState, props?: any) => React.ReactNode;
-  textColor?: string;
+  useLargerMobileText: boolean;
+  renderOptions: (type: string, extraProps?: any) => React.ReactNode;
+  textColor: string;
 }
 
-export const FilterDropdown = ({
+export const FilterDropdown: React.FC<FilterDropdownProps> = ({
   type,
   label,
   value,
@@ -33,135 +33,75 @@ export const FilterDropdown = ({
   filterBgColor,
   compactSpacing,
   useBoldLabels,
-  useLargerMobileText = false,
+  useLargerMobileText,
   renderOptions,
-  textColor = "inherit"
-}: FilterDropdownProps) => {
+  textColor
+}) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
-  const getDisplayLabel = () => {
-    if (!value) return null;
-    
-    switch (type) {
-      case 'country':
-        return options.find((c: any) => c.value === value)?.label || value;
-      case 'month':
-        return value.charAt(0).toUpperCase() + value.slice(1);
-      case 'theme':
-        return value.name;
-      case 'priceRange':
-        if (typeof value === 'object' && value !== null) {
-          return `$${value.min} - $${value.max}`;
-        }
-        const priceOption = options.find((p: any) => p.value === value);
-        return priceOption ? priceOption.label : `$${value}`;
-      default:
-        return value;
+  useOnClickOutside(dropdownRef, () => {
+    if (isOpen) {
+      toggleOpen(type);
     }
-  };
+  });
+
+  // Calculate text size with 20% increase for mobile
+  const labelTextSize = useLargerMobileText ? "text-[16px] md:text-sm" : "text-xs";
+  const mobileLabelSize = isMobile ? "text-[16px]" : "";
   
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        toggleOpen("");
-      }
-    };
-    
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [toggleOpen]);
-
-  // Event handler for filter options
-  const handleOptionSelect = (value: any) => {
-    onChange(type, value);
-    toggleOpen(""); // Close dropdown after selection
-  };
-
-  const handleToggleOpen = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleOpen(type);
-  };
-
-  const handleClearClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onClear(type);
-  };
-
-  const labelFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
-  const optionFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
-
   return (
-    <div ref={dropdownRef} className="filter-dropdown-container relative flex-1 min-w-[160px]" onClick={e => e.stopPropagation()}>
-      <button
-        onClick={handleToggleOpen}
-        className={`w-full flex items-center justify-between ${filterBgColor} rounded-lg p-1.5 ${labelFontSize} hover:bg-[#460F54] transition-colors ${compactSpacing ? 'py-1' : ''} shadow-inner border border-white`}
+    <div 
+      ref={dropdownRef} 
+      className={`relative ${compactSpacing ? "py-1" : "py-2"} flex-1 min-w-[120px]`}
+    >
+      <button 
+        className={`
+          flex items-center justify-between w-full rounded-md border border-transparent 
+          ${filterBgColor} ${compactSpacing ? "px-2 py-1" : "px-3 py-2"} 
+          transition-colors hover:bg-fuchsia-950/60
+        `}
+        onClick={() => toggleOpen(type)}
       >
-        <div className="flex items-center">
+        <span 
+          className={`
+            ${useLargerMobileText ? "text-[19px]" : labelTextSize} 
+            ${mobileLabelSize}
+            ${useBoldLabels ? "font-bold" : ""} 
+            ${value ? "text-white" : `${textColor} opacity-90`}
+          `}
+        >
           {value ? (
-            <>
-              <span className="truncate mr-2 font-bold" style={{ color: textColor }}>
-                {getDisplayLabel()}
-              </span>
-              <button
-                onClick={handleClearClick}
-                className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </>
-          ) : (
-            <span className={`${useBoldLabels ? 'font-bold' : ''}`} style={{ color: textColor }}>{label}</span>
+            typeof value === 'object' && value.name ? value.name : value
+          ) : label}
+        </span>
+        <div className="flex items-center gap-1">
+          {value && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onClear(type);
+              }} 
+              className="text-white/70 hover:text-white"
+            >
+              <X className="h-3 w-3" />
+            </button>
           )}
+          <ChevronDown 
+            className={`h-4 w-4 transition-transform text-white/70 ${isOpen ? "transform rotate-180" : ""}`} 
+          />
         </div>
-        <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} style={{ color: textColor }} />
       </button>
       
       {isOpen && (
         <div 
-          className="absolute top-full left-0 right-0 mt-2 p-2 rounded-lg bg-fuchsia-950/95 border border-white shadow-xl backdrop-blur-xl z-10 max-h-[350px] overflow-y-auto"
-          onClick={e => e.stopPropagation()}
+          className={`
+            absolute z-50 top-full left-0 w-full mt-1 bg-fuchsia-950 
+            border border-fuchsia-900/30 rounded-md shadow-lg overflow-hidden
+            max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-fuchsia-800
+          `}
         >
-          <div className="space-y-1">
-            {type === "country" && options.map((country) => (
-              <button
-                key={country.value}
-                onClick={() => handleOptionSelect(country.value)}
-                className={`w-full text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
-              >
-                {country.label}
-              </button>
-            ))}
-
-            {type === "month" && options.map((month) => (
-              <button
-                key={month}
-                onClick={() => handleOptionSelect(month)}
-                className={`text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
-              >
-                {month}
-              </button>
-            ))}
-
-            {type === "theme" && (
-              <div className="grid grid-cols-1">
-                {type === "theme" && renderOptions(type)}
-              </div>
-            )}
-
-            {type === "priceRange" && options.map((price) => (
-              <button
-                key={price.value}
-                onClick={() => handleOptionSelect(price.value)}
-                className={`w-full text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
-              >
-                {price.label}
-              </button>
-            ))}
-          </div>
+          {renderOptions(type)}
         </div>
       )}
     </div>

@@ -17,7 +17,8 @@ export function Footer() {
             </div>
           </div>
           
-          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 max-w-full mx-auto`}>
+          {/* Center footer links horizontally */}
+          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
             <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               FAQ
             </Link>
@@ -63,4 +64,3 @@ export function Footer() {
       </div>
     </footer>;
 }
-

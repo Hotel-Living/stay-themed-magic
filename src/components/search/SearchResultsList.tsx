@@ -1,84 +1,76 @@
 
-import { HotelCard } from "@/components/HotelCard";
-import { Compass } from "lucide-react";
-import { Hotel } from "@/utils/hotels"; // Updated import from the hotels module
+import React from "react";
+import { Hotel } from "@/types/hotel";
+import { Card } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface SearchResultsListProps {
   filteredHotels: Hotel[];
-  isLoading?: boolean;
-  error?: string | null;
+  isLoading: boolean;
+  error: Error | null;
 }
 
-export function SearchResultsList({ filteredHotels, isLoading, error }: SearchResultsListProps) {
-  // If loading, show loading state
+export const SearchResultsList: React.FC<SearchResultsListProps> = ({ 
+  filteredHotels, 
+  isLoading, 
+  error 
+}) => {
   if (isLoading) {
     return (
-      <div className="text-center py-20">
-        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center animate-pulse">
-          <div className="w-10 h-10 bg-fuchsia-400/50 rounded-full"></div>
-        </div>
-        <h3 className="text-xl font-bold mb-2 text-white">Loading hotels...</h3>
-        <p className="text-white/70 mb-6">Please wait while we find your perfect stay.</p>
+      <div className="flex justify-center items-center h-64">
+        <Loader2 className="w-8 h-8 text-primary animate-spin" />
       </div>
     );
   }
-  
-  // If error, show error state with the new friendly message
+
   if (error) {
     return (
-      <div className="text-center py-20">
-        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-900/20 flex items-center justify-center">
-          <span className="text-red-400 text-3xl">!</span>
-        </div>
-        <h3 className="text-xl font-bold mb-2 text-white">No hotels found!</h3>
-        <p className="text-white/70 mb-6">Please, search again. Thanks.</p>
-      </div>
+      <Card className="p-8 text-center">
+        <h3 className="text-xl font-semibold mb-2">Error Loading Results</h3>
+        <p className="text-muted-foreground">
+          {error.message || "Something went wrong while loading hotels"}
+        </p>
+      </Card>
+    );
+  }
+
+  if (filteredHotels.length === 0) {
+    return (
+      <Card className="p-8 text-center">
+        <h3 className="text-xl font-semibold mb-2">No hotels found</h3>
+        <p className="text-xl font-semibold">Please, search again. Thanks</p>
+      </Card>
     );
   }
 
   return (
-    <>
-      <h2 className="text-lg font-bold mb-6 text-white">
-        {filteredHotels.length > 0 
-          ? `Found ${filteredHotels.length} hotels` 
-          : "No hotels match your filters"}
-      </h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredHotels.map(hotel => {
-          // Ensure themes are properly handled - map only if theme exists and has a name
-          const safeThemes = hotel.themes
-            ? hotel.themes
-                .filter(theme => theme && theme.name) // Filter out any null or undefined themes
-                .map(theme => theme) // Just pass the theme object directly
-            : [];
-          
-          return (
-            <HotelCard 
-              key={hotel.id}
-              id={hotel.id}
-              name={hotel.name}
-              city={hotel.city}
-              country={hotel.country}
-              stars={hotel.stars || 0} // Provide default value in case stars is undefined
-              pricePerMonth={hotel.pricePerMonth}
-              themes={safeThemes}
-              image={hotel.mainImage || hotel.images[0]} // Use mainImage or first image if available
-              availableMonths={hotel.availableMonths}
-            />
-          );
-        })}
-      </div>
-      
-      {filteredHotels.length === 0 && !isLoading && !error && (
-        <div className="text-center py-20">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-fuchsia-900/20 flex items-center justify-center">
-            <Compass className="w-10 h-10 text-fuchsia-400" />
-          </div>
-          <h3 className="text-xl font-bold mb-2 text-white">No matching hotels</h3>
-          <p className="text-white/70 mb-6">Try adjusting your filters to find more options.</p>
-        </div>
-      )}
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {filteredHotels.map((hotel) => (
+        <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
+          <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div className="aspect-video bg-muted relative overflow-hidden">
+              <img 
+                src={hotel.thumbnail || "/placeholder.svg"} 
+                alt={hotel.name}
+                className="w-full h-full object-cover"
+              />
+              {hotel.theme && (
+                <div className="absolute bottom-2 left-2 bg-fuchsia-600/90 text-white text-xs px-2 py-1 rounded-full">
+                  {hotel.theme}
+                </div>
+              )}
+            </div>
+            <div className="p-4">
+              <h3 className="font-semibold mb-2 line-clamp-2">{hotel.name}</h3>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">{hotel.location}</span>
+                <span className="font-medium">${hotel.price_per_month}/mo</span>
+              </div>
+            </div>
+          </Card>
+        </Link>
+      ))}
+    </div>
   );
-}
+};

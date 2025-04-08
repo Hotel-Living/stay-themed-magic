@@ -181,7 +181,7 @@ export const FilterSection = ({
       />
       
       {(showSearchButton || verticalLayout) && (
-        <div className={`${verticalLayout ? "mt-3" : compactSpacing ? "mt-1" : "mt-2"} w-full`}>
+        <div className={`${verticalLayout ? "mt-5" : compactSpacing ? "mt-1" : "mt-2"} w-full`}>
           <FilterButton
             hasActiveFilters={hasActiveFilters()}
             onClearAllFilters={clearAllFilters}

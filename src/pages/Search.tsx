@@ -117,7 +117,7 @@ export default function Search() {
             <SearchResultsList 
               filteredHotels={hotels || []}
               isLoading={loading}
-              error={error}
+              error={error instanceof Error ? error : error ? new Error(String(error)) : null}
             />
           </div>
         </div>

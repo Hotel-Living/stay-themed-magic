@@ -1,9 +1,17 @@
 
 import React from "react";
-import { Hotel } from "@/types/hotel";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+
+interface Hotel {
+  id: string;
+  name: string;
+  location: string;
+  price_per_month: number;
+  thumbnail?: string;
+  theme?: string;
+}
 
 interface SearchResultsListProps {
   filteredHotels: Hotel[];

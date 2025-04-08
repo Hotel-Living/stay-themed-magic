@@ -150,7 +150,7 @@ export const FilterSection = ({
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
-        renderOptions={(type) => renderDropdownOptions(type, {
+        renderOptions={(type) => renderDropdownOptions(type as keyof FilterState, {
           filters,
           updateFilter,
           themeQuery,

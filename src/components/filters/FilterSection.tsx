@@ -81,8 +81,11 @@ export const FilterSection = ({
     
     if (filters.country) params.append("country", filters.country);
     if (filters.month) params.append("month", filters.month);
-    if (filters.theme) params.append("theme", filters.theme.id);
+    if (filters.theme && filters.theme.id) params.append("theme", filters.theme.id);
     if (typeof filters.priceRange === 'number') params.append("price", filters.priceRange.toString());
+    
+    // Log active filters before navigating
+    console.log("Search filters applied:", filters);
     
     navigate(`/search?${params.toString()}`);
   };
@@ -108,7 +111,7 @@ export const FilterSection = ({
         label={placeholders.country || "Country"}
         value={filters.country}
         options={availableCountries}
-        onChange={updateFilter}
+        onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "country"}
         toggleOpen={toggleDropdown}
@@ -125,7 +128,7 @@ export const FilterSection = ({
         label={placeholders.month || "Month"}
         value={filters.month}
         options={months}
-        onChange={updateFilter}
+        onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "month"}
         toggleOpen={toggleDropdown}
@@ -142,7 +145,7 @@ export const FilterSection = ({
         label={placeholders.theme || "Theme"}
         value={filters.theme}
         options={availableThemes}
-        onChange={updateFilter}
+        onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "theme"}
         toggleOpen={toggleDropdown}
@@ -168,7 +171,7 @@ export const FilterSection = ({
         label={placeholders.priceRange || "Price per Month"}
         value={filters.priceRange}
         options={priceRanges}
-        onChange={updateFilter}
+        onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
         onClear={clearFilter}
         isOpen={openDropdown === "priceRange"}
         toggleOpen={toggleDropdown}

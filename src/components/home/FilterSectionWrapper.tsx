@@ -46,10 +46,14 @@ export function FilterSectionWrapper({
     // Build query params from activeFilters
     const params = new URLSearchParams();
     
+    // Only add parameters that have values
     if (activeFilters.country) params.append("country", activeFilters.country);
     if (activeFilters.month) params.append("month", activeFilters.month);
-    if (activeFilters.theme) params.append("theme", activeFilters.theme.id);
+    if (activeFilters.theme && activeFilters.theme.id) params.append("theme", activeFilters.theme.id);
     if (typeof activeFilters.priceRange === 'number') params.append("price", activeFilters.priceRange.toString());
+    
+    // Log for debugging
+    console.log("Search with filters:", activeFilters);
     
     // Navigate to search page with filter parameters
     navigate(`/search?${params.toString()}`);

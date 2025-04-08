@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Search } from "lucide-react";
+
 interface FilterButtonProps {
   hasActiveFilters: boolean;
   onClearAllFilters: () => void;
@@ -8,6 +9,7 @@ interface FilterButtonProps {
   searchBgColor: string;
   searchHoverBgColor: string;
 }
+
 export const FilterButton: React.FC<FilterButtonProps> = ({
   hasActiveFilters,
   onClearAllFilters,
@@ -41,10 +43,22 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
     document.body.appendChild(themeDialog);
   };
 
-  return <div className="flex gap-2">
-      {hasActiveFilters && <button onClick={onClearAllFilters} className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors">
+  return <div className="flex gap-2 w-full justify-between">
+      {hasActiveFilters && 
+        <button 
+          onClick={onClearAllFilters} 
+          className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors"
+        >
           Clear All
-        </button>}
+        </button>
+      }
       
+      <button 
+        onClick={onSearch}
+        className={`px-4 py-2 rounded-lg ${searchBgColor} text-white ${searchHoverBgColor} text-sm transition-colors ml-auto`}
+      >
+        <Search className="w-4 h-4 inline mr-1" />
+        Search
+      </button>
     </div>;
 };

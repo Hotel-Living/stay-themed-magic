@@ -16,7 +16,7 @@ export function HotelSlogans() {
         </div>
       </div>
       
-      {/* Single line section - double spacing */}
+      {/* The single line section with the removed line */}
       <div className="py-6 mb-10 flex items-center justify-center space-x-2 bg-[#860493]/40 rounded-lg px-4">
         <TrendingUp className="h-6 w-6 text-yellow-300" />
         <p className="text-xl text-center text-white font-bold">We sell your slow days and keep you in peak season</p>

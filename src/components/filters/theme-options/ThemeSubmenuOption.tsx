@@ -42,6 +42,16 @@ export const ThemeSubmenuOption: React.FC<ThemeSubmenuOptionProps> = ({
       // Handle add option logic
       console.log("Adding custom option:", newOptionName);
       
+      // Create a new theme object with the custom name
+      const customOption = {
+        id: `custom-${newOptionName.toLowerCase().replace(/\s+/g, '-')}`,
+        name: newOptionName,
+        category: 'Custom'
+      };
+      
+      // Update filter with the new custom theme
+      updateFilter("theme", customOption);
+      
       // Reset state
       setNewOptionName("");
       setIsAddingOption(false);
@@ -57,7 +67,7 @@ export const ThemeSubmenuOption: React.FC<ThemeSubmenuOptionProps> = ({
             placeholder="Enter custom theme"
             value={newOptionName}
             onChange={(e) => setNewOptionName(e.target.value)}
-            className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs text-white"
+            className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs text-white placeholder:text-white/60"
           />
           <div className="flex space-x-2">
             <Button 

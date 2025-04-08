@@ -138,7 +138,7 @@ const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOption
                   placeholder="Enter new option"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs"
+                  className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs text-white"
                 />
                 <div className="flex space-x-2">
                   <Button 
@@ -152,20 +152,20 @@ const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOption
                     size="sm" 
                     variant="outline" 
                     onClick={() => setIsAdding(false)}
-                    className="bg-transparent text-xs py-0.5 px-2"
+                    className="bg-transparent text-xs py-0.5 px-2 text-white"
                   >
                     Cancel
                   </Button>
                 </div>
               </div>
             ) : (
-              <div 
+              <button 
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsAdding(true)}
               >
                 <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
                 <span className="text-xs text-fuchsia-400">Add other</span>
-              </div>
+              </button>
             )}
           </div>
         </div>

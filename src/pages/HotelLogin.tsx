@@ -68,6 +68,7 @@ export default function HotelLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your business email"
                 Icon={Mail}
+                inputClassName="text-white placeholder:text-white/60"
               />
               
               <PasswordField
@@ -78,6 +79,7 @@ export default function HotelLogin() {
                 placeholder="Enter your password"
                 showPassword={showPassword}
                 toggleShowPassword={toggleShowPassword}
+                inputClassName="text-white placeholder:text-white/60"
               />
               
               <div className="flex items-center justify-between">

@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Trash2 } from "lucide-react";
 import ThemeSubmenu from "./ThemeSubmenu";
 import DirectThemes from "./DirectThemes";
 import CategorySubcategory from "./CategorySubcategory";
@@ -87,6 +87,21 @@ const ThemeCategory = ({
     }
   };
 
+  const handleDeleteTheme = (themeId: string, themeName: string) => {
+    // Remove the theme from custom themes
+    setCustomThemes(prev => prev.filter(theme => theme.id !== themeId));
+    
+    // Deselect the theme if onThemeSelect is provided
+    if (onThemeSelect) {
+      onThemeSelect(themeId, false);
+    }
+    
+    toast({
+      title: "Theme deleted",
+      description: `${themeName} has been removed from ${category.category}`
+    });
+  };
+
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20 mb-1">
       <div 
@@ -104,9 +119,9 @@ const ThemeCategory = ({
       {isOpen && (
         <div className="mt-1 space-y-0.5">
           {/* Render direct themes if they exist */}
-          {category.themes && category.themes.length > 0 && (
+          {category.themes && category.themes.filter(theme => !theme.isAddOption).length > 0 && (
             <DirectThemes 
-              themes={category.themes} 
+              themes={category.themes.filter(theme => !theme.isAddOption)} 
               onThemeSelect={onThemeSelect} 
             />
           )}
@@ -115,19 +130,29 @@ const ThemeCategory = ({
           {customThemes.length > 0 && (
             <div className="space-y-1 mt-1 pl-2">
               {customThemes.map((theme) => (
-                <div key={theme.id} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={theme.id}
-                    onChange={(e) => onThemeSelect && onThemeSelect(theme.id, e.target.checked)}
-                    className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
-                  />
-                  <label
-                    htmlFor={theme.id}
-                    className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                <div key={theme.id} className="flex items-center justify-between py-0.5">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={theme.id}
+                      defaultChecked={true}
+                      onChange={(e) => onThemeSelect && onThemeSelect(theme.id, e.target.checked)}
+                      className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                    />
+                    <label
+                      htmlFor={theme.id}
+                      className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                    >
+                      {theme.name}
+                    </label>
+                  </div>
+                  <button 
+                    onClick={() => handleDeleteTheme(theme.id, theme.name)}
+                    className="ml-2 text-fuchsia-400 hover:text-fuchsia-200"
+                    aria-label={`Delete ${theme.name}`}
                   >
-                    {theme.name}
-                  </label>
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               ))}
             </div>
@@ -149,7 +174,7 @@ const ThemeCategory = ({
             <CategorySubcategory
               key={subcategory.name}
               name={subcategory.name}
-              themes={subcategory.themes}
+              themes={subcategory.themes?.filter(theme => !theme.isAddOption)}
               submenus={subcategory.submenus}
               openSubmenus={openSubmenus}
               toggleSubmenu={toggleSubmenu}

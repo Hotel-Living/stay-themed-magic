@@ -13,7 +13,7 @@ const AddNewCategoryButton = ({ onClick }: AddNewCategoryButtonProps) => {
       onClick={onClick}
     >
       <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-      <span className="text-xs text-fuchsia-400">Add new category</span>
+      <span className="text-xs text-fuchsia-400">Add new</span>
     </button>
   );
 };

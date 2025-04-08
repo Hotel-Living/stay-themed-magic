@@ -1,9 +1,10 @@
 
 import React, { useState } from "react";
-import { ChevronRight, PlusCircle } from "lucide-react";
+import { ChevronRight, PlusCircle, Trash2 } from "lucide-react";
 import ThemeOption from "./ThemeOption";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface ThemeSubmenuProps {
   submenu: {
@@ -23,23 +24,46 @@ interface ThemeSubmenuProps {
 const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSubmenuProps) => {
   const [isAddingOption, setIsAddingOption] = useState(false);
   const [newOptionName, setNewOptionName] = useState("");
+  const [customOptions, setCustomOptions] = useState<Array<{id: string, name: string}>>([]);
+  const { toast } = useToast();
 
   const handleAddOption = () => {
     if (newOptionName.trim()) {
       // Create a new custom option ID based on submenu name and option name
       const customOptionId = `${submenu.name.toLowerCase().replace(/\s+/g, '-')}-custom-${newOptionName.toLowerCase().replace(/\s+/g, '-')}`;
       
-      console.log(`New option added to ${submenu.name}: ${newOptionName} with ID: ${customOptionId}`);
+      // Add to local state to display it
+      setCustomOptions(prev => [...prev, { id: customOptionId, name: newOptionName }]);
       
       // If onThemeSelect is provided, select this new custom option
       if (onThemeSelect) {
         onThemeSelect(customOptionId, true);
       }
       
+      toast({
+        title: "Option added",
+        description: `${newOptionName} has been added to ${submenu.name}`
+      });
+      
       // Reset the form
       setNewOptionName("");
       setIsAddingOption(false);
     }
+  };
+
+  const handleDeleteOption = (optionId: string, optionName: string) => {
+    // Remove the option from custom options
+    setCustomOptions(prev => prev.filter(option => option.id !== optionId));
+    
+    // Deselect the option if onThemeSelect is provided
+    if (onThemeSelect) {
+      onThemeSelect(optionId, false);
+    }
+    
+    toast({
+      title: "Option deleted",
+      description: `${optionName} has been removed from ${submenu.name}`
+    });
   };
 
   return (
@@ -58,16 +82,49 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
 
       {isOpen && (
         <div className="mt-1 space-y-0.5">
-          {submenu.options.map((option) => (
+          {submenu.options.filter(option => !option.isAddOption).map((option) => (
             <div
               key={option.id}
-              className={`bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10 ${
-                option.isAddOption ? "flex items-center" : ""
-              }`}
+              className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10"
             >
               <ThemeOption option={option} onThemeSelect={onThemeSelect} />
             </div>
           ))}
+          
+          {/* Display custom options */}
+          {customOptions.length > 0 && (
+            <div className="space-y-1 mt-1">
+              {customOptions.map((option) => (
+                <div 
+                  key={option.id}
+                  className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10 flex items-center justify-between"
+                >
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={option.id}
+                      defaultChecked={true}
+                      onChange={(e) => onThemeSelect && onThemeSelect(option.id, e.target.checked)}
+                      className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                    />
+                    <label
+                      htmlFor={option.id}
+                      className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                    >
+                      {option.name}
+                    </label>
+                  </div>
+                  <button 
+                    onClick={() => handleDeleteOption(option.id, option.name)}
+                    className="ml-2 text-fuchsia-400 hover:text-fuchsia-200"
+                    aria-label={`Delete ${option.name}`}
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           
           {/* Add new option button/input */}
           {isAddingOption ? (
@@ -78,6 +135,7 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
                 value={newOptionName}
                 onChange={(e) => setNewOptionName(e.target.value)}
                 className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm text-white"
+                autoFocus
               />
               <div className="flex space-x-2">
                 <Button 
@@ -103,7 +161,7 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
               onClick={() => setIsAddingOption(true)}
             >
               <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-              <span className="text-xs text-fuchsia-400">Add new option</span>
+              <span className="text-xs text-fuchsia-400">Add new</span>
             </button>
           )}
         </div>

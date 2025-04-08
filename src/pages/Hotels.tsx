@@ -18,10 +18,14 @@ export default function Hotels() {
       
       <main className="flex-1 pt-16 relative z-10">
         <div className="container mx-auto px-4 py-12 flex flex-col items-center">
-          {/* Main content - removed the blue container */}
+          {/* Main content */}
           <HotelSlogans />
           <HotelAccordionMenu />
-          <HotelFootnote />
+          
+          {/* Hotel Footnote - Fixed spacing and improved visibility */}
+          <div className="w-full flex justify-center my-12">
+            <HotelFootnote />
+          </div>
           
           {/* Grid of cards */}
           <HotelCards />

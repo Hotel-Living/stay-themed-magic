@@ -1,7 +1,5 @@
-
 export function AffinityStaysSlogans() {
-  return (
-    <>
+  return <>
       {/* Main header and quote section */}
       <div className="space-y-6 mb-12">
         <div className="text-center mb-8">
@@ -11,11 +9,7 @@ export function AffinityStaysSlogans() {
           {/* Hotel-Living logo with text */}
           <div className="bg-[#860493] inline-block p-4 rounded mt-4">
             <div className="flex items-center justify-center">
-              <img 
-                src="/lovable-uploads/54d58baa-9138-487d-9e07-cab7391535e8.png" 
-                alt="Hotel-Living Logo" 
-                className="h-16"
-              />
+              <img alt="Hotel-Living Logo" src="/lovable-uploads/92795dbf-94a8-4af8-bfd8-e653eb7b43eb.png" className="h-16 object-scale-down" />
             </div>
           </div>
         </div>
@@ -38,6 +32,5 @@ export function AffinityStaysSlogans() {
           <p className="text-3xl text-center text-white font-bold">Stay, and connect through what you love</p>
         </div>
       </div>
-    </>
-  );
+    </>;
 }

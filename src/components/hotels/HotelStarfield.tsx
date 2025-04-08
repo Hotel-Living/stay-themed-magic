@@ -46,7 +46,8 @@ export function HotelStarfield() {
     
     // Animation function
     function animate() {
-      context.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      // Changed to rich purple background color with opacity
+      context.fillStyle = 'rgba(100, 10, 150, 0.2)';
       context.fillRect(0, 0, canvas.width, canvas.height);
       
       // Update and draw stars
@@ -102,7 +103,7 @@ export function HotelStarfield() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-[-1]"
-      style={{ background: 'transparent', pointerEvents: 'none' }}
+      style={{ background: 'rgb(90, 20, 120)', pointerEvents: 'none' }}
     />
   );
 }

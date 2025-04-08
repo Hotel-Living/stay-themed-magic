@@ -7,11 +7,7 @@ export function AffinityStaysSlogans() {
           <p className="text-xl text-white">Created by</p>
           
           {/* Hotel-Living logo with text */}
-          <div className="bg-[#860493] inline-block p-4 rounded mt-4">
-            <div className="flex items-center justify-center">
-              <img alt="Hotel-Living Logo" src="/lovable-uploads/92795dbf-94a8-4af8-bfd8-e653eb7b43eb.png" className="h-16 object-scale-down" />
-            </div>
-          </div>
+          
         </div>
         
         {/* Quote section */}

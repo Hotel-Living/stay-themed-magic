@@ -11,7 +11,7 @@ interface UseHotelsProps {
 export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
   const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [filters, setFilters] = useState<FilterState>(
     initialFilters || createDefaultFilters()
   );
@@ -27,7 +27,7 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
         setHotels(data);
       } catch (err: any) {
         console.error("Unexpected error:", err);
-        setError(`An unexpected error occurred: ${err.message}`);
+        setError(err instanceof Error ? err : new Error(`An unexpected error occurred: ${err}`));
       } finally {
         setLoading(false);
       }

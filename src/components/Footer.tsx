@@ -43,15 +43,18 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
-            {/* Increased size by 30% and made text bold for mobile */}
-            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
-              Hotels
+            {/* Added question mark to Affinity Stays and put Hotels as last element */}
+            <Link to="/affinity-stays" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
+              Affinity Stays?
             </Link>
             <Link to="/signup" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
               Register
             </Link>
             <Link to="/login" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
               Sign In
+            </Link>
+            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
+              Hotels
             </Link>
           </div>
         </div>

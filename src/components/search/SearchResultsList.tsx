@@ -34,21 +34,21 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
 
   if (error) {
     return (
-      <Card className="p-8 text-center">
-        <h3 className="text-xl font-semibold mb-2">Error Loading Results</h3>
-        <p className="text-muted-foreground">
+      <div className="border border-fuchsia-400 rounded-lg p-4 text-center bg-[#460F54]/50 backdrop-blur-sm">
+        <h3 className="text-xl font-semibold mb-2 text-white">Error Loading Results</h3>
+        <p className="text-white">
           Please, search again. Thanks
         </p>
-      </Card>
+      </div>
     );
   }
 
   if (filteredHotels.length === 0) {
     return (
-      <Card className="p-8 text-center">
-        <h3 className="text-xl font-semibold mb-2">No hotels found</h3>
-        <p className="text-xl font-semibold">Please, search again. Thanks</p>
-      </Card>
+      <div className="border border-fuchsia-400 rounded-lg p-4 text-center bg-[#460F54]/50 backdrop-blur-sm">
+        <h3 className="text-xl font-semibold mb-2 text-white">No hotels found</h3>
+        <p className="text-white">Please, search again. Thanks</p>
+      </div>
     );
   }
 
@@ -81,4 +81,4 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       ))}
     </div>
   );
-};
+}

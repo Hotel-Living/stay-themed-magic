@@ -5,13 +5,26 @@ export function AffinityAccordionMenu() {
   return (
     <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
       <Accordion type="single" collapsible className="w-full">
+        {/* NEW MENU ITEM */}
+        <AccordionItem value="item-0" className="border-b border-fuchsia-400/30">
+          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
+            WHAT ARE AFFINITY HOTELS?
+          </AccordionTrigger>
+          <AccordionContent className="text-white">
+            <p className="text-lg">Affinity Hotels are a registered concept created exclusively by hotel-living.com.</p>
+            <p className="text-lg mt-2">This unique idea—protected by copyright—was designed by us to bring people together around shared interests.</p>
+            <p className="text-lg mt-2">Affinity Hotels are a lot more than just travel: it's a new way for society to connect, for individuals to meet like-minded people, and for many to break through social isolation.</p>
+            <p className="text-lg mt-2">Affinity Hotels make it easy to find common ground, community, and real human connection.</p>
+          </AccordionContent>
+        </AccordionItem>
+
         {/* MENU 1 */}
         <AccordionItem value="item-1" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             TIRED OF TRAVELING ALONE? WANT TO MEET PEOPLE WHO JUST GET YOU?
           </AccordionTrigger>
           <AccordionContent className="text-white">
-            <p className="text-lg">Affinity Hotels by Hotel Diving are the perfect way to connect with others who share your passions—from astronomy to opera, from salsa dancing to stamp collecting. No awkward small talk—just real connection from day one.</p>
+            <p className="text-lg">Affinity Hotels by Hotel-Living.com are the perfect way to connect with others who share your passions—from astronomy to opera, from salsa dancing to stamp collecting. No awkward small talk—just real connection from day one.</p>
           </AccordionContent>
         </AccordionItem>
 
@@ -35,7 +48,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
         
-        {/* MENU 4 */}
         <AccordionItem value="item-4" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             DOES THE HOTEL ORGANIZE ACTIVITIES?
@@ -45,7 +57,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
         
-        {/* MENU 5 */}
         <AccordionItem value="item-5" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             IS THERE ALWAYS A GROUP LEADER OR HOST?
@@ -55,7 +66,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
         
-        {/* MENU 6 */}
         <AccordionItem value="item-6" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             IS THE HOTEL DECORATED AROUND THE THEME?
@@ -65,7 +75,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
         
-        {/* MENU 7 */}
         <AccordionItem value="item-7" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             HOW LONG ARE THE STAYS?
@@ -75,17 +84,15 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 8 */}
         <AccordionItem value="item-8" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             CAN I TRY DIFFERENT AFFINITIES IN DIFFERENT HOTELS?
           </AccordionTrigger>
           <AccordionContent className="text-white">
-            <p className="text-lg">Absolutely. You can explore different passions in different locations, all within the Affinity Hotels by Hotel Diving network.</p>
+            <p className="text-lg">Absolutely. You can explore different passions in different locations, all within the Affinity Hotels by Hotel-Living.com network.</p>
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 9 */}
         <AccordionItem value="item-9" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             WHAT IF I JUST WANT TO RELAX?
@@ -95,7 +102,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 10 */}
         <AccordionItem value="item-10" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             IS THIS FOR SOLO TRAVELERS ONLY?
@@ -105,17 +111,15 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 11 */}
         <AccordionItem value="item-11" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             WHAT IF I DON'T FIND A THEME THAT FITS MY INTEREST YET?
           </AccordionTrigger>
           <AccordionContent className="text-white">
-            <p className="text-lg">Hotel Diving's Affinity Hotels are just getting started, and new themes will be added regularly as more hotels join the network. Even if your perfect theme isn't there yet, every stay is already designed for people who want to meet others and enjoy meaningful time together.</p>
+            <p className="text-lg">Hotel-Living.com's Affinity Hotels are just getting started, and new themes will be added regularly as more hotels join the network. Even if your perfect theme isn't there yet, every stay is already designed for people who want to meet others and enjoy meaningful time together.</p>
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 12 */}
         <AccordionItem value="item-12" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             ARE THE AFFINITY THEMES AVAILABLE AT EVERY HOTEL RIGHT NOW?
@@ -125,7 +129,6 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 13 */}
         <AccordionItem value="item-13" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
             CAN I STILL MAKE CONNECTIONS EVEN IF THERE'S NO SPECIFIC THEME?

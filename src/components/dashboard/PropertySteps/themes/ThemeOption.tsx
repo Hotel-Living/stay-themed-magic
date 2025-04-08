@@ -31,11 +31,17 @@ const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOption
       // Here you would typically add the new item to your state/database
       console.log(`New item added: ${newItemName}`);
       
+      // Create a new custom theme ID
+      const customThemeId = `${option.id}-custom-${newItemName.toLowerCase().replace(/\s+/g, '-')}`;
+      
+      // If onThemeSelect is provided, select this new custom option
+      if (onThemeSelect) {
+        onThemeSelect(customThemeId, true);
+      }
+      
       // Reset the form
       setNewItemName("");
       setIsAdding(false);
-      
-      // You can trigger any parent callback here if needed
     }
   };
 
@@ -130,44 +136,43 @@ const ThemeOption = ({ option, onThemeSelect, selectedThemes = [] }: ThemeOption
               onSelect={(isChecked) => handleSuboptionChange(suboption, isChecked)}
             />
           ))}
-          <div className="flex flex-col w-full">
-            {isAdding ? (
-              <div className="space-y-2">
-                <Input
-                  type="text"
-                  placeholder="Enter new option"
-                  value={newItemName}
-                  onChange={(e) => setNewItemName(e.target.value)}
-                  className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs text-white"
-                />
-                <div className="flex space-x-2">
-                  <Button 
-                    size="sm" 
-                    onClick={handleAddItem}
-                    className="bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-xs py-0.5 px-2"
-                  >
-                    Add
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    onClick={() => setIsAdding(false)}
-                    className="bg-transparent text-xs py-0.5 px-2 text-white"
-                  >
-                    Cancel
-                  </Button>
-                </div>
+          {/* "Add other" functionality */}
+          {isAdding ? (
+            <div className="space-y-2">
+              <Input
+                type="text"
+                placeholder="Enter new option"
+                value={newItemName}
+                onChange={(e) => setNewItemName(e.target.value)}
+                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-xs text-white"
+              />
+              <div className="flex space-x-2">
+                <Button 
+                  size="sm" 
+                  onClick={handleAddItem}
+                  className="bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-xs py-0.5 px-2"
+                >
+                  Add
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => setIsAdding(false)}
+                  className="bg-transparent text-xs py-0.5 px-2 text-white"
+                >
+                  Cancel
+                </Button>
               </div>
-            ) : (
-              <button 
-                className="flex items-center cursor-pointer"
-                onClick={() => setIsAdding(true)}
-              >
-                <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
-                <span className="text-xs text-fuchsia-400">Add other</span>
-              </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button 
+              className="flex items-center cursor-pointer"
+              onClick={() => setIsAdding(true)}
+            >
+              <PlusCircle className="w-3 h-3 mr-1 text-fuchsia-400" />
+              <span className="text-xs text-fuchsia-400">Add other</span>
+            </button>
+          )}
         </div>
       )}
     </>

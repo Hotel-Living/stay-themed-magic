@@ -68,8 +68,15 @@ const ThemeCategory = ({
 
   const handleAddCategory = () => {
     if (newCategoryName.trim()) {
-      // Here you would typically add the new category to your state/database
-      console.log(`New category added: ${newCategoryName}`);
+      // Create a custom category ID
+      const customCategoryId = `${category.category.toLowerCase().replace(/\s+/g, '-')}-custom-${newCategoryName.toLowerCase().replace(/\s+/g, '-')}`;
+      
+      console.log(`New category added: ${newCategoryName} with ID: ${customCategoryId}`);
+      
+      // If onThemeSelect is provided, select this new custom category
+      if (onThemeSelect) {
+        onThemeSelect(customCategoryId, true);
+      }
       
       // Reset the form
       setNewCategoryName("");
@@ -164,7 +171,7 @@ const ThemeCategory = ({
                 placeholder="Enter category name"
                 value={newCategoryName}
                 onChange={(e) => setNewCategoryName(e.target.value)}
-                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm"
+                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm text-white"
               />
               <div className="flex space-x-2">
                 <Button 
@@ -178,20 +185,20 @@ const ThemeCategory = ({
                   size="sm" 
                   variant="outline" 
                   onClick={() => setIsAddingCategory(false)}
-                  className="bg-transparent text-xs"
+                  className="bg-transparent text-xs text-white"
                 >
                   Cancel
                 </Button>
               </div>
             </div>
           ) : (
-            <div 
+            <button 
               className="flex items-center cursor-pointer p-2"
               onClick={() => setIsAddingCategory(true)}
             >
               <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
               <span className="text-xs text-fuchsia-400">Add new category</span>
-            </div>
+            </button>
           )}
         </div>
       )}

@@ -26,8 +26,15 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
 
   const handleAddOption = () => {
     if (newOptionName.trim()) {
-      // Here you would typically add the new option to your state/database
-      console.log(`New option added to ${submenu.name}: ${newOptionName}`);
+      // Create a new custom option ID based on submenu name and option name
+      const customOptionId = `${submenu.name.toLowerCase().replace(/\s+/g, '-')}-custom-${newOptionName.toLowerCase().replace(/\s+/g, '-')}`;
+      
+      console.log(`New option added to ${submenu.name}: ${newOptionName} with ID: ${customOptionId}`);
+      
+      // If onThemeSelect is provided, select this new custom option
+      if (onThemeSelect) {
+        onThemeSelect(customOptionId, true);
+      }
       
       // Reset the form
       setNewOptionName("");
@@ -70,7 +77,7 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
                 placeholder="Enter option name"
                 value={newOptionName}
                 onChange={(e) => setNewOptionName(e.target.value)}
-                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm"
+                className="bg-fuchsia-950/40 border-fuchsia-800/30 text-sm text-white"
               />
               <div className="flex space-x-2">
                 <Button 
@@ -84,20 +91,20 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
                   size="sm" 
                   variant="outline" 
                   onClick={() => setIsAddingOption(false)}
-                  className="bg-transparent text-xs"
+                  className="bg-transparent text-xs text-white"
                 >
                   Cancel
                 </Button>
               </div>
             </div>
           ) : (
-            <div 
+            <button 
               className="flex items-center cursor-pointer p-2"
               onClick={() => setIsAddingOption(true)}
             >
               <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
               <span className="text-xs text-fuchsia-400">Add new option</span>
-            </div>
+            </button>
           )}
         </div>
       )}

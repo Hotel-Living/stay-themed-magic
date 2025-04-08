@@ -16,9 +16,9 @@ export default function Hotels() {
       <Navbar />
       
       <main className="flex-1 pt-16 relative z-10">
-        <div className="container max-w-5xl mx-auto px-4 py-12">
-          {/* Main content container */}
-          <div className="text-center mb-12 space-y-6 p-8 bg-gradient-to-br from-[#6a0a95]/90 to-[#460F54]/90 backdrop-blur-sm rounded-xl shadow-lg border border-[#ad66a8]/30">
+        <div className="container mx-auto px-4 py-12 flex flex-col items-center">
+          {/* Main content container - made narrower and more transparent */}
+          <div className="text-center mb-12 space-y-6 p-8 bg-gradient-to-br from-[#6a0a95]/70 to-[#460F54]/70 backdrop-blur-sm rounded-xl shadow-lg border border-[#ad66a8]/30 max-w-3xl">
             <HotelSlogans />
             <HotelAccordionMenu />
             <HotelFootnote />

@@ -6,6 +6,7 @@ import DirectThemes from "./DirectThemes";
 import CategorySubcategory from "./CategorySubcategory";
 import AddNewCategoryButton from "./AddNewCategoryButton";
 import AddNewCategoryForm from "./AddNewCategoryForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface ThemeCategoryProps {
   category: {
@@ -59,18 +60,26 @@ const ThemeCategory = ({
 }: ThemeCategoryProps) => {
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [customThemes, setCustomThemes] = useState<Array<{id: string, name: string}>>([]);
+  const { toast } = useToast();
 
   const handleAddCategory = () => {
     if (newCategoryName.trim()) {
       // Create a custom category ID
-      const customCategoryId = `${category.category.toLowerCase().replace(/\s+/g, '-')}-custom-${newCategoryName.toLowerCase().replace(/\s+/g, '-')}`;
+      const customThemeId = `custom-${category.category.toLowerCase().replace(/\s+/g, '-')}-${newCategoryName.toLowerCase().replace(/\s+/g, '-')}`;
       
-      console.log(`New category added: ${newCategoryName} with ID: ${customCategoryId}`);
+      // Add to local state to display it
+      setCustomThemes(prev => [...prev, { id: customThemeId, name: newCategoryName }]);
       
       // If onThemeSelect is provided, select this new custom category
       if (onThemeSelect) {
-        onThemeSelect(customCategoryId, true);
+        onThemeSelect(customThemeId, true);
       }
+      
+      toast({
+        title: "Theme added",
+        description: `${newCategoryName} has been added to ${category.category}`
+      });
       
       // Reset the form
       setNewCategoryName("");
@@ -100,6 +109,28 @@ const ThemeCategory = ({
               themes={category.themes} 
               onThemeSelect={onThemeSelect} 
             />
+          )}
+          
+          {/* Render custom themes if any exist */}
+          {customThemes.length > 0 && (
+            <div className="space-y-1 mt-1 pl-2">
+              {customThemes.map((theme) => (
+                <div key={theme.id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={theme.id}
+                    onChange={(e) => onThemeSelect && onThemeSelect(theme.id, e.target.checked)}
+                    className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                  />
+                  <label
+                    htmlFor={theme.id}
+                    className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                  >
+                    {theme.name}
+                  </label>
+                </div>
+              ))}
+            </div>
           )}
           
           {/* Render submenus if they exist */}

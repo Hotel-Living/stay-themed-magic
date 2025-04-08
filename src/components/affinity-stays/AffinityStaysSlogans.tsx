@@ -12,11 +12,11 @@ export function AffinityStaysSlogans() {
         
         {/* Quote section */}
         <div className="max-w-2xl mx-auto text-center mb-12">
-          <p className="text-xl text-white italic">
+          <p className="text-white italic text-sm">
             "When you surround yourself with like-minded people who share a passionate 
             commitment around a common purpose, anything is possible"
           </p>
-          <p className="text-right text-white mt-2 mr-12">Howard Schultz</p>
+          <p className="text-right text-white mt-2 mr-12 text-sm">Howard Schultz</p>
         </div>
         
         {/* Slogans */}

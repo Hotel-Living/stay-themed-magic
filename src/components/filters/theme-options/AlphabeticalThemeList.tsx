@@ -1,9 +1,7 @@
 
 import { useState, useEffect } from "react";
-import { Theme, allThemes } from "@/utils/themes";
+import { Theme } from "@/utils/themes";
 import { ThemeButton } from "./ThemeButton";
-import { ChevronDown } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AlphabeticalThemeListProps {
   activeTheme: Theme | null;
@@ -11,77 +9,63 @@ interface AlphabeticalThemeListProps {
   themeQuery: string;
 }
 
-export const AlphabeticalThemeList = ({ 
+export function AlphabeticalThemeList({ 
   activeTheme, 
-  onChange,
+  onChange, 
   themeQuery 
-}: AlphabeticalThemeListProps) => {
-  const [displayCount, setDisplayCount] = useState(10);
-  const [filteredThemes, setFilteredThemes] = useState<Theme[]>([]);
+}: AlphabeticalThemeListProps) {
+  // These are the affinity categories displayed alphabetically
+  const affinityCategories = [
+    "Art", "Business", "Culture", "Education", "Entertainment", 
+    "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
+    "Languages", "Lifestyle", "Nature", "Personal Development", 
+    "Relationships", "Science and Technology", "Social Impact", "Sports"
+  ];
   
-  // Filter and sort themes alphabetically
+  // Filter affinities based on search query
+  const [filteredAffinities, setFilteredAffinities] = useState(affinityCategories);
+  
   useEffect(() => {
-    let themes = [...allThemes];
-    
-    // Apply search filter if query exists
-    if (themeQuery.trim()) {
-      const lowercaseQuery = themeQuery.toLowerCase();
-      themes = themes.filter(theme => 
-        theme.name.toLowerCase().includes(lowercaseQuery) || 
-        (theme.category && theme.category.toLowerCase().includes(lowercaseQuery))
-      );
+    if (!themeQuery) {
+      setFilteredAffinities(affinityCategories);
+      return;
     }
     
-    // Sort alphabetically by name
-    themes.sort((a, b) => a.name.localeCompare(b.name));
+    const query = themeQuery.toLowerCase();
+    const filtered = affinityCategories.filter(
+      affinity => affinity.toLowerCase().includes(query)
+    );
     
-    setFilteredThemes(themes);
-    // Reset display count when search changes
-    setDisplayCount(10);
+    setFilteredAffinities(filtered);
   }, [themeQuery]);
   
-  const handleLoadMore = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDisplayCount(prev => prev + 10);
+  // Handle theme selection
+  const handleThemeClick = (affinity: string) => {
+    onChange({ 
+      id: affinity.toLowerCase(), 
+      name: affinity,
+      category: ""  // We don't need category for this simplified list
+    });
   };
   
-  const handleThemeClick = (e: React.MouseEvent, theme: Theme) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onChange(theme);
-  };
-  
-  const visibleThemes = filteredThemes.slice(0, displayCount);
-  const hasMoreThemes = displayCount < filteredThemes.length;
-  
-  if (filteredThemes.length === 0) {
-    return <div className="text-center py-3 text-sm text-fuchsia-300">No themes found</div>;
+  if (filteredAffinities.length === 0) {
+    return (
+      <div className="text-center py-2 text-sm text-fuchsia-300">
+        No affinities match your search
+      </div>
+    );
   }
   
   return (
-    <div className="mt-2">
-      <ScrollArea className="h-[280px] pr-2">
-        <div className="space-y-1">
-          {visibleThemes.map((theme) => (
-            <ThemeButton
-              key={theme.id}
-              theme={theme}
-              isActive={activeTheme?.id === theme.id}
-              onClick={(e) => handleThemeClick(e, theme)}
-            />
-          ))}
-          
-          {hasMoreThemes && (
-            <button
-              onClick={handleLoadMore}
-              className="w-full flex items-center justify-center py-2 mt-1 text-sm text-fuchsia-300 hover:text-fuchsia-200 transition-colors"
-            >
-              Show more <ChevronDown className="ml-1 h-4 w-4" />
-            </button>
-          )}
-        </div>
-      </ScrollArea>
+    <div className="grid grid-cols-1 gap-1 mt-2">
+      {filteredAffinities.map(affinity => (
+        <ThemeButton
+          key={affinity}
+          theme={{ id: affinity.toLowerCase(), name: affinity, category: "" }}
+          isActive={activeTheme?.name === affinity}
+          onClick={() => handleThemeClick(affinity)}
+        />
+      ))}
     </div>
   );
-};
+}

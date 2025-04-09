@@ -7,7 +7,7 @@ export function AffinityStaysSlogans() {
           {/* Updated logo with new green and yellow image - made 400% bigger */}
           <div className="flex justify-center mb-2">
             <img 
-              src="/lovable-uploads/fcb14431-76ce-4d2e-8965-d02ccb3b8bb4.png" 
+              src="/lovable-uploads/c0764ceb-5efd-4fa6-92f9-770560644e37.png" 
               alt="Affinity Stays Logo" 
               className="h-40 w-auto" // Increased from h-10 to h-40 (400% bigger)
             />

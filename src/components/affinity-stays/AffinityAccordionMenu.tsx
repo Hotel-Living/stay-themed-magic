@@ -1,9 +1,6 @@
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
 export function AffinityAccordionMenu() {
-  return (
-    <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
+  return <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
       <Accordion type="single" collapsible className="w-full">
         {/* NEW MENU ITEM */}
         <AccordionItem value="item-0" className="border-b border-fuchsia-400/30">
@@ -34,7 +31,7 @@ export function AffinityAccordionMenu() {
             What exactly is an Affinity Hotel?
           </AccordionTrigger>
           <AccordionContent className="text-white">
-            <p className="text-lg">It's a hotel where everyone staying shares a common interest. Whether it's jazz, gardening, philosophy, or photography, you'll find people who speak your language—no matter where you're from.</p>
+            <p className="text-lg">It's a Hotel-Living hotel where everyone staying shares a common interest. Whether it's jazz, gardening, philosophy, or photography, you'll find people who speak your language—no matter where you're from.</p>
           </AccordionContent>
         </AccordionItem>
         
@@ -138,6 +135,5 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>
-  );
+    </div>;
 }

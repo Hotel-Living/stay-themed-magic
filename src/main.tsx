@@ -15,4 +15,7 @@ supabase.channel('public:reviews')
   })
   .subscribe();
 
+// Added console log to verify the application is running correctly
+console.log('Application starting...');
+
 createRoot(document.getElementById("root")!).render(<App />);

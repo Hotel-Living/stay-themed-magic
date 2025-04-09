@@ -151,10 +151,10 @@ export default function FAQTravelers() {
             {faqCategories.map(category => <TabsContent key={category.id} value={category.id} className="customer-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
                   {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-xl" : "text-2xl"}`}>
-                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-3xl" : "text-2xl"}`}>{faq.question}</h2>
+                      <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}>
+                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>{faq.question}</h2>
                       </AccordionTrigger>
-                      <AccordionContent className="px-4 pb-4 pt-0 bg-[#5A0363]">
+                      <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
                         <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>{faq.answer}</p>
                       </AccordionContent>
                     </AccordionItem>)}

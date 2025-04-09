@@ -4,19 +4,19 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Affinity Stays logo */}
+          {/* Updated Affinity Stays logo */}
           <div className="flex justify-center mb-2">
             <img 
-              src="/lovable-uploads/1ad400e0-4421-4568-9217-859786412ea0.png" 
+              src="/lovable-uploads/0143058c-8fff-4da1-92a4-c00ad1b52595.png" 
               alt="Affinity Stays Logo" 
               style={{ width: '250px', height: 'auto' }}
             />
           </div>
           
-          {/* Removed "Created by" text and Hotel-Living logo */}
+          {/* "Created by" text and Hotel-Living logo were already removed */}
         </div>
         
-        {/* Quote section - Modified to create two lines by breaking after "share" */}
+        {/* Quote section */}
         <div className="max-w-2xl mx-auto text-center mb-8">
           <p className="text-white italic text-sm">
             "When you surround yourself with like-minded people who share<br />
@@ -25,7 +25,7 @@ export function AffinityStaysSlogans() {
           <p className="text-right text-white mt-2 mr-12 text-sm">Howard Schultz</p>
         </div>
         
-        {/* Added more vertical spacing (mb-8) before slogans */}
+        {/* Slogans */}
         <div className="space-y-4 py-4 mb-8">
           {/* Added animate-pulse-glow class for yellow glow effect to all slogans */}
           <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Not just a stay. A shared world</p>

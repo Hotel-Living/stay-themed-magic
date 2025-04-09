@@ -68,7 +68,7 @@ export function FilterSectionWrapper({
             placeholders={{
               month: "Month?",
               country: "Country?",
-              theme: "Theme?",
+              theme: "Affinity?",
               priceRange: "Price per Month?"
             }} 
             useCollapsibleThemes={false} 

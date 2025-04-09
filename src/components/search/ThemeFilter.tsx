@@ -19,7 +19,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   };
 
   return (
-    <FilterItem title="THEME">
+    <FilterItem title="AFFINITY">
       <div 
         className="bg-fuchsia-950/30 rounded-lg p-2" 
         onClick={handleContainerClick}

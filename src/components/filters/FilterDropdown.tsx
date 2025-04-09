@@ -46,9 +46,9 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
     }
   });
 
-  // Calculate text size with 20% increase for mobile
-  const labelTextSize = useLargerMobileText ? "text-[16px] md:text-sm" : "text-xs";
-  const mobileLabelSize = isMobile ? "text-[16px]" : "";
+  // Match the filter label text size to the search button (regular text size)
+  const labelTextSize = "text-base"; // Changed to match the search button text size
+  const mobileLabelSize = isMobile ? "text-base" : "";
   
   return (
     <div 
@@ -65,7 +65,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       >
         <span 
           className={`
-            ${useLargerMobileText ? "text-[19px]" : labelTextSize} 
+            ${labelTextSize}
             ${mobileLabelSize}
             ${useBoldLabels ? "font-bold" : ""} 
             ${value ? "text-white" : `${textColor} opacity-90`}

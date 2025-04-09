@@ -39,7 +39,7 @@ export const ThemeSearchInput: React.FC<ThemeSearchInputProps> = ({
       
       <input
         type="text"
-        placeholder="Search themes..."
+        placeholder="Search affinities..." // Changed from "Search themes..."
         value={themeQuery}
         onChange={handleInputChange}
         onClick={handleInputClick}

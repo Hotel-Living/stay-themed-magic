@@ -4,12 +4,12 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Updated logo with new green and yellow image - made 400% bigger */}
+          {/* Updated logo with new image - width set to match Hotel-Living logo */}
           <div className="flex justify-center mb-2">
             <img 
-              src="/lovable-uploads/c0764ceb-5efd-4fa6-92f9-770560644e37.png" 
+              src="/lovable-uploads/1ad400e0-4421-4568-9217-859786412ea0.png" 
               alt="Affinity Stays Logo" 
-              className="h-40 w-auto" // Increased from h-10 to h-40 (400% bigger)
+              style={{ width: '250px', height: 'auto' }} // Set to match Hotel-Living logo width
             />
           </div>
           

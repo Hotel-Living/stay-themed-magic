@@ -1,8 +1,10 @@
 
 import React from "react";
 import { FilterState } from "./FilterTypes";
-import { ThemeOptions } from "./ThemeOptions";
-import { availableCountries, months, priceRanges } from "./FilterUtils";
+import { CountryOptions } from "./dropdown-options/CountryOptions";
+import { MonthOptions } from "./dropdown-options/MonthOptions";
+import { ThemeOptionsWrapper } from "./dropdown-options/ThemeOptionsWrapper";
+import { PriceOptions } from "./dropdown-options/PriceOptions";
 
 interface ThemeOptionsProps {
   filters: FilterState;
@@ -24,145 +26,19 @@ export const renderDropdownOptions = (
 
   switch (type) {
     case "country":
-      return renderCountryOptions(type, optionFontSize);
+      return <CountryOptions type={type} fontSize={optionFontSize} />;
     case "month":
-      return renderMonthOptions(type, optionFontSize);
+      return <MonthOptions type={type} fontSize={optionFontSize} />;
     case "theme":
-      if (props) {
-        return renderThemeOptions(props);
-      }
-      return renderSimpleThemeOptions(type, optionFontSize);
+      return <ThemeOptionsWrapper props={props} type={type} fontSize={optionFontSize} />;
     case "priceRange":
-      return renderPriceOptions(type, optionFontSize);
+      return <PriceOptions type={type} fontSize={optionFontSize} />;
     default:
       return null;
   }
 };
 
-const renderCountryOptions = (type: keyof FilterState, fontSize: string) => {
-  return availableCountries.map((country) => (
-    <button
-      key={country.value}
-      onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-        detail: { key: type, value: country.value } 
-      }))}
-      className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`} 
-    >
-      {country.label}
-    </button>
-  ));
-};
-
-const renderMonthOptions = (type: keyof FilterState, fontSize: string) => {
-  return (
-    <div className="grid grid-cols-2">
-      {months.map((month) => (
-        <button
-          key={month}
-          onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-            detail: { key: type, value: month } 
-          }))}
-          className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
-        >
-          {month}
-        </button>
-      ))}
-    </div>
-  );
-};
-
-const renderSimpleThemeOptions = (type: keyof FilterState, fontSize: string) => {
-  const themeCategories = [
-    "Art", "Business", "Culture", "Education", "Entertainment", 
-    "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
-    "Languages", "Lifestyle", "Nature", "Personal Development", 
-    "Relationships", "Science and Technology", "Social Impact", "Sports"
-  ];
-  
-  return (
-    <div className="grid grid-cols-1">
-      {themeCategories.map((category) => (
-        <button
-          key={category}
-          onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-            detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
-          }))}
-          className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
-        >
-          {category}
-        </button>
-      ))}
-    </div>
-  );
-};
-
-const renderThemeOptions = (props: ThemeOptionsProps) => {
-  const { 
-    filters, 
-    updateFilter, 
-    themeQuery, 
-    setThemeQuery, 
-    useCollapsibleThemes, 
-    openThemeCategory, 
-    toggleThemeCategory,
-    useLargerMobileText
-  } = props;
-
-  if (!useCollapsibleThemes) {
-    const themeCategories = [
-      "Art", "Business", "Culture", "Education", "Entertainment", 
-      "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
-      "Languages", "Lifestyle", "Nature", "Personal Development", 
-      "Relationships", "Science and Technology", "Social Impact", "Sports"
-    ];
-    
-    const optionFontSize = useLargerMobileText ? 'text-base' : 'text-sm';
-    
-    return (
-      <div className="grid grid-cols-1">
-        {themeCategories.map((category) => (
-          <button
-            key={category}
-            onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-              detail: { key: 'theme', value: { id: category.toLowerCase(), name: category } } 
-            }))}
-            className={`text-left px-3 py-2 rounded-md ${optionFontSize} font-bold transition-colors hover:bg-[#460F54]`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-    );
-  }
-  
-  return (
-    <ThemeOptions
-      themeQuery={themeQuery}
-      setThemeQuery={setThemeQuery}
-      activeTheme={filters.theme}
-      updateFilter={updateFilter}
-      useCollapsibleThemes={useCollapsibleThemes}
-      openThemeCategory={openThemeCategory}
-      toggleThemeCategory={toggleThemeCategory}
-      useLargerMobileText={useLargerMobileText}
-    />
-  );
-};
-
-const renderPriceOptions = (type: keyof FilterState, fontSize: string) => {
-  return priceRanges.map((price) => (
-    <button
-      key={price.value}
-      onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-        detail: { key: type, value: price.value } 
-      }))}
-      className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`}
-    >
-      {price.label}
-    </button>
-  ));
-};
-
+// Handle filter update events
 document.addEventListener('updateFilter', (e: any) => {
   const customEvent = e as CustomEvent<{ key: keyof FilterState; value: any }>;
   const filterDropdown = document.querySelector('.filter-dropdown-container');

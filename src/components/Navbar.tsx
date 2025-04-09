@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -6,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const {
@@ -20,6 +20,7 @@ export function Navbar() {
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
+
   const handleLogout = async () => {
     try {
       if (isMenuOpen) {
@@ -52,19 +53,19 @@ export function Navbar() {
     }
   };
 
-  // Determine the My Account URL based on user type
   const getMyAccountUrl = () => {
     if (isHotelOwner) {
       return "/hotel-dashboard";
     }
     return "/user-dashboard";
   };
+
   return <header className="bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+          <Link to="/faq-travelers" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             FAQ
           </Link>
           <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
@@ -88,7 +89,6 @@ export function Navbar() {
                   Logout
                 </button>}
             </> : null}
-          {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
               Hotel Dashboard
@@ -103,7 +103,7 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+          <Link to="/faq-travelers" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             FAQ
           </Link>
           <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
@@ -128,7 +128,6 @@ export function Navbar() {
                 </button>}
             </> : null}
           
-          {/* Only show Hotel Dashboard if user is logged in and is a hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
               Hotel Dashboard

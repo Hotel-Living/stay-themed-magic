@@ -4,26 +4,16 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Updated logo with new image - width set to match Hotel-Living logo */}
+          {/* Affinity Stays logo */}
           <div className="flex justify-center mb-2">
             <img 
               src="/lovable-uploads/1ad400e0-4421-4568-9217-859786412ea0.png" 
               alt="Affinity Stays Logo" 
-              style={{ width: '250px', height: 'auto' }} // Set to match Hotel-Living logo width
+              style={{ width: '250px', height: 'auto' }}
             />
           </div>
           
-          <p className="text-sm text-white mb-2">Created by</p> {/* 30% smaller text (from text-xl to text-sm) */}
-          
-          {/* Hotel-Living logo with text */}
-          <div className="flex justify-center">
-            <img 
-              src="/lovable-uploads/2a32d624-2872-4a4c-9bd3-b46915ed74ba.png" 
-              alt="Hotel-Living Logo" 
-              className="h-10"
-              style={{ width: 'auto', maxWidth: '250px' }}
-            />
-          </div>
+          {/* Removed "Created by" text and Hotel-Living logo */}
         </div>
         
         {/* Quote section - Modified to create two lines by breaking after "share" */}

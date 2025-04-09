@@ -4,12 +4,12 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Updated logo with new green and yellow image */}
+          {/* Updated logo with new green and yellow image - made 400% bigger */}
           <div className="flex justify-center mb-2">
             <img 
               src="/lovable-uploads/fcb14431-76ce-4d2e-8965-d02ccb3b8bb4.png" 
               alt="Affinity Stays Logo" 
-              className="h-10 w-auto" // Keeping the same size as before
+              className="h-40 w-auto" // Increased from h-10 to h-40 (400% bigger)
             />
           </div>
           

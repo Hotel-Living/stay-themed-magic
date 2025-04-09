@@ -4,17 +4,16 @@ export function AffinityStaysSlogans() {
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
-          {/* Updated logo with new green and yellow image - sized 150% larger than Hotel-Living logo */}
+          {/* Updated logo with new green and yellow image - made 400% bigger */}
           <div className="flex justify-center mb-2">
             <img 
               src="/lovable-uploads/c0764ceb-5efd-4fa6-92f9-770560644e37.png" 
               alt="Affinity Stays Logo" 
-              style={{ width: '375px', height: 'auto' }} // Setting width to 150% of Hotel-Living logo (250px * 150% = 375px)
+              className="h-40 w-auto" // Increased from h-10 to h-40 (400% bigger)
             />
           </div>
           
-          {/* Text "Created by" */}
-          <p className="text-sm text-white mb-2">Created by</p>
+          <p className="text-sm text-white mb-2">Created by</p> {/* 30% smaller text (from text-xl to text-sm) */}
           
           {/* Hotel-Living logo with text */}
           <div className="flex justify-center">
@@ -22,7 +21,7 @@ export function AffinityStaysSlogans() {
               src="/lovable-uploads/2a32d624-2872-4a4c-9bd3-b46915ed74ba.png" 
               alt="Hotel-Living Logo" 
               className="h-10"
-              style={{ width: '250px', maxWidth: '250px' }}
+              style={{ width: 'auto', maxWidth: '250px' }}
             />
           </div>
         </div>
@@ -38,7 +37,7 @@ export function AffinityStaysSlogans() {
         
         {/* Added more vertical spacing (mb-8) before slogans */}
         <div className="space-y-4 py-4 mb-8">
-          {/* Slogans with yellow glow effect */}
+          {/* Added animate-pulse-glow class for yellow glow effect to all slogans */}
           <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Not just a stay. A shared world</p>
           <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Meet. Share. Belong</p>
           <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow">Stay with those who get you</p>

@@ -2,7 +2,8 @@
 import { Accordion } from "@/components/ui/accordion";
 import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
 import { MenuItemText } from "./accordion/MenuItemText";
-import { hotelAccordionMenuItems, comparisonItems } from "./accordion/menuData";
+import { hotelAccordionMenuItems } from "./accordion/accordionData";
+import { comparisonItems } from "./accordion/comparisonData";
 import { ComparisonTable } from "./accordion/ComparisonTable";
 
 export function HotelAccordionMenu() {

@@ -1,11 +1,5 @@
-
 import React from 'react';
-
-interface ComparisonItem {
-  id: number;
-  traditional: string;
-  hotelLiving: string;
-}
+import { ComparisonItem } from './types';
 
 interface ComparisonTableProps {
   items: ComparisonItem[];

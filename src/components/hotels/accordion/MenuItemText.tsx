@@ -9,7 +9,7 @@ export function MenuItemText({ items }: MenuItemTextProps) {
       {items.map((item, index) => (
         <p 
           key={index} 
-          className="text-base font-extrabold text-center mb-4" // Reduced size by 20%, increased boldness by 30%
+          className={`text-base font-extrabold text-center ${index === items.length - 1 ? 'mb-8' : 'mb-4'}`} // Added more margin to the last item
         >
           {item}
         </p>

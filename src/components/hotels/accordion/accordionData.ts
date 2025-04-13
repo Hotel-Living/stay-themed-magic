@@ -1,4 +1,3 @@
-
 import { MenuItemContent } from './types';
 
 export const hotelAccordionMenuItems: MenuItemContent[] = [
@@ -27,20 +26,22 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     id: "take-market-back",
     title: "Take the market back",
     content: [
-      "Take back full revenue",
-      "Apartment rentals stole our guests",
-      "Stole our bookings. Our profits",
-      "And we provide jobs, pay taxes, build community",
-      "They filled their spaces by emptying our rooms",
-      "Enough is enough. Hotel living is our comeback",
-      "Longer stays. Lower prices. Higher profits",
-      "Hotel living and our invincible weapon:",
-      "Our nearly 100%-profit rooms after break-even",
-      "Beat them at their own game: full service",
-      "Smarter stays. Apartment prices. Hotel services",
-      "Safety. Warmth. Great atmosphere",
-      "Everything guests miss. Everything they crave",
-      "Let's bring them back — and boost our profits",
+      "Let´s finally take back our full revenue",
+      "For years and years apartment rentals have taken our guests",
+      "Our bookings. Our profits",
+      "They have filled their spaces by emptying our rooms",
+      "But we provide jobs. Pay taxes. Build community",
+      "An old-fashioned business model prevented us from reacting",
+      "But we have lost more than enough",
+      "Hotel-Living puts in action our unsurpassed weapon:",
+      "Our nearly 100%-profit 40% vacant rooms after break-even",
+      "Let´s beat rental apartments at their own game:",
+      "Longer stays. Savvy prices, plus…",
+      "Safety. Services. Warmth. Category",
+      "No isolation. Atmosphere. Convenience",
+      "Everything they miss while we have vacant rooms",
+      "1,6 billion vacant room/nights every year. Producing losses",
+      "Let's bring them back. Let´s boost our profits",
       "Let's reclaim our place and our future"
     ]
   },

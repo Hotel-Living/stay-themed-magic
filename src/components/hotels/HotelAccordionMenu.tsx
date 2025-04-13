@@ -2,7 +2,8 @@
 import { Accordion } from "@/components/ui/accordion";
 import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
 import { MenuItemText } from "./accordion/MenuItemText";
-import { hotelAccordionMenuItems } from "./accordion/menuData";
+import { hotelAccordionMenuItems, comparisonItems } from "./accordion/menuData";
+import { ComparisonTable } from "./accordion/ComparisonTable";
 
 export function HotelAccordionMenu() {
   return (
@@ -23,6 +24,15 @@ export function HotelAccordionMenu() {
             <MenuItemText items={item.content} />
           </AccordionMenuItem>
         ))}
+        
+        {/* Comparison Table section - added with margin top for spacing */}
+        <AccordionMenuItem
+          value="compare-systems"
+          title="LET'S COMPARE SYSTEMS"
+          className="mt-24"
+        >
+          <ComparisonTable items={comparisonItems} />
+        </AccordionMenuItem>
         
         {/* Special item with additional margin */}
         <AccordionMenuItem 

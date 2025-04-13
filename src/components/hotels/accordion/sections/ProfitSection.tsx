@@ -6,19 +6,18 @@ export function ProfitSection() {
   return (
     <div className="space-y-0 pl-4 border-l-2 border-fuchsia-400/30">
       {/* Western hotels */}
-      <CollapsibleMenuItem title="4.1 Western hotels. How much profit are we missing every year?" className="mb-2">
+      <CollapsibleMenuItem title="4.1 Western hotels. How much profit are we missing every year?" className="mb-1">
         <div className="space-y-2 text-left">
           <p className="text-base">- As a whole, around $75 billion. Every year.</p>
           <p className="text-base">- No sales: pure profit, before taxes</p>
           <p className="text-base">- Because our average yearly occupancy rate is 60%</p>
-          <p className="text-base">- We usually generate enough revenue</p>
-          <p className="text-base">- But the true gold mine remains untapped:</p>
-          <p className="text-base ml-4">40% vacancy represents our highest profit potential</p>
+          <p className="text-base">- That means we reach break-even, pay our costs, and just make some earnings</p>
+          <p className="text-base">- But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit</p>
         </div>
       </CollapsibleMenuItem>
       
       {/* Your hotel profit */}
-      <CollapsibleMenuItem title="4.2 And how much profit is your hotel missing every year?" className="mb-2">
+      <CollapsibleMenuItem title="4.2 And how much profit is your hotel missing every year?" className="mb-1">
         <div className="space-y-2 text-left">
           <p className="text-base">- Just five vacant rooms per day = around $55,000 missed annually</p>
           <p className="text-base">- 20 vacant rooms daily = around $220,000 pure pre-tax profit</p>
@@ -32,7 +31,7 @@ export function ProfitSection() {
       </CollapsibleMenuItem>
       
       {/* Missing potential */}
-      <CollapsibleMenuItem title="4.3 Yes. The vast majority of hotels are missing their true profit potential" className="mb-2">
+      <CollapsibleMenuItem title="4.3 Yes. The vast majority of hotels are missing their true profit potential" className="mb-1">
         <div className="space-y-2 text-left">
           <p className="text-base">- Empty rooms are our untapped gold</p>
           <p className="text-base">- Few of us achieve 100% occupancy all year round</p>

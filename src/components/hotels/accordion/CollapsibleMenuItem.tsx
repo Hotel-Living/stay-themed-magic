@@ -13,7 +13,7 @@ export interface CollapsibleMenuItemProps {
 export function CollapsibleMenuItem({ 
   title, 
   children, 
-  className = "mb-2" // Reduced spacing from mb-4 to mb-2 for consistent spacing
+  className = "mb-1" // Reduced spacing from mb-2 to mb-1 for more consistent spacing
 }: CollapsibleMenuItemProps) {
   const styles = collapsibleMenuItemStyles();
 

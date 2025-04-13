@@ -56,22 +56,22 @@ export function HotelAccordionMenu() {
         {/* Special menu items */}
         <SpecialMenuItems startingNumber={5} />
         
-        {/* Special item with additional margin */}
+        {/* They need your hotel section - now item 11 */}
         <AccordionMenuItem 
-          value={hotelAccordionMenuItems[9].id} 
+          value="they-need-hotel" 
           title="11. They need your hotel"
           className="mt-0"
         >
-          <MenuItemText items={hotelAccordionMenuItems[9].content} />
-        </AccordionMenuItem>
-        
-        {/* The last few items */}
-        <AccordionMenuItem value="item-5" title="12. Themes are the new social revolution">
           <MenuItemText items={hotelAccordionMenuItems[12].content} />
         </AccordionMenuItem>
         
-        <AccordionMenuItem value="item-6" title="13. We're seamless integration">
+        {/* The last two items - now 12 and 13 */}
+        <AccordionMenuItem value="themes-revolution" title="12. Themes are the new social revolution" className="mt-0">
           <MenuItemText items={hotelAccordionMenuItems[13].content} />
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="seamless-integration" title="13. We're seamless integration" className="mt-0">
+          <MenuItemText items={hotelAccordionMenuItems[14].content} />
         </AccordionMenuItem>
       </Accordion>
     </div>

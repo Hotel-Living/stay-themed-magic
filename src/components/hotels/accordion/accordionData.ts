@@ -4,7 +4,7 @@ import { MenuItemContent } from './types';
 export const hotelAccordionMenuItems: MenuItemContent[] = [
   {
     id: "boost-profits",
-    title: "LET'S BOOST OUR PROFITS",
+    title: "Let's boost our profits",
     content: [
       "Full occupancy, real profits",
       "Sell the silence. Fill the hotel",
@@ -14,7 +14,19 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
   // "We are zero risk" menu item is handled directly in the HotelAccordionMenu component
   {
     id: "item-2",
-    title: "SOME FACTS",
+    title: "Some facts",
+    content: [
+      "The secret is 100% occupancy, all year round.",
+      "After the break-even point, every room becomes almost pure profit.",
+      "10 empty rooms per day equals 3,600 missed profit opportunities per year.",
+      "Selling them at a reduced price still brings in a small fortune.",
+      "Any profit is better than daily losses.",
+      "Thousands in small profits add up to a massive amount"
+    ]
+  },
+  {
+    id: "take-market-back",
+    title: "Take the market back",
     content: [
       "100% occupancy year-round is the secret",
       "After break-even, empty rooms are the goldmine",
@@ -23,8 +35,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "take-market-back",
-    title: "TAKE THE MARKET BACK",
+    id: "reduce-expenses",
+    title: "Let's reduce expenses",
     content: [
       "Take back full revenue",
       "Apartment rentals stole our guests",
@@ -44,8 +56,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "reduce-expenses",
-    title: "LET'S REDUCE EXPENSES",
+    id: "workflow-optimization",
+    title: "Workflow optimization",
     content: [
       "Reduced operating costs",
       "Fewer cleanings, less laundry",
@@ -56,8 +68,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "workflow-optimization",
-    title: "WORKFLOW OPTIMIZATION",
+    id: "stability-staff",
+    title: "Stability of staff",
     content: [
       "Fully predictable check-in/check-out calendar",
       "Better planning for supplies and purchasing",
@@ -67,8 +79,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stability-staff",
-    title: "STABILITY OF STAFF",
+    id: "boost-atmosphere",
+    title: "Boost hotel atmosphere",
     content: [
       "Yes. Same team, all year",
       "No high season. No low season",
@@ -78,8 +90,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "boost-atmosphere",
-    title: "BOOST HOTEL ATMOSPHERE",
+    id: "stronger-identity",
+    title: "Stronger identity and differentiation",
     content: [
       "No dead seasons, no empty lobbies",
       "A vibrant community. A living hotel",
@@ -90,8 +102,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stronger-identity",
-    title: "STRONGER IDENTITY AND DIFFERENTIATION",
+    id: "happier-guests",
+    title: "Happier, more loyal guests",
     content: [
       "Clear market positioning",
       "Unique offer vs ¨old-fashioned¨ hotels",
@@ -101,19 +113,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "happier-guests",
-    title: "HAPPIER, MORE LOYAL GUESTS",
-    content: [
-      "Guests aren't just visitors: they belong",
-      "They feel seen. Part of something real",
-      "More at home. More likely to return",
-      "The power of word-of-mouth: fully amplified",
-      "Higher ratings thanks to a memorable experience"
-    ]
-  },
-  {
-    id: "item-1",
-    title: "WE ARE ZERO RISK",
+    id: "we-are-zero-risk",
+    title: "We are zero risk",
     content: [
       "Zero upfront cost",
       "Zero monthly fees",
@@ -123,24 +124,24 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "item-3",
-    title: "WE FILL YOUR HOTEL",
+    id: "we-fill-hotel",
+    title: "We fill your hotel",
     content: [
       "On the smart way",
       "Longer stays + Fewer check-ins = Bigger Returns"
     ]
   },
   {
-    id: "item-4",
-    title: "THEMES",
+    id: "themes",
+    title: "Themes",
     content: [
       "You may even attract your ideal guests",
       "Just pick a theme and let people come together"
     ]
   },
   {
-    id: "item-5",
-    title: "THEY NEED YOUR HOTEL",
+    id: "they-need-hotel",
+    title: "They need your hotel",
     content: [
       "Because people want to socialize. Make friends",
       "They want to stay longer in your hotel",
@@ -150,15 +151,15 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "item-6",
-    title: "THEMES ARE THE NEW SOCIAL REVOLUTION",
+    id: "themes-revolution",
+    title: "Themes are the new social revolution",
     content: [
       "Just think on a theme and let the magic happen"
     ]
   },
   {
-    id: "item-7",
-    title: "WE'RE SEAMLESS INTEGRATION",
+    id: "seamless-integration",
+    title: "We're seamless integration",
     content: [
       "We're your bridge to professional, year-round staffing",
       "We're steady and high-value monthly revenue"

@@ -5,6 +5,50 @@ export interface MenuItemContent {
   content: string[];
 }
 
+export interface ComparisonItem {
+  id: number;
+  traditional: string;
+  hotelLiving: string;
+}
+
+export const comparisonItems: ComparisonItem[] = [
+  {
+    id: 1,
+    traditional: "Constant check-ins and check-outs",
+    hotelLiving: "Fixed entry/exit days = smoother operations"
+  },
+  {
+    id: 2,
+    traditional: "More cleaning, more laundry, more turnover",
+    hotelLiving: "Fewer cleanings, fewer transitions"
+  },
+  {
+    id: 3,
+    traditional: "Higher front desk workload",
+    hotelLiving: "Leaner, more efficient front desk"
+  },
+  {
+    id: 4,
+    traditional: "Unpredictable occupancy",
+    hotelLiving: "Longer stays = higher occupancy, fewer empty nights"
+  },
+  {
+    id: 5,
+    traditional: "Gaps between bookings = empty nights = lost revenue",
+    hotelLiving: "Predictable flow = better planning and happier staff"
+  },
+  {
+    id: 6,
+    traditional: "Staff stretched thin and burned out",
+    hotelLiving: "Guests feel at home, build connections, and return"
+  },
+  {
+    id: 7,
+    traditional: "Guests come and go—no connection, no loyalty",
+    hotelLiving: "Not just bookings—communities"
+  }
+];
+
 export const hotelAccordionMenuItems: MenuItemContent[] = [
   {
     id: "boost-profits",

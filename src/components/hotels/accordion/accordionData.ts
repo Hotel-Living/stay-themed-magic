@@ -28,16 +28,6 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     id: "take-market-back",
     title: "Take the market back",
     content: [
-      "100% occupancy year-round is the secret",
-      "After break-even, empty rooms are the goldmine",
-      "10 empty rooms on average per day? = 3,600 lost profits every year",
-      "Selling them off at a reduced price make a fortune"
-    ]
-  },
-  {
-    id: "reduce-expenses",
-    title: "Let's reduce expenses",
-    content: [
       "Take back full revenue",
       "Apartment rentals stole our guests",
       "Stole our bookings. Our profits",
@@ -56,8 +46,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "workflow-optimization",
-    title: "Workflow optimization",
+    id: "reduce-expenses",
+    title: "Let's reduce expenses",
     content: [
       "Reduced operating costs",
       "Fewer cleanings, less laundry",
@@ -68,8 +58,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stability-staff",
-    title: "Stability of staff",
+    id: "workflow-optimization",
+    title: "Workflow optimization",
     content: [
       "Fully predictable check-in/check-out calendar",
       "Better planning for supplies and purchasing",
@@ -79,8 +69,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "boost-atmosphere",
-    title: "Boost hotel atmosphere",
+    id: "stability-staff",
+    title: "Stability of staff",
     content: [
       "Yes. Same team, all year",
       "No high season. No low season",
@@ -90,8 +80,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stronger-identity",
-    title: "Stronger identity and differentiation",
+    id: "boost-atmosphere",
+    title: "Boost hotel atmosphere",
     content: [
       "No dead seasons, no empty lobbies",
       "A vibrant community. A living hotel",
@@ -102,14 +92,21 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "happier-guests",
-    title: "Happier, more loyal guests",
+    id: "stronger-identity",
+    title: "Stronger identity and differentiation",
     content: [
       "Clear market positioning",
       "Unique offer vs ¨old-fashioned¨ hotels",
       "Modern, human, coherent brand image",
       "Easier to build emotional marketing campaigns",
       "Opportunity to create themed micro-brands within the hotel"
+    ]
+  },
+  {
+    id: "happier-guests",
+    title: "Happier, more loyal guests",
+    content: [
+      "TEXT"
     ]
   },
   {

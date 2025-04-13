@@ -48,6 +48,46 @@ export function HotelAccordionMenu() {
           <p className="text-xl text-white font-bold">Hotels to belong, not just to stay.</p>
         </div>
         
+        {/* New profit-focused menu items with vertical spacing */}
+        <div className="mt-24">
+          <AccordionMenuItem 
+            value="western-hotels-profit" 
+            title="WESTERN HOTELS. HOW MUCH PROFIT ARE WE MISSING EVERY YEAR?"
+          >
+            <MenuItemText items={[
+              "As a whole, around $75 billion. Every year.",
+              "No sales: pure profit, before taxes",
+              "Because our average yearly occupancy rate is 60%",
+              "That means we reach break-even, pay our costs, and make some earnings",
+              "But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit"
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="your-hotel-profit" 
+            title="AND HOW MUCH PROFIT IS YOUR HOTEL MISSING EVERY YEAR?"
+          >
+            <MenuItemText items={[
+              "Just five vacant rooms per day = around $55,000 missed annually",
+              "20 vacant rooms daily = around $220,000 pure pre-tax profit",
+              "A 200-room resort closing from october to may not only misses $1 million in profit yearly, but also racks up $420,000 in losses",
+              "A 500-room resort? Over $3 million in lost profit every year. And the losses? Let's not even look…"
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="missing-potential" 
+            title="YES. THE VAST MAJORITY OF HOTELS ARE MISSING THEIR TRUE PROFIT POTENTIAL"
+          >
+            <MenuItemText items={[
+              "Empty rooms are our untapped gold",
+              "Few of us achieve 100% occupancy all year round",
+              "It doesn't matter if we're 5 stars or 3: we're all missing the point and a lot of money",
+              "The pure-profit rooms we fail to sell"
+            ]} />
+          </AccordionMenuItem>
+        </div>
+        
         {/* Special item with additional margin */}
         <AccordionMenuItem 
           value={hotelAccordionMenuItems[9].id} 

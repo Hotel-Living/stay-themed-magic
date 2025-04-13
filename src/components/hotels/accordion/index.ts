@@ -9,3 +9,4 @@ export * from './CollapsibleMenuItem';
 export * from './sections/BenefitsSection';
 export * from './sections/ProfitSection';
 export * from './sections/SpecialMenuItems';
+export * from './styles';

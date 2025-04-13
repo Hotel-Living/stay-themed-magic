@@ -1,21 +1,32 @@
 
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ReactNode } from "react";
+import { accordionMenuItemStyles } from "./styles";
 
-interface AccordionMenuItemProps {
+export interface AccordionMenuItemProps {
   value: string;
   title: string;
   children: ReactNode;
   className?: string;
 }
 
-export function AccordionMenuItem({ value, title, children, className = "" }: AccordionMenuItemProps) {
+export function AccordionMenuItem({ 
+  value, 
+  title, 
+  children, 
+  className = "" 
+}: AccordionMenuItemProps) {
+  const styles = accordionMenuItemStyles();
+
   return (
-    <AccordionItem value={value} className={`border-b border-fuchsia-400/30 ${className}`}>
-      <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
+    <AccordionItem 
+      value={value} 
+      className={`${styles.item} ${className}`}
+    >
+      <AccordionTrigger className={styles.trigger}>
         {title}
       </AccordionTrigger>
-      <AccordionContent className="text-white space-y-2">
+      <AccordionContent className={styles.content}>
         {children}
       </AccordionContent>
     </AccordionItem>

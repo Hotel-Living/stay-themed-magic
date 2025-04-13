@@ -1,21 +1,29 @@
 
 import { ReactNode } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
+import { collapsibleMenuItemStyles } from "./styles";
 
-interface CollapsibleMenuItemProps {
+export interface CollapsibleMenuItemProps {
   title: string;
   children: ReactNode;
   className?: string;
 }
 
-export function CollapsibleMenuItem({ title, children, className = "mb-6" }: CollapsibleMenuItemProps) {
+export function CollapsibleMenuItem({ 
+  title, 
+  children, 
+  className = "mb-6" 
+}: CollapsibleMenuItemProps) {
+  const styles = collapsibleMenuItemStyles();
+
   return (
     <Collapsible className={`w-full ${className}`}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-semibold text-yellow-300 hover:text-yellow-200">
+      <CollapsibleTrigger className={styles.trigger}>
         <span>{title}</span>
-        <span className="text-sm ml-2">+</span>
+        <ChevronDown className={styles.icon} />
       </CollapsibleTrigger>
-      <CollapsibleContent className="mt-2 pl-4">
+      <CollapsibleContent className={styles.content}>
         {children}
       </CollapsibleContent>
     </Collapsible>

@@ -17,6 +17,7 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem 
           value="the-benefits" 
           title="1. The benefits"
+          titleClassName="text-xl" // Smaller font for this item
         >
           <BenefitsSection />
         </AccordionMenuItem>
@@ -26,6 +27,7 @@ export function HotelAccordionMenu() {
           value="compare-systems"
           title="2. Let's compare systems"
           className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
@@ -35,6 +37,7 @@ export function HotelAccordionMenu() {
           value="we-dont-just-fill-rooms"
           title="3. We don't just fill rooms"
           className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
         >
           <div className="space-y-2 text-left">
             <p className="text-base">- We reshape society.</p>
@@ -49,6 +52,7 @@ export function HotelAccordionMenu() {
           value="how-much-profit-missing"
           title="4. How much profit are we missing?"
           className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
         >
           <ProfitSection />
         </AccordionMenuItem>
@@ -56,11 +60,12 @@ export function HotelAccordionMenu() {
         {/* Special menu items */}
         <SpecialMenuItems startingNumber={5} />
         
-        {/* They need your hotel section - now item 11 */}
+        {/* They need your hotel section - renumbered from 11 to 10 */}
         <AccordionMenuItem 
           value="they-need-hotel" 
-          title="11. They need your hotel"
+          title="10. They need your hotel"
           className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
         >
           <div className="space-y-2 text-left">
             <p className="text-base">- Because people want to socialize. Make friends</p>
@@ -71,14 +76,24 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        {/* The last two items - now 12 and 13 */}
-        <AccordionMenuItem value="themes-revolution" title="12. Themes are the new social revolution" className="mt-0">
+        {/* The last two items - renumbered from 12 and 13 to 11 and 12 */}
+        <AccordionMenuItem 
+          value="themes-revolution" 
+          title="11. Themes are the new social revolution" 
+          className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
+        >
           <div className="space-y-2 text-left">
             <p className="text-base">- Just think on a theme and let the magic happen</p>
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem value="seamless-integration" title="13. We're seamless integration" className="mt-0">
+        <AccordionMenuItem 
+          value="seamless-integration" 
+          title="12. We're seamless integration" 
+          className="mt-0"
+          titleClassName="text-xl" // Smaller font for this item
+        >
           <div className="space-y-2 text-left">
             <p className="text-base">- You don't have to choose between systems.</p>
             <p className="text-base">- Combine both models as you wish</p>

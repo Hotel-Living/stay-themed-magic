@@ -16,7 +16,7 @@ export function HotelAccordionMenu() {
         {/* Main sections */}
         <AccordionMenuItem 
           value="the-benefits" 
-          title="THE BENEFITS"
+          title="The benefits"
         >
           <BenefitsSection />
         </AccordionMenuItem>
@@ -24,7 +24,7 @@ export function HotelAccordionMenu() {
         {/* 1.2 LET'S COMPARE SYSTEMS section */}
         <AccordionMenuItem
           value="compare-systems"
-          title="LET'S COMPARE SYSTEMS"
+          title="Let's compare systems"
           className="mt-6"
         >
           <ComparisonTable items={comparisonItems} />
@@ -33,7 +33,7 @@ export function HotelAccordionMenu() {
         {/* 1.3 WE DON'T JUST FILL ROOMS section */}
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
-          title="WE DON'T JUST FILL ROOMS"
+          title="We don't just fill rooms"
           className="mt-6"
         >
           <div className="space-y-3">
@@ -47,7 +47,7 @@ export function HotelAccordionMenu() {
         {/* 1.4 HOW MUCH PROFIT ARE WE MISSING section */}
         <AccordionMenuItem
           value="how-much-profit-missing"
-          title="HOW MUCH PROFIT ARE WE MISSING?"
+          title="How much profit are we missing?"
           className="mt-6"
         >
           <ProfitSection />
@@ -59,23 +59,19 @@ export function HotelAccordionMenu() {
         {/* Special item with additional margin */}
         <AccordionMenuItem 
           value={hotelAccordionMenuItems[9].id} 
-          title={hotelAccordionMenuItems[9].title}
-          className="mt-24"
+          title="They need your hotel"
+          className="mt-6"
         >
           <MenuItemText items={hotelAccordionMenuItems[9].content} />
         </AccordionMenuItem>
         
         {/* The last few items */}
-        <AccordionMenuItem value="item-5" title={hotelAccordionMenuItems[12].title}>
+        <AccordionMenuItem value="item-5" title="Themes are the new social revolution">
           <MenuItemText items={hotelAccordionMenuItems[12].content} />
         </AccordionMenuItem>
         
-        <AccordionMenuItem value="item-6" title={hotelAccordionMenuItems[13].title}>
+        <AccordionMenuItem value="item-6" title="We're seamless integration">
           <MenuItemText items={hotelAccordionMenuItems[13].content} />
-        </AccordionMenuItem>
-        
-        <AccordionMenuItem value="item-7" title={hotelAccordionMenuItems[14].title}>
-          <MenuItemText items={hotelAccordionMenuItems[14].content} />
         </AccordionMenuItem>
       </Accordion>
     </div>

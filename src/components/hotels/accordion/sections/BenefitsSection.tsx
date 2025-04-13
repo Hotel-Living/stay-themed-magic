@@ -7,53 +7,48 @@ export function BenefitsSection() {
   return (
     <div className="space-y-6 pl-4 border-l-2 border-fuchsia-400/30">
       {/* First 5 menus from the beginning */}
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[0].title}>
+      <CollapsibleMenuItem title="Let's boost our profits">
         <MenuItemText items={hotelAccordionMenuItems[0].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="WE ARE ZERO RISK">
-        <MenuItemText items={["Zero upfront cost", "Zero monthly fees", "You don't change a thing", "You don't have to do a thing", "You just make HUGE PROFITS from your typically vacant rooms"]} />
-      </CollapsibleMenuItem>
-      
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[1].title}>
-        <MenuItemText items={hotelAccordionMenuItems[1].content} />
-      </CollapsibleMenuItem>
-      
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[10].title}>
-        <MenuItemText items={hotelAccordionMenuItems[10].content} />
-      </CollapsibleMenuItem>
-      
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[11].title}>
-        <MenuItemText items={hotelAccordionMenuItems[11].content} />
-      </CollapsibleMenuItem>
-      
-      {/* Original benefit sections as collapsibles */}
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[2].title}>
+      <CollapsibleMenuItem title="Some facts">
         <MenuItemText items={hotelAccordionMenuItems[2].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[3].title}>
+      <CollapsibleMenuItem title="Take the market back">
         <MenuItemText items={hotelAccordionMenuItems[3].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[4].title}>
+      <CollapsibleMenuItem title="Let's reduce expenses">
         <MenuItemText items={hotelAccordionMenuItems[4].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[5].title}>
+      <CollapsibleMenuItem title="Workflow optimization">
         <MenuItemText items={hotelAccordionMenuItems[5].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[6].title}>
+      <CollapsibleMenuItem title="Stability of staff">
         <MenuItemText items={hotelAccordionMenuItems[6].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[7].title}>
+      <CollapsibleMenuItem title="Boost hotel atmosphere">
         <MenuItemText items={hotelAccordionMenuItems[7].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={hotelAccordionMenuItems[8].title}>
+      <CollapsibleMenuItem title="Stronger identity and differentiation">
         <MenuItemText items={hotelAccordionMenuItems[8].content} />
+      </CollapsibleMenuItem>
+      
+      <CollapsibleMenuItem title="Happier, more loyal guests">
+        <MenuItemText items={hotelAccordionMenuItems[9].content} />
+      </CollapsibleMenuItem>
+      
+      <CollapsibleMenuItem title="We fill your hotel">
+        <MenuItemText items={hotelAccordionMenuItems[10].content} />
+      </CollapsibleMenuItem>
+      
+      <CollapsibleMenuItem title="Themes">
+        <MenuItemText items={hotelAccordionMenuItems[11].content} />
       </CollapsibleMenuItem>
     </div>
   );

@@ -4,10 +4,10 @@ import { MenuItemText } from "../MenuItemText";
 
 export function SpecialMenuItems() {
   return (
-    <div className="mt-24">
+    <div className="mt-6">
       <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>DOES YOUR HOTEL HAVE EMPTY ROOMS?</span>
+          <span>Does your hotel have empty rooms?</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
@@ -22,7 +22,7 @@ export function SpecialMenuItems() {
       
       <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>WITH OUR PATENTED SYSTEM, THE WORLD NEEDS YOUR ROOMS</span>
+          <span>With our patented system, the world needs your rooms</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
@@ -47,7 +47,7 @@ export function SpecialMenuItems() {
       
       <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>HUMANITY'S DREAM IS TO LIVE IN A HOTEL</span>
+          <span>Humanity's dream is to live in a hotel</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
@@ -61,7 +61,7 @@ export function SpecialMenuItems() {
       
       <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>HOTEL LIVING IS A TRUE HOSPITALITY REVOLUTION</span>
+          <span>Hotel living is a true hospitality revolution</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
@@ -73,7 +73,7 @@ export function SpecialMenuItems() {
       
       <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>ALL YOU NEED TO DO IS OFFER THE RIGHT PRODUCT</span>
+          <span>All you need to do is offer the right product</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">

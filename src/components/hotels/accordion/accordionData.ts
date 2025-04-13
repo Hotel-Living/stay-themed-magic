@@ -27,22 +27,31 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     title: "Take the market back",
     content: [
       "Let´s finally take back our full revenue",
+      "",
       "For years and years apartment rentals have taken our guests",
       "Our bookings. Our profits",
       "They have filled their spaces by emptying our rooms",
+      "",
       "But we provide jobs. Pay taxes. Build community",
+      "",
       "An old-fashioned business model prevented us from reacting",
+      "",
       "But we have lost more than enough",
+      "",
       "Hotel-Living puts in action our unsurpassed weapon:",
       "Our nearly 100%-profit 40% vacant rooms after break-even",
+      "",
       "Let´s beat rental apartments at their own game:",
       "Longer stays. Savvy prices, plus…",
       "Safety. Services. Warmth. Category",
       "No isolation. Atmosphere. Convenience",
+      "",
       "Everything they miss while we have vacant rooms",
       "1,6 billion vacant room/nights every year. Producing losses",
+      "",
       "Let's bring them back. Let´s boost our profits",
-      "Let's reclaim our place and our future"
+      "Let's reclaim our place and our future",
+      ""
     ]
   },
   {

@@ -1,4 +1,3 @@
-
 import { Accordion } from "@/components/ui/accordion";
 import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
 import { MenuItemText } from "./accordion/MenuItemText";
@@ -10,12 +9,12 @@ export function HotelAccordionMenu() {
   return (
     <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
       <Accordion type="single" collapsible className="w-full">
-        {/* First section */}
+        {/* First 5 individual menu items remain unchanged */}
         <AccordionMenuItem value="boost-profits" title={hotelAccordionMenuItems[0].title}>
           <MenuItemText items={hotelAccordionMenuItems[0].content} />
         </AccordionMenuItem>
         
-        {/* Zero Risk menu item moved here */}
+        {/* Zero Risk menu item */}
         <AccordionMenuItem value="zero-risk" title="WE ARE ZERO RISK">
           <MenuItemText items={["Zero upfront cost", "Zero monthly fees", "You don't change a thing", "You don't have to do a thing", "You just make HUGE PROFITS from your typically vacant rooms"]} />
         </AccordionMenuItem>
@@ -24,72 +23,135 @@ export function HotelAccordionMenu() {
           <MenuItemText items={hotelAccordionMenuItems[1].content} />
         </AccordionMenuItem>
         
-        {/* Main section */}
-        {hotelAccordionMenuItems.slice(2, 9).map((item) => (
-          <AccordionMenuItem key={item.id} value={item.id} title={item.title}>
-            <MenuItemText items={item.content} />
-          </AccordionMenuItem>
-        ))}
+        <AccordionMenuItem value="item-3" title={hotelAccordionMenuItems[10].title}>
+          <MenuItemText items={hotelAccordionMenuItems[10].content} />
+        </AccordionMenuItem>
         
-        {/* Comparison Table section */}
+        <AccordionMenuItem value="item-4" title={hotelAccordionMenuItems[11].title}>
+          <MenuItemText items={hotelAccordionMenuItems[11].content} />
+        </AccordionMenuItem>
+        
+        {/* Main reorganized sections */}
+        
+        {/* 1.1 THE BENEFITS section */}
+        <AccordionMenuItem 
+          value="the-benefits" 
+          title="THE BENEFITS"
+          className="mt-12"
+        >
+          <div className="space-y-6 pl-4 border-l-2 border-fuchsia-400/30">
+            {/* Take the market back */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[2].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[2].content} />
+            </div>
+            
+            {/* Reduce expenses */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[3].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[3].content} />
+            </div>
+            
+            {/* Workflow optimization */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[4].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[4].content} />
+            </div>
+            
+            {/* Stability of staff */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[5].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[5].content} />
+            </div>
+            
+            {/* Boost hotel atmosphere */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[6].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[6].content} />
+            </div>
+            
+            {/* Stronger identity */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[7].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[7].content} />
+            </div>
+            
+            {/* Happier guests */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">{hotelAccordionMenuItems[8].title}</h3>
+              <MenuItemText items={hotelAccordionMenuItems[8].content} />
+            </div>
+          </div>
+        </AccordionMenuItem>
+        
+        {/* 1.2 LET'S COMPARE SYSTEMS section */}
         <AccordionMenuItem
           value="compare-systems"
           title="LET'S COMPARE SYSTEMS"
-          className="mt-24"
+          className="mt-6"
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
         
-        {/* New slogans after comparison table */}
-        <div className="space-y-4 py-6 text-center">
-          <p className="text-xl text-white font-bold">We don't just fill rooms. We reshape society.</p>
-          <p className="text-xl text-white font-bold">People grouped by affinities</p>
-          <p className="text-xl text-white font-bold">Zero randomness. 100% connections</p>
-          <p className="text-xl text-white font-bold">Hotels to belong, not just to stay.</p>
-        </div>
+        {/* 1.3 WE DON'T JUST FILL ROOMS section */}
+        <AccordionMenuItem
+          value="we-dont-just-fill-rooms"
+          title="WE DON'T JUST FILL ROOMS"
+          className="mt-6"
+        >
+          <div className="space-y-3">
+            <p className="text-lg">We reshape society.</p>
+            <p className="text-lg">People grouped by affinities</p>
+            <p className="text-lg">Zero randomness. 100% connections</p>
+            <p className="text-lg">Hotels to belong, not just to stay.</p>
+          </div>
+        </AccordionMenuItem>
         
-        {/* New profit-focused menu items with vertical spacing */}
-        <div className="mt-24">
-          <AccordionMenuItem 
-            value="western-hotels-profit" 
-            title="WESTERN HOTELS. HOW MUCH PROFIT ARE WE MISSING EVERY YEAR?"
-          >
-            <MenuItemText items={[
-              "As a whole, around $75 billion. Every year.",
-              "No sales: pure profit, before taxes",
-              "Because our average yearly occupancy rate is 60%",
-              "That means we reach break-even, pay our costs, and make some earnings",
-              "But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit"
-            ]} />
-          </AccordionMenuItem>
-          
-          <AccordionMenuItem 
-            value="your-hotel-profit" 
-            title="AND HOW MUCH PROFIT IS YOUR HOTEL MISSING EVERY YEAR?"
-          >
-            <MenuItemText items={[
-              "Just five vacant rooms per day = around $55,000 missed annually",
-              "20 vacant rooms daily = around $220,000 pure pre-tax profit",
-              "A 200-room resort closing from october to may not only misses $1 million in profit yearly, but also racks up $420,000 in losses",
-              "A 500-room resort? Over $3 million in lost profit every year. And the losses? Let's not even look…"
-            ]} />
-          </AccordionMenuItem>
-          
-          <AccordionMenuItem 
-            value="missing-potential" 
-            title="YES. THE VAST MAJORITY OF HOTELS ARE MISSING THEIR TRUE PROFIT POTENTIAL"
-          >
-            <MenuItemText items={[
-              "Empty rooms are our untapped gold",
-              "Few of us achieve 100% occupancy all year round",
-              "It doesn't matter if we're 5 stars or 3: we're all missing the point and a lot of money",
-              "The pure-profit rooms we fail to sell",
-              "And we're giving up our rightful place in society"
-            ]} />
-          </AccordionMenuItem>
-        </div>
+        {/* 1.4 HOW MUCH PROFIT ARE WE MISSING section */}
+        <AccordionMenuItem
+          value="how-much-profit-missing"
+          title="HOW MUCH PROFIT ARE WE MISSING?"
+          className="mt-6"
+        >
+          <div className="space-y-6 pl-4 border-l-2 border-fuchsia-400/30">
+            {/* Western hotels */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">WESTERN HOTELS. HOW MUCH PROFIT ARE WE MISSING EVERY YEAR?</h3>
+              <MenuItemText items={[
+                "As a whole, around $75 billion. Every year.",
+                "No sales: pure profit, before taxes",
+                "Because our average yearly occupancy rate is 60%",
+                "That means we reach break-even, pay our costs, and make some earnings",
+                "But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit"
+              ]} />
+            </div>
+            
+            {/* Your hotel profit */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">AND HOW MUCH PROFIT IS YOUR HOTEL MISSING EVERY YEAR?</h3>
+              <MenuItemText items={[
+                "Just five vacant rooms per day = around $55,000 missed annually",
+                "20 vacant rooms daily = around $220,000 pure pre-tax profit",
+                "A 200-room resort closing from october to may not only misses $1 million in profit yearly, but also racks up $420,000 in losses",
+                "A 500-room resort? Over $3 million in lost profit every year. And the losses? Let's not even look…"
+              ]} />
+            </div>
+            
+            {/* Missing potential */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-yellow-300">YES. THE VAST MAJORITY OF HOTELS ARE MISSING THEIR TRUE PROFIT POTENTIAL</h3>
+              <MenuItemText items={[
+                "Empty rooms are our untapped gold",
+                "Few of us achieve 100% occupancy all year round",
+                "It doesn't matter if we're 5 stars or 3: we're all missing the point and a lot of money",
+                "The pure-profit rooms we fail to sell",
+                "And we're giving up our rightful place in society"
+              ]} />
+            </div>
+          </div>
+        </AccordionMenuItem>
         
-        {/* New five menu items with vertical spacing */}
+        {/* Retain the five menu items with vertical spacing */}
         <div className="mt-24">
           <AccordionMenuItem 
             value="empty-rooms" 
@@ -167,12 +229,18 @@ export function HotelAccordionMenu() {
           <MenuItemText items={hotelAccordionMenuItems[9].content} />
         </AccordionMenuItem>
         
-        {/* Remaining items - skipping the "zero-risk" item as it's moved up */}
-        {hotelAccordionMenuItems.slice(10).filter(item => item.id !== "item-1").map((item) => (
-          <AccordionMenuItem key={item.id} value={item.id} title={item.title}>
-            <MenuItemText items={item.content} />
-          </AccordionMenuItem>
-        ))}
+        {/* The last few items */}
+        <AccordionMenuItem value="item-5" title={hotelAccordionMenuItems[12].title}>
+          <MenuItemText items={hotelAccordionMenuItems[12].content} />
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="item-6" title={hotelAccordionMenuItems[13].title}>
+          <MenuItemText items={hotelAccordionMenuItems[13].content} />
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="item-7" title={hotelAccordionMenuItems[14].title}>
+          <MenuItemText items={hotelAccordionMenuItems[14].content} />
+        </AccordionMenuItem>
       </Accordion>
     </div>
   );

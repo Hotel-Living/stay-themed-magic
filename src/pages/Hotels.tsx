@@ -8,6 +8,7 @@ import { HotelCards } from "@/components/hotels/HotelCards";
 import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
+import { HotelFootnote } from "@/components/hotels/HotelFootnote";
 
 export default function Hotels() {
   return (
@@ -32,6 +33,9 @@ export default function Hotels() {
             <h2 className="text-2xl font-bold text-center mb-6 text-[#ebd4ee]">See Our Hotels in Action</h2>
             <HotelVideoPlayer />
           </div>
+          
+          {/* Footer note */}
+          <HotelFootnote />
         </div>
       </main>
       

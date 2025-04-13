@@ -28,37 +28,6 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     id: "take-market-back",
     title: "Take the market back",
     content: [
-      "100% occupancy year-round is the secret",
-      "After break-even, empty rooms are the goldmine",
-      "10 empty rooms on average per day? = 3,600 lost profits every year",
-      "Selling them off at a reduced price make a fortune"
-    ]
-  },
-  {
-    id: "reduce-expenses",
-    title: "Let's reduce expenses",
-    content: [
-      "Take back full revenue",
-      "Apartment rentals stole our guests",
-      "Stole our bookings. Our profits",
-      "And we provide jobs, pay taxes, build community",
-      "They filled their spaces by emptying our rooms",
-      "Enough is enough. Hotel living is our comeback",
-      "Longer stays. Lower prices. Higher profits",
-      "Hotel living and our invincible weapon:",
-      "Our nearly 100%-profit rooms after break-even",
-      "Beat them at their own game: full service",
-      "Smarter stays. Apartment prices. Hotel services",
-      "Safety. Warmth. Great atmosphere",
-      "Everything guests miss. Everything they crave",
-      "Let's bring them back — and boost our profits",
-      "Let's reclaim our place and our future"
-    ]
-  },
-  {
-    id: "workflow-optimization",
-    title: "Workflow optimization",
-    content: [
       "Reduced operating costs",
       "Fewer cleanings, less laundry",
       "Fewer Check-ins/outs = Front desk Dream",
@@ -68,8 +37,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stability-staff",
-    title: "Stability of staff",
+    id: "reduce-expenses",
+    title: "Let's reduce expenses",
     content: [
       "Fully predictable check-in/check-out calendar",
       "Better planning for supplies and purchasing",
@@ -79,8 +48,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "boost-atmosphere",
-    title: "Boost hotel atmosphere",
+    id: "workflow-optimization",
+    title: "Workflow optimization",
     content: [
       "Yes. Same team, all year",
       "No high season. No low season",
@@ -90,8 +59,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "stronger-identity",
-    title: "Stronger identity and differentiation",
+    id: "stability-staff",
+    title: "Stability of staff",
     content: [
       "No dead seasons, no empty lobbies",
       "A vibrant community. A living hotel",
@@ -102,14 +71,32 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     ]
   },
   {
-    id: "happier-guests",
-    title: "Happier, more loyal guests",
+    id: "boost-atmosphere",
+    title: "Boost hotel atmosphere",
     content: [
       "Clear market positioning",
       "Unique offer vs ¨old-fashioned¨ hotels",
       "Modern, human, coherent brand image",
       "Easier to build emotional marketing campaigns",
       "Opportunity to create themed micro-brands within the hotel"
+    ]
+  },
+  {
+    id: "stronger-identity",
+    title: "Stronger identity and differentiation",
+    content: [
+      "Zero upfront cost",
+      "Zero monthly fees",
+      "You don't change a thing",
+      "You don't have to do a thing",
+      "You just make HUGE PROFITS from your typically vacant rooms"
+    ]
+  },
+  {
+    id: "happier-guests",
+    title: "Happier, more loyal guests",
+    content: [
+      "CUSTOMERS"
     ]
   },
   {

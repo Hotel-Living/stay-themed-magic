@@ -13,12 +13,12 @@ export interface CollapsibleMenuItemProps {
 export function CollapsibleMenuItem({ 
   title, 
   children, 
-  className = "mb-8" // Increased margin bottom to create consistent spacing
+  className = "mb-4" // Consistent spacing
 }: CollapsibleMenuItemProps) {
   const styles = collapsibleMenuItemStyles();
 
   return (
-    <Collapsible className={`w-full ${className}`}>
+    <Collapsible className={`w-full ${className} overflow-visible`}>
       <CollapsibleTrigger className={styles.trigger}>
         <span>{title}</span>
         <ChevronDown className={styles.icon} />

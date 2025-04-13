@@ -36,11 +36,11 @@ export function HotelAccordionMenu() {
           title="3. We don't just fill rooms"
           className="mt-0"
         >
-          <div className="space-y-2">
-            <p className="text-lg">We reshape society.</p>
-            <p className="text-lg">People grouped by affinities</p>
-            <p className="text-lg">Zero randomness. 100% connections</p>
-            <p className="text-lg">Hotels to belong, not just to stay.</p>
+          <div className="space-y-2 text-left">
+            <p className="text-base">- We reshape society.</p>
+            <p className="text-base">- People grouped by affinities</p>
+            <p className="text-base">- Zero randomness. 100% connections</p>
+            <p className="text-base">- Hotels to belong, not just to stay.</p>
           </div>
         </AccordionMenuItem>
         
@@ -62,16 +62,34 @@ export function HotelAccordionMenu() {
           title="11. They need your hotel"
           className="mt-0"
         >
-          <MenuItemText items={hotelAccordionMenuItems[12].content} />
+          <div className="space-y-2 text-left">
+            <p className="text-base">- Because people want to socialize. Make friends</p>
+            <p className="text-base">- They want to stay longer in your hotel</p>
+            <p className="text-base">- They want you to take care of their household chores</p>
+            <p className="text-base">- They urgently need your empty rooms and services</p>
+            <p className="text-base">- Just help them: give them both</p>
+          </div>
         </AccordionMenuItem>
         
         {/* The last two items - now 12 and 13 */}
         <AccordionMenuItem value="themes-revolution" title="12. Themes are the new social revolution" className="mt-0">
-          <MenuItemText items={hotelAccordionMenuItems[13].content} />
+          <div className="space-y-2 text-left">
+            <p className="text-base">- Just think on a theme and let the magic happen</p>
+          </div>
         </AccordionMenuItem>
         
         <AccordionMenuItem value="seamless-integration" title="13. We're seamless integration" className="mt-0">
-          <MenuItemText items={hotelAccordionMenuItems[14].content} />
+          <div className="space-y-2 text-left">
+            <p className="text-base">- You don't have to choose between systems.</p>
+            <p className="text-base">- Combine both models as you wish</p>
+            <p className="text-base">- Start with just a few rooms, then scale as needed</p>
+            <p className="text-base">- Switch more rooms to our system whenever it makes sense</p>
+            <p className="text-base">- Our platform blends effortlessly with your current operations</p>
+            <p className="text-base">- Zero disruption to your daily operations</p>
+            <p className="text-base">- We adapt to you, not the other way around</p>
+            <p className="text-base font-semibold mt-4">This is flexibility. This is profit</p>
+            <p className="text-base font-semibold">This is Seamless Integration</p>
+          </div>
         </AccordionMenuItem>
       </Accordion>
     </div>

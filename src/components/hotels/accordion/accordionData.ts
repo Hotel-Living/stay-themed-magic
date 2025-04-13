@@ -111,16 +111,16 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     content: [
       "Clear market positioning",
       "Unique offer vs ¨old-fashioned¨ hotels",
-      "Modern, human, coherent brand image",
-      "Easier to build emotional marketing campaigns",
-      "Opportunity to create themed micro-brands within the hotel"
+      "Modern, human, coherent brand image"
     ]
   },
   {
     id: "happier-guests",
     title: "Happier, more loyal guests",
     content: [
-      "TEXT"
+      "They feel part of something, not just visitors",
+      "More likely to return",
+      "Attract new guests through word-of-mouth"
     ]
   },
   {
@@ -173,8 +173,15 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     id: "seamless-integration",
     title: "We're seamless integration",
     content: [
-      "We're your bridge to professional, year-round staffing",
-      "We're steady and high-value monthly revenue"
+      "- You don't have to choose between systems.",
+      "- Combine both models as you wish",
+      "- Start with just a few rooms, then scale as needed",
+      "- Switch more rooms to our system whenever it makes sense",
+      "- Our platform blends effortlessly with your current operations",
+      "- Zero disruption to your daily operations",
+      "- We adapt to you, not the other way around",
+      "This is flexibility. This is profit",
+      "This is Seamless Integration"
     ]
   }
 ];

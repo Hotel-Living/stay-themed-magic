@@ -34,7 +34,7 @@ export const comparisonItems: ComparisonItem[] = [
   },
   {
     id: 5,
-    traditional: "Gaps between bookings = Empty nights = Lost revenue",
+    traditional: "Bookings' gaps = Empty nights = Lost profits",
     hotelLiving: "Zero empty nights = Maximum profit"
   },
   {

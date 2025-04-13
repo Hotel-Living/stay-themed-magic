@@ -4,7 +4,6 @@ import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
 import { ZeroRiskSection } from "@/components/hotels/ZeroRiskSection";
 import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
-import { HotelFootnote } from "@/components/hotels/HotelFootnote";
 import { HotelCards } from "@/components/hotels/HotelCards";
 import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
@@ -21,11 +20,6 @@ export default function Hotels() {
           {/* Main content */}
           <HotelSlogans />
           <HotelAccordionMenu />
-          
-          {/* Hotel Footnote - Fixed spacing and improved visibility */}
-          <div className="w-full flex justify-center my-12">
-            <HotelFootnote />
-          </div>
           
           {/* Grid of cards */}
           <HotelCards />

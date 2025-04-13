@@ -6,29 +6,30 @@ export function HotelAccordionMenu() {
   return (
     <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
       <Accordion type="single" collapsible className="w-full">
-        {/* MENU 1 */}
-        <AccordionItem value="item-1" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
-            WE ARE ZERO RISK
-          </AccordionTrigger>
-          <AccordionContent className="text-white space-y-2">
-            <p className="text-lg">Zero upfront cost</p>
-            <p className="text-lg">Zero monthly fees</p>
-            <p className="text-lg">You don't change a thing</p>
-            <p className="text-lg">You don't have to do a thing</p>
-            <p className="text-lg">You just make HUGE PROFITS from your typically vacant rooms</p>
-          </AccordionContent>
-        </AccordionItem>
-
-        {/* NEW MENU - BOOST YOUR PROFITS */}
+        {/* NEW MENU - LET'S BOOST OUR PROFITS (changed from BOOST YOUR PROFITS) */}
         <AccordionItem value="boost-profits" className="border-b border-fuchsia-400/30">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
-            BOOST YOUR PROFITS
+            LET'S BOOST OUR PROFITS
           </AccordionTrigger>
           <AccordionContent className="text-white space-y-2">
             <p className="text-lg">Full occupancy, real profits</p>
             <p className="text-lg">Sell the silence. Fill the hotel</p>
             <p className="text-lg">Unlock hidden profits</p>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* MENU 2 - SOME FACTS (moved after LET'S BOOST OUR PROFITS) */}
+        <AccordionItem value="item-2" className="border-b border-fuchsia-400/30">
+          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
+            SOME FACTS
+          </AccordionTrigger>
+          <AccordionContent className="text-white">
+            <ul className="space-y-2">
+              <li className="text-lg">100% occupancy year-round is the secret</li>
+              <li className="text-lg">After break-even, empty rooms are the goldmine</li>
+              <li className="text-lg">10 empty rooms on average per day? = 3,600 lost profits every year</li>
+              <li className="text-lg">Selling them off at a reduced price make a fortune</li>
+            </ul>
           </AccordionContent>
         </AccordionItem>
 
@@ -142,18 +143,17 @@ export function HotelAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
 
-        {/* MENU 2 */}
-        <AccordionItem value="item-2" className="border-b border-fuchsia-400/30">
+        {/* MENU 1 - WE ARE ZERO RISK (moved after HAPPIER, MORE LOYAL GUESTS) */}
+        <AccordionItem value="item-1" className="border-b border-fuchsia-400/30 mt-24">
           <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-300 py-4">
-            SOME FACTS
+            WE ARE ZERO RISK
           </AccordionTrigger>
-          <AccordionContent className="text-white">
-            <ul className="space-y-2">
-              <li className="text-lg">100% occupancy year-round is the secret</li>
-              <li className="text-lg">After break-even, empty rooms are the goldmine</li>
-              <li className="text-lg">10 empty rooms on average per day? = 3,600 lost profits every year</li>
-              <li className="text-lg">Selling them off at a reduced price make a fortune</li>
-            </ul>
+          <AccordionContent className="text-white space-y-2">
+            <p className="text-lg">Zero upfront cost</p>
+            <p className="text-lg">Zero monthly fees</p>
+            <p className="text-lg">You don't change a thing</p>
+            <p className="text-lg">You don't have to do a thing</p>
+            <p className="text-lg">You just make HUGE PROFITS from your typically vacant rooms</p>
           </AccordionContent>
         </AccordionItem>
         

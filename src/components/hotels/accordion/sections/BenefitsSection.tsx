@@ -3,51 +3,55 @@ import { MenuItemText } from "../MenuItemText";
 import { CollapsibleMenuItem } from "../CollapsibleMenuItem";
 import { hotelAccordionMenuItems } from "../accordionData";
 
-export function BenefitsSection() {
+interface BenefitsSectionProps {
+  startingNumber?: number;
+}
+
+export function BenefitsSection({ startingNumber = 1 }: BenefitsSectionProps) {
   return (
-    <div className="space-y-6 pl-4 border-l-2 border-fuchsia-400/30">
-      {/* First 5 menus from the beginning */}
-      <CollapsibleMenuItem title="Let's boost our profits">
+    <div className="space-y-0 pl-4 border-l-2 border-fuchsia-400/30">
+      {/* First menus from the beginning */}
+      <CollapsibleMenuItem title={`${startingNumber}.1 Let's boost our profits`}>
         <MenuItemText items={hotelAccordionMenuItems[0].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Some facts">
+      <CollapsibleMenuItem title={`${startingNumber}.2 Some facts`}>
         <MenuItemText items={hotelAccordionMenuItems[2].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Take the market back">
+      <CollapsibleMenuItem title={`${startingNumber}.3 Take the market back`}>
         <MenuItemText items={hotelAccordionMenuItems[3].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Let's reduce expenses">
+      <CollapsibleMenuItem title={`${startingNumber}.4 Let's reduce expenses`}>
         <MenuItemText items={hotelAccordionMenuItems[4].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Workflow optimization">
+      <CollapsibleMenuItem title={`${startingNumber}.5 Workflow optimization`}>
         <MenuItemText items={hotelAccordionMenuItems[5].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Stability of staff">
+      <CollapsibleMenuItem title={`${startingNumber}.6 Stability of staff`}>
         <MenuItemText items={hotelAccordionMenuItems[6].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Boost hotel atmosphere">
+      <CollapsibleMenuItem title={`${startingNumber}.7 Boost hotel atmosphere`}>
         <MenuItemText items={hotelAccordionMenuItems[7].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Stronger identity and differentiation">
+      <CollapsibleMenuItem title={`${startingNumber}.8 Stronger identity and differentiation`}>
         <MenuItemText items={hotelAccordionMenuItems[8].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Happier, more loyal guests">
+      <CollapsibleMenuItem title={`${startingNumber}.9 Happier, more loyal guests`}>
         <MenuItemText items={hotelAccordionMenuItems[9].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="We fill your hotel">
+      <CollapsibleMenuItem title={`${startingNumber}.10 We fill your hotel`}>
         <MenuItemText items={hotelAccordionMenuItems[10].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title="Themes">
+      <CollapsibleMenuItem title={`${startingNumber}.11 Themes`}>
         <MenuItemText items={hotelAccordionMenuItems[11].content} />
       </CollapsibleMenuItem>
     </div>

@@ -2,15 +2,19 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { MenuItemText } from "../MenuItemText";
 
-export function SpecialMenuItems() {
+interface SpecialMenuItemsProps {
+  startingNumber?: number;
+}
+
+export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) {
   return (
-    <div className="mt-6">
-      <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>Does your hotel have empty rooms?</span>
+    <div className="mt-0">
+      <Collapsible className="w-full mb-0 border-b border-fuchsia-400/30 pb-2">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-[#FEF7CD] py-2">
+          <span>{startingNumber}. Does your hotel have empty rooms?</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
+        <CollapsibleContent className="mt-1 pl-4 text-white space-y-2">
           <MenuItemText items={[
             "For at least eight nights in a row? Those rooms are your gold mine.",
             "Because if your hotel COVER costs, they're pure profit.",
@@ -20,12 +24,12 @@ export function SpecialMenuItems() {
         </CollapsibleContent>
       </Collapsible>
       
-      <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>With our patented system, the world needs your rooms</span>
+      <Collapsible className="w-full mb-0 border-b border-fuchsia-400/30 pb-2">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-[#FEF7CD] py-2">
+          <span>{startingNumber + 1}. With our patented system, the world needs your rooms</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
+        <CollapsibleContent className="mt-1 pl-4 text-white space-y-2">
           <MenuItemText items={[
             "Because 40% of the Western population:",
             "- Lives alone or as a couple",
@@ -45,12 +49,12 @@ export function SpecialMenuItems() {
         </CollapsibleContent>
       </Collapsible>
       
-      <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>Humanity's dream is to live in a hotel</span>
+      <Collapsible className="w-full mb-0 border-b border-fuchsia-400/30 pb-2">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-[#FEF7CD] py-2">
+          <span>{startingNumber + 2}. Humanity's dream is to live in a hotel</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
+        <CollapsibleContent className="mt-1 pl-4 text-white space-y-2">
           <MenuItemText items={[
             "Everything taken care of. Eternal vacation mode.",
             "So, why do we still have so many empty rooms?",
@@ -59,24 +63,24 @@ export function SpecialMenuItems() {
         </CollapsibleContent>
       </Collapsible>
       
-      <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>Hotel living is a true hospitality revolution</span>
+      <Collapsible className="w-full mb-0 border-b border-fuchsia-400/30 pb-2">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-[#FEF7CD] py-2">
+          <span>{startingNumber + 3}. Hotel living is a true hospitality revolution</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
+        <CollapsibleContent className="mt-1 pl-4 text-white space-y-2">
           <MenuItemText items={[
             "And the demand is so overwhelming, society needs us so badly, that 96 out of every 100 potential guests will miss out on their dream life. Simply, we don't have enough rooms for all them: only around 4% will get in."
           ]} />
         </CollapsibleContent>
       </Collapsible>
       
-      <Collapsible className="w-full mb-6 border-b border-fuchsia-400/30 pb-4">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-yellow-300 py-4">
-          <span>All you need to do is offer the right product</span>
+      <Collapsible className="w-full mb-0 border-b border-fuchsia-400/30 pb-2">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-xl font-bold text-white hover:text-[#FEF7CD] py-2">
+          <span>{startingNumber + 4}. All you need to do is offer the right product</span>
           <span className="text-sm ml-2">+</span>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2 pl-4 text-white space-y-2">
+        <CollapsibleContent className="mt-1 pl-4 text-white space-y-2">
           <MenuItemText items={[
             "Each hotel should find its ideal setup and solve as many daily needs for guests as possible.",
             "If you have lots of empty rooms, offer long stays at affordable prices (maybe 16, 24, or 32 nights) to be sure you'll fill up and you'll earn huge profits.",

@@ -13,7 +13,7 @@ export interface CollapsibleMenuItemProps {
 export function CollapsibleMenuItem({ 
   title, 
   children, 
-  className = "mb-6" 
+  className = "mb-4" // Reduced margin bottom
 }: CollapsibleMenuItemProps) {
   const styles = collapsibleMenuItemStyles();
 

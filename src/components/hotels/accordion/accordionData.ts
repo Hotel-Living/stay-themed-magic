@@ -11,6 +11,7 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
       "Unlock hidden profits"
     ]
   },
+  // "We are zero risk" menu item is handled directly in the HotelAccordionMenu component
   {
     id: "item-2",
     title: "SOME FACTS",

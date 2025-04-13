@@ -15,6 +15,11 @@ export function HotelAccordionMenu() {
           <MenuItemText items={hotelAccordionMenuItems[0].content} />
         </AccordionMenuItem>
         
+        {/* Zero Risk menu item moved here */}
+        <AccordionMenuItem value="zero-risk" title="WE ARE ZERO RISK">
+          <MenuItemText items={["Zero upfront cost", "Zero monthly fees", "You don't change a thing", "You don't have to do a thing", "You just make HUGE PROFITS from your typically vacant rooms"]} />
+        </AccordionMenuItem>
+        
         <AccordionMenuItem value="item-2" title={hotelAccordionMenuItems[1].title}>
           <MenuItemText items={hotelAccordionMenuItems[1].content} />
         </AccordionMenuItem>
@@ -26,7 +31,7 @@ export function HotelAccordionMenu() {
           </AccordionMenuItem>
         ))}
         
-        {/* Comparison Table section - added with margin top for spacing */}
+        {/* Comparison Table section */}
         <AccordionMenuItem
           value="compare-systems"
           title="LET'S COMPARE SYSTEMS"
@@ -34,6 +39,14 @@ export function HotelAccordionMenu() {
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
+        
+        {/* New slogans after comparison table */}
+        <div className="space-y-4 py-6 text-center">
+          <p className="text-xl text-white font-bold">We don't just fill rooms. We reshape society.</p>
+          <p className="text-xl text-white font-bold">People grouped by affinities</p>
+          <p className="text-xl text-white font-bold">Zero randomness. 100% connections</p>
+          <p className="text-xl text-white font-bold">Hotels to belong, not just to stay.</p>
+        </div>
         
         {/* Special item with additional margin */}
         <AccordionMenuItem 
@@ -44,8 +57,8 @@ export function HotelAccordionMenu() {
           <MenuItemText items={hotelAccordionMenuItems[9].content} />
         </AccordionMenuItem>
         
-        {/* Remaining items */}
-        {hotelAccordionMenuItems.slice(10).map((item) => (
+        {/* Remaining items - skipping the "zero-risk" item as it's moved up */}
+        {hotelAccordionMenuItems.slice(10).filter(item => item.id !== "item-1").map((item) => (
           <AccordionMenuItem key={item.id} value={item.id} title={item.title}>
             <MenuItemText items={item.content} />
           </AccordionMenuItem>

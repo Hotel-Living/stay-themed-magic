@@ -11,6 +11,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       <CollapsibleMenuItem 
         title={`${startingNumber}. Does your hotel have empty rooms?`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
+        titleClassName="text-[1.35rem]"
       >
         <div className="space-y-2 text-left">
           <p className="text-base">- For at least eight nights in a row? Those rooms are your gold mine.</p>
@@ -23,8 +24,9 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       </CollapsibleMenuItem>
       
       <CollapsibleMenuItem 
-        title={`${startingNumber + 1}. With Hotel-Living, so many people needs your rooms`}
+        title={`${startingNumber + 1}. So many people need your rooms`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
+        titleClassName="text-[1.35rem]"
       >
         <div className="space-y-2 text-left">
           <p className="text-base font-semibold">40% of the western population, who:</p>
@@ -48,6 +50,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       <CollapsibleMenuItem 
         title={`${startingNumber + 2}. Everyone's dream is to live in a hotel`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
+        titleClassName="text-[1.35rem]"
       >
         <div className="space-y-2 text-left">
           <p className="text-base">- Everything taken care of. Eternal vacation mode.</p>
@@ -59,6 +62,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       <CollapsibleMenuItem 
         title={`${startingNumber + 3}. Hotel living is a true hospitality revolution`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
+        titleClassName="text-[1.35rem]"
       >
         <div className="space-y-2 text-left">
           <p className="text-base">- And the demand is so overwhelming, society needs us so badly, that 96 out of every 100 potential guests will miss out on their dream life. Simply, we don't have enough rooms for all them: only around 4% will get in.</p>
@@ -68,6 +72,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       <CollapsibleMenuItem 
         title={`${startingNumber + 4}. All you need to do is offer the right product`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
+        titleClassName="text-[1.35rem]"
       >
         <div className="space-y-2 text-left">
           <p className="text-base">Each hotel should find its ideal setup and meet as many of its guests' daily needs as possible.</p>

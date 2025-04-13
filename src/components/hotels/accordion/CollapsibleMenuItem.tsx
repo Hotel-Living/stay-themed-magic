@@ -8,6 +8,7 @@ export interface CollapsibleMenuItemProps {
   title: string;
   children: ReactNode;
   className?: string;
+  titleClassName?: string;
   defaultOpen?: boolean;
 }
 
@@ -15,6 +16,7 @@ export function CollapsibleMenuItem({
   title, 
   children, 
   className = "mb-1",
+  titleClassName = "",
   defaultOpen = false
 }: CollapsibleMenuItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -27,7 +29,7 @@ export function CollapsibleMenuItem({
       onOpenChange={setIsOpen}
     >
       <CollapsibleTrigger className={styles.trigger}>
-        <span>{title}</span>
+        <span className={titleClassName}>{title}</span>
         <ChevronDown className={`${styles.icon} ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className={styles.content}>

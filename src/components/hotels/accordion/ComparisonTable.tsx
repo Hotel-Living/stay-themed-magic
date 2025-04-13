@@ -18,8 +18,8 @@ export function ComparisonTable({ items }: ComparisonTableProps) {
         <h3 className="text-xl font-bold text-yellow-300 mb-4 tracking-wide">TRADITIONAL MODEL</h3>
         <ul className="space-y-3">
           {items.map((item) => (
-            <li key={`traditional-${item.id}`} className="flex text-sm md:text-base">
-              <span className="font-bold text-yellow-300 mr-2 w-6">{item.id}.</span> 
+            <li key={`traditional-${item.id}`} className="flex text-xs md:text-sm">
+              <span className="font-bold text-yellow-300 mr-2 w-4 flex-shrink-0">{item.id}.</span> 
               <span className="text-white/90">{item.traditional}</span>
             </li>
           ))}
@@ -30,8 +30,8 @@ export function ComparisonTable({ items }: ComparisonTableProps) {
         <h3 className="text-xl font-bold text-yellow-300 mb-4 tracking-wide">HOTEL LIVING MODEL</h3>
         <ul className="space-y-3">
           {items.map((item) => (
-            <li key={`hotel-living-${item.id}`} className="flex text-sm md:text-base">
-              <span className="font-bold text-yellow-300 mr-2 w-6">{item.id}.</span> 
+            <li key={`hotel-living-${item.id}`} className="flex text-xs md:text-sm">
+              <span className="font-bold text-yellow-300 mr-2 w-4 flex-shrink-0">{item.id}.</span> 
               <span className="text-white/90">{item.hotelLiving}</span>
             </li>
           ))}

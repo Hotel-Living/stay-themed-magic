@@ -1,3 +1,4 @@
+
 export interface MenuItemContent {
   id: string;
   title: string;
@@ -14,11 +15,11 @@ export const comparisonItems: ComparisonItem[] = [
   {
     id: 1,
     traditional: "Constant check-ins/outs",
-    hotelLiving: "Fixed entry/exit days = smoother operations"
+    hotelLiving: "Fixed entry/exit days = Smoother operations"
   },
   {
     id: 2,
-    traditional: "More cleaning, more laundry, more turnover",
+    traditional: "More cleaning, laundry, turnover",
     hotelLiving: "Fewer cleanings, fewer transitions"
   },
   {
@@ -29,21 +30,31 @@ export const comparisonItems: ComparisonItem[] = [
   {
     id: 4,
     traditional: "Unpredictable occupancy",
-    hotelLiving: "Longer stays = Higher occupancy = Zero empty nights"
+    hotelLiving: "Longer stays = Higher occupancy"
   },
   {
     id: 5,
     traditional: "Gaps between bookings = Empty nights = Lost revenue",
-    hotelLiving: "Predictable flow = Easier planning = Optimized staff"
+    hotelLiving: "Zero empty nights = Maximum profit"
   },
   {
     id: 6,
-    traditional: "More staff. Stretched thin. Burned out",
-    hotelLiving: "Guests feel at home, build connections, and return"
+    traditional: "Low and high seasons. Staff comes and goes",
+    hotelLiving: "High season year-round. Stable staff"
   },
   {
     id: 7,
+    traditional: "Unmotivated, no trainable, unproffesional staff",
+    hotelLiving: "Motivated, trainable, proffesional staff"
+  },
+  {
+    id: 8,
     traditional: "Guests come and go. No connection, no loyalty",
+    hotelLiving: "Guests feel at home and return"
+  },
+  {
+    id: 9,
+    traditional: "Cold, isolated bookings. One after another",
     hotelLiving: "Not just bookings: communities"
   }
 ];

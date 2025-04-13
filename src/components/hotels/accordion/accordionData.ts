@@ -14,14 +14,13 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
   // "We are zero risk" menu item is handled directly in the HotelAccordionMenu component
   {
     id: "item-2",
-    title: "Some facts",
+    title: "The Secret",
     content: [
-      "The secret is 100% occupancy, all year round.",
-      "After the break-even point, every room becomes almost pure profit.",
-      "10 empty rooms per day equals 3,600 missed profit opportunities per year.",
-      "Selling them at a reduced price still brings in a small fortune.",
-      "Any profit is better than daily losses.",
-      "Thousands in small profits add up to a massive amount"
+      "Simple: 100% occupancy. All year round",
+      "Because after the break-even point, every room becomes almost pure profit",
+      "Just 10 daily empty rooms equals 3,600 profits missed every year",
+      "Selling them at a reduced price add up a truly fortune",
+      "Because thousands of small profits, day after day, week after week, add up massive amounts"
     ]
   },
   {
@@ -49,12 +48,12 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     id: "reduce-expenses",
     title: "Let's reduce expenses",
     content: [
-      "Reduced operating costs",
-      "Fewer cleanings, less laundry",
-      "Fewer Check-ins/outs = Front desk Dream",
-      "Less wear and tear on rooms and furniture",
-      "Lower food costs (mature, predictable guests)",
-      "Stable hiring = less training and lower turnover costs"
+      "Longer stays = Fewer cleanings = Less laundry",
+      "Fewer Check-ins/outs = Reduced frontdesk",
+      "Just one weekday for check-ins/outs = Perfect staff optimization",
+      "Longer stays = Less wear and tear on rooms and furniture",
+      "Mature customers = Food expense radically shortened",
+      "Total staff stability = Less training = Lower turnover costs"
     ]
   },
   {

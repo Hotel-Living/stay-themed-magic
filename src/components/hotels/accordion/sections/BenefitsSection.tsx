@@ -15,7 +15,7 @@ export function BenefitsSection({ startingNumber = 1 }: BenefitsSectionProps) {
         <MenuItemText items={hotelAccordionMenuItems[0].content} />
       </CollapsibleMenuItem>
       
-      <CollapsibleMenuItem title={`${startingNumber}.2 Some facts`}>
+      <CollapsibleMenuItem title={`${startingNumber}.2 The Secret`}>
         <MenuItemText items={hotelAccordionMenuItems[1].content} />
       </CollapsibleMenuItem>
       

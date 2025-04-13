@@ -83,7 +83,77 @@ export function HotelAccordionMenu() {
               "Empty rooms are our untapped gold",
               "Few of us achieve 100% occupancy all year round",
               "It doesn't matter if we're 5 stars or 3: we're all missing the point and a lot of money",
-              "The pure-profit rooms we fail to sell"
+              "The pure-profit rooms we fail to sell",
+              "And we're giving up our rightful place in society"
+            ]} />
+          </AccordionMenuItem>
+        </div>
+        
+        {/* New five menu items with vertical spacing */}
+        <div className="mt-24">
+          <AccordionMenuItem 
+            value="empty-rooms" 
+            title="DOES YOUR HOTEL HAVE EMPTY ROOMS?"
+          >
+            <MenuItemText items={[
+              "For at least eight nights in a row? Those rooms are your gold mine.",
+              "Because if your hotel COVER costs, they're pure profit.",
+              "Because if your hotel DON'T COVER costs, they're your lifeline.",
+              "Because if your hotel is CLOSED some months every year, those empty rooms are your treasure: stop accumulating losses and start generating real income."
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="world-needs-rooms" 
+            title="WITH OUR PATENTED SYSTEM, THE WORLD NEEDS YOUR ROOMS"
+          >
+            <MenuItemText items={[
+              "Because 40% of the Western population:",
+              "- Lives alone or as a couple",
+              "- Is semi-retired or retired",
+              "- Works remotely",
+              "- Is a student living away from home",
+              "- Lives too far from work",
+              "- Has a secure income",
+              "And most of them:",
+              "- Want to stop doing house chores",
+              "- Feel too isolated",
+              "- Have no family obligations",
+              "- Want to expand their social life",
+              "- Want to meet people who share their interests and mindset",
+              "- Need the safety and comfort of hotel living — especially older or solo individuals"
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="humanity-dream" 
+            title="HUMANITY'S DREAM IS TO LIVE IN A HOTEL"
+          >
+            <MenuItemText items={[
+              "Everything taken care of. Eternal vacation mode.",
+              "So, why do we still have so many empty rooms?",
+              "Because we're stuck in an outdated model from long ago."
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="hospitality-revolution" 
+            title="HOTEL LIVING IS A TRUE HOSPITALITY REVOLUTION"
+          >
+            <MenuItemText items={[
+              "And the demand is so overwhelming, society needs us so badly, that 96 out of every 100 potential guests will miss out on their dream life. Simply, we don't have enough rooms for all them: only around 4% will get in."
+            ]} />
+          </AccordionMenuItem>
+          
+          <AccordionMenuItem 
+            value="right-product" 
+            title="ALL YOU NEED TO DO IS OFFER THE RIGHT PRODUCT"
+          >
+            <MenuItemText items={[
+              "Each hotel should find its ideal setup and solve as many daily needs for guests as possible.",
+              "If you have lots of empty rooms, offer long stays at affordable prices (maybe 16, 24, or 32 nights) to be sure you'll fill up and you'll earn huge profits.",
+              "If you just have 20–30 available empty rooms, you should consider shorter stays (8 or 16 nights) and, if your category allows, to offer exclusive, themed programs (anything from hobbies to experiences) that justify higher rates.",
+              "Your hotel, any hotel, whatever its category and services, just needs to offer the perfect product to stay full all year and truly multiply its profits."
             ]} />
           </AccordionMenuItem>
         </div>

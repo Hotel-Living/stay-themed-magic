@@ -1,3 +1,4 @@
+
 import { MenuItemContent } from './types';
 
 export const hotelAccordionMenuItems: MenuItemContent[] = [
@@ -15,10 +16,12 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
     title: "The Secret",
     content: [
       "Simple: 100% occupancy. All year round",
-      "Because after the break-even point, every room becomes almost pure profit",
+      "Because after the break-even point,", 
+      "every room becomes almost pure profit",
       "Just 10 daily empty rooms equals 3,600 profits missed every year",
       "Selling them at a reduced price add up a truly fortune",
-      "Because thousands of small profits, day after day, week after week, add up massive amounts"
+      "Because thousands of small profits, day after day,",
+      "week after week, add up massive amounts"
     ]
   },
   {
@@ -128,7 +131,8 @@ export const hotelAccordionMenuItems: MenuItemContent[] = [
       "Zero monthly fees",
       "You don't change a thing",
       "You don't have to do a thing",
-      "You just make HUGE PROFITS from your typically vacant rooms"
+      "You just make HUGE PROFITS",
+      "from your typically vacant rooms"
     ]
   },
   {

@@ -20,7 +20,9 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
             "For at least eight nights in a row? Those rooms are your gold mine.",
             "Because if your hotel COVER costs, they're pure profit.",
             "Because if your hotel DON'T COVER costs, they're your lifeline.",
-            "Because if your hotel is CLOSED some months every year, those empty rooms are your treasure: stop accumulating losses and start generating real income."
+            "Because if your hotel is CLOSED some months every year,", 
+            "those empty rooms are your treasure:", 
+            "stop accumulating losses and start generating real income."
           ]} />
         </CollapsibleContent>
       </Collapsible>
@@ -45,7 +47,8 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
             "- Have no family obligations",
             "- Want to expand their social life",
             "- Want to meet people who share their interests and mindset",
-            "- Need the safety and comfort of hotel living — especially older or solo individuals"
+            "- Need the safety and comfort of hotel living",
+            "especially older or solo individuals"
           ]} />
         </CollapsibleContent>
       </Collapsible>

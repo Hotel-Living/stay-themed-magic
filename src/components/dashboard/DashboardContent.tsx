@@ -56,7 +56,7 @@ export const DashboardContent = () => {
     loading: notificationsLoading
   } = useReviewNotifications();
 
-  // Fixed action onClick handlers
+  // Modified action onClick handlers to not use parameters
   const actions: Action[] = [{
     title: 'Add Property',
     description: 'List a new hotel or apartment.',
@@ -76,9 +76,12 @@ export const DashboardContent = () => {
     title: 'Manage Reviews',
     description: 'Respond to guest feedback.',
     icon: <MessageSquare className="w-5 h-5" />,
-    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
-      bubbles: true
-    }))
+    onClick: () => {
+      // Use a DOM event to activate the reviews tab
+      document.querySelector('[data-tab="reviews"]')?.dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      )
+    }
   }];
 
   return <div className="space-y-8">

@@ -33,6 +33,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.eq('city', filters.location);
     }
 
+    // Apply property type filter
+    if (filters.propertyType) {
+      query = query.eq('property_type', filters.propertyType);
+    }
+
     // Apply minimum price filter
     if (filters.minPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined)) {
       const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);

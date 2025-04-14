@@ -4,12 +4,13 @@ import { FilterState } from "../FilterTypes";
 
 export const useFilterState = (onFilterChange: (filters: FilterState) => void) => {
   const [filters, setFilters] = useState<FilterState>({
-    themes: [],
-    amenities: [],
     country: null,
     month: null,
     theme: null,
-    priceRange: null
+    priceRange: null,
+    searchTerm: null,
+    location: null,
+    propertyType: null
   });
   
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -45,15 +46,21 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
       month: null,
       theme: null,
       priceRange: null,
-      themes: [],
-      amenities: []
+      searchTerm: null,
+      location: null,
+      propertyType: null
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
   };
   
   const hasActiveFilters = () => {
-    return filters.country !== null || filters.month !== null || filters.theme !== null || filters.priceRange !== null;
+    return filters.country !== null || 
+           filters.month !== null || 
+           filters.theme !== null || 
+           filters.priceRange !== null ||
+           filters.location !== null ||
+           filters.propertyType !== null;
   };
 
   return {

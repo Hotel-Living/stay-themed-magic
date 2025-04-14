@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -26,10 +25,13 @@ export function FilterSectionWrapper({
   const navigate = useNavigate();
 
   const [activeFilters, setActiveFilters] = useState<FilterState>({
-    themes: [],
-    amenities: [],
-    priceRange: { min: 0, max: 1000 },
-    rating: 0,
+    country: null,
+    month: null,
+    theme: null,
+    priceRange: null,
+    searchTerm: null,
+    location: null,
+    propertyType: null
   });
 
   const handleFilterChange = (newFilters: FilterState) => {
@@ -44,6 +46,8 @@ export function FilterSectionWrapper({
     if (activeFilters.month) params.append("month", activeFilters.month);
     if (activeFilters.theme && activeFilters.theme.id) params.append("theme", activeFilters.theme.id);
     if (typeof activeFilters.priceRange === 'number') params.append("price", activeFilters.priceRange.toString());
+    if (activeFilters.location) params.append("location", activeFilters.location);
+    if (activeFilters.propertyType) params.append("propertyType", activeFilters.propertyType);
     
     console.log("Search with filters:", activeFilters);
     

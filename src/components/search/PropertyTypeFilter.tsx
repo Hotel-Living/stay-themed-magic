@@ -7,7 +7,7 @@ interface PropertyTypeFilterProps {
 }
 
 export function PropertyTypeFilter({ activePropertyType, onChange }: PropertyTypeFilterProps) {
-  const propertyTypes = ["Hotel", "Resort", "Boutique Hotel", "Villa", "Apartment", "Guesthouse"];
+  const propertyTypes = ["Hotel", "Resort", "Boutique Hotel", "Motel", "Inn"];
 
   return (
     <FilterItem title="TYPE OF PROPERTY">

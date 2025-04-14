@@ -11,7 +11,8 @@ export interface FilterState {
   minPrice?: number;
   maxPrice?: number;
   stars?: string[];
-  location?: string | null; // Added location field
+  location?: string | null;
+  propertyType?: string | null; // Added property type field
 }
 
 export interface FilterSectionProps {

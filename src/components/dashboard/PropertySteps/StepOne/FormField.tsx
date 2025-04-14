@@ -28,7 +28,7 @@ export default function FormField({
   placeholder
 }: FormFieldProps) {
   const shouldShowError = error ? true : false;
-  const baseClasses = `text-white bg-[#7A0486] border-white ${shouldShowError ? "border-red-500" : ""}`;
+  const baseClasses = `text-white bg-[#8017B0] border-white ${shouldShowError ? "border-red-500" : ""}`;
   
   return (
     <div>

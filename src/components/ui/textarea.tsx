@@ -1,6 +1,5 @@
 
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
 export interface TextareaProps
@@ -12,8 +11,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <textarea
         className={cn(
           "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          // Default to text-[#7A0486] for white bg and text-white for purple bg
-          // Update border colors based on background
+          // Default to text-[#8017B0] for white bg and text-white for purple bg
           "bg-white text-[#8017B0] border-[#8017B0] data-[bg=purple]:bg-[#8017B0] data-[bg=purple]:text-white data-[bg=purple]:border-white",
           className
         )}

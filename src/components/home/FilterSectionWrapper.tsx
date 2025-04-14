@@ -57,7 +57,7 @@ export function FilterSectionWrapper({
   
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
-        <div className="rounded-lg p-1 bg-[#7030A0] shadow-lg border-3 border-fuchsia-400/80">
+        <div className="rounded-lg p-1 bg-[#721876] shadow-lg border-3 border-fuchsia-400/80">
           <FilterSection 
             onFilterChange={handleFilterChange} 
             showSearchButton={false} 
@@ -79,10 +79,10 @@ export function FilterSectionWrapper({
             labelTextSize="text-xs" // Making filter labels 15% smaller
           />
           
-          <div className="flex justify-center bg-[#7030A0]">
+          <div className="flex justify-center bg-[#721876]">
             <Button 
               size="sm" 
-              className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#7030A0] hover:bg-[#5A1876] font-bold border-t-2 border-fuchsia-400/70"
+              className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#721876] hover:bg-[#5A1358] font-bold border-t-2 border-fuchsia-400/70"
               onClick={handleSearch}
             >
               <Search className="w-4 h-4 mr-2" />

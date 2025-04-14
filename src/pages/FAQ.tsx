@@ -191,7 +191,7 @@ export default function FAQ() {
             Find answers to common questions
           </p>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-20">
             <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
               {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-sm"} bg-[#730483] text-white`}>
                   {category.name}

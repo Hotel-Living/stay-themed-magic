@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -59,11 +58,10 @@ export function Navbar() {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/faq-travelers" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+          <Link to="/faq" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             FAQ
           </Link>
           
-          {/* Show Register and Login only if not logged in */}
           {!isLoggedIn && !isDevelopment && (
             <>
               <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
@@ -82,7 +80,6 @@ export function Navbar() {
             Hotels
           </Link>
           
-          {/* Only show User Dashboard if logged in and not hotel owner */}
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
             <Link to="/user-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
               <User className="w-3 h-3" />
@@ -90,14 +87,12 @@ export function Navbar() {
             </Link>
           )}
           
-          {/* Only show Hotel Dashboard if logged in and is hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
               Hotel Dashboard
             </Link>
           )}
           
-          {/* Show logout button if logged in */}
           {isLoggedIn && !isDevelopment && (
             <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
               Logout
@@ -112,11 +107,10 @@ export function Navbar() {
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
-          <Link to="/faq-travelers" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             FAQ
           </Link>
           
-          {/* Show Register and Login only if not logged in */}
           {!isLoggedIn && !isDevelopment && (
             <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
@@ -135,7 +129,6 @@ export function Navbar() {
             Hotels
           </Link>
           
-          {/* Only show User Dashboard if logged in and not hotel owner */}
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
             <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
               <User className="w-4 h-4" />
@@ -143,14 +136,12 @@ export function Navbar() {
             </Link>
           )}
           
-          {/* Only show Hotel Dashboard if logged in and is hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
               Hotel Dashboard
             </Link>
           )}
           
-          {/* Show logout button if logged in */}
           {isLoggedIn && !isDevelopment && (
             <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
               Logout

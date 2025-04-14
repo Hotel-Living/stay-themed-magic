@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -94,7 +93,7 @@ export default function FAQ() {
                   key={index}
                   className="flex items-center text-[#FFFBB3] hover:text-[#FFD700] transition-colors duration-300"
                 >
-                  <CircleDot className="mr-3 text-fuchsia-500" size={20} />
+                  <CircleDot className="mr-3 text-yellow-500" fill="#FFC300" size={20} />
                   <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold text-left`}>
                     {benefit}
                   </p>
@@ -128,25 +127,6 @@ export default function FAQ() {
                 </Accordion>
               </TabsContent>)}
           </Tabs>
-          
-          <div className="max-w-3xl mx-auto mt-12">
-            <Card className="glass-card-hover rounded-xl overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300" onClick={navigateToTravelerFAQ}>
-              <CardHeader className="pb-4 bg-[#6c0586]">
-                <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center mx-auto mb-2">
-                  <Users className="h-6 w-6 text-fuchsia-400" />
-                </div>
-                <CardTitle className={`${isMobile ? "text-2xl" : "text-xl"} text-center`}>For Travelers</CardTitle>
-                <CardDescription className={`text-center ${isMobile ? "text-lg font-bold text-white" : ""}`}>
-                  Detailed information for guests looking to book stays
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center pb-6">
-                <Button className={`bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-medium ${isMobile ? "text-lg py-2 px-6" : ""}`}>
-                  View Traveler FAQs
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </main>
       

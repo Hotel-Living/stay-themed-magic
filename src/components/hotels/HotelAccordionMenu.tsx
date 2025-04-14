@@ -23,7 +23,7 @@ export function HotelAccordionMenu() {
           title="1-   The benefits"
           titleClassName="text-xl font-medium" 
           className="hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          preventScroll={true}
+          preventScroll={false}
         >
           <BenefitsSection />
         </AccordionMenuItem>
@@ -34,7 +34,7 @@ export function HotelAccordionMenu() {
           title="2-   Let's compare systems"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
@@ -45,7 +45,7 @@ export function HotelAccordionMenu() {
           title="3-   We don't just fill rooms"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> We reshape society.</p>
@@ -61,13 +61,13 @@ export function HotelAccordionMenu() {
           title="4-   How much profit are we missing?"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <ProfitSection />
         </AccordionMenuItem>
         
         {/* Special menu items - will be numbered 5-9 with proper alignment */}
-        <SpecialMenuItems startingNumber={5} preventScroll={true} />
+        <SpecialMenuItems startingNumber={5} preventScroll={false} />
         
         {/* They need your hotel section - renumbered from 11 to 10 */}
         <AccordionMenuItem 
@@ -75,7 +75,7 @@ export function HotelAccordionMenu() {
           title="10-   They need your hotel"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because people want to socialize. Make friends</p>
@@ -92,7 +92,7 @@ export function HotelAccordionMenu() {
           title="11-   Themes are the new social revolution" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just think on a theme and let the magic happen</p>
@@ -104,7 +104,7 @@ export function HotelAccordionMenu() {
           title="12-   We're seamless integration" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
-          preventScroll={true}
+          preventScroll={false}
         >
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> You don't have to choose between systems.</p>

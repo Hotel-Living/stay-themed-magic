@@ -22,19 +22,11 @@ export function AccordionMenuItem({
 }: AccordionMenuItemProps) {
   const styles = accordionMenuItemStyles();
   
-  const handleTriggerClick = (e: React.MouseEvent) => {
-    if (preventScroll) {
-      // Prevent the default behavior which might cause scrolling
-      e.preventDefault();
-    }
-  };
-  
   return (
     <AccordionItem value={value} className={`${styles.item} ${className}`}>
       <AccordionTrigger 
         className={`${styles.trigger} group`} 
         titleClassName={titleClassName}
-        onClick={handleTriggerClick}
       >
         <span className={titleClassName}>
           {title}

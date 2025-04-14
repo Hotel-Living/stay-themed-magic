@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -133,11 +134,5 @@ export default function DashboardLayout({
           </div>
         </div>
       </main>
-      
-      <footer className="py-6 px-4 border-t border-fuchsia-900/20 mt-10 bg-[#7a0486]">
-        <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
-          &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
-        </div>
-      </footer>
     </div>;
 }

@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import HotelRegistrationPrompt from "@/components/hotel-dashboard/HotelRegistrationPrompt";
 import TabContentSelector from "@/components/hotel-dashboard/TabContentSelector";
+import { Footer } from "@/components/Footer";
 import { getDashboardTabs } from "@/components/hotel-dashboard/TabConfiguration";
 
 export default function HotelDashboard() {
@@ -45,6 +46,7 @@ export default function HotelDashboard() {
     return (
       <div className="min-h-screen flex flex-col">
         <HotelRegistrationPrompt />
+        <Footer />
       </div>
     );
   }
@@ -58,6 +60,7 @@ export default function HotelDashboard() {
       >
         <TabContentSelector activeTab={activeTab} />
       </DashboardLayout>
+      <Footer />
     </div>
   );
 }

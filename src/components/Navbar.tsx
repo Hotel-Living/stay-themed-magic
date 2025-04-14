@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -53,13 +54,6 @@ export function Navbar() {
     }
   };
 
-  const getMyAccountUrl = () => {
-    if (isHotelOwner) {
-      return "/hotel-dashboard";
-    }
-    return "/user-dashboard";
-  };
-
   return <header className="bg-[#860493] shadow-md">
       <div className="container px-4 sm:px-6 py-2 flex items-center justify-between">
         <Logo />
@@ -68,31 +62,46 @@ export function Navbar() {
           <Link to="/faq-travelers" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             FAQ
           </Link>
-          <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            Register
-          </Link>
-          <Link to="/login" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-            Login
-          </Link>
+          
+          {/* Show Register and Login only if not logged in */}
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+                Register
+              </Link>
+              <Link to="/login" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+                Login
+              </Link>
+            </>
+          )}
+          
           <Link to="/affinity-stays" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Affinity Stays?
           </Link>
           <Link to="/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
             Hotels
           </Link>
-          {isLoggedIn || isDevelopment ? <>
-              <Link to={getMyAccountUrl()} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
-                <User className="w-3 h-3" />
-                My Account
-              </Link>
-              {!isDevelopment && <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
-                  Logout
-                </button>}
-            </> : null}
+          
+          {/* Only show User Dashboard if logged in and not hotel owner */}
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
+            <Link to="/user-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase flex items-center gap-1">
+              <User className="w-3 h-3" />
+              My Account
+            </Link>
+          )}
+          
+          {/* Only show Hotel Dashboard if logged in and is hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
               Hotel Dashboard
             </Link>
+          )}
+          
+          {/* Show logout button if logged in */}
+          {isLoggedIn && !isDevelopment && (
+            <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+              Logout
+            </button>
           )}
         </div>
         
@@ -106,32 +115,46 @@ export function Navbar() {
           <Link to="/faq-travelers" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             FAQ
           </Link>
-          <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            Register
-          </Link>
-          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-            Login
-          </Link>
+          
+          {/* Show Register and Login only if not logged in */}
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Register
+              </Link>
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+                Login
+              </Link>
+            </>
+          )}
+          
           <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             Affinity Stays?
           </Link>
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
             Hotels
           </Link>
-          {isLoggedIn || isDevelopment ? <>
-              <Link to={getMyAccountUrl()} onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
-                <User className="w-4 h-4" />
-                My Account
-              </Link>
-              {!isDevelopment && <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
-                  Logout
-                </button>}
-            </> : null}
           
+          {/* Only show User Dashboard if logged in and not hotel owner */}
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
+            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
+              <User className="w-4 h-4" />
+              My Account
+            </Link>
+          )}
+          
+          {/* Only show Hotel Dashboard if logged in and is hotel owner */}
           {(isHotelOwner || isDevelopment) && (
             <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
               Hotel Dashboard
             </Link>
+          )}
+          
+          {/* Show logout button if logged in */}
+          {isLoggedIn && !isDevelopment && (
+            <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-center text-base uppercase">
+              Logout
+            </button>
           )}
         </nav>
       </div>

@@ -119,7 +119,7 @@ export default function LocationSection({
                 hasError={shouldShowError("city")}
                 errorMessage={errors.city}
                 cities={selectedCountryCities}
-                disabled={!formData.country && !isAddingNewCountry}
+                disabled={formData.country === "" && !isAddingNewCountry}
               />
             ) : (
               <CustomCityInput

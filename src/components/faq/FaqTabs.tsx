@@ -20,6 +20,7 @@ interface FaqTabsProps {
   faqCategories: FaqCategory[];
   faqsByCategory: Record<string, FaqItem[]>;
   numbered?: boolean;
+  searchQuery?: string;
 }
 
 export function FaqTabs({ 
@@ -27,9 +28,25 @@ export function FaqTabs({
   setActiveTab, 
   faqCategories, 
   faqsByCategory,
-  numbered = false
+  numbered = false,
+  searchQuery = ""
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
+
+  // Filter FAQs based on search query
+  const getFilteredFaqs = (categoryId: string) => {
+    if (!searchQuery) return faqsByCategory[categoryId as keyof typeof faqsByCategory];
+    
+    return faqsByCategory[categoryId as keyof typeof faqsByCategory].filter(
+      faq => 
+        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
+  // Check if any FAQs match the search query in any category
+  const hasSearchResults = searchQuery ? 
+    faqCategories.some(category => getFilteredFaqs(category.id).length > 0) : true;
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-20">
@@ -45,32 +62,49 @@ export function FaqTabs({
         ))}
       </TabsList>
       
-      {faqCategories.map(category => (
-        <TabsContent key={category.id} value={category.id} className="customer-text">
-          <Accordion type="single" collapsible className="w-full space-y-2">
-            {faqsByCategory[category.id as keyof typeof faqsByCategory].map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`${category.id}-${index}`} 
-                className="glass-card rounded-lg overflow-hidden border-none"
-              >
-                <AccordionTrigger 
-                  className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
-                >
-                  <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
-                    {numbered ? `${index + 1}. ` : ''}{faq.question}
-                  </h2>
-                </AccordionTrigger>
-                <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
-                  <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
-                    {faq.answer}
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </TabsContent>
-      ))}
+      {!hasSearchResults && (
+        <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">
+          <p className="text-[#e3d6e9] text-lg">No FAQs found matching "{searchQuery}"</p>
+          <p className="text-[#e3d6e9] text-sm mt-2">Try different keywords or clear your search</p>
+        </div>
+      )}
+      
+      {faqCategories.map(category => {
+        const filteredFaqs = getFilteredFaqs(category.id);
+        
+        return (
+          <TabsContent key={category.id} value={category.id} className="customer-text">
+            {filteredFaqs.length > 0 ? (
+              <Accordion type="single" collapsible className="w-full space-y-2">
+                {filteredFaqs.map((faq, index) => (
+                  <AccordionItem 
+                    key={index} 
+                    value={`${category.id}-${index}`} 
+                    className="glass-card rounded-lg overflow-hidden border-none"
+                  >
+                    <AccordionTrigger 
+                      className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
+                    >
+                      <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
+                        {numbered ? `${index + 1}. ` : ''}{faq.question}
+                      </h2>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
+                      <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
+                        {faq.answer}
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            ) : searchQuery ? (
+              <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">
+                <p className="text-[#e3d6e9] text-lg">No FAQs found in this category</p>
+              </div>
+            ) : null}
+          </TabsContent>
+        );
+      })}
     </Tabs>
   );
 }

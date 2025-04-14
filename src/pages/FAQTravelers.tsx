@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { BenefitsTravelersList } from "@/components/faq/BenefitsTravelersList";
 import { FaqTravelersTabs } from "@/components/faq/FaqTravelersTabs";
+import { FaqSearch } from "@/components/faq/FaqSearch";
 import { 
   benefitsTravelersList, 
   faqTravelersCategories, 
@@ -13,6 +14,7 @@ import {
 
 export default function FAQTravelers() {
   const [activeTab, setActiveTab] = useState("general");
+  const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
   
   return (
@@ -23,7 +25,7 @@ export default function FAQTravelers() {
         <div className="container max-w-4xl mx-auto px-4 py-8">
           <BenefitsTravelersList benefits={benefitsTravelersList} />
 
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h1 className={`
               ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
               font-bold mb-6 text-gradient text-[#eedbf7] glow 
@@ -31,9 +33,15 @@ export default function FAQTravelers() {
             `}>
               Travelers FAQ
             </h1>
-            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-4`}>
+            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-8`}>
               Everything you need to know about Hotel-Living
             </p>
+            
+            <FaqSearch 
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              placeholder="Search traveler FAQs..."
+            />
           </div>
 
           <FaqTravelersTabs 
@@ -42,6 +50,7 @@ export default function FAQTravelers() {
             faqCategories={faqTravelersCategories}
             faqsByCategory={faqTravelersByCategory}
             numbered={true}
+            searchQuery={searchQuery}
           />
         </div>
       </main>

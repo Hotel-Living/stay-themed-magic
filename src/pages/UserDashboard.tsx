@@ -17,7 +17,7 @@ import HistoryContent from "@/components/dashboard/user/tabs/HistoryContent";
 import SavedContent from "@/components/dashboard/user/tabs/SavedContent";
 import PaymentsContent from "@/components/dashboard/user/tabs/PaymentsContent";
 import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
-import SettingsContent from "@/components/dashboard/user/tabs/SettingsContent";
+import SettingsContent from "@/components/dashboard/user/tabs/settings/SettingsContent";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";

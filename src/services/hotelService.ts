@@ -28,6 +28,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.contains('available_months', [filters.month]);
     }
 
+    // Apply city/location filter
+    if (filters.location) {
+      query = query.eq('city', filters.location);
+    }
+
     // Apply minimum price filter
     if (filters.minPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined)) {
       const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);

@@ -54,6 +54,7 @@ export default function Search() {
     if (searchParams.has('country')) newFilters.country = searchParams.get('country');
     if (searchParams.has('month')) newFilters.month = searchParams.get('month');
     if (searchParams.has('price')) newFilters.priceRange = Number(searchParams.get('price'));
+    if (searchParams.has('location')) newFilters.location = searchParams.get('location');
     if (searchParams.has('theme')) {
       // Handle theme differently since it's an object
       const themeId = searchParams.get('theme');
@@ -68,7 +69,8 @@ export default function Search() {
       country: newFilters.country,
       month: newFilters.month,
       theme: newFilters.theme,
-      priceRange: newFilters.priceRange
+      priceRange: newFilters.priceRange,
+      location: newFilters.location
     });
   }, [location.search]);
 

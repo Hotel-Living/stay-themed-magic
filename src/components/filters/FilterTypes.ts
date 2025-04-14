@@ -1,19 +1,17 @@
 
+import { ReactNode } from "react";
 import { Theme } from "@/utils/themes";
 
-// Update FilterState interface to match what's being used
 export interface FilterState {
-  themes?: string[];
-  amenities?: string[];
-  priceRange?: { min: number; max: number } | number | null;
-  rating?: number;
-  searchTerm?: string;
-  theme?: Theme | null;
-  minPrice?: number;
-  maxPrice?: number;
-  stars?: number[];
   country?: string | null;
   month?: string | null;
+  theme?: Theme | null;
+  priceRange?: number | { min: number; max: number } | null;
+  searchTerm?: string | null;
+  minPrice?: number;
+  maxPrice?: number;
+  stars?: string[];
+  location?: string | null; // Added location field
 }
 
 export interface FilterSectionProps {
@@ -34,4 +32,12 @@ export interface FilterSectionProps {
   availableThemes?: string[];
   useLargerMobileText?: boolean;
   textColor?: string;
+}
+
+export interface FilterContainerProps {
+  children: ReactNode;
+  verticalLayout?: boolean;
+  expandedLayout?: boolean;
+  compactSpacing?: boolean;
+  formWrapperBgColor?: string;
 }

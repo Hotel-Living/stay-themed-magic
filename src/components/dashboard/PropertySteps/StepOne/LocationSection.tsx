@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom'; // Changed from next/navigation to react-router-dom
 import { cn } from "@/lib/utils";
 import { Country, State, City } from 'country-state-city';
 import {
@@ -44,14 +44,13 @@ const LocationSection: React.FC<LocationSectionProps> = ({
   handleBlur
 }) => {
   const [countries, setCountries] = useState<any[]>([]);
-  const [states, setStates] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
   const [customCountry, setCustomCountry] = useState(false);
   const [customCity, setCustomCity] = useState(false);
   const [customCountryName, setCustomCountryName] = useState('');
   const [customCityName, setCustomCityName] = useState('');
   const { toast } = useToast();
-  const router = useRouter();
+  const navigate = useNavigate(); // Changed from useRouter to useNavigate
 
   useEffect(() => {
     const countryList = Country.getAllCountries();
@@ -60,22 +59,13 @@ const LocationSection: React.FC<LocationSectionProps> = ({
 
   useEffect(() => {
     if (formData.country) {
-      const stateList = State.getStatesOfCountry(formData.country);
-      setStates(stateList);
+      // Since we don't have state in the formData, we'll directly get cities for the country
+      const cityList = City.getCitiesOfCountry(formData.country);
+      setCities(cityList || []);
     } else {
-      setStates([]);
       setCities([]);
     }
   }, [formData.country]);
-
-  useEffect(() => {
-    if (formData.country && formData.state) {
-      const cityList = City.getCitiesOfState(formData.country, formData.state);
-      setCities(cityList);
-    } else {
-      setCities([]);
-    }
-  }, [formData.country, formData.state]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     handleChange(e.target.name, e.target.value);
@@ -206,10 +196,10 @@ const LocationSection: React.FC<LocationSectionProps> = ({
               <SelectValue placeholder="Select a city" />
             </SelectTrigger>
             <SelectContent>
-              {states.length === 0 ? (
+              {countries.length === 0 ? (
                 <SelectItem disabled value="">Select a country first</SelectItem>
               ) : cities.length === 0 ? (
-                <SelectItem disabled value="">Select a state first</SelectItem>
+                <SelectItem disabled value="">No cities found for this country</SelectItem>
               ) : (
                 cities.map((city) => (
                   <SelectItem key={city.name} value={city.name}>

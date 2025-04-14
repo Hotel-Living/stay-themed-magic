@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import CheckInOutSection from './PropertySteps/rooms/CheckInOutSection';
 import MealPlanSection from './PropertySteps/rooms/MealPlanSection';
+
 export default function SettingsContent() {
   const {
     toast
@@ -23,16 +24,18 @@ export default function SettingsContent() {
   const [bookingConfirmations, setBookingConfirmations] = useState(true);
   const [reviewAlerts, setReviewAlerts] = useState(true);
   const [paymentNotifications, setPaymentNotifications] = useState(true);
+  
   const handleSaveSettings = () => {
     toast({
       title: "Settings saved",
       description: "Your settings have been updated successfully."
     });
   };
+  
   return <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">Hotel Settings</h2>
-        <Button onClick={handleSaveSettings} className="flex items-center gap-2">
+        <Button onClick={handleSaveSettings} className="flex items-center gap-2 bg-[#9b87f5] hover:bg-[#7E69AB]">
           <Save className="h-4 w-4" />
           Save All Settings
         </Button>
@@ -99,11 +102,11 @@ export default function SettingsContent() {
                 <div>
                   <Label htmlFor="currency" className="block text-base mb-2">Preferred Currency</Label>
                   <Select value={currency} onValueChange={setCurrency}>
-                    <SelectTrigger className="w-full bg-[#A67CAB] text-black h-12 border-white">
+                    <SelectTrigger className="w-full bg-[#9b87f5] text-white h-12 border-white">
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {["USD", "EUR", "GBP", "JPY", "CNY", "AUD", "CAD"].map(currency => <SelectItem key={currency} value={currency}>{currency}</SelectItem>)}
+                    <SelectContent className="bg-[#9b87f5] text-white border-[#7A0486]">
+                      {["USD", "EUR", "GBP", "JPY", "CNY", "AUD", "CAD"].map(currency => <SelectItem key={currency} value={currency} className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">{currency}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -173,13 +176,13 @@ export default function SettingsContent() {
               <div>
                 <Label htmlFor="pet-policy">Pet Policy</Label>
                 <Select defaultValue="not-allowed">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
+                  <SelectTrigger className="w-full bg-[#9b87f5] text-white border-white">
                     <SelectValue placeholder="Pet policy" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="allowed">Pets Allowed</SelectItem>
-                    <SelectItem value="not-allowed">No Pets Allowed</SelectItem>
-                    <SelectItem value="case-by-case">Case by Case Basis</SelectItem>
+                  <SelectContent className="bg-[#9b87f5] text-white border-[#7A0486]">
+                    <SelectItem value="allowed" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Pets Allowed</SelectItem>
+                    <SelectItem value="not-allowed" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">No Pets Allowed</SelectItem>
+                    <SelectItem value="case-by-case" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Case by Case Basis</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -187,13 +190,13 @@ export default function SettingsContent() {
               <div>
                 <Label htmlFor="smoking-policy">Smoking Policy</Label>
                 <Select defaultValue="non-smoking">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
+                  <SelectTrigger className="w-full bg-[#9b87f5] text-white border-white">
                     <SelectValue placeholder="Smoking policy" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="smoking">Smoking Allowed</SelectItem>
-                    <SelectItem value="non-smoking">Non-Smoking</SelectItem>
-                    <SelectItem value="designated-areas">Designated Areas Only</SelectItem>
+                  <SelectContent className="bg-[#9b87f5] text-white border-[#7A0486]">
+                    <SelectItem value="smoking" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Smoking Allowed</SelectItem>
+                    <SelectItem value="non-smoking" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Non-Smoking</SelectItem>
+                    <SelectItem value="designated-areas" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Designated Areas Only</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -201,13 +204,13 @@ export default function SettingsContent() {
               <div>
                 <Label htmlFor="children-policy">Children Policy</Label>
                 <Select defaultValue="allowed">
-                  <SelectTrigger className="w-full bg-fuchsia-950/50 text-black border-white">
+                  <SelectTrigger className="w-full bg-[#9b87f5] text-white border-white">
                     <SelectValue placeholder="Children policy" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="allowed">Children Welcome</SelectItem>
-                    <SelectItem value="not-allowed">Adults Only</SelectItem>
-                    <SelectItem value="with-restrictions">With Age Restrictions</SelectItem>
+                  <SelectContent className="bg-[#9b87f5] text-white border-[#7A0486]">
+                    <SelectItem value="allowed" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Children Welcome</SelectItem>
+                    <SelectItem value="not-allowed" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">Adults Only</SelectItem>
+                    <SelectItem value="with-restrictions" className="text-white hover:bg-[#7E69AB] focus:bg-[#7E69AB]">With Age Restrictions</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

@@ -38,9 +38,9 @@ export default function RoomInfoForm({
       </div>
       
       {/* Max Occupancy and Room Size on same row */}
-      <div className="grid grid-cols-4 items-center gap-4">
-        <Label className="text-right text-sm text-white">Max Occupancy</Label>
-        <div className="flex items-center col-span-1">
+      <div className="grid grid-cols-6 items-center gap-4">
+        <Label className="text-right text-sm text-white col-span-1">Max Occupancy</Label>
+        <div className="flex items-center col-span-2">
           <Input 
             className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-16"
             type="number"
@@ -51,8 +51,8 @@ export default function RoomInfoForm({
           <span className="ml-2 text-white">persons</span>
         </div>
         
-        <Label className="text-right text-sm text-white">Room Size</Label>
-        <div className="flex items-center col-span-1">
+        <Label className="text-right text-sm text-white col-span-1">Room Size</Label>
+        <div className="flex items-center col-span-2">
           <Input 
             className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-16"
             type="number"

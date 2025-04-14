@@ -23,34 +23,36 @@ export function HeroSection() {
             </div>
           </div>
           
-          {/* 1.1) Resize LIVE IN HOTELS 10% smaller for mobile */}
+          {/* Dynamic gold background for "LIVE IN HOTELS" */}
           <h1 className={`${isMobile ? "text-[54px]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFF600] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
+            <span className="bg-gradient-to-r from-[#FEF7CD] via-[#FFF600] to-[#FEF7CD] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
           </h1>
+          {/* Dynamic gold background for "Boost Your Life!" with capitalization fixed */}
           <h2 className={`${isMobile ? "text-4xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFF600] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">Boost your Life!</span>
+            <span className="bg-gradient-to-r from-[#FEF7CD] via-[#FFF600] to-[#FEF7CD] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">Boost Your Life!</span>
           </h2>
         </div>
         
         <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-white/15 rounded-lg backdrop-blur-sm p-2`}>
-          <div className={`${isMobile ? "space-y-3 pl-0" : "space-y-0.125"}`}>
-            {/* Make slogans 20% smaller and ensure they fit on one line */}
+          {/* Increased vertical space above and below slogans by doubling current values */}
+          <div className={`${isMobile ? "space-y-3 pl-0 py-6" : "space-y-0.125 py-3"}`}>
+            {/* Make slogans 20% bigger and ensure they fit on one line */}
             {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`}>
-                <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className={`text-left font-bold ${isMobile ? "text-sm" : "text-xs sm:text-sm"} text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]`}>
+                <p className={`text-left font-bold ${isMobile ? "text-base" : "text-sm sm:text-base"} text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)] whitespace-nowrap`}>
                   {slogan}
                 </p>
               </div>)}
           </div>
           
-          <div className={`${isMobile ? "space-y-3 pl-0" : "space-y-0.125"}`}>
+          <div className={`${isMobile ? "space-y-3 pl-0 py-6" : "space-y-0.125 py-3"}`}>
             {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`}>
-                <div className="w-4 h-4 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-[#B919B0] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className={`text-left font-bold ${isMobile ? "text-sm" : "text-xs sm:text-sm"} text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)]`}>
+                <p className={`text-left font-bold ${isMobile ? "text-base" : "text-sm sm:text-base"} text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.7)] whitespace-nowrap`}>
                   {slogan}
                 </p>
               </div>)}

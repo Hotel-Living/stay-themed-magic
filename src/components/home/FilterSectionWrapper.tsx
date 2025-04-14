@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -75,6 +76,7 @@ export function FilterSectionWrapper({
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}
             textColor="#FFFFFF"
+            labelTextSize="text-xs" // Making filter labels 15% smaller
           />
           
           <div className="flex justify-center bg-[#7030A0]">

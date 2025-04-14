@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function FAQ() {
   const navigate = useNavigate();
@@ -43,51 +42,22 @@ export default function FAQ() {
         {/* Elegant Introduction Section */}
         <div className="container max-w-5xl mx-auto px-4 py-12">
           <div className="glass-card backdrop-blur-lg bg-fuchsia-950/30 border border-fuchsia-500/20 rounded-xl p-8 mb-16 shadow-lg">
-            <h2 className={`${isMobile ? "text-3xl mb-8" : "text-2xl md:text-3xl mb-10"} font-bold text-center text-gradient animate-text-slow bg-clip-text text-transparent`}>
+            <h2 className={`${isMobile ? "text-4xl mb-10" : "text-3xl md:text-4xl mb-12"} font-bold text-center text-gradient animate-text-slow bg-clip-text text-transparent`}>
               Experience a Revolutionary Lifestyle
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Accordion type="single" collapsible className="w-full">
-                {benefitsList.slice(0, Math.ceil(benefitsList.length/2)).map((benefit, index) => (
-                  <AccordionItem 
-                    key={index} 
-                    value={`item-${index}`}
-                    className="border-b border-fuchsia-400/20 hover:bg-fuchsia-900/20 transition-colors duration-300"
-                  >
-                    <AccordionTrigger 
-                      className="py-3 group"
-                      titleClassName={`${isMobile ? "text-base font-semibold" : "text-sm md:text-base"} text-left text-[#FFF600] group-hover:text-[#FFC500] transition-colors duration-300`}
-                    >
-                      {benefit}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-[#e3d6e9] text-sm py-3">
-                      Learn more about this benefit in our detailed guides and FAQs.
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-              
-              <Accordion type="single" collapsible className="w-full">
-                {benefitsList.slice(Math.ceil(benefitsList.length/2)).map((benefit, index) => (
-                  <AccordionItem 
-                    key={index} 
-                    value={`item-${index + Math.ceil(benefitsList.length/2)}`}
-                    className="border-b border-fuchsia-400/20 hover:bg-fuchsia-900/20 transition-colors duration-300"
-                  >
-                    <AccordionTrigger 
-                      className="py-3 group"
-                      titleClassName={`${isMobile ? "text-base font-semibold" : "text-sm md:text-base"} text-left text-[#FFF600] group-hover:text-[#FFC500] transition-colors duration-300`}
-                    >
-                      {benefit}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-[#e3d6e9] text-sm py-3">
-                      Learn more about this benefit in our detailed guides and FAQs.
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
+            <ul className="space-y-6 max-w-3xl mx-auto">
+              {benefitsList.map((benefit, index) => (
+                <li 
+                  key={index}
+                  className="text-[#FEF7CD] hover:text-[#FFF9E0] transition-colors duration-300 text-center"
+                >
+                  <p className={`${isMobile ? "text-2xl" : "text-xl md:text-2xl"} font-semibold`}>
+                    {benefit}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </div>
           
           <h1 className={`${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} font-bold mb-6 text-center text-gradient text-[#eedbf7]`}>Frequently Asked Questions</h1>

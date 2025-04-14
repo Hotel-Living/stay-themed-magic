@@ -10,6 +10,7 @@ export interface CollapsibleMenuItemProps {
   className?: string;
   titleClassName?: string;
   defaultOpen?: boolean;
+  preventScroll?: boolean;
 }
 
 export function CollapsibleMenuItem({ 
@@ -17,10 +18,19 @@ export function CollapsibleMenuItem({
   children, 
   className = "mb-1",
   titleClassName = "",
-  defaultOpen = false
+  defaultOpen = false,
+  preventScroll = false
 }: CollapsibleMenuItemProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const styles = collapsibleMenuItemStyles();
+
+  const handleTriggerClick = (e: React.MouseEvent) => {
+    if (preventScroll) {
+      // Prevent default behavior which might cause scrolling
+      e.preventDefault();
+    }
+    setIsOpen(!isOpen);
+  };
 
   return (
     <Collapsible 
@@ -28,7 +38,7 @@ export function CollapsibleMenuItem({
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <CollapsibleTrigger className={`${styles.trigger} group`}>
+      <CollapsibleTrigger className={`${styles.trigger} group`} onClick={handleTriggerClick}>
         <span className={`group-hover:text-[#FEF7CD] transition-colors duration-200 ${titleClassName}`}>{title}</span>
         <ChevronDown className={`${styles.icon} ${isOpen ? 'rotate-180' : 'rotate-0'} text-fuchsia-400 group-hover:text-[#FEF7CD]`} />
       </CollapsibleTrigger>

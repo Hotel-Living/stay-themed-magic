@@ -1,10 +1,25 @@
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 export function AffinityAccordionMenu() {
+  // Prevent default scroll behavior when clicking on accordion items
+  const handleAccordionClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+  };
+
   return <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion 
+        type="single" 
+        collapsible 
+        className="w-full"
+        onClick={handleAccordionClick}
+      >
         {/* NEW MENU ITEM */}
         <AccordionItem value="item-0" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             What are Affinity Hotels?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -17,7 +32,10 @@ export function AffinityAccordionMenu() {
 
         {/* MENU 1 */}
         <AccordionItem value="item-1" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Tired of traveling alone? Want to meet people who just get you?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -27,7 +45,10 @@ export function AffinityAccordionMenu() {
 
         {/* MENU 2 */}
         <AccordionItem value="item-2" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             What exactly is an Affinity Hotel?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -37,7 +58,10 @@ export function AffinityAccordionMenu() {
         
         {/* MENU 3 */}
         <AccordionItem value="item-3" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Will I make friends?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -46,7 +70,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-4" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Does the hotel organize activities?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -55,7 +82,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-5" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Is there always a group leader or host?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -64,7 +94,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-6" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Is the hotel decorated around the theme?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -73,7 +106,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-7" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             How long are the stays?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -82,7 +118,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-8" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Can I try different affinities in different hotels?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -91,7 +130,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-9" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             What if I just want to relax?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -100,7 +142,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-10" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Is this for solo travelers only?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -109,7 +154,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-11" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             What if I don't find a theme that fits my interest yet?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -118,7 +166,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-12" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Are the affinity themes available at every hotel right now?
           </AccordionTrigger>
           <AccordionContent className="text-white">
@@ -127,7 +178,10 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-13" className="border-b border-fuchsia-400/30">
-          <AccordionTrigger className="text-xl font-bold text-white hover:text-yellow-100 py-4">
+          <AccordionTrigger 
+            className="text-xl font-bold text-white hover:text-yellow-100 py-4"
+            onClick={(e) => e.preventDefault()}
+          >
             Can I still make connections even if there's no specific theme?
           </AccordionTrigger>
           <AccordionContent className="text-white">

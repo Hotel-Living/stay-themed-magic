@@ -1,93 +1,132 @@
 
-import { CollapsibleMenuItem } from "../CollapsibleMenuItem";
+import React from "react";
 import { AccordionMenuItem } from "../AccordionMenuItem";
-import { Circle } from "lucide-react";
+import { CollapsibleMenuItem } from "../CollapsibleMenuItem";
 
 interface SpecialMenuItemsProps {
-  startingNumber?: number;
+  startingNumber: number;
+  preventScroll?: boolean;
 }
 
-export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) {
+export function SpecialMenuItems({ startingNumber = 5, preventScroll = false }: SpecialMenuItemsProps) {
   return (
-    <div className="mt-0">
+    <>
+      {/* Specialized hotel sections */}
       <AccordionMenuItem 
-        value="does-hotel-have-empty-rooms" 
-        title={`${startingNumber}-   Does your hotel have empty rooms?`}
+        value="specialized-hotels" 
+        title={`${startingNumber}-   What are specialized hotels?`}
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
+        preventScroll={preventScroll}
       >
-        <div className="space-y-6 text-left py-6">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> For at least eight nights in a row? Those rooms are your gold mine.</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because if your hotel COVER costs, they're pure profit.</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because if your hotel DON'T COVER costs, they're your lifeline.</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because if your hotel is CLOSED some months every year, those empty rooms are your treasure: stop accumulating losses and start generating real income.</p>
+        <div className="space-y-2 py-6">
+          <CollapsibleMenuItem 
+            title="Example 1: Art Hotels" 
+            titleClassName="font-medium"
+            defaultOpen={false}
+            preventScroll={preventScroll}
+          >
+            <div className="space-y-4 pl-4 py-2">
+              <p className="text-sm">Imagine a hotel where everyone is passionate about art.</p>
+              <p className="text-sm">Some guests are professional artists, others are just enthusiasts.</p>
+              <p className="text-sm">They sketch together in the lobby. Visit exhibitions together. Share techniques.</p>
+              <p className="text-sm">Some even collaborate on projects during their stay.</p>
+              <p className="text-sm">No awkward conversations—just instant connection through shared passion.</p>
+            </div>
+          </CollapsibleMenuItem>
+          
+          <CollapsibleMenuItem 
+            title="Example 2: Foodie Hotels" 
+            titleClassName="font-medium"
+            preventScroll={preventScroll}
+          >
+            <div className="space-y-4 pl-4 py-2">
+              <p className="text-sm">A hotel where guests bond over their love of cuisine.</p>
+              <p className="text-sm">They share recommendations for local restaurants. Some cook together in communal kitchens.</p>
+              <p className="text-sm">They take cooking classes or food tours as a group.</p>
+              <p className="text-sm">Food is more than sustenance—it's the centerpiece of meaningful connections.</p>
+            </div>
+          </CollapsibleMenuItem>
+          
+          <CollapsibleMenuItem 
+            title="Example 3: Photography Hotels" 
+            titleClassName="font-medium"
+            preventScroll={preventScroll}
+          >
+            <div className="space-y-4 pl-4 py-2">
+              <p className="text-sm">Every guest shares a passion for photography.</p>
+              <p className="text-sm">They go on photo walks together. Exchange editing tips.</p>
+              <p className="text-sm">Give each other feedback on their work.</p>
+              <p className="text-sm">Instead of typical tourist photos, they leave with stunning images and new friends who truly understand their passion.</p>
+            </div>
+          </CollapsibleMenuItem>
         </div>
       </AccordionMenuItem>
       
+      {/* The importance section */}
       <AccordionMenuItem 
-        value="so-many-people-need-rooms" 
-        title={`${startingNumber + 1}-   So many people need your rooms`}
+        value="importance" 
+        title={`${startingNumber + 1}-   Why is this so important?`} 
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
+        preventScroll={preventScroll}
       >
         <div className="space-y-6 text-left py-6">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <span className="font-semibold">40% of the Western population, who:</span></p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Lives alone or with a partner</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Is semi-retired or retired</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Works remotely</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Is a student living away from home</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Commutes long distances to work</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Has a stable, reliable income</p>
-          
-          <p className="text-base flex items-start mt-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <span className="font-semibold">And most of them:</span></p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Want to stop doing chores</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Feel too isolated</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Have no family ties holding them back</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Want to grow their social life</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Want to meet others with similar interests and outlooks</p>
-          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">  -</span> Need the safety, ease, and comfort that hotel living offers</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> People are tired of empty interactions</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They want genuine connections based on shared interests</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Your hotel becomes more than accommodation—it becomes a community hub</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Guests spread the word: "This is where I finally found my people"</p>
         </div>
       </AccordionMenuItem>
       
+      {/* The fixed stays section */}
       <AccordionMenuItem 
-        value="everyone-dream-live-in-hotel" 
-        title={`${startingNumber + 2}-   Everyone's dream is to live in a hotel`}
+        value="fixed-stays" 
+        title={`${startingNumber + 2}-   Fixed stays, not nightly rates`} 
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
+        preventScroll={preventScroll}
       >
         <div className="space-y-6 text-left py-6">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Everything taken care of. Eternal vacation mode.</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> So, why do we still have so many empty rooms? Because we're stuck in an outdated model from long ago.</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Our model: 8, 16, 24, or 32 day packages</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Fixed arrivals and departures (no random check-ins)</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Everyone arrives and leaves together</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Guests form tight bonds; some return together</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Extended stays; deeper connections</p>
         </div>
       </AccordionMenuItem>
       
+      {/* The medium/long term section */}
       <AccordionMenuItem 
-        value="hotel-living-revolution" 
-        title={`${startingNumber + 3}-   Hotel living is a true hospitality revolution`}
+        value="not-only-short-term" 
+        title={`${startingNumber + 3}-   Not just short term stays`} 
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
+        preventScroll={preventScroll}
       >
         <div className="space-y-6 text-left py-6">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> And the demand is so overwhelming, society needs us so badly, that 96 out of every 100 potential guests will miss out on their dream life. Simply, we don't have enough rooms for all them: only around 4% will get in.</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Extend your guests' average stay from 2.5 days to weeks</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Fill entire weeks and months with guaranteed bookings</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Switch from unpredictable daily bookings to stable, extended stays</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Watch your occupancy rate reach new highs</p>
         </div>
       </AccordionMenuItem>
       
+      {/* The 4 pillars section */}
       <AccordionMenuItem 
-        value="offer-right-product" 
-        title={`${startingNumber + 4}-   All you need to do is offer the right product`}
+        value="four-pillars" 
+        title={`${startingNumber + 4}-   This works on 4 pillars`} 
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
+        preventScroll={preventScroll}
       >
         <div className="space-y-6 text-left py-6">
-          <p className="text-base flex items-start mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Each hotel should find its ideal setup and meet as many of its guests' daily needs as possible.</p>
-          
-          <p className="text-base flex items-start mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> If you have lots of vacant rooms, consider offering long stays at affordable rates (maybe 16, 24, or 32 nights) to ensure high occupancy and maximize profits.</p>
-          
-          <p className="text-base flex items-start mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> If you have only 20–30 available rooms, you might consider shorter stays (8 or 16 nights). And if your category allows, you might offer exclusive experiences that can justify premium rates.</p>
-          
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Your hotel, any hotel, regardless of size or category, just needs to offer the right product to stay full year-round and truly boost profits.</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <strong>1. Extended Stays:</strong> 8 to 32 days (medium/long term)</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <strong>2. Synchronized Arrivals:</strong> Everyone checks in on the same day</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <strong>3. Affinity Grouping:</strong> Guests share common interests</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <strong>4. Community Living:</strong> Shared experiences create real connections</p>
         </div>
       </AccordionMenuItem>
-    </div>
+    </>
   );
 }

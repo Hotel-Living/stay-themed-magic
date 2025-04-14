@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -47,30 +48,6 @@ const stats: Stat[] = [{
   icon: <Users className="w-4 h-4" />
 }];
 
-const actions: Action[] = [{
-  title: 'Add Property',
-  description: 'List a new hotel or apartment.',
-  icon: <Building className="w-5 h-5" />,
-  onClick: () => useNavigate('/add-property')
-}, {
-  title: 'View Bookings',
-  description: 'Manage upcoming and past reservations.',
-  icon: <Calendar className="w-5 h-5" />,
-  onClick: () => useNavigate('/bookings')
-}, {
-  title: 'View Analytics',
-  description: 'See detailed performance metrics.',
-  icon: <BarChart2 className="w-5 h-5" />,
-  onClick: () => useNavigate('/analytics')
-}, {
-  title: 'Manage Reviews',
-  description: 'Respond to guest feedback.',
-  icon: <MessageSquare className="w-5 h-5" />,
-  onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
-    bubbles: true
-  }))
-}];
-
 export const DashboardContent = () => {
   const navigate = useNavigate();
   const {
@@ -78,6 +55,31 @@ export const DashboardContent = () => {
     newNotificationsCount,
     loading: notificationsLoading
   } = useReviewNotifications();
+
+  // Fixed action onClick handlers
+  const actions: Action[] = [{
+    title: 'Add Property',
+    description: 'List a new hotel or apartment.',
+    icon: <Building className="w-5 h-5" />,
+    onClick: () => navigate('/add-property')
+  }, {
+    title: 'View Bookings',
+    description: 'Manage upcoming and past reservations.',
+    icon: <Calendar className="w-5 h-5" />,
+    onClick: () => navigate('/bookings')
+  }, {
+    title: 'View Analytics',
+    description: 'See detailed performance metrics.',
+    icon: <BarChart2 className="w-5 h-5" />,
+    onClick: () => navigate('/analytics')
+  }, {
+    title: 'Manage Reviews',
+    description: 'Respond to guest feedback.',
+    icon: <MessageSquare className="w-5 h-5" />,
+    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
+      bubbles: true
+    }))
+  }];
 
   return <div className="space-y-8">
       {/* Stats Grid */}

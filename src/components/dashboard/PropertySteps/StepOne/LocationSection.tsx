@@ -73,8 +73,8 @@ export default function LocationSection({
 
   const selectedCountryCities = useCitiesByCountry(formData.country);
   
-  // Ensure this is a boolean value
-  const isCitySelectorDisabled: boolean = formData.country === "";
+  // Create a boolean value based on country string
+  const isCitySelectorDisabled = formData.country === "";
 
   return (
     <CollapsibleSection title="LOCATION">

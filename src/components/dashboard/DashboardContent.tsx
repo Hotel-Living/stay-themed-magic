@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -6,48 +5,6 @@ import StatCard from './StatCard';
 import ActionCard from './ActionCard';
 import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 import { Button } from '@/components/ui/button';
-
-interface Stat {
-  title: string;
-  value: string;
-  change: string;
-  trend: 'positive' | 'negative' | 'neutral';
-  icon: React.ReactNode;
-}
-
-interface Action {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  onClick: () => void;
-}
-
-const stats: Stat[] = [{
-  title: 'Total Bookings',
-  value: '0',
-  change: '0%',
-  trend: 'neutral',
-  icon: <Calendar className="w-4 h-4" />
-}, {
-  title: 'Revenue',
-  value: '$0',
-  change: '0%',
-  trend: 'neutral',
-  icon: <BarChart2 className="w-4 h-4" />
-}, {
-  title: 'Avg. Rating',
-  value: '0.0',
-  change: '0.0',
-  trend: 'neutral',
-  icon: <Star className="w-4 h-4" />
-}, {
-  title: 'Guests',
-  value: '0',
-  change: '0%',
-  trend: 'neutral',
-  icon: <Users className="w-4 h-4" />
-}];
-
 export const DashboardContent = () => {
   const navigate = useNavigate();
   const {
@@ -55,9 +12,32 @@ export const DashboardContent = () => {
     newNotificationsCount,
     loading: notificationsLoading
   } = useReviewNotifications();
-
-  // Define action onClick handlers without parameters
-  const actions: Action[] = [{
+  const stats = [{
+    title: 'Total Bookings',
+    value: '0',
+    change: '0%',
+    trend: 'neutral',
+    icon: <Calendar className="w-4 h-4" />
+  }, {
+    title: 'Revenue',
+    value: '$0',
+    change: '0%',
+    trend: 'neutral',
+    icon: <BarChart2 className="w-4 h-4" />
+  }, {
+    title: 'Avg. Rating',
+    value: '0.0',
+    change: '0.0',
+    trend: 'neutral',
+    icon: <Star className="w-4 h-4" />
+  }, {
+    title: 'Guests',
+    value: '0',
+    change: '0%',
+    trend: 'neutral',
+    icon: <Users className="w-4 h-4" />
+  }];
+  const actions = [{
     title: 'Add Property',
     description: 'List a new hotel or apartment.',
     icon: <Building className="w-5 h-5" />,
@@ -76,14 +56,10 @@ export const DashboardContent = () => {
     title: 'Manage Reviews',
     description: 'Respond to guest feedback.',
     icon: <MessageSquare className="w-5 h-5" />,
-    onClick: () => {
-      // Use a DOM event to activate the reviews tab
-      document.querySelector('[data-tab="reviews"]')?.dispatchEvent(
-        new MouseEvent('click', { bubbles: true })
-      )
-    }
+    onClick: () => document.querySelector('[data-tab="reviews"]')?.dispatchEvent(new MouseEvent('click', {
+      bubbles: true
+    }))
   }];
-
   return <div className="space-y-8">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -91,7 +67,7 @@ export const DashboardContent = () => {
       </div>
 
       {/* Welcome Message for New Hotel Owners */}
-      <div className="glass-card rounded-2xl p-6 border border-fuchsia-500/20 bg-[#8017B0]">
+      <div className="glass-card rounded-2xl p-6 border border-fuchsia-500/20 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-2">Welcome to Hotel-Living!</h2>
         <p className="text-foreground/80 mb-4">
           Thank you for registering as a hotel partner. To get started, add your first property using the "Add Property" option below.
@@ -99,7 +75,7 @@ export const DashboardContent = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="glass-card rounded-2xl p-6 bg-[#8017B0]">
+      <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {actions.map((action, i) => <ActionCard key={i} {...action} />)}
@@ -109,7 +85,7 @@ export const DashboardContent = () => {
       {/* Two Column Layout for Reviews and Bookings */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Reviews with Notifications */}
-        <div className="glass-card rounded-2xl p-6 bg-[#8017B0]">
+        <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Recent Reviews</h2>
           </div>
@@ -122,7 +98,7 @@ export const DashboardContent = () => {
         </div>
 
         {/* Recent Bookings */}
-        <div className="glass-card rounded-2xl p-6 bg-[#8017B0]">
+        <div className="glass-card rounded-2xl p-6 bg-[#5d0478]">
           <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
           
           <div className="text-center py-8 text-foreground/60 bg-[#a54afe]">

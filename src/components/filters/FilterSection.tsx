@@ -55,7 +55,7 @@ export const FilterSection = ({
     navigate(`/search?${params.toString()}`);
   };
 
-  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]' : 'bg-[#5A1876]/80';
+  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]/90' : 'bg-[#5A1876]/80';
   const filterBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]' : 'bg-fuchsia-950/50';
   const searchBgColor = usePurpleFilterBackground ? 'bg-[#981DA1]' : 'bg-fuchsia-600';
   const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#460F54]' : 'hover:bg-fuchsia-500';

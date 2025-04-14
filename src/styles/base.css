@@ -5,8 +5,6 @@
 
 @layer base {
   :root {
-    --primary: 316 73% 52%; /* Adjusted to match #8017B0 */
-    --accent: 311 90% 60%;
     --background: 0 0% 100%;
     --foreground: 280 10% 98%;
 
@@ -16,6 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 280 10% 98%;
 
+    --primary: 316 73% 52%;
     --primary-foreground: 280 10% 98%;
 
     --secondary: 0 0% 100%;
@@ -24,6 +23,7 @@
     --muted: 0 0% 96%;
     --muted-foreground: 280 10% 60%;
 
+    --accent: 311 90% 60%;
     --accent-foreground: 280 10% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -45,8 +45,8 @@
   }
 
   body {
-    background-color: #8017B0;
     @apply bg-background text-foreground antialiased;
     position: relative;
+    background-color: #860493; /* Added initial purple background color */
   }
 }

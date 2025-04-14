@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -6,15 +7,17 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function Footer() {
   const isMobile = useIsMobile();
   
-  return <footer className="py-4 px-4 bg-[#8017B0] border-t border-[#ad66a8] mt-20">
+  return <footer className="py-4 px-4 bg-[#860493] border-t border-[#ad66a8] mt-20">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
+            {/* Updated logo size to match header on mobile */}
             <div className={isMobile ? "h-[51px]" : ""}>
               <Logo />
             </div>
           </div>
           
+          {/* Center footer links horizontally */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
             <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               FAQ
@@ -40,6 +43,7 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
+            {/* Added question mark to Affinity Stays and put Hotels as last element */}
             <Link to="/affinity-stays" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-xs scale-[1.3] font-bold" : "text-xs"} rounded-md uppercase`}>
               Affinity Stays?
             </Link>

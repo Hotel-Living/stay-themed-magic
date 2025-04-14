@@ -13,8 +13,7 @@ interface FilterSectionWrapperProps {
 }
 
 export function FilterSectionWrapper({
-  onFilterChange,
-  availableThemes
+  onFilterChange
 }: FilterSectionWrapperProps) {
   const { data: themes } = useThemes();
   const isMobile = useIsMobile();
@@ -31,7 +30,7 @@ export function FilterSectionWrapper({
   });
 
   // Extract theme category names for the main theme filter dropdown
-  const themeCategories = availableThemes || [
+  const themeCategories = [
     "Art", "Business", "Culture", "Education", "Entertainment", 
     "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
     "Languages", "Lifestyle", "Nature", "Personal Development", 
@@ -83,6 +82,7 @@ export function FilterSectionWrapper({
             textColor="#FFFFFF"
           />
           
+          {/* Only render the purple search button, not both buttons */}
           <div className="flex justify-center bg-[#981DA1]">
             <Button 
               size="sm" 

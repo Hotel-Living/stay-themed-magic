@@ -7,38 +7,38 @@ export function ProfitSection() {
     <div className="space-y-0 pl-4 border-l-2 border-fuchsia-400/30">
       {/* Western hotels */}
       <CollapsibleMenuItem title="4.1 Western hotels. How much profit are we missing every year?" className="mb-1">
-        <div className="space-y-2 text-left">
-          <p className="text-base">- As a whole, around $75 billion. Every year.</p>
-          <p className="text-base">- No sales: pure profit, before taxes</p>
-          <p className="text-base">- Because our average yearly occupancy rate is 60%</p>
-          <p className="text-base">- That means we reach break-even, pay our costs, and just make some earnings</p>
-          <p className="text-base">- But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit</p>
+        <div className="space-y-3 text-left">
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> As a whole, around $75 billion. Every year.</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> No sales: pure profit, before taxes</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Because our average yearly occupancy rate is 60%</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> That means we reach break-even, pay our costs, and just make some earnings</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> But we don't capture the real profit: the remaining 40% of vacant rooms. Our pure profit</p>
         </div>
       </CollapsibleMenuItem>
       
       {/* Your hotel profit */}
       <CollapsibleMenuItem title="4.2 And how much profit is your hotel missing every year?" className="mb-1">
-        <div className="space-y-2 text-left">
-          <p className="text-base">- Just five vacant rooms per day = around $55,000 missed annually</p>
-          <p className="text-base">- 20 vacant rooms daily = around $220,000 pure pre-tax profit</p>
-          <p className="text-base">- A 200-room resort closing from October to May</p>
-          <p className="text-base ml-4">not only misses $1 million in profit yearly,</p>
-          <p className="text-base ml-4">but also racks up $420,000 in losses</p>
-          <p className="text-base">- And a 500-room resort?</p>
-          <p className="text-base ml-4">Over $3 million in lost profit every year.</p>
-          <p className="text-base ml-4">And the losses? Let's not even look…</p>
+        <div className="space-y-3 text-left">
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Just five vacant rooms per day = around $55,000 missed annually</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> 20 vacant rooms daily = around $220,000 pure pre-tax profit</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> A 200-room resort closing from October to May</p>
+          <p className="text-base ml-6">not only misses $1 million in profit yearly,</p>
+          <p className="text-base ml-6">but also racks up $420,000 in losses</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> And a 500-room resort?</p>
+          <p className="text-base ml-6">Over $3 million in lost profit every year.</p>
+          <p className="text-base ml-6">And the losses? Let's not even look…</p>
         </div>
       </CollapsibleMenuItem>
       
       {/* Missing potential */}
       <CollapsibleMenuItem title="4.3 Yes. The vast majority of hotels are missing their true profit potential" className="mb-1">
-        <div className="space-y-2 text-left">
-          <p className="text-base">- Empty rooms are our untapped gold</p>
-          <p className="text-base">- Few of us achieve 100% occupancy all year round</p>
-          <p className="text-base">- It doesn't matter if we're 5 stars or 3:</p>
-          <p className="text-base ml-4">we're all missing the point and a lot of money</p>
-          <p className="text-base">- The pure-profit rooms we fail to sell</p>
-          <p className="text-base">- And we're giving up our rightful place in society</p>
+        <div className="space-y-3 text-left">
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Empty rooms are our untapped gold</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Few of us achieve 100% occupancy all year round</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> It doesn't matter if we're 5 stars or 3:</p>
+          <p className="text-base ml-6">we're all missing the point and a lot of money</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> The pure-profit rooms we fail to sell</p>
+          <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> And we're giving up our rightful place in society</p>
         </div>
       </CollapsibleMenuItem>
     </div>

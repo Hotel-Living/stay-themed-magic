@@ -14,7 +14,7 @@ export function HotelVideoPlayer() {
   }, []);
 
   return (
-    <div className="w-full aspect-video rounded-xl overflow-hidden shadow-xl border border-[#ad66a8]/30 bg-[#460F54]/20 backdrop-blur-sm relative">
+    <div className="w-full aspect-video rounded-xl overflow-hidden shadow-xl border border-[#ad66a8]/30 bg-[#460F54]/20 backdrop-blur-sm relative hover:shadow-[0_0_25px_rgba(217,70,239,0.25)] transition-all duration-300">
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-12 h-12 border-4 border-fuchsia-500 border-t-transparent rounded-full animate-spin"></div>

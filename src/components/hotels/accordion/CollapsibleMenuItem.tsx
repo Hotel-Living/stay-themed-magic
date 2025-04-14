@@ -24,13 +24,13 @@ export function CollapsibleMenuItem({
 
   return (
     <Collapsible 
-      className={`w-full ${className} overflow-visible`}
+      className={`w-full ${className} overflow-visible bg-[#5D0478]/10 hover:bg-[#5D0478]/20 rounded-md transition-all duration-200 p-2`}
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <CollapsibleTrigger className={styles.trigger}>
-        <span className={titleClassName}>{title}</span>
-        <ChevronDown className={`${styles.icon} ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+      <CollapsibleTrigger className={`${styles.trigger} group`}>
+        <span className={`group-hover:text-[#FEF7CD] transition-colors duration-200 ${titleClassName}`}>{title}</span>
+        <ChevronDown className={`${styles.icon} ${isOpen ? 'rotate-180' : 'rotate-0'} text-fuchsia-400 group-hover:text-[#FEF7CD]`} />
       </CollapsibleTrigger>
       <CollapsibleContent className={styles.content}>
         {children}

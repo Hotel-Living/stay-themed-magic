@@ -16,8 +16,12 @@ export function AccordionMenuItem({ value, title, children, className = "", titl
   
   return (
     <AccordionItem value={value} className={`${styles.item} ${className}`}>
-      <AccordionTrigger className={styles.trigger} titleClassName={titleClassName}>{title}</AccordionTrigger>
-      <AccordionContent className={styles.content}>
+      <AccordionTrigger className={`${styles.trigger} group`} titleClassName={titleClassName}>
+        <span className={titleClassName}>
+          {title}
+        </span>
+      </AccordionTrigger>
+      <AccordionContent className={`${styles.content} animate-accordion-down`}>
         {children}
       </AccordionContent>
     </AccordionItem>

@@ -2,14 +2,17 @@
 @layer utilities {
   /* Animation for color changing text */
   .animate-text {
+    background-image: linear-gradient(to right, #FEF7CD, #ffffff, #FEF7CD);
     background-size: 200% auto;
-    animation: text-shine 9s linear infinite;
+    animation: text-shine 3s linear infinite;
   }
   
   /* Slower animation for color changing text - for lateral wave effect */
   .animate-text-slow {
+    background-image: linear-gradient(to right, #FEF7CD, #ffffff, #FEF7CD);
     background-size: 200% auto;
-    animation: text-shine 12s ease-in-out infinite;
+    animation: text-shine 6s linear infinite;
+    animation-delay: calc(var(--index, 0) * 0.5s);
   }
 
   /* Background size utility for gradients */

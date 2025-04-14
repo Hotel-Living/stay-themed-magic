@@ -11,13 +11,14 @@ import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
 
 export function HotelAccordionMenu() {
   return (
-    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
+    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
       <Accordion type="single" collapsible className="w-full space-y-0">
         {/* Main sections */}
         <AccordionMenuItem 
           value="the-benefits" 
           title="1. The benefits"
-          titleClassName="text-xl" // Smaller font for this item
+          titleClassName="text-xl font-medium" 
+          className="hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         >
           <BenefitsSection />
         </AccordionMenuItem>
@@ -26,8 +27,8 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem
           value="compare-systems"
           title="2. Let's compare systems"
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
@@ -36,14 +37,14 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
           title="3. We don't just fill rooms"
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
-          <div className="space-y-2 text-left">
-            <p className="text-base">- We reshape society.</p>
-            <p className="text-base">- People grouped by affinities</p>
-            <p className="text-base">- Zero randomness. 100% connections</p>
-            <p className="text-base">- Hotels to belong, not just to stay.</p>
+          <div className="space-y-3 text-left">
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> We reshape society.</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> People grouped by affinities</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Zero randomness. 100% connections</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Hotels to belong, not just to stay.</p>
           </div>
         </AccordionMenuItem>
         
@@ -51,8 +52,8 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem
           value="how-much-profit-missing"
           title="4. How much profit are we missing?"
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
           <ProfitSection />
         </AccordionMenuItem>
@@ -64,15 +65,15 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem 
           value="they-need-hotel" 
           title="10. They need your hotel"
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
-          <div className="space-y-2 text-left">
-            <p className="text-base">- Because people want to socialize. Make friends</p>
-            <p className="text-base">- They want to stay longer in your hotel</p>
-            <p className="text-base">- They want you to take care of their household chores</p>
-            <p className="text-base">- They urgently need your empty rooms and services</p>
-            <p className="text-base">- Just help them: give them both</p>
+          <div className="space-y-3 text-left">
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Because people want to socialize. Make friends</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> They want to stay longer in your hotel</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> They want you to take care of their household chores</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> They urgently need your empty rooms and services</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Just help them: give them both</p>
           </div>
         </AccordionMenuItem>
         
@@ -80,28 +81,28 @@ export function HotelAccordionMenu() {
         <AccordionMenuItem 
           value="themes-revolution" 
           title="11. Themes are the new social revolution" 
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
-          <div className="space-y-2 text-left">
-            <p className="text-base">- Just think on a theme and let the magic happen</p>
+          <div className="space-y-3 text-left">
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Just think on a theme and let the magic happen</p>
           </div>
         </AccordionMenuItem>
         
         <AccordionMenuItem 
           value="seamless-integration" 
           title="12. We're seamless integration" 
-          className="mt-0"
-          titleClassName="text-xl" // Smaller font for this item
+          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
+          titleClassName="text-xl font-medium"
         >
-          <div className="space-y-2 text-left">
-            <p className="text-base">- You don't have to choose between systems.</p>
-            <p className="text-base">- Combine both models as you wish</p>
-            <p className="text-base">- Start with just a few rooms, then scale as needed</p>
-            <p className="text-base">- Switch more rooms to our system whenever it makes sense</p>
-            <p className="text-base">- Our platform blends effortlessly with your current operations</p>
-            <p className="text-base">- Zero disruption to your daily operations</p>
-            <p className="text-base">- We adapt to you, not the other way around</p>
+          <div className="space-y-3 text-left">
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> You don't have to choose between systems.</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Combine both models as you wish</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Start with just a few rooms, then scale as needed</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Switch more rooms to our system whenever it makes sense</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Our platform blends effortlessly with your current operations</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Zero disruption to your daily operations</p>
+            <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> We adapt to you, not the other way around</p>
             <p className="text-base font-semibold mt-4">This is flexibility. This is profit</p>
             <p className="text-base font-semibold">This is Seamless Integration</p>
           </div>

@@ -19,7 +19,10 @@ export default function Hotels() {
         <div className="container mx-auto px-4 py-12 flex flex-col items-center">
           {/* Main content */}
           <HotelSlogans />
-          <HotelAccordionMenu />
+          
+          <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
+            <HotelAccordionMenu />
+          </div>
           
           {/* Grid of cards */}
           <HotelCards />
@@ -29,7 +32,7 @@ export default function Hotels() {
           
           {/* Video Player section */}
           <div className="w-full max-w-4xl mt-16 mb-12">
-            <h2 className="text-2xl font-bold text-center mb-6 text-[#ebd4ee]">See Our Hotels in Action</h2>
+            <h2 className="text-2xl font-bold text-center mb-6 text-[#ebd4ee] bg-gradient-to-r from-[#ebd4ee] to-[#f5ecf6] bg-clip-text text-transparent">See Our Hotels in Action</h2>
             <HotelVideoPlayer />
           </div>
         </div>

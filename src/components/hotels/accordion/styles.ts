@@ -1,8 +1,8 @@
 
 export const accordionMenuItemStyles = () => ({
-  item: "border-b border-fuchsia-400/30",
-  trigger: "text-2xl font-bold text-white hover:text-[#FEF7CD] py-2 transition-colors duration-300", 
-  content: "text-white space-y-4 pt-4 overflow-visible"
+  item: "border-b border-fuchsia-400/30 mb-1 transition-all duration-200",
+  trigger: "text-2xl font-bold text-white hover:text-[#FEF7CD] py-3 transition-colors duration-300 group", 
+  content: "text-white space-y-4 pt-4 pb-2 overflow-visible"
 });
 
 export const collapsibleMenuItemStyles = () => ({

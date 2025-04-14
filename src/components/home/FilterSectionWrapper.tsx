@@ -7,9 +7,15 @@ import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigate } from 'react-router-dom';
 
+interface FilterSectionWrapperProps {
+  onFilterChange: (filters: FilterState) => void;
+  availableThemes?: string[];
+}
+
 export function FilterSectionWrapper({
-  onFilterChange
-}: { onFilterChange: (filters: FilterState) => void }) {
+  onFilterChange,
+  availableThemes
+}: FilterSectionWrapperProps) {
   const { data: themes } = useThemes();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
@@ -25,7 +31,7 @@ export function FilterSectionWrapper({
   });
 
   // Extract theme category names for the main theme filter dropdown
-  const themeCategories = [
+  const themeCategories = availableThemes || [
     "Art", "Business", "Culture", "Education", "Entertainment", 
     "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
     "Languages", "Lifestyle", "Nature", "Personal Development", 

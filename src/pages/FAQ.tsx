@@ -17,17 +17,17 @@ export default function FAQ() {
   
   const benefitsList = [
     "Stay in hotels at unbeatable prices",
-    "Enjoy a constant flow of new places, themes, and people",
+    "Enjoy a constant flow of new places, affinities, and people",
     "Renewable stays of 8, 16, 24, or 32 days",
     "Say goodbye to chores: grocery shopping, cooking, cleaning, laundry, and more",
     "Expand your social life, activities, and overall quality of living",
     "Eliminate loneliness and isolation for good",
-    "Choose hotels based on your favorite themes and find your kind of people",
+    "Choose hotels based on your favorite affinities and find your kind of people",
     "Replace bills and unpredictable expenses with one fixed payment",
     "Enjoy the safety and security every hotel naturally provides",
     "Take advantage of daily services and amenities",
     "All this often for the same cost as a solitary, routine life at home",
-    "Use our exclusive filters: themes, activities, services, and more",
+    "Use our exclusive filters: affinities, activities, services, and more",
     "Ideal lifestyle for singles and couples: digital nomads, active retirees, remote workers, students, people with independent income, etc.",
     "If you wish, earn monthly income by renting out your primary residence",
     "Tired of being a commuter? Live closer to work, raise your quality of life, and stop wasting countless hours and money on daily travel",
@@ -92,7 +92,7 @@ export default function FAQ() {
               {benefitsList.map((benefit, index) => (
                 <li 
                   key={index}
-                  className="flex items-center text-[#FFC300] hover:text-[#FFD700] transition-colors duration-300"
+                  className="flex items-center text-[#FFFBB3] hover:text-[#FFD700] transition-colors duration-300"
                 >
                   <CircleDot className="mr-3 text-fuchsia-500" size={20} />
                   <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold text-left`}>

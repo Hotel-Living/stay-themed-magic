@@ -1,11 +1,11 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
+import { Users, CircleDot } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -92,9 +92,10 @@ export default function FAQ() {
               {benefitsList.map((benefit, index) => (
                 <li 
                   key={index}
-                  className="text-[#FFC300] hover:text-[#FFD700] transition-colors duration-300 text-center"
+                  className="flex items-center text-[#FFC300] hover:text-[#FFD700] transition-colors duration-300"
                 >
-                  <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold`}>
+                  <CircleDot className="mr-3 text-fuchsia-500" size={20} />
+                  <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold text-left`}>
                     {benefit}
                   </p>
                 </li>
@@ -152,4 +153,3 @@ export default function FAQ() {
       <Footer />
     </div>;
 }
-

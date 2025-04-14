@@ -1,6 +1,9 @@
 
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 interface CitySelectorProps {
   value: string;
@@ -10,54 +13,60 @@ interface CitySelectorProps {
   errorMessage?: string;
   cities: string[];
   disabled: boolean;
+  onCustomClick: () => void;
 }
 
-export default function CitySelector({
+const CitySelector: React.FC<CitySelectorProps> = ({
   value,
   onValueChange,
   onBlur,
   hasError,
   errorMessage,
   cities,
-  disabled
-}: CitySelectorProps) {
+  disabled,
+  onCustomClick
+}) => {
   return (
     <div>
-      <label htmlFor="city" className="text-white">
-        City <span className="text-red-500">*</span>
-      </label>
-      <Select 
-        value={value} 
-        onValueChange={onValueChange}
-        onOpenChange={() => !value && onBlur()}
-        disabled={disabled}
-      >
-        <SelectTrigger 
-          className={`text-white bg-[#7A0486] border-white ${hasError ? "border-red-500" : ""}`}
+      <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "")}>
+        City {hasError && <span className="text-red-500">*</span>}
+      </Label>
+      <div className="flex items-center space-x-2">
+        <Select 
+          value={value} 
+          onValueChange={onValueChange}
+          disabled={disabled}
         >
-          <SelectValue placeholder="Select city" />
-        </SelectTrigger>
-        <SelectContent className="bg-[#8A44A0] text-white border-[#7A0486]">
-          {cities.map(city => (
-            <SelectItem 
-              key={city} 
-              value={city} 
-              className="text-white hover:bg-[#7A0486]/50 focus:bg-[#7A0486]/50"
-            >
-              {city}
-            </SelectItem>
-          ))}
-          <SelectItem 
-            value="add-new" 
-            className="text-white font-semibold hover:bg-[#7A0486]/50 focus:bg-[#7A0486]/50"
-          >
-            + Add New City
-          </SelectItem>
-        </SelectContent>
-      </Select>
+          <SelectTrigger className={cn("w-[180px]", hasError ? "border-red-500" : "")}>
+            <SelectValue placeholder="Select a city" />
+          </SelectTrigger>
+          <SelectContent>
+            {!cities.length ? (
+              <SelectItem value="no-cities">No cities found for this country</SelectItem>
+            ) : (
+              cities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))
+            )}
+            {!disabled && <SelectItem value="add-new">+ Add New City</SelectItem>}
+          </SelectContent>
+        </Select>
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          onClick={onCustomClick}
+          disabled={disabled}
+        >
+          Custom
+        </Button>
+      </div>
       {hasError && (
         <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
       )}
     </div>
   );
-}
+};
+
+export default CitySelector;

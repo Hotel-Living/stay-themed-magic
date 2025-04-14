@@ -1,7 +1,10 @@
 
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { countries } from "@/utils/countries";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Country } from 'country-state-city';
+import { Label } from "@/components/ui/label";
 
 interface CountrySelectorProps {
   value: string;
@@ -9,51 +12,50 @@ interface CountrySelectorProps {
   onBlur: () => void;
   hasError: boolean;
   errorMessage?: string;
+  onCustomClick: () => void;
 }
 
-export default function CountrySelector({
+const CountrySelector: React.FC<CountrySelectorProps> = ({
   value,
   onValueChange,
   onBlur,
   hasError,
-  errorMessage
-}: CountrySelectorProps) {
+  errorMessage,
+  onCustomClick
+}) => {
+  const countries = Country.getAllCountries();
+
   return (
     <div>
-      <label htmlFor="country" className="text-white">
-        Country <span className="text-red-500">*</span>
-      </label>
-      <Select 
-        value={value} 
-        onValueChange={onValueChange}
-        onOpenChange={() => !value && onBlur()}
-      >
-        <SelectTrigger 
-          className={`text-white bg-[#7A0486] border-white ${hasError ? "border-red-500" : ""}`}
+      <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "")}>
+        Country {hasError && <span className="text-red-500">*</span>}
+      </Label>
+      <div className="flex items-center space-x-2">
+        <Select 
+          value={value} 
+          onValueChange={onValueChange}
         >
-          <SelectValue placeholder="Select country" />
-        </SelectTrigger>
-        <SelectContent className="bg-white border-[#7A0486]">
-          {countries.map(country => (
-            <SelectItem 
-              key={country.id} 
-              value={country.id} 
-              className="text-[#7A0486] hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-            >
-              {country.name}
-            </SelectItem>
-          ))}
-          <SelectItem 
-            value="add-new" 
-            className="text-green-600 hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-          >
-            + Add New Country
-          </SelectItem>
-        </SelectContent>
-      </Select>
+          <SelectTrigger className={cn("w-[180px]", hasError ? "border-red-500" : "")}>
+            <SelectValue placeholder="Select a country" />
+          </SelectTrigger>
+          <SelectContent>
+            {countries.map((country) => (
+              <SelectItem key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </SelectItem>
+            ))}
+            <SelectItem value="add-new">+ Add New Country</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button variant="secondary" size="sm" onClick={onCustomClick}>
+          Custom
+        </Button>
+      </div>
       {hasError && (
         <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
       )}
     </div>
   );
-}
+};
+
+export default CountrySelector;

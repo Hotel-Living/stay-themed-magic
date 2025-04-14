@@ -1,7 +1,7 @@
 
 import React from "react";
 import HotelInfoSection from "./StepOne/HotelInfoSection";
-import LocationSection from "./StepOne/LocationSection";
+import LocationSection from "./StepOne/Location"; // Updated import path
 import ContactSection from "./StepOne/ContactSection";
 import ValidationMessage from "./StepOne/ValidationMessage";
 import useFormValidation from "./StepOne/useFormValidation";

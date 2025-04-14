@@ -4,76 +4,83 @@ import { useState, useEffect } from "react";
 interface FormData {
   hotelName: string;
   category: string;
-  propertyType: string; // Added property type field
+  propertyType: string; 
   description: string;
   country: string;
   city: string;
   address: string;
   latitude: string;
   longitude: string;
+  postalCode: string; // Add the missing postalCode field
   contactName: string;
-  contactEmail: string;
-  contactPhone: string;
+  contactEmail: string; // Changed from email to contactEmail
+  contactPhone: string; // Changed from phone to contactPhone
 }
 
 interface FormErrors {
   hotelName?: string;
   category?: string;
-  propertyType?: string; // Added property type field
+  propertyType?: string;
   description?: string;
   country?: string;
   city?: string;
   address?: string;
+  postalCode?: string; // Add postalCode error
   contactName?: string;
-  contactEmail?: string;
-  contactPhone?: string;
+  contactEmail?: string; // Changed from email to contactEmail
+  contactPhone?: string; // Changed from phone to contactPhone
+  [key: string]: string | undefined; // Add index signature to make it assignable to Record<string, string>
 }
 
 interface TouchedFields {
   hotelName: boolean;
   category: boolean;
-  propertyType: boolean; // Added property type field
+  propertyType: boolean;
   description: boolean;
   country: boolean;
   city: boolean;
   address: boolean;
   latitude: boolean;
   longitude: boolean;
+  postalCode: boolean; // Add postalCode touched field
   contactName: boolean;
-  contactEmail: boolean;
-  contactPhone: boolean;
+  contactEmail: boolean; // Changed from email to contactEmail
+  contactPhone: boolean; // Changed from phone to contactPhone
+  [key: string]: boolean; // Add index signature to make it assignable to Record<string, boolean>
 }
 
 export default function useFormValidation(onValidationChange: (isValid: boolean) => void) {
   const [formData, setFormData] = useState<FormData>({
     hotelName: "",
     category: "",
-    propertyType: "", // Added property type field
+    propertyType: "",
     description: "",
     country: "",
     city: "",
     address: "",
     latitude: "",
     longitude: "",
+    postalCode: "", // Add postalCode initialization
     contactName: "",
-    contactEmail: "",
-    contactPhone: ""
+    contactEmail: "", // Changed from email to contactEmail
+    contactPhone: "" // Changed from phone to contactPhone
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [touchedFields, setTouchedFields] = useState<TouchedFields>({
     hotelName: false,
     category: false,
-    propertyType: false, // Added property type field
+    propertyType: false,
     description: false,
     country: false,
     city: false,
     address: false,
     latitude: false,
     longitude: false,
+    postalCode: false, // Add postalCode touched initialization
     contactName: false,
-    contactEmail: false,
-    contactPhone: false
+    contactEmail: false, // Changed from email to contactEmail
+    contactPhone: false // Changed from phone to contactPhone
   });
 
   // Handle input changes
@@ -146,7 +153,7 @@ export default function useFormValidation(onValidationChange: (isValid: boolean)
     const isValid = Object.keys(newErrors).length === 0 && 
       formData.hotelName.trim() !== "" && 
       formData.category !== "" &&
-      formData.propertyType !== "" && // Added property type field validation
+      formData.propertyType !== "" && 
       formData.description.trim() !== "" && 
       formData.country.trim() !== "" && 
       formData.city.trim() !== "";

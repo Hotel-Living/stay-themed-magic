@@ -59,9 +59,10 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply star rating filter
+    // Apply star rating filter - Convert string[] to number[] for category comparison
     if (filters.stars && filters.stars.length > 0) {
-      query = query.in('category', filters.stars);
+      const numericStars = filters.stars.map(star => parseInt(star)).filter(star => !isNaN(star));
+      query = query.in('category', numericStars);
     }
 
     const { data, error } = await query;

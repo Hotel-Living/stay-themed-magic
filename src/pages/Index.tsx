@@ -11,10 +11,16 @@ import { useHotels } from '@/hooks/useHotels';
 export default function Index() {
   const { data: themes } = useThemes();
   const [filters, setFilters] = useState<FilterState>({
-    themes: [],
-    amenities: [],
+    country: null,
+    month: null,
+    theme: null,
     priceRange: { min: 0, max: 1000 },
-    rating: 0,
+    searchTerm: null,
+    minPrice: 0,
+    maxPrice: 1000,
+    stars: [],
+    location: null,
+    propertyType: null
   });
 
   // Initialize useHotels hook to prepare for filtering

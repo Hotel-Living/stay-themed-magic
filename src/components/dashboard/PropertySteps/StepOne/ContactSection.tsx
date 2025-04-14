@@ -6,8 +6,8 @@ import CollapsibleSection from "./CollapsibleSection";
 interface ContactSectionProps {
   formData: {
     contactName: string;
-    email: string;
-    phone: string;
+    contactEmail: string; // Changed from email to contactEmail
+    contactPhone: string; // Changed from phone to contactPhone
   };
   errors: Record<string, string>;
   touchedFields: Record<string, boolean>;
@@ -41,23 +41,23 @@ export default function ContactSection({
         />
         
         <FormField
-          id="email"
+          id="contact-email"
           label="Email"
           type="email"
-          value={formData.email}
-          onChange={(value) => handleChange("email", value)}
-          onBlur={() => handleBlur("email")}
-          error={shouldShowError("email") ? errors.email : ""}
+          value={formData.contactEmail}
+          onChange={(value) => handleChange("contactEmail", value)}
+          onBlur={() => handleBlur("contactEmail")}
+          error={shouldShowError("contactEmail") ? errors.contactEmail : ""}
           required={true}
         />
         
         <FormField
-          id="phone"
+          id="contact-phone"
           label="Phone"
-          value={formData.phone}
-          onChange={(value) => handleChange("phone", value)}
-          onBlur={() => handleBlur("phone")}
-          error={shouldShowError("phone") ? errors.phone : ""}
+          value={formData.contactPhone}
+          onChange={(value) => handleChange("contactPhone", value)}
+          onBlur={() => handleBlur("contactPhone")}
+          error={shouldShowError("contactPhone") ? errors.contactPhone : ""}
           required={true}
         />
       </div>

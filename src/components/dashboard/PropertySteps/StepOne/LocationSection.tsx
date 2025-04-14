@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FormField from "./FormField";
@@ -30,12 +29,10 @@ export default function LocationSection({
   const [customCountry, setCustomCountry] = useState("");
   const [customCity, setCustomCity] = useState("");
   
-  // Function to check if we should show error for a field
   const shouldShowError = (field: string) => {
     return touchedFields[field] && errors[field];
   };
 
-  // Handler for country selection
   const handleCountrySelect = (value: string) => {
     if (value === "add-new") {
       setIsAddingNewCountry(true);
@@ -43,13 +40,11 @@ export default function LocationSection({
     } else {
       setIsAddingNewCountry(false);
       handleChange("country", value);
-      // Reset city when country changes
       setIsAddingNewCity(false);
       handleChange("city", "");
     }
   };
 
-  // Handler for city selection
   const handleCitySelect = (value: string) => {
     if (value === "add-new") {
       setIsAddingNewCity(true);
@@ -60,21 +55,18 @@ export default function LocationSection({
     }
   };
 
-  // Handler for custom country input
   const handleCustomCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setCustomCountry(value);
     handleChange("country", value);
   };
 
-  // Handler for custom city input
   const handleCustomCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setCustomCity(value);
     handleChange("city", value);
   };
 
-  // Get cities based on selected country
   const getCitiesByCountry = (countryCode: string) => {
     switch(countryCode) {
       case 'spain':
@@ -233,7 +225,7 @@ export default function LocationSection({
             value={formData.postalCode}
             onChange={(value) => handleChange("postalCode", value)}
             onBlur={() => handleBlur("postalCode")}
-            error={""}
+            error={shouldShowError("postalCode") ? errors.postalCode : ""}
             required={false}
           />
         </div>

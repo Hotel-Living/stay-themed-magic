@@ -36,7 +36,12 @@ export default function StepOne({
         />
         
         <LocationSection
-          formData={formData}
+          formData={{
+            country: formData.country,
+            address: formData.address,
+            city: formData.city,
+            postalCode: formData.postalCode
+          }}
           errors={errors}
           touchedFields={touchedFields}
           handleChange={handleChange}
@@ -44,7 +49,11 @@ export default function StepOne({
         />
         
         <ContactSection
-          formData={formData}
+          formData={{
+            contactName: formData.contactName,
+            contactEmail: formData.contactEmail,
+            contactPhone: formData.contactPhone
+          }}
           errors={errors}
           touchedFields={touchedFields}
           handleChange={handleChange}

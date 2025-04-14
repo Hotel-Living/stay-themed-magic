@@ -72,6 +72,9 @@ export default function LocationSection({
   };
 
   const selectedCountryCities = useCitiesByCountry(formData.country);
+  
+  // Check if country is empty to determine if city selector should be disabled
+  const isCitySelectorDisabled = formData.country === "";
 
   return (
     <CollapsibleSection title="LOCATION">
@@ -119,7 +122,7 @@ export default function LocationSection({
                 hasError={shouldShowError("city")}
                 errorMessage={errors.city}
                 cities={selectedCountryCities}
-                disabled={formData.country === ""}
+                disabled={isCitySelectorDisabled}
               />
             ) : (
               <CustomCityInput

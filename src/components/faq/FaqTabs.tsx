@@ -21,6 +21,11 @@ interface FaqTabsProps {
   faqsByCategory: Record<string, FaqItem[]>;
   numbered?: boolean;
   searchQuery?: string;
+  className?: string;
+  accentTextColor?: string;
+  headerBgColor?: string;
+  contentBgColor?: string;
+  marginBottom?: string;
 }
 
 export function FaqTabs({ 
@@ -29,15 +34,20 @@ export function FaqTabs({
   faqCategories, 
   faqsByCategory,
   numbered = false,
-  searchQuery = ""
+  searchQuery = "",
+  className = "",
+  accentTextColor = "#56cc41",
+  headerBgColor = "#6a037c",
+  contentBgColor = "#5A0363",
+  marginBottom = "mb-20"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
 
   // Filter FAQs based on search query
   const getFilteredFaqs = (categoryId: string) => {
-    if (!searchQuery) return faqsByCategory[categoryId as keyof typeof faqsByCategory];
+    if (!searchQuery) return faqsByCategory[categoryId as keyof typeof faqsByCategory] || [];
     
-    return faqsByCategory[categoryId as keyof typeof faqsByCategory].filter(
+    return (faqsByCategory[categoryId as keyof typeof faqsByCategory] || []).filter(
       faq => 
         faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
         faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
@@ -56,7 +66,7 @@ export function FaqTabs({
     for (const category of faqCategories) {
       indices[category.id] = currentIndex;
       if (!searchQuery) {
-        currentIndex += faqsByCategory[category.id].length;
+        currentIndex += (faqsByCategory[category.id] || []).length;
       }
     }
 
@@ -64,7 +74,7 @@ export function FaqTabs({
   }, [faqCategories, faqsByCategory, searchQuery]);
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-20">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
       <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
         {faqCategories.map(category => (
           <TabsTrigger 
@@ -104,13 +114,13 @@ export function FaqTabs({
                       className="glass-card rounded-lg overflow-hidden border-none"
                     >
                       <AccordionTrigger 
-                        className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
+                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-lg" : "text-xl"}`}
                       >
                         <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
-                      <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
+                      <AccordionContent className={`px-4 pb-4 pt-4 bg-[${contentBgColor}]`}>
                         <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
                           {faq.answer}
                         </p>

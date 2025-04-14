@@ -4,7 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { BenefitsTravelersList } from "@/components/faq/BenefitsTravelersList";
-import { FaqTravelersTabs } from "@/components/faq/FaqTravelersTabs";
+import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { 
   benefitsTravelersList, 
@@ -44,13 +44,16 @@ export default function FAQTravelers() {
             />
           </div>
 
-          <FaqTravelersTabs 
+          <FaqTabs 
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             faqCategories={faqTravelersCategories}
             faqsByCategory={faqTravelersByCategory}
             numbered={true}
             searchQuery={searchQuery}
+            accentTextColor="#4db74d"
+            headerBgColor="#71037c"
+            marginBottom=""
           />
         </div>
       </main>

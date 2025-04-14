@@ -19,9 +19,16 @@ interface FaqTabsProps {
   setActiveTab: (value: string) => void;
   faqCategories: FaqCategory[];
   faqsByCategory: Record<string, FaqItem[]>;
+  numbered?: boolean;
 }
 
-export function FaqTabs({ activeTab, setActiveTab, faqCategories, faqsByCategory }: FaqTabsProps) {
+export function FaqTabs({ 
+  activeTab, 
+  setActiveTab, 
+  faqCategories, 
+  faqsByCategory,
+  numbered = false
+}: FaqTabsProps) {
   const isMobile = useIsMobile();
 
   return (
@@ -51,7 +58,7 @@ export function FaqTabs({ activeTab, setActiveTab, faqCategories, faqsByCategory
                   className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
                 >
                   <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
-                    {faq.question}
+                    {numbered ? `${index + 1}. ` : ''}{faq.question}
                   </h2>
                 </AccordionTrigger>
                 <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">

@@ -33,7 +33,10 @@ export const faqTravelersCategories: FaqCategory[] = [
   { id: "booking", name: "Booking" },
   { id: "stay", name: "During Your Stay" },
   { id: "payment", name: "Payment" },
-  { id: "themes", name: "Affinities" }
+  { id: "themes", name: "Affinities" },
+  { id: "lifestyle", name: "Lifestyle" },
+  { id: "community", name: "Community" },
+  { id: "practical", name: "Practical Details" }
 ];
 
 export const faqTravelersByCategory: Record<string, FaqItem[]> = {
@@ -77,6 +80,14 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
     {
       question: "How do I eliminate household chores?",
       answer: "When you stay with us, you leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
+    },
+    {
+      question: "What makes Hotel-Living different from regular hotels?",
+      answer: "Hotel-Living focuses on extended stays with purpose-built communities centered around shared interests. Unlike traditional hotels designed for short visits, our properties create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
+    },
+    {
+      question: "Is Hotel-Living suitable for families with children?",
+      answer: "While some of our properties accommodate families, most of our current offerings are optimized for individuals and couples. We have a growing selection of family-friendly properties with appropriate activities and spaces for children. These are clearly marked in our search filters to help families find suitable options."
     }
   ],
   booking: [
@@ -103,6 +114,18 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
     {
       question: "How does direct payment at the hotel work?",
       answer: "You can reserve your stay with just 10% of the total rate. The remaining balance is paid directly to the hotel upon arrival, eliminating middleman fees and giving you the opportunity to verify that everything meets your expectations before completing your payment."
+    },
+    {
+      question: "Can I book multiple hotels for consecutive stays?",
+      answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties, and we even offer multi-stay packages with additional discounts when you book 3+ locations in advance."
+    },
+    {
+      question: "Is there a loyalty program for frequent stays?",
+      answer: "Yes, our Hotel-Living Rewards program provides benefits based on your stay history. You earn points for each night stayed, with bonus points for referrals and participating in community activities. These points can be redeemed for stay discounts, room upgrades, exclusive experiences, or premium amenities."
+    },
+    {
+      question: "Can I try a hotel before committing to a longer stay?",
+      answer: "Yes, many properties offer 'taster stays' of 2-3 nights that allow you to experience the hotel and its affinity activities before booking an extended stay. If you decide to extend after your taster stay, the cost is typically applied toward your longer booking."
     }
   ],
   stay: [
@@ -137,6 +160,18 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
     {
       question: "What daily services and attentions can I expect?",
       answer: "Beyond standard housekeeping, our hotels offer concierge services, maintenance assistance, dining options, and activity coordination. Many properties also provide amenities like fitness centers, pools, business centers, and social spaces. Premium properties may offer additional services like laundry, personal shopping, or private transportation."
+    },
+    {
+      question: "Can I cook my own meals?",
+      answer: "This varies by property. Some hotels offer in-room kitchenettes or access to communal cooking facilities, while others focus on provided meals or dining options. Each property listing specifies the available cooking facilities. Properties with culinary affinities often include cooking classes and shared meal experiences as part of their programming."
+    },
+    {
+      question: "What about internet access and workspace?",
+      answer: "High-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
+    },
+    {
+      question: "Is laundry service available?",
+      answer: "Yes, all properties provide laundry options, though the specifics vary. Some include weekly laundry service in the rate, others offer self-service facilities, and some provide laundry service at an additional cost. Extended-stay packages often include more generous laundry allowances than shorter bookings."
     }
   ],
   payment: [
@@ -159,6 +194,14 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
     {
       question: "Can I generate monthly income by renting out my usual home?",
       answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotel-Living experience. This can help offset the cost of your hotel stays or even generate additional income. We don't directly manage this process, but many members use property management services or platforms like Airbnb to handle their rentals."
+    },
+    {
+      question: "Are there any hidden fees I should be aware of?",
+      answer: "We pride ourselves on transparent pricing. The rate shown includes all standard amenities listed on the property page. Optional services (like additional housekeeping, premium activities, or special meal plans) are clearly priced. Local taxes may apply depending on the jurisdiction, and these are always displayed before booking confirmation."
+    },
+    {
+      question: "Do you offer any discounts for longer stays?",
+      answer: "Yes, rates typically decrease for longer commitments. Three-month stays often receive a 5-10% discount compared to monthly rates, while six-month or longer bookings may qualify for 10-20% discounts. Some properties also offer seasonal promotions for extended stays during specific periods."
     }
   ],
   themes: [
@@ -181,6 +224,72 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
     {
       question: "Is Hotel-Living ideal for specific groups of people?",
       answer: "Our service is particularly popular among digital nomads, active retirees, online workers, students, and individuals with independent resources. Solo travelers and couples often find our model especially appealing as it provides both privacy and community. However, we welcome everyone interested in our lifestyle concept, regardless of background or circumstance."
+    },
+    {
+      question: "How many different affinities do you offer?",
+      answer: "We currently offer over 50 distinct affinities across categories like arts & culture, food & beverage, wellness & fitness, technology & business, nature & adventure, language & education, and lifestyle interests. New affinities are added regularly based on partner capabilities and community demand."
+    },
+    {
+      question: "Can I mix different affinities during my stay?",
+      answer: "Absolutely! Many guests enjoy properties that offer multiple complementary affinities. For example, you might choose a hotel that combines culinary and language learning elements, or one that merges outdoor activities with wellness programming. You can participate in as many or as few of the offered affinities as you wish."
+    },
+    {
+      question: "What if I want to change affinities during my journey?",
+      answer: "Our platform makes it easy to experience different affinities throughout your Hotel-Living journey. Many guests create personalized circuits, perhaps spending a month at a culinary-focused property, then moving to a wellness retreat, followed by a creative arts community. This diversity of experiences is a key benefit of our approach."
+    }
+  ],
+  lifestyle: [
+    {
+      question: "How does Hotel-Living work for digital nomads?",
+      answer: "Digital nomads find our platform particularly valuable because it provides reliable workspaces, built-in communities, and the flexibility to experience different locations while maintaining productivity. Our properties offer reliable high-speed internet, dedicated work areas, and often coworking spaces or business centers. Many also organize networking events and skill-sharing opportunities specifically for remote professionals."
+    },
+    {
+      question: "Is Hotel-Living suitable for retirees?",
+      answer: "Absolutely! Many active retirees use our platform to create fulfilling post-career lifestyles. The combination of comfortable accommodations, built-in communities, and enriching activities provides an engaging environment without the maintenance responsibilities of homeownership. Many find that the social connections and learning opportunities significantly enhance their retirement experience."
+    },
+    {
+      question: "Can I use Hotel-Living as my primary residence?",
+      answer: "Yes, an increasing number of members use Hotel-Living as their primary lifestyle, moving between different properties throughout the year. This nomadic approach provides tremendous flexibility and variety while still offering the stability of comfortable accommodations and consistent service standards. Many members maintain a small storage unit or home base while primarily living through our platform."
+    },
+    {
+      question: "How does Hotel-Living compare to traditional apartment living?",
+      answer: "Unlike traditional apartments that require long-term leases, furnishing costs, utility setups, and maintenance responsibilities, Hotel-Living provides fully-furnished, serviced accommodations with all utilities and amenities included. You gain flexibility, eliminate household chores, and access built-in communities and activities that aren't typically available in standard apartment buildings."
+    }
+  ],
+  community: [
+    {
+      question: "How large are the communities at each property?",
+      answer: "Community sizes vary by property, but most range from 15-50 concurrent guests participating in the same affinity programs. This size is intentionally designed to be large enough for diverse interactions but small enough to foster meaningful connections. The continuous flow of new arrivals keeps communities dynamic while maintaining a core group of longer-term participants."
+    },
+    {
+      question: "Are there community managers at the properties?",
+      answer: "Yes, each property has a designated community facilitator who organizes activities, introduces new guests, facilitates connections, and ensures the affinity programming runs smoothly. These facilitators are knowledgeable about both the property's specialties and the surrounding area, serving as valuable resources for enhancing your stay."
+    },
+    {
+      question: "What kinds of community events can I expect?",
+      answer: "Beyond affinity-specific activities, properties typically host regular community gatherings like welcome dinners for new arrivals, social mixers, group outings to local attractions, and special celebration events. Many also organize skill-sharing sessions, discussion groups, and collaborative projects that bring guests together across different interests."
+    },
+    {
+      question: "Can I maintain privacy while still being part of the community?",
+      answer: "Absolutely. Our model is designed to balance private space with community engagement. You always have your private room as a personal sanctuary, and participation in all community activities is entirely optional. Many guests appreciate being able to engage with the community when they choose while having private space to recharge."
+    }
+  ],
+  practical: [
+    {
+      question: "What about health insurance when living this lifestyle?",
+      answer: "While we don't provide health insurance, many of our members use international health insurance plans designed for globally mobile individuals. Popular options include providers like Safety Wing, World Nomads, and Cigna Global. Our guest resources section includes information on insurance options suitable for different types of travelers."
+    },
+    {
+      question: "How do I handle mail and important documents?",
+      answer: "Many members use mail forwarding services or virtual mailbox providers that scan and digitally deliver their physical mail. Others maintain a permanent address with family or use specialized services for nomads. For important documents, we recommend secure digital storage with encrypted backups. Our partner properties can accept important deliveries with advance notice."
+    },
+    {
+      question: "What about transportation between properties?",
+      answer: "Our platform includes transportation resources to help you plan moves between properties. Many locations offer airport pickup services, and some regions have direct transport connections between our partner hotels. For longer journeys, our concierge team can assist with booking flights, trains, or other transportation options."
+    },
+    {
+      question: "How do taxes work when living across multiple locations?",
+      answer: "Tax implications vary widely based on your citizenship, residency status, and the specific countries you stay in. While we can't provide tax advice, many of our members work with accountants specializing in expatriate or digital nomad taxation. Our resources section includes general information on tax considerations for globally mobile individuals."
     }
   ]
 };

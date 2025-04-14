@@ -6,107 +6,43 @@ import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/faqHotelsData";
 
 export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("video");
   const isMobile = useIsMobile();
-
-  // Hotel FAQ content (translated from Spanish)
-  const hotelFaqCategories = [{
-    id: "video",
-    name: "Video"
-  }, {
-    id: "benefits",
-    name: "Benefits"
-  }, {
-    id: "programs",
-    name: "Programs"
-  }, {
-    id: "operation",
-    name: "Operation"
-  }, {
-    id: "integration",
-    name: "Integration"
-  }];
   
-  const hotelFaqsByCategory = {
-    benefits: [{
-      question: "What occupancy rate can I expect?",
-      answer: "100% occupancy year-round. Our model ensures that traditionally empty rooms are filled, providing consistent revenue throughout the year."
-    }, {
-      question: "Will I have empty rooms with this model?",
-      answer: "Zero traditionally vacant rooms. Our system maximizes occupancy by focusing on extended stays and themed experiences that attract guests consistently."
-    }, {
-      question: "What extra benefits will my hotel receive?",
-      answer: "Enormous extra benefits including higher average daily rate, reduced operational costs, increased staff stability, and additional revenue from themed activities and services."
-    }, {
-      question: "What types of stays are most profitable?",
-      answer: "Profitable stays of 8, 16, 24, and 32 days. These extended stays reduce turnover costs while maintaining healthy revenue streams."
-    }, {
-      question: "How does reduced turnover benefit my hotel?",
-      answer: "Low turnover = Lower Costs = Higher Profits. With fewer check-ins and check-outs, you'll significantly reduce cleaning, administrative, and operational expenses."
-    }, {
-      question: "How are arrivals and departures managed?",
-      answer: "Just one weekly day for check-ins and check-outs = Zero gaps between reservations. This simplified schedule optimizes staff resources and ensures seamless transitions between guests."
-    }],
-    programs: [{
-      question: "What are themed stays?",
-      answer: "Themed stays are specialized hotel experiences built around particular interests or activities. By offering these themed experiences, you attract guests seeking specific experiences related to cuisine, language, sports, art, etc., creating a unique value proposition."
-    }, {
-      question: "How do themed group reservations work?",
-      answer: "Group reservations are pre-organized stays where multiple guests with similar interests book together. Our platform coordinates these groups, filling multiple rooms at once for extended periods, guaranteeing high occupancy rates during traditional low seasons."
-    }, {
-      question: "What is the long-stay program?",
-      answer: "Our long-stay program focuses on extended guest reservations of one month or longer. By catering to these guests, you secure consistent occupancy while reducing turnover-related expenses and staff workload."
-    }, {
-      question: "How does the multi-hotel circuit work?",
-      answer: "The multi-hotel circuit allows guests to move between different themed properties, staying in each for extended periods. By joining this network, your property becomes part of a global travel ecosystem, accessing guests who might otherwise never discover your location."
-    }],
-    operation: [{
-      question: "How does the booking process work?",
-      answer: "Guests book directly through our platform, which handles marketing, availability management, payments, and customer service. Your property receives booking details and guest preferences, allowing you to prepare appropriately before arrival."
-    }, {
-      question: "What themes can my hotel offer?",
-      answer: "Your hotel can offer any themes that match your facilities, location, and staff expertise. Popular themes include culinary, languages, sports, wellness, art, technology, and music. Our onboarding team will help identify the most suitable themes for your property based on your unique characteristics."
-    }, {
-      question: "What staff training is required?",
-      answer: "Training requirements depend on your chosen themes but typically include orientation on extended-stay guest needs, themed activity facilitation, and community-building practices. We provide comprehensive training materials and support during implementation."
-    }, {
-      question: "What technological requirements are needed?",
-      answer: "Basic requirements include reliable internet connectivity, property management system integration capabilities, and staff familiar with digital communications. Our system is designed to integrate with most major PMS platforms, minimizing additional technology investments."
-    }],
-    integration: [{
-      question: "How do I join the Hotels Life platform?",
-      answer: "The process starts with an application through our website. After initial screening, our partnership team conducts a detailed assessment of your property. If approved, we guide you through onboarding, including theme selection, staff training, and system integration."
-    }, {
-      question: "What financial model applies to partner hotels?",
-      answer: "Hotels Life operates on a commission model based on bookings generated through our platform. We handle marketing, customer acquisition, and community building, while you focus on delivering exceptional experiences. Many properties see significant revenue increases despite the commission structure."
-    }, {
-      question: "Are there any implementation costs?",
-      answer: "Implementation costs vary depending on your chosen themes and existing facilities. Some themes require minimal investment (like language or digital nomad themes), while others might need specific equipment or space modifications. Our team works with you to identify cost-effective implementation strategies."
-    }, {
-      question: "How long does it take to implement the Hotels Life system?",
-      answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, theme setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
-    }]
-  };
-  
-  return <div className="min-h-screen flex flex-col faq-page">
+  return (
+    <div className="min-h-screen flex flex-col faq-page">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-4xl mx-auto px-4 py-8">
-          <h1 className={`${isMobile ? "text-4xl" : "text-3xl"} font-bold mb-2 text-center text-gradient text-[#f5ecf6]`}>Hotel Partner FAQ</h1>
-          <p className={`text-center mb-8 font-bold text-[#f0e3f2] ${isMobile ? "text-xl" : ""}`}>
-            Find answers to common questions about joining Hotels Life as a property partner
-          </p>
+          <div className="text-center mb-16">
+            <h1 className={`
+              ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
+              font-bold mb-6 text-gradient text-[#eedbf7] glow 
+              animate-text-slow tracking-tight leading-tight
+            `}>
+              Hotel Partner FAQ
+            </h1>
+            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-4`}>
+              Find answers to common questions about joining Hotels Life as a property partner
+            </p>
+          </div>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
-              {hotelFaqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-sm"} font-normal bg-[#68046e]`}>
+              {hotelFaqCategories.map(category => (
+                <TabsTrigger 
+                  key={category.id} 
+                  value={category.id} 
+                  className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-sm"} bg-[#68046e]`}
+                >
                   {category.name}
-                </TabsTrigger>)}
+                </TabsTrigger>
+              ))}
             </TabsList>
             
             <TabsContent value="video" className="hotel-text">
@@ -133,16 +69,21 @@ export default function FAQHotels() {
               </div>
             </TabsContent>
               
-            {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => <TabsContent key={category.id} value={category.id} className="hotel-text">
+            {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => (
+              <TabsContent key={category.id} value={category.id} className="hotel-text">
                 <Accordion type="single" collapsible className="w-full space-y-2">
-                  {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                      <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#71037c] ${isMobile ? "text-xl" : ""}`}>
-                        <h2 className={`text-[#f9d3f6] font-bold ${isMobile ? "text-xl" : "text-base"}`}>{faq.question}</h2>
+                  {hotelFaqsByCategory[category.id as keyof typeof hotelFaqsByCategory].map((faq, index) => (
+                    <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
+                      <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#71037c] ${isMobile ? "text-xl" : "text-lg"}`}>
+                        <h2 className={`text-[#f9d3f6] font-bold ${isMobile ? "text-xl" : "text-lg"}`}>
+                          {index + 1}. {faq.question}
+                        </h2>
                       </AccordionTrigger>
-                      <AccordionContent className="px-4 pb-4 pt-0">
-                        <p className={`text-[#f4d0f8] ${isMobile ? "text-lg" : ""}`}>{faq.answer}</p>
+                      <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
+                        <p className={`text-[#f4d0f8] ${isMobile ? "text-lg" : "text-base"}`}>{faq.answer}</p>
                       </AccordionContent>
-                    </AccordionItem>)}
+                    </AccordionItem>
+                  ))}
                 </Accordion>
                 
                 <div className="mt-8 border-t-2 border-fuchsia-400/30 pt-6">
@@ -158,11 +99,13 @@ export default function FAQHotels() {
                     </Link>
                   </div>
                 </div>
-              </TabsContent>)}
+              </TabsContent>
+            ))}
           </Tabs>
         </div>
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

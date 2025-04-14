@@ -73,7 +73,7 @@ export default function LocationSection({
 
   const selectedCountryCities = useCitiesByCountry(formData.country);
   
-  // Check if country is empty to determine if city selector should be disabled
+  // Boolean flag to determine if city selector should be disabled
   const isCitySelectorDisabled = formData.country === "";
 
   return (

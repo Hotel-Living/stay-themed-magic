@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Moon, Plus, Sun, Trash2 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Plus, Trash2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -26,9 +26,13 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
   setThemeDescription
 }) => {
   const themeOptions = [
-    { id: "light", name: "Light", icon: <Sun className="h-4 w-4" /> },
-    { id: "dark", name: "Dark", icon: <Moon className="h-4 w-4" /> },
-    { id: "system", name: "System", icon: <Sun className="h-4 w-4" /> }
+    { id: "luxury", name: "Luxury" },
+    { id: "adventure", name: "Adventure" },
+    { id: "beach", name: "Beach" },
+    { id: "mountain", name: "Mountain" },
+    { id: "cultural", name: "Cultural" },
+    { id: "romantic", name: "Romantic" },
+    { id: "wellness", name: "Wellness" }
   ];
 
   const addTheme = () => {
@@ -45,14 +49,13 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
 
   return (
     <Card>
-      <CardHeader className="text-white">
+      <CardHeader className="bg-[#860493] text-white pb-2 border-b border-fuchsia-800">
         <CardTitle>Theme Preferences</CardTitle>
-        <CardDescription className="text-gray-200">Customize your visual experience</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493]">
         <div className="space-y-2">
-          <Label htmlFor="theme" className="text-base text-white">Select Theme</Label>
-          <div className="flex gap-2">
+          <Label htmlFor="theme" className="text-base text-white">Your preferred themes?</Label>
+          <div className="flex flex-wrap gap-2">
             {themeOptions.map(theme => (
               <Button
                 key={theme.id}
@@ -68,7 +71,6 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
                     : setSelectedThemes([...selectedThemes, theme.id])
                 }
               >
-                {theme.icon}
                 {theme.name}
               </Button>
             ))}

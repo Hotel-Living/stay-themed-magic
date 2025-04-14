@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Globe } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { 
   Select, 
@@ -10,7 +10,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { currencyOptions } from "@/utils/themeConstants";
 
 interface CurrencyPreferencesCardProps {
   currency: string;
@@ -21,11 +20,22 @@ export const CurrencyPreferencesCard: React.FC<CurrencyPreferencesCardProps> = (
   currency,
   setCurrency
 }) => {
+  // Currency options
+  const currencyOptions = [
+    { value: "USD", label: "US Dollar (USD)" },
+    { value: "EUR", label: "Euro (EUR)" },
+    { value: "GBP", label: "British Pound (GBP)" },
+    { value: "JPY", label: "Japanese Yen (JPY)" },
+    { value: "CAD", label: "Canadian Dollar (CAD)" },
+    { value: "AUD", label: "Australian Dollar (AUD)" },
+    { value: "CHF", label: "Swiss Franc (CHF)" },
+    { value: "CNY", label: "Chinese Yuan (CNY)" },
+  ];
+
   return (
     <Card>
-      <CardHeader className="text-white">
+      <CardHeader className="bg-[#860493] text-white pb-2 border-b border-fuchsia-800">
         <CardTitle>Currency & Regional Preferences</CardTitle>
-        <CardDescription className="text-gray-200">Customize how prices and regional information are displayed</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493]">
         <div>

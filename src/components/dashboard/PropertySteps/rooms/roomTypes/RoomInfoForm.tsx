@@ -25,7 +25,8 @@ export default function RoomInfoForm({
   onDescriptionChange
 }: RoomInfoFormProps) {
   return (
-    <>
+    <div className="space-y-4">
+      {/* Room Type Field */}
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Room Type</Label>
         <Input 
@@ -36,30 +37,32 @@ export default function RoomInfoForm({
         />
       </div>
       
+      {/* Max Occupancy and Room Size on same row */}
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Max Occupancy</Label>
-        <Input 
-          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
-          type="number"
-          min="1"
-          value={maxOccupancy}
-          onChange={(e) => onMaxOccupancyChange(parseInt(e.target.value) || 1)}
-          placeholder="Maximum number of guests"
-        />
+        <div className="col-span-1">
+          <Input 
+            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
+            type="number"
+            min="1"
+            value={maxOccupancy}
+            onChange={(e) => onMaxOccupancyChange(parseInt(e.target.value) || 1)}
+          />
+        </div>
+        
+        <Label className="text-right text-sm text-white">Room Size (sq.ft)</Label>
+        <div className="col-span-1">
+          <Input 
+            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
+            type="number"
+            min="0"
+            value={roomSize}
+            onChange={(e) => onRoomSizeChange(parseInt(e.target.value) || 0)}
+          />
+        </div>
       </div>
       
-      <div className="grid grid-cols-4 items-center gap-4">
-        <Label className="text-right text-sm text-white">Room Size (sq. ft.)</Label>
-        <Input 
-          className="col-span-3 bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white"
-          type="number"
-          min="0"
-          value={roomSize}
-          onChange={(e) => onRoomSizeChange(parseInt(e.target.value) || 0)}
-          placeholder="Room size in square feet"
-        />
-      </div>
-      
+      {/* Description Field */}
       <div className="grid grid-cols-4 items-center gap-4">
         <Label className="text-right text-sm text-white">Description</Label>
         <textarea 
@@ -70,6 +73,6 @@ export default function RoomInfoForm({
           placeholder="Brief description of the room"
         />
       </div>
-    </>
+    </div>
   );
 }

@@ -26,7 +26,7 @@ export default function ValidationMessages({
       {roomTypesCount > 0 && !error && (
         <div className="p-3 mt-4 rounded-md bg-green-50 text-green-700 flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
-          <span>{roomTypesCount} room type(s) added successfully</span>
+          <span className="text-white">{roomTypesCount} room type(s) added successfully</span>
         </div>
       )}
     </>

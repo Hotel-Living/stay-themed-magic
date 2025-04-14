@@ -57,7 +57,7 @@ export default function RoomTypeForm({
                   name: e.target.value
                 })} 
                 placeholder="e.g. Deluxe Double" 
-                className="bg-[#850390]"
+                className="bg-[#850390] text-white border-white"
               />
             </div>
             
@@ -71,7 +71,7 @@ export default function RoomTypeForm({
                   description: e.target.value
                 })} 
                 placeholder="Brief description of the room" 
-                className="bg-[#7c057e]" 
+                className="bg-[#7c057e] text-white border-white" 
               />
             </div>
             
@@ -87,7 +87,7 @@ export default function RoomTypeForm({
                     ...newRoom,
                     capacity: parseInt(e.target.value) || 1
                   })} 
-                  className="bg-[#850588]" 
+                  className="bg-[#850588] text-white border-white w-full" 
                 />
               </div>
               
@@ -103,7 +103,7 @@ export default function RoomTypeForm({
                     ...newRoom,
                     basePrice: parseFloat(e.target.value) || 0
                   })} 
-                  className="bg-[#850588]" 
+                  className="bg-[#850588] text-white border-white w-full" 
                 />
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function RoomTypeForm({
               <Button 
                 onClick={handleAddRoomType} 
                 disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} 
-                className="font-normal bg-[#af00b0]"
+                className="font-normal bg-[#af00b0] text-white"
               >
                 Add Room Type
               </Button>

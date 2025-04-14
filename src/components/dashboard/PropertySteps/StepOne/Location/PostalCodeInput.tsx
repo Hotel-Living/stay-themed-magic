@@ -21,7 +21,7 @@ const PostalCodeInput: React.FC<PostalCodeInputProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <Label htmlFor="postalCode" className={cn(hasError ? "text-red-500" : "")}>
+      <Label htmlFor="postalCode" className={cn("text-white", hasError ? "text-red-500" : "")}>
         Postal Code {hasError && <span className="text-red-500">*</span>}
       </Label>
       <Input
@@ -32,7 +32,7 @@ const PostalCodeInput: React.FC<PostalCodeInputProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         placeholder="Enter postal code"
-        className={cn(hasError ? "border-red-500" : "")}
+        className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
       />
       {hasError && (
         <p className="text-red-500 text-sm mt-1">{errorMessage}</p>

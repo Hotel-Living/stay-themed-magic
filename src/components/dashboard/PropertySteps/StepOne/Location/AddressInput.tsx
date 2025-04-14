@@ -21,7 +21,7 @@ const AddressInput: React.FC<AddressInputProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <Label htmlFor="address" className={cn(hasError ? "text-red-500" : "")}>
+      <Label htmlFor="address" className={cn("text-white", hasError ? "text-red-500" : "")}>
         Address {hasError && <span className="text-red-500">*</span>}
       </Label>
       <Input
@@ -32,7 +32,7 @@ const AddressInput: React.FC<AddressInputProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         placeholder="Enter address"
-        className={cn(hasError ? "border-red-500" : "")}
+        className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
       />
       {hasError && (
         <p className="text-red-500 text-sm mt-1">{errorMessage}</p>

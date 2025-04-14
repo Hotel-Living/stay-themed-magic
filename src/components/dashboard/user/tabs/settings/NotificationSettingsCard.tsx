@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Bell } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
@@ -16,9 +16,8 @@ export const NotificationSettingsCard: React.FC<NotificationSettingsCardProps> =
 }) => {
   return (
     <Card>
-      <CardHeader className="text-white">
+      <CardHeader className="bg-[#860493] text-white pb-2 border-b border-fuchsia-800">
         <CardTitle>Notification Preferences</CardTitle>
-        <CardDescription className="text-gray-200">Manage how you receive notifications and updates</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493]">
         <div className="flex items-center justify-between">

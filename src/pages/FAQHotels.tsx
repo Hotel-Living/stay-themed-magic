@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -30,6 +30,23 @@ export default function FAQHotels() {
   const hasSearchResults = searchQuery ? 
     hotelFaqCategories.filter(cat => cat.id !== "video")
       .some(category => getFilteredFaqs(category.id).length > 0) : true;
+  
+  // Calculate question number start index for each category
+  const categoryStartIndices = useMemo(() => {
+    const indices: Record<string, number> = {};
+    let currentIndex = 1;
+
+    for (const category of hotelFaqCategories) {
+      if (category.id !== "video") {
+        indices[category.id] = currentIndex;
+        if (!searchQuery) {
+          currentIndex += (hotelFaqsByCategory[category.id] || []).length;
+        }
+      }
+    }
+
+    return indices;
+  }, [hotelFaqCategories, hotelFaqsByCategory, searchQuery]);
   
   return (
     <div className="min-h-screen flex flex-col faq-page">
@@ -102,23 +119,29 @@ export default function FAQHotels() {
               
             {hotelFaqCategories.filter(cat => cat.id !== "video").map(category => {
               const filteredFaqs = getFilteredFaqs(category.id);
+              const startIndex = categoryStartIndices[category.id];
               
               return (
                 <TabsContent key={category.id} value={category.id} className="hotel-text">
                   {filteredFaqs.length > 0 ? (
                     <Accordion type="single" collapsible className="w-full space-y-2">
-                      {filteredFaqs.map((faq, index) => (
-                        <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
-                          <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#71037c] ${isMobile ? "text-xl" : "text-lg"}`}>
-                            <h2 className={`text-[#f9d3f6] font-bold ${isMobile ? "text-xl" : "text-lg"}`}>
-                              {index + 1}. {faq.question}
-                            </h2>
-                          </AccordionTrigger>
-                          <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
-                            <p className={`text-[#f4d0f8] ${isMobile ? "text-lg" : "text-base"}`}>{faq.answer}</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
+                      {filteredFaqs.map((faq, index) => {
+                        // Use the start index for the category + current index within filtered results
+                        const questionNumber = searchQuery ? startIndex + index : startIndex + index;
+                        
+                        return (
+                          <AccordionItem key={index} value={`${category.id}-${index}`} className="glass-card rounded-lg overflow-hidden border-none">
+                            <AccordionTrigger className={`px-4 py-3 text-left hover:no-underline text-[#4db74d] bg-[#71037c] ${isMobile ? "text-xl" : "text-lg"}`}>
+                              <h2 className={`text-[#f9d3f6] font-bold ${isMobile ? "text-xl" : "text-lg"}`}>
+                                {questionNumber}. {faq.question}
+                              </h2>
+                            </AccordionTrigger>
+                            <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
+                              <p className={`text-[#f4d0f8] ${isMobile ? "text-lg" : "text-base"}`}>{faq.answer}</p>
+                            </AccordionContent>
+                          </AccordionItem>
+                        );
+                      })}
                     </Accordion>
                   ) : searchQuery ? (
                     <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">

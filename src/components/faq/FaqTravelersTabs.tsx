@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -48,6 +48,21 @@ export function FaqTravelersTabs({
   const hasSearchResults = searchQuery ? 
     faqCategories.some(category => getFilteredFaqs(category.id).length > 0) : true;
 
+  // Calculate question number start index for each category
+  const categoryStartIndices = useMemo(() => {
+    const indices: Record<string, number> = {};
+    let currentIndex = 1;
+
+    for (const category of faqCategories) {
+      indices[category.id] = currentIndex;
+      if (!searchQuery) {
+        currentIndex += faqsByCategory[category.id].length;
+      }
+    }
+
+    return indices;
+  }, [faqCategories, faqsByCategory, searchQuery]);
+
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
@@ -71,31 +86,38 @@ export function FaqTravelersTabs({
       
       {faqCategories.map(category => {
         const filteredFaqs = getFilteredFaqs(category.id);
+        const startIndex = categoryStartIndices[category.id];
         
         return (
           <TabsContent key={category.id} value={category.id} className="customer-text">
             {filteredFaqs.length > 0 ? (
               <Accordion type="single" collapsible className="w-full space-y-2">
-                {filteredFaqs.map((faq, index) => (
-                  <AccordionItem 
-                    key={index} 
-                    value={`${category.id}-${index}`} 
-                    className="glass-card rounded-lg overflow-hidden border-none"
-                  >
-                    <AccordionTrigger 
-                      className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
+                {filteredFaqs.map((faq, index) => {
+                  // Use the start index for the category + current index within filtered results
+                  // When searching, maintain the original numbering
+                  const questionNumber = searchQuery ? startIndex + index : startIndex + index;
+                  
+                  return (
+                    <AccordionItem 
+                      key={index} 
+                      value={`${category.id}-${index}`} 
+                      className="glass-card rounded-lg overflow-hidden border-none"
                     >
-                      <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
-                        {numbered ? `${index + 1}. ` : ''}{faq.question}
-                      </h2>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
-                      <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
-                        {faq.answer}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
+                      <AccordionTrigger 
+                        className={`px-4 py-3 text-left hover:no-underline text-[#56cc41] bg-[#6a037c] ${isMobile ? "text-lg" : "text-xl"}`}
+                      >
+                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
+                          {numbered ? `${questionNumber}. ` : ''}{faq.question}
+                        </h2>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-4 pb-4 pt-4 bg-[#5A0363]">
+                        <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
+                          {faq.answer}
+                        </p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
             ) : searchQuery ? (
               <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">

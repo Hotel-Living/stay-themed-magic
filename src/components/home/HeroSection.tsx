@@ -23,13 +23,13 @@ export function HeroSection() {
             </div>
           </div>
           
-          {/* Dynamic gold background for "LIVE IN HOTELS" */}
+          {/* Dynamic gold background for "LIVE IN HOTELS" - updated with stronger gold gradient */}
           <h1 className={`${isMobile ? "text-[54px]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FEF7CD] via-[#FFF600] to-[#FEF7CD] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
+            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFC500] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
           </h1>
-          {/* Dynamic gold background for "Boost Your Life!" with capitalization fixed */}
+          {/* Dynamic gold background for "Boost Your Life!" with capitalization fixed - updated with stronger gold gradient */}
           <h2 className={`${isMobile ? "text-4xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FEF7CD] via-[#FFF600] to-[#FEF7CD] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">Boost Your Life!</span>
+            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFC500] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">Boost Your Life!</span>
           </h2>
         </div>
         

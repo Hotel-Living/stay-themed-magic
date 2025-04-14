@@ -6,12 +6,14 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+
 interface DashboardLayoutProps {
   children: ReactNode;
   activeTab: string;
   tabs: DashboardTab[];
   setActiveTab: (tab: string) => void;
 }
+
 export default function DashboardLayout({
   children,
   activeTab,
@@ -93,7 +95,7 @@ export default function DashboardLayout({
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
                 
                 
-                <nav className="p-2 bg-[#5c0869]">
+                <nav className="p-2 bg-[#8017B0]">
                   {tabs.map(tab => <button key={tab.id} data-tab={tab.id} onClick={() => setActiveTab(tab.id)} className={cn("w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors", activeTab === tab.id ? "bg-[#5A1876]/20 text-fuchsia-200" : "hover:bg-[#5A1876]/10 text-foreground/80")}>
                       {tab.icon}
                       {tab.label}
@@ -110,7 +112,7 @@ export default function DashboardLayout({
                 </nav>
               </div>
               
-              <div className="glass-card rounded-2xl p-5 bg-[#5c0869]">
+              <div className="glass-card rounded-2xl p-5 bg-[#8017B0]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
@@ -134,7 +136,7 @@ export default function DashboardLayout({
         </div>
       </main>
       
-      <footer className="py-6 px-4 border-t border-fuchsia-900/20 mt-10 bg-[#7a0486]">
+      <footer className="py-6 px-4 border-t border-fuchsia-900/20 mt-10 bg-[#8017B0]">
         <div className="container max-w-6xl mx-auto text-center text-sm text-foreground/60">
           &copy; {new Date().getFullYear()} Hotel-Living.com. All rights reserved.
         </div>

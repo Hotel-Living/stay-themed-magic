@@ -42,7 +42,7 @@ export default function RoomInfoForm({
         <Label className="text-right text-sm text-white">Max Occupancy</Label>
         <div className="flex items-center col-span-1">
           <Input 
-            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-24"
+            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-16"
             type="number"
             min="1"
             value={maxOccupancy}
@@ -54,7 +54,7 @@ export default function RoomInfoForm({
         <Label className="text-right text-sm text-white">Room Size</Label>
         <div className="flex items-center col-span-1">
           <Input 
-            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-24"
+            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-16"
             type="number"
             min="0"
             value={roomSize}

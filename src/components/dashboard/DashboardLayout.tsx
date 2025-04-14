@@ -50,26 +50,23 @@ export default function DashboardLayout({
   
   const handleLogout = async () => {
     try {
-      if (!session) {
-        console.log("No active session found in hotel dashboard, redirecting to login");
-        toast({
-          title: "Session Error",
-          description: "No active session found. Redirecting to login page.",
-          variant: "destructive"
-        });
-        window.location.href = "/login";
-        return;
-      }
-      await signOut();
-
-      // Force redirect and ensure cache clearing
+      console.log("Logout button clicked, checking session...");
+      
+      // Force redirect without checking session status
       toast({
-        title: "Logged Out",
-        description: "You have been successfully logged out."
+        title: "Logging Out",
+        description: "Redirecting to login page..."
       });
-
-      // Ensure we completely reload the application and clear any cached state
-      window.location.href = "/login";
+      
+      // Call signOut but don't wait for it to complete
+      signOut().catch(error => {
+        console.error("Error during signOut, but continuing with redirect:", error);
+      });
+      
+      // Immediately redirect to the login page
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 500);
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
       toast({
@@ -77,6 +74,11 @@ export default function DashboardLayout({
         description: "Could not complete logout. Please try again.",
         variant: "destructive"
       });
+      
+      // Force redirect even if there's an error
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
     }
   };
 

@@ -7,14 +7,9 @@ import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigate } from 'react-router-dom';
 
-interface FilterSectionWrapperProps {
-  onFilterChange: (filters: FilterState) => void;
-  availableThemes?: string[];
-}
-
 export function FilterSectionWrapper({
   onFilterChange
-}: FilterSectionWrapperProps) {
+}: { onFilterChange: (filters: FilterState) => void }) {
   const { data: themes } = useThemes();
   const isMobile = useIsMobile();
   const navigate = useNavigate();

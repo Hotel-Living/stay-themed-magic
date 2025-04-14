@@ -6,7 +6,7 @@ export const accordionMenuItemStyles = () => ({
 });
 
 export const collapsibleMenuItemStyles = () => ({
-  trigger: "flex items-center justify-between w-full text-xl font-semibold text-white hover:text-white/80 group transition-colors duration-300",
+  trigger: "flex items-center justify-between w-full text-base font-semibold text-white hover:text-white/80 group transition-colors duration-300",
   icon: "h-4 w-4 text-white transition-transform duration-300 ease-in-out",
   content: "mt-6 mb-6 overflow-visible"
 });

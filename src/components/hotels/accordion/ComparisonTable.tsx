@@ -8,7 +8,7 @@ interface ComparisonTableProps {
 
 export function ComparisonTable({ items }: ComparisonTableProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#460F54]/10 rounded-lg p-6 overflow-visible">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-[#460F54]/10 rounded-lg p-6 overflow-visible py-4">
       {/* Traditional Model Column */}
       <div className="space-y-3 bg-[#1A1F2C]/20 p-5 rounded-lg border-l-4 border-fuchsia-400/60">
         <h3 className="text-xl font-bold text-[#FEF7CD] mb-4 tracking-wide">TRADITIONAL MODEL</h3>

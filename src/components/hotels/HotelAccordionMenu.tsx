@@ -26,7 +26,7 @@ export function HotelAccordionMenu() {
         {/* 1.2 LET'S COMPARE SYSTEMS section */}
         <AccordionMenuItem
           value="compare-systems"
-          title="2. Let's compare systems"
+          title="2.  Let's compare systems"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
@@ -36,11 +36,11 @@ export function HotelAccordionMenu() {
         {/* 1.3 WE DON'T JUST FILL ROOMS section */}
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
-          title="3. We don't just fill rooms"
+          title="3.  We don't just fill rooms"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
-          <div className="space-y-3 text-left">
+          <div className="space-y-4 text-left py-4">
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> We reshape society.</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> People grouped by affinities</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Zero randomness. 100% connections</p>
@@ -51,7 +51,7 @@ export function HotelAccordionMenu() {
         {/* 1.4 HOW MUCH PROFIT ARE WE MISSING section */}
         <AccordionMenuItem
           value="how-much-profit-missing"
-          title="4. How much profit are we missing?"
+          title="4.  How much profit are we missing?"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
@@ -64,11 +64,11 @@ export function HotelAccordionMenu() {
         {/* They need your hotel section - renumbered from 11 to 10 */}
         <AccordionMenuItem 
           value="they-need-hotel" 
-          title="10. They need your hotel"
+          title="10.  They need your hotel"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
-          <div className="space-y-3 text-left">
+          <div className="space-y-4 text-left py-4">
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Because people want to socialize. Make friends</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> They want to stay longer in your hotel</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> They want you to take care of their household chores</p>
@@ -80,22 +80,22 @@ export function HotelAccordionMenu() {
         {/* The last two items - renumbered from 12 and 13 to 11 and 12 */}
         <AccordionMenuItem 
           value="themes-revolution" 
-          title="11. Themes are the new social revolution" 
+          title="11.  Themes are the new social revolution" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
-          <div className="space-y-3 text-left">
+          <div className="space-y-4 text-left py-4">
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Just think on a theme and let the magic happen</p>
           </div>
         </AccordionMenuItem>
         
         <AccordionMenuItem 
           value="seamless-integration" 
-          title="12. We're seamless integration" 
+          title="12.  We're seamless integration" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
-          <div className="space-y-3 text-left">
+          <div className="space-y-4 text-left py-4">
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> You don't have to choose between systems.</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Combine both models as you wish</p>
             <p className="text-base flex items-center"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2"></span> Start with just a few rooms, then scale as needed</p>

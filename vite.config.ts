@@ -25,4 +25,9 @@ export default defineConfig(({ mode }) => ({
     target: 'es2015',
     outDir: 'dist',
   },
+  css: {
+    postcss: {
+      plugins: [],
+    },
+  },
 }));

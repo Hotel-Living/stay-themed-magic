@@ -27,6 +27,7 @@ interface FilterDropdownListProps {
   toggleThemeCategory: (category: string) => void;
   textColor: string;
   availableThemes: string[];
+  labelTextSize?: string; // Added labelTextSize prop
 }
 
 export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
@@ -46,7 +47,8 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
   openThemeCategory,
   toggleThemeCategory,
   textColor,
-  availableThemes
+  availableThemes,
+  labelTextSize = "text-sm" // Added default value
 }) => {
   return (
     <>
@@ -65,6 +67,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
+        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
       />
       
       <FilterDropdown
@@ -82,6 +85,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
+        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
       />
       
       <FilterDropdown
@@ -108,6 +112,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
           useLargerMobileText
         })}
         textColor={textColor}
+        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
       />
       
       <FilterDropdown
@@ -125,6 +130,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
+        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
       />
     </>
   );

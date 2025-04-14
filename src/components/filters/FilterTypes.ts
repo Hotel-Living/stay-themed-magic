@@ -33,6 +33,7 @@ export interface FilterSectionProps {
   availableThemes?: string[];
   useLargerMobileText?: boolean;
   textColor?: string;
+  labelTextSize?: string; // Added the labelTextSize property
 }
 
 export interface FilterContainerProps {

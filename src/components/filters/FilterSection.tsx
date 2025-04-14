@@ -24,7 +24,8 @@ export const FilterSection = ({
   },
   availableThemes = [],
   useLargerMobileText = false,
-  textColor = "inherit"
+  textColor = "inherit",
+  labelTextSize = "text-sm" // Added default value for labelTextSize
 }: FilterSectionProps) => {
   const navigate = useNavigate();
   
@@ -85,6 +86,7 @@ export const FilterSection = ({
         toggleThemeCategory={toggleThemeCategory}
         textColor={textColor}
         availableThemes={availableThemes}
+        labelTextSize={labelTextSize} // Pass the labelTextSize to FilterDropdownList
       />
       
       <FilterSearchButton 

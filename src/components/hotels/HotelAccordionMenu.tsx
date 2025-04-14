@@ -13,30 +13,30 @@ export function HotelAccordionMenu() {
   return (
     <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
       <Accordion type="single" collapsible className="w-full space-y-0">
-        {/* Main sections */}
+        {/* Main sections - Added extra spaces after numbers */}
         <AccordionMenuItem 
           value="the-benefits" 
-          title="1.  The benefits"
+          title="1.   The benefits"
           titleClassName="text-xl font-medium" 
           className="hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         >
           <BenefitsSection />
         </AccordionMenuItem>
         
-        {/* 1.2 LET'S COMPARE SYSTEMS section */}
+        {/* 1.2 LET'S COMPARE SYSTEMS section - Added extra spaces after numbers */}
         <AccordionMenuItem
           value="compare-systems"
-          title="2.  Let's compare systems"
+          title="2.   Let's compare systems"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
         
-        {/* 1.3 WE DON'T JUST FILL ROOMS section */}
+        {/* 1.3 WE DON'T JUST FILL ROOMS section - Added extra spaces after numbers */}
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
-          title="3.  We don't just fill rooms"
+          title="3.   We don't just fill rooms"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
@@ -48,23 +48,23 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        {/* 1.4 HOW MUCH PROFIT ARE WE MISSING section */}
+        {/* 1.4 HOW MUCH PROFIT ARE WE MISSING section - Added extra spaces after numbers */}
         <AccordionMenuItem
           value="how-much-profit-missing"
-          title="4.  How much profit are we missing?"
+          title="4.   How much profit are we missing?"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
           <ProfitSection />
         </AccordionMenuItem>
         
-        {/* Special menu items */}
+        {/* Special menu items - will be numbered 5-9 with proper alignment */}
         <SpecialMenuItems startingNumber={5} />
         
         {/* They need your hotel section - renumbered from 11 to 10 */}
         <AccordionMenuItem 
           value="they-need-hotel" 
-          title="10.  They need your hotel"
+          title="10.   They need your hotel"
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
@@ -80,7 +80,7 @@ export function HotelAccordionMenu() {
         {/* The last two items - renumbered from 12 and 13 to 11 and 12 */}
         <AccordionMenuItem 
           value="themes-revolution" 
-          title="11.  Themes are the new social revolution" 
+          title="11.   Themes are the new social revolution" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >
@@ -91,7 +91,7 @@ export function HotelAccordionMenu() {
         
         <AccordionMenuItem 
           value="seamless-integration" 
-          title="12.  We're seamless integration" 
+          title="12.   We're seamless integration" 
           className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
           titleClassName="text-xl font-medium"
         >

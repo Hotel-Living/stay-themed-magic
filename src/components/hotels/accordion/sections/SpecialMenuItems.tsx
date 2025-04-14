@@ -10,7 +10,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
   return (
     <div className="mt-0">
       <CollapsibleMenuItem 
-        title={`${startingNumber}. Does your hotel have empty rooms?`}
+        title={`${startingNumber}.   Does your hotel have empty rooms?`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
         titleClassName="text-[1.35rem]"
       >
@@ -23,31 +23,31 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       </CollapsibleMenuItem>
       
       <CollapsibleMenuItem 
-        title={`${startingNumber + 1}. So many people need your rooms`}
+        title={`${startingNumber + 1}.   So many people need your rooms`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
         titleClassName="text-[1.35rem]"
       >
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <span className="font-semibold">40% of the Western population, who:</span></p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Lives alone or with a partner</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Is semi-retired or retired</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Works remotely</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Is a student living away from home</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Commutes long distances to work</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Has a stable, reliable income</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Lives alone or with a partner</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Is semi-retired or retired</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Works remotely</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Is a student living away from home</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Commutes long distances to work</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Has a stable, reliable income</p>
           
           <p className="text-base flex items-start mt-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> <span className="font-semibold">And most of them:</span></p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Want to stop doing chores</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Feel too isolated</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Have no family ties holding them back</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Want to grow their social life</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Want to meet others with similar interests and outlooks</p>
-          <p className="text-base flex items-start"><span className="text-fuchsia-400 mr-2">-</span> Need the safety, ease, and comfort that hotel living offers</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Want to stop doing chores</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Feel too isolated</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Have no family ties holding them back</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Want to grow their social life</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Want to meet others with similar interests and outlooks</p>
+          <p className="text-base flex items-start pl-6"><span className="text-fuchsia-400 mr-2">-</span> Need the safety, ease, and comfort that hotel living offers</p>
         </div>
       </CollapsibleMenuItem>
       
       <CollapsibleMenuItem 
-        title={`${startingNumber + 2}. Everyone's dream is to live in a hotel`}
+        title={`${startingNumber + 2}.   Everyone's dream is to live in a hotel`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
         titleClassName="text-[1.35rem]"
       >
@@ -58,7 +58,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       </CollapsibleMenuItem>
       
       <CollapsibleMenuItem 
-        title={`${startingNumber + 3}. Hotel living is a true hospitality revolution`}
+        title={`${startingNumber + 3}.   Hotel living is a true hospitality revolution`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
         titleClassName="text-[1.35rem]"
       >
@@ -68,7 +68,7 @@ export function SpecialMenuItems({ startingNumber = 1 }: SpecialMenuItemsProps) 
       </CollapsibleMenuItem>
       
       <CollapsibleMenuItem 
-        title={`${startingNumber + 4}. All you need to do is offer the right product`}
+        title={`${startingNumber + 4}.   All you need to do is offer the right product`}
         className="mb-1 border-b border-fuchsia-400/30 pb-2"
         titleClassName="text-[1.35rem]"
       >

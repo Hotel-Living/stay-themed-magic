@@ -5,8 +5,8 @@ import { CollapsibleMenuItem } from "../CollapsibleMenuItem";
 export function ProfitSection() {
   return (
     <div className="space-y-0 pl-4 border-l-2 border-fuchsia-400/30">
-      {/* Western hotels */}
-      <CollapsibleMenuItem title="4.1  Western hotels. How much profit are we missing every year?" className="mb-1" titleClassName="text-base">
+      {/* Western hotels - Added extra spaces after number */}
+      <CollapsibleMenuItem title="4.1   Western hotels. How much profit are we missing every year?" className="mb-1" titleClassName="text-base">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> As a whole, around $75 billion. Every year.</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> No sales: pure profit, before taxes</p>
@@ -16,8 +16,8 @@ export function ProfitSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Your hotel profit */}
-      <CollapsibleMenuItem title="4.2  And how much profit is your hotel missing every year?" className="mb-1" titleClassName="text-base">
+      {/* Your hotel profit - Added extra spaces after number */}
+      <CollapsibleMenuItem title="4.2   And how much profit is your hotel missing every year?" className="mb-1" titleClassName="text-base">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just five vacant rooms per day = around $55,000 missed annually</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> 20 vacant rooms daily = around $220,000 pure pre-tax profit</p>
@@ -26,8 +26,8 @@ export function ProfitSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Missing potential */}
-      <CollapsibleMenuItem title="4.3  Yes. The vast majority of hotels are missing their true profit potential" className="mb-1" titleClassName="text-base">
+      {/* Missing potential - Added extra spaces after number */}
+      <CollapsibleMenuItem title="4.3   Yes. The vast majority of hotels are missing their true profit potential" className="mb-1" titleClassName="text-base">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Empty rooms are our untapped gold</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Few of us achieve 100% occupancy all year round</p>

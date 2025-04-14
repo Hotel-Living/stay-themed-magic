@@ -59,7 +59,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
         className={`
           flex items-center justify-between w-full rounded-md border border-transparent 
           ${filterBgColor} ${compactSpacing ? "px-2 py-1" : "px-3 py-2"} 
-          transition-colors hover:bg-fuchsia-950/60
+          transition-colors hover:bg-[#460F54]
         `}
         onClick={() => toggleOpen(type)}
       >
@@ -96,7 +96,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       {isOpen && (
         <div 
           className={`
-            absolute z-50 top-full left-0 w-full mt-1 bg-fuchsia-950 
+            absolute z-50 top-full left-0 w-full mt-1 bg-[#981DA1]/90
             border border-fuchsia-900/30 rounded-md shadow-lg overflow-hidden
             max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-fuchsia-800
           `}

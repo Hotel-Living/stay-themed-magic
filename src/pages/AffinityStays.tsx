@@ -16,7 +16,7 @@ export default function AffinityStays() {
         <div className="container mx-auto px-4 py-4 flex flex-col items-center">
           {/* Main content */}
           <AffinityStaysSlogans />
-          <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60">
+          <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60 z-20">
             <AffinityAccordionMenu />
           </div>
         </div>

@@ -1,8 +1,12 @@
+
 import React, { useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FormField from "./FormField";
 import CollapsibleSection from "./CollapsibleSection";
-import { countries } from "@/utils/countries";
+import CountrySelector from "./Location/CountrySelector";
+import CustomCountryInput from "./Location/CustomCountryInput";
+import CitySelector from "./Location/CitySelector";
+import CustomCityInput from "./Location/CustomCityInput";
+import { useCitiesByCountry } from "./Location/useCitiesByCountry";
 
 interface LocationSectionProps {
   formData: {
@@ -67,83 +71,31 @@ export default function LocationSection({
     handleChange("city", value);
   };
 
-  const getCitiesByCountry = (countryCode: string) => {
-    switch(countryCode) {
-      case 'spain':
-        return ["Madrid", "Barcelona", "Valencia", "Seville"];
-      case 'france':
-        return ["Paris", "Nice", "Marseille", "Lyon"];
-      case 'italy':
-        return ["Rome", "Milan", "Venice", "Florence"];
-      case 'usa':
-        return ["New York", "Los Angeles", "Chicago", "Miami", "Las Vegas", "San Francisco"];
-      default:
-        return [];
-    }
-  };
-
-  const selectedCountryCities = getCitiesByCountry(formData.country);
+  const selectedCountryCities = useCitiesByCountry(formData.country);
 
   return (
     <CollapsibleSection title="LOCATION">
       <div className="space-y-2">
         <div>
-          <label htmlFor="country" className="text-white">
-            Country <span className="text-red-500">*</span>
-          </label>
           {!isAddingNewCountry ? (
-            <Select 
-              value={formData.country} 
+            <CountrySelector
+              value={formData.country}
               onValueChange={handleCountrySelect}
-              onOpenChange={() => !formData.country && handleBlur("country")}
-            >
-              <SelectTrigger 
-                className={`text-white bg-[#7A0486] border-white ${shouldShowError("country") ? "border-red-500" : ""}`}
-              >
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent className="bg-white border-[#7A0486]">
-                {countries.map(country => (
-                  <SelectItem 
-                    key={country.id} 
-                    value={country.id} 
-                    className="text-[#7A0486] hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-                  >
-                    {country.name}
-                  </SelectItem>
-                ))}
-                <SelectItem 
-                  value="add-new" 
-                  className="text-green-600 hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-                >
-                  + Add New Country
-                </SelectItem>
-              </SelectContent>
-            </Select>
+              onBlur={() => handleBlur("country")}
+              hasError={shouldShowError("country")}
+              errorMessage={errors.country}
+            />
           ) : (
-            <div className="mt-1">
-              <input 
-                type="text" 
-                placeholder="Enter country name" 
-                value={customCountry}
-                onChange={handleCustomCountryChange}
-                onBlur={() => handleBlur("country")}
-                className="w-full p-2 text-white bg-[#7A0486] border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
-              />
-              <button 
-                onClick={() => {
-                  setIsAddingNewCountry(false);
-                  setCustomCountry("");
-                  handleChange("country", "");
-                }}
-                className="mt-2 text-fuchsia-300 text-sm hover:text-fuchsia-100"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          {shouldShowError("country") && (
-            <p className="text-red-500 text-sm mt-1">{errors.country}</p>
+            <CustomCountryInput
+              value={customCountry}
+              onChange={handleCustomCountryChange}
+              onBlur={() => handleBlur("country")}
+              onCancel={() => {
+                setIsAddingNewCountry(false);
+                setCustomCountry("");
+                handleChange("country", "");
+              }}
+            />
           )}
         </div>
         
@@ -159,63 +111,27 @@ export default function LocationSection({
         
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label htmlFor="city" className="text-white">
-              City <span className="text-red-500">*</span>
-            </label>
             {!isAddingNewCity ? (
-              <Select 
-                value={formData.city} 
+              <CitySelector
+                value={formData.city}
                 onValueChange={handleCitySelect}
-                onOpenChange={() => !formData.city && handleBlur("city")}
+                onBlur={() => handleBlur("city")}
+                hasError={shouldShowError("city")}
+                errorMessage={errors.city}
+                cities={selectedCountryCities}
                 disabled={!formData.country && !isAddingNewCountry}
-              >
-                <SelectTrigger 
-                  className={`text-white bg-[#7A0486] border-white ${shouldShowError("city") ? "border-red-500" : ""}`}
-                >
-                  <SelectValue placeholder="Select city" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border-[#7A0486]">
-                  {selectedCountryCities.map(city => (
-                    <SelectItem 
-                      key={city} 
-                      value={city} 
-                      className="text-[#7A0486] hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-                    >
-                      {city}
-                    </SelectItem>
-                  ))}
-                  <SelectItem 
-                    value="add-new" 
-                    className="text-green-600 hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
-                  >
-                    + Add New City
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              />
             ) : (
-              <div className="mt-1">
-                <input 
-                  type="text" 
-                  placeholder="Enter city name" 
-                  value={customCity}
-                  onChange={handleCustomCityChange}
-                  onBlur={() => handleBlur("city")}
-                  className="w-full p-2 text-white bg-[#7A0486] border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
-                />
-                <button 
-                  onClick={() => {
-                    setIsAddingNewCity(false);
-                    setCustomCity("");
-                    handleChange("city", "");
-                  }}
-                  className="mt-2 text-fuchsia-300 text-sm hover:text-fuchsia-100"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-            {shouldShowError("city") && (
-              <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+              <CustomCityInput
+                value={customCity}
+                onChange={handleCustomCityChange}
+                onBlur={() => handleBlur("city")}
+                onCancel={() => {
+                  setIsAddingNewCity(false);
+                  setCustomCity("");
+                  handleChange("city", "");
+                }}
+              />
             )}
           </div>
           

@@ -37,19 +37,19 @@ export default function CitySelector({
         >
           <SelectValue placeholder="Select city" />
         </SelectTrigger>
-        <SelectContent className="bg-white border-[#7A0486]">
+        <SelectContent className="bg-[#8A44A0] text-white border-[#7A0486]">
           {cities.map(city => (
             <SelectItem 
               key={city} 
               value={city} 
-              className="text-[#7A0486] hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
+              className="text-white hover:bg-[#7A0486]/50 focus:bg-[#7A0486]/50"
             >
               {city}
             </SelectItem>
           ))}
           <SelectItem 
             value="add-new" 
-            className="text-green-600 hover:bg-[#7A0486]/10 focus:bg-[#7A0486]/10"
+            className="text-white font-semibold hover:bg-[#7A0486]/50 focus:bg-[#7A0486]/50"
           >
             + Add New City
           </SelectItem>

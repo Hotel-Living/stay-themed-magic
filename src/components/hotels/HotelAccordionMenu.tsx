@@ -10,18 +10,12 @@ import { ProfitSection } from "./accordion/sections/ProfitSection";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
 
 export function HotelAccordionMenu() {
-  // Prevent default scroll behavior when clicking on accordion items
-  const handleAccordionClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-  };
-
   return (
     <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
       <Accordion 
         type="single" 
         collapsible 
         className="w-full space-y-0"
-        onClick={handleAccordionClick}
       >
         {/* Main sections - Added extra spaces and dash after numbers */}
         <AccordionMenuItem 

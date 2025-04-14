@@ -19,12 +19,14 @@ export default function FAQ() {
         <div className="container max-w-5xl mx-auto px-4 py-12">
           <BenefitsList benefits={benefitsList} />
           
-          <h1 className={`${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} font-bold mb-6 text-center text-gradient text-[#eedbf7]`}>
-            Frequently Asked Questions
-          </h1>
-          <p className={`${isMobile ? "text-xl" : "text-lg"} text-center mb-12 font-medium text-[#e3d6e9]`}>
-            Find answers to common questions
-          </p>
+          <div className="text-center mb-16"> {/* Increased bottom margin */}
+            <h1 className={`${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} font-bold mb-4 text-gradient text-[#eedbf7] glow`}>
+              Frequently Asked Questions
+            </h1>
+            <p className={`${isMobile ? "text-xl" : "text-lg"} font-medium text-[#e3d6e9]`}>
+              Find answers to common questions
+            </p>
+          </div>
 
           <FaqTabs 
             activeTab={activeTab}

@@ -13,10 +13,10 @@ export function HotelSlogans() {
         </h1>
         
         <div className="space-y-4 py-6 px-4 rounded-xl bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20">
-          <p className="text-xl text-center text-[#460F54] font-bold animate-text-slow">Your hotel, always full. All year long</p>
-          <p className="text-xl text-center text-[#460F54] font-bold animate-text-slow">100% occupancy. Every single day</p>
-          <p className="text-xl text-center text-[#460F54] font-bold animate-text-slow">Turn your dead dates into gold</p>
-          <p className="text-xl text-center text-[#460F54] font-bold animate-text-slow">Multiply your profits dramatically</p>
+          <p className="text-xl text-center text-[#7030A0] font-bold animate-text-slow">Your hotel, always full. All year long</p>
+          <p className="text-xl text-center text-[#7030A0] font-bold animate-text-slow">100% occupancy. Every single day</p>
+          <p className="text-xl text-center text-[#7030A0] font-bold animate-text-slow">Turn your dead dates into gold</p>
+          <p className="text-xl text-center text-[#7030A0] font-bold animate-text-slow">Multiply your profits dramatically</p>
         </div>
       </div>
     </>

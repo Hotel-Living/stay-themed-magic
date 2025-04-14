@@ -37,7 +37,7 @@ export default function RoomTypeForm({
 
   return (
     <Collapsible className="w-full border rounded-xl overflow-hidden mb-4" open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="w-full flex items-center justify-center py-4 transition-colors bg-[#f4b1f4] font-extrabold text-[#6e036e]">
+      <CollapsibleTrigger className="w-full flex items-center justify-center py-4 transition-colors bg-[#7A0486] text-white font-extrabold">
         <div className="flex items-center">
           <Plus className="mr-2 h-5 w-5" />
           ADD ROOM TYPE
@@ -45,10 +45,10 @@ export default function RoomTypeForm({
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="p-6">
+        <div className="p-6 bg-[#850390]">
           <div className="space-y-4">
             <div>
-              <Label htmlFor="room-name">Room Type Name <span className="text-red-500">*</span></Label>
+              <Label htmlFor="room-name" className="text-white">Room Type Name <span className="text-red-500">*</span></Label>
               <Input 
                 id="room-name" 
                 value={newRoom.name} 
@@ -62,7 +62,7 @@ export default function RoomTypeForm({
             </div>
             
             <div>
-              <Label htmlFor="room-description">Description</Label>
+              <Label htmlFor="room-description" className="text-white">Description</Label>
               <Input 
                 id="room-description" 
                 value={newRoom.description} 
@@ -77,34 +77,40 @@ export default function RoomTypeForm({
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="room-capacity">Max Capacity <span className="text-red-500">*</span></Label>
-                <Input 
-                  id="room-capacity" 
-                  type="number" 
-                  min="1" 
-                  value={newRoom.capacity} 
-                  onChange={e => setNewRoom({
-                    ...newRoom,
-                    capacity: parseInt(e.target.value) || 1
-                  })} 
-                  className="bg-[#850588] text-white border-white w-full" 
-                />
+                <Label htmlFor="room-capacity" className="text-white">Max Capacity <span className="text-red-500">*</span></Label>
+                <div className="flex items-center">
+                  <Input 
+                    id="room-capacity" 
+                    type="number" 
+                    min="1" 
+                    value={newRoom.capacity} 
+                    onChange={e => setNewRoom({
+                      ...newRoom,
+                      capacity: parseInt(e.target.value) || 1
+                    })} 
+                    className="bg-[#850588] text-white border-white w-24" 
+                  />
+                  <span className="ml-2 text-white">persons</span>
+                </div>
               </div>
               
               <div>
-                <Label htmlFor="room-price">Base Price <span className="text-red-500">*</span></Label>
-                <Input 
-                  id="room-price" 
-                  type="number" 
-                  min="0" 
-                  step="0.01" 
-                  value={newRoom.basePrice} 
-                  onChange={e => setNewRoom({
-                    ...newRoom,
-                    basePrice: parseFloat(e.target.value) || 0
-                  })} 
-                  className="bg-[#850588] text-white border-white w-full" 
-                />
+                <Label htmlFor="room-price" className="text-white">Base Price <span className="text-red-500">*</span></Label>
+                <div className="flex items-center">
+                  <Input 
+                    id="room-price" 
+                    type="number" 
+                    min="0" 
+                    step="0.01" 
+                    value={newRoom.basePrice} 
+                    onChange={e => setNewRoom({
+                      ...newRoom,
+                      basePrice: parseFloat(e.target.value) || 0
+                    })} 
+                    className="bg-[#850588] text-white border-white w-24" 
+                  />
+                  <span className="ml-2 text-white">per night</span>
+                </div>
               </div>
             </div>
             

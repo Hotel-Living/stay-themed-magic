@@ -100,7 +100,7 @@ export default function RoomTypeDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-black max-w-[80%] w-[80%]">
+      <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%]">
         <DialogHeader>
           <DialogTitle className="text-xl text-white">Add New Room Type</DialogTitle>
         </DialogHeader>

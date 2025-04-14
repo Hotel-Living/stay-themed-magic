@@ -25,14 +25,25 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
   themeDescription,
   setThemeDescription
 }) => {
-  const themeOptions = [
-    { id: "luxury", name: "Luxury" },
-    { id: "adventure", name: "Adventure" },
-    { id: "beach", name: "Beach" },
-    { id: "mountain", name: "Mountain" },
-    { id: "cultural", name: "Cultural" },
-    { id: "romantic", name: "Romantic" },
-    { id: "wellness", name: "Wellness" }
+  // Real affinity options from our system
+  const affinityOptions = [
+    { id: "art", name: "Art" },
+    { id: "business", name: "Business" },
+    { id: "culture", name: "Culture" },
+    { id: "education", name: "Education" },
+    { id: "entertainment", name: "Entertainment" },
+    { id: "food", name: "Food and Drinks" },
+    { id: "health", name: "Health and Wellness" },
+    { id: "history", name: "History" },
+    { id: "hobbies", name: "Hobbies" },
+    { id: "languages", name: "Languages" },
+    { id: "lifestyle", name: "Lifestyle" },
+    { id: "nature", name: "Nature" },
+    { id: "personal", name: "Personal Development" },
+    { id: "relationships", name: "Relationships" },
+    { id: "science", name: "Science and Technology" },
+    { id: "social", name: "Social Impact" },
+    { id: "sports", name: "Sports" }
   ];
 
   const addTheme = () => {
@@ -54,37 +65,37 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493]">
         <div className="space-y-2">
-          <Label htmlFor="theme" className="text-base text-white">Your preferred themes?</Label>
+          <Label htmlFor="theme" className="text-base text-white">Your preferred affinities?</Label>
           <div className="flex flex-wrap gap-2">
-            {themeOptions.map(theme => (
+            {affinityOptions.map(affinity => (
               <Button
-                key={theme.id}
+                key={affinity.id}
                 variant="outline"
                 size="sm"
                 className={cn(
                   "flex items-center gap-1 py-2 bg-fuchsia-950/50 text-white border-fuchsia-800",
-                  selectedThemes.includes(theme.id) && "bg-fuchsia-800"
+                  selectedThemes.includes(affinity.id) && "bg-fuchsia-800"
                 )}
                 onClick={() => 
-                  selectedThemes.includes(theme.id) 
-                    ? removeTheme(theme.id) 
-                    : setSelectedThemes([...selectedThemes, theme.id])
+                  selectedThemes.includes(affinity.id) 
+                    ? removeTheme(affinity.id) 
+                    : setSelectedThemes([...selectedThemes, affinity.id])
                 }
               >
-                {theme.name}
+                {affinity.name}
               </Button>
             ))}
           </div>
         </div>
 
         <div className="space-y-2 pt-4 border-t border-fuchsia-800">
-          <Label htmlFor="custom-theme" className="text-base text-white">Add Custom Theme</Label>
+          <Label htmlFor="custom-theme" className="text-base text-white">Add Custom Affinity</Label>
           <div className="flex gap-2">
             <Input
               id="custom-theme"
               value={newTheme}
               onChange={e => setNewTheme(e.target.value)}
-              placeholder="Theme name"
+              placeholder="Affinity name"
               className="bg-fuchsia-950/50 text-white border-fuchsia-800"
             />
             <Button 
@@ -100,12 +111,12 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
 
         {newTheme && (
           <div className="space-y-2">
-            <Label htmlFor="theme-description" className="text-sm text-white">Theme Description</Label>
+            <Label htmlFor="theme-description" className="text-sm text-white">Affinity Description</Label>
             <Textarea
               id="theme-description"
               value={themeDescription}
               onChange={e => setThemeDescription(e.target.value)}
-              placeholder="Describe this theme..."
+              placeholder="Describe this affinity..."
               className="bg-fuchsia-950/50 text-white border-fuchsia-800"
             />
           </div>
@@ -113,7 +124,7 @@ export const ThemePreferencesCard: React.FC<ThemePreferencesCardProps> = ({
 
         {selectedThemes.length > 0 && (
           <div className="space-y-2 pt-4">
-            <Label className="text-sm text-white">Selected Themes</Label>
+            <Label className="text-sm text-white">Selected Affinities</Label>
             <div className="space-y-2">
               {selectedThemes.map(theme => (
                 <div key={theme} className="flex items-center justify-between p-2 bg-fuchsia-950/50 rounded-md">

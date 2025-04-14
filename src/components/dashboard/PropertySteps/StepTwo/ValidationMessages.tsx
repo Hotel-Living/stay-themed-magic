@@ -17,16 +17,16 @@ export default function ValidationMessages({
     <>
       {/* Show error only when validation is attempted */}
       {error && showValidationError && (
-        <div className="p-3 mt-4 rounded-md bg-red-50 text-red-700 flex items-center gap-2">
+        <div className="p-3 mt-4 rounded-md bg-red-500/20 text-white flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
           <span>{error}</span>
         </div>
       )}
       
       {roomTypesCount > 0 && !error && (
-        <div className="p-3 mt-4 rounded-md bg-green-50 text-green-700 flex items-center gap-2">
+        <div className="p-3 mt-4 rounded-md bg-green-500/20 text-white flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
-          <span className="text-white">{roomTypesCount} room type(s) added successfully</span>
+          <span>{roomTypesCount} room type(s) added successfully</span>
         </div>
       )}
     </>

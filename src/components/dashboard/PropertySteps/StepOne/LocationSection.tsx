@@ -73,7 +73,7 @@ export default function LocationSection({
 
   const selectedCountryCities = useCitiesByCountry(formData.country);
   
-  // Use a proper boolean value for the disabled state
+  // Fixed: Use a proper boolean value for the disabled state
   const isCitySelectorDisabled = formData.country.length === 0;
 
   return (

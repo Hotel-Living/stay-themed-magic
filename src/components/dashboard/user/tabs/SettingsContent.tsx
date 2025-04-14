@@ -33,6 +33,7 @@ export default function SettingsContent() {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const [themeDescription, setThemeDescription] = useState("");
+  const [language, setLanguage] = useState("en");
   
   // Compile list of all themes for selection
   const allThemes = themeCategories.flatMap(category => 
@@ -85,20 +86,34 @@ export default function SettingsContent() {
     setNewTheme("");
     setThemeDescription("");
   };
+
+  // Language options
+  const languageOptions = [
+    { value: "en", label: "English" },
+    { value: "es", label: "Español" },
+    { value: "fr", label: "Français" },
+    { value: "de", label: "Deutsch" },
+    { value: "it", label: "Italiano" },
+    { value: "pt", label: "Português" },
+    { value: "zh", label: "中文" },
+    { value: "ja", label: "日本語" },
+    { value: "ko", label: "한국어" },
+    { value: "ru", label: "Русский" },
+  ];
   
   return (
     <div className="space-y-8">
       <Card>
-        <CardHeader>
+        <CardHeader className="text-white">
           <CardTitle>Theme Preferences</CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-200">
             Select themes that interest you to get personalized hotel recommendations
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 bg-[#860493]">
           <div>
-            <Label htmlFor="themes" className="text-base">Your Favorite Themes</Label>
-            <p className="text-sm text-muted-foreground mb-3">
+            <Label htmlFor="themes" className="text-base text-white">Your Favorite Themes</Label>
+            <p className="text-sm text-gray-200 mb-3">
               Select themes that interest you the most to see personalized recommendations
             </p>
             
@@ -120,13 +135,13 @@ export default function SettingsContent() {
                 </Badge>
               ))}
               {selectedThemes.length === 0 && (
-                <p className="text-sm text-muted-foreground">No themes selected yet</p>
+                <p className="text-sm text-gray-200">No themes selected yet</p>
               )}
             </div>
             
             <div className="flex gap-2">
               <Select onValueChange={handleAddTheme}>
-                <SelectTrigger className="w-full bg-fuchsia-950/50">
+                <SelectTrigger className="w-full bg-fuchsia-950/50 text-white">
                   <SelectValue placeholder="Select a theme" />
                 </SelectTrigger>
                 <SelectContent>
@@ -143,8 +158,8 @@ export default function SettingsContent() {
           </div>
           
           <div className="mt-8">
-            <Label className="text-base">Browse Available Themes</Label>
-            <p className="text-sm text-muted-foreground mb-3">
+            <Label className="text-base text-white">Browse Available Themes</Label>
+            <p className="text-sm text-gray-200 mb-3">
               Explore our curated collection of themed hotel experiences
             </p>
             
@@ -159,14 +174,14 @@ export default function SettingsContent() {
                       {category.themes.map((theme, themeIndex) => (
                         <div key={themeIndex} className="flex items-start justify-between py-2 border-b border-fuchsia-800/20 last:border-none">
                           <div>
-                            <h4 className="font-medium">{theme.name}</h4>
-                            <p className="text-sm text-muted-foreground">{theme.description}</p>
+                            <h4 className="font-medium text-white">{theme.name}</h4>
+                            <p className="text-sm text-gray-200">{theme.description}</p>
                           </div>
                           {!selectedThemes.includes(theme.name) ? (
                             <Button 
                               size="sm" 
                               variant="outline"
-                              className="ml-2 mt-1 h-8 bg-fuchsia-900/20 hover:bg-fuchsia-800/30"
+                              className="ml-2 mt-1 h-8 bg-fuchsia-900/20 hover:bg-fuchsia-800/30 text-white"
                               onClick={() => handleAddTheme(theme.name)}
                             >
                               Add
@@ -184,37 +199,37 @@ export default function SettingsContent() {
           </div>
           
           <div className="border-t border-fuchsia-800/20 pt-6 mt-6">
-            <Label className="text-base">Suggest a New Theme</Label>
-            <p className="text-sm text-muted-foreground mb-4">
+            <Label className="text-base text-white">Suggest a New Theme</Label>
+            <p className="text-sm text-gray-200 mb-4">
               Don't see a theme that matches your interest? Suggest a new one!
             </p>
             
             <div className="space-y-4">
               <div>
-                <Label htmlFor="newTheme">Theme Name</Label>
+                <Label htmlFor="newTheme" className="text-white">Theme Name</Label>
                 <Input 
                   id="newTheme" 
                   placeholder="e.g., Sustainable Living" 
                   value={newTheme}
                   onChange={(e) => setNewTheme(e.target.value)}
-                  className="bg-fuchsia-950/50"
+                  className="bg-fuchsia-950/50 text-white"
                 />
               </div>
               
               <div>
-                <Label htmlFor="themeDescription">Theme Description</Label>
+                <Label htmlFor="themeDescription" className="text-white">Theme Description</Label>
                 <Textarea 
                   id="themeDescription" 
                   placeholder="Describe what this theme would include..." 
                   value={themeDescription}
                   onChange={(e) => setThemeDescription(e.target.value)}
-                  className="bg-fuchsia-950/50 min-h-[100px]"
+                  className="bg-fuchsia-950/50 min-h-[100px] text-white"
                 />
               </div>
               
               <Button 
                 onClick={handleSuggestTheme} 
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-white"
               >
                 <Plus className="h-4 w-4" />
                 Submit Theme Suggestion
@@ -225,17 +240,44 @@ export default function SettingsContent() {
       </Card>
       
       <Card>
-        <CardHeader>
-          <CardTitle>Currency & Regional Preferences</CardTitle>
-          <CardDescription>Customize how prices and regional information are displayed</CardDescription>
+        <CardHeader className="text-white">
+          <CardTitle>Language Preferences</CardTitle>
+          <CardDescription className="text-gray-200">Choose your preferred language for the application</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 bg-[#860493]">
           <div>
-            <Label htmlFor="currency" className="text-base">Preferred Currency</Label>
+            <Label htmlFor="language" className="text-base text-white">Preferred Language</Label>
             <div className="flex items-center gap-2 mt-2">
-              <Globe className="h-5 w-5 text-muted-foreground" />
+              <Globe className="h-5 w-5 text-gray-300" />
+              <Select defaultValue={language} onValueChange={setLanguage}>
+                <SelectTrigger className="w-full bg-fuchsia-950/50 text-white">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {languageOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader className="text-white">
+          <CardTitle>Currency & Regional Preferences</CardTitle>
+          <CardDescription className="text-gray-200">Customize how prices and regional information are displayed</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 bg-[#860493]">
+          <div>
+            <Label htmlFor="currency" className="text-base text-white">Preferred Currency</Label>
+            <div className="flex items-center gap-2 mt-2">
+              <Globe className="h-5 w-5 text-gray-300" />
               <Select defaultValue={currency} onValueChange={setCurrency}>
-                <SelectTrigger className="w-full bg-fuchsia-950/50">
+                <SelectTrigger className="w-full bg-fuchsia-950/50 text-white">
                   <SelectValue placeholder="Select currency" />
                 </SelectTrigger>
                 <SelectContent>
@@ -252,15 +294,15 @@ export default function SettingsContent() {
       </Card>
       
       <Card>
-        <CardHeader>
+        <CardHeader className="text-white">
           <CardTitle>Notification Settings</CardTitle>
-          <CardDescription>Manage how and when you receive updates</CardDescription>
+          <CardDescription className="text-gray-200">Manage how and when you receive updates</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 bg-[#860493]">
           <div className="flex items-center justify-between">
             <div>
-              <Label htmlFor="emailNotifications" className="text-base">Email Notifications</Label>
-              <p className="text-sm text-muted-foreground">
+              <Label htmlFor="emailNotifications" className="text-base text-white">Email Notifications</Label>
+              <p className="text-sm text-gray-200">
                 Receive updates about new hotels matching your themes
               </p>
             </div>
@@ -274,7 +316,7 @@ export default function SettingsContent() {
       </Card>
       
       <div className="flex justify-end">
-        <Button onClick={handleSaveSettings} className="flex items-center gap-2">
+        <Button onClick={handleSaveSettings} className="flex items-center gap-2 text-white">
           <Save className="h-4 w-4" />
           Save Settings
         </Button>

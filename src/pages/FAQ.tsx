@@ -1,5 +1,4 @@
 
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -42,7 +41,7 @@ export default function FAQ() {
         {/* Elegant Introduction Section */}
         <div className="container max-w-5xl mx-auto px-4 py-12">
           <div className="glass-card backdrop-blur-lg bg-fuchsia-950/30 border border-fuchsia-500/20 rounded-xl p-8 mb-16 shadow-lg">
-            <h2 className={`${isMobile ? "text-4xl mb-10" : "text-3xl md:text-4xl mb-12"} font-bold text-center text-gradient animate-text-slow bg-clip-text text-transparent`}>
+            <h2 className={`${isMobile ? "text-3xl mb-8" : "text-2xl md:text-3xl mb-10"} font-bold text-center text-gradient animate-text-slow bg-clip-text text-transparent`}>
               Experience a Revolutionary Lifestyle
             </h2>
             
@@ -50,9 +49,9 @@ export default function FAQ() {
               {benefitsList.map((benefit, index) => (
                 <li 
                   key={index}
-                  className="text-[#FEF7CD] hover:text-[#FFF9E0] transition-colors duration-300 text-center"
+                  className="text-[#FFC300] hover:text-[#FFD700] transition-colors duration-300 text-center"
                 >
-                  <p className={`${isMobile ? "text-2xl" : "text-xl md:text-2xl"} font-semibold`}>
+                  <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold`}>
                     {benefit}
                   </p>
                 </li>

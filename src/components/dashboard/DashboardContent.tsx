@@ -56,7 +56,7 @@ export const DashboardContent = () => {
     loading: notificationsLoading
   } = useReviewNotifications();
 
-  // Modified action onClick handlers to not use parameters
+  // Define action onClick handlers without parameters
   const actions: Action[] = [{
     title: 'Add Property',
     description: 'List a new hotel or apartment.',

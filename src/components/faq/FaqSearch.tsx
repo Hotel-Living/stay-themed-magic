@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 

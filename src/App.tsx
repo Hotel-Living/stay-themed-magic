@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,7 +10,6 @@ import { DashboardAccess } from './components/DashboardAccess';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import HotelLogin from './pages/HotelLogin';
 import HotelSignUp from './pages/HotelSignUp';
 import HotelDashboard from './pages/HotelDashboard';
 import UserDashboard from './pages/UserDashboard';
@@ -51,7 +49,6 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/signin" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
-                  <Route path="/hotel-login" element={<HotelLogin />} />
                   <Route path="/hotel-signup" element={<HotelSignUp />} />
                   <Route path="/hotel-dashboard" element={<HotelDashboard />} />
                   <Route path="/user-dashboard" element={<UserDashboard />} />

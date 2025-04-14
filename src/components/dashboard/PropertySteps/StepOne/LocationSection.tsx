@@ -1,154 +1,233 @@
-
-import React, { useState } from "react";
-import FormField from "./FormField";
-import CollapsibleSection from "./CollapsibleSection";
-import CountrySelector from "./Location/CountrySelector";
-import CustomCountryInput from "./Location/CustomCountryInput";
-import CitySelector from "./Location/CitySelector";
-import CustomCityInput from "./Location/CustomCityInput";
-import { useCitiesByCountry } from "./Location/useCitiesByCountry";
+import React, { useState, useEffect } from 'react';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
+import { cn } from "@/lib/utils";
+import { Country, State, City } from 'country-state-city';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface LocationSectionProps {
-  formData: {
-    country: string;
-    address: string;
-    city: string;
-    postalCode: string;
-  };
-  errors: Record<string, string>;
-  touchedFields: Record<string, boolean>;
-  handleChange: (field: string, value: string) => void;
-  handleBlur: (field: string) => void;
+  propertyData: any;
+  setPropertyData: (data: any) => void;
+  onNext: () => void;
 }
 
-export default function LocationSection({
-  formData,
-  errors,
-  touchedFields,
-  handleChange,
-  handleBlur
-}: LocationSectionProps) {
-  const [isAddingNewCountry, setIsAddingNewCountry] = useState(false);
-  const [isAddingNewCity, setIsAddingNewCity] = useState(false);
-  const [customCountry, setCustomCountry] = useState("");
-  const [customCity, setCustomCity] = useState("");
-  
-  const shouldShowError = (field: string) => {
-    return touchedFields[field] && errors[field];
-  };
+const LocationSection: React.FC<LocationSectionProps> = ({
+  propertyData,
+  setPropertyData,
+  onNext
+}) => {
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [customCountry, setCustomCountry] = useState(false);
+  const [customCity, setCustomCity] = useState(false);
+  const [customCountryName, setCustomCountryName] = useState('');
+  const [customCityName, setCustomCityName] = useState('');
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const handleCountrySelect = (value: string) => {
-    if (value === "add-new") {
-      setIsAddingNewCountry(true);
-      handleChange("country", "");
+  useEffect(() => {
+    const countryList = Country.getAllCountries();
+    setCountries(countryList);
+  }, []);
+
+  useEffect(() => {
+    if (propertyData.country) {
+      const stateList = State.getStatesOfCountry(propertyData.country);
+      setStates(stateList);
     } else {
-      setIsAddingNewCountry(false);
-      handleChange("country", value);
-      setIsAddingNewCity(false);
-      handleChange("city", "");
+      setStates([]);
+      setCities([]);
     }
-  };
+  }, [propertyData.country]);
 
-  const handleCitySelect = (value: string) => {
-    if (value === "add-new") {
-      setIsAddingNewCity(true);
-      handleChange("city", "");
+  useEffect(() => {
+    if (propertyData.country && propertyData.state) {
+      const cityList = City.getCitiesOfState(propertyData.country, propertyData.state);
+      setCities(cityList);
     } else {
-      setIsAddingNewCity(false);
-      handleChange("city", value);
+      setCities([]);
     }
+  }, [propertyData.country, propertyData.state]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setPropertyData({ ...propertyData, [e.target.name]: e.target.value });
   };
 
-  const handleCustomCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setCustomCountry(value);
-    handleChange("country", value);
+  const handleSelectChange = (name: string, value: string) => {
+    setPropertyData({ ...propertyData, [name]: value });
   };
 
-  const handleCustomCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setCustomCity(value);
-    handleChange("city", value);
+  const CustomCountryInput = ({ customCountryName, setCustomCountryName, setCustomCountry }) => {
+    return (
+      <div>
+        <Label htmlFor="customCountryName">Custom Country Name</Label>
+        <Input
+          id="customCountryName"
+          type="text"
+          value={customCountryName}
+          onChange={(e) => setCustomCountryName(e.target.value)}
+          onBlur={() => setPropertyData({ ...propertyData, country: customCountryName })}
+        />
+        <Button variant="secondary" size="sm" onClick={() => setCustomCountry(false)}>
+          Cancel
+        </Button>
+      </div>
+    );
   };
 
-  const selectedCountryCities = useCitiesByCountry(formData.country);
-  
-  // Fixed: Use a proper boolean value for the disabled state
-  const isCitySelectorDisabled = formData.country.length === 0;
+  const CustomCityInput = ({ customCityName, setCustomCityName, setCustomCity }) => {
+    return (
+      <div>
+        <Label htmlFor="customCityName">Custom City Name</Label>
+        <Input
+          id="customCityName"
+          type="text"
+          value={customCityName}
+          onChange={(e) => setCustomCityName(e.target.value)}
+          onBlur={() => setPropertyData({ ...propertyData, city: customCityName })}
+        />
+        <Button variant="secondary" size="sm" onClick={() => setCustomCity(false)}>
+          Cancel
+        </Button>
+      </div>
+    );
+  };
 
   return (
-    <CollapsibleSection title="LOCATION">
-      <div className="space-y-2">
-        <div>
-          {!isAddingNewCountry ? (
-            <CountrySelector
-              value={formData.country}
-              onValueChange={handleCountrySelect}
-              onBlur={() => handleBlur("country")}
-              hasError={shouldShowError("country")}
-              errorMessage={errors.country}
-            />
-          ) : (
-            <CustomCountryInput
-              value={customCountry}
-              onChange={handleCustomCountryChange}
-              onBlur={() => handleBlur("country")}
-              onCancel={() => {
-                setIsAddingNewCountry(false);
-                setCustomCountry("");
-                handleChange("country", "");
-              }}
-            />
-          )}
-        </div>
-        
-        <FormField
-          id="address"
-          label="Address"
-          value={formData.address}
-          onChange={(value) => handleChange("address", value)}
-          onBlur={() => handleBlur("address")}
-          error={shouldShowError("address") ? errors.address : ""}
-          required={true}
+    <div className="space-y-4">
+      {/* Property Name */}
+      <div className="mb-4">
+        <Label htmlFor="propertyName">Property Name</Label>
+        <Input
+          type="text"
+          id="propertyName"
+          name="propertyName"
+          value={propertyData.propertyName || ''}
+          onChange={handleInputChange}
+          placeholder="Enter property name"
         />
-        
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            {!isAddingNewCity ? (
-              <CitySelector
-                value={formData.city}
-                onValueChange={handleCitySelect}
-                onBlur={() => handleBlur("city")}
-                hasError={shouldShowError("city")}
-                errorMessage={errors.city}
-                cities={selectedCountryCities}
-                disabled={isCitySelectorDisabled}
-              />
-            ) : (
-              <CustomCityInput
-                value={customCity}
-                onChange={handleCustomCityChange}
-                onBlur={() => handleBlur("city")}
-                onCancel={() => {
-                  setIsAddingNewCity(false);
-                  setCustomCity("");
-                  handleChange("city", "");
-                }}
-              />
-            )}
-          </div>
-          
-          <FormField
-            id="postal-code"
-            label="Postal Code"
-            value={formData.postalCode}
-            onChange={(value) => handleChange("postalCode", value)}
-            onBlur={() => handleBlur("postalCode")}
-            error={shouldShowError("postalCode") ? errors.postalCode : ""}
-            required={false}
-          />
-        </div>
       </div>
-    </CollapsibleSection>
+
+      {/* Address */}
+      <div className="mb-4">
+        <Label htmlFor="address">Address</Label>
+        <Input
+          type="text"
+          id="address"
+          name="address"
+          value={propertyData.address || ''}
+          onChange={handleInputChange}
+          placeholder="Enter address"
+        />
+      </div>
+
+      {/* Description */}
+      <div className="mb-4">
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          name="description"
+          value={propertyData.description || ''}
+          onChange={handleInputChange}
+          placeholder="Enter description"
+        />
+      </div>
+      
+      {/* Country Selection */}
+      <div className="mb-4">
+        <Label htmlFor="country">Country</Label>
+        <div className="flex items-center space-x-2">
+          <Select onValueChange={(value) => handleSelectChange('country', value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a country" defaultValue={propertyData.country || ''} />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((country) => (
+                <SelectItem key={country.isoCode} value={country.isoCode}>
+                  {country.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button variant="secondary" size="sm" onClick={() => setCustomCountry(true)}>
+            Custom
+          </Button>
+        </div>
+        {customCountry === true && (
+          <CustomCountryInput
+            customCountryName={customCountryName}
+            setCustomCountryName={setCustomCountryName}
+            setCustomCountry={setCustomCountry}
+          />
+        )}
+      </div>
+
+      {/* City Selection */}
+      <div className="mb-4">
+        <Label htmlFor="city">City</Label>
+        <div className="flex items-center space-x-2">
+          <Select onValueChange={(value) => handleSelectChange('city', value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a city" defaultValue={propertyData.city || ''} />
+            </SelectTrigger>
+            <SelectContent>
+              {states.length === 0 ? (
+                <SelectItem disabled value="">Select a country first</SelectItem>
+              ) : cities.length === 0 ? (
+                <SelectItem disabled value="">Select a state first</SelectItem>
+              ) : (
+                cities.map((city) => (
+                  <SelectItem key={city.isoCode} value={city.name}>
+                    {city.name}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+          <Button variant="secondary" size="sm" onClick={() => setCustomCity(true)}>
+            Custom
+          </Button>
+        </div>
+        {customCity === true && (
+          <CustomCityInput
+            customCityName={customCityName}
+            setCustomCityName={setCustomCityName}
+            setCustomCity={setCustomCity}
+          />
+        )}
+      </div>
+      
+      {/* Postal Code */}
+      <div className="mb-4">
+        <Label htmlFor="postalCode">Postal Code</Label>
+        <Input
+          type="text"
+          id="postalCode"
+          name="postalCode"
+          value={propertyData.postalCode || ''}
+          onChange={handleInputChange}
+          placeholder="Enter postal code"
+        />
+      </div>
+    </div>
   );
-}
+};
+
+export default LocationSection;

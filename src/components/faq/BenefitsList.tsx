@@ -28,4 +28,3 @@ export function BenefitsList({ benefits, className = "" }: BenefitsListProps) {
     </div>
   );
 }
-

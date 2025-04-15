@@ -80,7 +80,7 @@ export function FaqTabs({
           <TabsTrigger 
             key={category.id} 
             value={category.id} 
-            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-xl" : "text-[1.1em]"} bg-[#730483] text-white`}
+            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-base" : "text-base"} bg-[#730483] text-white`}
           >
             {category.name}
           </TabsTrigger>
@@ -114,14 +114,14 @@ export function FaqTabs({
                       className="glass-card rounded-lg overflow-hidden border-none"
                     >
                       <AccordionTrigger 
-                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-xl" : "text-2xl"}`}
+                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-xl" : "text-xl"}`}
                       >
-                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-2xl"}`}>
+                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-xl" : "text-xl"}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
                       <AccordionContent className={`px-4 pb-4 pt-4 bg-[${contentBgColor}]`}>
-                        <p className={`text-slate-50 ${isMobile ? "text-xl" : "text-xl"}`}>
+                        <p className={`text-slate-50 ${isMobile ? "text-base" : "text-base"}`}>
                           {faq.answer}
                         </p>
                       </AccordionContent>

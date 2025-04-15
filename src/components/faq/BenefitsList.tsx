@@ -19,7 +19,7 @@ export function BenefitsList({ benefits, className = "" }: BenefitsListProps) {
         {benefits.map((benefit, index) => (
           <div key={index} className="flex items-start">
             <span className="inline-block w-2 h-2 rounded-full bg-[#FEF7CD] mr-2 mt-1.5 flex-shrink-0"></span>
-            <p className="text-[#e3d6e9] hover:text-white transition-colors">{benefit}</p>
+            <p className="text-[#e3d6e9] hover:text-[#FEF7CD] transition-colors">{benefit}</p>
           </div>
         ))}
       </div>

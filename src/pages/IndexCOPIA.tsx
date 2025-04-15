@@ -1,58 +1,116 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
 import { useHotels } from '@/hooks/useHotels';
-import { motion } from 'framer-motion';
-import { Search, MapPin, Star, Users, CalendarDays, ArrowRight, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, MapPin, Star, Users, Zap, Heart, ArrowRight, Sparkles, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
-// Elegant hero section with sophisticated design
-const ElegantHero = () => {
+// Dynamic Background Component
+const DynamicBackground = () => {
+  const [currentBg, setCurrentBg] = useState(0);
+  const backgrounds = [
+    "/lovable-uploads/c7742345-9823-4422-bafa-83b8d1fee4bd.png",
+    "/lovable-uploads/3265eb79-ce84-4e22-8944-0528b7ea16cd.png",
+    "/lovable-uploads/23962811-66f0-4fdf-ba22-b1aab72cc267.png",
+    "/lovable-uploads/e6fccee7-fe77-4595-9f44-3fadf9a43325.png",
+    "/lovable-uploads/a6661243-e289-44fa-a726-a8e3fb743d43.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBg(prev => (prev + 1) % backgrounds.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="relative py-20 md:py-32 px-4 overflow-hidden bg-gradient-to-b from-[#f8f9fa] to-[#e9ecef]">
-      <div className="container mx-auto relative z-10 max-w-6xl">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-[#212529]">
-            Experience Refined
-            <span className="block mt-2 text-[#6c5ce7]">Hotel Living</span>
-          </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto text-[#495057] mb-8 font-light">
-            Discover curated accommodations that blend luxury with community, designed for discerning travelers
-          </p>
-          
-          <div className="flex flex-col md:flex-row justify-center gap-4 mt-10">
-            <Button asChild className="bg-[#6c5ce7] hover:bg-[#5649d1] px-8 py-6 rounded-lg shadow-md">
-              <Link to="/hotels" className="text-lg flex items-center justify-center gap-2 font-medium">
-                Browse Collection <ArrowRight size={18} />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="border-[#6c5ce7] text-[#6c5ce7] hover:bg-[#6c5ce7]/10 px-8 py-6 rounded-lg">
-              <Link to="/affinity-stays" className="text-lg flex items-center justify-center gap-2 font-medium">
-                Explore Affinity Stays
-              </Link>
-            </Button>
-          </div>
-        </motion.div>
-      </div>
-      
-      {/* Subtle decorative elements */}
-      <div className="absolute top-20 right-[10%] w-64 h-64 bg-gradient-to-r from-[#a29bfe]/10 to-[#6c5ce7]/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute bottom-10 left-[15%] w-40 h-40 bg-gradient-to-r from-[#dfe6e9]/20 to-[#b2bec3]/20 rounded-full filter blur-3xl"></div>
+    <div className="fixed inset-0 -z-10">
+      {backgrounds.map((bg, index) => (
+        <motion.div
+          key={index}
+          className="absolute inset-0 bg-cover bg-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: index === currentBg ? 1 : 0 }}
+          transition={{ duration: 1.5 }}
+          style={{ backgroundImage: `url(${bg})` }}
+        />
+      ))}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
     </div>
   );
 };
 
-// Refined search section with elegant styling
-const RefinedSearch = ({ onFilterChange, availableThemes }: { onFilterChange: (filters: FilterState) => void, availableThemes: string[] }) => {
+// Bold, Daring Hero Section
+const BoldHero = () => {
+  return (
+    <section className="relative py-20 md:py-32 px-4 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="container mx-auto relative z-10 max-w-6xl"
+      >
+        <div className="text-center mb-12">
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              duration: 0.7, 
+              delay: 0.5,
+              type: "spring",
+              stiffness: 100
+            }}
+            className="inline-block mb-6"
+          >
+            <span className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-bold text-sm uppercase tracking-wider drop-shadow-lg">
+              Experience Revolution
+            </span>
+          </motion.div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
+            <span className="block mb-2">Live Beyond</span>
+            <span className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-300 bg-clip-text text-transparent">
+              Ordinary
+            </span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200 mb-12 leading-relaxed">
+            Discover extraordinary accommodations that transform your travel experience into a 
+            remarkable journey of discovery and connection.
+          </p>
+          
+          <div className="flex flex-col md:flex-row justify-center gap-6 mt-8">
+            <Button asChild className="bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-800 hover:to-pink-700 px-8 py-7 text-lg rounded-xl shadow-lg group transition-all duration-300">
+              <Link to="/hotels" className="flex items-center justify-center gap-2 font-semibold">
+                Explore Collection
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="border-2 border-purple-500 text-white hover:bg-purple-500/20 px-8 py-7 text-lg rounded-xl">
+              <Link to="/affinity-stays" className="flex items-center justify-center gap-2 font-semibold">
+                Discover Affinity Stays
+                <Globe size={20} />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+      
+      {/* Decorative elements */}
+      <div className="absolute top-1/3 right-[5%] w-96 h-96 bg-gradient-to-r from-purple-600/30 to-pink-600/20 rounded-full filter blur-[120px]" />
+      <div className="absolute bottom-1/4 left-[10%] w-72 h-72 bg-gradient-to-r from-blue-600/20 to-cyan-600/10 rounded-full filter blur-[100px]" />
+    </section>
+  );
+};
+
+// Bold, Enticing Search Section
+const BoldSearch = ({ onFilterChange, availableThemes }: { onFilterChange: (filters: FilterState) => void, availableThemes: string[] }) => {
   const [destination, setDestination] = useState('');
   
   const handleSearch = () => {
@@ -78,48 +136,48 @@ const RefinedSearch = ({ onFilterChange, availableThemes }: { onFilterChange: (f
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto border border-gray-100"
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl shadow-[0_10px_50px_rgba(138,58,217,0.2)] p-8 max-w-4xl mx-auto"
         >
-          <h2 className="text-2xl font-serif font-semibold text-[#212529] mb-6 text-center">Find Your Ideal Accommodation</h2>
+          <h2 className="text-2xl font-bold text-white mb-8 text-center">Find Your Extraordinary Escape</h2>
           
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1">
-              <label className="block text-[#6c757d] text-sm mb-2 font-medium">Destination</label>
+              <label className="block text-gray-300 text-sm mb-2 font-medium">Destination</label>
               <div className="relative">
                 <input 
                   type="text"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="Where would you like to stay?"
-                  className="w-full border border-[#dee2e6] rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#6c5ce7]/50 focus:border-[#6c5ce7]"
+                  className="w-full bg-white/10 backdrop-blur-md border border-purple-500/30 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 />
-                <MapPin className="absolute right-3 top-3 text-[#adb5bd]" size={18} />
+                <MapPin className="absolute right-3 top-4 text-purple-400" size={20} />
               </div>
             </div>
             
             <div className="md:w-1/4">
-              <label className="block text-[#6c757d] text-sm mb-2 font-medium">Theme</label>
+              <label className="block text-gray-300 text-sm mb-2 font-medium">Theme</label>
               <div className="relative">
                 <select 
-                  className="w-full border border-[#dee2e6] rounded-lg px-4 py-3 appearance-none focus:outline-none focus:ring-1 focus:ring-[#6c5ce7]/50 focus:border-[#6c5ce7]"
+                  className="w-full bg-white/10 backdrop-blur-md border border-purple-500/30 rounded-xl px-4 py-4 text-white appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   defaultValue=""
                 >
-                  <option value="" disabled>Select theme</option>
+                  <option value="" disabled className="bg-gray-900 text-white">Select theme</option>
                   {availableThemes.map(theme => (
-                    <option key={theme} value={theme}>{theme}</option>
+                    <option key={theme} value={theme} className="bg-gray-900 text-white">{theme}</option>
                   ))}
                 </select>
-                <CalendarDays className="absolute right-3 top-3 text-[#adb5bd]" size={18} />
+                <Sparkles className="absolute right-3 top-4 text-purple-400" size={20} />
               </div>
             </div>
             
             <div className="md:w-auto self-end">
               <Button 
                 onClick={handleSearch}
-                className="w-full md:w-auto bg-[#6c5ce7] hover:bg-[#5649d1] px-8 py-3 rounded-lg shadow-sm"
+                className="w-full md:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-4 rounded-xl shadow-lg"
               >
-                <Search size={18} />
+                <Search size={20} className="mr-2" />
                 <span>Search</span>
               </Button>
             </div>
@@ -130,33 +188,41 @@ const RefinedSearch = ({ onFilterChange, availableThemes }: { onFilterChange: (f
   );
 };
 
-// Sophisticated feature cards with elegant styling
-const SophisticatedFeatures = () => {
+// Bold Feature Cards
+const BoldFeatures = () => {
   const features = [
     { 
-      icon: <Star className="w-8 h-8 text-[#6c5ce7]" />, 
-      title: "Curated Selection", 
-      description: "Hand-selected properties that meet our exacting standards for quality, comfort, and ambiance." 
+      icon: <Star className="w-10 h-10 text-yellow-400" />, 
+      title: "Curated Excellence", 
+      description: "Hand-selected properties that exceed expectations, offering unparalleled quality, comfort, and ambiance." 
     },
     { 
-      icon: <Users className="w-8 h-8 text-[#6c5ce7]" />, 
-      title: "Tailored Communities", 
-      description: "Connect with like-minded individuals who share your interests and passions." 
+      icon: <Users className="w-10 h-10 text-purple-400" />, 
+      title: "Vibrant Communities", 
+      description: "Connect with like-minded individuals who share your passions and elevate your experience through meaningful connections." 
     },
     { 
-      icon: <Heart className="w-8 h-8 text-[#6c5ce7]" />, 
-      title: "Personalized Experience", 
-      description: "Attentive service and customized stays that anticipate and fulfill your preferences." 
+      icon: <Zap className="w-10 h-10 text-pink-400" />, 
+      title: "Transformative Experiences", 
+      description: "Immersive stays that go beyond accommodation to create memorable moments and life-changing encounters." 
     }
   ];
   
   return (
-    <div className="py-24 px-4 bg-[#f8f9fa]">
+    <div className="py-24 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-[#212529]">A Superior Living Experience</h2>
-          <p className="text-lg text-[#495057] max-w-2xl mx-auto font-light">
-            Discover the difference of our meticulously curated hotel-living concept, where every detail is designed to enhance your experience.
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-white"
+          >
+            A <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Revolutionary</span> Approach
+          </motion.h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Experience the difference of our meticulously crafted hotel-living concept, where every detail is designed to elevate your journey.
           </p>
         </div>
         
@@ -164,17 +230,21 @@ const SophisticatedFeatures = () => {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all group border border-gray-100"
+              className="group"
             >
-              <div className="bg-[#f3f4f6] rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:bg-[#6c5ce7]/10 transition-colors">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-serif font-semibold mb-3 text-[#212529]">{feature.title}</h3>
-              <p className="text-[#6c757d] font-light">{feature.description}</p>
+              <Card className="h-full bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-xl overflow-hidden hover:shadow-[0_10px_40px_rgba(138,58,217,0.3)] transition-all duration-500">
+                <CardContent className="p-8">
+                  <div className="mb-6 p-4 inline-flex rounded-full bg-gradient-to-br from-purple-900/50 to-pink-900/50 group-hover:from-purple-800/60 group-hover:to-pink-800/60 transition-all duration-500">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-purple-300 transition-colors duration-300">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
@@ -183,33 +253,41 @@ const SophisticatedFeatures = () => {
   );
 };
 
-// Elegant testimonials with refined design
-const ElegantTestimonials = () => {
+// Bold Testimonials
+const BoldTestimonials = () => {
   const testimonials = [
     {
-      quote: "The experience of hotel-living has completely transformed my approach to travel. The attention to detail and sense of community is unparalleled.",
+      quote: "The concept of living in hotels has transformed my professional life. I've made connections that led to business opportunities I never would have discovered otherwise.",
       author: "Sarah J., Marketing Executive",
       avatar: "/lovable-uploads/72defac9-6468-4f27-97f3-4ef30cecec3a.png"
     },
     {
-      quote: "I've discovered a remarkable network of professionals in my field through the themed stays. It's been invaluable for both my career and personal growth.",
+      quote: "I've discovered an incredible network through the themed stays. In just three months, I've collaborated with people who've taken my creative work to new heights.",
       author: "Michael T., Software Developer",
       avatar: "/lovable-uploads/0143058c-8fff-4da1-92a4-c00ad1b52595.png"
     },
     {
-      quote: "The perfect balance of privacy and community, allowing me to focus on my creative pursuits while enjoying meaningful connections with fellow guests.",
+      quote: "The perfect balance of privacy and community. I can focus on my work while enjoying meaningful connections with like-minded professionals and creators.",
       author: "Elena R., Content Creator",
       avatar: "/lovable-uploads/9e9a15b6-7cdd-4711-b6c0-e805cfba3147.png"
     }
   ];
   
   return (
-    <div className="py-24 px-4 bg-white">
+    <div className="py-24 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-[#212529]">Guest Reflections</h2>
-          <p className="text-lg text-[#495057] max-w-2xl mx-auto font-light">
-            Insights from those who have experienced our distinctive approach to hotel-living.
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-white"
+          >
+            Transformative <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">Experiences</span>
+          </motion.h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Insights from those who have embraced our revolutionary approach to hotel-living.
           </p>
         </div>
         
@@ -217,23 +295,30 @@ const ElegantTestimonials = () => {
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="bg-[#f8f9fa] rounded-xl p-8 shadow-sm flex flex-col border border-gray-100"
+              className="group"
             >
-              <div className="flex-1">
-                <p className="text-[#495057] font-light italic mb-6">"{testimonial.quote}"</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={testimonial.author} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
-                />
-                <p className="text-[#212529] font-medium">{testimonial.author}</p>
-              </div>
+              <Card className="h-full bg-black/30 backdrop-blur-xl border border-purple-500/20 rounded-xl overflow-hidden hover:shadow-[0_10px_40px_rgba(138,58,217,0.3)] transition-all duration-500">
+                <CardContent className="p-8 flex flex-col h-full">
+                  <div className="flex-1 mb-8">
+                    <svg className="w-10 h-10 text-purple-400 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
+                    </svg>
+                    <p className="text-gray-300 italic leading-relaxed text-lg">{testimonial.quote}</p>
+                  </div>
+                  <div className="flex items-center gap-4 mt-auto">
+                    <img 
+                      src={testimonial.avatar} 
+                      alt={testimonial.author} 
+                      className="w-12 h-12 rounded-full object-cover border-2 border-purple-500/30"
+                    />
+                    <p className="text-white font-medium">{testimonial.author}</p>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
@@ -242,34 +327,46 @@ const ElegantTestimonials = () => {
   );
 };
 
-// Sophisticated CTA section
-const SophisticatedCta = () => {
+// Bold CTA Section
+const BoldCta = () => {
   return (
     <div className="py-24 px-4">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-[#6c5ce7] to-[#a29bfe] rounded-xl overflow-hidden relative shadow-lg"
+          className="bg-gradient-to-r from-purple-900/70 to-pink-900/70 backdrop-blur-xl border border-purple-500/40 rounded-2xl overflow-hidden relative shadow-[0_20px_80px_rgba(138,58,217,0.3)]"
         >
-          <div className="absolute inset-0 bg-[url('/lovable-uploads/3265eb79-ce84-4e22-8944-0528b7ea16cd.png')] bg-cover bg-center mix-blend-overlay opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('/lovable-uploads/3265eb79-ce84-4e22-8944-0528b7ea16cd.png')] bg-cover bg-center mix-blend-overlay opacity-40"></div>
           <div className="px-8 py-16 md:p-16 relative z-10">
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6 text-white">Elevate Your Living Experience</h2>
-              <p className="text-lg text-white/90 mb-8 font-light">
-                Join our community of discerning guests who have discovered a more refined approach to accommodation.
-                Experience comfort, connection, and convenience in a setting designed for sophistication.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button asChild className="bg-white text-[#6c5ce7] hover:bg-white/90 px-8 py-3 rounded-lg shadow-md">
-                  <Link to="/signup">Create Account</Link>
-                </Button>
-                <Button asChild variant="outline" className="bg-transparent text-white border border-white hover:bg-white/10 px-8 py-3 rounded-lg">
-                  <Link to="/hotels">Browse Hotels</Link>
-                </Button>
-              </div>
+            <div className="max-w-3xl mx-auto text-center">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                  Transform Your <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">Living Experience</span>
+                </h2>
+                <p className="text-xl text-gray-200 mb-10 leading-relaxed">
+                  Join our community of forward-thinking individuals who have discovered a revolutionary approach to accommodation.
+                  Experience connection, convenience, and comfort in a setting designed for today's dynamic lifestyle.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-6">
+                  <Button asChild className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-6 text-lg rounded-xl shadow-lg group transition-all duration-300">
+                    <Link to="/signup" className="flex items-center gap-2 font-semibold">
+                      Start Your Journey
+                      <Heart size={20} className="group-hover:scale-110 transition-transform" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg rounded-xl">
+                    <Link to="/hotels" className="font-semibold">Explore Properties</Link>
+                  </Button>
+                </div>
+              </motion.div>
             </div>
           </div>
         </motion.div>
@@ -305,15 +402,16 @@ export default function IndexCOPIA() {
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-white">
+    <div className="flex flex-col min-h-screen w-full">
+      <DynamicBackground />
       <Navbar />
       
       <main className="flex-1 w-full">
-        <ElegantHero />
-        <RefinedSearch onFilterChange={handleFilterChange} availableThemes={themeNames} />
-        <SophisticatedFeatures />
-        <ElegantTestimonials />
-        <SophisticatedCta />
+        <BoldHero />
+        <BoldSearch onFilterChange={handleFilterChange} availableThemes={themeNames} />
+        <BoldFeatures />
+        <BoldTestimonials />
+        <BoldCta />
       </main>
       
       <Footer />

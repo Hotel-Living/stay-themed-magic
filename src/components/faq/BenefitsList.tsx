@@ -20,7 +20,7 @@ export function BenefitsList({ benefits, className = "" }: BenefitsListProps) {
           {benefits.map((benefit, index) => (
             <div key={index} className="flex items-start">
               <span className="inline-block w-7 h-7 rounded-full bg-[#FFF9B0] mr-4 mt-1 flex-shrink-0 animate-pulse-glow"></span>
-              <p className="text-[#FFF9B0] text-xl md:text-2xl font-medium">{benefit}</p>
+              <p className="text-[#FFF9B0] text-base md:text-xl font-medium">{benefit}</p>
             </div>
           ))}
         </div>

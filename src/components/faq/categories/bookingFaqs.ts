@@ -33,9 +33,6 @@ export const bookingFaqs: FaqItem[] = [
   {
     question: "Do you offer any loyalty programs or rewards?",
     answer: "Yes, our Hotel-Living Passport program rewards your stays with points that can be redeemed for discounts, upgrades, exclusive experiences, and even complimentary nights. The longer and more frequently you stay with us, the more benefits you unlock, including priority booking and special partner offers."
-  },
-  {
-    question: "Can I book a stay if I'm not sure about my exact dates yet?",
-    answer: "Our flexible booking option allows you to reserve a room type and approximate timeframe without committing to exact dates. You can finalize your specific check-in and check-out dates closer to your stay, usually up to 14 days before arrival, subject to availability. This is perfect for travelers with evolving plans."
   }
 ];
+

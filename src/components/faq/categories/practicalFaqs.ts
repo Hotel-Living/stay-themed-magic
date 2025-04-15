@@ -19,3 +19,4 @@ export const practicalFaqs: FaqItem[] = [
     answer: "We're committed to inclusivity and work with our partner properties to provide accessible options. Properties with accessible rooms and facilities are clearly marked in our search filters. Our concierge team can also provide personalized assistance in finding appropriate accommodations and arranging any additional services needed for guests with specific accessibility requirements."
   }
 ];
+

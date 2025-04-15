@@ -23,3 +23,4 @@ export const communityFaqs: FaqItem[] = [
     answer: "Our community design accommodates diverse personality types. For extroverts, we offer frequent social gatherings and communal activities. For introverts, we create comfortable spaces for smaller interactions and quieter participation. Community facilitators are trained to ensure all personality types feel welcome and that no one feels pressured to participate beyond their comfort level."
   }
 ];
+

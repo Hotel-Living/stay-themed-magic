@@ -85,7 +85,7 @@ export function FaqTabs({
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-sm font-medium bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
+              className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-base font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
             >
               {category.name}
             </TabsTrigger>
@@ -122,12 +122,12 @@ export function FaqTabs({
                       <AccordionTrigger 
                         className="px-8 py-5 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
                       >
-                        <h2 className="text-[#FFF9B0] font-bold text-xl md:text-2xl">
+                        <h2 className="text-[#FFF9B0] font-bold text-base md:text-lg">
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
-                      <AccordionContent className="px-8 py-6 bg-[#460F54]/80 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-                        <p className="text-[#f1e8f5] text-lg md:text-xl leading-relaxed">
+                      <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+                        <p className="text-[#f1e8f5] text-sm md:text-base leading-relaxed">
                           {faq.answer}
                         </p>
                       </AccordionContent>

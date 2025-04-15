@@ -23,9 +23,9 @@ export default function FAQ() {
           
           <div className="text-center mb-12">
             <h1 className={`
-              ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-6 text-gradient text-[#eedbf7] glow 
-              animate-text-slow tracking-tight leading-tight
+              ${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} 
+              font-bold mb-6 text-[#eedbf7] glow 
+              tracking-tight leading-tight
             `}>
               Frequently Asked Questions
             </h1>
@@ -47,8 +47,8 @@ export default function FAQ() {
             faqsByCategory={faqsByCategory}
             numbered={true}
             searchQuery={searchQuery}
-            textSizeClass="text-lg md:text-xl"
-            answerTextSizeClass="text-base md:text-lg"
+            textSizeClass="text-base md:text-lg"
+            answerTextSizeClass="text-sm md:text-base"
           />
         </div>
       </main>

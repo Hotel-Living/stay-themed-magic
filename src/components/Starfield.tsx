@@ -47,13 +47,14 @@ export function Starfield() {
           className={`bg-slide absolute inset-0 transition-opacity duration-3000 ease-in-out bg-cover bg-center bg-no-repeat`}
           style={{
             backgroundImage: `url(${image})`,
-            opacity: index === currentImageIndex ? 1 : 0,
+            opacity: index === currentImageIndex ? 0.8 : 0, // Reduced from 1 to 0.8 (20% lighter)
             zIndex: index === currentImageIndex ? -10 : -20,
           }}
         />
       ))}
       {/* Reduced opacity by 20% (from 0.4 to 0.32) and blur by 30% (from 3px to 2.1px) */}
-      <div className="overlay absolute inset-0 bg-black/32 backdrop-blur-[2.1px]" />
+      <div className="overlay absolute inset-0 bg-black/25 backdrop-blur-[2.1px]" /> {/* Reduced from bg-black/32 to bg-black/25 */}
     </div>
   );
 }
+

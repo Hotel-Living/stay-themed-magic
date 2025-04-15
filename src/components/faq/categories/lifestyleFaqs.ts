@@ -17,5 +17,9 @@ export const lifestyleFaqs: FaqItem[] = [
   {
     question: "How does Hotel-Living compare to traditional apartment living?",
     answer: "Unlike traditional apartments that require long-term leases, furnishing costs, utility setups, and maintenance responsibilities, Hotel-Living provides fully-furnished, serviced accommodations with all utilities and amenities included. You gain flexibility, eliminate household chores, and access built-in communities and activities that aren't typically available in standard apartment buildings."
+  },
+  {
+    question: "Do you offer special rates for commuters who need accommodations near their workplace?",
+    answer: "Yes, many of our properties offer special commuter packages designed for professionals who work in one location but live in another. These packages typically offer 2-3 night stays during workweeks at discounted rates, allowing you to maintain your primary residence while eliminating exhausting daily commutes."
   }
 ];

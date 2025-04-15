@@ -25,6 +25,13 @@ export const paymentFaqs: FaqItem[] = [
   {
     question: "Are there any hidden fees I should be aware of?",
     answer: "We pride ourselves on transparent pricing. The rate shown includes all standard amenities listed on the property page. Optional services (like additional housekeeping, premium activities, or special meal plans) are clearly priced. Local taxes may apply depending on the jurisdiction, and these are always displayed before booking confirmation."
+  },
+  {
+    question: "Do you offer any discounts for longer stays?",
+    answer: "Yes! Rates typically decrease for stays longer than 8 days."
+  },
+  {
+    question: "Is there a best price guarantee?",
+    answer: "Yes, we offer a best price guarantee for all our properties. If you find the same room type and stay duration advertised for less on another platform within 24 hours of booking with us, we'll match the price and give you an additional 10% discount on your stay. This ensures you're always getting the best possible rate for your Hotel-Living experience."
   }
-  // Question 7 (discounts for longer stays) removed as it was question #53 in the overall count
 ];

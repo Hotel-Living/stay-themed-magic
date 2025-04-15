@@ -29,6 +29,13 @@ export const themesFaqs: FaqItem[] = [
   {
     question: "Can I mix different affinities during my stay?",
     answer: "Absolutely! Many guests enjoy properties that offer multiple complementary affinities. For example, you might choose a hotel that combines culinary and language learning elements, or one that merges outdoor activities with wellness programming. You can participate in as many or as few of the offered affinities as you wish."
+  },
+  {
+    question: "What if I want to change affinities during my journey?",
+    answer: "Our platform makes it easy to experience different affinities throughout your Hotel-Living journey. Many guests create personalized circuits, perhaps spending a month at a culinary-focused property, then moving to a wellness retreat, followed by a creative arts community. This diversity of experiences is a key benefit of our approach."
+  },
+  {
+    question: "How do affinity communities help with professional networking?",
+    answer: "Our affinity-focused properties naturally attract professionals with similar interests, creating organic networking opportunities. Many of our business, tech, and creative affinities include formal networking events, skill-sharing workshops, and collaborative projects. These connections often lead to professional collaborations, job opportunities, and mentorship relationships that extend beyond the stay."
   }
-  // Question 8 (changing affinities during journey) removed as it was question #34 in the overall count
 ];

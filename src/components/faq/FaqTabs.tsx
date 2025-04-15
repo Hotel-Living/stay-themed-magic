@@ -73,70 +73,70 @@ export function FaqTabs({
     return indices;
   }, [faqCategories, faqsByCategory, searchQuery]);
 
-return (
-  <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-    <div className="flex justify-center mb-8">
-      <TabsList className="flex flex-wrap justify-center gap-3 p-3 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-        {faqCategories.map(category => (
-          <TabsTrigger 
-            key={category.id} 
-            value={category.id} 
-            className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-base font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
-          >
-            {category.name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </div>
-    
-    {!hasSearchResults && (
-      <div className="text-center py-10 glass-card rounded-xl mb-8">
-        <p className="text-[#e3d6e9] text-xl">No FAQs found matching "{searchQuery}"</p>
-        <p className="text-[#e3d6e9] text-base mt-2">Try different keywords or clear your search</p>
+  return (
+    <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
+      <div className="flex justify-center mb-8">
+        <TabsList className="flex flex-wrap justify-center gap-3 p-3 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+          {faqCategories.map(category => (
+            <TabsTrigger 
+              key={category.id} 
+              value={category.id} 
+              className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-base font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
+            >
+              {category.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
       </div>
-    )}
-    
-    {faqCategories.map(category => {
-      const filteredFaqs = getFilteredFaqs(category.id);
-      const startIndex = categoryStartIndices[category.id];
       
-      return (
-        <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
-          {filteredFaqs.length > 0 ? (
-            <Accordion type="single" collapsible className="w-full space-y-5">
-              {filteredFaqs.map((faq, index) => {
-                const questionNumber = searchQuery ? startIndex + index : startIndex + index;
-                
-                return (
-                  <AccordionItem 
-                    key={index} 
-                    value={`${category.id}-${index}`} 
-                    className="overflow-hidden border-none shadow-2xl"
-                  >
-                    <AccordionTrigger 
-                      className="px-8 py-5 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
+      {!hasSearchResults && (
+        <div className="text-center py-10 glass-card rounded-xl mb-8">
+          <p className="text-[#e3d6e9] text-xl">No FAQs found matching "{searchQuery}"</p>
+          <p className="text-[#e3d6e9] text-base mt-2">Try different keywords or clear your search</p>
+        </div>
+      )}
+      
+      {faqCategories.map(category => {
+        const filteredFaqs = getFilteredFaqs(category.id);
+        const startIndex = categoryStartIndices[category.id];
+        
+        return (
+          <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
+            {filteredFaqs.length > 0 ? (
+              <Accordion type="single" collapsible className="w-full space-y-5">
+                {filteredFaqs.map((faq, index) => {
+                  const questionNumber = searchQuery ? startIndex + index : startIndex + index;
+                  
+                  return (
+                    <AccordionItem 
+                      key={index} 
+                      value={`${category.id}-${index}`} 
+                      className="overflow-hidden border-none shadow-2xl"
                     >
-                      <h2 className="text-[#FFF9B0] font-bold text-base md:text-lg">
-                        {numbered ? `${questionNumber}. ` : ''}{faq.question}
-                      </h2>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-                      <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
-          ) : searchQuery ? (
-            <div className="text-center py-8 glass-card rounded-xl">
-              <p className="text-[#e3d6e9] text-lg">No FAQs found in this category</p>
-            </div>
-          ) : null}
-        </TabsContent>
-      );
-    })}
-  </Tabs>
-);
+                      <AccordionTrigger 
+                        className="px-8 py-5 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
+                      >
+                        <h2 className="text-[#FFF9B0] font-bold text-base md:text-lg">
+                          {numbered ? `${questionNumber}. ` : ''}{faq.question}
+                        </h2>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+                        <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
+            ) : searchQuery ? (
+              <div className="text-center py-8 glass-card rounded-xl">
+                <p className="text-[#e3d6e9] text-lg">No FAQs found in this category</p>
+              </div>
+            ) : null}
+          </TabsContent>
+        );
+      })}
+    </Tabs>
+  );
 }

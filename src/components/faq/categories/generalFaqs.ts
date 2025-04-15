@@ -48,6 +48,10 @@ export const generalFaqs: FaqItem[] = [
   },
   {
     question: "Is Hotel-Living suitable for families with children?",
-    answer: "While our current model is primarily designed for independent adults, we are developing family-friendly options. Some of our properties offer connecting rooms, child-friendly amenities, and activities that can accommodate family stays. We recommend checking specific property details for family suitability."
+    answer: "While some of our properties accommodate families, most of our current offerings are optimized for individuals and couples. We have a growing selection of family-friendly properties with appropriate activities and spaces for children. These are clearly marked in our search filters to help families find suitable options."
+  },
+  {
+    question: "What kind of traveler benefits most from Hotel-Living?",
+    answer: "Hotel-Living is ideal for digital nomads, remote workers, extended travelers, retirees seeking community and experiences, and anyone looking to explore different locations without the commitment of traditional housing. It's particularly beneficial for those who value social connections and experiential living over material possessions."
   }
 ];

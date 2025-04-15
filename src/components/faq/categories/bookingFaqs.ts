@@ -31,11 +31,11 @@ export const bookingFaqs: FaqItem[] = [
     answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties."
   },
   {
-    question: "Do you offer any loyalty programs or rewards?",
-    answer: "Yes, our Hotel-Living Passport program rewards your stays with points that can be redeemed for discounts, upgrades, exclusive experiences, and even complimentary nights. The longer and more frequently you stay with us, the more benefits you unlock, including priority booking and special partner offers."
+    question: "TO BE DELETED",
+    answer: "Yes, our Hotel-Living Rewards program provides benefits based on your stay history. You earn points for each night stayed, with bonus points for referrals and participating in community activities. These points can be redeemed for stay discounts, room upgrades, exclusive experiences, or premium amenities."
   },
   {
-    question: "Can I book a stay if I'm not sure about my exact dates yet?",
-    answer: "Our flexible booking option allows you to reserve a room type and approximate timeframe without committing to exact dates. You can finalize your specific check-in and check-out dates closer to your stay, usually up to 14 days before arrival, subject to availability. This is perfect for travelers with evolving plans."
+    question: "TO BE DELETED",
+    answer: "Yes, many properties offer 'taster stays' of 2-3 nights that allow you to experience the hotel and its affinity activities before booking an extended stay. If you decide to extend after your taster stay, the cost is typically applied toward your longer booking."
   }
 ];

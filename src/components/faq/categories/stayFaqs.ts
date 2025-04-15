@@ -51,7 +51,11 @@ export const stayFaqs: FaqItem[] = [
     answer: "Most hotels allow reasonable personalization of your space, such as adding small decorative items, photos, or plants. For stays longer than a month, many properties are increasingly flexible about accommodating personal items that make the space feel more like home. Some even offer storage for personal items if you're a regular guest who returns periodically."
   },
   {
-    question: "How do you handle time zone transitions for digital nomads?",
+    question: "TO BE DELETED",
     answer: "Many of our properties catering to digital professionals offer flexible breakfast hours, 24/7 access to co-working spaces, and adjustable housekeeping schedules to accommodate varying work hours across time zones. Some even provide meal options throughout the day and night, specifically designed for guests working on different schedules."
+  },
+  {
+    question: "TO BE DELETED",
+    answer: "For guests requiring special dietary accommodations, most of our properties can accommodate common dietary needs such as vegetarian, vegan, gluten-free, and major allergies with advance notice. Properties with culinary affinities often excel at providing exceptional special diet options. You can specify your dietary requirements during booking or contact the property directly before arrival."
   }
 ];

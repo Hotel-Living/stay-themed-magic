@@ -15,7 +15,7 @@ export const practicalFaqs: FaqItem[] = [
     answer: "Our platform includes transportation resources to help you plan moves between properties. Many locations offer airport pickup services, and some regions have direct transport connections between our partner hotels. For longer journeys, our concierge team can assist with booking flights, trains, or other transportation options."
   },
   {
-    question: "How do you accommodate guests with accessibility needs?",
-    answer: "We're committed to inclusivity and work with our partner properties to provide accessible options. Properties with accessible rooms and facilities are clearly marked in our search filters. Our concierge team can also provide personalized assistance in finding appropriate accommodations and arranging any additional services needed for guests with specific accessibility requirements."
+    question: "TO BE DELETED",
+    answer: "Tax implications vary widely based on your citizenship, residency status, and the specific countries you stay in. While we can't provide tax advice, many of our members work with accountants specializing in expatriate or digital nomad taxation. Our resources section includes general information on tax considerations for globally mobile individuals."
   }
 ];

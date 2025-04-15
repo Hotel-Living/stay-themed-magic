@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -8,6 +9,7 @@ import { AuthProvider } from './context/auth/AuthProvider';
 import { DashboardAccess } from './components/DashboardAccess';
 
 import Index from './pages/Index';
+import IndexCOPIA from './pages/IndexCOPIA';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import HotelSignUp from './pages/HotelSignUp';
@@ -16,9 +18,11 @@ import UserDashboard from './pages/UserDashboard';
 import HotelDetail from './pages/HotelDetail';
 import Search from './pages/Search';
 import FAQ from './pages/FAQ';
+import FAQCOPIA from './pages/FAQCOPIA';
 import FAQTravelers from './pages/FAQTravelers';
 import FAQHotels from './pages/FAQHotels';
 import Hotels from './pages/Hotels';
+import HotelsCOPIA from './pages/HotelsCOPIA';
 import AffinityStays from './pages/AffinityStays';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
@@ -46,6 +50,7 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/index-copia" element={<IndexCOPIA />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signin" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
@@ -55,9 +60,11 @@ function App() {
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/hotels-copia" element={<HotelsCOPIA />} />
                   <Route path="/affinity-stays" element={<AffinityStays />} />
                   <Route path="/hoteles" element={<Navigate to="/hotels" />} />
                   <Route path="/faq" element={<FAQ />} />
+                  <Route path="/faq-copia" element={<FAQCOPIA />} />
                   <Route path="/faq-travelers" element={<FAQTravelers />} />
                   <Route path="/faq-hotels" element={<FAQHotels />} />
                   <Route path="/terms" element={<Terms />} />

@@ -84,7 +84,7 @@ export function FaqTabs({
           <TabsTrigger 
             key={category.id} 
             value={category.id} 
-            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap text-sm md:text-base bg-[#730483] text-white`}
+            className="px-4 py-1.5 rounded-lg capitalize whitespace-nowrap text-xs md:text-sm bg-[#730483] text-white"
           >
             {category.name}
           </TabsTrigger>
@@ -105,7 +105,7 @@ export function FaqTabs({
         return (
           <TabsContent key={category.id} value={category.id} className="customer-text">
             {filteredFaqs.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full space-y-2">
+              <Accordion type="single" collapsible className="w-full space-y-4">
                 {filteredFaqs.map((faq, index) => {
                   // Use the start index for the category + current index within filtered results
                   // When searching, maintain the original numbering
@@ -115,17 +115,17 @@ export function FaqTabs({
                     <AccordionItem 
                       key={index} 
                       value={`${category.id}-${index}`} 
-                      className="glass-card rounded-lg overflow-hidden border-none"
+                      className="glass-card rounded-xl overflow-hidden border-none shadow-lg"
                     >
                       <AccordionTrigger 
-                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[#FFF9B0]/90 ${textSizeClass}`}
+                        className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#570366] to-[#730483] border-l-4 border-[#FFF9B0]"
                       >
-                        <h2 className={`text-[#460F54] font-bold ${textSizeClass}`}>
+                        <h2 className="text-[#FFF9B0] font-bold text-lg md:text-xl">
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
-                      <AccordionContent className={`px-4 pb-4 pt-4 bg-[#FFF9B0]/40`}>
-                        <p className={`text-slate-900 ${answerTextSizeClass}`}>
+                      <AccordionContent className="px-6 py-5 bg-[#460F54]/70 backdrop-blur-md border-l-4 border-[#FFF9B0]/50">
+                        <p className="text-[#e3d6e9] text-base md:text-lg">
                           {faq.answer}
                         </p>
                       </AccordionContent>

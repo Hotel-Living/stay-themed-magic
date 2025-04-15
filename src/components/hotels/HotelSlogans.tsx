@@ -17,6 +17,12 @@ export function HotelSlogans() {
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">100% occupancy. Every single day</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Turn your dead dates into gold</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Multiply your profits dramatically</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Longer, more profitable stays</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Just one weekday for all check-ins/outs</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Outsmarting rental apartments</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Let's take our customers back</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Great expenses reduction</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow">Perfect staff stability</p>
         </div>
       </div>
     </>

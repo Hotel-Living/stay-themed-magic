@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -47,7 +46,6 @@ export function FaqTabs({
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
 
-  // Filter FAQs based on search query
   const getFilteredFaqs = (categoryId: string) => {
     if (!searchQuery) return faqsByCategory[categoryId as keyof typeof faqsByCategory] || [];
     
@@ -58,11 +56,9 @@ export function FaqTabs({
     );
   };
 
-  // Check if any FAQs match the search query in any category
   const hasSearchResults = searchQuery ? 
     faqCategories.some(category => getFilteredFaqs(category.id).length > 0) : true;
 
-  // Calculate question number start index for each category
   const categoryStartIndices = useMemo(() => {
     const indices: Record<string, number> = {};
     let currentIndex = 1;
@@ -109,8 +105,6 @@ export function FaqTabs({
             {filteredFaqs.length > 0 ? (
               <Accordion type="single" collapsible className="w-full space-y-5">
                 {filteredFaqs.map((faq, index) => {
-                  // Use the start index for the category + current index within filtered results
-                  // When searching, maintain the original numbering
                   const questionNumber = searchQuery ? startIndex + index : startIndex + index;
                   
                   return (
@@ -127,7 +121,7 @@ export function FaqTabs({
                         </h2>
                       </AccordionTrigger>
                       <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-                        <p className="text-[#f1e8f5] text-sm md:text-base leading-relaxed">
+                        <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
                           {faq.answer}
                         </p>
                       </AccordionContent>

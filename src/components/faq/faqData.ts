@@ -11,8 +11,10 @@ import { lifestyleFaqs } from "./categories/lifestyleFaqs";
 import { communityFaqs } from "./categories/communityFaqs";
 import { practicalFaqs } from "./categories/practicalFaqs";
 
-// Re-export the types and categories
-export { FaqItem, FaqCategory, faqCategories, benefitsList };
+// Use export type for type re-exports
+export type { FaqItem, FaqCategory };
+
+export { faqCategories, benefitsList };
 
 // Combine all FAQs into a single record
 export const faqsByCategory: Record<string, FaqItem[]> = {

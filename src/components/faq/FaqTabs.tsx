@@ -1,3 +1,4 @@
+
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -59,6 +60,10 @@ export function FaqTabs({
   const hasSearchResults = searchQuery ? 
     faqCategories.some(category => getFilteredFaqs(category.id).length > 0) : true;
 
+  // Create a mapping of removed question numbers
+  const removedQuestionNumbers = [13, 20, 21, 34, 35, 41, 53, 58];
+
+  // Create a map of category start indices and account for gaps
   const categoryStartIndices = useMemo(() => {
     const indices: Record<string, number> = {};
     let currentIndex = 1;
@@ -66,12 +71,37 @@ export function FaqTabs({
     for (const category of faqCategories) {
       indices[category.id] = currentIndex;
       if (!searchQuery) {
-        currentIndex += (faqsByCategory[category.id] || []).length;
+        const categoryFaqs = faqsByCategory[category.id] || [];
+        currentIndex += categoryFaqs.length;
+        
+        // Add gaps for removed questions in this category
+        for (const removedNum of removedQuestionNumbers) {
+          if (removedNum > currentIndex - categoryFaqs.length && removedNum < currentIndex) {
+            currentIndex++; // Add a gap for the removed question
+          }
+        }
       }
     }
 
     return indices;
-  }, [faqCategories, faqsByCategory, searchQuery]);
+  }, [faqCategories, faqsByCategory, searchQuery, removedQuestionNumbers]);
+
+  // Function to calculate the correct question number with gaps
+  const calculateQuestionNumber = (categoryId: string, index: number) => {
+    if (searchQuery) return categoryStartIndices[categoryId] + index;
+    
+    const startIndex = categoryStartIndices[categoryId];
+    let questionNumber = startIndex + index;
+    
+    // Adjust for removed questions - increment for each removed question that comes before this one
+    for (const removedNum of removedQuestionNumbers) {
+      if (removedNum >= startIndex && removedNum < questionNumber) {
+        questionNumber++;
+      }
+    }
+    
+    return questionNumber;
+  };
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
@@ -98,14 +128,13 @@ export function FaqTabs({
       
       {faqCategories.map(category => {
         const filteredFaqs = getFilteredFaqs(category.id);
-        const startIndex = categoryStartIndices[category.id];
         
         return (
           <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
             {filteredFaqs.length > 0 ? (
               <Accordion type="single" collapsible className="w-full space-y-5">
                 {filteredFaqs.map((faq, index) => {
-                  const questionNumber = searchQuery ? startIndex + index : startIndex + index;
+                  const questionNumber = calculateQuestionNumber(category.id, index);
                   
                   return (
                     <AccordionItem 

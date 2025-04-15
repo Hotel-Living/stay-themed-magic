@@ -1,3 +1,4 @@
+
 import { FaqItem } from "../types";
 
 export const stayFaqs: FaqItem[] = [
@@ -45,4 +46,5 @@ export const stayFaqs: FaqItem[] = [
     question: "Can I personalize my room or living space?",
     answer: "Most hotels allow reasonable personalization of your space, such as adding small decorative items, photos, or plants. For stays longer than a month, many properties are increasingly flexible about accommodating personal items that make the space feel more like home. Some even offer storage for personal items if you're a regular guest who returns periodically."
   }
+  // Question 12 (What about internet access and workspace?) removed as it was question #41 in the overall count
 ];

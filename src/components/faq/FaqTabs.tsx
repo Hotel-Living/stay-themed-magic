@@ -26,6 +26,7 @@ interface FaqTabsProps {
   headerBgColor?: string;
   contentBgColor?: string;
   marginBottom?: string;
+  textSizeClass?: string;
 }
 
 export function FaqTabs({ 
@@ -39,7 +40,8 @@ export function FaqTabs({
   accentTextColor = "#56cc41",
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
-  marginBottom = "mb-20"
+  marginBottom = "mb-20",
+  textSizeClass = "text-lg md:text-xl"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
 
@@ -75,12 +77,12 @@ export function FaqTabs({
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      <TabsList className={`w-full flex justify-center overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
+      <TabsList className={`w-full flex justify-center overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-2 ${isMobile ? "text-xl" : "text-lg md:text-xl"}`}>
         {faqCategories.map(category => (
           <TabsTrigger 
             key={category.id} 
             value={category.id} 
-            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-base" : "text-base"} bg-[#730483] text-white`}
+            className={`px-6 py-2 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-lg md:text-xl"} bg-[#730483] text-white`}
           >
             {category.name}
           </TabsTrigger>
@@ -114,14 +116,14 @@ export function FaqTabs({
                       className="glass-card rounded-lg overflow-hidden border-none"
                     >
                       <AccordionTrigger 
-                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-xl" : "text-xl"}`}
+                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${textSizeClass}`}
                       >
-                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-xl" : "text-xl"}`}>
+                        <h2 className={`text-[#f8faf8] font-bold ${textSizeClass}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
                       <AccordionContent className={`px-4 pb-4 pt-4 bg-[${contentBgColor}]`}>
-                        <p className={`text-slate-50 ${isMobile ? "text-base" : "text-base"}`}>
+                        <p className={`text-slate-50 ${textSizeClass}`}>
                           {faq.answer}
                         </p>
                       </AccordionContent>

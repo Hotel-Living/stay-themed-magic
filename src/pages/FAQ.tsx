@@ -23,7 +23,7 @@ export default function FAQ() {
           
           <div className="text-center mb-12">
             <h1 className={`
-              ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
+              ${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} 
               font-bold mb-6 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}>
@@ -47,6 +47,7 @@ export default function FAQ() {
             faqsByCategory={faqsByCategory}
             numbered={true}
             searchQuery={searchQuery}
+            textSizeClass="text-xl md:text-2xl"
           />
         </div>
       </main>

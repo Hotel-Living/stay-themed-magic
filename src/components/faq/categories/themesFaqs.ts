@@ -15,7 +15,7 @@ export const themesFaqs: FaqItem[] = [
     answer: "Absolutely! We welcome guest input and many of our current affinities were suggested by our community. You can submit affinity ideas through your account dashboard. For activities at your current hotel, speak directly with the community manager - most properties are eager to incorporate guest-led activities and events."
   },
   {
-    question: "How can I use our exclusive filters for affinities, activities, and services?",
+    question: "How can I use your exclusive filters for affinities, activities, and services?",
     answer: "Our advanced search system allows you to filter properties by specific affinities, available activities, and service offerings. You can also combine these filters with location preferences, price ranges, and available dates to find the perfect property for your interests and needs."
   },
   {

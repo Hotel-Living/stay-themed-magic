@@ -12,7 +12,7 @@ export const bookingFaqs: FaqItem[] = [
   },
   {
     question: "Is there a membership fee or subscription?",
-    answer: "No, there's no mandatory membership fee. You only pay for your stays."
+    answer: "No, there's no mandatory membership fee. You only pay for your stays. However, we do offer an optional Hotel-Living+ subscription that provides benefits like priority booking, rate discounts, enhanced room selection, and exclusive events for frequent users of our platform."
   },
   {
     question: "How do I select a hotel based on my favorite affinities?",
@@ -28,14 +28,14 @@ export const bookingFaqs: FaqItem[] = [
   },
   {
     question: "Can I book multiple hotels for consecutive stays?",
-    answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties."
+    answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties, and we even offer multi-stay packages with additional discounts when you book 3+ locations in advance."
   },
   {
-    question: "TO BE DELETED",
+    question: "Is there a loyalty program for frequent stays?",
     answer: "Yes, our Hotel-Living Rewards program provides benefits based on your stay history. You earn points for each night stayed, with bonus points for referrals and participating in community activities. These points can be redeemed for stay discounts, room upgrades, exclusive experiences, or premium amenities."
   },
   {
-    question: "TO BE DELETED",
+    question: "Can I try a hotel before committing to a longer stay?",
     answer: "Yes, many properties offer 'taster stays' of 2-3 nights that allow you to experience the hotel and its affinity activities before booking an extended stay. If you decide to extend after your taster stay, the cost is typically applied toward your longer booking."
   }
 ];

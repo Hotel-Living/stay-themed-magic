@@ -16,11 +16,11 @@ export const generalFaqs: FaqItem[] = [
   },
   {
     question: "How long can I stay at a hotel?",
-    answer: "Hotel-Living stays are 8, 16, 24 and 32 days long, but you can stay as long as you with if availability permits. Many guests choose to move between different Hotel-Living properties throughout the year, experiencing different affinities and locations. Our flexible booking system allows you to plan your lifestyle around your preferences and schedule."
+    answer: "Minimum stays typically start at one month, but you can stay for multiple months if availability permits. Many guests choose to move between different Hotel-Living properties throughout the year, experiencing different affinities and locations. Our flexible booking system allows you to plan your lifestyle around your preferences and schedule."
   },
   {
     question: "Is Hotel-Living available worldwide?",
-    answer: "We're expanding rapidly! Our goal is to provide global coverage, allowing members to experience affinity-based hotel living in any destination they desire. New properties are added regularly, so check back often if you don't see your preferred location."
+    answer: "We're expanding rapidly and currently offer properties across Europe, North America, and select locations in Asia and Africa. Our goal is to provide global coverage, allowing members to experience affinity-based hotel living in any destination they desire. New properties are added regularly, so check back often if you don't see your preferred location."
   },
   {
     question: "Do I need to participate in affinity-based activities?",
@@ -28,7 +28,7 @@ export const generalFaqs: FaqItem[] = [
   },
   {
     question: "Can I stay in hotels at excellent prices?",
-    answer: "Absolutely! We offer competitive pricing for extended stays that are often comparable to what you would pay for traditional housing or, of course, rental apartments, but with all the added benefits of hotel living and none of the hassles."
+    answer: "Absolutely! We offer competitive pricing for extended stays that are often comparable to what you would pay for traditional housing, but with all the added benefits of hotel living and none of the hassles."
   },
   {
     question: "How can I enjoy new places, affinities, and people continuously?",
@@ -40,18 +40,18 @@ export const generalFaqs: FaqItem[] = [
   },
   {
     question: "How do I eliminate household chores?",
-    answer: "Depending of the hotel services you choose, when you stay with us, you may leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
+    answer: "When you stay with us, you leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
   },
   {
-    question: "What makes Hotel-Living different?",
-    answer: "Unlike the traditional hotel system designed for short visits, we create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
+    question: "What makes Hotel-Living different from regular hotels?",
+    answer: "Hotel-Living focuses on extended stays with purpose-built communities centered around shared interests. Unlike traditional hotels designed for short visits, our properties create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
   },
   {
     question: "Is Hotel-Living suitable for families with children?",
     answer: "While some of our properties accommodate families, most of our current offerings are optimized for individuals and couples. We have a growing selection of family-friendly properties with appropriate activities and spaces for children. These are clearly marked in our search filters to help families find suitable options."
   },
   {
-    question: "TO BE DELETED",
+    question: "Who is Hotel-Living ideal for?",
     answer: "Hotel-Living is ideal for digital nomads, remote workers, extended travelers, retirees seeking community and experiences, and anyone looking to explore different locations without the commitment of traditional housing. It's particularly beneficial for those who value social connections and experiential living over material possessions."
   }
 ];

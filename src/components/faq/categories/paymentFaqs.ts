@@ -20,7 +20,7 @@ export const paymentFaqs: FaqItem[] = [
   },
   {
     question: "Can I generate monthly income by renting out my usual home?",
-    answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotel-Living experience. This can help offset the cost of your hotel stays or even generate additional income."
+    answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotel-Living experience. This can help offset the cost of your hotel stays or even generate additional income. We don't directly manage this process, but many members use property management services or platforms like Airbnb to handle their rentals."
   },
   {
     question: "Are there any hidden fees I should be aware of?",
@@ -28,10 +28,10 @@ export const paymentFaqs: FaqItem[] = [
   },
   {
     question: "Do you offer any discounts for longer stays?",
-    answer: "Yes! Rates typically decrease for stays longer than 8 days."
+    answer: "Yes, rates typically decrease for longer commitments. Three-month stays often receive a 5-10% discount compared to monthly rates, while six-month or longer bookings may qualify for 10-20% discounts. Some properties also offer seasonal promotions for extended stays during specific periods."
   },
   {
-    question: "TO BE DELETED",
+    question: "Do you have a best price guarantee?",
     answer: "Yes, we offer a best price guarantee for all our properties. If you find the same room type and stay duration advertised for less on another platform within 24 hours of booking with us, we'll match the price and give you an additional 10% discount on your stay. This ensures you're always getting the best possible rate for your Hotel-Living experience."
   }
 ];

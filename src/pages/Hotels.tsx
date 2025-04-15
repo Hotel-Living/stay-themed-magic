@@ -17,7 +17,7 @@ export default function Hotels() {
       <Navbar />
       
       <main className="flex-1 pt-16 relative z-10">
-        <div className="container mx-auto px-4 py-12 flex flex-col items-center">
+        <div className="container mx-auto px-4 py-6 flex flex-col items-center"> {/* Reduced py-12 to py-6 */}
           {/* Main content */}
           <HotelSlogans />
           

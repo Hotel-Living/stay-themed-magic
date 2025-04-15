@@ -18,10 +18,10 @@ export default function FAQ() {
       <Navbar />
       
       <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
-        <div className="container max-w-5xl mx-auto px-4 py-12">
+        <div className="container max-w-5xl mx-auto px-4 py-6"> {/* Reduced py-12 to py-6 */}
           <BenefitsList benefits={benefitsList} />
           
-          <div className="text-center mb-12">
+          <div className="text-center mb-8"> {/* Reduced mb-12 to mb-8 */}
             <h1 className={`
               ${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} 
               font-bold mb-6 text-[#eedbf7] glow 

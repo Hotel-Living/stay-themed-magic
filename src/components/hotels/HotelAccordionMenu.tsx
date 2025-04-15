@@ -1,4 +1,3 @@
-
 import { Accordion } from "@/components/ui/accordion";
 import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
 import { MenuItemText } from "./accordion/MenuItemText";
@@ -17,7 +16,6 @@ export function HotelAccordionMenu() {
         collapsible 
         className="w-full space-y-0"
       >
-        {/* Main sections - Added extra spaces and dash after numbers */}
         <AccordionMenuItem 
           value="the-benefits" 
           title="1-   The benefits"
@@ -28,7 +26,6 @@ export function HotelAccordionMenu() {
           <BenefitsSection />
         </AccordionMenuItem>
         
-        {/* Let's compare systems section */}
         <AccordionMenuItem
           value="compare-systems"
           title="2-   Let's compare systems"
@@ -39,7 +36,6 @@ export function HotelAccordionMenu() {
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
         
-        {/* We don't just fill rooms section - Moved first line to the end */}
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
           title="3-   We don't just fill rooms"
@@ -55,7 +51,6 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        {/* How much profit are we missing section */}
         <AccordionMenuItem
           value="how-much-profit-missing"
           title="4-   How much profit are we missing?"
@@ -66,10 +61,8 @@ export function HotelAccordionMenu() {
           <ProfitSection />
         </AccordionMenuItem>
         
-        {/* Special menu items - updated to change "specialized hotels" to "affinities-hotels" */}
         <SpecialMenuItems startingNumber={5} preventScroll={true} />
         
-        {/* They need your hotel section - renumbered from 11 to 10 */}
         <AccordionMenuItem 
           value="they-need-hotel" 
           title="10-   They need your hotel"
@@ -78,13 +71,12 @@ export function HotelAccordionMenu() {
           preventScroll={true}
         >
           <div className="space-y-6 text-left py-6">
-            {/* New content added here */}
             <p className="text-base font-semibold">BECAUSE 40% OF THE WESTERN POPULATION:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives alone or as a couple</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is either early retired or retired</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is an online worker</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is a student living away from home</p>
-            <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives too far from work</p>
+            <p className="text-base flex items-start pl-4 mb-8"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives too far from work</p>
             
             <p className="text-base font-semibold mt-4">AND MOST OF THEM:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Would like to be free from household chores</p>
@@ -92,16 +84,15 @@ export function HotelAccordionMenu() {
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Has no family ties</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Wishes to expand their social life</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Wishes to meet people with similar tastes and mindsets</p>
-            <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Needs the complete security of living in a hotel, especially in the case of older or single individuals</p>
+            <p className="text-base flex items-start pl-4 mb-8"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Needs the complete security of living in a hotel, especially in the case of older or single individuals</p>
             
             <p className="text-base font-semibold mt-4">BECAUSE HUMANITY'S DREAM IS TO LIVE IN A HOTEL</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> With everything taken care of</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> On an endless vacation</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> So, why do we have 40% of empty rooms every year?</p>
-            <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because we have been stuck in an outdated model for far too long. We are the dream solution for 40% of the Western population.</p>
+            <p className="text-base flex items-start pl-4">Because we have been stuck in an outdated model for far too long. We are the dream solution for 40% of the Western population.</p>
             
-            {/* Original content below */}
-            <p className="text-base mt-6 font-semibold">They need your hotel because:</p>
+            <p className="text-base mt-8 font-semibold uppercase">THEY NEED YOUR HOTEL BECAUSE:</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because people want to socialize. Make friends</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They want to stay longer in your hotel</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They want you to take care of their household chores</p>
@@ -110,7 +101,6 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        {/* The last two items */}
         <AccordionMenuItem 
           value="themes-revolution" 
           title="11-   Themes are the new social revolution" 

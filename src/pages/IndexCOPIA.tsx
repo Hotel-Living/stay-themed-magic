@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -36,12 +35,12 @@ const DynamicBackground = () => {
           key={index}
           className="absolute inset-0 bg-cover bg-center"
           initial={{ opacity: 0 }}
-          animate={{ opacity: index === currentBg ? 1 : 0 }}
+          animate={{ opacity: index === currentBg ? 0.8 : 0 }}
           transition={{ duration: 1.5 }}
           style={{ backgroundImage: `url(${bg})` }}
         />
       ))}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
     </div>
   );
 };

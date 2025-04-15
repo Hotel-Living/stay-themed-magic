@@ -47,7 +47,8 @@ export default function FAQ() {
             faqsByCategory={faqsByCategory}
             numbered={true}
             searchQuery={searchQuery}
-            textSizeClass="text-xl md:text-2xl"
+            textSizeClass="text-sm md:text-base"
+            answerTextSizeClass="text-xs md:text-sm"
           />
         </div>
       </main>

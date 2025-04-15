@@ -45,10 +45,6 @@ export const generalFaqs: FaqItem[] = [
   {
     question: "What makes Hotel-Living different from regular hotels?",
     answer: "Hotel-Living focuses on extended stays with purpose-built communities centered around shared interests. Unlike traditional hotels designed for short visits, our properties create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
-  },
-  {
-    question: "Is Hotel-Living suitable for families with children?",
-    answer: "While some of our properties accommodate families, most of our current offerings are optimized for individuals and couples. We have a growing selection of family-friendly properties with appropriate activities and spaces for children. These are clearly marked in our search filters to help families find suitable options."
   }
+  // Questions 12 (suitable for families with children) removed as it was question #13 in the overall count
 ];
-

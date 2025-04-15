@@ -1,4 +1,3 @@
-
 import { FaqItem } from "../types";
 
 export const stayFaqs: FaqItem[] = [
@@ -39,10 +38,6 @@ export const stayFaqs: FaqItem[] = [
     answer: "This varies by property. Some hotels offer in-room kitchenettes or access to communal cooking facilities, while others focus on provided meals or dining options. Each property listing specifies the available cooking facilities. Properties with culinary affinities often include cooking classes and shared meal experiences as part of their programming."
   },
   {
-    question: "What about internet access and workspace?",
-    answer: "Usually, high-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
-  },
-  {
     question: "Is laundry service available?",
     answer: "Yes, all properties provide laundry options, though the specifics vary. Some include weekly laundry service in the rate, others offer self-service facilities, and some provide laundry service at an additional cost. Extended-stay packages often include more generous laundry allowances than shorter bookings."
   },
@@ -51,4 +46,3 @@ export const stayFaqs: FaqItem[] = [
     answer: "Most hotels allow reasonable personalization of your space, such as adding small decorative items, photos, or plants. For stays longer than a month, many properties are increasingly flexible about accommodating personal items that make the space feel more like home. Some even offer storage for personal items if you're a regular guest who returns periodically."
   }
 ];
-

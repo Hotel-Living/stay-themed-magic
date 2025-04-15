@@ -19,4 +19,3 @@ export const lifestyleFaqs: FaqItem[] = [
     answer: "Unlike traditional apartments that require long-term leases, furnishing costs, utility setups, and maintenance responsibilities, Hotel-Living provides fully-furnished, serviced accommodations with all utilities and amenities included. You gain flexibility, eliminate household chores, and access built-in communities and activities that aren't typically available in standard apartment buildings."
   }
 ];
-

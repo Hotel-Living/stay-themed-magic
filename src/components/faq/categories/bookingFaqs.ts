@@ -29,10 +29,6 @@ export const bookingFaqs: FaqItem[] = [
   {
     question: "Can I book multiple hotels for consecutive stays?",
     answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties."
-  },
-  {
-    question: "Do you offer any loyalty programs or rewards?",
-    answer: "Yes, our Hotel-Living Passport program rewards your stays with points that can be redeemed for discounts, upgrades, exclusive experiences, and even complimentary nights. The longer and more frequently you stay with us, the more benefits you unlock, including priority booking and special partner offers."
   }
+  // Question 8 (loyalty programs or rewards) removed as it was question #58 in the overall count
 ];
-

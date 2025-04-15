@@ -25,10 +25,6 @@ export const paymentFaqs: FaqItem[] = [
   {
     question: "Are there any hidden fees I should be aware of?",
     answer: "We pride ourselves on transparent pricing. The rate shown includes all standard amenities listed on the property page. Optional services (like additional housekeeping, premium activities, or special meal plans) are clearly priced. Local taxes may apply depending on the jurisdiction, and these are always displayed before booking confirmation."
-  },
-  {
-    question: "Do you offer any discounts for longer stays?",
-    answer: "Yes! Rates typically decrease for stays longer than 8 days."
   }
+  // Question 7 (discounts for longer stays) removed as it was question #53 in the overall count
 ];
-

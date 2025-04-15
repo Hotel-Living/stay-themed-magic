@@ -14,10 +14,10 @@ export default function FAQ() {
   const isMobile = useIsMobile();
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
       <Navbar />
       
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
         <div className="container max-w-5xl mx-auto px-4 py-12">
           <BenefitsList benefits={benefitsList} />
           

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -37,9 +38,9 @@ export function FaqSearch({
   };
   
   return (
-    <div className="relative w-full max-w-md mx-auto mb-8">
-      <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-        <Search className="h-5 w-5 text-fuchsia-400" />
+    <div className="relative w-full max-w-xl mx-auto mb-8">
+      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+        <Search className="h-5 w-5 text-fuchsia-300" />
       </div>
       
       <Input
@@ -47,14 +48,14 @@ export function FaqSearch({
         placeholder={placeholder}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className="pl-10 pr-10 py-2 bg-[#570366]/50 border border-fuchsia-800/20 rounded-lg text-white shadow-md focus:ring-2 focus:ring-fuchsia-500/50"
+        className="pl-12 pr-12 py-6 h-14 bg-[#460F54]/50 border border-fuchsia-500/30 rounded-xl text-white shadow-lg focus:ring-2 focus:ring-fuchsia-500/70 text-lg"
         aria-label="Search FAQs"
       />
       
       {inputValue && (
         <button
           onClick={handleClearSearch}
-          className="absolute inset-y-0 right-3 flex items-center text-fuchsia-400 hover:text-fuchsia-300"
+          className="absolute inset-y-0 right-4 flex items-center text-fuchsia-300 hover:text-fuchsia-100 transition-colors"
           aria-label="Clear search"
           type="button"
         >

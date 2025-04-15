@@ -79,22 +79,24 @@ export function FaqTabs({
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      <TabsList className={`w-full flex justify-center overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-2`}>
-        {faqCategories.map(category => (
-          <TabsTrigger 
-            key={category.id} 
-            value={category.id} 
-            className="px-4 py-1.5 rounded-lg capitalize whitespace-nowrap text-xs md:text-sm bg-[#730483] text-white"
-          >
-            {category.name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      <div className="flex justify-center mb-8">
+        <TabsList className="flex flex-wrap justify-center gap-3 p-3 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+          {faqCategories.map(category => (
+            <TabsTrigger 
+              key={category.id} 
+              value={category.id} 
+              className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-sm font-medium bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
+            >
+              {category.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
       
       {!hasSearchResults && (
-        <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">
-          <p className="text-[#e3d6e9] text-lg">No FAQs found matching "{searchQuery}"</p>
-          <p className="text-[#e3d6e9] text-sm mt-2">Try different keywords or clear your search</p>
+        <div className="text-center py-10 glass-card rounded-xl mb-8">
+          <p className="text-[#e3d6e9] text-xl">No FAQs found matching "{searchQuery}"</p>
+          <p className="text-[#e3d6e9] text-base mt-2">Try different keywords or clear your search</p>
         </div>
       )}
       
@@ -103,9 +105,9 @@ export function FaqTabs({
         const startIndex = categoryStartIndices[category.id];
         
         return (
-          <TabsContent key={category.id} value={category.id} className="customer-text">
+          <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
             {filteredFaqs.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full space-y-4">
+              <Accordion type="single" collapsible className="w-full space-y-5">
                 {filteredFaqs.map((faq, index) => {
                   // Use the start index for the category + current index within filtered results
                   // When searching, maintain the original numbering
@@ -115,17 +117,17 @@ export function FaqTabs({
                     <AccordionItem 
                       key={index} 
                       value={`${category.id}-${index}`} 
-                      className="glass-card rounded-xl overflow-hidden border-none shadow-lg"
+                      className="overflow-hidden border-none shadow-2xl"
                     >
                       <AccordionTrigger 
-                        className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#570366] to-[#730483] border-l-4 border-[#FFF9B0]"
+                        className="px-8 py-5 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
                       >
-                        <h2 className="text-[#FFF9B0] font-bold text-lg md:text-xl">
+                        <h2 className="text-[#FFF9B0] font-bold text-xl md:text-2xl">
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
-                      <AccordionContent className="px-6 py-5 bg-[#460F54]/70 backdrop-blur-md border-l-4 border-[#FFF9B0]/50">
-                        <p className="text-[#e3d6e9] text-base md:text-lg">
+                      <AccordionContent className="px-8 py-6 bg-[#460F54]/80 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+                        <p className="text-[#f1e8f5] text-lg md:text-xl leading-relaxed">
                           {faq.answer}
                         </p>
                       </AccordionContent>
@@ -134,7 +136,7 @@ export function FaqTabs({
                 })}
               </Accordion>
             ) : searchQuery ? (
-              <div className="text-center py-8 bg-[#5A0363]/20 rounded-lg">
+              <div className="text-center py-8 glass-card rounded-xl">
                 <p className="text-[#e3d6e9] text-lg">No FAQs found in this category</p>
               </div>
             ) : null}

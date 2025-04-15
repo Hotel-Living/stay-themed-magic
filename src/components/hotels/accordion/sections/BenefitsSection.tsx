@@ -15,22 +15,13 @@ export function BenefitsSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Benefit 2 - Higher Rates - Added dash and extra spaces after number */}
-      <CollapsibleMenuItem title="1.2-   Higher average daily rate (ADR)" className="mb-1" titleClassName="text-[1.17rem]">
-        <div className="space-y-4 text-left py-4">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Through theme-based experiences, ADR increases by 15-30%</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Guests pay premium rates for curated community experiences</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Value-based pricing versus commodity-based pricing</p>
-        </div>
-      </CollapsibleMenuItem>
-      
       {/* Benefit 3 - Lower Costs - Added dash and extra spaces after number */}
       <CollapsibleMenuItem title="1.3-   Lower operational costs" className="mb-1" titleClassName="text-[1.17rem]">
         <div className="space-y-4 text-left py-4">
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just one weekday for all check-ins/outs. Zero gaps between stays</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Reduced turnover rates mean lower cleaning costs</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Extended stays (8+ days) cut operational expenses</p>
+          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Extended stays (8, 16, 24 and 32 days) cut operational expenses</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Streamlined check-in/out processes save staff time</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Less marketing spend needed with consistent bookings</p>
         </div>
       </CollapsibleMenuItem>
       
@@ -39,7 +30,6 @@ export function BenefitsSection() {
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Consistent occupancy = year-round employment</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lower staff turnover reduces hiring & training costs</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Specialized staff can develop expertise for specific themes</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Higher employee satisfaction with stable schedules</p>
         </div>
       </CollapsibleMenuItem>
@@ -48,7 +38,6 @@ export function BenefitsSection() {
       <CollapsibleMenuItem title="1.5-   Added revenue from themed activities" className="mb-1" titleClassName="text-[1.17rem]">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> New revenue streams through specialized events</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Higher F&B consumption with theme-related offerings</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Merchandise opportunities tied to hotel themes</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Extended service offerings generate increased spend</p>
         </div>

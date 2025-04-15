@@ -18,7 +18,7 @@ export function AccordionMenuItem({
   children, 
   className = "", 
   titleClassName,
-  preventScroll = false 
+  preventScroll = true 
 }: AccordionMenuItemProps) {
   const styles = accordionMenuItemStyles();
   
@@ -27,6 +27,7 @@ export function AccordionMenuItem({
       <AccordionTrigger 
         className={`${styles.trigger} group`} 
         titleClassName={titleClassName}
+        onClick={(e) => preventScroll && e.preventDefault()}
       >
         <span className={titleClassName}>
           {title}

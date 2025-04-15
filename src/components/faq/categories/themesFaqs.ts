@@ -7,10 +7,6 @@ export const themesFaqs: FaqItem[] = [
     answer: "Activities vary widely depending on the affinity and property. For example, our culinary-focused hotels offer cooking classes, tasting events, food tours, and chef meetups. Tech-focused properties might host hackathons, workshops, and industry networking events. Creative arts hotels feature studios, galleries, performances, and hands-on workshops. Each property lists its regular activities on its detail page."
   },
   {
-    question: "How are hotels vetted for their affinities?",
-    answer: "We have a rigorous vetting process for affinity-based properties. Hotels must demonstrate authentic commitment to their affinities through dedicated facilities, qualified staff, regular programming, and community engagement. Our team personally visits and evaluates each property before listing, and we continuously collect and monitor guest feedback to ensure quality and authenticity."
-  },
-  {
     question: "Can I suggest new affinities or activities?",
     answer: "Absolutely! We welcome guest input and many of our current affinities were suggested by our community. You can submit affinity ideas through your account dashboard. For activities at your current hotel, speak directly with the community manager - most properties are eager to incorporate guest-led activities and events."
   },

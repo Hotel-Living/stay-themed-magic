@@ -24,11 +24,11 @@ export const stayFaqs: FaqItem[] = [
   },
   {
     question: "How does Hotel-Living help eliminate loneliness or isolation?",
-    answer: "By living in a community of people who share your interests, you'll naturally develop connections. Our hotels are designed with community spaces that encourage interaction, and our affinity-based activities provide natural conversation starters, making it easier to form meaningful relationships."
+    answer: "By staying at a community of people who share your interests, you'll naturally develop connections. Our hotels are designed with community spaces that encourage interaction, and our affinity-based activities provide natural conversation starters, making it easier to form meaningful relationships."
   },
   {
     question: "What security benefits do hotels provide?",
-    answer: "Hotels offer a level of security that's difficult to achieve in private residences. Features typically include 24/7 staffing, security cameras in public areas, secure access systems, fire safety equipment, emergency response protocols, and sometimes security personnel. This comprehensive approach provides peace of mind, especially when staying in unfamiliar locations."
+    answer: "Besides the wonderful fact that everyone you´ll meet will be an identified, registered guest, hotels offer a level of security that's difficult to achieve in private residences. Features typically include 24/7 staffing, security cameras in public areas, secure access systems, fire safety equipment, emergency response protocols, and sometimes security personnel. This comprehensive approach provides peace of mind, especially when staying in unfamiliar locations."
   },
   {
     question: "What daily services and attentions can I expect?",
@@ -40,19 +40,11 @@ export const stayFaqs: FaqItem[] = [
   },
   {
     question: "What about internet access and workspace?",
-    answer: "High-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
+    answer: "Usually, high-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
   },
   {
     question: "Is laundry service available?",
     answer: "Yes, all properties provide laundry options, though the specifics vary. Some include weekly laundry service in the rate, others offer self-service facilities, and some provide laundry service at an additional cost. Extended-stay packages often include more generous laundry allowances than shorter bookings."
-  },
-  {
-    question: "Can I personalize my room or living space?",
-    answer: "Most hotels allow reasonable personalization of your space, such as adding small decorative items, photos, or plants. For stays longer than a month, many properties are increasingly flexible about accommodating personal items that make the space feel more like home. Some even offer storage for personal items if you're a regular guest who returns periodically."
-  },
-  {
-    question: "How do you accommodate guests working across different time zones?",
-    answer: "Many of our properties catering to digital professionals offer flexible breakfast hours, 24/7 access to co-working spaces, and adjustable housekeeping schedules to accommodate varying work hours across time zones. Some even provide meal options throughout the day and night, specifically designed for guests working on different schedules."
   },
   {
     question: "What about special dietary requirements?",

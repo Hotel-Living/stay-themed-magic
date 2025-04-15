@@ -55,11 +55,11 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How long can I stay at a hotel?",
-      answer: "Minimum stays typically start at one month, but you can stay for multiple months if availability permits. Many guests choose to move between different Hotel-Living properties throughout the year, experiencing different affinities and locations. Our flexible booking system allows you to plan your lifestyle around your preferences and schedule."
+      answer: "Hotel-Living stays are 8, 16, 24 and 32 days long, but you can stay as long as you with if availability permits. Many guests choose to move between different Hotel-Living properties throughout the year, experiencing different affinities and locations. Our flexible booking system allows you to plan your lifestyle around your preferences and schedule."
     },
     {
       question: "Is Hotel-Living available worldwide?",
-      answer: "We're expanding rapidly and currently offer properties across Europe, North America, and select locations in Asia and Africa. Our goal is to provide global coverage, allowing members to experience affinity-based hotel living in any destination they desire. New properties are added regularly, so check back often if you don't see your preferred location."
+      answer: "We're expanding rapidly! Our goal is to provide global coverage, allowing members to experience affinity-based hotel living in any destination they desire. New properties are added regularly, so check back often if you don't see your preferred location."
     },
     {
       question: "Do I need to participate in affinity-based activities?",
@@ -67,7 +67,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Can I stay in hotels at excellent prices?",
-      answer: "Absolutely! We offer competitive pricing for extended stays that are often comparable to what you would pay for traditional housing, but with all the added benefits of hotel living and none of the hassles."
+      answer: "Absolutely! We offer competitive pricing for extended stays that are often comparable to what you would pay for traditional housing or, of course, rental apartments, but with all the added benefits of hotel living and none of the hassles."
     },
     {
       question: "How can I enjoy new places, affinities, and people continuously?",
@@ -79,15 +79,11 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How do I eliminate household chores?",
-      answer: "When you stay with us, you leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
+      answer: "Depending of the hotel services you choose, when you stay with us, you may leave behind shopping, cooking, cleaning, laundry, and other household maintenance. Our properties provide housekeeping, and many offer meal plans or have restaurants on-site. This frees up your time to focus on what matters to you."
     },
     {
-      question: "What makes Hotel-Living different from regular hotels?",
-      answer: "Hotel-Living focuses on extended stays with purpose-built communities centered around shared interests. Unlike traditional hotels designed for short visits, our properties create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
-    },
-    {
-      question: "Is Hotel-Living suitable for families with children?",
-      answer: "While some of our properties accommodate families, most of our current offerings are optimized for individuals and couples. We have a growing selection of family-friendly properties with appropriate activities and spaces for children. These are clearly marked in our search filters to help families find suitable options."
+      question: "What makes Hotel-Living different?",
+      answer: "Unlike the traditional hotel system designed for short visits, we create environments for meaningful connections, personal growth, and lifestyle enhancement over longer periods. We emphasize community building, specialized activities, and facilities tailored to specific interests."
     }
   ],
   booking: [
@@ -101,7 +97,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Is there a membership fee or subscription?",
-      answer: "No, there's no mandatory membership fee. You only pay for your stays. However, we do offer an optional Hotel-Living+ subscription that provides benefits like priority booking, rate discounts, enhanced room selection, and exclusive events for frequent users of our platform."
+      answer: "No, there's no mandatory membership fee. You only pay for your stays."
     },
     {
       question: "How do I select a hotel based on my favorite affinities?",
@@ -117,15 +113,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Can I book multiple hotels for consecutive stays?",
-      answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties, and we even offer multi-stay packages with additional discounts when you book 3+ locations in advance."
-    },
-    {
-      question: "Is there a loyalty program for frequent stays?",
-      answer: "Yes, our Hotel-Living Rewards program provides benefits based on your stay history. You earn points for each night stayed, with bonus points for referrals and participating in community activities. These points can be redeemed for stay discounts, room upgrades, exclusive experiences, or premium amenities."
-    },
-    {
-      question: "Can I try a hotel before committing to a longer stay?",
-      answer: "Yes, many properties offer 'taster stays' of 2-3 nights that allow you to experience the hotel and its affinity activities before booking an extended stay. If you decide to extend after your taster stay, the cost is typically applied toward your longer booking."
+      answer: "Absolutely! Many of our members create their own 'circuit' of stays across multiple properties. Our platform allows you to book consecutive stays at different properties."
     }
   ],
   stay: [
@@ -151,11 +139,11 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How does Hotel-Living help eliminate loneliness or isolation?",
-      answer: "By living in a community of people who share your interests, you'll naturally develop connections. Our hotels are designed with community spaces that encourage interaction, and our affinity-based activities provide natural conversation starters, making it easier to form meaningful relationships."
+      answer: "By staying at a community of people who share your interests, you'll naturally develop connections. Our hotels are designed with community spaces that encourage interaction, and our affinity-based activities provide natural conversation starters, making it easier to form meaningful relationships."
     },
     {
       question: "What security benefits do hotels provide?",
-      answer: "Hotels offer a level of security that's difficult to achieve in private residences. Features typically include 24/7 staffing, security cameras in public areas, secure access systems, fire safety equipment, emergency response protocols, and sometimes security personnel. This comprehensive approach provides peace of mind, especially when staying in unfamiliar locations."
+      answer: "Besides the fact that everyone you'll meet will be a registered guest, hotels offer a level of security that's difficult to achieve in private residences. Features typically include 24/7 staffing, security cameras in public areas, secure access systems, fire safety equipment, emergency response protocols, and sometimes security personnel. This comprehensive approach provides peace of mind, especially when staying in unfamiliar locations."
     },
     {
       question: "What daily services and attentions can I expect?",
@@ -167,7 +155,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "What about internet access and workspace?",
-      answer: "High-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
+      answer: "Usually, high-quality internet is standard across all our properties, with many offering enhanced connectivity options for digital professionals. Most properties include dedicated workspaces in rooms and common areas designed for productive remote work. Properties with digital nomad or technology affinities offer additional workspace amenities like ergonomic setups, multiple monitors, and meeting facilities."
     },
     {
       question: "Is laundry service available?",
@@ -193,7 +181,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Can I generate monthly income by renting out my usual home?",
-      answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotel-Living experience. This can help offset the cost of your hotel stays or even generate additional income. We don't directly manage this process, but many members use property management services or platforms like Airbnb to handle their rentals."
+      answer: "Many of our members do exactly this! If you own a home, you can rent it out while you enjoy the Hotel-Living experience. This can help offset the cost of your hotel stays or even generate additional income."
     },
     {
       question: "Are there any hidden fees I should be aware of?",
@@ -201,7 +189,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Do you offer any discounts for longer stays?",
-      answer: "Yes, rates typically decrease for longer commitments. Three-month stays often receive a 5-10% discount compared to monthly rates, while six-month or longer bookings may qualify for 10-20% discounts. Some properties also offer seasonal promotions for extended stays during specific periods."
+      answer: "Yes! Rates typically decrease for stays longer than 8 days."
     }
   ],
   themes: [
@@ -286,10 +274,6 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
     {
       question: "What about transportation between properties?",
       answer: "Our platform includes transportation resources to help you plan moves between properties. Many locations offer airport pickup services, and some regions have direct transport connections between our partner hotels. For longer journeys, our concierge team can assist with booking flights, trains, or other transportation options."
-    },
-    {
-      question: "How do taxes work when living across multiple locations?",
-      answer: "Tax implications vary widely based on your citizenship, residency status, and the specific countries you stay in. While we can't provide tax advice, many of our members work with accountants specializing in expatriate or digital nomad taxation. Our resources section includes general information on tax considerations for globally mobile individuals."
     }
   ]
 };

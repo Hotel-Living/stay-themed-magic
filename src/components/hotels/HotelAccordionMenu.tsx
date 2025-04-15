@@ -39,7 +39,7 @@ export function HotelAccordionMenu() {
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
         
-        {/* We don't just fill rooms section */}
+        {/* We don't just fill rooms section - Moved first line to the end */}
         <AccordionMenuItem
           value="we-dont-just-fill-rooms"
           title="3-   We don't just fill rooms"
@@ -66,7 +66,7 @@ export function HotelAccordionMenu() {
           <ProfitSection />
         </AccordionMenuItem>
         
-        {/* Special menu items - will be numbered 5-9 with proper alignment */}
+        {/* Special menu items - updated to change "specialized hotels" to "affinities-hotels" */}
         <SpecialMenuItems startingNumber={5} preventScroll={true} />
         
         {/* They need your hotel section - renumbered from 11 to 10 */}

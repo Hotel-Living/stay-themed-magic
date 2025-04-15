@@ -18,12 +18,12 @@ export default function FAQ() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-5xl mx-auto px-4 py-12">
+        <div className="container max-w-5xl mx-auto px-4 py-6"> {/* Reduced vertical spacing by 50% from py-12 */}
           <BenefitsList benefits={benefitsList} />
           
           <div className="text-center mb-12">
             <h1 className={`
-              ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
+              ${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} 
               font-bold mb-6 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}>

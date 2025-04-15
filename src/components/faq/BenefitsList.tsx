@@ -1,34 +1,28 @@
 
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { CircleDot } from "lucide-react";
 
 interface BenefitsListProps {
   benefits: string[];
+  className?: string;
 }
 
-export function BenefitsList({ benefits }: BenefitsListProps) {
+export function BenefitsList({ benefits, className = "" }: BenefitsListProps) {
   const isMobile = useIsMobile();
-
+  
   return (
-    <div className="glass-card backdrop-blur-lg bg-fuchsia-950/30 border border-fuchsia-500/20 rounded-xl p-8 mb-16 shadow-lg">
-      <h2 className={`${isMobile ? "text-3xl mb-8" : "text-2xl md:text-3xl mb-10"} font-bold text-center text-gradient animate-text-slow bg-clip-text text-transparent`}>
-        Experience a Revolutionary Lifestyle
+    <div className={`mb-16 ${className}`}>
+      <h2 className={`text-center font-medium ${isMobile ? "text-2xl" : "text-3xl"} mb-8 text-[#e3d6e9]`}>
+        Experience Hotel-Living benefits:
       </h2>
-      
-      <ul className="space-y-6 max-w-3xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {benefits.map((benefit, index) => (
-          <li 
-            key={index}
-            className="flex items-center text-[#FFFBB3] hover:text-[#FFD700] transition-colors duration-300"
-          >
-            <CircleDot className="mr-3 text-yellow-500" fill="#FFC300" size={20} />
-            <p className={`${isMobile ? "text-xl" : "text-base md:text-xl"} font-semibold text-left`}>
-              {benefit}
-            </p>
-          </li>
+          <div key={index} className="flex items-start">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#FEF7CD] mr-2 mt-1.5 flex-shrink-0"></span>
+            <p className="text-[#e3d6e9] hover:text-white transition-colors">{benefit}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

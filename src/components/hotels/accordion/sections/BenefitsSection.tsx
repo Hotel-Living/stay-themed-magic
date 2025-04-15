@@ -15,8 +15,8 @@ export function BenefitsSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Benefit 3 - Lower Costs - Added dash and extra spaces after number */}
-      <CollapsibleMenuItem title="1.3-   Lower operational costs" className="mb-1" titleClassName="text-[1.17rem]">
+      {/* Benefit 2 - Lower Costs - Corrected numbering and updated content */}
+      <CollapsibleMenuItem title="1.2-   Lower operational costs" className="mb-1" titleClassName="text-[1.17rem]">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just one weekday for all check-ins/outs. Zero gaps between stays</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Reduced turnover rates mean lower cleaning costs</p>
@@ -25,8 +25,8 @@ export function BenefitsSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Benefit 4 - Better Staff Stability - Added dash and extra spaces after number */}
-      <CollapsibleMenuItem title="1.4-   Greater staff stability" className="mb-1" titleClassName="text-[1.17rem]">
+      {/* Benefit 3 - Better Staff Stability - Corrected numbering and updated content */}
+      <CollapsibleMenuItem title="1.3-   Greater staff stability" className="mb-1" titleClassName="text-[1.17rem]">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Consistent occupancy = year-round employment</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lower staff turnover reduces hiring & training costs</p>
@@ -34,8 +34,8 @@ export function BenefitsSection() {
         </div>
       </CollapsibleMenuItem>
       
-      {/* Benefit 5 - Additional Revenue - Added dash and extra spaces after number */}
-      <CollapsibleMenuItem title="1.5-   Added revenue from themed activities" className="mb-1" titleClassName="text-[1.17rem]">
+      {/* Benefit 4 - Additional Revenue - Corrected numbering and updated content */}
+      <CollapsibleMenuItem title="1.4-   Added revenue from themed activities" className="mb-1" titleClassName="text-[1.17rem]">
         <div className="space-y-4 text-left py-4">
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> New revenue streams through specialized events</p>
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Merchandise opportunities tied to hotel themes</p>

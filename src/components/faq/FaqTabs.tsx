@@ -75,12 +75,12 @@ export function FaqTabs({
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      <TabsList className={`w-full flex justify-start overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
+      <TabsList className={`w-full flex justify-center overflow-x-auto py-2 px-1 bg-muted/20 rounded-xl mb-6 gap-1 ${isMobile ? "text-lg" : ""}`}>
         {faqCategories.map(category => (
           <TabsTrigger 
             key={category.id} 
             value={category.id} 
-            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-lg" : "text-sm"} bg-[#730483] text-white`}
+            className={`px-4 py-1.5 rounded-lg capitalize whitespace-nowrap ${isMobile ? "text-xl" : "text-[1.1em]"} bg-[#730483] text-white`}
           >
             {category.name}
           </TabsTrigger>
@@ -114,14 +114,14 @@ export function FaqTabs({
                       className="glass-card rounded-lg overflow-hidden border-none"
                     >
                       <AccordionTrigger 
-                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-lg" : "text-xl"}`}
+                        className={`px-4 py-3 text-left hover:no-underline text-[${accentTextColor}] bg-[${headerBgColor}] ${isMobile ? "text-xl" : "text-2xl"}`}
                       >
-                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-lg"}`}>
+                        <h2 className={`text-[#f8faf8] font-bold ${isMobile ? "text-2xl" : "text-2xl"}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </h2>
                       </AccordionTrigger>
                       <AccordionContent className={`px-4 pb-4 pt-4 bg-[${contentBgColor}]`}>
-                        <p className={`text-slate-50 ${isMobile ? "text-lg" : ""}`}>
+                        <p className={`text-slate-50 ${isMobile ? "text-xl" : "text-xl"}`}>
                           {faq.answer}
                         </p>
                       </AccordionContent>

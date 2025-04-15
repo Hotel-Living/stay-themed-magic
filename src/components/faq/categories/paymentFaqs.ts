@@ -29,5 +29,9 @@ export const paymentFaqs: FaqItem[] = [
   {
     question: "Do you offer any discounts for longer stays?",
     answer: "Yes! Rates typically decrease for stays longer than 8 days."
+  },
+  {
+    question: "Is there a best price guarantee?",
+    answer: "Yes, we offer a best price guarantee for all our properties. If you find the same room type and stay duration advertised for less on another platform within 24 hours of booking with us, we'll match the price and give you an additional 10% discount on your stay. This ensures you're always getting the best possible rate for your Hotel-Living experience."
   }
 ];

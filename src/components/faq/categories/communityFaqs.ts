@@ -17,5 +17,9 @@ export const communityFaqs: FaqItem[] = [
   {
     question: "Can I maintain privacy while still being part of the community?",
     answer: "Absolutely. Our model is designed to balance private space with community engagement. You always have your private room as a personal sanctuary, and participation in all community activities is entirely optional. Many guests appreciate being able to engage with the community when they choose while having private space to recharge."
+  },
+  {
+    question: "How do you handle different personality types in community settings?",
+    answer: "Our community design accommodates diverse personality types. For extroverts, we offer frequent social gatherings and communal activities. For introverts, we create comfortable spaces for smaller interactions and quieter participation. Community facilitators are trained to ensure all personality types feel welcome and that no one feels pressured to participate beyond their comfort level."
   }
 ];

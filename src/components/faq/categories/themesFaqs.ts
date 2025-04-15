@@ -33,5 +33,9 @@ export const themesFaqs: FaqItem[] = [
   {
     question: "What if I want to change affinities during my journey?",
     answer: "Our platform makes it easy to experience different affinities throughout your Hotel-Living journey. Many guests create personalized circuits, perhaps spending a month at a culinary-focused property, then moving to a wellness retreat, followed by a creative arts community. This diversity of experiences is a key benefit of our approach."
+  },
+  {
+    question: "How do affinity communities help with professional networking?",
+    answer: "Our affinity-focused properties naturally attract professionals with similar interests, creating organic networking opportunities. Many of our business, tech, and creative affinities include formal networking events, skill-sharing workshops, and collaborative projects. These connections often lead to professional collaborations, job opportunities, and mentorship relationships that extend beyond the stay."
   }
 ];

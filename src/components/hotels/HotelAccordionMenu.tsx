@@ -1,3 +1,4 @@
+
 import { Accordion } from "@/components/ui/accordion";
 import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
 import { MenuItemText } from "./accordion/MenuItemText";
@@ -7,6 +8,7 @@ import { ComparisonTable } from "./accordion/ComparisonTable";
 import { BenefitsSection } from "./accordion/sections/BenefitsSection";
 import { ProfitSection } from "./accordion/sections/ProfitSection";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
+
 export function HotelAccordionMenu() {
   return <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
       <Accordion type="single" collapsible className="w-full space-y-0">
@@ -66,8 +68,15 @@ export function HotelAccordionMenu() {
         </AccordionMenuItem>
         
         <AccordionMenuItem value="themes-revolution" title="11-   Themes are the new social revolution" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
-          <div className="space-y-6 text-left py-6">
-            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just think on a theme and let the magic happen</p>
+          <div className="space-y-4 text-left py-6">
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Guests don't just want rooms — they want meaning</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Interests connect faster than discounts</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Themed stays build loyalty</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Strangers become communities</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> You don't just fill rooms — you spark belonging</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Attract the right guests, not just any guests</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Your theme is your magnet</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Hotels with soul win the future</p>
           </div>
         </AccordionMenuItem>
         

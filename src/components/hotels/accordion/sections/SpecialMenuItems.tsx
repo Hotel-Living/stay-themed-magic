@@ -73,10 +73,10 @@ export function SpecialMenuItems({ startingNumber = 5, preventScroll = true }: S
         </div>
       </AccordionMenuItem>
       
-      {/* Themed hotels section */}
+      {/* Themed hotels section - Updated title */}
       <AccordionMenuItem 
         value="themed-hotels" 
-        title={`${startingNumber + 3}-   Themed hotels = perfect social networks`} 
+        title={`${startingNumber + 3}-   Affinities hotels = Perfect Social Networks`} 
         className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
         titleClassName="text-xl font-medium"
         preventScroll={preventScroll}
@@ -89,21 +89,7 @@ export function SpecialMenuItems({ startingNumber = 5, preventScroll = true }: S
         </div>
       </AccordionMenuItem>
       
-      {/* This works on 4 pillars - Added double spaces after colons */}
-      <AccordionMenuItem 
-        value="four-pillars" 
-        title={`${startingNumber + 4}-   This works on 4 pillars`} 
-        className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-        titleClassName="text-xl font-medium"
-        preventScroll={preventScroll}
-      >
-        <div className="space-y-4 text-left py-4">
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Arrivals:  Everyone arrives together</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Departures:  Everyone leaves together</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Affinity:  Connections between like-minded guests</p>
-          <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Revenue:  Premium pricing for premium experiences</p>
-        </div>
-      </AccordionMenuItem>
+      {/* Removed the "4 pillars" section */}
     </>
   );
 }

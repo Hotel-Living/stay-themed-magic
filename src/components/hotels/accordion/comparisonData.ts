@@ -50,6 +50,6 @@ export const comparisonItems: ComparisonItem[] = [
   {
     id: 10,
     traditional: "Rentals Apartments win with lower prices",
-    hotelLiving: "Elegance. Humanity. Services. Hotel win"
+    hotelLiving: "Elegance. Humanity. Services. Hotels win"
   }
 ];

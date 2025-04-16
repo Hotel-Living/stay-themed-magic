@@ -3,43 +3,47 @@ import { FaqItem } from "../hotel-types";
 
 export const benefitsFaqs: FaqItem[] = [
   {
-    question: "What occupancy rate can I expect?",
-    answer: "100% occupancy year-round. Our model ensures that traditionally empty rooms are filled, providing consistent revenue throughout the year."
+    question: "What kind of hotel is best suited for Hotel-Living?",
+    answer: "Any type of hotel can benefit from our program, whether you're a boutique property, a business hotel, a resort, or a city hotel. The key requirements are having availability for longer-term guests, a willingness to build community, and the ability to provide reliable service for extended stays."
   },
   {
-    question: "Will I have empty rooms with this model?",
-    answer: "Zero traditionally vacant rooms. Our system maximizes occupancy by focusing on extended stays and affinities experiences that attract guests consistently."
+    question: "How does this benefit my hotel financially?",
+    answer: "The Hotel-Living program significantly increases occupancy rates, creates consistent revenue streams through longer bookings, and reduces operational costs associated with frequent guest turnover. Properties typically see improved RevPAR and profit margins, especially during traditionally low seasons."
   },
   {
-    question: "What extra benefits will my hotel receive?",
-    answer: "Enormous extra benefits including higher average daily rate, reduced operational costs, increased staff stability, and additional revenue from affinity activities and services."
+    question: "Will this require major changes to our property?",
+    answer: "No. Most hotels already have everything needed for the Hotel-Living concept. Minor adjustments might include enhancing WiFi, creating community spaces, or improving in-room amenities for longer stays, but extensive renovations are not required."
   },
   {
-    question: "What types of stays are most profitable?",
-    answer: "Profitable stays of 8, 16, 24, and 32 days. These extended stays reduce turnover costs while maintaining healthy revenue streams."
+    question: "How do we balance regular guests with long-term Hotel-Living guests?",
+    answer: "Our platform allows you to designate specific room allocations for Hotel-Living and adjust availability in real-time. This flexibility ensures you can maintain your traditional guest business while growing your long-stay revenue. Many properties start with just 10-20% of inventory for extended stays and scale as demand increases."
   },
   {
-    question: "How does reduced turnover benefit my hotel?",
-    answer: "Low turnover = Lower Costs = Higher Profits. With fewer check-ins and check-outs, you'll significantly reduce cleaning, administrative, and operational expenses."
+    question: "Can this help reduce our dependency on OTAs?",
+    answer: "Absolutely. Hotel-Living brings you direct bookings through our platform, significantly reducing OTA commissions. Our guests book directly and often return regularly, creating loyal customers who become walking ambassadors for your property."
   },
   {
-    question: "How are arrivals and departures managed?",
-    answer: "Just one weekly day for check-ins and check-outs = Zero gaps between reservations. This simplified schedule optimizes staff resources and ensures seamless transitions between guests."
+    question: "Will this program help during off-season periods?",
+    answer: "This is one of the biggest benefits. Hotel-Living specifically targets the periods when you have lower occupancy, helping to fill rooms that would otherwise remain empty. Our pricing model adapts to your seasonal needs, allowing you to maintain higher overall annual occupancy."
   },
   {
-    question: "How does the Hotel-Living model increase my revenue?",
-    answer: "Our model increases revenue through multiple streams: higher occupancy rates, premium pricing for affinities experiences, extended stays that reduce operational costs, and additional service revenue from activities and amenities tailored to specific guest interests."
+    question: "How does the Hotel-Living partnership protect our brand?",
+    answer: "We position your property as an elevated lifestyle choice—not a budget accommodation option. Our platform attracts quality guests seeking authentic experiences and community, enhancing your brand reputation rather than diluting it."
   },
   {
-    question: "How does the platform help with seasonal fluctuations?",
-    answer: "Our platform effectively eliminates seasonal fluctuations by creating constant demand through our global network of travelers seeking specific affinities experiences. During traditional low seasons, we can fill your property with guests participating in affinity stays that operate year-round."
+    question: "What support does Hotel-Living provide to partner hotels?",
+    answer: "Partners receive comprehensive support including dedicated account managers, staff training, operational guides, marketing materials, professional photography services, and access to our property management dashboard. We're committed to ensuring your success in the extended-stay market."
   },
   {
-    question: "SO, IS THIS A NEW REVENUE STRATEGY, NOT JUST A NEW AUDIENCE?",
+    question: "How quickly can we see results after joining?",
+    answer: "Most properties begin receiving bookings within the first month after listing. However, the full impact on occupancy rates typically becomes evident within 3-6 months as your property builds reputation and reviews within the extended-stay community."
+  },
+  {
+    question: "So, is this a new revenue strategy, not just a new audience?",
     answer: "Exactly. It's not only about filling rooms—it's about extracting more value from each stay. Longer durations, fewer gaps, stronger loyalty, and higher perceived value = higher revenue per room."
   },
   {
-    question: "WHAT ARE THE FINANCIAL BENEFITS FOR OUR HOTEL?",
+    question: "What are the financial benefits for our hotel?",
     answer: "Besides the main fact that Hotel-Living fills rooms that might otherwise stay empty, you tap into longer stays, fewer turnovers, and high guest satisfaction. It's a reliable, stable income stream from clients who are grateful, low-maintenance, and likely to return."
   }
 ];

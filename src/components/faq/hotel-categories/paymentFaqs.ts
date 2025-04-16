@@ -3,27 +3,35 @@ import { FaqItem } from "../hotel-types";
 
 export const paymentFaqs: FaqItem[] = [
   {
-    question: "What is your commission structure?",
-    answer: "Our commission is just 8% of the total booking price, which is significantly lower than most online travel agencies that charge 15-25%. This competitive rate allows hotels to maintain healthy profit margins while benefiting from our specialized marketing and community-building services."
+    question: "How are bookings confirmed and processed?",
+    answer: "When a guest books through Hotel-Living, they pay a 10% deposit to secure the reservation. The hotel receives immediate notification and the booking is confirmed in your system. The remaining 90% is paid by the guest directly to the hotel upon arrival, eliminating wait times for payment processing."
   },
   {
-    question: "How does the payment process work?",
-    answer: "Our payment system is designed to be hotel-friendly while providing security for guests. When a booking is made, the guest pays 10% to secure the reservation. The remaining 90% is paid directly to the hotel upon arrival, eliminating payment processing delays and reducing cancellation risks."
+    question: "When do we receive payment for bookings?",
+    answer: "For our standard model, guests pay 90% of the total booking value directly to you at check-in, giving you immediate access to funds. The 10% deposit is reconciled monthly, with commission deducted. For hotels using our full payment processing service, funds are transferred via direct deposit 7 days after guest check-in."
   },
   {
-    question: "Do hotels receive any portion of the initial deposit?",
-    answer: "Yes, hotels receive 2% of the total booking amount from the initial 10% deposit paid by guests. This means that for a $1,000 booking, the hotel would immediately receive $20 when the reservation is made, with the remaining $900 paid directly to the hotel at check-in."
+    question: "What payment methods can guests use?",
+    answer: "Guests can pay their initial deposit using all major credit cards, PayPal, or bank transfer. For the remaining balance paid directly to hotels, properties set their own accepted payment methods, though we recommend offering multiple options to accommodate international guests."
   },
   {
-    question: "Are there any hidden fees for hotels?",
-    answer: "Absolutely not. Our 8% commission is all-inclusive, covering marketing, platform access, customer service, and payment processing. There are no additional fees, setup costs, or monthly charges. We believe in complete transparency in our partnership model."
+    question: "How are commissions calculated and paid?",
+    answer: "Our standard commission is 12% on the total booking value. For direct bookings that use our platform but originate from your marketing, we charge a reduced 8% commission. Commissions are deducted from deposit reconciliations for standard bookings, or from transfers for fully processed payments."
   },
   {
-    question: "How are cancellations handled financially?",
-    answer: "If a guest cancels according to the property's cancellation policy, the hotel keeps the 2% already received from the initial deposit. For late cancellations that fall outside the policy terms, hotels may be entitled to a larger portion of the deposit according to their specific cancellation terms."
+    question: "Are there any additional fees beyond the commission?",
+    answer: "No. Unlike many booking platforms, we don't charge listing fees, photographer fees, onboarding costs, or marketing fees. The commission is our only charge, making the partnership risk-free and directly tied to successful bookings."
   },
   {
-    question: "Is there a minimum revenue requirement to join?",
-    answer: "No, we don't have minimum revenue requirements. We partner with hotels of all sizes, from boutique properties to large resorts. Our goal is to help every partner hotel optimize their occupancy and increase their revenue, regardless of their current performance."
+    question: "How are cancellations and refunds handled?",
+    answer: "Our standard policy for extended stays includes a 10% non-refundable deposit and a 30-day cancellation window. Cancellations outside this window receive a 90% refund (through the platform for deposits, or directly from the hotel for on-site payments). Hotels can customize their cancellation policies within certain parameters."
+  },
+  {
+    question: "Can we offer special rates or packages?",
+    answer: "Absolutely. Our platform supports multiple rate plans, packages, and special offers. Many properties create length-of-stay tiered pricing, seasonal packages, or special affinity-based offerings. Our dashboard makes it easy to manage different rate structures and monitor their performance."
+  },
+  {
+    question: "How are taxes handled in the booking process?",
+    answer: "All rates displayed on our platform can include or exclude taxes based on your preference. The booking confirmation clearly itemizes all taxes and fees for transparency. For international properties, we support VAT and GST requirements, including appropriate invoice generation."
   }
 ];

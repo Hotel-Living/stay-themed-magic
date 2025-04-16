@@ -3,35 +3,39 @@ import { FaqItem } from "../hotel-types";
 
 export const operationFaqs: FaqItem[] = [
   {
-    question: "How does the booking process work?",
-    answer: "Guests book directly through our platform, which handles marketing, availability management, payments, and customer service. Your property receives booking details and guest preferences, allowing you to prepare appropriately before arrival."
+    question: "How do we manage housekeeping for long-term guests?",
+    answer: "Most properties adapt their housekeeping schedule for extended stays, offering full service 1-2 times per week with simplified daily touchups (towel changes, trash removal). This balanced approach maintains cleanliness while reducing costs and respecting guest privacy. Our operational playbook provides detailed guidance on creating efficient housekeeping protocols for different stay lengths."
   },
   {
-    question: "What affinities can my hotel offer?",
-    answer: "Your hotel can offer any affinities that match your facilities, location, and staff expertise. Popular affinities include culinary, languages, sports, wellness, art, technology, and music. Our onboarding team will help identify the most suitable affinities for your property based on your unique characteristics."
+    question: "Do we need to change our check-in/check-out procedures?",
+    answer: "While the basic process remains the same, we recommend creating a more comprehensive orientation for extended-stay guests, including property tours, introduction to staff, and explanation of amenities and activities. Some properties also implement flexible check-in windows and personalized welcome packages for Hotel-Living guests."
   },
   {
-    question: "What staff training is required?",
-    answer: "Training requirements depend on your chosen affinities but typically include orientation on extended-stay guest needs, affinity activity facilitation, and community-building practices. We provide comprehensive training materials and support during implementation."
+    question: "What about laundry services for long-term guests?",
+    answer: "Options vary by property type. Some hotels offer weekly laundry service included in the rate, others provide self-service facilities, and some offer paid laundry service. The key is creating clear, consistent policies that meet guest needs while remaining operationally efficient."
   },
   {
-    question: "What technological requirements are needed?",
-    answer: "Basic requirements include reliable internet connectivity, property management system integration capabilities, and staff familiar with digital communications. Our system is designed to integrate with most major PMS platforms, minimizing additional technology investments."
+    question: "How do we handle meals for extended-stay guests?",
+    answer: "Most hotels offer flexible meal plans that guests can customize based on their preferences and length of stay. Popular options include breakfast-only plans, half board (breakfast and dinner), and meal credit systems. Properties without restaurants often create partnerships with local delivery services or provide kitchenettes for self-catering."
   },
   {
-    question: "How do we manage day-to-day operations with extended-stay guests?",
-    answer: "Extended-stay guests actually simplify operations. With fewer check-ins/check-outs, your staff can focus on enhancing the guest experience rather than constantly turning over rooms. Our system provides a dashboard for managing guest preferences, scheduled activities, and special requests."
+    question: "What adaptations do our staff need to make?",
+    answer: "The main adjustment is building deeper guest relationships and understanding the different service rhythms of long-term stays. Front desk staff become community facilitators, housekeepers develop personalized room preferences, and management focuses on creating a residential feeling. We provide comprehensive staff training modules for this transition."
   },
   {
-    question: "Do we need specialized staff for affinity activities?",
-    answer: "Some affinities may require specialized staff or facilitators, while others can be implemented with existing personnel. Our platform connects you with qualified activity leaders in your area when needed, and we provide training resources to help your current staff develop new skills related to your chosen affinities."
+    question: "How do we manage room maintenance during extended stays?",
+    answer: "Preventative maintenance becomes even more important with long-term guests. We recommend scheduled mid-stay maintenance checks (with guest permission) and transparent communication about any required work. Many properties block short maintenance windows between extended stays for deeper cleaning and repairs."
   },
   {
-    question: "How is housekeeping managed for extended stays?",
-    answer: "For extended stays, housekeeping is typically scheduled less frequently than for traditional short stays. Most properties offer weekly full cleaning with optional mid-week light service. This reduces labor costs while maintaining cleanliness standards. Guests appreciate the reduced intrusions during longer stays."
+    question: "What internet and tech requirements do long-term guests have?",
+    answer: "Reliable, high-speed internet is essential, as many extended-stay guests work remotely or use streaming services extensively. We recommend dedicated bandwidth management, multiple access points for consistent coverage, and basic tech support options. Some properties also offer enhanced workspaces with business amenities."
   },
   {
-    question: "What about guest issues or conflicts during longer stays?",
-    answer: "Our platform includes a centralized communication system for addressing guest concerns quickly. We also provide conflict resolution protocols specifically designed for extended-stay scenarios. Additionally, our careful guest matching and pre-screening process significantly reduces the likelihood of issues arising."
+    question: "How do we balance privacy with community for these guests?",
+    answer: "Successful properties create clear delineations between private spaces (guest rooms) and community areas (lounges, dining spaces). Offering a mix of structured activities and spontaneous gathering opportunities allows guests to control their level of engagement. Staff training emphasizes recognizing and respecting individual guests' social preferences."
+  },
+  {
+    question: "What special security considerations are there for long-term stays?",
+    answer: "Extended-stay guests often accumulate more possessions during their stay and may be more concerned about room security. Consider enhanced in-room safes, secure storage options for valuables, and clear policies on room access during housekeeping. Many properties also implement additional verification steps during the booking process for extended stays."
   }
 ];

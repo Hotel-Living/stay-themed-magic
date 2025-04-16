@@ -3,31 +3,39 @@ import { FaqItem } from "../hotel-types";
 
 export const programsFaqs: FaqItem[] = [
   {
-    question: "What are affinity stays?",
-    answer: "Affinity stays are specialized hotel experiences built around particular interests or activities. By offering these experiences, you attract guests seeking specific experiences related to cuisine, language, sports, art, etc., creating a unique value proposition."
+    question: "What kinds of affinity programs do hotels typically offer?",
+    answer: "Hotels offer programs based on their location and strengths. Popular options include culinary (cooking classes, tastings), wellness (yoga, meditation), adventure (hiking, water sports), arts (painting, music), business (coworking, networking), and cultural immersion (language exchange, local traditions). The best programs leverage your property's unique features and staff expertise."
   },
   {
-    question: "How do affinity group reservations work?",
-    answer: "Group reservations are pre-organized stays where multiple guests with similar interests book together. Our platform coordinates these groups, filling multiple rooms at once for extended periods, guaranteeing high occupancy rates during traditional low seasons."
+    question: "How do we decide which affinity to focus on?",
+    answer: "Consider your property's natural advantages (location, facilities), staff talents, guest demographics, and local resources. We provide a comprehensive consultation to help identify your optimal affinity match. Many hotels start with one core affinity and add complementary ones as their program grows."
   },
   {
-    question: "What is the long-stay program?",
-    answer: "Our long-stay program focuses on extended guest reservations of one month or longer. By catering to these guests, you secure consistent occupancy while reducing turnover-related expenses and staff workload."
+    question: "What resources are needed to run successful affinity programs?",
+    answer: "Most activities require minimal resources beyond what hotels already possess. The key ingredients are staff enthusiasm, dedicated space (which can be multipurpose), and consistent scheduling. We provide comprehensive activity guides, staff training resources, and connection to specialist partners if needed."
   },
   {
-    question: "How does the multi-hotel circuit work?",
-    answer: "The multi-hotel circuit allows guests to move between different affinity properties, staying in each for extended periods. By joining this network, your property becomes part of a global travel ecosystem, accessing guests who might otherwise never discover your location."
+    question: "How do we staff these programs? Do we need specialists?",
+    answer: "While some specialized activities might require outside experts, many programs can be led by existing staff members with relevant interests or skills. Our platform connects you with local practitioners when needed, and we help identify and train internal team members who can become activity leaders."
   },
   {
-    question: "Can I participate in multiple affinity programs simultaneously?",
-    answer: "Yes, hotels can participate in multiple affinity programs simultaneously. In fact, we encourage properties to offer 3-5 different affinities to maximize their appeal to various guest segments. Each affinity can utilize different areas of your property or operate at different times."
+    question: "What if we can't offer activities every day?",
+    answer: "Consistency is important, but activities don't need to happen daily. A well-structured program might include 2-3 organized activities per week, supplemented with self-guided options, local recommendations, and community gatherings. The key is creating a reliable calendar that guests can plan around."
   },
   {
-    question: "How often can affinities be changed or updated?",
-    answer: "Affinities can be adjusted quarterly based on performance data and market trends. Our platform provides analytics on which affinities are generating the most bookings for your property, allowing you to optimize your offerings over time."
+    question: "How much does it cost to implement these programs?",
+    answer: "Implementation costs vary widely depending on your chosen affinities, but many successful programs start with minimal investment. The initial setup typically involves staff training, basic equipment, and marketing materials. Most hotels see positive ROI within 1-3 months through increased occupancy and higher average rates."
   },
   {
-    question: "Do I need to dedicate my entire property to the Hotel-Living program?",
-    answer: "No, you can start by allocating just a portion of your rooms to our program. Many partners begin with 30-50% of their inventory and gradually increase as they see the benefits. This allows you to maintain your traditional booking channels while exploring the advantages of our model."
+    question: "Can we offer multiple affinities at our property?",
+    answer: "Yes, many successful properties offer 2-3 complementary affinities that appeal to their target audience. This creates a more diverse experience and attracts a wider range of guests. The key is ensuring the affinities work well together and that you have the resources to maintain quality across all programs."
+  },
+  {
+    question: "What if some regular guests don't want to participate?",
+    answer: "Participation is always optional. While the affinity creates a thematic environment, guests are free to engage as much or as little as they wish. Many hotels provide a mix of scheduled activities and always-available resources, allowing guests to customize their level of participation."
+  },
+  {
+    question: "How do we measure the success of our affinity programs?",
+    answer: "Success metrics include increased occupancy rates, higher RevPAR, positive reviews mentioning the programs, repeat bookings, reduced seasonality, and increased ancillary spending. Our dashboard provides analytics specific to your affinity performance compared to general bookings."
   }
 ];

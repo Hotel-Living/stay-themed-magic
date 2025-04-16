@@ -3,31 +3,39 @@ import { FaqItem } from "../hotel-types";
 
 export const integrationFaqs: FaqItem[] = [
   {
-    question: "How do I join the Hotel-Living platform?",
-    answer: "The process starts with an application through our website. After initial screening, our partnership team conducts a detailed assessment of your property. If approved, we guide you through onboarding, including affinity selection, staff training, and system integration."
+    question: "How does Hotel-Living integrate with our existing PMS?",
+    answer: "Our platform integrates seamlessly with all major property management systems through standard APIs. For systems without direct integration, we provide a simplified manual confirmation process. Our technical team handles the entire setup process, and most properties are fully operational within 1-2 weeks."
   },
   {
-    question: "What financial model applies to partner hotels?",
-    answer: "Hotel-Living operates on a commission model based on bookings generated through our platform. We handle marketing, customer acquisition, and community building, while you focus on delivering exceptional experiences. Many properties see significant revenue increases despite the commission structure."
+    question: "Can we still use our existing booking channels?",
+    answer: "Absolutely. Hotel-Living works alongside your existing distribution strategy. You maintain full control over inventory allocation, allowing you to balance traditional bookings with extended stays based on your occupancy patterns and business needs."
   },
   {
-    question: "Are there any implementation costs?",
-    answer: "Implementation costs vary depending on your chosen affinities and existing facilities. Some affinities require minimal investment (like language or digital nomad affinities), while others might need specific equipment or space modifications. Our team works with you to identify cost-effective implementation strategies."
+    question: "How do we manage availability between platforms?",
+    answer: "Our system provides real-time two-way synchronization with your PMS to prevent double bookings. You can block specific rooms or room types for Hotel-Living, or establish allocation rules based on booking pace and demand forecasts. Our dashboard gives you complete visibility across all channels."
   },
   {
-    question: "How long does it take to implement the Hotel-Living system?",
-    answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, affinity setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
+    question: "What's the booking confirmation process like?",
+    answer: "When a guest books through Hotel-Living, you receive an instant notification through your preferred channel (email, SMS, or direct to PMS). For standard bookings, confirmation is automatic. For custom requests or special arrangements, you have 24 hours to review and confirm. All communication with guests happens through our messaging system until check-in."
   },
   {
-    question: "Can my current property management system integrate with your platform?",
-    answer: "Yes, our platform is designed to integrate with all major property management systems (PMS). We have dedicated API connections for systems like Opera, Cloudbeds, Mews, and many others. For less common PMS solutions, we offer alternative integration methods to ensure seamless operation."
+    question: "How are payments processed for these bookings?",
+    answer: "Guests pay a 10% deposit at booking, with the balance due directly to the hotel at check-in. This model reduces payment processing fees for hotels and minimizes cancellation risks. Alternatively, properties can opt for our full payment processing service for an additional fee, receiving funds via direct deposit 7 days after guest check-in."
   },
   {
-    question: "What kind of support does Hotel-Living provide during and after implementation?",
-    answer: "We provide comprehensive support throughout the partnership. During implementation, you'll work with a dedicated onboarding manager. After launch, you'll have access to our 24/7 partner support team, regular performance reviews, ongoing training resources, and a partner community for sharing best practices."
+    question: "How do we handle special requests from long-term guests?",
+    answer: "All special requests are communicated through our platform's messaging system, creating a documented record. Our pre-arrival questionnaire helps identify common needs before check-in. For properties using our premium integration, requests are automatically added to your internal task management system."
   },
   {
-    question: "Is there a minimum commitment period for hotels?",
-    answer: "Our standard agreement has a six-month initial term, which allows sufficient time to implement the system and begin seeing results. After this period, partnerships continue on a rolling three-month basis with a 30-day notice period for termination from either party."
+    question: "What kind of reporting do we receive for Hotel-Living bookings?",
+    answer: "Our comprehensive analytics dashboard provides detailed reports on booking patterns, guest demographics, revenue metrics, and affinity program engagement. You can compare performance across channels, monitor review sentiment, and track repeat booking rates. Custom reports can be scheduled for automatic delivery to key stakeholders."
+  },
+  {
+    question: "How does this impact our existing revenue management strategy?",
+    answer: "Hotel-Living enhances your revenue management capabilities by creating a reliable baseline of extended-stay bookings that can be factored into your forecasting. Many properties use our platform to strategically fill traditionally low-demand periods, allowing for more aggressive pricing during high-demand periods on conventional channels."
+  },
+  {
+    question: "Can we integrate our hotel loyalty program with Hotel-Living?",
+    answer: "Yes. We offer several integration options for hotel loyalty programs, from simple stay credits to full points earning and redemption. Our platform can also segment your Hotel-Living guests for targeted marketing campaigns, creating a powerful extension of your existing loyalty strategy."
   }
 ];

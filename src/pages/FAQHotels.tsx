@@ -82,7 +82,7 @@ export default function FAQHotels() {
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
-                    className={`px-3 py-1 rounded-lg capitalize whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
+                    className={`px-3 py-1 rounded-lg uppercase whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
                   >
                     {category.name}
                   </button>
@@ -96,7 +96,7 @@ export default function FAQHotels() {
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
-                    className={`px-3 py-1 rounded-lg capitalize whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
+                    className={`px-3 py-1 rounded-lg uppercase whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
                   >
                     {category.name}
                   </button>
@@ -115,6 +115,7 @@ export default function FAQHotels() {
             </div>
           )}
           
+          {/* Remove the TabsList from FaqTabs component to avoid the third row of menus */}
           <FaqTabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
@@ -130,6 +131,7 @@ export default function FAQHotels() {
             marginBottom=""
             textSizeClass="text-sm md:text-base"
             answerTextSizeClass="text-xs md:text-sm"
+            hideTabsList={true} // Add a new prop to hide the TabsList
           />
           
           {activeTab !== "video" && <HotelSignupButtons isMobile={isMobile} />}

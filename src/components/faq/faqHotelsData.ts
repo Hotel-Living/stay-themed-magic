@@ -1,4 +1,3 @@
-
 export interface FaqItem {
   question: string;
   answer: string;
@@ -30,7 +29,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Will I have empty rooms with this model?",
-      answer: "Zero traditionally vacant rooms. Our system maximizes occupancy by focusing on extended stays and themed experiences that attract guests consistently."
+      answer: "Zero traditionally vacant rooms. Our system maximizes occupancy by focusing on extended stays and affinities experiences that attract guests consistently."
     },
     {
       question: "What extra benefits will my hotel receive?",

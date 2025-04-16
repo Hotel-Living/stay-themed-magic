@@ -1,3 +1,4 @@
+
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,7 +42,7 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-xl md:text-2xl",
+  textSizeClass = "text-2xl md:text-3xl", // Increased font size by 120%
   answerTextSizeClass = "text-base md:text-lg"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();

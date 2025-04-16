@@ -42,7 +42,7 @@ export function HotelAccordionMenu() {
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is a student living away from home</p>
             <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives too far from work</p>
             
-            <p className="text-base font-semibold mt-14 py-[2px]">AND MOST OF THEM:</p>
+            <p className="text-base font-semibold mt-14 py-[9px]">AND MOST OF THEM:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Would like to be free from household chores</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is too lonely</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Has no family ties</p>

@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -10,15 +9,17 @@ import { FaqTabs } from "@/components/faq/FaqTabs";
 import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/faqHotelsData";
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
-  <div className="mt-8 border-t-2 border-fuchsia-400/30 pt-6">
-    <h3 className={`text-[#f9d3f6] ${isMobile ? "text-xl" : "text-lg"} font-semibold mb-4 text-center`}>Ready to join Hotels Life?</h3>
-    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <Link to="/hotel-signup" className={`bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-lg" : ""}`}>
-        <Building className="mr-2 h-5 w-5" />
+  <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
+    <h3 className={`text-[#f9d3f6] ${isMobile ? "text-lg" : "text-base"} font-semibold mb-3 text-center`}>
+      Ready to join Hotels Life?
+    </h3>
+    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      <Link to="/hotel-signup" className={`bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
+        <Building className="mr-2 h-4 w-4" />
         Register Your Hotel
       </Link>
-      <Link to="/hotel-login" className={`bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-lg" : ""}`}>
-        <Mail className="mr-2 h-5 w-5" />
+      <Link to="/hotel-login" className={`bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
+        <Mail className="mr-2 h-4 w-4" />
         Partner Login
       </Link>
     </div>
@@ -30,13 +31,11 @@ export default function FAQHotels() {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
   
-  // Filter video tab from faq categories for content rendering
   const contentFaqCategories = useMemo(() => 
     hotelFaqCategories.filter(cat => cat.id !== "video"), 
     []
   );
 
-  // Get combined faq list but exclude video category
   const contentFaqsByCategory = useMemo(() => {
     const result = {...hotelFaqsByCategory};
     delete result.video;
@@ -48,16 +47,16 @@ export default function FAQHotels() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
-          <div className="text-center mb-12">
+        <div className="container max-w-4xl mx-auto px-4 py-6">
+          <div className="text-center mb-8">
             <h1 className={`
-              ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
-              font-bold mb-6 text-gradient text-[#eedbf7] glow 
+              ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}>
               Hotel Partner FAQ
             </h1>
-            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-8`}>
+            <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
               Find answers to common questions about joining Hotels Life as a property partner
             </p>
             
@@ -81,13 +80,15 @@ export default function FAQHotels() {
             accentTextColor="#4db74d"
             headerBgColor="#71037c"
             marginBottom=""
-            textSizeClass="text-base md:text-xl" // Reduced text size
-            answerTextSizeClass="text-sm md:text-base" // Reduced answer text size
+            textSizeClass="text-sm md:text-base"
+            answerTextSizeClass="text-xs md:text-sm"
           />
           
           {activeTab === "video" && (
-            <div className="glass-card rounded-lg overflow-hidden border-none p-6">
-              <h2 className={`font-semibold text-[#f9d3f6] ${isMobile ? "text-2xl" : "text-xl"} mb-4 text-center`}>Watch Our Explainer Video</h2>
+            <div className="glass-card rounded-lg overflow-hidden border-none p-4">
+              <h2 className={`font-semibold text-[#f9d3f6] ${isMobile ? "text-xl" : "text-base"} mb-3 text-center`}>
+                Watch Our Explainer Video
+              </h2>
               <div className="aspect-video w-full max-w-3xl mx-auto">
                 <iframe className="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/NEn7uG_fb8M" title="Hotels Life Partner Program Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
                 </iframe>

@@ -1,3 +1,4 @@
+
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,8 +42,8 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-base md:text-xl",
-  answerTextSizeClass = "text-sm md:text-base"
+  textSizeClass = "text-sm md:text-base", // Reduced from text-base md:text-xl
+  answerTextSizeClass = "text-xs md:text-sm" // Reduced from text-sm md:text-base
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
 
@@ -75,13 +76,13 @@ export function FaqTabs({
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      <div className="flex justify-center mb-8">
-        <TabsList className="flex flex-wrap justify-center gap-3 p-3 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+      <div className="flex justify-center mb-6"> {/* Reduced margin */}
+        <TabsList className="flex flex-wrap justify-center gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md"> {/* Reduced padding and gap */}
           {faqCategories.map(category => (
             <TabsTrigger 
               key={category.id} 
               value={category.id} 
-              className="px-4 py-2 rounded-lg capitalize whitespace-nowrap text-base font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
+              className="px-3 py-1 rounded-lg capitalize whitespace-nowrap text-sm font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20" // Reduced text size and padding
             >
               {category.name}
             </TabsTrigger>

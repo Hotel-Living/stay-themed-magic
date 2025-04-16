@@ -22,18 +22,18 @@ export default function FAQTravelers() {
       <Navbar />
       
       <main className="flex-1 pt-16">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
+        <div className="container max-w-4xl mx-auto px-4 py-6"> {/* Reduced padding */}
           <BenefitsTravelersList benefits={benefitsTravelersList} />
 
-          <div className="text-center mb-12">
+          <div className="text-center mb-8"> {/* Reduced margin */}
             <h1 className={`
-              ${isMobile ? "text-6xl" : "text-5xl md:text-6xl"} 
-              font-bold mb-6 text-gradient text-[#eedbf7] glow 
+              ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
-            `}>
+            `}> {/* Reduced heading size */}
               Travelers FAQ
             </h1>
-            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-8`}>
+            <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}> {/* Reduced text size */}
               Everything you need to know about Hotel-Living
             </p>
             
@@ -54,8 +54,8 @@ export default function FAQTravelers() {
             accentTextColor="#4db74d"
             headerBgColor="#71037c"
             marginBottom=""
-            textSizeClass="text-base md:text-xl" // Reduced text size
-            answerTextSizeClass="text-sm md:text-base" // Reduced answer text size
+            textSizeClass="text-sm md:text-base" // Reduced text size
+            answerTextSizeClass="text-xs md:text-sm" // Reduced answer text size
           />
         </div>
       </main>

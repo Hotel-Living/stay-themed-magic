@@ -74,7 +74,7 @@ export default function FAQHotels() {
             />
           </div>
           
-          {/* Modified grid layout for categories - two rows */}
+          {/* Two rows for categories - 5 in each row */}
           <div className="flex justify-center mb-6">
             <div className="grid grid-cols-5 gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
               {hotelFaqCategories.slice(0, 5).map(category => (
@@ -105,7 +105,7 @@ export default function FAQHotels() {
           
           {activeTab === "video" && (
             <div className="glass-card rounded-lg overflow-hidden border-none p-4">
-              <div className="max-w-xl mx-auto">
+              <div className="max-w-md mx-auto">
                 <HotelVideoPlayer />
               </div>
               

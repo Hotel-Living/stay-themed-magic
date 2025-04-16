@@ -5,7 +5,7 @@ export function HotelSlogans() {
   return (
     <>
       {/* Main slogans */}
-      <div className="space-y-3 mb-3 animate-fade-in">
+      <div className="space-y-3 animate-fade-in">
         <h1 className="text-3xl font-bold text-center text-white border-b border-yellow-300/40 pb-4 max-w-xl mx-auto shadow-sm">
           <span className="bg-gradient-to-r from-[#FEF7CD] to-white bg-clip-text text-transparent">
             Stop Losing Money on Empty Rooms

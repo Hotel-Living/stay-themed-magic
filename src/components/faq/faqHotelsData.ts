@@ -10,16 +10,16 @@ export interface FaqCategory {
 }
 
 export const hotelFaqCategories: FaqCategory[] = [
-  { id: "video", name: "Video" },
-  { id: "benefits", name: "Benefits" },
-  { id: "programs", name: "Programs" },
-  { id: "operation", name: "Operation" },
-  { id: "integration", name: "Integration" },
-  { id: "revenue", name: "Revenue" },
-  { id: "guests", name: "Guest Management" },
-  { id: "marketing", name: "Marketing" },
-  { id: "payment", name: "Payment & Commissions" },
-  { id: "affinities", name: "Affinity Management" }
+  { id: "video", name: "VIDEO" },
+  { id: "benefits", name: "BENEFITS" },
+  { id: "programs", name: "PROGRAMS" },
+  { id: "operation", name: "OPERATION" },
+  { id: "integration", name: "INTEGRATION" },
+  { id: "revenue", name: "REVENUE" },
+  { id: "guests", name: "GUESTS" },
+  { id: "marketing", name: "MARKETING" },
+  { id: "payment", name: "PAYMENT & COMMISSIONS" },
+  { id: "affinities", name: "AFFINITIES" }
 ];
 
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
@@ -34,7 +34,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "What extra benefits will my hotel receive?",
-      answer: "Enormous extra benefits including higher average daily rate, reduced operational costs, increased staff stability, and additional revenue from themed activities and services."
+      answer: "Enormous extra benefits including higher average daily rate, reduced operational costs, increased staff stability, and additional revenue from affinity activities and services."
     },
     {
       question: "What types of stays are most profitable?",
@@ -50,20 +50,20 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How does the Hotel-Living model increase my revenue?",
-      answer: "Our model increases revenue through multiple streams: higher occupancy rates, premium pricing for themed experiences, extended stays that reduce operational costs, and additional service revenue from activities and amenities tailored to specific guest interests."
+      answer: "Our model increases revenue through multiple streams: higher occupancy rates, premium pricing for affinities experiences, extended stays that reduce operational costs, and additional service revenue from activities and amenities tailored to specific guest interests."
     },
     {
       question: "How does the platform help with seasonal fluctuations?",
-      answer: "Our platform effectively eliminates seasonal fluctuations by creating constant demand through our global network of travelers seeking specific themed experiences. During traditional low seasons, we can fill your property with guests participating in themed stays that operate year-round."
+      answer: "Our platform effectively eliminates seasonal fluctuations by creating constant demand through our global network of travelers seeking specific affinities experiences. During traditional low seasons, we can fill your property with guests participating in affinity stays that operate year-round."
     }
   ],
   programs: [
     {
-      question: "What are themed stays?",
-      answer: "Themed stays are specialized hotel experiences built around particular interests or activities. By offering these themed experiences, you attract guests seeking specific experiences related to cuisine, language, sports, art, etc., creating a unique value proposition."
+      question: "What are affinity stays?",
+      answer: "Affinity stays are specialized hotel experiences built around particular interests or activities. By offering these experiences, you attract guests seeking specific experiences related to cuisine, language, sports, art, etc., creating a unique value proposition."
     },
     {
-      question: "How do themed group reservations work?",
+      question: "How do affinity group reservations work?",
       answer: "Group reservations are pre-organized stays where multiple guests with similar interests book together. Our platform coordinates these groups, filling multiple rooms at once for extended periods, guaranteeing high occupancy rates during traditional low seasons."
     },
     {
@@ -72,15 +72,15 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How does the multi-hotel circuit work?",
-      answer: "The multi-hotel circuit allows guests to move between different themed properties, staying in each for extended periods. By joining this network, your property becomes part of a global travel ecosystem, accessing guests who might otherwise never discover your location."
+      answer: "The multi-hotel circuit allows guests to move between different affinity properties, staying in each for extended periods. By joining this network, your property becomes part of a global travel ecosystem, accessing guests who might otherwise never discover your location."
     },
     {
       question: "Can I participate in multiple affinity programs simultaneously?",
-      answer: "Yes, hotels can participate in multiple affinity programs simultaneously. In fact, we encourage properties to offer 3-5 different themes to maximize their appeal to various guest segments. Each theme can utilize different areas of your property or operate at different times."
+      answer: "Yes, hotels can participate in multiple affinity programs simultaneously. In fact, we encourage properties to offer 3-5 different affinities to maximize their appeal to various guest segments. Each affinity can utilize different areas of your property or operate at different times."
     },
     {
-      question: "How often can themes be changed or updated?",
-      answer: "Themes can be adjusted quarterly based on performance data and market trends. Our platform provides analytics on which themes are generating the most bookings for your property, allowing you to optimize your offerings over time."
+      question: "How often can affinities be changed or updated?",
+      answer: "Affinities can be adjusted quarterly based on performance data and market trends. Our platform provides analytics on which affinities are generating the most bookings for your property, allowing you to optimize your offerings over time."
     },
     {
       question: "Do I need to dedicate my entire property to the Hotel-Living program?",
@@ -93,12 +93,12 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
       answer: "Guests book directly through our platform, which handles marketing, availability management, payments, and customer service. Your property receives booking details and guest preferences, allowing you to prepare appropriately before arrival."
     },
     {
-      question: "What themes can my hotel offer?",
-      answer: "Your hotel can offer any themes that match your facilities, location, and staff expertise. Popular themes include culinary, languages, sports, wellness, art, technology, and music. Our onboarding team will help identify the most suitable themes for your property based on your unique characteristics."
+      question: "What affinities can my hotel offer?",
+      answer: "Your hotel can offer any affinities that match your facilities, location, and staff expertise. Popular affinities include culinary, languages, sports, wellness, art, technology, and music. Our onboarding team will help identify the most suitable affinities for your property based on your unique characteristics."
     },
     {
       question: "What staff training is required?",
-      answer: "Training requirements depend on your chosen themes but typically include orientation on extended-stay guest needs, themed activity facilitation, and community-building practices. We provide comprehensive training materials and support during implementation."
+      answer: "Training requirements depend on your chosen affinities but typically include orientation on extended-stay guest needs, affinity activity facilitation, and community-building practices. We provide comprehensive training materials and support during implementation."
     },
     {
       question: "What technological requirements are needed?",
@@ -109,8 +109,8 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
       answer: "Extended-stay guests actually simplify operations. With fewer check-ins/check-outs, your staff can focus on enhancing the guest experience rather than constantly turning over rooms. Our system provides a dashboard for managing guest preferences, scheduled activities, and special requests."
     },
     {
-      question: "Do we need specialized staff for themed activities?",
-      answer: "Some themes may require specialized staff or facilitators, while others can be implemented with existing personnel. Our platform connects you with qualified activity leaders in your area when needed, and we provide training resources to help your current staff develop new skills related to your chosen themes."
+      question: "Do we need specialized staff for affinity activities?",
+      answer: "Some affinities may require specialized staff or facilitators, while others can be implemented with existing personnel. Our platform connects you with qualified activity leaders in your area when needed, and we provide training resources to help your current staff develop new skills related to your chosen affinities."
     },
     {
       question: "How is housekeeping managed for extended stays?",
@@ -124,7 +124,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   integration: [
     {
       question: "How do I join the Hotel-Living platform?",
-      answer: "The process starts with an application through our website. After initial screening, our partnership team conducts a detailed assessment of your property. If approved, we guide you through onboarding, including theme selection, staff training, and system integration."
+      answer: "The process starts with an application through our website. After initial screening, our partnership team conducts a detailed assessment of your property. If approved, we guide you through onboarding, including affinity selection, staff training, and system integration."
     },
     {
       question: "What financial model applies to partner hotels?",
@@ -132,11 +132,11 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Are there any implementation costs?",
-      answer: "Implementation costs vary depending on your chosen themes and existing facilities. Some themes require minimal investment (like language or digital nomad themes), while others might need specific equipment or space modifications. Our team works with you to identify cost-effective implementation strategies."
+      answer: "Implementation costs vary depending on your chosen affinities and existing facilities. Some affinities require minimal investment (like language or digital nomad affinities), while others might need specific equipment or space modifications. Our team works with you to identify cost-effective implementation strategies."
     },
     {
       question: "How long does it take to implement the Hotel-Living system?",
-      answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, theme setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
+      answer: "Typical implementation takes 4-8 weeks from approval to launch. This includes system integration, staff training, affinity setup, and marketing preparation. Properties with minimal adaptation needs can launch faster, while those requiring significant modifications might need additional time."
     },
     {
       question: "Can my current property management system integrate with your platform?",
@@ -154,7 +154,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   revenue: [
     {
       question: "What average rate increases do partner hotels experience?",
-      answer: "Partner hotels typically see average rate increases of 15-30% compared to their traditional bookings for the same room types. This premium is possible because guests value the curated experiences, community aspects, and convenience of our themed stays."
+      answer: "Partner hotels typically see average rate increases of 15-30% compared to their traditional bookings for the same room types. This premium is possible because guests value the curated experiences, community aspects, and convenience of our affinity stays."
     },
     {
       question: "How does the revenue split work?",
@@ -166,7 +166,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How predictable is the revenue from Hotel-Living bookings?",
-      answer: "Very predictable. Unlike traditional bookings that fluctuate seasonally, our extended-stay and themed programs provide consistent occupancy. Many partners can forecast their Hotel-Living revenue months in advance, allowing for better financial planning and resource allocation."
+      answer: "Very predictable. Unlike traditional bookings that fluctuate seasonally, our extended-stay and affinity programs provide consistent occupancy. Many partners can forecast their Hotel-Living revenue months in advance, allowing for better financial planning and resource allocation."
     },
     {
       question: "How do we benefit from the payment structure?",
@@ -180,15 +180,15 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "How are guest expectations different for Hotel-Living stays?",
-      answer: "Hotel-Living guests expect reliable basics (clean rooms, good internet, responsive service) but place higher value on community interactions, access to themed activities, and spaces that facilitate their interests. They're typically more flexible on traditional luxury amenities if their core needs are met exceptionally well."
+      answer: "Hotel-Living guests expect reliable basics (clean rooms, good internet, responsive service) but place higher value on community interactions, access to affinity activities, and spaces that facilitate their interests. They're typically more flexible on traditional luxury amenities if their core needs are met exceptionally well."
     },
     {
       question: "Do guests interact with other hotels in the network?",
-      answer: "Yes, many guests participate in our multi-hotel circuit, moving between properties with complementary themes. This creates natural marketing connections between partner hotels and encourages guests to explore different properties within our network."
+      answer: "Yes, many guests participate in our multi-hotel circuit, moving between properties with complementary affinities. This creates natural marketing connections between partner hotels and encourages guests to explore different properties within our network."
     },
     {
       question: "How are guests matched with our property?",
-      answer: "Guests are matched to your property based on the affinities and themes you offer. Our sophisticated algorithm ensures that your hotel is shown to travelers who have expressed interest in the specific experiences your property provides, leading to higher conversion rates and more satisfied guests."
+      answer: "Guests are matched to your property based on the affinities you offer. Our sophisticated algorithm ensures that your hotel is shown to travelers who have expressed interest in the specific experiences your property provides, leading to higher conversion rates and more satisfied guests."
     },
     {
       question: "Do we need to facilitate guest interactions?",
@@ -198,7 +198,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   marketing: [
     {
       question: "How does Hotel-Living market my property?",
-      answer: "We market partner properties through multiple channels: our global platform, targeted digital campaigns to affinity communities, partnerships with interest-based organizations, content marketing, and social media. Your property gains exposure to audiences specifically interested in your offered themes."
+      answer: "We market partner properties through multiple channels: our global platform, targeted digital campaigns to affinity communities, partnerships with interest-based organizations, content marketing, and social media. Your property gains exposure to audiences specifically interested in your offered affinities."
     },
     {
       question: "Can I use the Hotel-Living partnership in my own marketing?",
@@ -206,7 +206,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     },
     {
       question: "Does Hotel-Living help with content creation?",
-      answer: "Yes, our team assists with creating compelling content about your property's themed experiences. This includes professional photography, video production guidance, copywriting support, and social media content planning tailored to your specific themes and target audiences."
+      answer: "Yes, our team assists with creating compelling content about your property's affinity experiences. This includes professional photography, video production guidance, copywriting support, and social media content planning tailored to your specific affinities and target audiences."
     },
     {
       question: "How do affinities help with targeted marketing?",

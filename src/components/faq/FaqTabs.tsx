@@ -1,3 +1,4 @@
+
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,7 +42,7 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-4xl md:text-5xl",
+  textSizeClass = "text-xl md:text-2xl", // Adjusted to a more reasonable size
   answerTextSizeClass = "text-base md:text-lg"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
@@ -116,9 +117,9 @@ export function FaqTabs({
                       <AccordionTrigger 
                         className="px-8 py-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
                       >
-                        <h2 className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
+                        <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
-                        </h2>
+                        </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
                         <p className={`text-[#FFF9B0] ${answerTextSizeClass} leading-relaxed`}>

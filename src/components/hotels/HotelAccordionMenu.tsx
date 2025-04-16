@@ -50,7 +50,7 @@ export function HotelAccordionMenu() {
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Wishes to meet people with similar tastes and mindsets</p>
             <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Needs the complete security of living in a hotel, especially in the case of older or single individuals</p>
             
-            <p className="text-base font-semibold mt-14">BECAUSE HUMANITY'S DREAM IS TO LIVE IN A HOTEL</p>
+            <p className="text-base font-semibold mt-14 py-[10px]">BECAUSE HUMANITY'S DREAM IS TO LIVE IN A HOTEL</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> With everything taken care of</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> On an endless vacation</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> So, why do we have 40% of empty rooms every year?</p>

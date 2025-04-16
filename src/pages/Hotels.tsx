@@ -65,8 +65,8 @@ export default function Hotels() {
             <HotelAccordionMenu />
           </div>
           
-          {/* FAQ Section - increased margin-top from mt-16 to mt-28 */}
-          <div className="w-full max-w-4xl mt-28">
+          {/* FAQ Section - increased margin-top from mt-28 to mt-40 to match the uploaded image */}
+          <div className="w-full max-w-4xl mt-40">
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10">
               <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">Frequently Asked Questions</h2>
               

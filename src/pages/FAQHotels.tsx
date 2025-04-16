@@ -100,12 +100,12 @@ export default function FAQHotels() {
           
           <div className="flex flex-col gap-2 mb-6">
             <div className="flex justify-center">
-              <div className="flex flex-wrap justify-center gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+              <div className="flex flex-wrap justify-center gap-1 p-1 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
                 {firstRowCategories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
-                    className={`px-3 py-1 rounded-lg uppercase whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 w-auto`}
+                    className={`px-2.5 py-0.5 rounded-lg uppercase whitespace-nowrap text-[0.7rem] font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 w-auto`}
                   >
                     {category.name}
                   </button>
@@ -114,12 +114,12 @@ export default function FAQHotels() {
             </div>
             
             <div className="flex justify-center">
-              <div className="flex flex-wrap justify-center gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+              <div className="flex flex-wrap justify-center gap-1 p-1 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
                 {secondRowCategories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
-                    className={`px-3 py-1 rounded-lg uppercase whitespace-nowrap text-xs font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 w-auto`}
+                    className={`px-2.5 py-0.5 rounded-lg uppercase whitespace-nowrap text-[0.7rem] font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 w-auto`}
                   >
                     {category.name}
                   </button>

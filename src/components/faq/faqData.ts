@@ -10,6 +10,7 @@ import { themesFaqs } from "./categories/themesFaqs";
 import { lifestyleFaqs } from "./categories/lifestyleFaqs";
 import { communityFaqs } from "./categories/communityFaqs";
 import { practicalFaqs } from "./categories/practicalFaqs";
+import { seniorFaqs } from "./categories/seniorFaqs";
 
 // Use export type for type re-exports
 export type { FaqItem, FaqCategory };
@@ -25,5 +26,6 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
   themes: themesFaqs,
   lifestyle: lifestyleFaqs,
   community: communityFaqs,
-  practical: practicalFaqs
+  practical: practicalFaqs,
+  senior: seniorFaqs
 };

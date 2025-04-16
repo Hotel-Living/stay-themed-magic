@@ -9,5 +9,6 @@ export const faqCategories: FaqCategory[] = [
   { id: "themes", name: "Affinities" },
   { id: "lifestyle", name: "Lifestyle" },
   { id: "community", name: "Community" },
-  { id: "practical", name: "Practical Details" }
+  { id: "practical", name: "Practical Details" },
+  { id: "senior", name: "SENIOR" }
 ];

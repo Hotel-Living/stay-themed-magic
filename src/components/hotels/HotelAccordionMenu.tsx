@@ -7,42 +7,18 @@ import { ComparisonTable } from "./accordion/ComparisonTable";
 import { BenefitsSection } from "./accordion/sections/BenefitsSection";
 import { ProfitSection } from "./accordion/sections/ProfitSection";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
-
 export function HotelAccordionMenu() {
-  return (
-    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
-      <Accordion 
-        type="single" 
-        collapsible 
-        className="w-full space-y-0"
-      >
-        <AccordionMenuItem 
-          value="the-benefits" 
-          title="1-   The benefits"
-          titleClassName="text-xl font-medium" 
-          className="hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          preventScroll={true}
-        >
+  return <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
+      <Accordion type="single" collapsible className="w-full space-y-0">
+        <AccordionMenuItem value="the-benefits" title="1-   The benefits" titleClassName="text-xl font-medium" className="hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" preventScroll={true}>
           <BenefitsSection />
         </AccordionMenuItem>
         
-        <AccordionMenuItem
-          value="compare-systems"
-          title="2-   Let's compare systems"
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="compare-systems" title="2-   Let's compare systems" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <ComparisonTable items={comparisonItems} />
         </AccordionMenuItem>
         
-        <AccordionMenuItem
-          value="we-dont-just-fill-rooms"
-          title="3-   We don't just fill rooms"
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="we-dont-just-fill-rooms" title="3-   We don't just fill rooms" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> People grouped by affinities</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Zero randomness. 100% connections</p>
@@ -51,34 +27,22 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem
-          value="how-much-profit-missing"
-          title="4-   How much profit are we missing?"
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="how-much-profit-missing" title="4-   How much profit are we missing?" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <ProfitSection />
         </AccordionMenuItem>
         
         <SpecialMenuItems startingNumber={5} preventScroll={true} />
         
-        <AccordionMenuItem 
-          value="they-need-hotel" 
-          title="10-   They need your hotel"
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="they-need-hotel" title="10-   They need your hotel" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
-            <p className="text-base font-semibold">BECAUSE 40% OF THE WESTERN POPULATION:</p>
+            <p className="text-base font-semibold py-0">BECAUSE 40% OF THE WESTERN POPULATION:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives alone or as a couple</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is either early retired or retired</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is an online worker</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is a student living away from home</p>
             <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives too far from work</p>
             
-            <p className="text-base font-semibold mt-14">AND MOST OF THEM:</p>
+            <p className="text-base font-semibold mt-14 py-[5px]">AND MOST OF THEM:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Would like to be free from household chores</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is too lonely</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Has no family ties</p>
@@ -101,25 +65,13 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem 
-          value="themes-revolution" 
-          title="11-   Themes are the new social revolution" 
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="themes-revolution" title="11-   Themes are the new social revolution" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just think on a theme and let the magic happen</p>
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem 
-          value="seamless-integration" 
-          title="12-   We're seamless integration" 
-          className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md"
-          titleClassName="text-xl font-medium"
-          preventScroll={true}
-        >
+        <AccordionMenuItem value="seamless-integration" title="12-   We're seamless integration" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> You don't have to choose between systems.</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Combine both models as you wish</p>
@@ -133,6 +85,5 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
       </Accordion>
-    </div>
-  );
+    </div>;
 }

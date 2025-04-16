@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Eye, EyeOff, Lock, Mail, User, Building } from "lucide-react";
@@ -22,7 +21,9 @@ export default function Login() {
   const [hotelEmail, setHotelEmail] = useState("");
   const [hotelPassword, setHotelPassword] = useState("");
   const [showHotelPassword, setShowHotelPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState("traveler");
   
+  const location = useLocation();
   const {
     signIn,
     isLoading,
@@ -30,6 +31,20 @@ export default function Login() {
   } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Handle tab selection from URL parameter
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tab = searchParams.get('tab');
+    if (tab === 'hotel') {
+      setActiveTab('hotel');
+    }
+  }, [location.search]);
+
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -71,7 +86,6 @@ export default function Login() {
         variant: "destructive",
       });
     }
-    // Redirection is now handled in AuthContext after profile is fetched
   };
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -83,7 +97,7 @@ export default function Login() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
-          <Tabs defaultValue="traveler" className="w-full">
+          <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-[#8017B0]">
               <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white">Traveler</TabsTrigger>
               <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white">Hotel Partner</TabsTrigger>
@@ -102,7 +116,6 @@ export default function Login() {
                 ]}
               >
                 <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-5">
-                  {/* Email Field */}
                   <InputField
                     id="email"
                     label="Email"
@@ -114,7 +127,6 @@ export default function Login() {
                     inputClassName="text-white placeholder:text-white/60"
                   />
                   
-                  {/* Password Field */}
                   <PasswordField
                     id="password"
                     label="Password"
@@ -126,7 +138,6 @@ export default function Login() {
                     inputClassName="text-white placeholder:text-white/60"
                   />
                   
-                  {/* Remember me and Forgot Password */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input id="remember" type="checkbox" className="w-3 h-3 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500" />
@@ -139,7 +150,6 @@ export default function Login() {
                     </Link>
                   </div>
                   
-                  {/* Login Button */}
                   <SubmitButton
                     isLoading={isLoading}
                     loadingText="Signing in..."
@@ -162,7 +172,6 @@ export default function Login() {
                 ]}
               >
                 <form onSubmit={(e) => handleSubmit(e, true)} className="space-y-5">
-                  {/* Hotel Email Field */}
                   <InputField
                     id="hotel-email"
                     label="Business Email"
@@ -174,7 +183,6 @@ export default function Login() {
                     inputClassName="text-white placeholder:text-white/60"
                   />
                   
-                  {/* Hotel Password Field */}
                   <PasswordField
                     id="hotel-password"
                     label="Password"
@@ -186,7 +194,6 @@ export default function Login() {
                     inputClassName="text-white placeholder:text-white/60"
                   />
                   
-                  {/* Remember me and Forgot Password */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input id="hotel-remember" type="checkbox" className="w-3 h-3 bg-secondary/50 border border-border rounded focus:ring-fuchsia-500 focus:border-fuchsia-500" />
@@ -199,7 +206,6 @@ export default function Login() {
                     </Link>
                   </div>
                   
-                  {/* Login Button */}
                   <SubmitButton
                     isLoading={isLoading}
                     loadingText="Signing in..."

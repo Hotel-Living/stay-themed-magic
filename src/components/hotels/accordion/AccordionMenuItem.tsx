@@ -30,10 +30,11 @@ export function AccordionMenuItem({
   };
   
   return (
-    <AccordionItem value={value} className={`${styles.item} ${className}`} onClick={handleClick}>
+    <AccordionItem value={value} className={`${styles.item} ${className}`}>
       <AccordionTrigger 
         className={`${styles.trigger} group`} 
         titleClassName={titleClassName}
+        onClick={handleClick}
       >
         <span className={titleClassName}>
           {title}

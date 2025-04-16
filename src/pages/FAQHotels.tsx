@@ -33,7 +33,7 @@ export default function FAQHotels() {
   // Filter video tab from faq categories for content rendering
   const contentFaqCategories = useMemo(() => 
     hotelFaqCategories.filter(cat => cat.id !== "video"), 
-    [hotelFaqCategories]
+    []
   );
 
   // Get combined faq list but exclude video category
@@ -41,7 +41,7 @@ export default function FAQHotels() {
     const result = {...hotelFaqsByCategory};
     delete result.video;
     return result;
-  }, [hotelFaqsByCategory]);
+  }, []);
   
   return (
     <div className="min-h-screen flex flex-col faq-page">

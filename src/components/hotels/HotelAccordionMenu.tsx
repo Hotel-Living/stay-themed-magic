@@ -33,9 +33,58 @@ export function HotelAccordionMenu() {
           <ProfitSection />
         </AccordionMenuItem>
         
-        <SpecialMenuItems startingNumber={5} preventScroll={true} />
+        <AccordionMenuItem value="specialized-hotels" title="5-   What are affinities-hotels?" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+          <div className="space-y-3 text-left py-4">
+            <p className="text-lg font-semibold">EXAMPLE 1</p>
+            <p className="text-base flex items-start pl-4">- Imagine a hotel focused on sports - cycling, golf, tennis, etc.</p>
+            <p className="text-base flex items-start pl-4">- People interested in that sport book together</p>
+            <p className="text-base flex items-start pl-4">- Community forms around common interests</p>
+            <p className="text-base flex items-start pl-4">- No gaps between stays. No losses</p>
+            
+            <p className="text-lg font-semibold mt-6">EXAMPLE 2</p>
+            <p className="text-base flex items-start pl-4">- Consider a hotel themed around cooking</p>
+            <p className="text-base flex items-start pl-4">- Chefs, cooking classes, wine pairings, etc.</p>
+            <p className="text-base flex items-start pl-4">- Premium rates for specialized experiences</p>
+            <p className="text-base flex items-start pl-4">- Full occupancy with longer average stays</p>
+            
+            <p className="text-lg font-semibold mt-6">EXAMPLE 3</p>
+            <p className="text-base flex items-start pl-4">- Language immersion hotels</p>
+            <p className="text-base flex items-start pl-4">- Similar language level guests grouped together</p>
+            <p className="text-base flex items-start pl-4">- Staff speaks target language</p>
+            <p className="text-base flex items-start pl-4">- Complete linguistic experience</p>
+            
+            <p className="text-base italic mt-4">These specialized hotels create powerful communal experiences while maintaining steady, predictable revenue</p>
+          </div>
+        </AccordionMenuItem>
         
-        <AccordionMenuItem value="they-need-hotel" title="10-   They need your hotel" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+        <AccordionMenuItem value="our-technology" title="6-   Our technology does what others cannot" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+          <div className="space-y-4 text-left py-4">
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Matches people with shared interests</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Coordinates arrivals & departures for zero gaps</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Optimizes stays for maximum profitability</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Single platform. Multiple revenue streams</p>
+          </div>
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="targeted-marketing" title="7-   Targeted marketing no one else can match" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+          <div className="space-y-4 text-left py-4">
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Precision targeting by interest & affinity</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Market to motivated communities, not random travelers</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Global reach with hyper-specific focus</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Higher conversion rates. Lower acquisition costs</p>
+          </div>
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="themed-hotels" title="8-   Affinities hotels = Perfect Social Networks" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+          <div className="space-y-4 text-left py-4">
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Shared interests create instant connections</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Group psychology drives longer stays & returns</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Themed activities boost engagement & loyalty</p>
+            <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Community belonging becomes addictive</p>
+          </div>
+        </AccordionMenuItem>
+        
+        <AccordionMenuItem value="they-need-hotel" title="9-   They need your hotel" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
             <p className="text-base font-semibold py-0">BECAUSE 40% OF THE WESTERN POPULATION:</p>
             <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives alone or as a couple</p>
@@ -67,7 +116,7 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem value="themes-revolution" title="11-   Themes are the new social revolution" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+        <AccordionMenuItem value="themes-revolution" title="10-   Themes are the new social revolution" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-4 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Guests don't just want rooms — they want meaning</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Interests connect faster than discounts</p>
@@ -80,7 +129,7 @@ export function HotelAccordionMenu() {
           </div>
         </AccordionMenuItem>
         
-        <AccordionMenuItem value="seamless-integration" title="12-   We're seamless integration" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
+        <AccordionMenuItem value="seamless-integration" title="11-   We're seamless integration" className="mt-0 hover:bg-[#5D0478]/20 transition-all duration-300 rounded-md" titleClassName="text-xl font-medium" preventScroll={true}>
           <div className="space-y-6 text-left py-6">
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> You don't have to choose between systems.</p>
             <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Combine both models as you wish</p>

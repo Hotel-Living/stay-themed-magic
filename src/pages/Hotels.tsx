@@ -16,8 +16,8 @@ export default function Hotels() {
       <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 pt-16 relative z-10">
-        <div className="container mx-auto px-4 py-6 flex flex-col items-center"> {/* Reduced py-12 to py-6 */}
+      <main className="flex-1 pt-8 relative z-10">
+        <div className="container mx-auto px-4 py-3 flex flex-col items-center">
           {/* Main content */}
           <HotelSlogans />
           
@@ -32,8 +32,7 @@ export default function Hotels() {
           <HotelFeatures />
           
           {/* Video Player section */}
-          <div className="w-full max-w-4xl mt-16 mb-12">
-            <h2 className="text-2xl font-bold text-center mb-6 text-[#ebd4ee] bg-gradient-to-r from-[#ebd4ee] to-[#f5ecf6] bg-clip-text text-transparent">See Our Hotels in Action</h2>
+          <div className="w-full max-w-2xl mt-16 mb-12">
             <HotelVideoPlayer />
           </div>
         </div>

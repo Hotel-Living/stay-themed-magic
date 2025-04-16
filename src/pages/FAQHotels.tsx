@@ -7,6 +7,7 @@ import { Building, Mail } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { FaqTabs } from "@/components/faq/FaqTabs";
+import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/faqHotelsData";
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
@@ -73,6 +74,45 @@ export default function FAQHotels() {
             />
           </div>
           
+          {/* Modified grid layout for categories - two rows */}
+          <div className="flex justify-center mb-6">
+            <div className="grid grid-cols-5 gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+              {hotelFaqCategories.slice(0, 5).map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveTab(category.id)}
+                  className={`px-3 py-1 rounded-lg capitalize whitespace-nowrap text-sm font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div className="flex justify-center mb-6">
+            <div className="grid grid-cols-5 gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
+              {hotelFaqCategories.slice(5).map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveTab(category.id)}
+                  className={`px-3 py-1 rounded-lg capitalize whitespace-nowrap text-sm font-bold ${activeTab === category.id ? 'bg-[#981DA1]' : 'bg-gradient-to-r from-[#730483] to-[#570366]'} text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20`}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {activeTab === "video" && (
+            <div className="glass-card rounded-lg overflow-hidden border-none p-4">
+              <div className="max-w-xl mx-auto">
+                <HotelVideoPlayer />
+              </div>
+              
+              <HotelSignupButtons isMobile={isMobile} />
+            </div>
+          )}
+          
           <FaqTabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
@@ -89,17 +129,6 @@ export default function FAQHotels() {
             textSizeClass="text-sm md:text-base"
             answerTextSizeClass="text-xs md:text-sm"
           />
-          
-          {activeTab === "video" && (
-            <div className="glass-card rounded-lg overflow-hidden border-none p-4">
-              <div className="aspect-video w-full max-w-2xl mx-auto">
-                <iframe className="w-full h-full rounded-lg shadow-lg" src="https://www.youtube.com/embed/NEn7uG_fb8M" title="Hotel-Living Partner Program Overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
-                </iframe>
-              </div>
-              
-              <HotelSignupButtons isMobile={isMobile} />
-            </div>
-          )}
           
           {activeTab !== "video" && <HotelSignupButtons isMobile={isMobile} />}
         </div>

@@ -33,7 +33,9 @@ const AccordionTrigger = React.forwardRef<
       )}
       {...props}
     >
-      <span className={titleClassName}>{children}</span>
+      {typeof children === 'string' ? (
+        <span className={titleClassName}>{children}</span>
+      ) : children}
       <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-300 text-fuchsia-400 group-hover:text-[#FEF7CD]" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>

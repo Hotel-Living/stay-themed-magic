@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -42,8 +41,8 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-xl md:text-2xl", // Adjusted to a more reasonable size
-  answerTextSizeClass = "text-base md:text-lg"
+  textSizeClass = "text-base md:text-xl",
+  answerTextSizeClass = "text-sm md:text-base"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();
 
@@ -104,7 +103,7 @@ export function FaqTabs({
         return (
           <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
             {filteredFaqs.length > 0 ? (
-              <Accordion type="single" collapsible className="w-full space-y-5">
+              <Accordion type="single" collapsible className="w-full space-y-3">
                 {filteredFaqs.map((faq, index) => {
                   const questionNumber = searchQuery ? startIndex + index : startIndex + index;
                   
@@ -112,16 +111,16 @@ export function FaqTabs({
                     <AccordionItem 
                       key={index} 
                       value={`${category.id}-${index}`} 
-                      className="overflow-hidden border-none shadow-2xl"
+                      className="overflow-hidden border-none shadow-xl"
                     >
                       <AccordionTrigger 
-                        className="px-8 py-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
+                        className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
                       >
                         <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                           {numbered ? `${questionNumber}. ` : ''}{faq.question}
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="px-8 py-6 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+                      <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
                         <p className={`text-[#FFF9B0] ${answerTextSizeClass} leading-relaxed`}>
                           {faq.answer}
                         </p>

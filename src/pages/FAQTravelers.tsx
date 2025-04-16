@@ -54,8 +54,8 @@ export default function FAQTravelers() {
             accentTextColor="#4db74d"
             headerBgColor="#71037c"
             marginBottom=""
-            textSizeClass="text-xl md:text-2xl" // Updated to appropriate text size
-            answerTextSizeClass="text-base md:text-lg" // Keep answer text size normal
+            textSizeClass="text-base md:text-xl" // Reduced text size
+            answerTextSizeClass="text-sm md:text-base" // Reduced answer text size
           />
         </div>
       </main>

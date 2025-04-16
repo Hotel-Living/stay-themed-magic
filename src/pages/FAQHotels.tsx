@@ -28,6 +28,13 @@ const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
   </div>
 );
 
+// Custom order for the tabs - this will control the display order of categories
+const orderedCategoryIds = [
+  "video", "benefits", "programs", "revenue", "guests", "seniors", 
+  "affinities", "operation", "integration", "marketing", "payment", 
+  "steps", "rental"
+];
+
 export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("video");
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,9 +44,16 @@ export default function FAQHotels() {
     window.scrollTo(0, 0);
   }, []);
   
+  // Get ordered categories based on the custom order
+  const orderedFaqCategories = useMemo(() => 
+    orderedCategoryIds.map(id => 
+      hotelFaqCategories.find(cat => cat.id === id)
+    ).filter(Boolean) as typeof hotelFaqCategories,
+  []);
+  
   const contentFaqCategories = useMemo(() => 
-    hotelFaqCategories.filter(cat => cat.id !== "video"), 
-    []
+    orderedFaqCategories.filter(cat => cat.id !== "video"), 
+    [orderedFaqCategories]
   );
 
   const contentFaqsByCategory = useMemo(() => {
@@ -47,6 +61,17 @@ export default function FAQHotels() {
     delete result.video;
     return result;
   }, []);
+  
+  // Split categories for two rows of buttons
+  const firstRowCategories = useMemo(() => 
+    orderedFaqCategories.slice(0, 7),
+    [orderedFaqCategories]
+  );
+  
+  const secondRowCategories = useMemo(() => 
+    orderedFaqCategories.slice(7),
+    [orderedFaqCategories]
+  );
   
   return (
     <div className="min-h-screen flex flex-col faq-page">
@@ -76,7 +101,7 @@ export default function FAQHotels() {
           <div className="flex flex-col gap-2 mb-6">
             <div className="flex justify-center">
               <div className="flex flex-wrap justify-center gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-                {hotelFaqCategories.slice(0, 6).map(category => (
+                {firstRowCategories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
@@ -90,7 +115,7 @@ export default function FAQHotels() {
             
             <div className="flex justify-center">
               <div className="flex flex-wrap justify-center gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-                {hotelFaqCategories.slice(6).map(category => (
+                {secondRowCategories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => setActiveTab(category.id)}
@@ -116,7 +141,7 @@ export default function FAQHotels() {
           <FaqTabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
-            faqCategories={hotelFaqCategories}
+            faqCategories={orderedFaqCategories}
             faqsByCategory={{
               ...contentFaqsByCategory,
               video: [] // Include empty video array to handle tab switching

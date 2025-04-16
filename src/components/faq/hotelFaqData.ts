@@ -12,6 +12,7 @@ import { affinitiesFaqs } from "./hotel-categories/affinitiesFaqs";
 import { videoFaqs } from "./hotel-categories/videoFaqs";
 import { seniorsFaqs } from "./hotel-categories/seniorsFaqs";
 import { stepsFaqs } from "./hotel-categories/stepsFaqs";
+import { rentalFaqs } from "./hotel-categories/rentalFaqs";
 
 // Use export type for type re-exports
 export type { FaqItem, FaqCategory };
@@ -28,7 +29,8 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "integration", name: "Integration" },
   { id: "marketing", name: "Marketing" },
   { id: "payment", name: "Payment & Commissions" },
-  { id: "steps", name: "Steps to join" }
+  { id: "steps", name: "Steps to join" },
+  { id: "rental", name: "Rental Apartments" }
 ];
 
 // Combine all FAQs into a single record
@@ -44,5 +46,6 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   marketing: marketingFaqs,
   payment: paymentFaqs,
   affinities: affinitiesFaqs,
-  steps: stepsFaqs
+  steps: stepsFaqs,
+  rental: rentalFaqs
 };

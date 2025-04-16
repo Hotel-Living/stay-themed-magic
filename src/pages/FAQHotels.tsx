@@ -81,6 +81,8 @@ export default function FAQHotels() {
             accentTextColor="#4db74d"
             headerBgColor="#71037c"
             marginBottom=""
+            textSizeClass="text-4xl md:text-5xl" // Explicitly pass the large text size class
+            answerTextSizeClass="text-base md:text-lg" // Keep answer text size normal
           />
           
           {activeTab === "video" && (

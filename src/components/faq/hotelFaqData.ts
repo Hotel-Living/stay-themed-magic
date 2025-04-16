@@ -10,6 +10,7 @@ import { marketingFaqs } from "./hotel-categories/marketingFaqs";
 import { paymentFaqs } from "./hotel-categories/paymentFaqs";
 import { affinitiesFaqs } from "./hotel-categories/affinitiesFaqs";
 import { videoFaqs } from "./hotel-categories/videoFaqs";
+import { seniorsFaqs } from "./hotel-categories/seniorsFaqs";
 
 // Use export type for type re-exports
 export type { FaqItem, FaqCategory };
@@ -22,6 +23,7 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "integration", name: "INTEGRATION" },
   { id: "revenue", name: "REVENUE" },
   { id: "guests", name: "GUESTS" },
+  { id: "seniors", name: "SENIORS" },
   { id: "marketing", name: "MARKETING" },
   { id: "payment", name: "PAYMENT & COMMISSIONS" },
   { id: "affinities", name: "AFFINITIES" }
@@ -36,6 +38,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   integration: integrationFaqs,
   revenue: revenueFaqs,
   guests: guestsFaqs,
+  seniors: seniorsFaqs,
   marketing: marketingFaqs,
   payment: paymentFaqs,
   affinities: affinitiesFaqs

@@ -34,7 +34,7 @@ import ResetPassword from './pages/ResetPassword';
 import AddPropertyPage from './pages/AddPropertyPage';
 import ThemesInformation from './pages/ThemesInformation';
 
-// Add ScrollToTop component
+// ScrollToTop component to ensure pages always start at the top
 function ScrollToTop() {
   const { pathname } = useLocation();
   

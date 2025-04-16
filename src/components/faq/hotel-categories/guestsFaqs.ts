@@ -16,7 +16,7 @@ export const guestsFaqs: FaqItem[] = [
   },
   {
     question: "How important is community for these guests?",
-    answer: "Very important for most segments, though preferences vary. Our research shows that 78% of extended-stay guests rate "meaningful connections with others" as a primary factor in booking decisions and satisfaction. Affinity programs create natural community bonds, even among guests who might otherwise be reserved."
+    answer: "Very important for most segments, though preferences vary. Our research shows that 78% of extended-stay guests rate \"meaningful connections with others\" as a primary factor in booking decisions and satisfaction. Affinity programs create natural community bonds, even among guests who might otherwise be reserved."
   },
   {
     question: "How do we market effectively to long-stay guests?",

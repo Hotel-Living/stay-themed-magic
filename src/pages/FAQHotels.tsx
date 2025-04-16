@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -8,7 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
-import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/faqHotelsData";
+import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
   <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
@@ -33,7 +32,6 @@ export default function FAQHotels() {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
   
-  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -74,7 +72,6 @@ export default function FAQHotels() {
             />
           </div>
           
-          {/* Modified: Only show one set of tab buttons divided into two rows */}
           <div className="flex flex-col gap-2 mb-6">
             <div className="flex justify-center">
               <div className="grid grid-cols-5 gap-2 p-2 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
@@ -115,7 +112,6 @@ export default function FAQHotels() {
             </div>
           )}
           
-          {/* Remove the TabsList from FaqTabs component to avoid the third row of menus */}
           <FaqTabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 

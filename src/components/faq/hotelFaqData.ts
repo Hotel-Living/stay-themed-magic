@@ -19,14 +19,14 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "video", name: "VIDEO" },
   { id: "benefits", name: "BENEFITS" },
   { id: "programs", name: "PROGRAMS" },
-  { id: "operation", name: "OPERATION" },
-  { id: "integration", name: "INTEGRATION" },
   { id: "revenue", name: "REVENUE" },
   { id: "guests", name: "GUESTS" },
   { id: "seniors", name: "SENIORS" },
+  { id: "affinities", name: "AFFINITIES" },
+  { id: "operation", name: "OPERATION" },
+  { id: "integration", name: "INTEGRATION" },
   { id: "marketing", name: "MARKETING" },
-  { id: "payment", name: "PAYMENT & COMMISSIONS" },
-  { id: "affinities", name: "AFFINITIES" }
+  { id: "payment", name: "PAYMENT & COMMISSIONS" }
 ];
 
 // Combine all FAQs into a single record

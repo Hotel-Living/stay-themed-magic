@@ -18,10 +18,14 @@ const AccordionItem = React.forwardRef<
 ))
 AccordionItem.displayName = "AccordionItem"
 
+interface AccordionTriggerProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
+  titleClassName?: string;
+}
+
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  AccordionTriggerProps
+>(({ className, children, titleClassName, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       ref={ref}
@@ -31,7 +35,11 @@ const AccordionTrigger = React.forwardRef<
       )}
       {...props}
     >
-      {children}
+      {titleClassName ? (
+        <span className={titleClassName}>{children}</span>
+      ) : (
+        children
+      )}
       <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-300 text-fuchsia-400 group-hover:text-[#FEF7CD]" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>

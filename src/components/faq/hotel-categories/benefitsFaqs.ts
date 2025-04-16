@@ -33,5 +33,13 @@ export const benefitsFaqs: FaqItem[] = [
   {
     question: "How does the platform help with seasonal fluctuations?",
     answer: "Our platform effectively eliminates seasonal fluctuations by creating constant demand through our global network of travelers seeking specific affinities experiences. During traditional low seasons, we can fill your property with guests participating in affinity stays that operate year-round."
+  },
+  {
+    question: "SO, IS THIS A NEW REVENUE STRATEGY, NOT JUST A NEW AUDIENCE?",
+    answer: "Exactly. It's not only about filling rooms—it's about extracting more value from each stay. Longer durations, fewer gaps, stronger loyalty, and higher perceived value = higher revenue per room."
+  },
+  {
+    question: "WHAT ARE THE FINANCIAL BENEFITS FOR OUR HOTEL?",
+    answer: "Besides the main fact that Hotel-Living fills rooms that might otherwise stay empty, you tap into longer stays, fewer turnovers, and high guest satisfaction. It's a reliable, stable income stream from clients who are grateful, low-maintenance, and likely to return."
   }
 ];

@@ -88,8 +88,6 @@ export function SpecialMenuItems({ startingNumber = 5, preventScroll = true }: S
           <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Community belonging becomes addictive</p>
         </div>
       </AccordionMenuItem>
-      
-      {/* Removed the "4 pillars" section */}
     </>
   );
 }

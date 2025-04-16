@@ -42,7 +42,7 @@ export function FaqTabs({
   headerBgColor = "#6a037c",
   contentBgColor = "#5A0363",
   marginBottom = "mb-20",
-  textSizeClass = "text-2xl md:text-3xl", // Increased font size by 120%
+  textSizeClass = "text-4xl md:text-5xl", // Increased question font size to 200% larger
   answerTextSizeClass = "text-base md:text-lg"
 }: FaqTabsProps) {
   const isMobile = useIsMobile();

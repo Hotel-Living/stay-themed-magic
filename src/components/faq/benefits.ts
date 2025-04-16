@@ -1,12 +1,12 @@
 
 export const benefitsList = [
   "Stay in hotels at unbeatable prices",
-  "Enjoy a constant flow of new places, affinities, and people",
   "Renewable stays of 8, 16, 24, or 32 days",
   "Say goodbye to chores: grocery shopping, cooking, cleaning, laundry, and more",
+  "Enjoy a constant flow of new places, affinities, and people",
   "Expand your social life, activities, and overall quality of living",
-  "Eliminate loneliness and isolation for good",
   "Choose hotels based on your favorite affinities and find your kind of people",
+  "Eliminate loneliness and isolation for good",
   "Replace bills and unpredictable expenses with one fixed payment",
   "Enjoy the safety and security every hotel naturally provides",
   "Take advantage of daily services and amenities",

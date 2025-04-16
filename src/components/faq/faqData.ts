@@ -7,7 +7,7 @@ import { bookingFaqs } from "./categories/bookingFaqs";
 import { stayFaqs } from "./categories/stayFaqs";
 import { paymentFaqs } from "./categories/paymentFaqs";
 import { themesFaqs } from "./categories/themesFaqs";
-import { lifestyleFaqs } from "./categories/lifestyleFaqs";
+import { digitalNomadsFaqs } from "./categories/digitalNomadsFaqs";
 import { communityFaqs } from "./categories/communityFaqs";
 import { practicalFaqs } from "./categories/practicalFaqs";
 import { seniorFaqs } from "./categories/seniorFaqs";
@@ -24,7 +24,7 @@ export const faqsByCategory: Record<string, FaqItem[]> = {
   stay: stayFaqs,
   payment: paymentFaqs,
   themes: themesFaqs,
-  lifestyle: lifestyleFaqs,
+  lifestyle: digitalNomadsFaqs,  // Keep the id as 'lifestyle' to maintain consistency with existing data
   community: communityFaqs,
   practical: practicalFaqs,
   senior: seniorFaqs

@@ -1,7 +1,7 @@
 
 import { FaqItem } from "../types";
 
-export const lifestyleFaqs: FaqItem[] = [
+export const digitalNomadsFaqs: FaqItem[] = [
   {
     question: "How does Hotel-Living work for digital nomads?",
     answer: "Digital nomads find our platform particularly valuable because it provides reliable workspaces, built-in communities, and the flexibility to experience different locations while maintaining productivity. Our properties offer reliable high-speed internet, dedicated work areas, and often coworking spaces or business centers. Many also organize networking events and skill-sharing opportunities specifically for remote professionals."

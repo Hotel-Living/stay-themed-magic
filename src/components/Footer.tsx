@@ -19,6 +19,9 @@ export function Footer() {
             <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               FAQ
             </Link>
+            <Link to="/contact" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+              Contact
+            </Link>
             <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Our Values
             </Link>

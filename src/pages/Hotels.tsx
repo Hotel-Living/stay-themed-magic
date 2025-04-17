@@ -73,8 +73,8 @@ export default function Hotels() {
                 accentTextColor="#4db74d"
                 headerBgColor="#71037c"
                 marginBottom=""
-                textSizeClass="text-xs md:text-sm"
-                answerTextSizeClass="text-[0.7rem] md:text-xs"
+                textSizeClass="text-base md:text-lg"
+                answerTextSizeClass="text-sm md:text-base"
                 hideTabsList={false}
               />
               

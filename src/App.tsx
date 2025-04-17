@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -33,6 +32,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import AddPropertyPage from './pages/AddPropertyPage';
 import ThemesInformation from './pages/ThemesInformation';
+import Contact from "./pages/Contact";
 
 // ScrollToTop component to ensure pages always start at the top
 function ScrollToTop() {
@@ -85,6 +85,7 @@ function App() {
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="/themes-information" element={<ThemesInformation />} />
+                  <Route path="/contact" element={<Contact />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />

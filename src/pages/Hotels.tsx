@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -8,6 +9,10 @@ import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelF
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { HotelCards } from "@/components/hotels/HotelCards";
+import { HotelFeatures } from "@/components/hotels/HotelFeatures";
+import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 
 const orderedCategoryIds = [
   "benefits", "programs", "revenue", "guests", "seniors", 

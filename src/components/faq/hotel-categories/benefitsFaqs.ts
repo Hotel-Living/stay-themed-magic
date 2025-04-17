@@ -1,10 +1,13 @@
-
 import { FaqItem } from "../hotel-types";
 
 export const benefitsFaqs: FaqItem[] = [
   {
     question: "What kind of hotel is best suited for Hotel-Living?",
     answer: "Any type of hotel can benefit from our program, whether you're a boutique property, a business hotel, a resort, or a city hotel. The key requirements are having availability for longer-term guests, a willingness to build community, and the ability to provide reliable service for extended stays."
+  },
+  {
+    question: "Isn't this just a seasonal opportunity?",
+    answer: "Not at all. Active retirees travel year-round. Many are digital nomads, solo adventurers, or couples looking to change their lifestyle. Hotel Living creates a permanent new demand, not a seasonal spike."
   },
   {
     question: "How does this benefit my hotel financially?",

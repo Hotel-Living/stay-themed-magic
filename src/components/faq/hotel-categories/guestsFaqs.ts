@@ -27,15 +27,7 @@ export const guestsFaqs: FaqItem[] = [
     answer: "Because relationships develop over time, informal feedback channels are often most effective. Regular check-ins from management, community gatherings, and casual conversations provide valuable insights. These should be supplemented with mid-stay formal feedback opportunities and comprehensive departure surveys focused on the extended-stay experience."
   },
   {
-    question: "How do we manage guest expectations for long stays?",
-    answer: "Clear communication before arrival is essential. We provide comprehensive pre-arrival information templates that outline housekeeping schedules, meal options, community activities, and local resources. Many properties also implement arrival orientations and staggered information sharing to avoid overwhelming new guests."
-  },
-  {
     question: "Do these guests create more management challenges?",
     answer: "Not typically. Extended-stay guests generally create fewer incidents requiring management intervention compared to short-term guests. However, they may have more detailed feedback and personalization requests as they settle in. The key is establishing clear communication channels and service boundaries from the beginning."
-  },
-  {
-    question: "How do we handle guest mail and deliveries?",
-    answer: "This is an important service for extended-stay guests. Most properties implement a dedicated system for receiving, logging, and distributing guest packages and mail. Our operations guide includes recommended protocols and tracking systems to ensure nothing gets lost, even during staff changes."
   }
 ];

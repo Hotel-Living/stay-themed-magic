@@ -1,4 +1,3 @@
-
 import { FaqItem } from "../hotel-types";
 
 export const affinitiesFaqs: FaqItem[] = [
@@ -28,11 +27,7 @@ export const affinitiesFaqs: FaqItem[] = [
   },
   {
     question: "What physical space requirements do affinities need?",
-    answer: "Space needs vary by affinity type, but most can be implemented without major renovations. Multi-purpose areas that can be reconfigured for different activities are ideal. The essential elements are a dedicated community space (which could be part of an existing lounge), reliable technology, appropriate storage, and clear scheduling to maximize space utilization."
-  },
-  {
-    question: "How do we market our hotel's affinities effectively?",
-    answer: "Affinity marketing requires a shift from traditional hotel messaging. Focus on the experiences, community, and transformation guests will enjoy, rather than just amenities and location. Visual storytelling, guest testimonials, and community highlights are particularly effective. Our platform helps by connecting you directly with interest-based communities."
+    answer: "Space needs vary by affinity type, but most can be implemented without major renovations. Multi-purpose areas that can be reconfigured for different activities are ideal. The essential elements are a dedicated community space (which could be part of an existing lounge), reliable technology, appropriate storage, and clear scheduling to maximize space utilization. Of course, it's always an option to collaborate with restaurants, halls, or any other related business."
   },
   {
     question: "Can affinities change seasonally?",

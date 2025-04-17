@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -16,8 +15,7 @@ import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 
 const orderedCategoryIds = [
   "benefits", "programs", "revenue", "guests", "seniors", 
-  "affinities", "operation", "integration", "marketing", "payment", 
-  "steps", "rental"
+  "affinities", "operation", "integration", "marketing", "payment"
 ];
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (

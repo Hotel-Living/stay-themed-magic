@@ -15,32 +15,8 @@ export const seniorsFaqs: FaqItem[] = [
     answer: "It's hospitality with a purpose. You're not just offering a room—you're offering a lifestyle. And that emotional connection creates long-term loyalty, word-of-mouth, and a whole new identity for your hotel."
   },
   {
-    question: "Will guests really pay more for this kind of stay?",
-    answer: "Absolutely. Many active retirees have steady incomes or pensions. They are looking for meaning, not just savings. If your hotel provides warmth, human connection, and a sense of belonging, they'll gladly pay for it."
-  },
-  {
-    question: "Can this model help us reposition the hotel in a higher category?",
-    answer: "Yes. By embracing Hotel Living, you can shift your positioning from \"just accommodation\" to \"lifestyle destination.\" It enhances your brand image and allows for added-value pricing."
-  },
-  {
-    question: "Would this mean adding costly extras or upgrades?",
-    answer: "Not necessarily. Most services—cleaning, laundry, meals—are already part of hotel operations. What changes is how you present them, how you organize them for long stays, and the community feeling you create."
-  },
-  {
-    question: "Why should we care about this market segment?",
-    answer: "Because it's exploding. Millions of retirees are looking for exactly what hotels already provide: cleaning, food, safety, social interaction, and freedom. They're done with household burdens and are ready to live well—right now."
-  },
-  {
-    question: "Can Hotel Living allow us to charge higher rates than usual?",
-    answer: "Yes. You're not just selling a room—you're offering a lifestyle. Active seniors value comfort, consistency, and social connection. They're willing to pay more than short-term tourists because they're staying longer and getting much more in return."
-  },
-  {
-    question: "We'll never charge as much as a senior residence, right?",
+    question: "So, many active retirees will find this long-term stays an unique possibility to boost their lifestyle?",
     answer: "Correct—and that's the beauty of it. You offer a premium experience at a fraction of the price of a retirement home, making it attractive to guests and still highly profitable for you."
-  },
-  {
-    question: "How can we justify higher prices without providing medical care?",
-    answer: "You don't need medical services. What you offer is a daily sense of ease, cleanliness, security, and attention—plus an environment that fosters joy and connection. That alone justifies a premium price above regular hotel stays."
   },
   {
     question: "Isn't this turning the hotel into a senior residence?",

@@ -8,11 +8,11 @@ export const operationFaqs: FaqItem[] = [
   },
   {
     question: "Do we need to change our check-in/check-out procedures?",
-    answer: "While the basic process remains the same, we recommend creating a more comprehensive orientation for extended-stay guests, including property tours, introduction to staff, and explanation of amenities and activities. Some properties also implement flexible check-in windows and personalized welcome packages for Hotel-Living guests."
+    answer: "While the basic process remains the same, we recommend creating a more comprehensive orientation for extended-stay guests, including property tours, introduction to staff, and explanation of amenities and activities."
   },
   {
     question: "What about laundry services for long-term guests?",
-    answer: "Options vary by property type. Some hotels offer weekly laundry service included in the rate, others provide self-service facilities, and some offer paid laundry service. The key is creating clear, consistent policies that meet guest needs while remaining operationally efficient."
+    answer: "Options vary by property type. Some hotels offer weekly laundry service included in the rate, others provide self-service facilities, and some offer paid laundry service. The key is creating clear, consistent policies that meet guest needs while remaining operationally efficient. As a final option, it's always possible to partner with an external laundry service — or simply recommend a trusted provider to your guests."
   },
   {
     question: "How do we handle meals for extended-stay guests?",
@@ -37,5 +37,17 @@ export const operationFaqs: FaqItem[] = [
   {
     question: "What special security considerations are there for long-term stays?",
     answer: "Extended-stay guests often accumulate more possessions during their stay and may be more concerned about room security. Consider enhanced in-room safes, secure storage options for valuables, and clear policies on room access during housekeeping. Many properties also implement additional verification steps during the booking process for extended stays."
+  },
+  {
+    question: "What's the booking confirmation process like?",
+    answer: "When a guest books through Hotel-Living, you receive an instant notification through email. For standard bookings, confirmation is automatic. All communication with guests happens through our messaging system until check-in."
+  },
+  {
+    question: "How are payments processed for these extended stays?",
+    answer: "Guests pay their remaining balance directly to the hotel at check-in, following standard payment procedures. This gives properties immediate access to funds without waiting for third-party processing."
+  },
+  {
+    question: "How do we handle special requests from long-term guests?",
+    answer: "Create a clear system for tracking and fulfilling guest requests, whether through your existing processes or our platform's messaging system. Many properties designate specific staff members as long-stay guest liaisons."
   }
 ];

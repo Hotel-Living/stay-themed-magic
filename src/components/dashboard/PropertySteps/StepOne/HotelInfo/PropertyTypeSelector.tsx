@@ -31,12 +31,12 @@ const PropertyTypeSelector: React.FC<PropertyTypeSelectorProps> = ({
         <SelectTrigger id="propertyType" className="text-white bg-[#7A0486] border-white">
           <SelectValue placeholder="Select property type" />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Hotel">Hotel</SelectItem>
-          <SelectItem value="Resort">Resort</SelectItem>
-          <SelectItem value="Boutique Hotel">Boutique Hotel</SelectItem>
-          <SelectItem value="Motel">Motel</SelectItem>
-          <SelectItem value="Inn">Inn</SelectItem>
+        <SelectContent className="bg-[#7A0486] border-white">
+          <SelectItem value="Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel</SelectItem>
+          <SelectItem value="Resort" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Resort</SelectItem>
+          <SelectItem value="Boutique Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Boutique Hotel</SelectItem>
+          <SelectItem value="Motel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Motel</SelectItem>
+          <SelectItem value="Inn" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Inn</SelectItem>
         </SelectContent>
       </Select>
       {hasError && (

@@ -31,12 +31,12 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         <SelectTrigger id="category" className="text-white bg-[#7A0486] border-white">
           <SelectValue placeholder="Select hotel category" />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="1">1 Star</SelectItem>
-          <SelectItem value="2">2 Stars</SelectItem>
-          <SelectItem value="3">3 Stars</SelectItem>
-          <SelectItem value="4">4 Stars</SelectItem>
-          <SelectItem value="5">5 Stars</SelectItem>
+        <SelectContent className="bg-[#7A0486] border-white">
+          <SelectItem value="1" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">1 Star</SelectItem>
+          <SelectItem value="2" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">2 Stars</SelectItem>
+          <SelectItem value="3" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">3 Stars</SelectItem>
+          <SelectItem value="4" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">4 Stars</SelectItem>
+          <SelectItem value="5" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">5 Stars</SelectItem>
         </SelectContent>
       </Select>
       {hasError && (

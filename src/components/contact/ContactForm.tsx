@@ -55,7 +55,7 @@ export function ContactForm() {
       });
 
       if (response.ok) {
-        toast.success("Message sent successfully!");
+        toast.success("Thanks for your message! We'll back to you as soon as possible");
         form.reset();
       } else {
         throw new Error('Failed to send message');

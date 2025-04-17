@@ -27,7 +27,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 
   return (
     <div>
-      <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "")}>
+      <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "text-white")}>
         Country {hasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
@@ -35,16 +35,25 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           value={value} 
           onValueChange={onValueChange}
         >
-          <SelectTrigger className={cn("w-[180px]", hasError ? "border-red-500" : "")}>
+          <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
             <SelectValue placeholder="Select a country" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-[#7A0486] border-white">
             {countries.map((country) => (
-              <SelectItem key={country.isoCode} value={country.isoCode}>
+              <SelectItem 
+                key={country.isoCode} 
+                value={country.isoCode}
+                className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+              >
                 {country.name}
               </SelectItem>
             ))}
-            <SelectItem value="add-new">+ Add New Country</SelectItem>
+            <SelectItem 
+              value="add-new" 
+              className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+            >
+              + Add New Country
+            </SelectItem>
           </SelectContent>
         </Select>
         <Button variant="secondary" size="sm" onClick={onCustomClick}>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { sortedThemeCategories } from "./themes/themeData";
@@ -53,15 +52,17 @@ export default function ThemesAndActivitiesStep({
   return (
     <div className="space-y-4">
       <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
-        THEMES
+        AFFINITIES
       </label>
       
       <p className="text-sm text-foreground/90 mb-4">
-        Make your hotel stand out from the competition boosting it with group themes to attract your best and perfect guests
+        Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
       </p>
       
       <Link 
         to="/themes-information" 
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd]"
       >
         More Information
@@ -106,8 +107,8 @@ export default function ThemesAndActivitiesStep({
       )}
 
       {selectedThemes.length === 0 && (
-        <p className="text-sm mt-2 text-[#fa97a3]/[0.99]">
-          Please select at least one theme to continue
+        <p className="text-sm mt-2 text-white">
+          Please select at least one affinity to continue
         </p>
       )}
     </div>

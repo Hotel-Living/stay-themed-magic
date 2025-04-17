@@ -83,11 +83,17 @@ export default function AddPropertyForm() {
   };
 
   const handleSubmitProperty = () => {
-    const invalidSteps = Object.entries(stepValidation).filter(([_, isValid]) => !isValid).map(([step]) => parseInt(step));
-    if (invalidSteps.length > 0) {
+    const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
+    
+    if (!allStepsValid) {
+      const invalidSteps = Object.entries(stepValidation)
+        .filter(([_, isValid]) => !isValid)
+        .map(([step]) => parseInt(step));
+      
       const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
+      
       toast({
         title: "Cannot Submit Property",
         description: "Please complete all required fields before submitting.",
@@ -98,13 +104,13 @@ export default function AddPropertyForm() {
 
     setIsSubmitted(true);
     setSubmitSuccess(true);
-
+    
     toast({
       title: "Property Submitted Successfully",
       description: "Your property has been submitted for review.",
       duration: 5000
     });
-
+    
     setTimeout(() => {
       setCurrentStep(1);
       setStepValidation({

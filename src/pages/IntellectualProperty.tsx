@@ -1,5 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Link } from "react-router-dom";
+
 export default function IntellectualProperty() {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -34,7 +36,9 @@ export default function IntellectualProperty() {
               </p>
               
               <h2 className="text-xl font-semibold mt-8 mb-4">Contact Information</h2>
-              <p>For inquiries regarding intellectual property rights, permissions, or franchising opportunities, please find below our page ¨Intelectual Property¨.</p>
+              <p>
+                For inquiries regarding intellectual property rights, permissions, or franchising opportunities, please feel free to contact us completing the form you'll find in <Link to="/contact" className="text-fuchsia-400 hover:text-fuchsia-300">Contact</Link>
+              </p>
             </div>
           </div>
         </div>

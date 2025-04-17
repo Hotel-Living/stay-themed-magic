@@ -1,4 +1,3 @@
-
 import { FaqItem } from "../hotel-types";
 
 export const affinitiesFaqs: FaqItem[] = [
@@ -25,5 +24,29 @@ export const affinitiesFaqs: FaqItem[] = [
   {
     question: "What if some regular guests don't want to participate?",
     answer: "Participation is always optional. While the affinity creates a thematic environment, guests are free to engage as much or as little as they wish. Many hotels provide a mix of scheduled activities and always-available resources, allowing guests to customize their level of participation."
+  },
+  {
+    question: "Why should our hotel consider offering affinity-based stays?",
+    answer: "Because affinities — shared interests and passions — create powerful guest connections. When people stay with others who share their tastes, their experience becomes deeper, warmer, and more memorable. It's not just a room — it's a shared atmosphere."
+  },
+  {
+    question: "How does it benefit us financially?",
+    answer: "Guests who feel a strong sense of belonging often extend their stays and spend more. They dine together, book extra services, and often return. Social interaction drives satisfaction — and satisfaction drives revenue."
+  },
+  {
+    question: "Can we choose which affinities to promote?",
+    answer: "Absolutely. You can attract your ideal guests — whether it's food lovers, music fans, language learners, or creative souls. Especially in smaller hotels, owners can build communities around their own passions and turn their space into something truly personal and powerful."
+  },
+  {
+    question: "Isn't this too niche or limiting?",
+    answer: "Not at all. There's a massive variety of interests and plenty of guests looking for connection. Plus, it's flexible: you can rotate themes, test new ones, or run multiple at once. There's no one-size-fits-all — you shape your own identity."
+  },
+  {
+    question: "What's the bigger vision behind affinities?",
+    answer: "Affinities allow hotels to play a new social role: not just hosting travelers, but creating micro-communities. It's a way to reorganize hospitality — and even society — around shared meaning. In a world full of isolation, that's a rare and valuable gift."
+  },
+  {
+    question: "Does it really help fill rooms?",
+    answer: "Yes. People are more likely to stay longer when they find something meaningful. Instead of just a short trip, they might join a 16 or 32-day stay — not just for the place, but for the people they'll meet."
   }
 ];

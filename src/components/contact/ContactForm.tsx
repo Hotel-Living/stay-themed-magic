@@ -31,10 +31,39 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(data: ContactFormValues) {
-    console.log(data);
-    toast.success("Message sent successfully!");
-    form.reset();
+  async function onSubmit(data: ContactFormValues) {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: "contact@your-domain.com",
+          to: "grand_soiree@yahoo.com",
+          subject: `New Contact Form Submission from ${data.name}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
+            <p><strong>Country:</strong> ${data.country || 'Not provided'}</p>
+            <p><strong>Message:</strong></p>
+            <p>${data.message}</p>
+          `,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        form.reset();
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+      console.error('Error sending message:', error);
+    }
   }
 
   return (

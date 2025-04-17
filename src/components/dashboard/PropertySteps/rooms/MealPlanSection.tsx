@@ -32,7 +32,16 @@ export default function MealPlanSection({
     onValidationChange(true);
   };
 
-  // Only show errors when moving away from the field after touching it
+  useEffect(() => {
+    if (selectedMealPlan) {
+      setMealPlanValid(true);
+      onValidationChange(true);
+    } else {
+      setMealPlanValid(false);
+      onValidationChange(false);
+    }
+  }, [selectedMealPlan, onValidationChange]);
+
   const handleOpenStateChange = (open: boolean) => {
     setTouched(true);
     if (!open && touched && !mealPlanValid) {
@@ -44,6 +53,7 @@ export default function MealPlanSection({
     <div className="grid grid-cols-1 gap-4 mt-2">
       <div>
         <Select 
+          value={selectedMealPlan}
           onValueChange={handleMealPlanChange} 
           onOpenChange={handleOpenStateChange}
         >
@@ -59,7 +69,7 @@ export default function MealPlanSection({
           </SelectContent>
         </Select>
         {touched && !mealPlanValid && showErrors && (
-          <p className="text-red-400 text-xs mt-1">Please select a meal plan</p>
+          <p className="text-white text-xs mt-1">Please select a meal plan</p>
         )}
       </div>
     </div>

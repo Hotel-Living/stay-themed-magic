@@ -22,7 +22,7 @@ export default function AccommodationTermsStep({
 
   // Check if all required fields are completed
   const checkValidation = () => {
-    if (mealPlans.length === 0) {
+    if (!mealPlanValid) {
       setError("Please select at least one meal plan");
       onValidationChange(false);
       return false;
@@ -86,7 +86,7 @@ export default function AccommodationTermsStep({
       <ValidationMessages 
         error={error}
         showErrors={showErrors}
-        isValid={mealPlans.length > 0 && stayLengthValid && !error}
+        isValid={mealPlanValid && stayLengthValid && !error}
       />
     </div>
   );

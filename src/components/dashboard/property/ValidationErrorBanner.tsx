@@ -10,7 +10,7 @@ export default function ValidationErrorBanner({
   errorFields
 }: ValidationErrorBannerProps) {
   if (errorFields.length === 0) return null;
-  return <div className="mb-6 p-4 border rounded-md bg-red-500/20 text-white py-[3px]">
+  return <div className="mb-6 p-4 border rounded-md bg-purple-800/50 text-white py-[3px]">
       <div className="flex items-start gap-2">
         <AlertCircle className="h-5 w-5 mt-0.5" />
         <div>

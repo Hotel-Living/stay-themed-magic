@@ -17,7 +17,7 @@ export default function ValidationMessages({
     <>
       {/* Validation Messages - Only shown when errors exist and showErrors is true */}
       {error && showErrors && (
-        <div className="p-3 rounded-md text-red-200 flex items-center gap-2 bg-[#540ea9]/20">
+        <div className="p-3 rounded-md text-white flex items-center gap-2 bg-[#540ea9]/20">
           <AlertCircle className="h-5 w-5" />
           <span>{error}</span>
         </div>

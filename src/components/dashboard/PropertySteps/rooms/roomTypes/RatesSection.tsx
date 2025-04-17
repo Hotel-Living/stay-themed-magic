@@ -16,7 +16,7 @@ export default function RatesSection({
 }: RatesSectionProps) {
   return (
     <div className="col-span-4 mt-2">
-      <h4 className="font-medium text-white mb-2">RATES</h4>
+      <h4 className="font-medium text-white mb-2">RATES PER PERSON, NOT PER ROOM</h4>
       
       {stayLengths.length > 0 ? (
         <div className="grid grid-cols-2 gap-4">

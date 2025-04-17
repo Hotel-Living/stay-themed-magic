@@ -32,6 +32,7 @@ export default function MealPlanSection({
     onValidationChange(true);
   };
 
+  // This useEffect will run when selectedMealPlan changes
   useEffect(() => {
     if (selectedMealPlan) {
       setMealPlanValid(true);

@@ -1,6 +1,7 @@
+
 import { FaqItem, FaqCategory } from "./hotel-types";
 import { benefitsFaqs } from "./hotel-categories/benefitsFaqs";
-import { programsFaqs } from "./hotel-categories/programsFaqs";
+import { modelsFaqs } from "./hotel-categories/modelsFaqs";
 import { operationFaqs } from "./hotel-categories/operationFaqs";
 import { integrationFaqs } from "./hotel-categories/integrationFaqs";
 import { revenueFaqs } from "./hotel-categories/revenueFaqs";
@@ -16,7 +17,7 @@ export type { FaqItem, FaqCategory };
 export const hotelFaqCategories: FaqCategory[] = [
   { id: "video", name: "Video" },
   { id: "benefits", name: "Benefits" },
-  { id: "programs", name: "Programs" },
+  { id: "models", name: "Models" },
   { id: "revenue", name: "Revenue" },
   { id: "guests", name: "Guests" },
   { id: "seniors", name: "Seniors" },
@@ -29,7 +30,7 @@ export const hotelFaqCategories: FaqCategory[] = [
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   video: videoFaqs,
   benefits: benefitsFaqs,
-  programs: programsFaqs,
+  models: modelsFaqs,
   operation: operationFaqs,
   integration: integrationFaqs,
   revenue: revenueFaqs,

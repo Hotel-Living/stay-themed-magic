@@ -18,18 +18,18 @@ export default function FAQ() {
       <Navbar />
       
       <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
-        <div className="container max-w-5xl mx-auto px-4 py-6"> {/* Reduced py-12 to py-6 */}
+        <div className="container max-w-5xl mx-auto px-4 py-6">
           <BenefitsList benefits={benefitsList} />
           
-          <div className="text-center mb-8"> {/* Reduced mb-12 to mb-8 */}
+          <div className="text-center mb-6">
             <h1 className={`
-              ${isMobile ? "text-5xl" : "text-4xl md:text-5xl"} 
-              font-bold mb-6 text-[#eedbf7] glow 
+              ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-[#eedbf7] glow 
               tracking-tight leading-tight
             `}>
               Frequently Asked Questions
             </h1>
-            <p className={`${isMobile ? "text-2xl" : "text-xl"} font-medium text-[#e3d6e9] mb-8`}>
+            <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
               Find answers to common questions
             </p>
             
@@ -47,8 +47,8 @@ export default function FAQ() {
             faqsByCategory={faqsByCategory}
             numbered={true}
             searchQuery={searchQuery}
-            textSizeClass="text-base md:text-lg"
-            answerTextSizeClass="text-sm md:text-base"
+            textSizeClass="text-xs md:text-sm"
+            answerTextSizeClass="text-[0.7rem] md:text-xs"
           />
         </div>
       </main>

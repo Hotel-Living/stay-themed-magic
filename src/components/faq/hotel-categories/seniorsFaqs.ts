@@ -7,10 +7,6 @@ export const seniorsFaqs: FaqItem[] = [
     answer: "Absolutely. Hotel Living opens the doors to a massive and growing segment: independent retirees who want comfort, services, and social life—without entering a retirement home. It's a market hotels rarely targeted… until now."
   },
   {
-    question: "Isn't this just a seasonal opportunity?",
-    answer: "Not at all. Active retirees travel year-round. Many are digital nomads, solo adventurers, or couples looking to change their lifestyle. Hotel Living creates a permanent new demand, not a seasonal spike."
-  },
-  {
     question: "What makes this so different from traditional hospitality?",
     answer: "It's hospitality with a purpose. You're not just offering a room—you're offering a lifestyle. And that emotional connection creates long-term loyalty, word-of-mouth, and a whole new identity for your hotel."
   },

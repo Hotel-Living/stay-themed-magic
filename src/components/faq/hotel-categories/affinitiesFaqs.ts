@@ -1,3 +1,4 @@
+
 import { FaqItem } from "../hotel-types";
 
 export const affinitiesFaqs: FaqItem[] = [
@@ -14,23 +15,15 @@ export const affinitiesFaqs: FaqItem[] = [
     answer: "While this varies by region and property type, our platform data shows strong performance for wellness, culinary, creative arts, nature/outdoor, and digital nomad affinities. The most successful affinity isn't necessarily the most popular globally, but the one that best matches your property's authentic strengths and local environment."
   },
   {
-    question: "How do we implement affinity activities effectively?",
-    answer: "Successful implementation follows a simple formula: start small, maintain consistency, involve passionate staff, gather regular feedback, and evolve gradually. Begin with 2-3 weekly activities plus always-available resources, then expand as you learn what resonates with your specific guest community."
-  },
-  {
-    question: "Do we need specialized staff to manage affinity programs?",
-    answer: "Not necessarily. While some properties eventually create dedicated positions (like \"Community Manager\" or \"Program Director\"), many successful programs start by identifying existing staff with relevant interests and allocating a portion of their time. The key qualities are enthusiasm, organizational skills, and genuine interest in the affinity topic."
-  },
-  {
-    question: "How do affinities create additional revenue?",
-    answer: "Beyond driving occupancy, affinities create multiple revenue opportunities: premium activity packages, specialized retail offerings, expert-led workshops, local partnership commissions, and higher overall spending as guests participate more fully in hotel life. Many properties find their food and beverage revenue increases significantly with successful affinity programming."
-  },
-  {
     question: "What physical space requirements do affinities need?",
     answer: "Space needs vary by affinity type, but most can be implemented without major renovations. Multi-purpose areas that can be reconfigured for different activities are ideal. The essential elements are a dedicated community space (which could be part of an existing lounge), reliable technology, appropriate storage, and clear scheduling to maximize space utilization. Of course, it's always an option to collaborate with restaurants, halls, or any other related business."
   },
   {
     question: "Can affinities change seasonally?",
     answer: "Yes, seasonal variation works well for many properties, especially those in destinations with distinct seasons. For example, a mountain property might emphasize hiking and outdoor activities in summer, then shift to wellness and creative arts in winter. The key is maintaining some continuity in community feeling while adapting specific activities."
+  },
+  {
+    question: "What if some regular guests don't want to participate?",
+    answer: "Participation is always optional. While the affinity creates a thematic environment, guests are free to engage as much or as little as they wish. Many hotels provide a mix of scheduled activities and always-available resources, allowing guests to customize their level of participation."
   }
 ];

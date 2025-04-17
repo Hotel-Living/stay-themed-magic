@@ -1,4 +1,3 @@
-
 import { FaqItem, FaqCategory } from "./hotel-types";
 import { benefitsFaqs } from "./hotel-categories/benefitsFaqs";
 import { programsFaqs } from "./hotel-categories/programsFaqs";
@@ -24,7 +23,6 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "affinities", name: "Affinities" },
   { id: "operation", name: "Operation" },
   { id: "integration", name: "Integration" },
-  { id: "marketing", name: "Marketing" },
   { id: "payment", name: "Payment & Commissions" }
 ];
 

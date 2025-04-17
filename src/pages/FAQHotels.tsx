@@ -28,7 +28,7 @@ const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
 );
 
 const orderedCategoryIds = [
-  "video", "benefits", "programs", "revenue", "guests", "seniors", 
+  "video", "benefits", "models", "revenue", "guests", "seniors", 
   "affinities", "operation", "integration", "marketing", "payment", 
   "steps", "rental"
 ];

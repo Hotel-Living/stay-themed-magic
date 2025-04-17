@@ -14,7 +14,7 @@ import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 
 const orderedCategoryIds = [
-  "benefits", "programs", "revenue", "guests", "seniors", 
+  "benefits", "models", "revenue", "guests", "seniors", 
   "affinities", "operation", "integration", "marketing", "payment"
 ];
 

@@ -56,6 +56,36 @@ export default function AddPropertyForm() {
     termsAccepted: false
   });
 
+  // Store formData in sessionStorage when it changes
+  useEffect(() => {
+    sessionStorage.setItem('propertyFormData', JSON.stringify(formData));
+  }, [formData]);
+
+  // Load formData from sessionStorage on initial load
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('propertyFormData');
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        setFormData(parsedData);
+        
+        // Set validation state based on the loaded data
+        const newValidation = { ...stepValidation };
+        if (parsedData.basicInfo && parsedData.basicInfo.name) newValidation[1] = true;
+        if (parsedData.accommodationTerms && parsedData.accommodationTerms.stayLengths && parsedData.accommodationTerms.stayLengths.length > 0) newValidation[2] = true;
+        if (parsedData.themesAndActivities && parsedData.themesAndActivities.themes && parsedData.themesAndActivities.themes.length > 0) newValidation[3] = true;
+        setStepValidation(newValidation);
+        
+        // Set terms accepted state
+        if (parsedData.termsAccepted) {
+          setTermsAccepted(parsedData.termsAccepted);
+        }
+      } catch (e) {
+        console.error("Error loading saved form data:", e);
+      }
+    }
+  }, []);
+
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
   const { toast } = useToast();
 
@@ -228,6 +258,9 @@ export default function AddPropertyForm() {
         description: "Your property has been submitted for review.",
         duration: 5000
       });
+      
+      // Clear stored form data
+      sessionStorage.removeItem('propertyFormData');
       
       // Redirect to the hotel dashboard after a short delay
       setTimeout(() => {

@@ -37,7 +37,7 @@ export default function RoomTypeDialog({
     const handleToggleDialog = (event: Event) => {
       const customEvent = event as CustomEvent;
       if (customEvent.detail && typeof customEvent.detail.open === 'boolean') {
-        // This is just to handle the custom event if needed
+        onClose();
       }
     };
 
@@ -45,7 +45,7 @@ export default function RoomTypeDialog({
     return () => {
       window.removeEventListener('toggle-room-type-dialog', handleToggleDialog);
     };
-  }, []);
+  }, [onClose]);
   
   useEffect(() => {
     if (isOpen) {

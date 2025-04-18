@@ -51,10 +51,10 @@ export default function RoomTypeContent({
       </div>
       
       <RoomTypeDialog 
-        isOpen={dialogOpen} 
-        onClose={() => setDialogOpen(false)} 
-        onAdd={handleAddRoomType}
-        availableStayLengths={selectedStayLengths}
+        open={dialogOpen} 
+        onOpenChange={setDialogOpen} 
+        onSave={handleAddRoomType}
+        selectedStayLengths={selectedStayLengths}
       />
     </>
   );

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 // Interface for the room type form data
-interface RoomType {
+export interface RoomType {
   id: string;
   name: string;
   maxOccupancy: number;

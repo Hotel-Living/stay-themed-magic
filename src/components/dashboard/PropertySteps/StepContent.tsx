@@ -5,6 +5,7 @@ import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep"
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
+import { AlertTriangle } from "lucide-react";
 
 interface StepContentProps {
   currentStep: number;

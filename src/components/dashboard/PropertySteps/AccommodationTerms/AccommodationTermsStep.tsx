@@ -20,7 +20,7 @@ export default function AccommodationTermsStep({
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [error, setError] = useState<string>("");
-  const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(true);
+  const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(false);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 

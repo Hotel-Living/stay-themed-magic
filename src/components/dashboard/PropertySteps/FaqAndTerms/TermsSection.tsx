@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown, CheckCircle } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -46,16 +46,22 @@ export default function TermsSection({
               This pre-configured template covers standard hotel policies. Feel free to modify it to match your specific requirements.
             </p>
             
-            <div className="flex items-center space-x-2 mt-6">
-              <input 
-                type="checkbox"
-                id="accept-terms"
-                checked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
-                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50"
-              />
-              <Label htmlFor="accept-terms" className="text-sm text-white">
-                I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms
+            <div className="flex items-start gap-3 mt-6 bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/30">
+              <div className="flex-none mt-0.5">
+                {termsAccepted ? (
+                  <CheckCircle 
+                    className="h-6 w-6 text-green-400 cursor-pointer" 
+                    onClick={() => setTermsAccepted(false)}
+                  />
+                ) : (
+                  <div 
+                    className="h-6 w-6 rounded-full border-2 border-fuchsia-400 cursor-pointer" 
+                    onClick={() => setTermsAccepted(true)}
+                  ></div>
+                )}
+              </div>
+              <Label htmlFor="accept-terms" className="text-sm text-white cursor-pointer" onClick={() => setTermsAccepted(!termsAccepted)}>
+                I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms <span className="text-red-400">*</span>
               </Label>
             </div>
           </div>

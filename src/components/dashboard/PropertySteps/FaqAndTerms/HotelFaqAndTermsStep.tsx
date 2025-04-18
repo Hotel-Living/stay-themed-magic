@@ -18,7 +18,7 @@ export default function HotelFaqAndTermsStep({
 }: HotelFaqAndTermsStepProps) {
   const [faqItems, setFaqItems] = useState<FaqItem[]>(formData.faqs || predefinedFaqs);
   const [termsAndConditions, setTermsAndConditions] = useState(formData.terms || predefinedTerms);
-  const [isOpenFaq, setIsOpenFaq] = useState(true);
+  const [isOpenFaq, setIsOpenFaq] = useState(false);
   const [isOpenTerms, setIsOpenTerms] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(formData.termsAccepted || false);
 
@@ -38,10 +38,10 @@ export default function HotelFaqAndTermsStep({
   }, [termsAccepted, updateFormData]);
 
   useEffect(() => {
-    // Validate based on having at least one FAQ and terms and conditions
-    const isValid = faqItems.length > 0 && termsAndConditions.trim().length > 0;
+    // Validate based on just the terms and conditions (FAQs optional)
+    const isValid = termsAndConditions.trim().length > 0;
     onValidationChange(isValid);
-  }, [faqItems, termsAndConditions, onValidationChange]);
+  }, [termsAndConditions, onValidationChange]);
 
   return (
     <div className="space-y-6">

@@ -70,12 +70,19 @@ export default function FaqSection({
     <div>
       <Collapsible className="w-full" open={isOpenFaq} onOpenChange={setIsOpenFaq}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <h3 className="text-xl font-bold uppercase text-white">FREQUENTLY ASKED QUESTIONS</h3>
+          <h3 className="text-xl font-bold uppercase text-white">FREQUENTLY ASKED QUESTIONS <span className="text-sm font-normal italic text-fuchsia-300">(optional)</span></h3>
           {isOpenFaq ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
         </CollapsibleTrigger>
         
         <CollapsibleContent>
           <div className="space-y-4">
+            {faqItems.length === 0 && (
+              <p className="text-sm text-fuchsia-300/80 italic mb-2">
+                Common preloaded FAQs are provided below. You can edit them, remove them, or add new ones as needed.
+                This section is optional for property submission.
+              </p>
+            )}
+            
             {faqItems.map((item, index) => (
               <div key={index} className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30">
                 <FaqItemComponent 

@@ -34,34 +34,23 @@ export default function LengthOfStaySection({
   ];
 
   useEffect(() => {
+    // Initialize with empty selection instead of default values
     const storedLengths = getSelectedStayLengths();
     
-    // If we have stored lengths, use them
     if (storedLengths.length > 0) {
       // Filter to make sure we only use valid durations (8, 16, 24, 32)
       const validStoredLengths = storedLengths.filter(len => 
         stayLengths.includes(len)
       );
       
-      if (validStoredLengths.length > 0) {
-        setSelectedStayLengths(validStoredLengths);
-        setStayLengthsValid(true);
-        onValidationChange(true);
-      } else {
-        // If no valid lengths, set the default ones
-        const defaultLengths = [8, 16];
-        setSelectedStayLengths(defaultLengths);
-        saveSelectedStayLengths(defaultLengths);
-        setStayLengthsValid(true);
-        onValidationChange(true);
-      }
+      setSelectedStayLengths(validStoredLengths);
+      setStayLengthsValid(validStoredLengths.length > 0);
+      onValidationChange(validStoredLengths.length > 0);
     } else {
-      // No stored lengths, set defaults
-      const defaultLengths = [8, 16];
-      setSelectedStayLengths(defaultLengths);
-      saveSelectedStayLengths(defaultLengths);
-      setStayLengthsValid(true);
-      onValidationChange(true);
+      // No defaults - start with empty selection
+      setSelectedStayLengths([]);
+      setStayLengthsValid(false);
+      onValidationChange(false);
     }
   }, []);
 
@@ -121,7 +110,7 @@ export default function LengthOfStaySection({
   }
 
   return (
-    <Collapsible className="w-full">
+    <Collapsible className="w-full" defaultOpen={false}>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90 uppercase">
           {title}

@@ -1,3 +1,4 @@
+
 import React from "react";
 import RoomTypeList from "./RoomTypeList";
 
@@ -36,11 +37,13 @@ export const RoomTypeSection: React.FC<RoomTypeSectionProps> = ({
       
       <div className="space-y-6">
         <RoomTypeList 
-          onValidationChange={onValidationChange}
           initialRoomTypes={initialData?.roomTypes || []}
           initialStayLengths={initialData?.stayLengths || []}
           onStayLengthsChange={onStayLengthsChange}
           onMealPlansChange={onMealPlansChange}
+          onRoomTypesChange={(roomTypes) => {
+            onValidationChange(roomTypes.length > 0, roomTypes);
+          }}
         />
       </div>
     </div>

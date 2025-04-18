@@ -44,6 +44,10 @@ export function FilterSidebar({
   // Meal options
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Self Catering"];
   
+  // Extract feature names from feature objects
+  const hotelFeatureNames = hotelFeatures.map(feature => feature.name);
+  const roomFeatureNames = roomFeatures.map(feature => feature.name);
+  
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
       <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
       
@@ -67,8 +71,8 @@ export function FilterSidebar({
       
       <CheckboxFilter title="ROOM TYPES" options={roomTypes} selectedOptions={activeFilters.roomTypes} onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)} />
       
-      <CheckboxFilter title="HOTEL FEATURES" options={hotelFeatures} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)} />
+      <CheckboxFilter title="HOTEL FEATURES" options={hotelFeatureNames} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)} />
       
-      <CheckboxFilter title="ROOM FEATURES" options={roomFeatures} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
+      <CheckboxFilter title="ROOM FEATURES" options={roomFeatureNames} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
     </div>;
 }

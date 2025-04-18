@@ -92,8 +92,6 @@ export default function AccommodationTermsStep({
       />
       
       <RoomsRatesSection 
-        isOpen={roomsSectionOpen}
-        onOpenChange={setRoomsSectionOpen}
         onValidationChange={handleRoomsValid}
         initialData={{
           stayLengths,

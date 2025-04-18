@@ -6,6 +6,8 @@ interface RoomsRatesSectionProps {
   title?: string;
   fullWidth?: boolean;
   showHeader?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
   onValidationChange: (isValid: boolean, roomTypeData?: any[]) => void;
   initialData?: {
     stayLengths?: number[];
@@ -19,6 +21,8 @@ export const RoomsRatesSection: React.FC<RoomsRatesSectionProps> = ({
   title = "Rooms & Rates",
   fullWidth = false,
   showHeader = true,
+  isOpen,
+  onOpenChange,
   onValidationChange,
   initialData = { stayLengths: [], roomTypes: [] },
   onStayLengthsChange,

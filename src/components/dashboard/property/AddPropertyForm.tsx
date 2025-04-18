@@ -5,7 +5,6 @@ import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
-import FormNavigation from "./FormNavigation";
 import { usePropertyForm } from "@/hooks/usePropertyForm";
 import { getIncompleteFields, validateCurrentStep } from "@/utils/propertyFormUtils";
 
@@ -102,13 +101,6 @@ export default function AddPropertyForm() {
         stepTitle={stepTitles[currentStep - 1]} 
       />
       
-      <FormNavigation 
-        currentStep={currentStep}
-        onPrevious={goToPreviousStep}
-        onNext={goToNextStep}
-        onSubmit={handleSubmitProperty}
-      />
-      
       {showValidationErrors && errorFields.length > 0 && (
         <ValidationErrorBanner errorFields={errorFields} />
       )}
@@ -120,6 +112,9 @@ export default function AddPropertyForm() {
           currentStep={currentStep}
           formData={formData}
           updateFormData={updateFormData}
+          onNext={goToNextStep}
+          onPrevious={goToPreviousStep}
+          onSubmit={handleSubmitProperty}
         />
       )}
       

@@ -25,23 +25,30 @@ export const useStepNavigation = () => {
     setShowValidationErrors,
     toast
   }: any) => {
-    if (action === 'next' && !stepValidation[currentStep]) {
-      const fields = getIncompleteFields(currentStep);
-      setErrorFields(fields);
-      setShowValidationErrors(true);
-      toast({
-        title: "Warning",
-        description: "Some fields are incomplete. You can still proceed but please complete them later.",
-        variant: "destructive"
-      });
-    }
+    console.log(`Handling ${action} navigation from step ${currentStep}`, { stepValidation });
+    
+    if (action === 'next') {
+      // Allow navigation even if step is not valid, just show warning
+      if (!stepValidation[currentStep]) {
+        const fields = getIncompleteFields(currentStep);
+        setErrorFields(fields);
+        setShowValidationErrors(true);
+        toast({
+          title: "Warning",
+          description: "Some fields are incomplete. You can still proceed but please complete them later.",
+          variant: "destructive"
+        });
+      }
 
-    if (action === 'next' && currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+        window.scrollTo(0, 0);
+        console.log(`Navigation succeeded: moving to step ${currentStep + 1}`);
+      }
     } else if (action === 'previous' && currentStep > 1) {
       setCurrentStep(currentStep - 1);
       window.scrollTo(0, 0);
+      console.log(`Navigation succeeded: moving back to step ${currentStep - 1}`);
     }
   };
 

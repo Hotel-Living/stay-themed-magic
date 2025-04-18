@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { createHotel } from "@/services/hotelService";
 import { StepValidationState } from "../types";
 
 export const usePropertyForm = () => {

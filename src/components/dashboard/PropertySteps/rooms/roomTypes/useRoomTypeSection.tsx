@@ -2,9 +2,15 @@
 import { useState, useEffect } from "react";
 import { useRoomTypes, RoomType } from "./useRoomTypes";
 
+// Define interface for the formData parameter
+interface FormData {
+  roomTypes?: RoomType[];
+  [key: string]: any;
+}
+
 export function useRoomTypeSection(
   onValidationChange = (isValid: boolean) => {},
-  formData = {},
+  formData: FormData = {},
   updateFormData = (field: string, value: any) => {}
 ) {
   const {

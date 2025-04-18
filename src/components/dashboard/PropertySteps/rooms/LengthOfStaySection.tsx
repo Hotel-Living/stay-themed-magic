@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -25,7 +24,6 @@ export default function LengthOfStaySection({
   // Updated stay lengths to 8, 16, 24, 32 days
   const stayLengths = [8, 16, 24, 32];
 
-  // Custom durations to replace the imported ones
   const durations = [
     { value: 8 },
     { value: 16 },
@@ -34,24 +32,10 @@ export default function LengthOfStaySection({
   ];
 
   useEffect(() => {
-    // Initialize with empty selection instead of default values
-    const storedLengths = getSelectedStayLengths();
-    
-    if (storedLengths.length > 0) {
-      // Filter to make sure we only use valid durations (8, 16, 24, 32)
-      const validStoredLengths = storedLengths.filter(len => 
-        stayLengths.includes(len)
-      );
-      
-      setSelectedStayLengths(validStoredLengths);
-      setStayLengthsValid(validStoredLengths.length > 0);
-      onValidationChange(validStoredLengths.length > 0);
-    } else {
-      // No defaults - start with empty selection
-      setSelectedStayLengths([]);
-      setStayLengthsValid(false);
-      onValidationChange(false);
-    }
+    // Initialize with empty selection - removed default values
+    setSelectedStayLengths([]);
+    setStayLengthsValid(false);
+    onValidationChange(false);
   }, []);
 
   const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {

@@ -14,21 +14,20 @@ export default function ValidationMessages({
   roomTypesCount
 }: ValidationMessagesProps) {
   return (
-    <>
-      {/* Show error only when validation is attempted */}
+    <div className="mt-4">
       {error && showValidationError && (
-        <div className="p-3 mt-4 rounded-md bg-purple-800/50 text-white flex items-center gap-2">
+        <div className="p-3 rounded-md bg-red-500/20 text-red-200 flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
-          <span>{error}</span>
+          <span>Please add at least one room type with Affinities to proceed</span>
         </div>
       )}
       
       {roomTypesCount > 0 && !error && (
-        <div className="p-3 mt-4 rounded-md bg-green-500/20 text-white flex items-center gap-2">
+        <div className="p-3 rounded-md bg-green-500/20 text-green-200 flex items-center gap-2">
           <CheckCircle className="h-5 w-5" />
-          <span>{roomTypesCount} room type(s) added successfully</span>
+          <span>Room types added successfully!</span>
         </div>
       )}
-    </>
+    </div>
   );
 }

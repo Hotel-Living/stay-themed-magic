@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronUp, ChevronDown, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -23,6 +22,17 @@ export default function FaqSection({
   const [isAddingFaq, setIsAddingFaq] = useState(false);
   const [newFaqQuestion, setNewFaqQuestion] = useState("");
   const [newFaqAnswer, setNewFaqAnswer] = useState("");
+
+  const predefinedFaqs = [
+    { question: "What is your property?", answer: "Our property is located in the heart of the city." },
+    { question: "How much does it cost?", answer: "The property costs $500,000." }
+  ];
+
+  useEffect(() => {
+    if (faqItems.length === 0) {
+      setFaqItems(predefinedFaqs);
+    }
+  }, []);
 
   const addFaqItem = () => {
     if (newFaqQuestion && newFaqAnswer) {

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -28,15 +27,13 @@ export default function RoomTypeDialog({
   const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
   const [roomImages, setRoomImages] = useState<File[]>([]);
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  const [roomCount, setRoomCount] = useState(1);
   
-  // Get the latest stay lengths on open
   useEffect(() => {
     if (isOpen) {
-      // First try to use the provided lengths
       if (availableStayLengths && availableStayLengths.length > 0) {
         setStayLengths(availableStayLengths);
       } else {
-        // Fallback to getting from localStorage
         const storedLengths = getSelectedStayLengths();
         if (storedLengths && storedLengths.length > 0) {
           setStayLengths(storedLengths);
@@ -46,7 +43,7 @@ export default function RoomTypeDialog({
   }, [isOpen, availableStayLengths]);
 
   const handleAddRoomType = () => {
-    if (newRoomType.trim()) {
+    if (newRoomType.trim() && roomImages.length > 0) {
       onAdd({
         id: Date.now().toString(),
         name: newRoomType,
@@ -54,6 +51,7 @@ export default function RoomTypeDialog({
         size: roomSize,
         description,
         baseRate: 0,
+        roomCount,
         rates,
         images: roomImagePreviews
       });
@@ -69,6 +67,7 @@ export default function RoomTypeDialog({
     setRates({});
     setRoomImages([]);
     setRoomImagePreviews([]);
+    setRoomCount(1);
   };
 
   const handleRateChange = (duration: number, value: string) => {
@@ -83,7 +82,6 @@ export default function RoomTypeDialog({
       const newFiles = Array.from(e.target.files);
       setRoomImages(prev => [...prev, ...newFiles]);
       
-      // Create preview URLs
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
       setRoomImagePreviews(prev => [...prev, ...newPreviews]);
     }
@@ -92,7 +90,6 @@ export default function RoomTypeDialog({
   const removeImage = (index: number) => {
     setRoomImages(prev => prev.filter((_, i) => i !== index));
     
-    // Also remove the preview and revoke the object URL to free memory
     const urlToRevoke = roomImagePreviews[index];
     URL.revokeObjectURL(urlToRevoke);
     setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
@@ -129,16 +126,32 @@ export default function RoomTypeDialog({
             rates={rates}
             onRateChange={handleRateChange}
           />
+          
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right text-sm text-white">Available Rooms</Label>
+            <div className="col-span-3">
+              <Input 
+                type="number"
+                min="1"
+                value={roomCount}
+                onChange={(e) => setRoomCount(parseInt(e.target.value) || 1)}
+                className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-24"
+              />
+            </div>
+          </div>
         </div>
         
         <DialogFooter>
           <Button 
             onClick={handleAddRoomType} 
-            disabled={!newRoomType.trim()}
+            disabled={!newRoomType.trim() || roomImages.length === 0}
             className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
           >
             Add Room Type
           </Button>
+          {roomImages.length === 0 && (
+            <p className="text-red-400 text-sm">Please upload at least one room image</p>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

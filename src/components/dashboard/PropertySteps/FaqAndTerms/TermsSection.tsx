@@ -50,12 +50,12 @@ export default function TermsSection({
               <div className="flex-none mt-0.5">
                 {termsAccepted ? (
                   <CheckCircle 
-                    className="h-6 w-6 text-green-400 cursor-pointer" 
+                    className="h-6 w-6 text-black cursor-pointer" 
                     onClick={() => setTermsAccepted(false)}
                   />
                 ) : (
                   <div 
-                    className="h-6 w-6 rounded-full border-2 border-fuchsia-400 cursor-pointer" 
+                    className="h-6 w-6 rounded-full border-2 border-black cursor-pointer" 
                     onClick={() => setTermsAccepted(true)}
                   ></div>
                 )}

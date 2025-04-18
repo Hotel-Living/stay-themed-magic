@@ -7,28 +7,25 @@ import TermsSection from "./TermsSection";
 
 interface HotelFaqAndTermsStepProps {
   onValidationChange?: (isValid: boolean, data?: any) => void;
-  termsAccepted?: boolean;
-  setTermsAccepted?: (value: boolean) => void;
+  initialData?: any;
 }
 
 export default function HotelFaqAndTermsStep({ 
   onValidationChange = () => {},
-  termsAccepted = false,
-  setTermsAccepted = () => {}
+  initialData = {}
 }: HotelFaqAndTermsStepProps) {
   const [faqItems, setFaqItems] = useState<FaqItem[]>(predefinedFaqs);
   const [termsAndConditions, setTermsAndConditions] = useState(predefinedTerms);
   const [isOpenFaq, setIsOpenFaq] = useState(true);
   const [isOpenTerms, setIsOpenTerms] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(initialData?.termsAccepted || false);
 
   useEffect(() => {
     // Validate based on having at least one FAQ and terms and conditions
     const isValid = faqItems.length > 0 && termsAndConditions.trim().length > 0;
-    onValidationChange(isValid, {
-      faqItems,
-      termsAndConditions,
-      termsAccepted
-    });
+    
+    // Pass the terms acceptance state up
+    onValidationChange(isValid, { termsAccepted });
   }, [faqItems, termsAndConditions, termsAccepted, onValidationChange]);
 
   return (
@@ -44,7 +41,10 @@ export default function HotelFaqAndTermsStep({
         termsAndConditions={termsAndConditions}
         setTermsAndConditions={setTermsAndConditions}
         termsAccepted={termsAccepted}
-        setTermsAccepted={setTermsAccepted}
+        setTermsAccepted={(accepted) => {
+          setTermsAccepted(accepted);
+          onValidationChange(true, { termsAccepted: accepted });
+        }}
         isOpenTerms={isOpenTerms}
         setIsOpenTerms={setIsOpenTerms}
       />

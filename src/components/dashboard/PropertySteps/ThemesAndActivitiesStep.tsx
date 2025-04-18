@@ -1,128 +1,118 @@
 
 import React, { useState, useEffect } from "react";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { AlertCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { sortedThemeCategories } from "./themes/themeData";
+import ThemeCategory from "./themes/ThemeCategory";
+import { useToast } from "@/hooks/use-toast";
 
-interface ThemesAndActivitiesStepProps {
-  onValidationChange?: (isValid: boolean, data?: any) => void;
-  initialData?: {
-    themes?: string[];
-    activities?: string[];
-  };
+export interface ThemesAndActivitiesStepProps {
+  onValidationChange?: (isValid: boolean) => void;
+  initialData?: any;
 }
 
-export default function ThemesAndActivitiesStep({ 
+export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
-  initialData = { themes: [], activities: [] }
+  initialData = {}
 }: ThemesAndActivitiesStepProps) {
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [selectedThemes, setSelectedThemes] = useState<string[]>(initialData.themes || []);
-  const [selectedActivities, setSelectedActivities] = useState<string[]>(initialData.activities || []);
-  const [error, setError] = useState<string>("");
-
-  // Available themes and activities
-  const themes = [
-    "Beach", "Mountain", "Urban", "Cultural", "Historic", "Luxury",
-    "Budget", "Family-friendly", "Adult-only", "Romantic", "Wellness",
-    "Adventure", "Eco-friendly", "Business", "Sports", "Nightlife"
-  ];
+  const { toast } = useToast();
   
-  const activities = [
-    "Swimming", "Hiking", "Cycling", "Golf", "Tennis", "Fishing",
-    "Skiing", "Surfing", "Yoga", "Meditation", "Spa", "Cooking Classes",
-    "Wine Tasting", "City Tours", "Shopping", "Museum Visits", "Live Music"
-  ];
+  const toggleCategory = (category: string) => {
+    setOpenCategory(openCategory === category ? null : category);
+  };
+  
+  const toggleSubmenu = (submenu: string) => {
+    setOpenSubmenu(openSubmenu === submenu ? null : submenu);
+  };
 
-  useEffect(() => {
-    // Validate selection
-    const isValid = selectedThemes.length > 0;
-    setError(isValid ? "" : "Please select at least one theme");
-    
-    // Notify parent component of validation state and data
-    onValidationChange(isValid, {
-      themes: selectedThemes,
-      activities: selectedActivities
+  // Track theme selection
+  const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+    setSelectedThemes(prev => {
+      if (isSelected) {
+        // Show toast for selected themes
+        if (!prev.includes(themeId)) {
+          toast({
+            title: "Theme selected",
+            description: "The theme has been added to your selection"
+          });
+        }
+        return [...prev.filter(id => id !== themeId), themeId];
+      } else {
+        return prev.filter(id => id !== themeId);
+      }
     });
-  }, [selectedThemes, selectedActivities, onValidationChange]);
-
-  const handleThemeChange = (theme: string) => {
-    if (selectedThemes.includes(theme)) {
-      setSelectedThemes(selectedThemes.filter(t => t !== theme));
-    } else {
-      setSelectedThemes([...selectedThemes, theme]);
-    }
   };
 
-  const handleActivityChange = (activity: string) => {
-    if (selectedActivities.includes(activity)) {
-      setSelectedActivities(selectedActivities.filter(a => a !== activity));
-    } else {
-      setSelectedActivities([...selectedActivities, activity]);
-    }
-  };
-
+  // Validate based on theme selection
+  useEffect(() => {
+    // Consider the step valid if at least one theme is selected
+    const isValid = selectedThemes.length > 0;
+    onValidationChange(isValid);
+  }, [selectedThemes, onValidationChange]);
+  
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-bold mb-2 text-white">THEMES AND ACTIVITIES</h2>
+    <div className="space-y-4">
+      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
+        AFFINITIES
+      </label>
       
-      {/* Themes Section */}
-      <div className="glass-card rounded-xl p-4 space-y-4 bg-[#690695]/40">
-        <div>
-          <Label className="text-lg font-medium text-white mb-4 block">
-            Property Themes <span className="text-red-400">*</span>
-          </Label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {themes.map(theme => (
-              <div key={theme} className="flex items-center gap-2">
-                <Checkbox 
-                  id={`theme-${theme}`}
-                  checked={selectedThemes.includes(theme)}
-                  onCheckedChange={() => handleThemeChange(theme)}
-                  className="data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-                />
-                <Label 
-                  htmlFor={`theme-${theme}`}
-                  className="text-white cursor-pointer"
-                >
-                  {theme}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Activities Section */}
-        <div className="mt-8">
-          <Label className="text-lg font-medium text-white mb-4 block">
-            Available Activities (Optional)
-          </Label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {activities.map(activity => (
-              <div key={activity} className="flex items-center gap-2">
-                <Checkbox 
-                  id={`activity-${activity}`}
-                  checked={selectedActivities.includes(activity)}
-                  onCheckedChange={() => handleActivityChange(activity)}
-                  className="data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-                />
-                <Label 
-                  htmlFor={`activity-${activity}`}
-                  className="text-white cursor-pointer"
-                >
-                  {activity}
-                </Label>
-              </div>
-            ))}
-          </div>
+      <p className="text-sm text-foreground/90 mb-4">
+        Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
+      </p>
+      
+      <Link 
+        to="/themes-information" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd]"
+      >
+        More Information
+      </Link>
+      
+      <div>
+        <div className="grid grid-cols-1 gap-0.5">
+          {sortedThemeCategories.map(category => (
+            <ThemeCategory 
+              key={category.category} 
+              category={category} 
+              isOpen={openCategory === category.category} 
+              toggleCategory={toggleCategory} 
+              openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
+              toggleSubmenu={toggleSubmenu}
+              onThemeSelect={handleThemeSelection} 
+            />
+          ))}
         </div>
       </div>
       
-      {/* Error Message */}
-      {error && (
-        <div className="p-3 rounded-md bg-red-500/20 text-red-200 flex items-center gap-2">
-          <AlertCircle className="h-5 w-5" />
-          <span>{error}</span>
+      {selectedThemes.length > 0 && (
+        <div className="p-3 bg-fuchsia-900/20 rounded-lg mt-3">
+          <h3 className="text-sm font-medium mb-2">Selected Themes ({selectedThemes.length})</h3>
+          <div className="flex flex-wrap gap-2">
+            {selectedThemes.map(themeId => (
+              <div 
+                key={themeId} 
+                className="px-2 py-1 bg-fuchsia-800/30 rounded-md text-xs flex items-center"
+              >
+                {themeId.replace(/^custom-/, '').replace(/-/g, ' ')}
+                <button 
+                  className="ml-1.5 text-fuchsia-300 hover:text-white"
+                  onClick={() => handleThemeSelection(themeId, false)}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
+      )}
+
+      {selectedThemes.length === 0 && (
+        <p className="text-sm mt-2 text-white">
+          Please select at least one affinity to continue
+        </p>
       )}
     </div>
   );

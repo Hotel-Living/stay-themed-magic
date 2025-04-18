@@ -1,133 +1,201 @@
 
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
+import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
+import { useToast } from "@/hooks/use-toast";
 
 interface RoomTypeDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSave: (roomType: any) => void;
-  selectedStayLengths: number[];
+  isOpen: boolean;
+  onClose: () => void;
+  onAdd: (roomType: any) => void;
+  availableStayLengths?: number[];
 }
 
-export default function RoomTypeDialog({
-  open,
-  onOpenChange,
-  onSave,
-  selectedStayLengths = []
+export default function RoomTypeDialog({ 
+  isOpen, 
+  onClose, 
+  onAdd,
+  availableStayLengths = [] 
 }: RoomTypeDialogProps) {
-  const [name, setName] = useState("");
-  const [maxOccupancy, setMaxOccupancy] = useState(2);
+  const [newRoomType, setNewRoomType] = useState("");
+  const [maxOccupancy, setMaxOccupancy] = useState(1);
+  const [roomSize, setRoomSize] = useState(200);
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [rates, setRates] = useState<Record<string, number>>({});
-  const [amenities, setAmenities] = useState<string[]>([]);
+  const [rates, setRates] = useState<Record<number, number>>({});
+  const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
+  const [roomImages, setRoomImages] = useState<File[]>([]);
+  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const { toast } = useToast();
   
+  // Get the latest stay lengths on open
   useEffect(() => {
-    // Reset form when dialog opens
-    if (open) {
-      setName("");
-      setMaxOccupancy(2);
-      setDescription("");
-      setImages([]);
-      
-      // Initialize rates based on selected stay lengths
-      const initialRates: Record<string, number> = {};
-      selectedStayLengths.forEach(length => {
-        initialRates[`${length}`] = 0;
-      });
-      setRates(initialRates);
-      
-      setAmenities([]);
+    if (isOpen) {
+      // First try to use the provided lengths
+      if (availableStayLengths && availableStayLengths.length > 0) {
+        setStayLengths(availableStayLengths);
+      } else {
+        // Fallback to getting from localStorage
+        const storedLengths = getSelectedStayLengths();
+        if (storedLengths && storedLengths.length > 0) {
+          setStayLengths(storedLengths);
+        }
+      }
     }
-  }, [open, selectedStayLengths]);
-  
-  const handleSave = () => {
-    const roomType = {
-      id: Date.now().toString(), // Generate a unique ID
-      name,
-      maxOccupancy,
-      description,
-      images,
-      rates,
-      amenities
-    };
+  }, [isOpen, availableStayLengths]);
+
+  const validateRoomType = (): boolean => {
+    const errors: Record<string, string> = {};
+    let isValid = true;
     
-    onSave(roomType);
+    if (!newRoomType.trim()) {
+      errors.roomType = "Room type name is required";
+      isValid = false;
+    }
+
+    if (maxOccupancy < 1) {
+      errors.maxOccupancy = "Maximum occupancy must be at least 1";
+      isValid = false;
+    }
+
+    if (roomSize <= 0) {
+      errors.roomSize = "Room size must be greater than 0";
+      isValid = false;
+    }
+
+    if (!description.trim()) {
+      errors.description = "Room description is required";
+      isValid = false;
+    }
+
+    // Check if at least one rate is provided for any stay length
+    const hasRates = Object.keys(rates).length > 0;
+    if (!hasRates) {
+      errors.rates = "At least one rate is required";
+      isValid = false;
+    }
+    
+    // Optional: Check if images are provided
+    if (roomImages.length === 0) {
+      errors.images = "At least one room image is recommended";
+      // We don't set isValid = false here since images are recommended but not required
+    }
+
+    setFormErrors(errors);
+    
+    if (!isValid) {
+      toast({
+        title: "Missing Information",
+        description: "Please complete all required fields",
+        variant: "destructive"
+      });
+    }
+    
+    return isValid;
+  };
+
+  const handleAddRoomType = () => {
+    if (validateRoomType()) {
+      onAdd({
+        id: Date.now().toString(),
+        name: newRoomType,
+        maxOccupancy,
+        size: roomSize,
+        description,
+        baseRate: 0,
+        rates,
+        images: roomImagePreviews
+      });
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setNewRoomType("");
+    setMaxOccupancy(1);
+    setRoomSize(200);
+    setDescription("");
+    setRates({});
+    setRoomImages([]);
+    setRoomImagePreviews([]);
+    setFormErrors({});
+  };
+
+  const handleRateChange = (duration: number, value: string) => {
+    setRates(prev => ({
+      ...prev,
+      [duration]: parseInt(value) || 0
+    }));
   };
   
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setRoomImages(prev => [...prev, ...newFiles]);
+      
+      // Create preview URLs
+      const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+      setRoomImagePreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+  
+  const removeImage = (index: number) => {
+    setRoomImages(prev => prev.filter((_, i) => i !== index));
+    
+    // Also remove the preview and revoke the object URL to free memory
+    const urlToRevoke = roomImagePreviews[index];
+    URL.revokeObjectURL(urlToRevoke);
+    setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto bg-[#690695] text-white">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%]">
         <DialogHeader>
-          <DialogTitle className="text-white">Add Room Type</DialogTitle>
+          <DialogTitle className="text-xl text-white">Add New Room Type</DialogTitle>
         </DialogHeader>
         
-        {/* Room Type Form */}
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="room-name" className="text-white">Room Name</Label>
-            <Input
-              id="room-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Standard Room"
-              className="mt-1 bg-[#810586] border-fuchsia-800/30 text-white"
-            />
-          </div>
-          
-          <div>
-            <Label htmlFor="max-occupancy" className="text-white">Max Occupancy</Label>
-            <Input
-              id="max-occupancy"
-              type="number"
-              min={1}
-              value={maxOccupancy}
-              onChange={(e) => setMaxOccupancy(parseInt(e.target.value))}
-              className="mt-1 bg-[#810586] border-fuchsia-800/30 text-white"
-            />
-          </div>
-          
-          <div>
-            <Label htmlFor="description" className="text-white">Description</Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe this room type..."
-              className="mt-1 bg-[#810586] border-fuchsia-800/30 text-white"
-            />
-          </div>
-          
-          <ImageUploadSection images={images} setImages={setImages} />
-          
-          <RatesSection 
-            rates={rates} 
-            setRates={setRates} 
-            stayLengths={selectedStayLengths} 
+        <div className="grid gap-4 py-4 overflow-y-auto max-h-[70vh]">
+          <RoomInfoForm
+            newRoomType={newRoomType}
+            maxOccupancy={maxOccupancy}
+            roomSize={roomSize}
+            description={description}
+            onRoomTypeChange={setNewRoomType}
+            onMaxOccupancyChange={setMaxOccupancy}
+            onRoomSizeChange={setRoomSize}
+            onDescriptionChange={setDescription}
+            errors={formErrors}
           />
           
-          <div className="flex justify-end space-x-2 pt-4">
-            <DialogClose asChild>
-              <button 
-                className="px-4 py-2 border border-fuchsia-800/50 rounded-md text-white hover:bg-fuchsia-950/50"
-              >
-                Cancel
-              </button>
-            </DialogClose>
-            <button 
-              onClick={handleSave}
-              className="px-4 py-2 bg-fuchsia-600/80 hover:bg-fuchsia-600 rounded-md text-white"
-              disabled={!name || !description}
-            >
-              Save Room Type
-            </button>
-          </div>
+          <ImageUploadSection
+            roomImages={roomImages}
+            roomImagePreviews={roomImagePreviews}
+            onImageUpload={handleImageUpload}
+            onRemoveImage={removeImage}
+            error={formErrors.images}
+          />
+          
+          <RatesSection
+            stayLengths={stayLengths}
+            rates={rates}
+            onRateChange={handleRateChange}
+            error={formErrors.rates}
+          />
         </div>
+        
+        <DialogFooter>
+          <Button 
+            onClick={handleAddRoomType} 
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+          >
+            Add Room Type
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

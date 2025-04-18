@@ -1,94 +1,140 @@
 
-import React from "react";
-import { Label } from "@/components/ui/label";
+import React, { useState, useEffect } from "react";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
-import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface StayLengthMealsSectionProps {
-  stayLengths: number[];
-  setStayLengths: (value: number[]) => void;
-  mealPlans: string[];
-  setMealPlans: (value: string[]) => void;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+  onStayLengthValidChange: (isValid: boolean) => void;
+  onMealPlanValidChange: (isValid: boolean) => void;
+  initialStayLengths?: number[];
+  initialMealPlans?: string[];
 }
 
-export default function StayLengthMealsSection({
-  stayLengths,
-  setStayLengths,
-  mealPlans,
-  setMealPlans
+export default function StayLengthMealsSection({ 
+  isOpen, 
+  onOpenChange,
+  onStayLengthValidChange,
+  onMealPlanValidChange,
+  initialStayLengths = [],
+  initialMealPlans = []
 }: StayLengthMealsSectionProps) {
-  const handleStayLengthChange = (length: number) => {
-    let updatedLengths: number[];
-    
-    if (stayLengths.includes(length)) {
-      updatedLengths = stayLengths.filter(l => l !== length);
-    } else {
-      updatedLengths = [...stayLengths, length];
-    }
-    
-    setStayLengths(updatedLengths);
-    saveSelectedStayLengths(updatedLengths);
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(initialStayLengths);
+  const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(initialMealPlans);
+
+  // Available stay lengths
+  const stayLengths = [1, 2, 3, 7, 14, 30, 60, 90, 120, 180, 365];
+  
+  // Available meal plan options
+  const mealPlans = [
+    { id: "room-only", label: "Room Only (No Meals)" },
+    { id: "breakfast", label: "Breakfast Included" },
+    { id: "half-board", label: "Half Board (Breakfast + Dinner)" },
+    { id: "full-board", label: "Full Board (All Meals)" },
+    { id: "all-inclusive", label: "All Inclusive (All Meals + Drinks)" }
+  ];
+
+  // Validate stay lengths and meal plans
+  useEffect(() => {
+    onStayLengthValidChange(selectedStayLengths.length > 0);
+  }, [selectedStayLengths, onStayLengthValidChange]);
+
+  useEffect(() => {
+    onMealPlanValidChange(selectedMealPlans.length > 0);
+  }, [selectedMealPlans, onMealPlanValidChange]);
+
+  // Toggle stay length selection
+  const toggleStayLength = (length: number) => {
+    setSelectedStayLengths(prev => 
+      prev.includes(length) 
+        ? prev.filter(l => l !== length) 
+        : [...prev, length].sort((a, b) => a - b)
+    );
   };
 
-  const handleMealPlanChange = (plan: string) => {
-    if (mealPlans.includes(plan)) {
-      setMealPlans(mealPlans.filter(p => p !== plan));
-    } else {
-      setMealPlans([...mealPlans, plan]);
-    }
+  // Toggle meal plan selection
+  const toggleMealPlan = (id: string) => {
+    setSelectedMealPlans(prev => 
+      prev.includes(id) 
+        ? prev.filter(plan => plan !== id) 
+        : [...prev, id]
+    );
   };
 
   return (
-    <div className="space-y-6">
-      {/* Stay Length Options */}
-      <div>
-        <Label htmlFor="stay-lengths" className="text-lg font-medium text-white mb-4 block">
-          Available Stay Lengths (months) <span className="text-red-400">*</span>
-        </Label>
-        <div className="flex flex-wrap gap-4" id="stay-lengths">
-          {[1, 2, 3, 4, 6, 8, 12, 16, 24, 32].map(length => (
-            <div key={length} className="flex items-center gap-2">
-              <Checkbox 
-                id={`length-${length}`} 
-                checked={stayLengths.includes(length)}
-                onCheckedChange={() => handleStayLengthChange(length)}
-                className="data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-              />
-              <Label 
-                htmlFor={`length-${length}`} 
-                className="text-white cursor-pointer"
-              >
-                {length} month{length !== 1 ? 's' : ''}
-              </Label>
+    <AccordionItem 
+      value="stay-length-meals" 
+      className="border rounded-xl overflow-hidden bg-fuchsia-900/10"
+    >
+      <AccordionTrigger 
+        onClick={() => onOpenChange(!isOpen)} 
+        className={`px-4 py-3 ${isOpen ? "bg-fuchsia-800/20" : ""}`}
+      >
+        <h3 className="text-lg capitalize">Stay Length & Meal Options</h3>
+      </AccordionTrigger>
+      <AccordionContent className="px-4 pb-4">
+        <div className="space-y-4">
+          {/* Stay Length Selection */}
+          <div>
+            <h4 className="text-sm font-medium mb-3 uppercase">Stay Length Options</h4>
+            <p className="text-sm mb-3">Select all the stay lengths you want to offer:</p>
+            
+            <div className="flex flex-wrap gap-2 mb-2">
+              {stayLengths.map(length => (
+                <button
+                  key={length}
+                  onClick={() => toggleStayLength(length)}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                    selectedStayLengths.includes(length)
+                      ? "bg-fuchsia-600 text-white"
+                      : "bg-fuchsia-900/20 hover:bg-fuchsia-800/30 text-white"
+                  }`}
+                >
+                  {length} {length === 1 ? "day" : "days"}
+                </button>
+              ))}
             </div>
-          ))}
+            
+            {selectedStayLengths.length === 0 && (
+              <p className="text-sm text-red-400 mt-1">Please select at least one stay length option</p>
+            )}
+          </div>
+          
+          {/* Meal Plans */}
+          <div>
+            <h4 className="text-sm font-medium mb-3 uppercase">Meal Plans</h4>
+            <p className="text-sm mb-3">Select all meal plans that you offer:</p>
+            
+            <ScrollArea className="h-48 rounded-md border border-fuchsia-950/30 bg-fuchsia-950/20 p-2">
+              <div className="space-y-3">
+                {mealPlans.map(plan => (
+                  <div key={plan.id} className="flex items-start space-x-3">
+                    <Checkbox 
+                      id={`meal-${plan.id}`} 
+                      checked={selectedMealPlans.includes(plan.id)}
+                      onCheckedChange={() => toggleMealPlan(plan.id)}
+                      className="mt-1"
+                    />
+                    <Label 
+                      htmlFor={`meal-${plan.id}`}
+                      className="font-normal leading-tight"
+                    >
+                      {plan.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            
+            {selectedMealPlans.length === 0 && (
+              <p className="text-sm text-red-400 mt-1">Please select at least one meal plan</p>
+            )}
+          </div>
         </div>
-      </div>
-      
-      {/* Meal Plan Options */}
-      <div>
-        <Label htmlFor="meal-plans" className="text-lg font-medium text-white mb-4 block">
-          Available Meal Plans <span className="text-red-400">*</span>
-        </Label>
-        <div className="flex flex-wrap gap-4" id="meal-plans">
-          {['No Meals', 'Breakfast Only', 'Half Board', 'Full Board', 'All Inclusive'].map(plan => (
-            <div key={plan} className="flex items-center gap-2">
-              <Checkbox 
-                id={`plan-${plan}`} 
-                checked={mealPlans.includes(plan)}
-                onCheckedChange={() => handleMealPlanChange(plan)}
-                className="data-[state=checked]:bg-fuchsia-500 data-[state=checked]:border-fuchsia-500"
-              />
-              <Label 
-                htmlFor={`plan-${plan}`} 
-                className="text-white cursor-pointer"
-              >
-                {plan}
-              </Label>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+      </AccordionContent>
+    </AccordionItem>
   );
 }

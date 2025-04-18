@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepNavigation from "../PropertySteps/StepNavigation";
@@ -23,9 +22,7 @@ export default function AddPropertyForm() {
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   
-  // Add form data state to persist between steps
   const [formData, setFormData] = useState({
-    // Step 1
     hotelName: "",
     propertyType: "",
     description: "",
@@ -38,16 +35,13 @@ export default function AddPropertyForm() {
     contactPhone: "",
     category: "",
     
-    // Step 2
     stayLengths: [] as number[],
     mealPlans: [] as string[],
     roomTypes: [] as any[],
     
-    // Step 3
     themes: [] as string[],
     activities: [] as string[],
     
-    // Step 4
     faqs: [] as any[],
     terms: "",
     termsAccepted: false
@@ -59,6 +53,18 @@ export default function AddPropertyForm() {
   const {
     toast
   } = useToast();
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('propertyFormData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      setFormData(parsedData);
+      
+      Object.keys(stepValidation).forEach(step => {
+        validateStep(parseInt(step), true);
+      });
+    }
+  }, []);
 
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
@@ -152,37 +158,17 @@ export default function AddPropertyForm() {
         4: false
       });
       setIsSubmitted(false);
-      // Reset form data when submit is successful
-      setFormData({
-        hotelName: "",
-        propertyType: "",
-        description: "",
-        country: "",
-        address: "",
-        city: "",
-        postalCode: "",
-        contactName: "",
-        contactEmail: "",
-        contactPhone: "",
-        category: "",
-        stayLengths: [],
-        mealPlans: [],
-        roomTypes: [],
-        themes: [],
-        activities: [],
-        faqs: [],
-        terms: "",
-        termsAccepted: false
-      });
+      localStorage.removeItem('propertyFormData');
     }, 5000);
   };
 
-  // Function to update form data
   const updateFormData = (field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...formData,
       [field]: value
-    }));
+    };
+    setFormData(updatedData);
+    localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
   };
 
   const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {

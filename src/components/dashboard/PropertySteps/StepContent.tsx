@@ -9,41 +9,57 @@ import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 interface StepContentProps {
   currentStep: number;
   onValidationChange?: (isValid: boolean, data?: any) => void;
+  formData?: any;
+  termsAccepted?: boolean;
+  setTermsAccepted?: (value: boolean) => void;
+  showValidationWarning?: boolean;
 }
 
 export default function StepContent({ 
   currentStep, 
-  onValidationChange = () => {} 
+  onValidationChange = () => {},
+  formData = {},
+  termsAccepted = false,
+  setTermsAccepted = () => {},
+  showValidationWarning = false
 }: StepContentProps) {
   return (
     <div className="mb-4">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
+      
       {currentStep === 2 && (
         <>
-          <AccommodationTermsStep onValidationChange={onValidationChange} />
+          <AccommodationTermsStep 
+            onValidationChange={onValidationChange} 
+            initialData={formData.accommodationTerms} 
+          />
           <div className="mt-6">
             <HotelFeaturesStep />
           </div>
         </>
       )}
-      {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
+      
+      {currentStep === 3 && (
+        <ThemesAndActivitiesStep 
+          onValidationChange={onValidationChange} 
+          initialData={formData.themesAndActivities}
+        />
+      )}
+      
       {currentStep === 4 && (
         <div className="space-y-4">
-          <HotelFaqAndTermsStep onValidationChange={onValidationChange} />
+          <HotelFaqAndTermsStep 
+            onValidationChange={onValidationChange}
+            termsAccepted={termsAccepted}
+            setTermsAccepted={setTermsAccepted}
+          />
           
-          {/* Form confirmation checkbox */}
-          <div className="mt-4 space-y-4">
-            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
-              <input 
-                type="checkbox" 
-                id="finalize-terms" 
-                className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" 
-              />
-              <label htmlFor="finalize-terms" className="text-sm text-white">
-                I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
-              </label>
+          {showValidationWarning && !termsAccepted && (
+            <div className="p-3 mt-4 rounded-md bg-amber-600/20 border border-amber-600/30 text-white flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-400" />
+              <p className="text-sm">You must accept the Terms & Conditions to submit your property.</p>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

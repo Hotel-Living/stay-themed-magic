@@ -11,6 +11,7 @@ import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import { StepValidationState } from "./types";
+import { AlertTriangle } from "lucide-react";
 
 export default function AddPropertyForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,6 +27,8 @@ export default function AddPropertyForm() {
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showValidationWarning, setShowValidationWarning] = useState(false);
   const totalSteps = 4;
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -39,11 +42,11 @@ export default function AddPropertyForm() {
       country: "",
       city: "",
       address: "",
-      category: 3, // Default to 3 stars
+      category: "", // Changed from 3 (default) to empty string
       style: ""
     },
     accommodationTerms: {
-      stayLengths: [] as number[],
+      stayLengths: [] as number[], // Changed from default values to empty array
       mealPlans: [] as string[]
     },
     themesAndActivities: {
@@ -51,7 +54,12 @@ export default function AddPropertyForm() {
       activities: [] as string[]
     },
     roomTypes: [] as any[],
-    images: [] as string[]
+    images: [] as string[],
+    faqAndTerms: {
+      faqItems: [],
+      termsAndConditions: "",
+      termsAccepted: false
+    }
   });
 
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
@@ -91,7 +99,18 @@ export default function AddPropertyForm() {
         }));
         break;
       case 4:
-        // FAQ and terms data would go here
+        setFormData(prev => ({
+          ...prev,
+          faqAndTerms: { 
+            faqItems: data.faqItems || prev.faqAndTerms.faqItems,
+            termsAndConditions: data.termsAndConditions || prev.faqAndTerms.termsAndConditions,
+            termsAccepted: data.termsAccepted || prev.faqAndTerms.termsAccepted
+          }
+        }));
+        // Sync the terms acceptance with the component state
+        if (data.termsAccepted !== undefined) {
+          setTermsAccepted(data.termsAccepted);
+        }
         break;
       default:
         break;
@@ -105,9 +124,10 @@ export default function AddPropertyForm() {
       setShowValidationErrors(true);
       toast({
         title: "Warning",
-        description: "Some fields are incomplete. You can still proceed but please complete them later.",
+        description: "Some fields are incomplete. Please complete them before proceeding.",
         variant: "destructive"
       });
+      return; // Don't proceed if validation fails
     } else {
       setErrorFields([]);
       setShowValidationErrors(false);
@@ -155,6 +175,16 @@ export default function AddPropertyForm() {
       return;
     }
 
+    if (!termsAccepted) {
+      setShowValidationWarning(true);
+      toast({
+        title: "Cannot Submit Property",
+        description: "You must accept the Terms & Conditions before submitting.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
     
     if (!allStepsValid) {
@@ -185,7 +215,7 @@ export default function AddPropertyForm() {
         city: formData.basicInfo.city,
         address: formData.basicInfo.address,
         propertyType: formData.basicInfo.propertyType,
-        category: formData.basicInfo.category,
+        category: formData.basicInfo.category || "3", // Fallback to category 3 if not set
         pricePerMonth: calculateAveragePrice(formData.roomTypes),
         ownerId: user.id,
         style: formData.basicInfo.style,
@@ -250,35 +280,6 @@ export default function AddPropertyForm() {
     <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
       <StepIndicator currentStep={currentStep} totalSteps={totalSteps} stepTitle={stepTitles[currentStep - 1]} />
       
-      <div className="flex items-center justify-between mb-3">
-        <button 
-          onClick={goToPreviousStep} 
-          className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-            currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
-          }`} 
-          disabled={currentStep === 1}
-        >
-          Previous
-        </button>
-        
-        {currentStep === totalSteps ? (
-          <button 
-            onClick={handleSubmitProperty} 
-            className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80 hover:bg-[#a209ad]"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        ) : (
-          <button 
-            onClick={goToNextStep} 
-            className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
-          >
-            Next
-          </button>
-        )}
-      </div>
-      
       {showValidationErrors && errorFields.length > 0 && <ValidationErrorBanner errorFields={errorFields} />}
       
       {isSubmitted && submitSuccess ? (
@@ -286,7 +287,11 @@ export default function AddPropertyForm() {
       ) : (
         <StepContent 
           currentStep={currentStep} 
-          onValidationChange={(isValid, data) => validateStep(currentStep, isValid, data)} 
+          onValidationChange={(isValid, data) => validateStep(currentStep, isValid, data)}
+          formData={formData}
+          termsAccepted={termsAccepted}
+          setTermsAccepted={setTermsAccepted}
+          showValidationWarning={showValidationWarning}
         />
       )}
       
@@ -301,6 +306,7 @@ export default function AddPropertyForm() {
         showPrevious={currentStep !== 1} 
         isNextDisabled={false}
         isSubmitting={isSubmitting}
+        termsAccepted={termsAccepted}
       />
     </div>
   );

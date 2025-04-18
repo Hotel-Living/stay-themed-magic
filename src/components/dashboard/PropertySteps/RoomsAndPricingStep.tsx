@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
-import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
+import { RoomTypeSection } from "./rooms/roomTypes/RoomTypeSection";
 
 interface RoomsAndPricingStepProps {
   onStayLengthsChange?: (lengths: number[]) => void;

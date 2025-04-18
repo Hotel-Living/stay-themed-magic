@@ -1,6 +1,5 @@
-
 import React from "react";
-import { RoomTypeList } from "./RoomTypeList";
+import RoomTypeList from "./RoomTypeList";
 
 export interface RoomTypeSectionProps {
   title?: string;

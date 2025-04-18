@@ -1,4 +1,3 @@
-
 export const hotelFeatures = [
   "Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", 
   "24/7 Reception", "Room Service", "Bar", "Lounge", 
@@ -8,7 +7,7 @@ export const hotelFeatures = [
   "Fitness Center", "Sauna", "Hot Tub", "Steam Room",
   "Tennis Court", "Golf Course", "Kids Club", "Playground",
   "Babysitting Service", "Currency Exchange", "Gift Shop", "Library"
-];
+].map(name => ({ id: name, name }));
 
 export const roomFeatures = [
   "Air Conditioning", "Private Bathroom", "TV", "Safe", "Mini Bar", 
@@ -19,4 +18,4 @@ export const roomFeatures = [
   "Pillow Menu", "Turndown Service", "Alarm Clock", "Phone",
   "Interconnecting Rooms", "Crib Available", "Rollaway Beds",
   "Hypoallergenic Bedding", "Robes & Slippers", "Premium Toiletries"
-];
+].map(name => ({ id: name, name }));

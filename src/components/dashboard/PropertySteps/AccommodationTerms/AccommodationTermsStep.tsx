@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import StayLengthMealsSection from "./StayLengthMealsSection";
-import RoomsRatesSection from "./RoomsRatesSection";
+import { RoomsRatesSection } from "./RoomsRatesSection";
 import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {

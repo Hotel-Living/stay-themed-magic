@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,21 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
+  
+  // Listen for custom dialog toggle event
+  useEffect(() => {
+    const handleToggleDialog = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail && typeof customEvent.detail.open === 'boolean') {
+        // This is just to handle the custom event if needed
+      }
+    };
+
+    window.addEventListener('toggle-room-type-dialog', handleToggleDialog);
+    return () => {
+      window.removeEventListener('toggle-room-type-dialog', handleToggleDialog);
+    };
+  }, []);
   
   useEffect(() => {
     if (isOpen) {

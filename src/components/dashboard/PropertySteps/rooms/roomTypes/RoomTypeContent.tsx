@@ -7,26 +7,18 @@ import { Plus } from "lucide-react";
 
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
-  initialRoomTypes?: any[];
-  initialStayLengths?: number[];
   selectedStayLengths: number[];
   selectedUnit: string;
-  dialogOpen: boolean;
-  setDialogOpen: (isOpen: boolean) => void;
-  handleAddRoomType: (roomType: Omit<RoomType, "id">) => void;
-  handleDeleteRoomType: (id: string) => void;
-  handleEditRoomType?: (id: string, updatedRoomType: Partial<RoomType>) => void;
+  onDelete: (id: string) => void;
+  onEdit?: (id: string, updatedRoomType: Partial<RoomType>) => void;
 }
 
 export default function RoomTypeContent({
   roomTypes,
   selectedStayLengths,
   selectedUnit,
-  dialogOpen,
-  setDialogOpen,
-  handleAddRoomType,
-  handleDeleteRoomType,
-  handleEditRoomType
+  onDelete,
+  onEdit
 }: RoomTypeContentProps) {
   return (
     <>
@@ -45,7 +37,7 @@ export default function RoomTypeContent({
               <Button 
                 variant="outline" 
                 size="sm" 
-                onClick={() => handleDeleteRoomType(room.id)} 
+                onClick={() => onDelete(room.id)} 
                 className="text-red-500 hover:text-red-700"
               >
                 Delete
@@ -58,7 +50,7 @@ export default function RoomTypeContent({
       {/* Add Room Type Button directly on the main content */}
       <div className="mb-6">
         <Button
-          onClick={() => setDialogOpen(true)}
+          onClick={() => window.dispatchEvent(new CustomEvent('open-room-type-dialog'))}
           className="w-full py-4 font-bold text-white bg-[#7A0486] hover:bg-[#65037a] flex items-center justify-center"
         >
           <Plus className="mr-2 h-5 w-5" />

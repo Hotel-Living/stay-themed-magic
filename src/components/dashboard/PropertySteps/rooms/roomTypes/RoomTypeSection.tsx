@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import RoomTypeList from "./RoomTypeList";
 
 export interface RoomTypeSectionProps {
@@ -24,6 +24,19 @@ export const RoomTypeSection: React.FC<RoomTypeSectionProps> = ({
   onStayLengthsChange,
   onMealPlansChange
 }) => {
+  // Add event listener for opening the dialog
+  useEffect(() => {
+    const handleOpenDialog = () => {
+      const dialogOpenEvent = new CustomEvent('toggle-room-type-dialog', { detail: { open: true } });
+      window.dispatchEvent(dialogOpenEvent);
+    };
+
+    window.addEventListener('open-room-type-dialog', handleOpenDialog);
+    return () => {
+      window.removeEventListener('open-room-type-dialog', handleOpenDialog);
+    };
+  }, []);
+
   return (
     <div className={`${fullWidth ? "w-full" : "max-w-4xl"}`}>
       {showHeader && (

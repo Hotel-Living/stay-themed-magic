@@ -44,16 +44,11 @@ const RoomTypeList: React.FC<RoomTypeListProps> = ({
   return (
     <>
       <RoomTypeContent
-        initialRoomTypes={initialRoomTypes}
-        initialStayLengths={initialStayLengths}
+        roomTypes={roomTypes}
         selectedStayLengths={selectedStayLengths}
         selectedUnit={selectedUnit}
-        dialogOpen={dialogOpen}
-        setDialogOpen={setDialogOpen}
-        handleAddRoomType={handleAddRoomType}
-        handleDeleteRoomType={handleDeleteRoomType}
-        handleEditRoomType={handleEditRoomType}
-        roomTypes={roomTypes}
+        onDelete={handleDeleteRoomType}
+        onEdit={handleEditRoomType}
       />
       <RoomTypeDialog
         isOpen={dialogOpen}

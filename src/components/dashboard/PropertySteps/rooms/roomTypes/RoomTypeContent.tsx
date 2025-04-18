@@ -4,7 +4,7 @@ import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
 import AddRoomTypeButton from "./AddRoomTypeButton";
 import RoomTypeDialog from "../RoomTypeDialog";
-import { RoomType } from "./useRoomTypes";
+import { RoomType } from "./useRoomTypes"; // Use the correct import path
 
 interface RoomTypeContentProps {
   roomTypes: RoomType[];

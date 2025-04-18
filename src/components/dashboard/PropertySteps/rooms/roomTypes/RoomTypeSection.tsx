@@ -2,8 +2,8 @@
 import React from "react";
 import RoomTypeContent from "./RoomTypeContent";
 import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
-import { useRoomTypeSection } from "./useRoomTypeSection";
-import { RoomType } from "./useRoomTypeSection"; // Import RoomType from the same file
+import { useRoomTypeSection, RoomType as SectionRoomType } from "./useRoomTypeSection";
+import { RoomType as ContentRoomType } from "./useRoomTypes"; // Renamed import to avoid conflict
 
 interface RoomTypeSectionProps {
   onValidationChange: (isValid: boolean) => void;
@@ -29,14 +29,32 @@ export default function RoomTypeSection({
     setSelectedStayLengths
   } = useRoomTypeSection(onValidationChange);
 
+  // We need to convert the room types to the format expected by RoomTypeContent
+  // This is a temporary solution until we can unify the interfaces
+  const convertedRoomTypes = roomTypes.map(rt => ({
+    ...rt,
+    size: rt.size || 0,
+    baseRate: rt.baseRate || 0,
+  })) as unknown as ContentRoomType[];
+
+  // Convert the handler function to accept the expected type
+  const handleAddRoomTypeConverted = (roomType: ContentRoomType) => {
+    // Convert ContentRoomType to SectionRoomType
+    const convertedRoomType: SectionRoomType = {
+      ...roomType,
+      amenities: roomType.amenities || [],
+    };
+    handleAddRoomType(convertedRoomType);
+  };
+
   const mainContent = (
     <RoomTypeContent
-      roomTypes={roomTypes}
+      roomTypes={convertedRoomTypes}
       selectedStayLengths={selectedStayLengths}
       selectedUnit={selectedUnit}
       dialogOpen={dialogOpen}
       setDialogOpen={setDialogOpen}
-      handleAddRoomType={handleAddRoomType}
+      handleAddRoomType={handleAddRoomTypeConverted}
       handleDeleteRoomType={handleDeleteRoomType}
     />
   );

@@ -6,22 +6,11 @@ import CollapsibleSection from "./CollapsibleSection";
 interface ContactSectionProps {
   formData: {
     contactName: string;
-    contactEmail: string; 
-    contactPhone: string; 
-    [key: string]: string;
+    contactEmail: string; // Changed from email to contactEmail
+    contactPhone: string; // Changed from phone to contactPhone
   };
-  errors: {
-    contactName?: string;
-    contactEmail?: string;
-    contactPhone?: string;
-    [key: string]: string | undefined;
-  };
-  touchedFields: {
-    contactName: boolean;
-    contactEmail: boolean;
-    contactPhone: boolean;
-    [key: string]: boolean;
-  };
+  errors: Record<string, string>;
+  touchedFields: Record<string, boolean>;
   handleChange: (field: string, value: string) => void;
   handleBlur: (field: string) => void;
 }

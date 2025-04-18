@@ -5,16 +5,14 @@ import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 
-export interface AccommodationTermsStepProps {
+interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  initialData?: any;
 }
 
 export default function AccommodationTermsStep({
-  onValidationChange = () => {},
-  initialData = {}
+  onValidationChange = () => {}
 }: AccommodationTermsStepProps) {
-  const [mealPlans, setMealPlans] = useState<string[]>(initialData.mealPlans || []);
+  const [mealPlans, setMealPlans] = useState<string[]>([]);
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [error, setError] = useState<string>("");
@@ -75,8 +73,6 @@ export default function AccommodationTermsStep({
           setMealPlanValid(isValid);
           checkValidation();
         }}
-        initialStayLengths={initialData.stayLengths || []}
-        initialMealPlans={initialData.mealPlans || []}
       />
       
       <RoomsRatesSection 

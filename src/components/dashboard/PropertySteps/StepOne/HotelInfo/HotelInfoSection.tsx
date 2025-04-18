@@ -17,14 +17,12 @@ interface HotelInfoSectionProps {
     category?: string;
     propertyType?: string;
     description?: string;
-    [key: string]: string | undefined;
   };
   touchedFields: {
     hotelName: boolean;
     category: boolean;
     propertyType: boolean;
     description: boolean;
-    [key: string]: boolean;
   };
   handleChange: (field: string, value: string) => void;
   handleBlur: (field: string) => void;
@@ -44,8 +42,8 @@ export default function HotelInfoSection({
       <div className="space-y-4">
         <HotelNameInput
           value={formData.hotelName}
-          onChange={(value) => handleChange("name", value)}
-          onBlur={() => handleBlur("name")}
+          onChange={(value) => handleChange("hotelName", value)}
+          onBlur={() => handleBlur("hotelName")}
           hasError={touchedFields.hotelName && !!errors.hotelName}
           errorMessage={errors.hotelName}
         />

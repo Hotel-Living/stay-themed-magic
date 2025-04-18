@@ -1,22 +1,19 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { sortedThemeCategories } from "./themes/themeData";
 import ThemeCategory from "./themes/ThemeCategory";
 import { useToast } from "@/hooks/use-toast";
 
-export interface ThemesAndActivitiesStepProps {
+interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  initialData?: any;
 }
 
 export default function ThemesAndActivitiesStep({
-  onValidationChange = () => {},
-  initialData = {}
+  onValidationChange = () => {}
 }: ThemesAndActivitiesStepProps) {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [selectedThemes, setSelectedThemes] = useState<string[]>(initialData.themes || []);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const { toast } = useToast();
   
   const toggleCategory = (category: string) => {

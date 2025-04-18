@@ -1,7 +1,7 @@
 
 import { useState, useEffect, ChangeEvent, FocusEvent } from "react";
 
-interface FormData {
+export interface FormData {
   name: string;
   propertyType: string;
   description: string;
@@ -12,12 +12,12 @@ interface FormData {
   contactName: string;
   contactEmail: string;
   contactPhone: string;
-  category: number;
+  category: number | string;
   style: string;
   [key: string]: any;
 }
 
-interface FormErrors {
+export interface FormErrors {
   name?: string;
   propertyType?: string;
   description?: string;
@@ -28,6 +28,7 @@ interface FormErrors {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
+  [key: string]: string | undefined;
 }
 
 export default function useFormValidation(

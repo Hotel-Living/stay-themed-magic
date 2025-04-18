@@ -46,6 +46,11 @@ export default function AddPropertyForm() {
     }
   };
 
+  // Create a wrapper function to adapt the validateStep function to match the expected signature
+  const handleValidationChange = (isValid: boolean, data?: any) => {
+    validateStep(currentStep, isValid, data);
+  };
+
   return (
     <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
       <StepIndicator 
@@ -73,7 +78,7 @@ export default function AddPropertyForm() {
       ) : (
         <StepContent 
           currentStep={currentStep} 
-          onValidationChange={validateStep}
+          onValidationChange={handleValidationChange}
           formData={formData}
           setTermsAccepted={setTermsAccepted}
         />

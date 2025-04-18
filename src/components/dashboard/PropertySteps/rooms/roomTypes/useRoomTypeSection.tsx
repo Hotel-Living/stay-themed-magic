@@ -10,7 +10,7 @@ export interface RoomType {
   size: number;
   description: string;
   baseRate: number;
-  images: string[];
+  images: string[]; // Making sure this is required to match the error
   rates: Record<string, number>;
   amenities: string[];
 }

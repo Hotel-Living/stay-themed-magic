@@ -35,6 +35,7 @@ export default function RoomTypeSection({
     ...rt,
     size: rt.size || 0,
     baseRate: rt.baseRate || 0,
+    images: rt.images || [], // Ensure images is always an array
   })) as unknown as ContentRoomType[];
 
   // Convert the handler function to accept the expected type
@@ -42,7 +43,8 @@ export default function RoomTypeSection({
     // Convert ContentRoomType to SectionRoomType
     const convertedRoomType: SectionRoomType = {
       ...roomType,
-      amenities: roomType.amenities || [],
+      images: roomType.images || [], // Ensure images is always an array
+      amenities: roomType.amenities || [], // Use amenities from roomType if available, otherwise empty array
     };
     handleAddRoomType(convertedRoomType);
   };

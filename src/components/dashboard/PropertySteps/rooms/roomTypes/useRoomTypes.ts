@@ -10,7 +10,8 @@ export interface RoomType {
   description: string;
   baseRate: number;
   rates: Record<number, number>; // stayDuration -> rate
-  images?: string[];
+  images: string[]; // Changed from optional to required
+  amenities?: string[]; // Added amenities as optional to match with SectionRoomType
 }
 
 export function useRoomTypes() {

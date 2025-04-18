@@ -45,6 +45,7 @@ export default function StepContent({
                   hotelFeaturesValid: isFeatureValid
                 });
               }}
+              initialData={formData.hotelFeatures}
             />
           </div>
         </>

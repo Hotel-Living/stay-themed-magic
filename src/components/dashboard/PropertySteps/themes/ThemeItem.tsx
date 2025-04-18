@@ -1,16 +1,24 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 
 interface ThemeItemProps {
   id: string;
   name: string;
   isAddOption?: boolean;
+  isSelected?: boolean;
   onSelect?: (isSelected: boolean) => void;
 }
 
-const ThemeItem = ({ id, name, isAddOption, onSelect }: ThemeItemProps) => {
-  const [checked, setChecked] = useState(false);
+const ThemeItem = ({ id, name, isAddOption, isSelected, onSelect }: ThemeItemProps) => {
+  const [checked, setChecked] = useState(isSelected || false);
+
+  // Update checked state when isSelected prop changes
+  useEffect(() => {
+    if (isSelected !== undefined) {
+      setChecked(isSelected);
+    }
+  }, [isSelected]);
 
   if (isAddOption) {
     return (

@@ -1,164 +1,87 @@
 
-import React, { useState } from "react";
-import { PlusCircle, ChevronRight, Send } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { FeaturesList } from "./features/FeaturesList";
-
-// Moving data to separate files for better maintainability
+import React, { useState, useEffect } from "react";
+import FeaturesList from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
-export default function HotelFeaturesStep() {
-  const { toast } = useToast();
-  const [showHotelFeatureInput, setShowHotelFeatureInput] = useState(false);
-  const [showRoomFeatureInput, setShowRoomFeatureInput] = useState(false);
-  const [newHotelFeature, setNewHotelFeature] = useState("");
-  const [newRoomFeature, setNewRoomFeature] = useState("");
-  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>([]);
-  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>([]);
+interface HotelFeaturesStepProps {
+  onValidationChange: (isValid: boolean) => void;
+  initialData?: {
+    hotelFeatures?: string[];
+    roomFeatures?: string[];
+  };
+}
 
-  const handleSubmitFeature = (type: "hotel" | "room", feature: string) => {
-    if (!feature.trim()) return;
-    
-    toast({
-      title: "Feature suggestion submitted",
-      description: `Your "${feature}" feature suggestion has been sent to the administrators for approval.`,
+export default function HotelFeaturesStep({ 
+  onValidationChange, 
+  initialData 
+}: HotelFeaturesStepProps) {
+  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>(
+    initialData?.hotelFeatures || []
+  );
+  
+  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>(
+    initialData?.roomFeatures || []
+  );
+  
+  const handleHotelFeatureToggle = (featureId: string) => {
+    setSelectedHotelFeatures(prev => {
+      if (prev.includes(featureId)) {
+        return prev.filter(id => id !== featureId);
+      } else {
+        return [...prev, featureId];
+      }
     });
-
-    if (type === "hotel") {
-      setNewHotelFeature("");
-      setShowHotelFeatureInput(false);
-    } else {
-      setNewRoomFeature("");
-      setShowRoomFeatureInput(false);
-    }
   };
-
-  const handleFeatureChange = (feature: string, isChecked: boolean, type: "hotel" | "room") => {
-    if (type === "hotel") {
-      setSelectedHotelFeatures(prev => 
-        isChecked 
-          ? [...prev, feature] 
-          : prev.filter(f => f !== feature)
-      );
-    } else {
-      setSelectedRoomFeatures(prev => 
-        isChecked 
-          ? [...prev, feature] 
-          : prev.filter(f => f !== feature)
-      );
-    }
+  
+  const handleRoomFeatureToggle = (featureId: string) => {
+    setSelectedRoomFeatures(prev => {
+      if (prev.includes(featureId)) {
+        return prev.filter(id => id !== featureId);
+      } else {
+        return [...prev, featureId];
+      }
+    });
   };
-
+  
+  // Validate when features change
+  useEffect(() => {
+    // Validation logic: both lists should have at least one item selected
+    const isHotelFeaturesValid = selectedHotelFeatures.length > 0;
+    const isRoomFeaturesValid = selectedRoomFeatures.length > 0;
+    const isValid = isHotelFeaturesValid && isRoomFeaturesValid;
+    
+    // Pass validation state to parent
+    onValidationChange(isValid);
+    
+  }, [selectedHotelFeatures, selectedRoomFeatures, onValidationChange]);
+  
   return (
     <div className="space-y-6">
-      {/* Hotel Features Section */}
-      <FeatureCollapsible 
-        title="HOTEL FEATURES" 
-        features={hotelFeatures}
-        showInput={showHotelFeatureInput}
-        setShowInput={setShowHotelFeatureInput}
-        newFeature={newHotelFeature}
-        setNewFeature={setNewHotelFeature}
-        onSubmit={() => handleSubmitFeature("hotel", newHotelFeature)}
-        selectedFeatures={selectedHotelFeatures}
-        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "hotel")}
-      />
+      <div>
+        <h3 className="text-lg font-medium mb-4">Hotel Features</h3>
+        <p className="text-sm mb-4">
+          Select the amenities and features available at your property.
+        </p>
+        
+        <FeaturesList 
+          features={hotelFeatures} 
+          selectedFeatures={selectedHotelFeatures} 
+          onToggleFeature={handleHotelFeatureToggle}
+        />
+      </div>
       
-      {/* Room Features Section */}
-      <FeatureCollapsible 
-        title="ROOM FEATURES" 
-        features={roomFeatures}
-        showInput={showRoomFeatureInput}
-        setShowInput={setShowRoomFeatureInput}
-        newFeature={newRoomFeature}
-        setNewFeature={setNewRoomFeature}
-        onSubmit={() => handleSubmitFeature("room", newRoomFeature)}
-        selectedFeatures={selectedRoomFeatures}
-        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "room")}
-      />
-    </div>
-  );
-}
-
-interface FeatureCollapsibleProps {
-  title: string;
-  features: string[];
-  showInput: boolean;
-  setShowInput: (show: boolean) => void;
-  newFeature: string;
-  setNewFeature: (feature: string) => void;
-  onSubmit: () => void;
-  selectedFeatures: string[];
-  onFeatureChange: (feature: string, isChecked: boolean) => void;
-}
-
-function FeatureCollapsible({ 
-  title, 
-  features,
-  showInput,
-  setShowInput,
-  newFeature,
-  setNewFeature,
-  onSubmit,
-  selectedFeatures,
-  onFeatureChange
-}: FeatureCollapsibleProps) {
-  return (
-    <div>
-      <Collapsible className="w-full" defaultOpen={false}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <label className="block text-sm font-medium text-foreground/90 mb-2 uppercase">
-            {title} <span className="text-red-500">*</span>
-          </label>
-          <ChevronRight className="h-4 w-4" />
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {features.map((feature) => (
-                <label key={feature} className="flex items-start">
-                  <input 
-                    type="checkbox" 
-                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                    checked={selectedFeatures.includes(feature)}
-                    onChange={(e) => onFeatureChange(feature, e.target.checked)}
-                  />
-                  <span className="text-sm">{feature}</span>
-                </label>
-              ))}
-              <div className="flex items-center cursor-pointer" onClick={() => setShowInput(true)}>
-                <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-                <span className="text-sm text-fuchsia-400">Add new feature</span>
-              </div>
-            </div>
-
-            {showInput && (
-              <div className="mt-2 flex items-center gap-2">
-                <Input
-                  value={newFeature}
-                  onChange={(e) => setNewFeature(e.target.value)}
-                  placeholder="Enter new feature suggestion"
-                  className="bg-fuchsia-950/30 border-fuchsia-500/30"
-                />
-                <Button 
-                  size="sm"
-                  onClick={onSubmit}
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700"
-                >
-                  <Send className="w-4 h-4 mr-1" /> Send
-                </Button>
-              </div>
-            )}
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+      <div>
+        <h3 className="text-lg font-medium mb-4">Room Features</h3>
+        <p className="text-sm mb-4">
+          Select the amenities and features available in your rooms.
+        </p>
+        
+        <FeaturesList 
+          features={roomFeatures}
+          selectedFeatures={selectedRoomFeatures}
+          onToggleFeature={handleRoomFeatureToggle} 
+        />
+      </div>
     </div>
   );
 }

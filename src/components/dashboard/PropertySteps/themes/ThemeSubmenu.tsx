@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { ChevronRight, PlusCircle, Trash2 } from "lucide-react";
 import ThemeOption from "./ThemeOption";
@@ -19,9 +18,10 @@ interface ThemeSubmenuProps {
   isOpen: boolean;
   toggleSubmenu: (submenuName: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes?: string[];
 }
 
-const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSubmenuProps) => {
+const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect, selectedThemes = [] }: ThemeSubmenuProps) => {
   const [isAddingOption, setIsAddingOption] = useState(false);
   const [newOptionName, setNewOptionName] = useState("");
   const [customOptions, setCustomOptions] = useState<Array<{id: string, name: string}>>([]);
@@ -29,13 +29,10 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
 
   const handleAddOption = () => {
     if (newOptionName.trim()) {
-      // Create a new custom option ID based on submenu name and option name
       const customOptionId = `${submenu.name.toLowerCase().replace(/\s+/g, '-')}-custom-${newOptionName.toLowerCase().replace(/\s+/g, '-')}`;
       
-      // Add to local state to display it
       setCustomOptions(prev => [...prev, { id: customOptionId, name: newOptionName }]);
       
-      // If onThemeSelect is provided, select this new custom option
       if (onThemeSelect) {
         onThemeSelect(customOptionId, true);
       }
@@ -45,17 +42,14 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
         description: `${newOptionName} has been added to ${submenu.name}`
       });
       
-      // Reset the form
       setNewOptionName("");
       setIsAddingOption(false);
     }
   };
 
   const handleDeleteOption = (optionId: string, optionName: string) => {
-    // Remove the option from custom options
     setCustomOptions(prev => prev.filter(option => option.id !== optionId));
     
-    // Deselect the option if onThemeSelect is provided
     if (onThemeSelect) {
       onThemeSelect(optionId, false);
     }
@@ -87,11 +81,14 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
               key={option.id}
               className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10"
             >
-              <ThemeOption option={option} onThemeSelect={onThemeSelect} />
+              <ThemeOption 
+                option={option} 
+                onThemeSelect={onThemeSelect} 
+                selectedThemes={selectedThemes}
+              />
             </div>
           ))}
           
-          {/* Display custom options */}
           {customOptions.length > 0 && (
             <div className="space-y-1 mt-1">
               {customOptions.map((option) => (
@@ -126,7 +123,6 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
             </div>
           )}
           
-          {/* Add new option button/input */}
           {isAddingOption ? (
             <div className="p-2 bg-[#5A1876]/10 rounded-lg space-y-2">
               <Input 

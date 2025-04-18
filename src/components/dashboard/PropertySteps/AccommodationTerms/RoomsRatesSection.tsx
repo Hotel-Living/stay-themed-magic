@@ -7,13 +7,22 @@ import RoomTypeSection from "../rooms/roomTypes/RoomTypeSection";
 interface RoomsRatesSectionProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  onValidationChange: (isValid: boolean) => void;
+  onValidationChange: (isValid: boolean, roomTypeData?: any[]) => void;
+  initialData?: {
+    stayLengths: number[];
+    roomTypes: any;
+  };
+  onStayLengthsChange?: (lengths: number[]) => void;
+  onMealPlansChange?: (plans: string[]) => void;
 }
 
 export default function RoomsRatesSection({
   isOpen,
   onOpenChange,
-  onValidationChange
+  onValidationChange,
+  initialData,
+  onStayLengthsChange,
+  onMealPlansChange
 }: RoomsRatesSectionProps) {
   return (
     <Collapsible 
@@ -31,6 +40,9 @@ export default function RoomsRatesSection({
           title="RATES PER PERSON" 
           fullWidth={true} 
           showHeader={false} 
+          initialData={initialData}
+          onStayLengthsChange={onStayLengthsChange}
+          onMealPlansChange={onMealPlansChange}
         />
       </CollapsibleContent>
     </Collapsible>

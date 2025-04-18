@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepNavigation from "../PropertySteps/StepNavigation";
 import StepContent from "../PropertySteps/StepContent";
@@ -12,7 +12,7 @@ import { useStepNavigation } from "./hooks/useStepNavigation";
 
 export default function AddPropertyForm() {
   const totalSteps = 4;
-  const stepTitles = ["ADD A NEW PROPERTY", "ROOMS & PRICING", "THEMES & ACTIVITIES", "FAQ & TERMS"];
+  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
   
   const {
     currentStep,
@@ -32,7 +32,6 @@ export default function AddPropertyForm() {
     termsAccepted,
     setTermsAccepted,
     formData,
-    setFormData,
     user,
     navigate,
     toast
@@ -41,14 +40,7 @@ export default function AddPropertyForm() {
   const { handleSubmitProperty } = usePropertySubmission();
   const { handleStepNavigation } = useStepNavigation();
 
-  // Debug current step and validation state
-  useEffect(() => {
-    console.log("Current step:", currentStep);
-    console.log("Step validation state:", stepValidation);
-  }, [currentStep, stepValidation]);
-
   const goToNextStep = () => {
-    console.log("Attempting to go to next step from", currentStep);
     handleStepNavigation({
       action: 'next',
       currentStep,
@@ -86,37 +78,6 @@ export default function AddPropertyForm() {
       navigate,
       stepValidation
     });
-  };
-
-  const handleStepValidationChange = (isValid: boolean, data?: any) => {
-    console.log(`Step ${currentStep} validation changed:`, isValid, data);
-    
-    // Update step validation state
-    setStepValidation(prev => ({ ...prev, [currentStep]: isValid }));
-    
-    // Update form data if provided
-    if (data) {
-      const newFormData = { ...formData };
-      
-      switch (currentStep) {
-        case 1:
-          newFormData.basicInfo = { ...newFormData.basicInfo, ...data };
-          break;
-        case 2:
-          if (data.roomTypes) newFormData.roomTypes = data.roomTypes;
-          if (data.stayLengths) newFormData.accommodationTerms.stayLengths = data.stayLengths;
-          if (data.mealPlans) newFormData.accommodationTerms.mealPlans = data.mealPlans;
-          break;
-        case 3:
-          newFormData.themesAndActivities = { ...newFormData.themesAndActivities, ...data };
-          break;
-        case 4:
-          if (data.termsAccepted !== undefined) newFormData.termsAccepted = data.termsAccepted;
-          break;
-      }
-      
-      setFormData(newFormData);
-    }
   };
 
   return (
@@ -165,7 +126,7 @@ export default function AddPropertyForm() {
       ) : (
         <StepContent 
           currentStep={currentStep} 
-          onValidationChange={handleStepValidationChange}
+          onValidationChange={(isValid, data) => setStepValidation(prev => ({ ...prev, [currentStep]: isValid }))}
           formData={formData}
           setTermsAccepted={setTermsAccepted}
         />

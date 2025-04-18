@@ -1,7 +1,6 @@
 
 import React from "react";
 import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
@@ -21,15 +20,12 @@ export default function StepContent({
   formData = {},
   setTermsAccepted = () => {}
 }: StepContentProps) {
-  // Track when step content is rendered for debugging
-  console.log(`Rendering step content for step ${currentStep}`);
-
   return (
     <div className="mb-4">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} initialData={formData.basicInfo} />}
       {currentStep === 2 && (
         <>
-          <StepTwo onValidationChange={onValidationChange} />
+          <AccommodationTermsStep onValidationChange={onValidationChange} initialData={formData.accommodationTerms} />
           <div className="mt-6">
             <HotelFeaturesStep />
           </div>

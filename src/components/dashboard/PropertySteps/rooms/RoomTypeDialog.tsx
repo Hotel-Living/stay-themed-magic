@@ -1,6 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label"; // Add missing Label import
+import { Input } from "@/components/ui/input"; // Add missing Input import
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
@@ -156,4 +159,3 @@ export default function RoomTypeDialog({
       </DialogContent>
     </Dialog>
   );
-}

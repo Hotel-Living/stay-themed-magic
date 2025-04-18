@@ -11,6 +11,7 @@ export interface RoomType {
   baseRate: number;
   rates: Record<number, number>; // stayDuration -> rate
   images?: string[];
+  roomCount: number; // Added this property to match expected type
 }
 
 export function useRoomTypes() {

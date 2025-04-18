@@ -6,6 +6,7 @@ import AddRoomTypeButton from "./AddRoomTypeButton";
 import RoomTypeDialog from "../RoomTypeDialog";
 import { RoomType } from "./useRoomTypes";
 
+// Update the interface to include roomCount
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
   selectedStayLengths: number[];
@@ -36,6 +37,7 @@ export default function RoomTypeContent({
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
             onDelete={handleDeleteRoomType}
+            onEdit={() => {}} // Add onEdit prop to match RoomTypeList interface
           />
         </Accordion>
       </div>

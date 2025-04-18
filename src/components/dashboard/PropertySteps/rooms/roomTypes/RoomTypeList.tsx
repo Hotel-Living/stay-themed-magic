@@ -2,18 +2,7 @@ import React, { useState } from "react";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Trash2, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface RoomType {
-  id: string;
-  name: string;
-  maxOccupancy: number;
-  size: number;
-  description: string;
-  baseRate: number;
-  roomCount: number;
-  rates: Record<number, number>;
-  images?: string[];
-}
+import { RoomType } from "./useRoomTypes";
 
 interface RoomTypeListProps {
   roomTypes: RoomType[];

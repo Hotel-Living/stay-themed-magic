@@ -26,6 +26,7 @@ export default function AddPropertyForm() {
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const totalSteps = 4;
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -51,7 +52,8 @@ export default function AddPropertyForm() {
       activities: [] as string[]
     },
     roomTypes: [] as any[],
-    images: [] as string[]
+    images: [] as string[],
+    termsAccepted: false
   });
 
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
@@ -91,7 +93,14 @@ export default function AddPropertyForm() {
         }));
         break;
       case 4:
-        // FAQ and terms data would go here
+        // Update terms accepted state from the data
+        if (data && typeof data.termsAccepted === 'boolean') {
+          setTermsAccepted(data.termsAccepted);
+          setFormData(prev => ({
+            ...prev,
+            termsAccepted: data.termsAccepted
+          }));
+        }
         break;
       default:
         break;
@@ -152,6 +161,18 @@ export default function AddPropertyForm() {
         description: "Please log in to submit a property.",
         variant: "destructive"
       });
+      return;
+    }
+
+    // Check if Terms & Conditions have been accepted
+    if (!termsAccepted) {
+      toast({
+        title: "Terms & Conditions",
+        description: "You must accept the Terms & Conditions to submit a property.",
+        variant: "destructive"
+      });
+      setErrorFields(["Terms & Conditions"]);
+      setShowValidationErrors(true);
       return;
     }
 
@@ -265,7 +286,7 @@ export default function AddPropertyForm() {
           <button 
             onClick={handleSubmitProperty} 
             className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80 hover:bg-[#a209ad]"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !termsAccepted}
           >
             {isSubmitting ? "Submitting..." : "Submit"}
           </button>
@@ -287,6 +308,8 @@ export default function AddPropertyForm() {
         <StepContent 
           currentStep={currentStep} 
           onValidationChange={(isValid, data) => validateStep(currentStep, isValid, data)} 
+          formData={formData}
+          setTermsAccepted={setTermsAccepted}
         />
       )}
       
@@ -301,6 +324,7 @@ export default function AddPropertyForm() {
         showPrevious={currentStep !== 1} 
         isNextDisabled={false}
         isSubmitting={isSubmitting}
+        isSubmitDisabled={!termsAccepted}
       />
     </div>
   );

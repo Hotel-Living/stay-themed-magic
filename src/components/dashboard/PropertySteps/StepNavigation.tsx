@@ -10,6 +10,7 @@ interface StepNavigationProps {
   showPrevious?: boolean;
   isNextDisabled?: boolean;
   isSubmitting?: boolean;
+  isSubmitDisabled?: boolean;
 }
 
 export default function StepNavigation({
@@ -20,7 +21,8 @@ export default function StepNavigation({
   onSubmit,
   showPrevious = true,
   isNextDisabled = false,
-  isSubmitting = false
+  isSubmitting = false,
+  isSubmitDisabled = false
 }: StepNavigationProps) {
   return (
     <div className="flex items-center justify-between mt-8">
@@ -47,8 +49,12 @@ export default function StepNavigation({
       ) : (
         <button
           onClick={onSubmit}
-          className="rounded-lg px-4 py-2 text-white text-sm font-medium transition-colors bg-[#a209ad]/80 hover:bg-[#a209ad]"
-          disabled={isSubmitting}
+          className={`rounded-lg px-4 py-2 text-white text-sm font-medium transition-colors ${
+            isSubmitDisabled 
+              ? "bg-gray-500 cursor-not-allowed" 
+              : "bg-[#a209ad]/80 hover:bg-[#a209ad]"
+          }`}
+          disabled={isSubmitting || isSubmitDisabled}
         >
           {isSubmitting ? "Submitting..." : "Submit Property"}
         </button>

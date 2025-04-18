@@ -17,7 +17,7 @@ export function useRoomTypes() {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]); 
   
   // Get selected stay lengths from localStorage if available
   useEffect(() => {

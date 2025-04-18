@@ -2,9 +2,9 @@
 import React from "react";
 import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
+import AddRoomTypeButton from "./AddRoomTypeButton";
+import RoomTypeDialog from "../RoomTypeDialog";
 import { RoomType } from "./useRoomTypes";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
@@ -43,16 +43,19 @@ export default function RoomTypeContent({
         </Accordion>
       </div>
       
-      {/* Add Room Type Button directly on the main content */}
+      {/* Add Room Type Button */}
       <div className="mb-6">
-        <Button
-          onClick={() => setDialogOpen(true)}
-          className="w-full py-4 font-bold text-white bg-[#7A0486] hover:bg-[#65037a] flex items-center justify-center"
-        >
-          <Plus className="mr-2 h-5 w-5" />
-          ADD ROOM TYPE
-        </Button>
+        <Accordion type="single" collapsible className="w-full">
+          <AddRoomTypeButton onOpenDialog={() => setDialogOpen(true)} />
+        </Accordion>
       </div>
+      
+      <RoomTypeDialog 
+        isOpen={dialogOpen} 
+        onClose={() => setDialogOpen(false)} 
+        onAdd={handleAddRoomType}
+        availableStayLengths={selectedStayLengths}
+      />
     </>
   );
 }

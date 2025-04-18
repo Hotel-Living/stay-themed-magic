@@ -8,26 +8,18 @@ import { RoomType } from "./StepTwo/types";
 
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean, data?: any) => void;
-  initialData?: any;
 }
 
 export default function StepTwo({
-  onValidationChange = () => {},
-  initialData = {}
+  onValidationChange = () => {}
 }: StepTwoProps) {
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>(initialData?.roomTypes || []);
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [error, setError] = useState<string>("");
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
   const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
-  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(
-    initialData?.stayLengths || []
-  );
-  const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(
-    initialData?.mealPlans || []
-  );
-
-  console.log("StepTwo component rendered");
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
+  const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>([]);
 
   const checkValidation = () => {
     if (roomTypes.length === 0) {
@@ -88,43 +80,32 @@ export default function StepTwo({
 
   return (
     <div className="space-y-8">
-      <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION DETAILS</h2>
-      
       <RoomsAndPricingStep 
         onStayLengthsChange={handleStayLengthsUpdate}
         onMealPlansChange={handleMealPlansUpdate}
       />
       
       <div className="mt-8">
-        <div className="glass-card rounded-xl p-4 bg-[#690695]/40">
-          <h3 className="text-lg font-semibold text-white mb-4">Room Types</h3>
-          
-          <button
-            onClick={() => setIsAddRoomOpen(true)}
-            className="w-full py-2 px-4 mb-4 border border-dashed border-fuchsia-400 rounded-lg hover:bg-fuchsia-900/20 transition-colors text-fuchsia-100"
-          >
-            + Add New Room Type
-          </button>
-          
-          <RoomTypeForm 
-            isOpen={isAddRoomOpen} 
-            setIsOpen={setIsAddRoomOpen}
-            onAddRoomType={handleAddRoomType}
-          />
-          
-          <RoomTypeList
-            roomTypes={roomTypes}
-            isOpen={isAvailableRoomsOpen}
-            setIsOpen={setIsAvailableRoomsOpen}
-            onRemoveRoomType={handleRemoveRoomType}
-          />
-          
-          <ValidationMessages
-            error={error}
-            showValidationError={showValidationError}
-            roomTypesCount={roomTypes.length}
-          />
-        </div>
+        <div className="flex justify-between items-center mb-4"></div>
+        
+        <RoomTypeForm 
+          isOpen={isAddRoomOpen} 
+          setIsOpen={setIsAddRoomOpen}
+          onAddRoomType={handleAddRoomType}
+        />
+        
+        <RoomTypeList
+          roomTypes={roomTypes}
+          isOpen={isAvailableRoomsOpen}
+          setIsOpen={setIsAvailableRoomsOpen}
+          onRemoveRoomType={handleRemoveRoomType}
+        />
+        
+        <ValidationMessages
+          error={error}
+          showValidationError={showValidationError}
+          roomTypesCount={roomTypes.length}
+        />
       </div>
     </div>
   );

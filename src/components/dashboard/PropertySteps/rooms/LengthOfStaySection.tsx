@@ -33,8 +33,37 @@ export default function LengthOfStaySection({
     { value: 32 }
   ];
 
-  // We're now NOT loading any pre-selected values on mount
-  // This means the form will start empty as requested
+  useEffect(() => {
+    const storedLengths = getSelectedStayLengths();
+    
+    // If we have stored lengths, use them
+    if (storedLengths.length > 0) {
+      // Filter to make sure we only use valid durations (8, 16, 24, 32)
+      const validStoredLengths = storedLengths.filter(len => 
+        stayLengths.includes(len)
+      );
+      
+      if (validStoredLengths.length > 0) {
+        setSelectedStayLengths(validStoredLengths);
+        setStayLengthsValid(true);
+        onValidationChange(true, { selectedLengths: validStoredLengths });
+      } else {
+        // If no valid lengths, set the default ones
+        const defaultLengths = [8, 16];
+        setSelectedStayLengths(defaultLengths);
+        saveSelectedStayLengths(defaultLengths);
+        setStayLengthsValid(true);
+        onValidationChange(true, { selectedLengths: defaultLengths });
+      }
+    } else {
+      // No stored lengths, set defaults
+      const defaultLengths = [8, 16];
+      setSelectedStayLengths(defaultLengths);
+      saveSelectedStayLengths(defaultLengths);
+      setStayLengthsValid(true);
+      onValidationChange(true, { selectedLengths: defaultLengths });
+    }
+  }, []);
 
   const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
     let newSelectedLengths: number[];

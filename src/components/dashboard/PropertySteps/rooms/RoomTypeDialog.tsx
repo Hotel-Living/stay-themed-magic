@@ -27,10 +27,6 @@ export default function RoomTypeDialog({
   const [rates, setRates] = useState<Record<string, number>>({});
   const [amenities, setAmenities] = useState<string[]>([]);
   
-  // For image upload functionality
-  const [roomImages, setRoomImages] = useState<File[]>([]);
-  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
-  
   useEffect(() => {
     // Reset form when dialog opens
     if (open) {
@@ -38,8 +34,6 @@ export default function RoomTypeDialog({
       setMaxOccupancy(2);
       setDescription("");
       setImages([]);
-      setRoomImages([]);
-      setRoomImagePreviews([]);
       
       // Initialize rates based on selected stay lengths
       const initialRates: Record<string, number> = {};
@@ -64,42 +58,6 @@ export default function RoomTypeDialog({
     };
     
     onSave(roomType);
-  };
-  
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files);
-      setRoomImages([...roomImages, ...fileArray]);
-      
-      // Create preview URLs
-      const previewURLs = fileArray.map(file => URL.createObjectURL(file));
-      setRoomImagePreviews([...roomImagePreviews, ...previewURLs]);
-      
-      // Update main images array with placeholder URLs for now
-      // In a real app you'd upload these and get actual URLs
-      setImages([...images, ...previewURLs]);
-    }
-  };
-  
-  const handleRemoveImage = (index: number) => {
-    const newImages = [...roomImagePreviews];
-    newImages.splice(index, 1);
-    setRoomImagePreviews(newImages);
-    
-    const newRoomImages = [...roomImages];
-    newRoomImages.splice(index, 1);
-    setRoomImages(newRoomImages);
-    
-    const newMainImages = [...images];
-    newMainImages.splice(index, 1);
-    setImages(newMainImages);
-  };
-  
-  const handleRateChange = (duration: number, value: string) => {
-    setRates({
-      ...rates,
-      [`${duration}`]: parseFloat(value) || 0
-    });
   };
   
   return (
@@ -145,17 +103,12 @@ export default function RoomTypeDialog({
             />
           </div>
           
-          <ImageUploadSection 
-            roomImages={roomImages} 
-            roomImagePreviews={roomImagePreviews}
-            onImageUpload={handleImageUpload}
-            onRemoveImage={handleRemoveImage}
-          />
+          <ImageUploadSection images={images} setImages={setImages} />
           
           <RatesSection 
-            stayLengths={selectedStayLengths}
-            rates={rates}
-            onRateChange={handleRateChange}
+            rates={rates} 
+            setRates={setRates} 
+            stayLengths={selectedStayLengths} 
           />
           
           <div className="flex justify-end space-x-2 pt-4">

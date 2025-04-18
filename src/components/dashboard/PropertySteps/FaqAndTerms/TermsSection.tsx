@@ -59,7 +59,7 @@ export default function TermsSection({
                   I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms
                 </Label>
                 {!termsAccepted && (
-                  <AlertTriangle className="h-5 w-5 text-amber-400" aria-label="Required to submit" />
+                  <AlertTriangle className="h-5 w-5 text-amber-400" title="Required to submit" />
                 )}
                 {termsAccepted && (
                   <Check className="h-5 w-5 text-green-400" />

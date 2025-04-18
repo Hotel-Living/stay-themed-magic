@@ -4,7 +4,7 @@ import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
 import AddRoomTypeButton from "./AddRoomTypeButton";
 import RoomTypeDialog from "../RoomTypeDialog";
-import { RoomType } from "./useRoomTypes"; // Use the correct import path
+import { RoomType } from "./useRoomTypes";
 
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
@@ -51,10 +51,10 @@ export default function RoomTypeContent({
       </div>
       
       <RoomTypeDialog 
-        open={dialogOpen} 
-        onOpenChange={setDialogOpen} 
-        onSave={handleAddRoomType}
-        selectedStayLengths={selectedStayLengths}
+        isOpen={dialogOpen} 
+        onClose={() => setDialogOpen(false)} 
+        onAdd={handleAddRoomType}
+        availableStayLengths={selectedStayLengths}
       />
     </>
   );

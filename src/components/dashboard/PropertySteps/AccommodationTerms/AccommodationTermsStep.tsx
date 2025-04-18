@@ -63,8 +63,10 @@ export default function AccommodationTermsStep({
           setMealPlans={setMealPlans}
         />
         
-        {/* Removed the props since PreferredWeekdaySection doesn't accept them */}
-        <PreferredWeekdaySection />
+        <PreferredWeekdaySection 
+          preferredWeekdays={preferredWeekdays}
+          setPreferredWeekdays={setPreferredWeekdays}
+        />
       </div>
       
       <RoomTypeSection 
@@ -73,12 +75,7 @@ export default function AccommodationTermsStep({
         fullWidth={true}
       />
       
-      {/* Update to use 'error' prop instead of 'errors' as per component's expectations */}
-      <ValidationMessages 
-        error={errors.join(", ")}
-        showErrors={errors.length > 0}
-        isValid={errors.length === 0 && roomTypesValid}
-      />
+      <ValidationMessages errors={errors} />
     </div>
   );
 }

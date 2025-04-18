@@ -2,21 +2,19 @@
 import { useState, useEffect } from "react";
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
-// Updated RoomType interface to align with useRoomTypes.ts
-export interface RoomType {
+// Interface for the room type form data
+interface RoomType {
   id: string;
   name: string;
   maxOccupancy: number;
-  size: number;
   description: string;
-  baseRate: number;
-  images: string[]; // Making sure this is required to match the error
+  images: string[];
   rates: Record<string, number>;
   amenities: string[];
 }
 
 export function useRoomTypeSection(onValidationChange: (isValid: boolean) => void) {
-  const [selectedUnit, setSelectedUnit] = useState<string>("sq. ft.");
+  const [selectedUnit, setSelectedUnit] = useState<string>("month");
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   // Don't prefill selected stay lengths

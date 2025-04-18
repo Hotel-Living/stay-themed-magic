@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 interface RatesSectionProps {
   stayLengths: number[];
-  rates: Record<string, number>;
+  rates: Record<number, number>;
   onRateChange: (duration: number, value: string) => void;
   error?: string;
 }

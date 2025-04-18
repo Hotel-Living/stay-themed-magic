@@ -14,6 +14,7 @@ interface RoomTypeContentProps {
   setDialogOpen: (isOpen: boolean) => void;
   handleAddRoomType: (roomType: RoomType) => void;
   handleDeleteRoomType: (id: string) => void;
+  handleEditRoomType?: (id: string, updatedRoomType: Partial<RoomType>) => void;
 }
 
 export default function RoomTypeContent({
@@ -23,7 +24,8 @@ export default function RoomTypeContent({
   dialogOpen,
   setDialogOpen,
   handleAddRoomType,
-  handleDeleteRoomType
+  handleDeleteRoomType,
+  handleEditRoomType
 }: RoomTypeContentProps) {
   return (
     <>
@@ -36,6 +38,7 @@ export default function RoomTypeContent({
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
             onDelete={handleDeleteRoomType}
+            onEdit={handleEditRoomType}
           />
         </Accordion>
       </div>

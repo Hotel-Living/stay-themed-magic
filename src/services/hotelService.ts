@@ -4,6 +4,8 @@ import { FilterState } from '@/components/filters/FilterTypes';
 
 export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
+    console.log("Fetching hotels with filters:", filters);
+    
     let query = supabase
       .from('hotels')
       .select('*, hotel_images(*), hotel_themes(theme_id, themes:themes(*))');
@@ -65,15 +67,37 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.in('category', numericStars);
     }
 
+    console.log("Executing Supabase query...");
     const { data, error } = await query;
 
     if (error) {
+      console.error("Supabase query error:", error);
       throw new Error(`Failed to fetch hotels: ${error.message}`);
     }
 
+    console.log("Hotels fetched successfully:", data?.length || 0, "results");
     return data || [];
   } catch (err: any) {
     console.error("Error in fetchHotelsWithFilters:", err);
+    throw err;
+  }
+};
+
+// Add a function to fetch all hotels (for admin view)
+export const fetchAllHotels = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('hotels')
+      .select('*, hotel_images(*)');
+    
+    if (error) {
+      console.error("Error fetching all hotels:", error);
+      throw new Error(`Failed to fetch hotels: ${error.message}`);
+    }
+    
+    return data || [];
+  } catch (err: any) {
+    console.error("Error in fetchAllHotels:", err);
     throw err;
   }
 };

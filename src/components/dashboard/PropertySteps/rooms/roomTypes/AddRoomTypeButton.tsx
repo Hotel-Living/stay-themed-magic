@@ -8,11 +8,13 @@ interface AddRoomTypeButtonProps {
 }
 
 export default function AddRoomTypeButton({ onOpenDialog }: AddRoomTypeButtonProps) {
-  // Make sure the button calls the onOpenDialog function directly
+  // Make sure the button calls the onOpenDialog function directly and stops event propagation
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onOpenDialog();
+    if (typeof onOpenDialog === 'function') {
+      onOpenDialog();
+    }
   };
 
   return (
@@ -26,6 +28,7 @@ export default function AddRoomTypeButton({ onOpenDialog }: AddRoomTypeButtonPro
         <button 
           onClick={handleClick} 
           className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-[#860493]/50 border border-fuchsia-500/30 rounded-lg uppercase flex items-center justify-center"
+          type="button"
         >
           <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
         </button>

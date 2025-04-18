@@ -7,12 +7,16 @@ import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function AccommodationTermsStep({
-  onValidationChange = () => {}
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
 }: AccommodationTermsStepProps) {
-  const [mealPlans, setMealPlans] = useState<string[]>([]);
+  const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [error, setError] = useState<string>("");
@@ -39,8 +43,12 @@ export default function AccommodationTermsStep({
 
   // Handle meal plan selection
   const handleMealPlanChange = (value: string) => {
-    if (!mealPlans.includes(value)) {
-      setMealPlans([value]);
+    const newMealPlans = mealPlans.includes(value) ? mealPlans : [value];
+    setMealPlans(newMealPlans);
+    
+    // Update parent form data
+    if (updateFormData) {
+      updateFormData('mealPlans', newMealPlans);
     }
 
     // Check validation after change

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { sortedThemeCategories } from "./themes/themeData";
@@ -6,14 +7,18 @@ import { useToast } from "@/hooks/use-toast";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function ThemesAndActivitiesStep({
-  onValidationChange = () => {}
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
 }: ThemesAndActivitiesStepProps) {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const { toast } = useToast();
   
   const toggleCategory = (category: string) => {
@@ -27,6 +32,7 @@ export default function ThemesAndActivitiesStep({
   // Track theme selection
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     setSelectedThemes(prev => {
+      let newThemes;
       if (isSelected) {
         // Show toast for selected themes
         if (!prev.includes(themeId)) {
@@ -35,10 +41,17 @@ export default function ThemesAndActivitiesStep({
             description: "The theme has been added to your selection"
           });
         }
-        return [...prev.filter(id => id !== themeId), themeId];
+        newThemes = [...prev.filter(id => id !== themeId), themeId];
       } else {
-        return prev.filter(id => id !== themeId);
+        newThemes = prev.filter(id => id !== themeId);
       }
+      
+      // Update parent form data
+      if (updateFormData) {
+        updateFormData('themes', newThemes);
+      }
+      
+      return newThemes;
     });
   };
 

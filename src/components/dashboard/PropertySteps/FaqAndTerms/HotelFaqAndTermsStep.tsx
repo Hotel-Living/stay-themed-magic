@@ -7,14 +7,35 @@ import TermsSection from "./TermsSection";
 
 interface HotelFaqAndTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
-export default function HotelFaqAndTermsStep({ onValidationChange = () => {} }: HotelFaqAndTermsStepProps) {
-  const [faqItems, setFaqItems] = useState<FaqItem[]>(predefinedFaqs);
-  const [termsAndConditions, setTermsAndConditions] = useState(predefinedTerms);
+export default function HotelFaqAndTermsStep({ 
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: HotelFaqAndTermsStepProps) {
+  const [faqItems, setFaqItems] = useState<FaqItem[]>(formData.faqs || predefinedFaqs);
+  const [termsAndConditions, setTermsAndConditions] = useState(formData.terms || predefinedTerms);
   const [isOpenFaq, setIsOpenFaq] = useState(true);
   const [isOpenTerms, setIsOpenTerms] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(formData.termsAccepted || false);
+
+  // Update parent form data when FAQs or terms change
+  useEffect(() => {
+    if (updateFormData) {
+      updateFormData('faqs', faqItems);
+      updateFormData('terms', termsAndConditions);
+    }
+  }, [faqItems, termsAndConditions, updateFormData]);
+
+  // Update parent form data when terms acceptance changes
+  useEffect(() => {
+    if (updateFormData) {
+      updateFormData('termsAccepted', termsAccepted);
+    }
+  }, [termsAccepted, updateFormData]);
 
   useEffect(() => {
     // Validate based on having at least one FAQ and terms and conditions

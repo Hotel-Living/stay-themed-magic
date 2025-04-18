@@ -49,7 +49,7 @@ export default function RoomTypeSection({
 
   return (
     <div className={`${fullWidth ? "w-full" : ""}`}>
-      <CollapsibleRoomTypeSection title={title}>
+      <CollapsibleRoomTypeSection title={title} defaultOpen={false}>
         {mainContent}
       </CollapsibleRoomTypeSection>
     </div>

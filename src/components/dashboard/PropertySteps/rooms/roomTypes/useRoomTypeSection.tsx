@@ -1,51 +1,53 @@
 
 import { useState, useEffect } from "react";
-import { useRoomTypes, RoomType } from "./useRoomTypes";
+import { useRoomTypes } from "./useRoomTypes";
 
 export function useRoomTypeSection(
-  onValidationChange: (isValid: boolean) => void, 
-  formData: any = {}, 
-  updateFormData: (field: string, value: any) => void = () => {}
+  onValidationChange = (isValid: boolean) => {},
+  formData = {},
+  updateFormData = (field: string, value: any) => {}
 ) {
   const {
     selectedUnit,
-    roomTypes: initialRoomTypes,
-    dialogOpen,
-    selectedStayLengths,
-    setDialogOpen,
-    handleAddRoomType: addRoomType,
-    handleDeleteRoomType: deleteRoomType
+    roomTypes,
+    setRoomTypes,
+    addRoomType,
+    removeRoomType
   } = useRoomTypes();
   
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>(initialRoomTypes);
-  
-  // Load room types from parent formData if available
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
+
+  // Initialize roomTypes from formData if available
   useEffect(() => {
-    if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
+    if (formData.roomTypes && formData.roomTypes.length > 0) {
       setRoomTypes(formData.roomTypes);
     }
-  }, [formData]);
-  
-  // Validate room types
+  }, [formData.roomTypes]);
+
+  // Update parent form data when roomTypes change
   useEffect(() => {
+    if (updateFormData && roomTypes) {
+      updateFormData('roomTypes', roomTypes);
+    }
+  }, [roomTypes, updateFormData]);
+
+  // Validate when roomTypes changes
+  useEffect(() => {
+    // Valid if there's at least one room type
     const isValid = roomTypes.length > 0;
     onValidationChange(isValid);
   }, [roomTypes, onValidationChange]);
-  
-  const handleAddRoomType = (roomType: RoomType) => {
-    const updatedRoomTypes = [...roomTypes, roomType];
-    setRoomTypes(updatedRoomTypes);
-    updateFormData('roomTypes', updatedRoomTypes);
-    addRoomType(roomType);
+
+  const handleAddRoomType = (name: string, pricePerNight: number, capacity: number, description: string) => {
+    addRoomType(name, pricePerNight, capacity, description);
+    setDialogOpen(false);
   };
-  
-  const handleDeleteRoomType = (id: string) => {
-    const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
-    setRoomTypes(updatedRoomTypes);
-    updateFormData('roomTypes', updatedRoomTypes);
-    deleteRoomType(id);
+
+  const handleDeleteRoomType = (index: number) => {
+    removeRoomType(index);
   };
-  
+
   return {
     selectedUnit,
     roomTypes,

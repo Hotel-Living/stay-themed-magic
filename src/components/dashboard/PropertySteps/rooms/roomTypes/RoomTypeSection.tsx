@@ -9,13 +9,17 @@ interface RoomTypeSectionProps {
   title?: string;
   fullWidth?: boolean;
   showHeader?: boolean;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function RoomTypeSection({ 
   onValidationChange,
   title = "ROOM TYPES",
   fullWidth = false,
-  showHeader = true
+  showHeader = true,
+  formData = {},
+  updateFormData = () => {}
 }: RoomTypeSectionProps) {
   const {
     selectedUnit,
@@ -25,7 +29,7 @@ export default function RoomTypeSection({
     setDialogOpen,
     handleAddRoomType,
     handleDeleteRoomType
-  } = useRoomTypeSection(onValidationChange);
+  } = useRoomTypeSection(onValidationChange, formData, updateFormData);
 
   const mainContent = (
     <RoomTypeContent

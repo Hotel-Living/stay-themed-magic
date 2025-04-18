@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StepIndicator from "../PropertySteps/StepIndicator";
@@ -21,6 +22,37 @@ export default function AddPropertyForm() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  
+  // Add form data state to persist between steps
+  const [formData, setFormData] = useState({
+    // Step 1
+    hotelName: "",
+    propertyType: "",
+    description: "",
+    country: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    contactName: "",
+    contactEmail: "",
+    contactPhone: "",
+    category: "",
+    
+    // Step 2
+    stayLengths: [] as number[],
+    mealPlans: [] as string[],
+    roomTypes: [] as any[],
+    
+    // Step 3
+    themes: [] as string[],
+    activities: [] as string[],
+    
+    // Step 4
+    faqs: [] as any[],
+    terms: "",
+    termsAccepted: false
+  });
+  
   const totalSteps = 4;
 
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
@@ -120,7 +152,37 @@ export default function AddPropertyForm() {
         4: false
       });
       setIsSubmitted(false);
+      // Reset form data when submit is successful
+      setFormData({
+        hotelName: "",
+        propertyType: "",
+        description: "",
+        country: "",
+        address: "",
+        city: "",
+        postalCode: "",
+        contactName: "",
+        contactEmail: "",
+        contactPhone: "",
+        category: "",
+        stayLengths: [],
+        mealPlans: [],
+        roomTypes: [],
+        themes: [],
+        activities: [],
+        faqs: [],
+        terms: "",
+        termsAccepted: false
+      });
     }, 5000);
+  };
+
+  // Function to update form data
+  const updateFormData = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {
@@ -145,7 +207,13 @@ export default function AddPropertyForm() {
       {showValidationErrors && errorFields.length > 0 && <ValidationErrorBanner errorFields={errorFields} />}
       
       {isSubmitted && submitSuccess ? <SuccessMessage /> :
-    <StepContent currentStep={currentStep} renderPriceTable={renderPriceTable} onValidationChange={isValid => validateStep(currentStep, isValid)} />}
+    <StepContent 
+      currentStep={currentStep} 
+      renderPriceTable={renderPriceTable} 
+      onValidationChange={isValid => validateStep(currentStep, isValid)}
+      formData={formData}
+      updateFormData={updateFormData}
+    />}
       
       <ImportantNotice />
       

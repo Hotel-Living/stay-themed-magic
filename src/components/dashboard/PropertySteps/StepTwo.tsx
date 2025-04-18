@@ -8,16 +8,27 @@ import { RoomType } from "./StepTwo/types";
 
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function StepTwo({
-  onValidationChange = () => {}
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
 }: StepTwoProps) {
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [error, setError] = useState<string>("");
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
   const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
+
+  // Load initial data from parent formData if available
+  useEffect(() => {
+    if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
+      setRoomTypes(formData.roomTypes);
+    }
+  }, [formData]);
 
   const checkValidation = () => {
     if (roomTypes.length === 0) {
@@ -36,13 +47,21 @@ export default function StepTwo({
         ...newRoom,
         id: Date.now().toString()
       };
-      setRoomTypes([...roomTypes, newRoomType]);
+      const updatedRoomTypes = [...roomTypes, newRoomType];
+      setRoomTypes(updatedRoomTypes);
+      if (updateFormData) {
+        updateFormData('roomTypes', updatedRoomTypes);
+      }
       setIsAddRoomOpen(false);
     }
   };
 
   const handleRemoveRoomType = (id: string) => {
-    setRoomTypes(roomTypes.filter(room => room.id !== id));
+    const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
+    setRoomTypes(updatedRoomTypes);
+    if (updateFormData) {
+      updateFormData('roomTypes', updatedRoomTypes);
+    }
   };
 
   useEffect(() => {

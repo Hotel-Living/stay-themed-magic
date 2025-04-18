@@ -4,6 +4,7 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
+// Set collapsible and defaultValue to ensure accordions start closed
 const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef<

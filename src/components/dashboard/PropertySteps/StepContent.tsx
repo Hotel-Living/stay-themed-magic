@@ -11,12 +11,16 @@ interface StepContentProps {
   currentStep: number;
   renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function StepContent({ 
   currentStep, 
   renderPriceTable, 
-  onValidationChange = () => {} 
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
 }: StepContentProps) {
   // Create default price table renderer if one wasn't provided
   const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
@@ -31,19 +35,39 @@ export default function StepContent({
 
   return (
     <div className="mb-4">
-      {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}
+      {currentStep === 1 && 
+        <StepOne 
+          onValidationChange={onValidationChange} 
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
       {currentStep === 2 && (
         <>
-          <AccommodationTermsStep onValidationChange={onValidationChange} />
+          <AccommodationTermsStep 
+            onValidationChange={onValidationChange}
+            formData={formData}
+            updateFormData={updateFormData}
+          />
           <div className="mt-6">
             <HotelFeaturesStep />
           </div>
         </>
       )}
-      {currentStep === 3 && <ThemesAndActivitiesStep onValidationChange={onValidationChange} />}
+      {currentStep === 3 && 
+        <ThemesAndActivitiesStep 
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
       {currentStep === 4 && (
         <div className="space-y-4">
-          <HotelFaqAndTermsStep onValidationChange={onValidationChange} />
+          <HotelFaqAndTermsStep 
+            onValidationChange={onValidationChange}
+            formData={formData}
+            updateFormData={updateFormData}
+          />
           
           {/* Form confirmation checkbox */}
           <div className="mt-4 space-y-4">
@@ -51,7 +75,9 @@ export default function StepContent({
               <input 
                 type="checkbox" 
                 id="finalize-terms" 
-                className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" 
+                className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                checked={formData.termsAccepted || false}
+                onChange={(e) => updateFormData('termsAccepted', e.target.checked)} 
               />
               <label htmlFor="finalize-terms" className="text-sm text-white">
                 I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>

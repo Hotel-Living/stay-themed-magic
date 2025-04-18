@@ -3,7 +3,19 @@ import * as React from "react"
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 import { cn } from "@/lib/utils"
 
-const Collapsible = CollapsiblePrimitive.Root
+// Default all collapsibles to closed
+const Collapsible = React.forwardRef<
+  React.ElementRef<typeof CollapsiblePrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root>
+>(({ open, defaultOpen, ...props }, ref) => (
+  <CollapsiblePrimitive.Root
+    ref={ref}
+    open={open}
+    defaultOpen={defaultOpen || false} // Default to collapsed
+    {...props}
+  />
+))
+Collapsible.displayName = "Collapsible"
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.CollapsibleTrigger>,

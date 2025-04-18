@@ -12,7 +12,7 @@ export default function ValidationMessage({ errors }: ValidationMessageProps) {
   if (hasErrors) {
     return (
       <div className="p-2 rounded-md text-white flex items-center gap-2 bg-[#041888]/[0.97]">
-        <AlertCircle className="h-5 w-5 text-white" />
+        <AlertCircle className="h-5 w-5" />
         <span className="text-white text-sm">Please complete all required fields</span>
       </div>
     );

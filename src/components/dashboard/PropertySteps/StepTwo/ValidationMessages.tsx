@@ -18,8 +18,8 @@ export default function ValidationMessages({
       {/* Show error only when validation is attempted */}
       {error && showValidationError && (
         <div className="p-3 mt-4 rounded-md bg-purple-800/50 text-white flex items-center gap-2">
-          <AlertCircle className="h-5 w-5 text-white" />
-          <span className="text-white">{error}</span>
+          <AlertCircle className="h-5 w-5" />
+          <span>{error}</span>
         </div>
       )}
       

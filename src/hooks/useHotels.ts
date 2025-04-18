@@ -22,9 +22,8 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setError(null);
 
       try {
-        console.log("Fetching hotels with filters:", filters);
+        // Fetch real hotels data from Supabase for authenticated hotel owners
         const data = await fetchHotelsWithFilters(filters);
-        console.log("Hotels fetched:", data.length);
         setHotels(data);
       } catch (err: any) {
         console.error("Unexpected error:", err);
@@ -38,7 +37,6 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
   }, [filters]);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
-    console.log("Updating filters:", newFilters);
     setFilters(prevFilters => updateFiltersState(prevFilters, newFilters));
   };
 

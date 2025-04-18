@@ -33,7 +33,6 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   }
 
   if (error) {
-    console.error("Search error:", error);
     return (
       <div className="border border-fuchsia-400 rounded-lg p-4 text-center bg-[#460F54]/50 backdrop-blur-sm">
         <h3 className="text-xl font-semibold mb-2 text-white">Error Loading Results</h3>

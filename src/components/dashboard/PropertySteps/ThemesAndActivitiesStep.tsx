@@ -1,149 +1,116 @@
-
 import React, { useState, useEffect } from "react";
-import { useThemes } from "@/hooks/useThemes";
-import DirectThemes from "./themes/DirectThemes";
+import { Link } from "react-router-dom";
+import { sortedThemeCategories } from "./themes/themeData";
 import ThemeCategory from "./themes/ThemeCategory";
-import { themeCategories } from "./themes/themeData";
+import { useToast } from "@/hooks/use-toast";
 
 interface ThemesAndActivitiesStepProps {
-  onValidationChange: (isValid: boolean, data?: any) => void;
-  initialData?: {
-    themes?: string[];
-    activities?: string[];
-  };
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 export default function ThemesAndActivitiesStep({
-  onValidationChange,
-  initialData,
+  onValidationChange = () => {}
 }: ThemesAndActivitiesStepProps) {
-  const [selectedThemes, setSelectedThemes] = useState<string[]>(
-    initialData?.themes || []
-  );
-  const [selectedActivities, setSelectedActivities] = useState<string[]>(
-    initialData?.activities || []
-  );
-  const { data: allThemes, isLoading } = useThemes();
-
-  // Organize themes by type
-  const featuredThemes = themeCategories.find(
-    (cat) => cat.id === "featured"
-  )?.themes || [];
-  const popularThemes = themeCategories.find(
-    (cat) => cat.id === "popular"
-  )?.themes || [];
-
-  // Handle theme selection
-  const handleThemeSelect = (themeId: string) => {
-    setSelectedThemes((prev) => {
-      if (prev.includes(themeId)) {
-        return prev.filter((id) => id !== themeId);
-      } else {
-        return [...prev, themeId];
-      }
-    });
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const { toast } = useToast();
+  
+  const toggleCategory = (category: string) => {
+    setOpenCategory(openCategory === category ? null : category);
+  };
+  
+  const toggleSubmenu = (submenu: string) => {
+    setOpenSubmenu(openSubmenu === submenu ? null : submenu);
   };
 
-  // Handle activity selection
-  const handleActivitySelect = (activityId: string, isSelected: boolean) => {
-    setSelectedActivities((prev) => {
+  // Track theme selection
+  const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+    setSelectedThemes(prev => {
       if (isSelected) {
-        if (!prev.includes(activityId)) {
-          return [...prev, activityId];
+        // Show toast for selected themes
+        if (!prev.includes(themeId)) {
+          toast({
+            title: "Theme selected",
+            description: "The theme has been added to your selection"
+          });
         }
-        return prev;
+        return [...prev.filter(id => id !== themeId), themeId];
       } else {
-        return prev.filter((id) => id !== activityId);
+        return prev.filter(id => id !== themeId);
       }
     });
   };
 
-  // Validate when selections change
+  // Validate based on theme selection
   useEffect(() => {
-    const isValid =
-      selectedThemes.length > 0 && selectedActivities.length > 0;
-    
-    // Pass validation state and data to parent
-    onValidationChange(isValid, {
-      themes: selectedThemes,
-      activities: selectedActivities,
-    });
-  }, [selectedThemes, selectedActivities, onValidationChange]);
-
-  if (isLoading) {
-    return <div>Loading themes...</div>;
-  }
-
+    // Consider the step valid if at least one theme is selected
+    const isValid = selectedThemes.length > 0;
+    onValidationChange(isValid);
+  }, [selectedThemes, onValidationChange]);
+  
   return (
-    <div className="space-y-8">
-      {/* Featured Themes Section */}
+    <div className="space-y-4">
+      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
+        AFFINITIES
+      </label>
+      
+      <p className="text-sm text-foreground/90 mb-4">
+        Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
+      </p>
+      
+      <Link 
+        to="/themes-information" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd]"
+      >
+        More Information
+      </Link>
+      
       <div>
-        <h3 className="text-lg font-medium mb-4">Featured Themes</h3>
-        <p className="text-sm mb-4">
-          Select the themes that best describe your property's unique
-          characteristics.
-        </p>
-
-        <DirectThemes
-          themes={featuredThemes}
-          onThemeSelect={handleThemeSelect}
-          selectedThemes={selectedThemes}
-        />
-      </div>
-
-      {/* Popular Themes Section */}
-      <div>
-        <h3 className="text-lg font-medium mb-4">Popular Themes</h3>
-        <p className="text-sm mb-4">
-          Select additional themes that apply to your property.
-        </p>
-
-        <DirectThemes
-          themes={popularThemes}
-          onThemeSelect={handleThemeSelect}
-          selectedThemes={selectedThemes}
-        />
-      </div>
-
-      {/* All Theme Categories */}
-      <div>
-        <h3 className="text-lg font-medium mb-4">All Themes</h3>
-        <p className="text-sm mb-4">Browse all available themes by category.</p>
-
-        <div className="space-y-4">
-          {themeCategories
-            .filter((cat) => cat.id !== "featured" && cat.id !== "popular")
-            .map((category) => (
-              <ThemeCategory
-                key={category.id}
-                category={category}
-                selectedThemes={selectedThemes}
-                onThemeSelect={handleThemeSelect}
-              />
-            ))}
+        <div className="grid grid-cols-1 gap-0.5">
+          {sortedThemeCategories.map(category => (
+            <ThemeCategory 
+              key={category.category} 
+              category={category} 
+              isOpen={openCategory === category.category} 
+              toggleCategory={toggleCategory} 
+              openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
+              toggleSubmenu={toggleSubmenu}
+              onThemeSelect={handleThemeSelection} 
+            />
+          ))}
         </div>
       </div>
-
-      {/* Activities Section */}
-      <div>
-        <h3 className="text-lg font-medium mb-4">Activities</h3>
-        <p className="text-sm mb-4">
-          Select the activities available at or near your property.
-        </p>
-
-        <div className="space-y-4">
-          {themeCategories
-            .filter((cat) => cat.id === "activities")
-            .map((category) => (
-              <ThemeCategory
-                key={category.id}
-                category={category}
-                selectedThemes={selectedActivities}
-                onThemeSelect={handleActivitySelect}
-              />
+      
+      {selectedThemes.length > 0 && (
+        <div className="p-3 bg-fuchsia-900/20 rounded-lg mt-3">
+          <h3 className="text-sm font-medium mb-2">Selected Themes ({selectedThemes.length})</h3>
+          <div className="flex flex-wrap gap-2">
+            {selectedThemes.map(themeId => (
+              <div 
+                key={themeId} 
+                className="px-2 py-1 bg-fuchsia-800/30 rounded-md text-xs flex items-center"
+              >
+                {themeId.replace(/^custom-/, '').replace(/-/g, ' ')}
+                <button 
+                  className="ml-1.5 text-fuchsia-300 hover:text-white"
+                  onClick={() => handleThemeSelection(themeId, false)}
+                >
+                  ✕
+                </button>
+              </div>
             ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {selectedThemes.length === 0 && (
+        <p className="text-sm mt-2 text-white">
+          Please select at least one affinity to continue
+        </p>
+      )}
     </div>
   );
 }

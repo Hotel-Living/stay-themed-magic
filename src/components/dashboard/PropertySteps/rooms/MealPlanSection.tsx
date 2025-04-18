@@ -9,7 +9,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface MealPlanSectionProps {
-  onValidationChange: (isValid: boolean, mealPlan?: string) => void;
+  onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
 }
@@ -29,14 +29,14 @@ export default function MealPlanSection({
     setSelectedMealPlan(plan);
     setMealPlanValid(true);
     setTouched(true);
-    onValidationChange(true, plan);
+    onValidationChange(true);
   };
 
   // This useEffect will run when selectedMealPlan changes
   useEffect(() => {
     if (selectedMealPlan) {
       setMealPlanValid(true);
-      onValidationChange(true, selectedMealPlan);
+      onValidationChange(true);
     } else {
       setMealPlanValid(false);
       onValidationChange(false);

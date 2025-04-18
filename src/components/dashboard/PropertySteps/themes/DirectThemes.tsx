@@ -2,29 +2,40 @@
 import React from "react";
 import ThemeItem from "./ThemeItem";
 
-export interface DirectThemesProps {
-  themes: { id: string; name: string; isAddOption?: boolean }[];
-  onThemeSelect: (themeId: string) => void;
-  selectedThemes: string[];
+interface Theme {
+  id: string;
+  name: string;
+  isAddOption?: boolean;
 }
 
-const DirectThemes = ({ themes, onThemeSelect, selectedThemes = [] }: DirectThemesProps) => {
-  const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    onThemeSelect(themeId);
-  };
+interface DirectThemesProps {
+  themes: Theme[];
+  onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+}
+
+const DirectThemes = ({ themes, onThemeSelect }: DirectThemesProps) => {
+  if (!themes || themes.length === 0) {
+    return null;
+  }
 
   return (
-    <div className="space-y-2 mb-4">
-      {themes.map(theme => (
-        <ThemeItem
-          key={theme.id}
-          id={theme.id}
-          name={theme.name}
-          isAddOption={theme.isAddOption}
-          isSelected={selectedThemes.includes(theme.id)}
-          onSelect={(isSelected) => handleThemeSelect(theme.id, isSelected)}
-        />
-      ))}
+    <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
+      <div className="space-y-0.5">
+        {themes.map(theme => (
+          <div key={theme.id} className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10">
+            <ThemeItem
+              id={theme.id}
+              name={theme.name}
+              isAddOption={theme.isAddOption}
+              onSelect={(isSelected) => {
+                if (onThemeSelect) {
+                  onThemeSelect(theme.id, isSelected);
+                }
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

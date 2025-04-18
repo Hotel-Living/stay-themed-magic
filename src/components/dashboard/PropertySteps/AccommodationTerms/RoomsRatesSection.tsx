@@ -1,55 +1,38 @@
 
 import React from "react";
-import { RoomTypeSection } from "../rooms/roomTypes/RoomTypeSection";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import RoomTypeSection from "../rooms/roomTypes/RoomTypeSection";
 
 interface RoomsRatesSectionProps {
-  title?: string;
-  fullWidth?: boolean;
-  showHeader?: boolean;
-  isOpen?: boolean;
-  onOpenChange?: (isOpen: boolean) => void;
-  onValidationChange: (isValid: boolean, roomTypeData?: any[]) => void;
-  initialData?: {
-    stayLengths?: number[];
-    roomTypes?: any[];
-  };
-  onStayLengthsChange?: (lengths: number[]) => void;
-  onMealPlansChange?: (plans: string[]) => void;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+  onValidationChange: (isValid: boolean) => void;
 }
 
-export const RoomsRatesSection: React.FC<RoomsRatesSectionProps> = ({
-  title = "Rooms & Rates",
-  fullWidth = false,
-  showHeader = true,
+export default function RoomsRatesSection({
   isOpen,
   onOpenChange,
-  onValidationChange,
-  initialData = { stayLengths: [], roomTypes: [] },
-  onStayLengthsChange,
-  onMealPlansChange
-}) => {
+  onValidationChange
+}: RoomsRatesSectionProps) {
   return (
-    <div className={`${fullWidth ? "w-full" : "max-w-4xl"}`}>
-      {showHeader && (
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold">{title}</h3>
-          <p className="text-sm text-gray-300 mt-1">
-            Set the room types and rates for your property.
-          </p>
-        </div>
-      )}
-      
-      <div className="space-y-6">
+    <Collapsible 
+      className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" 
+      open={isOpen} 
+      onOpenChange={onOpenChange}
+    >
+      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
+        <h2 className="font-medium text-base text-white">RATES PER PERSON FOR SELECTED STAY DURATIONS</h2>
+        {isOpen ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
+      </CollapsibleTrigger>
+      <CollapsibleContent className="p-4">
         <RoomTypeSection 
-          onValidationChange={onValidationChange} 
-          title="Room Types and Rates" 
+          onValidationChange={onValidationChange}
+          title="RATES PER PERSON FOR SELECTED STAY DURATIONS" 
           fullWidth={true} 
-          showHeader={false}
-          initialData={initialData}
-          onStayLengthsChange={onStayLengthsChange}
-          onMealPlansChange={onMealPlansChange}
+          showHeader={false} 
         />
-      </div>
-    </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
-};
+}

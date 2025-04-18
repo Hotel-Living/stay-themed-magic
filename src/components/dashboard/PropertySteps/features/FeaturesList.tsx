@@ -1,34 +1,40 @@
 
 import React from "react";
-
-interface Feature {
-  id: string;
-  name: string;
-}
+import { PlusCircle } from "lucide-react";
 
 interface FeaturesListProps {
-  features: Feature[];
-  selectedFeatures: string[];
-  onToggleFeature: (featureId: string) => void;
+  features: string[];
+  onAddNewFeature?: () => void;
+  selectedFeatures?: string[];
+  onFeatureChange?: (feature: string, isChecked: boolean) => void;
 }
 
-export function FeaturesList({ features, selectedFeatures, onToggleFeature }: FeaturesListProps) {
+export function FeaturesList({ 
+  features, 
+  onAddNewFeature, 
+  selectedFeatures = [], 
+  onFeatureChange 
+}: FeaturesListProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       {features.map((feature) => (
-        <div key={feature.id} className="flex items-start">
-          <input
-            type="checkbox"
-            id={`feature-${feature.id}`}
-            checked={selectedFeatures.includes(feature.id)}
-            onChange={() => onToggleFeature(feature.id)}
+        <label key={feature} className="flex items-start">
+          <input 
+            type="checkbox" 
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
+            checked={selectedFeatures.includes(feature)}
+            onChange={(e) => onFeatureChange?.(feature, e.target.checked)}
           />
-          <label htmlFor={`feature-${feature.id}`} className="text-sm cursor-pointer">
-            {feature.name}
-          </label>
-        </div>
+          <span className="text-sm">{feature}</span>
+        </label>
       ))}
+      <div 
+        className="flex items-center cursor-pointer"
+        onClick={onAddNewFeature}
+      >
+        <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
+        <span className="text-sm text-fuchsia-400">Add new feature</span>
+      </div>
     </div>
   );
 }

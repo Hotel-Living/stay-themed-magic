@@ -1,11 +1,11 @@
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
-import { useRoomTypeForm } from "./hooks/useRoomTypeForm";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -20,46 +20,82 @@ export default function RoomTypeDialog({
   onAdd,
   availableStayLengths = [] 
 }: RoomTypeDialogProps) {
-  const {
-    formState,
-    stayLengths,
-    validateRoomType,
-    resetForm,
-    handleRateChange,
-    handleImageUpload,
-    removeImage,
-    setFormState
-  } = useRoomTypeForm(isOpen, availableStayLengths);
-
-  // Listen for custom dialog toggle event
+  const [newRoomType, setNewRoomType] = useState("");
+  const [maxOccupancy, setMaxOccupancy] = useState(1);
+  const [roomSize, setRoomSize] = useState(200);
+  const [description, setDescription] = useState("");
+  const [rates, setRates] = useState<Record<number, number>>({});
+  const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
+  const [roomImages, setRoomImages] = useState<File[]>([]);
+  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  
+  // Get the latest stay lengths on open
   useEffect(() => {
-    const handleToggleDialog = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      if (customEvent.detail && typeof customEvent.detail.open === 'boolean') {
-        onClose();
+    if (isOpen) {
+      // First try to use the provided lengths
+      if (availableStayLengths && availableStayLengths.length > 0) {
+        setStayLengths(availableStayLengths);
+      } else {
+        // Fallback to getting from localStorage
+        const storedLengths = getSelectedStayLengths();
+        if (storedLengths && storedLengths.length > 0) {
+          setStayLengths(storedLengths);
+        }
       }
-    };
-
-    window.addEventListener('toggle-room-type-dialog', handleToggleDialog);
-    return () => {
-      window.removeEventListener('toggle-room-type-dialog', handleToggleDialog);
-    };
-  }, [onClose]);
+    }
+  }, [isOpen, availableStayLengths]);
 
   const handleAddRoomType = () => {
-    if (validateRoomType()) {
+    if (newRoomType.trim()) {
       onAdd({
         id: Date.now().toString(),
-        name: formState.newRoomType,
-        maxOccupancy: formState.maxOccupancy,
-        size: formState.roomSize,
-        description: formState.description,
+        name: newRoomType,
+        maxOccupancy,
+        size: roomSize,
+        description,
         baseRate: 0,
-        rates: formState.rates,
-        images: formState.roomImagePreviews
+        rates,
+        images: roomImagePreviews
       });
       resetForm();
     }
+  };
+
+  const resetForm = () => {
+    setNewRoomType("");
+    setMaxOccupancy(1);
+    setRoomSize(200);
+    setDescription("");
+    setRates({});
+    setRoomImages([]);
+    setRoomImagePreviews([]);
+  };
+
+  const handleRateChange = (duration: number, value: string) => {
+    setRates(prev => ({
+      ...prev,
+      [duration]: parseInt(value) || 0
+    }));
+  };
+  
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setRoomImages(prev => [...prev, ...newFiles]);
+      
+      // Create preview URLs
+      const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+      setRoomImagePreviews(prev => [...prev, ...newPreviews]);
+    }
+  };
+  
+  const removeImage = (index: number) => {
+    setRoomImages(prev => prev.filter((_, i) => i !== index));
+    
+    // Also remove the preview and revoke the object URL to free memory
+    const urlToRevoke = roomImagePreviews[index];
+    URL.revokeObjectURL(urlToRevoke);
+    setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -71,36 +107,34 @@ export default function RoomTypeDialog({
         
         <div className="grid gap-4 py-4 overflow-y-auto max-h-[70vh]">
           <RoomInfoForm
-            newRoomType={formState.newRoomType}
-            maxOccupancy={formState.maxOccupancy}
-            roomSize={formState.roomSize}
-            description={formState.description}
-            onRoomTypeChange={(value) => setFormState(prev => ({ ...prev, newRoomType: value }))}
-            onMaxOccupancyChange={(value) => setFormState(prev => ({ ...prev, maxOccupancy: value }))}
-            onRoomSizeChange={(value) => setFormState(prev => ({ ...prev, roomSize: value }))}
-            onDescriptionChange={(value) => setFormState(prev => ({ ...prev, description: value }))}
-            errors={formState.formErrors}
+            newRoomType={newRoomType}
+            maxOccupancy={maxOccupancy}
+            roomSize={roomSize}
+            description={description}
+            onRoomTypeChange={setNewRoomType}
+            onMaxOccupancyChange={setMaxOccupancy}
+            onRoomSizeChange={setRoomSize}
+            onDescriptionChange={setDescription}
           />
           
           <ImageUploadSection
-            roomImages={formState.roomImages}
-            roomImagePreviews={formState.roomImagePreviews}
+            roomImages={roomImages}
+            roomImagePreviews={roomImagePreviews}
             onImageUpload={handleImageUpload}
             onRemoveImage={removeImage}
-            error={formState.formErrors.images}
           />
           
           <RatesSection
             stayLengths={stayLengths}
-            rates={formState.rates}
+            rates={rates}
             onRateChange={handleRateChange}
-            error={formState.formErrors.rates}
           />
         </div>
         
         <DialogFooter>
           <Button 
             onClick={handleAddRoomType} 
+            disabled={!newRoomType.trim()}
             className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
           >
             Add Room Type

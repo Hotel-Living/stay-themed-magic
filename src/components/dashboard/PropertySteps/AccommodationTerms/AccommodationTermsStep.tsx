@@ -1,110 +1,92 @@
 
 import React, { useState, useEffect } from "react";
 import StayLengthMealsSection from "./StayLengthMealsSection";
-import { RoomsRatesSection } from "./RoomsRatesSection";
+import RoomsRatesSection from "./RoomsRatesSection";
+import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {
-  onValidationChange: (isValid: boolean, data?: any) => void;
-  initialData?: any;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 export default function AccommodationTermsStep({
-  onValidationChange,
-  initialData
+  onValidationChange = () => {}
 }: AccommodationTermsStepProps) {
-  const [stayLengthSectionOpen, setStayLengthSectionOpen] = useState(true);
-  const [roomsSectionOpen, setRoomsSectionOpen] = useState(false);
-  const [error, setError] = useState<string>("");
-  const [showErrors, setShowErrors] = useState(false);
-  
+  const [mealPlans, setMealPlans] = useState<string[]>([]);
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
-  const [roomsValid, setRoomsValid] = useState(false);
-  
-  // Data state
-  const [stayLengths, setStayLengths] = useState<number[]>(initialData?.stayLengths || []);
-  const [mealPlans, setMealPlans] = useState<string[]>(initialData?.mealPlans || []);
-  const [roomTypes, setRoomTypes] = useState(initialData?.roomTypes || []);
-  
-  // Handle stay length section validation
-  const handleStayLengthValid = (isValid: boolean) => {
-    setStayLengthValid(isValid);
+  const [error, setError] = useState<string>("");
+  const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(true);
+  const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
+
+  // Check if all required fields are completed
+  const checkValidation = () => {
+    if (!mealPlanValid) {
+      setError("Please select at least one meal plan");
+      onValidationChange(false);
+      return false;
+    }
+    if (!stayLengthValid) {
+      setError("Please select at least one stay length");
+      onValidationChange(false);
+      return false;
+    }
+    setError("");
+    onValidationChange(true);
+    return true;
   };
 
-  // Handle meal plan section validation
-  const handleMealPlanValid = (isValid: boolean) => {
-    setMealPlanValid(isValid);
-  };
-  
-  // Handle rooms section validation
-  const handleRoomsValid = (isValid: boolean, roomTypeData?: any[]) => {
-    setRoomsValid(isValid);
-    if (roomTypeData) {
-      setRoomTypes(roomTypeData);
+  // Handle meal plan selection
+  const handleMealPlanChange = (value: string) => {
+    if (!mealPlans.includes(value)) {
+      setMealPlans([value]);
     }
+
+    // Check validation after change
+    setTimeout(checkValidation, 100);
   };
-  
-  // Update validations and data when any section changes
+
   useEffect(() => {
-    // Check if we have valid stay lengths and meal plans
-    const valid = stayLengthValid && mealPlanValid && roomsValid;
-    
-    // Show validation error message if not valid
-    if (!valid) {
-      if (!stayLengthValid) {
-        setError("Please select at least one length of stay");
-      } else if (!mealPlanValid) {
-        setError("Please select at least one meal plan");
-      } else {
-        setError("Please add at least one room type");
-      }
-      setShowErrors(true);
-    } else {
-      setError("");
-      setShowErrors(false);
-    }
-    
-    // Pass data back to parent component
-    onValidationChange(valid, {
-      stayLengths,
-      mealPlans,
-      roomTypes
-    });
-  }, [stayLengthValid, mealPlanValid, roomsValid, stayLengths, mealPlans, roomTypes]);
-  
-  // When stay length or meal plan data changes, update state
-  const handleStayLengthsUpdate = (lengths: number[]) => {
-    setStayLengths(lengths);
+    // Validate on mount and when fields change
+    checkValidation();
+  }, [mealPlans, stayLengthValid, mealPlanValid]);
+
+  // Show validation errors only when user tries to navigate away
+  const handleNextStep = () => {
+    setShowErrors(true);
   };
-  
-  const handleMealPlansUpdate = (plans: string[]) => {
-    setMealPlans(plans);
-  };
-  
+
   return (
-    <div className="space-y-6 mb-6">
+    <div className="space-y-6">
+      {/* Main title is now "ACCOMMODATION TERMS" */}
+      <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>
+      
       <StayLengthMealsSection 
-        isOpen={stayLengthSectionOpen}
-        onOpenChange={setStayLengthSectionOpen}
-        onStayLengthValidChange={handleStayLengthValid}
-        onMealPlanValidChange={handleMealPlanValid}
+        isOpen={isStayLengthMealsOpen}
+        onOpenChange={setIsStayLengthMealsOpen}
+        onStayLengthValidChange={(isValid) => {
+          setStayLengthValid(isValid);
+          checkValidation();
+        }}
+        onMealPlanValidChange={(isValid) => {
+          setMealPlanValid(isValid);
+          checkValidation();
+        }}
       />
       
       <RoomsRatesSection 
-        onValidationChange={handleRoomsValid}
-        initialData={{
-          stayLengths,
-          roomTypes
-        }}
-        onStayLengthsChange={handleStayLengthsUpdate}
-        onMealPlansChange={handleMealPlansUpdate}
+        isOpen={isRoomsRatesOpen}
+        onOpenChange={setIsRoomsRatesOpen}
+        onValidationChange={() => checkValidation()}
       />
+      
+      <PreferredWeekdaySection />
       
       <ValidationMessages 
         error={error}
         showErrors={showErrors}
-        isValid={stayLengthValid && mealPlanValid && roomsValid}
+        isValid={mealPlanValid && stayLengthValid && !error}
       />
     </div>
   );

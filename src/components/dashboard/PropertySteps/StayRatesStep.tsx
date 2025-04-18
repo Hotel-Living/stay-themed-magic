@@ -155,7 +155,7 @@ export default function StayRatesStep() {
         <Collapsible className="w-full" defaultOpen>
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
             <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">
-              RATES PER PERSON
+              STAYS RATES
             </label>
             <ChevronRight className="h-4 w-4" />
           </CollapsibleTrigger>

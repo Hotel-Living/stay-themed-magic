@@ -1,179 +1,173 @@
 
-// Define theme interface
-export interface Theme {
-  id: string;
-  name: string;
-  isAddOption?: boolean;
-}
-
-// Define category interface
-export interface ThemeCategory {
-  id: string;
-  name: string;
-  themes?: Theme[];
-  subcategories?: {
-    name: string;
-    themes?: Theme[];
-    submenus?: {
-      name: string;
-      options: {
-        id: string;
-        name: string;
-        suboptions?: string[];
-        isAddOption?: boolean;
-      }[];
-    }[];
-  }[];
-}
-
-// Featured themes
-const featuredThemes: Theme[] = [
-  { id: "digital-nomads", name: "Digital Nomads" },
-  { id: "senior-living", name: "Senior Living" },
-  { id: "extended-stay", name: "Extended Stay" },
-  { id: "pet-friendly", name: "Pet Friendly" },
-  { id: "family-friendly", name: "Family Friendly" },
-  { id: "add-featured", name: "Add New Featured Theme", isAddOption: true }
-];
-
-// Popular themes
-const popularThemes: Theme[] = [
-  { id: "beach-access", name: "Beach Access" },
-  { id: "mountain-view", name: "Mountain View" },
-  { id: "city-center", name: "City Center" },
-  { id: "countryside", name: "Countryside" },
-  { id: "historic", name: "Historic" },
-  { id: "add-popular", name: "Add New Popular Theme", isAddOption: true }
-];
-
-// Location themes
-const locationThemes: Theme[] = [
-  { id: "beachfront", name: "Beachfront" },
-  { id: "lakefront", name: "Lakefront" },
-  { id: "downtown", name: "Downtown" },
-  { id: "rural", name: "Rural" },
-  { id: "suburban", name: "Suburban" },
-  { id: "resort", name: "Resort Area" },
-  { id: "add-location", name: "Add New Location", isAddOption: true }
-];
-
-// Style themes
-const styleThemes: Theme[] = [
-  { id: "modern", name: "Modern" },
-  { id: "classic", name: "Classic" },
-  { id: "rustic", name: "Rustic" },
-  { id: "boutique", name: "Boutique" },
-  { id: "luxury", name: "Luxury" },
-  { id: "budget", name: "Budget" },
-  { id: "add-style", name: "Add New Style", isAddOption: true }
-];
-
-// Activities
-const activities: Theme[] = [
-  { id: "swimming", name: "Swimming" },
-  { id: "hiking", name: "Hiking" },
-  { id: "biking", name: "Biking" },
-  { id: "fishing", name: "Fishing" },
-  { id: "skiing", name: "Skiing" },
-  { id: "golfing", name: "Golfing" },
-  { id: "yoga", name: "Yoga" },
-  { id: "cooking-classes", name: "Cooking Classes" },
-  { id: "wine-tasting", name: "Wine Tasting" },
-  { id: "sightseeing", name: "Sightseeing" },
-  { id: "add-activity", name: "Add New Activity", isAddOption: true }
-];
-
-// Theme categories
-export const themeCategories: ThemeCategory[] = [
+// Theme categories data structure
+export const themeCategories = [
   {
-    id: "featured",
-    name: "Featured Themes",
-    themes: featuredThemes
+    category: "ART",
+    themes: [
+      { id: "painting", name: "Painting" },
+      { id: "sculpture", name: "Sculpture" },
+      { id: "photography", name: "Photography" },
+      { id: "architecture", name: "Architecture" },
+      { id: "design", name: "Design" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
   },
   {
-    id: "popular",
-    name: "Popular Themes",
-    themes: popularThemes
+    category: "CULTURE",
+    themes: [
+      { id: "history", name: "History" },
+      { id: "museums", name: "Museums" },
+      { id: "local-traditions", name: "Local Traditions" },
+      { id: "festivals", name: "Festivals" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
   },
   {
-    id: "location",
-    name: "Location & Setting",
-    themes: locationThemes
+    category: "DANCE",
+    themes: [
+      { id: "ballroom", name: "Ballroom" },
+      { id: "latin", name: "Latin" },
+      { id: "contemporary", name: "Contemporary" },
+      { id: "traditional", name: "Traditional" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
   },
   {
-    id: "style",
-    name: "Property Style",
-    themes: styleThemes
-  },
-  {
-    id: "target-guests",
-    name: "Target Guests",
+    category: "FOODS & DRINKS",
     subcategories: [
       {
-        name: "Age Groups",
-        themes: [
-          { id: "family", name: "Family" },
-          { id: "adults-only", name: "Adults Only" },
-          { id: "senior-friendly", name: "Senior Friendly" },
-          { id: "youth", name: "Youth" }
+        name: "Culinary",
+        submenus: [
+          {
+            name: "World Cuisines",
+            options: [
+              {
+                id: "spain",
+                name: "Spain",
+                suboptions: ["Spanish", "Castilian", "Andalusian", "Basque", "Galician", "Catalonian"]
+              },
+              { id: "france", name: "France", suboptions: ["French"] },
+              { id: "italy", name: "Italian", suboptions: ["Toscana"] },
+              { id: "add-other", name: "Add other", isAddOption: true }
+            ]
+          },
+          {
+            name: "Cuisine Learning",
+            options: [
+              { id: "meat", name: "Meat" },
+              { id: "fish", name: "Fish" },
+              { id: "seafood", name: "Seafood" },
+              { id: "add-other", name: "Add other", isAddOption: true }
+            ]
+          }
         ]
       },
       {
-        name: "Trip Types",
+        name: "Drinks",
         themes: [
-          { id: "business", name: "Business" },
-          { id: "leisure", name: "Leisure" },
-          { id: "extended-stay", name: "Extended Stay" },
-          { id: "short-term", name: "Short Term" }
+          { id: "wine", name: "Wine" },
+          { id: "beer", name: "Beer" },
+          { id: "cocktails", name: "Cocktails" },
+          { id: "spirits", name: "Spirits" },
+          { id: "add-other", name: "Add other", isAddOption: true }
         ]
       }
     ]
   },
   {
-    id: "amenities",
-    name: "Special Amenities",
+    category: "GAMES",
+    themes: [
+      { id: "board-games", name: "Board Games" },
+      { id: "card-games", name: "Card Games" },
+      { id: "chess", name: "Chess" },
+      { id: "video-games", name: "Video Games" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
+  },
+  {
+    category: "LANGUAGES",
     subcategories: [
       {
-        name: "Wellness",
+        name: "Practice",
         themes: [
-          { id: "spa", name: "Spa" },
-          { id: "sauna", name: "Sauna" },
-          { id: "fitness-center", name: "Fitness Center" },
-          { id: "yoga-studio", name: "Yoga Studio" }
+          { id: "english-practice", name: "English" },
+          { id: "spanish-practice", name: "Spanish" },
+          { id: "french-practice", name: "French" },
+          { id: "german-practice", name: "German" },
+          { id: "chinese-practice", name: "Chinese" },
+          { id: "japanese-practice", name: "Japanese" },
+          { id: "add-other-practice", name: "Add other", isAddOption: true }
         ]
       },
       {
-        name: "Dining",
+        name: "Learning",
         themes: [
-          { id: "gourmet", name: "Gourmet Restaurant" },
-          { id: "all-inclusive", name: "All-Inclusive" },
-          { id: "breakfast-included", name: "Breakfast Included" },
-          { id: "kitchen", name: "In-Room Kitchen" }
+          { id: "english-learning", name: "English" },
+          { id: "spanish-learning", name: "Spanish" },
+          { id: "french-learning", name: "French" },
+          { id: "german-learning", name: "German" },
+          { id: "chinese-learning", name: "Chinese" },
+          { id: "japanese-learning", name: "Japanese" },
+          { id: "add-other-learning", name: "Add other", isAddOption: true }
         ]
       }
     ]
   },
   {
-    id: "activities",
-    name: "Activities",
-    themes: activities
+    category: "LITERATURE",
+    themes: [
+      { id: "poetry", name: "Poetry" },
+      { id: "novels", name: "Novels" },
+      { id: "short-stories", name: "Short Stories" },
+      { id: "book-clubs", name: "Book Clubs" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
+  },
+  {
+    category: "MUSIC",
+    themes: [
+      { id: "rock", name: "Rock" },
+      { id: "opera", name: "Opera" },
+      { id: "symphonic", name: "Symphonic" },
+      { id: "classical", name: "Classical" },
+      { id: "pop", name: "Pop" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
+  },
+  {
+    category: "SCIENCES",
+    themes: [
+      { id: "astronomy", name: "Astronomy" },
+      { id: "biology", name: "Biology" },
+      { id: "physics", name: "Physics" },
+      { id: "chemistry", name: "Chemistry" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
+  },
+  {
+    category: "SPORTS",
+    themes: [
+      { id: "golf", name: "Golf" },
+      { id: "tennis", name: "Tennis" },
+      { id: "swimming", name: "Swimming" },
+      { id: "diving", name: "Diving" },
+      { id: "yoga", name: "Yoga" },
+      { id: "fitness", name: "Fitness" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
+  },
+  {
+    category: "TECHNOLOGY",
+    themes: [
+      { id: "digital", name: "Digital" },
+      { id: "innovation", name: "Innovation" },
+      { id: "smart-home", name: "Smart Home" },
+      { id: "add-other", name: "Add other", isAddOption: true }
+    ]
   }
 ];
 
-// Export all themes as a flattened array for search functionality
-export const allThemes: Theme[] = [
-  ...featuredThemes,
-  ...popularThemes,
-  ...locationThemes,
-  ...styleThemes,
-  ...activities,
-  // Add themes from subcategories
-  ...(themeCategories
-    .filter(cat => cat.subcategories)
-    .flatMap(cat => 
-      cat.subcategories?.flatMap(subcat => 
-        subcat.themes || []
-      ) || []
-    )
-  )
-].filter(theme => !theme.isAddOption);
+// Sort theme categories alphabetically
+export const sortedThemeCategories = [...themeCategories].sort((a, b) => 
+  a.category.localeCompare(b.category)
+);

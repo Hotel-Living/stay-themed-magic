@@ -1,68 +1,67 @@
 
 import React from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { ImagePlus, Trash } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 interface ImageUploadSectionProps {
   roomImages: File[];
   roomImagePreviews: string[];
   onImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: (index: number) => void;
-  error?: string;
 }
 
 export default function ImageUploadSection({
   roomImages,
   roomImagePreviews,
   onImageUpload,
-  onRemoveImage,
-  error
+  onRemoveImage
 }: ImageUploadSectionProps) {
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium">Room Images</h3>
-      
-      <div className="bg-fuchsia-950/50 p-4 rounded-lg border border-white/20">
-        <div className="mb-4">
-          <div className="flex items-center justify-center w-full">
-            <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer ${error ? 'border-red-400 bg-red-900/10' : 'border-fuchsia-600 bg-fuchsia-950/30 hover:bg-fuchsia-900/30'}`}>
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <p className="mb-2 text-sm text-gray-300"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                <p className="text-xs text-gray-400">PNG, JPG or WEBP (MAX. 5MB)</p>
-              </div>
-              <input
-                type="file"
-                className="hidden"
-                accept="image/*"
-                onChange={onImageUpload}
-                multiple
-              />
-            </label>
-          </div>
-          {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
+    <div className="grid grid-cols-4 items-start gap-4">
+      <Label className="text-right text-sm text-white">Room Images</Label>
+      <div className="col-span-3">
+        <div className="flex items-center gap-3 mb-3">
+          <Button 
+            type="button" 
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2"
+            onClick={() => document.getElementById('room-images-upload')?.click()}
+          >
+            <ImagePlus size={16} />
+            Upload Images
+          </Button>
+          <input 
+            id="room-images-upload" 
+            type="file" 
+            accept="image/*" 
+            multiple 
+            className="hidden" 
+            onChange={onImageUpload} 
+          />
+          <span className="text-xs text-gray-300">
+            {roomImages.length} {roomImages.length === 1 ? 'image' : 'images'} selected
+          </span>
         </div>
         
+        {/* Image previews */}
         {roomImagePreviews.length > 0 && (
-          <div className="grid grid-cols-3 gap-3 mt-4">
+          <div className="grid grid-cols-3 gap-2 mt-2">
             {roomImagePreviews.map((preview, index) => (
-              <div key={index} className="relative">
-                <Card className="overflow-hidden h-24 bg-fuchsia-950/70">
-                  <img
-                    src={preview}
-                    alt={`Room preview ${index}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-1 right-1 h-6 w-6 bg-red-600 hover:bg-red-700"
-                    onClick={() => onRemoveImage(index)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </Card>
+              <div key={index} className="relative group">
+                <img 
+                  src={preview} 
+                  alt={`Room preview ${index + 1}`} 
+                  className="h-20 w-full object-cover rounded-md" 
+                />
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="destructive"
+                  className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => onRemoveImage(index)}
+                >
+                  <Trash size={12} />
+                </Button>
               </div>
             ))}
           </div>

@@ -1,81 +1,75 @@
 
 import React from "react";
 import ThemeSubmenu from "./ThemeSubmenu";
-import ThemeOption from "./ThemeOption";
+import ThemeItem from "./ThemeItem";
+
+interface SubcategoryTheme {
+  id: string;
+  name: string;
+  isAddOption?: boolean;
+}
+
+interface Submenu {
+  name: string;
+  options: Array<{
+    id: string;
+    name: string;
+    suboptions?: string[];
+    isAddOption?: boolean;
+  }>;
+}
 
 interface CategorySubcategoryProps {
   name: string;
-  themes: {
-    id: string;
-    name: string;
-    isAddOption?: boolean;
-  }[];
-  submenus: {
-    name: string;
-    options: {
-      id: string;
-      name: string;
-      suboptions?: string[];
-      isAddOption?: boolean;
-    }[];
-  }[];
-  openSubmenus: {
-    [key: string]: boolean;
-  };
+  themes?: SubcategoryTheme[];
+  submenus?: Submenu[];
+  openSubmenus: { [key: string]: boolean };
   toggleSubmenu: (submenu: string) => void;
-  onThemeSelect: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[];
+  onThemeSelect?: (themeId: string, isSelected: boolean) => void;
 }
 
-const CategorySubcategory = ({
-  name,
-  themes,
-  submenus,
-  openSubmenus,
-  toggleSubmenu,
-  onThemeSelect,
-  selectedThemes = []
+const CategorySubcategory = ({ 
+  name, 
+  themes, 
+  submenus, 
+  openSubmenus, 
+  toggleSubmenu, 
+  onThemeSelect 
 }: CategorySubcategoryProps) => {
-  // Render direct themes (if any)
-  const hasDirectThemes = themes && themes.length > 0;
-  
-  // Render subcategories with their themes
-  const hasSubmenus = submenus && submenus.length > 0;
-  
   return (
-    <div className="mb-4">
-      {/* Category name */}
-      <h3 className="font-medium text-base mb-2">{name}</h3>
+    <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
+      <div className="flex items-center justify-between w-full text-sm h-6">
+        <span>{name}</span>
+      </div>
       
-      {/* Direct themes under this category */}
-      {hasDirectThemes && (
-        <div className="pl-2 mb-3 space-y-2">
-          {themes.map((theme) => (
-            <ThemeOption 
-              key={theme.id} 
-              option={theme}
-              onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
+      <div className="mt-1 space-y-0.5">
+        {/* Render subcategory themes if they exist */}
+        {themes && themes.map((theme) => (
+          <div key={theme.id} className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10">
+            <ThemeItem
+              id={theme.id}
+              name={theme.name}
+              isAddOption={theme.isAddOption}
+              onSelect={(isSelected) => {
+                if (onThemeSelect) {
+                  onThemeSelect(theme.id, isSelected);
+                }
+              }}
             />
-          ))}
-        </div>
-      )}
-      
-      {/* Subcategories and their themes */}
-      {hasSubmenus && (
-        <div className="pl-2">
-          {submenus.map((submenu) => (
-            <ThemeSubmenu 
-              key={submenu.name}
-              submenu={submenu}
-              isOpen={openSubmenus[submenu.name] || false}
-              toggleSubmenu={toggleSubmenu}
-              onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
-            />
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+        
+        {/* Render subcategory submenus if they exist */}
+        {submenus && submenus.map((submenu) => (
+          <ThemeSubmenu
+            key={submenu.name}
+            submenu={submenu}
+            isOpen={openSubmenus[submenu.name] || false}
+            toggleSubmenu={toggleSubmenu}
+            onThemeSelect={onThemeSelect}
+          />
+        ))}
+      </div>
     </div>
   );
 };

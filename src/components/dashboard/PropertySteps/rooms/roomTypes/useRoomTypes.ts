@@ -1,6 +1,6 @@
 
-import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect } from 'react';
+import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 export interface RoomType {
   id: string;
@@ -13,51 +13,57 @@ export interface RoomType {
   images?: string[];
 }
 
-export function useRoomTypes(initialRoomTypes: any[] = [], initialStayLengths: number[] = []) {
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
-  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(initialStayLengths);
-  const [selectedUnit, setSelectedUnit] = useState<string>("m²");
+export function useRoomTypes() {
+  const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>([
+    {
+      id: "1",
+      name: "Single Room",
+      maxOccupancy: 1,
+      size: 200,
+      description: "A cozy room for one person",
+      baseRate: 100,
+      rates: { 8: 800, 16: 1500 }
+    }
+  ]);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  // Initialize with initial data if provided
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
+  
+  // Get selected stay lengths from localStorage if available
   useEffect(() => {
-    if (initialRoomTypes.length > 0) {
-      setRoomTypes(initialRoomTypes);
+    const storedLengths = getSelectedStayLengths();
+    if (storedLengths.length > 0) {
+      setSelectedStayLengths(storedLengths);
     }
     
-    if (initialStayLengths.length > 0) {
-      setSelectedStayLengths(initialStayLengths);
-    }
-  }, []);
-
-  const handleAddRoomType = (roomType: Omit<RoomType, "id">) => {
-    const newRoomType: RoomType = {
-      ...roomType,
-      id: uuidv4(),
+    // Listen for updates to stay lengths
+    const handleStayLengthsUpdate = (event: CustomEvent) => {
+      setSelectedStayLengths(event.detail);
     };
-    setRoomTypes((prev) => [...prev, newRoomType]);
+    
+    window.addEventListener('stayLengthsUpdated', handleStayLengthsUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('stayLengthsUpdated', handleStayLengthsUpdate as EventListener);
+    };
+  }, []);
+  
+  const handleAddRoomType = (roomType: RoomType) => {
+    setRoomTypes([...roomTypes, roomType]);
+    setDialogOpen(false);
   };
-
+  
   const handleDeleteRoomType = (id: string) => {
-    setRoomTypes((prev) => prev.filter((room) => room.id !== id));
+    setRoomTypes(roomTypes.filter(room => room.id !== id));
   };
-
-  const handleEditRoomType = (id: string, updatedRoomType: Partial<RoomType>) => {
-    setRoomTypes((prev) =>
-      prev.map((room) =>
-        room.id === id ? { ...room, ...updatedRoomType } : room
-      )
-    );
-  };
-
+  
   return {
-    roomTypes,
-    selectedStayLengths,
     selectedUnit,
+    roomTypes,
     dialogOpen,
+    selectedStayLengths,
     setDialogOpen,
     handleAddRoomType,
-    handleDeleteRoomType,
-    handleEditRoomType,
+    handleDeleteRoomType
   };
 }

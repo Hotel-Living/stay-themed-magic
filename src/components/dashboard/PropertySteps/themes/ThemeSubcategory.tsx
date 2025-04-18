@@ -28,16 +28,12 @@ interface ThemeSubcategoryProps {
   };
   openSubmenus: Record<string, boolean>;
   toggleSubmenu: (submenuName: string) => void;
-  onThemeSelect?: (themeId: string, isSelected: boolean) => void;
-  selectedThemes?: string[];
 }
 
 const ThemeSubcategory = ({
   subcategory,
   openSubmenus,
   toggleSubmenu,
-  onThemeSelect = () => {},
-  selectedThemes = [],
 }: ThemeSubcategoryProps) => {
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
@@ -51,8 +47,6 @@ const ThemeSubcategory = ({
               submenu={submenu}
               isOpen={openSubmenus[submenu.name] || false}
               toggleSubmenu={toggleSubmenu}
-              onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
             />
           ))}
         </div>
@@ -64,8 +58,6 @@ const ThemeSubcategory = ({
               id={theme.id}
               name={theme.name}
               isAddOption={theme.isAddOption}
-              isSelected={selectedThemes.includes(theme.id)}
-              onSelect={(isSelected) => onThemeSelect(theme.id, isSelected)}
             />
           ))}
           {!subcategory.themes?.some((theme) => theme.isAddOption) && (

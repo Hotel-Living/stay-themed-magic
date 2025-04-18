@@ -1,11 +1,12 @@
 
 import React, { useState } from "react";
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RoomType } from "./useRoomTypes";
 import RoomTypeDetails from "./components/RoomTypeDetails";
 import EditRoomTypeForm from "./components/EditRoomTypeForm";
+import RoomTypeAccordionContent from "./components/RoomTypeAccordionContent";
 
 interface RoomTypeListProps {
   roomTypes: RoomType[];
@@ -62,53 +63,7 @@ export default function RoomTypeList({
               />
             </AccordionTrigger>
           </div>
-          <AccordionContent className="px-4 pb-4">
-            <div className="grid grid-cols-2 gap-4 mb-3">
-              <div>
-                <label className="text-xs mb-1 block uppercase">MAXIMUM OCCUPANCY</label>
-                <input 
-                  type="number" 
-                  min="1" 
-                  value={roomType.maxOccupancy}
-                  readOnly
-                  className="w-full text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2" 
-                />
-              </div>
-              <div>
-                <label className="text-xs mb-1 block uppercase">ROOM SIZE ({selectedUnit})</label>
-                <input 
-                  type="number" 
-                  min="1" 
-                  value={roomType.size}
-                  readOnly
-                  className="w-full text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2" 
-                />
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <label className="text-xs mb-1 block uppercase">DESCRIPTION</label>
-              <p className="text-sm bg-fuchsia-950/50 border border-white rounded-lg p-2">
-                {roomType.description}
-              </p>
-            </div>
-            
-            {roomType.images && roomType.images.length > 0 && (
-              <div className="mb-3">
-                <label className="text-xs mb-1 block uppercase">ROOM IMAGES</label>
-                <div className="grid grid-cols-3 gap-2 mt-1">
-                  {roomType.images.map((imageUrl, idx) => (
-                    <img 
-                      key={idx} 
-                      src={imageUrl} 
-                      alt={`${roomType.name} image ${idx + 1}`}
-                      className="h-20 w-full object-cover rounded-md"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </AccordionContent>
+          <RoomTypeAccordionContent roomType={roomType} selectedUnit={selectedUnit} />
         </AccordionItem>
       ))}
 

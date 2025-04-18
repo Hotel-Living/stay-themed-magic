@@ -144,7 +144,7 @@ export default function AddPropertyForm() {
       case 1:
         return ["Property Name", "Property Type", "Description"];
       case 2:
-        return ["Accommodation Terms", "Meal Plans"];
+        return ["Accommodation Terms", "Meal Plans", "Hotel Features", "Room Features"];
       case 3:
         return ["Themes", "Activities"];
       case 4:

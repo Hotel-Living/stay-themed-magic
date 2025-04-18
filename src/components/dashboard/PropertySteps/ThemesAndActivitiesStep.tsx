@@ -1,115 +1,134 @@
+
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { sortedThemeCategories } from "./themes/themeData";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import DirectThemes from "./themes/DirectThemes";
 import ThemeCategory from "./themes/ThemeCategory";
-import { useToast } from "@/hooks/use-toast";
+import { themeData } from "./themes/themeData";
 
 interface ThemesAndActivitiesStepProps {
-  onValidationChange?: (isValid: boolean) => void;
+  onValidationChange: (isValid: boolean, data?: any) => void;
+  initialData?: {
+    themes?: string[];
+    activities?: string[];
+  };
 }
 
 export default function ThemesAndActivitiesStep({
-  onValidationChange = () => {}
+  onValidationChange,
+  initialData
 }: ThemesAndActivitiesStepProps) {
-  const [openCategory, setOpenCategory] = useState<string | null>(null);
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
-  const { toast } = useToast();
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(initialData?.themes || []);
+  const [selectedActivities, setSelectedActivities] = useState<string[]>(initialData?.activities || []);
+  const [error, setError] = useState<string>("");
+  const [isThemesOpen, setIsThemesOpen] = useState(true);
+  const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   
-  const toggleCategory = (category: string) => {
-    setOpenCategory(openCategory === category ? null : category);
-  };
-  
-  const toggleSubmenu = (submenu: string) => {
-    setOpenSubmenu(openSubmenu === submenu ? null : submenu);
-  };
-
-  // Track theme selection
-  const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+  // Handle themes selection
+  const handleThemeSelect = (theme: string) => {
     setSelectedThemes(prev => {
-      if (isSelected) {
-        // Show toast for selected themes
-        if (!prev.includes(themeId)) {
-          toast({
-            title: "Theme selected",
-            description: "The theme has been added to your selection"
-          });
-        }
-        return [...prev.filter(id => id !== themeId), themeId];
+      const isAlreadySelected = prev.includes(theme);
+      if (isAlreadySelected) {
+        return prev.filter(t => t !== theme);
       } else {
-        return prev.filter(id => id !== themeId);
+        return [...prev, theme];
       }
     });
   };
-
-  // Validate based on theme selection
+  
+  // Handle activities selection
+  const handleActivitySelect = (activity: string) => {
+    setSelectedActivities(prev => {
+      const isAlreadySelected = prev.includes(activity);
+      if (isAlreadySelected) {
+        return prev.filter(a => a !== activity);
+      } else {
+        return [...prev, activity];
+      }
+    });
+  };
+  
+  // Validate selections and update parent
   useEffect(() => {
-    // Consider the step valid if at least one theme is selected
-    const isValid = selectedThemes.length > 0;
-    onValidationChange(isValid);
-  }, [selectedThemes, onValidationChange]);
+    const isValid = selectedThemes.length > 0 && selectedActivities.length > 0;
+    
+    if (!isValid) {
+      if (selectedThemes.length === 0) {
+        setError("Please select at least one theme");
+      } else {
+        setError("Please select at least one activity");
+      }
+    } else {
+      setError("");
+    }
+    
+    onValidationChange(isValid, {
+      themes: selectedThemes,
+      activities: selectedActivities
+    });
+  }, [selectedThemes, selectedActivities]);
   
   return (
-    <div className="space-y-4">
-      <label className="block text-2xl font-bold text-foreground/90 mb-2 uppercase bg-[#6c0686]">
-        AFFINITIES
-      </label>
-      
-      <p className="text-sm text-foreground/90 mb-4">
-        Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
-      </p>
-      
-      <Link 
-        to="/themes-information" 
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd]"
+    <div className="space-y-6">
+      {/* Themes Section */}
+      <Collapsible 
+        className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
+        open={isThemesOpen}
+        onOpenChange={setIsThemesOpen}
       >
-        More Information
-      </Link>
+        <CollapsibleTrigger className="w-full flex items-center justify-between p-4 text-left border-b border-white">
+          <h2 className="font-medium text-white">THEMES</h2>
+          {isThemesOpen ? 
+            <ChevronUp className="h-5 w-5 text-white" /> : 
+            <ChevronDown className="h-5 w-5 text-white" />
+          }
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <DirectThemes 
+            selectedThemes={selectedThemes}
+            onThemeSelect={handleThemeSelect}
+          />
+        </CollapsibleContent>
+      </Collapsible>
       
-      <div>
-        <div className="grid grid-cols-1 gap-0.5">
-          {sortedThemeCategories.map(category => (
+      {/* Activities Section */}
+      <Collapsible 
+        className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
+        open={isActivitiesOpen}
+        onOpenChange={setIsActivitiesOpen}
+      >
+        <CollapsibleTrigger className="w-full flex items-center justify-between p-4 text-left border-b border-white">
+          <h2 className="font-medium text-white">ACTIVITIES</h2>
+          {isActivitiesOpen ? 
+            <ChevronUp className="h-5 w-5 text-white" /> : 
+            <ChevronDown className="h-5 w-5 text-white" />
+          }
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          {themeData.map((category, index) => (
             <ThemeCategory 
-              key={category.category} 
-              category={category} 
-              isOpen={openCategory === category.category} 
-              toggleCategory={toggleCategory} 
-              openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
-              toggleSubmenu={toggleSubmenu}
-              onThemeSelect={handleThemeSelection} 
+              key={index}
+              category={category.category}
+              subcategories={category.subcategories}
+              selectedThemes={selectedActivities}
+              onThemeSelect={handleActivitySelect}
             />
           ))}
-        </div>
-      </div>
+        </CollapsibleContent>
+      </Collapsible>
       
-      {selectedThemes.length > 0 && (
-        <div className="p-3 bg-fuchsia-900/20 rounded-lg mt-3">
-          <h3 className="text-sm font-medium mb-2">Selected Themes ({selectedThemes.length})</h3>
-          <div className="flex flex-wrap gap-2">
-            {selectedThemes.map(themeId => (
-              <div 
-                key={themeId} 
-                className="px-2 py-1 bg-fuchsia-800/30 rounded-md text-xs flex items-center"
-              >
-                {themeId.replace(/^custom-/, '').replace(/-/g, ' ')}
-                <button 
-                  className="ml-1.5 text-fuchsia-300 hover:text-white"
-                  onClick={() => handleThemeSelection(themeId, false)}
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
+      {/* Validation Error */}
+      {error && (
+        <div className="p-3 rounded-md text-white flex items-center gap-2 bg-purple-900/30">
+          <span>{error}</span>
         </div>
       )}
-
-      {selectedThemes.length === 0 && (
-        <p className="text-sm mt-2 text-white">
-          Please select at least one affinity to continue
-        </p>
+      
+      {/* Success Message */}
+      {selectedThemes.length > 0 && selectedActivities.length > 0 && (
+        <div className="p-3 rounded-md text-green-400 flex items-center gap-2 bg-green-900/20">
+          <span className="text-green-300">Themes and activities selected successfully!</span>
+        </div>
       )}
     </div>
   );

@@ -25,9 +25,27 @@ export default function StepContent({
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} initialData={formData.basicInfo} />}
       {currentStep === 2 && (
         <>
-          <AccommodationTermsStep onValidationChange={onValidationChange} initialData={formData.accommodationTerms} />
+          <AccommodationTermsStep 
+            onValidationChange={onValidationChange} 
+            initialData={formData.accommodationTerms}
+          />
           <div className="mt-6">
-            <HotelFeaturesStep />
+            <HotelFeaturesStep 
+              onValidationChange={(isFeatureValid) => {
+                // Pass both hotel features and accommodation terms validation
+                const isStepValid = isFeatureValid && 
+                  formData.accommodationTerms && 
+                  formData.accommodationTerms.stayLengths && 
+                  formData.accommodationTerms.stayLengths.length > 0 && 
+                  formData.accommodationTerms.mealPlans && 
+                  formData.accommodationTerms.mealPlans.length > 0;
+                
+                onValidationChange(isStepValid, {
+                  ...formData.accommodationTerms,
+                  hotelFeaturesValid: isFeatureValid
+                });
+              }}
+            />
           </div>
         </>
       )}

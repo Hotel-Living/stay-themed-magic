@@ -89,6 +89,14 @@ export default function useFormValidation(onValidationChange: (isValid: boolean)
       ...prev,
       [field]: value
     }));
+    
+    // Mark field as touched when changed
+    if (!touchedFields[field]) {
+      setTouchedFields(prev => ({
+        ...prev,
+        [field]: true
+      }));
+    }
   };
 
   // Handle input blur for validation
@@ -166,6 +174,7 @@ export default function useFormValidation(onValidationChange: (isValid: boolean)
     errors,
     touchedFields,
     handleChange,
-    handleBlur
+    handleBlur,
+    setFormData
   };
 }

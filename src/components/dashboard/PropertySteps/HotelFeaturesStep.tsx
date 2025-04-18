@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import FeaturesList from "./features/FeaturesList";
+import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
 interface HotelFeaturesStepProps {

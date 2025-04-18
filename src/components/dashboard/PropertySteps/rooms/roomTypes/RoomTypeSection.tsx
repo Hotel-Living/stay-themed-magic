@@ -1,72 +1,49 @@
 
-import React, { useState } from "react";
-import RoomTypeContent from "./RoomTypeContent";
-import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
-import { useRoomTypeSection } from "./useRoomTypeSection";
-import RoomTypeDialog from "../RoomTypeDialog";
+import React from "react";
+import { RoomTypeList } from "./RoomTypeList";
 
-interface RoomTypeSectionProps {
-  onValidationChange: (isValid: boolean) => void;
+export interface RoomTypeSectionProps {
   title?: string;
   fullWidth?: boolean;
   showHeader?: boolean;
+  onValidationChange: (isValid: boolean, roomTypeData?: any[]) => void;
+  initialData?: {
+    stayLengths?: number[];
+    roomTypes?: any[];
+  };
+  onStayLengthsChange?: (lengths: number[]) => void;
+  onMealPlansChange?: (plans: string[]) => void;
 }
 
-export default function RoomTypeSection({ 
-  onValidationChange,
-  title = "ROOM TYPES",
+export const RoomTypeSection: React.FC<RoomTypeSectionProps> = ({
+  title = "Room Types",
   fullWidth = false,
-  showHeader = true
-}: RoomTypeSectionProps) {
-  const {
-    selectedUnit,
-    roomTypes,
-    dialogOpen,
-    selectedStayLengths,
-    setDialogOpen,
-    handleAddRoomType,
-    handleDeleteRoomType
-  } = useRoomTypeSection(onValidationChange);
-
-  // Directly show the add dialog on component mount
-  useState(() => {
-    // Only open the dialog if there are no room types yet
-    if (roomTypes.length === 0) {
-      setDialogOpen(true);
-    }
-  });
-
-  const mainContent = (
-    <>
-      <RoomTypeContent
-        roomTypes={roomTypes}
-        selectedStayLengths={selectedStayLengths}
-        selectedUnit={selectedUnit}
-        dialogOpen={dialogOpen}
-        setDialogOpen={setDialogOpen}
-        handleAddRoomType={handleAddRoomType}
-        handleDeleteRoomType={handleDeleteRoomType}
-      />
-      
-      {/* We maintain the RoomTypeDialog here to avoid nesting issues */}
-      <RoomTypeDialog 
-        isOpen={dialogOpen} 
-        onClose={() => setDialogOpen(false)} 
-        onAdd={handleAddRoomType}
-        availableStayLengths={selectedStayLengths}
-      />
-    </>
-  );
-
-  if (!showHeader) {
-    return <div className={`${fullWidth ? "w-full" : ""}`}>{mainContent}</div>;
-  }
-
+  showHeader = true,
+  onValidationChange,
+  initialData = { stayLengths: [], roomTypes: [] },
+  onStayLengthsChange,
+  onMealPlansChange
+}) => {
   return (
-    <div className={`${fullWidth ? "w-full" : ""}`}>
-      <CollapsibleRoomTypeSection title={title}>
-        {mainContent}
-      </CollapsibleRoomTypeSection>
+    <div className={`${fullWidth ? "w-full" : "max-w-4xl"}`}>
+      {showHeader && (
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold">{title}</h3>
+          <p className="text-sm text-gray-300 mt-1">
+            Configure the room types available at your property.
+          </p>
+        </div>
+      )}
+      
+      <div className="space-y-6">
+        <RoomTypeList 
+          onValidationChange={onValidationChange}
+          initialRoomTypes={initialData?.roomTypes || []}
+          initialStayLengths={initialData?.stayLengths || []}
+          onStayLengthsChange={onStayLengthsChange}
+          onMealPlansChange={onMealPlansChange}
+        />
+      </div>
     </div>
   );
-}
+};

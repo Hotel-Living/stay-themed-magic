@@ -43,20 +43,22 @@ interface ThemeCategoryProps {
       }>;
     }>;
   };
-  isOpen: boolean;
-  toggleCategory: (category: string) => void;
-  openSubmenus: { [key: string]: boolean };
-  toggleSubmenu: (submenu: string) => void;
+  isOpen?: boolean;
+  toggleCategory?: (category: string) => void;
+  openSubmenus?: { [key: string]: boolean };
+  toggleSubmenu?: (submenu: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes?: string[];
 }
 
 const ThemeCategory = ({ 
   category, 
-  isOpen, 
-  toggleCategory,
-  openSubmenus,
-  toggleSubmenu,
-  onThemeSelect
+  isOpen = false, 
+  toggleCategory = () => {},
+  openSubmenus = {},
+  toggleSubmenu = () => {},
+  onThemeSelect,
+  selectedThemes = []
 }: ThemeCategoryProps) => {
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -123,6 +125,7 @@ const ThemeCategory = ({
             <DirectThemes 
               themes={category.themes.filter(theme => !theme.isAddOption)} 
               onThemeSelect={onThemeSelect} 
+              selectedThemes={selectedThemes}
             />
           )}
           
@@ -166,6 +169,7 @@ const ThemeCategory = ({
               isOpen={openSubmenus[submenu.name] || false}
               toggleSubmenu={toggleSubmenu}
               onThemeSelect={onThemeSelect}
+              selectedThemes={selectedThemes}
             />
           ))}
           
@@ -179,6 +183,7 @@ const ThemeCategory = ({
               openSubmenus={openSubmenus}
               toggleSubmenu={toggleSubmenu}
               onThemeSelect={onThemeSelect}
+              selectedThemes={selectedThemes}
             />
           ))}
           

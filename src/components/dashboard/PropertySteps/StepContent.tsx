@@ -31,7 +31,7 @@ export default function StepContent({
           />
           <div className="mt-6">
             <HotelFeaturesStep 
-              onValidationChange={(isFeatureValid) => {
+              onValidationChange={(isFeatureValid: boolean) => {
                 // Pass both hotel features and accommodation terms validation
                 const isStepValid = isFeatureValid && 
                   formData.accommodationTerms && 

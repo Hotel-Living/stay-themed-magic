@@ -4,7 +4,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import DirectThemes from "./themes/DirectThemes";
 import ThemeCategory from "./themes/ThemeCategory";
-import { themeData } from "./themes/themeData";
+import { themeCategories } from "@/utils/themes";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange: (isValid: boolean, data?: any) => void;
@@ -84,10 +84,32 @@ export default function ThemesAndActivitiesStep({
           }
         </CollapsibleTrigger>
         <CollapsibleContent className="p-4">
-          <DirectThemes 
-            selectedThemes={selectedThemes}
-            onThemeSelect={handleThemeSelect}
-          />
+          <div className="space-y-2">
+            {themeCategories.filter(category => category.themes && category.themes.length > 0).map(category => (
+              <div key={category.category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20 mb-1">
+                <div className="text-sm uppercase mb-2">{category.category}</div>
+                <div className="space-y-1 pl-2">
+                  {category.themes?.filter(theme => !theme.isAddOption).map(theme => (
+                    <div key={theme.id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id={`theme-${theme.id}`}
+                        checked={selectedThemes.includes(theme.id)}
+                        onChange={() => handleThemeSelect(theme.id)}
+                        className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                      />
+                      <label
+                        htmlFor={`theme-${theme.id}`}
+                        className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                      >
+                        {theme.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </CollapsibleContent>
       </Collapsible>
       
@@ -105,15 +127,32 @@ export default function ThemesAndActivitiesStep({
           }
         </CollapsibleTrigger>
         <CollapsibleContent className="p-4">
-          {themeData.map((category, index) => (
-            <ThemeCategory 
-              key={index}
-              category={category.category}
-              subcategories={category.subcategories}
-              selectedThemes={selectedActivities}
-              onThemeSelect={handleActivitySelect}
-            />
-          ))}
+          <div className="space-y-2">
+            {themeCategories.map((category) => (
+              <div key={category.category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20 mb-1">
+                <div className="text-sm uppercase mb-2">{category.category}</div>
+                <div className="space-y-1 pl-2">
+                  {category.themes?.filter(theme => !theme.isAddOption).map(theme => (
+                    <div key={theme.id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id={`activity-${theme.id}`}
+                        checked={selectedActivities.includes(theme.id)}
+                        onChange={() => handleActivitySelect(theme.id)}
+                        className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                      />
+                      <label
+                        htmlFor={`activity-${theme.id}`}
+                        className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                      >
+                        {theme.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </CollapsibleContent>
       </Collapsible>
       

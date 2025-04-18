@@ -38,7 +38,7 @@ export default function AccommodationTermsStep({
   };
   
   // Handle rooms section validation
-  const handleRoomsValid = (isValid: boolean, roomTypeData: any[]) => {
+  const handleRoomsValid = (isValid: boolean, roomTypeData?: any[]) => {
     setRoomsValid(isValid);
     if (roomTypeData) {
       setRoomTypes(roomTypeData);

@@ -9,11 +9,12 @@ interface Theme {
 }
 
 interface DirectThemesProps {
-  themes: Theme[];
+  themes?: Theme[];
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes?: string[];
 }
 
-const DirectThemes = ({ themes, onThemeSelect }: DirectThemesProps) => {
+const DirectThemes = ({ themes, onThemeSelect, selectedThemes = [] }: DirectThemesProps) => {
   if (!themes || themes.length === 0) {
     return null;
   }
@@ -27,6 +28,7 @@ const DirectThemes = ({ themes, onThemeSelect }: DirectThemesProps) => {
               id={theme.id}
               name={theme.name}
               isAddOption={theme.isAddOption}
+              isSelected={selectedThemes.includes(theme.id)}
               onSelect={(isSelected) => {
                 if (onThemeSelect) {
                   onThemeSelect(theme.id, isSelected);

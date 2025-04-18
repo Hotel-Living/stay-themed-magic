@@ -18,6 +18,7 @@ export const usePropertyForm = () => {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const { toast } = useToast();
   
+  // Initialize form data with default values
   const [formData, setFormData] = useState({
     hotelName: "",
     propertyType: "",
@@ -40,18 +41,25 @@ export const usePropertyForm = () => {
     termsAccepted: false
   });
 
+  // Load saved form data when component mounts
   useEffect(() => {
     const savedData = localStorage.getItem('propertyFormData');
     if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setFormData(parsedData);
-      
-      Object.keys(stepValidation).forEach(step => {
-        validateStep(parseInt(step), true);
-      });
+      try {
+        const parsedData = JSON.parse(savedData);
+        setFormData(parsedData);
+        
+        // Validate all steps based on loaded data
+        Object.keys(stepValidation).forEach(step => {
+          validateStep(parseInt(step), true);
+        });
+      } catch (error) {
+        console.error("Error parsing saved form data:", error);
+      }
     }
   }, []);
 
+  // Function to validate a specific step
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
       ...prev,
@@ -59,13 +67,20 @@ export const usePropertyForm = () => {
     }));
   };
 
+  // Update form data and save to localStorage
   const updateFormData = (field: string, value: any) => {
     const updatedData = {
       ...formData,
       [field]: value
     };
     setFormData(updatedData);
-    localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+    
+    // Save to localStorage to persist data between page refreshes
+    try {
+      localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+    } catch (error) {
+      console.error("Error saving form data to localStorage:", error);
+    }
   };
 
   return {

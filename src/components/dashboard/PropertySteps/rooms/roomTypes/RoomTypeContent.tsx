@@ -1,18 +1,19 @@
 
 import React from "react";
 import { Accordion } from "@/components/ui/accordion";
-import RoomTypeList from "./RoomTypeList";
 import { RoomType } from "./useRoomTypes";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
+  initialRoomTypes?: any[];
+  initialStayLengths?: number[];
   selectedStayLengths: number[];
   selectedUnit: string;
   dialogOpen: boolean;
   setDialogOpen: (isOpen: boolean) => void;
-  handleAddRoomType: (roomType: RoomType) => void;
+  handleAddRoomType: (roomType: Omit<RoomType, "id">) => void;
   handleDeleteRoomType: (id: string) => void;
   handleEditRoomType?: (id: string, updatedRoomType: Partial<RoomType>) => void;
 }
@@ -33,13 +34,24 @@ export default function RoomTypeContent({
       <div className="mb-6">
         <h3 className="text-sm font-medium mb-3 uppercase">AVAILABLE TYPES OF ROOMS</h3>
         <Accordion type="single" collapsible className="w-full">
-          <RoomTypeList 
-            roomTypes={roomTypes} 
-            selectedStayLengths={selectedStayLengths}
-            selectedUnit={selectedUnit}
-            onDelete={handleDeleteRoomType}
-            onEdit={handleEditRoomType}
-          />
+          {roomTypes.map(room => (
+            <div key={room.id} className="p-4 border rounded-md flex justify-between items-center mb-2">
+              <div>
+                <div className="font-medium">{room.name}</div>
+                <div className="text-sm text-white/70">
+                  {room.description || 'No description'} | Max Occupancy: {room.maxOccupancy} | Base Rate: ${room.baseRate}
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => handleDeleteRoomType(room.id)} 
+                className="text-red-500 hover:text-red-700"
+              >
+                Delete
+              </Button>
+            </div>
+          ))}
         </Accordion>
       </div>
       

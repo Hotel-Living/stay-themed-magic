@@ -44,7 +44,8 @@ const RoomTypeList: React.FC<RoomTypeListProps> = ({
   return (
     <>
       <RoomTypeContent
-        roomTypes={roomTypes}
+        initialRoomTypes={initialRoomTypes}
+        initialStayLengths={initialStayLengths}
         selectedStayLengths={selectedStayLengths}
         selectedUnit={selectedUnit}
         dialogOpen={dialogOpen}
@@ -52,13 +53,13 @@ const RoomTypeList: React.FC<RoomTypeListProps> = ({
         handleAddRoomType={handleAddRoomType}
         handleDeleteRoomType={handleDeleteRoomType}
         handleEditRoomType={handleEditRoomType}
+        roomTypes={roomTypes}
       />
       <RoomTypeDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        onSubmit={handleAddRoomType}
-        selectedStayLengths={selectedStayLengths}
-        selectedUnit={selectedUnit}
+        isOpen={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onAdd={handleAddRoomType}
+        availableStayLengths={selectedStayLengths}
       />
     </>
   );

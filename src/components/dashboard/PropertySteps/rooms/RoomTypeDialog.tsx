@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -32,14 +31,11 @@ export default function RoomTypeDialog({
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
   
-  // Get the latest stay lengths on open
   useEffect(() => {
     if (isOpen) {
-      // First try to use the provided lengths
       if (availableStayLengths && availableStayLengths.length > 0) {
         setStayLengths(availableStayLengths);
       } else {
-        // Fallback to getting from localStorage
         const storedLengths = getSelectedStayLengths();
         if (storedLengths && storedLengths.length > 0) {
           setStayLengths(storedLengths);
@@ -72,17 +68,14 @@ export default function RoomTypeDialog({
       isValid = false;
     }
 
-    // Check if at least one rate is provided for any stay length
     const hasRates = Object.keys(rates).length > 0;
     if (!hasRates) {
       errors.rates = "At least one rate is required";
       isValid = false;
     }
     
-    // Optional: Check if images are provided
     if (roomImages.length === 0) {
       errors.images = "At least one room image is recommended";
-      // We don't set isValid = false here since images are recommended but not required
     }
 
     setFormErrors(errors);
@@ -137,7 +130,6 @@ export default function RoomTypeDialog({
       const newFiles = Array.from(e.target.files);
       setRoomImages(prev => [...prev, ...newFiles]);
       
-      // Create preview URLs
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
       setRoomImagePreviews(prev => [...prev, ...newPreviews]);
     }
@@ -146,7 +138,6 @@ export default function RoomTypeDialog({
   const removeImage = (index: number) => {
     setRoomImages(prev => prev.filter((_, i) => i !== index));
     
-    // Also remove the preview and revoke the object URL to free memory
     const urlToRevoke = roomImagePreviews[index];
     URL.revokeObjectURL(urlToRevoke);
     setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));

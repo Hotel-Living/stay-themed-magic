@@ -29,6 +29,7 @@ export default function RoomTypeDialog({
   const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
   const [roomImages, setRoomImages] = useState<File[]>([]);
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
   
   // Get the latest stay lengths on open
@@ -48,54 +49,53 @@ export default function RoomTypeDialog({
   }, [isOpen, availableStayLengths]);
 
   const validateRoomType = (): boolean => {
+    const errors: Record<string, string> = {};
+    let isValid = true;
+    
     if (!newRoomType.trim()) {
-      toast({
-        title: "Missing Information",
-        description: "Please enter a room type name",
-        variant: "destructive"
-      });
-      return false;
+      errors.roomType = "Room type name is required";
+      isValid = false;
     }
 
     if (maxOccupancy < 1) {
-      toast({
-        title: "Invalid Occupancy",
-        description: "Maximum occupancy must be at least 1",
-        variant: "destructive"
-      });
-      return false;
+      errors.maxOccupancy = "Maximum occupancy must be at least 1";
+      isValid = false;
     }
 
     if (roomSize <= 0) {
-      toast({
-        title: "Invalid Room Size",
-        description: "Room size must be greater than 0",
-        variant: "destructive"
-      });
-      return false;
+      errors.roomSize = "Room size must be greater than 0";
+      isValid = false;
     }
 
     if (!description.trim()) {
-      toast({
-        title: "Missing Information",
-        description: "Please enter a room description",
-        variant: "destructive"
-      });
-      return false;
+      errors.description = "Room description is required";
+      isValid = false;
     }
 
     // Check if at least one rate is provided for any stay length
     const hasRates = Object.keys(rates).length > 0;
     if (!hasRates) {
-      toast({
-        title: "Missing Rates",
-        description: "Please enter at least one rate for a stay duration",
-        variant: "destructive"
-      });
-      return false;
+      errors.rates = "At least one rate is required";
+      isValid = false;
+    }
+    
+    // Optional: Check if images are provided
+    if (roomImages.length === 0) {
+      errors.images = "At least one room image is recommended";
+      // We don't set isValid = false here since images are recommended but not required
     }
 
-    return true;
+    setFormErrors(errors);
+    
+    if (!isValid) {
+      toast({
+        title: "Missing Information",
+        description: "Please complete all required fields",
+        variant: "destructive"
+      });
+    }
+    
+    return isValid;
   };
 
   const handleAddRoomType = () => {
@@ -122,6 +122,7 @@ export default function RoomTypeDialog({
     setRates({});
     setRoomImages([]);
     setRoomImagePreviews([]);
+    setFormErrors({});
   };
 
   const handleRateChange = (duration: number, value: string) => {
@@ -168,6 +169,7 @@ export default function RoomTypeDialog({
             onMaxOccupancyChange={setMaxOccupancy}
             onRoomSizeChange={setRoomSize}
             onDescriptionChange={setDescription}
+            errors={formErrors}
           />
           
           <ImageUploadSection
@@ -175,12 +177,14 @@ export default function RoomTypeDialog({
             roomImagePreviews={roomImagePreviews}
             onImageUpload={handleImageUpload}
             onRemoveImage={removeImage}
+            error={formErrors.images}
           />
           
           <RatesSection
             stayLengths={stayLengths}
             rates={rates}
             onRateChange={handleRateChange}
+            error={formErrors.rates}
           />
         </div>
         

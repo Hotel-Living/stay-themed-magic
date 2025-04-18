@@ -7,7 +7,7 @@ import ValidationMessages from "./StepTwo/ValidationMessages";
 import { RoomType } from "./StepTwo/types";
 
 interface StepTwoProps {
-  onValidationChange?: (isValid: boolean) => void;
+  onValidationChange?: (isValid: boolean, data?: any) => void;
 }
 
 export default function StepTwo({
@@ -18,6 +18,8 @@ export default function StepTwo({
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
   const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
+  const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>([]);
 
   const checkValidation = () => {
     if (roomTypes.length === 0) {
@@ -25,8 +27,25 @@ export default function StepTwo({
       onValidationChange(false);
       return false;
     }
+    
+    if (selectedStayLengths.length === 0) {
+      setError("Please select at least one stay length");
+      onValidationChange(false);
+      return false;
+    }
+    
+    if (selectedMealPlans.length === 0) {
+      setError("Please select at least one meal plan");
+      onValidationChange(false);
+      return false;
+    }
+    
     setError("");
-    onValidationChange(true);
+    onValidationChange(true, {
+      roomTypes: roomTypes,
+      stayLengths: selectedStayLengths,
+      mealPlans: selectedMealPlans
+    });
     return true;
   };
 
@@ -44,14 +63,27 @@ export default function StepTwo({
   const handleRemoveRoomType = (id: string) => {
     setRoomTypes(roomTypes.filter(room => room.id !== id));
   };
+  
+  // Handle stay lengths updates
+  const handleStayLengthsUpdate = (lengths: number[]) => {
+    setSelectedStayLengths(lengths);
+  };
+  
+  // Handle meal plans updates
+  const handleMealPlansUpdate = (plans: string[]) => {
+    setSelectedMealPlans(plans);
+  };
 
   useEffect(() => {
     checkValidation();
-  }, [roomTypes]);
+  }, [roomTypes, selectedStayLengths, selectedMealPlans]);
 
   return (
     <div className="space-y-8">
-      <RoomsAndPricingStep />
+      <RoomsAndPricingStep 
+        onStayLengthsChange={handleStayLengthsUpdate}
+        onMealPlansChange={handleMealPlansUpdate}
+      />
       
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4"></div>

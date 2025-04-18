@@ -5,30 +5,16 @@ import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep"
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
-import PriceTable from "./PriceTable";
 
 interface StepContentProps {
   currentStep: number;
-  renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
-  onValidationChange?: (isValid: boolean) => void;
+  onValidationChange?: (isValid: boolean, data?: any) => void;
 }
 
 export default function StepContent({ 
   currentStep, 
-  renderPriceTable, 
   onValidationChange = () => {} 
 }: StepContentProps) {
-  // Create default price table renderer if one wasn't provided
-  const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
-    <PriceTable 
-      roomType={roomType} 
-      mealTypes={mealTypes} 
-      stayDurations={stayDurations} 
-    />
-  );
-
-  const tableFn = renderPriceTable || defaultRenderPriceTable;
-
   return (
     <div className="mb-4">
       {currentStep === 1 && <StepOne onValidationChange={onValidationChange} />}

@@ -6,12 +6,14 @@ import ContactSection from "./StepOne/ContactSection";
 import ValidationMessage from "./StepOne/ValidationMessage";
 import useFormValidation from "./StepOne/useFormValidation";
 
-interface StepOneProps {
+export interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
+  initialData?: any;
 }
 
 export default function StepOne({
-  onValidationChange = () => {}
+  onValidationChange = () => {},
+  initialData = {}
 }: StepOneProps) {
   const {
     formData,
@@ -19,7 +21,7 @@ export default function StepOne({
     touchedFields,
     handleChange,
     handleBlur
-  } = useFormValidation(onValidationChange);
+  } = useFormValidation(onValidationChange, initialData);
 
   return (
     <div className="space-y-4">

@@ -6,6 +6,7 @@ import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
+import { useToast } from "@/hooks/use-toast";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ export default function RoomTypeDialog({
   const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
   const [roomImages, setRoomImages] = useState<File[]>([]);
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
+  const { toast } = useToast();
   
   // Get the latest stay lengths on open
   useEffect(() => {
@@ -45,8 +47,59 @@ export default function RoomTypeDialog({
     }
   }, [isOpen, availableStayLengths]);
 
+  const validateRoomType = (): boolean => {
+    if (!newRoomType.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter a room type name",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (maxOccupancy < 1) {
+      toast({
+        title: "Invalid Occupancy",
+        description: "Maximum occupancy must be at least 1",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (roomSize <= 0) {
+      toast({
+        title: "Invalid Room Size",
+        description: "Room size must be greater than 0",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (!description.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter a room description",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    // Check if at least one rate is provided for any stay length
+    const hasRates = Object.keys(rates).length > 0;
+    if (!hasRates) {
+      toast({
+        title: "Missing Rates",
+        description: "Please enter at least one rate for a stay duration",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleAddRoomType = () => {
-    if (newRoomType.trim()) {
+    if (validateRoomType()) {
       onAdd({
         id: Date.now().toString(),
         name: newRoomType,
@@ -134,7 +187,6 @@ export default function RoomTypeDialog({
         <DialogFooter>
           <Button 
             onClick={handleAddRoomType} 
-            disabled={!newRoomType.trim()}
             className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
           >
             Add Room Type

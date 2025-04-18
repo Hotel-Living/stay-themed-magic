@@ -15,17 +15,7 @@ export interface RoomType {
 
 export function useRoomTypes() {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>([
-    {
-      id: "1",
-      name: "Single Room",
-      maxOccupancy: 1,
-      size: 200,
-      description: "A cozy room for one person",
-      baseRate: 100,
-      rates: { 8: 800, 16: 1500 }
-    }
-  ]);
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
   

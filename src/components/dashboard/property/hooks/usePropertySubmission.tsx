@@ -1,4 +1,5 @@
 
+import { createHotel } from "@/services/hotelService";
 import { calculateAveragePrice } from "../utils/priceCalculator";
 
 export const usePropertySubmission = () => {

@@ -1,7 +1,6 @@
 
 import React from 'react';
 import HotelFaqAndTermsStep from '../FaqAndTerms/HotelFaqAndTermsStep';
-import { TermsCheckbox } from '@/components/auth/TermsCheckbox';
 
 interface FinalizePropertyProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -26,17 +25,17 @@ export default function FinalizeProperty({
       
       {/* Form confirmation checkbox */}
       <div className="mt-4 space-y-4">
-        <div className="flex items-start gap-2 bg-purple-900/60 p-3 rounded-lg">
-          <TermsCheckbox
-            id="finalize-terms"
+        <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
+          <input 
+            type="checkbox" 
+            id="finalize-terms" 
+            className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
             checked={termsAccepted}
-            onChange={() => updateFormData('termsAccepted', !termsAccepted)}
-            label={
-              <span className="text-sm text-white">
-                I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
-              </span>
-            }
+            onChange={(e) => updateFormData('termsAccepted', e.target.checked)} 
           />
+          <label htmlFor="finalize-terms" className="text-sm text-white">
+            I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
+          </label>
         </div>
       </div>
     </div>

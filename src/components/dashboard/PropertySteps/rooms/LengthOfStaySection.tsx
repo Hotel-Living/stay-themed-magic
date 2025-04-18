@@ -9,7 +9,7 @@ import {
 import { saveSelectedStayLengths, getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface LengthOfStaySectionProps {
-  onValidationChange: (isValid: boolean) => void;
+  onValidationChange: (isValid: boolean, data?: any) => void;
   title?: string;
   showHeader?: boolean;
 }
@@ -46,14 +46,14 @@ export default function LengthOfStaySection({
       if (validStoredLengths.length > 0) {
         setSelectedStayLengths(validStoredLengths);
         setStayLengthsValid(true);
-        onValidationChange(true);
+        onValidationChange(true, { selectedLengths: validStoredLengths });
       } else {
         // If no valid lengths, set the default ones
         const defaultLengths = [8, 16];
         setSelectedStayLengths(defaultLengths);
         saveSelectedStayLengths(defaultLengths);
         setStayLengthsValid(true);
-        onValidationChange(true);
+        onValidationChange(true, { selectedLengths: defaultLengths });
       }
     } else {
       // No stored lengths, set defaults
@@ -61,7 +61,7 @@ export default function LengthOfStaySection({
       setSelectedStayLengths(defaultLengths);
       saveSelectedStayLengths(defaultLengths);
       setStayLengthsValid(true);
-      onValidationChange(true);
+      onValidationChange(true, { selectedLengths: defaultLengths });
     }
   }, []);
 
@@ -83,7 +83,7 @@ export default function LengthOfStaySection({
   useEffect(() => {
     const isValid = selectedStayLengths.length > 0;
     setStayLengthsValid(isValid);
-    onValidationChange(isValid);
+    onValidationChange(isValid, { selectedLengths: selectedStayLengths });
   }, [selectedStayLengths, onValidationChange]);
 
   const stayLengthContent = (

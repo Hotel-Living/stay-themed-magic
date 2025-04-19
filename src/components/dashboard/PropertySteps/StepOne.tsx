@@ -34,6 +34,14 @@ export default function StepOne({
     }
   };
 
+  // Cast touchedFields to the expected shapes for each component
+  const hotelInfoTouchedFields = {
+    hotelName: !!touchedFields.hotelName,
+    category: !!touchedFields.category,
+    propertyType: !!touchedFields.propertyType,
+    description: !!touchedFields.description
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
@@ -43,7 +51,7 @@ export default function StepOne({
           formData={formData}
           handleChange={handleChange}
           errors={errors}
-          touchedFields={touchedFields}
+          touchedFields={hotelInfoTouchedFields}
           handleBlur={handleBlur}
         />
 

@@ -39,7 +39,7 @@ export default function RoomTypeList({
               <div>
                 <div className="font-medium">{room.name}</div>
                 <div className="text-sm text-muted-foreground">
-                  {room.description || 'No description'} | Capacity: {room.capacity} | Base Price: ${room.basePrice}
+                  {room.description || 'No description'} | Capacity: {room.maxOccupancy} | Base Price: ${room.baseRate}
                 </div>
               </div>
               <Button 

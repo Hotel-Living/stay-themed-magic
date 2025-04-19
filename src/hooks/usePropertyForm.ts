@@ -40,6 +40,11 @@ export const usePropertyForm = () => {
     termsAccepted: false
   });
 
+  // Clear localStorage form data when component mounts
+  useEffect(() => {
+    localStorage.removeItem('propertyFormData');
+  }, []);
+
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
       ...prev,
@@ -54,8 +59,8 @@ export const usePropertyForm = () => {
     };
     setFormData(updatedData);
     
-    // We don't save to localStorage anymore
-    // localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+    // We don't save to localStorage anymore as requested
+    // This ensures data is kept between steps but not between sessions
   };
 
   return {

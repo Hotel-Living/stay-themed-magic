@@ -37,7 +37,8 @@ export const usePropertyForm = () => {
     activities: [] as string[],
     faqs: [] as any[],
     terms: "",
-    termsAccepted: false
+    termsAccepted: false,
+    testField: "" // Add the new field here
   });
 
   // Cargar datos desde sessionStorage al iniciar

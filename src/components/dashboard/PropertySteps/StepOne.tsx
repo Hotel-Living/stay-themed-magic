@@ -1,10 +1,12 @@
 
 import React, { useEffect } from "react";
-import HotelInfoSection from "./StepOne/HotelInfo"; // Updated import path
-import LocationSection from "./StepOne/Location"; // Updated import path
+import HotelInfoSection from "./StepOne/HotelInfo";
+import LocationSection from "./StepOne/Location";
 import ContactSection from "./StepOne/ContactSection";
 import ValidationMessage from "./StepOne/ValidationMessage";
 import useFormValidation from "./StepOne/useFormValidation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -26,7 +28,6 @@ export default function StepOne({
     setFormData: setLocalFormData
   } = useFormValidation(onValidationChange);
 
-  // Sync with parent formData when component mounts or formData changes
   useEffect(() => {
     if (formData && Object.keys(formData).length > 0) {
       setLocalFormData({
@@ -40,12 +41,12 @@ export default function StepOne({
         postalCode: formData.postalCode || '',
         contactName: formData.contactName || '',
         contactEmail: formData.contactEmail || '',
-        contactPhone: formData.contactPhone || ''
+        contactPhone: formData.contactPhone || '',
+        testField: formData.testField || '' // Add the new field
       });
     }
   }, [formData]);
 
-  // Custom handleChange to update both local and parent state
   const handleFieldChange = (field: string, value: string) => {
     handleChange(field, value);
     if (updateFormData) {
@@ -55,7 +56,6 @@ export default function StepOne({
 
   return (
     <div className="space-y-4">
-      {/* Add bold title */}
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-3">
@@ -92,9 +92,24 @@ export default function StepOne({
           handleBlur={handleBlur}
         />
       </div>
-      
-      {/* Validation status */}
-      <ValidationMessage errors={errors} />
+
+      {/* Test Field */}
+      <div className="mt-4">
+        <Label htmlFor="testField" className="text-white">
+          Test Field
+        </Label>
+        <Input
+          id="testField"
+          value={localFormData.testField || ""}
+          onChange={(e) => handleFieldChange("testField", e.target.value)}
+          onBlur={() => handleBlur("testField")}
+          placeholder="Enter test value..."
+          className="bg-[#7A0486] text-white border-white"
+        />
+        {touchedFields.testField && errors.testField && (
+          <p className="text-red-500 text-sm mt-1">{errors.testField}</p>
+        )}
+      </div>
     </div>
   );
 }

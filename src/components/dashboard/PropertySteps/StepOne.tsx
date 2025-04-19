@@ -42,13 +42,13 @@ export default function StepOne({
         contactName: formData.contactName || '',
         contactEmail: formData.contactEmail || '',
         contactPhone: formData.contactPhone || '',
-        testField: formData.testField || '' // Add the new field
+        testField: formData.testField || '' // Added testField
       });
     }
   }, [formData]);
 
   const handleFieldChange = (field: string, value: string) => {
-    handleChange(field, value);
+    handleChange(field as any, value);
     if (updateFormData) {
       updateFormData(field, value);
     }
@@ -102,7 +102,7 @@ export default function StepOne({
           id="testField"
           value={localFormData.testField || ""}
           onChange={(e) => handleFieldChange("testField", e.target.value)}
-          onBlur={() => handleBlur("testField")}
+          onBlur={() => handleBlur("testField" as any)}
           placeholder="Enter test value..."
           className="bg-[#7A0486] text-white border-white"
         />

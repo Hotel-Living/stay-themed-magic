@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 
 interface FormData {
@@ -12,7 +13,7 @@ interface FormData {
   contactName: string;
   contactEmail: string;
   contactPhone: string;
-  testField: string; // ← Añadido aquí
+  testField: string; // Added the testField to FormData interface
 }
 
 const initialFormData: FormData = {
@@ -27,7 +28,7 @@ const initialFormData: FormData = {
   contactName: "",
   contactEmail: "",
   contactPhone: "",
-  testField: "" // ← Añadido aquí también
+  testField: "" // Added initial value for testField
 };
 
 const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
@@ -47,7 +48,7 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     contactName: false,
     contactEmail: false,
     contactPhone: false,
-    testField: false // ← Añadido aquí también
+    testField: false // Added testField to touchedFields
   });
 
   const validateForm = () => {

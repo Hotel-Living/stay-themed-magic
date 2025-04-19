@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { StepValidationState } from "@/components/dashboard/property/types";
@@ -87,5 +88,4 @@ export const usePropertyForm = () => {
   };
 };
 
-// ✅ Exportación correcta
-export { usePropertyForm };
+// Export the hook as a named export (remove the duplicate export at the end)

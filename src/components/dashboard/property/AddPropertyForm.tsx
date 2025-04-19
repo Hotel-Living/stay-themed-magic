@@ -32,7 +32,14 @@ export default function AddPropertyForm() {
   // Clear localStorage form data when component mounts
   useEffect(() => {
     localStorage.removeItem('propertyFormData');
-  }, []);
+    
+    // We'll clear session storage when the form is unmounted or on successful submission
+    return () => {
+      if (isSubmitted && submitSuccess) {
+        sessionStorage.removeItem('propertyFormData');
+      }
+    };
+  }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
     if (!validateCurrentStep(stepValidation, currentStep)) {
@@ -91,10 +98,12 @@ export default function AddPropertyForm() {
       duration: 5000
     });
     
+    // Clear session storage after successful submission
+    sessionStorage.removeItem('propertyFormData');
+    
     setTimeout(() => {
       setCurrentStep(1);
       setIsSubmitted(false);
-      localStorage.removeItem('propertyFormData');
     }, 5000);
   };
 

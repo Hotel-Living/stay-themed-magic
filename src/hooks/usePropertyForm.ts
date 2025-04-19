@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { StepValidationState } from "@/components/dashboard/property/types";
@@ -40,9 +39,19 @@ export const usePropertyForm = () => {
     termsAccepted: false
   });
 
-  // Clear localStorage form data when component mounts
   useEffect(() => {
     localStorage.removeItem('propertyFormData');
+    
+    const sessionData = sessionStorage.getItem('propertyFormData');
+    if (sessionData) {
+      try {
+        const parsedData = JSON.parse(sessionData);
+        setFormData(parsedData);
+      } catch (error) {
+        console.error("Error parsing session data:", error);
+        sessionStorage.removeItem('propertyFormData');
+      }
+    }
   }, []);
 
   const validateStep = (step: number, isValid: boolean) => {
@@ -59,8 +68,7 @@ export const usePropertyForm = () => {
     };
     setFormData(updatedData);
     
-    // We don't save to localStorage anymore as requested
-    // This ensures data is kept between steps but not between sessions
+    sessionStorage.setItem('propertyFormData', JSON.stringify(updatedData));
   };
 
   return {

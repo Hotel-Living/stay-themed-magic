@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { StepValidationState } from "@/components/dashboard/property/types";
@@ -39,9 +40,8 @@ export const usePropertyForm = () => {
     termsAccepted: false
   });
 
+  // Load data from sessionStorage on component mount
   useEffect(() => {
-    localStorage.removeItem('propertyFormData');
-    
     const sessionData = sessionStorage.getItem('propertyFormData');
     if (sessionData) {
       try {
@@ -49,7 +49,6 @@ export const usePropertyForm = () => {
         setFormData(parsedData);
       } catch (error) {
         console.error("Error parsing session data:", error);
-        sessionStorage.removeItem('propertyFormData');
       }
     }
   }, []);
@@ -68,6 +67,7 @@ export const usePropertyForm = () => {
     };
     setFormData(updatedData);
     
+    // Save to sessionStorage immediately after updating
     sessionStorage.setItem('propertyFormData', JSON.stringify(updatedData));
   };
 

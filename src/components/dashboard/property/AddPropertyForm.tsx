@@ -5,7 +5,7 @@ import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
-import { usePropertyForm } from "@/hooks/usePropertyForm";
+import usePropertyForm from "@/hooks/usePropertyForm";
 import { getIncompleteFields, validateCurrentStep } from "@/utils/propertyFormUtils";
 
 export default function AddPropertyForm() {

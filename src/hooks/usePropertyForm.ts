@@ -66,6 +66,14 @@ export const usePropertyForm = () => {
     sessionStorage.setItem('propertyFormData', JSON.stringify(formData));
   }, [formData]);
 
+  // Add back the updateFormData function that was in the original implementation
+  const updateFormData = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   return {
     currentStep,
     setCurrentStep,
@@ -82,6 +90,8 @@ export const usePropertyForm = () => {
     showValidationErrors,
     setShowValidationErrors,
     hasNewItems,
-    setHasNewItems
+    setHasNewItems,
+    updateFormData,
+    toast
   };
 };

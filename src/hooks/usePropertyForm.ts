@@ -39,8 +39,12 @@ export const usePropertyForm = () => {
     faqs: [] as any[],
     terms: "",
     termsAccepted: false,
-    testField: "" // ← Campo añadido
+    testField: ""
   });
+
+  // Adding errors and touchedFields to support form validation
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
   // Load data from sessionStorage on component mount
   useEffect(() => {
@@ -66,6 +70,19 @@ export const usePropertyForm = () => {
     }
   }, []);
 
+  // Add setFieldValue method
+  const setFieldValue = (field: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    
+    // Auto-mark field as touched when changed
+    setTouchedFields(prev => ({ ...prev, [field]: true }));
+  };
+
+  // Add handleBlur method for validation
+  const handleBlur = (field: string) => {
+    setTouchedFields(prev => ({ ...prev, [field]: true }));
+  };
+
   return {
     currentStep,
     setCurrentStep,
@@ -81,9 +98,15 @@ export const usePropertyForm = () => {
     setShowValidationErrors,
     formData,
     setFormData,
+    errors,
+    setErrors,
+    touchedFields,
+    setTouchedFields,
     updateFormData: (field: string, value: any) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
     },
+    setFieldValue,
+    handleBlur,
     toast
   };
 };

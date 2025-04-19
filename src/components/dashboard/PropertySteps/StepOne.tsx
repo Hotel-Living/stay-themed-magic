@@ -8,11 +8,30 @@ import { usePropertyForm } from "@/hooks/usePropertyForm";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function StepOne() {
-  const { formData, setFieldValue } = usePropertyForm();
+interface StepOneProps {
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+}
+
+export default function StepOne({
+  onValidationChange = () => {},
+  formData: externalFormData,
+  updateFormData: externalUpdateFormData
+}: StepOneProps) {
+  const { 
+    formData, 
+    setFieldValue, 
+    errors = {}, 
+    touchedFields = {},
+    handleBlur = () => {}
+  } = usePropertyForm();
 
   const handleChange = (field: string, value: string) => {
     setFieldValue(field, value);
+    if (externalUpdateFormData) {
+      externalUpdateFormData(field, value);
+    }
   };
 
   return (
@@ -23,16 +42,25 @@ export default function StepOne() {
         <HotelInfoSection
           formData={formData}
           handleChange={handleChange}
+          errors={errors}
+          touchedFields={touchedFields}
+          handleBlur={handleBlur}
         />
 
         <LocationSection
           formData={formData}
           handleChange={handleChange}
+          errors={errors}
+          touchedFields={touchedFields}
+          handleBlur={handleBlur}
         />
 
         <ContactSection
           formData={formData}
           handleChange={handleChange}
+          errors={errors}
+          touchedFields={touchedFields}
+          handleBlur={handleBlur}
         />
       </div>
 
@@ -45,6 +73,7 @@ export default function StepOne() {
           id="testField"
           value={formData.testField || ""}
           onChange={(e) => handleChange("testField", e.target.value)}
+          className="text-white bg-[#7A0486] border-white"
         />
       </div>
     </div>

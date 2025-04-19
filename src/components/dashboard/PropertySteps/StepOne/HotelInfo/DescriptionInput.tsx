@@ -23,7 +23,7 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
       label="Description"
       type="textarea"
       value={value}
-      onChange={onChange}
+      onChange={(e) => onChange(e.target.value)}
       onBlur={onBlur}
       error={hasError ? errorMessage : ""}
       required

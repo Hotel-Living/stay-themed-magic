@@ -1,3 +1,6 @@
+export const validateCurrentStep = (stepValidation: Record<number, boolean>, currentStep: number): boolean => {
+  return stepValidation[currentStep];
+};
 
 export const getIncompleteFields = (step: number, formData?: any): string[] => {
   switch (step) {

@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import { RoomType } from "./StepTwo/types";
+import { RoomType } from "./rooms/roomTypes/useRoomTypes";
+import RoomTypeList from "./rooms/roomTypes/RoomTypeList";
 import RoomTypeForm from "./StepTwo/RoomTypeForm";
-import RoomTypeList from "./StepTwo/RoomTypeList";
 import ValidationMessages from "./StepTwo/ValidationMessages";
 
 interface StepTwoProps {
@@ -22,7 +22,6 @@ export default function StepTwo({
   const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
 
-  // Load initial data from parent formData if available
   useEffect(() => {
     if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
       setRoomTypes(formData.roomTypes);
@@ -41,11 +40,18 @@ export default function StepTwo({
   };
 
   const handleAddRoomType = (newRoom: Omit<RoomType, 'id'>) => {
-    if (newRoom.name.trim() && newRoom.basePrice > 0) {
-      const newRoomType = {
+    if (newRoom.name && newRoom.baseRate > 0) {
+      const newRoomType: RoomType = {
         ...newRoom,
-        id: Date.now().toString()
+        id: Date.now().toString(),
+        rates: {},
+        roomCount: 1,
+        maxOccupancy: newRoom.maxOccupancy || 2,
+        size: newRoom.size || 200,
+        description: newRoom.description || "",
+        images: []
       };
+      
       const updatedRoomTypes = [...roomTypes, newRoomType];
       setRoomTypes(updatedRoomTypes);
       if (updateFormData) {
@@ -90,9 +96,10 @@ export default function StepTwo({
         
         <RoomTypeList
           roomTypes={roomTypes}
-          isOpen={isAvailableRoomsOpen}
-          setIsOpen={setIsAvailableRoomsOpen}
-          onRemoveRoomType={handleRemoveRoomType}
+          selectedStayLengths={[]}
+          selectedUnit="sq. ft."
+          onDelete={handleRemoveRoomType}
+          onEdit={() => {}}
         />
         
         <ValidationMessages

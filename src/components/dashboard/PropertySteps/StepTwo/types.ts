@@ -1,15 +1,15 @@
 
-export interface RoomType {
-  id: string;
-  name: string;
-  description: string;
-  capacity: number;
-  basePrice: number;
-}
+import { RoomType as BaseRoomType } from "../rooms/roomTypes/useRoomTypes";
+
+export type { BaseRoomType as RoomType };
 
 export interface FormRoomType {
   name: string;
   description: string;
-  capacity: number;
-  basePrice: number;
+  maxOccupancy: number;
+  baseRate: number;
+  size: number;
+  roomCount: number;
+  rates: Record<number, number>;
+  images: string[];
 }

@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { FormRoomType, RoomType } from "./types";
+import { RoomType } from "../rooms/roomTypes/useRoomTypes";
 
 interface RoomTypeFormProps {
   onCancel: () => void;
@@ -8,18 +8,24 @@ interface RoomTypeFormProps {
 }
 
 export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
-  const [roomData, setRoomData] = useState<FormRoomType>({
+  const [roomData, setRoomData] = useState({
     name: "",
     description: "",
-    capacity: 2,
-    basePrice: 0
+    maxOccupancy: 2,
+    size: 200,
+    baseRate: 0,
+    roomCount: 1,
+    rates: {},
+    images: [] as string[]
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setRoomData(prev => ({
       ...prev,
-      [name]: name === "capacity" || name === "basePrice" ? Number(value) : value
+      [name]: name === "maxOccupancy" || name === "baseRate" || name === "size" || name === "roomCount" 
+        ? Number(value) 
+        : value
     }));
   };
 
@@ -58,29 +64,29 @@ export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
         </div>
         
         <div>
-          <label htmlFor="capacity" className="block text-sm font-medium mb-1">Capacity</label>
+          <label htmlFor="maxOccupancy" className="block text-sm font-medium mb-1">Maximum Occupancy</label>
           <input
-            id="capacity"
-            name="capacity"
+            id="maxOccupancy"
+            name="maxOccupancy"
             type="number"
             min="1"
             required
-            value={roomData.capacity}
+            value={roomData.maxOccupancy}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />
         </div>
         
         <div>
-          <label htmlFor="basePrice" className="block text-sm font-medium mb-1">Base Price</label>
+          <label htmlFor="baseRate" className="block text-sm font-medium mb-1">Base Rate</label>
           <input
-            id="basePrice"
-            name="basePrice"
+            id="baseRate"
+            name="baseRate"
             type="number"
             min="0"
             step="0.01"
             required
-            value={roomData.basePrice}
+            value={roomData.baseRate}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />

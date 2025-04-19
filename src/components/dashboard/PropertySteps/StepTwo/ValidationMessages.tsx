@@ -3,22 +3,24 @@ import React from "react";
 import { AlertCircle, CheckCircle } from "lucide-react";
 
 interface ValidationMessagesProps {
-  error: string;
-  showValidationError: boolean;
-  roomTypesCount: number;
+  message: string;
+  error?: string;
+  showValidationError?: boolean;
+  roomTypesCount?: number;
 }
 
 export default function ValidationMessages({
+  message,
   error,
-  showValidationError,
-  roomTypesCount
+  showValidationError = false,
+  roomTypesCount = 0
 }: ValidationMessagesProps) {
   return (
     <div className="mt-4">
-      {error && showValidationError && (
+      {message && (
         <div className="p-3 rounded-md bg-red-500/20 text-red-200 flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
-          <span>Please add at least one room type with Affinities to proceed</span>
+          <span>{message}</span>
         </div>
       )}
       

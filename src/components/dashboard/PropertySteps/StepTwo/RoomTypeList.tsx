@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import { RoomType } from "./types";
+import { RoomType } from "../rooms/roomTypes/useRoomTypes";
 
 interface RoomTypeListProps {
   roomTypes: RoomType[];

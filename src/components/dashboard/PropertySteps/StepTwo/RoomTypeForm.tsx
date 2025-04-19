@@ -1,13 +1,17 @@
 
 import React, { useState } from "react";
 import { RoomType } from "../rooms/roomTypes/useRoomTypes";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface RoomTypeFormProps {
+  onAddRoomType: (newRoom: Omit<RoomType, "id">) => void;
   onCancel: () => void;
-  onSave: (newRoom: Omit<RoomType, "id">) => void;
 }
 
-export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
+export default function RoomTypeForm({ onCancel, onAddRoomType }: RoomTypeFormProps) {
   const [roomData, setRoomData] = useState({
     name: "",
     description: "",
@@ -31,41 +35,41 @@ export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(roomData);
+    onAddRoomType(roomData);
   };
 
   return (
-    <div className="mt-6 p-4 border rounded-lg">
-      <h3 className="text-lg font-medium mb-4">Add New Room Type</h3>
+    <div className="mt-6 p-4 border rounded-lg bg-fuchsia-900/10">
+      <h3 className="text-lg font-medium mb-4 text-white">Add New Room Type</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-1">Room Name</label>
-          <input
+          <Label htmlFor="name" className="text-white">Room Name</Label>
+          <Input
             id="name"
             name="name"
             type="text"
             required
             value={roomData.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="text-white bg-[#7A0486] border-white mt-1"
           />
         </div>
         
         <div>
-          <label htmlFor="description" className="block text-sm font-medium mb-1">Description</label>
-          <textarea
+          <Label htmlFor="description" className="text-white">Description</Label>
+          <Textarea
             id="description"
             name="description"
             value={roomData.description}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="text-white bg-[#7A0486] border-white mt-1"
             rows={3}
           />
         </div>
         
         <div>
-          <label htmlFor="maxOccupancy" className="block text-sm font-medium mb-1">Maximum Occupancy</label>
-          <input
+          <Label htmlFor="maxOccupancy" className="text-white">Maximum Occupancy</Label>
+          <Input
             id="maxOccupancy"
             name="maxOccupancy"
             type="number"
@@ -73,13 +77,13 @@ export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
             required
             value={roomData.maxOccupancy}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="text-white bg-[#7A0486] border-white mt-1"
           />
         </div>
         
         <div>
-          <label htmlFor="baseRate" className="block text-sm font-medium mb-1">Base Rate</label>
-          <input
+          <Label htmlFor="baseRate" className="text-white">Base Rate</Label>
+          <Input
             id="baseRate"
             name="baseRate"
             type="number"
@@ -88,24 +92,25 @@ export default function RoomTypeForm({ onCancel, onSave }: RoomTypeFormProps) {
             required
             value={roomData.baseRate}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="text-white bg-[#7A0486] border-white mt-1"
           />
         </div>
         
-        <div className="flex justify-end space-x-2">
-          <button
+        <div className="flex justify-end space-x-2 mt-4">
+          <Button
             type="button"
+            variant="outline"
             onClick={onCancel}
-            className="px-4 py-2 border rounded hover:bg-gray-100"
+            className="border-white text-white"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
-            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            variant="default"
           >
             Save Room
-          </button>
+          </Button>
         </div>
       </form>
     </div>

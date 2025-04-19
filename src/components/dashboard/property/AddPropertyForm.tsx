@@ -33,13 +33,13 @@ export default function AddPropertyForm() {
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
       console.log("Clearing sessionStorage on successful submission");
-      sessionStorage.removeItem('propertyFormData');
+      sessionStorage.removeItem("propertyFormData");
     }
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
     const fields = getIncompleteFields(currentStep, formData);
-    if (!validateCurrentStep(stepValidation, currentStep)) {
+    if (fields.length > 0) {
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({
@@ -66,17 +66,17 @@ export default function AddPropertyForm() {
   };
 
   const handleSubmitProperty = () => {
-    const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
-    
+    const allStepsValid = Object.values(stepValidation).every((isValid) => isValid);
+
     if (!allStepsValid) {
       const invalidSteps = Object.entries(stepValidation)
         .filter(([_, isValid]) => !isValid)
         .map(([step]) => parseInt(step));
-      
-      const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step, formData));
+
+      const allIncompleteFields = invalidSteps.flatMap((step) => getIncompleteFields(step, formData));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
-      
+
       toast({
         title: "Cannot Submit Property",
         description: "Please complete all required fields before submitting.",
@@ -87,16 +87,16 @@ export default function AddPropertyForm() {
 
     setIsSubmitted(true);
     setSubmitSuccess(true);
-    
+
     toast({
       title: "Property Submitted Successfully",
       description: "Your property has been submitted for review.",
       duration: 5000
     });
-    
+
     // Clear session storage after successful submission
-    sessionStorage.removeItem('propertyFormData');
-    
+    sessionStorage.removeItem("propertyFormData");
+
     setTimeout(() => {
       setCurrentStep(1);
       setIsSubmitted(false);
@@ -105,20 +105,20 @@ export default function AddPropertyForm() {
 
   return (
     <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
-      <StepIndicator 
-        currentStep={currentStep} 
-        totalSteps={totalSteps} 
-        stepTitle={stepTitles[currentStep - 1]} 
+      <StepIndicator
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        stepTitle={stepTitles[currentStep - 1]}
       />
-      
+
       {showValidationErrors && errorFields.length > 0 && (
         <ValidationErrorBanner errorFields={errorFields} />
       )}
-      
+
       {isSubmitted && submitSuccess ? (
         <SuccessMessage />
       ) : (
-        <StepContent 
+        <StepContent
           currentStep={currentStep}
           formData={formData}
           updateFormData={updateFormData}
@@ -129,7 +129,7 @@ export default function AddPropertyForm() {
           isValid={stepValidation[currentStep] || false}
         />
       )}
-      
+
       <ImportantNotice />
     </div>
   );

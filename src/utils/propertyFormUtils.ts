@@ -1,19 +1,34 @@
 
-export const getIncompleteFields = (step: number): string[] => {
+export const getIncompleteFields = (step: number, formData?: any): string[] => {
   switch (step) {
     case 1:
-      return ["Property Name", "Property Type", "Description"];
+      // Validate Step One fields
+      const step1Fields: string[] = [];
+      if (!formData?.hotelName) step1Fields.push("Property Name");
+      if (!formData?.propertyType) step1Fields.push("Property Type");
+      if (!formData?.description) step1Fields.push("Description");
+      return step1Fields;
     case 2:
-      return ["Accommodation Terms", "Meal Plans"];
+      // Validate Step Two fields
+      const step2Fields: string[] = [];
+      if (!formData?.roomTypes || formData.roomTypes.length === 0) {
+        step2Fields.push("Accommodation Terms");
+        step2Fields.push("Meal Plans");
+      }
+      return step2Fields;
     case 3:
-      return ["Affinities", "Activities"];
+      // Validate Step Three fields
+      const step3Fields: string[] = [];
+      if (!formData?.themes || formData.themes.length === 0) step3Fields.push("Affinities");
+      if (!formData?.activities || formData.activities.length === 0) step3Fields.push("Activities");
+      return step3Fields;
     case 4:
-      return ["FAQ", "Terms & Conditions"];
+      // Validate Step Four fields
+      const step4Fields: string[] = [];
+      if (!formData?.faqs || formData.faqs.length === 0) step4Fields.push("FAQ");
+      if (!formData?.terms) step4Fields.push("Terms & Conditions");
+      return step4Fields;
     default:
       return [];
   }
-};
-
-export const validateCurrentStep = (stepValidation: Record<number, boolean>, currentStep: number): boolean => {
-  return stepValidation[currentStep];
 };

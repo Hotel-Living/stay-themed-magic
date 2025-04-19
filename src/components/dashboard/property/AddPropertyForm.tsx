@@ -38,8 +38,8 @@ export default function AddPropertyForm() {
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
+    const fields = getIncompleteFields(currentStep, formData);
     if (!validateCurrentStep(stepValidation, currentStep)) {
-      const fields = getIncompleteFields(currentStep);
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({
@@ -73,7 +73,7 @@ export default function AddPropertyForm() {
         .filter(([_, isValid]) => !isValid)
         .map(([step]) => parseInt(step));
       
-      const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
+      const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step, formData));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
       

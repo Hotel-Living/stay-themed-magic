@@ -44,11 +44,7 @@ export default function StepContent({
       </div>
       
       {currentStep === 1 && 
-        <BasicPropertyInfo 
-          onValidationChange={onValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-        />
+        <BasicPropertyInfo />
       }
       
       {currentStep === 2 && 

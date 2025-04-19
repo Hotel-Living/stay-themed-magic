@@ -1,4 +1,3 @@
-
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -21,15 +20,8 @@ export default function DashboardLayout({
   tabs,
   setActiveTab
 }: DashboardLayoutProps) {
-  const {
-    profile,
-    signOut,
-    user,
-    session
-  } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { profile, signOut, user, session } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   // For development purposes - allow access to the dashboard without authentication
@@ -52,10 +44,10 @@ export default function DashboardLayout({
     try {
       console.log("Logout button clicked, checking session...");
       
-      // Force redirect without checking session status
+      // Show toast first to give immediate feedback
       toast({
-        title: "Logging Out",
-        description: "Redirecting to login page..."
+        title: "Cerrando sesión",
+        description: "Redirigiendo a la página de login..."
       });
       
       // Call signOut but don't wait for it to complete
@@ -71,7 +63,7 @@ export default function DashboardLayout({
       console.error("Error during logout from hotel dashboard:", error);
       toast({
         title: "Error",
-        description: "Could not complete logout. Please try again.",
+        description: "No se pudo completar el cierre de sesión. Por favor, inténtelo de nuevo.",
         variant: "destructive"
       });
       

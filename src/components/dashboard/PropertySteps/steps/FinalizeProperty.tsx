@@ -23,9 +23,9 @@ export default function FinalizeProperty({
         updateFormData={updateFormData}
       />
       
-      {/* Form confirmation checkbox */}
+      {/* Form confirmation checkbox with purple background */}
       <div className="mt-4 space-y-4">
-        <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
+        <div className="flex items-start gap-2 bg-[#690774] p-3 rounded-lg">
           <input 
             type="checkbox" 
             id="finalize-terms" 

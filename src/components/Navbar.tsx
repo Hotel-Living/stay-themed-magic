@@ -8,15 +8,8 @@ import { Logo } from "./Logo";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {
-    user,
-    profile,
-    signOut,
-    session
-  } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { user, profile, signOut, session } = useAuth();
+  const { toast } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -26,30 +19,34 @@ export function Navbar() {
       if (isMenuOpen) {
         setIsMenuOpen(false);
       }
-      if (!session) {
-        console.log("No active session found, cannot logout properly");
-        toast({
-          title: "Error",
-          description: "No session found. Please refresh the page and try again.",
-          variant: "destructive"
-        });
-        return;
-      }
-      console.log("Attempting to sign out from Navbar...");
-      await signOut();
+      
+      // Show toast first to give immediate feedback
+      toast({
+        title: "Cerrando sesión",
+        description: "Redirigiendo a la página de login..."
+      });
+      
+      // Call signOut but don't wait for it to complete
+      signOut().catch(error => {
+        console.error("Error during signOut, but continuing with redirect:", error);
+      });
+      
+      // Immediately redirect to the login page
       setTimeout(() => {
-        if (window.location.pathname !== '/login') {
-          console.log("Forcing redirect to login page");
-          window.location.href = "/login";
-        }
+        window.location.href = "/login";
       }, 500);
     } catch (error) {
       console.error("Error during logout:", error);
       toast({
         title: "Error",
-        description: "Could not complete logout. Please try again.",
+        description: "No se pudo completar el cierre de sesión. Por favor, inténtelo de nuevo.",
         variant: "destructive"
       });
+      
+      // Force redirect even if there's an error
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
     }
   };
 

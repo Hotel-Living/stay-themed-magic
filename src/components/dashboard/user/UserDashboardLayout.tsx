@@ -1,4 +1,3 @@
-
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HelpCircle, LogOut } from "lucide-react";
@@ -42,19 +41,33 @@ export default function UserDashboardLayout({
   // Handle logout
   const handleLogout = async () => {
     try {
-      await signOut();
+      // Show toast first to give immediate feedback
       toast({
-        title: "Logged out",
-        description: "You have been successfully logged out."
+        title: "Cerrando sesión",
+        description: "Redirigiendo a la página de login..."
       });
-      navigate('/login');
+      
+      // Call signOut but don't wait for it to complete
+      signOut().catch(error => {
+        console.error("Error during signOut, but continuing with redirect:", error);
+      });
+      
+      // Immediately redirect to the login page
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 500);
     } catch (error) {
       console.error("Error during logout:", error);
       toast({
         title: "Error",
-        description: "Could not log out. Please try again.",
+        description: "No se pudo completar el cierre de sesión. Por favor, inténtelo de nuevo.",
         variant: "destructive"
       });
+      
+      // Force redirect even if there's an error
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
     }
   };
   

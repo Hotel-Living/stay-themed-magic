@@ -31,6 +31,18 @@ export default function StepContent({
 }: StepContentProps) {
   return (
     <div className="mb-4">
+      {/* Navigation buttons at the top of each step */}
+      <div className="mb-6">
+        <FormNavigation 
+          currentStep={currentStep}
+          onNext={onNext}
+          onPrevious={onPrevious}
+          onSubmit={onSubmit}
+          isLastStep={isLastStep}
+          isValid={isValid}
+        />
+      </div>
+      
       {currentStep === 1 && 
         <BasicPropertyInfo 
           onValidationChange={onValidationChange}

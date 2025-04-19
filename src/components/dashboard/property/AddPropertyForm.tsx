@@ -32,6 +32,7 @@ export default function AddPropertyForm() {
   // Only clear session storage on successful submission
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
+      console.log("Clearing sessionStorage on successful submission");
       sessionStorage.removeItem('propertyFormData');
     }
   }, [isSubmitted, submitSuccess]);

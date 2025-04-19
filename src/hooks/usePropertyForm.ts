@@ -18,6 +18,7 @@ export const usePropertyForm = () => {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const { toast } = useToast();
   
+  // Initialize with empty form structure
   const [formData, setFormData] = useState({
     hotelName: "",
     propertyType: "",
@@ -46,7 +47,25 @@ export const usePropertyForm = () => {
     if (sessionData) {
       try {
         const parsedData = JSON.parse(sessionData);
-        setFormData(parsedData);
+        console.log("Loading from sessionStorage:", parsedData);
+        setFormData(prev => ({...prev, ...parsedData}));
+        
+        // If we have saved data, check validation state of steps
+        if (parsedData.hotelName && parsedData.propertyType && parsedData.description) {
+          setStepValidation(prev => ({...prev, 1: true}));
+        }
+        
+        if (parsedData.roomTypes && parsedData.roomTypes.length > 0) {
+          setStepValidation(prev => ({...prev, 2: true}));
+        }
+        
+        if (parsedData.themes && parsedData.themes.length > 0) {
+          setStepValidation(prev => ({...prev, 3: true}));
+        }
+        
+        if (parsedData.faqs && parsedData.terms) {
+          setStepValidation(prev => ({...prev, 4: true}));
+        }
       } catch (error) {
         console.error("Error parsing session data:", error);
       }
@@ -61,14 +80,22 @@ export const usePropertyForm = () => {
   };
 
   const updateFormData = (field: string, value: any) => {
-    const updatedData = {
-      ...formData,
-      [field]: value
-    };
-    setFormData(updatedData);
-    
-    // Save to sessionStorage immediately after updating
-    sessionStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+    setFormData(prev => {
+      const updatedData = {
+        ...prev,
+        [field]: value
+      };
+      
+      // Save to sessionStorage immediately after updating
+      try {
+        sessionStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+        console.log("Saved to sessionStorage:", field, value);
+      } catch (error) {
+        console.error("Error saving to sessionStorage:", error);
+      }
+      
+      return updatedData;
+    });
   };
 
   return {

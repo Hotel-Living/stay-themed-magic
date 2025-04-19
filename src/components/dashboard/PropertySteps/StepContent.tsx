@@ -77,7 +77,7 @@ export default function StepContent({
         />
       }
       
-      {/* Navigation buttons at the bottom of each step */}
+      {/* Navigation buttons at the bottom of each step as well for convenience */}
       <div className="mt-6">
         <FormNavigation 
           currentStep={currentStep}

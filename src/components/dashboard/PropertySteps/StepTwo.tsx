@@ -1,16 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import { RoomType } from "./rooms/roomTypes/useRoomTypes";
-import RoomTypeList from "./rooms/roomTypes/RoomTypeList";
+import RoomTypeList from "./StepTwo/RoomTypeList";
 import RoomTypeForm from "./StepTwo/RoomTypeForm";
 import ValidationMessages from "./StepTwo/ValidationMessages";
 import { usePropertyForm } from "@/hooks/usePropertyForm";
 import { Button } from "@/components/ui/button";
-
-interface ValidationMessageProps {
-  message: string;
-  type?: "error" | "success";
-}
 
 export default function StepTwo() {
   const { formData, setFieldValue } = usePropertyForm();
@@ -63,16 +58,16 @@ export default function StepTwo() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <h2 className="text-xl font-bold text-white">ROOM TYPES</h2>
 
       {error && <ValidationMessages message={error} />}
 
       <RoomTypeList
         roomTypes={roomTypes}
-        onRemoveRoomType={handleRemoveRoomType}
         isOpen={isAvailableRoomsOpen}
         setIsOpen={setIsAvailableRoomsOpen}
+        onRemoveRoomType={handleRemoveRoomType}
       />
 
       {isAddRoomOpen && (

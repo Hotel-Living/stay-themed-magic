@@ -20,6 +20,17 @@ export default function FinalizeProperty({
 }: FinalizePropertyProps) {
   return (
     <div className="space-y-4">
+      {/* Submit button at the top of step 4 */}
+      <div className="mb-6 flex justify-end">
+        <Button 
+          onClick={onSubmit}
+          className="rounded-lg px-4 py-1.5 bg-[#a209ad]/80 hover:bg-[#860493]" 
+          disabled={!termsAccepted}
+        >
+          Submit Property
+        </Button>
+      </div>
+      
       <HotelFaqAndTermsStep 
         onValidationChange={onValidationChange}
         formData={formData}
@@ -40,17 +51,6 @@ export default function FinalizeProperty({
             I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
           </label>
         </div>
-      </div>
-      
-      {/* Submit button at the top of step 4 */}
-      <div className="mt-4 flex justify-end">
-        <Button 
-          onClick={onSubmit}
-          className="rounded-lg px-4 py-1.5 bg-[#a209ad]/80 hover:bg-[#860493]" 
-          disabled={!termsAccepted}
-        >
-          Submit Property
-        </Button>
       </div>
     </div>
   );

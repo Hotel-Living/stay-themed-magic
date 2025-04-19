@@ -61,6 +61,7 @@ export default function StepContent({
           formData={formData}
           updateFormData={updateFormData}
           termsAccepted={formData.termsAccepted || false}
+          onSubmit={onSubmit}
         />
       }
       

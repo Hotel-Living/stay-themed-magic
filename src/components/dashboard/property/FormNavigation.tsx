@@ -41,7 +41,7 @@ export default function FormNavigation({
           className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
           disabled={!isValid && currentStep === totalSteps}
         >
-          Submit
+          Submit Property
         </button>
       ) : (
         <button

@@ -40,18 +40,6 @@ export const usePropertyForm = () => {
     termsAccepted: false
   });
 
-  useEffect(() => {
-    const savedData = localStorage.getItem('propertyFormData');
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setFormData(parsedData);
-      
-      Object.keys(stepValidation).forEach(step => {
-        validateStep(parseInt(step), true);
-      });
-    }
-  }, []);
-
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({
       ...prev,
@@ -65,7 +53,9 @@ export const usePropertyForm = () => {
       [field]: value
     };
     setFormData(updatedData);
-    localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
+    
+    // We don't save to localStorage anymore
+    // localStorage.setItem('propertyFormData', JSON.stringify(updatedData));
   };
 
   return {

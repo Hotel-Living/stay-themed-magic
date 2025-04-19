@@ -1,19 +1,22 @@
 
 import React from 'react';
 import HotelFaqAndTermsStep from '../FaqAndTerms/HotelFaqAndTermsStep';
+import { Button } from "@/components/ui/button";
 
 interface FinalizePropertyProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
   termsAccepted: boolean;
+  onSubmit?: () => void;
 }
 
 export default function FinalizeProperty({
   onValidationChange = () => {},
   formData = {},
   updateFormData = () => {},
-  termsAccepted = false
+  termsAccepted = false,
+  onSubmit = () => {}
 }: FinalizePropertyProps) {
   return (
     <div className="space-y-4">
@@ -37,6 +40,17 @@ export default function FinalizeProperty({
             I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
           </label>
         </div>
+      </div>
+      
+      {/* Submit button at the top of step 4 */}
+      <div className="mt-4 flex justify-end">
+        <Button 
+          onClick={onSubmit}
+          className="rounded-lg px-4 py-1.5 bg-[#a209ad]/80 hover:bg-[#860493]" 
+          disabled={!termsAccepted}
+        >
+          Submit Property
+        </Button>
       </div>
     </div>
   );

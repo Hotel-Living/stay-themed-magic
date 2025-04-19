@@ -88,4 +88,5 @@ export const usePropertyForm = () => {
   };
 };
 
-// Export the hook as a named export (remove the duplicate export at the end)
+// Make sure hook is exported correctly
+export default usePropertyForm;

@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect } from "react";
-import RoomsAndPricingStep from "./RoomsAndPricingStep";
+import { RoomType } from "./StepTwo/types";
 import RoomTypeForm from "./StepTwo/RoomTypeForm";
 import RoomTypeList from "./StepTwo/RoomTypeList";
 import ValidationMessages from "./StepTwo/ValidationMessages";
-import { RoomType } from "./StepTwo/types";
 
 interface StepTwoProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -70,16 +69,24 @@ export default function StepTwo({
 
   return (
     <div className="space-y-8">
-      <RoomsAndPricingStep />
+      <h2 className="text-xl font-bold mb-4">Room Types</h2>
       
       <div className="mt-8">
-        <div className="flex justify-between items-center mb-4"></div>
+        <div className="flex justify-between items-center mb-4">
+          <button 
+            onClick={() => setIsAddRoomOpen(!isAddRoomOpen)}
+            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+          >
+            {isAddRoomOpen ? 'Cancel' : 'Add Room Type'}
+          </button>
+        </div>
         
-        <RoomTypeForm 
-          isOpen={isAddRoomOpen} 
-          setIsOpen={setIsAddRoomOpen}
-          onAddRoomType={handleAddRoomType}
-        />
+        {isAddRoomOpen && (
+          <RoomTypeForm 
+            onCancel={() => setIsAddRoomOpen(false)}
+            onSave={handleAddRoomType}
+          />
+        )}
         
         <RoomTypeList
           roomTypes={roomTypes}

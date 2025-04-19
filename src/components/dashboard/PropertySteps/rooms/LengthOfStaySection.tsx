@@ -1,73 +1,109 @@
-
 import React, { useState, useEffect } from "react";
+import { ChevronRight } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
+import { saveSelectedStayLengths, getSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface LengthOfStaySectionProps {
-  onValidationChange?: (isValid: boolean) => void;
+  onValidationChange: (isValid: boolean) => void;
   title?: string;
-  initialStayLengths?: number[];
-  onStayLengthsChange?: (stayLengths: number[]) => void;
   showHeader?: boolean;
 }
 
 export default function LengthOfStaySection({ 
-  onValidationChange = () => {},
+  onValidationChange,
   title = "LENGTH OF STAY",
-  initialStayLengths = [],
-  onStayLengthsChange = () => {},
   showHeader = true
 }: LengthOfStaySectionProps) {
-  const [selectedDurations, setSelectedDurations] = useState<number[]>(initialStayLengths);
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
+  const [stayLengthsValid, setStayLengthsValid] = useState(false);
 
-  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    const isChecked = e.target.checked;
+  // Updated stay lengths to 8, 16, 24, 32 days
+  const stayLengths = [8, 16, 24, 32];
+
+  const durations = [
+    { value: 8 },
+    { value: 16 },
+    { value: 24 },
+    { value: 32 }
+  ];
+
+  useEffect(() => {
+    // Initialize with empty selection - removed default values
+    setSelectedStayLengths([]);
+    setStayLengthsValid(false);
+    onValidationChange(false);
+  }, []);
+
+  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
+    let newSelectedLengths: number[];
     
-    let newDurations: number[];
-    if (isChecked) {
-      newDurations = [...selectedDurations, value].sort((a, b) => a - b);
+    if (e.target.checked) {
+      newSelectedLengths = [...selectedStayLengths, length];
     } else {
-      newDurations = selectedDurations.filter(d => d !== value);
+      newSelectedLengths = selectedStayLengths.filter(l => l !== length);
     }
     
-    setSelectedDurations(newDurations);
-    onStayLengthsChange(newDurations);
+    setSelectedStayLengths(newSelectedLengths);
+    
+    // Save to context & localStorage for sharing with room type components
+    saveSelectedStayLengths(newSelectedLengths);
   };
 
   useEffect(() => {
-    // Initial validation
-    onValidationChange(selectedDurations.length > 0);
+    const isValid = selectedStayLengths.length > 0;
+    setStayLengthsValid(isValid);
+    onValidationChange(isValid);
+  }, [selectedStayLengths, onValidationChange]);
 
-    // Update when selectedDurations changes
-    onStayLengthsChange(selectedDurations);
-  }, [selectedDurations]);
-
-  // Load initial values
-  useEffect(() => {
-    if (initialStayLengths && initialStayLengths.length > 0) {
-      console.log("Setting initial stay lengths:", initialStayLengths);
-      setSelectedDurations(initialStayLengths);
-    }
-  }, [initialStayLengths]);
-
-  return (
-    <div className="space-y-3">
-      {showHeader && <h3 className="text-sm font-semibold uppercase">{title}</h3>}
-      <div className="flex flex-wrap gap-2">
-        {[1, 2, 3, 7, 14, 21, 30, 60, 90].map(days => (
-          <label key={days} className="flex items-center space-x-2 bg-fuchsia-950/30 px-3 py-2 rounded-md">
-            <input
-              type="checkbox"
-              value={days}
-              checked={selectedDurations.includes(days)}
-              onChange={handleDurationChange}
-              className="rounded border-fuchsia-500 text-fuchsia-600 focus:ring-fuchsia-500"
-            />
-            <span className="text-sm whitespace-nowrap">
-              {days === 1 ? '1 day' : `${days} days`}
-            </span>
-          </label>
-        ))}
+  const stayLengthContent = (
+    <div className="grid grid-cols-2 gap-4 mt-2">
+      <div className="col-span-2">
+        <label className="block text-sm mb-1 uppercase">AVAILABLE STAY LENGTHS</label>
+        <div className="grid grid-cols-2 gap-2">
+          {durations.map((duration) => (
+            <label key={duration.value} className="flex items-center">
+              <input 
+                type="checkbox" 
+                className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
+                checked={selectedStayLengths.includes(duration.value)}
+                onChange={(e) => handleStayLengthChange(e, duration.value)}
+              />
+              <span className="text-sm">{duration.value} days</span>
+            </label>
+          ))}
+        </div>
+        {!stayLengthsValid && (
+          <p className="text-red-400 text-xs mt-1">Please select at least one stay length</p>
+        )}
+        
+        {selectedStayLengths.length > 0 && (
+          <p className="text-green-400 text-xs mt-2">
+            Selected stay lengths will automatically populate rate fields in Room Types section
+          </p>
+        )}
       </div>
     </div>
+  );
+
+  if (!showHeader) {
+    return stayLengthContent;
+  }
+
+  return (
+    <Collapsible className="w-full" defaultOpen={false}>
+      <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
+        <label className="block text-sm font-medium text-foreground/90 uppercase">
+          {title}
+        </label>
+        <ChevronRight className="h-4 w-4" />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        {stayLengthContent}
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

@@ -25,27 +25,17 @@ export default function StepTwo({
 
   // Load initial data from parent formData if available
   useEffect(() => {
-    if (formData) {
-      // Process room types
-      if (formData.roomTypes && formData.roomTypes.length > 0) {
-        console.log("Loading room types from session:", formData.roomTypes);
-        setRoomTypes(formData.roomTypes);
-      }
-
-      // Check validation state
-      checkValidation();
+    if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
+      setRoomTypes(formData.roomTypes);
     }
   }, [formData]);
 
   const checkValidation = () => {
-    const isValid = roomTypes.length > 0;
-    
-    if (!isValid) {
+    if (roomTypes.length === 0) {
       setError("Please add at least one room type");
       onValidationChange(false);
       return false;
     }
-    
     setError("");
     onValidationChange(true);
     return true;
@@ -59,12 +49,9 @@ export default function StepTwo({
       };
       const updatedRoomTypes = [...roomTypes, newRoomType];
       setRoomTypes(updatedRoomTypes);
-      
       if (updateFormData) {
-        console.log("Saving room types to session:", updatedRoomTypes);
         updateFormData('roomTypes', updatedRoomTypes);
       }
-      
       setIsAddRoomOpen(false);
     }
   };
@@ -72,9 +59,7 @@ export default function StepTwo({
   const handleRemoveRoomType = (id: string) => {
     const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
     setRoomTypes(updatedRoomTypes);
-    
     if (updateFormData) {
-      console.log("Updating room types after removal:", updatedRoomTypes);
       updateFormData('roomTypes', updatedRoomTypes);
     }
   };
@@ -85,10 +70,7 @@ export default function StepTwo({
 
   return (
     <div className="space-y-8">
-      <RoomsAndPricingStep 
-        formData={formData}
-        updateFormData={updateFormData}
-      />
+      <RoomsAndPricingStep />
       
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4"></div>

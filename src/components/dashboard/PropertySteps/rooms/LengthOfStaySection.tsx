@@ -3,16 +3,18 @@ import React, { useState, useEffect } from "react";
 
 interface LengthOfStaySectionProps {
   onValidationChange?: (isValid: boolean) => void;
-  title: string;
+  title?: string;
   initialStayLengths?: number[];
   onStayLengthsChange?: (stayLengths: number[]) => void;
+  showHeader?: boolean;
 }
 
 export default function LengthOfStaySection({ 
   onValidationChange = () => {},
-  title,
+  title = "LENGTH OF STAY",
   initialStayLengths = [],
-  onStayLengthsChange = () => {}
+  onStayLengthsChange = () => {},
+  showHeader = true
 }: LengthOfStaySectionProps) {
   const [selectedDurations, setSelectedDurations] = useState<number[]>(initialStayLengths);
 
@@ -49,7 +51,7 @@ export default function LengthOfStaySection({
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold uppercase">{title}</h3>
+      {showHeader && <h3 className="text-sm font-semibold uppercase">{title}</h3>}
       <div className="flex flex-wrap gap-2">
         {[1, 2, 3, 7, 14, 21, 30, 60, 90].map(days => (
           <label key={days} className="flex items-center space-x-2 bg-fuchsia-950/30 px-3 py-2 rounded-md">

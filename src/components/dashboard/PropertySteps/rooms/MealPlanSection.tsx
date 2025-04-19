@@ -3,16 +3,18 @@ import React, { useState, useEffect } from "react";
 
 interface MealPlanSectionProps {
   onValidationChange?: (isValid: boolean) => void;
-  title: string;
+  title?: string;
   initialMealPlans?: string[];
   onMealPlansChange?: (mealPlans: string[]) => void;
+  showHeader?: boolean;
 }
 
 export default function MealPlanSection({ 
   onValidationChange = () => {},
-  title,
+  title = "MEALS & SERVICES",
   initialMealPlans = [],
-  onMealPlansChange = () => {}
+  onMealPlansChange = () => {},
+  showHeader = true
 }: MealPlanSectionProps) {
   const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(initialMealPlans);
 
@@ -49,7 +51,7 @@ export default function MealPlanSection({
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold uppercase">{title}</h3>
+      {showHeader && <h3 className="text-sm font-semibold uppercase">{title}</h3>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {[
           { id: 'breakfast', label: 'Breakfast' },

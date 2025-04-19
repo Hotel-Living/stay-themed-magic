@@ -4,7 +4,15 @@ import LengthOfStaySection from "./rooms/LengthOfStaySection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 
-export default function RoomsAndPricingStep() {
+interface RoomsAndPricingStepProps {
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+}
+
+export default function RoomsAndPricingStep({
+  formData = {},
+  updateFormData = () => {}
+}: RoomsAndPricingStepProps) {
   const [validations, setValidations] = useState({
     stayLengths: false,
     mealPlan: false
@@ -17,6 +25,22 @@ export default function RoomsAndPricingStep() {
     }));
   };
 
+  // Handle stay length selection
+  const handleStayLengthsChange = (stayLengths: number[]) => {
+    if (updateFormData) {
+      console.log("Updating stay lengths:", stayLengths);
+      updateFormData('stayLengths', stayLengths);
+    }
+  };
+
+  // Handle meal plan selection
+  const handleMealPlansChange = (mealPlans: string[]) => {
+    if (updateFormData) {
+      console.log("Updating meal plans:", mealPlans);
+      updateFormData('mealPlans', mealPlans);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Main section with LENGTH OF STAY and MEALS & SERVICES */}
@@ -26,11 +50,15 @@ export default function RoomsAndPricingStep() {
           <LengthOfStaySection 
             onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)} 
             title="LENGTH OF STAY"
+            initialStayLengths={formData.stayLengths || []}
+            onStayLengthsChange={handleStayLengthsChange}
           />
           
           <MealPlanSection 
             onValidationChange={(isValid) => handleValidationChange('mealPlan', isValid)} 
-            title="MEALS & SERVICES" 
+            title="MEALS & SERVICES"
+            initialMealPlans={formData.mealPlans || []}
+            onMealPlansChange={handleMealPlansChange}
           />
         </div>
       </div>

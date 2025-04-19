@@ -48,29 +48,56 @@ export const usePropertyForm = () => {
       try {
         const parsedData = JSON.parse(sessionData);
         console.log("Loading from sessionStorage:", parsedData);
-        setFormData(prev => ({...prev, ...parsedData}));
         
-        // If we have saved data, check validation state of steps
-        if (parsedData.hotelName && parsedData.propertyType && parsedData.description) {
-          setStepValidation(prev => ({...prev, 1: true}));
-        }
+        // Make sure to properly merge the data with default structure
+        setFormData(prev => {
+          const merged = {...prev, ...parsedData};
+          
+          // Ensure arrays are properly initialized even if they're null in storage
+          merged.stayLengths = parsedData.stayLengths || [];
+          merged.mealPlans = parsedData.mealPlans || [];
+          merged.roomTypes = parsedData.roomTypes || [];
+          merged.themes = parsedData.themes || [];
+          merged.activities = parsedData.activities || [];
+          merged.faqs = parsedData.faqs || [];
+          
+          return merged;
+        });
         
-        if (parsedData.roomTypes && parsedData.roomTypes.length > 0) {
-          setStepValidation(prev => ({...prev, 2: true}));
-        }
+        // Check validation state of steps based on stored data
+        validateStoredData(parsedData);
         
-        if (parsedData.themes && parsedData.themes.length > 0) {
-          setStepValidation(prev => ({...prev, 3: true}));
-        }
-        
-        if (parsedData.faqs && parsedData.terms) {
-          setStepValidation(prev => ({...prev, 4: true}));
-        }
       } catch (error) {
         console.error("Error parsing session data:", error);
       }
     }
   }, []);
+  
+  // Validate steps based on stored data
+  const validateStoredData = (data: any) => {
+    // Step 1 validation
+    if (data.hotelName && data.propertyType && data.description) {
+      setStepValidation(prev => ({...prev, 1: true}));
+    }
+    
+    // Step 2 validation
+    if ((data.roomTypes && data.roomTypes.length > 0) || 
+        (data.stayLengths && data.stayLengths.length > 0) || 
+        (data.mealPlans && data.mealPlans.length > 0)) {
+      setStepValidation(prev => ({...prev, 2: true}));
+    }
+    
+    // Step 3 validation
+    if ((data.themes && data.themes.length > 0) || 
+        (data.activities && data.activities.length > 0)) {
+      setStepValidation(prev => ({...prev, 3: true}));
+    }
+    
+    // Step 4 validation
+    if (data.faqs?.length > 0 || data.terms) {
+      setStepValidation(prev => ({...prev, 4: true}));
+    }
+  };
 
   const validateStep = (step: number, isValid: boolean) => {
     setStepValidation(prev => ({

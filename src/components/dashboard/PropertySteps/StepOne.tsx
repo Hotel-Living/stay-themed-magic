@@ -3,10 +3,7 @@ import React from "react";
 import HotelInfoSection from "./StepOne/HotelInfo";
 import LocationSection from "./StepOne/Location";
 import ContactSection from "./StepOne/ContactSection";
-import ValidationMessage from "./StepOne/ValidationMessage";
 import { usePropertyForm } from "@/hooks/usePropertyForm";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function StepOne() {
   const {
@@ -20,6 +17,9 @@ export default function StepOne() {
   const handleChange = (field: string, value: string) => {
     setFieldValue(field, value);
   };
+
+  // 🔍 Depuración: muestra el contenido del formulario en tiempo real
+  console.log("DEBUG formData:", formData);
 
   const hotelInfoTouchedFields = {
     hotelName: !!touchedFields.hotelName,

@@ -5,7 +5,6 @@ import { StepValidationState } from "@/components/dashboard/property/types";
 
 export const usePropertyForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [hasNewItems, setHasNewItems] = useState(false);
   const [stepValidation, setStepValidation] = useState<StepValidationState>({
     1: false,
     2: false,
@@ -18,7 +17,6 @@ export const usePropertyForm = () => {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const { toast } = useToast();
 
-  // Initialize with empty form structure
   const [formData, setFormData] = useState({
     hotelName: "",
     propertyType: "",
@@ -38,24 +36,19 @@ export const usePropertyForm = () => {
     activities: [] as string[],
     faqs: [] as any[],
     terms: "",
-    termsAccepted: false,
-    testField: ""
+    termsAccepted: false
   });
 
-  // Adding errors and touchedFields to support form validation
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
-  // Load data from sessionStorage on component mount
   useEffect(() => {
     const sessionData = sessionStorage.getItem("propertyFormData");
     if (sessionData) {
       try {
         const parsedData = JSON.parse(sessionData);
-        console.log("Loading from sessionStorage:", parsedData);
         setFormData(prev => ({ ...prev, ...parsedData }));
 
-        // If we have saved data, check validation state of steps
         if (parsedData.hotelName && parsedData.propertyType && parsedData.description) {
           setStepValidation(prev => ({ ...prev, 1: true }));
         }
@@ -63,22 +56,17 @@ export const usePropertyForm = () => {
         if (parsedData.roomTypes && parsedData.roomTypes.length > 0) {
           setStepValidation(prev => ({ ...prev, 2: true }));
         }
-
       } catch (error) {
         console.error("Error parsing session data:", error);
       }
     }
   }, []);
 
-  // Add setFieldValue method
   const setFieldValue = (field: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    
-    // Auto-mark field as touched when changed
+    setFormData(prev => ({ ...prev, [field]: value }));
     setTouchedFields(prev => ({ ...prev, [field]: true }));
   };
 
-  // Add handleBlur method for validation
   const handleBlur = (field: string) => {
     setTouchedFields(prev => ({ ...prev, [field]: true }));
   };
@@ -90,7 +78,7 @@ export const usePropertyForm = () => {
     setStepValidation,
     isSubmitted,
     setIsSubmitted,
-    submitSuccess,
+    submitSuccess, 
     setSubmitSuccess,
     errorFields,
     setErrorFields,
@@ -103,7 +91,7 @@ export const usePropertyForm = () => {
     touchedFields,
     setTouchedFields,
     updateFormData: (field: string, value: any) => {
-      setFormData((prev) => ({ ...prev, [field]: value }));
+      setFormData(prev => ({ ...prev, [field]: value }));
     },
     setFieldValue,
     handleBlur,
@@ -111,5 +99,4 @@ export const usePropertyForm = () => {
   };
 };
 
-// Make sure hook is exported correctly
 export default usePropertyForm;

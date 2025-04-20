@@ -46,17 +46,20 @@ export const usePropertyForm = () => {
     if (sessionData) {
       try {
         const parsedData = JSON.parse(sessionData);
-        setFormData(prev => ({ ...prev, ...parsedData }));
+        console.log("🔄 DEBUG: Loaded sessionData", parsedData);
+        setFormData((prev) => ({ ...prev, ...parsedData }));
 
-        if (parsedData.hotelName && parsedData.propertyType && parsedData.description) {
-          setStepValidation(prev => ({ ...prev, 1: true }));
+        const isStep1Valid = parsedData.hotelName && parsedData.propertyType && parsedData.description;
+        if (isStep1Valid) {
+          setStepValidation((prev) => ({ ...prev, 1: true }));
         }
 
         if (parsedData.roomTypes && parsedData.roomTypes.length > 0) {
-          setStepValidation(prev => ({ ...prev, 2: true }));
+          setStepValidation((prev) => ({ ...prev, 2: true }));
         }
+
       } catch (error) {
-        console.error("Error parsing session data:", error);
+        console.error("❌ Error parsing session data:", error);
       }
     }
   }, []);

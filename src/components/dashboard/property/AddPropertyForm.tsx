@@ -136,10 +136,12 @@ export default function AddPropertyForm() {
       ) : (
         <StepContent
           currentStep={currentStep}
+          formData={formData}
           onNext={goToNextStep}
           onPrevious={goToPreviousStep}
           onSubmit={handleSubmitProperty}
           isLastStep={currentStep === totalSteps}
+          isValid={validateCurrentStep(stepValidation, currentStep)}
         />
       )}
 

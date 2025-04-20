@@ -18,9 +18,6 @@ export default function StepOne() {
     setFieldValue(field, value);
   };
 
-  // 🔍 Depuración: muestra el contenido del formulario en tiempo real
-  console.log("DEBUG formData:", formData);
-
   const hotelInfoTouchedFields = {
     hotelName: !!touchedFields.hotelName,
     category: !!touchedFields.category,

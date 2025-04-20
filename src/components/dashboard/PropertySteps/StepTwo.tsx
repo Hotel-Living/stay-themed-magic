@@ -13,23 +13,12 @@ export default function StepTwo() {
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [error, setError] = useState<string>("");
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
-  const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
-  const [showValidationError, setShowValidationError] = useState(false);
 
   useEffect(() => {
-    if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
+    if (formData?.roomTypes && formData.roomTypes.length > 0) {
       setRoomTypes(formData.roomTypes);
     }
   }, [formData]);
-
-  const checkValidation = () => {
-    if (roomTypes.length === 0) {
-      setError("Please add at least one room type");
-      return false;
-    }
-    setError("");
-    return true;
-  };
 
   const handleAddRoomType = (newRoom: Omit<RoomType, "id">) => {
     if (newRoom.name && newRoom.baseRate > 0) {
@@ -48,6 +37,8 @@ export default function StepTwo() {
       setRoomTypes(updatedRoomTypes);
       setFieldValue("roomTypes", updatedRoomTypes);
       setIsAddRoomOpen(false);
+    } else {
+      setError("Room type must have a name and base rate greater than 0");
     }
   };
 
@@ -65,27 +56,18 @@ export default function StepTwo() {
 
       <RoomTypeList
         roomTypes={roomTypes}
-        isOpen={isAvailableRoomsOpen}
-        setIsOpen={setIsAvailableRoomsOpen}
         onRemoveRoomType={handleRemoveRoomType}
       />
 
-      {isAddRoomOpen && (
+      {isAddRoomOpen ? (
         <RoomTypeForm
           onAddRoomType={handleAddRoomType}
           onCancel={() => setIsAddRoomOpen(false)}
         />
-      )}
-
-      {!isAddRoomOpen && (
-        <Button
-          variant="default"
-          onClick={() => setIsAddRoomOpen(true)}
-          className="w-full"
-        >
-          Add Room Type
-        </Button>
+      ) : (
+        <Button onClick={() => setIsAddRoomOpen(true)}>Add Room Type</Button>
       )}
     </div>
   );
 }
+

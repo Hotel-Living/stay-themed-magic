@@ -1,88 +1,66 @@
 
 import React from "react";
-import BasicPropertyInfo from "./steps/BasicPropertyInfo";
-import AccommodationDetails from "./steps/AccommodationDetails";
-import ThemesActivities from "./steps/ThemesActivities";
-import FinalizeProperty from "./steps/FinalizeProperty";
-import FormNavigation from "../property/FormNavigation";
+import StepOne from "./steps/BasicPropertyInfo";
+import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
+import StepFour from "./StepFour";
 
 interface StepContentProps {
   currentStep: number;
-  onValidationChange?: (isValid: boolean) => void;
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
-  onNext?: () => void;
-  onPrevious?: () => void;
-  onSubmit?: () => void;
-  isLastStep?: boolean;
-  isValid?: boolean;
+  onNext: () => void;
+  onPrevious: () => void;
+  onSubmit: () => void;
+  isLastStep: boolean;
+  isValid: boolean;
 }
 
-export default function StepContent({ 
-  currentStep, 
-  onValidationChange = () => {},
-  formData = {},
-  updateFormData = () => {},
-  onNext = () => {},
-  onPrevious = () => {},
-  onSubmit = () => {},
-  isLastStep = false,
-  isValid = false
+export default function StepContent({
+  currentStep,
+  onNext,
+  onPrevious,
+  onSubmit,
+  isLastStep,
+  isValid
 }: StepContentProps) {
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <StepOne />;
+      case 2:
+        return <StepTwo />;
+      case 3:
+        return <StepThree />;
+      case 4:
+        return <StepFour />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="mb-4">
-      {/* Navigation buttons at the top of each step */}
-      <div className="mb-6">
-        <FormNavigation 
-          currentStep={currentStep}
-          onNext={onNext}
-          onPrevious={onPrevious}
-          onSubmit={onSubmit}
-          isLastStep={isLastStep}
-          isValid={isValid}
-        />
-      </div>
-      
-      {currentStep === 1 && 
-        <BasicPropertyInfo />
-      }
-      
-      {currentStep === 2 && 
-        <AccommodationDetails 
-          onValidationChange={onValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-        />
-      }
-      
-      {currentStep === 3 && 
-        <ThemesActivities 
-          onValidationChange={onValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-        />
-      }
-      
-      {currentStep === 4 && 
-        <FinalizeProperty 
-          onValidationChange={onValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-          termsAccepted={formData.termsAccepted || false}
-          onSubmit={onSubmit}
-        />
-      }
-      
-      {/* Navigation buttons at the bottom of each step as well for convenience */}
-      <div className="mt-6">
-        <FormNavigation 
-          currentStep={currentStep}
-          onNext={onNext}
-          onPrevious={onPrevious}
-          onSubmit={onSubmit}
-          isLastStep={isLastStep}
-          isValid={isValid}
-        />
+    <div className="space-y-6">
+      {renderStep()}
+
+      <div className="flex justify-between mt-6">
+        {currentStep > 1 && (
+          <button
+            className="bg-white text-purple-800 px-4 py-2 rounded-lg font-semibold"
+            onClick={onPrevious}
+          >
+            Previous
+          </button>
+        )}
+
+        <div className="flex-1"></div>
+
+        <button
+          className={`px-4 py-2 rounded-lg text-white font-semibold ${
+            isLastStep ? "bg-green-600" : "bg-purple-700"
+          }`}
+          onClick={isLastStep ? onSubmit : onNext}
+        >
+          {isLastStep ? "Submit" : "Next"}
+        </button>
       </div>
     </div>
   );

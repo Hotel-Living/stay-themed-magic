@@ -1,5 +1,6 @@
+
 import React, { useState } from "react";
-import { PlusCircle, ChevronUp, ChevronDown } from "lucide-react";
+import { PlusCircle, ChevronUp, ChevronDown, ChevronRight, Send } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,

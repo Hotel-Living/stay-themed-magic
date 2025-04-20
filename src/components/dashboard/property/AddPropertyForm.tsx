@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StepIndicator from "../PropertySteps/StepIndicator";
@@ -23,9 +22,7 @@ export default function AddPropertyForm() {
   const [errorFields, setErrorFields] = useState<string[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   
-  // Add form data state to persist between steps
   const [formData, setFormData] = useState({
-    // Step 1
     hotelName: "",
     propertyType: "",
     description: "",
@@ -38,21 +35,18 @@ export default function AddPropertyForm() {
     contactPhone: "",
     category: "",
     
-    // Step 2
     stayLengths: [] as number[],
     mealPlans: [] as string[],
     roomTypes: [] as any[],
     
-    // Step 3
     themes: [] as string[],
     activities: [] as string[],
     
-    // Step 4
     faqs: [] as any[],
     terms: "",
     termsAccepted: false
   });
-  
+
   const totalSteps = 4;
 
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
@@ -134,6 +128,7 @@ export default function AddPropertyForm() {
       return;
     }
 
+    console.log('Submitting form data:', formData);
     setIsSubmitted(true);
     setSubmitSuccess(true);
     
@@ -152,7 +147,6 @@ export default function AddPropertyForm() {
         4: false
       });
       setIsSubmitted(false);
-      // Reset form data when submit is successful
       setFormData({
         hotelName: "",
         propertyType: "",
@@ -177,48 +171,83 @@ export default function AddPropertyForm() {
     }, 5000);
   };
 
-  // Function to update form data
   const updateFormData = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+    console.log('Updated form data:', field, value);
   };
 
   const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {
     return <PriceTable roomType={roomType} mealTypes={mealTypes} stayDurations={stayDurations} />;
   };
 
-  return <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
-      <StepIndicator currentStep={currentStep} totalSteps={totalSteps} stepTitle={stepTitles[currentStep - 1]} />
+  return (
+    <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
+      <StepIndicator 
+        currentStep={currentStep} 
+        totalSteps={totalSteps} 
+        stepTitle={stepTitles[currentStep - 1]} 
+      />
       
       <div className="flex items-center justify-between mb-3">
-        <button onClick={goToPreviousStep} className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"}`} disabled={currentStep === 1}>
+        <button 
+          onClick={goToPreviousStep} 
+          className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+            currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+          }`} 
+          disabled={currentStep === 1}
+        >
           Previous
         </button>
         
-        {currentStep === totalSteps ? <button onClick={handleSubmitProperty} className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80">
+        {currentStep === totalSteps ? (
+          <button 
+            onClick={handleSubmitProperty} 
+            className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
+          >
             Submit
-          </button> : <button onClick={goToNextStep} className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors">
+          </button>
+        ) : (
+          <button 
+            onClick={goToNextStep} 
+            className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
+          >
             Next
-          </button>}
+          </button>
+        )}
       </div>
       
-      {showValidationErrors && errorFields.length > 0 && <ValidationErrorBanner errorFields={errorFields} />}
+      {showValidationErrors && errorFields.length > 0 && (
+        <ValidationErrorBanner errorFields={errorFields} />
+      )}
       
-      {isSubmitted && submitSuccess ? <SuccessMessage /> :
-    <StepContent 
-      currentStep={currentStep} 
-      renderPriceTable={renderPriceTable} 
-      onValidationChange={isValid => validateStep(currentStep, isValid)}
-      formData={formData}
-      updateFormData={updateFormData}
-    />}
+      {isSubmitted && submitSuccess ? (
+        <SuccessMessage />
+      ) : (
+        <StepContent 
+          currentStep={currentStep} 
+          renderPriceTable={renderPriceTable} 
+          onValidationChange={isValid => validateStep(currentStep, isValid)}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      )}
       
       <ImportantNotice />
       
-      <StepNavigation currentStep={currentStep} totalSteps={totalSteps} onPrevious={goToPreviousStep} onNext={goToNextStep} onSubmit={handleSubmitProperty} showPrevious={currentStep !== 1} isNextDisabled={false} />
-    </div>;
+      <StepNavigation 
+        currentStep={currentStep} 
+        totalSteps={totalSteps} 
+        onPrevious={goToPreviousStep} 
+        onNext={goToNextStep} 
+        onSubmit={handleSubmitProperty} 
+        showPrevious={currentStep !== 1} 
+        isNextDisabled={false}
+      />
+    </div>
+  );
 }
 
 import PriceTable from "../PropertySteps/PriceTable";

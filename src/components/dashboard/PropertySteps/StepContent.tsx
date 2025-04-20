@@ -1,9 +1,9 @@
 
 import React from "react";
 import BasicPropertyInfo from "./steps/BasicPropertyInfo";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
-import StepFour from "./StepFour";
+import RoomTypesStep from "./StepTwo";
+import ThemesStep from "./StepThree";
+import TermsStep from "./StepFour";
 
 interface StepContentProps {
   currentStep: number;
@@ -26,24 +26,12 @@ export default function StepContent({
   isLastStep,
   isValid
 }: StepContentProps) {
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <BasicPropertyInfo />;
-      case 2:
-        return <StepTwo />;
-      case 3:
-        return <StepThree />;
-      case 4:
-        return <StepFour />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="space-y-6">
-      {renderStep()}
+      {currentStep === 1 && <BasicPropertyInfo />}
+      {currentStep === 2 && <RoomTypesStep />}
+      {currentStep === 3 && <ThemesStep />}
+      {currentStep === 4 && <TermsStep />}
 
       <div className="flex justify-between pt-4">
         {currentStep > 1 && (

@@ -1,9 +1,7 @@
 
-import React from 'react';
-import StepOne from '../StepOne';
+import React from "react";
+import StepOne from "../StepOne";
 
 export default function BasicPropertyInfo() {
-  return (
-    <StepOne />
-  );
+  return <StepOne />;
 }

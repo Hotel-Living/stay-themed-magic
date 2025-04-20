@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -19,11 +20,9 @@ export default function AddPropertyForm() {
     showValidationErrors,
     setShowValidationErrors,
     formData,
-    updateFormData,
     toast,
     setIsSubmitted,
-    setSubmitSuccess,
-    setStepValidation
+    setSubmitSuccess
   } = usePropertyForm();
 
   const totalSteps = 4;
@@ -36,27 +35,24 @@ export default function AddPropertyForm() {
 
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
+      console.log("Clearing sessionStorage on successful submission");
       sessionStorage.removeItem("propertyFormData");
     }
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = async () => {
     console.log("VALIDATING STEP:", currentStep);
-
-    // Esperar un poco para asegurar que formData se haya actualizado
-    await new Promise((resolve) => setTimeout(resolve, 50));
-
     console.log("CURRENT FORM DATA:", formData);
+
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     const isValid = validateCurrentStep(stepValidation, currentStep);
     const fields = getIncompleteFields(currentStep, formData);
-
     console.log("INCOMPLETE FIELDS:", fields);
 
     if (!isValid) {
-      // Prevención de falsos positivos: si no es válido pero no hay campos incompletos, no mostrar el banner
       if (fields.length === 0) {
-        console.log("⚠️ Campos válidos pero estado de validación no se actualizó correctamente.");
+        console.log("⚠️ Fields valid but validation state not updated correctly");
         setErrorFields([]);
         setShowValidationErrors(false);
         return;
@@ -64,19 +60,16 @@ export default function AddPropertyForm() {
 
       setErrorFields(fields);
       setShowValidationErrors(true);
-
       toast({
         title: "Warning",
-        description:
-          "Some fields are incomplete. You can still proceed but please complete them later.",
-        variant: "destructive",
+        description: "Some fields are incomplete. You can still proceed but please complete them later.",
+        variant: "destructive"
       });
     } else {
       setErrorFields([]);
       setShowValidationErrors(false);
     }
 
-    // Pasar al siguiente paso
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
@@ -113,7 +106,7 @@ export default function AddPropertyForm() {
     setIsSubmitted(true);
     setSubmitSuccess(true);
     toast({
-      title: "Property Submitted Successfully",
+      title: "Property Submitted Successfully", 
       description: "Your property has been submitted for review.",
       duration: 5000
     });

@@ -4,11 +4,11 @@ import BasicPropertyInfo from "./steps/BasicPropertyInfo";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
-import { Button } from "@/components/ui/button";
 
 interface StepContentProps {
   currentStep: number;
   formData: any;
+  updateFormData: (field: string, value: any) => void;
   onNext: () => void;
   onPrevious: () => void;
   onSubmit: () => void;
@@ -19,6 +19,7 @@ interface StepContentProps {
 export default function StepContent({
   currentStep,
   formData,
+  updateFormData,
   onNext,
   onPrevious,
   onSubmit,
@@ -46,31 +47,29 @@ export default function StepContent({
 
       <div className="flex justify-between pt-4">
         {currentStep > 1 && (
-          <Button
-            variant="outline"
-            className="bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+          <button
             onClick={onPrevious}
+            className="rounded-lg px-4 py-1.5 text-sm font-medium transition-colors bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
           >
             Previous
-          </Button>
+          </button>
         )}
         <div className="flex justify-end space-x-2">
           {!isLastStep ? (
-            <Button 
-              variant="default"
-              className="bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white"
+            <button
               onClick={onNext}
+              className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
             >
               Next
-            </Button>
+            </button>
           ) : (
-            <Button
-              variant="default"
-              className="bg-[#a209ad]/80 text-white"
+            <button
               onClick={onSubmit}
+              className="rounded-lg px-4 py-1.5 bg-[#a209ad]/80 text-white text-sm font-medium transition-colors"
+              disabled={!isValid}
             >
               Submit Property
-            </Button>
+            </button>
           )}
         </div>
       </div>

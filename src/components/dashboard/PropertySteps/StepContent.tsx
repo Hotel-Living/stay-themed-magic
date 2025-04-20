@@ -1,29 +1,34 @@
 
 import React from "react";
-import StepOne from "./steps/BasicPropertyInfo";
+import BasicPropertyInfo from "./steps/BasicPropertyInfo";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
+import { Button } from "@/components/ui/button";
 
 interface StepContentProps {
   currentStep: number;
+  formData: any;
   onNext: () => void;
   onPrevious: () => void;
   onSubmit: () => void;
   isLastStep: boolean;
+  isValid: boolean;
 }
 
 export default function StepContent({
   currentStep,
+  formData,
   onNext,
   onPrevious,
   onSubmit,
-  isLastStep
+  isLastStep,
+  isValid
 }: StepContentProps) {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <StepOne />;
+        return <BasicPropertyInfo />;
       case 2:
         return <StepTwo />;
       case 3:
@@ -39,26 +44,35 @@ export default function StepContent({
     <div className="space-y-6">
       {renderStep()}
 
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-between pt-4">
         {currentStep > 1 && (
-          <button
-            className="bg-white text-purple-800 px-4 py-2 rounded-lg font-semibold"
+          <Button
+            variant="outline"
+            className="bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
             onClick={onPrevious}
           >
             Previous
-          </button>
+          </Button>
         )}
-
-        <div className="flex-1" />
-
-        <button
-          className={`px-4 py-2 rounded-lg text-white font-semibold ${
-            isLastStep ? "bg-green-600" : "bg-purple-700"
-          }`}
-          onClick={isLastStep ? onSubmit : onNext}
-        >
-          {isLastStep ? "Submit" : "Next"}
-        </button>
+        <div className="flex justify-end space-x-2">
+          {!isLastStep ? (
+            <Button 
+              variant="default"
+              className="bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white"
+              onClick={onNext}
+            >
+              Next
+            </Button>
+          ) : (
+            <Button
+              variant="default"
+              className="bg-[#a209ad]/80 text-white"
+              onClick={onSubmit}
+            >
+              Submit Property
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

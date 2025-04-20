@@ -14,20 +14,7 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
       setIsLoading(true);
       
       // First check if we have a valid session before trying to sign out
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      
-      if (sessionError) {
-        console.error("Error checking session:", sessionError);
-        // Handle session check error but continue with redirect
-        toast({
-          title: "Sesión cerrada",
-          description: "La sesión ha finalizado",
-        });
-        
-        // Force page reload to clear any persistent state
-        window.location.href = "/login";
-        return;
-      }
+      const { data: sessionData } = await supabase.auth.getSession();
       
       if (!sessionData.session) {
         console.log("No active session found, redirecting to login without calling signOut API");
@@ -57,11 +44,6 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
           description: error.message,
           variant: "destructive",
         });
-        
-        // Even if there's an error, redirect to login page
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 1000);
         return;
       }
       
@@ -79,11 +61,6 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
         description: error.message || "Ha ocurrido un error",
         variant: "destructive",
       });
-      
-      // Even if there's an error, redirect to login page
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1000);
     } finally {
       setIsLoading(false);
     }

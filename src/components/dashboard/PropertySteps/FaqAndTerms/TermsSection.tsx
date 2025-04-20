@@ -46,16 +46,16 @@ export default function TermsSection({
               This pre-configured template covers standard hotel policies. Feel free to modify it to match your specific requirements.
             </p>
             
-            <div className="flex items-start gap-3 mt-6 bg-purple-900/50 p-3 rounded-lg border border-fuchsia-500/30">
+            <div className="flex items-start gap-3 mt-6 bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/30">
               <div className="flex-none mt-0.5">
                 {termsAccepted ? (
                   <CheckCircle 
-                    className="h-6 w-6 text-black cursor-pointer"
+                    className="h-6 w-6 text-black cursor-pointer" // Updated to black
                     onClick={() => setTermsAccepted(false)}
                   />
                 ) : (
                   <div 
-                    className="h-6 w-6 rounded-full border-2 border-black cursor-pointer"
+                    className="h-6 w-6 rounded-full border-2 border-black cursor-pointer" // Updated to black
                     onClick={() => setTermsAccepted(true)}
                   ></div>
                 )}

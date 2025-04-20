@@ -1,61 +1,80 @@
 
 import React from "react";
 import BasicPropertyInfo from "./steps/BasicPropertyInfo";
-import RoomTypesStep from "./StepTwo";
-import ThemesStep from "./StepThree";
-import TermsStep from "./StepFour";
+import AccommodationDetails from "./steps/AccommodationDetails";
+import ThemesActivities from "./steps/ThemesActivities";
+import FinalizeProperty from "./steps/FinalizeProperty";
+import FormNavigation from "../property/FormNavigation";
 
 interface StepContentProps {
   currentStep: number;
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-  onNext: () => void;
-  onPrevious: () => void;
-  onSubmit: () => void;
-  isLastStep: boolean;
-  isValid: boolean;
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  onSubmit?: () => void;
+  isLastStep?: boolean;
+  isValid?: boolean;
 }
 
-export default function StepContent({
-  currentStep,
-  onNext,
-  onPrevious,
-  onSubmit,
-  isLastStep
+export default function StepContent({ 
+  currentStep, 
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {},
+  onNext = () => {},
+  onPrevious = () => {},
+  onSubmit = () => {},
+  isLastStep = false,
+  isValid = false
 }: StepContentProps) {
   return (
-    <div>
-      {currentStep === 1 && <BasicPropertyInfo />}
-      {currentStep === 2 && <RoomTypesStep />}
-      {currentStep === 3 && <ThemesStep />}
-      {currentStep === 4 && <TermsStep />}
-
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 && (
-          <button
-            onClick={onPrevious}
-            className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
-          >
-            Previous
-          </button>
-        )}
-        <div className="ml-auto">
-          {!isLastStep ? (
-            <button
-              onClick={onNext}
-              className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white"
-            >
-              Next
-            </button>
-          ) : (
-            <button
-              onClick={onSubmit}
-              className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-[#a209ad]/80 text-white"
-            >
-              Submit
-            </button>
-          )}
-        </div>
+    <div className="mb-4">
+      {currentStep === 1 && 
+        <BasicPropertyInfo 
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
+      
+      {currentStep === 2 && 
+        <AccommodationDetails 
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
+      
+      {currentStep === 3 && 
+        <ThemesActivities 
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
+      
+      {currentStep === 4 && 
+        <FinalizeProperty 
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+          termsAccepted={formData.termsAccepted || false}
+          onSubmit={onSubmit}
+        />
+      }
+      
+      {/* Navigation buttons at the bottom of each step */}
+      <div className="mt-6">
+        <FormNavigation 
+          currentStep={currentStep}
+          onNext={onNext}
+          onPrevious={onPrevious}
+          onSubmit={onSubmit}
+          isLastStep={isLastStep}
+          isValid={isValid}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 
 import React from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import FormField from "../FormField";
 
 interface DescriptionInputProps {
   value: string;
@@ -19,20 +18,17 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
   errorMessage
 }) => {
   return (
-    <div className="space-y-1">
-      <Label htmlFor="description" className="text-white">
-        Description <span className="text-red-500">*</span>
-      </Label>
-      <Textarea
-        id="description"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onBlur={onBlur}
-        className={`bg-[#edf0ff] text-black ${hasError ? "border-red-500" : "border-white"}`}
-        placeholder="Enter a detailed description of your hotel"
-      />
-      {hasError && <p className="text-red-500 text-sm mt-1">{errorMessage}</p>}
-    </div>
+    <FormField
+      id="description"
+      label="Description"
+      type="textarea"
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={hasError ? errorMessage : ""}
+      required
+      placeholder="Enter a detailed description of your hotel"
+    />
   );
 };
 

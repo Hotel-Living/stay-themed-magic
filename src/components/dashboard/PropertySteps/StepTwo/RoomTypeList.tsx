@@ -1,17 +1,23 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import { RoomType } from "../rooms/roomTypes/useRoomTypes";
-import { RoomTypeListProps } from "./types";
+import { RoomType } from "./types";
+
+interface RoomTypeListProps {
+  roomTypes: RoomType[];
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  onRemoveRoomType: (id: string) => void;
+}
 
 export default function RoomTypeList({
   roomTypes,
+  isOpen,
+  setIsOpen,
   onRemoveRoomType
 }: RoomTypeListProps) {
-  const [isOpen, setIsOpen] = useState(true);
-  
   if (roomTypes.length === 0) {
     return null;
   }
@@ -33,7 +39,7 @@ export default function RoomTypeList({
               <div>
                 <div className="font-medium">{room.name}</div>
                 <div className="text-sm text-muted-foreground">
-                  {room.description || 'No description'} | Capacity: {room.maxOccupancy} | Base Price: ${room.baseRate}
+                  {room.description || 'No description'} | Capacity: {room.capacity} | Base Price: ${room.basePrice}
                 </div>
               </div>
               <Button 

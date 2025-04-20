@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
 interface PropertyTypeSelectorProps {
@@ -19,9 +19,9 @@ const PropertyTypeSelector: React.FC<PropertyTypeSelectorProps> = ({
   errorMessage
 }) => {
   return (
-    <div className="space-y-1">
+    <div>
       <Label htmlFor="propertyType" className="text-white">
-        Property Type <span className="text-red-500">*</span>
+        Type of Property <span className="text-red-500">*</span>
       </Label>
       <Select
         value={value}
@@ -32,14 +32,16 @@ const PropertyTypeSelector: React.FC<PropertyTypeSelectorProps> = ({
           <SelectValue placeholder="Select property type" />
         </SelectTrigger>
         <SelectContent className="bg-[#7A0486] border-white">
-          <SelectItem value="Hotel">Hotel</SelectItem>
-          <SelectItem value="Resort">Resort</SelectItem>
-          <SelectItem value="Boutique Hotel">Boutique Hotel</SelectItem>
-          <SelectItem value="Motel">Motel</SelectItem>
-          <SelectItem value="Inn">Inn</SelectItem>
+          <SelectItem value="Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel</SelectItem>
+          <SelectItem value="Resort" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Resort</SelectItem>
+          <SelectItem value="Boutique Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Boutique Hotel</SelectItem>
+          <SelectItem value="Motel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Motel</SelectItem>
+          <SelectItem value="Inn" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Inn</SelectItem>
         </SelectContent>
       </Select>
-      {hasError && <p className="text-red-500 text-sm mt-1">{errorMessage}</p>}
+      {hasError && (
+        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+      )}
     </div>
   );
 };

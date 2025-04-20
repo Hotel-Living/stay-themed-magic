@@ -1,32 +1,32 @@
 
 import React from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
 interface ValidationErrorBannerProps {
   errorFields: string[];
 }
 
-const ValidationErrorBanner: React.FC<ValidationErrorBannerProps> = ({ errorFields }) => {
-  if (errorFields.length === 0) return null;
+export default function ValidationErrorBanner({
+  errorFields
+}: ValidationErrorBannerProps) {
+  // Replace "Themes" with "Affinities" in the error fields array
+  const updatedErrorFields = errorFields.map(field => 
+    field === "Themes" ? "Affinities" : field
+  );
 
+  if (errorFields.length === 0) return null;
+  
   return (
-    <Alert variant="destructive" className="bg-[#7A0486] text-white border-white">
-      <div className="flex items-start space-x-3">
-        <AlertCircle className="h-5 w-5 mt-1 text-white" />
+    <div className="mb-6 p-4 border rounded-md bg-purple-800/50 text-white py-[3px]">
+      <div className="flex items-start gap-2">
+        <AlertCircle className="h-5 w-5 mt-0.5" />
         <div>
-          <AlertTitle className="text-white font-bold">Please complete all required fields:</AlertTitle>
-          <AlertDescription className="text-white mt-2">
-            <ul className="list-disc list-inside space-y-1">
-              {errorFields.map((field, index) => (
-                <li key={index}>{field}</li>
-              ))}
-            </ul>
-          </AlertDescription>
+          <p className="font-medium text-sm">Please complete all required fields:</p>
+          <ul className="list-disc pl-5 mt-2">
+            {updatedErrorFields.map((field, index) => <li key={index}>{field}</li>)}
+          </ul>
         </div>
       </div>
-    </Alert>
+    </div>
   );
-};
-
-export default ValidationErrorBanner;
+}

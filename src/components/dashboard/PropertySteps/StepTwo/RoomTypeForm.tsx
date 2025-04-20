@@ -1,118 +1,131 @@
 
 import React, { useState } from "react";
-import { RoomType } from "../rooms/roomTypes/useRoomTypes";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Plus, ChevronDown, ChevronUp } from "lucide-react";
+import { FormRoomType } from "./types";
 
 interface RoomTypeFormProps {
-  onAddRoomType: (newRoom: Omit<RoomType, "id">) => void;
-  onCancel: () => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  onAddRoomType: (newRoom: FormRoomType) => void;
 }
 
-export default function RoomTypeForm({ onCancel, onAddRoomType }: RoomTypeFormProps) {
-  const [roomData, setRoomData] = useState({
-    name: "",
-    description: "",
-    maxOccupancy: 2,
-    size: 200,
-    baseRate: 0,
-    roomCount: 1,
-    rates: {},
-    images: [] as string[]
+export default function RoomTypeForm({
+  isOpen,
+  setIsOpen,
+  onAddRoomType
+}: RoomTypeFormProps) {
+  const [newRoom, setNewRoom] = useState<FormRoomType>({
+    name: '',
+    description: '',
+    capacity: 1,
+    basePrice: 0
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setRoomData(prev => ({
-      ...prev,
-      [name]: name === "maxOccupancy" || name === "baseRate" || name === "size" || name === "roomCount" 
-        ? Number(value) 
-        : value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onAddRoomType(roomData);
+  const handleAddRoomType = () => {
+    onAddRoomType(newRoom);
+    setNewRoom({
+      name: '',
+      description: '',
+      capacity: 1,
+      basePrice: 0
+    });
   };
 
   return (
-    <div className="mt-6 p-4 border rounded-lg bg-fuchsia-900/10">
-      <h3 className="text-lg font-medium mb-4 text-white">Add New Room Type</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="name" className="text-white">Room Name</Label>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            required
-            value={roomData.name}
-            onChange={handleChange}
-            className="text-white bg-[#7A0486] border-white mt-1"
-          />
+    <Collapsible className="w-full border rounded-xl overflow-hidden mb-4" open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger className="w-full flex items-center justify-center py-4 transition-colors bg-[#7A0486] text-white font-extrabold">
+        <div className="flex items-center">
+          <Plus className="mr-2 h-5 w-5" />
+          ADD ROOM TYPE
+          {isOpen ? <ChevronUp className="ml-2 h-5 w-5" /> : <ChevronDown className="ml-2 h-5 w-5" />}
         </div>
-        
-        <div>
-          <Label htmlFor="description" className="text-white">Description</Label>
-          <Textarea
-            id="description"
-            name="description"
-            value={roomData.description}
-            onChange={handleChange}
-            className="text-white bg-[#7A0486] border-white mt-1"
-            rows={3}
-          />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="p-6 bg-[#850390]">
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="room-name" className="text-white">Room Type Name <span className="text-red-500">*</span></Label>
+              <Input 
+                id="room-name" 
+                value={newRoom.name} 
+                onChange={e => setNewRoom({
+                  ...newRoom,
+                  name: e.target.value
+                })} 
+                placeholder="e.g. Deluxe Double" 
+                className="bg-[#850390] text-white border-white"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="room-description" className="text-white">Description</Label>
+              <Input 
+                id="room-description" 
+                value={newRoom.description} 
+                onChange={e => setNewRoom({
+                  ...newRoom,
+                  description: e.target.value
+                })} 
+                placeholder="Brief description of the room" 
+                className="bg-[#7c057e] text-white border-white" 
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="room-capacity" className="text-white">Max Capacity <span className="text-red-500">*</span></Label>
+                <div className="flex items-center">
+                  <Input 
+                    id="room-capacity" 
+                    type="number" 
+                    min="1" 
+                    value={newRoom.capacity} 
+                    onChange={e => setNewRoom({
+                      ...newRoom,
+                      capacity: parseInt(e.target.value) || 1
+                    })} 
+                    className="bg-[#850588] text-white border-white w-24" 
+                  />
+                  <span className="ml-2 text-white">persons</span>
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="room-price" className="text-white">Base Price <span className="text-red-500">*</span></Label>
+                <div className="flex items-center">
+                  <Input 
+                    id="room-price" 
+                    type="number" 
+                    min="0" 
+                    step="0.01" 
+                    value={newRoom.basePrice} 
+                    onChange={e => setNewRoom({
+                      ...newRoom,
+                      basePrice: parseFloat(e.target.value) || 0
+                    })} 
+                    className="bg-[#850588] text-white border-white w-24" 
+                  />
+                  <span className="ml-2 text-white">per night</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-2 mt-4">
+              <Button 
+                onClick={handleAddRoomType} 
+                disabled={!newRoom.name.trim() || newRoom.basePrice <= 0} 
+                className="font-normal bg-[#af00b0] text-white"
+              >
+                Add Room Type
+              </Button>
+            </div>
+          </div>
         </div>
-        
-        <div>
-          <Label htmlFor="maxOccupancy" className="text-white">Maximum Occupancy</Label>
-          <Input
-            id="maxOccupancy"
-            name="maxOccupancy"
-            type="number"
-            min="1"
-            required
-            value={roomData.maxOccupancy}
-            onChange={handleChange}
-            className="text-white bg-[#7A0486] border-white mt-1"
-          />
-        </div>
-        
-        <div>
-          <Label htmlFor="baseRate" className="text-white">Base Rate</Label>
-          <Input
-            id="baseRate"
-            name="baseRate"
-            type="number"
-            min="0"
-            step="0.01"
-            required
-            value={roomData.baseRate}
-            onChange={handleChange}
-            className="text-white bg-[#7A0486] border-white mt-1"
-          />
-        </div>
-        
-        <div className="flex justify-end space-x-2 mt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onCancel}
-            className="border-white text-white"
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            variant="default"
-          >
-            Save Room
-          </Button>
-        </div>
-      </form>
-    </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

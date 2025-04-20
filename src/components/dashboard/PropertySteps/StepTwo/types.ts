@@ -1,9 +1,15 @@
 
-import { RoomType } from "../rooms/roomTypes/useRoomTypes";
-
-export interface RoomTypeListProps {
-  roomTypes: RoomType[];
-  onRemoveRoomType: (id: string) => void;
+export interface RoomType {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  basePrice: number;
 }
 
-export type { RoomType };
+export interface FormRoomType {
+  name: string;
+  description: string;
+  capacity: number;
+  basePrice: number;
+}

@@ -1,72 +1,99 @@
 
 import React, { useState, useEffect } from "react";
-import { RoomType } from "./rooms/roomTypes/useRoomTypes";
-import RoomTypeList from "./StepTwo/RoomTypeList";
+import RoomsAndPricingStep from "./RoomsAndPricingStep";
 import RoomTypeForm from "./StepTwo/RoomTypeForm";
+import RoomTypeList from "./StepTwo/RoomTypeList";
 import ValidationMessages from "./StepTwo/ValidationMessages";
-import { usePropertyForm } from "@/hooks/usePropertyForm";
-import { Button } from "@/components/ui/button";
+import { RoomType } from "./StepTwo/types";
 
-export default function StepTwo() {
-  const { formData, setFieldValue } = usePropertyForm();
+interface StepTwoProps {
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+}
 
+export default function StepTwo({
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: StepTwoProps) {
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
   const [error, setError] = useState<string>("");
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
+  const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
+  const [showValidationError, setShowValidationError] = useState(false);
 
+  // Load initial data from parent formData if available
   useEffect(() => {
-    if (formData?.roomTypes && formData.roomTypes.length > 0) {
+    if (formData && formData.roomTypes && formData.roomTypes.length > 0) {
       setRoomTypes(formData.roomTypes);
     }
   }, [formData]);
 
-  const handleAddRoomType = (newRoom: Omit<RoomType, "id">) => {
-    if (newRoom.name && newRoom.baseRate > 0) {
-      const newRoomType: RoomType = {
-        ...newRoom,
-        id: Date.now().toString(),
-        rates: {},
-        roomCount: 1,
-        maxOccupancy: newRoom.maxOccupancy || 2,
-        size: newRoom.size || 200,
-        description: newRoom.description || "",
-        images: []
-      };
+  const checkValidation = () => {
+    if (roomTypes.length === 0) {
+      setError("Please add at least one room type");
+      onValidationChange(false);
+      return false;
+    }
+    setError("");
+    onValidationChange(true);
+    return true;
+  };
 
+  const handleAddRoomType = (newRoom: Omit<RoomType, 'id'>) => {
+    if (newRoom.name.trim() && newRoom.basePrice > 0) {
+      const newRoomType = {
+        ...newRoom,
+        id: Date.now().toString()
+      };
       const updatedRoomTypes = [...roomTypes, newRoomType];
       setRoomTypes(updatedRoomTypes);
-      setFieldValue("roomTypes", updatedRoomTypes);
+      if (updateFormData) {
+        updateFormData('roomTypes', updatedRoomTypes);
+      }
       setIsAddRoomOpen(false);
-    } else {
-      setError("Room type must have a name and base rate greater than 0");
     }
   };
 
   const handleRemoveRoomType = (id: string) => {
-    const updatedRoomTypes = roomTypes.filter((room) => room.id !== id);
+    const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
     setRoomTypes(updatedRoomTypes);
-    setFieldValue("roomTypes", updatedRoomTypes);
+    if (updateFormData) {
+      updateFormData('roomTypes', updatedRoomTypes);
+    }
   };
 
+  useEffect(() => {
+    checkValidation();
+  }, [roomTypes]);
+
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-bold text-white">ROOM TYPES</h2>
-
-      {error && <ValidationMessages message={error} />}
-
-      <RoomTypeList
-        roomTypes={roomTypes}
-        onRemoveRoomType={handleRemoveRoomType}
-      />
-
-      {isAddRoomOpen ? (
-        <RoomTypeForm
+    <div className="space-y-8">
+      <RoomsAndPricingStep />
+      
+      <div className="mt-8">
+        <div className="flex justify-between items-center mb-4"></div>
+        
+        <RoomTypeForm 
+          isOpen={isAddRoomOpen} 
+          setIsOpen={setIsAddRoomOpen}
           onAddRoomType={handleAddRoomType}
-          onCancel={() => setIsAddRoomOpen(false)}
         />
-      ) : (
-        <Button onClick={() => setIsAddRoomOpen(true)}>Add Room Type</Button>
-      )}
+        
+        <RoomTypeList
+          roomTypes={roomTypes}
+          isOpen={isAvailableRoomsOpen}
+          setIsOpen={setIsAvailableRoomsOpen}
+          onRemoveRoomType={handleRemoveRoomType}
+        />
+        
+        <ValidationMessages
+          error={error}
+          showValidationError={showValidationError}
+          roomTypesCount={roomTypes.length}
+        />
+      </div>
     </div>
   );
 }

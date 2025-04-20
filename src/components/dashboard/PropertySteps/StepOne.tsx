@@ -1,83 +1,100 @@
+
 import React, { useEffect } from "react";
-import HotelInfoSection from "./StepOne/HotelInfo";
-import LocationSection from "./StepOne/Location";
+import HotelInfoSection from "./StepOne/HotelInfo"; // Updated import path
+import LocationSection from "./StepOne/Location"; // Updated import path
 import ContactSection from "./StepOne/ContactSection";
-import { usePropertyForm } from "@/hooks/usePropertyForm";
+import ValidationMessage from "./StepOne/ValidationMessage";
+import useFormValidation from "./StepOne/useFormValidation";
 
-export default function StepOne() {
+interface StepOneProps {
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+}
+
+export default function StepOne({
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: StepOneProps) {
   const {
-    formData,
-    setFieldValue,
-    errors = {},
-    touchedFields = {},
-    handleBlur = () => {}
-  } = usePropertyForm();
+    formData: localFormData,
+    errors,
+    touchedFields,
+    handleChange,
+    handleBlur,
+    setFormData: setLocalFormData
+  } = useFormValidation(onValidationChange);
 
-  const handleChange = (field: string, value: string) => {
-    setFieldValue(field, value);
-  };
-
-  const hotelInfoTouchedFields = {
-    hotelName: !!touchedFields.hotelName,
-    category: !!touchedFields.category,
-    propertyType: !!touchedFields.propertyType,
-    description: !!touchedFields.description
-  };
-
-  // Detectar autocompletado del navegador después de un pequeño retraso
+  // Sync with parent formData when component mounts or formData changes
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const autoFilledFields = [
-        { id: "hotelName", field: "hotelName" },
-        { id: "description", field: "description" },
-        { id: "address", field: "address" },
-        { id: "postalCode", field: "postalCode" },
-        { id: "contact-name", field: "contactName" },
-        { id: "contact-email", field: "contactEmail" },
-        { id: "contact-phone", field: "contactPhone" }
-      ];
-
-      autoFilledFields.forEach(({ id, field }) => {
-        const input = document.getElementById(id) as HTMLInputElement | null;
-        if (input && input.value && !formData[field]) {
-          console.log(`Autocompleted field detected: ${field}`);
-          setFieldValue(field, input.value);
-        }
+    if (formData && Object.keys(formData).length > 0) {
+      setLocalFormData({
+        hotelName: formData.hotelName || '',
+        category: formData.category || '',
+        propertyType: formData.propertyType || '',
+        description: formData.description || '',
+        country: formData.country || '',
+        address: formData.address || '',
+        city: formData.city || '',
+        postalCode: formData.postalCode || '',
+        contactName: formData.contactName || '',
+        contactEmail: formData.contactEmail || '',
+        contactPhone: formData.contactPhone || ''
       });
-    }, 500); // Aumenté de 300 a 500ms para mayor confiabilidad
+    }
+  }, [formData]);
 
-    return () => clearTimeout(timeout);
-  }, [formData, setFieldValue]);
+  // Custom handleChange to update both local and parent state
+  const handleFieldChange = (field: string, value: string) => {
+    handleChange(field, value);
+    if (updateFormData) {
+      updateFormData(field, value);
+    }
+  };
 
   return (
     <div className="space-y-4">
+      {/* Add bold title */}
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
-
+      
       <div className="grid gap-3">
-        <HotelInfoSection
-          formData={formData}
-          handleChange={handleChange}
+        <HotelInfoSection 
+          formData={localFormData}
           errors={errors}
-          touchedFields={hotelInfoTouchedFields}
+          touchedFields={touchedFields}
+          handleChange={handleFieldChange}
           handleBlur={handleBlur}
         />
-
+        
         <LocationSection
-          formData={formData}
-          handleChange={handleChange}
+          formData={{
+            country: localFormData.country,
+            address: localFormData.address,
+            city: localFormData.city,
+            postalCode: localFormData.postalCode
+          }}
           errors={errors}
           touchedFields={touchedFields}
+          handleChange={handleFieldChange}
           handleBlur={handleBlur}
         />
-
+        
         <ContactSection
-          formData={formData}
-          handleChange={handleChange}
+          formData={{
+            contactName: localFormData.contactName,
+            contactEmail: localFormData.contactEmail,
+            contactPhone: localFormData.contactPhone
+          }}
           errors={errors}
           touchedFields={touchedFields}
+          handleChange={handleFieldChange}
           handleBlur={handleBlur}
         />
       </div>
+      
+      {/* Validation status */}
+      <ValidationMessage errors={errors} />
     </div>
   );
 }

@@ -46,18 +46,10 @@ export default function AddPropertyForm() {
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const isValid = validateCurrentStep(stepValidation, currentStep);
     const fields = getIncompleteFields(currentStep, formData);
     console.log("INCOMPLETE FIELDS:", fields);
 
-    if (!isValid) {
-      if (fields.length === 0) {
-        console.log("⚠️ Fields valid but validation state not updated correctly");
-        setErrorFields([]);
-        setShowValidationErrors(false);
-        return;
-      }
-
+    if (fields.length > 0) {
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({

@@ -11,7 +11,6 @@ interface StepContentProps {
   onPrevious: () => void;
   onSubmit: () => void;
   isLastStep: boolean;
-  isValid: boolean;
 }
 
 export default function StepContent({
@@ -19,8 +18,7 @@ export default function StepContent({
   onNext,
   onPrevious,
   onSubmit,
-  isLastStep,
-  isValid
+  isLastStep
 }: StepContentProps) {
   const renderStep = () => {
     switch (currentStep) {
@@ -51,7 +49,7 @@ export default function StepContent({
           </button>
         )}
 
-        <div className="flex-1"></div>
+        <div className="flex-1" />
 
         <button
           className={`px-4 py-2 rounded-lg text-white font-semibold ${

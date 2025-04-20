@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -35,7 +34,6 @@ export default function AddPropertyForm() {
     "ADD A NEW PROPERTY"
   ];
 
-  // Clear session storage on successful submission
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
       sessionStorage.removeItem("propertyFormData");
@@ -49,7 +47,6 @@ export default function AddPropertyForm() {
     console.log("DEBUG formData:", formData);
     console.log("Incomplete fields for Step", currentStep, ":", fields);
 
-    // Forzar actualización del estado de validación
     if (isStepValid) {
       setStepValidation(prev => ({ ...prev, [currentStep]: true }));
       setErrorFields([]);
@@ -131,13 +128,10 @@ export default function AddPropertyForm() {
       ) : (
         <StepContent
           currentStep={currentStep}
-          formData={formData}
-          updateFormData={updateFormData}
           onNext={goToNextStep}
           onPrevious={goToPreviousStep}
           onSubmit={handleSubmitProperty}
           isLastStep={currentStep === totalSteps}
-          isValid={stepValidation[currentStep] || false}
         />
       )}
 

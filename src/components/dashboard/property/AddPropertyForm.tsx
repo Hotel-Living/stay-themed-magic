@@ -43,29 +43,40 @@ export default function AddPropertyForm() {
   const goToNextStep = async () => {
     console.log("VALIDATING STEP:", currentStep);
 
-    await new Promise(resolve => setTimeout(resolve, 100)); // Espera artificial
+    // Esperar un poco para asegurar que formData se haya actualizado
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const latestFormData = { ...formData };
-    console.log("DEBUG formData:", latestFormData);
-
-    const fields = getIncompleteFields(currentStep, latestFormData);
-    console.log("INCOMPLETE FIELDS:", fields);
+    console.log("CURRENT FORM DATA:", formData);
 
     const isValid = validateCurrentStep(stepValidation, currentStep);
+    const fields = getIncompleteFields(currentStep, formData);
+
+    console.log("INCOMPLETE FIELDS:", fields);
 
     if (!isValid) {
+      // Prevención de falsos positivos: si no es válido pero no hay campos incompletos, no mostrar el banner
+      if (fields.length === 0) {
+        console.log("⚠️ Campos válidos pero estado de validación no se actualizó correctamente.");
+        setErrorFields([]);
+        setShowValidationErrors(false);
+        return;
+      }
+
       setErrorFields(fields);
       setShowValidationErrors(true);
+
       toast({
         title: "Warning",
-        description: "Some fields are incomplete. You can still proceed but please complete them later.",
-        variant: "destructive"
+        description:
+          "Some fields are incomplete. You can still proceed but please complete them later.",
+        variant: "destructive",
       });
     } else {
       setErrorFields([]);
       setShowValidationErrors(false);
     }
 
+    // Pasar al siguiente paso
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);

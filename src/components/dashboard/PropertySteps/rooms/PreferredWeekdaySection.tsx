@@ -35,6 +35,7 @@ export default function PreferredWeekdaySection() {
               <input 
                 type="radio" 
                 name="preferred-weekday"
+                value={day}
                 className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
                 checked={selectedWeekday === day}
                 onChange={() => setSelectedWeekday(day)}

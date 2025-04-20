@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -45,6 +44,14 @@ export default function RoomTypeDialog({
           setStayLengths(storedLengths);
         }
       }
+      
+      const weekdayElements = document.querySelectorAll('input[name="preferred-weekday"]');
+      weekdayElements.forEach((element) => {
+        const input = element as HTMLInputElement;
+        if (input.checked) {
+          setPreferredWeekday(input.value || "Monday");
+        }
+      });
     }
   }, [isOpen, availableStayLengths]);
 
@@ -106,16 +113,6 @@ export default function RoomTypeDialog({
   const handleAvailabilityChange = (dates: string[]) => {
     setAvailabilityDates(dates);
   };
-
-  // Get the preferred weekday from the form
-  useEffect(() => {
-    // This would normally be retrieved from your form data
-    // Here we're just checking for any elements that might have this information
-    const weekdaySelector = document.querySelector('input[name="preferred-weekday"]:checked') as HTMLInputElement;
-    if (weekdaySelector && weekdaySelector.value) {
-      setPreferredWeekday(weekdaySelector.value);
-    }
-  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import StayLengthMealsSection from "./StayLengthMealsSection";
 import RoomsRatesSection from "./RoomsRatesSection";
-import PreferredWeekdaySection from "./PreferredWeekdaySection";
+import PreferredWeekdaySection from "../rooms/PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {
@@ -70,6 +70,8 @@ export default function AccommodationTermsStep({
       {/* Main title is now "ACCOMMODATION TERMS" */}
       <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>
       
+      <PreferredWeekdaySection />
+      
       <StayLengthMealsSection 
         isOpen={isStayLengthMealsOpen}
         onOpenChange={setIsStayLengthMealsOpen}
@@ -88,8 +90,6 @@ export default function AccommodationTermsStep({
         onOpenChange={setIsRoomsRatesOpen}
         onValidationChange={() => checkValidation()}
       />
-      
-      <PreferredWeekdaySection />
       
       <ValidationMessages 
         error={error}

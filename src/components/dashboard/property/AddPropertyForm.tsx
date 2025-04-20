@@ -5,7 +5,7 @@ import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import usePropertyForm from "@/hooks/usePropertyForm";
-import { getIncompleteFields } from "@/utils/propertyFormUtils";
+import { getIncompleteFields, validateCurrentStep } from "@/utils/propertyFormUtils";
 
 export default function AddPropertyForm() {
   const {
@@ -41,18 +41,13 @@ export default function AddPropertyForm() {
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
+    const isStepValid = validateCurrentStep(stepValidation, currentStep);
+
     const fields = getIncompleteFields(currentStep, formData);
-    const isStepValid = fields.length === 0;
+    console.log("DEBUG - Validating Step", currentStep, "with formData:", formData);
+    console.log("DEBUG - Incomplete Fields:", fields);
 
-    console.log("DEBUG formData:", formData);
-    console.log("Incomplete fields for Step", currentStep, ":", fields);
-
-    if (isStepValid) {
-      setStepValidation(prev => ({ ...prev, [currentStep]: true }));
-      setErrorFields([]);
-      setShowValidationErrors(false);
-    } else {
-      setStepValidation(prev => ({ ...prev, [currentStep]: false }));
+    if (!isStepValid || fields.length > 0) {
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({
@@ -60,6 +55,9 @@ export default function AddPropertyForm() {
         description: "Some fields are incomplete. You can still proceed but please complete them later.",
         variant: "destructive"
       });
+    } else {
+      setErrorFields([]);
+      setShowValidationErrors(false);
     }
 
     if (currentStep < totalSteps) {

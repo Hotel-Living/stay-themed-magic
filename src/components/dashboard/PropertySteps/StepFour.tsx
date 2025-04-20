@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -9,58 +8,101 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface StepFourProps {
   onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
-export default function StepFour({ onValidationChange = () => {} }: StepFourProps) {
-  // Simulating validation after component mounts
-  React.useEffect(() => {
-    onValidationChange(true);
-  }, [onValidationChange]);
+export default function StepFour({ 
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: StepFourProps) {
+  const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
 
-  const themes = [
-    "Beach", "Mountain", "City", "Countryside", "Desert", 
-    "Forest", "Lake", "River", "Island", "Ski Resort"
-  ];
+  // Update parent form data when activities change
+  useEffect(() => {
+    if (updateFormData) {
+      updateFormData('activities', selectedActivities);
+    }
+  }, [selectedActivities, updateFormData]);
 
-  const activities = [
-    "Swimming", "Hiking", "Cycling", "Fishing", "Boating",
-    "Skiing", "Snowboarding", "Golf", "Tennis", "Yoga",
-    "Spa", "Cooking Classes", "Wine Tasting", "Sightseeing"
-  ];
+  // Update validation based on selected activities
+  useEffect(() => {
+    // Consider the step valid if at least one activity is selected
+    const isValid = selectedActivities.length > 0;
+    onValidationChange(isValid);
+  }, [selectedActivities, onValidationChange]);
+
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
+    setSelectedActivities(prev => {
+      if (isChecked) {
+        return [...prev, activity];
+      }
+      return prev.filter(a => a !== activity);
+    });
+  };
+
+  const activityCategories = {
+    'Sports': [
+      'Tennis', 'Golf', 'Swimming', 'Hiking', 'Cycling', 'Yoga', 'Gym'
+    ],
+    'Arts & Culture': [
+      'Painting Classes', 'Cooking Classes', 'Photography Tours', 
+      'Local Crafts', 'Dance Classes', 'Music Lessons'
+    ],
+    'Wellness': [
+      'Spa Services', 'Meditation', 'Massage', 'Hot Springs'
+    ],
+    'Entertainment': [
+      'Board Games', 'Movie Nights', 'Live Music', 'Wine Tasting'
+    ],
+    'Nature & Adventure': [
+      'Bird Watching', 'Garden Tours', 'Nature Walks', 'Stargazing'
+    ]
+  };
 
   return (
     <div className="space-y-6">
-      {/* Add bold title */}
-      <h2 className="text-xl font-bold mb-4">THEMES</h2>
+      <h2 className="text-xl font-bold mb-4">ACTIVITIES</h2>
       
       <div className="space-y-6">
-        {/* Themes Section */}
-        <div className="bg-fuchsia-900/10 rounded-lg p-4">
-          <h3 className="text-sm font-medium mb-4 uppercase">Select Property Themes</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {themes.map((theme) => (
-              <div key={theme} className="flex items-center space-x-2">
-                <Checkbox id={`theme-${theme}`} />
-                <Label htmlFor={`theme-${theme}`} className="text-sm">{theme}</Label>
-              </div>
-            ))}
-          </div>
-        </div>
-        
         {/* Activities Section */}
         <div className="bg-fuchsia-900/10 rounded-lg p-4">
-          <h3 className="text-sm font-medium mb-4 uppercase">Available Activities</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {activities.map((activity) => (
-              <div key={activity} className="flex items-center space-x-2">
-                <Checkbox id={`activity-${activity}`} />
-                <Label htmlFor={`activity-${activity}`} className="text-sm">{activity}</Label>
+          <h3 className="text-sm font-medium mb-4 uppercase">Select Available Activities</h3>
+          
+          {Object.entries(activityCategories).map(([category, activities]) => (
+            <div key={category} className="mb-4">
+              <h4 className="text-sm font-medium mb-2 text-fuchsia-200">{category}</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 ml-2">
+                {activities.map((activity) => (
+                  <div key={activity} className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox"
+                      id={`activity-${activity}`}
+                      checked={selectedActivities.includes(activity)}
+                      onChange={(e) => handleActivityChange(activity, e.target.checked)}
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4"
+                    />
+                    <label 
+                      htmlFor={`activity-${activity}`}
+                      className="text-sm text-white"
+                    >
+                      {activity}
+                    </label>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-        
-        {/* Custom Activities */}
+
+        {selectedActivities.length === 0 && (
+          <p className="text-sm text-red-400">
+            Please select at least one activity to continue
+          </p>
+        )}
+
+        {/* Custom Activities Section */}
         <div className="bg-fuchsia-900/10 rounded-lg p-4">
           <h3 className="text-sm font-medium mb-4 uppercase">Add Custom Activities</h3>
           <div className="space-y-4">

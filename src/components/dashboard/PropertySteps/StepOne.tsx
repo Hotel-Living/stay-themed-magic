@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo";
 import LocationSection from "./StepOne/Location";
@@ -25,7 +24,7 @@ export default function StepOne() {
     description: !!touchedFields.description
   };
 
-  // Detect browser autocomplete after a small delay
+  // Detectar autocompletado del navegador después de un pequeño retraso
   useEffect(() => {
     const timeout = setTimeout(() => {
       const autoFilledFields = [
@@ -41,13 +40,14 @@ export default function StepOne() {
       autoFilledFields.forEach(({ id, field }) => {
         const input = document.getElementById(id) as HTMLInputElement | null;
         if (input && input.value && !formData[field]) {
+          console.log(`Autocompleted field detected: ${field}`);
           setFieldValue(field, input.value);
         }
       });
-    }, 300);
+    }, 500); // Aumenté de 300 a 500ms para mayor confiabilidad
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [formData, setFieldValue]);
 
   return (
     <div className="space-y-4">

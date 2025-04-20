@@ -19,9 +19,9 @@ export default function RoomsAndPricingStep() {
 
   return (
     <div className="space-y-6">
-      {/* Main section with LENGTH OF STAY and MEALS & SERVICES */}
+      {/* Main section with LENGTH OF STAY and MEALS */}
       <div className="mb-8">
-        <h2 className="font-medium text-lg mb-4">LENGTH OF STAY – MEALS & SERVICES</h2>
+        <h2 className="font-medium text-lg mb-4">LENGTH OF STAY – MEALS</h2>
         <div className="space-y-6 pl-2">
           <LengthOfStaySection 
             onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)} 
@@ -30,7 +30,7 @@ export default function RoomsAndPricingStep() {
           
           <MealPlanSection 
             onValidationChange={(isValid) => handleValidationChange('mealPlan', isValid)} 
-            title="MEALS & SERVICES" 
+            title="MEALS" 
           />
         </div>
       </div>
@@ -44,3 +44,4 @@ export default function RoomsAndPricingStep() {
     </div>
   );
 }
+

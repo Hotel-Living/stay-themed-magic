@@ -25,7 +25,7 @@ export default function StayLengthMealsSection({
       onOpenChange={onOpenChange}
     >
       <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
-        <h2 className="font-medium text-base text-white">LENGTH OF STAY – MEALS & SERVICES</h2>
+        <h2 className="font-medium text-base text-white">LENGTH OF STAY – MEALS</h2>
         {isOpen ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
@@ -44,3 +44,4 @@ export default function StayLengthMealsSection({
     </Collapsible>
   );
 }
+

@@ -40,12 +40,15 @@ export default function AddPropertyForm() {
     }
   }, [isSubmitted, submitSuccess]);
 
-  const goToNextStep = () => {
-    const isStepValid = validateCurrentStep(stepValidation, currentStep);
+  const goToNextStep = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50)); // Espera 50ms para asegurar actualización
 
+    const isStepValid = validateCurrentStep(stepValidation, currentStep);
     const fields = getIncompleteFields(currentStep, formData);
-    console.log("DEBUG - Validating Step", currentStep, "with formData:", formData);
-    console.log("DEBUG - Incomplete Fields:", fields);
+
+    console.log("VALIDATING STEP:", currentStep);
+    console.log("CURRENT FORM DATA:", formData);
+    console.log("INCOMPLETE FIELDS:", fields);
 
     if (!isStepValid || fields.length > 0) {
       setErrorFields(fields);

@@ -5,3 +5,5 @@ export interface RoomTypeListProps {
   roomTypes: RoomType[];
   onRemoveRoomType: (id: string) => void;
 }
+
+export type { RoomType };

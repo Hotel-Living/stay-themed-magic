@@ -1,23 +1,17 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import { RoomType } from "../rooms/roomTypes/useRoomTypes";
-
-interface RoomTypeListProps {
-  roomTypes: RoomType[];
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  onRemoveRoomType: (id: string) => void;
-}
+import { RoomTypeListProps } from "./types";
 
 export default function RoomTypeList({
   roomTypes,
-  isOpen,
-  setIsOpen,
   onRemoveRoomType
 }: RoomTypeListProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  
   if (roomTypes.length === 0) {
     return null;
   }

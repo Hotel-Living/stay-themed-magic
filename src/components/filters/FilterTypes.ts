@@ -1,4 +1,3 @@
-
 import { ReactNode } from "react";
 import { Theme } from "@/utils/themes";
 
@@ -12,7 +11,8 @@ export interface FilterState {
   maxPrice?: number;
   stars?: string[];
   location?: string | null;
-  propertyType?: string | null; // Added property type field
+  propertyType?: string | null;
+  activities?: string[];
 }
 
 export interface FilterSectionProps {
@@ -33,7 +33,7 @@ export interface FilterSectionProps {
   availableThemes?: string[];
   useLargerMobileText?: boolean;
   textColor?: string;
-  labelTextSize?: string; // Added the labelTextSize property
+  labelTextSize?: string;
 }
 
 export interface FilterContainerProps {

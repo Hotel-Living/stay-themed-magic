@@ -1,4 +1,3 @@
-
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -9,6 +8,7 @@ import { LocationFilter } from "./LocationFilter";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
+import { ActivityFilter } from "./ActivityFilter";
 import { Theme } from "@/utils/themes";
 import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
 
@@ -52,6 +52,11 @@ export function FilterSidebar({
       <MonthFilter activeMonth={activeFilters.month} onChange={value => handleFilterChange("month", value)} />
       
       <ThemeFilter activeTheme={activeFilters.theme} onChange={value => handleFilterChange("theme", value)} />
+      
+      <ActivityFilter
+        activeActivities={activeFilters.activities || []}
+        onChange={(value, isChecked) => handleArrayFilterChange("activities", value, isChecked)}
+      />
       
       <CategoryFilter activeCategory={activeFilters.category} onChange={value => handleFilterChange("category", value)} />
       

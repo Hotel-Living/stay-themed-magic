@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import { FilterState } from '@/components/filters/FilterTypes';
 
@@ -6,7 +5,12 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
   try {
     let query = supabase
       .from('hotels')
-      .select('*, hotel_images(*), hotel_themes(theme_id, themes:themes(*))');
+      .select(`
+        *, 
+        hotel_images(*), 
+        hotel_themes(theme_id, themes:themes(*)),
+        hotel_activities(activity_id, activities:activities(*))
+      `);
 
     // Apply search term filter
     if (filters.searchTerm) {
@@ -63,6 +67,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     if (filters.stars && filters.stars.length > 0) {
       const numericStars = filters.stars.map(star => parseInt(star)).filter(star => !isNaN(star));
       query = query.in('category', numericStars);
+    }
+
+    // Apply activities filter
+    if (filters.activities && filters.activities.length > 0) {
+      query = query.in('hotel_activities.activities.category', filters.activities);
     }
 
     const { data, error } = await query;

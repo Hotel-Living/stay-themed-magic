@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activities: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           check_in: string
@@ -80,6 +101,42 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      hotel_activities: {
+        Row: {
+          activity_id: string | null
+          created_at: string
+          hotel_id: string | null
+          id: string
+        }
+        Insert: {
+          activity_id?: string | null
+          created_at?: string
+          hotel_id?: string | null
+          id?: string
+        }
+        Update: {
+          activity_id?: string | null
+          created_at?: string
+          hotel_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hotel_activities_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hotel_activities_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       hotel_images: {
         Row: {

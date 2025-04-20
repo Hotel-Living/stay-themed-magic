@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"; // Add missing Label import
-import { Input } from "@/components/ui/input"; // Add missing Input import
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
+import AvailabilityDateSection from "./roomTypes/AvailabilityDateSection";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -31,6 +32,8 @@ export default function RoomTypeDialog({
   const [roomImages, setRoomImages] = useState<File[]>([]);
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
+  const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+  const [preferredWeekday, setPreferredWeekday] = useState("Monday");
   
   useEffect(() => {
     if (isOpen) {
@@ -56,7 +59,8 @@ export default function RoomTypeDialog({
         baseRate: 0,
         roomCount,
         rates,
-        images: roomImagePreviews
+        images: roomImagePreviews,
+        availabilityDates
       });
       resetForm();
     }
@@ -71,6 +75,7 @@ export default function RoomTypeDialog({
     setRoomImages([]);
     setRoomImagePreviews([]);
     setRoomCount(1);
+    setAvailabilityDates([]);
   };
 
   const handleRateChange = (duration: number, value: string) => {
@@ -98,6 +103,20 @@ export default function RoomTypeDialog({
     setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
+  const handleAvailabilityChange = (dates: string[]) => {
+    setAvailabilityDates(dates);
+  };
+
+  // Get the preferred weekday from the form
+  useEffect(() => {
+    // This would normally be retrieved from your form data
+    // Here we're just checking for any elements that might have this information
+    const weekdaySelector = document.querySelector('input[name="preferred-weekday"]:checked') as HTMLInputElement;
+    if (weekdaySelector && weekdaySelector.value) {
+      setPreferredWeekday(weekdaySelector.value);
+    }
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%]">
@@ -122,6 +141,12 @@ export default function RoomTypeDialog({
             roomImagePreviews={roomImagePreviews}
             onImageUpload={handleImageUpload}
             onRemoveImage={removeImage}
+          />
+          
+          <AvailabilityDateSection 
+            preferredWeekday={preferredWeekday}
+            onAvailabilityChange={handleAvailabilityChange}
+            selectedDates={availabilityDates}
           />
           
           <RatesSection

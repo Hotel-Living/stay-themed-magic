@@ -1,64 +1,38 @@
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+
+import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
-import StepNavigation from "../PropertySteps/StepNavigation";
 import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
-import { StepValidationState } from "./types";
+import PropertyFormNavigation from "./components/PropertyFormNavigation";
+import { usePropertyForm } from "./hooks/usePropertyForm";
 
 export default function AddPropertyForm() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [hasNewItems, setHasNewItems] = useState(false);
-  const [stepValidation, setStepValidation] = useState<StepValidationState>({
-    1: false,
-    2: false,
-    3: false,
-    4: false
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [errorFields, setErrorFields] = useState<string[]>([]);
-  const [showValidationErrors, setShowValidationErrors] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    hotelName: "",
-    propertyType: "",
-    description: "",
-    country: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    contactName: "",
-    contactEmail: "",
-    contactPhone: "",
-    category: "",
-    
-    stayLengths: [] as number[],
-    mealPlans: [] as string[],
-    roomTypes: [] as any[],
-    
-    themes: [] as string[],
-    activities: [] as string[],
-    
-    faqs: [] as any[],
-    terms: "",
-    termsAccepted: false
-  });
+  const {
+    currentStep,
+    setCurrentStep,
+    stepValidation,
+    validateStep,
+    isSubmitted,
+    setIsSubmitted,
+    submitSuccess,
+    setSubmitSuccess,
+    errorFields,
+    setErrorFields,
+    showValidationErrors,
+    setShowValidationErrors,
+    formData,
+    setFormData,
+    getIncompleteFields,
+    toast
+  } = usePropertyForm();
 
   const totalSteps = 4;
-
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
-  const {
-    toast
-  } = useToast();
 
-  const validateStep = (step: number, isValid: boolean) => {
-    setStepValidation(prev => ({
-      ...prev,
-      [step]: isValid
-    }));
+  const validateCurrentStep = () => {
+    return stepValidation[currentStep];
   };
 
   const goToNextStep = () => {
@@ -86,25 +60,6 @@ export default function AddPropertyForm() {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
       window.scrollTo(0, 0);
-    }
-  };
-
-  const validateCurrentStep = () => {
-    return stepValidation[currentStep];
-  };
-
-  const getIncompleteFields = (step: number): string[] => {
-    switch (step) {
-      case 1:
-        return ["Property Name", "Property Type", "Description"];
-      case 2:
-        return ["Accommodation Terms", "Meal Plans"];
-      case 3:
-        return ["Themes", "Activities"];
-      case 4:
-        return ["FAQ", "Terms & Conditions"];
-      default:
-        return [];
     }
   };
 
@@ -140,12 +95,6 @@ export default function AddPropertyForm() {
     
     setTimeout(() => {
       setCurrentStep(1);
-      setStepValidation({
-        1: false,
-        2: false,
-        3: false,
-        4: false
-      });
       setIsSubmitted(false);
       setFormData({
         hotelName: "",
@@ -179,10 +128,6 @@ export default function AddPropertyForm() {
     console.log('Updated form data:', field, value);
   };
 
-  const renderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => {
-    return <PriceTable roomType={roomType} mealTypes={mealTypes} stayDurations={stayDurations} />;
-  };
-
   return (
     <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
       <StepIndicator 
@@ -191,33 +136,13 @@ export default function AddPropertyForm() {
         stepTitle={stepTitles[currentStep - 1]} 
       />
       
-      <div className="flex items-center justify-between mb-3">
-        <button 
-          onClick={goToPreviousStep} 
-          className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-            currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
-          }`} 
-          disabled={currentStep === 1}
-        >
-          Previous
-        </button>
-        
-        {currentStep === totalSteps ? (
-          <button 
-            onClick={handleSubmitProperty} 
-            className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
-          >
-            Submit
-          </button>
-        ) : (
-          <button 
-            onClick={goToNextStep} 
-            className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
-          >
-            Next
-          </button>
-        )}
-      </div>
+      <PropertyFormNavigation
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        onPrevious={goToPreviousStep}
+        onNext={goToNextStep}
+        onSubmit={handleSubmitProperty}
+      />
       
       {showValidationErrors && errorFields.length > 0 && (
         <ValidationErrorBanner errorFields={errorFields} />
@@ -227,8 +152,7 @@ export default function AddPropertyForm() {
         <SuccessMessage />
       ) : (
         <StepContent 
-          currentStep={currentStep} 
-          renderPriceTable={renderPriceTable} 
+          currentStep={currentStep}
           onValidationChange={isValid => validateStep(currentStep, isValid)}
           formData={formData}
           updateFormData={updateFormData}
@@ -237,17 +161,13 @@ export default function AddPropertyForm() {
       
       <ImportantNotice />
       
-      <StepNavigation 
-        currentStep={currentStep} 
-        totalSteps={totalSteps} 
-        onPrevious={goToPreviousStep} 
-        onNext={goToNextStep} 
-        onSubmit={handleSubmitProperty} 
-        showPrevious={currentStep !== 1} 
-        isNextDisabled={false}
+      <PropertyFormNavigation
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        onPrevious={goToPreviousStep}
+        onNext={goToNextStep}
+        onSubmit={handleSubmitProperty}
       />
     </div>
   );
 }
-
-import PriceTable from "../PropertySteps/PriceTable";

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { StepValidationState } from "@/components/dashboard/property/types";
@@ -63,12 +62,17 @@ export const usePropertyForm = () => {
   }, []);
 
   const setFieldValue = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    setTouchedFields(prev => ({ ...prev, [field]: true }));
+    setFormData((prev) => {
+      const updated = { ...prev, [field]: value };
+      sessionStorage.setItem("propertyFormData", JSON.stringify(updated));
+      return updated;
+    });
+
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
   };
 
   const handleBlur = (field: string) => {
-    setTouchedFields(prev => ({ ...prev, [field]: true }));
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
   };
 
   return {

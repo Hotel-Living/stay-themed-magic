@@ -18,45 +18,41 @@ interface StepContentProps {
 
 export default function StepContent({
   currentStep,
-  formData,
-  updateFormData,
   onNext,
   onPrevious,
   onSubmit,
-  isLastStep,
-  isValid
+  isLastStep
 }: StepContentProps) {
   return (
-    <div className="space-y-6">
+    <div>
       {currentStep === 1 && <BasicPropertyInfo />}
       {currentStep === 2 && <RoomTypesStep />}
       {currentStep === 3 && <ThemesStep />}
       {currentStep === 4 && <TermsStep />}
 
-      <div className="flex justify-between pt-4">
+      <div className="flex justify-between mt-6">
         {currentStep > 1 && (
           <button
             onClick={onPrevious}
-            className="rounded-lg px-4 py-1.5 text-sm font-medium transition-colors bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+            className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
           >
             Previous
           </button>
         )}
-        <div className="flex justify-end space-x-2">
+        <div className="ml-auto">
           {!isLastStep ? (
             <button
               onClick={onNext}
-              className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
+              className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white"
             >
               Next
             </button>
           ) : (
             <button
               onClick={onSubmit}
-              className="rounded-lg px-4 py-1.5 bg-[#a209ad]/80 text-white text-sm font-medium transition-colors"
-              disabled={!isValid}
+              className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-[#a209ad]/80 text-white"
             >
-              Submit Property
+              Submit
             </button>
           )}
         </div>

@@ -1,36 +1,54 @@
-export const validateCurrentStep = (stepValidation: Record<number, boolean>, currentStep: number): boolean => {
+
+export const validateCurrentStep = (
+  stepValidation: Record<number, boolean>,
+  currentStep: number
+): boolean => {
   return stepValidation[currentStep];
 };
 
 export const getIncompleteFields = (step: number, formData?: any): string[] => {
+  if (!formData) return [];
+
   switch (step) {
-    case 1:
-      // Validate Step One fields
-      const step1Fields: string[] = [];
-      if (!formData?.hotelName) step1Fields.push("Property Name");
-      if (!formData?.propertyType) step1Fields.push("Property Type");
-      if (!formData?.description) step1Fields.push("Description");
-      return step1Fields;
-    case 2:
-      // Validate Step Two fields
-      const step2Fields: string[] = [];
-      if (!formData?.roomTypes || formData.roomTypes.length === 0) {
-        step2Fields.push("Accommodation Terms");
-        step2Fields.push("Meal Plans");
+    case 1: {
+      const missing: string[] = [];
+      if (!formData.hotelName?.trim()) missing.push("Property Name");
+      if (!formData.propertyType?.trim()) missing.push("Property Type");
+      if (!formData.description?.trim()) missing.push("Description");
+      return missing;
+    }
+
+    case 2: {
+      const missing: string[] = [];
+      if (!formData.roomTypes || formData.roomTypes.length === 0) {
+        missing.push("Accommodation Terms");
+        missing.push("Meal Plans");
       }
-      return step2Fields;
-    case 3:
-      // Validate Step Three fields
-      const step3Fields: string[] = [];
-      if (!formData?.themes || formData.themes.length === 0) step3Fields.push("Affinities");
-      if (!formData?.activities || formData.activities.length === 0) step3Fields.push("Activities");
-      return step3Fields;
-    case 4:
-      // Validate Step Four fields
-      const step4Fields: string[] = [];
-      if (!formData?.faqs || formData.faqs.length === 0) step4Fields.push("FAQ");
-      if (!formData?.terms) step4Fields.push("Terms & Conditions");
-      return step4Fields;
+      return missing;
+    }
+
+    case 3: {
+      const missing: string[] = [];
+      if (!formData.themes || formData.themes.length === 0) {
+        missing.push("Affinities");
+      }
+      if (!formData.activities || formData.activities.length === 0) {
+        missing.push("Activities");
+      }
+      return missing;
+    }
+
+    case 4: {
+      const missing: string[] = [];
+      if (!formData.faqs || formData.faqs.length === 0) {
+        missing.push("FAQ");
+      }
+      if (!formData.terms?.trim()) {
+        missing.push("Terms & Conditions");
+      }
+      return missing;
+    }
+
     default:
       return [];
   }

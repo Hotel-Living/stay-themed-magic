@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { PlusCircle, ChevronRight, Send } from "lucide-react";
+import { PlusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -59,30 +58,46 @@ export default function HotelFeaturesStep() {
   return (
     <div className="space-y-6">
       {/* Hotel Features Section */}
-      <FeatureCollapsible 
-        title="HOTEL FEATURES" 
-        features={hotelFeatures}
-        showInput={showHotelFeatureInput}
-        setShowInput={setShowHotelFeatureInput}
-        newFeature={newHotelFeature}
-        setNewFeature={setNewHotelFeature}
-        onSubmit={() => handleSubmitFeature("hotel", newHotelFeature)}
-        selectedFeatures={selectedHotelFeatures}
-        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "hotel")}
-      />
+      <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
+        <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
+          <h2 className="font-medium text-base text-white">Hotel Features</h2>
+          {showHotelFeatureInput ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <FeatureCollapsible 
+            title="Hotel Features" 
+            features={hotelFeatures}
+            showInput={showHotelFeatureInput}
+            setShowInput={setShowHotelFeatureInput}
+            newFeature={newHotelFeature}
+            setNewFeature={setNewHotelFeature}
+            onSubmit={() => handleSubmitFeature("hotel", newHotelFeature)}
+            selectedFeatures={selectedHotelFeatures}
+            onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "hotel")}
+          />
+        </CollapsibleContent>
+      </Collapsible>
       
       {/* Room Features Section */}
-      <FeatureCollapsible 
-        title="ROOM FEATURES" 
-        features={roomFeatures}
-        showInput={showRoomFeatureInput}
-        setShowInput={setShowRoomFeatureInput}
-        newFeature={newRoomFeature}
-        setNewFeature={setNewRoomFeature}
-        onSubmit={() => handleSubmitFeature("room", newRoomFeature)}
-        selectedFeatures={selectedRoomFeatures}
-        onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "room")}
-      />
+      <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
+        <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
+          <h2 className="font-medium text-base text-white">Room Features</h2>
+          {showRoomFeatureInput ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="p-4">
+          <FeatureCollapsible 
+            title="Room Features" 
+            features={roomFeatures}
+            showInput={showRoomFeatureInput}
+            setShowInput={setShowRoomFeatureInput}
+            newFeature={newRoomFeature}
+            setNewFeature={setNewRoomFeature}
+            onSubmit={() => handleSubmitFeature("room", newRoomFeature)}
+            selectedFeatures={selectedRoomFeatures}
+            onFeatureChange={(feature, isChecked) => handleFeatureChange(feature, isChecked, "room")}
+          />
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }

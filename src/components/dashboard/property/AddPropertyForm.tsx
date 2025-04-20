@@ -29,7 +29,6 @@ export default function AddPropertyForm() {
   const totalSteps = 4;
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
 
-  // Only clear session storage on successful submission
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
       console.log("Clearing sessionStorage on successful submission");
@@ -38,7 +37,9 @@ export default function AddPropertyForm() {
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
-    const fields = getIncompleteFields(currentStep, formData);
+    const snapshot = JSON.parse(JSON.stringify(formData)); // ✅ Garantiza valores actuales
+    const fields = getIncompleteFields(currentStep, snapshot);
+
     if (fields.length > 0) {
       setErrorFields(fields);
       setShowValidationErrors(true);
@@ -73,7 +74,10 @@ export default function AddPropertyForm() {
         .filter(([_, isValid]) => !isValid)
         .map(([step]) => parseInt(step));
 
-      const allIncompleteFields = invalidSteps.flatMap((step) => getIncompleteFields(step, formData));
+      const allIncompleteFields = invalidSteps.flatMap((step) =>
+        getIncompleteFields(step, formData)
+      );
+
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
 
@@ -94,7 +98,6 @@ export default function AddPropertyForm() {
       duration: 5000
     });
 
-    // Clear session storage after successful submission
     sessionStorage.removeItem("propertyFormData");
 
     setTimeout(() => {

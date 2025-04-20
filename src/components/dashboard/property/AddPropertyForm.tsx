@@ -27,8 +27,14 @@ export default function AddPropertyForm() {
   } = usePropertyForm();
 
   const totalSteps = 4;
-  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
+  const stepTitles = [
+    "ADD A NEW PROPERTY",
+    "ADD A NEW PROPERTY",
+    "ADD A NEW PROPERTY",
+    "ADD A NEW PROPERTY"
+  ];
 
+  // Clear storage after successful submission
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
       console.log("Clearing sessionStorage on successful submission");
@@ -37,10 +43,10 @@ export default function AddPropertyForm() {
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = () => {
-    const snapshot = JSON.parse(JSON.stringify(formData)); // ✅ Garantiza valores actuales
-    const fields = getIncompleteFields(currentStep, snapshot);
+    const fields = getIncompleteFields(currentStep, formData);
+    console.log("VALIDATING Step", currentStep, "with formData:", formData);
 
-    if (fields.length > 0) {
+    if (!validateCurrentStep(stepValidation, currentStep)) {
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({
@@ -67,17 +73,14 @@ export default function AddPropertyForm() {
   };
 
   const handleSubmitProperty = () => {
-    const allStepsValid = Object.values(stepValidation).every((isValid) => isValid);
+    const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
 
     if (!allStepsValid) {
       const invalidSteps = Object.entries(stepValidation)
         .filter(([_, isValid]) => !isValid)
         .map(([step]) => parseInt(step));
 
-      const allIncompleteFields = invalidSteps.flatMap((step) =>
-        getIncompleteFields(step, formData)
-      );
-
+      const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step, formData));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
 

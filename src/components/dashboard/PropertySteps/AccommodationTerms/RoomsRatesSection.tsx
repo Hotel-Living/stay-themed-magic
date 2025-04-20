@@ -1,8 +1,8 @@
 
 import React from "react";
-import { ChevronUp, ChevronDown } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import RoomTypeSection from "../rooms/roomTypes/RoomTypeSection";
+import { Collapsible } from "@/components/ui/collapsible";
+import CollapsibleHeader from "./RoomRates/CollapsibleHeader";
+import RoomRatesContent from "./RoomRates/RoomRatesContent";
 
 interface RoomsRatesSectionProps {
   isOpen: boolean;
@@ -21,18 +21,8 @@ export default function RoomsRatesSection({
       open={isOpen} 
       onOpenChange={onOpenChange}
     >
-      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
-        <h2 className="font-medium text-base text-white">Room Types - Prices - Availability</h2>
-        {isOpen ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
-      </CollapsibleTrigger>
-      <CollapsibleContent className="p-4">
-        <RoomTypeSection 
-          onValidationChange={onValidationChange}
-          title="RATES PER PERSON FOR SELECTED STAY DURATIONS" 
-          fullWidth={true} 
-          showHeader={false} 
-        />
-      </CollapsibleContent>
+      <CollapsibleHeader isOpen={isOpen} />
+      <RoomRatesContent onValidationChange={onValidationChange} />
     </Collapsible>
   );
 }

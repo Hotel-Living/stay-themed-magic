@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { RoomType } from "./rooms/roomTypes/useRoomTypes";
 import RoomTypeList from "./StepTwo/RoomTypeList";
@@ -70,4 +69,3 @@ export default function StepTwo() {
     </div>
   );
 }
-

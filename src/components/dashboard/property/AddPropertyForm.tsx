@@ -41,16 +41,19 @@ export default function AddPropertyForm() {
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 50)); // Espera 50ms para asegurar actualización
-
-    const isStepValid = validateCurrentStep(stepValidation, currentStep);
-    const fields = getIncompleteFields(currentStep, formData);
-
     console.log("VALIDATING STEP:", currentStep);
-    console.log("CURRENT FORM DATA:", formData);
+
+    await new Promise(resolve => setTimeout(resolve, 100)); // Espera artificial
+
+    const latestFormData = { ...formData };
+    console.log("DEBUG formData:", latestFormData);
+
+    const fields = getIncompleteFields(currentStep, latestFormData);
     console.log("INCOMPLETE FIELDS:", fields);
 
-    if (!isStepValid || fields.length > 0) {
+    const isValid = validateCurrentStep(stepValidation, currentStep);
+
+    if (!isValid) {
       setErrorFields(fields);
       setShowValidationErrors(true);
       toast({

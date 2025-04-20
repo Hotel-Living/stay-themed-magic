@@ -20,43 +20,40 @@ export default function AddPropertyForm() {
     showValidationErrors,
     setShowValidationErrors,
     formData,
+    updateFormData,
     toast,
     setIsSubmitted,
     setSubmitSuccess
   } = usePropertyForm();
 
   const totalSteps = 4;
-  const stepTitles = [
-    "ADD A NEW PROPERTY",
-    "ADD A NEW PROPERTY",
-    "ADD A NEW PROPERTY",
-    "ADD A NEW PROPERTY"
-  ];
+  const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
 
   useEffect(() => {
     if (isSubmitted && submitSuccess) {
-      console.log("Clearing sessionStorage on successful submission");
-      sessionStorage.removeItem("propertyFormData");
+      console.log("✅ Clearing sessionStorage on successful submission");
+      sessionStorage.removeItem('propertyFormData');
     }
   }, [isSubmitted, submitSuccess]);
 
   const goToNextStep = async () => {
-    console.log("VALIDATING STEP:", currentStep);
-    console.log("CURRENT FORM DATA:", formData);
+    console.log("🔍 VALIDATING STEP:", currentStep);
+    console.log("🧾 CURRENT FORM DATA:", formData);
 
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    if (!validateCurrentStep(stepValidation, currentStep)) {
+      const fields = getIncompleteFields(currentStep, formData);
+      console.log("⚠️ INCOMPLETE FIELDS:", fields);
 
-    const fields = getIncompleteFields(currentStep, formData);
-    console.log("INCOMPLETE FIELDS:", fields);
-
-    if (fields.length > 0) {
       setErrorFields(fields);
       setShowValidationErrors(true);
+
       toast({
         title: "Warning",
         description: "Some fields are incomplete. You can still proceed but please complete them later.",
         variant: "destructive"
       });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
     } else {
       setErrorFields([]);
       setShowValidationErrors(false);
@@ -76,34 +73,36 @@ export default function AddPropertyForm() {
   };
 
   const handleSubmitProperty = () => {
-    const invalidSteps = Object.entries(stepValidation)
-      .filter(([_, isValid]) => !isValid)
-      .map(([step]) => parseInt(step));
+    const allStepsValid = Object.values(stepValidation).every((isValid) => isValid);
 
-    const allIncompleteFields = invalidSteps.flatMap(step =>
-      getIncompleteFields(step, formData)
-    );
+    if (!allStepsValid) {
+      const invalidSteps = Object.entries(stepValidation)
+        .filter(([_, isValid]) => !isValid)
+        .map(([step]) => parseInt(step));
 
-    if (allIncompleteFields.length > 0) {
+      const allIncompleteFields = invalidSteps.flatMap((step) => getIncompleteFields(step, formData));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
+
       toast({
         title: "Cannot Submit Property",
         description: "Please complete all required fields before submitting.",
         variant: "destructive"
       });
+
       return;
     }
 
     setIsSubmitted(true);
     setSubmitSuccess(true);
+
     toast({
-      title: "Property Submitted Successfully", 
+      title: "Property Submitted Successfully",
       description: "Your property has been submitted for review.",
       duration: 5000
     });
 
-    sessionStorage.removeItem("propertyFormData");
+    sessionStorage.removeItem('propertyFormData');
 
     setTimeout(() => {
       setCurrentStep(1);
@@ -129,11 +128,12 @@ export default function AddPropertyForm() {
         <StepContent
           currentStep={currentStep}
           formData={formData}
+          updateFormData={updateFormData}
           onNext={goToNextStep}
           onPrevious={goToPreviousStep}
           onSubmit={handleSubmitProperty}
           isLastStep={currentStep === totalSteps}
-          isValid={validateCurrentStep(stepValidation, currentStep)}
+          isValid={stepValidation[currentStep] || false}
         />
       )}
 

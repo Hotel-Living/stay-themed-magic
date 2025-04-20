@@ -119,12 +119,12 @@ export default function RoomTypeDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%]">
+      <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl text-white">Add New Room Type</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold text-white mb-6">Add New Room Type</DialogTitle>
         </DialogHeader>
         
-        <div className="grid gap-4 py-4 overflow-y-auto max-h-[70vh]">
+        <div className="space-y-8">
           <RoomInfoForm
             newRoomType={newRoomType}
             maxOccupancy={maxOccupancy}
@@ -143,42 +143,47 @@ export default function RoomTypeDialog({
             onRemoveImage={removeImage}
           />
           
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-white mb-4">RATES PER PERSON, NOT PER ROOM</h3>
+            <RatesSection
+              stayLengths={stayLengths}
+              rates={rates}
+              onRateChange={handleRateChange}
+            />
+          </div>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right text-base text-white">Available Rooms</Label>
+              <div className="col-span-3">
+                <Input 
+                  type="number"
+                  min="1"
+                  value={roomCount}
+                  onChange={(e) => setRoomCount(parseInt(e.target.value) || 1)}
+                  className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-32 text-base"
+                />
+              </div>
+            </div>
+          </div>
+          
           <AvailabilityDateSection 
             preferredWeekday={preferredWeekday}
             onAvailabilityChange={handleAvailabilityChange}
             selectedDates={availabilityDates}
           />
-          
-          <RatesSection
-            stayLengths={stayLengths}
-            rates={rates}
-            onRateChange={handleRateChange}
-          />
-          
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-sm text-white">Available Rooms</Label>
-            <div className="col-span-3">
-              <Input 
-                type="number"
-                min="1"
-                value={roomCount}
-                onChange={(e) => setRoomCount(parseInt(e.target.value) || 1)}
-                className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-24"
-              />
-            </div>
-          </div>
         </div>
         
-        <DialogFooter>
+        <DialogFooter className="mt-8">
           <Button 
             onClick={handleAddRoomType} 
             disabled={!newRoomType.trim() || roomImages.length === 0}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
           >
             Add Room Type
           </Button>
           {roomImages.length === 0 && (
-            <p className="text-red-400 text-sm">Please upload at least one room image</p>
+            <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>
           )}
         </DialogFooter>
       </DialogContent>

@@ -1,7 +1,8 @@
 
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { QueryClientProvider, createQueryClient } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { createQueryClient } from './lib/query-client'; // Fixed import to local path
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
@@ -38,11 +39,11 @@ import Contact from "./pages/Contact";
 // ScrollToTop component to ensure pages always start at the top
 function ScrollToTop() {
   const { pathname } = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  
+
   return null;
 }
 
@@ -101,3 +102,4 @@ function App() {
 }
 
 export default App;
+

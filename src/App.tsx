@@ -88,6 +88,7 @@ function App() {
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/admin/hotels" element={<AdminDashboard />} />
+                  <Route path="/admin/hotels/all" element={<AdminDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />

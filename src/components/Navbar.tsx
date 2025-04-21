@@ -93,6 +93,12 @@ export function Navbar() {
             </Link>
           )}
           
+          {isLoggedIn && (
+            <Link to="/admin/hotels" className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
+              Admin Dashboard
+            </Link>
+          )}
+          
           {isLoggedIn && !isDevelopment && (
             <button onClick={handleLogout} className="text-white font-medium hover:text-white/80 text-[0.6rem] uppercase">
               Logout

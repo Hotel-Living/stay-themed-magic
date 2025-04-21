@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import PendingHotelsTable from "./PendingHotelsTable";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import AdminDashboardLayout from "./AdminDashboardLayout";
 
 export default function AdminDashboard() {
   const [pendingHotels, setPendingHotels] = useState<any[]>([]);
@@ -113,20 +114,26 @@ export default function AdminDashboard() {
   };
 
   if (loading) {
-    return <div className="p-4">Loading...</div>;
+    return (
+      <AdminDashboardLayout>
+        <div className="p-4">Loading...</div>
+      </AdminDashboardLayout>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Pending Hotel Registrations</h2>
-      </div>
+    <AdminDashboardLayout>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">Pending Hotel Registrations</h2>
+        </div>
 
-      <PendingHotelsTable
-        hotels={pendingHotels}
-        onApprove={handleApprove}
-        onReject={handleReject}
-      />
-    </div>
+        <PendingHotelsTable
+          hotels={pendingHotels}
+          onApprove={handleApprove}
+          onReject={handleReject}
+        />
+      </div>
+    </AdminDashboardLayout>
   );
 }

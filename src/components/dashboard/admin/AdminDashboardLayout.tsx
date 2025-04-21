@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface AdminDashboardLayoutProps {
   children: ReactNode;
@@ -54,6 +54,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   const { signOut, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -92,7 +93,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
                         (tab.id === "pending" && location.pathname === "/admin") ||
-                        location.pathname.includes(tab.id)
+                        (tab.id !== "pending" && location.pathname === `/admin/${tab.id}`)
                           ? "bg-[#7A0486]/50"
                           : "hover:bg-[#7A0486]/30"
                       )}

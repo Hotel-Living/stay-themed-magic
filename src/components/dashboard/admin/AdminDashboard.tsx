@@ -14,8 +14,8 @@ export default function AdminDashboard() {
   const location = useLocation();
   const path = location.pathname;
   
-  // Update path checks to match the correct routes
-  const isAllHotelsView = path === '/admin/all';
+  // Check if we're in the all hotels view
+  const isAllHotelsView = path.includes('/admin/all');
   
   const { checkAdminAccess } = useAdminAccess();
   const {

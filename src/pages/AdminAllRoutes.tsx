@@ -12,6 +12,7 @@ export default function AdminAllRoutes() {
   return (
     <Routes>
       <Route path="/" element={<AdminDashboard />} />
+      <Route path="/all" element={<AdminDashboard />} />
       <Route path="/users" element={<AdminUsersPanel />} />
       <Route path="/bookings" element={<AdminBookingsPanel />} />
       <Route path="/payments" element={<AdminPaymentsPanel />} />

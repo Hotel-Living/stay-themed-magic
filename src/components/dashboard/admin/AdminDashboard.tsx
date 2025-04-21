@@ -3,15 +3,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import PendingHotelsTable from "./PendingHotelsTable";
 import { useAuth } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 
 export default function AdminDashboard() {
-  const [pendingHotels, setPendingHotels] = useState<any[]>([]);
+  const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const location = useLocation();
+  
+  const isAllHotelsView = location.pathname.includes('/all');
 
   useEffect(() => {
     if (!user) {
@@ -22,12 +25,16 @@ export default function AdminDashboard() {
     const init = async () => {
       const isAdmin = await checkAdminAccess();
       if (isAdmin) {
-        await fetchPendingHotels();
+        if (isAllHotelsView) {
+          await fetchAllHotels();
+        } else {
+          await fetchPendingHotels();
+        }
       }
     };
 
     init();
-  }, [user]);
+  }, [user, isAllHotelsView]);
 
   const checkAdminAccess = async () => {
     const { data, error } = await supabase
@@ -43,6 +50,30 @@ export default function AdminDashboard() {
       return false;
     }
     return true;
+  };
+
+  const fetchAllHotels = async () => {
+    const { data, error } = await supabase
+      .from('hotels')
+      .select(`
+        *,
+        profiles:owner_id(
+          first_name,
+          last_name
+        )
+      `);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch hotels",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setHotels(data || []);
+    setLoading(false);
   };
 
   const fetchPendingHotels = async () => {
@@ -66,7 +97,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    setPendingHotels(data || []);
+    setHotels(data || []);
     setLoading(false);
   };
 
@@ -131,11 +162,13 @@ export default function AdminDashboard() {
     <AdminDashboardLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Pending Hotel Registrations</h2>
+          <h2 className="text-2xl font-bold">
+            {isAllHotelsView ? "All Hotels" : "Pending Hotel Registrations"}
+          </h2>
         </div>
 
         <PendingHotelsTable
-          hotels={pendingHotels}
+          hotels={hotels}
           onApprove={handleApprove}
           onReject={handleReject}
         />

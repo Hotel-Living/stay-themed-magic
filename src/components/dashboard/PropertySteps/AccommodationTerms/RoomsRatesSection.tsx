@@ -8,12 +8,16 @@ interface RoomsRatesSectionProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onValidationChange: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function RoomsRatesSection({
   isOpen,
   onOpenChange,
-  onValidationChange
+  onValidationChange,
+  formData = {},
+  updateFormData = () => {}
 }: RoomsRatesSectionProps) {
   return (
     <Collapsible 
@@ -22,7 +26,11 @@ export default function RoomsRatesSection({
       onOpenChange={onOpenChange}
     >
       <CollapsibleHeader isOpen={isOpen} />
-      <RoomRatesContent onValidationChange={onValidationChange} />
+      <RoomRatesContent 
+        onValidationChange={onValidationChange}
+        formData={formData}
+        updateFormData={updateFormData}
+      />
     </Collapsible>
   );
 }

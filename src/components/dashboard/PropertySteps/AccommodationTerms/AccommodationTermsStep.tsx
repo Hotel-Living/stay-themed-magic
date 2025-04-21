@@ -100,6 +100,8 @@ export default function AccommodationTermsStep({
         isOpen={isRoomsRatesOpen}
         onOpenChange={setIsRoomsRatesOpen}
         onValidationChange={() => checkValidation()}
+        formData={formData}
+        updateFormData={updateFormData}
       />
       
       <ValidationMessages 

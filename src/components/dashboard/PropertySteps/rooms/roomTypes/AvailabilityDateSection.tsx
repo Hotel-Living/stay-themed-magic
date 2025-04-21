@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -115,7 +115,8 @@ export default function AvailabilityDateSection({
     const availableDates = getAvailableDatesForMonth(month, preferredDayNum);
 
     // Get label for weekday
-    const weekdayLabel = format(addDays(startOfMonth(month), (preferredDayNum - getDay(startOfMonth(month)) + 7) % 7), "EEEE");
+    const weekdayLabel = Object.keys(weekdayMap).find(key => weekdayMap[key] === preferredDayNum) || preferredWeekday;
+    
     return (
       <div className="p-3 pointer-events-auto bg-fuchsia-950/50 rounded-md border border-fuchsia-800/30 w-full">
         <div className="grid grid-cols-1">

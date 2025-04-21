@@ -14,7 +14,7 @@ interface RoomTypeContentProps {
   setDialogOpen: (isOpen: boolean) => void;
   handleAddRoomType: (roomType: RoomType) => void;
   handleDeleteRoomType: (id: string) => void;
-  preferredWeekday: string; // Add this prop
+  preferredWeekday: string;
 }
 
 export default function RoomTypeContent({
@@ -38,7 +38,7 @@ export default function RoomTypeContent({
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
             onDelete={handleDeleteRoomType}
-            onEdit={() => {}} // Add onEdit prop to match RoomTypeList interface
+            onEdit={() => {}} 
           />
         </Accordion>
       </div>

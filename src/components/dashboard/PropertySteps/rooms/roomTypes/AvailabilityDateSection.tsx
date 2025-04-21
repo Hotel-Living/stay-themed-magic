@@ -1,41 +1,16 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { format, addMonths, isSameDay, parseISO, getDay, startOfMonth, endOfMonth, addDays, isSameMonth } from "date-fns";
+import { format, addMonths, parseISO } from "date-fns";
+import CustomCalendarSingleWeekday from "./CustomCalendarSingleWeekday";
+import { weekdayMap, getAvailableDatesForMonth } from "./availabilityDateUtils";
 
 interface AvailabilityDateSectionProps {
   preferredWeekday: string;
   onAvailabilityChange: (dates: string[]) => void;
   selectedDates: string[];
-}
-
-const weekdayMap: Record<string, number> = {
-  "Monday": 1,
-  "Tuesday": 2,
-  "Wednesday": 3,
-  "Thursday": 4,
-  "Friday": 5,
-  "Saturday": 6,
-  "Sunday": 0
-};
-
-function getAvailableDatesForMonth(monthDate: Date, preferredDayNum: number) {
-  const dates: Date[] = [];
-  let d = startOfMonth(monthDate);
-  const end = endOfMonth(monthDate);
-  // Find first occurrence of preferred weekday in the month
-  while (getDay(d) !== preferredDayNum) {
-    d = addDays(d, 1);
-  }
-  while (d <= end) {
-    dates.push(new Date(d));
-    d = addDays(d, 7);
-  }
-  return dates;
 }
 
 export default function AvailabilityDateSection({
@@ -59,17 +34,14 @@ export default function AvailabilityDateSection({
   };
 
   const handleMonthSelection = (month: string) => {
-    // Add or remove the entire month (all available weekdays)
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[preferredWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
 
     const hasAll = availableDates.every(d => selectedDates.includes(d));
     if (hasAll) {
-      // Remove all from this month
       onAvailabilityChange(selectedDates.filter(date => !availableDates.includes(date)));
     } else {
-      // Add only those not present
       onAvailabilityChange(Array.from(new Set([...selectedDates, ...availableDates])));
     }
   };
@@ -88,64 +60,8 @@ export default function AvailabilityDateSection({
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[preferredWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
-    // Check if ALL this month's possible days are selected
     return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
   };
-
-  const isDateSelected = (date: Date) => {
-    try {
-      return selectedDates.some(d => isSameDay(parseISO(d), date));
-    } catch {
-      return false;
-    }
-  };
-
-  // Renders a custom calendar grid: Only allow the preferred weekday, others are completely hidden
-  function CustomCalendarSingleWeekday({
-    month,
-    preferredDayNum,
-    selected,
-    onSelectDate
-  }: {
-    month: Date;
-    preferredDayNum: number;
-    selected: string[];
-    onSelectDate: (d: Date) => void;
-  }) {
-    const availableDates = getAvailableDatesForMonth(month, preferredDayNum);
-
-    // Get label for weekday
-    const weekdayLabel = Object.keys(weekdayMap).find(key => weekdayMap[key] === preferredDayNum) || preferredWeekday;
-    
-    return (
-      <div className="p-3 pointer-events-auto bg-fuchsia-950/50 rounded-md border border-fuchsia-800/30 w-full">
-        <div className="grid grid-cols-1">
-          <div className="flex items-center mb-1 justify-center">
-            <span className="font-semibold">{weekdayLabel}</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          {availableDates.map(date => (
-            <button
-              type="button"
-              key={format(date, "yyyy-MM-dd")}
-              className={`w-full px-3 py-2 rounded-md text-sm
-                ${isDateSelected(date)
-                  ? "bg-fuchsia-600 text-white hover:bg-fuchsia-700"
-                  : "bg-fuchsia-900/20 text-white hover:bg-fuchsia-700/70"}`
-              }
-              onClick={() => onSelectDate(date)}
-            >
-              {format(date, "EEE, MMM d, yyyy")}
-            </button>
-          ))}
-          {availableDates.length === 0 && (
-            <div className="text-sm text-gray-400 text-center">No {weekdayLabel}s in this month</div>
-          )}
-        </div>
-      </div>
-    );
-  }
 
   const preferredDayNum = weekdayMap[preferredWeekday];
 
@@ -184,6 +100,7 @@ export default function AvailabilityDateSection({
                     month={monthDate}
                     preferredDayNum={preferredDayNum}
                     selected={selectedDates}
+                    preferredWeekday={preferredWeekday}
                     onSelectDate={date => handleDateSelect(date, month)}
                   />
                 </CollapsibleContent>

@@ -1,23 +1,17 @@
 
 import React, { useState } from "react";
-import { 
-  Room, 
-  BookedStay, 
-  calculateBookingPosition, 
-  formatDateForCalendar,
-  calculateAvailableGapsForMonth
-} from "@/utils/roomAssignment";
+import { Room, HighlightedBooking } from "@/types/booking";
 import { format, addMonths, subMonths } from "date-fns";
-import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { MonthNavigation } from "./MonthNavigation";
+import { CalendarHeader } from "./CalendarHeader";
+import { RoomRow } from "./RoomRow";
+import { EmptyCalendarState } from "./EmptyCalendarState";
 
 interface RoomAvailabilityCalendarProps {
   rooms: Room[];
   onAddStay?: (roomId: string, startDate: Date, duration: number) => void;
-  highlightNewBooking?: {
-    roomId: string;
-    startDate: Date;
-    endDate: Date;
-  } | null;
+  highlightNewBooking?: HighlightedBooking | null;
 }
 
 export function RoomAvailabilityCalendar({ 
@@ -48,138 +42,36 @@ export function RoomAvailabilityCalendar({
     setCurrentDate(addMonths(currentDate, 1));
   };
   
-  const getStayColor = (roomTypeId: string, booking: BookedStay) => {
-    // Color based on room type and duration
-    if (roomTypeId === "single") {
-      return booking.duration <= 8 ? "bg-[#B1E2DC]" : "bg-[#FFE299]";
-    } else {
-      return booking.duration <= 16 ? "bg-[#F8D0EC]" : "bg-[#C9E7F8]";
-    }
-  };
-  
-  // Check if a booking is the newly created one
-  const isHighlightedBooking = (roomId: string, booking: BookedStay) => {
-    if (!highlightNewBooking) return false;
-    
-    return (
-      roomId === highlightNewBooking.roomId &&
-      booking.startDate.getTime() === highlightNewBooking.startDate.getTime() &&
-      booking.endDate.getTime() === highlightNewBooking.endDate.getTime()
-    );
-  };
-  
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-medium">Room Availability Calendar</h3>
-        <div className="flex items-center space-x-2">
-          <button 
-            onClick={handlePrevMonth}
-            className="p-1 rounded-full hover:bg-fuchsia-800/20"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <span className="text-sm font-medium">
-            {format(currentDate, "MMMM yyyy")}
-          </span>
-          <button 
-            onClick={handleNextMonth}
-            className="p-1 rounded-full hover:bg-fuchsia-800/20"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+        <MonthNavigation 
+          currentDate={currentDate}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+        />
       </div>
       
       <div className="overflow-x-auto">
         <div className="min-w-[640px]">
           {/* Calendar header with days */}
-          <div className="flex border-b border-fuchsia-800/30">
-            <div className="w-1/6 p-2 font-medium text-xs">Room</div>
-            <div className="w-5/6 flex">
-              {dayGroups.map((group, i) => (
-                <div 
-                  key={i} 
-                  className="flex-1 p-2 text-center text-xs font-medium border-l border-fuchsia-800/20"
-                >
-                  {group}
-                </div>
-              ))}
-            </div>
-          </div>
+          <CalendarHeader dayGroups={dayGroups} />
           
           {/* Room rows */}
           {rooms.length > 0 ? (
             rooms.map((room) => (
-              <div key={room.id} className="flex border-b border-fuchsia-800/20 hover:bg-fuchsia-900/10">
-                <div className="w-1/6 p-2 text-xs">
-                  {room.id} ({room.roomTypeId})
-                </div>
-                <div className="w-5/6 relative py-2">
-                  {/* Day columns for visualization */}
-                  <div className="absolute inset-0 flex">
-                    {daysArray.map((day) => (
-                      <div 
-                        key={day} 
-                        className="flex-1 border-l border-fuchsia-800/10 h-full" 
-                      />
-                    ))}
-                  </div>
-                  
-                  {/* Available gaps in room */}
-                  <div className="relative h-1 mb-1">
-                    {calculateAvailableGapsForMonth(room, currentMonth, currentYear).map((gap, i) => (
-                      <div
-                        key={`gap-${i}`}
-                        className="absolute top-0 h-full bg-green-500/30"
-                        style={{
-                          left: `${gap.start}%`,
-                          width: `${gap.width}%`,
-                        }}
-                        title="Available gap"
-                      />
-                    ))}
-                  </div>
-                  
-                  {/* Bookings for this room */}
-                  <div className="relative h-8">
-                    {room.bookings.map((booking, i) => {
-                      const { start, width } = calculateBookingPosition(
-                        booking, 
-                        currentMonth, 
-                        currentYear
-                      );
-                      
-                      const isHighlighted = isHighlightedBooking(room.id, booking);
-                      
-                      return (
-                        <div
-                          key={i}
-                          className={`absolute top-0 h-full rounded-md flex items-center justify-center text-xs 
-                            ${getStayColor(room.roomTypeId, booking)}
-                            ${isHighlighted ? 'border-2 border-fuchsia-500 shadow-lg' : 'border border-gray-300/20'}
-                          `}
-                          style={{
-                            left: `${start}%`,
-                            width: `${width}%`,
-                            minWidth: '40px'
-                          }}
-                          title={`${formatDateForCalendar(booking.startDate)} - ${formatDateForCalendar(booking.endDate)} (${booking.duration} days)`}
-                        >
-                          {booking.duration}-day
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
+              <RoomRow
+                key={room.id}
+                room={room}
+                month={currentMonth}
+                year={currentYear}
+                daysArray={daysArray}
+                highlightedBooking={highlightNewBooking}
+              />
             ))
           ) : (
-            <div className="py-8 text-center text-sm text-fuchsia-300">
-              <Calendar className="w-12 h-12 mx-auto mb-2 text-fuchsia-400/50" />
-              <p>No rooms with bookings to display for this month</p>
-              <p className="text-xs mt-1">New bookings will appear here</p>
-            </div>
+            <EmptyCalendarState />
           )}
         </div>
       </div>

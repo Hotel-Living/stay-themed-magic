@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { durations } from "@/utils/booking";
 import { CalendarIcon, Check, Loader2, Info, Building } from "lucide-react";
@@ -13,10 +12,10 @@ import {
 } from "@/utils/dynamicPricing";
 import { 
   Room, 
-  StayRequest, 
-  assignRoom, 
-  generateSampleBookings 
-} from "@/utils/roomAssignment";
+  StayRequest 
+} from "@/types/booking";
+import { assignRoom } from "@/utils/roomAssignmentLogic";
+import { generateSampleBookings } from "@/utils/bookingManagement";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RoomAvailabilityCalendar } from "@/components/booking/RoomAvailabilityCalendar";
 

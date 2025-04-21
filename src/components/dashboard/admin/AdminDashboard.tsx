@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
@@ -6,6 +7,7 @@ import PendingHotelsTable from "./PendingHotelsTable";
 import { useAdminAccess } from "./hooks/useAdminAccess";
 import { useHotelsData } from "./hooks/useHotelsData";
 import { useHotelActions } from "./hooks/useHotelActions";
+import RejectDialog from "./RejectDialog";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -23,6 +25,9 @@ export default function AdminDashboard() {
     fetchAllHotels,
     fetchPendingHotels
   } = useHotelsData();
+
+  const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
+  const [selectedHotel, setSelectedHotel] = useState<any>(null);
 
   const refreshData = async () => {
     if (isAllHotelsView) {
@@ -57,6 +62,33 @@ export default function AdminDashboard() {
     init();
   }, [user, path]);
 
+  // Wrapper functions to match the expected interface
+  const onApprove = (hotel: any) => {
+    handleApprove(hotel.id);
+  };
+
+  const onReject = (hotel: any) => {
+    setSelectedHotel(hotel);
+    setRejectionDialogOpen(true);
+  };
+
+  const onDelete = (hotel: any) => {
+    handleDelete(hotel.id);
+  };
+
+  const handleConfirmReject = (reason: string) => {
+    if (selectedHotel) {
+      handleReject(selectedHotel.id, reason);
+    }
+    setRejectionDialogOpen(false);
+    setSelectedHotel(null);
+  };
+
+  const handleCloseRejectDialog = () => {
+    setRejectionDialogOpen(false);
+    setSelectedHotel(null);
+  };
+
   if (loading) {
     return (
       <AdminDashboardLayout>
@@ -76,10 +108,16 @@ export default function AdminDashboard() {
 
         <PendingHotelsTable
           hotels={hotels}
-          onApprove={handleApprove}
-          onReject={handleReject}
-          onDelete={handleDelete}
+          onApprove={onApprove}
+          onReject={onReject}
+          onDelete={onDelete}
           isAllHotelsView={isAllHotelsView}
+        />
+
+        <RejectDialog 
+          open={rejectionDialogOpen}
+          onClose={handleCloseRejectDialog}
+          onConfirm={handleConfirmReject}
         />
       </div>
     </AdminDashboardLayout>

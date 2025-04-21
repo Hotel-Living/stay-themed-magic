@@ -1,5 +1,6 @@
+
 import React from "react";
-import { Hotel } from "@/types";
+import { Hotel } from "@/integrations/supabase/types-custom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 

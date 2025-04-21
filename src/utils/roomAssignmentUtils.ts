@@ -1,144 +1,16 @@
 
-import { addDays } from "date-fns";
-import { Room, StayRequest, BookedStay } from "@/types/booking";
-import { stayFitsInRoom, calculateRoomScore } from "./roomScoring";
+// This file exports all room assignment utilities from their proper locations
+// to avoid duplication while maintaining backward compatibility
 
-/**
- * Finds the best room that can accommodate a new stay request
- * Uses a scoring system to prioritize efficient gap filling
- * Returns the room ID if found, or null if no suitable room exists
- */
-export const findBestAvailableRoom = (
-  stayRequest: StayRequest, 
-  existingRooms: Room[],
-  roomTypeId: string
-): string | null => {
-  const eligibleRooms = existingRooms.filter(room => 
-    room.roomTypeId === roomTypeId && stayFitsInRoom(stayRequest, room)
-  );
-  
-  if (eligibleRooms.length === 0) return null;
-  
-  // Calculate scores for each eligible room
-  const roomScores = eligibleRooms.map(room => ({
-    roomId: room.id,
-    score: calculateRoomScore(stayRequest, room)
-  }));
-  
-  // Sort by score in descending order
-  roomScores.sort((a, b) => b.score - a.score);
-  
-  // Return the room with the highest score
-  return roomScores[0].roomId;
-};
+// Re-export from roomAssignmentLogic
+export { 
+  findBestAvailableRoom,
+  findAvailableRoom,
+  assignRoom
+} from './roomAssignmentLogic';
 
-/**
- * Finds a room that can accommodate a new stay request
- * Returns the room ID if found, or null if no suitable room exists
- */
-export const findAvailableRoom = (
-  stayRequest: StayRequest, 
-  existingRooms: Room[],
-  roomTypeId: string
-): string | null => {
-  // First try to find the best room based on efficient gap filling
-  return findBestAvailableRoom(stayRequest, existingRooms, roomTypeId);
-};
-
-/**
- * Assigns a room for a new stay request
- * If no existing room is available, creates a new room
- */
-export const assignRoom = (
-  stayRequest: StayRequest, 
-  existingRooms: Room[],
-  roomTypeId: string
-): { roomId: string; isNewRoom: boolean } => {
-  // Try to find an existing room
-  const availableRoomId = findAvailableRoom(stayRequest, existingRooms, roomTypeId);
-  
-  if (availableRoomId) {
-    // We found an existing room that can accommodate the stay
-    return { roomId: availableRoomId, isNewRoom: false };
-  } else {
-    // No existing room can accommodate the stay, so assign a new room
-    const newRoomId = `room-${existingRooms.length + 1}`;
-    return { roomId: newRoomId, isNewRoom: true };
-  }
-};
-
-/**
- * Gets all bookings for a specific month, grouped by room
- */
-export const getMonthBookings = (
-  allRooms: Room[], 
-  month: number, // 0-11
-  year: number
-): Room[] => {
-  const monthStart = new Date(year, month, 1);
-  const monthEnd = new Date(year, month + 1, 0);
-  
-  return allRooms
-    .map(room => ({
-      ...room,
-      bookings: room.bookings.filter(booking => 
-        (booking.startDate >= monthStart || booking.startDate.getTime() === monthStart.getTime()) &&
-        (booking.startDate <= monthEnd || booking.startDate.getTime() === monthEnd.getTime())
-      )
-    }))
-    .filter(room => room.bookings.length > 0);
-};
-
-/**
- * Utility to simulate booking data for visualization
- */
-export const generateSampleBookings = (): Room[] => {
-  const today = new Date();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-  
-  // Create sample room data
-  const rooms: Room[] = [
-    {
-      id: "room-1",
-      roomTypeId: "single",
-      bookings: [
-        {
-          id: "booking-1",
-          roomId: "room-1",
-          startDate: new Date(currentYear, currentMonth, 5),
-          endDate: new Date(currentYear, currentMonth, 13),
-          duration: 8
-        }
-      ]
-    },
-    {
-      id: "room-2",
-      roomTypeId: "single",
-      bookings: [
-        {
-          id: "booking-2",
-          roomId: "room-2",
-          startDate: new Date(currentYear, currentMonth, 15),
-          endDate: new Date(currentYear, currentMonth, 23),
-          duration: 8
-        }
-      ]
-    },
-    {
-      id: "room-3",
-      roomTypeId: "double",
-      bookings: [
-        {
-          id: "booking-3",
-          roomId: "room-3",
-          startDate: new Date(currentYear, currentMonth, 18),
-          endDate: new Date(currentYear, currentMonth, 34),
-          duration: 16
-        }
-      ]
-    }
-  ];
-  
-  return rooms;
-};
+// Re-export from bookingManagement
+export { 
+  getMonthBookings,
+  generateSampleBookings
+} from './bookingManagement';

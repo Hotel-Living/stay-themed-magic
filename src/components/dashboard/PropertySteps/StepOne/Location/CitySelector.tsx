@@ -1,31 +1,60 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { City } from 'country-state-city';
 
 interface CitySelectorProps {
   value: string;
+  country: string;
+  onChange: (e: any) => void;
   onValueChange: (value: string) => void;
   onBlur: () => void;
-  hasError: boolean;
+  error: any;
+  touched: any;
   errorMessage?: string;
-  cities: string[];
-  disabled: boolean;
+  cities?: string[];
+  disabled?: boolean;
   onCustomClick: () => void;
 }
 
 const CitySelector: React.FC<CitySelectorProps> = ({
   value,
+  country,
+  onChange,
   onValueChange,
   onBlur,
-  hasError,
+  error,
+  touched,
   errorMessage,
-  cities,
-  disabled,
+  cities: propCities,
+  disabled = false,
   onCustomClick
 }) => {
+  const [cities, setCities] = useState<string[]>([]);
+  const hasError = touched && error;
+
+  useEffect(() => {
+    if (country) {
+      const citiesData = City.getCitiesOfCountry(country) || [];
+      setCities(citiesData.map(city => city.name));
+    } else {
+      setCities([]);
+    }
+  }, [country]);
+
+  const handleChange = (newValue: string) => {
+    onValueChange(newValue);
+    if (onChange) {
+      // Simulate an event to maintain compatibility
+      onChange({ target: { value: newValue } });
+    }
+  };
+
+  const citiesList = propCities || cities;
+  
   return (
     <div>
       <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
@@ -34,14 +63,14 @@ const CitySelector: React.FC<CitySelectorProps> = ({
       <div className="flex items-center space-x-2">
         <Select 
           value={value} 
-          onValueChange={onValueChange}
-          disabled={disabled}
+          onValueChange={handleChange}
+          disabled={disabled || !country}
         >
           <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
             <SelectValue placeholder="Select a city" />
           </SelectTrigger>
           <SelectContent className="bg-[#7A0486] border-white">
-            {!cities.length ? (
+            {!citiesList.length ? (
               <SelectItem 
                 value="no-cities" 
                 className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
@@ -49,7 +78,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
                 No cities found for this country
               </SelectItem>
             ) : (
-              cities.map((city) => (
+              citiesList.map((city) => (
                 <SelectItem 
                   key={city} 
                   value={city}
@@ -59,7 +88,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
                 </SelectItem>
               ))
             )}
-            {!disabled && (
+            {!disabled && country && (
               <SelectItem 
                 value="add-new"
                 className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
@@ -73,13 +102,13 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           variant="secondary" 
           size="sm" 
           onClick={onCustomClick}
-          disabled={disabled}
+          disabled={disabled || !country}
         >
           Custom
         </Button>
       </div>
       {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
       )}
     </div>
   );

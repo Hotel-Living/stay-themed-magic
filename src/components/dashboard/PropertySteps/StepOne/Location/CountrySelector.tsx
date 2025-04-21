@@ -8,22 +8,35 @@ import { Label } from "@/components/ui/label";
 
 interface CountrySelectorProps {
   value: string;
+  onChange: (e: any) => void;
   onValueChange: (value: string) => void;
   onBlur: () => void;
-  hasError: boolean;
+  error: any;
+  touched: any;
   errorMessage?: string;
   onCustomClick: () => void;
 }
 
 const CountrySelector: React.FC<CountrySelectorProps> = ({
   value,
+  onChange,
   onValueChange,
   onBlur,
-  hasError,
+  error,
+  touched,
   errorMessage,
   onCustomClick
 }) => {
   const countries = Country.getAllCountries();
+  const hasError = touched && error;
+
+  const handleChange = (newValue: string) => {
+    onValueChange(newValue);
+    if (onChange) {
+      // Simulate an event to maintain compatibility
+      onChange({ target: { value: newValue } });
+    }
+  };
 
   return (
     <div>
@@ -33,7 +46,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
       <div className="flex items-center space-x-2">
         <Select 
           value={value} 
-          onValueChange={onValueChange}
+          onValueChange={handleChange}
         >
           <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
             <SelectValue placeholder="Select a country" />
@@ -61,7 +74,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
         </Button>
       </div>
       {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
       )}
     </div>
   );

@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo"; // Updated import path
 import LocationSection from "./StepOne/Location"; // Updated import path

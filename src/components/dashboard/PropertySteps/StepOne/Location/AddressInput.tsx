@@ -8,7 +8,8 @@ interface AddressInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: () => void;
-  hasError: boolean;
+  error: any;
+  touched: any;
   errorMessage?: string;
 }
 
@@ -16,9 +17,12 @@ const AddressInput: React.FC<AddressInputProps> = ({
   value,
   onChange,
   onBlur,
-  hasError,
+  error,
+  touched,
   errorMessage
 }) => {
+  const hasError = touched && error;
+
   return (
     <div className="mb-4">
       <Label htmlFor="address" className={cn("text-white", hasError ? "text-red-500" : "")}>
@@ -35,7 +39,7 @@ const AddressInput: React.FC<AddressInputProps> = ({
         className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
       />
       {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
       )}
     </div>
   );

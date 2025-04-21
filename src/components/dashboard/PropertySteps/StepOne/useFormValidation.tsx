@@ -13,6 +13,8 @@ interface FormData {
   contactName: string;
   contactEmail: string;
   contactPhone: string;
+  latitude: string;
+  longitude: string;
 }
 
 const initialFormData: FormData = {
@@ -26,7 +28,9 @@ const initialFormData: FormData = {
   postalCode: "",
   contactName: "",
   contactEmail: "",
-  contactPhone: ""
+  contactPhone: "",
+  latitude: "",
+  longitude: ""
 };
 
 const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
@@ -45,7 +49,9 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     postalCode: false,
     contactName: false,
     contactEmail: false,
-    contactPhone: false
+    contactPhone: false,
+    latitude: false,
+    longitude: false
   });
   
   const validateForm = () => {
@@ -60,6 +66,15 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     // Email validation
     if (formData.contactEmail && !/\S+@\S+\.\S+/.test(formData.contactEmail)) {
       newErrors.contactEmail = "Invalid email format";
+    }
+    
+    // Validate latitude and longitude if provided
+    if (formData.latitude && isNaN(Number(formData.latitude))) {
+      newErrors.latitude = "Latitude must be a valid number";
+    }
+    
+    if (formData.longitude && isNaN(Number(formData.longitude))) {
+      newErrors.longitude = "Longitude must be a valid number";
     }
     
     setErrors(newErrors);

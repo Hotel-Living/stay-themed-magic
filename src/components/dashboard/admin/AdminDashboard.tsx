@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     fetchPendingHotels
   } = useHotelsData();
 
-  const refreshData = () => {
+  const refreshData = async () => {
     if (isAllHotelsView) {
       return fetchAllHotels();
     }

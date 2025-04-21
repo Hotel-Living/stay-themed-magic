@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { HotelCard } from "@/components/HotelCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -65,28 +64,29 @@ export function FeaturedHotelsSection({ filters }: FeaturedHotelsSectionProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hotels.map((hotel) => {
-              // Extract the main image
-              const mainImage = hotel.hotel_images?.find((img: any) => img.is_main)?.image_url || 
+            {hotels.filter(hotel => hotel?.name && hotel?.country && hotel?.city).map((hotel) => {
+              const mainImage = hotel.hotel_images?.find((img: any) => img?.is_main)?.image_url || 
                                hotel.hotel_images?.[0]?.image_url || 
                                '/placeholder.svg';
               
-              // Extract the themes
-              const hotelThemes = hotel.hotel_themes?.map((ht: any) => ht.themes?.name).filter(Boolean) || [];
+              const hotelThemes = hotel.hotel_themes?.map((ht: any) => ht?.themes?.name).filter(Boolean) || [];
               
-              // Get available months if they exist
               const availableMonths = hotel.available_months || [];
               
               return (
                 <HotelCard
                   key={hotel.id}
                   id={hotel.id}
-                  name={hotel.name}
-                  city={hotel.city}
-                  country={hotel.country}
+                  name={hotel.name || 'Unnamed Hotel'}
+                  city={hotel.city || 'Unknown City'}
+                  country={hotel.country || 'Unknown Country'}
                   stars={hotel.category || 3}
-                  pricePerMonth={hotel.price_per_month}
-                  themes={hotelThemes.map((name: string) => ({ id: name.toLowerCase().replace(/\s+/g, '-'), name, category: 'Unknown' }))}
+                  pricePerMonth={hotel.price_per_month || 0}
+                  themes={hotelThemes.map((name: string) => ({ 
+                    id: name?.toLowerCase().replace(/\s+/g, '-') || 'unknown',
+                    name: name || 'Unknown Theme',
+                    category: 'Unknown'
+                  }))}
                   image={mainImage}
                   availableMonths={availableMonths}
                 />

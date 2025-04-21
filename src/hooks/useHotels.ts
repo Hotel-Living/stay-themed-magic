@@ -22,12 +22,18 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       setError(null);
 
       try {
-        // Fetch real hotels data from Supabase for authenticated hotel owners
         const data = await fetchHotelsWithFilters(filters);
-        setHotels(data);
+        // Filter out hotels with invalid data
+        const validHotels = data.filter((hotel: any) => 
+          hotel && 
+          typeof hotel === 'object' &&
+          hotel.id &&
+          hotel.name
+        );
+        setHotels(validHotels);
       } catch (err: any) {
-        console.error("Unexpected error:", err);
-        setError(err instanceof Error ? err : new Error(`An unexpected error occurred: ${err}`));
+        console.error("Error fetching hotels:", err);
+        setError(err instanceof Error ? err : new Error(String(err)));
       } finally {
         setLoading(false);
       }

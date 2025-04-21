@@ -85,10 +85,12 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     const { data, error } = await query;
 
     if (error) {
+      console.error("Supabase query error:", error);
       throw new Error(`Failed to fetch hotels: ${error.message}`);
     }
 
-    return data || [];
+    // Ensure we always return an array, even if empty
+    return data?.filter(hotel => hotel !== null) || [];
   } catch (err: any) {
     console.error("Error in fetchHotelsWithFilters:", err);
     throw err;

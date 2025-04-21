@@ -88,9 +88,10 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                   {adminTabs.map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => navigate(`/admin/${tab.id}`)}
+                      onClick={() => navigate(tab.id === "pending" ? "/admin" : `/admin/${tab.id}`)}
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
+                        (tab.id === "pending" && location.pathname === "/admin") ||
                         location.pathname.includes(tab.id)
                           ? "bg-[#7A0486]/50"
                           : "hover:bg-[#7A0486]/30"

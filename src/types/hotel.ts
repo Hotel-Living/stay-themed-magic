@@ -1,4 +1,3 @@
-
 import { HotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -25,6 +24,9 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
+  latitude?: number | string | null;
+  longitude?: number | string | null;
+  address?: string | null;
 }
 
 export interface HotelAmenitiesProps {

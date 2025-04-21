@@ -2,6 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 
+// Add TypeScript type definitions for Google Maps
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
+
 interface InteractiveMapProps {
   latitude: string;
   longitude: string;
@@ -93,7 +100,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       ]
     };
     
-    const newMap = new google.maps.Map(mapRef.current, mapOptions);
+    const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
     setMap(newMap);
     
     // Create a marker for the initial position if coordinates are provided
@@ -121,12 +128,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     }
     
     // Create new marker
-    const newMarker = new google.maps.Marker({
+    const newMarker = new window.google.maps.Marker({
       position,
       map,
-      animation: google.maps.Animation.DROP,
+      animation: window.google.maps.Animation.DROP,
       icon: {
-        path: google.maps.SymbolPath.CIRCLE,
+        path: window.google.maps.SymbolPath.CIRCLE,
         scale: 10,
         fillColor: "#FF69B4",
         fillOpacity: 1,
@@ -156,10 +163,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   // Geocode address to get coordinates
   useEffect(() => {
     if (map && address && window.google && !latitude && !longitude) {
-      const geocoder = new google.maps.Geocoder();
+      const geocoder = new window.google.maps.Geocoder();
       
       geocoder.geocode({ address }, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK && results && results[0]) {
+        if (status === window.google.maps.GeocoderStatus.OK && results && results[0]) {
           const location = results[0].geometry.location;
           const lat = location.lat().toFixed(6);
           const lng = location.lng().toFixed(6);
@@ -169,7 +176,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
         }
       });
     }
-  }, [address, map]);
+  }, [address, map, latitude, longitude, onLocationSelect]);
 
   return (
     <div className="mb-4">

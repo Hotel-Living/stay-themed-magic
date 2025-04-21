@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -58,7 +59,7 @@ export function Footer() {
           </div>
         </div>
         
-        <Separator className="bg-white/40 mb-2" />
+        <Separator className="bg-white/40 my-2" />
         
         <div className={`text-center text-xs text-white/80 ${isMobile ? "mt-8 mb-6" : ""}`}>
           <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>

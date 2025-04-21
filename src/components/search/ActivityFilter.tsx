@@ -1,5 +1,8 @@
 
 import { FilterItem } from "./FilterItem";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 interface ActivityFilterProps {
   activeActivities: string[];
@@ -18,26 +21,49 @@ export function ActivityFilter({
     'Nature & Adventure': ['Bird Watching', 'Garden Tours', 'Nature Walks', 'Stargazing']
   };
 
+  const [openCategories, setOpenCategories] = useState<string[]>([]);
+
+  const toggleCategory = (category: string) => {
+    setOpenCategories(prev => 
+      prev.includes(category) 
+        ? prev.filter(c => c !== category) 
+        : [...prev, category]
+    );
+  };
+
   return (
     <FilterItem title="ACTIVITIES">
-      {Object.entries(activityCategories).map(([category, activities]) => (
-        <div key={category} className="mb-2">
-          <div className="text-sm font-medium mb-1 text-fuchsia-200">{category}</div>
-          <div className="space-y-1 ml-2">
-            {activities.map(activity => (
-              <label key={activity} className="flex items-start">
-                <input 
-                  type="checkbox" 
-                  checked={activeActivities.includes(activity)}
-                  onChange={(e) => onChange(activity, e.target.checked)}
-                  className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                />
-                <span className="text-sm">{activity}</span>
-              </label>
-            ))}
+      <div className="space-y-2">
+        {Object.entries(activityCategories).map(([category, activities]) => (
+          <div key={category} className="bg-[#860493]/50 rounded-sm mb-1">
+            <div 
+              className="flex items-center justify-between cursor-pointer px-2 py-1"
+              onClick={() => toggleCategory(category)}
+            >
+              <span className="text-sm font-medium text-fuchsia-200">{category}</span>
+              <ChevronRight 
+                className={`h-4 w-4 transition-transform ${openCategories.includes(category) ? 'rotate-90' : ''}`} 
+              />
+            </div>
+            
+            {openCategories.includes(category) && (
+              <div className="space-y-1 ml-3 py-1">
+                {activities.map(activity => (
+                  <label key={activity} className="flex items-start">
+                    <input 
+                      type="checkbox" 
+                      checked={activeActivities.includes(activity)}
+                      onChange={(e) => onChange(activity, e.target.checked)}
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                    />
+                    <span className="text-sm">{activity}</span>
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </FilterItem>
   );
 }

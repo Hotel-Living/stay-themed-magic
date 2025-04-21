@@ -44,12 +44,13 @@ export default function AdminUserDetailView() {
         if (bookingsError) throw bookingsError;
         setBookings(bookingsData || []);
 
-        // Fetch user favorites
+        // Fetch user favorites - Modified to use proper join syntax
         const { data: favoritesData, error: favoritesError } = await supabase
           .from("favorites")
           .select(`
-            *,
-            hotels:hotel_id(name, country, city)
+            id, 
+            created_at,
+            hotels:hotel_id(id, name, country, city)
           `)
           .eq("user_id", id);
 

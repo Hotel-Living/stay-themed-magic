@@ -1,4 +1,3 @@
-
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search } from "lucide-react";
@@ -82,18 +81,20 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
           <h1 className="text-3xl font-bold mb-8">ADMIN DASHBOARD</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
             <aside className="lg:col-span-1">
               <div className="glass-card rounded-2xl overflow-hidden mb-8">
                 <nav className="p-2 bg-[#5c0869]">
                   {adminTabs.map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => navigate(tab.id === "pending" ? "/admin" : `/admin/${tab.id}`)}
+                      onClick={() => navigate(tab.id === "pending" ? "/admin" : 
+                                          tab.id === "all" ? "/admin/hotels" : 
+                                          `/admin/${tab.id}`)}
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
                         (tab.id === "pending" && location.pathname === "/admin") ||
-                        (tab.id !== "pending" && location.pathname === `/admin/${tab.id}`)
+                        (tab.id === "all" && location.pathname.includes("/admin/hotels")) ||
+                        (tab.id !== "pending" && tab.id !== "all" && location.pathname === `/admin/${tab.id}`)
                           ? "bg-[#7A0486]/50"
                           : "hover:bg-[#7A0486]/30"
                       )}
@@ -133,7 +134,6 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
               </div>
             </aside>
             
-            {/* Main Content */}
             <div className="lg:col-span-3">
               {children}
             </div>

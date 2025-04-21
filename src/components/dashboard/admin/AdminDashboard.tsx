@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +14,7 @@ export default function AdminDashboard() {
   const path = location.pathname;
   
   // Check if we're in the all hotels view
-  const isAllHotelsView = path.includes('/admin/all');
+  const isAllHotelsView = path.includes('/admin/all') || path.includes('/admin/hotels');
   
   const { checkAdminAccess } = useAdminAccess();
   const {

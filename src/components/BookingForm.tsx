@@ -1,10 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { durations } from "@/utils/booking";
-import { CalendarIcon, Check, Loader2 } from "lucide-react";
+import { CalendarIcon, Check, Loader2, Info } from "lucide-react";
 import { format, addDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { calculateDynamicPrice, formatCurrency } from "@/utils/dynamicPricing";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface BookingFormProps {
   hotelId: string;
@@ -19,8 +21,40 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
   const [booked, setBooked] = useState(false);
   const { toast } = useToast();
   
+  // Dynamic pricing state
+  const [nightsSold, setNightsSold] = useState<number>(0);
+  const [totalNights, setTotalNights] = useState<number>(0);
+  const [dynamicPrice, setDynamicPrice] = useState<number>(pricePerMonth);
+  const [priceIncrease, setPriceIncrease] = useState<number>(0);
+  
   const endDate = startDate ? addDays(startDate, duration) : null;
-  const totalPrice = (pricePerMonth / 30) * duration;
+  
+  // Calculate dynamic pricing whenever relevant factors change
+  useEffect(() => {
+    // For demo purposes, simulate the month having 30 rooms x 30 days = 900 total nights
+    const simulatedTotalNights = 900;
+    
+    // Simulate some nights already sold (this would come from the database in production)
+    const simulatedNightsSold = Math.floor(Math.random() * 400); // Random number between 0-400
+    
+    setNightsSold(simulatedNightsSold);
+    setTotalNights(simulatedTotalNights);
+    
+    // Calculate price based on the daily rate (monthly price / 30) and apply dynamic pricing
+    const dailyPrice = pricePerMonth / 30;
+    const dynamicDailyPrice = calculateDynamicPrice(
+      dailyPrice,
+      simulatedTotalNights,
+      simulatedNightsSold
+    );
+    
+    // Calculate percentage increase
+    const percentIncrease = ((dynamicDailyPrice / dailyPrice) - 1) * 100;
+    setPriceIncrease(Math.round(percentIncrease));
+    
+    // Set the total price for the stay
+    setDynamicPrice(dynamicDailyPrice * duration);
+  }, [pricePerMonth, duration]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,6 +149,36 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
                 </div>
               </div>
               
+              {/* Dynamic pricing info */}
+              <div className="rounded-lg bg-fuchsia-950/50 p-3 border border-fuchsia-800/30">
+                <div className="flex items-center justify-between text-sm text-fuchsia-200 mb-1">
+                  <span>Dynamic pricing</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button">
+                          <Info className="w-4 h-4 ml-1 text-fuchsia-400" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>This hotel uses dynamic pricing based on demand. Prices increase as more nights are booked.</p>
+                        <p className="mt-1">Currently {nightsSold} of {totalNights} nights have been booked this month.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="w-full bg-fuchsia-900/30 h-2 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-gradient-to-r from-fuchsia-400 to-fuchsia-600 h-full rounded-full"
+                    style={{ width: `${Math.min(priceIncrease * 5, 100)}%` }}
+                  ></div>
+                </div>
+                <div className="flex justify-between items-center mt-1 text-xs text-fuchsia-300">
+                  <span>Base price</span>
+                  <span>+{priceIncrease}% (max +20%)</span>
+                </div>
+              </div>
+              
               {/* Summary */}
               {startDate && (
                 <div className="rounded-lg bg-fuchsia-950/30 p-4">
@@ -133,7 +197,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
                   <div className="border-t border-fuchsia-900 my-2 pt-2"></div>
                   <div className="flex justify-between font-bold">
                     <span>Total price</span>
-                    <span className="text-gradient">${totalPrice.toFixed(2)}</span>
+                    <span className="text-gradient">{formatCurrency(dynamicPrice)}</span>
                   </div>
                 </div>
               )}

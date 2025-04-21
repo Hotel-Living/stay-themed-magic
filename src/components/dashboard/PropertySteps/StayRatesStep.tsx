@@ -20,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Slider } from "@/components/ui/slider";
 
 export default function StayRatesStep() {
   const [ratesFilled, setRatesFilled] = useState(false);
@@ -29,6 +30,7 @@ export default function StayRatesStep() {
   const [currency, setCurrency] = useState("USD");
   const [enablePriceIncrease, setEnablePriceIncrease] = useState(false);
   const [priceIncreasePercentage, setPriceIncreasePercentage] = useState(20);
+  const [priceIncreaseCap, setPriceIncreaseCap] = useState(20);
 
   const currencies = [
     { code: "USD", symbol: "$", name: "US Dollar" },
@@ -95,7 +97,7 @@ export default function StayRatesStep() {
                 
                 <AccordionItem value="price-increase" className="border-t border-fuchsia-800/30 mt-2 pt-2">
                   <AccordionTrigger className="py-2 px-0 hover:no-underline">
-                    <span className="text-sm font-medium uppercase">AUTOMATIC PRICE INCREASE</span>
+                    <span className="text-sm font-medium uppercase">DYNAMIC PRICING</span>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-4 pt-2">
@@ -106,7 +108,7 @@ export default function StayRatesStep() {
                           onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
                           className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
                         />
-                        <span className="text-sm">ENABLE AUTOMATIC PRICE INCREASE PER BOOKING</span>
+                        <span className="text-sm">ENABLE DYNAMIC PRICING BASED ON NIGHTS SOLD</span>
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -114,8 +116,8 @@ export default function StayRatesStep() {
                             </TooltipTrigger>
                             <TooltipContent className="max-w-sm">
                               <p>
-                                When enabled, prices will automatically increase as rooms are booked. 
-                                The percentage is divided by the number of available rooms and applied after each booking.
+                                When enabled, prices will automatically increase based on the number of nights booked in a month.
+                                The price increases by 1% for every X nights sold, where X depends on the total available nights.
                               </p>
                             </TooltipContent>
                           </Tooltip>
@@ -123,22 +125,38 @@ export default function StayRatesStep() {
                       </label>
                       
                       {enablePriceIncrease && (
-                        <div>
-                          <label className="block text-sm mb-1 uppercase">PRICE INCREASE PERCENTAGE</label>
-                          <div className="flex items-center">
-                            <input 
-                              type="number" 
-                              value={priceIncreasePercentage}
-                              onChange={(e) => setPriceIncreasePercentage(Number(e.target.value))}
-                              min="1"
-                              max="100"
-                              className="w-24 bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-2 mr-2 text-black"
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm mb-1 uppercase flex items-center justify-between">
+                              <span>MAXIMUM PRICE INCREASE</span>
+                              <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
+                            </label>
+                            <Slider
+                              value={[priceIncreaseCap]}
+                              onValueChange={(values) => setPriceIncreaseCap(values[0])}
+                              min={5}
+                              max={50}
+                              step={1}
+                              className="w-full"
                             />
-                            <span className="text-sm">%</span>
+                            <p className="text-xs text-foreground/70 mt-1">
+                              This is the maximum percentage that prices can increase due to demand.
+                            </p>
                           </div>
-                          <p className="text-xs text-foreground/70 mt-1">
-                            Example: With 10 rooms and 20% increase, each booking will raise the price by 2%.
-                          </p>
+                          
+                          <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30">
+                            <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
+                            <p className="text-xs text-foreground/80 mb-2">
+                              The price increases by 1% for every X nights sold in a month, where X is calculated as:
+                            </p>
+                            <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
+                              X = (Total nights in month) ÷ {priceIncreaseCap}
+                            </div>
+                            <p className="text-xs text-foreground/80">
+                              For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
+                              the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
+                            </p>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -165,6 +183,18 @@ export default function StayRatesStep() {
               <p className="text-xs text-foreground/80">
                 All rates are set <span className="font-bold">PER PERSON</span>. Rates will be displayed to customers accordingly.
               </p>
+              
+              {enablePriceIncrease && (
+                <div className="mt-3 pt-3 border-t border-fuchsia-800/30">
+                  <h3 className="text-sm font-medium mb-2 uppercase flex items-center">
+                    <Info className="w-4 h-4 mr-1 text-fuchsia-400" />
+                    DYNAMIC PRICING ENABLED
+                  </h3>
+                  <p className="text-xs text-foreground/80">
+                    These are base rates. Actual prices will dynamically increase up to +{priceIncreaseCap}% based on demand.
+                  </p>
+                </div>
+              )}
             </div>
             
             <div className="space-y-6">              

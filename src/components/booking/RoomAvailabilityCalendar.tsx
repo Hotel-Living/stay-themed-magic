@@ -1,6 +1,12 @@
 
 import React, { useState } from "react";
-import { Room, BookedStay, calculateBookingPosition, formatDateForCalendar } from "@/utils/roomAssignment";
+import { 
+  Room, 
+  BookedStay, 
+  calculateBookingPosition, 
+  formatDateForCalendar,
+  calculateAvailableGapsForMonth
+} from "@/utils/roomAssignment";
 import { format, addMonths, subMonths } from "date-fns";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 
@@ -116,6 +122,21 @@ export function RoomAvailabilityCalendar({
                       <div 
                         key={day} 
                         className="flex-1 border-l border-fuchsia-800/10 h-full" 
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Available gaps in room */}
+                  <div className="relative h-1 mb-1">
+                    {calculateAvailableGapsForMonth(room, currentMonth, currentYear).map((gap, i) => (
+                      <div
+                        key={`gap-${i}`}
+                        className="absolute top-0 h-full bg-green-500/30"
+                        style={{
+                          left: `${gap.start}%`,
+                          width: `${gap.width}%`,
+                        }}
+                        title="Available gap"
                       />
                     ))}
                   </div>

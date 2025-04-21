@@ -88,7 +88,7 @@ export default function AvailabilityDateSection({
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[preferredWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
-    // Check if ALL this month’s possible days are selected
+    // Check if ALL this month's possible days are selected
     return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
   };
 

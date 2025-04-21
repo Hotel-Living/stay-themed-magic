@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ export default function AdminDashboard() {
   const location = useLocation();
   const path = location.pathname;
   
-  // Check if we're in the all hotels view
   const isAllHotelsView = path.includes('/admin/all') || path.includes('/admin/hotels');
   
   const { checkAdminAccess } = useAdminAccess();
@@ -63,7 +61,6 @@ export default function AdminDashboard() {
     init();
   }, [user, path]);
 
-  // Wrapper functions to match the expected interface
   const onApprove = (hotel: Hotel) => {
     handleApprove(hotel.id);
   };

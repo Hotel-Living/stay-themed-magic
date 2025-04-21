@@ -1,12 +1,24 @@
 
 import { useState, useEffect } from "react";
 import { durations } from "@/utils/booking";
-import { CalendarIcon, Check, Loader2, Info } from "lucide-react";
+import { CalendarIcon, Check, Loader2, Info, Building } from "lucide-react";
 import { format, addDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { calculateDynamicPrice, formatCurrency } from "@/utils/dynamicPricing";
+import { 
+  calculateDynamicPrice, 
+  formatCurrency, 
+  calculateTotalNightsInMonth,
+  calculateNightsSold
+} from "@/utils/dynamicPricing";
+import { 
+  Room, 
+  StayRequest, 
+  assignRoom, 
+  generateSampleBookings 
+} from "@/utils/roomAssignment";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { RoomAvailabilityCalendar } from "@/components/booking/RoomAvailabilityCalendar";
 
 interface BookingFormProps {
   hotelId: string;
@@ -21,6 +33,15 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
   const [booked, setBooked] = useState(false);
   const { toast } = useToast();
   
+  // Room assignment state
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [selectedRoomType, setSelectedRoomType] = useState("single");
+  const [newBooking, setNewBooking] = useState<{
+    roomId: string;
+    startDate: Date;
+    endDate: Date;
+  } | null>(null);
+  
   // Dynamic pricing state
   const [nightsSold, setNightsSold] = useState<number>(0);
   const [totalNights, setTotalNights] = useState<number>(0);
@@ -29,23 +50,43 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
   
   const endDate = startDate ? addDays(startDate, duration) : null;
   
+  // Initialize with sample booking data
+  useEffect(() => {
+    const sampleRooms = generateSampleBookings();
+    setRooms(sampleRooms);
+  }, []);
+  
   // Calculate dynamic pricing whenever relevant factors change
   useEffect(() => {
-    // For demo purposes, simulate the month having 30 rooms x 30 days = 900 total nights
-    const simulatedTotalNights = 900;
+    if (!startDate) return;
     
-    // Simulate some nights already sold (this would come from the database in production)
-    const simulatedNightsSold = Math.floor(Math.random() * 400); // Random number between 0-400
+    // Get the month and year from the start date
+    const month = startDate.getMonth();
+    const year = startDate.getFullYear();
     
-    setNightsSold(simulatedNightsSold);
-    setTotalNights(simulatedTotalNights);
+    // For demo purposes, simulate having 30 rooms available
+    const totalRooms = 30;
+    
+    // Calculate total available nights for the month
+    const totalAvailableNights = calculateTotalNightsInMonth(totalRooms, year, month);
+    setTotalNights(totalAvailableNights);
+    
+    // Calculate nights already sold from existing bookings
+    const allBookings = rooms.flatMap(room => 
+      room.bookings.map(booking => ({
+        startDate: booking.startDate,
+        endDate: booking.endDate
+      }))
+    );
+    const soldNights = calculateNightsSold(allBookings, year, month);
+    setNightsSold(soldNights);
     
     // Calculate price based on the daily rate (monthly price / 30) and apply dynamic pricing
     const dailyPrice = pricePerMonth / 30;
     const dynamicDailyPrice = calculateDynamicPrice(
       dailyPrice,
-      simulatedTotalNights,
-      simulatedNightsSold
+      totalAvailableNights,
+      soldNights
     );
     
     // Calculate percentage increase
@@ -54,7 +95,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
     
     // Set the total price for the stay
     setDynamicPrice(dynamicDailyPrice * duration);
-  }, [pricePerMonth, duration]);
+  }, [pricePerMonth, duration, startDate, rooms]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,14 +110,63 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
     
     setLoading(true);
     
-    // Simulate API call
+    // Create a stay request
+    const stayRequest: StayRequest = {
+      startDate,
+      endDate: endDate!,
+      duration
+    };
+    
+    // Process room assignment
     setTimeout(() => {
+      // Find room assignment
+      const { roomId, isNewRoom } = assignRoom(stayRequest, rooms, selectedRoomType);
+      
+      // Create new booking
+      const newBookingId = `booking-${Date.now()}`;
+      const bookingToAdd = {
+        id: newBookingId,
+        roomId,
+        startDate,
+        endDate: endDate!,
+        duration
+      };
+      
+      // Update rooms state
+      setRooms(prevRooms => {
+        if (isNewRoom) {
+          // Add a new room with the booking
+          return [
+            ...prevRooms,
+            {
+              id: roomId,
+              roomTypeId: selectedRoomType,
+              bookings: [bookingToAdd]
+            }
+          ];
+        } else {
+          // Add booking to existing room
+          return prevRooms.map(room => 
+            room.id === roomId
+              ? { ...room, bookings: [...room.bookings, bookingToAdd] }
+              : room
+          );
+        }
+      });
+      
+      // Set the new booking for highlighting
+      setNewBooking({
+        roomId,
+        startDate,
+        endDate: endDate!
+      });
+      
       setLoading(false);
       setBooked(true);
       
       toast({
         title: "Booking confirmed!",
-        description: `Your stay at ${hotelName} has been booked successfully.`,
+        description: `Your stay at ${hotelName} has been booked in ${roomId}.`,
       });
     }, 1500);
   };
@@ -148,6 +238,45 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
                   ))}
                 </div>
               </div>
+              
+              {/* Room Type Selection */}
+              <div>
+                <label className="block text-sm font-medium mb-1.5">Room Type</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    className={cn(
+                      "rounded-lg border py-2 text-center transition-all",
+                      selectedRoomType === "single"
+                        ? "border-fuchsia-500 bg-fuchsia-500/20 text-fuchsia-200"
+                        : "border-border hover:border-fuchsia-500/50 hover:bg-fuchsia-500/10"
+                    )}
+                    onClick={() => setSelectedRoomType("single")}
+                  >
+                    Single
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      "rounded-lg border py-2 text-center transition-all",
+                      selectedRoomType === "double"
+                        ? "border-fuchsia-500 bg-fuchsia-500/20 text-fuchsia-200"
+                        : "border-border hover:border-fuchsia-500/50 hover:bg-fuchsia-500/10"
+                    )}
+                    onClick={() => setSelectedRoomType("double")}
+                  >
+                    Double
+                  </button>
+                </div>
+              </div>
+              
+              {/* Room Availability Calendar */}
+              {startDate && (
+                <RoomAvailabilityCalendar 
+                  rooms={rooms.filter(room => room.roomTypeId === selectedRoomType)} 
+                  highlightNewBooking={newBooking}
+                />
+              )}
               
               {/* Dynamic pricing info */}
               <div className="rounded-lg bg-fuchsia-950/50 p-3 border border-fuchsia-800/30">

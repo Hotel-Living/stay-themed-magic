@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,25 +31,25 @@ export default function AdminUserDetailView() {
         if (profileError) throw profileError;
         setProfile(profileData);
 
-        // Fetch user bookings
+        // Fetch user bookings with proper join syntax
         const { data: bookingsData, error: bookingsError } = await supabase
           .from("bookings")
           .select(`
             *,
-            hotels:hotel_id(name, country, city)
+            hotel:hotels(name, country, city)
           `)
           .eq("user_id", id);
 
         if (bookingsError) throw bookingsError;
         setBookings(bookingsData || []);
 
-        // Fetch user favorites - Modified to use proper join syntax
+        // Updated favorites query with proper join
         const { data: favoritesData, error: favoritesError } = await supabase
           .from("favorites")
           .select(`
-            id, 
+            id,
             created_at,
-            hotels:hotel_id(id, name, country, city)
+            hotel:hotels(name, country, city)
           `)
           .eq("user_id", id);
 
@@ -207,9 +206,9 @@ export default function AdminUserDetailView() {
                   <TableBody>
                     {favorites.map((favorite) => (
                       <TableRow key={favorite.id}>
-                        <TableCell>{favorite.hotels?.name || "Unknown Hotel"}</TableCell>
+                        <TableCell>{favorite.hotel?.name || "Unknown Hotel"}</TableCell>
                         <TableCell>
-                          {favorite.hotels?.city}, {favorite.hotels?.country}
+                          {favorite.hotel?.city}, {favorite.hotel?.country}
                         </TableCell>
                         <TableCell>{new Date(favorite.created_at).toLocaleDateString()}</TableCell>
                       </TableRow>

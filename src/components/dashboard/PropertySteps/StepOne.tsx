@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo"; // Updated import path
 import LocationSection from "./StepOne/Location"; // Updated import path
@@ -40,7 +39,9 @@ export default function StepOne({
         postalCode: formData.postalCode || '',
         contactName: formData.contactName || '',
         contactEmail: formData.contactEmail || '',
-        contactPhone: formData.contactPhone || ''
+        contactPhone: formData.contactPhone || '',
+        latitude: formData.latitude || '',
+        longitude: formData.longitude || ''
       });
     }
   }, [formData]);
@@ -55,7 +56,6 @@ export default function StepOne({
 
   return (
     <div className="space-y-4">
-      {/* Add bold title */}
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-3">
@@ -72,7 +72,9 @@ export default function StepOne({
             country: localFormData.country,
             address: localFormData.address,
             city: localFormData.city,
-            postalCode: localFormData.postalCode
+            postalCode: localFormData.postalCode,
+            latitude: localFormData.latitude,
+            longitude: localFormData.longitude
           }}
           errors={errors}
           touchedFields={touchedFields}
@@ -93,7 +95,6 @@ export default function StepOne({
         />
       </div>
       
-      {/* Validation status */}
       <ValidationMessage errors={errors} />
     </div>
   );

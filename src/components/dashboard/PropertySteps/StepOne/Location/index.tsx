@@ -1,12 +1,9 @@
-
-import React from 'react';
-import AddressInput from './AddressInput';
-import CountrySelector from './CountrySelector';
-import CitySelector from './CitySelector';
-import PostalCodeInput from './PostalCodeInput';
-import { useCitiesByCountry } from './useCitiesByCountry';
-import CustomCountryInput from './CustomCountryInput';
-import CustomCityInput from './CustomCityInput';
+import React from "react";
+import CountrySelector from "./CountrySelector";
+import CitySelector from "./CitySelector";
+import AddressInput from "./AddressInput";
+import PostalCodeInput from "./PostalCodeInput";
+import { Input } from "@/components/ui/input";
 
 interface LocationSectionProps {
   formData: {
@@ -14,116 +11,86 @@ interface LocationSectionProps {
     address: string;
     city: string;
     postalCode: string;
+    latitude?: string;
+    longitude?: string;
   };
-  errors: Record<string, string>;
-  touchedFields: Record<string, boolean>;
+  errors: any;
+  touchedFields: any;
   handleChange: (field: string, value: string) => void;
   handleBlur: (field: string) => void;
 }
 
-const LocationSection: React.FC<LocationSectionProps> = ({
-  formData,
-  errors,
-  touchedFields,
-  handleChange,
-  handleBlur
-}) => {
-  const { 
-    countries, 
-    cities, 
-    customCountry, setCustomCountry,
-    customCity, setCustomCity,
-    customCountryName, setCustomCountryName,
-    customCityName, setCustomCityName
-  } = useCitiesByCountry(formData.country);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    handleChange(e.target.name, e.target.value);
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
-    handleChange(name, value);
-  };
-
+const LocationSection = ({ formData, errors, touchedFields, handleChange, handleBlur }: LocationSectionProps) => {
   return (
     <div className="space-y-4">
-      <AddressInput 
-        value={formData.address || ''}
-        onChange={handleInputChange}
+      <h3 className="text-lg font-semibold text-white mb-4">Location Information</h3>
+      
+      <AddressInput
+        value={formData.address}
+        onChange={(e) => handleChange('address', e.target.value)}
         onBlur={() => handleBlur('address')}
-        hasError={!!errors.address && touchedFields.address}
-        errorMessage={errors.address}
+        error={errors.address}
+        touched={touchedFields.address}
       />
       
-      <div className="mb-4">
-        {customCountry ? (
-          <CustomCountryInput 
-            value={customCountryName}
-            onChange={(e) => setCustomCountryName(e.target.value)}
-            onBlur={() => {
-              handleChange('country', customCountryName);
-              handleBlur('country');
-            }}
-            onCancel={() => setCustomCountry(false)}
-          />
-        ) : (
-          <CountrySelector 
-            value={formData.country || ''}
-            onValueChange={(value) => {
-              if (value === 'add-new') {
-                setCustomCountry(true);
-              } else {
-                handleSelectChange('country', value);
-              }
-              handleBlur('country');
-            }}
-            onBlur={() => handleBlur('country')}
-            hasError={!!errors.country && touchedFields.country}
-            errorMessage={errors.country}
-            onCustomClick={() => setCustomCountry(true)}
-          />
-        )}
-      </div>
-
-      <div className="mb-4">
-        {customCity ? (
-          <CustomCityInput 
-            value={customCityName}
-            onChange={(e) => setCustomCityName(e.target.value)}
-            onBlur={() => {
-              handleChange('city', customCityName);
-              handleBlur('city');
-            }}
-            onCancel={() => setCustomCity(false)}
-          />
-        ) : (
-          <CitySelector 
-            value={formData.city || ''}
-            onValueChange={(value) => {
-              if (value === 'add-new') {
-                setCustomCity(true);
-              } else {
-                handleSelectChange('city', value);
-              }
-              handleBlur('city');
-            }}
-            onBlur={() => handleBlur('city')}
-            hasError={!!errors.city && touchedFields.city}
-            errorMessage={errors.city}
-            cities={cities.map(city => city.name)}
-            disabled={!formData.country}
-            onCustomClick={() => setCustomCity(true)}
-          />
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CountrySelector
+          value={formData.country}
+          onChange={(e) => handleChange('country', e.target.value)}
+          onBlur={() => handleBlur('country')}
+          error={errors.country}
+          touched={touchedFields.country}
+        />
+        
+        <CitySelector
+          country={formData.country}
+          value={formData.city}
+          onChange={(e) => handleChange('city', e.target.value)}
+          onBlur={() => handleBlur('city')}
+          error={errors.city}
+          touched={touchedFields.city}
+        />
       </div>
       
-      <PostalCodeInput 
-        value={formData.postalCode || ''}
-        onChange={handleInputChange}
+      <PostalCodeInput
+        value={formData.postalCode}
+        onChange={(e) => handleChange('postalCode', e.target.value)}
         onBlur={() => handleBlur('postalCode')}
-        hasError={!!errors.postalCode && touchedFields.postalCode}
-        errorMessage={errors.postalCode}
+        error={errors.postalCode}
+        touched={touchedFields.postalCode}
       />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-white mb-1">
+            Latitude (optional)
+          </label>
+          <Input
+            type="number"
+            step="0.000001"
+            placeholder="Enter latitude (e.g. 41.8902)"
+            value={formData.latitude || ''}
+            onChange={(e) => handleChange('latitude', e.target.value)}
+            onBlur={() => handleBlur('latitude')}
+            className="text-white bg-[#7A0486] border-fuchsia-800/30 focus:border-fuchsia-500/50"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-white mb-1">
+            Longitude (optional)
+          </label>
+          <Input
+            type="number"
+            step="0.000001"
+            placeholder="Enter longitude (e.g. 12.4922)"
+            value={formData.longitude || ''}
+            onChange={(e) => handleChange('longitude', e.target.value)}
+            onBlur={() => handleBlur('longitude')}
+            className="text-white bg-[#7A0486] border-fuchsia-800/30 focus:border-fuchsia-500/50"
+          />
+        </div>
+      </div>
     </div>
   );
 };

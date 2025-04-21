@@ -150,6 +150,33 @@ export default function AdminDashboard() {
     fetchPendingHotels();
   };
 
+  const handleDelete = async (hotelId: string) => {
+    const { error } = await supabase
+      .from('hotels')
+      .delete()
+      .eq('id', hotelId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete hotel",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Hotel has been deleted"
+    });
+
+    if (isAllHotelsView) {
+      fetchAllHotels();
+    } else {
+      fetchPendingHotels();
+    }
+  };
+
   if (loading) {
     return (
       <AdminDashboardLayout>
@@ -171,6 +198,8 @@ export default function AdminDashboard() {
           hotels={hotels}
           onApprove={handleApprove}
           onReject={handleReject}
+          onDelete={handleDelete}
+          isAllHotelsView={isAllHotelsView}
         />
       </div>
     </AdminDashboardLayout>

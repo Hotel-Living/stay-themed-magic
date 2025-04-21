@@ -2,11 +2,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 
-// Add TypeScript type definitions for Google Maps
+// Properly define Google Maps types
 declare global {
   interface Window {
-    google: typeof google;
+    google: any;
   }
+}
+
+// Define Google Maps related types
+interface GoogleMapOptions {
+  center: { lat: number; lng: number };
+  zoom: number;
+  mapTypeId: string;
+  mapTypeControl: boolean;
+  fullscreenControl: boolean;
+  streetViewControl: boolean;
+  styles: Array<{
+    featureType: string;
+    elementType: string;
+    stylers: Array<{ [key: string]: string | number }>;
+  }>;
 }
 
 interface InteractiveMapProps {
@@ -23,8 +38,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   onLocationSelect
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [marker, setMarker] = useState<google.maps.Marker | null>(null);
+  const [map, setMap] = useState<any>(null);
+  const [marker, setMarker] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,10 +89,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       lng: longitude ? parseFloat(longitude) : -74.0060
     };
     
-    const mapOptions: google.maps.MapOptions = {
+    const mapOptions: GoogleMapOptions = {
       center,
       zoom: 13,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: window.google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       fullscreenControl: false,
       streetViewControl: false,
@@ -109,7 +124,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     }
     
     // Add click event listener to the map
-    newMap.addListener('click', (event: google.maps.MapMouseEvent) => {
+    newMap.addListener('click', (event: any) => {
       if (event.latLng) {
         const lat = event.latLng.lat().toFixed(6);
         const lng = event.latLng.lng().toFixed(6);
@@ -121,7 +136,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   };
 
   // Add or update marker
-  const addMarker = (map: google.maps.Map, position: google.maps.LatLng | google.maps.LatLngLiteral) => {
+  const addMarker = (map: any, position: any) => {
     // Remove existing marker
     if (marker) {
       marker.setMap(null);
@@ -165,7 +180,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     if (map && address && window.google && !latitude && !longitude) {
       const geocoder = new window.google.maps.Geocoder();
       
-      geocoder.geocode({ address }, (results, status) => {
+      geocoder.geocode({ address }, (results: any, status: any) => {
         if (status === window.google.maps.GeocoderStatus.OK && results && results[0]) {
           const location = results[0].geometry.location;
           const lat = location.lat().toFixed(6);

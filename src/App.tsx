@@ -35,6 +35,7 @@ import AddPropertyPage from './pages/AddPropertyPage';
 import ThemesInformation from './pages/ThemesInformation';
 import Contact from "./pages/Contact";
 import AdminDashboard from './pages/AdminDashboard';
+import AdminAllRoutes from './pages/AdminAllRoutes';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -87,8 +88,7 @@ function App() {
                   <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/admin/hotels" element={<AdminDashboard />} />
-                  <Route path="/admin/hotels/all" element={<AdminDashboard />} />
+                  <Route path="/admin/*" element={<AdminAllRoutes />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />

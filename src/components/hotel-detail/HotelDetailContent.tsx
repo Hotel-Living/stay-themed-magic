@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
@@ -27,6 +26,12 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   
   // Use the average rating from the API
   const averageRating = hotel?.average_rating || 0;
+  
+  // Check if hotel has valid coordinates for map
+  const hasCoordinates = hotel?.latitude && hotel?.longitude;
+  const mapUrl = hasCoordinates ? 
+    `https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${hotel.latitude},${hotel.longitude}&zoom=15` : 
+    '';
   
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
@@ -82,6 +87,37 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             months={availableMonths}
             isLoading={isLoading}
           />
+          
+          {/* Map Section */}
+          {hasCoordinates && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-3">Location</h2>
+              <div className="rounded-lg overflow-hidden">
+                <iframe 
+                  src={mapUrl}
+                  width="100%" 
+                  height="300" 
+                  style={{ border: 0 }} 
+                  allowFullScreen 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={`Map location for ${hotel?.name}`}
+                  className="w-full"
+                ></iframe>
+              </div>
+              <div className="mt-2 text-sm">
+                <p>{hotel?.address}, {hotel?.city}, {hotel?.country}</p>
+                <a 
+                  href={`https://www.google.com/maps?q=${hotel?.latitude},${hotel?.longitude}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-fuchsia-400 hover:text-fuchsia-300 transition"
+                >
+                  View on Google Maps
+                </a>
+              </div>
+            </div>
+          )}
         </div>
         
         {/* Booking Form */}

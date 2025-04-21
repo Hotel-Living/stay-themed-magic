@@ -4,6 +4,7 @@ import CountrySelector from "./CountrySelector";
 import CitySelector from "./CitySelector";
 import AddressInput from "./AddressInput";
 import PostalCodeInput from "./PostalCodeInput";
+import InteractiveMap from "./InteractiveMap";
 import { Input } from "@/components/ui/input";
 import { City } from 'country-state-city';
 
@@ -42,6 +43,11 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
 
   const handleCustomCity = () => {
     setShowCustomCity(true);
+  };
+
+  const handleLocationSelect = (lat: string, lng: string) => {
+    handleChange('latitude', lat);
+    handleChange('longitude', lng);
   };
 
   return (
@@ -87,6 +93,13 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
         onBlur={() => handleBlur('postalCode')}
         error={errors.postalCode}
         touched={touchedFields.postalCode}
+      />
+
+      <InteractiveMap
+        latitude={formData.latitude || ''}
+        longitude={formData.longitude || ''}
+        address={formData.address}
+        onLocationSelect={handleLocationSelect}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

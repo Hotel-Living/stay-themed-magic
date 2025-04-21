@@ -77,6 +77,22 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
       newErrors.longitude = "Longitude must be a valid number";
     }
     
+    // Check latitude range
+    if (formData.latitude && !isNaN(Number(formData.latitude))) {
+      const lat = Number(formData.latitude);
+      if (lat < -90 || lat > 90) {
+        newErrors.latitude = "Latitude must be between -90 and 90";
+      }
+    }
+    
+    // Check longitude range
+    if (formData.longitude && !isNaN(Number(formData.longitude))) {
+      const lng = Number(formData.longitude);
+      if (lng < -180 || lng > 180) {
+        newErrors.longitude = "Longitude must be between -180 and 180";
+      }
+    }
+    
     setErrors(newErrors);
     
     // Check if form is valid (no errors)

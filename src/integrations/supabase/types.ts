@@ -30,6 +30,21 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_users: {
+        Row: {
+          created_at: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           check_in: string
@@ -265,6 +280,8 @@ export type Database = {
           owner_id: string | null
           price_per_month: number
           property_type: string | null
+          rejection_reason: string | null
+          status: string | null
           style: string | null
           updated_at: string
         }
@@ -285,6 +302,8 @@ export type Database = {
           owner_id?: string | null
           price_per_month: number
           property_type?: string | null
+          rejection_reason?: string | null
+          status?: string | null
           style?: string | null
           updated_at?: string
         }
@@ -305,6 +324,8 @@ export type Database = {
           owner_id?: string | null
           price_per_month?: number
           property_type?: string | null
+          rejection_reason?: string | null
+          status?: string | null
           style?: string | null
           updated_at?: string
         }
@@ -470,7 +491,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

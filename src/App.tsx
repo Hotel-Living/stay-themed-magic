@@ -1,8 +1,7 @@
-
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { createQueryClient } from './lib/query-client'; // Fixed import to local path
+import { createQueryClient } from './lib/query-client';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
@@ -35,8 +34,8 @@ import ResetPassword from './pages/ResetPassword';
 import AddPropertyPage from './pages/AddPropertyPage';
 import ThemesInformation from './pages/ThemesInformation';
 import Contact from "./pages/Contact";
+import AdminDashboard from './pages/AdminDashboard';
 
-// ScrollToTop component to ensure pages always start at the top
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -88,6 +87,7 @@ function App() {
                   <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/admin/hotels" element={<AdminDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />
@@ -102,4 +102,3 @@ function App() {
 }
 
 export default App;
-

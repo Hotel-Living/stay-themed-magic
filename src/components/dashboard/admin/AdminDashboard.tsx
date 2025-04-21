@@ -8,6 +8,7 @@ import { useAdminAccess } from "./hooks/useAdminAccess";
 import { useHotelsData } from "./hooks/useHotelsData";
 import { useHotelActions } from "./hooks/useHotelActions";
 import RejectDialog from "./RejectDialog";
+import { Hotel } from "@/integrations/supabase/types-custom";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -27,7 +28,7 @@ export default function AdminDashboard() {
   } = useHotelsData();
 
   const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
-  const [selectedHotel, setSelectedHotel] = useState<any>(null);
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
 
   const refreshData = async () => {
     if (isAllHotelsView) {
@@ -63,16 +64,16 @@ export default function AdminDashboard() {
   }, [user, path]);
 
   // Wrapper functions to match the expected interface
-  const onApprove = (hotel: any) => {
+  const onApprove = (hotel: Hotel) => {
     handleApprove(hotel.id);
   };
 
-  const onReject = (hotel: any) => {
+  const onReject = (hotel: Hotel) => {
     setSelectedHotel(hotel);
     setRejectionDialogOpen(true);
   };
 
-  const onDelete = (hotel: any) => {
+  const onDelete = (hotel: Hotel) => {
     handleDelete(hotel.id);
   };
 

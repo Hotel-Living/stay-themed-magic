@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import StayLengthMealsSection from "./StayLengthMealsSection";
 import RoomsRatesSection from "./RoomsRatesSection";
@@ -22,6 +23,9 @@ export default function AccommodationTermsStep({
   const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(false);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+
+  // Preferred weekday fallback
+  const preferredWeekday = formData.preferredWeekday || "Monday";
 
   // Check if all required fields are completed
   const checkValidation = () => {
@@ -54,6 +58,11 @@ export default function AccommodationTermsStep({
     setTimeout(checkValidation, 100);
   };
 
+  // Handle weekday selection and store in formData
+  const handlePreferredWeekdayChange = (weekday: string) => {
+    updateFormData("preferredWeekday", weekday);
+  };
+
   useEffect(() => {
     // Validate on mount and when fields change
     checkValidation();
@@ -69,7 +78,10 @@ export default function AccommodationTermsStep({
       {/* Main title is now "ACCOMMODATION TERMS" */}
       <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>
       
-      <PreferredWeekdaySection />
+      <PreferredWeekdaySection
+        preferredWeekday={preferredWeekday}
+        onWeekdayChange={handlePreferredWeekdayChange}
+      />
       
       <StayLengthMealsSection 
         isOpen={isStayLengthMealsOpen}

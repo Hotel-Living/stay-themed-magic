@@ -1,11 +1,17 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-export default function PreferredWeekdaySection() {
-  const [selectedDay, setSelectedDay] = useState("Monday"); // Monday is the default
+interface PreferredWeekdaySectionProps {
+  preferredWeekday: string;
+  onWeekdayChange: (weekday: string) => void;
+}
 
+export default function PreferredWeekdaySection({
+  preferredWeekday = "Monday",
+  onWeekdayChange,
+}: PreferredWeekdaySectionProps) {
   return (
     <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
       <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
@@ -23,8 +29,9 @@ export default function PreferredWeekdaySection() {
                 type="radio" 
                 name="preferred-weekday" 
                 className="rounded-full border-white text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
-                checked={selectedDay === day}
-                onChange={() => setSelectedDay(day)}
+                value={day}
+                checked={preferredWeekday === day}
+                onChange={() => onWeekdayChange(day)}
               />
               <span className="text-xs text-center text-white">{day}</span>
             </label>

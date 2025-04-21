@@ -6,7 +6,6 @@ import AddRoomTypeButton from "./AddRoomTypeButton";
 import RoomTypeDialog from "../RoomTypeDialog";
 import { RoomType } from "./useRoomTypes";
 
-// Update the interface to include roomCount
 interface RoomTypeContentProps {
   roomTypes: RoomType[];
   selectedStayLengths: number[];
@@ -15,6 +14,7 @@ interface RoomTypeContentProps {
   setDialogOpen: (isOpen: boolean) => void;
   handleAddRoomType: (roomType: RoomType) => void;
   handleDeleteRoomType: (id: string) => void;
+  preferredWeekday: string; // Add this prop
 }
 
 export default function RoomTypeContent({
@@ -24,7 +24,8 @@ export default function RoomTypeContent({
   dialogOpen,
   setDialogOpen,
   handleAddRoomType,
-  handleDeleteRoomType
+  handleDeleteRoomType,
+  preferredWeekday
 }: RoomTypeContentProps) {
   return (
     <>
@@ -54,6 +55,7 @@ export default function RoomTypeContent({
         onClose={() => setDialogOpen(false)} 
         onAdd={handleAddRoomType}
         availableStayLengths={selectedStayLengths}
+        preferredWeekday={preferredWeekday}
       />
     </>
   );

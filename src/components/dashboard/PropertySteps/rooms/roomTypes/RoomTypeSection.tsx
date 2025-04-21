@@ -32,6 +32,9 @@ export default function RoomTypeSection({
     handleDeleteRoomType
   } = useRoomTypeSection(onValidationChange, formData, updateFormData);
 
+  // Preferred weekday read from formData (provided from the parent)
+  const preferredWeekday = formData?.preferredWeekday || "Monday";
+
   const mainContent = (
     <RoomTypeContent
       roomTypes={roomTypes}
@@ -41,6 +44,7 @@ export default function RoomTypeSection({
       setDialogOpen={setDialogOpen}
       handleAddRoomType={handleAddRoomType}
       handleDeleteRoomType={handleDeleteRoomType}
+      preferredWeekday={preferredWeekday}
     />
   );
 

@@ -146,6 +146,8 @@ export default function AvailabilityDateSection({
     );
   }
 
+  const preferredDayNum = weekdayMap[preferredWeekday];
+
   return (
     <div className="grid grid-cols-4 items-start gap-4">
       <Label className="text-right text-sm text-white">AVAILABILITY DATES</Label>
@@ -156,7 +158,6 @@ export default function AvailabilityDateSection({
         <div className="space-y-2">
           {months.map((month, idx) => {
             const monthDate = addMonths(currentDate, idx);
-            const preferredDayNum = weekdayMap[preferredWeekday];
             return (
               <Collapsible
                 key={month}
@@ -216,4 +217,3 @@ export default function AvailabilityDateSection({
     </div>
   );
 }
-

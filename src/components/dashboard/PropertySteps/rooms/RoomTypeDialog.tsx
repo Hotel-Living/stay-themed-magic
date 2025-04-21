@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -14,13 +15,15 @@ interface RoomTypeDialogProps {
   onClose: () => void;
   onAdd: (roomType: any) => void;
   availableStayLengths?: number[];
+  preferredWeekday?: string; // <-- accept this as a prop
 }
 
 export default function RoomTypeDialog({ 
   isOpen, 
   onClose, 
   onAdd,
-  availableStayLengths = [] 
+  availableStayLengths = [],
+  preferredWeekday = "Monday",
 }: RoomTypeDialogProps) {
   const [newRoomType, setNewRoomType] = useState("");
   const [maxOccupancy, setMaxOccupancy] = useState(1);
@@ -32,8 +35,7 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
-  const [preferredWeekday, setPreferredWeekday] = useState("Monday");
-  
+
   useEffect(() => {
     if (isOpen) {
       if (availableStayLengths && availableStayLengths.length > 0) {
@@ -44,15 +46,8 @@ export default function RoomTypeDialog({
           setStayLengths(storedLengths);
         }
       }
-      
-      const weekdayElements = document.querySelectorAll('input[name="preferred-weekday"]');
-      weekdayElements.forEach((element) => {
-        const input = element as HTMLInputElement;
-        if (input.checked) {
-          setPreferredWeekday(input.value || "Monday");
-        }
-      });
     }
+    // No DOM querySelector: preferredWeekday is passed as prop
   }, [isOpen, availableStayLengths]);
 
   const handleAddRoomType = () => {

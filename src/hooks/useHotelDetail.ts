@@ -27,7 +27,7 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     .from('hotels')
     .select(`
       *,
-      hotel_images(image_url, is_main),
+      hotel_images(id, hotel_id, image_url, is_main, created_at),
       hotel_themes(theme_id, themes:themes(id, name))
     `)
     .eq('id', id)
@@ -38,7 +38,7 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   }
   
   // Create a properly typed object with our hotel data
-  const hotelData = data as HotelWithDetails;
+  const hotelData = data as unknown as HotelWithDetails;
   
   // Now fetch the average rating for this hotel
   const { data: ratingData, error: ratingError } = await supabase

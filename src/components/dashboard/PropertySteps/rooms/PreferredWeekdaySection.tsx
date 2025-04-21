@@ -7,15 +7,28 @@ import {
   CollapsibleTrigger
 } from "@/components/ui/collapsible";
 
-export default function PreferredWeekdaySection() {
+interface PreferredWeekdaySectionProps {
+  preferredWeekday?: string;
+  onWeekdayChange?: (weekday: string) => void;
+}
+
+export default function PreferredWeekdaySection({
+  preferredWeekday = "Monday",
+  onWeekdayChange = () => {}
+}: PreferredWeekdaySectionProps) {
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  const [selectedWeekday, setSelectedWeekday] = useState("Monday"); // Monday is default
+  const [selectedWeekday, setSelectedWeekday] = useState(preferredWeekday); 
   const [isOpen, setIsOpen] = useState(false);
   
-  // Ensure Monday is selected by default when component mounts
+  // Set initial weekday based on prop
   useEffect(() => {
-    setSelectedWeekday("Monday");
-  }, []);
+    setSelectedWeekday(preferredWeekday);
+  }, [preferredWeekday]);
+
+  const handleWeekdayChange = (day: string) => {
+    setSelectedWeekday(day);
+    onWeekdayChange(day);
+  };
 
   return (
     <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpen} onOpenChange={setIsOpen}>
@@ -38,7 +51,7 @@ export default function PreferredWeekdaySection() {
                 value={day}
                 className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
                 checked={selectedWeekday === day}
-                onChange={() => setSelectedWeekday(day)}
+                onChange={() => handleWeekdayChange(day)}
               />
               <span className="text-xs text-center">{day}</span>
             </label>

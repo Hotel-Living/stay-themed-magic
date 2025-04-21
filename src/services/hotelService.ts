@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { FilterState } from '@/components/filters/FilterTypes';
 
@@ -9,7 +10,8 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         *, 
         hotel_images(*), 
         hotel_themes(theme_id, themes:themes(*)),
-        hotel_activities(activity_id, activities:activities(*))
+        hotel_activities(activity_id, activities:activities(*)),
+        hotel_availability(*)
       `);
 
     // Apply search term filter
@@ -27,9 +29,15 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.eq('country', filters.country);
     }
 
-    // Apply month filter
+    // Apply month filter - enhanced to check both full months and specific dates
     if (filters.month) {
-      query = query.contains('available_months', [filters.month]);
+      const month = filters.month.toLowerCase();
+      // This is a more complex filter that needs to check:
+      // 1. If the month is in the available_months array (full month availability)
+      // 2. OR if there are any availability dates in the hotel_availability table for this month
+      query = query.or(
+        `available_months.cs.{${month}},hotel_availability.availability_month.eq.${month}`
+      );
     }
 
     // Apply city/location filter

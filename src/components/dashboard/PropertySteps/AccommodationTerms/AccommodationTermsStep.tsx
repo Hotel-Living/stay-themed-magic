@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import StayLengthMealsSection from "./StayLengthMealsSection";
 import RoomsRatesSection from "./RoomsRatesSection";
-import PreferredWeekdaySection from "./PreferredWeekdaySection";
+import PreferredWeekdaySection from "../rooms/PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 
 interface AccommodationTermsStepProps {

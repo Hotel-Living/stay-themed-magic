@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import AdminDashboardLayout from "./AdminDashboardLayout";
 
 export default function AdminUsersPanel() {
   const [users, setUsers] = useState<any[]>([]);
@@ -36,44 +38,58 @@ export default function AdminUsersPanel() {
   }, []);
 
   if (loading) {
-    return <div className="p-4">Loading users...</div>;
+    return (
+      <AdminDashboardLayout>
+        <div className="p-4">Loading users...</div>
+      </AdminDashboardLayout>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">User Management</h2>
-      </div>
+    <AdminDashboardLayout>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">User Management</h2>
+        </div>
 
-      <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>First Name</TableHead>
-              <TableHead>Last Name</TableHead>
-              <TableHead>Hotel Owner?</TableHead>
-              <TableHead>Joined</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map(user => (
-              <TableRow key={user.id}>
-                <TableCell className="font-mono text-xs">{user.id}</TableCell>
-                <TableCell>{user.first_name || "-"}</TableCell>
-                <TableCell>{user.last_name || "-"}</TableCell>
-                <TableCell>{user.is_hotel_owner ? "Yes" : "No"}</TableCell>
-                <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
-              </TableRow>
-            ))}
-            {users.length === 0 && (
+        <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-4">No users found</TableCell>
+                <TableHead>First Name</TableHead>
+                <TableHead>Last Name</TableHead>
+                <TableHead>Hotel Owner?</TableHead>
+                <TableHead>Joined</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {users.map(user => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.first_name || "-"}</TableCell>
+                  <TableCell>{user.last_name || "-"}</TableCell>
+                  <TableCell>{user.is_hotel_owner ? "Yes" : "No"}</TableCell>
+                  <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.location.href = `/admin/users/${user.id}`}
+                    >
+                      View Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {users.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-4">No users found</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-    </div>
+    </AdminDashboardLayout>
   );
 }

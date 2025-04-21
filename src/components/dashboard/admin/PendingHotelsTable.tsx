@@ -1,131 +1,107 @@
-
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import React from "react";
+import { Hotel } from "@/types";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import RejectDialog from "./RejectDialog";
-import DeleteDialog from "./DeleteDialog";
 
 interface PendingHotelsTableProps {
-  hotels: any[];
-  onApprove: (id: string) => void;
-  onReject: (id: string, reason: string) => void;
-  onDelete: (id: string) => void;
+  hotels: Hotel[];
+  onApprove: (hotel: Hotel) => void;
+  onReject: (hotel: Hotel) => void;
+  onDelete: (hotel: Hotel) => void;
   isAllHotelsView?: boolean;
 }
 
 export default function PendingHotelsTable({ 
   hotels, 
   onApprove, 
-  onReject,
+  onReject, 
   onDelete,
-  isAllHotelsView = false
+  isAllHotelsView 
 }: PendingHotelsTableProps) {
-  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
-  const [selectedHotelName, setSelectedHotelName] = useState<string>("");
-
-  const handleRejectClick = (hotelId: string) => {
-    setSelectedHotelId(hotelId);
-    setRejectDialogOpen(true);
-  };
-
-  const handleDeleteClick = (hotelId: string, hotelName: string) => {
-    setSelectedHotelId(hotelId);
-    setSelectedHotelName(hotelName);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleRejectConfirm = (reason: string) => {
-    if (selectedHotelId) {
-      onReject(selectedHotelId, reason);
-    }
-    setRejectDialogOpen(false);
-    setSelectedHotelId(null);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (selectedHotelId) {
-      onDelete(selectedHotelId);
-    }
-    setDeleteDialogOpen(false);
-    setSelectedHotelId(null);
-  };
 
   return (
-    <>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Hotel Name</TableHead>
-              <TableHead>Owner</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Price/Month</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {hotels.map((hotel) => (
+    <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Country</TableHead>
+            <TableHead>City</TableHead>
+            <TableHead>Property Type</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Action</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {hotels.length > 0 ? (
+            hotels.map((hotel) => (
               <TableRow key={hotel.id}>
-                <TableCell>{hotel.name}</TableCell>
+                <TableCell className="font-medium">{hotel.name}</TableCell>
+                <TableCell>{hotel.country}</TableCell>
+                <TableCell>{hotel.city}</TableCell>
+                <TableCell>{hotel.property_type || "Not specified"}</TableCell>
                 <TableCell>
-                  {hotel.profiles?.first_name} {hotel.profiles?.last_name}
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    hotel.status === 'approved' ? 'bg-green-100 text-green-800' : 
+                    hotel.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                    'bg-red-100 text-red-800'
+                  }`}>
+                    {hotel.status}
+                  </span>
                 </TableCell>
-                <TableCell>
-                  {hotel.city}, {hotel.country}
-                </TableCell>
-                <TableCell>${hotel.price_per_month}</TableCell>
-                <TableCell className="space-x-2">
-                  {isAllHotelsView ? (
-                    <Button 
-                      variant="destructive"
-                      onClick={() => handleDeleteClick(hotel.id, hotel.name)}
-                    >
-                      Delete
-                    </Button>
-                  ) : (
+                <TableCell className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.location.href = `/admin/hotels/${hotel.id}`}
+                  >
+                    Details
+                  </Button>
+                  
+                  {!isAllHotelsView && hotel.status === 'pending' && (
                     <>
-                      <Button 
+                      <Button
                         variant="default"
-                        onClick={() => onApprove(hotel.id)}
+                        size="sm"
+                        onClick={() => onApprove(hotel)}
                       >
                         Approve
                       </Button>
-                      <Button 
-                        variant="destructive"
-                        onClick={() => handleRejectClick(hotel.id)}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-red-300 hover:bg-red-100 hover:text-red-600"
+                        onClick={() => onReject(hotel)}
                       >
                         Reject
                       </Button>
                     </>
                   )}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-red-500 hover:bg-red-500 hover:text-white"
+                    onClick={() => onDelete(hotel)}
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
               </TableRow>
-            ))}
-            {hotels.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-4">
-                  {isAllHotelsView ? "No hotels found" : "No pending hotel registrations"}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      <RejectDialog 
-        open={rejectDialogOpen}
-        onClose={() => setRejectDialogOpen(false)}
-        onConfirm={handleRejectConfirm}
-      />
-
-      <DeleteDialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        onConfirm={handleDeleteConfirm}
-        hotelName={selectedHotelName}
-      />
-    </>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-10">
+                <p className="text-muted-foreground">
+                  {isAllHotelsView
+                    ? "No hotels found in the database."
+                    : "No pending hotel registrations at the moment."}
+                </p>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

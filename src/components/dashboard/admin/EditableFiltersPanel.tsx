@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Edit, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import AdminDashboardLayout from "./AdminDashboardLayout";
 
 export default function EditableFiltersPanel() {
   const [activeTab, setActiveTab] = useState("countries");
@@ -132,99 +133,101 @@ export default function EditableFiltersPanel() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Filter Management</h2>
+    <AdminDashboardLayout>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">Filter Management</h2>
+        </div>
+
+        <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+          <Tabs defaultValue="countries" value={activeTab} onValueChange={setActiveTab}>
+            <div className="flex justify-between items-center mb-6">
+              <TabsList>
+                <TabsTrigger value="countries">Countries</TabsTrigger>
+                <TabsTrigger value="months">Months</TabsTrigger>
+                <TabsTrigger value="price">Price Ranges</TabsTrigger>
+                <TabsTrigger value="stars">Star Ratings</TabsTrigger>
+                <TabsTrigger value="property">Property Types</TabsTrigger>
+              </TabsList>
+              <Button onClick={() => setNewItemDialogOpen(true)}>Add New</Button>
+            </div>
+            
+            <TabsContent value="countries" className="p-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {renderFilterItems("countries")}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="months" className="p-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {renderFilterItems("months")}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="price" className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {renderFilterItems("price")}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="stars" className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {renderFilterItems("stars")}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="property" className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {renderFilterItems("property")}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Add New Item Dialog */}
+        <Dialog open={newItemDialogOpen} onOpenChange={setNewItemDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New {activeTab.charAt(0).toUpperCase() + activeTab.slice(1, -1)}</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <Input
+                value={newItemValue}
+                onChange={(e) => setNewItemValue(e.target.value)}
+                placeholder={`Enter new ${activeTab.slice(0, -1)}...`}
+              />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setNewItemDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleAddNew}>
+                Add
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              Are you sure you want to delete this item? This action cannot be undone.
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={handleDelete}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
-        <Tabs defaultValue="countries" value={activeTab} onValueChange={setActiveTab}>
-          <div className="flex justify-between items-center mb-6">
-            <TabsList>
-              <TabsTrigger value="countries">Countries</TabsTrigger>
-              <TabsTrigger value="months">Months</TabsTrigger>
-              <TabsTrigger value="price">Price Ranges</TabsTrigger>
-              <TabsTrigger value="stars">Star Ratings</TabsTrigger>
-              <TabsTrigger value="property">Property Types</TabsTrigger>
-            </TabsList>
-            <Button onClick={() => setNewItemDialogOpen(true)}>Add New</Button>
-          </div>
-          
-          <TabsContent value="countries" className="p-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {renderFilterItems("countries")}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="months" className="p-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {renderFilterItems("months")}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="price" className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {renderFilterItems("price")}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="stars" className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {renderFilterItems("stars")}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="property" className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {renderFilterItems("property")}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      {/* Add New Item Dialog */}
-      <Dialog open={newItemDialogOpen} onOpenChange={setNewItemDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add New {activeTab.charAt(0).toUpperCase() + activeTab.slice(1, -1)}</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Input
-              value={newItemValue}
-              onChange={(e) => setNewItemValue(e.target.value)}
-              placeholder={`Enter new ${activeTab.slice(0, -1)}...`}
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setNewItemDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleAddNew}>
-              Add
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            Are you sure you want to delete this item? This action cannot be undone.
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+    </AdminDashboardLayout>
   );
 }

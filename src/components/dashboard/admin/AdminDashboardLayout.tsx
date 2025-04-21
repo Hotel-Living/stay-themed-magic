@@ -1,3 +1,4 @@
+
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search } from "lucide-react";
@@ -6,6 +7,7 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 
 interface AdminDashboardLayoutProps {
   children: ReactNode;
@@ -82,7 +84,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside className="lg:col-span-1">
-              <div className="glass-card rounded-2xl overflow-hidden mb-8">
+              <div className="glass-card rounded-2xl overflow-hidden mb-8 sticky top-24">
                 <nav className="p-2 bg-[#5c0869]">
                   {adminTabs.map(tab => (
                     <button
@@ -140,6 +142,8 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
           </div>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 }

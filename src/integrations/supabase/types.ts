@@ -138,6 +138,50 @@ export type Database = {
           },
         ]
       }
+      hotel_availability: {
+        Row: {
+          availability_date: string
+          availability_month: string
+          availability_year: number
+          created_at: string | null
+          hotel_id: string | null
+          id: string
+          is_full_month: boolean | null
+          preferred_weekday: string
+          updated_at: string | null
+        }
+        Insert: {
+          availability_date: string
+          availability_month: string
+          availability_year: number
+          created_at?: string | null
+          hotel_id?: string | null
+          id?: string
+          is_full_month?: boolean | null
+          preferred_weekday?: string
+          updated_at?: string | null
+        }
+        Update: {
+          availability_date?: string
+          availability_month?: string
+          availability_year?: number
+          created_at?: string | null
+          hotel_id?: string | null
+          id?: string
+          is_full_month?: boolean | null
+          preferred_weekday?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hotel_availability_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hotel_images: {
         Row: {
           created_at: string
@@ -206,6 +250,7 @@ export type Database = {
       hotels: {
         Row: {
           address: string | null
+          available_months: string[] | null
           category: number | null
           city: string
           country: string
@@ -225,6 +270,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          available_months?: string[] | null
           category?: number | null
           city: string
           country: string
@@ -244,6 +290,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          available_months?: string[] | null
           category?: number | null
           city?: string
           country?: string

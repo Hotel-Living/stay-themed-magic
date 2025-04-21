@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -20,8 +19,14 @@ export default function AdminDashboard() {
       return;
     }
     
-    checkAdminAccess();
-    fetchPendingHotels();
+    const init = async () => {
+      const isAdmin = await checkAdminAccess();
+      if (isAdmin) {
+        await fetchPendingHotels();
+      }
+    };
+
+    init();
   }, [user]);
 
   const checkAdminAccess = async () => {
@@ -35,7 +40,9 @@ export default function AdminDashboard() {
         variant: "destructive"
       });
       navigate('/');
+      return false;
     }
+    return true;
   };
 
   const fetchPendingHotels = async () => {
@@ -45,8 +52,7 @@ export default function AdminDashboard() {
         *,
         profiles:owner_id(
           first_name,
-          last_name,
-          email
+          last_name
         )
       `)
       .eq('status', 'pending');

@@ -46,13 +46,31 @@ export default function AvailabilityDateSection({
     }
   };
 
-  const handleDateSelect = (date: Date | undefined, _month: string) => {
+  const handleDateSelect = (date: Date | undefined, month: string) => {
     if (!date) return;
     const dateString = format(date, "yyyy-MM-dd");
+    const monthDate = new Date(month + " 01");
+    const dayNum = weekdayMap[preferredWeekday];
+
+    const datesInMonth = selectedDates
+      .map(d => {
+        try { return parseISO(d); } catch { return null; }
+      })
+      .filter(
+        d =>
+          d &&
+          d.getMonth() === monthDate.getMonth() &&
+          d.getFullYear() === monthDate.getFullYear() &&
+          d.getDay() === dayNum
+      )
+      .map(d => format(d as Date, "yyyy-MM-dd"));
+
     if (selectedDates.includes(dateString)) {
       onAvailabilityChange(selectedDates.filter(d => d !== dateString));
     } else {
-      onAvailabilityChange([...selectedDates, dateString]);
+      if (datesInMonth.length < 2) {
+        onAvailabilityChange([...selectedDates, dateString]);
+      }
     }
   };
 

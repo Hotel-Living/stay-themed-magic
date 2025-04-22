@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { MapInstance } from '../types';
@@ -10,34 +11,47 @@ interface UseMarkerManagementProps {
 export const useMarkerManagement = ({ map, onLocationSelect }: UseMarkerManagementProps) => {
   const [marker, setMarker] = useState<google.maps.Marker | null>(null);
 
+  // Clean up marker when component unmounts or map changes
+  useEffect(() => {
+    return () => {
+      if (marker) {
+        marker.setMap(null);
+      }
+    };
+  }, [marker, map]);
+
   const updateMarker = (position: google.maps.LatLngLiteral) => {
     if (!map) return;
 
     if (marker) {
       marker.setPosition(position);
     } else {
-      const newMarker = new window.google.maps.Marker({
-        position,
-        map,
-        animation: window.google.maps.Animation.DROP,
-        draggable: true,
-      });
+      try {
+        const newMarker = new window.google.maps.Marker({
+          position,
+          map,
+          animation: window.google.maps.Animation.DROP,
+          draggable: true,
+        });
 
-      newMarker.addListener('dragend', () => {
-        const position = newMarker.getPosition();
-        if (position) {
-          const lat = position.lat().toFixed(6);
-          const lng = position.lng().toFixed(6);
-          onLocationSelect(lat, lng);
-          
-          toast({
-            title: "Location Updated",
-            description: `New coordinates: ${lat}, ${lng}`,
-          });
-        }
-      });
+        const dragEndListener = newMarker.addListener('dragend', () => {
+          const markerPosition = newMarker.getPosition();
+          if (markerPosition) {
+            const lat = markerPosition.lat().toFixed(6);
+            const lng = markerPosition.lng().toFixed(6);
+            onLocationSelect(lat, lng);
+            
+            toast({
+              title: "Location Updated",
+              description: `New coordinates: ${lat}, ${lng}`,
+            });
+          }
+        });
 
-      setMarker(newMarker);
+        setMarker(newMarker);
+      } catch (error) {
+        console.error('Error creating marker:', error);
+      }
     }
 
     map.panTo(position);

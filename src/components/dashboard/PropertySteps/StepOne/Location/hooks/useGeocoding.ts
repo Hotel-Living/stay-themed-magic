@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { MapInstance } from '../types';
@@ -21,7 +22,7 @@ export const useGeocoding = ({ map, address, updateMarker, onLocationSelect }: U
       console.log(`Geocoding address: ${address}`);
       const geocoder = new window.google.maps.Geocoder();
 
-      geocoder.geocode({ address }, (results: any, status: any) => {
+      geocoder.geocode({ address }, (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
         if (status === window.google.maps.GeocoderStatus.OK && results && results[0]) {
           const location = results[0].geometry.location;
           const lat = location.lat().toFixed(6);

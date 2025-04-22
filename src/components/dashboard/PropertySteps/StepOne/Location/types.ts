@@ -27,10 +27,11 @@ export interface MapProps {
   onLocationSelect: (lat: string, lng: string) => void;
 }
 
+// Define MapInstance type
 export type MapInstance = google.maps.Map;
 
 export interface MapSetupProps {
-  mapRef: React.RefObject<HTMLDivElement>;
+  mapRef: React.RefObject<HTMLDivElement>; // Fixed from RefPtr to RefObject
   latitude: string;
   longitude: string;
 }
@@ -40,4 +41,3 @@ export interface MarkerProps {
   position: google.maps.LatLngLiteral;
   onLocationSelect: (lat: string, lng: string) => void;
 }
-

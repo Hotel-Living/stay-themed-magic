@@ -22,7 +22,7 @@ export default function AccommodationMealPlanSection({
       onOpenChange={onOpenChange}
     >
       <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <label className="text-lg font-semibold text-white">
+        <label className="text-base font-semibold text-white">
           Meals
         </label>
         <ChevronDown className="h-5 w-5 text-white" />

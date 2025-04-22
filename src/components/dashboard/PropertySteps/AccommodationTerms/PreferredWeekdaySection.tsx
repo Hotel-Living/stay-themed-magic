@@ -15,7 +15,7 @@ export default function PreferredWeekdaySection({
   return (
     <Collapsible className="w-full mb-6">
       <CollapsibleTrigger className="w-full flex items-center justify-between px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <h2 className="font-semibold text-lg text-white">Preferred Weekday for all Check-in / outs</h2>
+        <h2 className="font-semibold text-base text-white">Preferred Weekday for All Check-in / Outs</h2>
         <ChevronDown className="h-5 w-5 text-white" />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import LengthOfStaySection from "../rooms/LengthOfStaySection";
 
@@ -10,7 +10,7 @@ interface StayLengthSectionProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export default function AccommodationStayLengthSection({
+export default function StayLengthSection({
   isOpen,
   onOpenChange,
   onValidationChange
@@ -22,10 +22,10 @@ export default function AccommodationStayLengthSection({
       onOpenChange={onOpenChange}
     >
       <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <label className="text-base font-semibold text-white">
+        <label className="text-base font-semibold text-white uppercase">
           Length of Stay
         </label>
-        <ChevronDown className="h-5 w-5 text-white" />
+        <ChevronRight className="h-5 w-5 text-white" />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
         <LengthOfStaySection 

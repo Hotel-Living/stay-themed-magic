@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface PreferredWeekdaySectionProps {
@@ -15,8 +15,8 @@ export default function PreferredWeekdaySection({
   return (
     <Collapsible className="w-full mb-6">
       <CollapsibleTrigger className="w-full flex items-center justify-between px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <h2 className="font-semibold text-base text-white">Preferred Weekday for All Check-in / Outs</h2>
-        <ChevronDown className="h-5 w-5 text-white" />
+        <h2 className="font-semibold text-base text-white uppercase">Preferred Weekday for All Check-in / Outs</h2>
+        <ChevronRight className="h-5 w-5 text-white" />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
         <div className="grid grid-cols-7 gap-2 mt-2">

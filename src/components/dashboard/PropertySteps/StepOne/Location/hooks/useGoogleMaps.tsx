@@ -13,14 +13,17 @@ export const useGoogleMaps = () => {
         if (existingScript) return;
 
         console.log('Fetching Google Maps API key from edge function')
-        const { data, error: fetchError } = await supabase.functions.invoke('get-maps-key');
+        const { data, error: fetchError } = await supabase.functions.invoke('get-maps-key', {
+          body: { 
+            project_url: 'https://pgdzrvdwgoomjnnegkcn.supabase.co'
+          }
+        });
         
         let apiKey;
         
         if (fetchError) {
           console.error('Error from edge function:', fetchError);
           console.log('Falling back to environment variable API key');
-          // Fallback to environment variable if edge function fails
           apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
           
           if (!apiKey) {
@@ -32,7 +35,6 @@ export const useGoogleMaps = () => {
           if (!apiKey) {
             console.error('No API key returned from edge function');
             console.log('Falling back to environment variable API key');
-            // Fallback to environment variable if edge function returns no key
             apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
             
             if (!apiKey) {

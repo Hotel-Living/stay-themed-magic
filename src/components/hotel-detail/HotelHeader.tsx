@@ -4,9 +4,9 @@ import { HotelThemes } from "@/components/ThemeTag";
 import { HotelHeaderProps, HotelTheme } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Add activities prop type
 interface HotelHeaderWithActivitiesProps extends HotelHeaderProps {
   activities?: string[];
+  address?: string | null;
   isLoading?: boolean;
 }
 
@@ -15,6 +15,7 @@ export function HotelHeader({
   stars,
   city,
   country,
+  address,
   themes,
   activities,
   isLoading
@@ -46,16 +47,22 @@ export function HotelHeader({
         </div>
       </h1>
       {/* Only city/country in first row */}
-      <div className="flex items-center gap-3 text-muted-foreground mb-4">
+      <div className="flex items-center gap-3 text-muted-foreground mb-2">
         <div className="flex items-center gap-1">
           <MapPin className="w-4 h-4 text-fuchsia-400" />
-          <span>{city}, {country}</span>
+          <span>
+            {city}, {country}
+          </span>
         </div>
       </div>
-      {/* Affinities (themes) & Activities in one line below */}
+      {/* Address below city/country */}
+      {address && (
+        <div className="flex text-sm text-muted-foreground mb-4">
+          <span>{address}</span>
+        </div>
+      )}
       <div className="flex flex-wrap items-center gap-2">
         <HotelThemes themes={themes} />
-        {/* Activities chip style */}
         {activities && activities.length > 0 &&
           activities.map((activity, idx) => (
             <span key={activity + idx} className="px-2 py-1 text-xs rounded-full bg-emerald-900/60 text-white">{activity}</span>

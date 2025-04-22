@@ -21,8 +21,9 @@ export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: Dy
               </button>
             </TooltipTrigger>
             <TooltipContent className="max-w-xs">
-              <p>This hotel uses dynamic pricing based on demand. Prices increase as more nights are booked.</p>
-              <p className="mt-1">Currently {nightsSold} of {totalNights} nights have been booked this month.</p>
+              <p className="text-fuchsia-800">
+                This property utilizes dynamic pricing based on real-time demand. As availability decreases, rates may rise. Secure your reservation today to enjoy the lowest available rate
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -33,10 +34,8 @@ export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: Dy
           style={{ width: `${Math.min(priceIncrease * 5, 100)}%` }}
         ></div>
       </div>
-      <div className="flex justify-between items-center mt-1 text-xs text-fuchsia-300">
-        <span>Base price</span>
-        <span>+{priceIncrease}% (max +20%)</span>
-      </div>
+      {/* Second row ("Base price" etc) removed as requested */}
     </div>
   );
 }
+

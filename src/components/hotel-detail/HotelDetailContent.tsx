@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
@@ -24,6 +25,15 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   // Use dynamic data from the API instead of static data
   const amenities = hotel?.amenities || [];
 
+  const availableStayLengths = (
+    hotel?.available_months && hotel.available_months.length > 0
+      ? hotel.available_months.map(m => {
+          const mNum = Number(m);
+          return isNaN(mNum) ? null : mNum;
+        }).filter(Boolean)
+      : []
+  ) as number[];
+
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
       <Link 
@@ -34,12 +44,13 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
         Back to hotels
       </Link>
       
-      {/* Hotel Header: now includes affinities & activities, no available months */}
+      {/* Hotel Header now includes address */}
       <HotelHeader 
         name={hotel?.name || ''}
         stars={hotel?.category || 0}
         city={hotel?.city || ''}
         country={hotel?.country || ''}
+        address={hotel?.address || ''}
         themes={themes}
         activities={activities}
         isLoading={isLoading}
@@ -73,7 +84,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             </div>
           </div>
 
-          {/* Map Section (unchanged, still below everything else) */}
+          {/* Map Section (no change) */}
           {hotel?.latitude && hotel?.longitude && import.meta.env.VITE_GOOGLE_MAPS_API_KEY && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-3">Location</h2>
@@ -111,9 +122,11 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             hotelId={hotel?.id || ''} 
             hotelName={hotel?.name || ''} 
             pricePerMonth={hotel?.price_per_month || 0} 
+            availableStayLengths={availableStayLengths}
           />
         </div>
       </div>
     </div>
   );
 }
+

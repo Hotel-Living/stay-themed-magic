@@ -2,7 +2,7 @@
 import { BookingCalendarSelector } from "./BookingCalendarSelector";
 import { BookingDurationSelector } from "./BookingDurationSelector";
 import { RoomTypeSelector } from "./RoomTypeSelector";
-import { RoomAvailabilityCalendar } from "./RoomAvailabilityCalendar";
+// import { RoomAvailabilityCalendar } from "./RoomAvailabilityCalendar"; // REMOVE as required
 import { BookingSummaryCard } from "./BookingSummaryCard";
 
 interface BookingFormActionsProps {
@@ -16,6 +16,7 @@ interface BookingFormActionsProps {
   newBooking: any;
   endDate: Date | null;
   dynamicPrice: number;
+  availableStayLengths?: number[];
 }
 
 export function BookingFormActions({
@@ -29,6 +30,7 @@ export function BookingFormActions({
   newBooking,
   endDate,
   dynamicPrice,
+  availableStayLengths,
 }: BookingFormActionsProps) {
   return (
     <div className="space-y-4">
@@ -39,17 +41,13 @@ export function BookingFormActions({
       <BookingDurationSelector
         duration={duration}
         setDuration={setDuration}
+        allowedDurations={availableStayLengths}
       />
       <RoomTypeSelector
         selectedRoomType={selectedRoomType}
         setSelectedRoomType={setSelectedRoomType}
       />
-      {startDate && (
-        <RoomAvailabilityCalendar 
-          rooms={rooms.filter(room => room.roomTypeId === selectedRoomType)} 
-          highlightNewBooking={newBooking}
-        />
-      )}
+      {/* RoomAvailabilityCalendar component removed as requested */}
       {startDate && endDate && (
         <BookingSummaryCard
           startDate={startDate}
@@ -61,3 +59,4 @@ export function BookingFormActions({
     </div>
   );
 }
+

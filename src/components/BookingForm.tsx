@@ -12,9 +12,10 @@ interface BookingFormProps {
   hotelId: string;
   hotelName: string;
   pricePerMonth: number;
+  availableStayLengths?: number[];
 }
 
-export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormProps) {
+export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLengths }: BookingFormProps) {
   const {
     startDate, setStartDate,
     duration, setDuration,
@@ -86,9 +87,9 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
   };
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden">
+    <div className="glass-card rounded-2xl overflow-hidden bg-[#6e59a5]">
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-4">Book your stay</h3>
+        <h3 className="text-xl font-bold mb-4 text-white">Book your stay</h3>
         {booked ? (
           <BookingSuccessMessage
             hotelName={hotelName}
@@ -107,6 +108,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
               newBooking={newBooking}
               endDate={endDate}
               dynamicPrice={dynamicPrice}
+              availableStayLengths={availableStayLengths}
             />
             <DynamicPricingBar
               nightsSold={nightsSold}
@@ -136,3 +138,4 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth }: BookingFormPr
     </div>
   );
 }
+

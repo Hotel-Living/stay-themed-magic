@@ -12,12 +12,16 @@ interface MealPlanSectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 export default function MealPlanSection({ 
   onValidationChange,
-  title = "MEALS",
-  showHeader = true
+  title = "Meals",
+  showHeader = true,
+  isOpen,
+  onOpenChange
 }: MealPlanSectionProps) {
   const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry"];
   const [selectedMealPlan, setSelectedMealPlan] = useState("");
@@ -81,9 +85,14 @@ export default function MealPlanSection({
   }
 
   return (
-    <Collapsible className="w-full" defaultOpen={false}>
+    <Collapsible 
+      className="w-full" 
+      defaultOpen={false}
+      open={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-        <label className="block text-sm font-medium text-foreground/90 uppercase">
+        <label className="block text-sm font-medium text-foreground/90">
           {title}
         </label>
         <ChevronRight className="h-4 w-4" />

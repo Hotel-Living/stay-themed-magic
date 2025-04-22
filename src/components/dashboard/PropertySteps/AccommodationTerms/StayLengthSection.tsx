@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -11,12 +12,16 @@ interface LengthOfStaySectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 export default function LengthOfStaySection({ 
   onValidationChange,
   title = "Length of stay",
-  showHeader = true
+  showHeader = true,
+  isOpen,
+  onOpenChange
 }: LengthOfStaySectionProps) {
   
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
@@ -62,7 +67,7 @@ export default function LengthOfStaySection({
   const stayLengthContent = (
     <div className="grid grid-cols-2 gap-4 mt-2">
       <div className="col-span-2">
-        <label className="block text-sm mb-1 uppercase">AVAILABLE STAY LENGTHS</label>
+        <label className="block text-sm mb-1">Available stay lengths</label>
         <div className="grid grid-cols-2 gap-2">
           {durations.map((duration) => (
             <label key={duration.value} className="flex items-center">
@@ -94,7 +99,12 @@ export default function LengthOfStaySection({
   }
 
   return (
-    <Collapsible className="w-full" defaultOpen={false}>
+    <Collapsible 
+      className="w-full" 
+      defaultOpen={false}
+      open={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90">
           {title}

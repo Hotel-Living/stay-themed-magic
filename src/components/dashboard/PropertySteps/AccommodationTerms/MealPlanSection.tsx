@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -11,12 +12,16 @@ interface MealPlanSectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 export default function MealPlanSection({ 
   onValidationChange,
   title = "Meals",
-  showHeader = true
+  showHeader = true,
+  isOpen,
+  onOpenChange
 }: MealPlanSectionProps) {
   
   const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry"];
@@ -83,7 +88,12 @@ export default function MealPlanSection({
   }
 
   return (
-    <Collapsible className="w-full" defaultOpen={false}>
+    <Collapsible 
+      className="w-full" 
+      defaultOpen={false}
+      open={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90">
           {title}

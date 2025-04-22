@@ -17,6 +17,7 @@ export const useMarkerManagement = ({ map, onLocationSelect }: UseMarkerManageme
     if (marker) {
       marker.setPosition(position);
     } else {
+      // Use window.google to access the Google Maps API
       const newMarker = new window.google.maps.Marker({
         position,
         map,

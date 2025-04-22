@@ -64,7 +64,7 @@ export const useGeocoding = ({ map, address, updateMarker, onLocationSelect }: U
       console.error('Error during geocoding:', err);
       setGeocodeError('Error looking up address. Please try again.');
     }
-  }, [address, map, onLocationSelect, updateMarker]);
+  }, [address, map, onLocationSelect, updateMarker, previousAddress]);
 
   return { geocodeError };
 };

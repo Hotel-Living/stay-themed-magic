@@ -34,7 +34,7 @@ const InteractiveMap: React.FC<MapProps> = ({
   React.useEffect(() => {
     if (!map) return;
 
-    map.addListener('click', (event: google.maps.MapMouseEvent) => {
+    const clickListener = map.addListener('click', (event: any) => {
       if (event.latLng) {
         const lat = event.latLng.lat().toFixed(6);
         const lng = event.latLng.lng().toFixed(6);
@@ -48,6 +48,13 @@ const InteractiveMap: React.FC<MapProps> = ({
         onLocationSelect(lat, lng);
       }
     });
+
+    return () => {
+      // Clean up listener if provided by the Google Maps API
+      if (window.google && window.google.maps && clickListener) {
+        window.google.maps.event.removeListener(clickListener);
+      }
+    };
   }, [map, onLocationSelect, updateMarker]);
 
   return (

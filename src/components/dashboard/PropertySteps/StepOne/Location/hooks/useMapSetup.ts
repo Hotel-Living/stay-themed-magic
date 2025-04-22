@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { MapInstance } from '../types';
@@ -139,7 +138,6 @@ export const useMapSetup = (mapRef: React.RefObject<HTMLDivElement>) => {
       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
       
       // Fix: Use the correct method to set the map type ID
-      // Instead of using setMapTypeId (which doesn't exist on the Map type)
       // Register the styled map type and set it through mapTypes.set
       newMap.mapTypes.set("styled_map", styledMapType);
       

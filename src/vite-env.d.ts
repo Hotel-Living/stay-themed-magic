@@ -1,4 +1,3 @@
-
 /// <reference types="vite/client" />
 
 // Google Maps API type declarations
@@ -33,6 +32,11 @@ declare namespace google {
 
     class StyledMapType {
       constructor(styles: any[], options?: any);
+    }
+
+    interface MouseEvent {
+      latLng?: LatLng;
+      stop(): void;
     }
 
     interface MapOptions {

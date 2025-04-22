@@ -1,8 +1,7 @@
-
 // Google Maps types
 declare global {
   interface Window {
-    google: typeof google;
+    google: any;
   }
 }
 
@@ -27,11 +26,10 @@ export interface MapProps {
   onLocationSelect: (lat: string, lng: string) => void;
 }
 
-// Define MapInstance type
 export type MapInstance = google.maps.Map;
 
 export interface MapSetupProps {
-  mapRef: React.RefObject<HTMLDivElement>; // Fixed from RefPtr to RefObject
+  mapRef: React.RefPtr<HTMLDivElement>;
   latitude: string;
   longitude: string;
 }

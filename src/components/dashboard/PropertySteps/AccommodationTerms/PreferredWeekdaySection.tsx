@@ -1,16 +1,15 @@
-
 import React from "react";
 import { ChevronRight } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface PreferredWeekdaySectionProps {
-  preferredWeekday: string;
-  onWeekdayChange: (weekday: string) => void;
+  preferredWeekday?: string;
+  onWeekdayChange?: (weekday: string) => void;
 }
 
 export default function PreferredWeekdaySection({
   preferredWeekday = "Monday",
-  onWeekdayChange,
+  onWeekdayChange = () => {}
 }: PreferredWeekdaySectionProps) {
   return (
     <Collapsible className="w-full mb-6">

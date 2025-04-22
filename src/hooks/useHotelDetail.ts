@@ -16,6 +16,7 @@ interface HotelWithDetails extends Hotel {
   average_rating?: number;
   amenities?: string[];
   available_months?: string[];
+  activities?: string[];
 }
 
 // Function to fetch a specific hotel by ID
@@ -75,6 +76,23 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   
   if (hotelData.category && hotelData.category >= 5) {
     hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  }
+  
+  // Add sample activities for the hotel
+  hotelData.activities = [
+    "Sightseeing",
+    "Local Cuisine",
+    "Cultural Tours"
+  ];
+  
+  // For higher category hotels, add more activities
+  if (hotelData.category && hotelData.category >= 4) {
+    hotelData.activities.push("Wine Tasting", "Spa Treatments");
+  }
+  
+  // For luxury hotels, add premium activities
+  if (hotelData.category && hotelData.category >= 5) {
+    hotelData.activities.push("Private Tours", "Yacht Cruises");
   }
   
   // For demo purposes, generate available months based on current date

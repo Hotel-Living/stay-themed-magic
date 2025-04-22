@@ -1,3 +1,4 @@
+
 import { HotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -19,6 +20,7 @@ export interface HotelDetailProps {
   average_rating?: number;
   amenities?: string[];
   available_months?: string[];
+  activities?: string[];
   hotel_images: HotelImage[];
   hotel_themes: {
     theme_id: string;
@@ -55,7 +57,6 @@ export interface HotelHeaderProps {
   stars: number;
   city: string;
   country: string;
-  availableMonthsCount: number;
   themes: HotelTheme[];
   isLoading?: boolean;
 }
@@ -70,3 +71,4 @@ export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
   isLoading?: boolean;
 }
+

@@ -45,36 +45,37 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
   // Initialize the map
   useEffect(() => {
-    // Load Google Maps API script
-    const googleMapsScript = document.createElement('script');
-    googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
-    googleMapsScript.async = true;
-    googleMapsScript.defer = true;
-    googleMapsScript.id = 'google-maps-script';
-    
-    googleMapsScript.onload = () => {
-      initializeMap();
-      setIsLoading(false);
+    // Load Google Maps API script dynamically
+    const loadGoogleMapsScript = () => {
+      const existingScript = document.getElementById('google-maps-script');
+      if (existingScript) return;
+
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.id = 'google-maps-script';
+      
+      script.onload = () => {
+        initializeMap();
+        setIsLoading(false);
+      };
+      
+      script.onerror = () => {
+        setError("Failed to load Google Maps. Please check your internet connection.");
+        setIsLoading(false);
+      };
+      
+      document.head.appendChild(script);
     };
     
-    googleMapsScript.onerror = () => {
-      setError("Failed to load Google Maps. Please check your internet connection.");
-      setIsLoading(false);
-    };
-    
-    // Check if script already exists
-    if (!document.getElementById('google-maps-script')) {
-      document.head.appendChild(googleMapsScript);
-    } else {
-      initializeMap();
-      setIsLoading(false);
-    }
+    loadGoogleMapsScript();
     
     return () => {
-      // Clean up
+      // Clean up script on component unmount
       const existingScript = document.getElementById('google-maps-script');
-      if (existingScript && existingScript.parentNode) {
-        existingScript.parentNode.removeChild(existingScript);
+      if (existingScript) {
+        existingScript.remove();
       }
     };
   }, []);

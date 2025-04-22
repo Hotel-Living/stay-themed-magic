@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import LengthOfStaySection from "../rooms/LengthOfStaySection";
 
 interface StayLengthSectionProps {
@@ -10,7 +10,7 @@ interface StayLengthSectionProps {
   onValidationChange: (isValid: boolean) => void;
 }
 
-export default function StayLengthSection({
+export default function AccommodationStayLengthSection({
   isOpen,
   onOpenChange,
   onValidationChange

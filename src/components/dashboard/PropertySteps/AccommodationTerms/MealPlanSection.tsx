@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import MealPlanSection from "../rooms/MealPlanSection";
 
 interface MealPlanSectionProps {

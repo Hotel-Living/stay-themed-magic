@@ -10,6 +10,7 @@ import { usePropertyForm } from "./hooks/usePropertyForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { format, parse } from "date-fns";
 
 export default function AddPropertyForm() {
   const {
@@ -163,13 +164,23 @@ export default function AddPropertyForm() {
           throw updateMonthsError;
         }
         
-        // Create hotel_availability entries for each month
-        const availabilityRows = availableMonths.map(month => ({
-          hotel_id: hotelId,
-          availability_month: month.toLowerCase(),
-          availability_year: new Date().getFullYear(),
-          is_full_month: true
-        }));
+        // Create hotel_availability entries for each month with corrected format
+        // We need to provide all required fields including availability_date
+        const currentYear = new Date().getFullYear();
+        const availabilityRows = availableMonths.map(month => {
+          // Create a date for the first day of the month
+          const firstDayOfMonth = parse(`01 ${month} ${currentYear}`, 'dd MMMM yyyy', new Date());
+          const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
+          
+          return {
+            hotel_id: hotelId,
+            availability_month: month.toLowerCase(),
+            availability_year: currentYear,
+            availability_date: formattedDate, // This was missing before
+            is_full_month: true,
+            preferred_weekday: 'Monday' // Default value for preferred weekday
+          };
+        });
         
         if (availabilityRows.length > 0) {
           const { error: availabilityError } = await supabase

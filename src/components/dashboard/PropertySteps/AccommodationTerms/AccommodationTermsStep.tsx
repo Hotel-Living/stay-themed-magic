@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
-import StayLengthMealsSection from "./StayLengthMealsSection";
+import StayLengthSection from "./StayLengthSection";
+import MealPlanSection from "./MealPlanSection";
 import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "../rooms/PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
@@ -20,7 +21,8 @@ export default function AccommodationTermsStep({
   const [stayLengthValid, setStayLengthValid] = useState(false);
   const [mealPlanValid, setMealPlanValid] = useState(false);
   const [error, setError] = useState<string>("");
-  const [isStayLengthMealsOpen, setIsStayLengthMealsOpen] = useState(false);
+  const [isStayLengthOpen, setIsStayLengthOpen] = useState(false);
+  const [isMealPlanOpen, setIsMealPlanOpen] = useState(false);
   const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
@@ -68,11 +70,6 @@ export default function AccommodationTermsStep({
     checkValidation();
   }, [mealPlans, stayLengthValid, mealPlanValid]);
 
-  // Show validation errors only when user tries to navigate away
-  const handleNextStep = () => {
-    setShowErrors(true);
-  };
-
   return (
     <div className="space-y-6">
       {/* Main title is now "ACCOMMODATION TERMS" */}
@@ -83,14 +80,19 @@ export default function AccommodationTermsStep({
         onWeekdayChange={handlePreferredWeekdayChange}
       />
       
-      <StayLengthMealsSection 
-        isOpen={isStayLengthMealsOpen}
-        onOpenChange={setIsStayLengthMealsOpen}
-        onStayLengthValidChange={(isValid) => {
+      <StayLengthSection 
+        isOpen={isStayLengthOpen}
+        onOpenChange={setIsStayLengthOpen}
+        onValidationChange={(isValid) => {
           setStayLengthValid(isValid);
           checkValidation();
         }}
-        onMealPlanValidChange={(isValid) => {
+      />
+      
+      <MealPlanSection 
+        isOpen={isMealPlanOpen}
+        onOpenChange={setIsMealPlanOpen}
+        onValidationChange={(isValid) => {
           setMealPlanValid(isValid);
           checkValidation();
         }}

@@ -1,41 +1,29 @@
-
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
 import { HotelGallery } from "./HotelGallery";
 import { HotelDescription } from "./HotelDescription";
 import { HotelAmenities } from "./HotelAmenities";
-import { HotelAvailableMonths } from "./HotelAvailableMonths";
-import { HotelReviews } from "./HotelReviews";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 
 export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps & { isLoading?: boolean }) {
-  // Extract image URLs from hotel_images
-  const imageUrls = hotel?.hotel_images ? 
-    hotel.hotel_images.map((img) => img.image_url) : 
-    [];
-  
+  // Extract image URLs from hotel_images (real hotel images)
+  const imageUrls = hotel?.hotel_images && hotel.hotel_images.length > 0
+    ? hotel.hotel_images.map((img) => img.image_url)
+    : (hotel?.main_image_url ? [hotel.main_image_url] : []);
+
   // Extract themes from hotel_themes and map to HotelTheme type
-  const themes: HotelTheme[] = hotel?.hotel_themes ? 
-    hotel.hotel_themes.map((themeItem) => themeItem.themes) : 
-    [];
-  
+  const themes: HotelTheme[] = hotel?.hotel_themes
+    ? hotel.hotel_themes.map((themeItem) => themeItem.themes)
+    : [];
+
+  // Extract activities if available (text only)
+  const activities: string[] = hotel?.activities || [];
+
   // Use dynamic data from the API instead of static data
-  const availableMonths = hotel?.available_months || [];
   const amenities = hotel?.amenities || [];
-  
-  // Use the average rating from the API
-  const averageRating = hotel?.average_rating || 0;
-  
-  // Check if hotel has valid coordinates for map
-  const hasCoordinates = hotel?.latitude && hotel?.longitude;
-  // Use environment variable for Google Maps API key
-  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
-  const mapUrl = hasCoordinates ? 
-    `https://www.google.com/maps/embed/v1/view?key=${googleMapsApiKey}&center=${hotel.latitude},${hotel.longitude}&zoom=15` : 
-    '';
-  
+
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
       <Link 
@@ -46,58 +34,52 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
         Back to hotels
       </Link>
       
-      {/* Hotel Header */}
+      {/* Hotel Header: now includes affinities & activities, no available months */}
       <HotelHeader 
         name={hotel?.name || ''}
         stars={hotel?.category || 0}
         city={hotel?.city || ''}
         country={hotel?.country || ''}
-        availableMonthsCount={availableMonths.length}
         themes={themes}
+        activities={activities}
         isLoading={isLoading}
       />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          {/* Gallery */}
+          {/* Gallery: real hotel images */}
           <HotelGallery 
-            images={imageUrls.length > 0 ? imageUrls : [hotel?.main_image_url || '']} 
+            images={imageUrls} 
             hotelName={hotel?.name || ''}
             isLoading={isLoading}
           />
-          
+
           {/* Description */}
           <HotelDescription 
             description={hotel?.description || "No description available."} 
             isLoading={isLoading}
           />
-          
-          {/* Reviews */}
-          <HotelReviews 
-            hotelId={hotel?.id || ''} 
-            averageRating={averageRating}
-            isLoading={isLoading} 
-          />
-          
-          {/* Amenities */}
-          <HotelAmenities 
-            amenities={amenities}
-            isLoading={isLoading}
-          />
-          
-          {/* Available months */}
-          <HotelAvailableMonths 
-            months={availableMonths}
-            isLoading={isLoading}
-          />
-          
-          {/* Map Section */}
-          {hasCoordinates && googleMapsApiKey && (
+
+          {/* Amenities, renamed to "Hotel Amenities" */}
+          <div data-section="hotel-amenities">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+              Hotel Amenities
+            </h2>
+            <div>
+              <HotelAmenities
+                amenities={amenities}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
+
+          {/* Map Section (unchanged, still below everything else) */}
+          {hotel?.latitude && hotel?.longitude && import.meta.env.VITE_GOOGLE_MAPS_API_KEY && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-3">Location</h2>
               <div className="rounded-lg overflow-hidden">
                 <iframe 
-                  src={mapUrl}
+                  src={`https://www.google.com/maps/embed/v1/view?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&center=${hotel.latitude},${hotel.longitude}&zoom=15`}
                   width="100%" 
                   height="300" 
                   style={{ border: 0 }} 

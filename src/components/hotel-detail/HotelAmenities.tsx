@@ -30,10 +30,7 @@ export function HotelAmenities({
   if (!amenities || amenities.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-          Amenities
-          <Coffee className="w-5 h-5 text-fuchsia-400" />
-        </h2>
+        {/* Updated: new section name handled in parent */}
         <p className="text-foreground/60 italic">No amenities listed for this property.</p>
       </div>
     );
@@ -41,10 +38,6 @@ export function HotelAmenities({
   
   return (
     <div className="glass-card rounded-2xl p-6 mb-8">
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        Amenities
-        <Coffee className="w-5 h-5 text-fuchsia-400" />
-      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {amenities.map((amenity, index) => (
           <div key={index} className="flex items-center gap-2 group">

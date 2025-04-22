@@ -25,6 +25,7 @@ interface Window {
       Animation: any;
       StyledMapType: any;
       places: any;
+      SymbolPath: any;
     };
   };
 }

@@ -1,10 +1,5 @@
 
-// Google Maps types
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+// Google Maps types - Use the global Window interface from vite-env.d.ts
 
 export interface GoogleMapOptions {
   center: { lat: number; lng: number };

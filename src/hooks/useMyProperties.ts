@@ -14,7 +14,10 @@ export interface MyHotel {
   hotel_images: HotelImage[];
   hotel_themes: {
     theme_id: string;
-    themes: HotelTheme;
+    themes: {
+      id: string;
+      name: string;
+    };
   }[];
   available_months?: string[];
 }
@@ -33,7 +36,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
       category,
       available_months,
       hotel_images (id, hotel_id, image_url, is_main, created_at),
-      hotel_themes (theme_id, themes:themes(id, name, category))
+      hotel_themes (theme_id, themes:themes(id, name))
     `)
     .eq("owner_id", ownerId)
     .eq("status", "approved");
@@ -42,7 +45,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
     console.error("Error fetching properties by owner:", error);
     return [];
   }
-  return (data as MyHotel[]) || [];
+  return data as MyHotel[];
 }
 
 export function useMyProperties(ownerId: string | undefined) {

@@ -13,8 +13,8 @@ export default function PreferredWeekdaySection({
   onWeekdayChange,
 }: PreferredWeekdaySectionProps) {
   return (
-    <Collapsible className="w-full mb-6 glass-card rounded-xl overflow-hidden">
-      <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[12px]">
+    <Collapsible className="w-full mb-6">
+      <CollapsibleTrigger className="w-full flex items-center justify-between px-6 py-3 text-left rounded-full bg-[#7a0486]">
         <h2 className="font-semibold text-lg text-white">Preferred Weekday for all Check-in / outs</h2>
         <ChevronDown className="h-5 w-5 text-white" />
       </CollapsibleTrigger>

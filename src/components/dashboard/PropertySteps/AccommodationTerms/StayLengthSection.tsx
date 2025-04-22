@@ -17,11 +17,11 @@ export default function StayLengthSection({
 }: StayLengthSectionProps) {
   return (
     <Collapsible 
-      className="w-full mb-6 glass-card rounded-xl overflow-hidden"
+      className="w-full mb-6"
       open={isOpen} 
       onOpenChange={onOpenChange}
     >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 text-left border-b border-white py-[12px]">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-full bg-[#7a0486]">
         <label className="text-lg font-semibold text-white">
           Length of Stay
         </label>

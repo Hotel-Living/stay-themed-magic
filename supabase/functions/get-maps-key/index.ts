@@ -13,6 +13,20 @@ serve(async (req) => {
   }
 
   try {
+    console.log('Receiving request to get-maps-key function')
+    
+    // Parse request body if it exists
+    let requestBody = {}
+    try {
+      if (req.body) {
+        const body = await req.json()
+        requestBody = body
+        console.log('Request body:', JSON.stringify(requestBody))
+      }
+    } catch (e) {
+      console.log('No request body or invalid JSON:', e.message)
+    }
+    
     console.log('Fetching Google Maps API key from environment variables')
     const apiKey = Deno.env.get('GOOGLE_MAPS_API_KEY')
     

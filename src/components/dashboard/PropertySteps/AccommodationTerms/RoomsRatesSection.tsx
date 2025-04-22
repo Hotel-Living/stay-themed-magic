@@ -1,10 +1,9 @@
 
-import React, { useState } from "react";
-import RoomTypesSection from "./RoomRates/RoomTypesSection";
-import PricesSection from "./RoomRates/PricesSection";
-import AvailabilitySection from "./RoomRates/AvailabilitySection";
+import React from "react";
+import { Collapsible } from "@/components/ui/collapsible";
+import CollapsibleHeader from "./RoomRates/CollapsibleHeader";
+import RoomRatesContent from "./RoomRates/RoomRatesContent";
 
-// Note: Only changed where necessary!
 interface RoomsRatesSectionProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
@@ -20,33 +19,18 @@ export default function RoomsRatesSection({
   formData = {},
   updateFormData = () => {}
 }: RoomsRatesSectionProps) {
-  // state for which section is open, so only one open at a time
-  const [openSection, setOpenSection] = useState<"roomTypes"|"prices"|"availability" | null>(null);
-
-  // Only one validation callback is handled; you may adapt this logic as needed.
   return (
-    <div className="w-full">
-      <RoomTypesSection
-        isOpen={openSection === "roomTypes"}
-        onOpenChange={open => setOpenSection(open ? "roomTypes" : null)}
+    <Collapsible 
+      className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" 
+      open={isOpen} 
+      onOpenChange={onOpenChange}
+    >
+      <CollapsibleHeader isOpen={isOpen} />
+      <RoomRatesContent 
         onValidationChange={onValidationChange}
         formData={formData}
         updateFormData={updateFormData}
       />
-      <PricesSection
-        isOpen={openSection === "prices"}
-        onOpenChange={open => setOpenSection(open ? "prices" : null)}
-        onValidationChange={onValidationChange}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      <AvailabilitySection
-        isOpen={openSection === "availability"}
-        onOpenChange={open => setOpenSection(open ? "availability" : null)}
-        onValidationChange={onValidationChange}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-    </div>
+    </Collapsible>
   );
 }

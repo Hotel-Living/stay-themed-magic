@@ -30,8 +30,10 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   
   // Check if hotel has valid coordinates for map
   const hasCoordinates = hotel?.latitude && hotel?.longitude;
+  // Use environment variable for Google Maps API key
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
   const mapUrl = hasCoordinates ? 
-    `https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${hotel.latitude},${hotel.longitude}&zoom=15` : 
+    `https://www.google.com/maps/embed/v1/view?key=${googleMapsApiKey}&center=${hotel.latitude},${hotel.longitude}&zoom=15` : 
     '';
   
   return (
@@ -90,7 +92,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
           />
           
           {/* Map Section */}
-          {hasCoordinates && (
+          {hasCoordinates && googleMapsApiKey && (
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-3">Location</h2>
               <div className="rounded-lg overflow-hidden">

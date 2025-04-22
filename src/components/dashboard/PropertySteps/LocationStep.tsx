@@ -1,8 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InteractiveMap from "./StepOne/Location/InteractiveMap";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Country } from 'country-state-city';
 
 export default function LocationStep() {
   const [address, setAddress] = useState("");
@@ -15,6 +16,7 @@ export default function LocationStep() {
   const [postalCode, setPostalCode] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [formattedAddress, setFormattedAddress] = useState("");
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -48,6 +50,39 @@ export default function LocationStep() {
     setLatitude(lat);
     setLongitude(lng);
   };
+  
+  // Create formatted address for geocoding
+  useEffect(() => {
+    let formattedAddr = "";
+    
+    // Add specific address if available
+    if (address && address.trim() !== "") {
+      formattedAddr = address;
+    }
+    
+    // Add city if available
+    if (selectedCity && selectedCity !== "other" && selectedCity.trim() !== "") {
+      if (formattedAddr) formattedAddr += ", ";
+      formattedAddr += selectedCity;
+    } else if (customCity && customCity.trim() !== "") {
+      if (formattedAddr) formattedAddr += ", ";
+      formattedAddr += customCity;
+    }
+    
+    // Add country if available
+    if (selectedCountry && selectedCountry !== "other" && selectedCountry.trim() !== "") {
+      const countryData = Country.getCountryByCode(selectedCountry);
+      if (countryData) {
+        if (formattedAddr) formattedAddr += ", ";
+        formattedAddr += countryData.name;
+      }
+    } else if (customCountry && customCountry.trim() !== "") {
+      if (formattedAddr) formattedAddr += ", ";
+      formattedAddr += customCountry;
+    }
+    
+    setFormattedAddress(formattedAddr);
+  }, [address, selectedCity, customCity, selectedCountry, customCountry]);
   
   return (
     <div className="space-y-5">
@@ -185,7 +220,7 @@ export default function LocationStep() {
         <InteractiveMap
           latitude={latitude}
           longitude={longitude}
-          address={address}
+          address={formattedAddress}
           onLocationSelect={handleLocationSelect}
         />
       </div>

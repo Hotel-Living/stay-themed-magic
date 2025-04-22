@@ -6,7 +6,7 @@ import AddressInput from "./AddressInput";
 import PostalCodeInput from "./PostalCodeInput";
 import InteractiveMap from "./InteractiveMap";
 import { Input } from "@/components/ui/input";
-import { City } from 'country-state-city';
+import { City, Country } from 'country-state-city';
 
 interface LocationSectionProps {
   formData: {
@@ -27,6 +27,7 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
   const [cities, setCities] = useState<string[]>([]);
   const [showCustomCountry, setShowCustomCountry] = useState(false);
   const [showCustomCity, setShowCustomCity] = useState(false);
+  const [formattedAddress, setFormattedAddress] = useState<string>("");
 
   useEffect(() => {
     if (formData.country) {
@@ -36,6 +37,37 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
       setCities([]);
     }
   }, [formData.country]);
+
+  // Create a formatted address for geocoding
+  useEffect(() => {
+    let address = "";
+    
+    // Add specific address if available
+    if (formData.address && formData.address.trim() !== "") {
+      address = formData.address;
+    }
+    
+    // Add city if available
+    if (formData.city && formData.city.trim() !== "") {
+      if (address) address += ", ";
+      address += formData.city;
+    }
+    
+    // Add country if available (use country name instead of code)
+    if (formData.country && formData.country.trim() !== "") {
+      // Convert country code to full name
+      const countryData = Country.getCountryByCode(formData.country);
+      if (countryData) {
+        if (address) address += ", ";
+        address += countryData.name;
+      } else if (address) {
+        // If country code doesn't match, just use it as is
+        address += ", " + formData.country;
+      }
+    }
+    
+    setFormattedAddress(address);
+  }, [formData.address, formData.city, formData.country]);
 
   const handleCustomCountry = () => {
     setShowCustomCountry(true);
@@ -98,7 +130,7 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
       <InteractiveMap
         latitude={formData.latitude || ''}
         longitude={formData.longitude || ''}
-        address={formData.address}
+        address={formattedAddress}
         onLocationSelect={handleLocationSelect}
       />
 

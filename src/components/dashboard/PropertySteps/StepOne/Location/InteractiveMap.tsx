@@ -20,7 +20,8 @@ const InteractiveMap: React.FC<MapProps> = ({
   const { isLoading, error } = useGoogleMaps();
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
   const [previousAddress, setPreviousAddress] = useState<string>("");
-
+  const [marker, setMarker] = useState<any>(null);
+  
   // Initialize map
   useEffect(() => {
     if (!mapRef.current || !window.google || isLoading) return;
@@ -170,6 +171,13 @@ const InteractiveMap: React.FC<MapProps> = ({
           const lat = event.latLng.lat().toFixed(6);
           const lng = event.latLng.lng().toFixed(6);
           console.log(`Map clicked: lat=${lat}, lng=${lng}`);
+          
+          // Update marker position
+          updateMarker(newMap, {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
+          });
+          
           onLocationSelect(lat, lng);
           toast({
             title: "Location Selected",
@@ -178,16 +186,62 @@ const InteractiveMap: React.FC<MapProps> = ({
         }
       });
       
+      // Initialize the marker if coordinates are provided
+      if (latitude && longitude) {
+        const position = {
+          lat: parseFloat(latitude),
+          lng: parseFloat(longitude)
+        };
+        updateMarker(newMap, position);
+      }
+      
       console.log('Map initialized successfully with light theme');
     } catch (err) {
       console.error('Error initializing map:', err);
       setGeocodeError('Error initializing the map. Please try again.');
     }
-  }, [latitude, longitude, isLoading]);
+  }, [isLoading]);
+
+  // Helper function to update or create marker
+  const updateMarker = (mapInstance: any, position: { lat: number, lng: number }) => {
+    if (marker) {
+      marker.setPosition(position);
+    } else {
+      const newMarker = new window.google.maps.Marker({
+        position,
+        map: mapInstance,
+        animation: window.google.maps.Animation.DROP,
+        draggable: true,
+      });
+      
+      // Add drag event to marker
+      newMarker.addListener('dragend', () => {
+        const position = newMarker.getPosition();
+        if (position) {
+          const lat = position.lat().toFixed(6);
+          const lng = position.lng().toFixed(6);
+          onLocationSelect(lat, lng);
+          
+          toast({
+            title: "Location Updated",
+            description: `New coordinates: ${lat}, ${lng}`,
+          });
+        }
+      });
+      
+      setMarker(newMarker);
+    }
+    
+    // Center map on the marker
+    mapInstance.panTo(position);
+  };
 
   // Handle geocoding whenever address changes
   useEffect(() => {
-    if (!map || !window.google || !address || address === previousAddress) return;
+    if (!map || !window.google || !address) return;
+    
+    // Skip if address hasn't changed
+    if (address === previousAddress || address.trim() === "") return;
     
     try {
       console.log(`Geocoding address: ${address}`);
@@ -200,8 +254,29 @@ const InteractiveMap: React.FC<MapProps> = ({
           const lng = location.lng().toFixed(6);
           console.log(`Geocoding successful: lat=${lat}, lng=${lng}`);
           
-          // Pan map to the new location
-          map.panTo(location);
+          // Update marker and map
+          updateMarker(map, {
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
+          });
+          
+          // Update zoom based on result precision
+          const types = results[0].types || [];
+          let newZoom = 13; // Default zoom
+          
+          if (types.includes('country')) {
+            newZoom = 5;
+          } else if (types.includes('administrative_area_level_1')) {
+            newZoom = 7;
+          } else if (types.includes('locality') || types.includes('administrative_area_level_2')) {
+            newZoom = 10;
+          } else if (types.includes('route')) {
+            newZoom = 15;
+          } else if (types.includes('street_address') || types.includes('premise')) {
+            newZoom = 17;
+          }
+          
+          map.setZoom(newZoom);
           
           // Update coordinates
           onLocationSelect(lat, lng);
@@ -250,15 +325,6 @@ const InteractiveMap: React.FC<MapProps> = ({
       >
         {isLoading && <LoadingState />}
         {error && <ErrorState error={error} />}
-        {map && latitude && longitude && (
-          <MapMarker 
-            map={map}
-            position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}
-            onMarkerSet={() => {
-              console.log(`Marker set at: lat=${latitude}, lng=${longitude}`);
-            }}
-          />
-        )}
       </div>
       <p className="text-xs text-white/60 mt-1">
         Click anywhere on the map to set your property's exact location

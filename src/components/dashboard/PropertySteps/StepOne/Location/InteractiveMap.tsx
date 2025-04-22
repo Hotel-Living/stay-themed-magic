@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { MapProps } from "./types";
@@ -18,6 +19,7 @@ const InteractiveMap: React.FC<MapProps> = ({
   const [map, setMap] = useState<any>(null);
   const { isLoading, error } = useGoogleMaps();
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
+  const [previousAddress, setPreviousAddress] = useState<string>("");
 
   // Initialize map
   useEffect(() => {
@@ -183,40 +185,51 @@ const InteractiveMap: React.FC<MapProps> = ({
     }
   }, [latitude, longitude, isLoading]);
 
-  // Handle geocoding
+  // Handle geocoding whenever address changes
   useEffect(() => {
-    if (map && address && window.google && !latitude && !longitude) {
-      try {
-        console.log(`Geocoding address: ${address}`);
-        const geocoder = new window.google.maps.Geocoder();
-        
-        geocoder.geocode({ address }, (results: any, status: any) => {
-          if (status === window.google.maps.GeocoderStatus.OK && results && results[0]) {
-            const location = results[0].geometry.location;
-            const lat = location.lat().toFixed(6);
-            const lng = location.lng().toFixed(6);
-            console.log(`Geocoding successful: lat=${lat}, lng=${lng}`);
-            onLocationSelect(lat, lng);
-            toast({
-              title: "Address Located",
-              description: `Found coordinates for: ${address}`,
-            });
-          } else {
-            console.error(`Geocoding failed: status=${status}`);
-            setGeocodeError(`Could not find coordinates for: ${address}`);
-            toast({
-              title: "Geocoding Error",
-              description: `Could not find coordinates for: ${address}`,
-              variant: "destructive",
-            });
-          }
-        });
-      } catch (err) {
-        console.error('Error during geocoding:', err);
-        setGeocodeError('Error looking up address. Please try again.');
-      }
+    if (!map || !window.google || !address || address === previousAddress) return;
+    
+    try {
+      console.log(`Geocoding address: ${address}`);
+      const geocoder = new window.google.maps.Geocoder();
+      
+      geocoder.geocode({ address }, (results: any, status: any) => {
+        if (status === window.google.maps.GeocoderStatus.OK && results && results[0]) {
+          const location = results[0].geometry.location;
+          const lat = location.lat().toFixed(6);
+          const lng = location.lng().toFixed(6);
+          console.log(`Geocoding successful: lat=${lat}, lng=${lng}`);
+          
+          // Pan map to the new location
+          map.panTo(location);
+          
+          // Update coordinates
+          onLocationSelect(lat, lng);
+          
+          // Clear any previous errors
+          setGeocodeError(null);
+          
+          toast({
+            title: "Location Found",
+            description: `Found coordinates for: ${address}`,
+          });
+        } else {
+          console.error(`Geocoding failed: status=${status}`);
+          setGeocodeError(`Could not find coordinates for: ${address}`);
+          toast({
+            title: "Geocoding Error",
+            description: `Could not find coordinates for: ${address}`,
+            variant: "destructive",
+          });
+        }
+      });
+      
+      setPreviousAddress(address);
+    } catch (err) {
+      console.error('Error during geocoding:', err);
+      setGeocodeError('Error looking up address. Please try again.');
     }
-  }, [address, map, latitude, longitude, onLocationSelect]);
+  }, [address, map]);
 
   return (
     <div className="mb-4">

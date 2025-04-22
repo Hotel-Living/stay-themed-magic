@@ -4,13 +4,20 @@ import { FilterState } from '@/components/filters/FilterTypes';
 import { fetchHotelsWithFilters } from '@/services/hotelService';
 import { createDefaultFilters, updateFiltersState } from '@/utils/filterUtils';
 
+// Expanded interface to include all needed properties
 interface HotelCardData {
   id: string;
   name: string;
   location: string;
+  city?: string;
+  country?: string;
   price_per_month: number;
   thumbnail?: string;
   theme?: string;
+  category?: number;
+  hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
+  hotel_themes?: Array<{ themes?: { name: string } }>;
+  available_months?: string[];
 }
 
 interface UseHotelsProps {
@@ -39,6 +46,9 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
           id: hotel.id,
           name: hotel.name,
           location: hotel.city,
+          city: hotel.city,  // Keep original properties for FeaturedHotelsSection
+          country: hotel.country,
+          category: hotel.category,
           price_per_month: hotel.price_per_month,
           // Use `main_image_url` if present, fallback to first hotel_images, fallback to undefined
           thumbnail:
@@ -47,6 +57,10 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
               : hotel.hotel_images && hotel.hotel_images.length > 0
                 ? hotel.hotel_images[0].image_url
                 : undefined,
+          // Include original data structures for FeaturedHotelsSection
+          hotel_images: hotel.hotel_images,
+          hotel_themes: hotel.hotel_themes,
+          available_months: hotel.available_months,
           // Use first theme name if exists
           theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
             ? hotel.hotel_themes[0].themes.name

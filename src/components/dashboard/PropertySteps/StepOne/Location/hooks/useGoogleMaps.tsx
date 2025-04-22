@@ -15,37 +15,53 @@ export const useGoogleMaps = () => {
         console.log('Fetching Google Maps API key from edge function')
         const { data, error: fetchError } = await supabase.functions.invoke('get-maps-key');
         
-        if (fetchError) {
-          console.error('Error from edge function:', fetchError)
-          throw new Error(fetchError.message || 'Failed to fetch API key')
-        }
+        let apiKey;
         
-        if (!data?.apiKey) {
-          console.error('No API key returned from edge function')
-          throw new Error('API key not found in response')
+        if (fetchError) {
+          console.error('Error from edge function:', fetchError);
+          console.log('Falling back to environment variable API key');
+          // Fallback to environment variable if edge function fails
+          apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+          
+          if (!apiKey) {
+            throw new Error('Failed to fetch API key and no fallback available');
+          }
+        } else {
+          apiKey = data?.apiKey;
+          
+          if (!apiKey) {
+            console.error('No API key returned from edge function');
+            console.log('Falling back to environment variable API key');
+            // Fallback to environment variable if edge function returns no key
+            apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+            
+            if (!apiKey) {
+              throw new Error('API key not found in response and no fallback available');
+            }
+          }
         }
 
-        console.log('Successfully retrieved API key, loading Google Maps script')
+        console.log('Successfully retrieved API key, loading Google Maps script');
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
         script.async = true;
         script.defer = true;
         script.id = 'google-maps-script';
         
         script.onload = () => {
-          console.log('Google Maps script loaded successfully')
+          console.log('Google Maps script loaded successfully');
           setIsLoading(false);
         };
         
         script.onerror = (e) => {
-          console.error('Error loading Google Maps script:', e)
-          setError("Failed to load Google Maps. Please check your internet connection.");
+          console.error('Error loading Google Maps script:', e);
+          setError("Failed to load Google Maps. Please check your internet connection or API key.");
           setIsLoading(false);
         };
         
         document.head.appendChild(script);
       } catch (err) {
-        console.error('Error in loadGoogleMapsScript:', err)
+        console.error('Error in loadGoogleMapsScript:', err);
         setError(err.message || 'Failed to initialize Google Maps');
         setIsLoading(false);
       }

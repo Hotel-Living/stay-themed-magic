@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -7,6 +6,8 @@ import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import PropertyFormNavigation from "./components/PropertyFormNavigation";
 import { usePropertyForm } from "./hooks/usePropertyForm";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 export default function AddPropertyForm() {
   const {
@@ -28,6 +29,7 @@ export default function AddPropertyForm() {
     toast
   } = usePropertyForm();
 
+  const { user } = useAuth();
   const totalSteps = 4;
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
 
@@ -63,7 +65,7 @@ export default function AddPropertyForm() {
     }
   };
 
-  const handleSubmitProperty = () => {
+  const handleSubmitProperty = async () => {
     const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
     
     if (!allStepsValid) {
@@ -83,41 +85,77 @@ export default function AddPropertyForm() {
       return;
     }
 
-    console.log('Submitting form data:', formData);
-    setIsSubmitted(true);
-    setSubmitSuccess(true);
-    
-    toast({
-      title: "Property Submitted Successfully",
-      description: "Your property has been submitted for review.",
-      duration: 5000
-    });
-    
-    setTimeout(() => {
-      setCurrentStep(1);
-      setIsSubmitted(false);
-      setFormData({
-        hotelName: "",
-        propertyType: "",
-        description: "",
-        country: "",
-        address: "",
-        city: "",
-        postalCode: "",
-        contactName: "",
-        contactEmail: "",
-        contactPhone: "",
-        category: "",
-        stayLengths: [],
-        mealPlans: [],
-        roomTypes: [],
-        themes: [],
-        activities: [],
-        faqs: [],
-        terms: "",
-        termsAccepted: false
+    try {
+      const { data, error } = await supabase
+        .from('hotels')
+        .insert({
+          name: formData.hotelName,
+          property_type: formData.propertyType,
+          description: formData.description,
+          country: formData.country,
+          address: formData.address,
+          city: formData.city,
+          category: parseInt(formData.category) || null,
+          owner_id: user?.id,
+          price_per_month: 0,
+          status: 'pending'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error submitting property:', error);
+        toast({
+          title: "Submission Failed",
+          description: "There was an error submitting your property. Please try again.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log('Property submitted successfully:', data);
+      setIsSubmitted(true);
+      setSubmitSuccess(true);
+      
+      toast({
+        title: "Property Submitted Successfully",
+        description: "Your property has been submitted for review.",
+        duration: 5000
       });
-    }, 5000);
+      
+      setTimeout(() => {
+        setCurrentStep(1);
+        setIsSubmitted(false);
+        setFormData({
+          hotelName: "",
+          propertyType: "",
+          description: "",
+          country: "",
+          address: "",
+          city: "",
+          postalCode: "",
+          contactName: "",
+          contactEmail: "",
+          contactPhone: "",
+          category: "",
+          stayLengths: [],
+          mealPlans: [],
+          roomTypes: [],
+          themes: [],
+          activities: [],
+          faqs: [],
+          terms: "",
+          termsAccepted: false
+        });
+      }, 5000);
+    } catch (error) {
+      console.error('Error in handleSubmitProperty:', error);
+      toast({
+        title: "Submission Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const updateFormData = (field: string, value: any) => {

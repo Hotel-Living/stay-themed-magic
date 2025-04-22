@@ -21,8 +21,8 @@ export default function AccommodationMealPlanSection({
       open={isOpen} 
       onOpenChange={onOpenChange}
     >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <h2 className="text-xl font-medium text-white">Meals</h2>
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-lg bg-[#860493]">
+        <h2 className="text-base font-medium text-white">Meals</h2>
         <ChevronRight className="h-5 w-5 text-white" />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">

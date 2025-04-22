@@ -9,7 +9,7 @@ interface MapMarkerProps {
 
 export const MapMarker = ({ map, position, onMarkerSet }: MapMarkerProps) => {
   useEffect(() => {
-    if (!map || !position) return;
+    if (!map || !position || !window.google || !window.google.maps) return;
 
     const marker = new window.google.maps.Marker({
       position,

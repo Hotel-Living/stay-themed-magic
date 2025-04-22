@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import InteractiveMap from "./StepOne/Location/InteractiveMap";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Country } from 'country-state-city';
+import { Country, City } from 'country-state-city';
 
 export default function LocationStep() {
   const [address, setAddress] = useState("");

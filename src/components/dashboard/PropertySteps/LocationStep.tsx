@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from "react";
 import { Country } from 'country-state-city';
-import AddressFormSection from "./StepOne/Location/sections/AddressFormSection";
-import MapSection from "./StepOne/Location/sections/MapSection";
-import CoordinatesSection from "./StepOne/Location/sections/CoordinatesSection";
+import LocationAddressSection from "./LocationAddressSection";
+import LocationMapSection from "./LocationMapSection";
+import LocationCoordinatesSection from "./LocationCoordinatesSection";
 
 export default function LocationStep() {
   const [address, setAddress] = useState("");
@@ -21,13 +21,9 @@ export default function LocationStep() {
   // Create formatted address for geocoding
   useEffect(() => {
     let formattedAddr = "";
-    
-    // Add specific address if available
     if (address && address.trim() !== "") {
       formattedAddr = address;
     }
-    
-    // Add city if available
     if (selectedCity && selectedCity !== "other" && selectedCity.trim() !== "") {
       if (formattedAddr) formattedAddr += ", ";
       formattedAddr += selectedCity;
@@ -35,8 +31,6 @@ export default function LocationStep() {
       if (formattedAddr) formattedAddr += ", ";
       formattedAddr += customCity;
     }
-    
-    // Add country if available
     if (selectedCountry && selectedCountry !== "other" && selectedCountry.trim() !== "") {
       const countryData = Country.getCountryByCode(selectedCountry);
       if (countryData) {
@@ -47,15 +41,13 @@ export default function LocationStep() {
       if (formattedAddr) formattedAddr += ", ";
       formattedAddr += customCountry;
     }
-    
     setFormattedAddress(formattedAddr);
   }, [address, selectedCity, customCity, selectedCountry, customCountry]);
   
   return (
     <div className="space-y-5">
       <h3 className="text-xl font-bold uppercase mb-4 text-slate-50">LOCATION</h3>
-      
-      <AddressFormSection
+      <LocationAddressSection
         address={address}
         setAddress={setAddress}
         selectedCountry={selectedCountry}
@@ -73,8 +65,7 @@ export default function LocationStep() {
         isAddingNewCity={isAddingNewCity}
         setIsAddingNewCity={setIsAddingNewCity}
       />
-      
-      <MapSection
+      <LocationMapSection
         latitude={latitude}
         longitude={longitude}
         formattedAddress={formattedAddress}
@@ -83,8 +74,7 @@ export default function LocationStep() {
           setLongitude(lng);
         }}
       />
-
-      <CoordinatesSection
+      <LocationCoordinatesSection
         latitude={latitude}
         longitude={longitude}
         setLatitude={setLatitude}

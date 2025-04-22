@@ -34,7 +34,7 @@ export default function PreferredWeekdaySection({
     <Collapsible className="w-full mb-6 border rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger className="w-full flex items-center justify-between py-3 px-4 text-left border-b border-fuchsia-800/20">
         <label className="block text-lg font-medium uppercase">
-          Preferred weekday for all check-in / outs
+          Preferred Weekday for all Check-in / outs
         </label>
         <ChevronRight className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
       </CollapsibleTrigger>

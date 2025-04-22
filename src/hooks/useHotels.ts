@@ -4,12 +4,21 @@ import { FilterState } from '@/components/filters/FilterTypes';
 import { fetchHotelsWithFilters } from '@/services/hotelService';
 import { createDefaultFilters, updateFiltersState } from '@/utils/filterUtils';
 
+interface HotelCardData {
+  id: string;
+  name: string;
+  location: string;
+  price_per_month: number;
+  thumbnail?: string;
+  theme?: string;
+}
+
 interface UseHotelsProps {
   initialFilters?: FilterState;
 }
 
 export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
-  const [hotels, setHotels] = useState<any[]>([]);
+  const [hotels, setHotels] = useState<HotelCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [filters, setFilters] = useState<FilterState>(
@@ -23,13 +32,26 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
 
       try {
         const data = await fetchHotelsWithFilters(filters);
-        // Filter out hotels with invalid data
-        const validHotels = data.filter((hotel: any) => 
-          hotel && 
-          typeof hotel === 'object' &&
-          hotel.id &&
-          hotel.name
-        );
+        // Map DB hotel to UI format used in SearchResultsList
+        const validHotels = (data || []).filter(
+          (hotel: any) => hotel && typeof hotel === 'object' && hotel.id && hotel.name
+        ).map((hotel: any) => ({
+          id: hotel.id,
+          name: hotel.name,
+          location: hotel.city,
+          price_per_month: hotel.price_per_month,
+          // Use `main_image_url` if present, fallback to first hotel_images, fallback to undefined
+          thumbnail:
+            hotel.main_image_url
+              ? hotel.main_image_url
+              : hotel.hotel_images && hotel.hotel_images.length > 0
+                ? hotel.hotel_images[0].image_url
+                : undefined,
+          // Use first theme name if exists
+          theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
+            ? hotel.hotel_themes[0].themes.name
+            : undefined,
+        }));
         setHotels(validHotels);
       } catch (err: any) {
         console.error("Error fetching hotels:", err);

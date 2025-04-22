@@ -1,6 +1,6 @@
 
 import React from "react";
-import MapSection from "./StepOne/Location/sections/MapSection";
+import InteractiveMap from "./StepOne/Location/InteractiveMap";
 
 interface LocationMapSectionProps {
   latitude: string;
@@ -15,12 +15,14 @@ const LocationMapSection: React.FC<LocationMapSectionProps> = ({
   formattedAddress,
   onLocationSelect
 }) => (
-  <MapSection
-    latitude={latitude}
-    longitude={longitude}
-    formattedAddress={formattedAddress}
-    onLocationSelect={onLocationSelect}
-  />
+  <div className="mt-4 mb-6">
+    <InteractiveMap
+      latitude={latitude}
+      longitude={longitude}
+      address={formattedAddress}
+      onLocationSelect={onLocationSelect}
+    />
+  </div>
 );
 
 export default LocationMapSection;

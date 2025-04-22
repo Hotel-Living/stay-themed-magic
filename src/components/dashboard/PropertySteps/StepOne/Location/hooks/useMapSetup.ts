@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { MapInstance } from '../types';
@@ -6,9 +7,16 @@ export const useMapSetup = (mapRef: React.RefObject<HTMLDivElement>) => {
   const [map, setMap] = useState<MapInstance | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current || !window.google || !window.google.maps) return;
+    // Make sure Google Maps API is loaded and the ref exists
+    if (!mapRef.current || !window.google || !window.google.maps) {
+      console.log('Google Maps API not ready or mapRef not available');
+      return;
+    }
 
     try {
+      console.log('Setting up map with light theme');
+      
+      // Create the styled map with a light theme
       const styledMapType = new window.google.maps.StyledMapType([
         { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
         { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
@@ -120,10 +128,11 @@ export const useMapSetup = (mapRef: React.RefObject<HTMLDivElement>) => {
         },
       ], { name: "Styled Map" });
 
+      // Configure map options
       const mapOptions = {
-        center: { lat: 40.7128, lng: -74.0060 },
-        zoom: 13,
-        mapTypeId: "styled_map",
+        center: { lat: 40.7128, lng: -74.0060 }, // Default to New York
+        zoom: 2, // Start with a world view
+        mapTypeId: "roadmap", // Start with standard roadmap
         mapTypeControl: true,
         mapTypeControlOptions: {
           mapTypeIds: ["styled_map", "roadmap", "satellite", "hybrid", "terrain"],
@@ -134,11 +143,17 @@ export const useMapSetup = (mapRef: React.RefObject<HTMLDivElement>) => {
         streetViewControl: false,
       };
 
-      console.log('Creating new Google Maps instance with light theme');
+      // Create the map instance
+      console.log('Creating new Google Maps instance');
       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
+      
+      // Apply the styled map
       newMap.mapTypes.set("styled_map", styledMapType);
+      newMap.setMapTypeId("styled_map");
       
       setMap(newMap);
+      
+      console.log('Map setup complete');
     } catch (err) {
       console.error('Error initializing map:', err);
       toast({

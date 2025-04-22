@@ -1,5 +1,5 @@
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { MapProps } from "./types";
 import { useGoogleMaps } from "./hooks/useGoogleMaps";
 import { useMapSetup } from "./hooks/useMapSetup";
@@ -20,20 +20,22 @@ const InteractiveMap: React.FC<MapProps> = ({
   const { geocodeError } = useGeocoding({ map, address, updateMarker, onLocationSelect });
 
   // Initialize coordinates if provided
-  React.useEffect(() => {
-    if (map && latitude && longitude) {
+  useEffect(() => {
+    if (map && latitude && longitude && !isLoading) {
+      console.log(`Setting initial position: lat=${latitude}, lng=${longitude}`);
       const position = {
         lat: parseFloat(latitude),
         lng: parseFloat(longitude)
       };
       updateMarker(position);
     }
-  }, [map, latitude, longitude, updateMarker]);
+  }, [map, latitude, longitude, updateMarker, isLoading]);
 
   // Add click handler to map
-  React.useEffect(() => {
-    if (!map) return;
+  useEffect(() => {
+    if (!map || isLoading) return;
 
+    console.log('Adding click listener to map');
     const clickListener = map.addListener('click', (event: google.maps.MouseEvent) => {
       if (event.latLng) {
         const lat = event.latLng.lat().toFixed(6);
@@ -52,7 +54,7 @@ const InteractiveMap: React.FC<MapProps> = ({
     return () => {
       google.maps.event.removeListener(clickListener);
     };
-  }, [map, onLocationSelect, updateMarker]);
+  }, [map, onLocationSelect, updateMarker, isLoading]);
 
   return (
     <MapContainer 

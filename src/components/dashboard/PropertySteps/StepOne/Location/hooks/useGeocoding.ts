@@ -15,8 +15,14 @@ export const useGeocoding = ({ map, address, updateMarker, onLocationSelect }: U
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!map || !window.google || !address) return;
-    if (address === previousAddress || address.trim() === "") return;
+    // Skip if map not loaded, no Google Maps API, no address, or same address as before
+    if (!map || !window.google || !address) {
+      return;
+    }
+    
+    if (address === previousAddress || address.trim() === "") {
+      return;
+    }
 
     try {
       console.log(`Geocoding address: ${address}`);
@@ -31,6 +37,7 @@ export const useGeocoding = ({ map, address, updateMarker, onLocationSelect }: U
 
           updateMarker({ lat: parseFloat(lat), lng: parseFloat(lng) });
 
+          // Adjust zoom level based on result type
           const types = results[0].types || [];
           let newZoom = 13;
 
@@ -64,7 +71,7 @@ export const useGeocoding = ({ map, address, updateMarker, onLocationSelect }: U
       console.error('Error during geocoding:', err);
       setGeocodeError('Error looking up address. Please try again.');
     }
-  }, [address, map, onLocationSelect, updateMarker]);
+  }, [address, map, onLocationSelect, updateMarker, previousAddress]);
 
   return { geocodeError };
 };

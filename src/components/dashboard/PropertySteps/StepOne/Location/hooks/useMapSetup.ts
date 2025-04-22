@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { toast } from "@/hooks/use-toast";
 import { MapInstance } from '../types';
@@ -136,7 +137,16 @@ export const useMapSetup = (mapRef: React.RefObject<HTMLDivElement>) => {
 
       console.log('Creating new Google Maps instance with light theme');
       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
+      
+      // Fix: Use the correct method to set the map type ID
+      // Instead of using setMapTypeId (which doesn't exist on the Map type)
+      // Register the styled map type and set it through mapTypes.set
       newMap.mapTypes.set("styled_map", styledMapType);
+      
+      // Set the map type ID directly using the map's options
+      if (newMap.setOptions) {
+        newMap.setOptions({ mapTypeId: "styled_map" });
+      }
       
       setMap(newMap);
     } catch (err) {

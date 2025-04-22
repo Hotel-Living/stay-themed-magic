@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -101,7 +100,6 @@ export default function AddPropertyForm() {
           city: formData.city,
           category: parseInt(formData.category) || null,
           owner_id: user?.id,
-          // Use room rates for price_per_month or default to 1000 if not available
           price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
           status: 'pending'
         })
@@ -164,24 +162,21 @@ export default function AddPropertyForm() {
           throw updateMonthsError;
         }
         
-        // Create hotel_availability entries for each month with corrected format
-        // We need to provide all required fields including availability_date
+        // Create hotel_availability entries for each month with all required fields
         const currentYear = new Date().getFullYear();
         const availabilityRows = availableMonths.map(month => {
-          // Create a date for the first day of the month
           const firstDayOfMonth = parse(`01 ${month} ${currentYear}`, 'dd MMMM yyyy', new Date());
           const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
-          
           return {
             hotel_id: hotelId,
             availability_month: month.toLowerCase(),
             availability_year: currentYear,
-            availability_date: formattedDate, // This was missing before
+            availability_date: formattedDate,
             is_full_month: true,
-            preferred_weekday: 'Monday' // Default value for preferred weekday
+            preferred_weekday: 'Monday',
           };
         });
-        
+
         if (availabilityRows.length > 0) {
           const { error: availabilityError } = await supabase
             .from('hotel_availability')

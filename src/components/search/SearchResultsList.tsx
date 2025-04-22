@@ -64,7 +64,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => (
-        <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
+        <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
           <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="aspect-video bg-muted relative overflow-hidden">
               <img 

@@ -24,8 +24,6 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   isLoading, 
   error 
 }) => {
-  console.log("SearchResultsList received hotels:", filteredHotels);
-  
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -57,17 +55,13 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel) => (
-        <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
+        <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
           <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="aspect-video bg-muted relative overflow-hidden">
               <img 
                 src={hotel.thumbnail || "/placeholder.svg"} 
                 alt={hotel.name}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder.svg"; 
-                }}
               />
               {hotel.theme && (
                 <div className="absolute bottom-2 left-2 bg-fuchsia-600/90 text-white text-xs px-2 py-1 rounded-full">

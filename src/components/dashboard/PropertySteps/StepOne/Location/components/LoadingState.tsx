@@ -1,9 +1,7 @@
 
-import { Loader2 } from "lucide-react";
-
 export const LoadingState = () => (
-  <div className="flex flex-col items-center justify-center h-full w-full">
-    <Loader2 className="h-8 w-8 text-fuchsia-500 animate-spin mb-2" />
-    <p className="text-white/70 text-sm">Loading Google Maps...</p>
+  <div className="text-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+    <p className="text-white">Loading map...</p>
   </div>
 );

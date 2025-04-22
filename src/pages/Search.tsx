@@ -8,7 +8,6 @@ import { SearchResultsList } from "@/components/search/SearchResultsList";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
-import { toast } from "@/hooks/use-toast";
 
 export default function Search() {
   const location = useLocation();
@@ -75,29 +74,18 @@ export default function Search() {
       location: newFilters.location,
       propertyType: newFilters.propertyType
     });
-    
-    console.log("Search page initialized with filters:", newFilters);
   }, [location.search]);
 
   // Handle filter changes
   const handleFilterChange = (filterType: string, value: any) => {
-    console.log(`Filter changed: ${filterType} = `, value);
     setActiveFilters(prev => ({ ...prev, [filterType]: value }));
     
     // Real-time filtering: Update the filters in the useHotels hook
     updateFilters({ [filterType]: value });
-    
-    // Show toast notification for better UX feedback
-    toast({
-      title: "Updating results",
-      description: `Filtering by ${filterType}: ${value?.name || value}`,
-    });
   };
 
   // Handle array filter changes (checkboxes)
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
-    console.log(`Array filter changed: ${filterType}, value: ${value}, checked: ${isChecked}`);
-    
     setActiveFilters(prev => {
       const currentValues = prev[filterType as keyof typeof prev] as string[] || [];
       const newValues = isChecked 

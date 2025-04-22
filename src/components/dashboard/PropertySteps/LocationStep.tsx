@@ -1,6 +1,8 @@
 
 import React, { useState } from "react";
-import { MapPin } from "lucide-react";
+import InteractiveMap from "./StepOne/Location/InteractiveMap";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function LocationStep() {
   const [address, setAddress] = useState("");
@@ -11,6 +13,8 @@ export default function LocationStep() {
   const [isAddingNewCountry, setIsAddingNewCountry] = useState(false);
   const [isAddingNewCity, setIsAddingNewCity] = useState(false);
   const [postalCode, setPostalCode] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -23,7 +27,6 @@ export default function LocationStep() {
       setCustomCountry("");
     }
     
-    // Reset city selection when country changes
     setSelectedCity("");
     setIsAddingNewCity(false);
     setCustomCity("");
@@ -40,8 +43,14 @@ export default function LocationStep() {
       setCustomCity("");
     }
   };
+
+  const handleLocationSelect = (lat: string, lng: string) => {
+    setLatitude(lat);
+    setLongitude(lng);
+  };
   
-  return <div className="space-y-5">
+  return (
+    <div className="space-y-5">
       <h3 className="text-xl font-bold uppercase mb-4 text-slate-50">LOCATION</h3>
       
       <div>
@@ -170,16 +179,45 @@ export default function LocationStep() {
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-white mb-1 uppercase">
+        <Label className="block text-sm font-medium text-white mb-1 uppercase">
           LOCATION ON MAP
-        </label>
-        <div className="w-full h-64 rounded-lg border border-fuchsia-800/30 flex items-center justify-center bg-[#7A0486]">
-          <div className="text-center">
-            <MapPin className="w-8 h-8 mx-auto mb-2 text-fuchsia-400/50" />
-            <p className="text-sm text-white/60">Google Maps will be loaded here</p>
-            <p className="text-xs text-white/40 mt-1">Latitude and longitude will be set automatically</p>
-          </div>
+        </Label>
+        <InteractiveMap
+          latitude={latitude}
+          longitude={longitude}
+          address={address}
+          onLocationSelect={handleLocationSelect}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="block text-sm font-medium text-white mb-1">
+            Latitude
+          </Label>
+          <Input
+            type="text"
+            placeholder="Latitude will be set from map"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            className="text-white bg-[#7A0486] border-fuchsia-800/30 focus:border-fuchsia-500/50"
+            disabled
+          />
+        </div>
+        <div>
+          <Label className="block text-sm font-medium text-white mb-1">
+            Longitude
+          </Label>
+          <Input
+            type="text"
+            placeholder="Longitude will be set from map"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            className="text-white bg-[#7A0486] border-fuchsia-800/30 focus:border-fuchsia-500/50"
+            disabled
+          />
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }

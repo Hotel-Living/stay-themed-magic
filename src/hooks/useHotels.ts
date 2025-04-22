@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { FilterState } from '@/components/filters/FilterTypes';
-import { fetchHotelsWithFilters } from '@/services/hotelService';
+import { fetchHotelsWithFilters, convertHotelToUIFormat } from '@/services/hotelService';
 import { createDefaultFilters, updateFiltersState } from '@/utils/filterUtils';
 
 // Expanded interface to include all needed properties
@@ -39,34 +39,15 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
 
       try {
         const data = await fetchHotelsWithFilters(filters);
-        // Map DB hotel to UI format used in SearchResultsList
-        const validHotels = (data || []).filter(
-          (hotel: any) => hotel && typeof hotel === 'object' && hotel.id && hotel.name
-        ).map((hotel: any) => ({
-          id: hotel.id,
-          name: hotel.name,
-          location: hotel.city,
-          city: hotel.city,  // Keep original properties for FeaturedHotelsSection
-          country: hotel.country,
-          category: hotel.category,
-          price_per_month: hotel.price_per_month,
-          // Use `main_image_url` if present, fallback to first hotel_images, fallback to undefined
-          thumbnail:
-            hotel.main_image_url
-              ? hotel.main_image_url
-              : hotel.hotel_images && hotel.hotel_images.length > 0
-                ? hotel.hotel_images[0].image_url
-                : undefined,
-          // Include original data structures for FeaturedHotelsSection
-          hotel_images: hotel.hotel_images,
-          hotel_themes: hotel.hotel_themes,
-          available_months: hotel.available_months,
-          // Use first theme name if exists
-          theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
-            ? hotel.hotel_themes[0].themes.name
-            : undefined,
-        }));
-        setHotels(validHotels);
+        
+        // Convert API hotel data to UI format
+        const validHotels = (data || [])
+          .filter(hotel => hotel && typeof hotel === 'object' && hotel.id && hotel.name)
+          .map(hotel => convertHotelToUIFormat(hotel))
+          .filter(hotel => hotel !== null);
+          
+        console.log(`Processed ${validHotels.length} hotels for display`);
+        setHotels(validHotels as HotelCardData[]);
       } catch (err: any) {
         console.error("Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));

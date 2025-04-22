@@ -8,10 +8,12 @@ import { SearchResultsList } from "@/components/search/SearchResultsList";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Search() {
   const location = useLocation();
   const { hotels, loading, error, filters, updateFilters } = useHotels();
+  const { toast } = useToast();
   
   const [activeFilters, setActiveFilters] = useState<{
     country: string | null;
@@ -49,31 +51,66 @@ export default function Search() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const newFilters = { ...activeFilters };
+    let filtersChanged = false;
     
     // Update filters based on URL parameters
-    if (searchParams.has('country')) newFilters.country = searchParams.get('country');
-    if (searchParams.has('month')) newFilters.month = searchParams.get('month');
-    if (searchParams.has('price')) newFilters.priceRange = Number(searchParams.get('price'));
-    if (searchParams.has('location')) newFilters.location = searchParams.get('location');
-    if (searchParams.has('propertyType')) newFilters.propertyType = searchParams.get('propertyType');
+    if (searchParams.has('country')) {
+      newFilters.country = searchParams.get('country');
+      filtersChanged = true;
+    }
+    
+    if (searchParams.has('month')) {
+      newFilters.month = searchParams.get('month');
+      filtersChanged = true;
+    }
+    
+    if (searchParams.has('price')) {
+      newFilters.priceRange = Number(searchParams.get('price'));
+      filtersChanged = true;
+    }
+    
+    if (searchParams.has('location')) {
+      newFilters.location = searchParams.get('location');
+      filtersChanged = true;
+    }
+    
+    if (searchParams.has('propertyType')) {
+      newFilters.propertyType = searchParams.get('propertyType');
+      filtersChanged = true;
+    }
+    
     if (searchParams.has('theme')) {
       // Handle theme differently since it's an object
       const themeId = searchParams.get('theme');
       // This would need to be enhanced to fetch the actual theme object
       newFilters.theme = { id: themeId || '', name: themeId || '' } as Theme;
+      filtersChanged = true;
     }
     
-    setActiveFilters(newFilters);
-    
-    // Update the filters in the useHotels hook for real-time filtering
-    updateFilters({
-      country: newFilters.country,
-      month: newFilters.month,
-      theme: newFilters.theme,
-      priceRange: newFilters.priceRange,
-      location: newFilters.location,
-      propertyType: newFilters.propertyType
-    });
+    if (filtersChanged) {
+      setActiveFilters(newFilters);
+      
+      // Update the filters in the useHotels hook for real-time filtering
+      updateFilters({
+        country: newFilters.country,
+        month: newFilters.month,
+        theme: newFilters.theme,
+        priceRange: newFilters.priceRange,
+        location: newFilters.location,
+        propertyType: newFilters.propertyType
+      });
+      
+      // Show a toast to inform user about applied filters
+      let filterDescription = "Showing results";
+      if (newFilters.country) filterDescription += ` in ${newFilters.country}`;
+      if (newFilters.month) filterDescription += ` for ${newFilters.month}`;
+      if (newFilters.theme) filterDescription += ` with theme "${newFilters.theme.name}"`;
+      
+      toast({
+        title: "Filters Applied",
+        description: filterDescription
+      });
+    }
   }, [location.search]);
 
   // Handle filter changes
@@ -118,6 +155,13 @@ export default function Search() {
             />
           </div>
           <div className="w-full md:w-3/4">
+            <div className="mb-4">
+              <h1 className="text-2xl font-bold">Search Results</h1>
+              <p className="text-muted-foreground">
+                Found {hotels?.length || 0} properties matching your criteria
+              </p>
+            </div>
+            
             <SearchResultsList 
               filteredHotels={hotels || []}
               isLoading={loading}

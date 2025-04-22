@@ -20,13 +20,13 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     }
 
     // Apply theme filter
-    if (filters.theme) {
-      query = query.contains('themes', [filters.theme]);
+    if (filters.theme && filters.theme.id) {
+      query = query.or(`hotel_themes.theme_id.eq.${filters.theme.id},hotel_themes.themes.name.ilike.%${filters.theme.name}%`);
     }
 
-    // Apply country filter
+    // Apply country filter - use case-insensitive matching
     if (filters.country) {
-      query = query.eq('country', filters.country);
+      query = query.ilike('country', filters.country);
     }
 
     // Apply month filter - check both available_months and hotel_availability
@@ -42,7 +42,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     // Apply city/location filter
     if (filters.location) {
-      query = query.eq('city', filters.location);
+      query = query.ilike('city', `%${filters.location}%`);
     }
 
     // Apply property type filter
@@ -82,11 +82,20 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.in('hotel_activities.activities.category', filters.activities);
     }
 
+    // Include properties with approved status by default
+    query = query.eq('status', 'approved');
+
     const { data, error } = await query;
 
     if (error) {
       console.error("Supabase query error:", error);
       throw new Error(`Failed to fetch hotels: ${error.message}`);
+    }
+
+    // Add debugging to see what's being returned
+    console.log("Fetched hotels:", data?.length || 0, "hotels");
+    if (data && data.length > 0) {
+      console.log("Sample hotel data:", data[0]);
     }
 
     // Ensure we always return an array, even if empty
@@ -95,4 +104,31 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     console.error("Error in fetchHotelsWithFilters:", err);
     throw err;
   }
+};
+
+// Helper function to convert API fields to UI format
+export const convertHotelToUIFormat = (hotel: any) => {
+  if (!hotel) return null;
+  
+  return {
+    id: hotel.id,
+    name: hotel.name,
+    location: hotel.city || 'Unknown location',
+    city: hotel.city,
+    country: hotel.country,
+    category: hotel.category,
+    price_per_month: hotel.price_per_month || 0,
+    thumbnail: 
+      hotel.main_image_url 
+        ? hotel.main_image_url 
+        : hotel.hotel_images && hotel.hotel_images.length > 0
+          ? hotel.hotel_images[0].image_url
+          : undefined,
+    hotel_images: hotel.hotel_images || [],
+    hotel_themes: hotel.hotel_themes || [],
+    available_months: hotel.available_months || [],
+    theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
+      ? hotel.hotel_themes[0].themes.name
+      : undefined,
+  };
 };

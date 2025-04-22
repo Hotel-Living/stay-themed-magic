@@ -52,16 +52,29 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     );
   }
 
+  const getPlaceholderImage = (index) => {
+    const placeholders = [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format",
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&auto=format",
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&auto=format"
+    ];
+    return placeholders[index % placeholders.length];
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {filteredHotels.map((hotel) => (
+      {filteredHotels.map((hotel, index) => (
         <Link key={hotel.id} to={`/hotels/${hotel.id}`}>
           <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="aspect-video bg-muted relative overflow-hidden">
               <img 
-                src={hotel.thumbnail || "/placeholder.svg"} 
+                src={hotel.thumbnail || getPlaceholderImage(index)} 
                 alt={hotel.name}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.onerror = null; 
+                  e.currentTarget.src = getPlaceholderImage(index);
+                }}
               />
               {hotel.theme && (
                 <div className="absolute bottom-2 left-2 bg-fuchsia-600/90 text-white text-xs px-2 py-1 rounded-full">
@@ -72,8 +85,12 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
             <div className="p-4">
               <h3 className="font-semibold mb-2 line-clamp-2">{hotel.name}</h3>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">{hotel.location}</span>
-                <span className="font-medium">${hotel.price_per_month}/mo</span>
+                <span className="text-sm text-muted-foreground">{hotel.location || "Location unavailable"}</span>
+                <span className="font-medium">
+                  {hotel.price_per_month > 0 
+                    ? `$${hotel.price_per_month}/mo` 
+                    : "Contact for price"}
+                </span>
               </div>
             </div>
           </Card>

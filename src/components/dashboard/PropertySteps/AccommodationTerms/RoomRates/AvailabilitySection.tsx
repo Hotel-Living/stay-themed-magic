@@ -2,7 +2,7 @@
 import React from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
-import RoomTypeSection from "../../../rooms/roomTypes/RoomTypeSection";
+import RoomTypeSection from "../../rooms/roomTypes/RoomTypeSection";
 
 interface AvailabilitySectionProps {
   isOpen: boolean;

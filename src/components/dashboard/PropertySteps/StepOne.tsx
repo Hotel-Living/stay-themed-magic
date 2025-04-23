@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo";
 import LocationSection from "./StepOne/Location";
@@ -55,21 +56,21 @@ export default function StepOne({
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-3">
-        {/* Add PicturesStep at the top */}
-        <PicturesStep
-          formData={{
-            hotelImages: formData.hotelImages,
-            mainImageUrl: formData.mainImageUrl
-          }}
-          updateFormData={updateFormData}
-        />
-        
         <HotelInfoSection 
           formData={localFormData}
           errors={errors}
           touchedFields={touchedFields}
           handleChange={handleChange}
           handleBlur={handleBlur}
+        />
+        
+        {/* Pictures section moved here */}
+        <PicturesStep
+          formData={{
+            hotelImages: formData.hotelImages,
+            mainImageUrl: formData.mainImageUrl
+          }}
+          updateFormData={updateFormData}
         />
         
         <LocationSection
@@ -104,3 +105,4 @@ export default function StepOne({
     </div>
   );
 }
+

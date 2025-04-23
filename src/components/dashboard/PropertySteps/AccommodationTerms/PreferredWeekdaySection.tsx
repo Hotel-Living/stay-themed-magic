@@ -4,13 +4,15 @@ import { ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface PreferredWeekdaySectionProps {
-  preferredWeekday: string;
-  onWeekdayChange: (weekday: string) => void;
+  preferredWeekday?: string;
+  onWeekdayChange?: (weekday: string) => void;
+  weekdays?: string[];
 }
 
 export default function PreferredWeekdaySection({
   preferredWeekday = "Monday",
-  onWeekdayChange,
+  onWeekdayChange = () => {},
+  weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 }: PreferredWeekdaySectionProps) {
   return (
     <Collapsible className="w-full mb-6">
@@ -20,7 +22,7 @@ export default function PreferredWeekdaySection({
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
         <div className="grid grid-cols-7 gap-2 mt-2">
-          {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+          {weekdays.map(day => (
             <label key={day} className="flex flex-col items-center">
               <input 
                 type="radio" 

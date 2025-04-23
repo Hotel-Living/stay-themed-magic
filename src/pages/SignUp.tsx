@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -10,6 +11,7 @@ import { PasswordField } from "@/components/auth/PasswordField";
 import { TermsCheckbox } from "@/components/auth/TermsCheckbox";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { useToast } from "@/hooks/use-toast";
+import { validatePassword } from "@/utils/passwordValidation";
 
 export default function SignUp() {
   const [name, setName] = useState("");

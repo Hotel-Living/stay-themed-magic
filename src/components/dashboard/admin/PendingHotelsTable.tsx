@@ -59,7 +59,7 @@ export default function PendingHotelsTable({
                     Details
                   </Button>
                   
-                  {!isAllHotelsView && hotel.status === 'pending' && (
+                  {hotel.status === 'pending' && (
                     <>
                       <Button
                         variant="default"

@@ -3,9 +3,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, addDays } from "date-fns";
-import { BookingFormActions } from "./booking/BookingFormActions";
-import { DynamicPricingBar } from "./booking/DynamicPricingBar";
-import { BookingSuccessMessage } from "./booking/BookingSuccessMessage";
+import { BookingFormActions } from "./BookingFormActions";
+import { DynamicPricingBar } from "./DynamicPricingBar";
+import { BookingSuccessMessage } from "./BookingSuccessMessage";
 import { useBookingState } from "@/hooks/useBookingState";
 
 interface BookingFormProps {
@@ -87,7 +87,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
   };
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden bg-[#5C088F]">
+    <div className="rounded-2xl overflow-hidden bg-[#5C088F]">
       <div className="p-6">
         <h3 className="text-xl font-bold mb-4 text-white">Book your stay</h3>
         {booked ? (

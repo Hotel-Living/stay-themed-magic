@@ -18,7 +18,11 @@ export const useAdminAccess = () => {
     }
 
     try {
+      console.log(`Checking admin access for user: ${user.email}`);
+      
       const { data, error } = await supabase.rpc('is_admin', { user_id: user.id });
+      
+      console.log('Admin check result:', { data, error });
       
       if (error) {
         console.error('Error checking admin status:', error);
@@ -42,9 +46,10 @@ export const useAdminAccess = () => {
       }
 
       setIsAdmin(true);
+      console.log('Admin access granted');
       return true;
     } catch (error) {
-      console.error('Error in admin check:', error);
+      console.error('Unexpected error in admin check:', error);
       toast({ 
         title: "Error", 
         description: "An unexpected error occurred", 

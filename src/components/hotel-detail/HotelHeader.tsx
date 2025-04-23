@@ -10,6 +10,15 @@ interface HotelHeaderWithActivitiesProps extends HotelHeaderProps {
   isLoading?: boolean;
 }
 
+function formatAffinities(themes: HotelTheme[]): string {
+  if (!themes || themes.length === 0) return "";
+  const names = themes.map((theme) => theme.name).filter(Boolean);
+  if (names.length === 0) return "";
+  if (names.length === 1) return names[0];
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+}
+
 export function HotelHeader({
   name,
   stars,
@@ -22,7 +31,7 @@ export function HotelHeader({
 }: HotelHeaderWithActivitiesProps) {
   if (isLoading) {
     return (
-      <div className="mb-8">
+      <div className="mb-8 bg-[#5C088F] rounded-lg p-6">
         <Skeleton className="h-10 w-3/4 mb-2" />
         <div className="flex items-center gap-3 mb-4">
           <Skeleton className="h-5 w-32" />
@@ -36,9 +45,17 @@ export function HotelHeader({
     );
   }
 
+  // Format address block
+  const showAddressLine = [city, country, address]
+    .filter(Boolean)
+    .join(", ");
+
+  // Affinities ("themes")
+  const affinityText = formatAffinities(themes);
+
   return (
-    <div className="mb-8">
-      <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
+    <div className="mb-8 bg-[#5C088F] rounded-lg p-6">
+      <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3 text-white">
         {name}
         <div className="flex items-center">
           {Array.from({ length: stars }).map((_, i) => (
@@ -46,20 +63,20 @@ export function HotelHeader({
           ))}
         </div>
       </h1>
-      {/* Only city/country in first row */}
-      <div className="flex items-center gap-3 text-muted-foreground mb-2">
-        <div className="flex items-center gap-1">
-          <MapPin className="w-4 h-4 text-fuchsia-400" />
-          <span>
-            {city}, {country}
-          </span>
-        </div>
+      {/* City, Country, and Address in one row */}
+      <div className="flex items-center gap-1 text-fuchsia-300 mb-2">
+        <MapPin className="w-4 h-4 text-fuchsia-300" />
+        <span>
+          {showAddressLine}
+        </span>
       </div>
-      {/* Address below city/country */}
-      {address && (
-        <div className="flex text-sm text-muted-foreground mb-4">
-          <span>{address}</span>
+      {/* Affinity welcome line */}
+      {affinityText ? (
+        <div className="mb-2 text-white">
+          A warm welcome to all who share a passion for {affinityText}
         </div>
+      ) : (
+        <div className="mb-2">&nbsp;</div>
       )}
       <div className="flex flex-wrap items-center gap-2">
         <HotelThemes themes={themes} />

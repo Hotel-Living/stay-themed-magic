@@ -10,7 +10,7 @@ interface DynamicPricingBarProps {
 
 export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: DynamicPricingBarProps) {
   return (
-    <div className="rounded-lg bg-fuchsia-950/50 p-3 border border-fuchsia-800/30">
+    <div className="rounded-lg bg-[#5C088F] p-3 border border-fuchsia-800/30">
       <div className="flex items-center justify-between text-sm text-fuchsia-200 mb-1">
         <span>Dynamic pricing</span>
         <TooltipProvider>
@@ -21,7 +21,7 @@ export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: Dy
               </button>
             </TooltipTrigger>
             <TooltipContent className="max-w-xs">
-              <p className="text-fuchsia-800">
+              <p className="text-[#5C088F] font-semibold">
                 This property utilizes dynamic pricing based on real-time demand. As availability decreases, rates may rise. Secure your reservation today to enjoy the lowest available rate
               </p>
             </TooltipContent>
@@ -38,4 +38,3 @@ export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: Dy
     </div>
   );
 }
-

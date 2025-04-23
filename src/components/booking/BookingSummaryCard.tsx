@@ -10,24 +10,29 @@ interface BookingSummaryCardProps {
 }
 
 export function BookingSummaryCard({ startDate, endDate, duration, dynamicPrice }: BookingSummaryCardProps) {
+  const tenPercent = dynamicPrice * 0.1;
   return (
-    <div className="rounded-lg bg-fuchsia-950/30 p-4">
+    <div className="rounded-lg bg-[#5C088F] p-4 text-white">
       <div className="flex justify-between mb-2">
-        <span className="text-muted-foreground">Check-in</span>
+        <span className="text-fuchsia-200">Check-in</span>
         <span>{format(startDate, "MMM d, yyyy")}</span>
       </div>
       <div className="flex justify-between mb-2">
-        <span className="text-muted-foreground">Check-out</span>
+        <span className="text-fuchsia-200">Check-out</span>
         <span>{format(endDate, "MMM d, yyyy")}</span>
       </div>
       <div className="flex justify-between mb-2">
-        <span className="text-muted-foreground">Duration</span>
+        <span className="text-fuchsia-200">Duration</span>
         <span>{duration} days</span>
       </div>
       <div className="border-t border-fuchsia-900 my-2 pt-2"></div>
       <div className="flex justify-between font-bold">
         <span>Total price</span>
         <span className="text-gradient">{formatCurrency(dynamicPrice)}</span>
+      </div>
+      <div className="flex justify-between font-bold mt-1">
+        <span>Just pay 10% now</span>
+        <span className="text-gradient">{formatCurrency(tenPercent)}</span>
       </div>
     </div>
   );

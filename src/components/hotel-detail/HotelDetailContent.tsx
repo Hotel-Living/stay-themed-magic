@@ -44,7 +44,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
         Back to hotels
       </Link>
       
-      {/* Hotel Header now includes address */}
+      {/* Hotel Header now includes address and affinity welcome */}
       <HotelHeader 
         name={hotel?.name || ''}
         stars={hotel?.category || 0}
@@ -57,22 +57,24 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
       />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-7">
           {/* Gallery: real hotel images */}
-          <HotelGallery 
-            images={imageUrls} 
-            hotelName={hotel?.name || ''}
-            isLoading={isLoading}
-          />
-
+          <div className="bg-[#5C088F] rounded-lg p-6 text-white">
+            <HotelGallery 
+              images={imageUrls} 
+              hotelName={hotel?.name || ''}
+              isLoading={isLoading}
+            />
+          </div>
           {/* Description */}
-          <HotelDescription 
-            description={hotel?.description || "No description available."} 
-            isLoading={isLoading}
-          />
-
+          <div className="bg-[#5C088F] rounded-lg p-6 text-white">
+            <HotelDescription 
+              description={hotel?.description || "No description available."} 
+              isLoading={isLoading}
+            />
+          </div>
           {/* Amenities, renamed to "Hotel Amenities" */}
-          <div data-section="hotel-amenities">
+          <div className="bg-[#5C088F] rounded-lg p-6 text-white" data-section="hotel-amenities">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               Hotel Amenities
             </h2>
@@ -83,10 +85,9 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
               />
             </div>
           </div>
-
-          {/* Map Section (no change) */}
+          {/* Map Section (no change except bg) */}
           {hotel?.latitude && hotel?.longitude && import.meta.env.VITE_GOOGLE_MAPS_API_KEY && (
-            <div className="mb-8">
+            <div className="mb-8 bg-[#5C088F] rounded-lg p-6 text-white">
               <h2 className="text-xl font-semibold mb-3">Location</h2>
               <div className="rounded-lg overflow-hidden">
                 <iframe 
@@ -115,18 +116,18 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             </div>
           )}
         </div>
-        
-        {/* Booking Form */}
+        {/* Booking Form, now with purple background! */}
         <div className="lg:col-span-1">
-          <BookingForm 
-            hotelId={hotel?.id || ''} 
-            hotelName={hotel?.name || ''} 
-            pricePerMonth={hotel?.price_per_month || 0} 
-            availableStayLengths={availableStayLengths}
-          />
+          <div className="bg-[#5C088F] rounded-lg p-6 text-white">
+            <BookingForm 
+              hotelId={hotel?.id || ''} 
+              hotelName={hotel?.name || ''} 
+              pricePerMonth={hotel?.price_per_month || 0} 
+              availableStayLengths={availableStayLengths}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
-

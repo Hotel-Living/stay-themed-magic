@@ -34,7 +34,6 @@ export function DynamicPricingBar({ nightsSold, totalNights, priceIncrease }: Dy
           style={{ width: `${Math.min(priceIncrease * 5, 100)}%` }}
         ></div>
       </div>
-      {/* Second row ("Base price" etc) removed as requested */}
     </div>
   );
 }

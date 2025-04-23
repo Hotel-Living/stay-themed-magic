@@ -2,7 +2,6 @@
 import { BookingCalendarSelector } from "./BookingCalendarSelector";
 import { BookingDurationSelector } from "./BookingDurationSelector";
 import { RoomTypeSelector } from "./RoomTypeSelector";
-// import { RoomAvailabilityCalendar } from "./RoomAvailabilityCalendar"; // REMOVED as required
 import { BookingSummaryCard } from "./BookingSummaryCard";
 
 interface BookingFormActionsProps {
@@ -33,7 +32,7 @@ export function BookingFormActions({
   availableStayLengths,
 }: BookingFormActionsProps) {
   return (
-    <div className="space-y-4 bg-[#5C088F] rounded-lg p-6">
+    <div className="space-y-4">
       <BookingCalendarSelector
         startDate={startDate}
         setStartDate={setStartDate}
@@ -47,7 +46,6 @@ export function BookingFormActions({
         selectedRoomType={selectedRoomType}
         setSelectedRoomType={setSelectedRoomType}
       />
-      {/* RoomAvailabilityCalendar component removed */}
       {startDate && endDate && (
         <BookingSummaryCard
           startDate={startDate}

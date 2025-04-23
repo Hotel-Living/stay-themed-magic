@@ -9,7 +9,7 @@ export function HotelDescription({
 }: HotelDescriptionProps & { isLoading?: boolean }) {
   if (isLoading) {
     return (
-      <div className="glass-card rounded-2xl p-6 mb-8">
+      <div className="bg-[#5C088F] rounded-lg p-6 mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-5 w-5 rounded-full" />
@@ -20,7 +20,7 @@ export function HotelDescription({
   }
 
   return (
-    <div className="glass-card rounded-2xl p-6 mb-8">
+    <div className="mb-8">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         About this hotel
         <FileText className="w-5 h-5 text-fuchsia-400" />

@@ -1,3 +1,4 @@
+
 import { Star, MapPin } from "lucide-react";
 import { HotelThemes } from "@/components/ThemeTag";
 import { HotelHeaderProps, HotelTheme } from "@/types/hotel";

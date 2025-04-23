@@ -87,7 +87,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
   };
 
   return (
-    <div className="glass-card rounded-2xl overflow-hidden bg-[#6e59a5]">
+    <div className="rounded-2xl overflow-hidden bg-[#5C088F]">
       <div className="p-6">
         <h3 className="text-xl font-bold mb-4 text-white">Book your stay</h3>
         {booked ? (
@@ -119,7 +119,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
               type="submit"
               disabled={loading || !startDate}
               className={cn(
-                "w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg px-4 py-3 transition-colors",
+                "w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg px-4 py-3 transition-colors mt-4",
                 (loading || !startDate) && "opacity-70 cursor-not-allowed"
               )}
             >
@@ -138,4 +138,3 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
     </div>
   );
 }
-

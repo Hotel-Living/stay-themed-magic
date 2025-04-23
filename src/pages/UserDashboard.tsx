@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Calendar, 
   CreditCard, 
@@ -20,8 +20,8 @@ import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
 import SettingsContent from "@/components/dashboard/user/tabs/settings/SettingsContent";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
@@ -31,7 +31,7 @@ export default function UserDashboard() {
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
   
-  // Check if user is authenticated and is not a hotel owner
+  // Check if user is authenticated and is not an admin
   useEffect(() => {
     // Skip the auth check in development mode
     if (isDevelopment) return;
@@ -41,6 +41,18 @@ export default function UserDashboard() {
       navigate('/login');
       return;
     }
+    
+    // Check if user is an admin
+    const checkAdminStatus = async () => {
+      const { data: isAdmin, error } = await supabase.rpc('is_admin', { user_id: user.id });
+      if (!error && isAdmin) {
+        console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
+        navigate('/admin/hotels');
+        return;
+      }
+    };
+
+    checkAdminStatus();
     
     if (profile && profile.is_hotel_owner === true) {
       console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");

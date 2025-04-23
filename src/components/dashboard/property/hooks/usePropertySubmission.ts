@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useHotelSubmission } from "./submission/useHotelSubmission";
@@ -5,6 +6,21 @@ import { useRelatedDataSubmission } from "./submission/useRelatedDataSubmission"
 import { useSubmissionSuccess } from "./submission/useSubmissionSuccess";
 import { useValidationError } from "./submission/useValidationError";
 import { useImageSubmission } from "./submission/useImageSubmission";
+import { PropertyFormData } from "./usePropertyFormData";
+
+interface PropertySubmissionProps {
+  formData: PropertyFormData;
+  stepValidation: Record<number, boolean>;
+  setIsSubmitted: (value: boolean) => void;
+  setSubmitSuccess: (value: boolean) => void;
+  setErrorFields: (fields: string[]) => void;
+  setShowValidationErrors: (show: boolean) => void;
+  getIncompleteFields: () => string[];
+  setCurrentStep: (step: number) => void;
+  setFormData: (data: Partial<PropertyFormData>) => void;
+  userId?: string;
+  onDoneEditing?: () => void;
+}
 
 export const usePropertySubmission = ({
   formData,
@@ -18,7 +34,7 @@ export const usePropertySubmission = ({
   setFormData,
   userId,
   onDoneEditing
-}: any) => {
+}: PropertySubmissionProps) => {
   const { toast } = useToast();
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
   const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();

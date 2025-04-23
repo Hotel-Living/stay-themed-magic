@@ -72,7 +72,7 @@ export default function AdminUsersPanel() {
                   <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <Button
-                      variant="outline"
+                      variant="destructive"
                       size="sm"
                       onClick={() => window.location.href = `/admin/users/${user.id}`}
                     >
@@ -93,3 +93,4 @@ export default function AdminUsersPanel() {
     </AdminDashboardLayout>
   );
 }
+

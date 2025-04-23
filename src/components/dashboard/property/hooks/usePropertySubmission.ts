@@ -1,9 +1,10 @@
 
-import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from './usePropertyForm';
 import { useHotelSubmission } from "./submission/useHotelSubmission";
 import { useRelatedDataSubmission } from "./submission/useRelatedDataSubmission";
 import { useImageSubmission } from "./submission/useImageSubmission";
+import { useSubmissionSuccess } from "./submission/useSubmissionSuccess";
+import { useValidationError } from "./submission/useValidationError";
 
 interface UsePropertySubmissionProps {
   formData: PropertyFormData;
@@ -32,73 +33,24 @@ export const usePropertySubmission = ({
   userId,
   onDoneEditing
 }: UsePropertySubmissionProps) => {
-  const { toast } = useToast();
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
   const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
   const { handlePlaceholderImages } = useImageSubmission();
-
-  const handleValidationError = () => {
-    const invalidSteps = Object.entries(stepValidation)
-      .filter(([_, isValid]) => !isValid)
-      .map(([step]) => parseInt(step));
-    const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
-    setErrorFields(allIncompleteFields);
-    setShowValidationErrors(true);
-
-    toast({
-      title: "Cannot Submit Property",
-      description: "Please complete all required fields before submitting.",
-      variant: "destructive"
-    });
-  };
-
-  const handleSubmissionSuccess = () => {
-    console.log('Property submitted successfully with all related data!');
-    setIsSubmitted(true);
-    setSubmitSuccess(true);
-    
-    toast({
-      title: "Property Submitted Successfully",
-      description: "Your property has been submitted for review.",
-      duration: 5000
-    });
-    
-    setTimeout(() => {
-      setCurrentStep(1);
-      setIsSubmitted(false);
-      setFormData({
-        hotelName: "",
-        propertyType: "",
-        description: "",
-        country: "",
-        address: "",
-        city: "",
-        postalCode: "",
-        contactName: "",
-        contactEmail: "",
-        contactPhone: "",
-        category: "",
-        stayLengths: [],
-        mealPlans: [],
-        roomTypes: [],
-        themes: [],
-        activities: [],
-        faqs: [],
-        terms: "",
-        termsAccepted: false
-      });
-      if (onDoneEditing) onDoneEditing();
-    }, 5000);
-  };
-
-  const handleSubmissionError = (error: any) => {
-    console.error('Error in handleSubmitProperty:', error);
-    toast({
-      title: "Submission Error",
-      description: "An unexpected error occurred. Please try again.",
-      variant: "destructive"
-    });
-  };
+  
+  const { handleSubmissionSuccess } = useSubmissionSuccess({
+    setIsSubmitted,
+    setSubmitSuccess,
+    setCurrentStep,
+    setFormData,
+    onDoneEditing
+  });
+  
+  const { handleValidationError } = useValidationError({
+    setErrorFields,
+    setShowValidationErrors,
+    getIncompleteFields,
+    stepValidation
+  });
 
   const handleSubmitProperty = async (editingHotelId?: string | null) => {
     if (editingHotelId) {
@@ -108,7 +60,7 @@ export const usePropertySubmission = ({
         handleSubmissionSuccess();
         return;
       } catch (error) {
-        handleSubmissionError(error);
+        console.error('Error in handleSubmitProperty:', error);
         return;
       }
     }
@@ -130,7 +82,7 @@ export const usePropertySubmission = ({
 
       handleSubmissionSuccess();
     } catch (error) {
-      handleSubmissionError(error);
+      console.error('Error in handleSubmitProperty:', error);
     }
   };
 

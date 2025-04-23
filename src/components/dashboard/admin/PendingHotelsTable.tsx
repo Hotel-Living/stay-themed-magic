@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -54,6 +53,7 @@ export default function PendingHotelsTable({
                   <Button
                     variant="outline"
                     size="sm"
+                    className="bg-[#1A1F2C] text-white hover:bg-[#2A2F3C]"
                     onClick={() => window.location.href = `/admin/hotels/${hotel.id}`}
                   >
                     Details
@@ -64,6 +64,7 @@ export default function PendingHotelsTable({
                       <Button
                         variant="default"
                         size="sm"
+                        className="bg-[#1A1F2C] text-white hover:bg-[#2A2F3C]"
                         onClick={() => onApprove(hotel)}
                       >
                         Approve
@@ -71,7 +72,7 @@ export default function PendingHotelsTable({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-red-300 hover:bg-red-100 hover:text-red-600"
+                        className="border-red-300 bg-[#1A1F2C] text-white hover:bg-[#2A2F3C]"
                         onClick={() => onReject(hotel)}
                       >
                         Reject
@@ -82,7 +83,7 @@ export default function PendingHotelsTable({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-red-500 hover:bg-red-500 hover:text-white"
+                    className="border-red-500 bg-[#1A1F2C] text-white hover:bg-[#2A2F3C]"
                     onClick={() => onDelete(hotel)}
                   >
                     Delete

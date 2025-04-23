@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -25,47 +24,49 @@ export function PasswordField({
   placeholder,
   showPassword,
   toggleShowPassword,
-  inputClassName,
-  showValidation = false
+  showValidation = false,
+  inputClassName
 }: PasswordFieldProps) {
   const [isFocused, setIsFocused] = useState(false);
   const strengthColor = getPasswordStrengthColor(value);
   
   return (
-    <div className="space-y-1">
-      <label htmlFor={id} className="text-xs font-medium">
+    <div className="space-y-2">
+      <label htmlFor={id} className="block text-sm font-medium text-white">
         {label}
       </label>
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Lock className={`w-4 h-4 ${strengthColor}`} />
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
+          <Lock className="h-5 w-5" />
         </div>
-        <Input 
-          id={id} 
-          type={showPassword ? "text" : "password"} 
-          value={value} 
-          onChange={onChange} 
+        <input
+          type={showPassword ? "text" : "password"}
+          id={id}
+          value={value}
+          onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder={placeholder} 
-          className={`w-full py-2 pl-9 pr-9 text-sm rounded-lg border-border focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500 bg-[#55036c] ${inputClassName || ''}`} 
+          placeholder={placeholder}
+          className={`w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors ${inputClassName}`}
         />
-        <button 
-          type="button" 
-          className="absolute inset-y-0 right-0 flex items-center pr-3" 
+        <button
+          type="button"
           onClick={toggleShowPassword}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-white hover:text-white/80"
         >
           {showPassword ? (
-            <EyeOff className="w-4 h-4 text-muted-foreground" />
+            <EyeOff className="h-5 w-5" />
           ) : (
-            <Eye className="w-4 h-4 text-muted-foreground" />
+            <Eye className="h-5 w-5" />
           )}
         </button>
       </div>
-      <PasswordValidation 
-        password={value} 
-        showRequirements={showValidation && (isFocused || value.length > 0)}
-      />
+      {showValidation && (
+        <PasswordValidation 
+          password={value} 
+          showRequirements={showValidation && (isFocused || value.length > 0)}
+        />
+      )}
     </div>
   );
 }

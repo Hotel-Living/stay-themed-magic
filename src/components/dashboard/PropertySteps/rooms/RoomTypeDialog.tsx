@@ -1,10 +1,11 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
+import { PREDEFINED_ROOM_TYPES } from "./roomTypes/constants";
 import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
@@ -15,7 +16,7 @@ interface RoomTypeDialogProps {
   onClose: () => void;
   onAdd: (roomType: any) => void;
   availableStayLengths?: number[];
-  preferredWeekday?: string; // <-- accept this as a prop
+  preferredWeekday?: string;
 }
 
 export default function RoomTypeDialog({ 
@@ -25,7 +26,7 @@ export default function RoomTypeDialog({
   availableStayLengths = [],
   preferredWeekday = "Monday",
 }: RoomTypeDialogProps) {
-  const [newRoomType, setNewRoomType] = useState("");
+  const [selectedRoomType, setSelectedRoomType] = useState("");
   const [maxOccupancy, setMaxOccupancy] = useState(1);
   const [roomSize, setRoomSize] = useState(200);
   const [description, setDescription] = useState("");
@@ -35,6 +36,15 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selectedRoomType) {
+      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
+      if (roomType) {
+        setDescription(roomType.description);
+      }
+    }
+  }, [selectedRoomType]);
 
   useEffect(() => {
     if (isOpen) {
@@ -47,14 +57,14 @@ export default function RoomTypeDialog({
         }
       }
     }
-    // No DOM querySelector: preferredWeekday is passed as prop
   }, [isOpen, availableStayLengths]);
 
   const handleAddRoomType = () => {
-    if (newRoomType.trim() && roomImages.length > 0) {
+    if (selectedRoomType && roomImages.length > 0) {
+      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
       onAdd({
         id: Date.now().toString(),
-        name: newRoomType,
+        name: roomType?.name || "",
         maxOccupancy,
         size: roomSize,
         description,
@@ -69,7 +79,7 @@ export default function RoomTypeDialog({
   };
 
   const resetForm = () => {
-    setNewRoomType("");
+    setSelectedRoomType("");
     setMaxOccupancy(1);
     setRoomSize(200);
     setDescription("");
@@ -117,59 +127,85 @@ export default function RoomTypeDialog({
         </DialogHeader>
         
         <div className="space-y-8">
-          <RoomInfoForm
-            newRoomType={newRoomType}
-            maxOccupancy={maxOccupancy}
-            roomSize={roomSize}
-            description={description}
-            onRoomTypeChange={setNewRoomType}
-            onMaxOccupancyChange={setMaxOccupancy}
-            onRoomSizeChange={setRoomSize}
-            onDescriptionChange={setDescription}
-          />
-          
-          <ImageUploadSection
-            roomImages={roomImages}
-            roomImagePreviews={roomImagePreviews}
-            onImageUpload={handleImageUpload}
-            onRemoveImage={removeImage}
-          />
-          
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white mb-4">RATES PER PERSON, NOT PER ROOM</h3>
-            <RatesSection
-              stayLengths={stayLengths}
-              rates={rates}
-              onRateChange={handleRateChange}
-            />
-          </div>
-          
           <div className="space-y-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right text-base text-white">Available Rooms</Label>
-              <div className="col-span-3">
-                <Input 
-                  type="number"
-                  min="1"
-                  value={roomCount}
-                  onChange={(e) => setRoomCount(parseInt(e.target.value) || 1)}
-                  className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-32 text-base"
-                />
-              </div>
+            <div>
+              <Label className="text-white mb-2">Room Type</Label>
+              <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
+                <SelectTrigger className="bg-[#850390] text-white border-white">
+                  <SelectValue placeholder="Select a room type" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#850390] border-white">
+                  {PREDEFINED_ROOM_TYPES.map((type) => (
+                    <SelectItem 
+                      key={type.id} 
+                      value={type.id}
+                      className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white"
+                    >
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
+            {selectedRoomType && (
+              <>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-white">Description</Label>
+                    <Input 
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="bg-[#850390] text-white border-white"
+                    />
+                  </div>
+                </div>
+
+                <ImageUploadSection
+                  roomImages={roomImages}
+                  roomImagePreviews={roomImagePreviews}
+                  onImageUpload={handleImageUpload}
+                  onRemoveImage={removeImage}
+                />
+                
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">RATES PER PERSON, NOT PER ROOM</h3>
+                  <RatesSection
+                    stayLengths={stayLengths}
+                    rates={rates}
+                    onRateChange={handleRateChange}
+                  />
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right text-base text-white">Available Rooms</Label>
+                    <div className="col-span-3">
+                      <Input 
+                        type="number"
+                        min="1"
+                        value={roomCount}
+                        onChange={(e) => setRoomCount(parseInt(e.target.value) || 1)}
+                        className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-32 text-base"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <AvailabilityDateSection 
+                  preferredWeekday={preferredWeekday}
+                  onAvailabilityChange={handleAvailabilityChange}
+                  selectedDates={availabilityDates}
+                />
+              </>
+            )}
           </div>
-          
-          <AvailabilityDateSection 
-            preferredWeekday={preferredWeekday}
-            onAvailabilityChange={handleAvailabilityChange}
-            selectedDates={availabilityDates}
-          />
         </div>
         
         <DialogFooter className="mt-8">
           <Button 
             onClick={handleAddRoomType} 
-            disabled={!newRoomType.trim() || roomImages.length === 0}
+            disabled={!selectedRoomType || roomImages.length === 0}
             className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
           >
             Add Room Type

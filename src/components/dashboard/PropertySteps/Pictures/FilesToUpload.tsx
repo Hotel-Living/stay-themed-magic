@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Loader2, Trash2, Upload, XCircle } from "lucide-react";
+import { Loader2, Trash2, XCircle } from "lucide-react";
 
 interface FilesToUploadProps {
   files: File[];
@@ -15,29 +15,21 @@ export default function FilesToUpload({
   onUpload, 
   onRemoveFile 
 }: FilesToUploadProps) {
+  // Automatically trigger upload when files are present
+  React.useEffect(() => {
+    if (files.length > 0 && !uploading) {
+      onUpload();
+    }
+  }, [files, uploading, onUpload]);
+
   if (files.length === 0) return null;
 
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-3">
         <label className="block text-sm font-medium text-foreground/90">
-          Files to Upload ({files.length})
+          {uploading ? "Uploading..." : `Processing ${files.length} ${files.length === 1 ? 'file' : 'files'}`}
         </label>
-        <button
-          onClick={onUpload}
-          disabled={uploading}
-          className="inline-flex items-center px-3 py-1 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors disabled:opacity-70"
-        >
-          {uploading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Uploading...
-            </>
-          ) : (
-            <>
-              <Upload className="w-4 h-4 mr-2" /> Upload All
-            </>
-          )}
-        </button>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {files.map((file, index) => (
@@ -58,15 +50,11 @@ export default function FilesToUpload({
                 <Trash2 className="w-4 h-4 text-white" />
               </button>
             </div>
-            <div className="absolute top-2 right-2">
-              <button 
-                onClick={() => onRemoveFile(index)}
-                className="p-1 rounded-full bg-red-500/80 text-white"
-                aria-label="Remove file"
-              >
-                <XCircle className="w-4 h-4" />
-              </button>
-            </div>
+            {uploading && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <Loader2 className="w-6 h-6 text-white animate-spin" />
+              </div>
+            )}
           </div>
         ))}
       </div>

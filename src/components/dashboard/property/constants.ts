@@ -1,0 +1,9 @@
+
+export const TOTAL_STEPS = 4;
+
+export const STEP_TITLES = [
+  "ADD A NEW PROPERTY",
+  "ADD A NEW PROPERTY",
+  "ADD A NEW PROPERTY",
+  "ADD A NEW PROPERTY"
+];

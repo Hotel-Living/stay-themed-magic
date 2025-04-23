@@ -1,4 +1,3 @@
-
 import { Star, MapPin } from "lucide-react";
 import { HotelThemes } from "@/components/ThemeTag";
 import { HotelHeaderProps, HotelTheme } from "@/types/hotel";
@@ -45,12 +44,9 @@ export function HotelHeader({
     );
   }
 
-  // Combine city, country, address in the order: City, Country, Full Address (all on the same line, if present)
-  // The full address comes after country, separated by commas.
   const addressParts = [city, country, address].filter(Boolean);
   const showAddressLine = addressParts.join(", ");
 
-  // Affinities ("themes")
   const affinityText = formatAffinities(themes);
 
   return (
@@ -63,14 +59,10 @@ export function HotelHeader({
           ))}
         </div>
       </h1>
-      {/* City, Country, Address in one row after MapPin */}
       <div className="flex items-center gap-1 text-fuchsia-300 mb-2">
         <MapPin className="w-4 h-4 text-fuchsia-300" />
-        <span>
-          {showAddressLine}
-        </span>
+        <span>{showAddressLine}</span>
       </div>
-      {/* Affinity welcome line */}
       {affinityText ? (
         <div className="mb-2 text-white">
           A warm welcome to all who share a passion for {affinityText}

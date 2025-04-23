@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { usePropertyImages, UploadedImage } from "@/hooks/usePropertyImages";
+import { UploadedImage } from "@/hooks/usePropertyImages";
 import PicturesStep from "./PicturesStep";
 
 interface BasicInfoStepProps {
@@ -25,15 +25,20 @@ export default function BasicInfoStep({
   useEffect(() => {
     const isValid = formData.hotelName && 
                     formData.propertyType && 
-                    formData.description;
+                    formData.description &&
+                    formData.hotelImages && 
+                    formData.hotelImages.length > 0; // Add image validation
     onValidationChange(!!isValid);
-  }, [formData.hotelName, formData.propertyType, formData.description, onValidationChange]);
+  }, [formData.hotelName, formData.propertyType, formData.description, formData.hotelImages, onValidationChange]);
 
   return (
     <div className="space-y-5">
       {/* Add Pictures Section at the top */}
       <div>
-        <PicturesStep />
+        <PicturesStep 
+          formData={formData}
+          updateFormData={updateFormData}
+        />
       </div>
 
       <div>

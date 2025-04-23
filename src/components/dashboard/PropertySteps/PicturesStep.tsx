@@ -1,12 +1,23 @@
 
-import React, { useRef } from "react";
+import React from "react";
 import UploadArea from "./Pictures/UploadArea";
 import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadedImages from "./Pictures/UploadedImages";
-import { usePropertyImages } from "@/hooks/usePropertyImages";
+import { usePropertyImages, UploadedImage } from "@/hooks/usePropertyImages";
 
-export default function PicturesStep() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+interface PicturesStepProps {
+  formData: {
+    hotelImages?: UploadedImage[];
+    mainImageUrl?: string;
+  };
+  updateFormData: (field: string, value: any) => void;
+}
+
+export default function PicturesStep({ 
+  formData,
+  updateFormData
+}: PicturesStepProps) {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const {
     files,
     uploadedImages,
@@ -16,7 +27,21 @@ export default function PicturesStep() {
     removeUploadedImage,
     uploadFiles,
     setMainImage
-  } = usePropertyImages();
+  } = usePropertyImages(formData.hotelImages || []);
+
+  // Update form data when uploaded images change
+  React.useEffect(() => {
+    if (uploadedImages.length > 0) {
+      // Find main image
+      const mainImage = uploadedImages.find(img => img.isMain)?.url || uploadedImages[0].url;
+      updateFormData('hotelImages', uploadedImages);
+      updateFormData('mainImageUrl', mainImage);
+    } else {
+      // Clear images if none are uploaded
+      updateFormData('hotelImages', []);
+      updateFormData('mainImageUrl', '');
+    }
+  }, [uploadedImages, updateFormData]);
   
   const handleAddMoreClick = () => {
     if (fileInputRef.current) {
@@ -26,13 +51,7 @@ export default function PicturesStep() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files).filter(
-        file => file.type.startsWith('image/')
-      );
-      
-      if (newFiles.length > 0) {
-        addFiles(newFiles);
-      }
+      addFiles(Array.from(e.target.files));
     }
   };
 

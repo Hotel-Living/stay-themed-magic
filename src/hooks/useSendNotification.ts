@@ -17,6 +17,13 @@ export function useSendNotification() {
     setIsSending(true);
     
     try {
+      // Get current session to ensure we have auth
+      const { data: session } = await supabase.auth.getSession();
+      
+      if (!session?.session) {
+        throw new Error("Authentication required to send notifications");
+      }
+      
       const { data: response, error } = await supabase.functions.invoke('send-notification', {
         body: { type, recipient, data }
       });

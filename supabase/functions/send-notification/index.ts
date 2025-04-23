@@ -19,12 +19,26 @@ serve(async (req) => {
   }
 
   try {
+    // Verify JWT is now enabled in config.toml, so we can access the user via req.auth
+    const claims = req.auth?.claims;
+    const userId = claims?.sub;
+    
+    if (!userId) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized - Authentication required" }),
+        { 
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
     const { type, recipient, data }: NotificationRequest = await req.json();
 
     // In a real implementation, you would connect to an email service
     // like SendGrid, Resend, or Amazon SES here
     
-    console.log(`Sending ${type} notification to ${recipient}`, data);
+    console.log(`User ${userId} sending ${type} notification to ${recipient}`, data);
     
     // For demonstration, we'll just log and return a success response
     // In production, add your email service API call here

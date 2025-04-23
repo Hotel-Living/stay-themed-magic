@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
@@ -11,7 +11,13 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { format, parse } from "date-fns";
 
-export default function AddPropertyForm() {
+export default function AddPropertyForm({
+  editingHotelId,
+  onDoneEditing
+}: {
+  editingHotelId?: string | null;
+  onDoneEditing?: () => void;
+} = {}) {
   const {
     currentStep,
     setCurrentStep,
@@ -35,50 +41,74 @@ export default function AddPropertyForm() {
   const totalSteps = 4;
   const stepTitles = ["ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY", "ADD A NEW PROPERTY"];
 
-  const validateCurrentStep = () => {
-    return stepValidation[currentStep];
-  };
+  useEffect(() => {
+    async function fetchHotelIfEditing() {
+      if (!editingHotelId) return;
+      const { data, error } = await supabase
+        .from("hotels")
+        .select(`
+          *,
+          hotel_themes:hotel_themes(theme_id),
+          hotel_activities:hotel_activities(activity_id),
+          hotel_images(image_url, is_main)
+        `)
+        .eq("id", editingHotelId)
+        .single();
 
-  const goToNextStep = () => {
-    if (!validateCurrentStep()) {
-      const fields = getIncompleteFields(currentStep);
-      setErrorFields(fields);
-      setShowValidationErrors(true);
-      toast({
-        title: "Warning",
-        description: "Some fields are incomplete. You can still proceed but please complete them later.",
-        variant: "destructive"
+      if (error || !data) {
+        toast({
+          title: "Error",
+          description: "Unable to load property for editing."
+        });
+        return;
+      }
+
+      setFormData({
+        hotelName: data.name || "",
+        propertyType: data.property_type || "",
+        description: data.description || "",
+        country: data.country || "",
+        address: data.address || "",
+        city: data.city || "",
+        postalCode: "",
+        contactName: "",
+        contactEmail: "",
+        contactPhone: "",
+        category: data.category?.toString() || "",
+        stayLengths: Array.isArray(data.available_months) && data.available_months.length > 0 ? [30] : [],
+        mealPlans: [],
+        roomTypes: [],
+        themes: Array.isArray(data.hotel_themes) ? data.hotel_themes.map((t: any) => t.theme_id) : [],
+        activities: Array.isArray(data.hotel_activities) ? data.hotel_activities.map((a: any) => a.activity_id) : [],
+        faqs: [],
+        terms: "",
+        termsAccepted: false
       });
-    } else {
-      setErrorFields([]);
-      setShowValidationErrors(false);
+      setCurrentStep(1);
     }
-
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
-    }
-  };
-
-  const goToPreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
-    }
-  };
+    fetchHotelIfEditing();
+  }, [editingHotelId, setFormData]);
 
   const handleSubmitProperty = async () => {
+    if (editingHotelId) {
+      toast({
+        title: "Update disabled",
+        description: "Property editing is not yet implemented; only new properties can be submitted.",
+        variant: "destructive"
+      });
+      if (onDoneEditing) onDoneEditing();
+      return;
+    }
+
     const allStepsValid = Object.values(stepValidation).every(isValid => isValid);
-    
     if (!allStepsValid) {
       const invalidSteps = Object.entries(stepValidation)
         .filter(([_, isValid]) => !isValid)
         .map(([step]) => parseInt(step));
-      
       const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
       setErrorFields(allIncompleteFields);
       setShowValidationErrors(true);
-      
+
       toast({
         title: "Cannot Submit Property",
         description: "Please complete all required fields before submitting.",
@@ -86,9 +116,7 @@ export default function AddPropertyForm() {
       });
       return;
     }
-
     try {
-      // Step 1: Insert the basic hotel information
       const { data: hotelData, error: hotelError } = await supabase
         .from('hotels')
         .insert({
@@ -113,7 +141,6 @@ export default function AddPropertyForm() {
 
       const hotelId = hotelData.id;
 
-      // Step 2: Save themes data
       if (formData.themes && formData.themes.length > 0) {
         const themeRows = formData.themes.map(themeId => ({
           hotel_id: hotelId,
@@ -130,7 +157,6 @@ export default function AddPropertyForm() {
         }
       }
 
-      // Step 3: Save activities
       if (formData.activities && formData.activities.length > 0) {
         const activityRows = formData.activities.map(activityId => ({
           hotel_id: hotelId,
@@ -147,9 +173,7 @@ export default function AddPropertyForm() {
         }
       }
 
-      // Step 4: Save stay lengths and meal plans as available_months
       if (formData.stayLengths && formData.stayLengths.length > 0) {
-        // Update available months based on stay lengths
         const availableMonths = generateAvailableMonths();
         
         const { error: updateMonthsError } = await supabase
@@ -162,7 +186,6 @@ export default function AddPropertyForm() {
           throw updateMonthsError;
         }
         
-        // Create hotel_availability entries for each month with all required fields
         const currentYear = new Date().getFullYear();
         const availabilityRows = availableMonths.map(month => {
           const firstDayOfMonth = parse(`01 ${month} ${currentYear}`, 'dd MMMM yyyy', new Date());
@@ -189,12 +212,10 @@ export default function AddPropertyForm() {
         }
       }
 
-      // Step 5: Save room types and rates (mock implementation)
       if (formData.roomTypes && formData.roomTypes.length > 0) {
         console.log('Room types would be saved to room_types table:', formData.roomTypes);
       }
 
-      // Step 6: Save mock images (for development until real image upload is implemented)
       const placeholderImages = [
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
         "https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80"
@@ -215,7 +236,6 @@ export default function AddPropertyForm() {
         throw imagesError;
       }
       
-      // Update main_image_url in the hotel record
       if (placeholderImages.length > 0) {
         const { error: mainImageError } = await supabase
           .from('hotels')
@@ -273,40 +293,66 @@ export default function AddPropertyForm() {
     }
   };
 
-  // Helper function to calculate average price from room types
+  const validateCurrentStep = () => {
+    return stepValidation[currentStep];
+  };
+
+  const goToNextStep = () => {
+    if (!validateCurrentStep()) {
+      const fields = getIncompleteFields(currentStep);
+      setErrorFields(fields);
+      setShowValidationErrors(true);
+      toast({
+        title: "Warning",
+        description: "Some fields are incomplete. You can still proceed but please complete them later.",
+        variant: "destructive"
+      });
+    } else {
+      setErrorFields([]);
+      setShowValidationErrors(false);
+    }
+
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
   const calculateAveragePrice = (roomTypes) => {
     if (!roomTypes || roomTypes.length === 0) return 1000; // Default price
-    
     let totalPrice = 0;
     let count = 0;
-    
     roomTypes.forEach(room => {
       if (room.price) {
         totalPrice += parseFloat(room.price);
         count++;
       }
     });
-    
     return count > 0 ? Math.round(totalPrice / count) : 1000;
   };
-  
-  // Helper function to generate available months
+
   const generateAvailableMonths = () => {
-    // For demonstration, we'll use the current month and the next 5 months
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    
+
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
-    
+
     const availableMonths = [];
     for (let i = 0; i < 6; i++) {
       const monthIndex = (currentMonth + i) % 12;
       availableMonths.push(months[monthIndex]);
     }
-    
+
     return availableMonths;
   };
 
@@ -325,7 +371,7 @@ export default function AddPropertyForm() {
         totalSteps={totalSteps} 
         stepTitle={stepTitles[currentStep - 1]} 
       />
-      
+
       <PropertyFormNavigation
         currentStep={currentStep}
         totalSteps={totalSteps}
@@ -333,11 +379,11 @@ export default function AddPropertyForm() {
         onNext={goToNextStep}
         onSubmit={handleSubmitProperty}
       />
-      
+
       {showValidationErrors && errorFields.length > 0 && (
         <ValidationErrorBanner errorFields={errorFields} />
       )}
-      
+
       {isSubmitted && submitSuccess ? (
         <SuccessMessage />
       ) : (
@@ -348,9 +394,9 @@ export default function AddPropertyForm() {
           updateFormData={updateFormData}
         />
       )}
-      
+
       <ImportantNotice />
-      
+
       <PropertyFormNavigation
         currentStep={currentStep}
         totalSteps={totalSteps}
@@ -358,6 +404,17 @@ export default function AddPropertyForm() {
         onNext={goToNextStep}
         onSubmit={handleSubmitProperty}
       />
+
+      {editingHotelId && (
+        <div className="mt-4">
+          <button
+            onClick={onDoneEditing}
+            className="px-4 py-2 rounded bg-fuchsia-700 text-white"
+          >
+            Cancel Editing
+          </button>
+        </div>
+      )}
     </div>
   );
 }

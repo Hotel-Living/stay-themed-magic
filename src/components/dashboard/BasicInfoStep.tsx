@@ -1,7 +1,6 @@
-
 import React, { useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
-import PicturesStep from "./PicturesStep";
+import PicturesStep from "@/components/dashboard/PropertySteps/PicturesStep";
 
 interface BasicInfoStepProps {
   formData: {

@@ -1,6 +1,6 @@
-
 import React, { useEffect } from "react";
 import { usePropertyImages, UploadedImage } from "@/hooks/usePropertyImages";
+import PicturesStep from "./PicturesStep";
 
 interface BasicInfoStepProps {
   formData: {
@@ -21,27 +21,6 @@ export default function BasicInfoStep({
   updateFormData = () => {},
   onValidationChange = () => {} 
 }: BasicInfoStepProps) {
-  const { 
-    files, 
-    uploadedImages, 
-    uploading, 
-    addFiles, 
-    removeFile, 
-    removeUploadedImage, 
-    uploadFiles, 
-    setMainImage 
-  } = usePropertyImages(formData.hotelImages || []);
-
-  // Update form data when uploaded images change
-  useEffect(() => {
-    if (uploadedImages.length > 0) {
-      // Find main image
-      const mainImage = uploadedImages.find(img => img.isMain)?.url || uploadedImages[0].url;
-      updateFormData('hotelImages', uploadedImages);
-      updateFormData('mainImageUrl', mainImage);
-    }
-  }, [uploadedImages, updateFormData]);
-
   // Validate step when necessary fields change
   useEffect(() => {
     const isValid = formData.hotelName && 
@@ -52,84 +31,9 @@ export default function BasicInfoStep({
 
   return (
     <div className="space-y-5">
+      {/* Add Pictures Section at the top */}
       <div>
-        <button
-          onClick={() => document.getElementById('hotel-images-upload')?.click()}
-          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#690695] text-white hover:bg-[#7a0486] transition-colors mb-4"
-        >
-          Add Hotel Pictures
-        </button>
-        <input
-          type="file"
-          id="hotel-images-upload"
-          className="hidden"
-          multiple
-          accept="image/*"
-          onChange={(e) => {
-            if (e.target.files) {
-              addFiles(Array.from(e.target.files));
-            }
-          }}
-        />
-        {files.length > 0 && (
-          <div className="mb-4">
-            <p className="text-sm mb-2">Selected files:</p>
-            <div className="flex flex-wrap gap-2">
-              {files.map((file, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`Preview ${index + 1}`}
-                    className="w-20 h-20 object-cover rounded-lg"
-                  />
-                  <button
-                    onClick={() => removeFile(index)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={uploadFiles}
-              disabled={uploading}
-              className="mt-2 px-4 py-2 bg-[#690695] text-white rounded-lg hover:bg-[#7a0486] transition-colors disabled:opacity-50"
-            >
-              {uploading ? 'Uploading...' : 'Upload Selected Images'}
-            </button>
-          </div>
-        )}
-        {uploadedImages.length > 0 && (
-          <div className="mb-4">
-            <p className="text-sm mb-2">Uploaded images:</p>
-            <div className="flex flex-wrap gap-2">
-              {uploadedImages.map((image, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={image.url}
-                    alt={`Uploaded ${index + 1}`}
-                    className={`w-20 h-20 object-cover rounded-lg ${image.isMain ? 'ring-2 ring-fuchsia-500' : ''}`}
-                  />
-                  <button
-                    onClick={() => removeUploadedImage(index)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
-                  >
-                    ×
-                  </button>
-                  {!image.isMain && (
-                    <button
-                      onClick={() => setMainImage(index)}
-                      className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1"
-                    >
-                      Set as Main
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <PicturesStep />
       </div>
 
       <div>

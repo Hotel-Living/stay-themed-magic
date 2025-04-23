@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -30,6 +29,16 @@ export default function SignUp() {
       toast({
         title: "Error",
         description: "Please fill in all fields",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    const { isValid } = validatePassword(password);
+    if (!isValid) {
+      toast({
+        title: "Error",
+        description: "Please ensure your password meets all requirements",
         variant: "destructive"
       });
       return;
@@ -141,6 +150,7 @@ export default function SignUp() {
                 placeholder="Create a password"
                 showPassword={showPassword}
                 toggleShowPassword={toggleShowPassword}
+                showValidation
               />
               
               <PasswordField
@@ -151,6 +161,7 @@ export default function SignUp() {
                 placeholder="Confirm your password"
                 showPassword={showPassword}
                 toggleShowPassword={toggleShowPassword}
+                showValidation
               />
               
               <TermsCheckbox

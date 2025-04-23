@@ -1,0 +1,75 @@
+
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { PropertyFormData } from '../usePropertyForm';
+
+export const useHotelSubmission = () => {
+  const { toast } = useToast();
+
+  const calculateAveragePrice = (roomTypes: any[]) => {
+    if (!roomTypes || roomTypes.length === 0) return 1000;
+    let totalPrice = 0;
+    let count = 0;
+    roomTypes.forEach(room => {
+      if (room.price) {
+        totalPrice += parseFloat(room.price);
+        count++;
+      }
+    });
+    return count > 0 ? Math.round(totalPrice / count) : 1000;
+  };
+
+  const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
+    const { data: hotelData, error: hotelError } = await supabase
+      .from('hotels')
+      .insert({
+        name: formData.hotelName,
+        property_type: formData.propertyType,
+        description: formData.description,
+        country: formData.country,
+        address: formData.address,
+        city: formData.city,
+        category: parseInt(formData.category) || null,
+        owner_id: userId,
+        price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
+        status: 'pending'
+      })
+      .select()
+      .single();
+
+    if (hotelError) {
+      console.error('Error submitting hotel basic info:', hotelError);
+      throw hotelError;
+    }
+
+    return hotelData;
+  };
+
+  const updateExistingHotel = async (formData: PropertyFormData, hotelId: string) => {
+    const { error: hotelError } = await supabase
+      .from('hotels')
+      .update({
+        name: formData.hotelName,
+        property_type: formData.propertyType,
+        description: formData.description,
+        country: formData.country,
+        address: formData.address,
+        city: formData.city,
+        category: parseInt(formData.category) || null,
+        price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
+        status: 'pending',
+      })
+      .eq('id', hotelId);
+
+    if (hotelError) {
+      console.error('Error updating hotel:', hotelError);
+      throw hotelError;
+    }
+  };
+
+  return {
+    createNewHotel,
+    updateExistingHotel,
+    calculateAveragePrice
+  };
+};

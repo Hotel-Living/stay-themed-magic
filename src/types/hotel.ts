@@ -1,4 +1,5 @@
-import { HotelImage } from "@/integrations/supabase/types-custom";
+
+import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
   id: string;

@@ -22,6 +22,17 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   
+  // Initialize from formData when it changes
+  useEffect(() => {
+    if (formData.themes && formData.themes.length > 0) {
+      setSelectedThemes(formData.themes);
+    }
+    
+    if (formData.activities && formData.activities.length > 0) {
+      setSelectedActivities(formData.activities);
+    }
+  }, [formData]);
+
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     setSelectedThemes(prev => {
       let newThemes;

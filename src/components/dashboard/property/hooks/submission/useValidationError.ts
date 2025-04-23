@@ -1,16 +1,19 @@
 
 import { useToast } from "@/hooks/use-toast";
+import { PropertyFormData } from "../usePropertyFormData";
 
 export const useValidationError = ({
   setErrorFields,
   setShowValidationErrors,
   getIncompleteFields,
-  stepValidation
+  stepValidation,
+  formData
 }: {
   setErrorFields: (fields: string[]) => void;
   setShowValidationErrors: (show: boolean) => void;
-  getIncompleteFields: (step: number) => string[];
+  getIncompleteFields: (step: number, formData: PropertyFormData) => string[];
   stepValidation: Record<number, boolean>;
+  formData: PropertyFormData;
 }) => {
   const { toast } = useToast();
 
@@ -18,7 +21,8 @@ export const useValidationError = ({
     const invalidSteps = Object.entries(stepValidation)
       .filter(([_, isValid]) => !isValid)
       .map(([step]) => parseInt(step));
-    const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
+    
+    const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step, formData));
     setErrorFields(allIncompleteFields);
     setShowValidationErrors(true);
 

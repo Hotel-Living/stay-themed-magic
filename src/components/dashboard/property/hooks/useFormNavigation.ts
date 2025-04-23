@@ -1,16 +1,15 @@
 
-import { useState } from 'react';
-import { useToast } from "@/hooks/use-toast";
-import { StepValidationState } from "../types";
+import { PropertyFormData } from "./usePropertyFormData";
 
-interface UseFormNavigationProps {
+interface FormNavigationProps {
   currentStep: number;
   totalSteps: number;
-  stepValidation: StepValidationState;
-  getIncompleteFields: (step: number) => string[];
+  stepValidation: Record<number, boolean>;
+  getIncompleteFields: (step: number, formData: PropertyFormData) => string[];
   setErrorFields: (fields: string[]) => void;
   setShowValidationErrors: (show: boolean) => void;
   setCurrentStep: (step: number) => void;
+  formData: PropertyFormData;
 }
 
 export const useFormNavigation = ({
@@ -20,39 +19,34 @@ export const useFormNavigation = ({
   getIncompleteFields,
   setErrorFields,
   setShowValidationErrors,
-  setCurrentStep
-}: UseFormNavigationProps) => {
-  const { toast } = useToast();
-
-  const validateCurrentStep = () => {
-    return stepValidation[currentStep];
+  setCurrentStep,
+  formData
+}: FormNavigationProps) => {
+  const validateCurrentStep = (): boolean => {
+    const incompleteFields = getIncompleteFields(currentStep, formData);
+    
+    if (incompleteFields.length > 0) {
+      setErrorFields(incompleteFields);
+      setShowValidationErrors(true);
+      return false;
+    }
+    
+    return true;
   };
 
   const goToNextStep = () => {
-    if (!validateCurrentStep()) {
-      const fields = getIncompleteFields(currentStep);
-      setErrorFields(fields);
-      setShowValidationErrors(true);
-      toast({
-        title: "Warning",
-        description: "Some fields are incomplete. You can still proceed but please complete them later.",
-        variant: "destructive"
-      });
-    } else {
-      setErrorFields([]);
-      setShowValidationErrors(false);
-    }
-
-    if (currentStep < totalSteps) {
+    const isValid = validateCurrentStep();
+    
+    if (isValid && currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
+      setShowValidationErrors(false);
     }
   };
 
   const goToPreviousStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
+      setShowValidationErrors(false);
     }
   };
 

@@ -15,7 +15,7 @@ interface PropertySubmissionProps {
   setSubmitSuccess: (value: boolean) => void;
   setErrorFields: (fields: string[]) => void;
   setShowValidationErrors: (show: boolean) => void;
-  getIncompleteFields: () => string[];
+  getIncompleteFields: (step: number) => string[];
   setCurrentStep: (step: number) => void;
   setFormData: (data: Partial<PropertyFormData>) => void;
   userId?: string;
@@ -47,6 +47,14 @@ export const usePropertySubmission = ({
   });
   const { handlePlaceholderImages, handleCustomImages } = useImageSubmission();
 
+  const { handleValidationError } = useValidationError({
+    setErrorFields,
+    setShowValidationErrors,
+    getIncompleteFields,
+    stepValidation,
+    formData
+  });
+
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
 
@@ -54,9 +62,7 @@ export const usePropertySubmission = ({
     const isAllValid = Object.values(stepValidation).every(valid => valid === true);
     
     if (!isAllValid) {
-      const incompleteFields = getIncompleteFields();
-      setErrorFields(incompleteFields);
-      setShowValidationErrors(true);
+      handleValidationError();
       
       // Find first incomplete step and navigate to it
       for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
@@ -65,12 +71,6 @@ export const usePropertySubmission = ({
           break;
         }
       }
-      
-      toast({
-        title: "Validation Error",
-        description: "Please complete all required fields before submitting.",
-        variant: "destructive"
-      });
       
       return;
     }

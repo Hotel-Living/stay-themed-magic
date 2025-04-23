@@ -7,10 +7,14 @@ export const useValidationState = () => {
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const { toast } = useToast();
 
-  const getIncompleteFields = (step: number): string[] => {
+  const getIncompleteFields = (step: number, formData: any): string[] => {
     switch (step) {
       case 1:
-        return ["Property Name", "Property Type", "Description"];
+        const incompleteBasicFields = [];
+        if (!formData.hotelName) incompleteBasicFields.push("Property Name");
+        if (!formData.propertyType) incompleteBasicFields.push("Property Type");
+        if (!formData.description) incompleteBasicFields.push("Description");
+        return incompleteBasicFields;
       case 2:
         return ["Accommodation Terms", "Meal Plans"];
       case 3:

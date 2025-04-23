@@ -48,7 +48,8 @@ export default function AddPropertyForm({
     getIncompleteFields,
     setErrorFields,
     setShowValidationErrors,
-    setCurrentStep
+    setCurrentStep,
+    formData // Pass formData to validation
   });
 
   useHotelEditing({
@@ -58,8 +59,8 @@ export default function AddPropertyForm({
   });
 
   // Create wrapper functions to match expected signatures
-  const getIncompleteFieldsWrapper = () => {
-    return getIncompleteFields(currentStep);
+  const getIncompleteFieldsWrapper = (step: number) => {
+    return getIncompleteFields(step, formData);
   };
   
   const setFormDataWrapper = (data: Partial<PropertyFormData>) => {

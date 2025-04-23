@@ -51,6 +51,13 @@ export default function StepOne({
     }
   }, [formData]);
 
+  // Sync local changes back to parent form when local form data changes
+  const handleLocalChange = (field: string, value: string) => {
+    handleChange(field, value);
+    // Also update the parent form data
+    updateFormData(field, value);
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
@@ -60,7 +67,7 @@ export default function StepOne({
           formData={localFormData}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleChange}
+          handleChange={handleLocalChange}
           handleBlur={handleBlur}
         />
         
@@ -84,7 +91,7 @@ export default function StepOne({
           }}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleChange}
+          handleChange={handleLocalChange}
           handleBlur={handleBlur}
         />
         
@@ -96,7 +103,7 @@ export default function StepOne({
           }}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleChange}
+          handleChange={handleLocalChange}
           handleBlur={handleBlur}
         />
       </div>
@@ -105,4 +112,3 @@ export default function StepOne({
     </div>
   );
 }
-

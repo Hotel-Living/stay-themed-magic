@@ -37,3 +37,4 @@ export function BookingSummaryCard({ startDate, endDate, duration, dynamicPrice 
     </div>
   );
 }
+

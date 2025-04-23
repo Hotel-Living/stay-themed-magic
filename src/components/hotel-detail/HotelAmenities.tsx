@@ -10,7 +10,7 @@ export function HotelAmenities({
 }: HotelAmenitiesProps & { isLoading?: boolean }) {
   if (isLoading) {
     return (
-      <div className="glass-card rounded-2xl p-6 mb-8">
+      <div className="bg-[#5C088F] rounded-lg p-6 mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-5 w-5 rounded-full" />
@@ -29,15 +29,14 @@ export function HotelAmenities({
   
   if (!amenities || amenities.length === 0) {
     return (
-      <div className="glass-card rounded-2xl p-6 mb-8">
-        {/* Updated: new section name handled in parent */}
+      <div className="bg-[#5C088F] rounded-lg p-6 mb-8">
         <p className="text-foreground/60 italic">No amenities listed for this property.</p>
       </div>
     );
   }
   
   return (
-    <div className="glass-card rounded-2xl p-6 mb-8">
+    <div className="bg-[#5C088F] rounded-lg p-6 mb-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {amenities.map((amenity, index) => (
           <div key={index} className="flex items-center gap-2 group">
@@ -51,3 +50,4 @@ export function HotelAmenities({
     </div>
   );
 }
+

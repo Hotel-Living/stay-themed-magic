@@ -10,6 +10,7 @@ interface HotelHeaderWithActivitiesProps extends HotelHeaderProps {
   isLoading?: boolean;
 }
 
+// Formats affinities with Oxford-comma and "and".
 function formatAffinities(themes: HotelTheme[]): string {
   if (!themes || themes.length === 0) return "";
   const names = themes.map((theme) => theme.name).filter(Boolean);
@@ -45,9 +46,11 @@ export function HotelHeader({
     );
   }
 
+  // Compose city, country, and address in a single line
   const addressParts = [city, country, address].filter(Boolean);
   const showAddressLine = addressParts.join(", ");
 
+  // Friendly affinity text
   const affinityText = formatAffinities(themes);
 
   return (
@@ -64,13 +67,13 @@ export function HotelHeader({
         <MapPin className="w-4 h-4 text-fuchsia-300" />
         <span>{showAddressLine}</span>
       </div>
-      {affinityText ? (
-        <div className="mb-2 text-white">
-          A warm welcome to all who share a passion for {affinityText}
-        </div>
-      ) : (
-        <div className="mb-2">&nbsp;</div>
-      )}
+      {/* Affinity/Welcome Line, blank if none */}
+      <div className="mb-2 text-white min-h-[1.5em]">
+        {affinityText
+          ? <>A warm welcome to all who share a passion for {affinityText}</>
+          : <>&nbsp;</>
+        }
+      </div>
       <div className="flex flex-wrap items-center gap-2">
         <HotelThemes themes={themes} />
         {activities && activities.length > 0 &&
@@ -81,3 +84,4 @@ export function HotelHeader({
     </div>
   );
 }
+

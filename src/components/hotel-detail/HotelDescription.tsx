@@ -20,7 +20,7 @@ export function HotelDescription({
   }
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 bg-[#5C088F] rounded-lg p-6 text-white">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         About this hotel
         <FileText className="w-5 h-5 text-fuchsia-400" />
@@ -37,3 +37,4 @@ export function HotelDescription({
     </div>
   );
 }
+

@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useGoogleMaps } from "./hooks/useGoogleMaps";
 
 interface CitySelectorProps {
   value: string;
@@ -33,18 +34,31 @@ const CitySelector: React.FC<CitySelectorProps> = ({
 }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
   const hasError = (touched && error) || validationError;
+  const { isLoading, error: mapsError } = useGoogleMaps();
 
   const validateCity = async (cityName: string) => {
     if (!cityName) return;
+    
+    // Check if Google Maps API is loaded
+    if (isLoading) {
+      console.log("Google Maps API is still loading, validation delayed");
+      return false;
+    }
+    
+    if (mapsError) {
+      console.error("Google Maps API failed to load:", mapsError);
+      setValidationError("Unable to validate city due to Maps API error");
+      return false;
+    }
 
     try {
-      // Ensure Google Maps API is loaded
-      if (typeof google === 'undefined' || !google.maps) {
+      // Check if the global google object exists
+      if (typeof window.google === 'undefined' || !window.google.maps) {
         console.error('Google Maps API not loaded');
         return false;
       }
 
-      const geocoder = new google.maps.Geocoder();
+      const geocoder = new window.google.maps.Geocoder();
       const response = await geocoder.geocode({
         address: `${cityName}, ${country}`,
         componentRestrictions: {

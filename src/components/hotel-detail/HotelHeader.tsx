@@ -10,6 +10,7 @@ interface HotelHeaderWithActivitiesProps extends HotelHeaderProps {
   isLoading?: boolean;
 }
 
+// Format affinities for the second line ("A warm welcome...")
 function formatAffinities(themes: HotelTheme[]): string {
   if (!themes || themes.length === 0) return "";
   const names = themes.map((theme) => theme.name).filter(Boolean);
@@ -45,10 +46,10 @@ export function HotelHeader({
     );
   }
 
-  // Format address block
-  const showAddressLine = [city, country, address]
-    .filter(Boolean)
-    .join(", ");
+  // Combine city, country, address in the order:
+  // City, Country, Full Address (all on the same line, if present)
+  const addressParts = [city, country, address].filter(Boolean);
+  const showAddressLine = addressParts.join(", ");
 
   // Affinities ("themes")
   const affinityText = formatAffinities(themes);
@@ -63,7 +64,7 @@ export function HotelHeader({
           ))}
         </div>
       </h1>
-      {/* City, Country, and Address in one row */}
+      {/* City, Country, Address in one row */}
       <div className="flex items-center gap-1 text-fuchsia-300 mb-2">
         <MapPin className="w-4 h-4 text-fuchsia-300" />
         <span>
@@ -88,3 +89,4 @@ export function HotelHeader({
     </div>
   );
 }
+

@@ -1,10 +1,11 @@
-
 import React, { useEffect } from "react";
-import HotelInfoSection from "./StepOne/HotelInfo"; // Updated import path
-import LocationSection from "./StepOne/Location"; // Updated import path
+import HotelInfoSection from "./StepOne/HotelInfo";
+import LocationSection from "./StepOne/Location";
 import ContactSection from "./StepOne/ContactSection";
 import ValidationMessage from "./StepOne/ValidationMessage";
 import useFormValidation from "./StepOne/useFormValidation";
+import PicturesStep from "./PicturesStep";
+import { UploadedImage } from "@/hooks/usePropertyImages";
 
 interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -42,29 +43,32 @@ export default function StepOne({
         contactEmail: formData.contactEmail || '',
         contactPhone: formData.contactPhone || '',
         latitude: formData.latitude || '',
-        longitude: formData.longitude || ''
+        longitude: formData.longitude || '',
+        hotelImages: formData.hotelImages || [],
+        mainImageUrl: formData.mainImageUrl || ''
       });
     }
   }, [formData]);
-
-  // Custom handleChange to update both local and parent state
-  const handleFieldChange = (field: string, value: string) => {
-    handleChange(field, value);
-    if (updateFormData) {
-      updateFormData(field, value);
-    }
-  };
 
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-3">
+        {/* Add PicturesStep at the top */}
+        <PicturesStep
+          formData={{
+            hotelImages: formData.hotelImages,
+            mainImageUrl: formData.mainImageUrl
+          }}
+          updateFormData={updateFormData}
+        />
+        
         <HotelInfoSection 
           formData={localFormData}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleFieldChange}
+          handleChange={handleChange}
           handleBlur={handleBlur}
         />
         
@@ -79,7 +83,7 @@ export default function StepOne({
           }}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleFieldChange}
+          handleChange={handleChange}
           handleBlur={handleBlur}
         />
         
@@ -91,7 +95,7 @@ export default function StepOne({
           }}
           errors={errors}
           touchedFields={touchedFields}
-          handleChange={handleFieldChange}
+          handleChange={handleChange}
           handleBlur={handleBlur}
         />
       </div>

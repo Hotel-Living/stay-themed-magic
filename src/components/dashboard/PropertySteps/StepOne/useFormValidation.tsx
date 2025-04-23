@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from "react";
+import { UploadedImage } from "@/hooks/usePropertyImages";
 
 interface FormData {
   hotelName: string;
@@ -15,6 +15,8 @@ interface FormData {
   contactPhone: string;
   latitude: string;
   longitude: string;
+  hotelImages: UploadedImage[];
+  mainImageUrl: string;
 }
 
 const initialFormData: FormData = {
@@ -30,7 +32,9 @@ const initialFormData: FormData = {
   contactEmail: "",
   contactPhone: "",
   latitude: "",
-  longitude: ""
+  longitude: "",
+  hotelImages: [],
+  mainImageUrl: ""
 };
 
 const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
@@ -51,7 +55,9 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     contactEmail: false,
     contactPhone: false,
     latitude: false,
-    longitude: false
+    longitude: false,
+    hotelImages: false,
+    mainImageUrl: false
   });
   
   const validateForm = () => {
@@ -62,6 +68,9 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     if (!formData.category) newErrors.category = "Category is required";
     if (!formData.propertyType) newErrors.propertyType = "Property type is required";
     if (!formData.description) newErrors.description = "Description is required";
+    if (!formData.hotelImages || formData.hotelImages.length === 0) {
+      newErrors.hotelImages = "At least one hotel image is required";
+    }
     
     // Email validation
     if (formData.contactEmail && !/\S+@\S+\.\S+/.test(formData.contactEmail)) {

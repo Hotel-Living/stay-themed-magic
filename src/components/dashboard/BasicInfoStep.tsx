@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 import PicturesStep from "@/components/dashboard/PropertySteps/PicturesStep";
@@ -22,15 +21,13 @@ export default function BasicInfoStep({
   updateFormData = () => {},
   onValidationChange = () => {} 
 }: BasicInfoStepProps) {
-  // Validate step when necessary fields change
   useEffect(() => {
-    // Check if hotelImages exists and has items before validating
     const hasImages = formData.hotelImages && formData.hotelImages.length > 0;
     
     const isValid = Boolean(formData.hotelName) && 
                     Boolean(formData.propertyType) && 
                     Boolean(formData.description) &&
-                    hasImages; // Add image validation
+                    hasImages;
     
     console.log("BasicInfoStep validation:", {
       hotelName: Boolean(formData.hotelName),
@@ -45,8 +42,7 @@ export default function BasicInfoStep({
   }, [formData.hotelName, formData.propertyType, formData.description, formData.hotelImages, onValidationChange]);
 
   return (
-    <div className="space-y-5">
-      {/* Add Pictures Section at the top */}
+    <div className="space-y-5 max-w-[80%]">
       <div>
         <PicturesStep 
           formData={formData}

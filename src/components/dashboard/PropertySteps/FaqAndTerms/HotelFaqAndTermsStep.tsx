@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { predefinedFaqs, predefinedTerms } from "./constants";
 import { FaqItem } from "./types";
@@ -22,7 +21,6 @@ export default function HotelFaqAndTermsStep({
   const [isOpenTerms, setIsOpenTerms] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(formData.termsAccepted || false);
 
-  // Update parent form data when FAQs or terms change
   useEffect(() => {
     if (updateFormData) {
       updateFormData('faqs', faqItems);
@@ -30,7 +28,6 @@ export default function HotelFaqAndTermsStep({
     }
   }, [faqItems, termsAndConditions, updateFormData]);
 
-  // Update parent form data when terms acceptance changes
   useEffect(() => {
     if (updateFormData) {
       updateFormData('termsAccepted', termsAccepted);
@@ -38,13 +35,12 @@ export default function HotelFaqAndTermsStep({
   }, [termsAccepted, updateFormData]);
 
   useEffect(() => {
-    // Validate based on just the terms and conditions (FAQs optional)
     const isValid = termsAndConditions.trim().length > 0;
     onValidationChange(isValid);
   }, [termsAndConditions, onValidationChange]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-[80%]">
       <FaqSection 
         faqItems={faqItems}
         setFaqItems={setFaqItems}

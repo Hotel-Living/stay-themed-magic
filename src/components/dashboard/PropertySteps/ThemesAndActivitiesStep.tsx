@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
@@ -65,7 +64,7 @@ export default function ThemesAndActivitiesStep({
   }, [selectedThemes, onValidationChange]);
   
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-[80%]">
       <AffinitiesSection
         openCategory={openCategory}
         setOpenCategory={setOpenCategory}

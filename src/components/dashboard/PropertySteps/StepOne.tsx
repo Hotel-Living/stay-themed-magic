@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo";
 import LocationSection from "./StepOne/Location";
@@ -28,7 +27,6 @@ export default function StepOne({
     setFormData: setLocalFormData
   } = useFormValidation(onValidationChange);
 
-  // Sync with parent formData when component mounts or formData changes
   useEffect(() => {
     if (formData && Object.keys(formData).length > 0) {
       console.log("StepOne: Syncing with parent formData", {
@@ -56,15 +54,13 @@ export default function StepOne({
     }
   }, [formData]);
 
-  // Sync local changes back to parent form when local form data changes
   const handleLocalChange = (field: string, value: string) => {
     handleChange(field, value);
-    // Also update the parent form data
     updateFormData(field, value);
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[80%]">
       <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
       
       <div className="grid gap-3">
@@ -76,7 +72,6 @@ export default function StepOne({
           handleBlur={handleBlur}
         />
         
-        {/* Pictures section */}
         <PicturesStep
           formData={{
             hotelImages: formData.hotelImages || [],

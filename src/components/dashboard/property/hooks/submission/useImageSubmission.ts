@@ -1,6 +1,12 @@
 
 import { supabase } from "@/integrations/supabase/client";
 
+export interface UploadedImage {
+  url: string;
+  isMain: boolean;
+  id?: string;
+}
+
 export const useImageSubmission = () => {
   const handlePlaceholderImages = async (hotelId: string) => {
     const placeholderImages = [
@@ -23,8 +29,31 @@ export const useImageSubmission = () => {
         .eq('id', hotelId);
     }
   };
+  
+  const handleCustomImages = async (hotelId: string, images: UploadedImage[]) => {
+    if (!images || images.length === 0) {
+      return await handlePlaceholderImages(hotelId);
+    }
+    
+    const imageRows = images.map(image => ({
+      hotel_id: hotelId,
+      image_url: image.url,
+      is_main: image.isMain
+    }));
+    
+    await supabase.from('hotel_images').insert(imageRows);
+    
+    const mainImage = images.find(img => img.isMain);
+    if (mainImage) {
+      await supabase
+        .from('hotels')
+        .update({ main_image_url: mainImage.url })
+        .eq('id', hotelId);
+    }
+  };
 
   return {
-    handlePlaceholderImages
+    handlePlaceholderImages,
+    handleCustomImages
   };
 };

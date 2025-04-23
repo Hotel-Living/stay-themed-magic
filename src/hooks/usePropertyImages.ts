@@ -2,6 +2,7 @@
 import { useState, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
   url: string;
@@ -9,11 +10,11 @@ interface UploadedImage {
   id?: string;
 }
 
-export function usePropertyImages() {
+export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(initialImages);
   const [uploading, setUploading] = useState(false);
-  const [mainImageIndex, setMainImageIndex] = useState<number>(-1);
+  const [mainImageIndex, setMainImageIndex] = useState<number>(initialImages.findIndex(img => img.isMain) || 0);
   const { user } = useAuth();
   const { toast } = useToast();
 

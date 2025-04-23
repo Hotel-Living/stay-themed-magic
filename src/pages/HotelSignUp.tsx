@@ -10,6 +10,7 @@ import { PasswordField } from "@/components/auth/PasswordField";
 import { TermsCheckbox } from "@/components/auth/TermsCheckbox";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { useToast } from "@/hooks/use-toast";
+import { validatePassword } from "@/utils/passwordValidation"; // Added import
 
 export default function HotelSignUp() {
   const [hotelName, setHotelName] = useState("");

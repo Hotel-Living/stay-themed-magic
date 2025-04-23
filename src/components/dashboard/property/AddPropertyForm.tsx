@@ -12,6 +12,7 @@ import { useFormNavigation } from "./hooks/useFormNavigation";
 import { useHotelEditing } from "./hooks/useHotelEditing";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
 import { TOTAL_STEPS, STEP_TITLES } from "./constants";
+import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
 
 export default function AddPropertyForm({
   editingHotelId,

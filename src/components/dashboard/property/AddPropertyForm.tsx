@@ -91,13 +91,107 @@ export default function AddPropertyForm({
 
   const handleSubmitProperty = async () => {
     if (editingHotelId) {
-      toast({
-        title: "Update disabled",
-        description: "Property editing is not yet implemented; only new properties can be submitted.",
-        variant: "destructive"
-      });
-      if (onDoneEditing) onDoneEditing();
-      return;
+      try {
+        const { error: hotelError } = await supabase
+          .from('hotels')
+          .update({
+            name: formData.hotelName,
+            property_type: formData.propertyType,
+            description: formData.description,
+            country: formData.country,
+            address: formData.address,
+            city: formData.city,
+            category: parseInt(formData.category) || null,
+            price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
+            status: 'pending',
+          })
+          .eq('id', editingHotelId);
+
+        if (hotelError) {
+          console.error('Error updating hotel:', hotelError);
+          toast({
+            title: "Update Error",
+            description: "Failed to update property. Please try again.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        if (formData.themes && formData.themes.length > 0) {
+          await supabase
+            .from('hotel_themes')
+            .delete()
+            .eq('hotel_id', editingHotelId);
+
+          const themeRows = formData.themes.map(themeId => ({
+            hotel_id: editingHotelId,
+            theme_id: themeId
+          }));
+          if (themeRows.length > 0) {
+            await supabase.from('hotel_themes').insert(themeRows);
+          }
+        }
+
+        if (formData.activities && formData.activities.length > 0) {
+          await supabase
+            .from('hotel_activities')
+            .delete()
+            .eq('hotel_id', editingHotelId);
+
+          const activityRows = formData.activities.map(activityId => ({
+            hotel_id: editingHotelId,
+            activity_id: activityId
+          }));
+          if (activityRows.length > 0) {
+            await supabase.from('hotel_activities').insert(activityRows);
+          }
+        }
+
+        setIsSubmitted(true);
+        setSubmitSuccess(true);
+        toast({
+          title: "Property Updated",
+          description: "Your edited property has been submitted for review again.",
+          duration: 5000
+        });
+
+        setTimeout(() => {
+          setCurrentStep(1);
+          setIsSubmitted(false);
+          setFormData({
+            hotelName: "",
+            propertyType: "",
+            description: "",
+            country: "",
+            address: "",
+            city: "",
+            postalCode: "",
+            contactName: "",
+            contactEmail: "",
+            contactPhone: "",
+            category: "",
+            stayLengths: [],
+            mealPlans: [],
+            roomTypes: [],
+            themes: [],
+            activities: [],
+            faqs: [],
+            terms: "",
+            termsAccepted: false
+          });
+          if (onDoneEditing) onDoneEditing();
+        }, 5000);
+
+        return;
+      } catch (error) {
+        console.error('Error submitting edited property:', error);
+        toast({
+          title: "Submission Error",
+          description: "An unexpected error occurred. Please try again.",
+          variant: "destructive"
+        });
+        return;
+      }
     }
 
     const allStepsValid = Object.values(stepValidation).every(isValid => isValid);

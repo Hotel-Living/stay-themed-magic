@@ -1,11 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { City } from 'country-state-city';
-import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 
 interface CitySelectorProps {
   value: string;
@@ -41,11 +39,9 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   const hasError = touched && error;
   const maxDisplayedCities = 100;
 
-  // Load cities more efficiently
   useEffect(() => {
     if (country && isOpen) {
       setLoading(true);
-      // Use setTimeout to prevent UI blocking
       setTimeout(() => {
         try {
           const citiesData = City.getCitiesOfCountry(country) || [];
@@ -68,12 +64,10 @@ const CitySelector: React.FC<CitySelectorProps> = ({
     
     onValueChange(newValue);
     if (onChange) {
-      // Simulate an event to maintain compatibility
       onChange({ target: { value: newValue } });
     }
   };
 
-  // Filter cities based on search query
   const filteredCities = cities.filter(city => 
     city.toLowerCase().includes(searchQuery.toLowerCase())
   ).slice(0, maxDisplayedCities);
@@ -96,20 +90,20 @@ const CitySelector: React.FC<CitySelectorProps> = ({
             <SelectValue placeholder="Select a city" />
           </SelectTrigger>
           <SelectContent className="bg-[#7A0486] border-white">
+            <div className="p-2">
+              <input
+                type="text"
+                placeholder="Search cities..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full p-2 text-white bg-[#8A0499] border border-white/30 rounded focus:outline-none focus:border-white/50"
+                autoComplete="off"
+              />
+            </div>
             {loading ? (
               <div className="text-white text-sm p-2">Loading cities...</div>
             ) : (
               <>
-                <div className="p-2">
-                  <input
-                    type="text"
-                    placeholder="Search cities..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full p-2 text-white bg-[#8A0499] border border-white/30 rounded focus:outline-none focus:border-white/50"
-                  />
-                </div>
-
                 {!citiesList.length ? (
                   <SelectItem 
                     value="no-cities" 
@@ -152,12 +146,13 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           size="sm" 
           onClick={onCustomClick}
           disabled={disabled || !country}
+          className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
           Custom
         </Button>
       </div>
       {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
+        <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">{errorMessage || error}</p>
       )}
     </div>
   );

@@ -33,7 +33,6 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   const handleChange = (newValue: string) => {
     onValueChange(newValue);
     if (onChange) {
-      // Simulate an event to maintain compatibility
       onChange({ target: { value: newValue } });
     }
   };
@@ -52,6 +51,15 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
             <SelectValue placeholder="Select a country" />
           </SelectTrigger>
           <SelectContent className="bg-[#7A0486] border-white">
+            <input
+              type="text"
+              placeholder="Search countries..."
+              className="w-full p-2 mb-2 text-white bg-[#8A0499] border border-white/30 rounded focus:outline-none focus:border-white/50"
+              onChange={(e) => {
+                // Filter will be handled by the select component
+              }}
+              autoComplete="off"
+            />
             {countries.map((country) => (
               <SelectItem 
                 key={country.isoCode} 
@@ -69,12 +77,17 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
             </SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="secondary" size="sm" onClick={onCustomClick}>
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          onClick={onCustomClick}
+          className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
+        >
           Custom
         </Button>
       </div>
       {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
+        <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">{errorMessage || error}</p>
       )}
     </div>
   );

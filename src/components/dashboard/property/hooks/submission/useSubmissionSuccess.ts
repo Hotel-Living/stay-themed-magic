@@ -1,6 +1,14 @@
 
 import { useToast } from "@/hooks/use-toast";
-import { PropertyFormData } from '../usePropertyForm';
+import { PropertyFormData } from '../usePropertyFormData';
+
+interface SubmissionSuccessProps {
+  setIsSubmitted: (value: boolean) => void;
+  setSubmitSuccess: (value: boolean) => void;
+  setCurrentStep: (step: number) => void;
+  setFormData: (data: PropertyFormData) => void;
+  onDoneEditing?: () => void;
+}
 
 export const useSubmissionSuccess = ({
   setIsSubmitted,
@@ -8,13 +16,7 @@ export const useSubmissionSuccess = ({
   setCurrentStep,
   setFormData,
   onDoneEditing
-}: {
-  setIsSubmitted: (value: boolean) => void;
-  setSubmitSuccess: (value: boolean) => void;
-  setCurrentStep: (step: number) => void;
-  setFormData: (data: PropertyFormData) => void;
-  onDoneEditing?: () => void;
-}) => {
+}: SubmissionSuccessProps) => {
   const { toast } = useToast();
 
   const handleSubmissionSuccess = () => {

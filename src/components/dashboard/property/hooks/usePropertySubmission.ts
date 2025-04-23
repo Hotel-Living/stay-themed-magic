@@ -23,7 +23,13 @@ export const usePropertySubmission = ({
   const { toast } = useToast();
   const { createNewHotel, updateExistingHotel } = useHotelSubmission();
   const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
-  const { handleSubmissionSuccess } = useSubmissionSuccess();
+  const { handleSubmissionSuccess } = useSubmissionSuccess({
+    setIsSubmitted,
+    setSubmitSuccess,
+    setCurrentStep,
+    setFormData,
+    onDoneEditing
+  });
   const { handlePlaceholderImages, handleCustomImages } = useImageSubmission();
 
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
@@ -81,12 +87,7 @@ export const usePropertySubmission = ({
       await handleAvailability(hotelId, formData.stayLengths || []);
       
       // Handle submission success
-      handleSubmissionSuccess({
-        setSubmitSuccess,
-        toast,
-        isEditing,
-        onDoneEditing
-      });
+      handleSubmissionSuccess();
       
       // Reset form data after successful submission if not editing
       if (!isEditing) {

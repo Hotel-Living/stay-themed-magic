@@ -1,4 +1,3 @@
-
 import { HotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -6,6 +5,52 @@ export interface HotelTheme {
   name: string;
   description?: string | null;
   category?: string;
+}
+
+export interface HotelActivity {
+  activity_id: string;
+  activities?: {
+    id: string;
+    name: string;
+    category?: string;
+  };
+}
+
+export interface HotelImage {
+  id: string;
+  hotel_id: string;
+  image_url: string;
+  is_main: boolean;
+  created_at: string;
+}
+
+export interface AdminHotelDetail {
+  id: string;
+  name: string;
+  description: string | null;
+  city: string;
+  country: string;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  category: number | null;
+  price_per_month: number;
+  main_image_url: string | null;
+  property_type: string | null;
+  style: string | null;
+  status: 'approved' | 'pending' | 'rejected';
+  rejection_reason?: string | null;
+  is_featured: boolean;
+  owner_id: string;
+  created_at: string;
+  updated_at: string;
+  available_months?: string[];
+  hotel_images: HotelImage[];
+  hotel_themes: {
+    theme_id: string;
+    themes: HotelTheme;
+  }[];
+  hotel_activities: HotelActivity[];
 }
 
 export interface HotelDetailProps {
@@ -71,4 +116,3 @@ export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
   isLoading?: boolean;
 }
-

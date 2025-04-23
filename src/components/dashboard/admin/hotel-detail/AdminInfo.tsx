@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Clock } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface AdminInfoProps {
-  hotel: any;
+  hotel: AdminHotelDetail;
 }
 
 export function AdminInfo({ hotel }: AdminInfoProps) {

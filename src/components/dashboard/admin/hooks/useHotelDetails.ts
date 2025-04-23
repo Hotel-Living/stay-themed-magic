@@ -2,13 +2,14 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { AdminHotelDetail } from "@/types/hotel";
 
 export function useHotelDetails(id: string | undefined) {
-  const [hotel, setHotel] = useState<any>(null);
+  const [hotel, setHotel] = useState<AdminHotelDetail | null>(null);
   const [loading, setLoading] = useState(true);
-  const [themes, setThemes] = useState<any[]>([]);
-  const [activities, setActivities] = useState<any[]>([]);
-  const [images, setImages] = useState<any[]>([]);
+  const [themes, setThemes] = useState<AdminHotelDetail['hotel_themes']>([]);
+  const [activities, setActivities] = useState<AdminHotelDetail['hotel_activities']>([]);
+  const [images, setImages] = useState<AdminHotelDetail['hotel_images']>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -16,52 +17,28 @@ export function useHotelDetails(id: string | undefined) {
     const fetchHotelDetails = async () => {
       setLoading(true);
       try {
-        // Fetch hotel data
         const { data: hotelData, error: hotelError } = await supabase
           .from("hotels")
-          .select("*")
+          .select(`
+            *,
+            hotel_images(*),
+            hotel_themes(theme_id, themes:themes(*)),
+            hotel_activities(activity_id, activities:activities(*))
+          `)
           .eq("id", id)
           .single();
 
         if (hotelError) throw hotelError;
-        setHotel(hotelData);
 
-        // Fetch hotel images
-        const { data: imageData, error: imageError } = await supabase
-          .from("hotel_images")
-          .select("*")
-          .eq("hotel_id", id);
-
-        if (imageError) throw imageError;
-        setImages(imageData || []);
-
-        // Fetch hotel themes
-        const { data: themeData, error: themeError } = await supabase
-          .from("hotel_themes")
-          .select(`
-            theme_id,
-            themes:theme_id(id, name, description, category)
-          `)
-          .eq("hotel_id", id);
-
-        if (themeError) throw themeError;
-        setThemes(themeData || []);
-
-        // Fetch hotel activities
-        const { data: activityData, error: activityError } = await supabase
-          .from("hotel_activities")
-          .select(`
-            activity_id,
-            activities:activity_id(id, name, category)
-          `)
-          .eq("hotel_id", id);
-
-        if (activityError) throw activityError;
-        setActivities(activityData || []);
+        const typedHotelData = hotelData as AdminHotelDetail;
+        setHotel(typedHotelData);
+        setImages(typedHotelData.hotel_images || []);
+        setThemes(typedHotelData.hotel_themes || []);
+        setActivities(typedHotelData.hotel_activities || []);
 
         // Generate amenities based on hotel category
-        if (hotelData.category) {
-          const categoryAmenities = generateAmenities(hotelData.category);
+        if (typedHotelData.category) {
+          const categoryAmenities = generateAmenities(typedHotelData.category);
           setAmenities(categoryAmenities);
         }
 

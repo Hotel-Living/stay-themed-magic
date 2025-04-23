@@ -1,9 +1,9 @@
-
 import React from "react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface ImageGalleryProps {
-  images: any[];
-  hotel: any;
+  images: AdminHotelDetail['hotel_images'];
+  hotel: AdminHotelDetail;
 }
 
 export function ImageGallery({ images, hotel }: ImageGalleryProps) {

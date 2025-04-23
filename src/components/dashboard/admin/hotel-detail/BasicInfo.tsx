@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Star } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface BasicInfoProps {
-  hotel: any;
+  hotel: AdminHotelDetail;
 }
 
 export function BasicInfo({ hotel }: BasicInfoProps) {

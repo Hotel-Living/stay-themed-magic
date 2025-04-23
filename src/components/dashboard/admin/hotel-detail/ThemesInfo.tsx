@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Tag } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface ThemesInfoProps {
-  themes: any[];
+  themes: AdminHotelDetail['hotel_themes'];
 }
 
 export function ThemesInfo({ themes }: ThemesInfoProps) {

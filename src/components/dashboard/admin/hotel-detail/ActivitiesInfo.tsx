@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Globe } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface ActivitiesInfoProps {
-  activities: any[];
+  activities: AdminHotelDetail['hotel_activities'];
 }
 
 export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {

@@ -1,9 +1,9 @@
-
 import React from "react";
 import { CalendarIcon } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface AvailabilityInfoProps {
-  hotel: any;
+  hotel: AdminHotelDetail;
 }
 
 export function AvailabilityInfo({ hotel }: AvailabilityInfoProps) {

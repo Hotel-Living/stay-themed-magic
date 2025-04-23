@@ -1,9 +1,9 @@
-
 import React from "react";
 import { MapPin } from "lucide-react";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface LocationInfoProps {
-  hotel: any;
+  hotel: AdminHotelDetail;
 }
 
 export function LocationInfo({ hotel }: LocationInfoProps) {

@@ -7,7 +7,16 @@ export default function BasicInfoStep({
   updateFormData = () => {},
   onValidationChange = () => {} 
 }) {
-  const { files, uploadedImages, uploading, addFiles, removeFile, removeUploadedImage, uploadFiles, setMainImage } = usePropertyImages();
+  const { 
+    files, 
+    uploadedImages, 
+    uploading, 
+    addFiles, 
+    removeFile, 
+    removeUploadedImage, 
+    uploadFiles, 
+    setMainImage 
+  } = usePropertyImages(formData.hotelImages || []);
 
   // Update form data when uploaded images change
   useEffect(() => {

@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-interface UploadedImage {
+export interface UploadedImage {
   url: string;
   isMain: boolean;
   id?: string;
@@ -14,7 +14,12 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const [files, setFiles] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(initialImages);
   const [uploading, setUploading] = useState(false);
-  const [mainImageIndex, setMainImageIndex] = useState<number>(initialImages.findIndex(img => img.isMain) || 0);
+  const [mainImageIndex, setMainImageIndex] = useState<number>(
+    initialImages.findIndex(img => img.isMain) !== -1 
+      ? initialImages.findIndex(img => img.isMain) 
+      : initialImages.length > 0 ? 0 : -1
+  );
+  
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -26,7 +31,7 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
     setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   }, []);
 
-  const removeUploadedImage = useCallback(async (index: number) => {
+  const removeUploadedImage = useCallback((index: number) => {
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
     
     toast({

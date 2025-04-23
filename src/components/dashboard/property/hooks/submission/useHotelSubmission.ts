@@ -1,7 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { PropertyFormData } from '../usePropertyForm';
+import { PropertyFormData } from '../usePropertyFormData';
 
 export const useHotelSubmission = () => {
   const { toast } = useToast();
@@ -65,6 +65,8 @@ export const useHotelSubmission = () => {
       console.error('Error updating hotel:', hotelError);
       throw hotelError;
     }
+
+    return hotelId;
   };
 
   return {

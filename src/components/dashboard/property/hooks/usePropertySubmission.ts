@@ -21,8 +21,8 @@ export const usePropertySubmission = ({
   onDoneEditing
 }: any) => {
   const { toast } = useToast();
-  const { submitHotel, updateHotel } = useHotelSubmission();
-  const { submitRelatedData } = useRelatedDataSubmission();
+  const { createNewHotel, updateExistingHotel } = useHotelSubmission();
+  const { handleThemesAndActivities, handleAvailability } = useRelatedDataSubmission();
   const { handleSubmissionSuccess } = useSubmissionSuccess();
   const { handlePlaceholderImages, handleCustomImages } = useImageSubmission();
 
@@ -61,10 +61,12 @@ export const usePropertySubmission = ({
       
       if (isEditing) {
         // Update existing hotel
-        hotelId = await updateHotel(editingHotelId, formData, userId);
+        await updateExistingHotel(formData, editingHotelId);
+        hotelId = editingHotelId;
       } else {
         // Create new hotel
-        hotelId = await submitHotel(formData, userId);
+        const hotelData = await createNewHotel(formData, userId);
+        hotelId = hotelData.id;
       }
       
       // Handle image submissions - if there are custom images use them, otherwise use placeholders
@@ -75,7 +77,8 @@ export const usePropertySubmission = ({
       }
       
       // Submit related data
-      await submitRelatedData(hotelId, formData);
+      await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+      await handleAvailability(hotelId, formData.stayLengths || []);
       
       // Handle submission success
       handleSubmissionSuccess({

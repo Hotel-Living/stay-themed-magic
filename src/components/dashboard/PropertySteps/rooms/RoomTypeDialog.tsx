@@ -59,6 +59,12 @@ export default function RoomTypeDialog({
     }
   }, [isOpen, availableStayLengths]);
 
+  useEffect(() => {
+    if (isOpen) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isOpen]);
+
   const handleAddRoomType = () => {
     if (selectedRoomType && roomImages.length > 0) {
       const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
@@ -121,7 +127,7 @@ export default function RoomTypeDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-white max-w-[80%] w-[80%] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-[#430453] text-white max-w-[48%] w-[48%] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-white mb-6">Add New Room Type</DialogTitle>
         </DialogHeader>

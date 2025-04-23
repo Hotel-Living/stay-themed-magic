@@ -1,16 +1,4 @@
-
-import { PropertyFormData } from "./usePropertyFormData";
-
-interface FormNavigationProps {
-  currentStep: number;
-  totalSteps: number;
-  stepValidation: Record<number, boolean>;
-  getIncompleteFields: (step: number, formData: PropertyFormData) => string[];
-  setErrorFields: (fields: string[]) => void;
-  setShowValidationErrors: (show: boolean) => void;
-  setCurrentStep: (step: number) => void;
-  formData: PropertyFormData;
-}
+import { useCallback } from "react";
 
 export const useFormNavigation = ({
   currentStep,
@@ -21,8 +9,8 @@ export const useFormNavigation = ({
   setShowValidationErrors,
   setCurrentStep,
   formData
-}: FormNavigationProps) => {
-  const validateCurrentStep = (): boolean => {
+}) => {
+  const validateCurrentStep = useCallback(() => {
     const incompleteFields = getIncompleteFields(currentStep, formData);
     
     if (incompleteFields.length > 0) {
@@ -32,23 +20,19 @@ export const useFormNavigation = ({
     }
     
     return true;
-  };
+  }, [currentStep, stepValidation, getIncompleteFields, setErrorFields, setShowValidationErrors]);
 
-  const goToNextStep = () => {
-    const isValid = validateCurrentStep();
-    
-    if (isValid && currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-      setShowValidationErrors(false);
+  const goToNextStep = useCallback(() => {
+    if (validateCurrentStep()) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setCurrentStep(prev => Math.min(prev + 1, totalSteps));
     }
-  };
+  }, [validateCurrentStep, setCurrentStep, totalSteps]);
 
-  const goToPreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      setShowValidationErrors(false);
-    }
-  };
+  const goToPreviousStep = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  }, [setCurrentStep]);
 
   return {
     validateCurrentStep,

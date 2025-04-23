@@ -31,17 +31,30 @@ export default function PicturesStep({
 
   // Update form data when uploaded images change
   React.useEffect(() => {
-    if (uploadedImages.length > 0) {
-      // Find main image
-      const mainImage = uploadedImages.find(img => img.isMain)?.url || uploadedImages[0].url;
-      updateFormData('hotelImages', uploadedImages);
-      updateFormData('mainImageUrl', mainImage);
-    } else {
-      // Clear images if none are uploaded
-      updateFormData('hotelImages', []);
-      updateFormData('mainImageUrl', '');
+    console.log("PicturesStep: uploadedImages changed", uploadedImages);
+    
+    // Only update the form if the current images are different from the form data
+    const currentImagesJson = JSON.stringify(uploadedImages);
+    const formImagesJson = JSON.stringify(formData.hotelImages || []);
+    
+    if (currentImagesJson !== formImagesJson) {
+      if (uploadedImages.length > 0) {
+        // Find main image
+        const mainImage = uploadedImages.find(img => img.isMain)?.url || uploadedImages[0].url;
+        updateFormData('hotelImages', uploadedImages);
+        updateFormData('mainImageUrl', mainImage);
+        
+        console.log("PicturesStep: Updated form data with images", {
+          count: uploadedImages.length,
+          mainImage
+        });
+      } else {
+        // Clear images if none are uploaded
+        updateFormData('hotelImages', []);
+        updateFormData('mainImageUrl', '');
+      }
     }
-  }, [uploadedImages, updateFormData]);
+  }, [uploadedImages, updateFormData, formData.hotelImages]);
   
   const handleAddMoreClick = () => {
     if (fileInputRef.current) {

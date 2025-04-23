@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +23,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const { user } = useAuth();
   const { toast } = useToast();
 
+  // Update uploaded images when initialImages change (for editing)
+  useEffect(() => {
+    if (initialImages && initialImages.length > 0) {
+      console.log("usePropertyImages: initialImages updated", initialImages);
+      setUploadedImages(initialImages);
+      
+      // Set main image index
+      const mainIndex = initialImages.findIndex(img => img.isMain);
+      setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
+    }
+  }, [JSON.stringify(initialImages)]); // Use JSON.stringify to compare object arrays
+
   const addFiles = useCallback((newFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...newFiles]);
   }, []);
@@ -34,11 +46,19 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const removeUploadedImage = useCallback((index: number) => {
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
     
+    // If removed image was the main image, set first remaining image as main
+    if (index === mainImageIndex) {
+      setMainImageIndex(prev => (prev > 0 ? 0 : -1));
+    } else if (index < mainImageIndex) {
+      // Adjust main image index if a previous image was removed
+      setMainImageIndex(prev => prev - 1);
+    }
+    
     toast({
       title: "Image removed",
       description: "The image has been removed successfully.",
     });
-  }, [toast]);
+  }, [mainImageIndex, toast]);
 
   const uploadFiles = useCallback(async () => {
     if (files.length === 0) {

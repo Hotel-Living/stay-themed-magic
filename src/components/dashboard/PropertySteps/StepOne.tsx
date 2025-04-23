@@ -31,6 +31,11 @@ export default function StepOne({
   // Sync with parent formData when component mounts or formData changes
   useEffect(() => {
     if (formData && Object.keys(formData).length > 0) {
+      console.log("StepOne: Syncing with parent formData", {
+        hasHotelImages: Boolean(formData.hotelImages),
+        imageCount: formData.hotelImages?.length || 0
+      });
+      
       setLocalFormData({
         hotelName: formData.hotelName || '',
         category: formData.category || '',
@@ -71,11 +76,11 @@ export default function StepOne({
           handleBlur={handleBlur}
         />
         
-        {/* Pictures section moved here */}
+        {/* Pictures section */}
         <PicturesStep
           formData={{
-            hotelImages: formData.hotelImages,
-            mainImageUrl: formData.mainImageUrl
+            hotelImages: formData.hotelImages || [],
+            mainImageUrl: formData.mainImageUrl || ''
           }}
           updateFormData={updateFormData}
         />

@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 import PicturesStep from "@/components/dashboard/PropertySteps/PicturesStep";
@@ -23,12 +24,25 @@ export default function BasicInfoStep({
 }: BasicInfoStepProps) {
   // Validate step when necessary fields change
   useEffect(() => {
+    // Check if hotelImages exists and has items before validating
+    const hasImages = formData.hotelImages && formData.hotelImages.length > 0;
+    
     const isValid = Boolean(formData.hotelName) && 
                     Boolean(formData.propertyType) && 
-                    Boolean(formData.description);
+                    Boolean(formData.description) &&
+                    hasImages; // Add image validation
+    
+    console.log("BasicInfoStep validation:", {
+      hotelName: Boolean(formData.hotelName),
+      propertyType: Boolean(formData.propertyType),
+      description: Boolean(formData.description),
+      hasImages: hasImages,
+      imageCount: formData.hotelImages?.length || 0,
+      isValid: isValid
+    });
     
     onValidationChange(isValid);
-  }, [formData.hotelName, formData.propertyType, formData.description, onValidationChange]);
+  }, [formData.hotelName, formData.propertyType, formData.description, formData.hotelImages, onValidationChange]);
 
   return (
     <div className="space-y-5">

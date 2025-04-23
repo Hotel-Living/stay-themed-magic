@@ -14,6 +14,12 @@ export const useValidationState = () => {
         if (!formData.hotelName) incompleteBasicFields.push("Property Name");
         if (!formData.propertyType) incompleteBasicFields.push("Property Type");
         if (!formData.description) incompleteBasicFields.push("Description");
+        
+        // Check for images
+        if (!formData.hotelImages || formData.hotelImages.length === 0) {
+          incompleteBasicFields.push("Property Images");
+        }
+        
         return incompleteBasicFields;
       case 2:
         return ["Accommodation Terms", "Meal Plans"];

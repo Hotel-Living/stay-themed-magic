@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import StayLengthSection from "./StayLengthSection";
 import MealPlanSection from "./MealPlanSection";
 import RoomsRatesSection from "./RoomsRatesSection";
-import PreferredWeekdaySection from "../rooms/PreferredWeekdaySection";
+import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
+import { weekdays } from "@/utils/constants";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -12,138 +14,125 @@ interface AccommodationTermsStepProps {
   updateFormData?: (field: string, value: any) => void;
 }
 
-export default function AccommodationTermsStep({
+const AccommodationTermsStep = ({
   onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
-}: AccommodationTermsStepProps) {
-  const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
-  const [stayLengthValid, setStayLengthValid] = useState(false);
-  const [mealPlanValid, setMealPlanValid] = useState(false);
-  const [error, setError] = useState<string>("");
-  const [isStayLengthOpen, setIsStayLengthOpen] = useState(false);
-  const [isMealPlanOpen, setIsMealPlanOpen] = useState(false);
-  const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
-  const [showErrors, setShowErrors] = useState(false);
+}: AccommodationTermsStepProps) => {
+  const [selectedWeekday, setSelectedWeekday] = useState<string>(formData.preferredWeekday || "Monday");
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(
+    formData.stayLengths?.length ? formData.stayLengths : []
+  );
+  const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(
+    formData.mealPlans?.length ? formData.mealPlans : []
+  );
+  const [roomTypes, setRoomTypes] = useState<any[]>(formData.roomTypes || []);
+  const { toast } = useToast();
 
-  // Preferred weekday fallback
-  const preferredWeekday = formData.preferredWeekday || "Monday";
-
-  // Check if all required fields are completed
-  const checkValidation = () => {
-    if (!mealPlanValid) {
-      setError("Please select at least one meal plan");
-      onValidationChange(false);
-      return false;
-    }
-    if (!stayLengthValid) {
-      setError("Please select at least one stay length");
-      onValidationChange(false);
-      return false;
-    }
-    setError("");
-    onValidationChange(true);
-    return true;
-  };
-
-  // Initialize meal plan from form data when component mounts
   useEffect(() => {
-    if (formData && formData.mealPlans && formData.mealPlans.length > 0) {
-      setMealPlans(formData.mealPlans);
-      setMealPlanValid(true);
+    // Update validation state when any required field changes
+    checkValidation();
+  }, [selectedStayLengths, selectedMealPlans, roomTypes]);
+
+  useEffect(() => {
+    // Initialize component state from formData if available
+    if (formData.preferredWeekday) {
+      setSelectedWeekday(formData.preferredWeekday);
+    }
+    
+    if (formData.stayLengths && formData.stayLengths.length > 0) {
+      setSelectedStayLengths(formData.stayLengths);
+    }
+    
+    if (formData.mealPlans && formData.mealPlans.length > 0) {
+      setSelectedMealPlans(formData.mealPlans);
+    }
+    
+    if (formData.roomTypes && formData.roomTypes.length > 0) {
+      setRoomTypes(formData.roomTypes);
     }
   }, [formData]);
 
-  // Initialize validation state based on form data
-  useEffect(() => {
-    let isValid = true;
-    
-    // Check stay lengths
-    if (!formData.stayLengths || formData.stayLengths.length === 0) {
-      isValid = false;
-    } else {
-      setStayLengthValid(true);
-    }
-    
-    // Check meal plans
-    if (!formData.mealPlans || formData.mealPlans.length === 0) {
-      isValid = false;
-    } else {
-      setMealPlanValid(true);
-    }
+  const checkValidation = () => {
+    const isValid = 
+      selectedStayLengths.length > 0 && 
+      selectedMealPlans.length > 0 && 
+      roomTypes.length > 0;
     
     onValidationChange(isValid);
-  }, [formData]);
+    return isValid;
+  };
 
-  // Handle meal plan selection
-  const handleMealPlanChange = (value: string) => {
-    const newMealPlans = mealPlans.includes(value) ? mealPlans : [value];
-    setMealPlans(newMealPlans);
+  const handleWeekdayChange = (weekday: string) => {
+    setSelectedWeekday(weekday);
+    updateFormData('preferredWeekday', weekday);
     
-    // Update parent form data
-    if (updateFormData) {
-      updateFormData('mealPlans', newMealPlans);
-    }
-
-    // Check validation after change
-    setTimeout(checkValidation, 100);
+    toast({
+      title: "Weekday Updated",
+      description: `Preferred check-in/out day set to ${weekday}.`
+    });
   };
 
-  // Handle weekday selection and store in formData
-  const handlePreferredWeekdayChange = (weekday: string) => {
-    updateFormData("preferredWeekday", weekday);
+  const handleStayLengthChange = (lengths: number[]) => {
+    setSelectedStayLengths(lengths);
+    updateFormData('stayLengths', lengths);
+    
+    // Also update the local storage for the stayLengths context
+    localStorage.setItem('selectedStayLengths', JSON.stringify(lengths));
+    // Dispatch custom event for other components that might be listening
+    const event = new CustomEvent('stayLengthsUpdated', { detail: lengths });
+    window.dispatchEvent(event);
   };
 
-  useEffect(() => {
-    // Validate on mount and when fields change
+  const handleMealPlanChange = (plans: string[]) => {
+    setSelectedMealPlans(plans);
+    updateFormData('mealPlans', plans);
+  };
+
+  const handleRoomTypesChange = (updatedRoomTypes: any[]) => {
+    setRoomTypes(updatedRoomTypes);
+    updateFormData('roomTypes', updatedRoomTypes);
     checkValidation();
-  }, [mealPlans, stayLengthValid, mealPlanValid]);
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Main title is now "ACCOMMODATION TERMS" */}
-      <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>
+    <div className="space-y-6 max-w-[80%]">
+      <h2 className="text-xl font-bold mb-2 text-white">ACCOMMODATION TERMS</h2>
       
-      <PreferredWeekdaySection
-        preferredWeekday={preferredWeekday}
-        onWeekdayChange={handlePreferredWeekdayChange}
+      {/* Show validation message when required fields are missing */}
+      <ValidationMessages 
+        stayLengths={selectedStayLengths} 
+        mealPlans={selectedMealPlans} 
+        roomTypes={roomTypes} 
+      />
+      
+      <PreferredWeekdaySection 
+        selectedWeekday={selectedWeekday}
+        onWeekdaySelect={handleWeekdayChange}
+        weekdays={weekdays}
       />
       
       <StayLengthSection 
-        isOpen={isStayLengthOpen}
-        onOpenChange={setIsStayLengthOpen}
-        onValidationChange={(isValid) => {
-          setStayLengthValid(isValid);
-          checkValidation();
-        }}
-        formData={formData}
-        updateFormData={updateFormData}
+        selectedStayLengths={selectedStayLengths}
+        onStayLengthChange={handleStayLengthChange}
       />
       
       <MealPlanSection 
-        isOpen={isMealPlanOpen}
-        onOpenChange={setIsMealPlanOpen}
-        onValidationChange={(isValid) => {
-          setMealPlanValid(isValid);
-          checkValidation();
+        selectedMealPlans={selectedMealPlans}
+        onMealPlanChange={handleMealPlanChange}
+      />
+      
+      <RoomsRatesSection
+        formData={{
+          ...formData,
+          preferredWeekday: selectedWeekday,
+          stayLengths: selectedStayLengths
         }}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <RoomsRatesSection 
-        isOpen={isRoomsRatesOpen}
-        onOpenChange={setIsRoomsRatesOpen}
-        onValidationChange={() => checkValidation()}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <ValidationMessages 
-        error={error}
-        showErrors={showErrors}
-        isValid={mealPlanValid && stayLengthValid && !error}
+        onRoomTypesChange={handleRoomTypesChange}
+        initialRoomTypes={roomTypes}
       />
     </div>
   );
-}
+};
+
+export default AccommodationTermsStep;

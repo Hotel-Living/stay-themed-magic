@@ -23,7 +23,7 @@ export function useRoomTypeSection(
     setDialogOpen,
     handleAddRoomType,
     handleDeleteRoomType
-  } = useRoomTypes();
+  } = useRoomTypes(formData.roomTypes || []);
   
   // Initialize roomTypes from formData if available
   useEffect(() => {
@@ -31,21 +31,18 @@ export function useRoomTypeSection(
       // Directly set room types from form data to ensure they're properly loaded
       setRoomTypes(formData.roomTypes);
     }
-  }, [formData.roomTypes]);
+  }, []);
 
   // Update parent form data when roomTypes change
   useEffect(() => {
-    if (updateFormData && roomTypes) {
+    if (updateFormData) {
       updateFormData('roomTypes', roomTypes);
     }
-  }, [roomTypes, updateFormData]);
-
-  // Validate when roomTypes changes
-  useEffect(() => {
-    // Valid if there's at least one room type
+    
+    // Validate when roomTypes changes
     const isValid = roomTypes.length > 0;
     onValidationChange(isValid);
-  }, [roomTypes, onValidationChange]);
+  }, [roomTypes, updateFormData, onValidationChange]);
 
   return {
     selectedUnit,

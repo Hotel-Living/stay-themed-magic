@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import RoomInfoForm from "./roomTypes/RoomInfoForm";
 import ImageUploadSection from "./roomTypes/ImageUploadSection";
 import RatesSection from "./roomTypes/RatesSection";
 import AvailabilityDateSection from "./roomTypes/AvailabilityDateSection";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -58,12 +60,6 @@ export default function RoomTypeDialog({
       }
     }
   }, [isOpen, availableStayLengths]);
-
-  useEffect(() => {
-    if (isOpen) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [isOpen]);
 
   const handleAddRoomType = () => {
     if (selectedRoomType && roomImages.length > 0) {
@@ -126,8 +122,8 @@ export default function RoomTypeDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#430453] text-white w-[90%] max-w-4xl max-h-[90vh] overflow-y-auto">
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent className="bg-[#430453] text-white w-[90%] max-w-4xl h-full overflow-y-auto" side="bottom">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold text-white mb-6">Add New Room Type</DialogTitle>
         </DialogHeader>
@@ -220,7 +216,7 @@ export default function RoomTypeDialog({
             <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>
           )}
         </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

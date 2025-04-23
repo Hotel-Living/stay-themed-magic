@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { MapProps } from "./types";
@@ -7,7 +6,6 @@ import { MapMarker } from "./components/MapMarker";
 import { LoadingState } from "./components/LoadingState";
 import { ErrorState } from "./components/ErrorState";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { toast } from "@/hooks/use-toast";
 
 const InteractiveMap: React.FC<MapProps> = ({
   latitude,
@@ -179,10 +177,6 @@ const InteractiveMap: React.FC<MapProps> = ({
           });
           
           onLocationSelect(lat, lng);
-          toast({
-            title: "Location Selected",
-            description: `Coordinates set to: ${lat}, ${lng}`,
-          });
         }
       });
       
@@ -221,11 +215,6 @@ const InteractiveMap: React.FC<MapProps> = ({
           const lat = position.lat().toFixed(6);
           const lng = position.lng().toFixed(6);
           onLocationSelect(lat, lng);
-          
-          toast({
-            title: "Location Updated",
-            description: `New coordinates: ${lat}, ${lng}`,
-          });
         }
       });
       
@@ -283,19 +272,9 @@ const InteractiveMap: React.FC<MapProps> = ({
           
           // Clear any previous errors
           setGeocodeError(null);
-          
-          toast({
-            title: "Location Found",
-            description: `Found coordinates for: ${address}`,
-          });
         } else {
           console.error(`Geocoding failed: status=${status}`);
           setGeocodeError(`Could not find coordinates for: ${address}`);
-          toast({
-            title: "Geocoding Error",
-            description: `Could not find coordinates for: ${address}`,
-            variant: "destructive",
-          });
         }
       });
       

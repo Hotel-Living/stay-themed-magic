@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 import { useLocation } from 'react-router-dom';
 
 export const useGoogleMaps = () => {
@@ -60,29 +59,12 @@ export const useGoogleMaps = () => {
         script.onload = () => {
           console.log('Google Maps script loaded successfully');
           setIsLoading(false);
-          
-          // Only show toast if not on add-property page
-          if (!location.pathname.includes('/add-property')) {
-            toast({
-              title: "Maps Loaded",
-              description: "Google Maps integration is ready to use.",
-            });
-          }
         };
         
         script.onerror = (e) => {
           console.error('Error loading Google Maps script:', e);
           setError("Failed to load Google Maps. Please check your internet connection or API key.");
           setIsLoading(false);
-          
-          // Only show toast if not on add-property page
-          if (!location.pathname.includes('/add-property')) {
-            toast({
-              title: "Maps Error",
-              description: "Failed to load Google Maps. Please check console for details.",
-              variant: "destructive",
-            });
-          }
         };
         
         document.head.appendChild(script);
@@ -90,15 +72,6 @@ export const useGoogleMaps = () => {
         console.error('Error in loadGoogleMapsScript:', err);
         setError(err.message || 'Failed to initialize Google Maps');
         setIsLoading(false);
-        
-        // Only show toast if not on add-property page
-        if (!location.pathname.includes('/add-property')) {
-          toast({
-            title: "Maps Error",
-            description: err.message || "Failed to initialize Google Maps",
-            variant: "destructive",
-          });
-        }
       }
     };
     

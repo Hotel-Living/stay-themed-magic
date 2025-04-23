@@ -1,12 +1,26 @@
 
 import React, { useEffect } from "react";
-import { usePropertyImages } from "@/hooks/usePropertyImages";
+import { usePropertyImages, UploadedImage } from "@/hooks/usePropertyImages";
+
+interface BasicInfoStepProps {
+  formData: {
+    hotelName?: string;
+    propertyType?: string;
+    description?: string;
+    category?: string;
+    style?: string;
+    hotelImages?: UploadedImage[];
+    mainImageUrl?: string;
+  };
+  updateFormData: (field: string, value: any) => void;
+  onValidationChange: (isValid: boolean) => void;
+}
 
 export default function BasicInfoStep({ 
   formData = {},
   updateFormData = () => {},
   onValidationChange = () => {} 
-}) {
+}: BasicInfoStepProps) {
   const { 
     files, 
     uploadedImages, 

@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { UploadedImage } from "@/hooks/usePropertyImages";
 
 export interface PropertyFormData {
   hotelName: string;
@@ -21,6 +22,7 @@ export interface PropertyFormData {
   faqs: any[];
   terms: string;
   termsAccepted: boolean;
+  hotelImages?: UploadedImage[]; // Added this field
 }
 
 export const usePropertyFormData = () => {

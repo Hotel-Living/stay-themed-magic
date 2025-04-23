@@ -6,7 +6,7 @@ interface SubmissionSuccessProps {
   setIsSubmitted: (value: boolean) => void;
   setSubmitSuccess: (value: boolean) => void;
   setCurrentStep: (step: number) => void;
-  setFormData: (data: PropertyFormData) => void;
+  setFormData: (data: Partial<PropertyFormData>) => void;
   onDoneEditing?: () => void;
 }
 
@@ -52,7 +52,8 @@ export const useSubmissionSuccess = ({
         activities: [],
         faqs: [],
         terms: "",
-        termsAccepted: false
+        termsAccepted: false,
+        hotelImages: []
       });
       if (onDoneEditing) onDoneEditing();
     }, 5000);

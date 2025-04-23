@@ -38,6 +38,12 @@ const CitySelector: React.FC<CitySelectorProps> = ({
     if (!cityName) return;
 
     try {
+      // Ensure Google Maps API is loaded
+      if (typeof google === 'undefined' || !google.maps) {
+        console.error('Google Maps API not loaded');
+        return false;
+      }
+
       const geocoder = new google.maps.Geocoder();
       const response = await geocoder.geocode({
         address: `${cityName}, ${country}`,

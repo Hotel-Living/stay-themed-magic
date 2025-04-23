@@ -15,7 +15,9 @@ export function useRoomTypeSection(
 ) {
   const {
     selectedUnit,
+    setSelectedUnit,
     roomTypes,
+    setRoomTypes,
     dialogOpen,
     selectedStayLengths,
     setDialogOpen,
@@ -26,13 +28,8 @@ export function useRoomTypeSection(
   // Initialize roomTypes from formData if available
   useEffect(() => {
     if (formData.roomTypes && formData.roomTypes.length > 0) {
-      // We'll use the handleAddRoomType for each room type to properly add them
-      // This is safer than directly setting roomTypes
-      formData.roomTypes.forEach((roomType: RoomType) => {
-        if (!roomTypes.some(rt => rt.id === roomType.id)) {
-          handleAddRoomType(roomType);
-        }
-      });
+      // Directly set room types from form data to ensure they're properly loaded
+      setRoomTypes(formData.roomTypes);
     }
   }, [formData.roomTypes]);
 

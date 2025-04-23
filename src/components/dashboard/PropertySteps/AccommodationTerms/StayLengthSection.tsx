@@ -8,12 +8,16 @@ interface StayLengthSectionProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onValidationChange: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function StayLengthSection({
   isOpen,
   onOpenChange,
-  onValidationChange
+  onValidationChange,
+  formData = {},
+  updateFormData = () => {}
 }: StayLengthSectionProps) {
   return (
     <Collapsible 
@@ -31,6 +35,8 @@ export default function StayLengthSection({
         <LengthOfStaySection 
           onValidationChange={onValidationChange} 
           showHeader={false} 
+          formData={formData}
+          updateFormData={updateFormData}
         />
       </CollapsibleContent>
     </Collapsible>

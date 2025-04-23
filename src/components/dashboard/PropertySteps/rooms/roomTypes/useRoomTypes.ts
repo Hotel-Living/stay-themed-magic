@@ -14,9 +14,9 @@ export interface RoomType {
   roomCount: number; // Added this property to match expected type
 }
 
-export function useRoomTypes() {
+export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>(initialRoomTypes);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
   
@@ -50,7 +50,9 @@ export function useRoomTypes() {
   
   return {
     selectedUnit,
+    setSelectedUnit,
     roomTypes,
+    setRoomTypes,
     dialogOpen,
     selectedStayLengths,
     setDialogOpen,

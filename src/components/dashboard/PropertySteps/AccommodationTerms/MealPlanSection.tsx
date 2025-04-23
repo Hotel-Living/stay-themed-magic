@@ -8,12 +8,16 @@ interface MealPlanSectionProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onValidationChange: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function AccommodationMealPlanSection({
   isOpen,
   onOpenChange,
-  onValidationChange
+  onValidationChange,
+  formData = {},
+  updateFormData = () => {}
 }: MealPlanSectionProps) {
   return (
     <Collapsible 
@@ -30,7 +34,9 @@ export default function AccommodationMealPlanSection({
       <CollapsibleContent className="p-4">
         <MealPlanSection 
           onValidationChange={onValidationChange} 
-          showHeader={false} 
+          showHeader={false}
+          formData={formData}
+          updateFormData={updateFormData} 
         />
       </CollapsibleContent>
     </Collapsible>

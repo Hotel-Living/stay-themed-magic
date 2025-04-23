@@ -12,23 +12,49 @@ interface MealPlanSectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function MealPlanSection({ 
   onValidationChange,
   title = "MEALS",
-  showHeader = true
+  showHeader = true,
+  formData = {},
+  updateFormData = () => {}
 }: MealPlanSectionProps) {
   const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry"];
-  const [selectedMealPlan, setSelectedMealPlan] = useState("");
-  const [mealPlanValid, setMealPlanValid] = useState(false);
+  
+  // Initialize from formData if available
+  const initialMealPlan = formData.mealPlans && formData.mealPlans.length > 0 
+    ? formData.mealPlans[0] 
+    : "";
+    
+  const [selectedMealPlan, setSelectedMealPlan] = useState(initialMealPlan);
+  const [mealPlanValid, setMealPlanValid] = useState(initialMealPlan !== "");
   const [touched, setTouched] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+
+  // Initialize from form data when component mounts or form data changes
+  useEffect(() => {
+    if (formData.mealPlans && formData.mealPlans.length > 0) {
+      const mealPlan = formData.mealPlans[0];
+      setSelectedMealPlan(mealPlan);
+      setMealPlanValid(true);
+      onValidationChange(true);
+    }
+  }, [formData]);
 
   const handleMealPlanChange = (plan: string) => {
     setSelectedMealPlan(plan);
     setMealPlanValid(true);
     setTouched(true);
+    
+    // Update parent form data
+    if (updateFormData) {
+      updateFormData('mealPlans', [plan]);
+    }
+    
     onValidationChange(true);
   };
 

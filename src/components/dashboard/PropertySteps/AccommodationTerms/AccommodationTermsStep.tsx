@@ -46,6 +46,35 @@ export default function AccommodationTermsStep({
     return true;
   };
 
+  // Initialize meal plan from form data when component mounts
+  useEffect(() => {
+    if (formData && formData.mealPlans && formData.mealPlans.length > 0) {
+      setMealPlans(formData.mealPlans);
+      setMealPlanValid(true);
+    }
+  }, [formData]);
+
+  // Initialize validation state based on form data
+  useEffect(() => {
+    let isValid = true;
+    
+    // Check stay lengths
+    if (!formData.stayLengths || formData.stayLengths.length === 0) {
+      isValid = false;
+    } else {
+      setStayLengthValid(true);
+    }
+    
+    // Check meal plans
+    if (!formData.mealPlans || formData.mealPlans.length === 0) {
+      isValid = false;
+    } else {
+      setMealPlanValid(true);
+    }
+    
+    onValidationChange(isValid);
+  }, [formData]);
+
   // Handle meal plan selection
   const handleMealPlanChange = (value: string) => {
     const newMealPlans = mealPlans.includes(value) ? mealPlans : [value];
@@ -87,6 +116,8 @@ export default function AccommodationTermsStep({
           setStayLengthValid(isValid);
           checkValidation();
         }}
+        formData={formData}
+        updateFormData={updateFormData}
       />
       
       <MealPlanSection 
@@ -96,6 +127,8 @@ export default function AccommodationTermsStep({
           setMealPlanValid(isValid);
           checkValidation();
         }}
+        formData={formData}
+        updateFormData={updateFormData}
       />
       
       <RoomsRatesSection 

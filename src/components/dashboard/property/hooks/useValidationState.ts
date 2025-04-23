@@ -22,7 +22,24 @@ export const useValidationState = () => {
         
         return incompleteBasicFields;
       case 2:
-        return ["Accommodation Terms", "Meal Plans"];
+        const incompleteAccommodationFields = [];
+        
+        // Check for stay lengths
+        if (!formData.stayLengths || formData.stayLengths.length === 0) {
+          incompleteAccommodationFields.push("Length of Stay");
+        }
+        
+        // Check for meal plans
+        if (!formData.mealPlans || formData.mealPlans.length === 0) {
+          incompleteAccommodationFields.push("Meal Plans");
+        }
+        
+        // Check for room types
+        if (!formData.roomTypes || formData.roomTypes.length === 0) {
+          incompleteAccommodationFields.push("Room Types");
+        }
+        
+        return incompleteAccommodationFields;
       case 3:
         return ["Themes", "Activities"];
       case 4:

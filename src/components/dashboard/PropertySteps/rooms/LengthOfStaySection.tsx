@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -11,15 +12,21 @@ interface LengthOfStaySectionProps {
   onValidationChange: (isValid: boolean) => void;
   title?: string;
   showHeader?: boolean;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function LengthOfStaySection({ 
   onValidationChange,
   title = "LENGTH OF STAY",
-  showHeader = true
+  showHeader = true,
+  formData = {},
+  updateFormData = () => {}
 }: LengthOfStaySectionProps) {
-  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([]);
-  const [stayLengthsValid, setStayLengthsValid] = useState(false);
+  // Initialize from form data if available, otherwise empty array
+  const initialStayLengths = formData.stayLengths || [];
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(initialStayLengths);
+  const [stayLengthsValid, setStayLengthsValid] = useState(initialStayLengths.length > 0);
 
   // Updated stay lengths to 8, 16, 24, 32 days
   const stayLengths = [8, 16, 24, 32];
@@ -31,12 +38,29 @@ export default function LengthOfStaySection({
     { value: 32 }
   ];
 
+  // Load initial data from form or context
   useEffect(() => {
-    // Initialize with empty selection - removed default values
-    setSelectedStayLengths([]);
-    setStayLengthsValid(false);
-    onValidationChange(false);
-  }, []);
+    if (formData.stayLengths && formData.stayLengths.length > 0) {
+      setSelectedStayLengths(formData.stayLengths);
+      setStayLengthsValid(true);
+      onValidationChange(true);
+    } else {
+      const contextStayLengths = getSelectedStayLengths();
+      if (contextStayLengths.length > 0) {
+        setSelectedStayLengths(contextStayLengths);
+        // Update parent form data with context values
+        if (updateFormData) {
+          updateFormData('stayLengths', contextStayLengths);
+        }
+        setStayLengthsValid(true);
+        onValidationChange(true);
+      } else {
+        setSelectedStayLengths([]);
+        setStayLengthsValid(false);
+        onValidationChange(false);
+      }
+    }
+  }, [formData]);
 
   const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
     let newSelectedLengths: number[];
@@ -51,6 +75,11 @@ export default function LengthOfStaySection({
     
     // Save to context & localStorage for sharing with room type components
     saveSelectedStayLengths(newSelectedLengths);
+    
+    // Update parent form data
+    if (updateFormData) {
+      updateFormData('stayLengths', newSelectedLengths);
+    }
   };
 
   useEffect(() => {

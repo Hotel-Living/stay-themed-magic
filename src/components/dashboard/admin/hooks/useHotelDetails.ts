@@ -30,6 +30,8 @@ export function useHotelDetails(id: string | undefined) {
 
         if (hotelError) throw hotelError;
 
+        console.log("Fetched hotel data:", hotelData);
+        
         const typedHotelData = hotelData as AdminHotelDetail;
         setHotel(typedHotelData);
         setImages(typedHotelData.hotel_images || []);
@@ -43,6 +45,7 @@ export function useHotelDetails(id: string | undefined) {
         }
 
       } catch (error: any) {
+        console.error("Error fetching hotel details:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to fetch hotel details",

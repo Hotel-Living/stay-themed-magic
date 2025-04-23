@@ -1,3 +1,4 @@
+
 import React from "react";
 import { MapPin } from "lucide-react";
 import { AdminHotelDetail } from "@/types/hotel";
@@ -16,11 +17,11 @@ export function LocationInfo({ hotel }: LocationInfoProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <p className="text-sm text-gray-400">Country</p>
-          <p className="font-medium">{hotel.country}</p>
+          <p className="font-medium">{hotel.country || "Not specified"}</p>
         </div>
         <div>
           <p className="text-sm text-gray-400">City</p>
-          <p className="font-medium">{hotel.city}</p>
+          <p className="font-medium">{hotel.city || "Not specified"}</p>
         </div>
         <div className="md:col-span-2">
           <p className="text-sm text-gray-400">Address</p>

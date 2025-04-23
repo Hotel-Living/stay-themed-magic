@@ -19,6 +19,10 @@ export default function HotelDetailView() {
   const navigate = useNavigate();
   const { hotel, loading, themes, activities, images, amenities } = useHotelDetails(id);
 
+  console.log("Hotel in detail view:", hotel);
+  console.log("Themes in detail view:", themes);
+  console.log("Activities in detail view:", activities);
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">

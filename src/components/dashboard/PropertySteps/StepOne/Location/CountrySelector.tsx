@@ -91,6 +91,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({ value, onChange, clas
               <div className="p-3">
                 <p className="text-sm text-fuchsia-300 mb-2">Country not found?</p>
                 <CustomCountryInput
+                  searchTerm={searchTerm}
                   onSubmit={handleCustomCountrySubmit}
                 />
               </div>

@@ -1,42 +1,35 @@
 
-import React, { useState } from "react";
+import React from "react";
 
 interface CustomCountryInputProps {
-  onSubmit: (countryName: string) => void;
-  initialValue?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+  onCancel: () => void;
 }
 
-const CustomCountryInput: React.FC<CustomCountryInputProps> = ({ 
-  onSubmit,
-  initialValue = "" 
-}) => {
-  const [countryName, setCountryName] = useState(initialValue);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (countryName.trim()) {
-      onSubmit(countryName.trim());
-    }
-  };
-
+export default function CustomCountryInput({
+  value,
+  onChange,
+  onBlur,
+  onCancel
+}: CustomCountryInputProps) {
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-      <input
-        type="text"
-        value={countryName}
-        onChange={(e) => setCountryName(e.target.value)}
-        placeholder="Enter country name"
-        className="w-full rounded-md border border-fuchsia-800/40 bg-fuchsia-950/70 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50"
+    <div className="mt-1">
+      <input 
+        type="text" 
+        placeholder="Enter country name" 
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        className="w-full p-2 text-white bg-[#7A0486] border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
       />
-      <button
-        type="submit"
-        disabled={!countryName.trim()}
-        className="w-full px-3 py-1.5 rounded-md bg-fuchsia-700 text-white text-sm font-medium disabled:opacity-50"
+      <button 
+        onClick={onCancel}
+        className="mt-2 text-fuchsia-300 text-sm hover:text-fuchsia-100"
       >
-        Add Custom Country
+        Cancel
       </button>
-    </form>
+    </div>
   );
-};
-
-export default CustomCountryInput;
+}

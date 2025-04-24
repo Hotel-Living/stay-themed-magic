@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { v4 as uuidv4 } from "uuid";
 import { useToast } from "@/hooks/use-toast";
 
 export interface UploadedImage {
@@ -37,7 +38,7 @@ export function usePropertyImages(
       
       for (const file of files) {
         const fileExt = file.name.split('.').pop();
-        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        const fileName = `${uuidv4()}.${fileExt}`;
         const filePath = `hotel-images/${fileName}`;
         
         const { error: uploadError } = await supabase.storage
@@ -126,6 +127,7 @@ export function usePropertyImages(
 
   return {
     images,
+    setImages,
     files,
     uploading,
     handleAddFiles,

@@ -1,3 +1,4 @@
+
 import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -11,7 +12,7 @@ import { useFormNavigation } from "./hooks/useFormNavigation";
 import { useHotelEditing } from "./hooks/useHotelEditing";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
 import { TOTAL_STEPS, STEP_TITLES } from "./constants";
-import { PropertyFormData } from "./hooks/usePropertyFormData";
+import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
 
 export default function AddPropertyForm({
   editingHotelId,
@@ -48,7 +49,7 @@ export default function AddPropertyForm({
     setErrorFields,
     setShowValidationErrors,
     setCurrentStep,
-    formData
+    formData // Pass formData to validation
   });
 
   useHotelEditing({
@@ -57,6 +58,7 @@ export default function AddPropertyForm({
     setCurrentStep
   });
 
+  // Create wrapper functions to match expected signatures
   const getIncompleteFieldsWrapper = (step: number) => {
     return getIncompleteFields(step, formData);
   };
@@ -89,11 +91,16 @@ export default function AddPropertyForm({
         stepTitle={STEP_TITLES[currentStep - 1]} 
       />
 
+      <PropertyFormNavigation
+        currentStep={currentStep}
+        totalSteps={TOTAL_STEPS}
+        onPrevious={goToPreviousStep}
+        onNext={goToNextStep}
+        onSubmit={handleSubmit}
+      />
+
       {showValidationErrors && errorFields.length > 0 && (
-        <ValidationErrorBanner 
-          errorFields={errorFields} 
-          isWarning={true}
-        />
+        <ValidationErrorBanner errorFields={errorFields} />
       )}
 
       {isSubmitted && submitSuccess ? (
@@ -104,11 +111,6 @@ export default function AddPropertyForm({
           onValidationChange={isValid => validateStep(currentStep, isValid)}
           formData={formData}
           updateFormData={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
-          onPrevious={goToPreviousStep}
-          onNext={goToNextStep}
-          onSubmit={handleSubmit}
-          totalSteps={TOTAL_STEPS}
-          showValidationWarning={showValidationErrors && errorFields.length > 0}
         />
       )}
 
@@ -120,7 +122,6 @@ export default function AddPropertyForm({
         onPrevious={goToPreviousStep}
         onNext={goToNextStep}
         onSubmit={handleSubmit}
-        showValidationWarning={showValidationErrors && errorFields.length > 0}
       />
 
       {editingHotelId && (

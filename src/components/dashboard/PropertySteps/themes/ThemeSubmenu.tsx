@@ -9,7 +9,6 @@ interface ThemeSubmenuProps {
       id: string;
       name: string;
       suboptions?: string[];
-      isAddOption?: boolean;
     }>;
   };
   isOpen: boolean;
@@ -42,7 +41,7 @@ const ThemeSubmenu: React.FC<ThemeSubmenuProps> = ({
       {isOpen && (
         <div className="space-y-0.5 mt-1 pl-2">
           {submenu.options
-            .filter(option => option.isAddOption !== true)
+            .filter(option => !option.isAddOption)
             .map((option) => (
               <div key={option.id} className="flex items-center py-0.5">
                 <input

@@ -26,6 +26,7 @@ interface CategorySubcategoryProps {
   openSubmenus: { [key: string]: boolean };
   toggleSubmenu: (submenu: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes?: string[]; // Add this prop
 }
 
 const CategorySubcategory = ({ 
@@ -34,7 +35,8 @@ const CategorySubcategory = ({
   submenus, 
   openSubmenus, 
   toggleSubmenu, 
-  onThemeSelect 
+  onThemeSelect,
+  selectedThemes = [] // Default to empty array if not provided
 }: CategorySubcategoryProps) => {
   return (
     <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
@@ -67,6 +69,7 @@ const CategorySubcategory = ({
             isOpen={openSubmenus[submenu.name] || false}
             toggleSubmenu={toggleSubmenu}
             onThemeSelect={onThemeSelect}
+            selectedThemes={selectedThemes} // Pass the selectedThemes prop
           />
         ))}
       </div>

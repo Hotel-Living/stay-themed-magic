@@ -3,8 +3,58 @@ import React from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { sortedThemeCategories } from "./themeData";
 import ThemeCategory from "./ThemeCategory";
+import { themeCategories } from "@/utils/themes";
+
+// Transform theme categories data to match the expected structure
+const sortedThemeCategories = themeCategories.map(category => {
+  // If category has direct themes, wrap them in a submenu
+  if (category.themes) {
+    return {
+      category: category.category,
+      submenus: [{
+        name: category.category,
+        options: category.themes.map(theme => ({
+          id: theme.id,
+          name: theme.name,
+          isAddOption: theme.isAddOption
+        }))
+      }]
+    };
+  } 
+  // If category has subcategories, transform each subcategory into a submenu
+  else if (category.subcategories) {
+    return {
+      category: category.category,
+      submenus: category.subcategories.map(subcategory => {
+        if (subcategory.themes) {
+          return {
+            name: subcategory.name,
+            options: subcategory.themes.map(theme => ({
+              id: theme.id,
+              name: theme.name,
+              isAddOption: theme.isAddOption
+            }))
+          };
+        } else if (subcategory.submenus) {
+          return {
+            name: subcategory.name,
+            options: [] // Empty options array as a placeholder
+          };
+        }
+        return {
+          name: subcategory.name,
+          options: []
+        };
+      })
+    };
+  }
+  // Default case (should not happen with our data structure)
+  return {
+    category: category.category,
+    submenus: []
+  };
+});
 
 interface AffinitiesSectionProps {
   openCategory: string | null;
@@ -59,7 +109,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                 openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
                 toggleSubmenu={setOpenSubmenu}
                 onThemeSelect={onThemeSelect}
-                selectedThemes={selectedThemes} // Pass selected themes down to category
+                selectedThemes={selectedThemes}
               />
             ))}
           </div>

@@ -6,7 +6,7 @@ import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 import { weekdays } from "@/utils/constants";
-import HotelFeaturesStep from "./HotelFeaturesStep";
+import HotelFeaturesStep from "../HotelFeaturesStep";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
@@ -43,9 +44,10 @@ export default function StayLengthSection({
 
   return (
     <Collapsible 
-      className="w-full mb-2 border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10"
+      className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10"
       open={isOpen} 
       onOpenChange={onOpenChange}
+      defaultOpen={false}
     >
       <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
         <label className="text-base font-medium text-white">
@@ -54,9 +56,9 @@ export default function StayLengthSection({
         <ChevronDown className="h-4 w-4 text-white" />
       </CollapsibleTrigger>
       <CollapsibleContent className="p-3">
-        <div className="space-y-2">
+        <div className="space-y-1">
           <label className="block text-sm uppercase text-white/90">AVAILABLE STAY LENGTHS</label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {durations.map((duration) => (
               <label key={duration} className="flex items-center">
                 <input 
@@ -71,7 +73,7 @@ export default function StayLengthSection({
           </div>
           
           {selectedStayLengths.length > 0 && (
-            <p className="text-green-400 text-xs mt-2">
+            <p className="text-green-400 text-xs mt-1">
               Selected stay lengths will populate rate fields in Room Types
             </p>
           )}

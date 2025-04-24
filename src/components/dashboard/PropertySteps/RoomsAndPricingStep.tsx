@@ -20,8 +20,7 @@ export default function RoomsAndPricingStep() {
   return (
     <div className="space-y-2">
       {/* Main section with LENGTH OF STAY and MEALS */}
-      <div className="mb-4">
-        <h2 className="font-medium text-lg mb-2 text-white">LENGTH OF STAY – MEALS</h2>
+      <div>
         <div className="space-y-2">
           <StayLengthSection 
             isOpen={false}

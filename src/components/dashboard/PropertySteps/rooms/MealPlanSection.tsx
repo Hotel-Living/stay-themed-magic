@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -77,7 +77,7 @@ export default function MealPlanSection({
   };
 
   const mealPlanContent = (
-    <div className="grid grid-cols-1 gap-4 mt-2">
+    <div className="mt-2">
       <div>
         <Select 
           value={selectedMealPlan}
@@ -107,14 +107,14 @@ export default function MealPlanSection({
   }
 
   return (
-    <Collapsible className="w-full mb-3" defaultOpen={false}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-        <label className="block text-sm font-medium text-foreground/90 uppercase">
+    <Collapsible className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10" defaultOpen={false}>
+      <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-4 py-2 bg-fuchsia-900/20">
+        <label className="block text-base font-medium text-white uppercase">
           {title}
         </label>
-        <ChevronRight className="h-4 w-4" />
+        <ChevronDown className="h-4 w-4 text-white" />
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="p-3">
         {mealPlanContent}
       </CollapsibleContent>
     </Collapsible>

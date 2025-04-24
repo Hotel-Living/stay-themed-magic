@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Collapsible,
@@ -12,14 +12,43 @@ import { useToast } from "@/hooks/use-toast";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
-export default function HotelFeaturesStep() {
+interface HotelFeaturesStepProps {
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
+}
+
+export default function HotelFeaturesStep({
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: HotelFeaturesStepProps) {
   const { toast } = useToast();
   const [showHotelFeatureInput, setShowHotelFeatureInput] = useState(false);
   const [showRoomFeatureInput, setShowRoomFeatureInput] = useState(false);
   const [newHotelFeature, setNewHotelFeature] = useState("");
   const [newRoomFeature, setNewRoomFeature] = useState("");
-  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>([]);
-  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>([]);
+  
+  // Initialize from form data if available
+  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>(
+    formData.hotelFeatures || []
+  );
+  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>(
+    formData.roomFeatures || []
+  );
+
+  // When features change, update form data and validation
+  useEffect(() => {
+    if (updateFormData) {
+      updateFormData('hotelFeatures', selectedHotelFeatures);
+      updateFormData('roomFeatures', selectedRoomFeatures);
+    }
+    
+    // Features are optional, so we always pass validation as true
+    if (onValidationChange) {
+      onValidationChange(true);
+    }
+  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, onValidationChange]);
 
   const handleSubmitFeature = (type: "hotel" | "room", feature: string) => {
     if (!feature.trim()) return;
@@ -38,6 +67,22 @@ export default function HotelFeaturesStep() {
     }
   };
 
+  const handleHotelFeatureChange = (feature: string, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedHotelFeatures(prev => [...prev, feature]);
+    } else {
+      setSelectedHotelFeatures(prev => prev.filter(f => f !== feature));
+    }
+  };
+
+  const handleRoomFeatureChange = (feature: string, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedRoomFeatures(prev => [...prev, feature]);
+    } else {
+      setSelectedRoomFeatures(prev => prev.filter(f => f !== feature));
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
@@ -50,13 +95,7 @@ export default function HotelFeaturesStep() {
             features={hotelFeatures}
             onAddNewFeature={() => setShowHotelFeatureInput(true)}
             selectedFeatures={selectedHotelFeatures}
-            onFeatureChange={(feature, isChecked) => {
-              if (isChecked) {
-                setSelectedHotelFeatures(prev => [...prev, feature]);
-              } else {
-                setSelectedHotelFeatures(prev => prev.filter(f => f !== feature));
-              }
-            }}
+            onFeatureChange={handleHotelFeatureChange}
           />
           {showHotelFeatureInput && (
             <div className="mt-2 flex items-center gap-2">
@@ -88,13 +127,7 @@ export default function HotelFeaturesStep() {
             features={roomFeatures}
             onAddNewFeature={() => setShowRoomFeatureInput(true)}
             selectedFeatures={selectedRoomFeatures}
-            onFeatureChange={(feature, isChecked) => {
-              if (isChecked) {
-                setSelectedRoomFeatures(prev => [...prev, feature]);
-              } else {
-                setSelectedRoomFeatures(prev => prev.filter(f => f !== feature));
-              }
-            }}
+            onFeatureChange={handleRoomFeatureChange}
           />
           {showRoomFeatureInput && (
             <div className="mt-2 flex items-center gap-2">

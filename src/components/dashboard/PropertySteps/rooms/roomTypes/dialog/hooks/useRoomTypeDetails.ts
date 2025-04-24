@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { PREDEFINED_ROOM_TYPES } from "../../../constants";
+import { PREDEFINED_ROOM_TYPES } from "../../constants";
 
 interface UseRoomTypeDetailsReturn {
   selectedRoomType: string;

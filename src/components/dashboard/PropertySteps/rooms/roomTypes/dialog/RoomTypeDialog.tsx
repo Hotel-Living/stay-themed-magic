@@ -3,7 +3,6 @@ import React from "react";
 import { DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PREDEFINED_ROOM_TYPES } from "../constants";
 import RoomTypeSelector from "./RoomTypeSelector";
 import RoomImageSection from "./RoomImageSection";
 import RatesSection from "./sections/RatesSection";
@@ -30,7 +29,7 @@ export default function RoomTypeDialog({
 }: RoomTypeDialogProps) {
   const {
     formState,
-    setFormState,
+    setters,
     handleImageUpload,
     removeImage,
     handleRateChange,
@@ -55,7 +54,7 @@ export default function RoomTypeDialog({
         <div className="space-y-8">
           <RoomTypeSelector 
             selectedRoomType={formState.selectedRoomType}
-            onRoomTypeChange={(type) => setFormState(prev => ({ ...prev, selectedRoomType: type }))}
+            onRoomTypeChange={(type) => setters.setSelectedRoomType(type)}
             isEditing={formState.isEditing}
           />
 
@@ -65,7 +64,7 @@ export default function RoomTypeDialog({
                 <label className="block text-white">Description</label>
                 <textarea 
                   value={formState.description}
-                  onChange={(e) => setFormState(prev => ({ ...prev, description: e.target.value}))}
+                  onChange={(e) => setters.setDescription(e.target.value)}
                   className="w-full bg-[#850390] text-white border-white rounded p-2"
                   rows={3}
                 />
@@ -86,7 +85,7 @@ export default function RoomTypeDialog({
               
               <RoomCountSection 
                 roomCount={formState.roomCount}
-                onChange={(count) => setFormState(prev => ({ ...prev, roomCount: count }))}
+                onChange={(count) => setters.setRoomCount(count)}
               />
               
               <AvailabilitySection 

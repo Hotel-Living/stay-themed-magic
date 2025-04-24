@@ -79,7 +79,7 @@ export function useRoomTypeForm({
       availabilityDates,
       isEditing
     },
-    setFormState: {
+    setters: {
       setSelectedRoomType,
       setDescription,
       setRoomCount

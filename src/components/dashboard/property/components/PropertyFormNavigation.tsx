@@ -7,6 +7,7 @@ interface PropertyFormNavigationProps {
   onPrevious: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  showValidationWarning?: boolean;
 }
 
 export default function PropertyFormNavigation({
@@ -14,7 +15,8 @@ export default function PropertyFormNavigation({
   totalSteps,
   onPrevious,
   onNext,
-  onSubmit
+  onSubmit,
+  showValidationWarning
 }: PropertyFormNavigationProps) {
   return (
     <div className="flex items-center justify-between mb-3">

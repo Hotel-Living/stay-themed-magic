@@ -1,5 +1,5 @@
+
 import React from "react";
-import AddPropertyForm from "./property/AddPropertyForm";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
@@ -117,7 +117,6 @@ export default function AddPropertyForm({
         onPrevious={goToPreviousStep}
         onNext={goToNextStep}
         onSubmit={handleSubmit}
-        showValidationWarning={showValidationErrors && errorFields.length > 0}
       />
 
       {editingHotelId && (

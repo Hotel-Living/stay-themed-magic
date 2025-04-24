@@ -69,24 +69,25 @@ export default function ThemesAndActivitiesStep({
   };
 
   useEffect(() => {
-    const isValid = selectedThemes.length > 0;
+    // Update validation - both themes and activities need to have at least one selection
+    const isValid = selectedThemes.length > 0 && selectedActivities.length > 0;
     
     // Only show validation warning if user has interacted with the form
     // and there's an attempt to validate with no themes selected
-    if (selectedThemes.length === 0 && showValidationWarning) {
+    if ((selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning) {
       setShowValidationWarning(true);
-    } else if (selectedThemes.length > 0) {
+    } else if (selectedThemes.length > 0 && selectedActivities.length > 0) {
       setShowValidationWarning(false);
     }
     
     onValidationChange(isValid);
-  }, [selectedThemes, onValidationChange, showValidationWarning]);
+  }, [selectedThemes, selectedActivities, onValidationChange, showValidationWarning]);
 
   // When a user interacts with either the themes or activities sections,
   // we consider them to have started filling out the form
   useEffect(() => {
     const handleFormInteraction = () => {
-      if (selectedThemes.length === 0) {
+      if (selectedThemes.length === 0 || selectedActivities.length === 0) {
         setShowValidationWarning(true);
       }
     };
@@ -97,16 +98,16 @@ export default function ThemesAndActivitiesStep({
     return () => {
       window.removeEventListener('attemptStepNavigation', handleFormInteraction as any);
     };
-  }, [selectedThemes.length]);
+  }, [selectedThemes.length, selectedActivities.length]);
   
   return (
     <div className="space-y-8 max-w-[80%]">
-      {selectedThemes.length === 0 && showValidationWarning && (
+      {(selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning && (
         <div className="bg-purple-700 text-white p-4 rounded-lg mb-4">
           <h3 className="text-lg font-semibold mb-2">Please complete all required fields:</h3>
           <ul className="list-disc list-inside">
-            <li>Affinities</li>
-            <li>Activities</li>
+            {selectedThemes.length === 0 && <li>Affinities</li>}
+            {selectedActivities.length === 0 && <li>Activities</li>}
           </ul>
         </div>
       )}

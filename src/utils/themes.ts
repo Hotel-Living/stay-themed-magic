@@ -1,4 +1,3 @@
-
 // Theme types and data
 export interface Theme {
   id: string;
@@ -188,6 +187,30 @@ export const themeCategories = [
 
 // Create a flat list of all themes for easier access
 export const allThemes: Theme[] = [
+  // Cooking Experiences
+  { id: "italian-cooking", name: "Italian Cuisine", category: "FOODS & DRINKS" },
+  { id: "french-pastry", name: "French Pastry", category: "FOODS & DRINKS" },
+  { id: "sushi-prep", name: "Sushi Preparation", category: "FOODS & DRINKS" },
+  { id: "tapas-workshop", name: "Tapas Workshop", category: "FOODS & DRINKS" },
+  { id: "bbq-techniques", name: "BBQ Techniques", category: "FOODS & DRINKS" },
+  { id: "mediterranean-cooking", name: "Mediterranean Cooking", category: "FOODS & DRINKS" },
+  { id: "asian-fusion", name: "Asian Fusion", category: "FOODS & DRINKS" },
+  { id: "pastry-baking", name: "Pastry & Baking", category: "FOODS & DRINKS" },
+  { id: "vegetarian-cooking", name: "Vegetarian Cooking", category: "FOODS & DRINKS" },
+  { id: "wine-pairing", name: "Wine Pairing", category: "FOODS & DRINKS" },
+  
+  // Food Preferences
+  { id: "seafood", name: "Seafood", category: "FOODS & DRINKS" },
+  { id: "pastries-desserts", name: "Pastries & Desserts", category: "FOODS & DRINKS" },
+  { id: "grilled-meats", name: "Grilled Meats", category: "FOODS & DRINKS" },
+  { id: "vegan", name: "Vegan", category: "FOODS & DRINKS" },
+  { id: "mediterranean", name: "Mediterranean", category: "FOODS & DRINKS" },
+  { id: "street-food", name: "Street Food", category: "FOODS & DRINKS" },
+  { id: "breakfast", name: "Breakfast Specialties", category: "FOODS & DRINKS" },
+  { id: "organic", name: "Organic & Local", category: "FOODS & DRINKS" },
+  { id: "gluten-free", name: "Gluten Free", category: "FOODS & DRINKS" },
+  { id: "fusion", name: "Fusion Cuisine", category: "FOODS & DRINKS" },
+  
   // Food & Drinks
   { id: "spanish-cuisine", name: "Spanish Cuisine", category: "FOODS & DRINKS" },
   { id: "castilian-cuisine", name: "Castilian Cuisine", category: "FOODS & DRINKS" },

@@ -1,44 +1,32 @@
 
 import React from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
+import { FormRoomType } from "../../../StepTwo/types";
 
 interface RoomDetailsFormProps {
-  description: string;
-  onDescriptionChange: (value: string) => void;
-  roomCount: number;
-  onRoomCountChange: (value: number) => void;
+  selectedRoomType: string;
+  roomImages: File[];
+  onAdd: () => void;
 }
 
 export default function RoomDetailsForm({
-  description,
-  onDescriptionChange,
-  roomCount,
-  onRoomCountChange
+  selectedRoomType,
+  roomImages,
+  onAdd
 }: RoomDetailsFormProps) {
   return (
-    <div className="space-y-4">
-      <div>
-        <Label className="text-white">Description</Label>
-        <Input 
-          value={description}
-          onChange={(e) => onDescriptionChange(e.target.value)}
-          className="bg-[#850390] text-white border-white"
-        />
-      </div>
-
-      <div className="grid grid-cols-4 items-center gap-4">
-        <Label className="text-right text-base text-white">Available Rooms</Label>
-        <div className="col-span-3">
-          <Input 
-            type="number"
-            min="1"
-            value={roomCount}
-            onChange={(e) => onRoomCountChange(parseInt(e.target.value) || 1)}
-            className="bg-fuchsia-950/50 border border-white rounded-lg p-2 text-white w-32 text-base"
-          />
-        </div>
-      </div>
-    </div>
+    <DialogFooter className="mt-8">
+      <Button 
+        onClick={onAdd} 
+        disabled={!selectedRoomType || roomImages.length === 0}
+        className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
+      >
+        Add Room Type
+      </Button>
+      {roomImages.length === 0 && (
+        <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>
+      )}
+    </DialogFooter>
   );
 }

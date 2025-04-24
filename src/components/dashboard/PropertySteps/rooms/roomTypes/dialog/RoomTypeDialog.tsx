@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { PREDEFINED_ROOM_TYPES } from "../constants";
 import RoomTypeSelector from "./RoomTypeSelector";
@@ -16,6 +15,7 @@ interface RoomTypeDialogProps {
   onAdd: (roomType: any) => void;
   availableStayLengths?: number[];
   preferredWeekday?: string;
+  editingRoomType?: any | null;
 }
 
 export default function RoomTypeDialog({ 
@@ -24,6 +24,7 @@ export default function RoomTypeDialog({
   onAdd,
   availableStayLengths = [],
   preferredWeekday = "Monday",
+  editingRoomType = null
 }: RoomTypeDialogProps) {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [description, setDescription] = useState("");
@@ -33,6 +34,19 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (editingRoomType) {
+        setIsEditing(true);
+        loadRoomTypeData(editingRoomType);
+      } else {
+        setIsEditing(false);
+        resetForm();
+      }
+    }
+  }, [isOpen, editingRoomType]);
 
   useEffect(() => {
     if (selectedRoomType) {
@@ -43,11 +57,25 @@ export default function RoomTypeDialog({
     }
   }, [selectedRoomType]);
 
+  const loadRoomTypeData = (roomType: any) => {
+    const predefinedType = PREDEFINED_ROOM_TYPES.find(rt => rt.name === roomType.name);
+    setSelectedRoomType(predefinedType?.id || "");
+    setDescription(roomType.description || "");
+    setRoomCount(roomType.roomCount || 1);
+    setRates(roomType.rates || {});
+    if (roomType.images && roomType.images.length > 0) {
+      setRoomImagePreviews(roomType.images);
+    }
+    if (roomType.availabilityDates && roomType.availabilityDates.length > 0) {
+      setAvailabilityDates(roomType.availabilityDates);
+    }
+  };
+
   const handleAddRoomType = () => {
     if (selectedRoomType && roomImages.length > 0) {
       const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
       onAdd({
-        id: Date.now().toString(),
+        id: isEditing ? editingRoomType.id : Date.now().toString(),
         name: roomType?.name || "",
         maxOccupancy: 1,
         size: 200,
@@ -70,13 +98,13 @@ export default function RoomTypeDialog({
     setRoomImagePreviews([]);
     setRoomCount(1);
     setAvailabilityDates([]);
+    setIsEditing(false);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
       setRoomImages(prev => [...prev, ...newFiles]);
-      
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
       setRoomImagePreviews(prev => [...prev, ...newPreviews]);
     }
@@ -89,26 +117,28 @@ export default function RoomTypeDialog({
     setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
+  const dialogTitle = isEditing ? "Edit Room Type" : "Add New Room Type";
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="bg-[#430453] text-white w-[90%] max-w-4xl h-full overflow-y-auto" side="bottom">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-white mb-6">Add New Room Type</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold text-white mb-6">{dialogTitle}</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-8">
           <RoomTypeSelector 
             selectedRoomType={selectedRoomType}
             onRoomTypeChange={setSelectedRoomType}
+            isEditing={isEditing}
           />
 
           {selectedRoomType && (
             <>
               <RoomDetailsForm 
-                description={description}
-                onDescriptionChange={setDescription}
-                roomCount={roomCount}
-                onRoomCountChange={setRoomCount}
+                selectedRoomType={selectedRoomType}
+                roomImages={roomImages}
+                onAdd={handleAddRoomType}
               />
 
               <RoomImageSection
@@ -140,19 +170,6 @@ export default function RoomTypeDialog({
             </>
           )}
         </div>
-        
-        <DialogFooter className="mt-8">
-          <Button 
-            onClick={handleAddRoomType} 
-            disabled={!selectedRoomType || roomImages.length === 0}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
-          >
-            Add Room Type
-          </Button>
-          {roomImages.length === 0 && (
-            <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>
-          )}
-        </DialogFooter>
       </SheetContent>
     </Sheet>
   );

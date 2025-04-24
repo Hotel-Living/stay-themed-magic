@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepOne from "./StepOne";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
@@ -22,7 +21,6 @@ export default function StepContent({
   formData = {},
   updateFormData = () => {}
 }: StepContentProps) {
-  // Create default price table renderer if one wasn't provided
   const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
     <PriceTable 
       roomType={roomType} 
@@ -34,7 +32,7 @@ export default function StepContent({
   const tableFn = renderPriceTable || defaultRenderPriceTable;
 
   return (
-    <div className="mb-4">
+    <div className="space-y-4">
       {currentStep === 1 && 
         <StepOne 
           onValidationChange={onValidationChange} 
@@ -43,16 +41,14 @@ export default function StepContent({
         />
       }
       {currentStep === 2 && (
-        <>
+        <div className="space-y-4">
           <AccommodationTermsStep 
             onValidationChange={onValidationChange}
             formData={formData}
             updateFormData={updateFormData}
           />
-          <div className="mt-6">
-            <HotelFeaturesStep />
-          </div>
-        </>
+          <HotelFeaturesStep />
+        </div>
       )}
       {currentStep === 3 && 
         <ThemesAndActivitiesStep 
@@ -62,16 +58,15 @@ export default function StepContent({
         />
       }
       {currentStep === 4 && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           <HotelFaqAndTermsStep 
             onValidationChange={onValidationChange}
             formData={formData}
             updateFormData={updateFormData}
           />
           
-          {/* Form confirmation checkbox */}
-          <div className="mt-4 space-y-4">
-            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
+          <div className="mt-3 space-y-3">
+            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-2.5 rounded-lg">
               <input 
                 type="checkbox" 
                 id="finalize-terms" 

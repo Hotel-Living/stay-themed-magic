@@ -108,54 +108,55 @@ const AccommodationTermsStep = ({
   const isValid = selectedStayLengths.length > 0 && selectedMealPlans.length > 0 && roomTypes.length > 0;
 
   return (
-    <div className="space-y-6 max-w-[80%]">
+    <div className="space-y-4 max-w-[80%]">
       <h2 className="text-xl font-bold mb-2 text-white">ACCOMMODATION TERMS</h2>
       
-      {/* Show validation message when required fields are missing */}
       <ValidationMessages 
         error={error}
         showErrors={showValidationErrors}
         isValid={isValid}
       />
       
-      <PreferredWeekdaySection 
-        preferredWeekday={selectedWeekday}
-        onWeekdayChange={handleWeekdayChange}
-      />
-      
-      <StayLengthSection 
-        isOpen={true}
-        onOpenChange={() => {}}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <MealPlanSection 
-        isOpen={true}
-        onOpenChange={() => {}}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <RoomsRatesSection
-        isOpen={true}
-        onOpenChange={() => {}}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={{
-          ...formData,
-          preferredWeekday: selectedWeekday,
-          stayLengths: selectedStayLengths
-        }}
-        updateFormData={updateFormData}
-      />
+      <div className="space-y-4">
+        <PreferredWeekdaySection 
+          preferredWeekday={selectedWeekday}
+          onWeekdayChange={handleWeekdayChange}
+        />
+        
+        <StayLengthSection 
+          isOpen={true}
+          onOpenChange={() => {}}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+        
+        <MealPlanSection 
+          isOpen={true}
+          onOpenChange={() => {}}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+        
+        <RoomsRatesSection
+          isOpen={true}
+          onOpenChange={() => {}}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={{
+            ...formData,
+            preferredWeekday: selectedWeekday,
+            stayLengths: selectedStayLengths
+          }}
+          updateFormData={updateFormData}
+        />
+      </div>
     </div>
   );
 };

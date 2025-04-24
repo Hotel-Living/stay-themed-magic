@@ -1,3 +1,4 @@
+
 import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {

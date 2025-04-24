@@ -64,12 +64,15 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
               isLoading={isLoading}
             />
           </div>
-          <div className="bg-[#5C088F] rounded-lg p-6 text-white">
-            <HotelDescription 
-              description={hotel?.description || "No description available."} 
-              isLoading={isLoading}
-            />
-          </div>
+          
+          <HotelDescription 
+            description={hotel?.description || ""} 
+            idealGuests={hotel?.idealGuests || ""}
+            atmosphere={hotel?.atmosphere || ""}
+            perfectLocation={hotel?.perfectLocation || ""}
+            isLoading={isLoading}
+          />
+          
           <div className="bg-[#5C088F] rounded-lg p-6 text-white" data-section="hotel-amenities">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               Hotel Amenities

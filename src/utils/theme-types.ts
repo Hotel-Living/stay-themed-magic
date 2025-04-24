@@ -3,6 +3,7 @@ export interface Theme {
   id: string;
   name: string;
   category?: string;
+  isAddOption?: boolean;
 }
 
 export interface ThemeOption {

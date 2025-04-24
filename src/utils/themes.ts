@@ -54,4 +54,5 @@ export const allThemes: Theme[] = [
   ...(languagesCategory.subcategories?.flatMap(sub => sub.themes || []) || [])
 ].filter((theme): theme is Theme => theme !== undefined);
 
-export { Theme, ThemeCategory } from './theme-types';
+// Fix the re-export syntax for TypeScript with isolatedModules enabled
+export type { Theme, ThemeCategory } from './theme-types';

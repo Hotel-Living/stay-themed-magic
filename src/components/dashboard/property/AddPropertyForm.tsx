@@ -1,5 +1,5 @@
-
 import React from "react";
+import AddPropertyForm from "./property/AddPropertyForm";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
 import ImportantNotice from "../PropertySteps/ImportantNotice";
@@ -49,7 +49,7 @@ export default function AddPropertyForm({
     setErrorFields,
     setShowValidationErrors,
     setCurrentStep,
-    formData // Pass formData to validation
+    formData
   });
 
   useHotelEditing({
@@ -91,16 +91,11 @@ export default function AddPropertyForm({
         stepTitle={STEP_TITLES[currentStep - 1]} 
       />
 
-      <PropertyFormNavigation
-        currentStep={currentStep}
-        totalSteps={TOTAL_STEPS}
-        onPrevious={goToPreviousStep}
-        onNext={goToNextStep}
-        onSubmit={handleSubmit}
-      />
-
       {showValidationErrors && errorFields.length > 0 && (
-        <ValidationErrorBanner errorFields={errorFields} />
+        <ValidationErrorBanner 
+          errorFields={errorFields} 
+          isWarning={true} // New prop to indicate this is a warning not a blocker
+        />
       )}
 
       {isSubmitted && submitSuccess ? (
@@ -122,6 +117,7 @@ export default function AddPropertyForm({
         onPrevious={goToPreviousStep}
         onNext={goToNextStep}
         onSubmit={handleSubmit}
+        showValidationWarning={showValidationErrors && errorFields.length > 0}
       />
 
       {editingHotelId && (

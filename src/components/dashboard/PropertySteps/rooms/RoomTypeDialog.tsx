@@ -47,7 +47,7 @@ export default function RoomTypeDialog({
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent 
-        className="bg-[#430453] text-white w-[80%] max-w-3xl h-[70vh] overflow-y-auto" 
+        className="bg-[#430453] text-white fixed inset-y-[15vh] max-h-[70vh] w-[90%] max-w-3xl mx-auto overflow-y-auto rounded-lg" 
         side="bottom"
       >
         <DialogHeader>

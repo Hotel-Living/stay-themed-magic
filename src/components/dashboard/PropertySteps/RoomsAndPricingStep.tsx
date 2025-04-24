@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from "react";
-import LengthOfStaySection from "./rooms/LengthOfStaySection";
+import React, { useState } from "react";
+import StayLengthSection from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 
@@ -10,6 +10,8 @@ export default function RoomsAndPricingStep() {
     mealPlan: false
   });
 
+  const [isStayLengthOpen, setIsStayLengthOpen] = useState(false);
+
   const handleValidationChange = (section: keyof typeof validations, isValid: boolean) => {
     setValidations(prev => ({
       ...prev,
@@ -18,14 +20,17 @@ export default function RoomsAndPricingStep() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Main section with LENGTH OF STAY and MEALS */}
-      <div className="mb-8">
-        <h2 className="font-medium text-lg mb-4">LENGTH OF STAY – MEALS</h2>
-        <div className="space-y-6 pl-2">
-          <LengthOfStaySection 
-            onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)} 
-            title="LENGTH OF STAY"
+      <div className="mb-6">
+        <h2 className="font-medium text-lg mb-3">LENGTH OF STAY – MEALS</h2>
+        <div className="space-y-4 pl-2">
+          <StayLengthSection 
+            isOpen={isStayLengthOpen}
+            onOpenChange={setIsStayLengthOpen}
+            onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
+            formData={{}}
+            updateFormData={() => {}}
           />
           
           <MealPlanSection 
@@ -44,4 +49,3 @@ export default function RoomsAndPricingStep() {
     </div>
   );
 }
-

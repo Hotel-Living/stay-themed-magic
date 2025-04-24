@@ -12,6 +12,7 @@ interface AffinitiesSectionProps {
   openSubmenu: string | null;
   setOpenSubmenu: (submenu: string | null) => void;
   onThemeSelect: (themeId: string, isSelected: boolean) => void;
+  selectedThemes: string[]; // Add this prop to track selected themes
 }
 
 export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
@@ -20,6 +21,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   openSubmenu,
   setOpenSubmenu,
   onThemeSelect,
+  selectedThemes,
 }) => {
   return (
     <Collapsible defaultOpen={false} className="w-full">
@@ -56,7 +58,8 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                 toggleCategory={setOpenCategory} 
                 openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
                 toggleSubmenu={setOpenSubmenu}
-                onThemeSelect={onThemeSelect} 
+                onThemeSelect={onThemeSelect}
+                selectedThemes={selectedThemes} // Pass selected themes down to category
               />
             ))}
           </div>

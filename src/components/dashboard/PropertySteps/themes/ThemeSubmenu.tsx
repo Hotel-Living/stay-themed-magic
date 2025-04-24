@@ -19,9 +19,16 @@ interface ThemeSubmenuProps {
   isOpen: boolean;
   toggleSubmenu: (submenuName: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  selectedThemes: string[]; // Add this prop
 }
 
-const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSubmenuProps) => {
+const ThemeSubmenu = ({ 
+  submenu, 
+  isOpen, 
+  toggleSubmenu, 
+  onThemeSelect,
+  selectedThemes = [] // Default to empty array if not provided
+}: ThemeSubmenuProps) => {
   const [isAddingOption, setIsAddingOption] = useState(false);
   const [newOptionName, setNewOptionName] = useState("");
   const [customOptions, setCustomOptions] = useState<Array<{id: string, name: string}>>([]);
@@ -87,7 +94,11 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
               key={option.id}
               className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10"
             >
-              <ThemeOption option={option} onThemeSelect={onThemeSelect} />
+              <ThemeOption 
+                option={option} 
+                onThemeSelect={onThemeSelect} 
+                isSelected={selectedThemes.includes(option.id)} // Check if option is selected
+              />
             </div>
           ))}
           
@@ -103,7 +114,7 @@ const ThemeSubmenu = ({ submenu, isOpen, toggleSubmenu, onThemeSelect }: ThemeSu
                     <input
                       type="checkbox"
                       id={option.id}
-                      defaultChecked={true}
+                      checked={selectedThemes.includes(option.id)} // Check if option is selected
                       onChange={(e) => onThemeSelect && onThemeSelect(option.id, e.target.checked)}
                       className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
                     />

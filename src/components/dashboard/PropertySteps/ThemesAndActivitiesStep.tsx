@@ -23,6 +23,17 @@ export default function ThemesAndActivitiesStep({
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [showValidationWarning, setShowValidationWarning] = useState<boolean>(false);
   
+  // Sync local state with formData when it changes (e.g., when navigating back to this step)
+  useEffect(() => {
+    if (formData.themes && Array.isArray(formData.themes)) {
+      setSelectedThemes(formData.themes);
+    }
+    
+    if (formData.activities && Array.isArray(formData.activities)) {
+      setSelectedActivities(formData.activities);
+    }
+  }, [formData.themes, formData.activities]);
+  
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     setSelectedThemes(prev => {
       let newThemes;
@@ -38,9 +49,8 @@ export default function ThemesAndActivitiesStep({
         newThemes = prev.filter(id => id !== themeId);
       }
       
-      if (updateFormData) {
-        updateFormData('themes', newThemes);
-      }
+      // Update parent form data immediately when selection changes
+      updateFormData('themes', newThemes);
       
       return newThemes;
     });
@@ -52,9 +62,8 @@ export default function ThemesAndActivitiesStep({
         ? [...prev, activity]
         : prev.filter(a => a !== activity);
       
-      if (updateFormData) {
-        updateFormData('activities', newActivities);
-      }
+      // Update parent form data immediately when selection changes
+      updateFormData('activities', newActivities);
       
       return newActivities;
     });
@@ -84,10 +93,10 @@ export default function ThemesAndActivitiesStep({
     };
 
     // Listen for navigation attempt events from the parent form
-    window.addEventListener('attemptStepNavigation', handleFormInteraction);
+    window.addEventListener('attemptStepNavigation', handleFormInteraction as any);
     
     return () => {
-      window.removeEventListener('attemptStepNavigation', handleFormInteraction);
+      window.removeEventListener('attemptStepNavigation', handleFormInteraction as any);
     };
   }, [selectedThemes.length]);
   
@@ -109,6 +118,7 @@ export default function ThemesAndActivitiesStep({
         openSubmenu={openSubmenu}
         setOpenSubmenu={setOpenSubmenu}
         onThemeSelect={handleThemeSelection}
+        selectedThemes={selectedThemes} // Pass selected themes to properly check/uncheck options
       />
 
       <ActivitiesSection

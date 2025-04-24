@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
 import AddRoomTypeButton from "./AddRoomTypeButton";
-import RoomTypeDialog from "../RoomTypeDialog";
+import RoomTypeDialog from "./dialog/RoomTypeDialog";
 import { RoomType } from "./useRoomTypes";
 
 interface RoomTypeContentProps {

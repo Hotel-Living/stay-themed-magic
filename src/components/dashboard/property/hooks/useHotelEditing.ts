@@ -43,8 +43,11 @@ export const useHotelEditing = ({
       setFormData({
         hotelName: data.name || "",
         propertyType: data.property_type || "",
-        style: data.style || "", // Ensure style field is included here
+        style: data.style || "", 
         description: data.description || "",
+        idealGuests: data.ideal_guests || "",
+        atmosphere: data.atmosphere || "",
+        perfectLocation: data.perfect_location || "",
         country: data.country || "",
         address: data.address || "",
         city: data.city || "",

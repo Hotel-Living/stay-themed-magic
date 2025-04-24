@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
@@ -7,6 +8,9 @@ interface FormData {
   propertyType: string;
   style: string;
   description: string;
+  idealGuests?: string;
+  atmosphere?: string;
+  perfectLocation?: string;
   country: string;
   address: string;
   city: string;
@@ -26,6 +30,9 @@ const initialFormData: FormData = {
   propertyType: "",
   style: "",
   description: "",
+  idealGuests: "",
+  atmosphere: "",
+  perfectLocation: "",
   country: "",
   address: "",
   city: "",
@@ -50,6 +57,9 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     propertyType: false,
     style: false,
     description: false,
+    idealGuests: false,
+    atmosphere: false,
+    perfectLocation: false,
     country: false,
     address: false,
     city: false,

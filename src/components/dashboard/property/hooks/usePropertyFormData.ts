@@ -27,6 +27,7 @@ export interface PropertyFormData {
   terms: string;
   termsAccepted: boolean;
   hotelImages?: UploadedImage[];
+  mainImageUrl?: string;
 }
 
 export const usePropertyFormData = () => {

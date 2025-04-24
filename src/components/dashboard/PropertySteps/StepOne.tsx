@@ -12,11 +12,22 @@ interface FormData {
   hotelName: string;
   category: string;
   propertyType: string;
-  style: string;  // Added style property
+  style: string;
   description: string;
   idealGuests?: string;
   atmosphere?: string;
   perfectLocation?: string;
+  country: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  latitude: string;
+  longitude: string;
+  hotelImages: UploadedImage[];
+  mainImageUrl: string;
 }
 
 interface StepOneProps {

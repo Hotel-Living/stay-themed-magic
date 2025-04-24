@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useHotelSubmission } from "./submission/useHotelSubmission";
@@ -60,7 +61,7 @@ export const usePropertySubmission = ({
     // Validate all steps before final submission
     let incompleteFieldsByStep = [];
     for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
-      const incompleteFields = getIncompleteFields(i, formData);
+      const incompleteFields = getIncompleteFields(i);
       if (incompleteFields.length > 0) {
         incompleteFieldsByStep.push({ step: i, fields: incompleteFields });
       }

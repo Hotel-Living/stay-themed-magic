@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import StayLengthSection from "./StayLengthSection";
-import MealPlanSection from "./MealPlanSection";
-import RoomsRatesSection from "./RoomsRatesSection";
-import PreferredWeekdaySection from "./PreferredWeekdaySection";
-import ValidationMessages from "./ValidationMessages";
+import StayLengthSection from "./AccommodationTerms/StayLengthSection";
+import MealPlanSection from "./AccommodationTerms/MealPlanSection";
+import RoomsRatesSection from "./AccommodationTerms/RoomsRatesSection";
+import PreferredWeekdaySection from "./AccommodationTerms/PreferredWeekdaySection";
+import ValidationMessages from "./AccommodationTerms/ValidationMessages";
 import { weekdays } from "@/utils/constants";
 import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
 

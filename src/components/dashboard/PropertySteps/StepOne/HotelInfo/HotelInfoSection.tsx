@@ -47,42 +47,52 @@ export default function HotelInfoSection({
   handleChange,
   handleBlur
 }: HotelInfoSectionProps) {
-  return (
-    <div className="glass-card rounded-xl p-4 space-y-4 bg-[#690695]/40">
-      <h3 className="text-lg font-semibold text-white">Hotel Information</h3>
-      
-      <div className="space-y-4">
-        <HotelNameInput
-          value={formData.hotelName}
-          onChange={(value) => handleChange("hotelName", value)}
-          onBlur={() => handleBlur("hotelName")}
-          hasError={touchedFields.hotelName && !!errors.hotelName}
-          errorMessage={errors.hotelName}
-        />
-        
-        <CategorySelector
-          value={formData.category}
-          onChange={(value) => handleChange("category", value)}
-          onBlur={() => handleBlur("category")}
-          hasError={touchedFields.category && !!errors.category}
-          errorMessage={errors.category}
-        />
-        
-        <PropertyTypeSelector
-          value={formData.propertyType}
-          onChange={(value) => handleChange("propertyType", value)}
-          onBlur={() => handleBlur("propertyType")}
-          hasError={touchedFields.propertyType && !!errors.propertyType}
-          errorMessage={errors.propertyType}
-        />
+  const inputClassName = "w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50";
+  const labelClassName = "block text-sm font-medium text-white uppercase mb-2";
+  const sectionClassName = "mb-6"; // Consistent vertical spacing between sections
 
-        <div>
-          <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+  return (
+    <div className="glass-card rounded-xl p-6 space-y-6 bg-[#690695]/40">
+      <h3 className="text-lg font-semibold text-white mb-6">Hotel Information</h3>
+      
+      <div className="space-y-6">
+        <div className={sectionClassName}>
+          <HotelNameInput
+            value={formData.hotelName}
+            onChange={(value) => handleChange("hotelName", value)}
+            onBlur={() => handleBlur("hotelName")}
+            hasError={touchedFields.hotelName && !!errors.hotelName}
+            errorMessage={errors.hotelName}
+          />
+        </div>
+        
+        <div className={sectionClassName}>
+          <CategorySelector
+            value={formData.category}
+            onChange={(value) => handleChange("category", value)}
+            onBlur={() => handleBlur("category")}
+            hasError={touchedFields.category && !!errors.category}
+            errorMessage={errors.category}
+          />
+        </div>
+        
+        <div className={sectionClassName}>
+          <PropertyTypeSelector
+            value={formData.propertyType}
+            onChange={(value) => handleChange("propertyType", value)}
+            onBlur={() => handleBlur("propertyType")}
+            hasError={touchedFields.propertyType && !!errors.propertyType}
+            errorMessage={errors.propertyType}
+          />
+        </div>
+
+        <div className={sectionClassName}>
+          <label className={labelClassName}>
             STYLE OF PROPERTY
           </label>
           <select 
             required 
-            className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da]"
+            className={inputClassName}
             value={formData.style || ''}
             onChange={(e) => handleChange('style', e.target.value)}
             onBlur={() => handleBlur('style')}
@@ -98,47 +108,49 @@ export default function HotelInfoSection({
           </select>
         </div>
         
-        <DescriptionInput
-          value={formData.description}
-          onChange={(value) => handleChange("description", value)}
-          onBlur={() => handleBlur("description")}
-          hasError={touchedFields.description && !!errors.description}
-          errorMessage={errors.description}
-        />
+        <div className={sectionClassName}>
+          <DescriptionInput
+            value={formData.description}
+            onChange={(value) => handleChange("description", value)}
+            onBlur={() => handleBlur("description")}
+            hasError={touchedFields.description && !!errors.description}
+            errorMessage={errors.description}
+          />
+        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+        <div className={sectionClassName}>
+          <label className={labelClassName}>
             This hotel is ideal for guests who enjoy...
           </label>
           <textarea 
             placeholder="Describe your ideal guests and their interests" 
-            className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+            className={inputClassName + " min-h-[80px]"}
             value={formData.idealGuests || ''}
             onChange={(e) => handleChange('idealGuests', e.target.value)}
             onBlur={() => handleBlur('idealGuests')}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+        <div className={sectionClassName}>
+          <label className={labelClassName}>
             The atmosphere at this hotel is...
           </label>
           <textarea 
             placeholder="Describe the atmosphere and ambiance of your hotel" 
-            className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+            className={inputClassName + " min-h-[80px]"}
             value={formData.atmosphere || ''}
             onChange={(e) => handleChange('atmosphere', e.target.value)}
             onBlur={() => handleBlur('atmosphere')}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+        <div className={sectionClassName}>
+          <label className={labelClassName}>
             Our location is perfect for...
           </label>
           <textarea 
             placeholder="Describe what makes your location special" 
-            className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+            className={inputClassName + " min-h-[80px]"}
             value={formData.perfectLocation || ''}
             onChange={(e) => handleChange('perfectLocation', e.target.value)}
             onBlur={() => handleBlur('perfectLocation')}

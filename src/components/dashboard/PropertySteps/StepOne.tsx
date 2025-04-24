@@ -7,6 +7,17 @@ import useFormValidation from "./StepOne/useFormValidation";
 import PicturesStep from "./PicturesStep";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
+interface FormData {
+  hotelName: string;
+  category: string;
+  propertyType: string;
+  style: string;
+  description: string;
+  idealGuests?: string;
+  atmosphere?: string;
+  perfectLocation?: string;
+}
+
 interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
@@ -38,7 +49,11 @@ export default function StepOne({
         hotelName: formData.hotelName || '',
         category: formData.category || '',
         propertyType: formData.propertyType || '',
+        style: formData.style || '',
         description: formData.description || '',
+        idealGuests: formData.idealGuests || '',
+        atmosphere: formData.atmosphere || '',
+        perfectLocation: formData.perfectLocation || '',
         country: formData.country || '',
         address: formData.address || '',
         city: formData.city || '',

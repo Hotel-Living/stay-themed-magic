@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -44,6 +43,7 @@ export const useHotelEditing = ({
         hotelName: data.name || "",
         propertyType: data.property_type || "",
         description: data.description || "",
+        style: data.style || "",
         country: data.country || "",
         address: data.address || "",
         city: data.city || "",

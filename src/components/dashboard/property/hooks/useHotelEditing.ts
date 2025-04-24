@@ -40,28 +40,31 @@ export const useHotelEditing = ({
         return;
       }
 
+      // Cast data to any to safely access properties that might not be in the type
+      const hotelData = data as any;
+
       setFormData({
-        hotelName: data.name || "",
-        propertyType: data.property_type || "",
-        style: data.style || "", 
-        description: data.description || "",
-        // Use optional chaining to safely access these fields or default to empty string
-        idealGuests: data.ideal_guests || "",  // Field might not exist in database
-        atmosphere: data.atmosphere || "",      // Field might not exist in database
-        perfectLocation: data.perfect_location || "", // Field might not exist in database
-        country: data.country || "",
-        address: data.address || "",
-        city: data.city || "",
+        hotelName: hotelData.name || "",
+        propertyType: hotelData.property_type || "",
+        style: hotelData.style || "", 
+        description: hotelData.description || "",
+        // Safely access these fields which might not exist in database schema
+        idealGuests: hotelData.ideal_guests || "",
+        atmosphere: hotelData.atmosphere || "",
+        perfectLocation: hotelData.perfect_location || "",
+        country: hotelData.country || "",
+        address: hotelData.address || "",
+        city: hotelData.city || "",
         postalCode: "",
         contactName: "",
         contactEmail: "",
         contactPhone: "",
-        category: data.category?.toString() || "",
-        stayLengths: Array.isArray(data.available_months) && data.available_months.length > 0 ? [30] : [],
+        category: hotelData.category?.toString() || "",
+        stayLengths: Array.isArray(hotelData.available_months) && hotelData.available_months.length > 0 ? [30] : [],
         mealPlans: [],
         roomTypes: [],
-        themes: Array.isArray(data.hotel_themes) ? data.hotel_themes.map((t: any) => t.theme_id) : [],
-        activities: Array.isArray(data.hotel_activities) ? data.hotel_activities.map((a: any) => a.activity_id) : [],
+        themes: Array.isArray(hotelData.hotel_themes) ? hotelData.hotel_themes.map((t: any) => t.theme_id) : [],
+        activities: Array.isArray(hotelData.hotel_activities) ? hotelData.hotel_activities.map((a: any) => a.activity_id) : [],
         faqs: [],
         terms: "",
         termsAccepted: false

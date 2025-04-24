@@ -1,4 +1,3 @@
-
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useHotelSubmission } from "./submission/useHotelSubmission";
@@ -58,19 +57,23 @@ export const usePropertySubmission = ({
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
 
-    // Validate all steps
-    const isAllValid = Object.values(stepValidation).every(valid => valid === true);
-    
-    if (!isAllValid) {
+    // Validate all steps before final submission
+    let incompleteFieldsByStep = [];
+    for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
+      const incompleteFields = getIncompleteFields(i, formData);
+      if (incompleteFields.length > 0) {
+        incompleteFieldsByStep.push({ step: i, fields: incompleteFields });
+      }
+    }
+
+    if (incompleteFieldsByStep.length > 0) {
       handleValidationError();
       
-      // Find first incomplete step and navigate to it
-      for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
-        if (stepValidation[i] === false) {
-          setCurrentStep(i);
-          break;
-        }
-      }
+      // Navigate to the first step with incomplete fields
+      const firstIncompleteStep = incompleteFieldsByStep[0].step;
+      setCurrentStep(firstIncompleteStep);
+      setErrorFields(incompleteFieldsByStep[0].fields);
+      setShowValidationErrors(true);
       
       return;
     }

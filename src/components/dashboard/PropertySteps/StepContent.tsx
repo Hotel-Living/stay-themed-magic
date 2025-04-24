@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepOne from "./StepOne";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
@@ -48,11 +47,7 @@ export default function StepContent({
             formData={formData}
             updateFormData={updateFormData}
           />
-          <HotelFeaturesStep 
-            onValidationChange={onValidationChange}
-            formData={formData}
-            updateFormData={updateFormData}
-          />
+          <HotelFeaturesStep />
         </div>
       )}
       {currentStep === 3 && 

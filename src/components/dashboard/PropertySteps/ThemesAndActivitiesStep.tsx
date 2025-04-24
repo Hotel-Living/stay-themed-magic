@@ -1,194 +1,101 @@
+import React from "react";
 
-import React, { useState, useEffect } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-
-interface ThemesAndActivitiesStepProps {
-  onValidationChange?: (isValid: boolean) => void;
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
-}
-
-export default function ThemesAndActivitiesStep({
-  onValidationChange = () => {},
-  formData = {},
-  updateFormData = () => {}
-}: ThemesAndActivitiesStepProps) {
-  // Initialize from form data if available
-  const [selectedThemes, setSelectedThemes] = useState<string[]>(
-    formData.themes || []
-  );
-  const [selectedActivities, setSelectedActivities] = useState<string[]>(
-    formData.activities || []
-  );
-  const [customTheme, setCustomTheme] = useState("");
-  const [customActivity, setCustomActivity] = useState("");
-  const [showCustomThemeInput, setShowCustomThemeInput] = useState(false);
-  const [showCustomActivityInput, setShowCustomActivityInput] = useState(false);
-
-  // Predefined themes and activities
-  const themes = [
-    "Adventure", "Luxury", "Beach", "City", "Culture", "Eco-friendly",
-    "Family", "Historic", "Nature", "Romantic", "Wellness", "Sports"
-  ];
-  
-  const activities = [
-    "Swimming", "Hiking", "Spa", "Yoga", "Fishing", "Golf",
-    "Tennis", "Diving", "Skiing", "Tours", "Cycling", "Surfing"
-  ];
-
-  // When selections change, update form data and validation
-  useEffect(() => {
-    if (updateFormData) {
-      updateFormData('themes', selectedThemes);
-      updateFormData('activities', selectedActivities);
-    }
-    
-    // Consider the form valid if at least one theme is selected
-    // You can modify this validation logic as needed
-    const isValid = selectedThemes.length > 0;
-    onValidationChange(isValid);
-  }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
-
-  const handleThemeChange = (theme: string, checked: boolean) => {
-    if (checked) {
-      setSelectedThemes(prev => [...prev, theme]);
-    } else {
-      setSelectedThemes(prev => prev.filter(t => t !== theme));
-    }
-  };
-
-  const handleActivityChange = (activity: string, checked: boolean) => {
-    if (checked) {
-      setSelectedActivities(prev => [...prev, activity]);
-    } else {
-      setSelectedActivities(prev => prev.filter(a => a !== activity));
-    }
-  };
-
-  const handleAddCustomTheme = () => {
-    if (customTheme.trim()) {
-      setSelectedThemes(prev => [...prev, customTheme.trim()]);
-      setCustomTheme("");
-      setShowCustomThemeInput(false);
-    }
-  };
-
-  const handleAddCustomActivity = () => {
-    if (customActivity.trim()) {
-      setSelectedActivities(prev => [...prev, customActivity.trim()]);
-      setCustomActivity("");
-      setShowCustomActivityInput(false);
-    }
+export default function ThemesAndActivitiesStep() {
+  const activityCategories = {
+    'Sports': [
+      'Tennis', 'Golf', 'Swimming', 'Hiking', 'Cycling', 'Yoga', 'Gym'
+    ],
+    'Arts & Culture': [
+      'Painting Classes', 'Cooking Classes', 'Photography Tours', 
+      'Local Crafts', 'Dance Classes', 'Music Lessons'
+    ],
+    'Wellness': [
+      'Spa Services', 'Meditation', 'Massage', 'Hot Springs'
+    ],
+    'Entertainment': [
+      'Board Games', 'Movie Nights', 'Live Music', 'Wine Tasting'
+    ],
+    'Nature & Adventure': [
+      'Bird Watching', 'Garden Tours', 'Nature Walks', 'Stargazing'
+    ]
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-xl font-bold mb-4">THEMES</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {themes.map(theme => (
-            <div key={theme} className="flex items-center space-x-2">
-              <Checkbox 
-                id={`theme-${theme}`} 
-                checked={selectedThemes.includes(theme)}
-                onCheckedChange={(checked) => handleThemeChange(theme, checked === true)}
-                className="border-fuchsia-500/50"
-              />
-              <Label htmlFor={`theme-${theme}`}>{theme}</Label>
-            </div>
-          ))}
-        </div>
+    <div className="space-y-4">
+      <div className="mb-2">
+        <h3 className="text-sm font-medium mb-2 uppercase">SELECT AVAILABLE ACTIVITIES</h3>
         
-        {showCustomThemeInput ? (
-          <div className="mt-4 flex items-center gap-2">
-            <Input
-              value={customTheme}
-              onChange={(e) => setCustomTheme(e.target.value)}
-              placeholder="Add custom theme"
-              className="bg-fuchsia-950/30 border-fuchsia-500/30"
-            />
-            <Button 
-              size="sm"
-              onClick={handleAddCustomTheme}
-              className="bg-fuchsia-600 hover:bg-fuchsia-700"
-            >
-              Add
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={() => setShowCustomThemeInput(false)}
-              className="border-fuchsia-500/50 text-fuchsia-300"
-            >
-              Cancel
-            </Button>
+        {Object.entries(activityCategories).map(([category, activities]) => (
+          <div key={category} className="mb-3">
+            <h4 className="text-sm font-medium mb-1.5 text-fuchsia-200">{category}</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 ml-2">
+              {activities.map((activity) => (
+                <div key={activity} className="flex items-center space-x-2">
+                  <input 
+                    type="checkbox"
+                    id={`activity-${activity}`}
+                    className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4"
+                  />
+                  <label 
+                    htmlFor={`activity-${activity}`}
+                    className="text-sm text-white"
+                  >
+                    {activity}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        ) : (
-          <Button 
-            size="sm" 
-            className="mt-4 flex items-center bg-fuchsia-700/50 hover:bg-fuchsia-700/70 text-white"
-            onClick={() => setShowCustomThemeInput(true)}
-          >
-            <Plus className="h-4 w-4 mr-1" />
-            Add Custom Theme
-          </Button>
-        )}
+        ))}
       </div>
 
-      <div>
-        <h3 className="text-xl font-bold mb-4">ACTIVITIES</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {activities.map(activity => (
-            <div key={activity} className="flex items-center space-x-2">
-              <Checkbox 
-                id={`activity-${activity}`} 
-                checked={selectedActivities.includes(activity)}
-                onCheckedChange={(checked) => handleActivityChange(activity, checked === true)}
-                className="border-fuchsia-500/50"
-              />
-              <Label htmlFor={`activity-${activity}`}>{activity}</Label>
-            </div>
-          ))}
-        </div>
-        
-        {showCustomActivityInput ? (
-          <div className="mt-4 flex items-center gap-2">
-            <Input
-              value={customActivity}
-              onChange={(e) => setCustomActivity(e.target.value)}
-              placeholder="Add custom activity"
-              className="bg-fuchsia-950/30 border-fuchsia-500/30"
-            />
-            <Button 
-              size="sm"
-              onClick={handleAddCustomActivity}
-              className="bg-fuchsia-600 hover:bg-fuchsia-700"
-            >
-              Add
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={() => setShowCustomActivityInput(false)}
-              className="border-fuchsia-500/50 text-fuchsia-300"
-            >
-              Cancel
-            </Button>
+      <div className="bg-fuchsia-900/10 rounded-lg p-3">
+        <h3 className="text-sm font-medium mb-2 uppercase">ADD CUSTOM ACTIVITIES</h3>
+        <div className="space-y-3">
+          <div>
+            <label htmlFor="activity-name" className="block text-sm font-medium text-foreground/90 mb-1">Activity Name</label>
+            <input type="text" id="activity-name" placeholder="e.g. Local Pottery Workshop" className="w-full p-2 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-fuchsia-950/30" />
           </div>
-        ) : (
-          <Button 
-            size="sm" 
-            className="mt-4 flex items-center bg-fuchsia-700/50 hover:bg-fuchsia-700/70 text-white"
-            onClick={() => setShowCustomActivityInput(true)}
-          >
-            <Plus className="h-4 w-4 mr-1" />
+          <div>
+            <label htmlFor="activity-description" className="block text-sm font-medium text-foreground/90 mb-1">Description</label>
+            <textarea id="activity-description" placeholder="Describe the activity..." className="w-full p-2 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-fuchsia-950/30 min-h-[80px]"></textarea>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="activity-duration" className="block text-sm font-medium text-foreground/90 mb-1">Duration (hours)</label>
+              <input type="number" id="activity-duration" min="0.5" step="0.5" placeholder="2" className="w-full p-2 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-fuchsia-950/30" />
+            </div>
+            <div>
+              <label htmlFor="activity-price" className="block text-sm font-medium text-foreground/90 mb-1">Price ($)</label>
+              <input type="number" id="activity-price" min="0" placeholder="25" className="w-full p-2 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-fuchsia-950/30" />
+            </div>
+          </div>
+          <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase">
             Add Custom Activity
-          </Button>
-        )}
+          </button>
+        </div>
+      </div>
+      
+      <div className="bg-fuchsia-900/10 rounded-lg p-3">
+        <h3 className="text-sm font-medium mb-2 uppercase">ACCESSIBILITY FEATURES</h3>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" id="wheelchair" className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4" />
+            <label htmlFor="wheelchair" className="text-sm">Wheelchair Accessible</label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" id="elevator" className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4" />
+            <label htmlFor="elevator" className="text-sm">Elevator</label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" id="accessible-bathroom" className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4" />
+            <label htmlFor="accessible-bathroom" className="text-sm">Accessible Bathroom</label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" id="accessible-parking" className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4" />
+            <label htmlFor="accessible-parking" className="text-sm">Accessible Parking</label>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -24,18 +24,22 @@ function getSelectedDatesInMonth(selected: string[], month: Date, preferredDayNu
     ) as Date[];
 }
 
-function isCheckoutOnlyDate(date: Date, selectedDates: Date[], month: Date) {
-  // If this is the last selected date in the month
-  const datesInMonth = selectedDates.filter(d => 
-    d.getMonth() === month.getMonth() && 
-    d.getFullYear() === month.getFullYear()
-  );
+function isCheckoutOnlyDate(date: Date, selected: string[]) {
+  // Parse all selected dates and sort them chronologically
+  const allSelectedDates = selected
+    .map(d => {
+      try { return parseISO(d); } catch { return null; }
+    })
+    .filter(d => d !== null) as Date[];
   
-  if (datesInMonth.length > 0) {
-    const lastDate = new Date(Math.max(...datesInMonth.map(d => d.getTime())));
-    return isSameDay(date, lastDate);
-  }
-  return false;
+  if (allSelectedDates.length === 0) return false;
+  
+  // Sort dates chronologically
+  allSelectedDates.sort((a, b) => a.getTime() - b.getTime());
+  
+  // The last date in the entire selection is check-out only
+  const lastDate = allSelectedDates[allSelectedDates.length - 1];
+  return isSameDay(date, lastDate);
 }
 
 export default function CustomCalendarSingleWeekday({
@@ -79,7 +83,7 @@ export default function CustomCalendarSingleWeekday({
         {availableDates.map((date) => {
           const isSelected = isDateSelected(date);
           const canSelect = isSelected || selectedDatesInMonth.length < 2;
-          const isCheckout = isSelected && isCheckoutOnlyDate(date, selectedDatesInMonth, month);
+          const isCheckout = isSelected && isCheckoutOnlyDate(date, selected);
           
           return (
             <button

@@ -45,9 +45,10 @@ export const useHotelEditing = ({
         propertyType: data.property_type || "",
         style: data.style || "", 
         description: data.description || "",
-        idealGuests: data.ideal_guests || "",
-        atmosphere: data.atmosphere || "",
-        perfectLocation: data.perfect_location || "",
+        // Use optional chaining to safely access these fields or default to empty string
+        idealGuests: data.ideal_guests || "",  // Field might not exist in database
+        atmosphere: data.atmosphere || "",      // Field might not exist in database
+        perfectLocation: data.perfect_location || "", // Field might not exist in database
         country: data.country || "",
         address: data.address || "",
         city: data.city || "",

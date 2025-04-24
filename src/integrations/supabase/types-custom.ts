@@ -1,3 +1,4 @@
+
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -24,6 +25,9 @@ export type Hotel = {
   category: number | null;
   property_type: string | null;
   style: string | null;
+  ideal_guests: string | null;
+  atmosphere: string | null;
+  perfect_location: string | null;
   is_featured: boolean;
   created_at: string;
   updated_at: string;

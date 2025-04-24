@@ -18,12 +18,16 @@ interface UseRoomTypeFormProps {
   isOpen: boolean;
   editingRoomType: any | null;
   availableStayLengths?: number[];
+  onAdd: (roomType: any) => void;
+  preferredWeekday?: string;
 }
 
 export function useRoomTypeForm({ 
   isOpen, 
   editingRoomType, 
-  availableStayLengths = [] 
+  availableStayLengths = [],
+  onAdd,
+  preferredWeekday = "Monday"
 }: UseRoomTypeFormProps) {
   const [formState, setFormState] = useState<RoomTypeFormState>({
     selectedRoomType: "",
@@ -45,7 +49,7 @@ export function useRoomTypeForm({
         resetForm();
       }
     }
-  }, [isOpen, editingRoomType]);
+  }, [isOpen, editingRoomType, availableStayLengths]);
 
   useEffect(() => {
     if (formState.selectedRoomType) {
@@ -114,11 +118,52 @@ export function useRoomTypeForm({
     });
   };
 
+  const handleRateChange = (duration: number, value: string) => {
+    setFormState(prev => ({
+      ...prev,
+      rates: {
+        ...prev.rates,
+        [duration]: parseInt(value) || 0
+      }
+    }));
+  };
+
+  const handleAvailabilityChange = (dates: string[]) => {
+    setFormState(prev => ({
+      ...prev,
+      availabilityDates: dates
+    }));
+  };
+
+  const handleAddRoomType = () => {
+    if (formState.selectedRoomType && formState.roomImagePreviews.length > 0) {
+      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === formState.selectedRoomType);
+      onAdd({
+        id: formState.isEditing ? editingRoomType.id : Date.now().toString(),
+        name: roomType?.name || "",
+        maxOccupancy: 1,
+        size: 200,
+        description: formState.description,
+        baseRate: 0,
+        roomCount: formState.roomCount,
+        rates: formState.rates,
+        images: formState.roomImagePreviews,
+        availabilityDates: formState.availabilityDates,
+        preferredWeekday
+      });
+      resetForm();
+    }
+  };
+
   return {
     formState,
     setFormState,
     handleImageUpload,
     removeImage,
-    resetForm
+    resetForm,
+    handleRateChange,
+    handleAvailabilityChange,
+    handleAddRoomType,
+    dialogTitle: formState.isEditing ? "Edit Room Type" : "Add New Room Type"
   };
 }

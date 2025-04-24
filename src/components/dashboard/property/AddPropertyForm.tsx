@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
@@ -12,7 +11,7 @@ import { useFormNavigation } from "./hooks/useFormNavigation";
 import { useHotelEditing } from "./hooks/useHotelEditing";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
 import { TOTAL_STEPS, STEP_TITLES } from "./constants";
-import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
+import { PropertyFormData } from "./hooks/usePropertyFormData";
 
 export default function AddPropertyForm({
   editingHotelId,
@@ -58,7 +57,6 @@ export default function AddPropertyForm({
     setCurrentStep
   });
 
-  // Create wrapper functions to match expected signatures
   const getIncompleteFieldsWrapper = (step: number) => {
     return getIncompleteFields(step, formData);
   };
@@ -94,7 +92,7 @@ export default function AddPropertyForm({
       {showValidationErrors && errorFields.length > 0 && (
         <ValidationErrorBanner 
           errorFields={errorFields} 
-          isWarning={true} // New prop to indicate this is a warning not a blocker
+          isWarning={true}
         />
       )}
 
@@ -106,6 +104,11 @@ export default function AddPropertyForm({
           onValidationChange={isValid => validateStep(currentStep, isValid)}
           formData={formData}
           updateFormData={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+          onPrevious={goToPreviousStep}
+          onNext={goToNextStep}
+          onSubmit={handleSubmit}
+          totalSteps={TOTAL_STEPS}
+          showValidationWarning={showValidationErrors && errorFields.length > 0}
         />
       )}
 
@@ -117,6 +120,7 @@ export default function AddPropertyForm({
         onPrevious={goToPreviousStep}
         onNext={goToNextStep}
         onSubmit={handleSubmit}
+        showValidationWarning={showValidationErrors && errorFields.length > 0}
       />
 
       {editingHotelId && (

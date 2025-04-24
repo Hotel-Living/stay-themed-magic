@@ -6,6 +6,7 @@ import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import PriceTable from "./PriceTable";
+import PropertyFormNavigation from "../property/components/PropertyFormNavigation";
 
 interface StepContentProps {
   currentStep: number;
@@ -13,6 +14,11 @@ interface StepContentProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  onSubmit?: () => void;
+  totalSteps?: number;
+  showValidationWarning?: boolean;
 }
 
 export default function StepContent({ 
@@ -20,7 +26,12 @@ export default function StepContent({
   renderPriceTable, 
   onValidationChange = () => {},
   formData = {},
-  updateFormData = () => {}
+  updateFormData = () => {},
+  onPrevious,
+  onNext,
+  onSubmit,
+  totalSteps = 4,
+  showValidationWarning
 }: StepContentProps) {
   // Create default price table renderer if one wasn't provided
   const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
@@ -35,6 +46,17 @@ export default function StepContent({
 
   return (
     <div className="mb-4">
+      {onPrevious && onNext && onSubmit && (
+        <PropertyFormNavigation
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          onPrevious={onPrevious}
+          onNext={onNext}
+          onSubmit={onSubmit}
+          showValidationWarning={showValidationWarning}
+        />
+      )}
+      
       {currentStep === 1 && 
         <StepOne 
           onValidationChange={onValidationChange} 

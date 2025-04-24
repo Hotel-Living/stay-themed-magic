@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StayLengthSection from "./StayLengthSection";
@@ -6,7 +7,6 @@ import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 import { weekdays } from "@/utils/constants";
-import HotelFeaturesStep from "../HotelFeaturesStep";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -166,8 +166,8 @@ const AccommodationTermsStep = ({
           }}
           updateFormData={updateFormData}
         />
-
-        <HotelFeaturesStep />
+        
+        {/* Removed the duplicate HotelFeaturesStep from here */}
       </div>
     </div>
   );

@@ -21,19 +21,28 @@ export default function BasicInfoStep({
   updateFormData = () => {},
   onValidationChange = () => {} 
 }: BasicInfoStepProps) {
-  // Validate step when necessary fields change
   useEffect(() => {
-    const isValid = formData.hotelName && 
-                    formData.propertyType && 
-                    formData.description &&
-                    formData.hotelImages && 
-                    formData.hotelImages.length > 0; // Add image validation
-    onValidationChange(!!isValid);
+    const hasImages = formData.hotelImages && formData.hotelImages.length > 0;
+    
+    const isValid = Boolean(formData.hotelName) && 
+                    Boolean(formData.propertyType) && 
+                    Boolean(formData.description) &&
+                    hasImages;
+    
+    console.log("BasicInfoStep validation:", {
+      hotelName: Boolean(formData.hotelName),
+      propertyType: Boolean(formData.propertyType),
+      description: Boolean(formData.description),
+      hasImages: hasImages,
+      imageCount: formData.hotelImages?.length || 0,
+      isValid: isValid
+    });
+    
+    onValidationChange(isValid);
   }, [formData.hotelName, formData.propertyType, formData.description, formData.hotelImages, onValidationChange]);
 
   return (
-    <div className="space-y-5">
-      {/* Add Pictures Section at the top */}
+    <div className="space-y-5 max-w-[80%]">
       <div>
         <PicturesStep 
           formData={formData}
@@ -98,21 +107,21 @@ export default function BasicInfoStep({
         </label>
         <select 
           required 
-          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#af09df]"
+          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da]"
           value={formData.style || ''}
           onChange={(e) => updateFormData('style', e.target.value)}
         >
           <option value="">Select property style</option>
           <option value="classic">Classic</option>
           <option value="classic-elegant">Classic Elegant</option>
-          <option value="design">Design</option>
           <option value="modern">Modern</option>
-          <option value="countryside">Countryside</option>
+          <option value="fusion">Fusion</option>
           <option value="urban">Urban</option>
-          <option value="other">Other (Add New)</option>
+          <option value="minimalist">Minimalist</option>
+          <option value="luxury">Luxury</option>
         </select>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
           HOTEL DESCRIPTION

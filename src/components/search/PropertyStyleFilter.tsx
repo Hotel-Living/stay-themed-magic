@@ -7,7 +7,15 @@ interface PropertyStyleFilterProps {
 }
 
 export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyStyleFilterProps) {
-  const propertyStyles = ["Modern", "Classic", "Rustic", "Minimalist", "Luxury", "Eco-friendly"];
+  const propertyStyles = [
+    "Classic",
+    "Classic Elegant",
+    "Modern",
+    "Fusion",
+    "Urban",
+    "Minimalist",
+    "Luxury"
+  ];
 
   return (
     <FilterItem title="STYLE OF PROPERTY">

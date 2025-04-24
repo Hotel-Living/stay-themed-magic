@@ -21,6 +21,7 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [showValidationWarning, setShowValidationWarning] = useState<boolean>(false);
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
   
   // Sync local state with formData when it changes (e.g., when navigating back to this step)
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function ThemesAndActivitiesStep({
   }, [formData.themes, formData.activities]);
   
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+    setHasInteracted(true);
     setSelectedThemes(prev => {
       let newThemes;
       if (isSelected) {
@@ -56,6 +58,7 @@ export default function ThemesAndActivitiesStep({
   };
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
+    setHasInteracted(true);
     setSelectedActivities(prev => {
       const newActivities = isChecked 
         ? [...prev, activity]
@@ -74,14 +77,14 @@ export default function ThemesAndActivitiesStep({
     
     // Only show validation warning if user has interacted with the form
     // and there's an attempt to validate with no themes selected
-    if ((selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning) {
+    if ((selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning && hasInteracted) {
       setShowValidationWarning(true);
     } else if (selectedThemes.length > 0 && selectedActivities.length > 0) {
       setShowValidationWarning(false);
     }
     
     onValidationChange(isValid);
-  }, [selectedThemes, selectedActivities, onValidationChange, showValidationWarning]);
+  }, [selectedThemes, selectedActivities, onValidationChange, showValidationWarning, hasInteracted]);
 
   // When a user interacts with either the themes or activities sections,
   // we consider them to have started filling out the form
@@ -102,7 +105,7 @@ export default function ThemesAndActivitiesStep({
   
   return (
     <div className="space-y-8 max-w-[80%]">
-      {(selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning && (
+      {(selectedThemes.length === 0 || selectedActivities.length === 0) && showValidationWarning && hasInteracted && (
         <div className="bg-purple-700 text-white p-4 rounded-lg mb-4">
           <h3 className="text-lg font-semibold mb-2">Please complete all required fields:</h3>
           <ul className="list-disc list-inside">

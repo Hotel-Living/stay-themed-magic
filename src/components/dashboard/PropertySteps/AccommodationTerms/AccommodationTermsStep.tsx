@@ -31,6 +31,7 @@ const AccommodationTermsStep = ({
   const { toast } = useToast();
   const [error, setError] = useState<string>("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   
   const [sectionsState, setSectionsState] = useState({
     weekday: false,
@@ -71,7 +72,8 @@ const AccommodationTermsStep = ({
     
     if (!isValid) {
       setError("Please complete all required fields");
-      setShowValidationErrors(true);
+      // Only show validation errors if user has interacted with the form
+      // or if they've attempted to navigate
     } else {
       setError("");
       setShowValidationErrors(false);
@@ -82,6 +84,7 @@ const AccommodationTermsStep = ({
   };
 
   const handleWeekdayChange = (weekday: string) => {
+    setHasInteracted(true);
     setSelectedWeekday(weekday);
     updateFormData('preferredWeekday', weekday);
     
@@ -96,6 +99,7 @@ const AccommodationTermsStep = ({
   };
 
   const handleStayLengthChange = (lengths: number[]) => {
+    setHasInteracted(true);
     setSelectedStayLengths(lengths);
     updateFormData('stayLengths', lengths);
     
@@ -108,11 +112,13 @@ const AccommodationTermsStep = ({
   };
 
   const handleMealPlanChange = (plans: string[]) => {
+    setHasInteracted(true);
     setSelectedMealPlans(plans);
     updateFormData('mealPlans', plans);
   };
 
   const handleRoomTypesChange = (updatedRoomTypes: any[]) => {
+    setHasInteracted(true);
     setRoomTypes(updatedRoomTypes);
     updateFormData('roomTypes', updatedRoomTypes);
     checkValidation();
@@ -121,11 +127,25 @@ const AccommodationTermsStep = ({
   const isValid = selectedStayLengths.length > 0 && selectedMealPlans.length > 0 && roomTypes.length > 0;
 
   const toggleSection = (section: keyof typeof sectionsState) => {
+    setHasInteracted(true);
     setSectionsState(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
   };
+
+  // Listen for navigation attempts
+  useEffect(() => {
+    const handleNavigationAttempt = () => {
+      setShowValidationErrors(true);
+    };
+
+    window.addEventListener('attemptStepNavigation', handleNavigationAttempt);
+    
+    return () => {
+      window.removeEventListener('attemptStepNavigation', handleNavigationAttempt);
+    };
+  }, []);
 
   return (
     <div className="space-y-6 max-w-[80%]">
@@ -133,7 +153,7 @@ const AccommodationTermsStep = ({
       
       <ValidationMessages 
         error={error}
-        showErrors={showValidationErrors}
+        showErrors={hasInteracted && showValidationErrors}
         isValid={isValid}
       />
       

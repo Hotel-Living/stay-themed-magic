@@ -22,6 +22,7 @@ export default function StepTwo({
   const [isAddRoomOpen, setIsAddRoomOpen] = useState(false);
   const [isAvailableRoomsOpen, setIsAvailableRoomsOpen] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Load initial data from parent formData if available
   useEffect(() => {
@@ -42,6 +43,7 @@ export default function StepTwo({
   };
 
   const handleAddRoomType = (newRoom: Omit<RoomType, 'id'>) => {
+    setHasInteracted(true);
     if (newRoom.name.trim() && newRoom.basePrice > 0) {
       const newRoomType = {
         ...newRoom,
@@ -57,6 +59,7 @@ export default function StepTwo({
   };
 
   const handleRemoveRoomType = (id: string) => {
+    setHasInteracted(true);
     const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
     setRoomTypes(updatedRoomTypes);
     if (updateFormData) {
@@ -68,6 +71,19 @@ export default function StepTwo({
     checkValidation();
   }, [roomTypes]);
 
+  // Listen for navigation attempts from parent
+  useEffect(() => {
+    const handleNavigationAttempt = () => {
+      setShowValidationError(true);
+    };
+
+    window.addEventListener('attemptStepNavigation', handleNavigationAttempt);
+    
+    return () => {
+      window.removeEventListener('attemptStepNavigation', handleNavigationAttempt);
+    };
+  }, []);
+
   return (
     <div className="space-y-8">
       <RoomsAndPricingStep />
@@ -77,20 +93,26 @@ export default function StepTwo({
         
         <RoomTypeForm 
           isOpen={isAddRoomOpen} 
-          setIsOpen={setIsAddRoomOpen}
+          setIsOpen={(open) => {
+            setHasInteracted(true);
+            setIsAddRoomOpen(open);
+          }}
           onAddRoomType={handleAddRoomType}
         />
         
         <RoomTypeList
           roomTypes={roomTypes}
           isOpen={isAvailableRoomsOpen}
-          setIsOpen={setIsAvailableRoomsOpen}
+          setIsOpen={(open) => {
+            setHasInteracted(true);
+            setIsAvailableRoomsOpen(open);
+          }}
           onRemoveRoomType={handleRemoveRoomType}
         />
         
         <ValidationMessages
           error={error}
-          showValidationError={showValidationError}
+          showValidationError={showValidationError && hasInteracted}
           roomTypesCount={roomTypes.length}
         />
       </div>

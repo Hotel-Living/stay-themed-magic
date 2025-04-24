@@ -123,7 +123,7 @@ export default function LengthOfStaySection({
   }
 
   return (
-    <Collapsible className="w-full" defaultOpen={false}>
+    <Collapsible className="w-full mb-3" defaultOpen={false}>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-sm font-medium text-foreground/90 uppercase">
           {title}

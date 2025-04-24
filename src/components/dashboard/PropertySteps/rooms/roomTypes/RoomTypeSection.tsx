@@ -1,4 +1,3 @@
-
 import React from "react";
 import RoomTypeContent from "./RoomTypeContent";
 import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
@@ -36,16 +35,18 @@ export default function RoomTypeSection({
   const preferredWeekday = formData?.preferredWeekday || "Monday";
 
   const mainContent = (
-    <RoomTypeContent
-      roomTypes={roomTypes}
-      selectedStayLengths={selectedStayLengths}
-      selectedUnit={selectedUnit}
-      dialogOpen={dialogOpen}
-      setDialogOpen={setDialogOpen}
-      handleAddRoomType={handleAddRoomType}
-      handleDeleteRoomType={handleDeleteRoomType}
-      preferredWeekday={preferredWeekday}
-    />
+    <div className="space-y-2">
+      <RoomTypeContent
+        roomTypes={roomTypes}
+        selectedStayLengths={selectedStayLengths}
+        selectedUnit={selectedUnit}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        handleAddRoomType={handleAddRoomType}
+        handleDeleteRoomType={handleDeleteRoomType}
+        preferredWeekday={preferredWeekday}
+      />
+    </div>
   );
 
   if (!showHeader) {

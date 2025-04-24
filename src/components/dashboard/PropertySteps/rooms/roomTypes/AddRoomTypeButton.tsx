@@ -1,31 +1,15 @@
 
 import React from "react";
-import { PlusCircle } from "lucide-react";
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Plus } from "lucide-react";
 
-interface AddRoomTypeButtonProps {
-  onOpenDialog: () => void;
-}
-
-export default function AddRoomTypeButton({ onOpenDialog }: AddRoomTypeButtonProps) {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (typeof onOpenDialog === 'function') {
-      onOpenDialog();
-    }
-  };
-
+export default function AddRoomTypeButton({ onOpenDialog }: { onOpenDialog: () => void }) {
   return (
-    <AccordionItem value="add-room" className="bg-fuchsia-900/20 rounded-lg overflow-hidden">
-      <AccordionTrigger 
-        className="px-4 py-3 text-left hover:no-underline"
-        onClick={handleClick}
-      >
-        <h4 className="font-medium uppercase flex items-center">
-          <PlusCircle className="mr-2 h-4 w-4" /> ADD ROOM TYPE
-        </h4>
-      </AccordionTrigger>
-    </AccordionItem>
+    <button
+      onClick={onOpenDialog}
+      className="w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg bg-fuchsia-900/10 hover:bg-fuchsia-900/20 transition-colors"
+    >
+      <Plus className="h-4 w-4" />
+      <span className="text-sm">ADD ROOM TYPE</span>
+    </button>
   );
 }

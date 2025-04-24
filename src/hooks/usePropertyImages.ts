@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -98,10 +97,8 @@ export function usePropertyImages(
     const imageToRemove = images[index];
     const wasMain = imageToRemove.isMain;
     
-    // Remove the image
     const newImages = images.filter((_, i) => i !== index);
     
-    // If the removed image was the main one and we have other images, set the first one as main
     if (wasMain && newImages.length > 0) {
       newImages[0].isMain = true;
     }
@@ -112,7 +109,6 @@ export function usePropertyImages(
       onChange(newImages);
     }
     
-    // If the image was stored in Supabase, delete it there too
     if (imageToRemove.storagePath) {
       supabase.storage
         .from('properties')

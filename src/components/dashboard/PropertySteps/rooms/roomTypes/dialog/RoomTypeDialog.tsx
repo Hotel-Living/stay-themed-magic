@@ -1,13 +1,14 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { PREDEFINED_ROOM_TYPES } from "../constants";
 import RoomTypeSelector from "./RoomTypeSelector";
 import RoomDetailsForm from "./RoomDetailsForm";
 import RoomImageSection from "./RoomImageSection";
-import RatesSection from "../RatesSection";
-import AvailabilityDateSection from "../AvailabilityDateSection";
+import RatesSection from "./sections/RatesSection";
+import AvailabilityDateSection from "./sections/AvailabilitySection";
+import { useRoomTypeForm } from "./hooks/useRoomTypeForm";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
@@ -26,98 +27,34 @@ export default function RoomTypeDialog({
   preferredWeekday = "Monday",
   editingRoomType = null
 }: RoomTypeDialogProps) {
-  const [selectedRoomType, setSelectedRoomType] = useState("");
-  const [description, setDescription] = useState("");
-  const [rates, setRates] = useState<Record<number, number>>({});
-  const [stayLengths, setStayLengths] = useState<number[]>(availableStayLengths);
-  const [roomImages, setRoomImages] = useState<File[]>([]);
-  const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
-  const [roomCount, setRoomCount] = useState(1);
-  const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
-  const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      if (editingRoomType) {
-        setIsEditing(true);
-        loadRoomTypeData(editingRoomType);
-      } else {
-        setIsEditing(false);
-        resetForm();
-      }
-    }
-  }, [isOpen, editingRoomType]);
-
-  useEffect(() => {
-    if (selectedRoomType) {
-      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
-      if (roomType) {
-        setDescription(roomType.description);
-      }
-    }
-  }, [selectedRoomType]);
-
-  const loadRoomTypeData = (roomType: any) => {
-    const predefinedType = PREDEFINED_ROOM_TYPES.find(rt => rt.name === roomType.name);
-    setSelectedRoomType(predefinedType?.id || "");
-    setDescription(roomType.description || "");
-    setRoomCount(roomType.roomCount || 1);
-    setRates(roomType.rates || {});
-    if (roomType.images && roomType.images.length > 0) {
-      setRoomImagePreviews(roomType.images);
-    }
-    if (roomType.availabilityDates && roomType.availabilityDates.length > 0) {
-      setAvailabilityDates(roomType.availabilityDates);
-    }
-  };
+  const {
+    formState,
+    setFormState,
+    handleImageUpload,
+    removeImage,
+    resetForm
+  } = useRoomTypeForm({ isOpen, editingRoomType, availableStayLengths });
 
   const handleAddRoomType = () => {
-    if (selectedRoomType && roomImages.length > 0) {
-      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
+    if (formState.selectedRoomType && formState.roomImagePreviews.length > 0) {
+      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === formState.selectedRoomType);
       onAdd({
-        id: isEditing ? editingRoomType.id : Date.now().toString(),
+        id: formState.isEditing ? editingRoomType.id : Date.now().toString(),
         name: roomType?.name || "",
         maxOccupancy: 1,
         size: 200,
-        description,
+        description: formState.description,
         baseRate: 0,
-        roomCount,
-        rates,
-        images: roomImagePreviews,
-        availabilityDates
+        roomCount: formState.roomCount,
+        rates: formState.rates,
+        images: formState.roomImagePreviews,
+        availabilityDates: formState.availabilityDates
       });
       resetForm();
     }
   };
 
-  const resetForm = () => {
-    setSelectedRoomType("");
-    setDescription("");
-    setRates({});
-    setRoomImages([]);
-    setRoomImagePreviews([]);
-    setRoomCount(1);
-    setAvailabilityDates([]);
-    setIsEditing(false);
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files);
-      setRoomImages(prev => [...prev, ...newFiles]);
-      const newPreviews = newFiles.map(file => URL.createObjectURL(file));
-      setRoomImagePreviews(prev => [...prev, ...newPreviews]);
-    }
-  };
-  
-  const removeImage = (index: number) => {
-    setRoomImages(prev => prev.filter((_, i) => i !== index));
-    const urlToRevoke = roomImagePreviews[index];
-    URL.revokeObjectURL(urlToRevoke);
-    setRoomImagePreviews(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const dialogTitle = isEditing ? "Edit Room Type" : "Add New Room Type";
+  const dialogTitle = formState.isEditing ? "Edit Room Type" : "Add New Room Type";
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -128,44 +65,44 @@ export default function RoomTypeDialog({
         
         <div className="space-y-8">
           <RoomTypeSelector 
-            selectedRoomType={selectedRoomType}
-            onRoomTypeChange={setSelectedRoomType}
-            isEditing={isEditing}
+            selectedRoomType={formState.selectedRoomType}
+            onRoomTypeChange={(type) => setFormState(prev => ({ ...prev, selectedRoomType: type }))}
+            isEditing={formState.isEditing}
           />
 
-          {selectedRoomType && (
+          {formState.selectedRoomType && (
             <>
               <RoomDetailsForm 
-                selectedRoomType={selectedRoomType}
-                roomImages={roomImages}
+                selectedRoomType={formState.selectedRoomType}
+                roomImages={formState.roomImages}
                 onAdd={handleAddRoomType}
               />
 
               <RoomImageSection
-                roomImages={roomImages}
-                roomImagePreviews={roomImagePreviews}
+                roomImages={formState.roomImages}
+                roomImagePreviews={formState.roomImagePreviews}
                 onImageUpload={handleImageUpload}
                 onRemoveImage={removeImage}
               />
               
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white mb-4">RATES PER PERSON, NOT PER ROOM</h3>
-                <RatesSection
-                  stayLengths={stayLengths}
-                  rates={rates}
-                  onRateChange={(duration, value) => 
-                    setRates(prev => ({
-                      ...prev,
+              <RatesSection
+                stayLengths={formState.stayLengths}
+                rates={formState.rates}
+                onRateChange={(duration, value) => 
+                  setFormState(prev => ({
+                    ...prev,
+                    rates: {
+                      ...prev.rates,
                       [duration]: parseInt(value) || 0
-                    }))
-                  }
-                />
-              </div>
+                    }
+                  }))
+                }
+              />
               
               <AvailabilityDateSection 
                 preferredWeekday={preferredWeekday}
-                onAvailabilityChange={setAvailabilityDates}
-                selectedDates={availabilityDates}
+                onAvailabilityChange={(dates) => setFormState(prev => ({ ...prev, availabilityDates: dates }))}
+                selectedDates={formState.availabilityDates}
               />
             </>
           )}

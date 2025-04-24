@@ -10,6 +10,7 @@ interface HotelInfoSectionProps {
     hotelName: string;
     category: string;
     propertyType: string;
+    style: string;
     description: string;
     idealGuests?: string;
     atmosphere?: string;
@@ -19,6 +20,7 @@ interface HotelInfoSectionProps {
     hotelName?: string;
     category?: string;
     propertyType?: string;
+    style?: string;
     description?: string;
     idealGuests?: string;
     atmosphere?: string;
@@ -28,6 +30,7 @@ interface HotelInfoSectionProps {
     hotelName: boolean;
     category: boolean;
     propertyType: boolean;
+    style: boolean;
     description: boolean;
     idealGuests?: boolean;
     atmosphere?: boolean;
@@ -72,6 +75,28 @@ export default function HotelInfoSection({
           hasError={touchedFields.propertyType && !!errors.propertyType}
           errorMessage={errors.propertyType}
         />
+
+        <div>
+          <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase">
+            STYLE OF PROPERTY
+          </label>
+          <select 
+            required 
+            className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da]"
+            value={formData.style || ''}
+            onChange={(e) => handleChange('style', e.target.value)}
+            onBlur={() => handleBlur('style')}
+          >
+            <option value="">Select property style</option>
+            <option value="classic">Classic</option>
+            <option value="classic-elegant">Classic Elegant</option>
+            <option value="modern">Modern</option>
+            <option value="fusion">Fusion</option>
+            <option value="urban">Urban</option>
+            <option value="minimalist">Minimalist</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </div>
         
         <DescriptionInput
           value={formData.description}

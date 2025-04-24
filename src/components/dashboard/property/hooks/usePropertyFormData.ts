@@ -9,6 +9,7 @@ export interface PropertyFormData {
   idealGuests?: string;
   atmosphere?: string;
   perfectLocation?: string;
+  style: string;
   country: string;
   address: string;
   city: string;
@@ -36,6 +37,7 @@ export const usePropertyFormData = () => {
     idealGuests: "",
     atmosphere: "",
     perfectLocation: "",
+    style: "",
     country: "",
     address: "",
     city: "",

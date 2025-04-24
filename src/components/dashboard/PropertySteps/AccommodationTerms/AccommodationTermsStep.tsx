@@ -29,6 +29,11 @@ export default function AccommodationTermsStep({
     formData.roomTypes && formData.roomTypes.length > 0
   );
 
+  // Add state variables to track open/closed state of each section
+  const [isStayLengthOpen, setIsStayLengthOpen] = useState(false);
+  const [isMealPlanOpen, setIsMealPlanOpen] = useState(false);
+  const [isRoomsRatesOpen, setIsRoomsRatesOpen] = useState(false);
+
   // Update validation state when any of the flags change
   React.useEffect(() => {
     const isValid = hasStayLengths && hasMealPlans && hasRoomTypes;
@@ -45,12 +50,16 @@ export default function AccommodationTermsStep({
       
       <div className="space-y-4">
         <StayLengthSection 
+          isOpen={isStayLengthOpen}
+          onOpenChange={setIsStayLengthOpen}
           onValidationChange={setHasStayLengths} 
           formData={formData}
           updateFormData={updateFormData}
         />
         
         <MealPlanSection 
+          isOpen={isMealPlanOpen}
+          onOpenChange={setIsMealPlanOpen}
           onValidationChange={setHasMealPlans} 
           formData={formData}
           updateFormData={updateFormData}
@@ -64,6 +73,8 @@ export default function AccommodationTermsStep({
         />
         
         <RoomsRatesSection 
+          isOpen={isRoomsRatesOpen}
+          onOpenChange={setIsRoomsRatesOpen}
           onValidationChange={setHasRoomTypes} 
           formData={formData}
           updateFormData={updateFormData}

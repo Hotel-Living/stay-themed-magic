@@ -22,6 +22,23 @@ export function HotelDescription({
     );
   }
 
+  // Only show the section if there's at least one field with content
+  const hasContent = description || idealGuests || atmosphere || perfectLocation;
+
+  if (!hasContent) {
+    return (
+      <div className="mb-8 bg-[#5C088F] rounded-lg p-6 text-white">
+        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+          About this hotel
+          <FileText className="w-5 h-5 text-fuchsia-400" />
+        </h2>
+        <p className="text-foreground/60 italic">
+          No description available for this hotel.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-8 bg-[#5C088F] rounded-lg p-6 text-white">
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
@@ -56,12 +73,6 @@ export function HotelDescription({
           <p className="text-fuchsia-400 font-medium mb-1">Our location is perfect for...</p>
           <p className="text-foreground/80 whitespace-pre-line leading-relaxed">{perfectLocation}</p>
         </div>
-      )}
-
-      {!description && !idealGuests && !atmosphere && !perfectLocation && (
-        <p className="text-foreground/60 italic">
-          No description available for this hotel.
-        </p>
       )}
     </div>
   );

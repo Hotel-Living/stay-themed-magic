@@ -35,10 +35,10 @@ export default function Index() {
   const themeNames = themes ? themes.map(theme => theme.name) : [];
 
   return (
-    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+    <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
       <Navbar />
       
-      <main className="flex-1 w-full z-10 relative">
+      <main className="flex-1 w-full">
         <HeroSection />
         <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
       </main>

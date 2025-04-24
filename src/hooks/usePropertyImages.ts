@@ -1,7 +1,7 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { v4 as uuidv4 } from 'uuid';
 
 export interface UploadedImage {
   url: string;
@@ -37,7 +37,7 @@ export function usePropertyImages(
       
       for (const file of files) {
         const fileExt = file.name.split('.').pop();
-        const fileName = `${uuidv4()}.${fileExt}`;
+        const fileName = `${crypto.randomUUID()}.${fileExt}`;
         const filePath = `hotel-images/${fileName}`;
         
         const { error: uploadError } = await supabase.storage
@@ -97,8 +97,10 @@ export function usePropertyImages(
     const imageToRemove = images[index];
     const wasMain = imageToRemove.isMain;
     
+    // Remove the image
     const newImages = images.filter((_, i) => i !== index);
     
+    // If the removed image was the main one and we have other images, set the first one as main
     if (wasMain && newImages.length > 0) {
       newImages[0].isMain = true;
     }
@@ -109,6 +111,7 @@ export function usePropertyImages(
       onChange(newImages);
     }
     
+    // If the image was stored in Supabase, delete it there too
     if (imageToRemove.storagePath) {
       supabase.storage
         .from('properties')

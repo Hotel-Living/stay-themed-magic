@@ -28,13 +28,10 @@ export default defineConfig(({ mode }) => {
     define: {
       'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify(env.VITE_GOOGLE_MAPS_API_KEY)
     },
-    // Add explicit build target configuration and optimizations
+    // Add explicit build target configuration
     build: {
       target: 'es2015',
       outDir: 'dist',
-      rollupOptions: {
-        external: ['uuid'],
-      },
     },
   };
 });

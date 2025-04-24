@@ -22,23 +22,15 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   
-  // Initialize from formData when it changes
-  useEffect(() => {
-    if (formData.themes && formData.themes.length > 0) {
-      setSelectedThemes(formData.themes);
-    }
-    
-    if (formData.activities && formData.activities.length > 0) {
-      setSelectedActivities(formData.activities);
-    }
-  }, [formData]);
-
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     setSelectedThemes(prev => {
       let newThemes;
       if (isSelected) {
         if (!prev.includes(themeId)) {
-          // No toast notification
+          toast({
+            title: "Affinity selected",
+            description: "The affinity has been added to your selection"
+          });
         }
         newThemes = [...prev.filter(id => id !== themeId), themeId];
       } else {
@@ -74,13 +66,22 @@ export default function ThemesAndActivitiesStep({
   
   return (
     <div className="space-y-8 max-w-[80%]">
+      {selectedThemes.length === 0 && (
+        <div className="bg-purple-700 text-white p-4 rounded-lg mb-4">
+          <h3 className="text-lg font-semibold mb-2">Please complete all required fields:</h3>
+          <ul className="list-disc list-inside">
+            <li>Affinities</li>
+            <li>Activities</li>
+          </ul>
+        </div>
+      )}
+
       <AffinitiesSection
         openCategory={openCategory}
         setOpenCategory={setOpenCategory}
         openSubmenu={openSubmenu}
         setOpenSubmenu={setOpenSubmenu}
         onThemeSelect={handleThemeSelection}
-        selectedThemes={selectedThemes}
       />
 
       <ActivitiesSection

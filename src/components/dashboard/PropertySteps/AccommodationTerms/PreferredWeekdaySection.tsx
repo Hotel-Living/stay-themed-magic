@@ -1,56 +1,40 @@
 
-import React, { useState, useEffect } from "react";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import React from "react";
 import { ChevronDown } from "lucide-react";
-import { weekdays } from "@/utils/constants";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-interface PreferredWeekdayProps {
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
+interface PreferredWeekdaySectionProps {
+  preferredWeekday?: string;
+  onWeekdayChange?: (weekday: string) => void;
+  weekdays?: string[];
 }
 
-export default function PreferredWeekdaySection({ formData = {}, updateFormData = () => {} }: PreferredWeekdayProps) {
-  const [selectedDay, setSelectedDay] = useState(formData.preferredCheckInDay || 'Monday');
-  
-  // Update form data when selected day changes
-  useEffect(() => {
-    updateFormData('preferredCheckInDay', selectedDay);
-  }, [selectedDay, updateFormData]);
-  
-  const handleDayChange = (day: string) => {
-    setSelectedDay(day);
-  };
-  
+export default function PreferredWeekdaySection({
+  preferredWeekday = "Monday",
+  onWeekdayChange = () => {},
+  weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+}: PreferredWeekdaySectionProps) {
   return (
-    <Collapsible className="w-full bg-fuchsia-900/10 rounded-lg">
-      <div className="px-4 py-2">
-        <CollapsibleTrigger className="flex items-center justify-between w-full">
-          <h2 className="text-sm font-medium uppercase">Preferred Check-In/Out Day</h2>
-          <ChevronDown className="h-4 w-4" />
-        </CollapsibleTrigger>
-      </div>
-      
-      <CollapsibleContent className="px-4 pb-4">
-        <div className="space-y-2">
-          <p className="text-sm text-foreground/70">
-            Select the preferred check-in/out day for your guests:
-          </p>
-          
-          <div className="flex flex-wrap gap-2 mt-2">
-            {weekdays.map((day) => (
-              <button
-                key={day}
-                onClick={() => handleDayChange(day)}
-                className={`px-3 py-1 text-xs rounded-full transition-colors ${
-                  selectedDay === day
-                    ? 'bg-fuchsia-600 text-white'
-                    : 'bg-fuchsia-800/20 text-foreground/80 hover:bg-fuchsia-800/30'
-                }`}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
+    <Collapsible className="w-full mb-6">
+      <CollapsibleTrigger className="w-full flex items-center justify-between px-6 py-3 text-left rounded-full bg-[#7a0486]">
+        <h2 className="font-semibold text-lg text-white">Preferred Weekday for all Check-in / outs</h2>
+        <ChevronDown className="h-5 w-5 text-white" />
+      </CollapsibleTrigger>
+      <CollapsibleContent className="p-4">
+        <div className="grid grid-cols-7 gap-2 mt-2">
+          {weekdays.map(day => (
+            <label key={day} className="flex flex-col items-center">
+              <input 
+                type="radio" 
+                name="preferred-weekday" 
+                className="rounded-full border-white text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
+                value={day}
+                checked={preferredWeekday === day}
+                onChange={() => onWeekdayChange(day)}
+              />
+              <span className="text-xs text-center text-white">{day}</span>
+            </label>
+          ))}
         </div>
       </CollapsibleContent>
     </Collapsible>

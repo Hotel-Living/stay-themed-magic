@@ -48,7 +48,6 @@ interface ThemeCategoryProps {
   openSubmenus: { [key: string]: boolean };
   toggleSubmenu: (submenu: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[];
 }
 
 const ThemeCategory = ({ 
@@ -57,8 +56,7 @@ const ThemeCategory = ({
   toggleCategory,
   openSubmenus,
   toggleSubmenu,
-  onThemeSelect,
-  selectedThemes = []
+  onThemeSelect
 }: ThemeCategoryProps) => {
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -78,6 +76,11 @@ const ThemeCategory = ({
         onThemeSelect(customThemeId, true);
       }
       
+      toast({
+        title: "Theme added",
+        description: `${newCategoryName} has been added to ${category.category}`
+      });
+      
       // Reset the form
       setNewCategoryName("");
       setIsAddingCategory(false);
@@ -92,6 +95,11 @@ const ThemeCategory = ({
     if (onThemeSelect) {
       onThemeSelect(themeId, false);
     }
+    
+    toast({
+      title: "Theme deleted",
+      description: `${themeName} has been removed from ${category.category}`
+    });
   };
 
   return (
@@ -114,8 +122,7 @@ const ThemeCategory = ({
           {category.themes && category.themes.filter(theme => !theme.isAddOption).length > 0 && (
             <DirectThemes 
               themes={category.themes.filter(theme => !theme.isAddOption)} 
-              onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
+              onThemeSelect={onThemeSelect} 
             />
           )}
           
@@ -128,7 +135,7 @@ const ThemeCategory = ({
                     <input
                       type="checkbox"
                       id={theme.id}
-                      checked={selectedThemes.includes(theme.id)}
+                      defaultChecked={true}
                       onChange={(e) => onThemeSelect && onThemeSelect(theme.id, e.target.checked)}
                       className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
                     />
@@ -159,7 +166,6 @@ const ThemeCategory = ({
               isOpen={openSubmenus[submenu.name] || false}
               toggleSubmenu={toggleSubmenu}
               onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
             />
           ))}
           
@@ -173,7 +179,6 @@ const ThemeCategory = ({
               openSubmenus={openSubmenus}
               toggleSubmenu={toggleSubmenu}
               onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes}
             />
           ))}
           

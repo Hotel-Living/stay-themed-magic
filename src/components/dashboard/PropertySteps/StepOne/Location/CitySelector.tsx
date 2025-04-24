@@ -1,134 +1,144 @@
 
 import React, { useEffect, useState } from "react";
-import { Country, State, City } from "country-state-city";
-import { ChevronDown } from "lucide-react";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import CustomCityInput from "./CustomCityInput";
+import { useGoogleMaps } from "./hooks/useGoogleMaps";
 
 interface CitySelectorProps {
   value: string;
-  onChange: (value: string) => void;
   country: string;
-  className?: string;
+  onChange: (e: any) => void;
+  onValueChange: (value: string) => void;
+  onBlur: () => void;
+  error: any;
+  touched: any;
+  errorMessage?: string;
+  cities?: string[];
+  disabled?: boolean;
+  onCustomClick: () => void;
 }
 
-const CitySelector: React.FC<CitySelectorProps> = ({ value, onChange, country, className }) => {
-  const [isCustomCity, setIsCustomCity] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [availableCities, setAvailableCities] = useState<City[]>([]);
-  
-  // Get cities based on country
-  useEffect(() => {
-    if (country) {
-      const countryObj = Country.getAllCountries().find(c => c.name === country);
-      if (countryObj) {
-        // Get states for the country
-        const states = State.getStatesOfCountry(countryObj.isoCode);
-        
-        // Get cities for all states
-        const allCities: City[] = [];
-        states.forEach(state => {
-          const citiesInState = City.getCitiesOfState(countryObj.isoCode, state.isoCode);
-          allCities.push(...citiesInState);
-        });
-        
-        // Sort cities by name
-        allCities.sort((a, b) => a.name.localeCompare(b.name));
-        setAvailableCities(allCities);
-      } else {
-        // Custom country, no cities available
-        setAvailableCities([]);
+const CitySelector: React.FC<CitySelectorProps> = ({
+  value,
+  country,
+  onChange,
+  onValueChange,
+  onBlur,
+  error,
+  touched,
+  errorMessage,
+  disabled = false,
+  onCustomClick
+}) => {
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const hasError = (touched && error) || validationError;
+  const { isLoading, error: mapsError } = useGoogleMaps();
+
+  const validateCity = async (cityName: string) => {
+    if (!cityName) return;
+    
+    // Check if Google Maps API is loaded
+    if (isLoading) {
+      console.log("Google Maps API is still loading, validation delayed");
+      return false;
+    }
+    
+    if (mapsError) {
+      console.error("Google Maps API failed to load:", mapsError);
+      setValidationError("Unable to validate city due to Maps API error");
+      return false;
+    }
+
+    try {
+      // Check if the global google object exists
+      if (typeof window.google === 'undefined' || !window.google.maps) {
+        console.error('Google Maps API not loaded');
+        return false;
       }
-    } else {
-      setAvailableCities([]);
+
+      const geocoder = new window.google.maps.Geocoder();
+      const response = await geocoder.geocode({
+        address: `${cityName}, ${country}`,
+        componentRestrictions: {
+          country: country
+        }
+      });
+
+      if (response.results.length > 0) {
+        // Check if result is a city
+        const isCity = response.results[0].types.some(type => 
+          ['locality', 'administrative_area_level_1', 'administrative_area_level_2'].includes(type)
+        );
+
+        if (!isCity) {
+          setValidationError("The location entered is not a city. Please enter a valid city name.");
+          return false;
+        }
+
+        setValidationError(null);
+        return true;
+      } else {
+        setValidationError("The city entered was not recognized. Please enter a valid city.");
+        return false;
+      }
+    } catch (err) {
+      console.error('Error validating city:', err);
+      setValidationError("Could not validate the city. Please try again.");
+      return false;
     }
-  }, [country]);
-
-  // If value is set and not in the city list, it's a custom city
-  useEffect(() => {
-    if (value && !availableCities.some(city => city.name === value)) {
-      setIsCustomCity(true);
-    } else {
-      setIsCustomCity(false);
-    }
-  }, [value, availableCities]);
-
-  const filteredCities = searchTerm 
-    ? availableCities.filter(city => 
-        city.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : availableCities;
-
-  const handleCitySelect = (cityName: string) => {
-    onChange(cityName);
-    setIsOpen(false);
-    setSearchTerm("");
   };
 
-  const handleCustomCitySubmit = (customCity: string) => {
-    onChange(customCity);
-    setIsOpen(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onValueChange(newValue);
+    onChange({ target: { value: newValue } });
+    setValidationError(null);
+  };
+
+  const handleBlur = async () => {
+    if (value) {
+      await validateCity(value);
+    }
+    onBlur();
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <button 
+    <div>
+      <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
+        City {hasError && <span className="text-red-500">*</span>}
+      </Label>
+      <div className="flex items-center space-x-2">
+        <Input
+          id="city"
+          value={value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          disabled={disabled || !country}
+          placeholder="Enter city name"
           className={cn(
-            "flex items-center justify-between w-full rounded-md border border-fuchsia-800/40 bg-fuchsia-950/40 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50",
-            className
+            "bg-[#7A0486] text-white border-white",
+            hasError ? "border-red-500" : "",
+            "placeholder:text-white/50"
           )}
-          onClick={() => country ? setIsOpen(true) : null}
-          disabled={!country}
+        />
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          onClick={onCustomClick}
+          disabled={disabled || !country}
+          className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          <span className={!value ? "text-muted-foreground" : ""}>
-            {!country 
-              ? "Select country first" 
-              : value || "Select city"
-            }
-          </span>
-          <ChevronDown className="h-4 w-4 opacity-50" />
-        </button>
-      </PopoverTrigger>
-      
-      <PopoverContent className="w-full max-w-xs p-0 bg-fuchsia-950 border-fuchsia-800/40" align="start">
-        <div className="flex flex-col">
-          <div className="p-2 border-b border-fuchsia-800/40">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search cities"
-              className="w-full rounded-md border border-fuchsia-800/40 bg-fuchsia-950/70 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50"
-            />
-          </div>
-          
-          <div className="max-h-[200px] overflow-y-auto">
-            {filteredCities.length > 0 ? (
-              filteredCities.map((city) => (
-                <div 
-                  key={`${city.stateCode}-${city.name}`}
-                  className="px-3 py-1.5 cursor-pointer hover:bg-fuchsia-800/20 transition-colors"
-                  onClick={() => handleCitySelect(city.name)}
-                >
-                  <span className="text-sm">{city.name}</span>
-                </div>
-              ))
-            ) : (
-              <div className="p-3">
-                <p className="text-sm text-fuchsia-300 mb-2">City not found?</p>
-                <CustomCityInput
-                  searchTerm={searchTerm}
-                  onSubmit={handleCustomCitySubmit}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
+          Custom
+        </Button>
+      </div>
+      {hasError && (
+        <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">
+          {validationError || errorMessage || error}
+        </p>
+      )}
+    </div>
   );
 };
 

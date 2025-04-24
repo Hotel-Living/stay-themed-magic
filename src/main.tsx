@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './styles/index.css'
@@ -19,8 +18,4 @@ supabase.channel('public:reviews')
 // Added console log to verify the application is running correctly
 console.log('Application starting...');
 
-createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+createRoot(document.getElementById("root")!).render(<App />);

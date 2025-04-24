@@ -40,7 +40,19 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   }, []);
   
   const handleAddRoomType = (roomType: RoomType) => {
-    setRoomTypes([...roomTypes, roomType]);
+    // Check if this is an edit (updated room type) or a new one
+    const existingIndex = roomTypes.findIndex(room => room.id === roomType.id);
+    
+    if (existingIndex >= 0) {
+      // Update existing room type
+      const updatedRoomTypes = [...roomTypes];
+      updatedRoomTypes[existingIndex] = roomType;
+      setRoomTypes(updatedRoomTypes);
+    } else {
+      // Add new room type
+      setRoomTypes([...roomTypes, roomType]);
+    }
+    
     setDialogOpen(false);
   };
   

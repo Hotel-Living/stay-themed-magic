@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
 import AddRoomTypeButton from "./AddRoomTypeButton";
@@ -27,6 +27,23 @@ export default function RoomTypeContent({
   handleDeleteRoomType,
   preferredWeekday
 }: RoomTypeContentProps) {
+  const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null);
+  
+  const handleOpenDialog = () => {
+    setEditingRoomType(null); // Reset editing state when adding new
+    setDialogOpen(true);
+  };
+  
+  const handleEditRoomType = (roomType: RoomType) => {
+    setEditingRoomType(roomType);
+    setDialogOpen(true);
+  };
+  
+  const handleCloseDialog = () => {
+    setEditingRoomType(null);
+    setDialogOpen(false);
+  };
+  
   return (
     <>
       {/* Available Types of Rooms Accordion with reduced spacing */}
@@ -38,7 +55,7 @@ export default function RoomTypeContent({
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
             onDelete={handleDeleteRoomType}
-            onEdit={() => {}} 
+            onEdit={handleEditRoomType} 
           />
         </Accordion>
       </div>
@@ -46,16 +63,17 @@ export default function RoomTypeContent({
       {/* Add Room Type Button with smaller text */}
       <div className="mb-6">
         <Accordion type="single" collapsible className="w-full">
-          <AddRoomTypeButton onOpenDialog={() => setDialogOpen(true)} />
+          <AddRoomTypeButton onOpenDialog={handleOpenDialog} />
         </Accordion>
       </div>
       
       <RoomTypeDialog 
         isOpen={dialogOpen} 
-        onClose={() => setDialogOpen(false)} 
+        onClose={handleCloseDialog} 
         onAdd={handleAddRoomType}
         availableStayLengths={selectedStayLengths}
         preferredWeekday={preferredWeekday}
+        editingRoomType={editingRoomType}
       />
     </>
   );

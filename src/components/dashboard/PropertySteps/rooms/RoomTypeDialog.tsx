@@ -19,6 +19,7 @@ interface RoomTypeDialogProps {
   onAdd: (roomType: any) => void;
   availableStayLengths?: number[];
   preferredWeekday?: string;
+  editingRoomType?: any | null;
 }
 
 export default function RoomTypeDialog({ 
@@ -27,6 +28,7 @@ export default function RoomTypeDialog({
   onAdd,
   availableStayLengths = [],
   preferredWeekday = "Monday",
+  editingRoomType = null
 }: RoomTypeDialogProps) {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [maxOccupancy, setMaxOccupancy] = useState(1);
@@ -38,6 +40,7 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
   
   // Track the effective preferred weekday
   const [effectiveWeekday, setEffectiveWeekday] = useState<string>(preferredWeekday);
@@ -81,14 +84,46 @@ export default function RoomTypeDialog({
           setStayLengths(storedLengths);
         }
       }
+      
+      // Check if we're in edit mode
+      if (editingRoomType) {
+        setIsEditing(true);
+        loadRoomTypeData(editingRoomType);
+      } else {
+        setIsEditing(false);
+        resetForm();
+      }
     }
-  }, [isOpen, availableStayLengths]);
+  }, [isOpen, availableStayLengths, editingRoomType]);
+  
+  const loadRoomTypeData = (roomType: any) => {
+    // Find the matching predefined room type
+    const predefinedType = PREDEFINED_ROOM_TYPES.find(rt => rt.name === roomType.name);
+    
+    setSelectedRoomType(predefinedType?.id || "");
+    setDescription(roomType.description || "");
+    setRoomCount(roomType.roomCount || 1);
+    setRates(roomType.rates || {});
+    setMaxOccupancy(roomType.maxOccupancy || 1);
+    setRoomSize(roomType.size || 200);
+    
+    // Load images
+    if (roomType.images && roomType.images.length > 0) {
+      setRoomImagePreviews(roomType.images);
+    }
+    
+    // Load availability dates
+    if (roomType.availabilityDates && roomType.availabilityDates.length > 0) {
+      setAvailabilityDates(roomType.availabilityDates);
+    }
+  };
 
   const handleAddRoomType = () => {
     if (selectedRoomType && roomImages.length > 0) {
       const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
-      onAdd({
-        id: Date.now().toString(),
+      
+      const updatedRoomType = {
+        id: isEditing ? editingRoomType.id : Date.now().toString(),
         name: roomType?.name || "",
         maxOccupancy,
         size: roomSize,
@@ -99,7 +134,9 @@ export default function RoomTypeDialog({
         images: roomImagePreviews,
         availabilityDates,
         preferredWeekday: effectiveWeekday
-      });
+      };
+      
+      onAdd(updatedRoomType);
       resetForm();
     }
   };
@@ -114,6 +151,7 @@ export default function RoomTypeDialog({
     setRoomImagePreviews([]);
     setRoomCount(1);
     setAvailabilityDates([]);
+    setIsEditing(false);
   };
 
   const handleRateChange = (duration: number, value: string) => {
@@ -145,18 +183,28 @@ export default function RoomTypeDialog({
     setAvailabilityDates(dates);
   };
 
+  // Determine if the dialog title should say "Edit" or "Add"
+  const dialogTitle = isEditing ? "Edit Room Type" : "Add New Room Type";
+  
+  // Button text changes based on edit/add mode
+  const buttonText = isEditing ? "Update Room Type" : "Add Room Type";
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="bg-[#430453] text-white w-[90%] max-w-4xl h-full overflow-y-auto" side="bottom">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-white mb-6">Add New Room Type</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold text-white mb-6">{dialogTitle}</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-8">
           <div className="space-y-4">
             <div>
               <Label className="text-white mb-2">Room Type</Label>
-              <Select value={selectedRoomType} onValueChange={setSelectedRoomType}>
+              <Select 
+                value={selectedRoomType} 
+                onValueChange={setSelectedRoomType}
+                disabled={isEditing} // Disable changing room type when editing
+              >
                 <SelectTrigger className="bg-[#850390] text-white border-white">
                   <SelectValue placeholder="Select a room type" />
                 </SelectTrigger>
@@ -234,7 +282,7 @@ export default function RoomTypeDialog({
             disabled={!selectedRoomType || roomImages.length === 0}
             className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
           >
-            Add Room Type
+            {buttonText}
           </Button>
           {roomImages.length === 0 && (
             <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
@@ -6,7 +7,7 @@ interface RoomTypeListProps {
   selectedStayLengths: number[];
   selectedUnit: string;
   onDelete: (id: string) => void;
-  onEdit: () => void;
+  onEdit: (roomType: any) => void;
 }
 
 export default function RoomTypeList({
@@ -36,7 +37,7 @@ export default function RoomTypeList({
               <div className="flex justify-end mt-2 space-x-2">
                 <button
                   className="px-3 py-1 bg-fuchsia-700 text-white rounded-md text-xs"
-                  onClick={onEdit}
+                  onClick={() => onEdit(roomType)}
                 >
                   Edit
                 </button>

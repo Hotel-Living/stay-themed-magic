@@ -30,3 +30,5 @@ export function CalendarHeader({ preferredWeekday }: CalendarHeaderProps) {
     </div>
   );
 }
+
+export default CalendarHeader;

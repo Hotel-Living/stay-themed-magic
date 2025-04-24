@@ -1,4 +1,5 @@
 
+import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
 
 interface FormNavigationProps {
@@ -22,42 +23,35 @@ export const useFormNavigation = ({
   setCurrentStep,
   formData
 }: FormNavigationProps) => {
-  
-  const validateCurrentStep = (): boolean => {
-    const isStepValid = stepValidation[currentStep] || false;
-    
-    // Additional validation check directly using formData for step 1
-    if (currentStep === 1) {
-      const hasName = Boolean(formData.hotelName);
-      const hasType = Boolean(formData.propertyType);
-      const hasDesc = Boolean(formData.description);
-      const hasImages = formData.hotelImages && formData.hotelImages.length > 0;
-      
-      console.log("Direct validation check in navigation:", {
-        hasName, hasType, hasDesc, hasImages,
-        stepValidation: stepValidation[currentStep]
-      });
-      
-      if (hasName && hasType && hasDesc && hasImages) {
-        return true;
-      }
-    }
-    
-    if (!isStepValid) {
+  const { toast } = useToast();
+
+  const validateCurrentStep = () => {
+    const isCurrentStepValid = stepValidation[currentStep];
+    if (!isCurrentStepValid) {
       const incompleteFields = getIncompleteFields(currentStep, formData);
       setErrorFields(incompleteFields);
       setShowValidationErrors(true);
+
+      // Dispatch navigation attempt event
+      window.dispatchEvent(new Event('attemptStepNavigation'));
+      
+      toast({
+        title: "Required Fields Incomplete",
+        description: "Please fill in all required fields before proceeding.",
+        variant: "destructive"
+      });
+
       return false;
     }
-    
-    return isStepValid;
+    return true;
   };
 
   const goToNextStep = () => {
-    const isValid = validateCurrentStep();
-    if (isValid && currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-      setShowValidationErrors(false);
+    if (validateCurrentStep()) {
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+        setShowValidationErrors(false);
+      }
     }
   };
 

@@ -21,6 +21,7 @@ export default function ThemesAndActivitiesStep({
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const { toast } = useToast();
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
+  const [showValidationWarning, setShowValidationWarning] = useState<boolean>(false);
   
   const handleThemeSelection = (themeId: string, isSelected: boolean) => {
     setSelectedThemes(prev => {
@@ -61,12 +62,38 @@ export default function ThemesAndActivitiesStep({
 
   useEffect(() => {
     const isValid = selectedThemes.length > 0;
+    
+    // Only show validation warning if user has interacted with the form
+    // and there's an attempt to validate with no themes selected
+    if (selectedThemes.length === 0 && showValidationWarning) {
+      setShowValidationWarning(true);
+    } else if (selectedThemes.length > 0) {
+      setShowValidationWarning(false);
+    }
+    
     onValidationChange(isValid);
-  }, [selectedThemes, onValidationChange]);
+  }, [selectedThemes, onValidationChange, showValidationWarning]);
+
+  // When a user interacts with either the themes or activities sections,
+  // we consider them to have started filling out the form
+  useEffect(() => {
+    const handleFormInteraction = () => {
+      if (selectedThemes.length === 0) {
+        setShowValidationWarning(true);
+      }
+    };
+
+    // Listen for navigation attempt events from the parent form
+    window.addEventListener('attemptStepNavigation', handleFormInteraction);
+    
+    return () => {
+      window.removeEventListener('attemptStepNavigation', handleFormInteraction);
+    };
+  }, [selectedThemes.length]);
   
   return (
     <div className="space-y-8 max-w-[80%]">
-      {selectedThemes.length === 0 && (
+      {selectedThemes.length === 0 && showValidationWarning && (
         <div className="bg-purple-700 text-white p-4 rounded-lg mb-4">
           <h3 className="text-lg font-semibold mb-2">Please complete all required fields:</h3>
           <ul className="list-disc list-inside">

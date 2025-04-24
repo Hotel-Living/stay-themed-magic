@@ -1,135 +1,139 @@
 
-import { useState, useCallback, useEffect } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { v4 as uuidv4 } from "uuid";
+import { useToast } from "@/hooks/use-toast";
 
 export interface UploadedImage {
   url: string;
   isMain: boolean;
   id?: string;
+  storagePath?: string;
 }
 
-export function usePropertyImages(initialImages: UploadedImage[] = []) {
+export function usePropertyImages(
+  initialImages: UploadedImage[] = [],
+  onChange?: (images: UploadedImage[]) => void
+) {
+  const [images, setImages] = useState<UploadedImage[]>(initialImages);
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(initialImages);
   const [uploading, setUploading] = useState(false);
-  const [mainImageIndex, setMainImageIndex] = useState<number>(
-    initialImages.findIndex(img => img.isMain) !== -1 
-      ? initialImages.findIndex(img => img.isMain) 
-      : initialImages.length > 0 ? 0 : -1
-  );
-  
-  const { user } = useAuth();
   const { toast } = useToast();
 
-  // Update uploaded images when initialImages change (for editing)
-  useEffect(() => {
-    if (initialImages && initialImages.length > 0) {
-      console.log("usePropertyImages: initialImages updated", initialImages);
-      setUploadedImages(initialImages);
-      
-      // Set main image index
-      const mainIndex = initialImages.findIndex(img => img.isMain);
-      setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
-    }
-  }, [JSON.stringify(initialImages)]); // Use JSON.stringify to compare object arrays
+  const handleAddFiles = (newFiles: File[]) => {
+    setFiles(prev => [...prev, ...newFiles]);
+  };
 
-  const addFiles = useCallback((newFiles: File[]) => {
-    setFiles(prevFiles => [...prevFiles, ...newFiles]);
-  }, []);
+  const handleRemoveFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
 
-  const removeFile = useCallback((index: number) => {
-    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-  }, []);
+  const handleUploadImages = async () => {
+    if (!files.length) return;
 
-  const removeUploadedImage = useCallback((index: number) => {
-    setUploadedImages(prev => prev.filter((_, i) => i !== index));
-    
-    // If removed image was the main image, set first remaining image as main
-    if (index === mainImageIndex) {
-      setMainImageIndex(prev => (prev > 0 ? 0 : -1));
-    } else if (index < mainImageIndex) {
-      // Adjust main image index if a previous image was removed
-      setMainImageIndex(prev => prev - 1);
-    }
-    
-    toast({
-      title: "Image removed",
-      description: "The image has been removed successfully.",
-    });
-  }, [mainImageIndex, toast]);
-
-  const uploadFiles = useCallback(async () => {
-    if (files.length === 0) {
-      toast({
-        title: "No files to upload",
-        description: "Please select files first.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
     setUploading(true);
-    
+
     try {
-      // For demo purposes, simulate uploading by creating object URLs
-      const newUploadedImages = [...uploadedImages];
+      const newImages: UploadedImage[] = [];
       
       for (const file of files) {
-        // Create a local URL for the file (this is a demo, not real uploading)
-        const fileUrl = URL.createObjectURL(file);
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${uuidv4()}.${fileExt}`;
+        const filePath = `hotel-images/${fileName}`;
         
-        newUploadedImages.push({
-          url: fileUrl,
-          isMain: newUploadedImages.length === 0, // First image is main by default
-          id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+        const { error: uploadError } = await supabase.storage
+          .from('properties')
+          .upload(filePath, file);
+        
+        if (uploadError) {
+          console.error('Error uploading file:', uploadError);
+          continue;
+        }
+        
+        const { data: urlData } = supabase.storage
+          .from('properties')
+          .getPublicUrl(filePath);
+        
+        const isFirstImage = images.length === 0 && newImages.length === 0;
+        
+        newImages.push({
+          url: urlData.publicUrl,
+          isMain: isFirstImage,
+          storagePath: filePath
         });
       }
       
-      setUploadedImages(newUploadedImages);
+      const updatedImages = [...images, ...newImages];
+      setImages(updatedImages);
       setFiles([]);
       
-      // If it's the first upload, set the first image as main
-      if (mainImageIndex === -1 && newUploadedImages.length > 0) {
-        setMainImageIndex(0);
+      if (onChange) {
+        onChange(updatedImages);
       }
       
-      toast({
-        title: "Upload successful",
-        description: `${files.length} image${files.length > 1 ? 's' : ''} uploaded successfully.`,
-      });
-    } catch (error: any) {
-      console.error("Error uploading files:", error);
-      toast({
-        title: "Upload failed",
-        description: error.message || "There was a problem uploading your images.",
-        variant: "destructive",
-      });
+    } catch (error) {
+      console.error('Error in image upload process:', error);
     } finally {
       setUploading(false);
     }
-  }, [files, uploadedImages, toast, mainImageIndex]);
-  
-  const setMainImage = useCallback((index: number) => {
-    setUploadedImages(prev => 
+  };
+
+  const handleSetMainImage = (index: number) => {
+    setImages(prev => 
       prev.map((img, i) => ({
         ...img,
         isMain: i === index
       }))
     );
-    setMainImageIndex(index);
-  }, []);
+    
+    if (onChange) {
+      onChange(images.map((img, i) => ({
+        ...img,
+        isMain: i === index
+      })));
+    }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const imageToRemove = images[index];
+    const wasMain = imageToRemove.isMain;
+    
+    // Remove the image
+    const newImages = images.filter((_, i) => i !== index);
+    
+    // If the removed image was the main one and we have other images, set the first one as main
+    if (wasMain && newImages.length > 0) {
+      newImages[0].isMain = true;
+    }
+    
+    setImages(newImages);
+    
+    if (onChange) {
+      onChange(newImages);
+    }
+    
+    // If the image was stored in Supabase, delete it there too
+    if (imageToRemove.storagePath) {
+      supabase.storage
+        .from('properties')
+        .remove([imageToRemove.storagePath])
+        .then(({ error }) => {
+          if (error) {
+            console.error('Error removing file from storage:', error);
+          }
+        });
+    }
+  };
 
   return {
+    images,
+    setImages,
     files,
-    uploadedImages,
     uploading,
-    mainImageIndex,
-    addFiles,
-    removeFile,
-    removeUploadedImage,
-    uploadFiles,
-    setMainImage
+    handleAddFiles,
+    handleRemoveFile,
+    handleUploadImages,
+    handleSetMainImage,
+    handleRemoveImage
   };
 }

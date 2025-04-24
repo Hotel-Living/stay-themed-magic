@@ -38,7 +38,7 @@ export default function ThemesAndActivitiesStep({
       let newThemes;
       if (isSelected) {
         if (!prev.includes(themeId)) {
-          // Remove toast notification
+          // No toast notification
         }
         newThemes = [...prev.filter(id => id !== themeId), themeId];
       } else {
@@ -74,22 +74,13 @@ export default function ThemesAndActivitiesStep({
   
   return (
     <div className="space-y-8 max-w-[80%]">
-      {selectedThemes.length === 0 && (
-        <div className="bg-purple-700 text-white p-4 rounded-lg mb-4">
-          <h3 className="text-lg font-semibold mb-2">Please complete all required fields:</h3>
-          <ul className="list-disc list-inside">
-            <li>Affinities</li>
-            <li>Activities</li>
-          </ul>
-        </div>
-      )}
-
       <AffinitiesSection
         openCategory={openCategory}
         setOpenCategory={setOpenCategory}
         openSubmenu={openSubmenu}
         setOpenSubmenu={setOpenSubmenu}
         onThemeSelect={handleThemeSelection}
+        selectedThemes={selectedThemes}
       />
 
       <ActivitiesSection

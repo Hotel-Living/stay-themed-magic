@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
@@ -39,12 +38,6 @@ export default function ThemesAndActivitiesStep({
     setSelectedThemes(prev => {
       let newThemes;
       if (isSelected) {
-        if (!prev.includes(themeId)) {
-          toast({
-            title: "Affinity selected",
-            description: "The affinity has been added to your selection"
-          });
-        }
         newThemes = [...prev.filter(id => id !== themeId), themeId];
       } else {
         newThemes = prev.filter(id => id !== themeId);

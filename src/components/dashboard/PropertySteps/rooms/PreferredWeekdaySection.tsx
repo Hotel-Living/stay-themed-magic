@@ -46,6 +46,8 @@ export default function PreferredWeekdaySection({
     // Dispatch event for other components
     const event = new CustomEvent('preferredWeekdayUpdated', { detail: day });
     window.dispatchEvent(event);
+
+    // Removed toast notification
   };
 
   return (

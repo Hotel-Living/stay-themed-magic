@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 interface ActivitiesSectionProps {
   selectedActivities: string[];
@@ -74,7 +74,7 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                       <input 
                         type="checkbox" 
                         checked={selectedActivities.includes(activity)}
-                        onChange={(e) => onChange(activity, e.target.checked)}
+                        onChange={(e) => onActivityChange(activity, e.target.checked)}
                         className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
                       />
                       <span className="text-sm">{activity}</span>

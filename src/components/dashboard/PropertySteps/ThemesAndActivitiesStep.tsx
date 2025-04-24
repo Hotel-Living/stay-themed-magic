@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
-import { CustomActivitiesSection } from "./activities/CustomActivitiesSection";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -125,8 +124,6 @@ export default function ThemesAndActivitiesStep({
         selectedActivities={selectedActivities}
         onActivityChange={handleActivityChange}
       />
-
-      <CustomActivitiesSection />
     </div>
   );
 }

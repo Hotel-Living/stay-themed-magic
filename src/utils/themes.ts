@@ -1,217 +1,34 @@
-// Theme types and data
-export interface Theme {
-  id: string;
-  name: string;
-  category?: string;
-}
+
+import { Theme, ThemeCategory } from './theme-types';
+import { foodAndDrinksCategory } from './theme-categories/food-drinks';
+import { artCategory, cultureCategory } from './theme-categories/arts-culture';
+import { sportsCategory, danceCategory } from './theme-categories/sports-activities';
+import { languagesCategory } from './theme-categories/education';
+import { musicCategory, gamesCategory, literatureCategory } from './theme-categories/entertainment';
+import { technologyCategory, sciencesCategory } from './theme-categories/technology-science';
+import { cookingExperiences } from './theme-lists/cooking-experiences';
+import { foodPreferences } from './theme-lists/food-preferences';
 
 // Theme categories with subcategories, submenus, and options
-export const themeCategories = [
-  {
-    category: "FOODS & DRINKS",
-    subcategories: [
-      {
-        name: "Culinary",
-        submenus: [
-          {
-            name: "World Cuisines",
-            options: [
-              { 
-                id: "spain", 
-                name: "Spain", 
-                suboptions: ["Spanish", "Castilian", "Andalusian", "Basque", "Galician", "Catalonian"] 
-              },
-              { 
-                id: "france", 
-                name: "France", 
-                suboptions: ["French"] 
-              },
-              { 
-                id: "italy", 
-                name: "Italian", 
-                suboptions: ["Toscana"] 
-              },
-              { 
-                id: "add-other", 
-                name: "Add other", 
-                isAddOption: true 
-              }
-            ]
-          },
-          {
-            name: "Cuisine Learning",
-            options: [
-              { id: "meat", name: "Meat" },
-              { id: "fish", name: "Fish" },
-              { id: "seafood", name: "Seafood" },
-              { id: "add-other", name: "Add other", isAddOption: true }
-            ]
-          }
-        ]
-      },
-      {
-        name: "Drinks",
-        themes: [
-          { id: "wine", name: "Wine" },
-          { id: "beer", name: "Beer" },
-          { id: "cocktails", name: "Cocktails" },
-          { id: "spirits", name: "Spirits" },
-          { id: "add-other", name: "Add other", isAddOption: true }
-        ]
-      }
-    ]
-  },
-  {
-    category: "SPORTS",
-    themes: [
-      { id: "golf", name: "Golf" },
-      { id: "tennis", name: "Tennis" },
-      { id: "swimming", name: "Swimming" },
-      { id: "diving", name: "Diving" },
-      { id: "yoga", name: "Yoga" },
-      { id: "fitness", name: "Fitness" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "ART",
-    themes: [
-      { id: "painting", name: "Painting" },
-      { id: "sculpture", name: "Sculpture" },
-      { id: "photography", name: "Photography" },
-      { id: "architecture", name: "Architecture" },
-      { id: "design", name: "Design" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "CULTURE",
-    themes: [
-      { id: "history", name: "History" },
-      { id: "museums", name: "Museums" },
-      { id: "local-traditions", name: "Local Traditions" },
-      { id: "festivals", name: "Festivals" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "MUSIC",
-    themes: [
-      { id: "rock", name: "Rock" },
-      { id: "opera", name: "Opera" },
-      { id: "symphonic", name: "Symphonic" },
-      { id: "classical", name: "Classical" },
-      { id: "pop", name: "Pop" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "LANGUAGES",
-    subcategories: [
-      {
-        name: "Practice",
-        themes: [
-          { id: "english-practice", name: "English" },
-          { id: "spanish-practice", name: "Spanish" },
-          { id: "french-practice", name: "French" },
-          { id: "german-practice", name: "German" },
-          { id: "chinese-practice", name: "Chinese" },
-          { id: "japanese-practice", name: "Japanese" },
-          { id: "add-other-practice", name: "Add other", isAddOption: true }
-        ]
-      },
-      {
-        name: "Learning",
-        themes: [
-          { id: "english-learning", name: "English" },
-          { id: "spanish-learning", name: "Spanish" },
-          { id: "french-learning", name: "French" },
-          { id: "german-learning", name: "German" },
-          { id: "chinese-learning", name: "Chinese" },
-          { id: "japanese-learning", name: "Japanese" },
-          { id: "add-other-learning", name: "Add other", isAddOption: true }
-        ]
-      }
-    ]
-  },
-  {
-    category: "DANCE",
-    themes: [
-      { id: "ballroom", name: "Ballroom" },
-      { id: "latin", name: "Latin" },
-      { id: "contemporary", name: "Contemporary" },
-      { id: "traditional", name: "Traditional" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "TECHNOLOGY",
-    themes: [
-      { id: "digital", name: "Digital" },
-      { id: "innovation", name: "Innovation" },
-      { id: "smart-home", name: "Smart Home" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "SCIENCES",
-    themes: [
-      { id: "astronomy", name: "Astronomy" },
-      { id: "biology", name: "Biology" },
-      { id: "physics", name: "Physics" },
-      { id: "chemistry", name: "Chemistry" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "LITERATURE",
-    themes: [
-      { id: "poetry", name: "Poetry" },
-      { id: "novels", name: "Novels" },
-      { id: "short-stories", name: "Short Stories" },
-      { id: "book-clubs", name: "Book Clubs" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  },
-  {
-    category: "GAMES",
-    themes: [
-      { id: "board-games", name: "Board Games" },
-      { id: "card-games", name: "Card Games" },
-      { id: "chess", name: "Chess" },
-      { id: "video-games", name: "Video Games" },
-      { id: "add-other", name: "Add other", isAddOption: true }
-    ]
-  }
+export const themeCategories: ThemeCategory[] = [
+  foodAndDrinksCategory,
+  sportsCategory,
+  artCategory,
+  cultureCategory,
+  musicCategory,
+  languagesCategory,
+  danceCategory,
+  technologyCategory,
+  sciencesCategory,
+  literatureCategory,
+  gamesCategory
 ];
 
 // Create a flat list of all themes for easier access
 export const allThemes: Theme[] = [
-  // Cooking Experiences
-  { id: "italian-cooking", name: "Italian Cuisine", category: "FOODS & DRINKS" },
-  { id: "french-pastry", name: "French Pastry", category: "FOODS & DRINKS" },
-  { id: "sushi-prep", name: "Sushi Preparation", category: "FOODS & DRINKS" },
-  { id: "tapas-workshop", name: "Tapas Workshop", category: "FOODS & DRINKS" },
-  { id: "bbq-techniques", name: "BBQ Techniques", category: "FOODS & DRINKS" },
-  { id: "mediterranean-cooking", name: "Mediterranean Cooking", category: "FOODS & DRINKS" },
-  { id: "asian-fusion", name: "Asian Fusion", category: "FOODS & DRINKS" },
-  { id: "pastry-baking", name: "Pastry & Baking", category: "FOODS & DRINKS" },
-  { id: "vegetarian-cooking", name: "Vegetarian Cooking", category: "FOODS & DRINKS" },
-  { id: "wine-pairing", name: "Wine Pairing", category: "FOODS & DRINKS" },
-  
-  // Food Preferences
-  { id: "seafood", name: "Seafood", category: "FOODS & DRINKS" },
-  { id: "pastries-desserts", name: "Pastries & Desserts", category: "FOODS & DRINKS" },
-  { id: "grilled-meats", name: "Grilled Meats", category: "FOODS & DRINKS" },
-  { id: "vegan", name: "Vegan", category: "FOODS & DRINKS" },
-  { id: "mediterranean", name: "Mediterranean", category: "FOODS & DRINKS" },
-  { id: "street-food", name: "Street Food", category: "FOODS & DRINKS" },
-  { id: "breakfast", name: "Breakfast Specialties", category: "FOODS & DRINKS" },
-  { id: "organic", name: "Organic & Local", category: "FOODS & DRINKS" },
-  { id: "gluten-free", name: "Gluten Free", category: "FOODS & DRINKS" },
-  { id: "fusion", name: "Fusion Cuisine", category: "FOODS & DRINKS" },
-  
-  // Food & Drinks
+  ...cookingExperiences,
+  ...foodPreferences,
+  // Food & Drinks World Cuisines
   { id: "spanish-cuisine", name: "Spanish Cuisine", category: "FOODS & DRINKS" },
   { id: "castilian-cuisine", name: "Castilian Cuisine", category: "FOODS & DRINKS" },
   { id: "andalusian-cuisine", name: "Andalusian Cuisine", category: "FOODS & DRINKS" },
@@ -221,82 +38,20 @@ export const allThemes: Theme[] = [
   { id: "french-cuisine", name: "French Cuisine", category: "FOODS & DRINKS" },
   { id: "italian-cuisine", name: "Italian Cuisine", category: "FOODS & DRINKS" },
   { id: "toscana-cuisine", name: "Toscana Cuisine", category: "FOODS & DRINKS" },
-  { id: "meat", name: "Meat Cooking", category: "FOODS & DRINKS" },
-  { id: "fish", name: "Fish Cooking", category: "FOODS & DRINKS" },
-  { id: "seafood", name: "Seafood Cooking", category: "FOODS & DRINKS" },
-  { id: "wine", name: "Wine", category: "FOODS & DRINKS" },
-  { id: "beer", name: "Beer", category: "FOODS & DRINKS" },
-  { id: "cocktails", name: "Cocktails", category: "FOODS & DRINKS" },
-  { id: "spirits", name: "Spirits", category: "FOODS & DRINKS" },
   
-  // Sports
-  { id: "golf", name: "Golf", category: "SPORTS" },
-  { id: "tennis", name: "Tennis", category: "SPORTS" },
-  { id: "swimming", name: "Swimming", category: "SPORTS" },
-  { id: "diving", name: "Diving", category: "SPORTS" },
-  { id: "yoga", name: "Yoga", category: "SPORTS" },
-  { id: "fitness", name: "Fitness", category: "SPORTS" },
+  // Flatten all themes from categories
+  ...sportsCategory.themes || [],
+  ...artCategory.themes || [],
+  ...cultureCategory.themes || [],
+  ...musicCategory.themes || [],
+  ...danceCategory.themes || [],
+  ...technologyCategory.themes || [],
+  ...sciencesCategory.themes || [],
+  ...literatureCategory.themes || [],
+  ...gamesCategory.themes || [],
   
-  // Art
-  { id: "painting", name: "Painting", category: "ART" },
-  { id: "sculpture", name: "Sculpture", category: "ART" },
-  { id: "photography", name: "Photography", category: "ART" },
-  { id: "architecture", name: "Architecture", category: "ART" },
-  { id: "design", name: "Design", category: "ART" },
-  
-  // Culture
-  { id: "history", name: "History", category: "CULTURE" },
-  { id: "museums", name: "Museums", category: "CULTURE" },
-  { id: "local-traditions", name: "Local Traditions", category: "CULTURE" },
-  { id: "festivals", name: "Festivals", category: "CULTURE" },
-  
-  // Music
-  { id: "rock", name: "Rock", category: "MUSIC" },
-  { id: "opera", name: "Opera", category: "MUSIC" },
-  { id: "symphonic", name: "Symphonic", category: "MUSIC" },
-  { id: "classical", name: "Classical", category: "MUSIC" },
-  { id: "pop", name: "Pop", category: "MUSIC" },
-  
-  // Languages
-  { id: "english-practice", name: "English Practice", category: "LANGUAGES" },
-  { id: "spanish-practice", name: "Spanish Practice", category: "LANGUAGES" },
-  { id: "french-practice", name: "French Practice", category: "LANGUAGES" },
-  { id: "german-practice", name: "German Practice", category: "LANGUAGES" },
-  { id: "chinese-practice", name: "Chinese Practice", category: "LANGUAGES" },
-  { id: "japanese-practice", name: "Japanese Practice", category: "LANGUAGES" },
-  { id: "english-learning", name: "English Learning", category: "LANGUAGES" },
-  { id: "spanish-learning", name: "Spanish Learning", category: "LANGUAGES" },
-  { id: "french-learning", name: "French Learning", category: "LANGUAGES" },
-  { id: "german-learning", name: "German Learning", category: "LANGUAGES" },
-  { id: "chinese-learning", name: "Chinese Learning", category: "LANGUAGES" },
-  { id: "japanese-learning", name: "Japanese Learning", category: "LANGUAGES" },
-  
-  // Dance
-  { id: "ballroom", name: "Ballroom", category: "DANCE" },
-  { id: "latin", name: "Latin", category: "DANCE" },
-  { id: "contemporary", name: "Contemporary", category: "DANCE" },
-  { id: "traditional", name: "Traditional", category: "DANCE" },
-  
-  // Technology
-  { id: "digital", name: "Digital", category: "TECHNOLOGY" },
-  { id: "innovation", name: "Innovation", category: "TECHNOLOGY" },
-  { id: "smart-home", name: "Smart Home", category: "TECHNOLOGY" },
-  
-  // Sciences
-  { id: "astronomy", name: "Astronomy", category: "SCIENCES" },
-  { id: "biology", name: "Biology", category: "SCIENCES" },
-  { id: "physics", name: "Physics", category: "SCIENCES" },
-  { id: "chemistry", name: "Chemistry", category: "SCIENCES" },
-  
-  // Literature
-  { id: "poetry", name: "Poetry", category: "LITERATURE" },
-  { id: "novels", name: "Novels", category: "LITERATURE" },
-  { id: "short-stories", name: "Short Stories", category: "LITERATURE" },
-  { id: "book-clubs", name: "Book Clubs", category: "LITERATURE" },
-  
-  // Games
-  { id: "board-games", name: "Board Games", category: "GAMES" },
-  { id: "card-games", name: "Card Games", category: "GAMES" },
-  { id: "chess", name: "Chess", category: "GAMES" },
-  { id: "video-games", name: "Video Games", category: "GAMES" }
-];
+  // Add languages themes
+  ...(languagesCategory.subcategories?.flatMap(sub => sub.themes || []) || [])
+].filter((theme): theme is Theme => theme !== undefined);
+
+export { Theme, ThemeCategory } from './theme-types';

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface UseRoomTypeRatesReturn {
   rates: Record<number, number>;
@@ -9,7 +9,14 @@ interface UseRoomTypeRatesReturn {
 
 export function useRoomTypeRates(initialStayLengths: number[] = []): UseRoomTypeRatesReturn {
   const [rates, setRates] = useState<Record<number, number>>({});
-  const [stayLengths] = useState<number[]>(initialStayLengths);
+  const [stayLengths, setStayLengths] = useState<number[]>(initialStayLengths);
+
+  // Initialize rates with any duration provided
+  useEffect(() => {
+    if (initialStayLengths && initialStayLengths.length > 0) {
+      setStayLengths(initialStayLengths);
+    }
+  }, [initialStayLengths]);
 
   const handleRateChange = (duration: number, value: string) => {
     setRates(prev => ({

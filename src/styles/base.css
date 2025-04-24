@@ -41,12 +41,13 @@
   }
 
   html, body {
-    @apply overflow-x-hidden max-w-[100vw];
+    @apply overflow-x-hidden;
+    width: 100%;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
-    background-color: #860493; /* Added initial purple background color */
+    background-color: #860493;
   }
 }

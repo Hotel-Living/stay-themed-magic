@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StayLengthSection from "./StayLengthSection";
@@ -7,6 +6,7 @@ import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 import { weekdays } from "@/utils/constants";
+import HotelFeaturesStep from "./HotelFeaturesStep";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -31,7 +31,6 @@ const AccommodationTermsStep = ({
   const [error, setError] = useState<string>("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   
-  // Control the open/closed state for all sections
   const [sectionsState, setSectionsState] = useState({
     weekday: false,
     stayLength: false,
@@ -40,12 +39,10 @@ const AccommodationTermsStep = ({
   });
 
   useEffect(() => {
-    // Update validation state when any required field changes
     checkValidation();
   }, [selectedStayLengths, selectedMealPlans, roomTypes]);
 
   useEffect(() => {
-    // Initialize component state from formData if available
     if (formData.preferredWeekday) {
       setSelectedWeekday(formData.preferredWeekday);
     }
@@ -95,9 +92,7 @@ const AccommodationTermsStep = ({
     setSelectedStayLengths(lengths);
     updateFormData('stayLengths', lengths);
     
-    // Also update the local storage for the stayLengths context
     localStorage.setItem('selectedStayLengths', JSON.stringify(lengths));
-    // Dispatch custom event for other components that might be listening
     const event = new CustomEvent('stayLengthsUpdated', { detail: lengths });
     window.dispatchEvent(event);
   };
@@ -123,54 +118,57 @@ const AccommodationTermsStep = ({
   };
 
   return (
-    <div className="space-y-4 max-w-[80%]">
+    <div className="space-y-3 max-w-[80%]">
       <h2 className="text-xl font-bold mb-2 text-white">ACCOMMODATION TERMS</h2>
       
-      {/* Show validation message when required fields are missing */}
       <ValidationMessages 
         error={error}
         showErrors={showValidationErrors}
         isValid={isValid}
       />
       
-      <PreferredWeekdaySection 
-        preferredWeekday={selectedWeekday}
-        onWeekdayChange={handleWeekdayChange}
-      />
-      
-      <StayLengthSection 
-        isOpen={sectionsState.stayLength}
-        onOpenChange={() => toggleSection('stayLength')}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <MealPlanSection 
-        isOpen={sectionsState.mealPlan}
-        onOpenChange={() => toggleSection('mealPlan')}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={formData}
-        updateFormData={updateFormData}
-      />
-      
-      <RoomsRatesSection
-        isOpen={sectionsState.roomRates}
-        onOpenChange={() => toggleSection('roomRates')}
-        onValidationChange={(valid) => {
-          if (!valid) checkValidation();
-        }}
-        formData={{
-          ...formData,
-          preferredWeekday: selectedWeekday,
-          stayLengths: selectedStayLengths
-        }}
-        updateFormData={updateFormData}
-      />
+      <div className="space-y-3">
+        <PreferredWeekdaySection 
+          preferredWeekday={selectedWeekday}
+          onWeekdayChange={handleWeekdayChange}
+        />
+        
+        <StayLengthSection 
+          isOpen={sectionsState.stayLength}
+          onOpenChange={() => toggleSection('stayLength')}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+        
+        <MealPlanSection 
+          isOpen={sectionsState.mealPlan}
+          onOpenChange={() => toggleSection('mealPlan')}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+        
+        <RoomsRatesSection
+          isOpen={sectionsState.roomRates}
+          onOpenChange={() => toggleSection('roomRates')}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+          formData={{
+            ...formData,
+            preferredWeekday: selectedWeekday,
+            stayLengths: selectedStayLengths
+          }}
+          updateFormData={updateFormData}
+        />
+
+        <HotelFeaturesStep />
+      </div>
     </div>
   );
 };

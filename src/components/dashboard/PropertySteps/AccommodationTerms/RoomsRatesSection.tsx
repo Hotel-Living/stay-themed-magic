@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { Collapsible } from "@/components/ui/collapsible";
 import CollapsibleHeader from "./RoomRates/CollapsibleHeader";
 import RoomRatesContent from "./RoomRates/RoomRatesContent";
 

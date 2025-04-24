@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
@@ -18,10 +17,7 @@ export default function StayLengthSection({
   formData = {},
   updateFormData = () => {}
 }: StayLengthSectionProps) {
-  // Durations available for selection
   const durations = [8, 16, 24, 32];
-  
-  // Initialize selected lengths from form data or empty array
   const initialStayLengths = formData.stayLengths || [];
   const [selectedStayLengths, setSelectedStayLengths] = React.useState<number[]>(initialStayLengths);
 
@@ -36,34 +32,31 @@ export default function StayLengthSection({
     
     setSelectedStayLengths(newSelectedLengths);
     
-    // Save to context & localStorage for sharing with room type components
     localStorage.setItem('selectedStayLengths', JSON.stringify(newSelectedLengths));
     
-    // Update parent form data
     if (updateFormData) {
       updateFormData('stayLengths', newSelectedLengths);
     }
 
-    // Update validation status
     onValidationChange(newSelectedLengths.length > 0);
   };
 
   return (
     <Collapsible 
-      className="w-full mb-4"
+      className="w-full mb-2 border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10"
       open={isOpen} 
       onOpenChange={onOpenChange}
     >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-6 py-3 text-left rounded-full bg-[#7a0486]">
-        <label className="text-lg font-semibold text-white">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
+        <label className="text-base font-medium text-white">
           Length of Stay
         </label>
-        <ChevronDown className="h-5 w-5 text-white" />
+        <ChevronDown className="h-4 w-4 text-white" />
       </CollapsibleTrigger>
-      <CollapsibleContent className="p-4">
+      <CollapsibleContent className="p-3">
         <div className="space-y-2">
-          <label className="block uppercase text-sm">AVAILABLE STAY LENGTHS</label>
-          <div className="grid grid-cols-2 gap-4">
+          <label className="block text-sm uppercase text-white/90">AVAILABLE STAY LENGTHS</label>
+          <div className="grid grid-cols-2 gap-3">
             {durations.map((duration) => (
               <label key={duration} className="flex items-center">
                 <input 
@@ -72,14 +65,14 @@ export default function StayLengthSection({
                   checked={selectedStayLengths.includes(duration)}
                   onChange={(e) => handleStayLengthChange(e, duration)}
                 />
-                <span className="text-sm">{duration} days</span>
+                <span className="text-sm text-white/90">{duration} days</span>
               </label>
             ))}
           </div>
           
           {selectedStayLengths.length > 0 && (
             <p className="text-green-400 text-xs mt-2">
-              Selected stay lengths will automatically populate rate fields in Room Types section
+              Selected stay lengths will populate rate fields in Room Types
             </p>
           )}
         </div>

@@ -10,8 +10,6 @@ export default function RoomsAndPricingStep() {
     mealPlan: false
   });
 
-  const [isStayLengthOpen, setIsStayLengthOpen] = useState(false);
-
   const handleValidationChange = (section: keyof typeof validations, isValid: boolean) => {
     setValidations(prev => ({
       ...prev,
@@ -20,14 +18,14 @@ export default function RoomsAndPricingStep() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Main section with LENGTH OF STAY and MEALS */}
-      <div className="mb-6">
-        <h2 className="font-medium text-lg mb-3">LENGTH OF STAY – MEALS</h2>
-        <div className="space-y-4 pl-2">
+      <div className="mb-4">
+        <h2 className="font-medium text-lg mb-2 text-white">LENGTH OF STAY – MEALS</h2>
+        <div className="space-y-2">
           <StayLengthSection 
-            isOpen={isStayLengthOpen}
-            onOpenChange={setIsStayLengthOpen}
+            isOpen={false}
+            onOpenChange={() => {}}
             onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
             formData={{}}
             updateFormData={() => {}}

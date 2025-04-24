@@ -46,11 +46,19 @@ export const useFormNavigation = ({
     return true;
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const goToNextStep = () => {
     if (validateCurrentStep()) {
       if (currentStep < totalSteps) {
         setCurrentStep(currentStep + 1);
         setShowValidationErrors(false);
+        scrollToTop(); // Added scroll to top functionality
       }
     }
   };
@@ -59,6 +67,7 @@ export const useFormNavigation = ({
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
       setShowValidationErrors(false);
+      scrollToTop(); // Added scroll to top functionality
     }
   };
 

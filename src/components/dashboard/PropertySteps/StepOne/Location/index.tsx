@@ -31,8 +31,13 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
 
   useEffect(() => {
     if (formData.country) {
-      const citiesData = City.getCitiesOfCountry(formData.country) || [];
-      setCities(citiesData.map(city => city.name));
+      const countryObj = Country.getAllCountries().find(c => c.name === formData.country);
+      if (countryObj) {
+        const citiesData = City.getCitiesOfCountry(countryObj.isoCode) || [];
+        setCities(citiesData.map(city => city.name));
+      } else {
+        setCities([]);
+      }
     } else {
       setCities([]);
     }
@@ -53,15 +58,15 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
       address += formData.city;
     }
     
-    // Add country if available (use country name instead of code)
+    // Add country if available
     if (formData.country && formData.country.trim() !== "") {
-      // Convert country code to full name
-      const countryData = Country.getCountryByCode(formData.country);
-      if (countryData) {
+      // Find country code if it exists
+      const countryObj = Country.getAllCountries().find(c => c.name === formData.country);
+      if (countryObj) {
         if (address) address += ", ";
-        address += countryData.name;
+        address += countryObj.name;
       } else if (address) {
-        // If country code doesn't match, just use it as is
+        // If country doesn't match any in the list, just use it as is
         address += ", " + formData.country;
       }
     }
@@ -97,25 +102,13 @@ const LocationSection = ({ formData, errors, touchedFields, handleChange, handle
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <CountrySelector
           value={formData.country}
-          onChange={(e) => handleChange('country', e.target.value)}
-          onValueChange={(value) => handleChange('country', value)}
-          onBlur={() => handleBlur('country')}
-          error={errors.country}
-          touched={touchedFields.country}
-          onCustomClick={handleCustomCountry}
+          onChange={(value) => handleChange('country', value)}
         />
         
         <CitySelector
           country={formData.country}
           value={formData.city}
-          onChange={(e) => handleChange('city', e.target.value)}
-          onValueChange={(value) => handleChange('city', value)}
-          onBlur={() => handleBlur('city')}
-          error={errors.city}
-          touched={touchedFields.city}
-          cities={cities}
-          disabled={!formData.country}
-          onCustomClick={handleCustomCity}
+          onChange={(value) => handleChange('city', value)}
         />
       </div>
       

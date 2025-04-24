@@ -1,35 +1,42 @@
 
-import React from "react";
+import React, { useState } from "react";
 
 interface CustomCityInputProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: () => void;
-  onCancel: () => void;
+  onSubmit: (cityName: string) => void;
+  initialValue?: string;
 }
 
-export default function CustomCityInput({
-  value,
-  onChange,
-  onBlur,
-  onCancel
-}: CustomCityInputProps) {
+const CustomCityInput: React.FC<CustomCityInputProps> = ({ 
+  onSubmit,
+  initialValue = "" 
+}) => {
+  const [cityName, setCityName] = useState(initialValue);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (cityName.trim()) {
+      onSubmit(cityName.trim());
+    }
+  };
+
   return (
-    <div className="mt-1">
-      <input 
-        type="text" 
-        placeholder="Enter city name" 
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        className="w-full p-2 text-white bg-[#7A0486] border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+      <input
+        type="text"
+        value={cityName}
+        onChange={(e) => setCityName(e.target.value)}
+        placeholder="Enter city name"
+        className="w-full rounded-md border border-fuchsia-800/40 bg-fuchsia-950/70 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50"
       />
-      <button 
-        onClick={onCancel}
-        className="mt-2 text-fuchsia-300 text-sm hover:text-fuchsia-100"
+      <button
+        type="submit"
+        disabled={!cityName.trim()}
+        className="w-full px-3 py-1.5 rounded-md bg-fuchsia-700 text-white text-sm font-medium disabled:opacity-50"
       >
-        Cancel
+        Add Custom City
       </button>
-    </div>
+    </form>
   );
-}
+};
+
+export default CustomCityInput;

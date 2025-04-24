@@ -45,13 +45,13 @@ export default function AccommodationTermsStep({
       
       <div className="space-y-4">
         <StayLengthSection 
-          onValidityChange={setHasStayLengths} 
+          onValidationChange={setHasStayLengths} 
           formData={formData}
           updateFormData={updateFormData}
         />
         
         <MealPlanSection 
-          onValidityChange={setHasMealPlans} 
+          onValidationChange={setHasMealPlans} 
           formData={formData}
           updateFormData={updateFormData}
         />
@@ -64,7 +64,7 @@ export default function AccommodationTermsStep({
         />
         
         <RoomsRatesSection 
-          onValidityChange={setHasRoomTypes} 
+          onValidationChange={setHasRoomTypes} 
           formData={formData}
           updateFormData={updateFormData}
         />

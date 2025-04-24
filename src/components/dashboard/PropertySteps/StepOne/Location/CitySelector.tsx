@@ -6,6 +6,14 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import CustomCityInput from "./CustomCityInput";
 
+interface CityData {
+  name: string;
+  stateCode: string;
+  countryCode: string;
+  longitude?: string;
+  latitude?: string;
+}
+
 interface CitySelectorProps {
   value: string;
   onChange: (value: string) => void;
@@ -17,7 +25,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({ value, onChange, country, c
   const [isCustomCity, setIsCustomCity] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [availableCities, setAvailableCities] = useState<City[]>([]);
+  const [availableCities, setAvailableCities] = useState<CityData[]>([]);
   
   // Get cities based on country
   useEffect(() => {
@@ -28,7 +36,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({ value, onChange, country, c
         const states = State.getStatesOfCountry(countryObj.isoCode);
         
         // Get cities for all states
-        const allCities: City[] = [];
+        const allCities: CityData[] = [];
         states.forEach(state => {
           const citiesInState = City.getCitiesOfState(countryObj.isoCode, state.isoCode);
           allCities.push(...citiesInState);
@@ -120,7 +128,6 @@ const CitySelector: React.FC<CitySelectorProps> = ({ value, onChange, country, c
               <div className="p-3">
                 <p className="text-sm text-fuchsia-300 mb-2">City not found?</p>
                 <CustomCityInput
-                  searchTerm={searchTerm}
                   onSubmit={handleCustomCitySubmit}
                 />
               </div>
@@ -130,6 +137,6 @@ const CitySelector: React.FC<CitySelectorProps> = ({ value, onChange, country, c
       </PopoverContent>
     </Popover>
   );
-};
+}
 
 export default CitySelector;

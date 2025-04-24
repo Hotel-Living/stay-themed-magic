@@ -20,13 +20,13 @@ export default function PicturesStep({
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const {
     files,
-    uploadedImages,
+    images: uploadedImages,
     uploading,
-    addFiles,
-    removeFile,
-    removeUploadedImage,
-    uploadFiles,
-    setMainImage
+    handleAddFiles: addFiles,
+    handleRemoveFile: removeFile,
+    handleRemoveImage: removeUploadedImage,
+    handleUploadImages: uploadFiles,
+    handleSetMainImage: setMainImage
   } = usePropertyImages(formData.hotelImages || []);
 
   // Update form data when uploaded images change

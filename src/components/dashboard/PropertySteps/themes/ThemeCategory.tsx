@@ -21,7 +21,7 @@ interface ThemeCategoryProps {
   openSubmenus: Record<string, boolean>;
   toggleSubmenu: (submenu: string | null) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[]; // Add this prop
+  selectedThemes: string[];
 }
 
 const ThemeCategory = ({
@@ -31,7 +31,7 @@ const ThemeCategory = ({
   openSubmenus,
   toggleSubmenu,
   onThemeSelect,
-  selectedThemes = [], // Default to empty array if not provided
+  selectedThemes = [],
 }: ThemeCategoryProps) => {
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
@@ -56,7 +56,7 @@ const ThemeCategory = ({
               isOpen={!!openSubmenus[submenu.name]}
               toggleSubmenu={toggleSubmenu}
               onThemeSelect={onThemeSelect}
-              selectedThemes={selectedThemes} // Pass selected themes to submenu
+              selectedThemes={selectedThemes}
             />
           ))}
         </div>

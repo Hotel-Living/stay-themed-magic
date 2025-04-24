@@ -19,7 +19,7 @@ interface ThemeSubmenuProps {
   isOpen: boolean;
   toggleSubmenu: (submenuName: string) => void;
   onThemeSelect?: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[]; // Add this prop
+  selectedThemes: string[];
 }
 
 const ThemeSubmenu = ({ 
@@ -27,7 +27,7 @@ const ThemeSubmenu = ({
   isOpen, 
   toggleSubmenu, 
   onThemeSelect,
-  selectedThemes = [] // Default to empty array if not provided
+  selectedThemes = [] 
 }: ThemeSubmenuProps) => {
   const [isAddingOption, setIsAddingOption] = useState(false);
   const [newOptionName, setNewOptionName] = useState("");
@@ -36,13 +36,10 @@ const ThemeSubmenu = ({
 
   const handleAddOption = () => {
     if (newOptionName.trim()) {
-      // Create a new custom option ID based on submenu name and option name
       const customOptionId = `${submenu.name.toLowerCase().replace(/\s+/g, '-')}-custom-${newOptionName.toLowerCase().replace(/\s+/g, '-')}`;
       
-      // Add to local state to display it
       setCustomOptions(prev => [...prev, { id: customOptionId, name: newOptionName }]);
       
-      // If onThemeSelect is provided, select this new custom option
       if (onThemeSelect) {
         onThemeSelect(customOptionId, true);
       }
@@ -52,17 +49,14 @@ const ThemeSubmenu = ({
         description: `${newOptionName} has been added to ${submenu.name}`
       });
       
-      // Reset the form
       setNewOptionName("");
       setIsAddingOption(false);
     }
   };
 
   const handleDeleteOption = (optionId: string, optionName: string) => {
-    // Remove the option from custom options
     setCustomOptions(prev => prev.filter(option => option.id !== optionId));
     
-    // Deselect the option if onThemeSelect is provided
     if (onThemeSelect) {
       onThemeSelect(optionId, false);
     }
@@ -75,18 +69,6 @@ const ThemeSubmenu = ({
 
   return (
     <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
-      <div 
-        className="flex items-center justify-between w-full text-sm h-6 cursor-pointer" 
-        onClick={() => toggleSubmenu(submenu.name)}
-      >
-        <span className="uppercase">{submenu.name}</span>
-        <ChevronRight
-          className={`h-3 w-3 transform transition-transform ${
-            isOpen ? "rotate-90" : ""
-          }`}
-        />
-      </div>
-
       {isOpen && (
         <div className="mt-1 space-y-0.5">
           {submenu.options.filter(option => !option.isAddOption).map((option) => (
@@ -97,12 +79,11 @@ const ThemeSubmenu = ({
               <ThemeOption 
                 option={option} 
                 onThemeSelect={onThemeSelect} 
-                isSelected={selectedThemes.includes(option.id)} // Check if option is selected
+                isSelected={selectedThemes.includes(option.id)}
               />
             </div>
           ))}
           
-          {/* Display custom options */}
           {customOptions.length > 0 && (
             <div className="space-y-1 mt-1">
               {customOptions.map((option) => (
@@ -114,7 +95,7 @@ const ThemeSubmenu = ({
                     <input
                       type="checkbox"
                       id={option.id}
-                      checked={selectedThemes.includes(option.id)} // Check if option is selected
+                      checked={selectedThemes.includes(option.id)}
                       onChange={(e) => onThemeSelect && onThemeSelect(option.id, e.target.checked)}
                       className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
                     />
@@ -137,7 +118,6 @@ const ThemeSubmenu = ({
             </div>
           )}
           
-          {/* Add new option button/input */}
           {isAddingOption ? (
             <div className="p-2 bg-[#5A1876]/10 rounded-lg space-y-2">
               <Input 

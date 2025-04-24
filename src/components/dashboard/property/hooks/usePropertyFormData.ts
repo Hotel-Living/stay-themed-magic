@@ -6,6 +6,9 @@ export interface PropertyFormData {
   hotelName: string;
   propertyType: string;
   description: string;
+  idealGuests?: string;
+  atmosphere?: string;
+  perfectLocation?: string;
   country: string;
   address: string;
   city: string;
@@ -22,7 +25,7 @@ export interface PropertyFormData {
   faqs: any[];
   terms: string;
   termsAccepted: boolean;
-  hotelImages?: UploadedImage[]; // Added this field
+  hotelImages?: UploadedImage[];
 }
 
 export const usePropertyFormData = () => {
@@ -30,6 +33,9 @@ export const usePropertyFormData = () => {
     hotelName: "",
     propertyType: "",
     description: "",
+    idealGuests: "",
+    atmosphere: "",
+    perfectLocation: "",
     country: "",
     address: "",
     city: "",

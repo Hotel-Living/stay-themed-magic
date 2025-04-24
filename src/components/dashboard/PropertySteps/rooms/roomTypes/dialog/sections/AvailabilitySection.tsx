@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Label } from "@/components/ui/label";
-import AvailabilityDateSection from "../../AvailabilityDateSection";
+import AvailabilityDateSection from "../../../AvailabilityDateSection";
 
 interface AvailabilitySectionProps {
   preferredWeekday: string;

@@ -1,7 +1,7 @@
 
 import React from "react";
-import RateInput from "../rates/RateInput";
-import RateLabel from "../rates/RateLabel";
+import RateInput from "../../../rates/RateInput";
+import RateLabel from "../../../rates/RateLabel";
 
 interface RatesSectionProps {
   stayLengths: number[];

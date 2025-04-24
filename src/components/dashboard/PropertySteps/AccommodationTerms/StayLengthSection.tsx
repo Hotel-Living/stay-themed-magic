@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface StayLengthSectionProps {
   isOpen: boolean;
@@ -53,7 +53,10 @@ export default function StayLengthSection({
         <label className="text-base font-medium text-white">
           Length of Stay
         </label>
-        <ChevronDown className="h-4 w-4 text-white" />
+        {isOpen ? 
+          <ChevronUp className="h-4 w-4 text-white" /> : 
+          <ChevronDown className="h-4 w-4 text-white" />
+        }
       </CollapsibleTrigger>
       <CollapsibleContent className="p-3">
         <div className="space-y-1">

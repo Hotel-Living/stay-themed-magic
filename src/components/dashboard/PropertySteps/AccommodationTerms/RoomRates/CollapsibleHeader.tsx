@@ -9,9 +9,12 @@ interface CollapsibleHeaderProps {
 
 export default function CollapsibleHeader({ isOpen }: CollapsibleHeaderProps) {
   return (
-    <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
-      <h2 className="font-medium text-base text-white">Room Types - Prices - Availability</h2>
-      {isOpen ? <ChevronUp className="h-5 w-5 text-white" /> : <ChevronDown className="h-5 w-5 text-white" />}
+    <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
+      <h2 className="text-base font-medium text-white">Room Types - Prices - Availability</h2>
+      {isOpen ? 
+        <ChevronUp className="h-4 w-4 text-white" /> : 
+        <ChevronDown className="h-4 w-4 text-white" />
+      }
     </CollapsibleTrigger>
   );
 }

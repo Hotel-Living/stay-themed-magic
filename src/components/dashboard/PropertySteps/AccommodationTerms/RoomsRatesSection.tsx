@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Collapsible } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import CollapsibleHeader from "./RoomRates/CollapsibleHeader";
 import RoomRatesContent from "./RoomRates/RoomRatesContent";
 
@@ -21,13 +21,14 @@ export default function RoomsRatesSection({
 }: RoomsRatesSectionProps) {
   return (
     <Collapsible 
-      className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" 
+      className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10"
       open={isOpen} 
       onOpenChange={onOpenChange}
+      defaultOpen={false}
     >
       <CollapsibleHeader isOpen={isOpen} />
       <RoomRatesContent 
-        onValidationChange={onValidationChange}
+        onValidationChange={onValidationChange} 
         formData={formData}
         updateFormData={updateFormData}
       />

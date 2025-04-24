@@ -30,6 +30,14 @@ const AccommodationTermsStep = ({
   const { toast } = useToast();
   const [error, setError] = useState<string>("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  
+  // Control the open/closed state for all sections
+  const [sectionsState, setSectionsState] = useState({
+    weekday: false,
+    stayLength: false,
+    mealPlan: false,
+    roomRates: false
+  });
 
   useEffect(() => {
     // Update validation state when any required field changes
@@ -107,8 +115,15 @@ const AccommodationTermsStep = ({
 
   const isValid = selectedStayLengths.length > 0 && selectedMealPlans.length > 0 && roomTypes.length > 0;
 
+  const toggleSection = (section: keyof typeof sectionsState) => {
+    setSectionsState(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   return (
-    <div className="space-y-6 max-w-[80%]">
+    <div className="space-y-4 max-w-[80%]">
       <h2 className="text-xl font-bold mb-2 text-white">ACCOMMODATION TERMS</h2>
       
       {/* Show validation message when required fields are missing */}
@@ -124,8 +139,8 @@ const AccommodationTermsStep = ({
       />
       
       <StayLengthSection 
-        isOpen={true}
-        onOpenChange={() => {}}
+        isOpen={sectionsState.stayLength}
+        onOpenChange={() => toggleSection('stayLength')}
         onValidationChange={(valid) => {
           if (!valid) checkValidation();
         }}
@@ -134,8 +149,8 @@ const AccommodationTermsStep = ({
       />
       
       <MealPlanSection 
-        isOpen={true}
-        onOpenChange={() => {}}
+        isOpen={sectionsState.mealPlan}
+        onOpenChange={() => toggleSection('mealPlan')}
         onValidationChange={(valid) => {
           if (!valid) checkValidation();
         }}
@@ -144,8 +159,8 @@ const AccommodationTermsStep = ({
       />
       
       <RoomsRatesSection
-        isOpen={true}
-        onOpenChange={() => {}}
+        isOpen={sectionsState.roomRates}
+        onOpenChange={() => toggleSection('roomRates')}
         onValidationChange={(valid) => {
           if (!valid) checkValidation();
         }}

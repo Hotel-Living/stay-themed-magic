@@ -5,17 +5,17 @@ import RoomTypeSection from "../../rooms/roomTypes/RoomTypeSection";
 
 interface RoomRatesContentProps {
   onValidationChange: (isValid: boolean) => void;
-  formData?: any; // Add formData
-  updateFormData?: (field: string, value: any) => void; // Add updateFormData
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function RoomRatesContent({ 
   onValidationChange,
-  formData = {}, // Default empty object
-  updateFormData = () => {} // Default no-op function
+  formData = {},
+  updateFormData = () => {}
 }: RoomRatesContentProps) {
   return (
-    <CollapsibleContent className="p-4">
+    <CollapsibleContent className="p-3">
       <RoomTypeSection 
         onValidationChange={onValidationChange}
         title="RATES PER PERSON FOR SELECTED STAY DURATIONS" 

@@ -3,7 +3,7 @@ import * as React from "react"
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 import { cn } from "@/lib/utils"
 
-// Default all collapsibles to closed
+// Explicitly ensure all collapsibles are closed by default
 const Collapsible = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root>
@@ -11,7 +11,7 @@ const Collapsible = React.forwardRef<
   <CollapsiblePrimitive.Root
     ref={ref}
     open={open}
-    defaultOpen={defaultOpen || false} // Default to collapsed
+    defaultOpen={false} // Force default closed
     {...props}
   />
 ))

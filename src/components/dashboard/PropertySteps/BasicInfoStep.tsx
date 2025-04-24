@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 import PicturesStep from "./PicturesStep";
@@ -11,6 +12,9 @@ interface BasicInfoStepProps {
     style?: string;
     hotelImages?: UploadedImage[];
     mainImageUrl?: string;
+    idealGuests?: string;
+    atmosphere?: string;
+    perfectLocation?: string;
   };
   updateFormData: (field: string, value: any) => void;
   onValidationChange: (isValid: boolean) => void;
@@ -132,6 +136,42 @@ export default function BasicInfoStep({
           className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[120px] bg-[#b10be0]"
           value={formData.description || ''}
           onChange={(e) => updateFormData('description', e.target.value)}
+        ></textarea>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+          This hotel is ideal for guests who enjoy...
+        </label>
+        <textarea 
+          placeholder="Describe your ideal guests and their interests" 
+          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+          value={formData.idealGuests || ''}
+          onChange={(e) => updateFormData('idealGuests', e.target.value)}
+        ></textarea>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+          The atmosphere at this hotel is...
+        </label>
+        <textarea 
+          placeholder="Describe the atmosphere and ambiance of your hotel" 
+          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+          value={formData.atmosphere || ''}
+          onChange={(e) => updateFormData('atmosphere', e.target.value)}
+        ></textarea>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-foreground/90 mb-1 uppercase bg-[#690695]">
+          Our location is perfect for...
+        </label>
+        <textarea 
+          placeholder="Describe what makes your location special" 
+          className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 min-h-[80px] bg-[#b10be0]"
+          value={formData.perfectLocation || ''}
+          onChange={(e) => updateFormData('perfectLocation', e.target.value)}
         ></textarea>
       </div>
     </div>

@@ -5,6 +5,9 @@ import { FileText } from "lucide-react";
 
 export function HotelDescription({ 
   description, 
+  idealGuests,
+  atmosphere,
+  perfectLocation,
   isLoading 
 }: HotelDescriptionProps & { isLoading?: boolean }) {
   if (isLoading) {
@@ -25,11 +28,37 @@ export function HotelDescription({
         About this hotel
         <FileText className="w-5 h-5 text-fuchsia-400" />
       </h2>
-      {description ? (
-        <p className="text-foreground/80 mb-6 whitespace-pre-line leading-relaxed">
-          {description}
-        </p>
-      ) : (
+      
+      {description && (
+        <div className="mb-6">
+          <p className="text-foreground/80 whitespace-pre-line leading-relaxed">
+            {description}
+          </p>
+        </div>
+      )}
+
+      {idealGuests && (
+        <div className="mb-4">
+          <p className="text-fuchsia-400 font-medium mb-1">This hotel is ideal for guests who enjoy...</p>
+          <p className="text-foreground/80 whitespace-pre-line leading-relaxed">{idealGuests}</p>
+        </div>
+      )}
+
+      {atmosphere && (
+        <div className="mb-4">
+          <p className="text-fuchsia-400 font-medium mb-1">The atmosphere at this hotel is...</p>
+          <p className="text-foreground/80 whitespace-pre-line leading-relaxed">{atmosphere}</p>
+        </div>
+      )}
+
+      {perfectLocation && (
+        <div className="mb-4">
+          <p className="text-fuchsia-400 font-medium mb-1">Our location is perfect for...</p>
+          <p className="text-foreground/80 whitespace-pre-line leading-relaxed">{perfectLocation}</p>
+        </div>
+      )}
+
+      {!description && !idealGuests && !atmosphere && !perfectLocation && (
         <p className="text-foreground/60 italic">
           No description available for this hotel.
         </p>
@@ -37,4 +66,3 @@ export function HotelDescription({
     </div>
   );
 }
-

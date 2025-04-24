@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { FIELD_LABELS } from "@/utils/constants";
 
 export const useValidationState = () => {
   const [errorFields, setErrorFields] = useState<string[]>([]);
@@ -41,7 +42,7 @@ export const useValidationState = () => {
         
         return incompleteAccommodationFields;
       case 3:
-        return ["Themes", "Activities"];
+        return [FIELD_LABELS.themes, FIELD_LABELS.activities];
       case 4:
         return ["FAQ", "Terms & Conditions"];
       default:

@@ -38,10 +38,7 @@ export default function ThemesAndActivitiesStep({
       let newThemes;
       if (isSelected) {
         if (!prev.includes(themeId)) {
-          toast({
-            title: "Affinity selected",
-            description: "The affinity has been added to your selection"
-          });
+          // Remove toast notification
         }
         newThemes = [...prev.filter(id => id !== themeId), themeId];
       } else {

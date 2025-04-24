@@ -37,4 +37,3 @@ export function BookingDurationSelector({ duration, setDuration, allowedDuration
     </div>
   );
 }
-

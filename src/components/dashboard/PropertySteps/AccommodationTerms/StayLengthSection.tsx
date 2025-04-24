@@ -1,6 +1,8 @@
+
 import React from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface StayLengthSectionProps {
   isOpen: boolean;
@@ -21,6 +23,15 @@ export default function StayLengthSection({
   const initialStayLengths = formData.stayLengths || [];
   const [selectedStayLengths, setSelectedStayLengths] = React.useState<number[]>(initialStayLengths);
 
+  // Apply initial values from form data
+  React.useEffect(() => {
+    if (formData.stayLengths && formData.stayLengths.length > 0) {
+      setSelectedStayLengths(formData.stayLengths);
+      // Ensure context is updated with initial values
+      saveSelectedStayLengths(formData.stayLengths);
+    }
+  }, [formData.stayLengths]);
+
   const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
     let newSelectedLengths: number[];
     
@@ -32,13 +43,19 @@ export default function StayLengthSection({
     
     setSelectedStayLengths(newSelectedLengths);
     
-    localStorage.setItem('selectedStayLengths', JSON.stringify(newSelectedLengths));
+    // Save to context & localStorage for sharing with room type components
+    saveSelectedStayLengths(newSelectedLengths);
     
+    // Update parent form data
     if (updateFormData) {
       updateFormData('stayLengths', newSelectedLengths);
     }
 
     onValidationChange(newSelectedLengths.length > 0);
+    
+    // Dispatch event to notify other components
+    const event = new CustomEvent('stayLengthsUpdated', { detail: newSelectedLengths });
+    window.dispatchEvent(event);
   };
 
   return (

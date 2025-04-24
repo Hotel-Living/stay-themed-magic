@@ -20,6 +20,12 @@ export default function AvailabilityDateSection({
   selectedDates = []
 }: AvailabilityDateSectionProps) {
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
+  const [effectiveWeekday, setEffectiveWeekday] = useState<string>(preferredWeekday);
+
+  // Update effective weekday when prop changes
+  useEffect(() => {
+    setEffectiveWeekday(preferredWeekday);
+  }, [preferredWeekday]);
 
   const currentDate = new Date();
   const months = Array.from({ length: 12 }, (_, i) => {
@@ -36,7 +42,7 @@ export default function AvailabilityDateSection({
 
   const handleMonthSelection = (month: string) => {
     const monthDate = new Date(month + " 01");
-    const dayNum = weekdayMap[preferredWeekday];
+    const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
 
     const hasAll = availableDates.every(d => selectedDates.includes(d));
@@ -51,7 +57,7 @@ export default function AvailabilityDateSection({
     if (!date) return;
     const dateString = format(date, "yyyy-MM-dd");
     const monthDate = new Date(month + " 01");
-    const dayNum = weekdayMap[preferredWeekday];
+    const dayNum = weekdayMap[effectiveWeekday];
 
     const datesInMonth = selectedDates
       .map(d => {
@@ -77,12 +83,12 @@ export default function AvailabilityDateSection({
 
   const isMonthSelected = (month: string) => {
     const monthDate = new Date(month + " 01");
-    const dayNum = weekdayMap[preferredWeekday];
+    const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
     return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
   };
 
-  const preferredDayNum = weekdayMap[preferredWeekday];
+  const preferredDayNum = weekdayMap[effectiveWeekday];
 
   return (
     <div className="grid grid-cols-4 items-start gap-4">
@@ -90,7 +96,7 @@ export default function AvailabilityDateSection({
       <div className="col-span-3 grid grid-cols-2 gap-4">
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
           <p className="text-sm mb-3">
-            Select full months or specific check-in dates ({preferredWeekday}s only)
+            Select full months or specific check-in dates ({effectiveWeekday}s only)
           </p>
           <div className="space-y-2">
             {months.map((month, idx) => {
@@ -120,7 +126,7 @@ export default function AvailabilityDateSection({
                       month={monthDate}
                       preferredDayNum={preferredDayNum}
                       selected={selectedDates}
-                      preferredWeekday={preferredWeekday}
+                      preferredWeekday={effectiveWeekday}
                       onSelectDate={date => handleDateSelect(date, month)}
                     />
                   </CollapsibleContent>

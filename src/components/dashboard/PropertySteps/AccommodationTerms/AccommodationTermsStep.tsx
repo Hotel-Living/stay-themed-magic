@@ -7,6 +7,7 @@ import RoomsRatesSection from "./RoomsRatesSection";
 import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
 import { weekdays } from "@/utils/constants";
+import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface AccommodationTermsStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -49,6 +50,8 @@ const AccommodationTermsStep = ({
     
     if (formData.stayLengths && formData.stayLengths.length > 0) {
       setSelectedStayLengths(formData.stayLengths);
+      // Ensure we update the context when loading from formData
+      saveSelectedStayLengths(formData.stayLengths);
     }
     
     if (formData.mealPlans && formData.mealPlans.length > 0) {
@@ -92,7 +95,10 @@ const AccommodationTermsStep = ({
     setSelectedStayLengths(lengths);
     updateFormData('stayLengths', lengths);
     
-    localStorage.setItem('selectedStayLengths', JSON.stringify(lengths));
+    // Update the context so other components can access it
+    saveSelectedStayLengths(lengths);
+    
+    // Dispatch custom event for components listening for updates
     const event = new CustomEvent('stayLengthsUpdated', { detail: lengths });
     window.dispatchEvent(event);
   };

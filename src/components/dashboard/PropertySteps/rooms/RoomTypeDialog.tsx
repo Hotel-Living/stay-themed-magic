@@ -38,6 +38,14 @@ export default function RoomTypeDialog({
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
   const [roomCount, setRoomCount] = useState(1);
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+  
+  // Track the effective preferred weekday
+  const [effectiveWeekday, setEffectiveWeekday] = useState<string>(preferredWeekday);
+
+  // Update when prop changes
+  useEffect(() => {
+    setEffectiveWeekday(preferredWeekday);
+  }, [preferredWeekday]);
 
   useEffect(() => {
     if (selectedRoomType) {
@@ -50,9 +58,11 @@ export default function RoomTypeDialog({
 
   useEffect(() => {
     if (isOpen) {
+      // First try to use the props passed from parent
       if (availableStayLengths && availableStayLengths.length > 0) {
         setStayLengths(availableStayLengths);
       } else {
+        // Fall back to stored durations if needed
         const storedLengths = getSelectedStayLengths();
         if (storedLengths && storedLengths.length > 0) {
           setStayLengths(storedLengths);
@@ -195,7 +205,7 @@ export default function RoomTypeDialog({
                 </div>
                 
                 <AvailabilityDateSection 
-                  preferredWeekday={preferredWeekday}
+                  preferredWeekday={effectiveWeekday}
                   onAvailabilityChange={handleAvailabilityChange}
                   selectedDates={availabilityDates}
                 />

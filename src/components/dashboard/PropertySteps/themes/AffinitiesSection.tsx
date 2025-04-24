@@ -3,58 +3,9 @@ import React from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import ThemeCategory from "./ThemeCategory";
+import { ThemeCategory } from "@/utils/theme-types";
 import { themeCategories } from "@/utils/themes";
-
-// Transform theme categories data to match the expected structure
-const sortedThemeCategories = themeCategories.map(category => {
-  // If category has direct themes, wrap them in a submenu
-  if (category.themes) {
-    return {
-      category: category.category,
-      submenus: [{
-        name: category.category,
-        options: category.themes.map(theme => ({
-          id: theme.id,
-          name: theme.name,
-          isAddOption: theme.isAddOption
-        }))
-      }]
-    };
-  } 
-  // If category has subcategories, transform each subcategory into a submenu
-  else if (category.subcategories) {
-    return {
-      category: category.category,
-      submenus: category.subcategories.map(subcategory => {
-        if (subcategory.themes) {
-          return {
-            name: subcategory.name,
-            options: subcategory.themes.map(theme => ({
-              id: theme.id,
-              name: theme.name,
-              isAddOption: theme.isAddOption
-            }))
-          };
-        } else if (subcategory.submenus) {
-          return {
-            name: subcategory.name,
-            options: [] // Empty options array as a placeholder
-          };
-        }
-        return {
-          name: subcategory.name,
-          options: []
-        };
-      })
-    };
-  }
-  // Default case (should not happen with our data structure)
-  return {
-    category: category.category,
-    submenus: []
-  };
-});
+import { PlusCircle } from "lucide-react";
 
 interface AffinitiesSectionProps {
   openCategory: string | null;
@@ -62,7 +13,7 @@ interface AffinitiesSectionProps {
   openSubmenu: string | null;
   setOpenSubmenu: (submenu: string | null) => void;
   onThemeSelect: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[]; // Add this prop to track selected themes
+  selectedThemes: string[];
 }
 
 export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
@@ -73,6 +24,33 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   onThemeSelect,
   selectedThemes,
 }) => {
+  // Group all the themes by category for a more organized layout
+  const getCategoryThemes = (category: string) => {
+    // Get all themes for this category, whether they're direct themes or from subcategories
+    const themes: {id: string, name: string, isAddOption?: boolean}[] = [];
+    
+    // Find the category in the themeCategories array
+    const categoryData = themeCategories.find(c => c.category === category);
+    
+    if (categoryData) {
+      // Add direct themes
+      if (categoryData.themes) {
+        themes.push(...categoryData.themes);
+      }
+      
+      // Add themes from subcategories
+      if (categoryData.subcategories) {
+        categoryData.subcategories.forEach(subcategory => {
+          if (subcategory.themes) {
+            themes.push(...subcategory.themes);
+          }
+        });
+      }
+    }
+    
+    return themes;
+  };
+
   return (
     <Collapsible defaultOpen={false} className="w-full">
       <div className="bg-[#6c0686]">
@@ -98,21 +76,56 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
           More Information
         </Link>
         
-        <div>
-          <div className="grid grid-cols-1 gap-0.5">
-            {sortedThemeCategories.map(category => (
-              <ThemeCategory 
-                key={category.category} 
-                category={category} 
-                isOpen={openCategory === category.category} 
-                toggleCategory={setOpenCategory} 
-                openSubmenus={{[openSubmenu || '']: !!openSubmenu}} 
-                toggleSubmenu={setOpenSubmenu}
-                onThemeSelect={onThemeSelect}
-                selectedThemes={selectedThemes}
-              />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-0.5">
+          {themeCategories.map(category => (
+            <div key={category.category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
+              <div
+                className="flex items-center justify-between w-full text-sm cursor-pointer"
+                onClick={() => setOpenCategory(openCategory === category.category ? null : category.category)}
+              >
+                <span className="uppercase">{category.category}</span>
+                <ChevronDown
+                  className={`h-3 w-3 transform transition-transform ${
+                    openCategory === category.category ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+
+              {openCategory === category.category && (
+                <div className="mt-2 space-y-1">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+                    {getCategoryThemes(category.category).map(theme => (
+                      !theme.isAddOption ? (
+                        <div key={theme.id} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={theme.id}
+                            checked={selectedThemes.includes(theme.id)}
+                            onChange={(e) => onThemeSelect(theme.id, e.target.checked)}
+                            className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                          />
+                          <label
+                            htmlFor={theme.id}
+                            className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                          >
+                            {theme.name}
+                          </label>
+                        </div>
+                      ) : null
+                    ))}
+                  </div>
+                  
+                  <button 
+                    className="flex items-center cursor-pointer p-2"
+                    onClick={() => {/* Add custom theme handling */}}
+                  >
+                    <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                    <span className="text-xs text-fuchsia-400">Add new {category.category.toLowerCase()} theme</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </CollapsibleContent>
     </Collapsible>

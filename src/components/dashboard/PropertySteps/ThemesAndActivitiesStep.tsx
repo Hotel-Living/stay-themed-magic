@@ -118,7 +118,7 @@ export default function ThemesAndActivitiesStep({
         openSubmenu={openSubmenu}
         setOpenSubmenu={setOpenSubmenu}
         onThemeSelect={handleThemeSelection}
-        selectedThemes={selectedThemes} // Pass selected themes to properly check/uncheck options
+        selectedThemes={selectedThemes}
       />
 
       <ActivitiesSection

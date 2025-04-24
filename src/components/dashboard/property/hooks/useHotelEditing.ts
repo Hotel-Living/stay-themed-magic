@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -42,8 +43,8 @@ export const useHotelEditing = ({
       setFormData({
         hotelName: data.name || "",
         propertyType: data.property_type || "",
+        style: data.style || "", // Ensure style field is included here
         description: data.description || "",
-        style: data.style || "",
         country: data.country || "",
         address: data.address || "",
         city: data.city || "",

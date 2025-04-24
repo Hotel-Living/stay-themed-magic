@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import HotelInfoSection from "./StepOne/HotelInfo";
 import LocationSection from "./StepOne/Location";
@@ -11,7 +12,7 @@ interface FormData {
   hotelName: string;
   category: string;
   propertyType: string;
-  style: string;
+  style: string;  // Added style property
   description: string;
   idealGuests?: string;
   atmosphere?: string;

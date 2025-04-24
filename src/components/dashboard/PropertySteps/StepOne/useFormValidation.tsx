@@ -5,6 +5,7 @@ interface FormData {
   hotelName: string;
   category: string;
   propertyType: string;
+  style: string;
   description: string;
   country: string;
   address: string;
@@ -23,6 +24,7 @@ const initialFormData: FormData = {
   hotelName: "",
   category: "",
   propertyType: "",
+  style: "",
   description: "",
   country: "",
   address: "",
@@ -46,6 +48,7 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     hotelName: false,
     category: false,
     propertyType: false,
+    style: false,
     description: false,
     country: false,
     address: false,

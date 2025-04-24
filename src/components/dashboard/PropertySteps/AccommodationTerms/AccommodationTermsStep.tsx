@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import StayLengthSection from "./StayLengthSection";
@@ -118,8 +119,8 @@ const AccommodationTermsStep = ({
   };
 
   return (
-    <div className="space-y-3 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-2 text-white">ACCOMMODATION TERMS</h2>
+    <div className="space-y-6 max-w-[80%]">
+      <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>
       
       <ValidationMessages 
         error={error}
@@ -127,7 +128,7 @@ const AccommodationTermsStep = ({
         isValid={isValid}
       />
       
-      <div className="space-y-3">
+      <div className="space-y-6">
         <PreferredWeekdaySection 
           preferredWeekday={selectedWeekday}
           onWeekdayChange={handleWeekdayChange}

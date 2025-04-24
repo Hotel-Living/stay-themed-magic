@@ -43,19 +43,19 @@ export default function StayLengthSection({
 
   return (
     <Collapsible 
-      className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10"
+      className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
       open={isOpen} 
       onOpenChange={onOpenChange}
       defaultOpen={false}
     >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
-        <h2 className="text-base font-medium text-white">Length of Stay</h2>
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
+        <h2 className="font-medium text-base text-white">Length of Stay</h2>
         {isOpen ? 
-          <ChevronUp className="h-4 w-4 text-white" /> : 
-          <ChevronDown className="h-4 w-4 text-white" />
+          <ChevronUp className="h-5 w-5 text-white" /> : 
+          <ChevronDown className="h-5 w-5 text-white" />
         }
       </CollapsibleTrigger>
-      <CollapsibleContent className="p-3">
+      <CollapsibleContent className="p-4">
         <div className="space-y-1">
           <label className="block text-sm uppercase text-white/90">AVAILABLE STAY LENGTHS</label>
           <div className="grid grid-cols-2 gap-2">

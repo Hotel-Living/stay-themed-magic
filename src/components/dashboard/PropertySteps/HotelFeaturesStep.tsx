@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { PlusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import {
@@ -38,12 +37,18 @@ export default function HotelFeaturesStep() {
     }
   };
 
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpenRoom, setIsOpenRoom] = React.useState(false);
+
   return (
     <div className="space-y-6">
-      <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
-        <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
+      <Collapsible className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
           <h2 className="font-medium text-base text-white">Hotel Features</h2>
-          <ChevronDown className="h-5 w-5 text-white" />
+          {isOpen ? 
+            <ChevronUp className="h-5 w-5 text-white" /> : 
+            <ChevronDown className="h-5 w-5 text-white" />
+          }
         </CollapsibleTrigger>
         <CollapsibleContent className="p-4">
           <FeaturesList 
@@ -78,10 +83,13 @@ export default function HotelFeaturesStep() {
         </CollapsibleContent>
       </Collapsible>
 
-      <Collapsible className="w-full mb-6 border border-white rounded-lg overflow-hidden bg-fuchsia-900/10">
-        <CollapsibleTrigger className="w-full flex items-center justify-between px-4 text-left border-b border-white py-[4px]">
+      <Collapsible className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10" open={isOpenRoom} onOpenChange={setIsOpenRoom}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
           <h2 className="font-medium text-base text-white">Room Features</h2>
-          <ChevronDown className="h-5 w-5 text-white" />
+          {isOpenRoom ? 
+            <ChevronUp className="h-5 w-5 text-white" /> : 
+            <ChevronDown className="h-5 w-5 text-white" />
+          }
         </CollapsibleTrigger>
         <CollapsibleContent className="p-4">
           <FeaturesList 

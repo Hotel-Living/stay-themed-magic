@@ -48,6 +48,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
-    background-color: #860493;
+    /* Reduce opacity of the background color */
+    background-color: rgba(134, 4, 147, 0.1);
   }
 }

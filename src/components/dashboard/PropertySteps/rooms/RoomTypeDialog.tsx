@@ -5,7 +5,7 @@ import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import RoomTypeSelector from "./roomTypes/dialog/RoomTypeSelector";
 import RoomImageSection from "./roomTypes/dialog/RoomImageSection";
 import RatesSection from "./roomTypes/dialog/sections/RatesSection";
-import AvailabilitySection from "./roomTypes/dialog/sections/AvailabilitySection";
+import AvailabilitySection from "./sections/AvailabilitySection";
 import RoomCountSection from "./roomTypes/dialog/sections/RoomCountSection";
 import RoomDetailsForm from "./roomTypes/dialog/RoomDetailsForm";
 import { useRoomTypeForm } from "./roomTypes/dialog/hooks/useRoomTypeForm";
@@ -46,27 +46,30 @@ export default function RoomTypeDialog({
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="bg-[#430453] text-white w-[90%] max-w-4xl h-full overflow-y-auto" side="bottom">
+      <SheetContent 
+        className="bg-[#430453] text-white w-[80%] max-w-3xl h-[70vh] overflow-y-auto" 
+        side="bottom"
+      >
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-white mb-6">{dialogTitle}</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-white mb-4">{dialogTitle}</DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-8">
+        <div className="space-y-6">
           <RoomTypeSelector 
             selectedRoomType={formState.selectedRoomType}
-            onRoomTypeChange={(type) => setters.setSelectedRoomType(type)}
+            onRoomTypeChange={setters.setSelectedRoomType}
             isEditing={formState.isEditing}
           />
 
           {formState.selectedRoomType && (
             <>
-              <div className="space-y-4">
-                <label className="block text-white">Description</label>
+              <div className="space-y-3">
+                <label className="block text-white text-sm">Description</label>
                 <textarea 
                   value={formState.description}
                   onChange={(e) => setters.setDescription(e.target.value)}
-                  className="w-full bg-[#850390] text-white border-white rounded p-2"
-                  rows={3}
+                  className="w-full bg-[#850390] text-white border-white rounded p-2 text-sm h-20"
+                  rows={2}
                 />
               </div>
 
@@ -85,7 +88,7 @@ export default function RoomTypeDialog({
               
               <RoomCountSection 
                 roomCount={formState.roomCount}
-                onChange={(count) => setters.setRoomCount(count)}
+                onChange={setters.setRoomCount}
               />
               
               <AvailabilitySection 

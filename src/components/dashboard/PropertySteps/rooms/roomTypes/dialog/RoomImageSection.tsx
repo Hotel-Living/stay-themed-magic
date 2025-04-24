@@ -2,6 +2,8 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ImagePlus, Trash } from "lucide-react";
 
 interface RoomImageSectionProps {
   roomImages: File[];
@@ -17,33 +19,50 @@ export default function RoomImageSection({
   onRemoveImage
 }: RoomImageSectionProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div>
-        <Label className="text-white">Room Images</Label>
-        <Input 
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={onImageUpload}
-          className="bg-[#850390] text-white border-white"
-        />
+        <Label className="text-white text-sm">Room Images</Label>
+        <div className="flex items-center gap-2 mt-1">
+          <Button
+            type="button"
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white h-8 text-sm px-3"
+            onClick={() => document.getElementById('room-images')?.click()}
+          >
+            <ImagePlus size={14} className="mr-1" />
+            Upload Images
+          </Button>
+          <Input
+            id="room-images"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={onImageUpload}
+            className="hidden"
+          />
+          <span className="text-xs text-gray-300">
+            {roomImages.length} {roomImages.length === 1 ? 'image' : 'images'} selected
+          </span>
+        </div>
       </div>
       
       {roomImagePreviews.length > 0 && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-2">
           {roomImagePreviews.map((preview, index) => (
-            <div key={index} className="relative">
+            <div key={index} className="relative group">
               <img 
                 src={preview} 
                 alt={`Room preview ${index + 1}`} 
-                className="w-full h-32 object-cover rounded-lg"
+                className="w-full h-20 object-cover rounded"
               />
-              <button
+              <Button
+                type="button"
+                size="icon"
+                variant="destructive"
+                className="absolute top-1 right-1 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() => onRemoveImage(index)}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
               >
-                ×
-              </button>
+                <Trash size={12} />
+              </Button>
             </div>
           ))}
         </div>

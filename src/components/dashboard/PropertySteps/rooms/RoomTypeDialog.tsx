@@ -5,7 +5,7 @@ import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import RoomTypeSelector from "./roomTypes/dialog/RoomTypeSelector";
 import RoomImageSection from "./roomTypes/dialog/RoomImageSection";
 import RatesSection from "./roomTypes/dialog/sections/RatesSection";
-import AvailabilitySection from "./sections/AvailabilitySection";
+import AvailabilitySection from "./roomTypes/dialog/sections/AvailabilitySection";
 import RoomCountSection from "./roomTypes/dialog/sections/RoomCountSection";
 import RoomDetailsForm from "./roomTypes/dialog/RoomDetailsForm";
 import { useRoomTypeForm } from "./roomTypes/dialog/hooks/useRoomTypeForm";

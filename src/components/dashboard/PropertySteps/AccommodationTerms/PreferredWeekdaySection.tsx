@@ -16,6 +16,14 @@ export default function PreferredWeekdaySection({
 }: PreferredWeekdaySectionProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Dispatch an event when the component mounts to sync with other components
+  React.useEffect(() => {
+    if (preferredWeekday) {
+      const event = new CustomEvent('preferredWeekdayUpdated', { detail: preferredWeekday });
+      window.dispatchEvent(event);
+    }
+  }, [preferredWeekday]);
+
   return (
     <Collapsible 
       className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"

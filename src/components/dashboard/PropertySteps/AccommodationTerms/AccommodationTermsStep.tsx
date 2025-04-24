@@ -85,6 +85,10 @@ const AccommodationTermsStep = ({
     setSelectedWeekday(weekday);
     updateFormData('preferredWeekday', weekday);
     
+    // Dispatch custom event for components listening for weekday updates
+    const event = new CustomEvent('preferredWeekdayUpdated', { detail: weekday });
+    window.dispatchEvent(event);
+    
     toast({
       title: "Weekday Updated",
       description: `Preferred check-in/out day set to ${weekday}.`
@@ -172,8 +176,6 @@ const AccommodationTermsStep = ({
           }}
           updateFormData={updateFormData}
         />
-        
-        {/* Removed the duplicate HotelFeaturesStep from here */}
       </div>
     </div>
   );

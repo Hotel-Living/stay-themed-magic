@@ -25,9 +25,27 @@ export default function PreferredWeekdaySection({
     setSelectedWeekday(preferredWeekday);
   }, [preferredWeekday]);
 
+  // Listen for weekday updates from other components
+  useEffect(() => {
+    const handleWeekdayUpdate = (event: CustomEvent) => {
+      setSelectedWeekday(event.detail);
+      onWeekdayChange(event.detail);
+    };
+    
+    window.addEventListener('preferredWeekdayUpdated', handleWeekdayUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('preferredWeekdayUpdated', handleWeekdayUpdate as EventListener);
+    };
+  }, [onWeekdayChange]);
+
   const handleWeekdayChange = (day: string) => {
     setSelectedWeekday(day);
     onWeekdayChange(day);
+    
+    // Dispatch event for other components
+    const event = new CustomEvent('preferredWeekdayUpdated', { detail: day });
+    window.dispatchEvent(event);
   };
 
   return (
@@ -40,7 +58,7 @@ export default function PreferredWeekdaySection({
       </CollapsibleTrigger>
       <CollapsibleContent className="p-4">
         <p className="mb-3 text-sm bg-fuchsia-800/20 p-2 rounded">
-          <strong>Note:</strong> Monday is selected as the default check-in/out day. This helps standardize your property management.
+          <strong>Note:</strong> {selectedWeekday} is selected as the default check-in/out day. This helps standardize your property management.
         </p>
         <div className="grid grid-cols-7 gap-2 mt-2">
           {weekdays.map(day => (

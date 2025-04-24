@@ -47,6 +47,19 @@ export default function RoomTypeDialog({
     setEffectiveWeekday(preferredWeekday);
   }, [preferredWeekday]);
 
+  // Listen for weekday updates from the parent component
+  useEffect(() => {
+    const handleWeekdayUpdate = (event: CustomEvent) => {
+      setEffectiveWeekday(event.detail);
+    };
+    
+    window.addEventListener('preferredWeekdayUpdated', handleWeekdayUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('preferredWeekdayUpdated', handleWeekdayUpdate as EventListener);
+    };
+  }, []);
+
   useEffect(() => {
     if (selectedRoomType) {
       const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
@@ -84,7 +97,8 @@ export default function RoomTypeDialog({
         roomCount,
         rates,
         images: roomImagePreviews,
-        availabilityDates
+        availabilityDates,
+        preferredWeekday: effectiveWeekday
       });
       resetForm();
     }

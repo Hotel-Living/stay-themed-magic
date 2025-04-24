@@ -1,3 +1,4 @@
+
 import React from "react";
 import RoomTypeContent from "./RoomTypeContent";
 import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
@@ -29,6 +30,9 @@ export default function RoomTypeSection({
     handleAddRoomType,
     handleDeleteRoomType
   } = useRoomTypeSection(onValidationChange, formData, updateFormData);
+  
+  // Get the preferred weekday from formData, default to Monday if not set
+  const preferredWeekday = formData.preferredWeekday || "Monday";
 
   const mainContent = (
     <div className="space-y-2">
@@ -40,7 +44,7 @@ export default function RoomTypeSection({
         setDialogOpen={setDialogOpen}
         handleAddRoomType={handleAddRoomType}
         handleDeleteRoomType={handleDeleteRoomType}
-        preferredWeekday="Monday"
+        preferredWeekday={preferredWeekday}
       />
     </div>
   );

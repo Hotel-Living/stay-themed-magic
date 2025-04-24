@@ -42,8 +42,16 @@ export default function BasicInfoStep({
       isValid: isValid
     });
     
+    // This ensures the parent component knows about validation changes immediately
     onValidationChange(isValid);
-  }, [formData.hotelName, formData.propertyType, formData.description, formData.hotelImages, onValidationChange]);
+    
+  }, [
+    formData.hotelName, 
+    formData.propertyType, 
+    formData.description, 
+    formData.hotelImages, 
+    onValidationChange
+  ]);
 
   return (
     <div className="space-y-5 max-w-[80%]">

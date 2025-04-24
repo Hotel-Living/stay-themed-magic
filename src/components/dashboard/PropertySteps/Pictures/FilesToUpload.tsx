@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Loader2, Trash2, XCircle } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 
 interface FilesToUploadProps {
   files: File[];

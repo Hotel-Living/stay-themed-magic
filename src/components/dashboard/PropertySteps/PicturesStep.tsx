@@ -20,32 +20,32 @@ export default function PicturesStep({
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const {
     files,
-    images: uploadedImages,
+    images,
     uploading,
-    handleAddFiles: addFiles,
-    handleRemoveFile: removeFile,
-    handleRemoveImage: removeUploadedImage,
-    handleUploadImages: uploadFiles,
-    handleSetMainImage: setMainImage
+    handleAddFiles,
+    handleRemoveFile,
+    handleRemoveImage,
+    handleUploadImages,
+    handleSetMainImage
   } = usePropertyImages(formData.hotelImages || []);
 
   // Update form data when uploaded images change
   React.useEffect(() => {
-    console.log("PicturesStep: uploadedImages changed", uploadedImages);
+    console.log("PicturesStep: uploadedImages changed", images);
     
     // Only update the form if the current images are different from the form data
-    const currentImagesJson = JSON.stringify(uploadedImages);
+    const currentImagesJson = JSON.stringify(images);
     const formImagesJson = JSON.stringify(formData.hotelImages || []);
     
     if (currentImagesJson !== formImagesJson) {
-      if (uploadedImages.length > 0) {
+      if (images.length > 0) {
         // Find main image
-        const mainImage = uploadedImages.find(img => img.isMain)?.url || uploadedImages[0].url;
-        updateFormData('hotelImages', uploadedImages);
+        const mainImage = images.find(img => img.isMain)?.url || images[0].url;
+        updateFormData('hotelImages', images);
         updateFormData('mainImageUrl', mainImage);
         
         console.log("PicturesStep: Updated form data with images", {
-          count: uploadedImages.length,
+          count: images.length,
           mainImage
         });
       } else {
@@ -54,7 +54,7 @@ export default function PicturesStep({
         updateFormData('mainImageUrl', '');
       }
     }
-  }, [uploadedImages, updateFormData, formData.hotelImages]);
+  }, [images, updateFormData, formData.hotelImages]);
   
   const handleAddMoreClick = () => {
     if (fileInputRef.current) {
@@ -64,7 +64,7 @@ export default function PicturesStep({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      addFiles(Array.from(e.target.files));
+      handleAddFiles(Array.from(e.target.files));
     }
   };
 
@@ -72,19 +72,19 @@ export default function PicturesStep({
     <div className="space-y-5">
       <h3 className="text-lg font-semibold mb-4">PICTURES</h3>
       
-      <UploadArea onFilesSelected={addFiles} />
+      <UploadArea onFilesSelected={handleAddFiles} />
       
       <FilesToUpload 
         files={files}
         uploading={uploading}
-        onUpload={uploadFiles}
-        onRemoveFile={removeFile}
+        onUpload={handleUploadImages}
+        onRemoveFile={handleRemoveFile}
       />
       
       <UploadedImages 
-        images={uploadedImages}
-        onSetMainImage={setMainImage}
-        onRemoveImage={removeUploadedImage}
+        images={images}
+        onSetMainImage={handleSetMainImage}
+        onRemoveImage={handleRemoveImage}
         onAddMoreClick={handleAddMoreClick}
       />
       

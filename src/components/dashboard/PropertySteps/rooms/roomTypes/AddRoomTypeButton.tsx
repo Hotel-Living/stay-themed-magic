@@ -1,15 +1,24 @@
 
 import React from "react";
 import { Plus } from "lucide-react";
+import { AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-export default function AddRoomTypeButton({ onOpenDialog }: { onOpenDialog: () => void }) {
+interface AddRoomTypeButtonProps {
+  onOpenDialog: () => void;
+}
+
+export default function AddRoomTypeButton({ onOpenDialog }: AddRoomTypeButtonProps) {
   return (
-    <button
-      onClick={onOpenDialog}
-      className="w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg bg-fuchsia-900/10 hover:bg-fuchsia-900/20 transition-colors"
-    >
-      <Plus className="h-4 w-4" />
-      <span className="text-sm">ADD ROOM TYPE</span>
-    </button>
+    <AccordionItem value="add-room" className="border border-dashed border-white/30 rounded-lg">
+      <AccordionTrigger 
+        onClick={onOpenDialog}
+        className="py-3 text-sm hover:no-underline justify-center text-white/70 hover:text-white"
+      >
+        <span className="flex items-center gap-2 text-sm">
+          <Plus className="h-4 w-4" />
+          ADD ROOM TYPE
+        </span>
+      </AccordionTrigger>
+    </AccordionItem>
   );
 }

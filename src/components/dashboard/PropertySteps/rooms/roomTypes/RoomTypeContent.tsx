@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
@@ -28,9 +29,9 @@ export default function RoomTypeContent({
 }: RoomTypeContentProps) {
   return (
     <>
-      {/* Available Types of Rooms Accordion */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium mb-3 uppercase">AVAILABLE TYPES OF ROOMS</h3>
+      {/* Available Types of Rooms Accordion with reduced spacing */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium mb-2 uppercase">AVAILABLE TYPES OF ROOMS</h3>
         <Accordion type="single" collapsible className="w-full">
           <RoomTypeList 
             roomTypes={roomTypes} 
@@ -42,7 +43,7 @@ export default function RoomTypeContent({
         </Accordion>
       </div>
       
-      {/* Add Room Type Button */}
+      {/* Add Room Type Button with smaller text */}
       <div className="mb-6">
         <Accordion type="single" collapsible className="w-full">
           <AddRoomTypeButton onOpenDialog={() => setDialogOpen(true)} />

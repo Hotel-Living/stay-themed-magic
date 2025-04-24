@@ -1,9 +1,7 @@
-
 import React from "react";
 import RoomTypeContent from "./RoomTypeContent";
 import CollapsibleRoomTypeSection from "./CollapsibleRoomTypeSection";
 import { useRoomTypeSection } from "./useRoomTypeSection";
-import { RoomType } from "./useRoomTypes";
 
 interface RoomTypeSectionProps {
   onValidationChange: (isValid: boolean) => void;

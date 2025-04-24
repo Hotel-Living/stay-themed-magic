@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import {
@@ -108,8 +107,8 @@ export default function MealPlanSection({
 
   return (
     <Collapsible className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10" defaultOpen={false}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full text-left px-4 py-2 bg-fuchsia-900/20">
-        <label className="block text-base font-medium text-white uppercase">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
+        <label className="text-base font-medium text-white uppercase">
           {title}
         </label>
         <ChevronDown className="h-4 w-4 text-white" />

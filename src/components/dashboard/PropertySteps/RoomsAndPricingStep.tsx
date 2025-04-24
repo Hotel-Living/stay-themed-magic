@@ -19,30 +19,24 @@ export default function RoomsAndPricingStep() {
 
   return (
     <div className="space-y-2">
-      {/* Main section with LENGTH OF STAY and MEALS */}
-      <div>
-        <div className="space-y-2">
-          <StayLengthSection 
-            isOpen={false}
-            onOpenChange={() => {}}
-            onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
-            formData={{}}
-            updateFormData={() => {}}
-          />
-          
-          <MealPlanSection 
-            onValidationChange={(isValid) => handleValidationChange('mealPlan', isValid)} 
-            title="MEALS" 
-          />
-        </div>
-      </div>
-      
-      {/* Room Type Section */}
-      <div>
-        <RoomTypeSection 
-          onValidationChange={() => {}} 
+      <div className="space-y-2">
+        <StayLengthSection 
+          isOpen={false}
+          onOpenChange={() => {}}
+          onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
+          formData={{}}
+          updateFormData={() => {}}
+        />
+        
+        <MealPlanSection 
+          onValidationChange={(isValid) => handleValidationChange('mealPlan', isValid)} 
+          title="MEALS" 
         />
       </div>
+      
+      <RoomTypeSection 
+        onValidationChange={() => {}} 
+      />
     </div>
   );
 }

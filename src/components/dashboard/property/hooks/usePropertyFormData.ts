@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
+import { isValidUuid } from "@/utils/validation";
 
 export interface PropertyFormData {
   hotelName: string;
@@ -69,9 +70,8 @@ export const usePropertyFormData = () => {
     // Special handling for themes and activities to ensure they're valid UUIDs
     if (field === 'themes' || field === 'activities') {
       // Validate UUIDs before updating
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       const validValues = Array.isArray(value) 
-        ? value.filter(id => id && typeof id === 'string' && uuidRegex.test(id))
+        ? value.filter(id => id && isValidUuid(id))
         : [];
         
       setFormData(prev => ({

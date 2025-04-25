@@ -1,23 +1,15 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse } from "date-fns";
+import { isValidUuid, filterValidUuids } from "@/utils/validation";
 
 export const useRelatedDataSubmission = () => {
   const handleThemesAndActivities = async (hotelId: string, themes: string[], activities: string[]) => {
     console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
     
     // Ensure themes and activities arrays only contain valid UUIDs
-    const validThemes = Array.isArray(themes) ? themes.filter(themeId => {
-      // Validate that each theme ID is a valid UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-      return themeId && uuidRegex.test(themeId);
-    }) : [];
-
-    const validActivities = Array.isArray(activities) ? activities.filter(activityId => {
-      // Validate that each activity ID is a valid UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-      return activityId && uuidRegex.test(activityId);
-    }) : [];
+    const validThemes = filterValidUuids(themes);
+    const validActivities = filterValidUuids(activities);
     
     console.log("Valid themes after UUID filtering:", validThemes.length);
     console.log("Valid activities after UUID filtering:", validActivities.length);

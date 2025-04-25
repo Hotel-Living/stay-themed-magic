@@ -4,15 +4,13 @@ import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
-
-// Direct themes that should be immediately available for selection
-const directThemes: any[] = [];
 
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
@@ -25,6 +23,33 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [directThemes, setDirectThemes] = useState<any[]>([]);
+
+  // Load direct themes from the database
+  useEffect(() => {
+    const fetchDirectThemes = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('themes')
+          .select('id, name')
+          .eq('category', 'Featured')
+          .order('name');
+          
+        if (error) {
+          console.error("Error fetching direct themes:", error);
+          return;
+        }
+        
+        if (data) {
+          setDirectThemes(data);
+        }
+      } catch (err) {
+        console.error("Error in fetchDirectThemes:", err);
+      }
+    };
+    
+    fetchDirectThemes();
+  }, []);
 
   // Update local state when formData changes
   useEffect(() => {

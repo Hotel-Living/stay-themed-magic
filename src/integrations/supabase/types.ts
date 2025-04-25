@@ -277,6 +277,7 @@ export type Database = {
           country: string
           created_at: string
           description: string | null
+          faqs: Json[] | null
           features_hotel: Json | null
           features_room: Json | null
           id: string
@@ -293,11 +294,14 @@ export type Database = {
           name: string
           owner_id: string | null
           perfect_location: string | null
+          photos: string[] | null
           postal_code: string | null
+          preferredweekday: string | null
           price_per_month: number
           property_style: string | null
           property_type: string | null
           rejection_reason: string | null
+          room_types: Json[] | null
           status: string | null
           stay_lengths: number[] | null
           style: string | null
@@ -317,6 +321,7 @@ export type Database = {
           country: string
           created_at?: string
           description?: string | null
+          faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
           id?: string
@@ -333,11 +338,14 @@ export type Database = {
           name: string
           owner_id?: string | null
           perfect_location?: string | null
+          photos?: string[] | null
           postal_code?: string | null
+          preferredweekday?: string | null
           price_per_month: number
           property_style?: string | null
           property_type?: string | null
           rejection_reason?: string | null
+          room_types?: Json[] | null
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null
@@ -357,6 +365,7 @@ export type Database = {
           country?: string
           created_at?: string
           description?: string | null
+          faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
           id?: string
@@ -373,11 +382,14 @@ export type Database = {
           name?: string
           owner_id?: string | null
           perfect_location?: string | null
+          photos?: string[] | null
           postal_code?: string | null
+          preferredweekday?: string | null
           price_per_month?: number
           property_style?: string | null
           property_type?: string | null
           rejection_reason?: string | null
+          room_types?: Json[] | null
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null

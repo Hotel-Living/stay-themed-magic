@@ -20,6 +20,9 @@ export const useAccommodationTerms = ({
   const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(
     formData.mealPlans?.length ? formData.mealPlans : []
   );
+  const [selectedMonths, setSelectedMonths] = useState<string[]>(
+    formData.available_months?.length ? formData.available_months : []
+  );
   const [roomTypes, setRoomTypes] = useState<any[]>(formData.roomTypes || []);
   const [error, setError] = useState<string>("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
@@ -29,12 +32,13 @@ export const useAccommodationTerms = ({
     weekday: false,
     stayLength: false,
     mealPlan: false,
-    roomRates: false
+    roomRates: false,
+    availableMonths: false
   });
 
   useEffect(() => {
     checkValidation();
-  }, [selectedStayLengths, selectedMealPlans, roomTypes]);
+  }, [selectedStayLengths, selectedMealPlans, roomTypes, selectedMonths]);
 
   useEffect(() => {
     if (formData.preferredWeekday) {
@@ -48,6 +52,10 @@ export const useAccommodationTerms = ({
     
     if (formData.mealPlans && formData.mealPlans.length > 0) {
       setSelectedMealPlans(formData.mealPlans);
+    }
+    
+    if (formData.available_months && formData.available_months.length > 0) {
+      setSelectedMonths(formData.available_months);
     }
     
     if (formData.roomTypes && formData.roomTypes.length > 0) {
@@ -96,6 +104,12 @@ export const useAccommodationTerms = ({
     updateFormData('mealPlans', plans);
   };
 
+  const handleMonthsChange = (months: string[]) => {
+    setHasInteracted(true);
+    setSelectedMonths(months);
+    updateFormData('available_months', months);
+  };
+
   const handleRoomTypesChange = (updatedRoomTypes: any[]) => {
     setHasInteracted(true);
     setRoomTypes(updatedRoomTypes);
@@ -126,6 +140,7 @@ export const useAccommodationTerms = ({
     selectedWeekday,
     selectedStayLengths,
     selectedMealPlans,
+    selectedMonths,
     roomTypes,
     error,
     showValidationErrors,
@@ -134,6 +149,7 @@ export const useAccommodationTerms = ({
     handleWeekdayChange,
     handleStayLengthChange,
     handleMealPlanChange,
+    handleMonthsChange,
     handleRoomTypesChange,
     toggleSection,
     isValid: selectedStayLengths.length > 0 && selectedMealPlans.length > 0 && roomTypes.length > 0

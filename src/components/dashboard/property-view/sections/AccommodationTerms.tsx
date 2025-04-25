@@ -19,7 +19,7 @@ export const AccommodationTerms = ({ hotel }: AccommodationTermsProps) => {
     const safeValue = value as string[] | number[] | null | undefined;
     
     if (!safeValue || !Array.isArray(safeValue) || safeValue.length === 0) {
-      return null;
+      return <p className="font-medium text-gray-400">No stay lengths specified</p>;
     }
 
     const safeStayLengths = safeValue.map(days => {
@@ -63,7 +63,7 @@ export const AccommodationTerms = ({ hotel }: AccommodationTermsProps) => {
         </div>
         <div>
           <p className="text-sm text-gray-400">Stay Lengths</p>
-          {renderStayLengths(hotel.stay_lengths) as React.ReactNode}
+          {renderStayLengths(hotel.stay_lengths)}
         </div>
         <div>
           <p className="text-sm text-gray-400">Preferred Check-in Day</p>

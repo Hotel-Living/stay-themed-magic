@@ -33,9 +33,9 @@ export default function HotelFeaturesStep({
   // Update parent form data when selected features change
   useEffect(() => {
     if (updateFormData) {
-      console.log("Updating form data with hotel features:", selectedHotelFeatures);
+      console.log("Updating formData with hotel features:", selectedHotelFeatures);
       updateFormData('featuresHotel', selectedHotelFeatures);
-      console.log("Updating form data with room features:", selectedRoomFeatures);
+      console.log("Updating formData with room features:", selectedRoomFeatures);
       updateFormData('featuresRoom', selectedRoomFeatures);
     }
     
@@ -44,6 +44,7 @@ export default function HotelFeaturesStep({
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, onValidationChange]);
 
   const handleHotelFeatureToggle = (featureId: string) => {
+    console.log("Toggling hotel feature:", featureId);
     setSelectedHotelFeatures(prev => ({
       ...prev,
       [featureId]: !prev[featureId]
@@ -51,6 +52,7 @@ export default function HotelFeaturesStep({
   };
 
   const handleRoomFeatureToggle = (featureId: string) => {
+    console.log("Toggling room feature:", featureId);
     setSelectedRoomFeatures(prev => ({
       ...prev,
       [featureId]: !prev[featureId]

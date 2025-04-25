@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
@@ -28,8 +29,9 @@ export interface PropertyFormData {
   hotelImages?: UploadedImage[];
   mainImageUrl?: string;
   preferredWeekday?: string;
-  featuresHotel?: any;  
-  featuresRoom?: any;
+  featuresHotel?: Record<string, boolean>;  
+  featuresRoom?: Record<string, boolean>;
+  available_months?: string[];
 }
 
 export const usePropertyFormData = () => {
@@ -59,10 +61,12 @@ export const usePropertyFormData = () => {
     termsAccepted: false,
     preferredWeekday: "Monday",
     featuresHotel: {},
-    featuresRoom: {}
+    featuresRoom: {},
+    available_months: []
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {
+    console.log(`Updating form data field: ${field}`, value);
     setFormData(prev => ({
       ...prev,
       [field]: value

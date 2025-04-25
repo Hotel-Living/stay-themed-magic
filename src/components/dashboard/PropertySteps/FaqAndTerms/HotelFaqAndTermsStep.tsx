@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { predefinedFaqs, predefinedTerms } from "./constants";
 import { FaqItem } from "./types";
@@ -35,9 +36,9 @@ export default function HotelFaqAndTermsStep({
   }, [termsAccepted, updateFormData]);
 
   useEffect(() => {
-    const isValid = termsAndConditions.trim().length > 0;
-    onValidationChange(isValid);
-  }, [termsAndConditions, onValidationChange]);
+    // Only validate based on terms acceptance, not FAQs
+    onValidationChange(termsAccepted);
+  }, [termsAccepted, onValidationChange]);
 
   return (
     <div className="space-y-6 max-w-[80%]">

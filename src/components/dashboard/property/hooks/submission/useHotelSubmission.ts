@@ -20,6 +20,8 @@ export const useHotelSubmission = () => {
   };
 
   const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
+    console.log("Creating new hotel with data:", formData);
+    
     const { data: hotelData, error: hotelError } = await supabase
       .from('hotels')
       .insert({
@@ -44,6 +46,7 @@ export const useHotelSubmission = () => {
         terms: formData.terms || "",
         owner_id: userId,
         price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
+        preferredWeekday: formData.preferredWeekday || "Monday",
         status: 'pending'
       })
       .select()
@@ -54,10 +57,13 @@ export const useHotelSubmission = () => {
       throw hotelError;
     }
 
+    console.log("Successfully created hotel:", hotelData);
     return hotelData;
   };
 
   const updateExistingHotel = async (formData: PropertyFormData, hotelId: string) => {
+    console.log("Updating hotel with ID:", hotelId, "with data:", formData);
+    
     const { error: hotelError } = await supabase
       .from('hotels')
       .update({
@@ -80,6 +86,7 @@ export const useHotelSubmission = () => {
         room_types: formData.roomTypes || [],
         faqs: formData.faqs || [],
         terms: formData.terms || "",
+        preferredWeekday: formData.preferredWeekday || "Monday",
         price_per_month: calculateAveragePrice(formData.roomTypes) || 1000,
         status: 'pending',
       })
@@ -90,6 +97,7 @@ export const useHotelSubmission = () => {
       throw hotelError;
     }
 
+    console.log("Successfully updated hotel:", hotelId);
     return hotelId;
   };
 

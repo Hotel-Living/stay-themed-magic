@@ -43,6 +43,7 @@ export interface MyHotel {
   faqs?: any[];
   terms?: string | null;
   roomTypes?: any[];
+  preferredWeekday?: string | null;
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
@@ -65,7 +66,19 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         description,
         property_type,
         style,
+        ideal_guests,
+        atmosphere,
+        perfect_location,
         address,
+        postal_code,
+        contact_name,
+        contact_email,
+        contact_phone,
+        meal_plans,
+        room_types,
+        faqs,
+        terms,
+        preferredWeekday,
         hotel_images (id, hotel_id, image_url, is_main, created_at),
         hotel_themes (theme_id, themes:themes(id, name)),
         hotel_activities (activity_id, activities:activities(id, name))
@@ -77,32 +90,11 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
       return [];
     }
     
-    // For testing purposes, add mock roomTypes to each hotel
-    // In a production environment, this would come from the database
-    const hotelsWithRoomTypes = (data as any[]).map(hotel => {
-      // Use room_types from database if available, otherwise use mock data
-      const roomTypes = hotel.room_types || [
-        {
-          id: `rt-${hotel.id}-1`,
-          name: "Standard Room",
-          description: "Comfortable room with all basic amenities",
-          baseRate: 150,
-          basePrice: 150,
-          roomCount: 5
-        },
-        {
-          id: `rt-${hotel.id}-2`,
-          name: "Deluxe Suite",
-          description: "Spacious suite with separate living area",
-          baseRate: 250,
-          basePrice: 250,
-          roomCount: 2
-        }
-      ];
-      
+    // Process the data to ensure all fields have appropriate values
+    const processedHotels = data.map(hotel => {
       return {
         ...hotel,
-        // Add the missing fields that aren't in the database query to prevent typescript errors
+        // Ensure these fields have default values if they're null/undefined
         ideal_guests: hotel.ideal_guests || null,
         atmosphere: hotel.atmosphere || null,
         perfect_location: hotel.perfect_location || null,
@@ -114,13 +106,32 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         room_types: hotel.room_types || [],
         faqs: hotel.faqs || [],
         terms: hotel.terms || null,
-        roomTypes // Add the roomTypes property
+        preferredWeekday: hotel.preferredWeekday || "Monday",
+        // Add roomTypes property for compatibility
+        roomTypes: hotel.room_types || [
+          {
+            id: `rt-${hotel.id}-1`,
+            name: "Standard Room",
+            description: "Comfortable room with all basic amenities",
+            baseRate: 150,
+            basePrice: 150,
+            roomCount: 5
+          },
+          {
+            id: `rt-${hotel.id}-2`,
+            name: "Deluxe Suite",
+            description: "Spacious suite with separate living area",
+            baseRate: 250,
+            basePrice: 250,
+            roomCount: 2
+          }
+        ]
       };
     });
     
-    console.log("Returning hotels with complete data:", hotelsWithRoomTypes);
+    console.log("Returning hotels with complete data:", processedHotels);
     
-    return hotelsWithRoomTypes as MyHotel[];
+    return processedHotels as MyHotel[];
   } catch (e) {
     console.error("Unexpected error in fetchHotelsByOwner:", e);
     return [];

@@ -1,4 +1,3 @@
-
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -42,6 +41,7 @@ export type Hotel = {
   room_types?: any[];
   faqs?: any[];
   terms?: string | null;
+  preferredWeekday?: string | null;
 }
 
 export type Theme = {

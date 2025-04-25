@@ -11,9 +11,7 @@ interface ThemesAndActivitiesStepProps {
 }
 
 // Direct themes that should be immediately available for selection
-const directThemes = [
-  { id: "digital-nomad", name: "Digital Nomad" }
-];
+const directThemes: any[] = [];
 
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},

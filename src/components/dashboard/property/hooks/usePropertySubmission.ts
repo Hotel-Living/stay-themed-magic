@@ -58,23 +58,6 @@ export const usePropertySubmission = ({
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
 
-    // Log important information before submission
-    console.log("Preparing to submit property:", {
-      isEditing,
-      editingHotelId,
-      userId,
-      formData: {
-        hotelName: formData.hotelName,
-        description: formData.description,
-        stayLengths: formData.stayLengths,
-        availableMonths: formData.available_months,
-        featuresHotel: formData.featuresHotel,
-        featuresRoom: formData.featuresRoom,
-        themes: formData.themes,
-        activities: formData.activities
-      }
-    });
-
     // Validate all steps before final submission
     let incompleteFieldsByStep = [];
     for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
@@ -129,7 +112,7 @@ export const usePropertySubmission = ({
       if (!isEditing) {
         setFormData({
           termsAccepted: false
-        } as Partial<PropertyFormData>);
+        });
       }
     } catch (error: any) {
       console.error("Error submitting hotel:", error);

@@ -10,7 +10,7 @@ interface FeaturesSectionProps {
 export const FeaturesSection = ({ hotel }: FeaturesSectionProps) => {
   const renderFeatures = (features: Record<string, boolean> | undefined) => {
     if (!features || Object.keys(features).length === 0) {
-      return <p className="text-gray-400">No features specified</p>;
+      return <p>No features specified</p>;
     }
 
     return (

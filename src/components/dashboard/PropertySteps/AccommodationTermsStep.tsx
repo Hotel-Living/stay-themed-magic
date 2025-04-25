@@ -4,7 +4,6 @@ import StayLengthSection from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./AccommodationTerms/MealPlanSection";
 import RoomsRatesSection from "./AccommodationTerms/RoomsRatesSection";
 import PreferredWeekdaySection from "./AccommodationTerms/PreferredWeekdaySection";
-import { MonthSelectionSection } from "./AccommodationTerms/MonthSelectionSection";
 import ValidationMessages from "./AccommodationTerms/ValidationMessages";
 import { useAccommodationTerms } from "./AccommodationTerms/hooks/useAccommodationTerms";
 
@@ -22,14 +21,14 @@ const AccommodationTermsStep = ({
   const {
     selectedWeekday,
     selectedStayLengths,
-    selectedMonths,
     error,
     showValidationErrors,
     hasInteracted,
     sectionsState,
     handleWeekdayChange,
     handleStayLengthChange,
-    handleMonthsChange,
+    handleMealPlanChange,
+    handleRoomTypesChange,
     toggleSection,
     isValid
   } = useAccommodationTerms({
@@ -62,11 +61,6 @@ const AccommodationTermsStep = ({
       />
       
       <div className="space-y-6">
-        <MonthSelectionSection 
-          selectedMonths={selectedMonths}
-          onChange={handleMonthsChange}
-        />
-        
         <PreferredWeekdaySection 
           preferredWeekday={selectedWeekday}
           onWeekdayChange={handleWeekdayChange}

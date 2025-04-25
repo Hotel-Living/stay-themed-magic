@@ -37,14 +37,13 @@ export default function ThemesAndActivitiesStep({
       console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
-  }, [formData]);
+  }, []);
 
   // Update parent form data when local state changes
   useEffect(() => {
-    console.log("Updating formData with themes:", selectedThemes);
+    console.log("Updating themes in formData:", selectedThemes);
     updateFormData('themes', selectedThemes);
-    
-    console.log("Updating formData with activities:", selectedActivities);
+    console.log("Updating activities in formData:", selectedActivities);
     updateFormData('activities', selectedActivities);
     
     // Validate - at least one theme and one activity must be selected
@@ -54,7 +53,6 @@ export default function ThemesAndActivitiesStep({
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    console.log(`Theme ${themeId} selected: ${isSelected}`);
     if (isSelected) {
       setSelectedThemes(prev => [...prev, themeId]);
     } else {
@@ -63,7 +61,6 @@ export default function ThemesAndActivitiesStep({
   };
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
-    console.log(`Activity ${activity} checked: ${isChecked}`);
     setSelectedActivities(prev => 
       isChecked 
         ? [...prev, activity]

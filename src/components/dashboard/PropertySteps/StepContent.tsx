@@ -1,7 +1,6 @@
-
 import React from "react";
 import StepOne from "./StepOne";
-import AccommodationTermsStep from "./AccommodationTermsStep";
+import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
@@ -49,11 +48,7 @@ export default function StepContent({
             updateFormData={updateFormData}
           />
           <div className="mt-6">
-            <HotelFeaturesStep 
-              onValidationChange={onValidationChange}
-              formData={formData}
-              updateFormData={updateFormData}
-            />
+            <HotelFeaturesStep />
           </div>
         </>
       )}

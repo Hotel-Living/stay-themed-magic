@@ -35,46 +35,15 @@ export const useRelatedDataSubmission = () => {
         .delete()
         .eq('hotel_id', hotelId);
 
-      // Create activity records if they don't exist first
-      for (const activityName of activities) {
-        // Check if activity exists
-        const { data: existingActivity } = await supabase
-          .from('activities')
-          .select('id')
-          .eq('name', activityName)
-          .maybeSingle();
-        
-        if (!existingActivity) {
-          // Create the activity
-          const { data: newActivity, error } = await supabase
-            .from('activities')
-            .insert({ name: activityName })
-            .select('id')
-            .single();
-            
-          if (error) {
-            console.error("Error creating activity:", error);
-          } else {
-            console.log("Created new activity:", activityName);
-          }
-        }
-      }
+      const activityRows = activities.map(activityId => ({
+        hotel_id: hotelId,
+        activity_id: activityId
+      }));
       
-      // Now get all activities we need
-      const { data: activityRecords } = await supabase
-        .from('activities')
-        .select('id, name')
-        .in('name', activities);
-      
-      if (activityRecords && activityRecords.length > 0) {
-        const activityRows = activityRecords.map(activity => ({
-          hotel_id: hotelId,
-          activity_id: activity.id
-        }));
-        
+      if (activityRows.length > 0) {
         const { data, error } = await supabase.from('hotel_activities').insert(activityRows);
         if (error) {
-          console.error("Error inserting hotel_activities:", error);
+          console.error("Error inserting activities:", error);
         } else {
           console.log("Successfully inserted activities:", activityRows.length);
         }

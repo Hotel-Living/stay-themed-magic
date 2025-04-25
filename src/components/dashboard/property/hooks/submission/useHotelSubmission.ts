@@ -9,10 +9,7 @@ export const useHotelSubmission = () => {
     // Convert the stay lengths from an array of numbers to a PostgreSQL array
     const stayLengths = formData.stayLengths || [];
     
-    // Get available months from the formData
-    const availableMonths = formData.available_months || [];
-    
-    // Get meal plans data
+    // Get available months from the meal plans array
     const mealPlans = formData.mealPlans || [];
     
     // Get room types data
@@ -20,9 +17,6 @@ export const useHotelSubmission = () => {
 
     // Convert themes selected to proper format
     const themes = formData.themes || [];
-
-    // Convert activities selected to proper format
-    const activities = formData.activities || [];
     
     // Extract hotel and room features
     const featuresHotel = formData.featuresHotel || {};
@@ -62,11 +56,8 @@ export const useHotelSubmission = () => {
       terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
-      features_room: featuresRoom,
-      available_months: availableMonths,
+      features_room: featuresRoom
     };
-    
-    console.log("Submitting hotel data to database:", hotelData);
     
     const { data, error } = await supabase
       .from('hotels')
@@ -89,24 +80,21 @@ export const useHotelSubmission = () => {
     // Convert the stay lengths from an array of numbers to a PostgreSQL array
     const stayLengths = formData.stayLengths || [];
     
-    // Get available months from formData
-    const availableMonths = formData.available_months || [];
-    
-    // Get meal plans data
+    // Get available months from the meal plans array
     const mealPlans = formData.mealPlans || [];
     
     // Get room types data
     const roomTypes = formData.roomTypes || [];
-
-    // Extract hotel and room features
-    const featuresHotel = formData.featuresHotel || {};
-    const featuresRoom = formData.featuresRoom || {};
     
     // Extract faqs
     const faqs = formData.faqs || [];
     
     // Get the selected weekday
     const preferredWeekday = formData.preferredWeekday || "Monday";
+
+    // Extract hotel and room features
+    const featuresHotel = formData.featuresHotel || {};
+    const featuresRoom = formData.featuresRoom || {};
     
     // Prepare the hotel data for update
     const hotelData = {
@@ -133,11 +121,8 @@ export const useHotelSubmission = () => {
       terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
-      features_room: featuresRoom,
-      available_months: availableMonths,
+      features_room: featuresRoom
     };
-    
-    console.log("Submitting updated hotel data to database:", hotelData);
     
     const { error } = await supabase
       .from('hotels')

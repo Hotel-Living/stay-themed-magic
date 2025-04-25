@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Building, Edit } from "lucide-react";
 import EmptyState from "./EmptyState";
 import { useAuth } from "@/context/AuthContext";
@@ -8,35 +8,12 @@ import AddProperty from "./AddProperty";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { Card } from "@/components/ui/card";
 
-const formatStayLengths = (stayLengths: unknown): React.ReactNode => {
-  if (!Array.isArray(stayLengths) || stayLengths.length === 0) {
-    return <p>No stay lengths specified</p>;
+export function formatStayLengths(value: unknown): React.ReactNode {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value;
   }
-
-  return (
-    <div className="flex flex-wrap gap-2 mt-1">
-      {stayLengths
-        .map((days) => {
-          const daysValue = typeof days === 'string' 
-            ? parseInt(days, 10) 
-            : typeof days === 'number' 
-            ? days 
-            : NaN;
-          
-          return !isNaN(daysValue) ? (
-            <span 
-              key={daysValue} 
-              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
-            >
-              {daysValue} {daysValue === 1 ? 'day' : 'days'}
-            </span>
-          ) : null;
-        })
-        .filter(Boolean)
-      }
-    </div>
-  );
-};
+  return <></>;
+}
 
 export const PropertiesContent = () => {
   const { user } = useAuth();

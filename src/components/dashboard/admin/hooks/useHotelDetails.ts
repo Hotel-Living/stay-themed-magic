@@ -66,12 +66,23 @@ export function useHotelDetails(id: string | undefined) {
         setThemes(typedHotelData.hotel_themes || []);
         setActivities(typedHotelData.hotel_activities || []);
 
-        // Generate amenities based on hotel category
-        if (typedHotelData.category) {
-          const categoryAmenities = generateAmenities(typedHotelData.category);
-          setAmenities(categoryAmenities);
+        // Use the actual features from the hotel data, if available
+        // Instead of generating based on hotel category
+        if (typedHotelData.features_hotel && typeof typedHotelData.features_hotel === 'object') {
+          // Extract the features from the JSONB object
+          const hotelFeatures = Object.entries(typedHotelData.features_hotel)
+            .filter(([_, value]) => value === true)
+            .map(([key, _]) => key.replace(/_/g, ' ')
+              // Capitalize each word
+              .replace(/\b\w/g, l => l.toUpperCase()));
+          
+          setAmenities(hotelFeatures);
+          console.log("Actual hotel features:", hotelFeatures);
+        } else {
+          // Fallback to empty array if no features found
+          setAmenities([]);
+          console.log("No features found for hotel");
         }
-
       } catch (error: any) {
         console.error("Error fetching hotel details:", error);
         toast({
@@ -90,22 +101,4 @@ export function useHotelDetails(id: string | undefined) {
   }, [id, toast]);
 
   return { hotel, loading, themes, activities, images, amenities };
-}
-
-function generateAmenities(category: number): string[] {
-  const baseAmenities = ["Free WiFi", "Air Conditioning", "Daily Housekeeping"];
-  
-  if (category >= 3) {
-    baseAmenities.push("Pool", "Gym");
-  }
-  
-  if (category >= 4) {
-    baseAmenities.push("Spa", "Room Service", "Restaurant");
-  }
-  
-  if (category >= 5) {
-    baseAmenities.push("Concierge Service", "Valet Parking", "Business Center");
-  }
-  
-  return baseAmenities;
 }

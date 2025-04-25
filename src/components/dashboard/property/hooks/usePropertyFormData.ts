@@ -29,8 +29,8 @@ export interface PropertyFormData {
   hotelImages?: UploadedImage[];
   mainImageUrl?: string;
   preferredWeekday?: string;
-  featuresHotel?: any;  // Added this property
-  featuresRoom?: any;   // Added this property
+  featuresHotel?: any;  
+  featuresRoom?: any;
 }
 
 export const usePropertyFormData = () => {
@@ -59,8 +59,8 @@ export const usePropertyFormData = () => {
     terms: "",
     termsAccepted: false,
     preferredWeekday: "Monday",
-    featuresHotel: null,  // Initialize this property
-    featuresRoom: null    // Initialize this property
+    featuresHotel: {},
+    featuresRoom: {}
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

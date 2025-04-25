@@ -1,4 +1,3 @@
-
 import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -52,6 +51,12 @@ export interface AdminHotelDetail {
     themes: HotelTheme;
   }[];
   hotel_activities: HotelActivity[];
+  features_hotel?: any;
+  features_room?: any;
+  stay_lengths?: number[];
+  room_types?: any[];
+  meal_plans?: string[];
+  preferredWeekday?: string;
 }
 
 export interface HotelDetailProps {

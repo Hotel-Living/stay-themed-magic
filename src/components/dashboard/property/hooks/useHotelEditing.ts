@@ -78,6 +78,10 @@ export const useHotelEditing = ({
         console.log("Hotel themes:", themes);
         console.log("Hotel activities:", activities);
         console.log("Hotel available months:", hotelData.available_months);
+        console.log("Hotel stay lengths:", hotelData.stay_lengths);
+        console.log("Hotel features:", hotelData.features_hotel);
+        console.log("Room features:", hotelData.features_room);
+        console.log("Room types:", hotelData.room_types);
         
         // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
@@ -106,7 +110,9 @@ export const useHotelEditing = ({
           termsAccepted: true,
           hotelImages: images,
           mainImageUrl: mainImageUrl,
-          preferredWeekday: hotelData.preferredWeekday || "Monday"
+          preferredWeekday: hotelData.preferredWeekday || "Monday",
+          featuresHotel: hotelData.features_hotel || {},
+          featuresRoom: hotelData.features_room || {}
         });
         
         setCurrentStep(1);

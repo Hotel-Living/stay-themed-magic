@@ -25,13 +25,36 @@ export const useFormNavigation = ({
 }: FormNavigationProps) => {
   const { toast } = useToast();
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const goToNextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+      setShowValidationErrors(false);
+      scrollToTop();
+    }
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      setShowValidationErrors(false);
+      scrollToTop();
+    }
+  };
+
   const validateCurrentStep = () => {
     const isCurrentStepValid = stepValidation[currentStep];
     if (!isCurrentStepValid) {
       const incompleteFields = getIncompleteFields(currentStep, formData);
       setErrorFields(incompleteFields);
       setShowValidationErrors(true);
-
+      
       // Dispatch navigation attempt event
       window.dispatchEvent(new Event('attemptStepNavigation'));
       
@@ -46,33 +69,8 @@ export const useFormNavigation = ({
     return true;
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  const goToNextStep = () => {
-    if (validateCurrentStep()) {
-      if (currentStep < totalSteps) {
-        setCurrentStep(currentStep + 1);
-        setShowValidationErrors(false);
-        scrollToTop(); // Added scroll to top functionality
-      }
-    }
-  };
-
-  const goToPreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      setShowValidationErrors(false);
-      scrollToTop(); // Added scroll to top functionality
-    }
-  };
-
   return {
-    validateCurrentStep,
+    validateCurrentStep, // Keep this for final submission validation
     goToNextStep,
     goToPreviousStep
   };

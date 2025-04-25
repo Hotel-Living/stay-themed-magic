@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
@@ -13,10 +12,7 @@ interface ThemesAndActivitiesStepProps {
 
 // Direct themes that should be immediately available for selection
 const directThemes = [
-  { id: "digital-nomad", name: "Digital Nomad" },
-  { id: "remote-work", name: "Remote Work" },
-  { id: "business", name: "Business" },
-  { id: "leisure", name: "Leisure" }
+  { id: "digital-nomad", name: "Digital Nomad" }
 ];
 
 export default function ThemesAndActivitiesStep({
@@ -95,4 +91,3 @@ export default function ThemesAndActivitiesStep({
     </div>
   );
 }
-

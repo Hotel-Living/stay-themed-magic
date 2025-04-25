@@ -19,7 +19,7 @@ interface Theme {
   id: string;
   name: string;
   category?: string;
-  description?: string;
+  description?: string | null;
 }
 
 interface ThemeCategory {
@@ -44,7 +44,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   const fetchThemes = async () => {
     try {
       setIsLoading(true);
-      // In the Supabase database, make sure themes table has a 'category' column
+      // Fetch themes from Supabase, no category filtering
       const { data, error } = await supabase
         .from('themes')
         .select('id, name, description');
@@ -60,15 +60,24 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       }
 
       if (data) {
-        // Group themes by category - if category doesn't exist, use a default category
+        // Group themes by category - use a default category since we may not have the category field
         const groupedThemes: {[key: string]: Theme[]} = {};
+        const defaultCategory = 'General';
         
         data.forEach(theme => {
-          const category = theme.category || 'General';
+          // Use a default category since the theme may not have a category field
+          const category = defaultCategory;
           if (!groupedThemes[category]) {
             groupedThemes[category] = [];
           }
-          groupedThemes[category].push(theme);
+          // Cast the theme to include a potential category field
+          const themeWithCategory: Theme = {
+            id: theme.id,
+            name: theme.name,
+            description: theme.description,
+            category: defaultCategory
+          };
+          groupedThemes[category].push(themeWithCategory);
         });
         
         // Convert to array of categories

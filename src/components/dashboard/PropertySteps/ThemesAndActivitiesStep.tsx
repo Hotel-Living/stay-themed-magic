@@ -23,7 +23,7 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [directThemes, setDirectThemes] = useState<{id: string; name: string}[]>([]);
+  const [directThemes, setDirectThemes] = useState<Array<{id: string; name: string}>>([]);
 
   // Load direct themes from the database
   useEffect(() => {

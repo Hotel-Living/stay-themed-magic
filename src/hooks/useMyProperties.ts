@@ -90,14 +90,34 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
       return [];
     }
     
+    if (!data || !Array.isArray(data)) {
+      console.error("No data returned or invalid data format");
+      return [];
+    }
+    
     // Process the data to ensure all fields have appropriate values
     const processedHotels = data.map(hotel => {
+      // Ensure hotel is a valid object before processing
+      if (!hotel || typeof hotel !== 'object') {
+        console.error("Invalid hotel data:", hotel);
+        return null;
+      }
+      
       return {
-        ...hotel,
-        // Ensure these fields have default values if they're null/undefined
+        id: hotel.id || "",
+        name: hotel.name || "",
+        city: hotel.city || "",
+        country: hotel.country || "",
+        main_image_url: hotel.main_image_url,
+        price_per_month: hotel.price_per_month || 0,
+        category: hotel.category,
+        description: hotel.description,
+        property_type: hotel.property_type,
+        style: hotel.style,
         ideal_guests: hotel.ideal_guests || null,
         atmosphere: hotel.atmosphere || null,
         perfect_location: hotel.perfect_location || null,
+        address: hotel.address,
         postal_code: hotel.postal_code || null,
         contact_name: hotel.contact_name || null,
         contact_email: hotel.contact_email || null,
@@ -107,6 +127,10 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         faqs: hotel.faqs || [],
         terms: hotel.terms || null,
         preferredWeekday: hotel.preferredWeekday || "Monday",
+        available_months: hotel.available_months || [],
+        hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
+        hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
+        hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
         // Add roomTypes property for compatibility
         roomTypes: hotel.room_types || [
           {
@@ -127,11 +151,11 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           }
         ]
       };
-    });
+    }).filter(hotel => hotel !== null) as MyHotel[];
     
     console.log("Returning hotels with complete data:", processedHotels);
     
-    return processedHotels as MyHotel[];
+    return processedHotels;
   } catch (e) {
     console.error("Unexpected error in fetchHotelsByOwner:", e);
     return [];

@@ -167,6 +167,35 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
     );
   };
 
+  const renderStayLengths = (stayLengths: unknown): React.ReactNode => {
+    if (Array.isArray(stayLengths) && stayLengths.length > 0) {
+      return (
+        <div className="flex flex-wrap gap-2 mt-1">
+          {stayLengths
+            .map((days) => {
+              const daysValue = typeof days === 'string' 
+                ? parseInt(days, 10) 
+                : typeof days === 'number' 
+                ? days 
+                : NaN;
+              
+              return !isNaN(daysValue) ? (
+                <span 
+                  key={daysValue} 
+                  className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+                >
+                  {daysValue} {daysValue === 1 ? 'day' : 'days'}
+                </span>
+              ) : null;
+            })
+            .filter(Boolean)
+          }
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -284,7 +313,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
           </div>
           <div>
             <p className="text-sm text-gray-400">Stay Lengths</p>
-            {formatStayLengths(hotel.stay_lengths)}
+            {renderStayLengths(hotel.stay_lengths)}
           </div>
           <div>
             <p className="text-sm text-gray-400">Preferred Check-in Day</p>

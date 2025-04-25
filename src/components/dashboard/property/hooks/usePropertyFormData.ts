@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 

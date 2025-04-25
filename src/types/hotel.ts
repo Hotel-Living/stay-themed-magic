@@ -57,6 +57,7 @@ export interface AdminHotelDetail {
   room_types?: any[];
   meal_plans?: string[];
   preferredWeekday?: string;
+  terms?: string | null;
 }
 
 export interface HotelDetailProps {
@@ -83,6 +84,7 @@ export interface HotelDetailProps {
   latitude?: number | string | null;
   longitude?: number | string | null;
   address?: string | null;
+  terms?: string | null;
 }
 
 export interface HotelAmenitiesProps {

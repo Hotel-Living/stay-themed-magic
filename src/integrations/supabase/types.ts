@@ -307,6 +307,7 @@ export type Database = {
           status: string | null
           stay_lengths: number[] | null
           style: string | null
+          terms: string | null
           updated_at: string
         }
         Insert: {
@@ -353,6 +354,7 @@ export type Database = {
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null
+          terms?: string | null
           updated_at?: string
         }
         Update: {
@@ -399,6 +401,7 @@ export type Database = {
           status?: string | null
           stay_lengths?: number[] | null
           style?: string | null
+          terms?: string | null
           updated_at?: string
         }
         Relationships: [

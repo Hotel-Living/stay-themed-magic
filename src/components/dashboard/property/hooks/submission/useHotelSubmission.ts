@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "../usePropertyFormData";
 
@@ -53,7 +52,7 @@ export const useHotelSubmission = () => {
       meal_plans: mealPlans,
       room_types: roomTypes,
       faqs: faqs,
-      terms: formData.terms,
+      terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom
@@ -118,7 +117,7 @@ export const useHotelSubmission = () => {
       meal_plans: mealPlans,
       room_types: roomTypes,
       faqs: faqs,
-      terms: formData.terms,
+      terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom

@@ -77,8 +77,6 @@ export default function ThemesAndActivitiesStep({
 
   return (
     <div className="space-y-6 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-2 text-white">HOTEL THEMES AND ACTIVITIES</h2>
-      
       <div className="space-y-8">
         <DirectThemes 
           themes={getAllDirectThemes()}

@@ -315,7 +315,7 @@ const renderStayLengths = (stayLengths: unknown): React.ReactNode => {
           </div>
           <div>
             <p className="text-sm text-gray-400">Stay Lengths</p>
-            {renderStayLengths(hotel.stay_lengths)}
+            {renderStayLengths(hotel.stay_lengths) as React.ReactNode}
           </div>
           <div>
             <p className="text-sm text-gray-400">Preferred Check-in Day</p>

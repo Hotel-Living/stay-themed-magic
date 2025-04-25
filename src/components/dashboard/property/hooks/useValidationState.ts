@@ -62,7 +62,8 @@ export const useValidationState = () => {
         
         return incompleteThemeFields;
       case 4:
-        // Modified to remove FAQ from required fields, only check Terms & Conditions acceptance
+        // Check ONLY for Terms & Conditions acceptance
+        console.log("Checking Terms & Conditions acceptance:", formData.termsAccepted);
         return formData.termsAccepted ? [] : ["Terms & Conditions"];
       default:
         return [];

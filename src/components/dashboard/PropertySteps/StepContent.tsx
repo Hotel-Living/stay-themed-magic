@@ -33,6 +33,13 @@ export default function StepContent({
 
   const tableFn = renderPriceTable || defaultRenderPriceTable;
 
+  // Handle checkbox changes for the final step confirmation
+  const handleTermsCheckboxChange = (checked: boolean) => {
+    console.log("Final step checkbox changed to:", checked);
+    updateFormData('termsAccepted', checked);
+    onValidationChange(checked);
+  };
+
   return (
     <div className="mb-4">
       {currentStep === 1 && 
@@ -77,7 +84,7 @@ export default function StepContent({
                 id="finalize-terms" 
                 className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
                 checked={formData.termsAccepted || false}
-                onChange={(e) => updateFormData('termsAccepted', e.target.checked)} 
+                onChange={(e) => handleTermsCheckboxChange(e.target.checked)} 
               />
               <label htmlFor="finalize-terms" className="text-sm text-white">
                 I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>

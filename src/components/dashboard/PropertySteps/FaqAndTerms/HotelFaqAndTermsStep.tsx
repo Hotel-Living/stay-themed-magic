@@ -30,26 +30,24 @@ export default function HotelFaqAndTermsStep({
     }
   }, [faqItems, termsAndConditions, updateFormData]);
 
-  // Update form data when terms acceptance changes
+  // Direct handler for terms acceptance that updates everything in one place
+  const handleTermsAcceptance = (checked: boolean) => {
+    console.log("Setting terms accepted to:", checked);
+    setTermsAccepted(checked);
+    if (updateFormData) {
+      updateFormData('termsAccepted', checked);
+    }
+    onValidationChange(checked);
+  };
+
+  // Ensure validation on mount and when terms change
   useEffect(() => {
+    console.log("Terms accepted state in effect:", termsAccepted);
+    onValidationChange(termsAccepted);
     if (updateFormData) {
       updateFormData('termsAccepted', termsAccepted);
     }
-    
-    // Immediately call validation change when terms acceptance changes
-    onValidationChange(termsAccepted);
-    
-    // Log for debugging
-    console.log("Terms accepted state changed:", termsAccepted);
   }, [termsAccepted, updateFormData, onValidationChange]);
-
-  // Handler function to ensure state is properly updated
-  const handleTermsAcceptance = (checked: boolean) => {
-    setTermsAccepted(checked);
-    updateFormData('termsAccepted', checked);
-    onValidationChange(checked);
-    console.log("Terms manually set to:", checked);
-  };
 
   return (
     <div className="space-y-6 max-w-[80%]">

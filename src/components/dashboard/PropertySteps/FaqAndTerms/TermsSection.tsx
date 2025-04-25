@@ -23,7 +23,7 @@ export default function TermsSection({
   isOpenTerms,
   setIsOpenTerms
 }: TermsSectionProps) {
-  // Function to handle checkbox changes directly
+  // Direct handler function for checkbox changes
   const handleCheckboxChange = (checked: boolean | "indeterminate") => {
     const isChecked = checked === true;
     console.log("Checkbox changed to:", isChecked);
@@ -58,18 +58,13 @@ export default function TermsSection({
               <div className="flex-none mt-0.5">
                 <Checkbox 
                   id="accept-terms"
-                  checked={termsAccepted} 
+                  checked={termsAccepted}
                   onCheckedChange={handleCheckboxChange}
                 />
               </div>
               <Label 
                 htmlFor="accept-terms" 
                 className="text-sm text-white cursor-pointer"
-                onClick={() => {
-                  const newValue = !termsAccepted;
-                  console.log("Label clicked, setting to:", newValue);
-                  setTermsAccepted(newValue);
-                }}
               >
                 I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms <span className="text-red-400">*</span>
               </Label>

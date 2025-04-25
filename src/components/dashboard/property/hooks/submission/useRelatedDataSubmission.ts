@@ -4,8 +4,6 @@ import { format, parse } from "date-fns";
 
 export const useRelatedDataSubmission = () => {
   const handleThemesAndActivities = async (hotelId: string, themes: string[], activities: string[]) => {
-    console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
-    
     if (themes && themes.length > 0) {
       await supabase
         .from('hotel_themes')
@@ -18,12 +16,7 @@ export const useRelatedDataSubmission = () => {
       }));
       
       if (themeRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_themes').insert(themeRows);
-        if (error) {
-          console.error("Error inserting themes:", error);
-        } else {
-          console.log("Successfully inserted themes:", themeRows.length);
-        }
+        await supabase.from('hotel_themes').insert(themeRows);
       }
     }
 
@@ -39,12 +32,7 @@ export const useRelatedDataSubmission = () => {
       }));
       
       if (activityRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_activities').insert(activityRows);
-        if (error) {
-          console.error("Error inserting activities:", error);
-        } else {
-          console.log("Successfully inserted activities:", activityRows.length);
-        }
+        await supabase.from('hotel_activities').insert(activityRows);
       }
     }
   };
@@ -91,12 +79,7 @@ export const useRelatedDataSubmission = () => {
         });
 
         if (availabilityRows.length > 0) {
-          const { data, error } = await supabase.from('hotel_availability').insert(availabilityRows);
-          if (error) {
-            console.error("Error inserting availability:", error);
-          } else {
-            console.log("Successfully inserted availability:", availabilityRows.length);
-          }
+          await supabase.from('hotel_availability').insert(availabilityRows);
         }
       }
     }

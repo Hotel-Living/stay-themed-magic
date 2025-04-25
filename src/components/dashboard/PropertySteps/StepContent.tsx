@@ -1,4 +1,3 @@
-
 import React from "react";
 import StepOne from "./StepOne";
 import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
@@ -22,7 +21,6 @@ export default function StepContent({
   formData = {},
   updateFormData = () => {}
 }: StepContentProps) {
-  // Create default price table renderer if one wasn't provided
   const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
     <PriceTable 
       roomType={roomType} 
@@ -32,13 +30,6 @@ export default function StepContent({
   );
 
   const tableFn = renderPriceTable || defaultRenderPriceTable;
-
-  // Handle checkbox changes for the final step confirmation
-  const handleTermsCheckboxChange = (checked: boolean) => {
-    console.log("Final step checkbox changed to:", checked);
-    updateFormData('termsAccepted', checked);
-    onValidationChange(checked);
-  };
 
   return (
     <div className="mb-4">
@@ -75,22 +66,6 @@ export default function StepContent({
             formData={formData}
             updateFormData={updateFormData}
           />
-          
-          {/* Form confirmation checkbox */}
-          <div className="mt-4 space-y-4">
-            <div className="flex items-start gap-2 bg-fuchsia-900/10 p-3 rounded-lg">
-              <input 
-                type="checkbox" 
-                id="finalize-terms" 
-                className="mt-1 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                checked={formData.termsAccepted || false}
-                onChange={(e) => handleTermsCheckboxChange(e.target.checked)} 
-              />
-              <label htmlFor="finalize-terms" className="text-sm text-white">
-                I confirm that all information provided is accurate and my property complies with all local regulations and safety requirements <span className="text-red-500">*</span>
-              </label>
-            </div>
-          </div>
         </div>
       )}
     </div>

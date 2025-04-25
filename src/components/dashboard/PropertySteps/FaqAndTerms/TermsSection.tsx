@@ -4,13 +4,10 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox"; 
 
 interface TermsSectionProps {
   termsAndConditions: string;
   setTermsAndConditions: (value: string) => void;
-  termsAccepted: boolean;
-  setTermsAccepted: (value: boolean) => void;
   isOpenTerms: boolean;
   setIsOpenTerms: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,18 +15,9 @@ interface TermsSectionProps {
 export default function TermsSection({
   termsAndConditions,
   setTermsAndConditions,
-  termsAccepted,
-  setTermsAccepted,
   isOpenTerms,
   setIsOpenTerms
 }: TermsSectionProps) {
-  // Direct handler function for checkbox changes
-  const handleCheckboxChange = (checked: boolean | "indeterminate") => {
-    const isChecked = checked === true;
-    console.log("Checkbox changed to:", isChecked);
-    setTermsAccepted(isChecked);
-  };
-
   return (
     <div>
       <Collapsible className="w-full" open={isOpenTerms} onOpenChange={setIsOpenTerms}>
@@ -53,22 +41,6 @@ export default function TermsSection({
             <p className="text-xs text-fuchsia-300/70 mt-2">
               This pre-configured template covers standard hotel policies. Feel free to modify it to match your specific requirements.
             </p>
-            
-            <div className="flex items-start gap-3 mt-6 bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/30">
-              <div className="flex-none mt-0.5">
-                <Checkbox 
-                  id="accept-terms"
-                  checked={termsAccepted}
-                  onCheckedChange={handleCheckboxChange}
-                />
-              </div>
-              <Label 
-                htmlFor="accept-terms" 
-                className="text-sm text-white cursor-pointer"
-              >
-                I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms <span className="text-red-400">*</span>
-              </Label>
-            </div>
           </div>
         </CollapsibleContent>
       </Collapsible>

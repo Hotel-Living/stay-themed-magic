@@ -20,34 +20,18 @@ export default function HotelFaqAndTermsStep({
   const [termsAndConditions, setTermsAndConditions] = useState(formData.terms || predefinedTerms);
   const [isOpenFaq, setIsOpenFaq] = useState(false);
   const [isOpenTerms, setIsOpenTerms] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(formData.termsAccepted || false);
 
-  // Update form data when FAQs or terms change
   useEffect(() => {
     if (updateFormData) {
       updateFormData('faqs', faqItems);
       updateFormData('terms', termsAndConditions);
+      updateFormData('termsAccepted', true); // Always set terms as accepted
     }
   }, [faqItems, termsAndConditions, updateFormData]);
 
-  // Direct handler for terms acceptance that updates everything in one place
-  const handleTermsAcceptance = (checked: boolean) => {
-    console.log("Setting terms accepted to:", checked);
-    setTermsAccepted(checked);
-    if (updateFormData) {
-      updateFormData('termsAccepted', checked);
-    }
-    onValidationChange(checked);
-  };
-
-  // Ensure validation on mount and when terms change
   useEffect(() => {
-    console.log("Terms accepted state in effect:", termsAccepted);
-    onValidationChange(termsAccepted);
-    if (updateFormData) {
-      updateFormData('termsAccepted', termsAccepted);
-    }
-  }, [termsAccepted, updateFormData, onValidationChange]);
+    onValidationChange(true); // Step is always valid now
+  }, [onValidationChange]);
 
   return (
     <div className="space-y-6 max-w-[80%]">
@@ -61,11 +45,15 @@ export default function HotelFaqAndTermsStep({
       <TermsSection 
         termsAndConditions={termsAndConditions}
         setTermsAndConditions={setTermsAndConditions}
-        termsAccepted={termsAccepted}
-        setTermsAccepted={handleTermsAcceptance}
         isOpenTerms={isOpenTerms}
         setIsOpenTerms={setIsOpenTerms}
       />
+      
+      <div className="mt-4 p-4 bg-purple-900/30 border border-purple-500/30 rounded-lg">
+        <p className="text-sm text-white">
+          By clicking "Submit", you confirm that all information provided is accurate and your property complies with all local regulations and safety requirements.
+        </p>
+      </div>
     </div>
   );
 }

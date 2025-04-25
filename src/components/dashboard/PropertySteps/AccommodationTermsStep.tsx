@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import StayLengthSection from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./AccommodationTerms/MealPlanSection";
 import RoomsRatesSection from "./AccommodationTerms/RoomsRatesSection";
@@ -24,7 +25,9 @@ const AccommodationTermsStep = ({
     selectedMealPlans,
     roomTypes,
     error,
+    setError,
     showValidationErrors,
+    setShowValidationErrors,
     hasInteracted,
     sectionsState,
     handleWeekdayChange,

@@ -80,13 +80,18 @@ export const useHotelEditing = ({
         console.log("Hotel available months:", hotelData.available_months);
         console.log("Hotel amenities:", hotelData.amenities);
         
-        // Process available months to ensure proper format
-        const normalizedMonths = hotelData.available_months 
-          ? [...new Set(hotelData.available_months.map((month: string) => {
-              if (!month) return '';
-              return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-            }))]
+        // Process available months to ensure proper type safety
+        // First, ensure we have an array
+        const monthsArray = Array.isArray(hotelData.available_months) 
+          ? hotelData.available_months 
           : [];
+          
+        // Then, ensure each item is a string with proper capitalization
+        const normalizedMonths: string[] = monthsArray
+          .filter((month): month is string => typeof month === 'string' && month.trim() !== '')
+          .map((month: string) => {
+            return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+          });
           
         console.log("Normalized months for editing:", normalizedMonths);
         

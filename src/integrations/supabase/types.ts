@@ -286,6 +286,7 @@ export type Database = {
           is_featured: boolean | null
           latitude: number | null
           location_address: string | null
+          location_description: string | null
           location_highlight_description: string | null
           longitude: number | null
           main_image_url: string | null
@@ -296,7 +297,8 @@ export type Database = {
           perfect_location: string | null
           photos: string[] | null
           postal_code: string | null
-          preferredweekday: string | null
+          preferred: string | null
+          preferredWeekday: string | null
           price_per_month: number
           property_style: string | null
           property_type: string | null
@@ -330,6 +332,7 @@ export type Database = {
           is_featured?: boolean | null
           latitude?: number | null
           location_address?: string | null
+          location_description?: string | null
           location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
@@ -340,7 +343,8 @@ export type Database = {
           perfect_location?: string | null
           photos?: string[] | null
           postal_code?: string | null
-          preferredweekday?: string | null
+          preferred?: string | null
+          preferredWeekday?: string | null
           price_per_month: number
           property_style?: string | null
           property_type?: string | null
@@ -374,6 +378,7 @@ export type Database = {
           is_featured?: boolean | null
           latitude?: number | null
           location_address?: string | null
+          location_description?: string | null
           location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
@@ -384,7 +389,8 @@ export type Database = {
           perfect_location?: string | null
           photos?: string[] | null
           postal_code?: string | null
-          preferredweekday?: string | null
+          preferred?: string | null
+          preferredWeekday?: string | null
           price_per_month?: number
           property_style?: string | null
           property_type?: string | null

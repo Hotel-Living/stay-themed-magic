@@ -101,19 +101,17 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.activities.push("Private Tours", "Yacht Cruises");
   }
   
-  // For demo purposes, generate available months based on current date
-  // In a real application, these would come from a bookings/availability table
-  const currentMonth = new Date().getMonth();
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  
-  // Generate next 6 available months starting from current month
-  hotelData.available_months = Array.from({ length: 6 }, (_, i) => {
-    const monthIndex = (currentMonth + i) % 12;
-    return monthNames[monthIndex];
-  });
+  // Normalize available months if they exist
+  // This ensures we only show what was actually saved to the database
+  if (hotelData.available_months && Array.isArray(hotelData.available_months)) {
+    // Process to remove duplicates and normalize capitalization
+    const processedMonths = [...new Set(hotelData.available_months.map(month => {
+      if (typeof month !== 'string') return '';
+      return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+    }))].filter(Boolean);
+    
+    hotelData.available_months = processedMonths;
+  }
   
   return hotelData;
 };

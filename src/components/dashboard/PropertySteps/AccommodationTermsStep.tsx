@@ -37,6 +37,19 @@ const AccommodationTermsStep = ({
     onValidationChange
   });
 
+  // Make sure we have a well-formed array of available months (if any)
+  React.useEffect(() => {
+    if (formData.available_months && Array.isArray(formData.available_months)) {
+      // Normalize months to have proper capitalization and remove duplicates
+      const months = [...new Set(formData.available_months.map((month: string) => {
+        if (typeof month !== 'string') return '';
+        return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+      }))].filter(Boolean);
+      
+      updateFormData('available_months', months);
+    }
+  }, []);
+
   return (
     <div className="space-y-6 max-w-[80%]">
       <h2 className="text-xl font-bold mb-4 text-white">ACCOMMODATION TERMS</h2>

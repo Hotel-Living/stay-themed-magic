@@ -83,8 +83,8 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   }
 
   // Extract hotel features from features_hotel object
-  if (hotelData.features_hotel && typeof hotelData.features_hotel === 'object') {
-    hotelData.hotelFeatures = Object.entries(hotelData.features_hotel)
+  if (data.features_hotel && typeof data.features_hotel === 'object') {
+    hotelData.hotelFeatures = Object.entries(data.features_hotel)
       .filter(([_, selected]) => selected)
       .map(([featureId]) => featureId.replace(/_/g, ' '));
   } else {
@@ -92,8 +92,8 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   }
   
   // Extract room features from features_room object
-  if (hotelData.features_room && typeof hotelData.features_room === 'object') {
-    hotelData.roomFeatures = Object.entries(hotelData.features_room)
+  if (data.features_room && typeof data.features_room === 'object') {
+    hotelData.roomFeatures = Object.entries(data.features_room)
       .filter(([_, selected]) => selected)
       .map(([featureId]) => featureId.replace(/_/g, ' '));
   } else {

@@ -21,7 +21,7 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   // Extract activities if available (text only)
   const activities: string[] = hotel?.activities || [];
 
-  // Use hotelFeatures from the API instead of amenities
+  // Use hotelFeatures from the API
   const hotelFeatures = hotel?.hotelFeatures || [];
 
   const availableStayLengths = (

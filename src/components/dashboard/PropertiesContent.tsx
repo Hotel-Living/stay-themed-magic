@@ -279,7 +279,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
             <p className="text-sm text-gray-400">Stay Lengths</p>
             <div className="flex flex-wrap gap-2 mt-1">
               {Array.isArray(hotel.stay_lengths) && hotel.stay_lengths.length > 0 ? (
-                hotel.stay_lengths.map(days => (
+                hotel.stay_lengths.map((days) => (
                   <span key={days} className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm">
                     {days} {days === 1 ? 'day' : 'days'}
                   </span>

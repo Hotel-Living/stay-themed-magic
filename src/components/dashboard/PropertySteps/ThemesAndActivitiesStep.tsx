@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
@@ -38,29 +39,54 @@ export default function ThemesAndActivitiesStep({
 
   // Update parent form data when local state changes
   useEffect(() => {
-    updateFormData('themes', selectedThemes);
-    updateFormData('activities', selectedActivities);
+    // Validate that each theme ID is a valid UUID before updating form data
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const validThemes = selectedThemes.filter(themeId => themeId && uuidRegex.test(themeId));
+    const validActivities = selectedActivities.filter(activityId => activityId && uuidRegex.test(activityId));
+    
+    updateFormData('themes', validThemes);
+    updateFormData('activities', validActivities);
     
     // Validate - at least one theme and one activity must be selected
-    const valid = selectedThemes.length > 0 && selectedActivities.length > 0;
+    const valid = validThemes.length > 0 && validActivities.length > 0;
     setIsValid(valid);
     onValidationChange(valid);
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    if (isSelected) {
-      setSelectedThemes(prev => [...prev, themeId]);
-    } else {
-      setSelectedThemes(prev => prev.filter(id => id !== themeId));
+    // Ensure themeId is a valid UUID before adding it
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (themeId && uuidRegex.test(themeId)) {
+      if (isSelected) {
+        setSelectedThemes(prev => [...prev, themeId]);
+      } else {
+        setSelectedThemes(prev => prev.filter(id => id !== themeId));
+      }
+    } else if (isSelected) {
+      toast({
+        title: "Invalid Theme ID",
+        description: "The selected theme has an invalid ID format and cannot be added.",
+        variant: "destructive"
+      });
     }
   };
 
-  const handleActivityChange = (activity: string, isChecked: boolean) => {
-    setSelectedActivities(prev => 
-      isChecked 
-        ? [...prev, activity]
-        : prev.filter(a => a !== activity)
-    );
+  const handleActivityChange = (activityId: string, isChecked: boolean) => {
+    // Ensure activityId is a valid UUID before adding it
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (activityId && uuidRegex.test(activityId)) {
+      setSelectedActivities(prev => 
+        isChecked 
+          ? [...prev, activityId]
+          : prev.filter(a => a !== activityId)
+      );
+    } else if (isChecked) {
+      toast({
+        title: "Invalid Activity ID",
+        description: "The selected activity has an invalid ID format and cannot be added.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (

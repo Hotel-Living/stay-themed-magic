@@ -18,9 +18,24 @@ export const useHotelSubmission = () => {
     });
     return count > 0 ? Math.round(totalPrice / count) : 1000;
   };
+  
+  // Helper function to validate UUIDs
+  const validateUUIDs = (arr: string[]): string[] => {
+    if (!Array.isArray(arr)) return [];
+    
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return arr.filter(id => id && typeof id === 'string' && uuidRegex.test(id));
+  };
 
   const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
     console.log("Creating new hotel with data:", formData);
+    
+    // Ensure themes and activities are valid UUIDs
+    const validThemes = validateUUIDs(formData.themes || []);
+    const validActivities = validateUUIDs(formData.activities || []);
+    
+    console.log("Validated themes:", validThemes.length);
+    console.log("Validated activities:", validActivities.length);
     
     // Process months to ensure consistency
     const availableMonths = formData.stayLengths?.length > 0 
@@ -80,6 +95,13 @@ export const useHotelSubmission = () => {
 
   const updateExistingHotel = async (formData: PropertyFormData, hotelId: string) => {
     console.log("Updating hotel with ID:", hotelId, "with data:", formData);
+    
+    // Ensure themes and activities are valid UUIDs
+    const validThemes = validateUUIDs(formData.themes || []);
+    const validActivities = validateUUIDs(formData.activities || []);
+    
+    console.log("Validated themes for update:", validThemes.length);
+    console.log("Validated activities for update:", validActivities.length);
     
     // Process months to ensure consistency
     const availableMonths = formData.stayLengths?.length > 0 

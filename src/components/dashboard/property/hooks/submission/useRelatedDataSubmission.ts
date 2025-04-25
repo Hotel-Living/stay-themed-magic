@@ -6,7 +6,23 @@ export const useRelatedDataSubmission = () => {
   const handleThemesAndActivities = async (hotelId: string, themes: string[], activities: string[]) => {
     console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
     
-    if (themes && themes.length > 0) {
+    // Ensure themes and activities arrays only contain valid UUIDs
+    const validThemes = Array.isArray(themes) ? themes.filter(themeId => {
+      // Validate that each theme ID is a valid UUID
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      return themeId && uuidRegex.test(themeId);
+    }) : [];
+
+    const validActivities = Array.isArray(activities) ? activities.filter(activityId => {
+      // Validate that each activity ID is a valid UUID
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      return activityId && uuidRegex.test(activityId);
+    }) : [];
+    
+    console.log("Valid themes after UUID filtering:", validThemes.length);
+    console.log("Valid activities after UUID filtering:", validActivities.length);
+    
+    if (validThemes.length > 0) {
       // First delete existing hotel themes
       const { error: deleteError } = await supabase
         .from('hotel_themes')
@@ -19,7 +35,7 @@ export const useRelatedDataSubmission = () => {
       }
 
       // Then insert new themes
-      const themeRows = themes.map(themeId => ({
+      const themeRows = validThemes.map(themeId => ({
         hotel_id: hotelId,
         theme_id: themeId
       }));
@@ -38,7 +54,7 @@ export const useRelatedDataSubmission = () => {
       }
     }
 
-    if (activities && activities.length > 0) {
+    if (validActivities.length > 0) {
       // First delete existing hotel activities
       const { error: deleteError } = await supabase
         .from('hotel_activities')
@@ -51,7 +67,7 @@ export const useRelatedDataSubmission = () => {
       }
 
       // Then insert new activities
-      const activityRows = activities.map(activityId => ({
+      const activityRows = validActivities.map(activityId => ({
         hotel_id: hotelId,
         activity_id: activityId
       }));

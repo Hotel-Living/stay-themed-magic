@@ -54,6 +54,14 @@ export const usePropertySubmission = ({
     stepValidation,
     formData
   });
+  
+  // Helper function to validate UUIDs
+  const validateUUIDs = (arr: string[]): string[] => {
+    if (!Array.isArray(arr)) return [];
+    
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return arr.filter(id => id && typeof id === 'string' && uuidRegex.test(id));
+  };
 
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
@@ -82,15 +90,29 @@ export const usePropertySubmission = ({
     setIsSubmitted(true);
 
     try {
+      // Ensure themes and activities are valid UUIDs
+      const validThemes = validateUUIDs(formData.themes || []);
+      const validActivities = validateUUIDs(formData.activities || []);
+      
+      console.log("Validated themes for submission:", validThemes.length);
+      console.log("Validated activities for submission:", validActivities.length);
+      
+      // Create a clean version of formData with validated UUIDs
+      const cleanedFormData = {
+        ...formData,
+        themes: validThemes,
+        activities: validActivities
+      };
+      
       let hotelId: string;
       
       if (isEditing) {
         // Update existing hotel
-        await updateExistingHotel(formData, editingHotelId);
+        await updateExistingHotel(cleanedFormData, editingHotelId);
         hotelId = editingHotelId;
       } else {
         // Create new hotel
-        const hotelData = await createNewHotel(formData, userId);
+        const hotelData = await createNewHotel(cleanedFormData, userId);
         hotelId = hotelData.id;
       }
       
@@ -102,7 +124,7 @@ export const usePropertySubmission = ({
       }
       
       // Submit related data
-      await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+      await handleThemesAndActivities(hotelId, validThemes, validActivities);
       await handleAvailability(hotelId, formData.stayLengths || []);
       
       // Handle submission success

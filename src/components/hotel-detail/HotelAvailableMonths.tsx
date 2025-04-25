@@ -4,6 +4,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar } from "lucide-react";
 
 export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonthsProps & { isLoading?: boolean }) {
+  // Function to normalize, capitalize, and deduplicate month names
+  const normalizeMonths = (monthsList: string[] = []): string[] => {
+    if (!monthsList || !monthsList.length) return [];
+    
+    // Step 1: Normalize to title case (e.g., "January")
+    const normalizedMonths = monthsList.map(month => {
+      if (!month) return "";
+      return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+    });
+    
+    // Step 2: Remove duplicates using a Set
+    return [...new Set(normalizedMonths)].filter(month => month !== "");
+  };
+
+  const normalizedMonths = normalizeMonths(months);
+  
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
@@ -20,7 +36,7 @@ export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonths
     );
   }
   
-  if (!months || months.length === 0) {
+  if (!normalizedMonths || normalizedMonths.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
@@ -39,7 +55,7 @@ export function HotelAvailableMonths({ months, isLoading }: HotelAvailableMonths
         <Calendar className="w-5 h-5 text-fuchsia-400" />
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {months.map(month => (
+        {normalizedMonths.map(month => (
           <div 
             key={month} 
             className="text-center p-3 rounded-lg bg-fuchsia-500/10 border border-fuchsia-500/20 hover:bg-fuchsia-500/20 transition-colors"

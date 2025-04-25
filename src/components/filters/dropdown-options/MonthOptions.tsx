@@ -9,9 +9,14 @@ interface MonthOptionsProps {
 }
 
 export const MonthOptions: React.FC<MonthOptionsProps> = ({ type, fontSize }) => {
+  // Ensure months are properly capitalized
+  const normalizedMonths = months.map(month => 
+    month.charAt(0).toUpperCase() + month.slice(1).toLowerCase()
+  );
+  
   return (
     <div className="grid grid-cols-2">
-      {months.map((month) => (
+      {normalizedMonths.map((month) => (
         <button
           key={month}
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 

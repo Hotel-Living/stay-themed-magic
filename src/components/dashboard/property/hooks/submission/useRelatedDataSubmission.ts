@@ -57,6 +57,7 @@ export const useRelatedDataSubmission = () => {
 
   const handleAvailability = async (hotelId: string, stayLengths: number[]) => {
     if (stayLengths && stayLengths.length > 0) {
+      // Generate properly formatted month names with first letter capitalized
       const availableMonths = generateAvailableMonths();
       
       await supabase
@@ -70,7 +71,7 @@ export const useRelatedDataSubmission = () => {
         const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
         return {
           hotel_id: hotelId,
-          availability_month: month.toLowerCase(),
+          availability_month: month.toLowerCase(), // Store lowercase in this field
           availability_year: currentYear,
           availability_date: formattedDate,
           is_full_month: true,

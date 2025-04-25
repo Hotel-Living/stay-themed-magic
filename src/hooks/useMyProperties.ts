@@ -20,10 +20,14 @@ export interface MyHotel {
     };
   }[];
   available_months?: string[];
+  roomTypes?: any[]; // Added roomTypes property
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   if (!ownerId) return [];
+  
+  console.log("Fetching hotels for owner:", ownerId);
+  
   const { data, error } = await supabase
     .from("hotels")
     .select(`
@@ -45,7 +49,36 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
     console.error("Error fetching properties by owner:", error);
     return [];
   }
-  return data as MyHotel[];
+  
+  // For testing purposes, add mock roomTypes to each hotel
+  // In a production environment, this would come from the database
+  const hotelsWithRoomTypes = (data as MyHotel[]).map(hotel => {
+    return {
+      ...hotel,
+      roomTypes: [
+        {
+          id: `rt-${hotel.id}-1`,
+          name: "Standard Room",
+          description: "Comfortable room with all basic amenities",
+          baseRate: 150,
+          basePrice: 150,
+          roomCount: 5
+        },
+        {
+          id: `rt-${hotel.id}-2`,
+          name: "Deluxe Suite",
+          description: "Spacious suite with separate living area",
+          baseRate: 250,
+          basePrice: 250,
+          roomCount: 2
+        }
+      ]
+    };
+  });
+  
+  console.log("Returning hotels with roomTypes:", hotelsWithRoomTypes);
+  
+  return hotelsWithRoomTypes;
 }
 
 export function useMyProperties(ownerId: string | undefined) {

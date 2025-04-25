@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Building } from "lucide-react";
 import EmptyState from "./EmptyState";
 import { useAuth } from "@/context/AuthContext";
@@ -23,6 +23,18 @@ export const PropertiesContent = () => {
   }
 
   const { data: hotels, isLoading } = useMyProperties(user.id);
+  
+  useEffect(() => {
+    if (hotels && hotels.length > 0) {
+      console.log("Loaded hotel properties:", hotels);
+      // Check if any hotel has roomTypes for debugging
+      hotels.forEach(hotel => {
+        if (hotel.roomTypes && hotel.roomTypes.length > 0) {
+          console.log(`Hotel ${hotel.name} has ${hotel.roomTypes.length} room types`);
+        }
+      });
+    }
+  }, [hotels]);
 
   if (editingHotelId) {
     // Render AddProperty in edit mode for the selected hotel
@@ -97,6 +109,6 @@ export const PropertiesContent = () => {
       ))}
     </div>
   );
-};
+}
 
 export default PropertiesContent;

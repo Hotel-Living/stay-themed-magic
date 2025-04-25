@@ -5,25 +5,35 @@ import { getSelectedStayLengths } from "@/utils/stayLengthsContext";
 export interface RoomType {
   id: string;
   name: string;
-  maxOccupancy: number;
-  size: number;
-  description: string;
-  baseRate: number;
-  rates: Record<number, number>; // stayDuration -> rate
+  maxOccupancy?: number;
+  size?: number;
+  description?: string;
+  baseRate?: number;
+  basePrice?: number;
+  rates?: Record<number, number>; // stayDuration -> rate
   images?: string[];
-  roomCount: number; // Added this property to match expected type
+  roomCount?: number; // Added this property to match expected type
 }
 
 export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
+  console.log("useRoomTypes initializing with:", initialRoomTypes);
   const [selectedUnit, setSelectedUnit] = useState("sq. ft.");
   const [roomTypes, setRoomTypes] = useState<RoomType[]>(initialRoomTypes);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
   
+  // Initialize roomTypes if provided
+  useEffect(() => {
+    if (initialRoomTypes && initialRoomTypes.length > 0) {
+      console.log("Setting initial room types:", initialRoomTypes);
+      setRoomTypes(initialRoomTypes);
+    }
+  }, []);
+  
   // Get selected stay lengths from localStorage if available
   useEffect(() => {
     const storedLengths = getSelectedStayLengths();
-    if (storedLengths.length > 0) {
+    if (storedLengths && storedLengths.length > 0) {
       setSelectedStayLengths(storedLengths);
     }
     
@@ -40,6 +50,7 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   }, []);
   
   const handleAddRoomType = (roomType: RoomType) => {
+    console.log("Adding/updating room type:", roomType);
     // Check if this is an edit (updated room type) or a new one
     const existingIndex = roomTypes.findIndex(room => room.id === roomType.id);
     
@@ -57,6 +68,7 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   };
   
   const handleDeleteRoomType = (id: string) => {
+    console.log("Deleting room type with id:", id);
     setRoomTypes(roomTypes.filter(room => room.id !== id));
   };
   

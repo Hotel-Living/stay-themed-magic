@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { CollapsibleContent } from "@/components/ui/collapsible";
 import RoomTypeSection from "../../rooms/roomTypes/RoomTypeSection";
 
@@ -14,6 +14,10 @@ export default function RoomRatesContent({
   formData = {},
   updateFormData = () => {}
 }: RoomRatesContentProps) {
+  useEffect(() => {
+    console.log("RoomRatesContent rendering with formData:", formData);
+  }, [formData]);
+
   return (
     <CollapsibleContent className="p-3">
       <RoomTypeSection 

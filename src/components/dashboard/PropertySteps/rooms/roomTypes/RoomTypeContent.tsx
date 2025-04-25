@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion } from "@/components/ui/accordion";
 import RoomTypeList from "./RoomTypeList";
 import AddRoomTypeButton from "./AddRoomTypeButton";
@@ -29,6 +29,10 @@ export default function RoomTypeContent({
 }: RoomTypeContentProps) {
   const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null);
   
+  useEffect(() => {
+    console.log("RoomTypeContent received roomTypes:", roomTypes);
+  }, [roomTypes]);
+  
   const handleOpenDialog = () => {
     setEditingRoomType(null); // Reset editing state when adding new
     setDialogOpen(true);
@@ -51,7 +55,7 @@ export default function RoomTypeContent({
         <h3 className="text-sm font-medium mb-2 uppercase">AVAILABLE TYPES OF ROOMS</h3>
         <Accordion type="single" collapsible className="w-full">
           <RoomTypeList 
-            roomTypes={roomTypes} 
+            roomTypes={roomTypes || []} 
             selectedStayLengths={selectedStayLengths}
             selectedUnit={selectedUnit}
             onDelete={handleDeleteRoomType}

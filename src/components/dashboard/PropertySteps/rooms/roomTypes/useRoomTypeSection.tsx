@@ -13,6 +13,8 @@ export function useRoomTypeSection(
   formData: FormData = {},
   updateFormData = (field: string, value: any) => {}
 ) {
+  console.log("useRoomTypeSection initializing with formData:", formData);
+  
   const {
     selectedUnit,
     setSelectedUnit,
@@ -27,7 +29,10 @@ export function useRoomTypeSection(
   
   // Initialize roomTypes from formData if available
   useEffect(() => {
-    if (formData.roomTypes && formData.roomTypes.length > 0) {
+    console.log("useRoomTypeSection effect with formData.roomTypes:", formData.roomTypes);
+    
+    if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0) {
+      console.log("Setting room types from formData:", formData.roomTypes);
       // Directly set room types from form data to ensure they're properly loaded
       setRoomTypes(formData.roomTypes);
     }
@@ -35,6 +40,7 @@ export function useRoomTypeSection(
 
   // Update parent form data when roomTypes change
   useEffect(() => {
+    console.log("Room types changed, updating form data:", roomTypes);
     if (updateFormData && roomTypes) {
       updateFormData('roomTypes', roomTypes);
     }

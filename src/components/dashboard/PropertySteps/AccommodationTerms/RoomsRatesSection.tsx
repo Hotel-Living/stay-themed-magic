@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import RoomRatesContent from "./RoomRates/RoomRatesContent";
@@ -19,6 +19,14 @@ export default function RoomsRatesSection({
   formData = {},
   updateFormData = () => {}
 }: RoomsRatesSectionProps) {
+  useEffect(() => {
+    console.log("RoomsRatesSection rendering with formData:", formData);
+    // Check if roomTypes exist for debugging
+    if (formData && formData.roomTypes) {
+      console.log(`Found ${formData.roomTypes.length} room types in formData`);
+    }
+  }, [formData]);
+
   return (
     <Collapsible 
       className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"

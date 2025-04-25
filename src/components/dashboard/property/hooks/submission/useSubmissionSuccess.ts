@@ -20,15 +20,11 @@ export const useSubmissionSuccess = ({
   const { toast } = useToast();
 
   const handleSubmissionSuccess = () => {
-    console.log('Property submitted successfully with all related data!');
+    console.log('Property submitted successfully!');
     setIsSubmitted(true);
     setSubmitSuccess(true);
     
-    toast({
-      title: "Property Submitted Successfully",
-      description: "Your property has been submitted for review.",
-      duration: 5000
-    });
+    // Removed specific toast message
     
     setTimeout(() => {
       setCurrentStep(1);

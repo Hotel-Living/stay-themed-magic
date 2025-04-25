@@ -54,19 +54,12 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       setMainImageIndex(prev => prev - 1);
     }
     
-    toast({
-      title: "Image removed",
-      description: "The image has been removed successfully.",
-    });
-  }, [mainImageIndex, toast]);
+    // Removed toast message
+  }, [mainImageIndex]);
 
   const uploadFiles = useCallback(async () => {
     if (files.length === 0) {
-      toast({
-        title: "No files to upload",
-        description: "Please select files first.",
-        variant: "destructive",
-      });
+      // Removed toast message about no files
       return;
     }
     
@@ -95,21 +88,14 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
         setMainImageIndex(0);
       }
       
-      toast({
-        title: "Upload successful",
-        description: `${files.length} image${files.length > 1 ? 's' : ''} uploaded successfully.`,
-      });
+      // Removed toast message about successful upload
     } catch (error: any) {
       console.error("Error uploading files:", error);
-      toast({
-        title: "Upload failed",
-        description: error.message || "There was a problem uploading your images.",
-        variant: "destructive",
-      });
+      // Removed toast message for upload failure
     } finally {
       setUploading(false);
     }
-  }, [files, uploadedImages, toast, mainImageIndex]);
+  }, [files, uploadedImages, mainImageIndex]);
   
   const setMainImage = useCallback((index: number) => {
     setUploadedImages(prev => 

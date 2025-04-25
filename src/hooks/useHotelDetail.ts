@@ -32,10 +32,16 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
       hotel_themes(theme_id, themes:themes(id, name))
     `)
     .eq('id', id)
-    .single();
+    .maybeSingle();
   
   if (error) {
+    console.error("Error fetching hotel:", error);
     throw error;
+  }
+  
+  if (!data) {
+    console.log("No hotel found with ID:", id);
+    return null;
   }
   
   // Create a properly typed object with our hotel data

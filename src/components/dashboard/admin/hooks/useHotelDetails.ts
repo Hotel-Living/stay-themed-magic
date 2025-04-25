@@ -16,20 +16,34 @@ export function useHotelDetails(id: string | undefined) {
   useEffect(() => {
     const fetchHotelDetails = async () => {
       setLoading(true);
+      
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+      
       try {
-        // Improved query to ensure all related data is properly fetched
+        console.log("Fetching hotel with ID:", id);
+        
+        // Use maybeSingle() instead of single() to handle cases where the hotel might not exist
         const { data: hotelData, error: hotelError } = await supabase
           .from("hotels")
           .select(`
             *,
             hotel_images(*),
-            hotel_themes!inner(theme_id, themes(*)),
-            hotel_activities!inner(activity_id, activities(*))
+            hotel_themes(theme_id, themes(*)),
+            hotel_activities(activity_id, activities(*))
           `)
           .eq("id", id)
-          .single();
+          .maybeSingle();
 
         if (hotelError) throw hotelError;
+
+        if (!hotelData) {
+          console.log("No hotel found with ID:", id);
+          setLoading(false);
+          return;
+        }
 
         console.log("Fetched hotel data:", hotelData);
         
@@ -54,37 +68,6 @@ export function useHotelDetails(id: string | undefined) {
           description: error.message || "Failed to fetch hotel details",
           variant: "destructive"
         });
-        
-        // If the error is from inner join but the hotel exists, try again without inner join
-        if (error.message && error.message.includes("not found")) {
-          try {
-            const { data: basicHotelData } = await supabase
-              .from("hotels")
-              .select(`
-                *,
-                hotel_images(*),
-                hotel_themes(theme_id, themes(*)),
-                hotel_activities(activity_id, activities(*))
-              `)
-              .eq("id", id)
-              .single();
-              
-            if (basicHotelData) {
-              console.log("Fetched basic hotel data as fallback:", basicHotelData);
-              const typedHotelData = basicHotelData as AdminHotelDetail;
-              setHotel(typedHotelData);
-              setImages(typedHotelData.hotel_images || []);
-              setThemes(typedHotelData.hotel_themes || []);
-              setActivities(typedHotelData.hotel_activities || []);
-              
-              if (typedHotelData.category) {
-                setAmenities(generateAmenities(typedHotelData.category));
-              }
-            }
-          } catch (fallbackError) {
-            console.error("Fallback fetch also failed:", fallbackError);
-          }
-        }
       } finally {
         setLoading(false);
       }

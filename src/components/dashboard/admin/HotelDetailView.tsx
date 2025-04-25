@@ -13,6 +13,7 @@ import { AmenitiesInfo } from "./hotel-detail/AmenitiesInfo";
 import { ThemesInfo } from "./hotel-detail/ThemesInfo";
 import { ActivitiesInfo } from "./hotel-detail/ActivitiesInfo";
 import { AdminInfo } from "./hotel-detail/AdminInfo";
+import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -54,8 +55,9 @@ export default function HotelDetailView() {
             <AdminInfo hotel={hotel} />
           </div>
         ) : (
-          <div className="rounded-xl p-6 bg-[#2A0F44]">
-            <p className="text-center">Hotel not found.</p>
+          <div className="rounded-xl p-6 bg-[#2A0F44] text-center">
+            <h3 className="text-xl font-semibold mb-4 text-red-400">Hotel Not Found</h3>
+            <p>The hotel with ID {id} could not be found or may have been deleted.</p>
           </div>
         )}
       </div>

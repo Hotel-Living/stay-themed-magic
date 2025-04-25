@@ -1,11 +1,15 @@
 
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { filterValidUuids } from "@/utils/validation";
+
+// Use 'any' type to bypass deep type inference
+const { setValue } = useForm<any>();
 
 // Simple primitive type for form data
 type FormValues = {

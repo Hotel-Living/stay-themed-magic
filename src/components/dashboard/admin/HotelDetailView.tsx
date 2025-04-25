@@ -22,6 +22,7 @@ export default function HotelDetailView() {
   console.log("Hotel in detail view:", hotel);
   console.log("Themes in detail view:", themes);
   console.log("Activities in detail view:", activities);
+  console.log("Images in detail view:", images);
 
   return (
     <AdminDashboardLayout>
@@ -39,7 +40,7 @@ export default function HotelDetailView() {
 
         {loading ? (
           <div className="rounded-xl p-6 bg-[#2A0F44]">
-            Loading hotel details...
+            <p className="text-center">Loading hotel details...</p>
           </div>
         ) : hotel ? (
           <div className="space-y-6">
@@ -48,8 +49,8 @@ export default function HotelDetailView() {
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
             <AmenitiesInfo amenities={amenities} />
-            <ThemesInfo themes={themes} />
-            <ActivitiesInfo activities={activities} />
+            <ThemesInfo themes={hotel.hotel_themes || []} />
+            <ActivitiesInfo activities={hotel.hotel_activities || []} />
             <AdminInfo hotel={hotel} />
           </div>
         ) : (

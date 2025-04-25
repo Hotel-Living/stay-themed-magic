@@ -52,6 +52,26 @@ export const useHotelEditing = ({
           isMain: img.is_main
         })) || [];
 
+        // Helper function to safely convert to Record<string, boolean>
+        const safeFeatureConversion = (featureData: any): Record<string, boolean> => {
+          if (!featureData) return {};
+          
+          // If it's already a plain object with boolean values, return it
+          if (typeof featureData === 'object' && !Array.isArray(featureData)) {
+            const result: Record<string, boolean> = {};
+            
+            // Convert all values to boolean
+            for (const key in featureData) {
+              result[key] = Boolean(featureData[key]);
+            }
+            
+            return result;
+          }
+          
+          // Return empty object if it's not in expected format
+          return {};
+        };
+
         // Parse hotel data for form
         setFormData({
           hotelName: hotel.name || "",
@@ -80,8 +100,9 @@ export const useHotelEditing = ({
           hotelImages: uploadedImages,
           mainImageUrl: hotel.main_image_url,
           preferredWeekday: hotel.preferredWeekday || "Monday",
-          featuresHotel: hotel.features_hotel || {},
-          featuresRoom: hotel.features_room || {}
+          featuresHotel: safeFeatureConversion(hotel.features_hotel),
+          featuresRoom: safeFeatureConversion(hotel.features_room),
+          available_months: hotel.available_months || []
         });
         
         // Navigate to first step if setting current step is provided

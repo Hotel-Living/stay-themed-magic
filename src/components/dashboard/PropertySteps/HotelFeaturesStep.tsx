@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PlusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Collapsible,
@@ -12,17 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
-interface HotelFeaturesStepProps {
-  onValidationChange?: (isValid: boolean) => void;
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
-}
-
-export default function HotelFeaturesStep({ 
-  onValidationChange = () => {}, 
-  formData = {}, 
-  updateFormData = () => {}
-}: HotelFeaturesStepProps) {
+export default function HotelFeaturesStep() {
   const { toast } = useToast();
   const [showHotelFeatureInput, setShowHotelFeatureInput] = useState(false);
   const [showRoomFeatureInput, setShowRoomFeatureInput] = useState(false);
@@ -30,52 +19,6 @@ export default function HotelFeaturesStep({
   const [newRoomFeature, setNewRoomFeature] = useState("");
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<string[]>([]);
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<string[]>([]);
-  const [featuresHotel, setFeaturesHotel] = useState<Record<string, boolean>>(formData.featuresHotel || {});
-  const [featuresRoom, setFeaturesRoom] = useState<Record<string, boolean>>(formData.featuresRoom || {});
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenRoom, setIsOpenRoom] = useState(false);
-
-  // Initialize state from formData
-  useEffect(() => {
-    if (formData.featuresHotel && typeof formData.featuresHotel === 'object') {
-      setFeaturesHotel(formData.featuresHotel);
-      
-      // Update selected features list for UI
-      const selectedFeatures: string[] = [];
-      Object.entries(formData.featuresHotel).forEach(([key, value]) => {
-        if (value === true) {
-          selectedFeatures.push(key);
-        }
-      });
-      setSelectedHotelFeatures(selectedFeatures);
-    }
-    
-    if (formData.featuresRoom && typeof formData.featuresRoom === 'object') {
-      setFeaturesRoom(formData.featuresRoom);
-      
-      // Update selected features list for UI
-      const selectedFeatures: string[] = [];
-      Object.entries(formData.featuresRoom).forEach(([key, value]) => {
-        if (value === true) {
-          selectedFeatures.push(key);
-        }
-      });
-      setSelectedRoomFeatures(selectedFeatures);
-    }
-  }, [formData.featuresHotel, formData.featuresRoom]);
-
-  // Update form data when selections change
-  useEffect(() => {
-    updateFormData('featuresHotel', featuresHotel);
-    updateFormData('featuresRoom', featuresRoom);
-    
-    // This step is valid if at least one feature is selected (either hotel or room)
-    const hasSelectedFeatures = 
-      Object.values(featuresHotel).some(v => v === true) || 
-      Object.values(featuresRoom).some(v => v === true);
-    
-    onValidationChange(hasSelectedFeatures);
-  }, [featuresHotel, featuresRoom, updateFormData, onValidationChange]);
 
   const handleSubmitFeature = (type: "hotel" | "room", feature: string) => {
     if (!feature.trim()) return;
@@ -94,27 +37,8 @@ export default function HotelFeaturesStep({
     }
   };
 
-  const handleHotelFeatureChange = (feature: string, isChecked: boolean) => {
-    const updatedFeatures = { ...featuresHotel, [feature]: isChecked };
-    setFeaturesHotel(updatedFeatures);
-    
-    if (isChecked) {
-      setSelectedHotelFeatures(prev => [...prev, feature]);
-    } else {
-      setSelectedHotelFeatures(prev => prev.filter(f => f !== feature));
-    }
-  };
-
-  const handleRoomFeatureChange = (feature: string, isChecked: boolean) => {
-    const updatedFeatures = { ...featuresRoom, [feature]: isChecked };
-    setFeaturesRoom(updatedFeatures);
-    
-    if (isChecked) {
-      setSelectedRoomFeatures(prev => [...prev, feature]);
-    } else {
-      setSelectedRoomFeatures(prev => prev.filter(f => f !== feature));
-    }
-  };
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpenRoom, setIsOpenRoom] = React.useState(false);
 
   return (
     <div className="space-y-6">
@@ -131,7 +55,13 @@ export default function HotelFeaturesStep({
             features={hotelFeatures}
             onAddNewFeature={() => setShowHotelFeatureInput(true)}
             selectedFeatures={selectedHotelFeatures}
-            onFeatureChange={handleHotelFeatureChange}
+            onFeatureChange={(feature, isChecked) => {
+              if (isChecked) {
+                setSelectedHotelFeatures(prev => [...prev, feature]);
+              } else {
+                setSelectedHotelFeatures(prev => prev.filter(f => f !== feature));
+              }
+            }}
           />
           {showHotelFeatureInput && (
             <div className="mt-2 flex items-center gap-2">
@@ -166,7 +96,13 @@ export default function HotelFeaturesStep({
             features={roomFeatures}
             onAddNewFeature={() => setShowRoomFeatureInput(true)}
             selectedFeatures={selectedRoomFeatures}
-            onFeatureChange={handleRoomFeatureChange}
+            onFeatureChange={(feature, isChecked) => {
+              if (isChecked) {
+                setSelectedRoomFeatures(prev => [...prev, feature]);
+              } else {
+                setSelectedRoomFeatures(prev => prev.filter(f => f !== feature));
+              }
+            }}
           />
           {showRoomFeatureInput && (
             <div className="mt-2 flex items-center gap-2">

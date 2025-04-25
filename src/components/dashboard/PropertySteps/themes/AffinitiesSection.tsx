@@ -1,10 +1,10 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
-import { ChevronDown, PlusCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ChevronDown } from "lucide-react";
+import { themeCategories } from "@/utils/themes";
+import { PlusCircle } from "lucide-react";
 
 interface AffinitiesSectionProps {
   openCategory: string | null;
@@ -15,84 +15,39 @@ interface AffinitiesSectionProps {
   selectedThemes: string[];
 }
 
-interface Theme {
-  id: string;
-  name: string;
-  description?: string | null;
-  category?: string;
-}
-
-interface ThemeCategory {
-  category: string;
-  themes: Theme[];
-}
-
 export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   openCategory,
   setOpenCategory,
+  openSubmenu,
+  setOpenSubmenu,
   onThemeSelect,
   selectedThemes,
 }) => {
-  const [themeCategories, setThemeCategories] = useState<ThemeCategory[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    fetchThemes();
-  }, []);
-
-  const fetchThemes = async () => {
-    try {
-      setIsLoading(true);
-      // Fetch themes from Supabase without selecting category since it doesn't exist
-      const { data, error } = await supabase
-        .from('themes')
-        .select('id, name, description');
+  // Group all the themes by category for a more organized layout
+  const getCategoryThemes = (category: string) => {
+    // Get all themes for this category, whether they're direct themes or from subcategories
+    const themes: {id: string, name: string, isAddOption?: boolean}[] = [];
+    
+    // Find the category in the themeCategories array
+    const categoryData = themeCategories.find(c => c.category === category);
+    
+    if (categoryData) {
+      // Add direct themes
+      if (categoryData.themes) {
+        themes.push(...categoryData.themes);
+      }
       
-      if (error) {
-        console.error("Error fetching themes:", error);
-        toast({
-          title: "Error loading affinities",
-          description: "There was a problem loading affinities. Please try again.",
-          variant: "destructive"
+      // Add themes from subcategories
+      if (categoryData.subcategories) {
+        categoryData.subcategories.forEach(subcategory => {
+          if (subcategory.themes) {
+            themes.push(...subcategory.themes);
+          }
         });
-        return;
       }
-
-      if (data) {
-        // Group themes by category - assign all to the same category since we don't have the category field
-        const groupedThemes: {[key: string]: Theme[]} = {};
-        const defaultCategory = 'General';
-        
-        // Initialize the default category
-        if (!groupedThemes[defaultCategory]) {
-          groupedThemes[defaultCategory] = [];
-        }
-        
-        data.forEach(theme => {
-          // Add each theme to the default category
-          groupedThemes[defaultCategory].push({
-            id: theme.id,
-            name: theme.name,
-            description: theme.description,
-            category: defaultCategory
-          });
-        });
-        
-        // Convert to array of categories
-        const categoriesArray: ThemeCategory[] = Object.keys(groupedThemes).map(key => ({
-          category: key,
-          themes: groupedThemes[key]
-        }));
-        
-        setThemeCategories(categoriesArray);
-        console.log("Fetched themes:", categoriesArray);
-      }
-    } catch (err) {
-      console.error("Error in fetchThemes:", err);
-    } finally {
-      setIsLoading(false);
     }
+    
+    return themes;
   };
 
   return (
@@ -120,30 +75,26 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
           More Information
         </Link>
         
-        {isLoading ? (
-          <div className="flex justify-center p-4">
-            <div className="animate-pulse text-fuchsia-300">Loading affinities...</div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-0.5">
-            {themeCategories.map(category => (
-              <div key={category.category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
-                <div
-                  className="flex items-center justify-between w-full text-sm cursor-pointer"
-                  onClick={() => setOpenCategory(openCategory === category.category ? null : category.category)}
-                >
-                  <span className="uppercase">{category.category}</span>
-                  <ChevronDown
-                    className={`h-3 w-3 transform transition-transform ${
-                      openCategory === category.category ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
+        <div className="grid grid-cols-1 gap-0.5">
+          {themeCategories.map(category => (
+            <div key={category.category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
+              <div
+                className="flex items-center justify-between w-full text-sm cursor-pointer"
+                onClick={() => setOpenCategory(openCategory === category.category ? null : category.category)}
+              >
+                <span className="uppercase">{category.category}</span>
+                <ChevronDown
+                  className={`h-3 w-3 transform transition-transform ${
+                    openCategory === category.category ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
 
-                {openCategory === category.category && (
-                  <div className="mt-2 space-y-1">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-                      {category.themes.map(theme => (
+              {openCategory === category.category && (
+                <div className="mt-2 space-y-1">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+                    {getCategoryThemes(category.category).map(theme => (
+                      !theme.isAddOption ? (
                         <div key={theme.id} className="flex items-center">
                           <input
                             type="checkbox"
@@ -159,22 +110,22 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                             {theme.name}
                           </label>
                         </div>
-                      ))}
-                    </div>
-                    
-                    <button 
-                      className="flex items-center cursor-pointer p-2"
-                      onClick={() => {/* Add custom theme handling */}}
-                    >
-                      <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                      <span className="text-xs text-fuchsia-400">Add new {category.category.toLowerCase()} theme</span>
-                    </button>
+                      ) : null
+                    ))}
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                  
+                  <button 
+                    className="flex items-center cursor-pointer p-2"
+                    onClick={() => {/* Add custom theme handling */}}
+                  >
+                    <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+                    <span className="text-xs text-fuchsia-400">Add new {category.category.toLowerCase()} theme</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );

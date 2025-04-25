@@ -18,7 +18,7 @@ import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { hotel, loading, themes, activities, images, featuresHotel, featuresRoom } = useHotelDetails(id);
+  const { hotel, loading, themes, activities, images, amenities } = useHotelDetails(id);
 
   console.log("Hotel in detail view:", hotel);
   console.log("Themes in detail view:", themes);
@@ -49,7 +49,7 @@ export default function HotelDetailView() {
             <ImageGallery images={images} hotel={hotel} />
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
-            <AmenitiesInfo features_hotel={featuresHotel} features_room={featuresRoom} />
+            <AmenitiesInfo amenities={amenities} />
             <ThemesInfo themes={hotel.hotel_themes || []} />
             <ActivitiesInfo activities={hotel.hotel_activities || []} />
             <AdminInfo hotel={hotel} />

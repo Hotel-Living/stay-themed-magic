@@ -22,9 +22,8 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   // Extract activities if available (text only)
   const activities: string[] = hotel?.activities || [];
 
-  // Get hotel and room features
-  const featuresHotel = hotel?.features_hotel || null;
-  const featuresRoom = hotel?.features_room || null;
+  // Use dynamic data from the API instead of static data
+  const amenities = hotel?.amenities || [];
 
   const availableStayLengths = (
     hotel?.available_months && hotel.available_months.length > 0
@@ -76,12 +75,11 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
           
           <div className="bg-[#5C088F] rounded-lg p-6 text-white" data-section="hotel-amenities">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-              Hotel & Room Features
+              Hotel Amenities
             </h2>
             <div>
               <HotelAmenities
-                features_hotel={featuresHotel}
-                features_room={featuresRoom}
+                amenities={amenities}
                 isLoading={isLoading}
               />
             </div>

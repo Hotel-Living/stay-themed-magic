@@ -18,33 +18,9 @@ export const useHotelSubmission = () => {
     });
     return count > 0 ? Math.round(totalPrice / count) : 1000;
   };
-  
-  // Helper function to validate UUIDs
-  const validateUUIDs = (arr: string[]): string[] => {
-    if (!Array.isArray(arr)) return [];
-    
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    return arr.filter(id => id && typeof id === 'string' && uuidRegex.test(id));
-  };
 
   const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
     console.log("Creating new hotel with data:", formData);
-    
-    // Ensure themes and activities are valid UUIDs
-    const validThemes = validateUUIDs(formData.themes || []);
-    const validActivities = validateUUIDs(formData.activities || []);
-    
-    console.log("Validated themes:", validThemes.length);
-    console.log("Validated activities:", validActivities.length);
-    
-    // Process months to ensure consistency
-    const availableMonths = formData.stayLengths?.length > 0 
-      ? processAvailableMonths(formData.available_months || [])
-      : [];
-    
-    console.log("Processed available months:", availableMonths);
-    console.log("Saving features_hotel:", formData.featuresHotel);
-    console.log("Saving features_room:", formData.featuresRoom);
     
     const { data: hotelData, error: hotelError } = await supabase
       .from('hotels')
@@ -78,8 +54,7 @@ export const useHotelSubmission = () => {
         preferredWeekday: formData.preferredWeekday || "Monday",
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
-        status: 'pending',
-        available_months: availableMonths
+        status: 'pending'
       })
       .select()
       .single();
@@ -95,22 +70,6 @@ export const useHotelSubmission = () => {
 
   const updateExistingHotel = async (formData: PropertyFormData, hotelId: string) => {
     console.log("Updating hotel with ID:", hotelId, "with data:", formData);
-    
-    // Ensure themes and activities are valid UUIDs
-    const validThemes = validateUUIDs(formData.themes || []);
-    const validActivities = validateUUIDs(formData.activities || []);
-    
-    console.log("Validated themes for update:", validThemes.length);
-    console.log("Validated activities for update:", validActivities.length);
-    
-    // Process months to ensure consistency
-    const availableMonths = formData.stayLengths?.length > 0 
-      ? processAvailableMonths(formData.available_months || [])
-      : [];
-    
-    console.log("Processed available months for update:", availableMonths);
-    console.log("Updating features_hotel:", formData.featuresHotel);
-    console.log("Updating features_room:", formData.featuresRoom);
     
     const { error: hotelError } = await supabase
       .from('hotels')
@@ -144,7 +103,6 @@ export const useHotelSubmission = () => {
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
         status: 'pending',
-        available_months: availableMonths
       })
       .eq('id', hotelId);
 
@@ -155,16 +113,6 @@ export const useHotelSubmission = () => {
 
     console.log("Successfully updated hotel:", hotelId);
     return hotelId;
-  };
-  
-  // Helper function to normalize month names
-  const processAvailableMonths = (months: string[]): string[] => {
-    if (!months || !Array.isArray(months)) return [];
-    
-    return [...new Set(months.map(month => {
-      if (!month) return '';
-      return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-    }))].filter(Boolean);
   };
 
   return {

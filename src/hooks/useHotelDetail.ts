@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
-// Extended interface to include additional properties like average_rating, features_hotel, features_room, and available_months
+// Extended interface to include additional properties like average_rating, amenities, and available_months
 interface HotelWithDetails extends Hotel {
   hotel_images: HotelImage[];
   hotel_themes: {
@@ -22,8 +22,7 @@ interface HotelWithDetails extends Hotel {
     }
   }[];
   average_rating?: number;
-  features_hotel?: any;
-  features_room?: any;
+  amenities?: string[];
   available_months?: string[];
   activities?: string[];
 }
@@ -60,8 +59,6 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   console.log("Hotel themes:", data.hotel_themes);
   console.log("Hotel activities:", data.hotel_activities);
   console.log("Available months:", data.available_months);
-  console.log("Features hotel:", data.features_hotel);
-  console.log("Features room:", data.features_room);
   
   // Create a properly typed object with our hotel data
   const hotelData = data as unknown as HotelWithDetails;
@@ -82,6 +79,27 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.average_rating = 0; // No reviews yet
   }
 
+  // For demo purposes, using realistic amenities based on hotel category/type
+  // In a real application, these would come from a separate table in the database
+  hotelData.amenities = [
+    "Free WiFi", 
+    "Air Conditioning", 
+    "Daily Housekeeping"
+  ];
+  
+  // Add more amenities based on hotel category
+  if (hotelData.category && hotelData.category >= 3) {
+    hotelData.amenities.push("Pool", "Gym");
+  }
+  
+  if (hotelData.category && hotelData.category >= 4) {
+    hotelData.amenities.push("Spa", "Room Service", "Restaurant");
+  }
+  
+  if (hotelData.category && hotelData.category >= 5) {
+    hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  }
+  
   // Extract activities from hotel_activities 
   if (hotelData.hotel_activities && hotelData.hotel_activities.length > 0) {
     hotelData.activities = hotelData.hotel_activities
@@ -102,8 +120,6 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     
     hotelData.available_months = processedMonths;
     console.log("Normalized available months:", hotelData.available_months);
-  } else {
-    hotelData.available_months = [];
   }
   
   return hotelData;

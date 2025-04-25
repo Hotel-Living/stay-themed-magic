@@ -78,23 +78,6 @@ export const useHotelEditing = ({
         console.log("Hotel themes:", themes);
         console.log("Hotel activities:", activities);
         console.log("Hotel available months:", hotelData.available_months);
-        console.log("Hotel features_hotel:", hotelData.features_hotel);
-        console.log("Hotel features_room:", hotelData.features_room);
-        
-        // Process available months to ensure proper type safety
-        // First, ensure we have an array
-        const monthsArray = Array.isArray(hotelData.available_months) 
-          ? hotelData.available_months 
-          : [];
-          
-        // Then, ensure each item is a string with proper capitalization
-        const normalizedMonths: string[] = monthsArray
-          .filter((month): month is string => typeof month === 'string' && month.trim() !== '')
-          .map((month: string) => {
-            return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-          });
-          
-        console.log("Normalized months for editing:", normalizedMonths);
         
         // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
@@ -123,10 +106,7 @@ export const useHotelEditing = ({
           termsAccepted: true,
           hotelImages: images,
           mainImageUrl: mainImageUrl,
-          preferredWeekday: hotelData.preferredWeekday || "Monday",
-          available_months: normalizedMonths,
-          featuresHotel: hotelData.features_hotel || null,
-          featuresRoom: hotelData.features_room || null
+          preferredWeekday: hotelData.preferredWeekday || "Monday"
         });
         
         setCurrentStep(1);

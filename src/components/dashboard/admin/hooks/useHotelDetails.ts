@@ -10,8 +10,7 @@ export function useHotelDetails(id: string | undefined) {
   const [themes, setThemes] = useState<AdminHotelDetail['hotel_themes']>([]);
   const [activities, setActivities] = useState<AdminHotelDetail['hotel_activities']>([]);
   const [images, setImages] = useState<AdminHotelDetail['hotel_images']>([]);
-  const [featuresHotel, setFeaturesHotel] = useState<any>(null);
-  const [featuresRoom, setFeaturesRoom] = useState<any>(null);
+  const [amenities, setAmenities] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -58,9 +57,6 @@ export function useHotelDetails(id: string | undefined) {
         console.log("Fetched hotel data:", hotelData);
         console.log("Themes data:", hotelData.hotel_themes);
         console.log("Activities data:", hotelData.hotel_activities);
-        console.log("Available months:", hotelData.available_months);
-        console.log("Features hotel:", hotelData.features_hotel);
-        console.log("Features room:", hotelData.features_room);
         
         const typedHotelData = hotelData as AdminHotelDetail;
         setHotel(typedHotelData);
@@ -70,13 +66,10 @@ export function useHotelDetails(id: string | undefined) {
         setThemes(typedHotelData.hotel_themes || []);
         setActivities(typedHotelData.hotel_activities || []);
 
-        // Process hotel features and room features
-        if (typedHotelData.features_hotel) {
-          setFeaturesHotel(typedHotelData.features_hotel);
-        }
-        
-        if (typedHotelData.features_room) {
-          setFeaturesRoom(typedHotelData.features_room);
+        // Generate amenities based on hotel category
+        if (typedHotelData.category) {
+          const categoryAmenities = generateAmenities(typedHotelData.category);
+          setAmenities(categoryAmenities);
         }
 
       } catch (error: any) {
@@ -96,5 +89,23 @@ export function useHotelDetails(id: string | undefined) {
     }
   }, [id, toast]);
 
-  return { hotel, loading, themes, activities, images, featuresHotel, featuresRoom };
+  return { hotel, loading, themes, activities, images, amenities };
+}
+
+function generateAmenities(category: number): string[] {
+  const baseAmenities = ["Free WiFi", "Air Conditioning", "Daily Housekeeping"];
+  
+  if (category >= 3) {
+    baseAmenities.push("Pool", "Gym");
+  }
+  
+  if (category >= 4) {
+    baseAmenities.push("Spa", "Room Service", "Restaurant");
+  }
+  
+  if (category >= 5) {
+    baseAmenities.push("Concierge Service", "Valet Parking", "Business Center");
+  }
+  
+  return baseAmenities;
 }

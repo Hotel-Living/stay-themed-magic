@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "./usePropertyFormData";
@@ -8,6 +7,19 @@ interface HotelEditingProps {
   setFormData: (formData: PropertyFormData) => void;
   setCurrentStep?: (step: number) => void;
 }
+
+const safeFeatureConversion = (featureData: any): Record<string, boolean> => {
+  if (!featureData) return {};
+  
+  // If it's already in the correct format, return it
+  if (typeof featureData === 'object' && !Array.isArray(featureData)) {
+    return featureData as Record<string, boolean>;
+  }
+  
+  // Otherwise, return an empty object
+  console.warn('Unexpected feature data format:', featureData);
+  return {};
+};
 
 export const useHotelEditing = ({
   editingHotelId,
@@ -80,8 +92,9 @@ export const useHotelEditing = ({
           hotelImages: uploadedImages,
           mainImageUrl: hotel.main_image_url,
           preferredWeekday: hotel.preferredWeekday || "Monday",
-          featuresHotel: hotel.features_hotel || {},
-          featuresRoom: hotel.features_room || {}
+          featuresHotel: safeFeatureConversion(hotel.features_hotel),
+          featuresRoom: safeFeatureConversion(hotel.features_room),
+          available_months: hotel.available_months || []
         });
         
         // Navigate to first step if setting current step is provided

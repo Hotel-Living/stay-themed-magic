@@ -9,7 +9,10 @@ export const useHotelSubmission = () => {
     // Convert the stay lengths from an array of numbers to a PostgreSQL array
     const stayLengths = formData.stayLengths || [];
     
-    // Get available months from the meal plans array
+    // Get available months from formData
+    const availableMonths = formData.available_months || [];
+    
+    // Get meal plans array
     const mealPlans = formData.mealPlans || [];
     
     // Get room types data
@@ -56,7 +59,8 @@ export const useHotelSubmission = () => {
       terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
-      features_room: featuresRoom
+      features_room: featuresRoom,
+      available_months: availableMonths // Add available_months to the hotel data
     };
     
     const { data, error } = await supabase
@@ -80,7 +84,10 @@ export const useHotelSubmission = () => {
     // Convert the stay lengths from an array of numbers to a PostgreSQL array
     const stayLengths = formData.stayLengths || [];
     
-    // Get available months from the meal plans array
+    // Get available months from formData
+    const availableMonths = formData.available_months || [];
+    
+    // Get meal plans array
     const mealPlans = formData.mealPlans || [];
     
     // Get room types data
@@ -121,7 +128,8 @@ export const useHotelSubmission = () => {
       terms: formData.terms || null,
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
-      features_room: featuresRoom
+      features_room: featuresRoom,
+      available_months: availableMonths // Include available_months in updates
     };
     
     const { error } = await supabase

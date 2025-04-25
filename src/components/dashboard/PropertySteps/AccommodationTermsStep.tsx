@@ -1,10 +1,10 @@
-
 import React from "react";
 import StayLengthSection from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./AccommodationTerms/MealPlanSection";
 import RoomsRatesSection from "./AccommodationTerms/RoomsRatesSection";
 import PreferredWeekdaySection from "./AccommodationTerms/PreferredWeekdaySection";
 import ValidationMessages from "./AccommodationTerms/ValidationMessages";
+import AvailabilitySection from "./AccommodationTerms/AvailabilitySection";
 import { useAccommodationTerms } from "./AccommodationTerms/hooks/useAccommodationTerms";
 
 interface AccommodationTermsStepProps {
@@ -21,6 +21,8 @@ const AccommodationTermsStep = ({
   const {
     selectedWeekday,
     selectedStayLengths,
+    selectedMealPlans,
+    roomTypes,
     error,
     showValidationErrors,
     hasInteracted,
@@ -37,10 +39,30 @@ const AccommodationTermsStep = ({
     onValidationChange
   });
 
-  // Make sure we have a well-formed array of available months (if any)
+  React.useEffect(() => {
+    checkValidation();
+  }, [selectedStayLengths, selectedMealPlans, roomTypes, formData.available_months]);
+
+  const checkValidation = () => {
+    const isValid = 
+      selectedStayLengths.length > 0 && 
+      selectedMealPlans.length > 0 && 
+      roomTypes.length > 0 &&
+      (formData.available_months?.length > 0);
+    
+    if (!isValid) {
+      setError("Please complete all required fields");
+    } else {
+      setError("");
+      setShowValidationErrors(false);
+    }
+    
+    onValidationChange(isValid);
+    return isValid;
+  };
+
   React.useEffect(() => {
     if (formData.available_months && Array.isArray(formData.available_months)) {
-      // Normalize months to have proper capitalization and remove duplicates
       const months = [...new Set(formData.available_months.map((month: string) => {
         if (typeof month !== 'string') return '';
         return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
@@ -66,11 +88,19 @@ const AccommodationTermsStep = ({
           onWeekdayChange={handleWeekdayChange}
         />
         
+        <AvailabilitySection 
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={(valid) => {
+            if (!valid) checkValidation();
+          }}
+        />
+        
         <StayLengthSection 
           isOpen={sectionsState.stayLength}
           onOpenChange={() => toggleSection('stayLength')}
           onValidationChange={(valid) => {
-            if (!valid) onValidationChange(false);
+            if (!valid) checkValidation();
           }}
           formData={formData}
           updateFormData={updateFormData}
@@ -80,7 +110,7 @@ const AccommodationTermsStep = ({
           isOpen={sectionsState.mealPlan}
           onOpenChange={() => toggleSection('mealPlan')}
           onValidationChange={(valid) => {
-            if (!valid) onValidationChange(false);
+            if (!valid) checkValidation();
           }}
           formData={formData}
           updateFormData={updateFormData}
@@ -90,7 +120,7 @@ const AccommodationTermsStep = ({
           isOpen={sectionsState.roomRates}
           onOpenChange={() => toggleSection('roomRates')}
           onValidationChange={(valid) => {
-            if (!valid) onValidationChange(false);
+            if (!valid) checkValidation();
           }}
           formData={{
             ...formData,

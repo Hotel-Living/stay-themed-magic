@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
@@ -30,6 +31,7 @@ export interface PropertyFormData {
   preferredWeekday?: string;
   featuresHotel?: any;  
   featuresRoom?: any;
+  available_months?: string[]; // Added available_months to match database schema
 }
 
 export const usePropertyFormData = () => {
@@ -59,7 +61,8 @@ export const usePropertyFormData = () => {
     termsAccepted: false,
     preferredWeekday: "Monday",
     featuresHotel: {},
-    featuresRoom: {}
+    featuresRoom: {},
+    available_months: [] // Initialize available_months as empty array
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

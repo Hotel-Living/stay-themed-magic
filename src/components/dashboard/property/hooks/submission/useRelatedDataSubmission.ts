@@ -65,9 +65,11 @@ export const useRelatedDataSubmission = () => {
         return;
       }
       
-      // Use only the existing months data, don't generate new ones
+      // Use the available months data from the hotel record
       const availableMonths = hotelData?.available_months || [];
       const preferredWeekday = hotelData?.preferredWeekday || 'Monday';
+      
+      console.log("Available months for hotel:", availableMonths);
       
       // Clear existing hotel availability entries
       await supabase
@@ -81,17 +83,25 @@ export const useRelatedDataSubmission = () => {
         const availabilityRows = availableMonths.map(month => {
           // Ensure month name is properly capitalized
           const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-          const firstDayOfMonth = parse(`01 ${capitalizedMonth} ${currentYear}`, 'dd MMMM yyyy', new Date());
-          const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
-          return {
-            hotel_id: hotelId,
-            availability_month: month.toLowerCase(), // Store lowercase in this field
-            availability_year: currentYear,
-            availability_date: formattedDate,
-            is_full_month: true,
-            preferred_weekday: preferredWeekday,
-          };
-        });
+          
+          try {
+            // Try to parse the date - this might fail if the month name format is unexpected
+            const firstDayOfMonth = parse(`01 ${capitalizedMonth} ${currentYear}`, 'dd MMMM yyyy', new Date());
+            const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
+            
+            return {
+              hotel_id: hotelId,
+              availability_month: month.toLowerCase(), // Store lowercase in this field
+              availability_year: currentYear,
+              availability_date: formattedDate,
+              is_full_month: true,
+              preferred_weekday: preferredWeekday,
+            };
+          } catch (error) {
+            console.error(`Error parsing month ${month}:`, error);
+            return null;
+          }
+        }).filter(Boolean); // Filter out any null entries from parsing errors
 
         if (availabilityRows.length > 0) {
           const { data, error } = await supabase.from('hotel_availability').insert(availabilityRows);

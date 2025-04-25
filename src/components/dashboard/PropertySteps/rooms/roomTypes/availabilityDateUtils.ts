@@ -26,3 +26,41 @@ export function getAvailableDatesForMonth(monthDate: Date, preferredDayNum: numb
   return dates;
 }
 
+// Helper function to extract month name from date
+export function getMonthName(date: Date): string {
+  return format(date, "MMMM").toLowerCase();
+}
+
+// Convert an array of dates to month names
+export function datesToMonthNames(dates: string[]): string[] {
+  if (!dates || dates.length === 0) return [];
+  
+  const uniqueMonths = new Set<string>();
+  
+  dates.forEach(dateStr => {
+    try {
+      const date = new Date(dateStr);
+      if (!isNaN(date.getTime())) {
+        const monthName = format(date, "MMMM").toLowerCase();
+        uniqueMonths.add(monthName);
+      }
+    } catch (error) {
+      console.error("Error parsing date:", error);
+    }
+  });
+  
+  return Array.from(uniqueMonths);
+}
+
+// Convert month selections to available_months array
+export function selectedMonthsToArray(selectedMonths: Record<string, boolean>): string[] {
+  if (!selectedMonths) return [];
+  
+  return Object.entries(selectedMonths)
+    .filter(([_, isSelected]) => isSelected)
+    .map(([month]) => {
+      // Extract just the month name without year
+      const monthMatch = month.match(/^([A-Za-z]+)/);
+      return monthMatch ? monthMatch[1].toLowerCase() : month.toLowerCase();
+    });
+}

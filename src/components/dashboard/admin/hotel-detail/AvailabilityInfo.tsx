@@ -7,6 +7,12 @@ export const AvailabilityInfo = ({ hotel }) => {
   const formatStayLength = (days) => {
     return days === 1 ? `${days} day` : `${days} days`;
   };
+  
+  // Make sure available months are properly displayed with capitalized first letter
+  const formatMonthName = (month) => {
+    if (!month) return '';
+    return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+  };
 
   return (
     <Card className="p-6 bg-[#2A0F44]">
@@ -22,7 +28,7 @@ export const AvailabilityInfo = ({ hotel }) => {
                   key={month} 
                   className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
                 >
-                  {month}
+                  {formatMonthName(month)}
                 </span>
               ))}
             </div>

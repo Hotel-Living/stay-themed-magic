@@ -52,19 +52,8 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   console.log("Fetching hotels for owner:", ownerId);
   
   try {
-    // First check if the ideal_guests column exists in the hotels table
-    const { data: columns, error: columnsError } = await supabase
-      .from('hotels')
-      .select('*')
-      .limit(1);
-    
-    if (columnsError) {
-      console.error("Error checking hotel columns:", columnsError);
-      return [];
-    }
-    
-    // Construct the query based on available columns
-    let query = supabase
+    // Build base query with essential fields that should always exist
+    const query = supabase
       .from("hotels")
       .select(`
         id,
@@ -74,55 +63,18 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         main_image_url,
         price_per_month,
         category,
-        available_months,
         description,
         property_type,
         style,
         address,
-        postal_code,
+        available_months,
         hotel_images (id, hotel_id, image_url, is_main, created_at),
         hotel_themes (theme_id, themes:themes(id, name)),
         hotel_activities (activity_id, activities:activities(id, name))
-      `);
-    
-    // Add additional columns if they exist
-    const firstHotel = columns && columns.length > 0 ? columns[0] : {};
-    if ('ideal_guests' in firstHotel) {
-      query = query.select(`*, ideal_guests`);
-    }
-    if ('atmosphere' in firstHotel) {
-      query = query.select(`*, atmosphere`);
-    }
-    if ('perfect_location' in firstHotel) {
-      query = query.select(`*, perfect_location`);
-    }
-    if ('contact_name' in firstHotel) {
-      query = query.select(`*, contact_name`);
-    }
-    if ('contact_email' in firstHotel) {
-      query = query.select(`*, contact_email`);
-    }
-    if ('contact_phone' in firstHotel) {
-      query = query.select(`*, contact_phone`);
-    }
-    if ('meal_plans' in firstHotel) {
-      query = query.select(`*, meal_plans`);
-    }
-    if ('room_types' in firstHotel) {
-      query = query.select(`*, room_types`);
-    }
-    if ('faqs' in firstHotel) {
-      query = query.select(`*, faqs`);
-    }
-    if ('terms' in firstHotel) {
-      query = query.select(`*, terms`);
-    }
-    if ('preferredWeekday' in firstHotel) {
-      query = query.select(`*, preferredWeekday`);
-    }
-    
-    // Execute the final query with owner filter
-    const { data, error } = await query.eq("owner_id", ownerId);
+      `)
+      .eq("owner_id", ownerId);
+
+    const { data, error } = await query;
 
     if (error) {
       console.error("Error fetching properties by owner:", error);
@@ -159,38 +111,60 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           }
         ];
         
-        // Create the processed hotel object with type assertion to force TypeScript to accept our structure
+        // Create the processed hotel object with safe type handling
         const processedHotel: MyHotel = {
           id: (hotel.id as string) || "",
           name: (hotel.name as string) || "",
           city: (hotel.city as string) || "",
           country: (hotel.country as string) || "",
           main_image_url: (hotel.main_image_url as string | null) || null,
-          price_per_month: (hotel.price_per_month as number) || 0,
+          price_per_month: Number(hotel.price_per_month) || 0,
           category: (hotel.category as number | null) || null,
           description: (hotel.description as string | null) || null,
           property_type: (hotel.property_type as string | null) || null,
           style: (hotel.style as string | null) || null,
-          ideal_guests: (hotel.ideal_guests as string | null) || null,
-          atmosphere: (hotel.atmosphere as string | null) || null,
-          perfect_location: (hotel.perfect_location as string | null) || null,
           address: (hotel.address as string | null) || null,
-          postal_code: (hotel.postal_code as string | null) || null,
-          contact_name: (hotel.contact_name as string | null) || null,
-          contact_email: (hotel.contact_email as string | null) || null,
-          contact_phone: (hotel.contact_phone as string | null) || null,
-          meal_plans: Array.isArray(hotel.meal_plans) ? hotel.meal_plans : [],
-          room_types: Array.isArray(hotel.room_types) ? hotel.room_types : [],
-          faqs: Array.isArray(hotel.faqs) ? hotel.faqs : [],
-          terms: (hotel.terms as string | null) || null,
-          preferredWeekday: (hotel.preferredWeekday as string | null) || "Monday",
           available_months: Array.isArray(hotel.available_months) ? hotel.available_months : [],
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
+          // Additional optional fields with safe defaults
+          ideal_guests: null,
+          atmosphere: null,
+          perfect_location: null,
+          postal_code: null,
+          contact_name: null,
+          contact_email: null,
+          contact_phone: null,
+          meal_plans: [],
+          room_types: [],
+          faqs: [],
+          terms: null,
+          preferredWeekday: "Monday",
           // Add roomTypes property for compatibility
-          roomTypes: Array.isArray(hotel.room_types) ? hotel.room_types : defaultRoomTypes
+          roomTypes: defaultRoomTypes
         };
+        
+        // Try to access extended fields that might exist in the database
+        try {
+          if ('ideal_guests' in hotel) processedHotel.ideal_guests = hotel.ideal_guests as string | null;
+          if ('atmosphere' in hotel) processedHotel.atmosphere = hotel.atmosphere as string | null;
+          if ('perfect_location' in hotel) processedHotel.perfect_location = hotel.perfect_location as string | null;
+          if ('postal_code' in hotel) processedHotel.postal_code = hotel.postal_code as string | null;
+          if ('contact_name' in hotel) processedHotel.contact_name = hotel.contact_name as string | null;
+          if ('contact_email' in hotel) processedHotel.contact_email = hotel.contact_email as string | null;
+          if ('contact_phone' in hotel) processedHotel.contact_phone = hotel.contact_phone as string | null;
+          if ('meal_plans' in hotel && Array.isArray(hotel.meal_plans)) processedHotel.meal_plans = hotel.meal_plans;
+          if ('room_types' in hotel && Array.isArray(hotel.room_types)) {
+            processedHotel.room_types = hotel.room_types;
+            processedHotel.roomTypes = hotel.room_types;
+          }
+          if ('faqs' in hotel && Array.isArray(hotel.faqs)) processedHotel.faqs = hotel.faqs;
+          if ('terms' in hotel) processedHotel.terms = hotel.terms as string | null;
+          if ('preferredWeekday' in hotel) processedHotel.preferredWeekday = hotel.preferredWeekday as string | null;
+        } catch (err) {
+          console.warn("Error processing extended hotel fields:", err);
+        }
         
         return processedHotel;
       });

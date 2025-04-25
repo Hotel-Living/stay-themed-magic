@@ -79,25 +79,35 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.average_rating = 0; // No reviews yet
   }
 
-  // For demo purposes, using realistic amenities based on hotel category/type
-  // In a real application, these would come from a separate table in the database
-  hotelData.amenities = [
-    "Free WiFi", 
-    "Air Conditioning", 
-    "Daily Housekeeping"
-  ];
-  
-  // Add more amenities based on hotel category
-  if (hotelData.category && hotelData.category >= 3) {
-    hotelData.amenities.push("Pool", "Gym");
-  }
-  
-  if (hotelData.category && hotelData.category >= 4) {
-    hotelData.amenities.push("Spa", "Room Service", "Restaurant");
-  }
-  
-  if (hotelData.category && hotelData.category >= 5) {
-    hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  // Use actual amenities if they exist, otherwise generate based on hotel category
+  if (!hotelData.amenities || !Array.isArray(hotelData.amenities) || hotelData.amenities.length === 0) {
+    // For demo purposes, using realistic amenities based on hotel category/type
+    // In a real application, these would come from a separate table in the database
+    hotelData.amenities = [];
+    
+    // Only add default amenities if specifically none are set
+    if (hotelData.category) {
+      const baseAmenities = ["Free WiFi"];
+      
+      // Add more amenities based on hotel category
+      if (hotelData.category >= 2) {
+        baseAmenities.push("Air Conditioning");
+      }
+      
+      if (hotelData.category >= 3) {
+        baseAmenities.push("Daily Housekeeping", "Pool");
+      }
+      
+      if (hotelData.category >= 4) {
+        baseAmenities.push("Gym", "Spa", "Restaurant");
+      }
+      
+      if (hotelData.category >= 5) {
+        baseAmenities.push("Room Service", "Concierge Service");
+      }
+      
+      hotelData.amenities = baseAmenities;
+    }
   }
   
   // Extract activities from hotel_activities 
@@ -120,6 +130,8 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     
     hotelData.available_months = processedMonths;
     console.log("Normalized available months:", hotelData.available_months);
+  } else {
+    hotelData.available_months = [];
   }
   
   return hotelData;

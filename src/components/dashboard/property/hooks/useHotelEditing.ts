@@ -78,6 +78,17 @@ export const useHotelEditing = ({
         console.log("Hotel themes:", themes);
         console.log("Hotel activities:", activities);
         console.log("Hotel available months:", hotelData.available_months);
+        console.log("Hotel amenities:", hotelData.amenities);
+        
+        // Process available months to ensure proper format
+        const normalizedMonths = hotelData.available_months 
+          ? [...new Set(hotelData.available_months.map((month: string) => {
+              if (!month) return '';
+              return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+            }))]
+          : [];
+          
+        console.log("Normalized months for editing:", normalizedMonths);
         
         // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
@@ -106,7 +117,11 @@ export const useHotelEditing = ({
           termsAccepted: true,
           hotelImages: images,
           mainImageUrl: mainImageUrl,
-          preferredWeekday: hotelData.preferredWeekday || "Monday"
+          preferredWeekday: hotelData.preferredWeekday || "Monday",
+          available_months: normalizedMonths,
+          amenities: hotelData.amenities || [],
+          featuresHotel: hotelData.features_hotel || null,
+          featuresRoom: hotelData.features_room || null
         });
         
         setCurrentStep(1);

@@ -22,6 +22,17 @@ export const useHotelSubmission = () => {
   const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
     console.log("Creating new hotel with data:", formData);
     
+    // Process months to ensure consistency
+    const availableMonths = formData.stayLengths?.length > 0 
+      ? processAvailableMonths(formData.available_months || [])
+      : [];
+    
+    console.log("Processed available months:", availableMonths);
+    
+    // Create list of explicit amenities
+    const amenities = formData.amenities || [];
+    console.log("Saving amenities:", amenities);
+    
     const { data: hotelData, error: hotelError } = await supabase
       .from('hotels')
       .insert({
@@ -54,7 +65,9 @@ export const useHotelSubmission = () => {
         preferredWeekday: formData.preferredWeekday || "Monday",
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
-        status: 'pending'
+        status: 'pending',
+        available_months: availableMonths,
+        amenities: amenities
       })
       .select()
       .single();
@@ -70,6 +83,17 @@ export const useHotelSubmission = () => {
 
   const updateExistingHotel = async (formData: PropertyFormData, hotelId: string) => {
     console.log("Updating hotel with ID:", hotelId, "with data:", formData);
+    
+    // Process months to ensure consistency
+    const availableMonths = formData.stayLengths?.length > 0 
+      ? processAvailableMonths(formData.available_months || [])
+      : [];
+    
+    console.log("Processed available months for update:", availableMonths);
+    
+    // Create list of explicit amenities
+    const amenities = formData.amenities || [];
+    console.log("Saving amenities for update:", amenities);
     
     const { error: hotelError } = await supabase
       .from('hotels')
@@ -103,6 +127,8 @@ export const useHotelSubmission = () => {
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
         status: 'pending',
+        available_months: availableMonths,
+        amenities: amenities
       })
       .eq('id', hotelId);
 
@@ -113,6 +139,16 @@ export const useHotelSubmission = () => {
 
     console.log("Successfully updated hotel:", hotelId);
     return hotelId;
+  };
+  
+  // Helper function to normalize month names
+  const processAvailableMonths = (months: string[]): string[] => {
+    if (!months || !Array.isArray(months)) return [];
+    
+    return [...new Set(months.map(month => {
+      if (!month) return '';
+      return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+    }))].filter(Boolean);
   };
 
   return {

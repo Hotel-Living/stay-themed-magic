@@ -7,20 +7,31 @@ export const useRelatedDataSubmission = () => {
     console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
     
     if (themes && themes.length > 0) {
-      await supabase
+      // First delete existing hotel themes
+      const { error: deleteError } = await supabase
         .from('hotel_themes')
         .delete()
         .eq('hotel_id', hotelId);
+      
+      if (deleteError) {
+        console.error("Error deleting existing themes:", deleteError);
+        throw deleteError;
+      }
 
+      // Then insert new themes
       const themeRows = themes.map(themeId => ({
         hotel_id: hotelId,
         theme_id: themeId
       }));
       
       if (themeRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_themes').insert(themeRows);
-        if (error) {
-          console.error("Error inserting themes:", error);
+        const { error: insertError } = await supabase
+          .from('hotel_themes')
+          .insert(themeRows);
+          
+        if (insertError) {
+          console.error("Error inserting themes:", insertError);
+          throw insertError;
         } else {
           console.log("Successfully inserted themes:", themeRows.length);
         }
@@ -28,20 +39,31 @@ export const useRelatedDataSubmission = () => {
     }
 
     if (activities && activities.length > 0) {
-      await supabase
+      // First delete existing hotel activities
+      const { error: deleteError } = await supabase
         .from('hotel_activities')
         .delete()
         .eq('hotel_id', hotelId);
+      
+      if (deleteError) {
+        console.error("Error deleting existing activities:", deleteError);
+        throw deleteError;
+      }
 
+      // Then insert new activities
       const activityRows = activities.map(activityId => ({
         hotel_id: hotelId,
         activity_id: activityId
       }));
       
       if (activityRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_activities').insert(activityRows);
-        if (error) {
-          console.error("Error inserting activities:", error);
+        const { error: insertError } = await supabase
+          .from('hotel_activities')
+          .insert(activityRows);
+          
+        if (insertError) {
+          console.error("Error inserting activities:", insertError);
+          throw insertError;
         } else {
           console.log("Successfully inserted activities:", activityRows.length);
         }
@@ -50,55 +72,84 @@ export const useRelatedDataSubmission = () => {
   };
 
   const handleAvailability = async (hotelId: string, stayLengths: number[]) => {
-    if (stayLengths && stayLengths.length > 0) {
-      // Get the selected months from the hotel submission
-      const { data: hotelData, error: hotelError } = await supabase
+    try {
+      console.log("Handling availability for hotel:", hotelId);
+      
+      // Get user-selected months from form data
+      const { data: formData, error: formDataError } = await supabase
         .from('hotels')
         .select('available_months')
         .eq('id', hotelId)
         .single();
-        
-      if (hotelError) {
-        console.error("Error fetching hotel available months:", hotelError);
+      
+      if (formDataError) {
+        console.error("Error fetching hotel available months:", formDataError);
         return;
       }
       
-      // Use only the existing months data, don't generate new ones
-      const availableMonths = hotelData?.available_months || [];
+      const availableMonths = formData?.available_months || [];
+      console.log("Available months from form data:", availableMonths);
       
-      // Clear existing hotel availability entries
-      await supabase
-        .from('hotel_availability')
-        .delete()
-        .eq('hotel_id', hotelId);
-      
-      // Only create entries if there are actual months selected
-      if (availableMonths.length > 0) {
+      if (availableMonths && availableMonths.length > 0) {
+        // Clear existing hotel availability entries
+        const { error: deleteError } = await supabase
+          .from('hotel_availability')
+          .delete()
+          .eq('hotel_id', hotelId);
+          
+        if (deleteError) {
+          console.error("Error deleting existing availability:", deleteError);
+          return;
+        }
+        
+        // Normalize months and create availability entries
         const currentYear = new Date().getFullYear();
-        const availabilityRows = availableMonths.map(month => {
-          // Ensure month name is properly capitalized
-          const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-          const firstDayOfMonth = parse(`01 ${capitalizedMonth} ${currentYear}`, 'dd MMMM yyyy', new Date());
+        const normalizedMonths = [...new Set(availableMonths.map(month => {
+          return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+        }))];
+        
+        console.log("Normalized months for availability:", normalizedMonths);
+        
+        const availabilityRows = normalizedMonths.map(month => {
+          const firstDayOfMonth = parse(`01 ${month} ${currentYear}`, 'dd MMMM yyyy', new Date());
           const formattedDate = format(firstDayOfMonth, 'yyyy-MM-dd');
+          
           return {
             hotel_id: hotelId,
-            availability_month: month.toLowerCase(), // Store lowercase in this field
+            availability_month: month.toLowerCase(),
             availability_year: currentYear,
             availability_date: formattedDate,
             is_full_month: true,
             preferred_weekday: 'Monday',
           };
         });
-
+        
         if (availabilityRows.length > 0) {
-          const { data, error } = await supabase.from('hotel_availability').insert(availabilityRows);
-          if (error) {
-            console.error("Error inserting availability:", error);
+          const { error: insertError } = await supabase
+            .from('hotel_availability')
+            .insert(availabilityRows);
+            
+          if (insertError) {
+            console.error("Error inserting availability:", insertError);
           } else {
             console.log("Successfully inserted availability:", availabilityRows.length);
+            
+            // Update the hotel record with the normalized months
+            const { error: updateError } = await supabase
+              .from('hotels')
+              .update({ available_months: normalizedMonths })
+              .eq('id', hotelId);
+              
+            if (updateError) {
+              console.error("Error updating hotel available months:", updateError);
+            } else {
+              console.log("Successfully updated hotel available months");
+            }
           }
         }
       }
+    } catch (error) {
+      console.error("Error in handleAvailability:", error);
     }
   };
 

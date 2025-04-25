@@ -57,6 +57,7 @@ export function useHotelDetails(id: string | undefined) {
         console.log("Fetched hotel data:", hotelData);
         console.log("Themes data:", hotelData.hotel_themes);
         console.log("Activities data:", hotelData.hotel_activities);
+        console.log("Available months:", hotelData.available_months);
         
         const typedHotelData = hotelData as AdminHotelDetail;
         setHotel(typedHotelData);
@@ -66,10 +67,15 @@ export function useHotelDetails(id: string | undefined) {
         setThemes(typedHotelData.hotel_themes || []);
         setActivities(typedHotelData.hotel_activities || []);
 
-        // Generate amenities based on hotel category
-        if (typedHotelData.category) {
+        // Use amenities field from hotel data if available, otherwise generate based on category
+        if (typedHotelData.amenities && Array.isArray(typedHotelData.amenities) && typedHotelData.amenities.length > 0) {
+          setAmenities(typedHotelData.amenities);
+        } else if (typedHotelData.category) {
+          // Fall back to generating amenities only if none are explicitly set
           const categoryAmenities = generateAmenities(typedHotelData.category);
           setAmenities(categoryAmenities);
+        } else {
+          setAmenities([]);
         }
 
       } catch (error: any) {
@@ -92,6 +98,7 @@ export function useHotelDetails(id: string | undefined) {
   return { hotel, loading, themes, activities, images, amenities };
 }
 
+// Only used as a fallback if no amenities are explicitly set
 function generateAmenities(category: number): string[] {
   const baseAmenities = ["Free WiFi", "Air Conditioning", "Daily Housekeeping"];
   

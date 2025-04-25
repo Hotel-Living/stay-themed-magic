@@ -32,6 +32,7 @@ export interface PropertyFormData {
   featuresHotel?: any;  // Added this property
   featuresRoom?: any;   // Added this property
   amenities?: string[]; // Explicitly added amenities field
+  available_months?: string[]; // Added missing property
 }
 
 export const usePropertyFormData = () => {
@@ -62,7 +63,8 @@ export const usePropertyFormData = () => {
     preferredWeekday: "Monday",
     featuresHotel: null,
     featuresRoom: null,
-    amenities: []
+    amenities: [],
+    available_months: []
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

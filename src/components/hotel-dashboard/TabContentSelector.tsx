@@ -33,7 +33,7 @@ export const TabContentSelector: React.FC<TabContentSelectorProps> = ({
     case "addProperty":
       return <AddProperty />;
     case "properties":
-      return <PropertiesContent />;
+      return <PropertiesContent hotel={hotel} onEdit={onEdit} />;
     case "bookings":
       return <BookingsContent />;
     case "guests":

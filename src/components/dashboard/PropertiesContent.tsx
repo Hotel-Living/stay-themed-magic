@@ -167,21 +167,23 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
 
     return (
       <div className="flex flex-wrap gap-2 mt-1">
-        {stayLengths.map((days) => {
-          // Ensure days is a number
-          const daysValue = Number(days);
-          
-          // Only render if it's a valid number
-          return !isNaN(daysValue) ? (
-            <span 
-              key={daysValue} 
-              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
-            >
-              {daysValue} {daysValue === 1 ? 'day' : 'days'}
-            </span>
-          ) : null;
-        }).filter(Boolean) // Remove any null values
-      }
+        {stayLengths
+          .map((days) => {
+            // Ensure days is a number
+            const daysValue = Number(days);
+            
+            // Only render if it's a valid number
+            return !isNaN(daysValue) ? (
+              <span 
+                key={daysValue} 
+                className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+              >
+                {daysValue} {daysValue === 1 ? 'day' : 'days'}
+              </span>
+            ) : null;
+          })
+          .filter(Boolean) // Remove any null values
+        }
       </div>
     );
   };

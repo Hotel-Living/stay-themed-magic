@@ -53,7 +53,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   
   try {
     // Build base query with essential fields that should always exist
-    const query = supabase
+    const { data, error } = await supabase
       .from("hotels")
       .select(`
         id,
@@ -73,8 +73,6 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         hotel_activities (activity_id, activities:activities(id, name))
       `)
       .eq("owner_id", ownerId);
-
-    const { data, error } = await query;
 
     if (error) {
       console.error("Error fetching properties by owner:", error);
@@ -128,7 +126,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
-          // Additional optional fields with safe defaults
+          // Additional fields with safe defaults
           ideal_guests: null,
           atmosphere: null,
           perfect_location: null,
@@ -145,8 +143,10 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           roomTypes: defaultRoomTypes
         };
         
-        // Try to access extended fields that might exist in the database
+        // Try to get any additional fields if they are available in the response
         try {
+          // Handle each field carefully with type checking
+          // Note: These fields may not exist in the database schema
           if ('ideal_guests' in hotel) processedHotel.ideal_guests = hotel.ideal_guests as string | null;
           if ('atmosphere' in hotel) processedHotel.atmosphere = hotel.atmosphere as string | null;
           if ('perfect_location' in hotel) processedHotel.perfect_location = hotel.perfect_location as string | null;

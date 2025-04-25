@@ -13,21 +13,25 @@ interface DirectTheme {
   name: string;
 }
 
-// Create a simple step props interface with no circular references
+// Define primitive type for form data to avoid deep nesting
+interface ThemesAndActivitiesFormData {
+  themes?: string[];
+  activities?: string[];
+}
+
+// Create a simple step props interface with primitives only
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  formData?: {
-    themes?: string[];
-    activities?: string[];
-  };
+  formData?: ThemesAndActivitiesFormData;
   updateFormData?: (field: string, value: any) => void;
 }
 
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
-  formData = {},
+  formData = { themes: [], activities: [] },
   updateFormData = () => {}
 }: ThemesAndActivitiesStepProps) {
+  // Use primitive string arrays for state
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);

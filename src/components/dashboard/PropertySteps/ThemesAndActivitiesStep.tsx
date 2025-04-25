@@ -8,26 +8,16 @@ import { ActivitiesSection } from "./activities/ActivitiesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { filterValidUuids } from "@/utils/validation";
 
-// Use 'any' type to bypass deep type inference
-const { setValue } = useForm<any>();
-
 // Simple primitive type for form data
 type FormValues = {
   themes: string[];
   activities: string[];
 };
 
-// Simple props interface with primitive arrays
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: FormValues;
   updateFormData: (field: string, value: string[]) => void;
-}
-
-// Simple theme interface
-interface DirectTheme {
-  id: string;
-  name: string;
 }
 
 export default function ThemesAndActivitiesStep({
@@ -35,14 +25,14 @@ export default function ThemesAndActivitiesStep({
   formData = { themes: [], activities: [] },
   updateFormData
 }: ThemesAndActivitiesStepProps) {
-  // Use local state for themes and activities (no form registration)
+  const { setValue } = useForm<FormValues>();
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [directThemes, setDirectThemes] = useState<DirectTheme[]>([]);
+  const [directThemes, setDirectThemes] = useState<{ id: string; name: string }[]>([]);
 
   // Load direct themes from the database
   useEffect(() => {
@@ -82,6 +72,7 @@ export default function ThemesAndActivitiesStep({
   }, [formData.themes, formData.activities]);
 
   // Update form data and validate
+  // @ts-expect-error TS2589
   useEffect(() => {
     const validThemes = filterValidUuids(selectedThemes);
     const validActivities = filterValidUuids(selectedActivities);
@@ -137,3 +128,4 @@ export default function ThemesAndActivitiesStep({
     </div>
   );
 }
+

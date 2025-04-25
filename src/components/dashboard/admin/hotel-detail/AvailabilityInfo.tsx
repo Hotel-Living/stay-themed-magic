@@ -8,6 +8,8 @@ interface AvailabilityInfoProps {
 }
 
 export function AvailabilityInfo({ hotel }: AvailabilityInfoProps) {
+  console.log("Rendering availability with months:", hotel.available_months);
+  
   // Function to normalize, capitalize, and deduplicate month names
   const normalizeMonths = (months: string[] = []): string[] => {
     if (!months || !months.length) return [];
@@ -23,6 +25,7 @@ export function AvailabilityInfo({ hotel }: AvailabilityInfoProps) {
   };
 
   const availableMonths = normalizeMonths(hotel.available_months);
+  console.log("Normalized available months:", availableMonths);
 
   return (
     <div className="rounded-xl p-6 bg-[#2A0F44]">

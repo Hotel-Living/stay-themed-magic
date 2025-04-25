@@ -73,6 +73,12 @@ export const useHotelEditing = ({
         // Type assertion to access the additional properties
         const hotelData = data as any;
 
+        // Log all properties to debug
+        console.log("Hotel properties:", Object.keys(hotelData));
+        console.log("Hotel themes:", themes);
+        console.log("Hotel activities:", activities);
+        console.log("Hotel available months:", hotelData.available_months);
+        
         // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
           hotelName: hotelData.name || "",
@@ -90,9 +96,7 @@ export const useHotelEditing = ({
           contactEmail: hotelData.contact_email || "",
           contactPhone: hotelData.contact_phone || "",
           category: hotelData.category?.toString() || "",
-          stayLengths: Array.isArray(hotelData.available_months) && hotelData.available_months.length > 0 
-            ? [30] // Default to 30 days if there are available months
-            : [],
+          stayLengths: hotelData.stay_lengths || [],
           mealPlans: hotelData.meal_plans || [],
           roomTypes: hotelData.room_types || [],
           themes: themes,
@@ -101,7 +105,8 @@ export const useHotelEditing = ({
           terms: hotelData.terms || "",
           termsAccepted: true,
           hotelImages: images,
-          mainImageUrl: mainImageUrl
+          mainImageUrl: mainImageUrl,
+          preferredWeekday: hotelData.preferredWeekday || "Monday"
         });
         
         setCurrentStep(1);

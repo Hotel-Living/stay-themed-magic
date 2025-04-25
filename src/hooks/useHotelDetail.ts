@@ -13,6 +13,14 @@ interface HotelWithDetails extends Hotel {
       name: string;
     }
   }[];
+  hotel_activities: {
+    activity_id: string;
+    activities: {
+      id: string;
+      name: string;
+      category?: string;
+    }
+  }[];
   average_rating?: number;
   amenities?: string[];
   available_months?: string[];
@@ -23,13 +31,16 @@ interface HotelWithDetails extends Hotel {
 export const fetchHotelById = async (id: string): Promise<HotelWithDetails | null> => {
   if (!id) return null;
   
-  // First fetch the hotel with its images and themes
+  console.log(`Fetching hotel details for ID: ${id}`);
+  
+  // First fetch the hotel with its images, themes and activities
   const { data, error } = await supabase
     .from('hotels')
     .select(`
       *,
       hotel_images(id, hotel_id, image_url, is_main, created_at),
-      hotel_themes(theme_id, themes:themes(id, name))
+      hotel_themes(theme_id, themes:themes(id, name, description, category)),
+      hotel_activities(activity_id, activities:activities(id, name, category))
     `)
     .eq('id', id)
     .maybeSingle();
@@ -43,6 +54,11 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     console.log("No hotel found with ID:", id);
     return null;
   }
+  
+  console.log("Hotel data from API:", data);
+  console.log("Hotel themes:", data.hotel_themes);
+  console.log("Hotel activities:", data.hotel_activities);
+  console.log("Available months:", data.available_months);
   
   // Create a properly typed object with our hotel data
   const hotelData = data as unknown as HotelWithDetails;
@@ -84,21 +100,13 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
   }
   
-  // Add sample activities for the hotel
-  hotelData.activities = [
-    "Sightseeing",
-    "Local Cuisine",
-    "Cultural Tours"
-  ];
-  
-  // For higher category hotels, add more activities
-  if (hotelData.category && hotelData.category >= 4) {
-    hotelData.activities.push("Wine Tasting", "Spa Treatments");
-  }
-  
-  // For luxury hotels, add premium activities
-  if (hotelData.category && hotelData.category >= 5) {
-    hotelData.activities.push("Private Tours", "Yacht Cruises");
+  // Extract activities from hotel_activities 
+  if (hotelData.hotel_activities && hotelData.hotel_activities.length > 0) {
+    hotelData.activities = hotelData.hotel_activities
+      .filter(item => item.activities && item.activities.name)
+      .map(item => item.activities.name);
+  } else {
+    hotelData.activities = [];
   }
   
   // Normalize available months if they exist
@@ -111,6 +119,7 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     }))].filter(Boolean);
     
     hotelData.available_months = processedMonths;
+    console.log("Normalized available months:", hotelData.available_months);
   }
   
   return hotelData;

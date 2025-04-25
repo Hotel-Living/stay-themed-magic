@@ -288,6 +288,7 @@ export type Database = {
           location_highlight_description: string | null
           longitude: number | null
           main_image_url: string | null
+          meal_plans: string[] | null
           meals_offered: string[] | null
           name: string
           owner_id: string | null
@@ -327,6 +328,7 @@ export type Database = {
           location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
+          meal_plans?: string[] | null
           meals_offered?: string[] | null
           name: string
           owner_id?: string | null
@@ -366,6 +368,7 @@ export type Database = {
           location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
+          meal_plans?: string[] | null
           meals_offered?: string[] | null
           name?: string
           owner_id?: string | null

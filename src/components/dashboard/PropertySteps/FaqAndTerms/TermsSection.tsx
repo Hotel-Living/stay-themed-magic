@@ -1,10 +1,10 @@
 
 import React from "react";
-import { ChevronUp, ChevronDown, CheckCircle } from "lucide-react";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox"; // Import the Checkbox component
+import { Checkbox } from "@/components/ui/checkbox"; 
 
 interface TermsSectionProps {
   termsAndConditions: string;
@@ -23,6 +23,13 @@ export default function TermsSection({
   isOpenTerms,
   setIsOpenTerms
 }: TermsSectionProps) {
+  // Function to handle checkbox changes directly
+  const handleCheckboxChange = (checked: boolean | "indeterminate") => {
+    const isChecked = checked === true;
+    console.log("Checkbox changed to:", isChecked);
+    setTermsAccepted(isChecked);
+  };
+
   return (
     <div>
       <Collapsible className="w-full" open={isOpenTerms} onOpenChange={setIsOpenTerms}>
@@ -52,10 +59,18 @@ export default function TermsSection({
                 <Checkbox 
                   id="accept-terms"
                   checked={termsAccepted} 
-                  onCheckedChange={(checked) => setTermsAccepted(!!checked)}
+                  onCheckedChange={handleCheckboxChange}
                 />
               </div>
-              <Label htmlFor="accept-terms" className="text-sm text-white cursor-pointer" onClick={() => setTermsAccepted(!termsAccepted)}>
+              <Label 
+                htmlFor="accept-terms" 
+                className="text-sm text-white cursor-pointer"
+                onClick={() => {
+                  const newValue = !termsAccepted;
+                  console.log("Label clicked, setting to:", newValue);
+                  setTermsAccepted(newValue);
+                }}
+              >
                 I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms <span className="text-red-400">*</span>
               </Label>
             </div>

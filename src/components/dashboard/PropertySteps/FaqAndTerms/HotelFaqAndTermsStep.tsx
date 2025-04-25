@@ -35,12 +35,21 @@ export default function HotelFaqAndTermsStep({
     if (updateFormData) {
       updateFormData('termsAccepted', termsAccepted);
     }
-  }, [termsAccepted, updateFormData]);
-
-  // Validation based only on terms acceptance
-  useEffect(() => {
+    
+    // Immediately call validation change when terms acceptance changes
     onValidationChange(termsAccepted);
-  }, [termsAccepted, onValidationChange]);
+    
+    // Log for debugging
+    console.log("Terms accepted state changed:", termsAccepted);
+  }, [termsAccepted, updateFormData, onValidationChange]);
+
+  // Handler function to ensure state is properly updated
+  const handleTermsAcceptance = (checked: boolean) => {
+    setTermsAccepted(checked);
+    updateFormData('termsAccepted', checked);
+    onValidationChange(checked);
+    console.log("Terms manually set to:", checked);
+  };
 
   return (
     <div className="space-y-6 max-w-[80%]">
@@ -55,7 +64,7 @@ export default function HotelFaqAndTermsStep({
         termsAndConditions={termsAndConditions}
         setTermsAndConditions={setTermsAndConditions}
         termsAccepted={termsAccepted}
-        setTermsAccepted={setTermsAccepted}
+        setTermsAccepted={handleTermsAcceptance}
         isOpenTerms={isOpenTerms}
         setIsOpenTerms={setIsOpenTerms}
       />

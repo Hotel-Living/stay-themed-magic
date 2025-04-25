@@ -30,7 +30,7 @@ export const useHotelEditing = ({
             *,
             hotel_themes!hotel_id(theme_id, themes(*)),
             hotel_activities!hotel_id(activity_id, activities(*)),
-            hotel_images(image_url, is_main)
+            hotel_images(id, image_url, is_main)
           `)
           .eq("id", editingHotelId)
           .maybeSingle();
@@ -70,28 +70,28 @@ export const useHotelEditing = ({
         const mainImage = data.hotel_images?.find((img: any) => img.is_main);
         const mainImageUrl = mainImage?.image_url || data.main_image_url || '';
 
-        // Populate form data with all available fields, using optional chaining for fields that might be missing
+        // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
           hotelName: data.name || "",
           propertyType: data.property_type || "",
           style: data.style || "", 
           description: data.description || "",
-          idealGuests: data.ideal_guests || "",
+          idealGuests: data.ideal_guests || "",  // Map from snake_case to camelCase
           atmosphere: data.atmosphere || "",
-          perfectLocation: data.perfect_location || "",
+          perfectLocation: data.perfect_location || "",  // Map from snake_case to camelCase
           country: data.country || "",
           address: data.address || "",
           city: data.city || "",
-          postalCode: data.postal_code || "",
-          contactName: data.contact_name || "",
-          contactEmail: data.contact_email || "",
-          contactPhone: data.contact_phone || "",
+          postalCode: data.postal_code || "",  // Map from snake_case to camelCase
+          contactName: data.contact_name || "",  // Map from snake_case to camelCase
+          contactEmail: data.contact_email || "",  // Map from snake_case to camelCase
+          contactPhone: data.contact_phone || "",  // Map from snake_case to camelCase
           category: data.category?.toString() || "",
           stayLengths: Array.isArray(data.available_months) && data.available_months.length > 0 
             ? [30] // Default to 30 days if there are available months
             : [],
-          mealPlans: data.meal_plans || [],
-          roomTypes: data.room_types || [],
+          mealPlans: data.meal_plans || [],  // Map from snake_case to camelCase
+          roomTypes: data.room_types || [],  // Map from snake_case to camelCase
           themes: themes,
           activities: activities,
           faqs: data.faqs || [],

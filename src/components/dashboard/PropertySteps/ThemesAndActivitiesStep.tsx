@@ -13,16 +13,16 @@ interface DirectTheme {
   name: string;
 }
 
-// Define a very simple FormData interface to eliminate deep nesting
-interface ThemesActivitiesFormData {
+// Explicitly define the form data interface with primitive types only
+interface FormData {
   themes?: string[];
   activities?: string[];
 }
 
-// Define props interface with explicit types and no nested references
+// Define props interface without any nested references
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  formData?: ThemesActivitiesFormData;
+  formData?: FormData;
   updateFormData?: (field: string, value: any) => void;
 }
 

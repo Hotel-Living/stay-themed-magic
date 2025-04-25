@@ -92,7 +92,7 @@ export const AvailabilityInfo = ({ hotel }) => {
                       <div className="grid grid-cols-2 gap-2">
                         {Object.entries(room.rates).map(([days, rate]) => (
                           <div key={days} className="text-xs">
-                            {formatStayLength(days)}: ${rate}
+                            {formatStayLength(days)}: ${String(rate)}
                           </div>
                         ))}
                       </div>
@@ -105,7 +105,7 @@ export const AvailabilityInfo = ({ hotel }) => {
                       <div className="grid grid-cols-3 gap-2">
                         {room.images.map((image, i) => (
                           <div key={i} className="aspect-square rounded overflow-hidden">
-                            <img src={image} alt={`Room ${index + 1} image ${i + 1}`} className="w-full h-full object-cover" />
+                            <img src={String(image)} alt={`Room ${index + 1} image ${i + 1}`} className="w-full h-full object-cover" />
                           </div>
                         ))}
                       </div>

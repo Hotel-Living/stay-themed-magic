@@ -57,13 +57,20 @@ export default function HotelFeaturesStep({
     }));
   };
 
+  // Convert record to array for FeaturesList component
+  const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
+    return Object.entries(featuresRecord)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([feature, _]) => feature);
+  };
+
   return (
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-3">Hotel Features</h3>
         <FeaturesList 
           features={hotelFeatures} 
-          selectedFeatures={selectedHotelFeatures}
+          selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)}
           onToggle={handleHotelFeatureToggle}
         />
       </div>
@@ -72,7 +79,7 @@ export default function HotelFeaturesStep({
         <h3 className="text-lg font-semibold mb-3">Room Features</h3>
         <FeaturesList 
           features={roomFeatures}
-          selectedFeatures={selectedRoomFeatures}
+          selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)}
           onToggle={handleRoomFeatureToggle}
         />
       </div>

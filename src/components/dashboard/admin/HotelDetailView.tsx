@@ -49,7 +49,7 @@ export default function HotelDetailView() {
             <ImageGallery images={images} hotel={hotel} />
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
-            <AmenitiesInfo amenities={amenities} />
+            <AmenitiesInfo hotel={hotel} amenities={amenities} />
             <ThemesInfo themes={hotel.hotel_themes || []} />
             <ActivitiesInfo activities={hotel.hotel_activities || []} />
             <AdminInfo hotel={hotel} />

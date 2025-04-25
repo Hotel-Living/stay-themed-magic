@@ -7,7 +7,6 @@ import { HotelCard } from "@/components/HotelCard";
 import AddProperty from "./AddProperty";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 export const PropertiesContent = () => {
   const { user } = useAuth();

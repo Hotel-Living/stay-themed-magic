@@ -265,67 +265,118 @@ export type Database = {
       hotels: {
         Row: {
           address: string | null
+          atmosphere: string | null
+          atmosphere_description: string | null
           available_months: string[] | null
           category: number | null
+          check_in_weekday: string | null
           city: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
           country: string
           created_at: string
           description: string | null
+          features_hotel: Json | null
+          features_room: Json | null
           id: string
+          ideal_guests: string | null
+          ideal_guests_description: string | null
           is_featured: boolean | null
           latitude: number | null
+          location_address: string | null
+          location_highlight_description: string | null
           longitude: number | null
           main_image_url: string | null
+          meals_offered: string[] | null
           name: string
           owner_id: string | null
+          perfect_location: string | null
+          postal_code: string | null
           price_per_month: number
+          property_style: string | null
           property_type: string | null
           rejection_reason: string | null
           status: string | null
+          stay_lengths: number[] | null
           style: string | null
           updated_at: string
         }
         Insert: {
           address?: string | null
+          atmosphere?: string | null
+          atmosphere_description?: string | null
           available_months?: string[] | null
           category?: number | null
+          check_in_weekday?: string | null
           city: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           country: string
           created_at?: string
           description?: string | null
+          features_hotel?: Json | null
+          features_room?: Json | null
           id?: string
+          ideal_guests?: string | null
+          ideal_guests_description?: string | null
           is_featured?: boolean | null
           latitude?: number | null
+          location_address?: string | null
+          location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
+          meals_offered?: string[] | null
           name: string
           owner_id?: string | null
+          perfect_location?: string | null
+          postal_code?: string | null
           price_per_month: number
+          property_style?: string | null
           property_type?: string | null
           rejection_reason?: string | null
           status?: string | null
+          stay_lengths?: number[] | null
           style?: string | null
           updated_at?: string
         }
         Update: {
           address?: string | null
+          atmosphere?: string | null
+          atmosphere_description?: string | null
           available_months?: string[] | null
           category?: number | null
+          check_in_weekday?: string | null
           city?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
           country?: string
           created_at?: string
           description?: string | null
+          features_hotel?: Json | null
+          features_room?: Json | null
           id?: string
+          ideal_guests?: string | null
+          ideal_guests_description?: string | null
           is_featured?: boolean | null
           latitude?: number | null
+          location_address?: string | null
+          location_highlight_description?: string | null
           longitude?: number | null
           main_image_url?: string | null
+          meals_offered?: string[] | null
           name?: string
           owner_id?: string | null
+          perfect_location?: string | null
+          postal_code?: string | null
           price_per_month?: number
+          property_style?: string | null
           property_type?: string | null
           rejection_reason?: string | null
           status?: string | null
+          stay_lengths?: number[] | null
           style?: string | null
           updated_at?: string
         }

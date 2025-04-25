@@ -47,7 +47,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       // Fetch themes from Supabase, no category filtering
       const { data, error } = await supabase
         .from('themes')
-        .select('id, name, description');
+        .select('id, name, description, category');
       
       if (error) {
         console.error("Error fetching themes:", error);
@@ -60,24 +60,22 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       }
 
       if (data) {
-        // Group themes by category - use a default category since we may not have the category field
+        // Group themes by category - use a default category for themes without a category
         const groupedThemes: {[key: string]: Theme[]} = {};
-        const defaultCategory = 'General';
         
         data.forEach(theme => {
-          // Use a default category since the theme may not have a category field
-          const category = defaultCategory;
+          // Use the theme's category or default to 'General'
+          const category = theme.category || 'General';
           if (!groupedThemes[category]) {
             groupedThemes[category] = [];
           }
-          // Cast the theme to include a potential category field
-          const themeWithCategory: Theme = {
+          
+          groupedThemes[category].push({
             id: theme.id,
             name: theme.name,
             description: theme.description,
-            category: defaultCategory
-          };
-          groupedThemes[category].push(themeWithCategory);
+            category
+          });
         });
         
         // Convert to array of categories

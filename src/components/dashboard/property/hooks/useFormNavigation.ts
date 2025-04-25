@@ -1,4 +1,3 @@
-
 import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
 
@@ -32,6 +31,7 @@ export const useFormNavigation = ({
     });
   };
 
+  // Modified to allow free navigation without validation
   const goToNextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -40,6 +40,7 @@ export const useFormNavigation = ({
     }
   };
 
+  // Modified to allow free navigation without validation
   const goToPreviousStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
@@ -48,6 +49,7 @@ export const useFormNavigation = ({
     }
   };
 
+  // Keep validation for final submission only
   const validateCurrentStep = () => {
     const isCurrentStepValid = stepValidation[currentStep];
     if (!isCurrentStepValid) {

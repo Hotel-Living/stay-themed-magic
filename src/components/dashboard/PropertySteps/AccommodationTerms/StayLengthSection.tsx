@@ -1,101 +1,134 @@
 
-import React from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Plus, Minus, ChevronUp, ChevronDown } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
+import { useToast } from "@/hooks/use-toast";
 import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
 
 interface StayLengthSectionProps {
-  isOpen: boolean;
-  onOpenChange: (isOpen: boolean) => void;
-  onValidationChange: (isValid: boolean) => void;
+  isOpen?: boolean;
+  onOpenChange?: () => void;
+  onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
 
 export default function StayLengthSection({
-  isOpen,
-  onOpenChange,
-  onValidationChange,
+  isOpen = false,
+  onOpenChange = () => {},
+  onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
 }: StayLengthSectionProps) {
-  const durations = [8, 16, 24, 32];
-  const initialStayLengths = formData.stayLengths || [];
-  const [selectedStayLengths, setSelectedStayLengths] = React.useState<number[]>(initialStayLengths);
+  const [openState, setOpenState] = useState(isOpen);
+  const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(
+    formData.stayLengths?.length ? formData.stayLengths : []
+  );
+  const { toast } = useToast();
 
-  // Apply initial values from form data
-  React.useEffect(() => {
+  const stayLengthOptions = [8, 16, 24, 32];
+
+  // Update local state when formData changes
+  useEffect(() => {
     if (formData.stayLengths && formData.stayLengths.length > 0) {
+      console.log("StayLengthSection: Received stay lengths:", formData.stayLengths);
       setSelectedStayLengths(formData.stayLengths);
-      // Ensure context is updated with initial values
+      
+      // Update the context
       saveSelectedStayLengths(formData.stayLengths);
     }
   }, [formData.stayLengths]);
 
-  const handleStayLengthChange = (e: React.ChangeEvent<HTMLInputElement>, length: number) => {
-    let newSelectedLengths: number[];
-    
-    if (e.target.checked) {
-      newSelectedLengths = [...selectedStayLengths, length];
-    } else {
-      newSelectedLengths = selectedStayLengths.filter(l => l !== length);
-    }
-    
-    setSelectedStayLengths(newSelectedLengths);
-    
-    // Save to context & localStorage for sharing with room type components
-    saveSelectedStayLengths(newSelectedLengths);
+  // Handle validation and update parent form data when selected stay lengths change
+  useEffect(() => {
+    const isValid = selectedStayLengths.length > 0;
+    onValidationChange(isValid);
     
     // Update parent form data
-    if (updateFormData) {
-      updateFormData('stayLengths', newSelectedLengths);
-    }
-
-    onValidationChange(newSelectedLengths.length > 0);
+    updateFormData("stayLengths", selectedStayLengths);
     
-    // Dispatch event to notify other components
-    const event = new CustomEvent('stayLengthsUpdated', { detail: newSelectedLengths });
-    window.dispatchEvent(event);
+    // Save to context for other components
+    saveSelectedStayLengths(selectedStayLengths);
+  }, [selectedStayLengths, onValidationChange, updateFormData]);
+
+  const handleToggle = () => {
+    setOpenState(!openState);
+    onOpenChange();
+  };
+
+  const toggleStayLength = (length: number) => {
+    setSelectedStayLengths(prev => {
+      const isSelected = prev.includes(length);
+      
+      if (isSelected) {
+        // Don't allow removing the last option
+        if (prev.length <= 1) {
+          toast({
+            title: "Cannot remove all options",
+            description: "You must select at least one stay length.",
+            variant: "destructive"
+          });
+          return prev;
+        }
+        
+        return prev.filter(item => item !== length);
+      } else {
+        return [...prev, length];
+      }
+    });
   };
 
   return (
-    <Collapsible 
-      className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
-      open={isOpen} 
-      onOpenChange={onOpenChange}
-      defaultOpen={false}
-    >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
-        <h2 className="font-medium text-base text-white">Length of Stay</h2>
-        {isOpen ? 
-          <ChevronUp className="h-5 w-5 text-white" /> : 
-          <ChevronDown className="h-5 w-5 text-white" />
-        }
-      </CollapsibleTrigger>
-      <CollapsibleContent className="p-4">
-        <div className="space-y-1">
-          <label className="block text-sm uppercase text-white/90">AVAILABLE STAY LENGTHS</label>
-          <div className="grid grid-cols-2 gap-2">
-            {durations.map((duration) => (
-              <label key={duration} className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
-                  checked={selectedStayLengths.includes(duration)}
-                  onChange={(e) => handleStayLengthChange(e, duration)}
-                />
-                <span className="text-sm text-white/90">{duration} days</span>
-              </label>
-            ))}
-          </div>
+    <div className="border border-purple-500/30 rounded-lg overflow-hidden">
+      <button 
+        className="w-full p-4 flex items-center justify-between bg-[#430453] hover:bg-[#4f0564] transition"
+        onClick={handleToggle}
+      >
+        <span className="text-lg font-medium">Length of Stay</span>
+        {openState ? <ChevronUp /> : <ChevronDown />}
+      </button>
+      
+      {openState && (
+        <div className="p-4 bg-[#350442] space-y-4">
+          <p className="text-sm text-gray-300">
+            Select which stay durations your hotel offers to guests.
+          </p>
           
-          {selectedStayLengths.length > 0 && (
-            <p className="text-green-400 text-xs mt-1">
+          <div className="p-4 rounded-md bg-[#420451]">
+            <h3 className="text-sm font-bold mb-4 uppercase">AVAILABLE STAY LENGTHS</h3>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {stayLengthOptions.map(days => (
+                <div 
+                  key={days}
+                  className="flex items-center space-x-2"
+                >
+                  <input
+                    type="checkbox"
+                    id={`stay-length-${days}`}
+                    checked={selectedStayLengths.includes(days)}
+                    onChange={() => toggleStayLength(days)}
+                    className="w-5 h-5 accent-fuchsia-500"
+                  />
+                  <label htmlFor={`stay-length-${days}`} className="text-white">
+                    {days} days
+                  </label>
+                </div>
+              ))}
+            </div>
+            
+            <p className="text-green-400 text-sm mt-4">
               Selected stay lengths will populate rate fields in Room Types
             </p>
+          </div>
+          
+          {selectedStayLengths.length === 0 && (
+            <div className="p-3 bg-red-900/30 text-red-200 rounded-md">
+              Please select at least one stay duration option.
+            </div>
           )}
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+    </div>
   );
 }

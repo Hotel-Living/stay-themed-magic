@@ -53,6 +53,10 @@ export default function StepOne({
   useEffect(() => {
     if (formData && Object.keys(formData).length > 0) {
       console.log("StepOne: Syncing with parent formData", {
+        hotelName: formData.hotelName,
+        category: formData.category,
+        propertyType: formData.propertyType,
+        description: formData.description,
         hasHotelImages: Boolean(formData.hotelImages),
         imageCount: formData.hotelImages?.length || 0
       });

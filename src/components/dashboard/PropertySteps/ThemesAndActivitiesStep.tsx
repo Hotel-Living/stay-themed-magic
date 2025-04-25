@@ -4,13 +4,20 @@ import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
-import { themeCategories } from "@/utils/themes";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
+
+// Direct themes that should be immediately available for selection
+const directThemes = [
+  { id: "digital-nomad", name: "Digital Nomad" },
+  { id: "remote-work", name: "Remote Work" },
+  { id: "business", name: "Business" },
+  { id: "leisure", name: "Leisure" }
+];
 
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
@@ -62,24 +69,11 @@ export default function ThemesAndActivitiesStep({
     );
   };
 
-  // Get all direct themes from theme categories
-  const getAllDirectThemes = () => {
-    const directThemes: { id: string; name: string }[] = [];
-    
-    themeCategories.forEach(category => {
-      if (category.themes) {
-        directThemes.push(...category.themes.filter(theme => !theme.isAddOption));
-      }
-    });
-    
-    return directThemes;
-  };
-
   return (
     <div className="space-y-6 max-w-[80%]">
       <div className="space-y-8">
         <DirectThemes 
-          themes={getAllDirectThemes()}
+          themes={directThemes}
           selectedThemes={selectedThemes} 
           onThemeSelect={handleThemeSelect}
         />

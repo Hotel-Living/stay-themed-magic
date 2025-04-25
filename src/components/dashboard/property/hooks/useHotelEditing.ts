@@ -70,7 +70,7 @@ export const useHotelEditing = ({
         const mainImage = data.hotel_images?.find((img: any) => img.is_main);
         const mainImageUrl = mainImage?.image_url || data.main_image_url || '';
 
-        // Populate form data with all available fields
+        // Populate form data with all available fields, using optional chaining for fields that might be missing
         setFormData({
           hotelName: data.name || "",
           propertyType: data.property_type || "",

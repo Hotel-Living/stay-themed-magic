@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadArea from "./Pictures/UploadArea";
 import UploadedImages from "./Pictures/UploadedImages";
@@ -25,6 +25,7 @@ export default function PicturesStep({
   const [mainImageUrl, setMainImageUrl] = useState<string>(formData.mainImageUrl || "");
   const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Update local state when formData changes (e.g., when loading existing hotel data)
   useEffect(() => {
@@ -123,11 +124,17 @@ export default function PicturesStep({
     }
   };
 
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h3 className="font-semibold text-lg text-white">Hotel Images</h3>
       
-      <UploadArea onFilesSelected={handleFilesChange} />
+      <UploadArea onFilesSelected={handleFilesChange} fileInputRef={fileInputRef} />
       
       <FilesToUpload 
         files={files} 
@@ -140,7 +147,9 @@ export default function PicturesStep({
         onRemoveImage={handleRemoveIndex}
         onSetMainImage={handleSetMainIndex}
         mainImageUrl={mainImageUrl}
-        onAddMoreClick={() => document.querySelector('input[type="file"]')?.click()}
+        onAddMoreClick={triggerFileInput}
+        onRemove={handleRemoveImage}
+        onSetMain={handleSetMainImage}
       />
       
       {images.length === 0 && (

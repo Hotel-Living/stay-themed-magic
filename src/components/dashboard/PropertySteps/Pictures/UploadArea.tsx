@@ -1,14 +1,15 @@
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, RefObject } from "react";
 import { Upload, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 interface UploadAreaProps {
   onFilesSelected: (files: File[]) => void;
+  fileInputRef?: RefObject<HTMLInputElement>;
 }
 
-export default function UploadArea({ onFilesSelected }: UploadAreaProps) {
+export default function UploadArea({ onFilesSelected, fileInputRef }: UploadAreaProps) {
   const [dragOver, setDragOver] = useState(false);
   const { toast } = useToast();
 
@@ -91,6 +92,7 @@ export default function UploadArea({ onFilesSelected }: UploadAreaProps) {
           accept="image/*"
           multiple
           onChange={handleFileChange}
+          ref={fileInputRef}
         />
       </label>
     </div>

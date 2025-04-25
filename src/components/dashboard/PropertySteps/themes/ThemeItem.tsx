@@ -1,16 +1,22 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 
 interface ThemeItemProps {
   id: string;
   name: string;
   isAddOption?: boolean;
+  isSelected?: boolean;
   onSelect?: (isSelected: boolean) => void;
 }
 
-const ThemeItem = ({ id, name, isAddOption, onSelect }: ThemeItemProps) => {
-  const [checked, setChecked] = useState(false);
+const ThemeItem = ({ id, name, isAddOption, isSelected = false, onSelect }: ThemeItemProps) => {
+  const [checked, setChecked] = useState(isSelected);
+
+  // Update local state when isSelected prop changes (for controlled component behavior)
+  useEffect(() => {
+    setChecked(isSelected);
+  }, [isSelected]);
 
   if (isAddOption) {
     return (

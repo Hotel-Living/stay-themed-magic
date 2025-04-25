@@ -160,6 +160,32 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
     );
   };
 
+  const formatStayLengths = (stayLengths: unknown) => {
+    if (!Array.isArray(stayLengths) || stayLengths.length === 0) {
+      return <p>No stay lengths specified</p>;
+    }
+
+    return (
+      <div className="flex flex-wrap gap-2 mt-1">
+        {stayLengths.map((days) => {
+          // Ensure days is a number
+          const daysValue = Number(days);
+          
+          // Only render if it's a valid number
+          return !isNaN(daysValue) ? (
+            <span 
+              key={daysValue} 
+              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+            >
+              {daysValue} {daysValue === 1 ? 'day' : 'days'}
+            </span>
+          ) : null;
+        }).filter(Boolean) // Remove any null values
+      }
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -277,17 +303,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
           </div>
           <div>
             <p className="text-sm text-gray-400">Stay Lengths</p>
-            <div className="flex flex-wrap gap-2 mt-1">
-              {Array.isArray(hotel.stay_lengths) && hotel.stay_lengths.length > 0 ? (
-                hotel.stay_lengths.map((days) => (
-                  <span key={days} className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm">
-                    {days} {days === 1 ? 'day' : 'days'}
-                  </span>
-                ))
-              ) : (
-                <p>No stay lengths specified</p>
-              )}
-            </div>
+            {formatStayLengths(hotel.stay_lengths)}
           </div>
           <div>
             <p className="text-sm text-gray-400">Preferred Check-in Day</p>
@@ -438,4 +454,4 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
   );
 };
 
-export default PropertiesContent;
+export default PropertyDetailView;

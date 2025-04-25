@@ -13,16 +13,13 @@ interface DirectTheme {
   name: string;
 }
 
-// Explicitly define the form data interface with primitive types only
-interface FormData {
-  themes?: string[];
-  activities?: string[];
-}
-
-// Define props interface without any nested references
+// Create a simple step props interface with no circular references
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  formData?: FormData;
+  formData?: {
+    themes?: string[];
+    activities?: string[];
+  };
   updateFormData?: (field: string, value: any) => void;
 }
 

@@ -70,32 +70,35 @@ export const useHotelEditing = ({
         const mainImage = data.hotel_images?.find((img: any) => img.is_main);
         const mainImageUrl = mainImage?.image_url || data.main_image_url || '';
 
+        // Type assertion to access the additional properties
+        const hotelData = data as any;
+
         // Populate form data with all available fields, using proper mapping from snake_case to camelCase
         setFormData({
-          hotelName: data.name || "",
-          propertyType: data.property_type || "",
-          style: data.style || "", 
-          description: data.description || "",
-          idealGuests: data.ideal_guests || "",  // Map from snake_case to camelCase
-          atmosphere: data.atmosphere || "",
-          perfectLocation: data.perfect_location || "",  // Map from snake_case to camelCase
-          country: data.country || "",
-          address: data.address || "",
-          city: data.city || "",
-          postalCode: data.postal_code || "",  // Map from snake_case to camelCase
-          contactName: data.contact_name || "",  // Map from snake_case to camelCase
-          contactEmail: data.contact_email || "",  // Map from snake_case to camelCase
-          contactPhone: data.contact_phone || "",  // Map from snake_case to camelCase
-          category: data.category?.toString() || "",
-          stayLengths: Array.isArray(data.available_months) && data.available_months.length > 0 
+          hotelName: hotelData.name || "",
+          propertyType: hotelData.property_type || "",
+          style: hotelData.style || "", 
+          description: hotelData.description || "",
+          idealGuests: hotelData.ideal_guests || "",
+          atmosphere: hotelData.atmosphere || "",
+          perfectLocation: hotelData.perfect_location || "",
+          country: hotelData.country || "",
+          address: hotelData.address || "",
+          city: hotelData.city || "",
+          postalCode: hotelData.postal_code || "",
+          contactName: hotelData.contact_name || "",
+          contactEmail: hotelData.contact_email || "",
+          contactPhone: hotelData.contact_phone || "",
+          category: hotelData.category?.toString() || "",
+          stayLengths: Array.isArray(hotelData.available_months) && hotelData.available_months.length > 0 
             ? [30] // Default to 30 days if there are available months
             : [],
-          mealPlans: data.meal_plans || [],  // Map from snake_case to camelCase
-          roomTypes: data.room_types || [],  // Map from snake_case to camelCase
+          mealPlans: hotelData.meal_plans || [],
+          roomTypes: hotelData.room_types || [],
           themes: themes,
           activities: activities,
-          faqs: data.faqs || [],
-          terms: data.terms || "",
+          faqs: hotelData.faqs || [],
+          terms: hotelData.terms || "",
           termsAccepted: true,
           hotelImages: images,
           mainImageUrl: mainImageUrl

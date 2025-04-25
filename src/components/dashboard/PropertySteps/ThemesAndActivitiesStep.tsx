@@ -13,10 +13,14 @@ interface DirectTheme {
   name: string;
 }
 
-// Define a simple props interface with explicit types to avoid deep type instantiation
+// Define each prop type explicitly to prevent deep type instantiation
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  formData?: Record<string, any>;
+  formData?: {
+    themes?: string[];
+    activities?: string[];
+    [key: string]: any;
+  };
   updateFormData?: (field: string, value: any) => void;
 }
 

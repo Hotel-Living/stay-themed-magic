@@ -92,12 +92,7 @@ export default function ThemesAndActivitiesStep({
           onActivityChange={handleActivityChange}
         />
       </div>
-      
-      {!isValid && (
-        <div className="p-4 bg-red-500/30 rounded-md">
-          <p className="text-white">Please select at least one theme and one activity.</p>
-        </div>
-      )}
     </div>
   );
 }
+

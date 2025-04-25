@@ -169,10 +169,12 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
       <div className="flex flex-wrap gap-2 mt-1">
         {stayLengths
           .map((days) => {
-            // Ensure days is a number
-            const daysValue = Number(days);
+            const daysValue = typeof days === 'string' 
+              ? parseInt(days, 10) 
+              : typeof days === 'number' 
+              ? days 
+              : NaN;
             
-            // Only render if it's a valid number
             return !isNaN(daysValue) ? (
               <span 
                 key={daysValue} 
@@ -182,7 +184,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
               </span>
             ) : null;
           })
-          .filter(Boolean) // Remove any null values
+          .filter(Boolean)
         }
       </div>
     );

@@ -5,6 +5,13 @@ import DirectThemes from "./themes/DirectThemes";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
 import { supabase } from "@/integrations/supabase/client";
+import { filterValidUuids } from "@/utils/validation";
+
+// Define a simple interface for direct themes
+interface DirectTheme {
+  id: string;
+  name: string;
+}
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -23,7 +30,7 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [directThemes, setDirectThemes] = useState<Array<{id: string; name: string}>>([]);
+  const [directThemes, setDirectThemes] = useState<DirectTheme[]>([]);
 
   // Load direct themes from the database
   useEffect(() => {
@@ -69,10 +76,9 @@ export default function ThemesAndActivitiesStep({
 
   // Update parent form data when local state changes
   useEffect(() => {
-    // Validate that each theme ID is a valid UUID before updating form data
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    const validThemes = selectedThemes.filter(themeId => themeId && uuidRegex.test(themeId));
-    const validActivities = selectedActivities.filter(activityId => activityId && uuidRegex.test(activityId));
+    // Use the filterValidUuids utility function to validate UUIDs
+    const validThemes = filterValidUuids(selectedThemes);
+    const validActivities = filterValidUuids(selectedActivities);
     
     updateFormData('themes', validThemes);
     updateFormData('activities', validActivities);

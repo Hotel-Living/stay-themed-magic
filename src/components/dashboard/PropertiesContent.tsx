@@ -160,7 +160,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
     );
   };
 
-  const formatStayLengths = (stayLengths: unknown) => {
+  const formatStayLengths = (stayLengths: unknown): React.ReactNode => {
     if (!Array.isArray(stayLengths) || stayLengths.length === 0) {
       return <p>No stay lengths specified</p>;
     }

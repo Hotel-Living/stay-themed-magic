@@ -1,23 +1,17 @@
-
 import React from "react";
-
-// Import refactored components
-import DashboardContent from "@/components/dashboard/DashboardContent";
-import AddProperty from "@/components/dashboard/AddProperty"; // This import remains the same
-import CalculatorContent from "@/components/dashboard/Calculator";
-import PropertiesContent from "@/components/dashboard/PropertiesContent";
-import BookingsContent from "@/components/dashboard/BookingsContent";
-import GuestsContent from "@/components/dashboard/GuestsContent";
-import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
-import ReviewsContent from "@/components/dashboard/ReviewsContent";
-import FinancesContent from "@/components/dashboard/FinancesContent";
-import SettingsContent from "@/components/dashboard/SettingsContent";
+import { Hotel } from "@/integrations/supabase/types-custom";
 
 interface TabContentSelectorProps {
   activeTab: string;
+  hotel?: Hotel;
+  onEdit?: () => void;
 }
 
-export const TabContentSelector: React.FC<TabContentSelectorProps> = ({ activeTab }) => {
+export const TabContentSelector: React.FC<TabContentSelectorProps> = ({ 
+  activeTab, 
+  hotel, 
+  onEdit 
+}) => {
   switch (activeTab) {
     case "dashboard":
       return <DashboardContent />;

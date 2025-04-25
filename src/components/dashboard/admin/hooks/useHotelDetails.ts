@@ -31,13 +31,22 @@ export function useHotelDetails(id: string | undefined) {
           .select(`
             *,
             hotel_images(*),
-            hotel_themes(theme_id, themes(*)),
-            hotel_activities(activity_id, activities(*))
+            hotel_themes!hotel_id(
+              theme_id,
+              themes(*)
+            ),
+            hotel_activities!hotel_id(
+              activity_id,
+              activities(*)
+            )
           `)
           .eq("id", id)
           .maybeSingle();
 
-        if (hotelError) throw hotelError;
+        if (hotelError) {
+          console.error("Error fetching hotel details:", hotelError);
+          throw hotelError;
+        }
 
         if (!hotelData) {
           console.log("No hotel found with ID:", id);

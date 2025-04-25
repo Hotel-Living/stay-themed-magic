@@ -96,62 +96,58 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
     }
     
     // Process the data to ensure all fields have appropriate values
-    const processedHotels = data.map(hotel => {
-      // Ensure hotel is a valid object before processing
-      if (!hotel || typeof hotel !== 'object') {
-        console.error("Invalid hotel data:", hotel);
-        return null;
-      }
-      
-      return {
-        id: hotel.id || "",
-        name: hotel.name || "",
-        city: hotel.city || "",
-        country: hotel.country || "",
-        main_image_url: hotel.main_image_url,
-        price_per_month: hotel.price_per_month || 0,
-        category: hotel.category,
-        description: hotel.description,
-        property_type: hotel.property_type,
-        style: hotel.style,
-        ideal_guests: hotel.ideal_guests || null,
-        atmosphere: hotel.atmosphere || null,
-        perfect_location: hotel.perfect_location || null,
-        address: hotel.address,
-        postal_code: hotel.postal_code || null,
-        contact_name: hotel.contact_name || null,
-        contact_email: hotel.contact_email || null,
-        contact_phone: hotel.contact_phone || null,
-        meal_plans: hotel.meal_plans || [],
-        room_types: hotel.room_types || [],
-        faqs: hotel.faqs || [],
-        terms: hotel.terms || null,
-        preferredWeekday: hotel.preferredWeekday || "Monday",
-        available_months: hotel.available_months || [],
-        hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
-        hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
-        hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
-        // Add roomTypes property for compatibility
-        roomTypes: hotel.room_types || [
-          {
-            id: `rt-${hotel.id}-1`,
-            name: "Standard Room",
-            description: "Comfortable room with all basic amenities",
-            baseRate: 150,
-            basePrice: 150,
-            roomCount: 5
-          },
-          {
-            id: `rt-${hotel.id}-2`,
-            name: "Deluxe Suite",
-            description: "Spacious suite with separate living area",
-            baseRate: 250,
-            basePrice: 250,
-            roomCount: 2
-          }
-        ]
-      };
-    }).filter(hotel => hotel !== null) as MyHotel[];
+    const processedHotels = data
+      .filter(hotel => hotel !== null && typeof hotel === 'object')
+      .map(hotel => {
+        return {
+          id: hotel.id || "",
+          name: hotel.name || "",
+          city: hotel.city || "",
+          country: hotel.country || "",
+          main_image_url: hotel.main_image_url,
+          price_per_month: hotel.price_per_month || 0,
+          category: hotel.category,
+          description: hotel.description,
+          property_type: hotel.property_type,
+          style: hotel.style,
+          ideal_guests: hotel.ideal_guests || null,
+          atmosphere: hotel.atmosphere || null,
+          perfect_location: hotel.perfect_location || null,
+          address: hotel.address,
+          postal_code: hotel.postal_code || null,
+          contact_name: hotel.contact_name || null,
+          contact_email: hotel.contact_email || null,
+          contact_phone: hotel.contact_phone || null,
+          meal_plans: hotel.meal_plans || [],
+          room_types: hotel.room_types || [],
+          faqs: hotel.faqs || [],
+          terms: hotel.terms || null,
+          preferredWeekday: hotel.preferredWeekday || "Monday",
+          available_months: hotel.available_months || [],
+          hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
+          hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
+          hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
+          // Add roomTypes property for compatibility
+          roomTypes: hotel.room_types || [
+            {
+              id: `rt-${hotel.id}-1`,
+              name: "Standard Room",
+              description: "Comfortable room with all basic amenities",
+              baseRate: 150,
+              basePrice: 150,
+              roomCount: 5
+            },
+            {
+              id: `rt-${hotel.id}-2`,
+              name: "Deluxe Suite",
+              description: "Spacious suite with separate living area",
+              baseRate: 250,
+              basePrice: 250,
+              roomCount: 2
+            }
+          ]
+        };
+      });
     
     console.log("Returning hotels with complete data:", processedHotels);
     

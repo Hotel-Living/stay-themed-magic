@@ -7,31 +7,30 @@ import { ActivitiesSection } from "./activities/ActivitiesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { filterValidUuids } from "@/utils/validation";
 
-// Define a simple interface for direct themes
+// Simple form data type with primitive arrays
+type FormValues = {
+  themes: string[];
+  activities: string[];
+};
+
+// Props with simple types
+interface ThemesAndActivitiesStepProps {
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: FormValues;
+  updateFormData: (field: string, value: string[]) => void;
+}
+
+// Simple theme interface
 interface DirectTheme {
   id: string;
   name: string;
 }
 
-// Define primitive type for form data to avoid deep nesting
-interface ThemesAndActivitiesFormData {
-  themes?: string[];
-  activities?: string[];
-}
-
-// Create a simple step props interface with primitives only
-interface ThemesAndActivitiesStepProps {
-  onValidationChange?: (isValid: boolean) => void;
-  formData?: ThemesAndActivitiesFormData;
-  updateFormData?: (field: string, value: any) => void;
-}
-
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
   formData = { themes: [], activities: [] },
-  updateFormData = () => {}
+  updateFormData
 }: ThemesAndActivitiesStepProps) {
-  // Use primitive string arrays for state
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);
@@ -53,8 +52,8 @@ export default function ThemesAndActivitiesStep({
         if (error) {
           console.error("Error fetching direct themes:", error);
           toast({
-            title: "Error loading affinities",
-            description: "There was a problem loading affinities. Please try again.",
+            title: "Error loading themes",
+            description: "There was a problem loading themes. Please try again.",
             variant: "destructive"
           });
           return;
@@ -73,64 +72,37 @@ export default function ThemesAndActivitiesStep({
 
   // Update local state when formData changes
   useEffect(() => {
-    if (formData.themes && formData.themes.length > 0) {
-      setSelectedThemes(formData.themes);
-    }
-    
-    if (formData.activities && formData.activities.length > 0) {
-      setSelectedActivities(formData.activities);
-    }
+    setSelectedThemes(formData.themes || []);
+    setSelectedActivities(formData.activities || []);
   }, [formData.themes, formData.activities]);
 
-  // Update parent form data when local state changes
+  // Update form data and validate
   useEffect(() => {
-    // Use the filterValidUuids utility function to validate UUIDs
     const validThemes = filterValidUuids(selectedThemes);
     const validActivities = filterValidUuids(selectedActivities);
     
     updateFormData('themes', validThemes);
     updateFormData('activities', validActivities);
     
-    // Validate - at least one theme and one activity must be selected
     const valid = validThemes.length > 0 && validActivities.length > 0;
     setIsValid(valid);
     onValidationChange(valid);
-  }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
+  }, [selectedThemes, selectedActivities]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    // Ensure themeId is a valid UUID before adding it
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (themeId && uuidRegex.test(themeId)) {
-      if (isSelected) {
-        setSelectedThemes(prev => [...prev, themeId]);
-      } else {
-        setSelectedThemes(prev => prev.filter(id => id !== themeId));
-      }
-    } else if (isSelected) {
-      toast({
-        title: "Invalid Theme ID",
-        description: "The selected theme has an invalid ID format and cannot be added.",
-        variant: "destructive"
-      });
+    if (isSelected) {
+      setSelectedThemes(prev => [...prev, themeId]);
+    } else {
+      setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
   };
 
   const handleActivityChange = (activityId: string, isChecked: boolean) => {
-    // Ensure activityId is a valid UUID before adding it
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (activityId && uuidRegex.test(activityId)) {
-      setSelectedActivities(prev => 
-        isChecked 
-          ? [...prev, activityId]
-          : prev.filter(a => a !== activityId)
-      );
-    } else if (isChecked) {
-      toast({
-        title: "Invalid Activity ID",
-        description: "The selected activity has an invalid ID format and cannot be added.",
-        variant: "destructive"
-      });
-    }
+    setSelectedActivities(prev => 
+      isChecked 
+        ? [...prev, activityId]
+        : prev.filter(a => a !== activityId)
+    );
   };
 
   return (

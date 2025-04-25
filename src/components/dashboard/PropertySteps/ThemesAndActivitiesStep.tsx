@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
@@ -28,17 +29,21 @@ export default function ThemesAndActivitiesStep({
   // Update local state when formData changes
   useEffect(() => {
     if (formData.themes && formData.themes.length > 0) {
+      console.log("Setting themes from formData:", formData.themes);
       setSelectedThemes(formData.themes);
     }
     
     if (formData.activities && formData.activities.length > 0) {
+      console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
-  }, [formData.themes, formData.activities]);
+  }, []);
 
   // Update parent form data when local state changes
   useEffect(() => {
+    console.log("Updating themes in formData:", selectedThemes);
     updateFormData('themes', selectedThemes);
+    console.log("Updating activities in formData:", selectedActivities);
     updateFormData('activities', selectedActivities);
     
     // Validate - at least one theme and one activity must be selected

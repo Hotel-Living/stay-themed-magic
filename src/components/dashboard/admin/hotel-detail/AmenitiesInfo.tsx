@@ -1,33 +1,46 @@
 
 import React from "react";
-import { Coffee } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
-interface AmenitiesInfoProps {
-  amenities: string[];
-}
+export const AmenitiesInfo = ({ hotel }) => {
+  // Helper function to render features
+  const renderFeatures = (features) => {
+    if (!features || Object.keys(features).length === 0) {
+      return <p className="text-gray-500 italic">No features specified</p>;
+    }
 
-export function AmenitiesInfo({ amenities }: AmenitiesInfoProps) {
-  // Ensure amenities is always an array
-  const validAmenities = Array.isArray(amenities) ? amenities.filter(amenity => amenity) : [];
-  
+    return (
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(features)
+          .filter(([_, selected]) => selected)
+          .map(([featureId]) => (
+            <span 
+              key={featureId} 
+              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+            >
+              {featureId.replace(/_/g, ' ')}
+            </span>
+          ))
+        }
+      </div>
+    );
+  };
+
   return (
-    <div className="rounded-xl p-6 bg-[#2A0F44]">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
-        <Coffee className="w-5 h-5 text-purple-400" />
-        Hotel Features
-      </h3>
-      {validAmenities && validAmenities.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {validAmenities.map((amenity, index) => (
-            <div key={index} className="flex items-center gap-2 p-2 bg-purple-900/20 rounded-lg">
-              <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-              <span>{amenity}</span>
-            </div>
-          ))}
+    <Card className="p-6 bg-[#2A0F44]">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Amenities & Features</h3>
+      
+      <div className="space-y-6">
+        <div>
+          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Hotel Features</h4>
+          {renderFeatures(hotel.features_hotel)}
         </div>
-      ) : (
-        <p>No features specified for this hotel.</p>
-      )}
-    </div>
+        
+        <div>
+          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Room Features</h4>
+          {renderFeatures(hotel.features_room)}
+        </div>
+      </div>
+    </Card>
   );
-}
+};

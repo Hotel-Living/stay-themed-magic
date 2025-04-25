@@ -1,131 +1,100 @@
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { PropertyFormData } from './usePropertyFormData';
+import { PropertyFormData } from "./usePropertyFormData";
 
-interface UseHotelEditingProps {
-  editingHotelId?: string | null;
-  setFormData: (data: PropertyFormData) => void;
-  setCurrentStep: (step: number) => void;
+interface HotelEditingProps {
+  editingHotelId: string | null | undefined;
+  setFormData: (formData: PropertyFormData) => void;
+  setCurrentStep?: (step: number) => void;
 }
 
 export const useHotelEditing = ({
   editingHotelId,
   setFormData,
   setCurrentStep
-}: UseHotelEditingProps) => {
-  const { toast } = useToast();
-
+}: HotelEditingProps) => {
   useEffect(() => {
-    async function fetchHotelIfEditing() {
-      if (!editingHotelId) return;
-      
-      console.log("Fetching hotel for editing with ID:", editingHotelId);
+    if (!editingHotelId) return;
+
+    const fetchHotelDetails = async () => {
+      console.log("Fetching hotel details for editing:", editingHotelId);
       
       try {
-        const { data, error } = await supabase
-          .from("hotels")
-          .select(`
-            *,
-            hotel_themes!hotel_id(theme_id, themes(*)),
-            hotel_activities!hotel_id(activity_id, activities(*)),
-            hotel_images(id, image_url, is_main)
-          `)
-          .eq("id", editingHotelId)
-          .maybeSingle();
-
-        if (error || !data) {
-          console.error("Error loading property for editing:", error);
-          toast({
-            title: "Error",
-            description: "Unable to load property for editing."
-          });
+        const { data: hotel, error } = await supabase
+          .from('hotels')
+          .select('*, hotel_themes(theme_id, themes(*)), hotel_activities(activity_id, activities(*)), hotel_images(*)')
+          .eq('id', editingHotelId)
+          .single();
+        
+        if (error) {
+          console.error("Error fetching hotel details:", error);
           return;
         }
 
-        console.log("Successfully fetched hotel data:", data);
+        if (!hotel) {
+          console.error("Hotel not found");
+          return;
+        }
 
-        // Extract themes and activities
-        const themes = Array.isArray(data.hotel_themes) 
-          ? data.hotel_themes.map((t: any) => t.theme_id) 
-          : [];
+        console.log("Fetched hotel data:", hotel);
         
-        const activities = Array.isArray(data.hotel_activities) 
-          ? data.hotel_activities.map((a: any) => a.activity_id) 
-          : [];
-          
-        // Extract images
-        const images = Array.isArray(data.hotel_images)
-          ? data.hotel_images.map((img: any) => ({
-              id: img.id,
-              name: img.image_url.split('/').pop(),
-              url: img.image_url,
-              isMain: img.is_main,
-              uploaded: true
-            }))
-          : [];
-            
-        // Find main image URL
-        const mainImage = data.hotel_images?.find((img: any) => img.is_main);
-        const mainImageUrl = mainImage?.image_url || data.main_image_url || '';
-
-        // Type assertion to access the additional properties
-        const hotelData = data as any;
-
-        // Log all properties to debug
-        console.log("Hotel properties:", Object.keys(hotelData));
-        console.log("Hotel themes:", themes);
-        console.log("Hotel activities:", activities);
-        console.log("Hotel available months:", hotelData.available_months);
-        console.log("Hotel stay lengths:", hotelData.stay_lengths);
-        console.log("Hotel features:", hotelData.features_hotel);
-        console.log("Room features:", hotelData.features_room);
-        console.log("Room types:", hotelData.room_types);
+        // Map the selected themes from hotel_themes relation
+        const selectedThemes = hotel.hotel_themes?.map(theme => theme.theme_id) || [];
         
-        // Populate form data with all available fields, using proper mapping from snake_case to camelCase
+        // Map the selected activities from hotel_activities relation
+        const selectedActivities = hotel.hotel_activities?.map(activity => activity.activity_id) || [];
+
+        // Map uploaded images
+        const uploadedImages = hotel.hotel_images?.map(img => ({
+          id: img.id,
+          url: img.image_url,
+          isMain: img.is_main
+        })) || [];
+
+        // Parse hotel data for form
         setFormData({
-          hotelName: hotelData.name || "",
-          propertyType: hotelData.property_type || "",
-          style: hotelData.style || "", 
-          description: hotelData.description || "",
-          idealGuests: hotelData.ideal_guests || "",
-          atmosphere: hotelData.atmosphere || "",
-          perfectLocation: hotelData.perfect_location || "",
-          country: hotelData.country || "",
-          address: hotelData.address || "",
-          city: hotelData.city || "",
-          postalCode: hotelData.postal_code || "",
-          contactName: hotelData.contact_name || "",
-          contactEmail: hotelData.contact_email || "",
-          contactPhone: hotelData.contact_phone || "",
-          category: hotelData.category?.toString() || "",
-          stayLengths: hotelData.stay_lengths || [],
-          mealPlans: hotelData.meal_plans || [],
-          roomTypes: hotelData.room_types || [],
-          themes: themes,
-          activities: activities,
-          faqs: hotelData.faqs || [],
-          terms: hotelData.terms || "",
+          hotelName: hotel.name || "",
+          propertyType: hotel.property_type || "",
+          description: hotel.description || "",
+          idealGuests: hotel.ideal_guests || "",
+          atmosphere: hotel.atmosphere || "",
+          perfectLocation: hotel.perfect_location || "",
+          style: hotel.style || "",
+          country: hotel.country || "",
+          address: hotel.address || "",
+          city: hotel.city || "",
+          postalCode: hotel.postal_code || "",
+          contactName: hotel.contact_name || "",
+          contactEmail: hotel.contact_email || "",
+          contactPhone: hotel.contact_phone || "",
+          category: hotel.category?.toString() || "0",
+          stayLengths: hotel.stay_lengths || [],
+          mealPlans: hotel.meal_plans || [],
+          roomTypes: hotel.room_types || [],
+          themes: selectedThemes,
+          activities: selectedActivities,
+          faqs: hotel.faqs || [],
+          terms: hotel.terms || "",
           termsAccepted: true,
-          hotelImages: images,
-          mainImageUrl: mainImageUrl,
-          preferredWeekday: hotelData.preferredWeekday || "Monday",
-          featuresHotel: hotelData.features_hotel || {},
-          featuresRoom: hotelData.features_room || {}
+          hotelImages: uploadedImages,
+          mainImageUrl: hotel.main_image_url,
+          preferredWeekday: hotel.preferredWeekday || "Monday",
+          featuresHotel: hotel.features_hotel || {},
+          featuresRoom: hotel.features_room || {}
         });
         
-        setCurrentStep(1);
-        console.log("Form data populated for editing");
-      } catch (err) {
-        console.error("Error in fetchHotelIfEditing:", err);
-        toast({
-          title: "Error",
-          description: "Failed to load property data for editing."
-        });
+        // Navigate to first step if setting current step is provided
+        if (setCurrentStep) {
+          setCurrentStep(1);
+        }
+      } catch (error) {
+        console.error("Error in fetchHotelDetails:", error);
       }
-    }
-    
-    fetchHotelIfEditing();
-  }, [editingHotelId, setFormData, setCurrentStep, toast]);
+    };
+
+    fetchHotelDetails();
+  }, [editingHotelId, setFormData, setCurrentStep]);
+
+  return { editingHotelId };
 };

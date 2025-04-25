@@ -36,7 +36,7 @@ export function useRoomTypeSection(
       // Directly set room types from form data to ensure they're properly loaded
       setRoomTypes(formData.roomTypes);
     }
-  }, [formData.roomTypes, setRoomTypes]);
+  }, []);
 
   // Update parent form data when roomTypes change
   useEffect(() => {

@@ -7,6 +7,7 @@ export const useRelatedDataSubmission = () => {
     console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
     
     if (themes && themes.length > 0) {
+      // Delete existing themes first
       await supabase
         .from('hotel_themes')
         .delete()
@@ -28,6 +29,7 @@ export const useRelatedDataSubmission = () => {
     }
 
     if (activities && activities.length > 0) {
+      // Delete existing activities first
       await supabase
         .from('hotel_activities')
         .delete()
@@ -54,7 +56,7 @@ export const useRelatedDataSubmission = () => {
       // Get the selected months from the hotel submission
       const { data: hotelData, error: hotelError } = await supabase
         .from('hotels')
-        .select('available_months')
+        .select('available_months, preferredWeekday')
         .eq('id', hotelId)
         .single();
         
@@ -65,6 +67,7 @@ export const useRelatedDataSubmission = () => {
       
       // Use only the existing months data, don't generate new ones
       const availableMonths = hotelData?.available_months || [];
+      const preferredWeekday = hotelData?.preferredWeekday || 'Monday';
       
       // Clear existing hotel availability entries
       await supabase
@@ -86,7 +89,7 @@ export const useRelatedDataSubmission = () => {
             availability_year: currentYear,
             availability_date: formattedDate,
             is_full_month: true,
-            preferred_weekday: 'Monday',
+            preferred_weekday: preferredWeekday,
           };
         });
 

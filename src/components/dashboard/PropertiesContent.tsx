@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Building, Edit } from "lucide-react";
 import EmptyState from "./EmptyState";
@@ -136,7 +135,6 @@ export const PropertiesContent = () => {
   );
 };
 
-// New component to display detailed property information
 const PropertyDetailView = ({ hotel, onEdit }) => {
   if (!hotel) return null;
 
@@ -146,6 +144,29 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
       return "None specified";
     }
     return arr.join(", ");
+  };
+
+  // Helper function to render features
+  const renderFeatures = (features) => {
+    if (!features || Object.keys(features).length === 0) {
+      return <p>No features specified</p>;
+    }
+
+    return (
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(features)
+          .filter(([_, selected]) => selected)
+          .map(([featureId]) => (
+            <span 
+              key={featureId} 
+              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+            >
+              {featureId.replace(/_/g, ' ')}
+            </span>
+          ))
+        }
+      </div>
+    );
   };
 
   return (
@@ -241,6 +262,21 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
+      {/* Features (Hotel & Room Features) */}
+      <Card className="p-6 bg-[#2A0F44]">
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Features</h3>
+        <div className="grid grid-cols-1 gap-4">
+          <div>
+            <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Hotel Features</h4>
+            {renderFeatures(hotel.features_hotel)}
+          </div>
+          <div>
+            <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Room Features</h4>
+            {renderFeatures(hotel.features_room)}
+          </div>
+        </div>
+      </Card>
+
       {/* Accommodation Terms */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Accommodation Terms</h3>
@@ -254,14 +290,67 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
             <p className="font-medium">{formatArrayData(hotel.meal_plans)}</p>
           </div>
           <div>
+            <p className="text-sm text-gray-400">Stay Lengths</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {Array.isArray(hotel.stay_lengths) && hotel.stay_lengths.length > 0 ? (
+                hotel.stay_lengths.map(days => (
+                  <span key={days} className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm">
+                    {days} {days === 1 ? 'day' : 'days'}
+                  </span>
+                ))
+              ) : (
+                <p>No stay lengths specified</p>
+              )}
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-400">Preferred Check-in Day</p>
+            <p className="font-medium">{hotel.preferredWeekday || "Monday"}</p>
+          </div>
+          <div>
             <p className="text-sm text-gray-400">Room Types</p>
             <div className="mt-2 space-y-2">
-              {Array.isArray(hotel.roomTypes) && hotel.roomTypes.length > 0 ? (
-                hotel.roomTypes.map((room, index) => (
+              {Array.isArray(hotel.room_types) && hotel.room_types.length > 0 ? (
+                hotel.room_types.map((room, index) => (
                   <div key={index} className="p-3 border border-purple-500/20 rounded-lg bg-purple-900/20">
-                    <p className="font-medium">{room.name || "Unnamed Room"}</p>
-                    <p className="text-sm text-purple-300">{room.description || "No description"}</p>
-                    <p className="text-sm mt-1">Base Price: ${room.basePrice || room.baseRate || "N/A"}</p>
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="font-medium">{room.name || "Unnamed Room"}</p>
+                        <p className="text-sm text-purple-300">{room.description || "No description"}</p>
+                        {room.roomCount && <p className="text-sm mt-1">Quantity: {room.roomCount}</p>}
+                      </div>
+                      <p className="text-sm">Base Price: ${room.basePrice || room.baseRate || "N/A"}</p>
+                    </div>
+                    
+                    {room.rates && Object.keys(room.rates).length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-purple-500/20">
+                        <p className="text-sm font-medium mb-1">Rates:</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {Object.entries(room.rates).map(([days, rate]) => (
+                            <div key={days} className="text-xs">
+                              {days} days: ${rate}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {room.images && room.images.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-purple-500/20">
+                        <p className="text-sm font-medium mb-1">Room Images:</p>
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                          {room.images.map((img, i) => (
+                            <div key={i} className="aspect-square rounded overflow-hidden">
+                              <img 
+                                src={img} 
+                                alt={`${room.name} - image ${i+1}`} 
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))
               ) : (

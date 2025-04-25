@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -44,8 +45,8 @@ export default function HotelDetailView() {
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
             <FeaturesInfo 
-              hotelFeatures={hotel.features_hotel || []} 
-              roomFeatures={hotel.features_room || []} 
+              hotelFeatures={hotel.features_hotel || {}} 
+              roomFeatures={hotel.features_room || {}} 
             />
             <ThemesInfo themes={hotel.hotel_themes || []} />
             <ActivitiesInfo activities={hotel.hotel_activities || []} />

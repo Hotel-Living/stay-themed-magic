@@ -13,7 +13,6 @@ export const PropertiesContent = () => {
   const [editingHotelId, setEditingHotelId] = useState<string | null>(null);
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
 
-  // Guard: No user (shouldn't happen but fallback)
   if (!user) {
     return (
       <EmptyState
@@ -43,7 +42,6 @@ export const PropertiesContent = () => {
   };
 
   if (editingHotelId) {
-    // Render AddProperty in edit mode for the selected hotel
     return (
       <div>
         <button
@@ -58,7 +56,6 @@ export const PropertiesContent = () => {
   }
 
   if (selectedHotel) {
-    // Display detailed view of the selected hotel
     return (
       <div>
         <button
@@ -75,7 +72,6 @@ export const PropertiesContent = () => {
     );
   }
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -86,7 +82,6 @@ export const PropertiesContent = () => {
     );
   }
 
-  // Empty state
   if (!hotels || hotels.length === 0) {
     return (
       <EmptyState
@@ -97,7 +92,6 @@ export const PropertiesContent = () => {
     );
   }
 
-  // Grid of hotels with Edit option
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {hotels.map((hotel) => (
@@ -137,7 +131,6 @@ export const PropertiesContent = () => {
 const PropertyDetailView = ({ hotel, onEdit }) => {
   if (!hotel) return null;
 
-  // Helper function to format array data for display
   const formatArrayData = (arr) => {
     if (!arr || !Array.isArray(arr) || arr.length === 0) {
       return "None specified";
@@ -145,7 +138,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
     return arr.join(", ");
   };
 
-  // Helper function to render features
   const renderFeatures = (features) => {
     if (!features || Object.keys(features).length === 0) {
       return <p>No features specified</p>;
@@ -180,7 +172,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </button>
       </div>
 
-      {/* Basic Information */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Basic Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -219,7 +210,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
-      {/* Location Information */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Location</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -242,7 +232,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
-      {/* Contact Information */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Contact Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -261,7 +250,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
-      {/* Features (Hotel & Room Features) */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Features</h3>
         <div className="grid grid-cols-1 gap-4">
@@ -276,7 +264,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
-      {/* Accommodation Terms */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Accommodation Terms</h3>
         <div className="grid grid-cols-1 gap-4">
@@ -342,7 +329,7 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
                             <div key={i} className="aspect-square rounded overflow-hidden">
                               <img 
                                 src={img} 
-                                alt={`${room.name} - image ${i+1}`} 
+                                alt={`${room.name || "Room"} - image ${i+1}`}
                                 className="w-full h-full object-cover"
                               />
                             </div>
@@ -360,7 +347,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </div>
       </Card>
 
-      {/* Themes & Activities */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6 bg-[#2A0F44]">
           <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Themes</h3>
@@ -393,7 +379,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         </Card>
       </div>
 
-      {/* Photos */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Hotel Images</h3>
         {hotel.hotel_images && hotel.hotel_images.length > 0 ? (
@@ -429,7 +414,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         )}
       </Card>
 
-      {/* FAQs */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">FAQs</h3>
         {hotel.faqs && hotel.faqs.length > 0 ? (
@@ -446,7 +430,6 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
         )}
       </Card>
 
-      {/* Terms */}
       <Card className="p-6 bg-[#2A0F44]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Terms & Conditions</h3>
         <p className="whitespace-pre-wrap">{hotel.terms || "No terms specified"}</p>

@@ -1,3 +1,4 @@
+
 import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -92,11 +93,6 @@ export interface HotelDetailProps {
 export interface HotelFeaturesInfoProps {
   hotelFeatures: string[];
   roomFeatures: string[];
-}
-
-export interface HotelAmenitiesProps {
-  amenities: string[];
-  isLoading?: boolean;
 }
 
 export interface HotelAvailableMonthsProps {

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
-// Extended interface to include additional properties like average_rating, amenities, and available_months
+// Extended interface to include additional properties like average_rating, hotelFeatures, and available_months
 interface HotelWithDetails extends Hotel {
   hotel_images: HotelImage[];
   hotel_themes: {
@@ -22,7 +22,8 @@ interface HotelWithDetails extends Hotel {
     }
   }[];
   average_rating?: number;
-  amenities?: string[];
+  hotelFeatures?: string[];
+  roomFeatures?: string[];
   available_months?: string[];
   activities?: string[];
 }
@@ -59,6 +60,8 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   console.log("Hotel themes:", data.hotel_themes);
   console.log("Hotel activities:", data.hotel_activities);
   console.log("Available months:", data.available_months);
+  console.log("Hotel features:", data.features_hotel);
+  console.log("Room features:", data.features_room);
   
   // Create a properly typed object with our hotel data
   const hotelData = data as unknown as HotelWithDetails;
@@ -79,25 +82,22 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.average_rating = 0; // No reviews yet
   }
 
-  // For demo purposes, using realistic amenities based on hotel category/type
-  // In a real application, these would come from a separate table in the database
-  hotelData.amenities = [
-    "Free WiFi", 
-    "Air Conditioning", 
-    "Daily Housekeeping"
-  ];
-  
-  // Add more amenities based on hotel category
-  if (hotelData.category && hotelData.category >= 3) {
-    hotelData.amenities.push("Pool", "Gym");
+  // Extract hotel features from features_hotel object
+  if (hotelData.features_hotel && typeof hotelData.features_hotel === 'object') {
+    hotelData.hotelFeatures = Object.entries(hotelData.features_hotel)
+      .filter(([_, selected]) => selected)
+      .map(([featureId]) => featureId.replace(/_/g, ' '));
+  } else {
+    hotelData.hotelFeatures = [];
   }
   
-  if (hotelData.category && hotelData.category >= 4) {
-    hotelData.amenities.push("Spa", "Room Service", "Restaurant");
-  }
-  
-  if (hotelData.category && hotelData.category >= 5) {
-    hotelData.amenities.push("Concierge Service", "Valet Parking", "Business Center");
+  // Extract room features from features_room object
+  if (hotelData.features_room && typeof hotelData.features_room === 'object') {
+    hotelData.roomFeatures = Object.entries(hotelData.features_room)
+      .filter(([_, selected]) => selected)
+      .map(([featureId]) => featureId.replace(/_/g, ' '));
+  } else {
+    hotelData.roomFeatures = [];
   }
   
   // Extract activities from hotel_activities 

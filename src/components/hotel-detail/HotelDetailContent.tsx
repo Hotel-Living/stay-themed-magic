@@ -4,7 +4,6 @@ import { ChevronLeft } from "lucide-react";
 import { HotelHeader } from "./HotelHeader";
 import { HotelGallery } from "./HotelGallery";
 import { HotelDescription } from "./HotelDescription";
-import { HotelAmenities } from "./HotelAmenities";
 import { BookingForm } from "@/components/BookingForm";
 import { HotelDetailContentProps, HotelTheme } from "@/types/hotel";
 
@@ -22,8 +21,8 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
   // Extract activities if available (text only)
   const activities: string[] = hotel?.activities || [];
 
-  // Use dynamic data from the API instead of static data
-  const amenities = hotel?.amenities || [];
+  // Use hotelFeatures from the API instead of amenities
+  const hotelFeatures = hotel?.hotelFeatures || [];
 
   const availableStayLengths = (
     hotel?.available_months && hotel.available_months.length > 0
@@ -73,17 +72,25 @@ export function HotelDetailContent({ hotel, isLoading }: HotelDetailContentProps
             isLoading={isLoading}
           />
           
-          <div className="bg-[#5C088F] rounded-lg p-6 text-white" data-section="hotel-amenities">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-              Hotel Amenities
-            </h2>
-            <div>
-              <HotelAmenities
-                amenities={amenities}
-                isLoading={isLoading}
-              />
+          {/* Updated to use hotelFeatures instead of amenities */}
+          {hotelFeatures && hotelFeatures.length > 0 && (
+            <div className="bg-[#5C088F] rounded-lg p-6 text-white" data-section="hotel-features">
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                Hotel Features
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {hotelFeatures.map((feature, index) => (
+                  <span 
+                    key={index} 
+                    className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          
           {hotel?.latitude && hotel?.longitude && import.meta.env.VITE_GOOGLE_MAPS_API_KEY && (
             <div className="mb-8 bg-[#5C088F] rounded-lg p-6 text-white">
               <h2 className="text-xl font-semibold mb-3">Location</h2>

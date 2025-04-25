@@ -167,34 +167,33 @@ const PropertyDetailView = ({ hotel, onEdit }) => {
     );
   };
 
-  const renderStayLengths = (stayLengths: unknown): React.ReactNode => {
-    if (Array.isArray(stayLengths) && stayLengths.length > 0) {
-      return (
-        <div className="flex flex-wrap gap-2 mt-1">
-          {stayLengths
-            .map((days) => {
-              const daysValue = typeof days === 'string' 
-                ? parseInt(days, 10) 
-                : typeof days === 'number' 
-                ? days 
-                : NaN;
-              
-              return !isNaN(daysValue) ? (
-                <span 
-                  key={daysValue} 
-                  className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
-                >
-                  {daysValue} {daysValue === 1 ? 'day' : 'days'}
-                </span>
-              ) : null;
-            })
-            .filter(Boolean)
-          }
-        </div>
-      );
-    }
-    return null;
-  };
+const renderStayLengths = (stayLengths: unknown): React.ReactNode => {
+  if (Array.isArray(stayLengths) && stayLengths.length > 0) {
+    return (
+      <div className="flex flex-wrap gap-2 mt-1">
+        {(stayLengths as (string | number)[])
+          .map((days) => {
+            const daysValue = typeof days === 'string' 
+              ? parseInt(days, 10) 
+              : typeof days === 'number' 
+              ? days 
+              : NaN;
+            
+            return !isNaN(daysValue) ? (
+              <span 
+                key={daysValue} 
+                className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+              >
+                {daysValue} {daysValue === 1 ? 'day' : 'days'}
+              </span>
+            ) : null;
+          })
+          .filter(Boolean) as React.ReactNode[] | null}
+      </div>
+    );
+  }
+  return null;
+};
 
   return (
     <div className="space-y-6">

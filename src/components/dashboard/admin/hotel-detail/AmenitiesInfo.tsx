@@ -14,7 +14,7 @@ export function AmenitiesInfo({ amenities }: AmenitiesInfoProps) {
     <div className="rounded-xl p-6 bg-[#2A0F44]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
         <Coffee className="w-5 h-5 text-purple-400" />
-        Amenities
+        Hotel Features
       </h3>
       {validAmenities && validAmenities.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -26,7 +26,7 @@ export function AmenitiesInfo({ amenities }: AmenitiesInfoProps) {
           ))}
         </div>
       ) : (
-        <p>No amenities specified for this hotel.</p>
+        <p>No features specified for this hotel.</p>
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Hotel, HotelImage, HotelTheme } from "@/integrations/supabase/types-custom";
 
-// Extended interface to include additional properties like average_rating, amenities, and available_months
+// Extended interface to include additional properties like average_rating, features_hotel, features_room, and available_months
 interface HotelWithDetails extends Hotel {
   hotel_images: HotelImage[];
   hotel_themes: {
@@ -22,7 +22,8 @@ interface HotelWithDetails extends Hotel {
     }
   }[];
   average_rating?: number;
-  amenities?: string[];
+  features_hotel?: any;
+  features_room?: any;
   available_months?: string[];
   activities?: string[];
 }
@@ -59,6 +60,8 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
   console.log("Hotel themes:", data.hotel_themes);
   console.log("Hotel activities:", data.hotel_activities);
   console.log("Available months:", data.available_months);
+  console.log("Features hotel:", data.features_hotel);
+  console.log("Features room:", data.features_room);
   
   // Create a properly typed object with our hotel data
   const hotelData = data as unknown as HotelWithDetails;
@@ -79,37 +82,6 @@ export const fetchHotelById = async (id: string): Promise<HotelWithDetails | nul
     hotelData.average_rating = 0; // No reviews yet
   }
 
-  // Use actual amenities if they exist, otherwise generate based on hotel category
-  if (!hotelData.amenities || !Array.isArray(hotelData.amenities) || hotelData.amenities.length === 0) {
-    // For demo purposes, using realistic amenities based on hotel category/type
-    // In a real application, these would come from a separate table in the database
-    hotelData.amenities = [];
-    
-    // Only add default amenities if specifically none are set
-    if (hotelData.category) {
-      const baseAmenities = ["Free WiFi"];
-      
-      // Add more amenities based on hotel category
-      if (hotelData.category >= 2) {
-        baseAmenities.push("Air Conditioning");
-      }
-      
-      if (hotelData.category >= 3) {
-        baseAmenities.push("Daily Housekeeping", "Pool");
-      }
-      
-      if (hotelData.category >= 4) {
-        baseAmenities.push("Gym", "Spa", "Restaurant");
-      }
-      
-      if (hotelData.category >= 5) {
-        baseAmenities.push("Room Service", "Concierge Service");
-      }
-      
-      hotelData.amenities = baseAmenities;
-    }
-  }
-  
   // Extract activities from hotel_activities 
   if (hotelData.hotel_activities && hotelData.hotel_activities.length > 0) {
     hotelData.activities = hotelData.hotel_activities

@@ -78,7 +78,8 @@ export const useHotelEditing = ({
         console.log("Hotel themes:", themes);
         console.log("Hotel activities:", activities);
         console.log("Hotel available months:", hotelData.available_months);
-        console.log("Hotel amenities:", hotelData.amenities);
+        console.log("Hotel features_hotel:", hotelData.features_hotel);
+        console.log("Hotel features_room:", hotelData.features_room);
         
         // Process available months to ensure proper type safety
         // First, ensure we have an array
@@ -124,7 +125,6 @@ export const useHotelEditing = ({
           mainImageUrl: mainImageUrl,
           preferredWeekday: hotelData.preferredWeekday || "Monday",
           available_months: normalizedMonths,
-          amenities: hotelData.amenities || [],
           featuresHotel: hotelData.features_hotel || null,
           featuresRoom: hotelData.features_room || null
         });

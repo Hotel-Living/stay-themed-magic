@@ -28,10 +28,8 @@ export const useHotelSubmission = () => {
       : [];
     
     console.log("Processed available months:", availableMonths);
-    
-    // Create list of explicit amenities
-    const amenities = formData.amenities || [];
-    console.log("Saving amenities:", amenities);
+    console.log("Saving features_hotel:", formData.featuresHotel);
+    console.log("Saving features_room:", formData.featuresRoom);
     
     const { data: hotelData, error: hotelError } = await supabase
       .from('hotels')
@@ -66,8 +64,7 @@ export const useHotelSubmission = () => {
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
         status: 'pending',
-        available_months: availableMonths,
-        amenities: amenities
+        available_months: availableMonths
       })
       .select()
       .single();
@@ -90,10 +87,8 @@ export const useHotelSubmission = () => {
       : [];
     
     console.log("Processed available months for update:", availableMonths);
-    
-    // Create list of explicit amenities
-    const amenities = formData.amenities || [];
-    console.log("Saving amenities for update:", amenities);
+    console.log("Updating features_hotel:", formData.featuresHotel);
+    console.log("Updating features_room:", formData.featuresRoom);
     
     const { error: hotelError } = await supabase
       .from('hotels')
@@ -127,8 +122,7 @@ export const useHotelSubmission = () => {
         features_hotel: formData.featuresHotel || null,
         features_room: formData.featuresRoom || null,
         status: 'pending',
-        available_months: availableMonths,
-        amenities: amenities
+        available_months: availableMonths
       })
       .eq('id', hotelId);
 

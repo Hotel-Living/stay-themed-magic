@@ -10,7 +10,8 @@ export function useHotelDetails(id: string | undefined) {
   const [themes, setThemes] = useState<AdminHotelDetail['hotel_themes']>([]);
   const [activities, setActivities] = useState<AdminHotelDetail['hotel_activities']>([]);
   const [images, setImages] = useState<AdminHotelDetail['hotel_images']>([]);
-  const [amenities, setAmenities] = useState<string[]>([]);
+  const [featuresHotel, setFeaturesHotel] = useState<any>(null);
+  const [featuresRoom, setFeaturesRoom] = useState<any>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -58,6 +59,8 @@ export function useHotelDetails(id: string | undefined) {
         console.log("Themes data:", hotelData.hotel_themes);
         console.log("Activities data:", hotelData.hotel_activities);
         console.log("Available months:", hotelData.available_months);
+        console.log("Features hotel:", hotelData.features_hotel);
+        console.log("Features room:", hotelData.features_room);
         
         const typedHotelData = hotelData as AdminHotelDetail;
         setHotel(typedHotelData);
@@ -67,15 +70,13 @@ export function useHotelDetails(id: string | undefined) {
         setThemes(typedHotelData.hotel_themes || []);
         setActivities(typedHotelData.hotel_activities || []);
 
-        // Use amenities field from hotel data if available, otherwise generate based on category
-        if (typedHotelData.amenities && Array.isArray(typedHotelData.amenities) && typedHotelData.amenities.length > 0) {
-          setAmenities(typedHotelData.amenities);
-        } else if (typedHotelData.category) {
-          // Fall back to generating amenities only if none are explicitly set
-          const categoryAmenities = generateAmenities(typedHotelData.category);
-          setAmenities(categoryAmenities);
-        } else {
-          setAmenities([]);
+        // Process hotel features and room features
+        if (typedHotelData.features_hotel) {
+          setFeaturesHotel(typedHotelData.features_hotel);
+        }
+        
+        if (typedHotelData.features_room) {
+          setFeaturesRoom(typedHotelData.features_room);
         }
 
       } catch (error: any) {
@@ -95,24 +96,5 @@ export function useHotelDetails(id: string | undefined) {
     }
   }, [id, toast]);
 
-  return { hotel, loading, themes, activities, images, amenities };
-}
-
-// Only used as a fallback if no amenities are explicitly set
-function generateAmenities(category: number): string[] {
-  const baseAmenities = ["Free WiFi", "Air Conditioning", "Daily Housekeeping"];
-  
-  if (category >= 3) {
-    baseAmenities.push("Pool", "Gym");
-  }
-  
-  if (category >= 4) {
-    baseAmenities.push("Spa", "Room Service", "Restaurant");
-  }
-  
-  if (category >= 5) {
-    baseAmenities.push("Concierge Service", "Valet Parking", "Business Center");
-  }
-  
-  return baseAmenities;
+  return { hotel, loading, themes, activities, images, featuresHotel, featuresRoom };
 }

@@ -29,10 +29,9 @@ export interface PropertyFormData {
   hotelImages?: UploadedImage[];
   mainImageUrl?: string;
   preferredWeekday?: string;
-  featuresHotel?: any;  // Added this property
-  featuresRoom?: any;   // Added this property
-  amenities?: string[]; // Explicitly added amenities field
-  available_months?: string[]; // Added missing property
+  featuresHotel?: any;
+  featuresRoom?: any;
+  available_months?: string[];
 }
 
 export const usePropertyFormData = () => {
@@ -63,7 +62,6 @@ export const usePropertyFormData = () => {
     preferredWeekday: "Monday",
     featuresHotel: null,
     featuresRoom: null,
-    amenities: [],
     available_months: []
   });
 

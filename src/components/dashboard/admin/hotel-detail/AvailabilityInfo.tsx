@@ -1,6 +1,8 @@
 
 import React from "react";
 import { Card } from "@/components/ui/card";
+import { format, parseISO } from "date-fns";
+import { getMonthName } from "@/components/dashboard/PropertySteps/rooms/roomTypes/availabilityDateUtils";
 
 export const AvailabilityInfo = ({ hotel }) => {
   // Format stay lengths for display
@@ -8,10 +10,38 @@ export const AvailabilityInfo = ({ hotel }) => {
     return days === 1 ? `${days} day` : `${days} days`;
   };
   
-  // Make sure available months are properly displayed with capitalized first letter
-  const formatMonthName = (month) => {
-    if (!month) return '';
-    return month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+  const formatAvailabilityDates = () => {
+    // Get all availability dates from room types
+    const allDates = new Set<string>();
+    
+    // Add full month availability dates
+    if (hotel.available_months && hotel.available_months.length > 0) {
+      hotel.available_months.forEach((month: string) => {
+        if (month) {
+          const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+          allDates.add(`${normalizedMonth} (Full Month)`);
+        }
+      });
+    }
+    
+    // Add specific room type availability dates
+    if (hotel.room_types && hotel.room_types.length > 0) {
+      hotel.room_types.forEach(room => {
+        if (room.availabilityDates) {
+          room.availabilityDates.forEach((date: string) => {
+            try {
+              const parsedDate = parseISO(date);
+              const formattedDate = format(parsedDate, 'MMMM d, yyyy');
+              allDates.add(formattedDate);
+            } catch (error) {
+              console.error('Error parsing date:', error);
+            }
+          });
+        }
+      });
+    }
+    
+    return Array.from(allDates);
   };
 
   return (
@@ -20,20 +50,20 @@ export const AvailabilityInfo = ({ hotel }) => {
       
       <div className="grid grid-cols-1 gap-4">
         <div>
-          <h4 className="font-medium text-fuchsia-200">Available Months</h4>
-          {hotel.available_months && hotel.available_months.length > 0 ? (
+          <h4 className="font-medium text-fuchsia-200">Availability Dates</h4>
+          {formatAvailabilityDates().length > 0 ? (
             <div className="flex flex-wrap gap-2 mt-2">
-              {hotel.available_months.map(month => (
+              {formatAvailabilityDates().map(date => (
                 <span 
-                  key={month} 
+                  key={date} 
                   className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
                 >
-                  {formatMonthName(month)}
+                  {date}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 italic">No available months specified</p>
+            <p className="text-gray-500 italic">No availability dates specified</p>
           )}
         </div>
         
@@ -74,59 +104,7 @@ export const AvailabilityInfo = ({ hotel }) => {
         </div>
         
         <div>
-          <h4 className="font-medium text-fuchsia-200">Room Types</h4>
-          {hotel.room_types && hotel.room_types.length > 0 ? (
-            <div className="space-y-2 mt-2">
-              {hotel.room_types.map((room, index) => (
-                <div key={index} className="p-3 border border-purple-500/20 rounded-lg bg-purple-900/20">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h5 className="font-medium">{room.name || "Unnamed Room"}</h5>
-                      <p className="text-sm text-gray-300">{room.description || "No description"}</p>
-                      {room.roomCount && (
-                        <p className="text-sm mt-1">Quantity: {room.roomCount}</p>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm">Base Rate: ${room.baseRate || room.basePrice || "N/A"}</p>
-                    </div>
-                  </div>
-                  
-                  {room.rates && Object.keys(room.rates).length > 0 && (
-                    <div className="mt-3">
-                      <p className="text-sm font-medium mb-1">Rate Information:</p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {Object.entries(room.rates).map(([days, rate]) => (
-                          <div key={days} className="text-xs">
-                            {formatStayLength(days)}: ${String(rate)}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {room.images && room.images.length > 0 && (
-                    <div className="mt-3">
-                      <p className="text-sm font-medium mb-1">Images ({room.images.length}):</p>
-                      <div className="grid grid-cols-3 gap-2">
-                        {room.images.map((image, i) => (
-                          <div key={i} className="aspect-square rounded overflow-hidden">
-                            <img src={String(image)} alt={`Room ${index + 1} image ${i + 1}`} className="w-full h-full object-cover" />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 italic">No room types specified</p>
-          )}
-        </div>
-        
-        <div>
-          <h4 className="font-medium text-fuchsia-200">Check-in Day Preference</h4>
+          <h4 className="font-medium text-fuchsia-200">Check-in Day</h4>
           <p className="mt-1">{hotel.preferredWeekday || "Monday"}</p>
         </div>
       </div>

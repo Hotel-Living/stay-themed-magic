@@ -15,7 +15,7 @@ interface DirectTheme {
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
-  formData?: any;
+  formData?: Record<string, any>;
   updateFormData?: (field: string, value: any) => void;
 }
 

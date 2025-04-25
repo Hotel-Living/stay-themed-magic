@@ -18,8 +18,8 @@ interface AffinitiesSectionProps {
 interface Theme {
   id: string;
   name: string;
-  category?: string;
   description?: string | null;
+  category?: string;
 }
 
 interface ThemeCategory {

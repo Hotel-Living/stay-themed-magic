@@ -3,7 +3,6 @@ import React from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { ThemeCategory } from "@/utils/theme-types";
 import { themeCategories } from "@/utils/themes";
 import { PlusCircle } from "lucide-react";
 

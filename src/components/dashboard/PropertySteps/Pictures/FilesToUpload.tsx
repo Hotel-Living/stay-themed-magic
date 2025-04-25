@@ -4,16 +4,18 @@ import { Loader2, Trash2, XCircle } from "lucide-react";
 
 interface FilesToUploadProps {
   files: File[];
-  uploading: boolean;
+  uploading?: boolean;
   onUpload: () => void;
   onRemoveFile: (index: number) => void;
+  onRemove?: (index: number) => void;
 }
 
 export default function FilesToUpload({ 
   files, 
-  uploading, 
+  uploading = false, 
   onUpload, 
-  onRemoveFile 
+  onRemoveFile,
+  onRemove
 }: FilesToUploadProps) {
   // Automatically trigger upload when files are present
   React.useEffect(() => {
@@ -43,7 +45,10 @@ export default function FilesToUpload({
             </div>
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button 
-                onClick={() => onRemoveFile(index)}
+                onClick={() => {
+                  onRemoveFile(index);
+                  if (onRemove) onRemove(index);
+                }}
                 className="p-1.5 rounded-full bg-red-500/50 hover:bg-red-500/70 transition-colors"
                 aria-label="Remove file"
               >

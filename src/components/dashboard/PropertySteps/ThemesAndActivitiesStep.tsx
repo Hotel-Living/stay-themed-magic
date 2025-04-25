@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import DirectThemes from "./themes/DirectThemes";
-import AffinitiesSection from "./themes/AffinitiesSection";
-import ActivitiesSection from "./activities/ActivitiesSection";
+import { AffinitiesSection } from "./themes/AffinitiesSection";
+import { ActivitiesSection } from "./activities/ActivitiesSection";
+import { themeCategories } from "@/utils/themes";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -20,6 +21,8 @@ export default function ThemesAndActivitiesStep({
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);
   const { toast } = useToast();
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   console.log("ThemesAndActivities: Initial themes:", formData.themes);
   console.log("ThemesAndActivities: Initial activities:", formData.activities);
@@ -53,9 +56,34 @@ export default function ThemesAndActivitiesStep({
     setSelectedThemes(themes);
   };
 
-  const handleActivityChange = (activities: string[]) => {
-    console.log("Updating selected activities:", activities);
-    setSelectedActivities(activities);
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
+    console.log("Toggling activity:", activity, isChecked);
+    setSelectedActivities(prev => 
+      isChecked 
+        ? [...prev, activity]
+        : prev.filter(a => a !== activity)
+    );
+  };
+
+  const handleThemeSelect = (themeId: string, isSelected: boolean) => {
+    if (isSelected) {
+      setSelectedThemes(prev => [...prev, themeId]);
+    } else {
+      setSelectedThemes(prev => prev.filter(id => id !== themeId));
+    }
+  };
+
+  // Get all direct themes from theme categories
+  const getAllDirectThemes = () => {
+    const directThemes: { id: string; name: string }[] = [];
+    
+    themeCategories.forEach(category => {
+      if (category.themes) {
+        directThemes.push(...category.themes.filter(theme => !theme.isAddOption));
+      }
+    });
+    
+    return directThemes;
   };
 
   return (
@@ -64,13 +92,18 @@ export default function ThemesAndActivitiesStep({
       
       <div className="space-y-8">
         <DirectThemes 
+          themes={getAllDirectThemes()}
           selectedThemes={selectedThemes} 
-          onThemeChange={handleThemeChange} 
+          onThemeSelect={handleThemeSelect}
         />
         
         <AffinitiesSection 
           selectedThemes={selectedThemes}
-          onThemeChange={handleThemeChange}
+          onThemeSelect={handleThemeSelect}
+          openCategory={openCategory}
+          setOpenCategory={setOpenCategory}
+          openSubmenu={openSubmenu}
+          setOpenSubmenu={setOpenSubmenu}
         />
         
         <ActivitiesSection 

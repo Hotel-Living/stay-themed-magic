@@ -8,6 +8,8 @@ export interface UploadedImage {
   url: string;
   isMain: boolean;
   id?: string;
+  name?: string;
+  uploaded?: boolean;
 }
 
 export function usePropertyImages(initialImages: UploadedImage[] = []) {

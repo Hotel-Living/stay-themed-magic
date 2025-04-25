@@ -52,7 +52,7 @@ export default function PicturesStep({
   const handleImageUpload = (uploadedImage: UploadedImage) => {
     // Set as main image if it's the first image or if no main image is set
     const isMain = images.length === 0 || !mainImageUrl;
-    const newImage = { ...uploadedImage, isMain };
+    const newImage = { ...uploadedImage, isMain, name: uploadedImage.name || `image-${Date.now()}` };
     
     setImages(prev => [...prev, newImage]);
     
@@ -61,7 +61,7 @@ export default function PicturesStep({
     }
     
     // Remove the file from the files array
-    const updatedFiles = files.filter(file => file.name !== uploadedImage.name);
+    const updatedFiles = files.filter(file => file.name !== (uploadedImage.name || ''));
     setFiles(updatedFiles);
   };
 
@@ -96,6 +96,32 @@ export default function PicturesStep({
     
     setImages(updatedImages);
   };
+  
+  const handleUpload = () => {
+    // Create demo uploaded images from files
+    for (const file of files) {
+      const fileUrl = URL.createObjectURL(file);
+      handleImageUpload({
+        url: fileUrl,
+        isMain: images.length === 0,
+        name: file.name,
+        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+      });
+    }
+    setFiles([]);
+  };
+  
+  const handleSetMainIndex = (index: number) => {
+    if (index >= 0 && index < images.length) {
+      handleSetMainImage(images[index]);
+    }
+  };
+
+  const handleRemoveIndex = (index: number) => {
+    if (index >= 0 && index < images.length) {
+      handleRemoveImage(images[index]);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -105,15 +131,16 @@ export default function PicturesStep({
       
       <FilesToUpload 
         files={files} 
-        onUpload={handleImageUpload} 
-        onRemove={file => setFiles(files.filter(f => f !== file))} 
+        onUpload={handleUpload} 
+        onRemoveFile={(index) => setFiles(files.filter((_, i) => i !== index))} 
       />
       
       <UploadedImages 
         images={images} 
-        onRemove={handleRemoveImage}
-        onSetMain={handleSetMainImage}
+        onRemoveImage={handleRemoveIndex}
+        onSetMainImage={handleSetMainIndex}
         mainImageUrl={mainImageUrl}
+        onAddMoreClick={() => document.querySelector('input[type="file"]')?.click()}
       />
       
       {images.length === 0 && (

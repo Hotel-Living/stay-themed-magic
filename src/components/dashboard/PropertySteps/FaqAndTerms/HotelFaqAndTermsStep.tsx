@@ -22,6 +22,7 @@ export default function HotelFaqAndTermsStep({
   const [isOpenTerms, setIsOpenTerms] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(formData.termsAccepted || false);
 
+  // Update form data when FAQs or terms change
   useEffect(() => {
     if (updateFormData) {
       updateFormData('faqs', faqItems);
@@ -29,14 +30,15 @@ export default function HotelFaqAndTermsStep({
     }
   }, [faqItems, termsAndConditions, updateFormData]);
 
+  // Update form data when terms acceptance changes
   useEffect(() => {
     if (updateFormData) {
       updateFormData('termsAccepted', termsAccepted);
     }
   }, [termsAccepted, updateFormData]);
 
+  // Validation based only on terms acceptance
   useEffect(() => {
-    // Only validate based on terms acceptance, not FAQs
     onValidationChange(termsAccepted);
   }, [termsAccepted, onValidationChange]);
 

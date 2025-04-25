@@ -4,6 +4,7 @@ import { ChevronUp, ChevronDown, CheckCircle } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox"; // Import the Checkbox component
 
 interface TermsSectionProps {
   termsAndConditions: string;
@@ -48,17 +49,11 @@ export default function TermsSection({
             
             <div className="flex items-start gap-3 mt-6 bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/30">
               <div className="flex-none mt-0.5">
-                {termsAccepted ? (
-                  <CheckCircle 
-                    className="h-6 w-6 text-black cursor-pointer" // Updated to black
-                    onClick={() => setTermsAccepted(false)}
-                  />
-                ) : (
-                  <div 
-                    className="h-6 w-6 rounded-full border-2 border-black cursor-pointer" // Updated to black
-                    onClick={() => setTermsAccepted(true)}
-                  ></div>
-                )}
+                <Checkbox 
+                  id="accept-terms"
+                  checked={termsAccepted} 
+                  onCheckedChange={(checked) => setTermsAccepted(!!checked)}
+                />
               </div>
               <Label htmlFor="accept-terms" className="text-sm text-white cursor-pointer" onClick={() => setTermsAccepted(!termsAccepted)}>
                 I confirm that all information provided is accurate and I accept the Hotel-Living.com partner terms <span className="text-red-400">*</span>

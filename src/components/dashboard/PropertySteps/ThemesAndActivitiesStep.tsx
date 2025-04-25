@@ -7,13 +7,13 @@ import { ActivitiesSection } from "./activities/ActivitiesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { filterValidUuids } from "@/utils/validation";
 
-// Simple form data type with primitive arrays
+// Simple primitive type for form data
 type FormValues = {
   themes: string[];
   activities: string[];
 };
 
-// Props with simple types
+// Simple props interface with primitive arrays
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: FormValues;
@@ -31,6 +31,7 @@ export default function ThemesAndActivitiesStep({
   formData = { themes: [], activities: [] },
   updateFormData
 }: ThemesAndActivitiesStepProps) {
+  // Use local state for themes and activities (no form registration)
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);
@@ -81,6 +82,7 @@ export default function ThemesAndActivitiesStep({
     const validThemes = filterValidUuids(selectedThemes);
     const validActivities = filterValidUuids(selectedActivities);
     
+    // Directly update form data with primitive arrays
     updateFormData('themes', validThemes);
     updateFormData('activities', validActivities);
     

@@ -33,6 +33,15 @@ export type Hotel = {
   updated_at: string;
   status: 'approved' | 'pending' | 'rejected';
   rejection_reason?: string | null;
+  available_months?: string[];
+  postal_code?: string | null;
+  contact_name?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  meal_plans?: string[];
+  room_types?: any[];
+  faqs?: any[];
+  terms?: string | null;
 }
 
 export type Theme = {

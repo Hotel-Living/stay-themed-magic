@@ -19,8 +19,30 @@ export interface MyHotel {
       name: string;
     };
   }[];
+  hotel_activities: {
+    activity_id: string;
+    activities: {
+      id: string;
+      name: string;
+    };
+  }[];
   available_months?: string[];
-  roomTypes?: any[]; // Added roomTypes property
+  description?: string | null;
+  property_type?: string | null;
+  style?: string | null;
+  ideal_guests?: string | null;
+  atmosphere?: string | null;
+  perfect_location?: string | null;
+  address?: string | null;
+  postal_code?: string | null;
+  contact_name?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  meal_plans?: string[];
+  room_types?: any[];
+  faqs?: any[];
+  terms?: string | null;
+  roomTypes?: any[];
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
@@ -39,11 +61,26 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
       price_per_month,
       category,
       available_months,
+      description,
+      property_type,
+      style,
+      ideal_guests,
+      atmosphere,
+      perfect_location,
+      address,
+      postal_code,
+      contact_name,
+      contact_email,
+      contact_phone,
+      meal_plans,
+      room_types,
+      faqs,
+      terms,
       hotel_images (id, hotel_id, image_url, is_main, created_at),
-      hotel_themes (theme_id, themes:themes(id, name))
+      hotel_themes (theme_id, themes:themes(id, name)),
+      hotel_activities (activity_id, activities:activities(id, name))
     `)
-    .eq("owner_id", ownerId)
-    .eq("status", "approved");
+    .eq("owner_id", ownerId);
 
   if (error) {
     console.error("Error fetching properties by owner:", error);
@@ -53,30 +90,33 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   // For testing purposes, add mock roomTypes to each hotel
   // In a production environment, this would come from the database
   const hotelsWithRoomTypes = (data as MyHotel[]).map(hotel => {
+    // Use room_types from database if available, otherwise use mock data
+    const roomTypes = hotel.room_types || [
+      {
+        id: `rt-${hotel.id}-1`,
+        name: "Standard Room",
+        description: "Comfortable room with all basic amenities",
+        baseRate: 150,
+        basePrice: 150,
+        roomCount: 5
+      },
+      {
+        id: `rt-${hotel.id}-2`,
+        name: "Deluxe Suite",
+        description: "Spacious suite with separate living area",
+        baseRate: 250,
+        basePrice: 250,
+        roomCount: 2
+      }
+    ];
+    
     return {
       ...hotel,
-      roomTypes: [
-        {
-          id: `rt-${hotel.id}-1`,
-          name: "Standard Room",
-          description: "Comfortable room with all basic amenities",
-          baseRate: 150,
-          basePrice: 150,
-          roomCount: 5
-        },
-        {
-          id: `rt-${hotel.id}-2`,
-          name: "Deluxe Suite",
-          description: "Spacious suite with separate living area",
-          baseRate: 250,
-          basePrice: 250,
-          roomCount: 2
-        }
-      ]
+      roomTypes // Add the roomTypes property
     };
   });
   
-  console.log("Returning hotels with roomTypes:", hotelsWithRoomTypes);
+  console.log("Returning hotels with complete data:", hotelsWithRoomTypes);
   
   return hotelsWithRoomTypes;
 }

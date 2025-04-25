@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
@@ -25,7 +24,8 @@ export default function ThemesAndActivitiesStep({
   formData = { themes: [], activities: [] },
   updateFormData
 }: ThemesAndActivitiesStepProps) {
-  const { setValue } = useForm<FormValues>();
+  // @ts-ignore TS2589: bypass deep type instantiation
+  const { setValue } = useForm<any>();
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const [isValid, setIsValid] = useState(false);
@@ -71,8 +71,6 @@ export default function ThemesAndActivitiesStep({
     setSelectedActivities(formData.activities || []);
   }, [formData.themes, formData.activities]);
 
-  // Update form data and validate
-  // @ts-expect-error TS2589
   useEffect(() => {
     const validThemes = filterValidUuids(selectedThemes);
     const validActivities = filterValidUuids(selectedActivities);
@@ -128,4 +126,3 @@ export default function ThemesAndActivitiesStep({
     </div>
   );
 }
-

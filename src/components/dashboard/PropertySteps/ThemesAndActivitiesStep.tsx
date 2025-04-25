@@ -24,18 +24,13 @@ export default function ThemesAndActivitiesStep({
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  console.log("ThemesAndActivities: Initial themes:", formData.themes);
-  console.log("ThemesAndActivities: Initial activities:", formData.activities);
-
-  // Update local state when formData changes (e.g., when loading existing hotel data)
+  // Update local state when formData changes
   useEffect(() => {
     if (formData.themes && formData.themes.length > 0) {
-      console.log("Setting selected themes from formData:", formData.themes);
       setSelectedThemes(formData.themes);
     }
     
     if (formData.activities && formData.activities.length > 0) {
-      console.log("Setting selected activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
   }, [formData.themes, formData.activities]);
@@ -51,26 +46,20 @@ export default function ThemesAndActivitiesStep({
     onValidationChange(valid);
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
-  const handleThemeChange = (themes: string[]) => {
-    console.log("Updating selected themes:", themes);
-    setSelectedThemes(themes);
-  };
-
-  const handleActivityChange = (activity: string, isChecked: boolean) => {
-    console.log("Toggling activity:", activity, isChecked);
-    setSelectedActivities(prev => 
-      isChecked 
-        ? [...prev, activity]
-        : prev.filter(a => a !== activity)
-    );
-  };
-
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
     if (isSelected) {
       setSelectedThemes(prev => [...prev, themeId]);
     } else {
       setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
+  };
+
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
+    setSelectedActivities(prev => 
+      isChecked 
+        ? [...prev, activity]
+        : prev.filter(a => a !== activity)
+    );
   };
 
   // Get all direct themes from theme categories

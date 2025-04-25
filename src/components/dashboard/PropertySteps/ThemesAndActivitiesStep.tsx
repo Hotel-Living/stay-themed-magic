@@ -23,7 +23,7 @@ export default function ThemesAndActivitiesStep({
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [directThemes, setDirectThemes] = useState<any[]>([]);
+  const [directThemes, setDirectThemes] = useState<{id: string; name: string}[]>([]);
 
   // Load direct themes from the database
   useEffect(() => {
@@ -37,6 +37,11 @@ export default function ThemesAndActivitiesStep({
           
         if (error) {
           console.error("Error fetching direct themes:", error);
+          toast({
+            title: "Error loading affinities",
+            description: "There was a problem loading affinities. Please try again.",
+            variant: "destructive"
+          });
           return;
         }
         

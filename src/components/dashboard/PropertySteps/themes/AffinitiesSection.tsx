@@ -44,10 +44,10 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   const fetchThemes = async () => {
     try {
       setIsLoading(true);
+      // In the Supabase database, make sure themes table has a 'category' column
       const { data, error } = await supabase
         .from('themes')
-        .select('id, name, category, description')
-        .order('name');
+        .select('id, name, description');
       
       if (error) {
         console.error("Error fetching themes:", error);
@@ -60,7 +60,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       }
 
       if (data) {
-        // Group by category
+        // Group themes by category - if category doesn't exist, use a default category
         const groupedThemes: {[key: string]: Theme[]} = {};
         
         data.forEach(theme => {

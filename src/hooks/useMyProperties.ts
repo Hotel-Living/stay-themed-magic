@@ -52,7 +52,19 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   console.log("Fetching hotels for owner:", ownerId);
   
   try {
-    const { data, error } = await supabase
+    // First check if the ideal_guests column exists in the hotels table
+    const { data: columns, error: columnsError } = await supabase
+      .from('hotels')
+      .select('*')
+      .limit(1);
+    
+    if (columnsError) {
+      console.error("Error checking hotel columns:", columnsError);
+      return [];
+    }
+    
+    // Construct the query based on available columns
+    let query = supabase
       .from("hotels")
       .select(`
         id,
@@ -66,24 +78,51 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         description,
         property_type,
         style,
-        ideal_guests,
-        atmosphere,
-        perfect_location,
         address,
         postal_code,
-        contact_name,
-        contact_email,
-        contact_phone,
-        meal_plans,
-        room_types,
-        faqs,
-        terms,
-        preferredWeekday,
         hotel_images (id, hotel_id, image_url, is_main, created_at),
         hotel_themes (theme_id, themes:themes(id, name)),
         hotel_activities (activity_id, activities:activities(id, name))
-      `)
-      .eq("owner_id", ownerId);
+      `);
+    
+    // Add additional columns if they exist
+    const firstHotel = columns && columns.length > 0 ? columns[0] : {};
+    if ('ideal_guests' in firstHotel) {
+      query = query.select(`*, ideal_guests`);
+    }
+    if ('atmosphere' in firstHotel) {
+      query = query.select(`*, atmosphere`);
+    }
+    if ('perfect_location' in firstHotel) {
+      query = query.select(`*, perfect_location`);
+    }
+    if ('contact_name' in firstHotel) {
+      query = query.select(`*, contact_name`);
+    }
+    if ('contact_email' in firstHotel) {
+      query = query.select(`*, contact_email`);
+    }
+    if ('contact_phone' in firstHotel) {
+      query = query.select(`*, contact_phone`);
+    }
+    if ('meal_plans' in firstHotel) {
+      query = query.select(`*, meal_plans`);
+    }
+    if ('room_types' in firstHotel) {
+      query = query.select(`*, room_types`);
+    }
+    if ('faqs' in firstHotel) {
+      query = query.select(`*, faqs`);
+    }
+    if ('terms' in firstHotel) {
+      query = query.select(`*, terms`);
+    }
+    if ('preferredWeekday' in firstHotel) {
+      query = query.select(`*, preferredWeekday`);
+    }
+    
+    // Execute the final query with owner filter
+    const { data, error } = await query.eq("owner_id", ownerId);
 
     if (error) {
       console.error("Error fetching properties by owner:", error);
@@ -99,9 +138,11 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
     const processedHotels = data
       .filter(hotel => hotel !== null && typeof hotel === 'object')
       .map(hotel => {
+        // Create default room types with proper fallback for hotel id
+        const safeHotelId = (hotel.id as string) || 'default';
         const defaultRoomTypes = [
           {
-            id: `rt-${hotel.id || 'default'}-1`,
+            id: `rt-${safeHotelId}-1`,
             name: "Standard Room",
             description: "Comfortable room with all basic amenities",
             baseRate: 150,
@@ -109,7 +150,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
             roomCount: 5
           },
           {
-            id: `rt-${hotel.id || 'default'}-2`,
+            id: `rt-${safeHotelId}-2`,
             name: "Deluxe Suite",
             description: "Spacious suite with separate living area",
             baseRate: 250,
@@ -118,37 +159,40 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           }
         ];
         
-        return {
-          id: hotel.id || "",
-          name: hotel.name || "",
-          city: hotel.city || "",
-          country: hotel.country || "",
-          main_image_url: hotel.main_image_url || null,
-          price_per_month: hotel.price_per_month || 0,
-          category: hotel.category || null,
-          description: hotel.description || null,
-          property_type: hotel.property_type || null,
-          style: hotel.style || null,
-          ideal_guests: hotel.ideal_guests || null,
-          atmosphere: hotel.atmosphere || null,
-          perfect_location: hotel.perfect_location || null,
-          address: hotel.address || null,
-          postal_code: hotel.postal_code || null,
-          contact_name: hotel.contact_name || null,
-          contact_email: hotel.contact_email || null,
-          contact_phone: hotel.contact_phone || null,
+        // Create the processed hotel object with type assertion to force TypeScript to accept our structure
+        const processedHotel: MyHotel = {
+          id: (hotel.id as string) || "",
+          name: (hotel.name as string) || "",
+          city: (hotel.city as string) || "",
+          country: (hotel.country as string) || "",
+          main_image_url: (hotel.main_image_url as string | null) || null,
+          price_per_month: (hotel.price_per_month as number) || 0,
+          category: (hotel.category as number | null) || null,
+          description: (hotel.description as string | null) || null,
+          property_type: (hotel.property_type as string | null) || null,
+          style: (hotel.style as string | null) || null,
+          ideal_guests: (hotel.ideal_guests as string | null) || null,
+          atmosphere: (hotel.atmosphere as string | null) || null,
+          perfect_location: (hotel.perfect_location as string | null) || null,
+          address: (hotel.address as string | null) || null,
+          postal_code: (hotel.postal_code as string | null) || null,
+          contact_name: (hotel.contact_name as string | null) || null,
+          contact_email: (hotel.contact_email as string | null) || null,
+          contact_phone: (hotel.contact_phone as string | null) || null,
           meal_plans: Array.isArray(hotel.meal_plans) ? hotel.meal_plans : [],
           room_types: Array.isArray(hotel.room_types) ? hotel.room_types : [],
           faqs: Array.isArray(hotel.faqs) ? hotel.faqs : [],
-          terms: hotel.terms || null,
-          preferredWeekday: hotel.preferredWeekday || "Monday",
+          terms: (hotel.terms as string | null) || null,
+          preferredWeekday: (hotel.preferredWeekday as string | null) || "Monday",
           available_months: Array.isArray(hotel.available_months) ? hotel.available_months : [],
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
           // Add roomTypes property for compatibility
           roomTypes: Array.isArray(hotel.room_types) ? hotel.room_types : defaultRoomTypes
-        } as MyHotel;
+        };
+        
+        return processedHotel;
       });
     
     console.log("Returning hotels with complete data:", processedHotels);

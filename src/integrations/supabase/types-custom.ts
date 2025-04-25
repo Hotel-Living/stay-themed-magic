@@ -1,3 +1,4 @@
+
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -37,11 +38,38 @@ export type Hotel = {
   contact_name?: string | null;
   contact_email?: string | null;
   contact_phone?: string | null;
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
   meal_plans?: string[];
   room_types?: any[];
+  stay_lengths?: number[] | string[];
   faqs?: any[];
   terms?: string | null;
   preferredWeekday?: string | null;
+  hotel_images?: {
+    id: string;
+    hotel_id: string;
+    image_url: string;
+    is_main: boolean;
+    created_at: string;
+  }[];
+  hotel_themes?: {
+    theme_id: string;
+    themes?: {
+      id: string;
+      name: string;
+      description?: string | null;
+      category?: string;
+    };
+  }[];
+  hotel_activities?: {
+    activity_id: string;
+    activities?: {
+      id: string;
+      name: string;
+      category?: string;
+    };
+  }[];
 }
 
 export type Theme = {

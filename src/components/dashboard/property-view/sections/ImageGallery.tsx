@@ -8,22 +8,24 @@ interface ImageGalleryProps {
 }
 
 export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
+  const hotelImages = hotel.hotel_images || [];
+  
   return (
     <Card className="p-6 bg-[#2A0F44]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Hotel Images</h3>
-      {hotel.hotel_images && hotel.hotel_images.length > 0 ? (
+      {hotelImages.length > 0 ? (
         <div>
           <p className="text-sm text-gray-400 mb-2">Main Image</p>
           <div className="mb-4 w-full aspect-video rounded-lg overflow-hidden">
             <img 
-              src={hotel.main_image_url || hotel.hotel_images.find(img => img.is_main)?.image_url || hotel.hotel_images[0].image_url} 
+              src={hotel.main_image_url || hotelImages.find(img => img.is_main)?.image_url || hotelImages[0].image_url} 
               alt={`${hotel.name} - Main`}
               className="w-full h-full object-cover"
             />
           </div>
-          <p className="text-sm text-gray-400 mb-2">All Images ({hotel.hotel_images.length})</p>
+          <p className="text-sm text-gray-400 mb-2">All Images ({hotelImages.length})</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {hotel.hotel_images.map((image) => (
+            {hotelImages.map((image) => (
               <div key={image.id} className="relative aspect-square rounded-lg overflow-hidden">
                 <img 
                   src={image.image_url} 

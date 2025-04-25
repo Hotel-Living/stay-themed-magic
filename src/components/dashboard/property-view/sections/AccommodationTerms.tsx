@@ -55,11 +55,11 @@ export const AccommodationTerms = ({ hotel }: AccommodationTermsProps) => {
       <div className="grid grid-cols-1 gap-4">
         <div>
           <p className="text-sm text-gray-400">Available Months</p>
-          <p className="font-medium">{formatArrayData(hotel.available_months)}</p>
+          <p className="font-medium">{formatArrayData(hotel.available_months || [])}</p>
         </div>
         <div>
           <p className="text-sm text-gray-400">Meal Plans</p>
-          <p className="font-medium">{formatArrayData(hotel.meal_plans)}</p>
+          <p className="font-medium">{formatArrayData(hotel.meal_plans || [])}</p>
         </div>
         <div>
           <p className="text-sm text-gray-400">Stay Lengths</p>

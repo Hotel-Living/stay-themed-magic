@@ -9,10 +9,15 @@ import AddProperty from "./AddProperty";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import PropertyDetailView from "./property-view/PropertyDetailView";
 
-export const PropertiesContent = () => {
+interface PropertiesContentProps {
+  hotel?: Hotel;
+  onEdit?: () => void;
+}
+
+export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: PropertiesContentProps = {}) => {
   const { user } = useAuth();
   const [editingHotelId, setEditingHotelId] = useState<string | null>(null);
-  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(propHotel || null);
 
   if (!user) {
     return (
@@ -32,6 +37,12 @@ export const PropertiesContent = () => {
     }
   }, [hotels]);
 
+  useEffect(() => {
+    if (propHotel) {
+      setSelectedHotel(propHotel);
+    }
+  }, [propHotel]);
+
   const handleViewDetails = (hotel: Hotel) => {
     setSelectedHotel(hotel);
     setEditingHotelId(null);
@@ -40,6 +51,14 @@ export const PropertiesContent = () => {
   const handleBackToList = () => {
     setSelectedHotel(null);
     setEditingHotelId(null);
+  };
+
+  const handleEdit = () => {
+    if (selectedHotel) {
+      setEditingHotelId(selectedHotel.id);
+    } else if (propOnEdit) {
+      propOnEdit();
+    }
   };
 
   if (editingHotelId) {
@@ -67,7 +86,7 @@ export const PropertiesContent = () => {
         </button>
         <PropertyDetailView 
           hotel={selectedHotel} 
-          onEdit={() => setEditingHotelId(selectedHotel.id)} 
+          onEdit={handleEdit} 
         />
       </div>
     );
@@ -105,7 +124,7 @@ export const PropertiesContent = () => {
               country={hotel.country}
               stars={hotel.category || 0}
               pricePerMonth={hotel.price_per_month || 0}
-              themes={(hotel.hotel_themes || []).map((ht) => ht.themes)}
+              themes={(hotel.hotel_themes || []).map((ht) => ht.themes || { id: "", name: "" })}
               image={
                 hotel.main_image_url
                   ? hotel.main_image_url

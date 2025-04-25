@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import StayLengthSection from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./AccommodationTerms/MealPlanSection";
 import RoomsRatesSection from "./AccommodationTerms/RoomsRatesSection";
@@ -42,7 +42,7 @@ const AccommodationTermsStep = ({
     onValidationChange
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     checkValidation();
   }, [selectedStayLengths, selectedMealPlans, roomTypes, formData.available_months]);
 
@@ -64,7 +64,7 @@ const AccommodationTermsStep = ({
     return isValid;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (formData.available_months && Array.isArray(formData.available_months)) {
       const months = [...new Set(formData.available_months.map((month: string) => {
         if (typeof month !== 'string') return '';

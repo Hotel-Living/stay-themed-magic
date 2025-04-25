@@ -73,7 +73,8 @@ export interface HotelDetailProps {
   price_per_month: number;
   main_image_url: string | null;
   average_rating?: number;
-  amenities?: string[];
+  hotelFeatures?: string[];
+  roomFeatures?: string[];
   available_months?: string[];
   activities?: string[];
   hotel_images: HotelImage[];
@@ -85,6 +86,12 @@ export interface HotelDetailProps {
   longitude?: number | string | null;
   address?: string | null;
   terms?: string | null;
+}
+
+// Update AmenitiesInfo to FeaturesInfo
+export interface HotelFeaturesInfoProps {
+  hotelFeatures: string[];
+  roomFeatures: string[];
 }
 
 export interface HotelAmenitiesProps {

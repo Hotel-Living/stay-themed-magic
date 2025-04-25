@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -10,7 +9,6 @@ export function useHotelDetails(id: string | undefined) {
   const [themes, setThemes] = useState<AdminHotelDetail['hotel_themes']>([]);
   const [activities, setActivities] = useState<AdminHotelDetail['hotel_activities']>([]);
   const [images, setImages] = useState<AdminHotelDetail['hotel_images']>([]);
-  const [amenities, setAmenities] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -65,24 +63,6 @@ export function useHotelDetails(id: string | undefined) {
         setImages(typedHotelData.hotel_images || []);
         setThemes(typedHotelData.hotel_themes || []);
         setActivities(typedHotelData.hotel_activities || []);
-
-        // Use the actual features from the hotel data, if available
-        // Instead of generating based on hotel category
-        if (typedHotelData.features_hotel && typeof typedHotelData.features_hotel === 'object') {
-          // Extract the features from the JSONB object
-          const hotelFeatures = Object.entries(typedHotelData.features_hotel)
-            .filter(([_, value]) => value === true)
-            .map(([key, _]) => key.replace(/_/g, ' ')
-              // Capitalize each word
-              .replace(/\b\w/g, l => l.toUpperCase()));
-          
-          setAmenities(hotelFeatures);
-          console.log("Actual hotel features:", hotelFeatures);
-        } else {
-          // Fallback to empty array if no features found
-          setAmenities([]);
-          console.log("No features found for hotel");
-        }
       } catch (error: any) {
         console.error("Error fetching hotel details:", error);
         toast({
@@ -100,5 +80,5 @@ export function useHotelDetails(id: string | undefined) {
     }
   }, [id, toast]);
 
-  return { hotel, loading, themes, activities, images, amenities };
+  return { hotel, loading, themes, activities, images };
 }

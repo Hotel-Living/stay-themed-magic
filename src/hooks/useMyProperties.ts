@@ -99,54 +99,56 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
     const processedHotels = data
       .filter(hotel => hotel !== null && typeof hotel === 'object')
       .map(hotel => {
+        const defaultRoomTypes = [
+          {
+            id: `rt-${hotel.id || 'default'}-1`,
+            name: "Standard Room",
+            description: "Comfortable room with all basic amenities",
+            baseRate: 150,
+            basePrice: 150,
+            roomCount: 5
+          },
+          {
+            id: `rt-${hotel.id || 'default'}-2`,
+            name: "Deluxe Suite",
+            description: "Spacious suite with separate living area",
+            baseRate: 250,
+            basePrice: 250,
+            roomCount: 2
+          }
+        ];
+        
         return {
           id: hotel.id || "",
           name: hotel.name || "",
           city: hotel.city || "",
           country: hotel.country || "",
-          main_image_url: hotel.main_image_url,
+          main_image_url: hotel.main_image_url || null,
           price_per_month: hotel.price_per_month || 0,
-          category: hotel.category,
-          description: hotel.description,
-          property_type: hotel.property_type,
-          style: hotel.style,
+          category: hotel.category || null,
+          description: hotel.description || null,
+          property_type: hotel.property_type || null,
+          style: hotel.style || null,
           ideal_guests: hotel.ideal_guests || null,
           atmosphere: hotel.atmosphere || null,
           perfect_location: hotel.perfect_location || null,
-          address: hotel.address,
+          address: hotel.address || null,
           postal_code: hotel.postal_code || null,
           contact_name: hotel.contact_name || null,
           contact_email: hotel.contact_email || null,
           contact_phone: hotel.contact_phone || null,
-          meal_plans: hotel.meal_plans || [],
-          room_types: hotel.room_types || [],
-          faqs: hotel.faqs || [],
+          meal_plans: Array.isArray(hotel.meal_plans) ? hotel.meal_plans : [],
+          room_types: Array.isArray(hotel.room_types) ? hotel.room_types : [],
+          faqs: Array.isArray(hotel.faqs) ? hotel.faqs : [],
           terms: hotel.terms || null,
           preferredWeekday: hotel.preferredWeekday || "Monday",
-          available_months: hotel.available_months || [],
+          available_months: Array.isArray(hotel.available_months) ? hotel.available_months : [],
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
           // Add roomTypes property for compatibility
-          roomTypes: hotel.room_types || [
-            {
-              id: `rt-${hotel.id}-1`,
-              name: "Standard Room",
-              description: "Comfortable room with all basic amenities",
-              baseRate: 150,
-              basePrice: 150,
-              roomCount: 5
-            },
-            {
-              id: `rt-${hotel.id}-2`,
-              name: "Deluxe Suite",
-              description: "Spacious suite with separate living area",
-              baseRate: 250,
-              basePrice: 250,
-              roomCount: 2
-            }
-          ]
-        };
+          roomTypes: Array.isArray(hotel.room_types) ? hotel.room_types : defaultRoomTypes
+        } as MyHotel;
       });
     
     console.log("Returning hotels with complete data:", processedHotels);

@@ -59,7 +59,7 @@ export function HotelRoomTypes({ hotel }: HotelRoomTypesProps) {
                 <div>
                   <h4 className="text-sm font-medium mb-2 text-fuchsia-200">Rates per Stay Length:</h4>
                   <div className="grid grid-cols-2 gap-2">
-                    {Object.entries(room.rates).map(([duration, rate]) => (
+                    {Object.entries(room.rates).map(([duration, rate]: [string, any]) => (
                       <div key={duration} className="flex justify-between bg-fuchsia-900/20 p-2 rounded">
                         <span className="text-gray-300">{duration} days:</span>
                         <span className="font-medium">${rate}</span>

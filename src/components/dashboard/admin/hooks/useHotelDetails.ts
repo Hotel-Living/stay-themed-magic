@@ -55,13 +55,31 @@ export function useHotelDetails(id: string | undefined) {
 
         console.log("Fetched hotel data:", hotelData);
         
-        const typedHotelData = hotelData as AdminHotelDetail;
-        setHotel(typedHotelData);
+        // Cast the hotel data to AdminHotelDetail after ensuring room_types is properly typed
+        const processedHotelData = {
+          ...hotelData,
+          // Ensure room_types is properly structured if it exists
+          room_types: hotelData.room_types ? hotelData.room_types.map((room: any) => ({
+            id: room.id || `room-${Math.random().toString(36).substr(2, 9)}`,
+            name: room.name || 'Unnamed Room',
+            description: room.description,
+            maxOccupancy: room.maxOccupancy,
+            size: room.size,
+            roomCount: room.roomCount,
+            baseRate: room.baseRate || room.basePrice,
+            basePrice: room.basePrice || room.baseRate,
+            rates: room.rates || {},
+            images: room.images || [],
+            availabilityDates: room.availabilityDates || []
+          })) : []
+        };
+        
+        setHotel(processedHotelData as AdminHotelDetail);
         
         // Ensure we have valid arrays for each related data type
-        setImages(typedHotelData.hotel_images || []);
-        setThemes(typedHotelData.hotel_themes || []);
-        setActivities(typedHotelData.hotel_activities || []);
+        setImages(processedHotelData.hotel_images || []);
+        setThemes(processedHotelData.hotel_themes || []);
+        setActivities(processedHotelData.hotel_activities || []);
       } catch (error: any) {
         console.error("Error fetching hotel details:", error);
         toast({

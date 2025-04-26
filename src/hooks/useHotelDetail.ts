@@ -1,7 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { HotelDetailProps } from "@/types/hotel";
+import { HotelDetailProps, RoomType } from "@/types/hotel";
 
 const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProps | null> => {
   if (!id) return null;
@@ -44,12 +44,30 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       ? data.hotel_activities.map(item => item.activities?.name).filter(Boolean)
       : [];
     
+    // Process room_types to ensure they match the RoomType interface
+    const processedRoomTypes = data.room_types 
+      ? data.room_types.map((room: any) => ({
+          id: room.id || `room-${Math.random().toString(36).substr(2, 9)}`,
+          name: room.name || 'Unnamed Room',
+          description: room.description,
+          maxOccupancy: room.maxOccupancy,
+          size: room.size,
+          roomCount: room.roomCount,
+          baseRate: room.baseRate || room.basePrice,
+          basePrice: room.basePrice || room.baseRate,
+          rates: room.rates || {},
+          images: room.images || [],
+          availabilityDates: room.availabilityDates || []
+        }))
+      : [];
+    
     return {
       ...data,
       hotelFeatures,
       roomFeatures,
       activities,
-    };
+      room_types: processedRoomTypes
+    } as HotelDetailProps;
   } catch (error) {
     console.error("Error fetching hotel details:", error);
     throw error;

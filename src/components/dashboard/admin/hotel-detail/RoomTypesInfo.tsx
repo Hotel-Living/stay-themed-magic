@@ -54,7 +54,7 @@ export const RoomTypesInfo = ({ hotel }: RoomTypesInfoProps) => {
                     <h5 className="text-sm font-medium mb-2 text-fuchsia-200">Rates:</h5>
                     <div className="bg-purple-900/30 rounded-lg p-3">
                       <div className="grid grid-cols-2 gap-2">
-                        {Object.entries(room.rates).map(([duration, rate]) => (
+                        {Object.entries(room.rates).map(([duration, rate]: [string, any]) => (
                           <div key={duration} className="flex justify-between">
                             <span className="text-gray-300">{duration} days:</span>
                             <span className="font-medium">${rate}</span>

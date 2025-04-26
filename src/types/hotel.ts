@@ -66,10 +66,10 @@ export interface AdminHotelDetail {
     themes: HotelTheme;
   }[];
   hotel_activities: HotelActivity[];
-  features_hotel?: any;
-  features_room?: any;
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
   stay_lengths?: number[];
-  room_types?: RoomType[];
+  room_types?: RoomType[] | any[];
   meal_plans?: string[];
   preferredWeekday?: string;
   terms?: string | null;
@@ -97,7 +97,7 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
-  room_types?: RoomType[];
+  room_types?: RoomType[] | any[];
   latitude?: number | string | null;
   longitude?: number | string | null;
   address?: string | null;

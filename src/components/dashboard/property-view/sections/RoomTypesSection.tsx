@@ -24,7 +24,7 @@ export function RoomTypesSection({ hotel }: RoomTypesSectionProps) {
       
       <div className="space-y-6">
         {roomTypes.map((room: any, index: number) => (
-          <div key={room.id} className="bg-fuchsia-900/20 rounded-lg p-4">
+          <div key={room.id || index} className="bg-fuchsia-900/20 rounded-lg p-4">
             <div className="flex justify-between items-start mb-4">
               <h4 className="text-lg font-semibold">{room.name}</h4>
               <div className="bg-fuchsia-700 text-white text-xs px-3 py-1 rounded-full">
@@ -59,7 +59,7 @@ export function RoomTypesSection({ hotel }: RoomTypesSectionProps) {
               <div className="mb-4">
                 <h5 className="text-sm font-medium mb-2">Rates:</h5>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {Object.entries(room.rates).map(([duration, rate]) => (
+                  {Object.entries(room.rates).map(([duration, rate]: [string, any]) => (
                     <div key={duration} className="bg-fuchsia-900/40 p-2 rounded text-center">
                       <div className="text-xs text-gray-300">{duration} days</div>
                       <div className="font-medium">${rate}</div>

@@ -1,47 +1,46 @@
 
-import React from 'react';
-import { Edit } from 'lucide-react';
-import { Card } from "@/components/ui/card";
-import { Hotel } from "@/integrations/supabase/types-custom";
-import { BasicInformation } from './sections/BasicInformation';
-import { LocationInformation } from './sections/LocationInformation';
-import { ContactInformation } from './sections/ContactInformation';
-import { FeaturesSection } from './sections/FeaturesSection';
-import { AccommodationTerms } from './sections/AccommodationTerms';
-import { ThemesActivities } from './sections/ThemesActivities';
-import { ImageGallery } from './sections/ImageGallery';
-import { FaqSection } from './sections/FaqSection';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+import { BasicInformation } from "./sections/BasicInformation";
+import { LocationInformation } from "./sections/LocationInformation";
+import { AccommodationTerms } from "./sections/AccommodationTerms";
+import { ThemesActivities } from "./sections/ThemesActivities";
+import { FeaturesSection } from "./sections/FeaturesSection";
+import { ContactInformation } from "./sections/ContactInformation";
+import { FaqSection } from "./sections/FaqSection";
+import { ImageGallery } from "./sections/ImageGallery";
 
 interface PropertyDetailViewProps {
-  hotel: Hotel;
-  onEdit: () => void;
+  hotel: any;
+  onEdit?: () => void;
 }
 
-export const PropertyDetailView = ({ hotel, onEdit }: PropertyDetailViewProps) => {
-  if (!hotel) return null;
+export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailViewProps) {
+  console.log("PropertyDetailView hotel data:", hotel);
   
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">{hotel.name}</h2>
-        <button
-          onClick={onEdit}
-          className="px-4 py-2 rounded bg-fuchsia-700 text-white flex items-center gap-2"
-        >
+    <div className="relative bg-fuchsia-950/30 p-4 sm:p-6 rounded-xl">
+      {/* Edit Button */}
+      <div className="absolute top-4 right-4">
+        <Button variant="outline" onClick={onEdit} className="flex items-center gap-2">
           <Edit className="w-4 h-4" /> Edit Property
-        </button>
+        </Button>
       </div>
 
-      <BasicInformation hotel={hotel} />
-      <LocationInformation hotel={hotel} />
-      <ContactInformation hotel={hotel} />
-      <FeaturesSection hotel={hotel} />
-      <AccommodationTerms hotel={hotel} />
-      <ThemesActivities hotel={hotel} />
-      <ImageGallery hotel={hotel} />
-      <FaqSection hotel={hotel} />
+      {/* Property Title */}
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 pr-24">{hotel.name}</h2>
+      
+      <div className="space-y-8">
+        <ImageGallery hotel={hotel} />
+        <BasicInformation hotel={hotel} />
+        <LocationInformation hotel={hotel} />
+        <AccommodationTerms hotel={hotel} />
+        <FeaturesSection hotel={hotel} />
+        <ThemesActivities hotel={hotel} />
+        <ContactInformation hotel={hotel} />
+        <FaqSection hotel={hotel} />
+      </div>
     </div>
   );
-};
-
-export default PropertyDetailView;
+}

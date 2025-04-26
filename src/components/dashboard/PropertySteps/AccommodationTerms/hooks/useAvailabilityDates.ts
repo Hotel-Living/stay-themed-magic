@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { format, addMonths } from 'date-fns';
-import { datesToMonthNames } from '../../rooms/roomTypes/availabilityDateUtils';
+import { datesToMonthNames, selectedMonthsToArray } from '../../rooms/roomTypes/availabilityDateUtils';
 
 type SelectedMonthsType = Record<string, boolean>;
 
@@ -15,10 +15,12 @@ export const useAvailabilityDates = (
   // Initialize from form data
   useEffect(() => {
     if (initialAvailableMonths && initialAvailableMonths.length > 0) {
+      console.log("Initializing available months:", initialAvailableMonths);
+      
       const currentDate = new Date();
       const monthsWithYear: Record<string, boolean> = {};
       
-      // Generate all months for the current year and next year
+      // Generate all months for the next two years
       for (let i = 0; i < 24; i++) {
         const date = addMonths(currentDate, i);
         const monthYear = format(date, 'MMMM yyyy');
@@ -27,11 +29,14 @@ export const useAvailabilityDates = (
       
       // Mark selected months
       initialAvailableMonths.forEach(month => {
+        if (!month) return;
+        
+        // Normalize month name to proper case
         const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
         
         // Find the entry in monthsWithYear that matches this month
         Object.keys(monthsWithYear).forEach(monthYear => {
-          if (monthYear.startsWith(normalizedMonth)) {
+          if (monthYear.toLowerCase().startsWith(normalizedMonth.toLowerCase())) {
             monthsWithYear[monthYear] = true;
           }
         });
@@ -51,11 +56,13 @@ export const useAvailabilityDates = (
           return monthName;
         });
       
+      console.log("Updating available_months:", availableMonths);
       updateFormData('available_months', availableMonths);
     }
   }, [selectedMonths, updateFormData]);
   
   const handleMonthToggle = (month: string, isSelected: boolean) => {
+    console.log("Month toggled:", month, isSelected);
     setSelectedMonths(prev => ({
       ...prev,
       [month]: isSelected

@@ -34,7 +34,7 @@ export const AvailabilityInfo = ({ hotel }) => {
               const formattedDate = format(parsedDate, 'MMMM d, yyyy');
               allDates.add(formattedDate);
             } catch (error) {
-              console.error('Error parsing date:', error);
+              console.error('Error parsing date:', date, error);
             }
           });
         }

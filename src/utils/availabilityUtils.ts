@@ -1,4 +1,3 @@
-
 import { parseISO, format } from 'date-fns';
 
 /**
@@ -31,6 +30,39 @@ export const groupDatesByMonth = (dates: string[]): Record<string, string[]> => 
         result[month] = [];
       }
       result[month].push(dateString);
+    }
+  });
+  
+  return result;
+};
+
+/**
+ * Format dates for easy-to-read display
+ * @param dates Array of date strings or full month names
+ * @returns Formatted dates for display
+ */
+export const formatDatesForDisplay = (dates: string[], availableMonths: string[] = []) => {
+  const result: string[] = [];
+  
+  // Add full months
+  if (availableMonths && availableMonths.length > 0) {
+    availableMonths.forEach(month => {
+      if (month) {
+        const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+        result.push(`${normalizedMonth} (Full Month)`);
+      }
+    });
+  }
+  
+  // Add specific dates
+  dates.forEach(date => {
+    if (date.includes('-')) { // YYYY-MM-DD format
+      try {
+        const parsedDate = parseISO(date);
+        result.push(format(parsedDate, 'MMMM d, yyyy'));
+      } catch (error) {
+        console.error('Error parsing date:', error);
+      }
     }
   });
   

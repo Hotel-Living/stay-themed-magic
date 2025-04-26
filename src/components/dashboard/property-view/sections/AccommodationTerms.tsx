@@ -1,75 +1,108 @@
 
-import React from 'react';
+import React from "react";
+import { format, parse, parseISO } from "date-fns";
 import { Card } from "@/components/ui/card";
-import { Hotel } from "@/integrations/supabase/types-custom";
 
-interface AccommodationTermsProps {
-  hotel: Hotel;
-}
-
-export const AccommodationTerms = ({ hotel }: AccommodationTermsProps) => {
-  const formatArrayData = (arr: any[]) => {
-    if (!arr || !Array.isArray(arr) || arr.length === 0) {
-      return "None specified";
-    }
-    return arr.join(", ");
+export function AccommodationTerms({ hotel }) {
+  // Format stay lengths for display
+  const formatStayLength = (days) => {
+    return days === 1 ? `${days} day` : `${days} days`;
   };
 
-  const renderStayLengths = (value: unknown): React.ReactNode => {
-    const safeValue = value as string[] | number[] | null | undefined;
+  // Format availability dates
+  const formatAvailabilityDates = () => {
+    const allDates = new Set<string>();
     
-    if (!safeValue || !Array.isArray(safeValue) || safeValue.length === 0) {
-      return null;
-    }
-
-    const safeStayLengths = safeValue.map(days => {
-      const daysValue = typeof days === 'string' 
-        ? parseInt(days, 10) 
-        : typeof days === 'number' 
-        ? days 
-        : NaN;
-      
-      return { value: daysValue };
-    });
-    
-    return (
-      <div className="flex flex-wrap gap-2 mt-1">
-        {safeStayLengths
-          .filter(item => !isNaN(item.value))
-          .map(item => (
-            <span 
-              key={item.value} 
-              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
-            >
-              {item.value} {item.value === 1 ? 'day' : 'days'}
-            </span>
-          ))
+    // Add full month availability dates
+    if (hotel.available_months && hotel.available_months.length > 0) {
+      hotel.available_months.forEach((month: string) => {
+        if (month) {
+          const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+          allDates.add(`${normalizedMonth} (Full Month)`);
         }
-      </div>
-    );
+      });
+    }
+    
+    // Add specific dates from room types
+    if (hotel.room_types && hotel.room_types.length > 0) {
+      hotel.room_types.forEach(room => {
+        if (room.availabilityDates) {
+          room.availabilityDates.forEach((date: string) => {
+            try {
+              const parsedDate = parseISO(date);
+              const formattedDate = format(parsedDate, 'MMMM d, yyyy');
+              allDates.add(formattedDate);
+            } catch (error) {
+              console.error('Error parsing date:', error);
+            }
+          });
+        }
+      });
+    }
+    
+    return Array.from(allDates);
   };
 
   return (
-    <Card className="p-6 bg-[#2A0F44]">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Accommodation Terms</h3>
-      <div className="grid grid-cols-1 gap-4">
-        <div>
-          <p className="text-sm text-gray-400">Available Months</p>
-          <p className="font-medium">{formatArrayData(hotel.available_months || [])}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-400">Meal Plans</p>
-          <p className="font-medium">{formatArrayData(hotel.meal_plans || [])}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-400">Stay Lengths</p>
-          {renderStayLengths(hotel.stay_lengths) as React.ReactNode}
-        </div>
-        <div>
-          <p className="text-sm text-gray-400">Preferred Check-in Day</p>
-          <p className="font-medium">{hotel.preferredWeekday || "Monday"}</p>
-        </div>
+    <div className="mb-6">
+      <h3 className="text-xl font-bold mb-4">Accommodation Terms</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Availability Dates */}
+        <Card className="p-4 bg-fuchsia-950/50">
+          <h4 className="font-semibold text-lg mb-3">Availability Dates</h4>
+          {formatAvailabilityDates().length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {formatAvailabilityDates().map((date) => (
+                <span key={date} className="bg-fuchsia-900/50 text-white px-3 py-1 rounded-full text-sm">
+                  {date}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 italic">No availability dates specified</p>
+          )}
+        </Card>
+
+        {/* Stay Lengths */}
+        <Card className="p-4 bg-fuchsia-950/50">
+          <h4 className="font-semibold text-lg mb-3">Stay Lengths</h4>
+          {hotel.stay_lengths && hotel.stay_lengths.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {hotel.stay_lengths.map((length) => (
+                <span key={length} className="bg-fuchsia-900/50 text-white px-3 py-1 rounded-full text-sm">
+                  {formatStayLength(length)}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 italic">No stay lengths specified</p>
+          )}
+        </Card>
+
+        {/* Meal Plans */}
+        <Card className="p-4 bg-fuchsia-950/50">
+          <h4 className="font-semibold text-lg mb-3">Meal Plans</h4>
+          {hotel.meal_plans && hotel.meal_plans.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {hotel.meal_plans.map((plan) => (
+                <span key={plan} className="bg-fuchsia-900/50 text-white px-3 py-1 rounded-full text-sm">
+                  {plan}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 italic">No meal plans specified</p>
+          )}
+        </Card>
+
+        {/* Check-in Day */}
+        <Card className="p-4 bg-fuchsia-950/50">
+          <h4 className="font-semibold text-lg mb-3">Check-in Day</h4>
+          <span className="bg-fuchsia-900/50 text-white px-3 py-1 rounded-full text-sm">
+            {hotel.preferredWeekday || "Monday"}
+          </span>
+        </Card>
       </div>
-    </Card>
+    </div>
   );
-};
+}

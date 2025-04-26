@@ -97,6 +97,7 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
+  themes?: HotelTheme[]; // Added this property to fix the first error
   room_types?: RoomType[] | any[];
   latitude?: number | string | null;
   longitude?: number | string | null;

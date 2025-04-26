@@ -18,6 +18,9 @@ export interface HotelDetailContentProps {
 }
 
 export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailContentProps) {
+  // Extract themes from hotel_themes for the header component
+  const hotelThemes = hotel.hotel_themes?.map(theme => theme.themes) || [];
+
   return (
     <Container className="py-8">
       <div className="grid grid-cols-1 gap-8">
@@ -26,7 +29,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           stars={hotel.category || 0}
           city={hotel.city || ""}
           country={hotel.country || ""}
-          themes={hotel.themes || []}
+          themes={hotelThemes}
           isLoading={isLoading}
         />
         
@@ -47,7 +50,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             />
             
             <HotelRoomTypes 
-              roomTypes={hotel.room_types || []} 
+              hotel={hotel}
               hotelId={hotel.id} 
               isLoading={isLoading} 
             />

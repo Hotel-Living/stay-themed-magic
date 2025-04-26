@@ -4,13 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDatesForDisplay } from "@/utils/availabilityUtils";
 
 interface HotelRoomTypesProps {
-  hotel: any;
+  roomTypes?: any[];
+  hotelId?: string;
+  hotel?: any;
+  isLoading?: boolean;
 }
 
-export function HotelRoomTypes({ hotel }: HotelRoomTypesProps) {
-  const roomTypes = hotel.room_types || [];
+export function HotelRoomTypes({ roomTypes, hotelId, hotel, isLoading }: HotelRoomTypesProps) {
+  // Use roomTypes if passed directly, otherwise use hotel.room_types
+  const displayRoomTypes = roomTypes || (hotel?.room_types || []);
 
-  if (!roomTypes || roomTypes.length === 0) {
+  if (!displayRoomTypes || displayRoomTypes.length === 0) {
     return null;
   }
 
@@ -20,10 +24,10 @@ export function HotelRoomTypes({ hotel }: HotelRoomTypesProps) {
         <CardTitle className="text-xl font-bold">Room Types</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        {roomTypes.map((room: any, index: number) => (
+        {displayRoomTypes.map((room: any, index: number) => (
           <div 
             key={room.id || index} 
-            className={`p-6 ${index < roomTypes.length - 1 ? 'border-b border-fuchsia-900/30' : ''}`}
+            className={`p-6 ${index < displayRoomTypes.length - 1 ? 'border-b border-fuchsia-900/30' : ''}`}
           >
             <div className="flex justify-between items-start mb-3">
               <h3 className="text-lg font-semibold">{room.name}</h3>
@@ -74,7 +78,7 @@ export function HotelRoomTypes({ hotel }: HotelRoomTypesProps) {
                 <div>
                   <h4 className="text-sm font-medium mb-2 text-fuchsia-200">Available on:</h4>
                   <div className="bg-fuchsia-900/20 p-3 rounded">
-                    {formatDatesForDisplay(room.availabilityDates, hotel.available_months || []).join(', ')}
+                    {formatDatesForDisplay(room.availabilityDates, hotel?.available_months || []).join(', ')}
                   </div>
                 </div>
               )}

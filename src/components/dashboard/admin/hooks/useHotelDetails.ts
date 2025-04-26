@@ -55,11 +55,11 @@ export function useHotelDetails(id: string | undefined) {
 
         console.log("Fetched hotel data:", hotelData);
         
-        // Cast the hotel data to AdminHotelDetail after ensuring room_types is properly typed
+        // Cast the hotel data to AdminHotelDetail after processing room_types
         const processedHotelData = {
           ...hotelData,
           // Ensure room_types is properly structured if it exists
-          room_types: hotelData.room_types ? hotelData.room_types.map((room: any) => ({
+          room_types: Array.isArray(hotelData.room_types) ? hotelData.room_types.map((room: any) => ({
             id: room.id || `room-${Math.random().toString(36).substr(2, 9)}`,
             name: room.name || 'Unnamed Room',
             description: room.description,

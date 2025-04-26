@@ -8,8 +8,6 @@ interface ThemesInfoProps {
 }
 
 export function ThemesInfo({ themes }: ThemesInfoProps) {
-  console.log("Rendering affinities:", themes);
-  
   // Ensure themes is always an array and filter out any empty entries
   const validThemes = Array.isArray(themes) 
     ? themes.filter(theme => theme && theme.theme_id && theme.themes)

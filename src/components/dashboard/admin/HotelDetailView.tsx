@@ -55,10 +55,7 @@ export default function HotelDetailView() {
             <AdminInfo hotel={hotel} />
           </div>
         ) : (
-          <div className="rounded-xl p-6 bg-[#2A0F44] text-center">
-            <h3 className="text-xl font-semibold mb-4 text-red-400">Hotel Not Found</h3>
-            <p>The hotel with ID {id} could not be found or may have been deleted.</p>
-          </div>
+          <HotelNotFound />
         )}
       </div>
     </AdminDashboardLayout>

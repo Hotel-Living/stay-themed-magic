@@ -26,22 +26,30 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       
     if (error) throw error;
     
-    // Extract amenities from features objects
+    // Extract hotel features from features_hotel object
     const hotelFeatures = data.features_hotel 
       ? Object.entries(data.features_hotel)
           .filter(([_, isSelected]) => isSelected)
           .map(([feature]) => feature)
       : [];
       
+    // Extract room features from features_room object
     const roomFeatures = data.features_room
       ? Object.entries(data.features_room)
           .filter(([_, isSelected]) => isSelected)
           .map(([feature]) => feature)
       : [];
     
+    // Extract themes
+    const themes = data.hotel_themes
+      ? data.hotel_themes.map(themeData => themeData.themes)
+      : [];
+
     // Extract activities
     const activities = data.hotel_activities
-      ? data.hotel_activities.map(item => item.activities?.name).filter(Boolean)
+      ? data.hotel_activities
+          .map(item => item.activities?.name)
+          .filter(Boolean)
       : [];
     
     // Process room_types to ensure they match the RoomType interface
@@ -66,6 +74,7 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       hotelFeatures,
       roomFeatures,
       activities,
+      themes,
       room_types: processedRoomTypes
     } as HotelDetailProps;
   } catch (error) {

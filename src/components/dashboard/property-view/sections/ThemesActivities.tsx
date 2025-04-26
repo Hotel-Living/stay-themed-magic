@@ -14,7 +14,7 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card className="p-6 bg-[#2A0F44]">
-        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Themes</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Affinities</h3>
         <div className="flex flex-wrap gap-2">
           {hotelThemes.length > 0 ? (
             hotelThemes.map((theme) => (
@@ -23,7 +23,7 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
               </span>
             ))
           ) : (
-            <p>No themes specified</p>
+            <p>No affinities specified</p>
           )}
         </div>
       </Card>

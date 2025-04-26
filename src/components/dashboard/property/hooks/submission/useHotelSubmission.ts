@@ -60,7 +60,7 @@ export const useHotelSubmission = () => {
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom,
-      available_months: availableMonths // Add available_months to the hotel data
+      available_months: availableMonths
     };
     
     const { data, error } = await supabase
@@ -129,7 +129,7 @@ export const useHotelSubmission = () => {
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom,
-      available_months: availableMonths // Include available_months in updates
+      available_months: availableMonths
     };
     
     const { error } = await supabase

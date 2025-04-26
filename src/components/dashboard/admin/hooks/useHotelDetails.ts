@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -53,8 +54,6 @@ export function useHotelDetails(id: string | undefined) {
         }
 
         console.log("Fetched hotel data:", hotelData);
-        console.log("Themes data:", hotelData.hotel_themes);
-        console.log("Activities data:", hotelData.hotel_activities);
         
         const typedHotelData = hotelData as AdminHotelDetail;
         setHotel(typedHotelData);

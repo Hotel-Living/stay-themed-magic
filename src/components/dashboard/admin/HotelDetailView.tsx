@@ -13,6 +13,7 @@ import { FeaturesInfo } from "./hotel-detail/FeaturesInfo";
 import { ThemesInfo } from "./hotel-detail/ThemesInfo";
 import { ActivitiesInfo } from "./hotel-detail/ActivitiesInfo";
 import { AdminInfo } from "./hotel-detail/AdminInfo";
+import { RoomTypesInfo } from "./hotel-detail/RoomTypesInfo";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 
 export default function HotelDetailView() {
@@ -44,6 +45,7 @@ export default function HotelDetailView() {
             <ImageGallery images={images} hotel={hotel} />
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
+            <RoomTypesInfo hotel={hotel} />
             <FeaturesInfo 
               hotelFeatures={hotel.features_hotel || {}} 
               roomFeatures={hotel.features_room || {}} 

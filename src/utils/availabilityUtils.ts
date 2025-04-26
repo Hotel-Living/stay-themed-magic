@@ -1,3 +1,4 @@
+
 import { parseISO, format } from 'date-fns';
 
 /**
@@ -23,6 +24,10 @@ export const extractMonthFromDate = (dateString: string): string => {
 export const groupDatesByMonth = (dates: string[]): Record<string, string[]> => {
   const result: Record<string, string[]> = {};
   
+  if (!dates || !Array.isArray(dates)) {
+    return result;
+  }
+  
   dates.forEach(dateString => {
     const month = extractMonthFromDate(dateString);
     if (month) {
@@ -41,8 +46,11 @@ export const groupDatesByMonth = (dates: string[]): Record<string, string[]> => 
  * @param dates Array of date strings or full month names
  * @returns Formatted dates for display
  */
-export const formatDatesForDisplay = (dates: string[], availableMonths: string[] = []) => {
+export const formatDatesForDisplay = (dates: string[] = [], availableMonths: string[] = []) => {
   const result: string[] = [];
+  
+  if (!dates) dates = [];
+  if (!availableMonths) availableMonths = [];
   
   // Add full months
   if (availableMonths && availableMonths.length > 0) {
@@ -56,7 +64,7 @@ export const formatDatesForDisplay = (dates: string[], availableMonths: string[]
   
   // Add specific dates
   dates.forEach(date => {
-    if (date.includes('-')) { // YYYY-MM-DD format
+    if (date && date.includes('-')) { // YYYY-MM-DD format
       try {
         const parsedDate = parseISO(date);
         result.push(format(parsedDate, 'MMMM d, yyyy'));
@@ -66,5 +74,5 @@ export const formatDatesForDisplay = (dates: string[], availableMonths: string[]
     }
   });
   
-  return result;
+  return result.length > 0 ? result : ["No specific dates available"];
 };

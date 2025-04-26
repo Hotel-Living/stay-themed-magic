@@ -25,6 +25,20 @@ export interface HotelImage {
   created_at: string;
 }
 
+export interface RoomType {
+  id: string;
+  name: string;
+  description?: string;
+  maxOccupancy?: number;
+  size?: number;
+  roomCount?: number;
+  basePrice?: number;
+  baseRate?: number;
+  rates?: Record<number, number>;
+  images?: string[];
+  availabilityDates?: string[];
+}
+
 export interface AdminHotelDetail {
   id: string;
   name: string;
@@ -55,7 +69,7 @@ export interface AdminHotelDetail {
   features_hotel?: any;
   features_room?: any;
   stay_lengths?: number[];
-  room_types?: any[];
+  room_types?: RoomType[];
   meal_plans?: string[];
   preferredWeekday?: string;
   terms?: string | null;
@@ -83,6 +97,7 @@ export interface HotelDetailProps {
     theme_id: string;
     themes: HotelTheme;
   }[];
+  room_types?: RoomType[];
   latitude?: number | string | null;
   longitude?: number | string | null;
   address?: string | null;

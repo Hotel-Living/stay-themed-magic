@@ -10,6 +10,7 @@ import { FeaturesSection } from "./sections/FeaturesSection";
 import { ContactInformation } from "./sections/ContactInformation";
 import { FaqSection } from "./sections/FaqSection";
 import { ImageGallery } from "./sections/ImageGallery";
+import { RoomTypesSection } from "./sections/RoomTypesSection";
 
 interface PropertyDetailViewProps {
   hotel: any;
@@ -36,6 +37,7 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         <BasicInformation hotel={hotel} />
         <LocationInformation hotel={hotel} />
         <AccommodationTerms hotel={hotel} />
+        <RoomTypesSection hotel={hotel} />
         <FeaturesSection hotel={hotel} />
         <ThemesActivities hotel={hotel} />
         <ContactInformation hotel={hotel} />

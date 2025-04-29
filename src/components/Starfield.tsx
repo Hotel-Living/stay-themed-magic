@@ -32,7 +32,7 @@ export function Starfield() {
       setCurrentImageIndex((prevIndex) => 
         (prevIndex + 1) % backgroundImages.length
       );
-    }, 4000); // Even faster transition
+    }, 4800); // 40% faster than the original 8000ms
     
     return () => {
       clearInterval(transitionInterval);
@@ -47,12 +47,13 @@ export function Starfield() {
           className={`bg-slide absolute inset-0 transition-opacity duration-3000 ease-in-out bg-cover bg-center bg-no-repeat`}
           style={{
             backgroundImage: `url(${image})`,
-            opacity: index === currentImageIndex ? 0.25 : 0, // Further reduced opacity for lighter appearance
+            opacity: index === currentImageIndex ? 0.63 : 0, // Reduced from 0.9 to 0.63 (30% lighter)
             zIndex: index === currentImageIndex ? -10 : -20,
           }}
         />
       ))}
-      <div className="overlay absolute inset-0 bg-black/4 backdrop-blur-[1px]" />
+      {/* Reduced darkness from 0.2 to 0.14 (30% lighter) */}
+      <div className="overlay absolute inset-0 bg-black/14 backdrop-blur-[2.1px]" />
     </div>
   );
 }

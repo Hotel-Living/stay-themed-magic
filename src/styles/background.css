@@ -8,7 +8,7 @@
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  background-color: #d40ae0; /* Updated to match the body background color */
+  background-color: #e8e8f0; /* Updated to light gray with subtle blue hint */
 }
 
 .bg-slide {
@@ -25,6 +25,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.08); /* Reduced opacity from 0.2 to 0.08 */
-  backdrop-filter: blur(1.5px);
+  background-color: rgba(0, 0, 0, 0.04); /* Reduced opacity even further */
+  backdrop-filter: blur(1px);
 }

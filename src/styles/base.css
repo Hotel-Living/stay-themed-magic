@@ -47,6 +47,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
-    background-color: #d40ae0; /* Significantly lightened from #b006be to #d40ae0 */
+    background-color: #f0f0f5; /* Changed from purple to a very light gray with subtle blue tint */
   }
 }

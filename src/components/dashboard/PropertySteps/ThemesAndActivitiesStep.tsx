@@ -62,14 +62,14 @@ export default function ThemesAndActivitiesStep({
       isSelected ? [...selectedThemes, themeId] : selectedThemes.filter(id => id !== themeId));
   };
 
-  const handleActivityChange = (activity: string, isChecked: boolean) => {
+  const handleActivityChange = (activityId: string, isChecked: boolean) => {
     setSelectedActivities(prev => 
       isChecked 
-        ? [...prev, activity]
-        : prev.filter(a => a !== activity)
+        ? [...prev, activityId]
+        : prev.filter(id => id !== activityId)
     );
-    console.log("Activity selection changed:", activity, isChecked, "Current activities:", 
-      isChecked ? [...selectedActivities, activity] : selectedActivities.filter(a => a !== activity));
+    console.log("Activity selection changed:", activityId, isChecked, "Current activities:", 
+      isChecked ? [...selectedActivities, activityId] : selectedActivities.filter(id => id !== activityId));
   };
 
   return (

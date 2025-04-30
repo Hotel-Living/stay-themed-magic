@@ -49,7 +49,20 @@ export const useRelatedDataSubmission = () => {
         throw deleteActivitiesError;
       }
 
-      const activityRows = activities.map(activityId => ({
+      // Validate that all activities are valid UUIDs
+      const validActivities = activities.filter(activityId => {
+        try {
+          // Basic UUID format validation
+          return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activityId);
+        } catch (e) {
+          console.warn(`Invalid activity ID format: ${activityId}`);
+          return false;
+        }
+      });
+
+      console.log(`Processing ${validActivities.length} valid activities out of ${activities.length}`);
+
+      const activityRows = validActivities.map(activityId => ({
         hotel_id: hotelId,
         activity_id: activityId
       }));

@@ -1,37 +1,53 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ActivitiesSectionProps {
   selectedActivities: string[];
-  onActivityChange: (activity: string, isChecked: boolean) => void;
+  onActivityChange: (activityId: string, isChecked: boolean) => void;
 }
 
-const activityCategories = {
-  'Sports': [
-    'Tennis', 'Golf', 'Swimming', 'Hiking', 'Cycling', 'Yoga', 'Gym'
-  ],
-  'Arts & Culture': [
-    'Painting Classes', 'Cooking Classes', 'Photography Tours', 
-    'Local Crafts', 'Dance Classes', 'Music Lessons'
-  ],
-  'Wellness': [
-    'Spa Services', 'Meditation', 'Massage', 'Hot Springs'
-  ],
-  'Entertainment': [
-    'Board Games', 'Movie Nights', 'Live Music', 'Wine Tasting'
-  ],
-  'Nature & Adventure': [
-    'Bird Watching', 'Garden Tours', 'Nature Walks', 'Stargazing'
-  ]
-};
+interface Activity {
+  id: string;
+  name: string;
+  category: string;
+}
 
-export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
+const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
   selectedActivities,
   onActivityChange,
 }) => {
   const [openCategories, setOpenCategories] = useState<string[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('activities')
+          .select('id, name, category')
+          .order('name');
+        
+        if (error) {
+          console.error("Error fetching activities:", error);
+          return;
+        }
+
+        if (data) {
+          setActivities(data);
+        }
+      } catch (error) {
+        console.error("Error fetching activities:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchActivities();
+  }, []);
 
   const toggleCategory = (category: string) => {
     setOpenCategories(prev => 
@@ -40,6 +56,16 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         : [...prev, category]
     );
   };
+
+  // Group activities by category
+  const groupedActivities = activities.reduce<Record<string, Activity[]>>((acc, activity) => {
+    const category = activity.category || 'Other';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(activity);
+    return acc;
+  }, {});
 
   return (
     <Collapsible defaultOpen={false} className="w-full">
@@ -55,35 +81,39 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         <div className="bg-fuchsia-900/10 rounded-lg p-4">
           <h3 className="text-sm font-medium mb-4 uppercase">Select Available Activities</h3>
           
-          {Object.entries(activityCategories).map(([category, activities]) => (
-            <div key={category} className="bg-[#860493]/50 rounded-sm mb-1">
-              <div 
-                className="flex items-center justify-between cursor-pointer px-2 py-1"
-                onClick={() => toggleCategory(category)}
-              >
-                <span className="text-sm font-medium text-fuchsia-200">{category}</span>
-                <ChevronRight 
-                  className={`h-4 w-4 transition-transform ${openCategories.includes(category) ? 'rotate-90' : ''}`} 
-                />
-              </div>
-              
-              {openCategories.includes(category) && (
-                <div className="space-y-1 ml-3 py-1">
-                  {activities.map(activity => (
-                    <label key={activity} className="flex items-start">
-                      <input 
-                        type="checkbox" 
-                        checked={selectedActivities.includes(activity)}
-                        onChange={(e) => onActivityChange(activity, e.target.checked)}
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                      />
-                      <span className="text-sm">{activity}</span>
-                    </label>
-                  ))}
+          {loading ? (
+            <p>Loading activities...</p>
+          ) : (
+            Object.entries(groupedActivities).map(([category, categoryActivities]) => (
+              <div key={category} className="bg-[#860493]/50 rounded-sm mb-1">
+                <div 
+                  className="flex items-center justify-between cursor-pointer px-2 py-1"
+                  onClick={() => toggleCategory(category)}
+                >
+                  <span className="text-sm font-medium text-fuchsia-200">{category}</span>
+                  <ChevronRight 
+                    className={`h-4 w-4 transition-transform ${openCategories.includes(category) ? 'rotate-90' : ''}`} 
+                  />
                 </div>
-              )}
-            </div>
-          ))}
+                
+                {openCategories.includes(category) && (
+                  <div className="space-y-1 ml-3 py-1">
+                    {categoryActivities.map(activity => (
+                      <label key={activity.id} className="flex items-start">
+                        <input 
+                          type="checkbox" 
+                          checked={selectedActivities.includes(activity.id)}
+                          onChange={(e) => onActivityChange(activity.id, e.target.checked)}
+                          className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                        />
+                        <span className="text-sm">{activity.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
           
           {/* Add Custom Activities Section - Now integrated within the main Activities block */}
           <div className="mt-6 border-t border-fuchsia-800/30 pt-4">
@@ -135,3 +165,5 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     </Collapsible>
   );
 };
+
+export { ActivitiesSection };

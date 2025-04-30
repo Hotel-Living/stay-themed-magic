@@ -48,20 +48,13 @@ export const useValidationState = () => {
       case 3:
         const incompleteThemeFields = [];
         
-        // More relaxed validation for themes - accept any non-empty array
-        // We'll convert strings to UUIDs during submission
+        // Changed from "Themes" to "Affinities" to match UI terminology
+        // Also fixed validation to properly check the array length
         const hasThemes = formData.themes && Array.isArray(formData.themes) && formData.themes.length > 0;
         if (!hasThemes) {
           incompleteThemeFields.push("Affinities");
-        } else {
-          // Just check that it has at least one non-empty string
-          const hasValidTheme = formData.themes.some(theme => theme && typeof theme === 'string');
-          if (!hasValidTheme) {
-            incompleteThemeFields.push("Affinities");
-          }
         }
         
-        // More relaxed activity validation - only validate if it has items
         const hasActivities = formData.activities && Array.isArray(formData.activities) && formData.activities.length > 0;
         if (!hasActivities) {
           incompleteThemeFields.push("Activities");
@@ -70,6 +63,7 @@ export const useValidationState = () => {
         return incompleteThemeFields;
       case 4:
         // Check ONLY for Terms & Conditions acceptance
+        console.log("Checking Terms & Conditions acceptance:", formData.termsAccepted);
         return formData.termsAccepted ? [] : ["Terms & Conditions"];
       default:
         return [];

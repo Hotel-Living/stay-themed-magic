@@ -8,9 +8,7 @@ interface ActivitiesInfoProps {
 }
 
 export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
-  console.log("Rendering ActivitiesInfo with activities:", activities);
-  
-  // Ensure activities is always an array and filter out any invalid entries
+  // Ensure activities is always an array and filter out any empty entries
   const validActivities = Array.isArray(activities) 
     ? activities.filter(activity => activity && activity.activity_id && activity.activities)
     : [];

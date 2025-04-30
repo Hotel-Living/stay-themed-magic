@@ -8,9 +8,7 @@ interface ThemesInfoProps {
 }
 
 export function ThemesInfo({ themes }: ThemesInfoProps) {
-  console.log("Rendering ThemesInfo with themes:", themes);
-  
-  // Ensure themes is always an array and filter out any invalid entries
+  // Ensure themes is always an array and filter out any empty entries
   const validThemes = Array.isArray(themes) 
     ? themes.filter(theme => theme && theme.theme_id && theme.themes)
     : [];

@@ -26,76 +26,45 @@ export default function ThemesAndActivitiesStep({
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  // Debug the incoming form data
-  useEffect(() => {
-    console.log("ThemesAndActivitiesStep - Initial formData:", {
-      themes: formData.themes,
-      activities: formData.activities
-    });
-  }, []);
-
   // Update local state when formData changes
   useEffect(() => {
-    if (formData.themes && Array.isArray(formData.themes)) {
+    if (formData.themes && formData.themes.length > 0) {
       console.log("Setting themes from formData:", formData.themes);
       setSelectedThemes(formData.themes);
     }
     
-    if (formData.activities && Array.isArray(formData.activities)) {
+    if (formData.activities && formData.activities.length > 0) {
       console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
-  }, [formData.themes, formData.activities]);
+  }, []);
 
-  // Update parent form data when local state changes - with debounce to prevent flicker
+  // Update parent form data when local state changes
   useEffect(() => {
-    // Store current values for the timeout closure
-    const currentThemes = [...selectedThemes];
-    const currentActivities = [...selectedActivities];
+    console.log("Updating themes in formData:", selectedThemes);
+    updateFormData('themes', selectedThemes);
+    console.log("Updating activities in formData:", selectedActivities);
+    updateFormData('activities', selectedActivities);
     
-    // For activities, we still want to ensure we have valid activities
-    const validActivities = currentActivities.filter(id => {
-      if (!id) return false;
-      return typeof id === 'string';
-    });
-    
-    console.log("Updating themes in formData:", currentThemes);
-    updateFormData('themes', currentThemes);
-    
-    console.log("Updating activities in formData:", validActivities);
-    updateFormData('activities', validActivities);
-    
-    // Validate - must have at least one theme and activity
-    const valid = currentThemes.length > 0 && validActivities.length > 0;
-    
-    // Only update validation state if it changed
-    if (valid !== isValid) {
-      setIsValid(valid);
-      onValidationChange(valid);
-    }
+    // Validate - at least one theme and one activity must be selected
+    const valid = selectedThemes.length > 0 && selectedActivities.length > 0;
+    setIsValid(valid);
+    onValidationChange(valid);
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    setSelectedThemes(prev => {
-      if (isSelected) {
-        if (!prev.includes(themeId)) {
-          return [...prev, themeId];
-        }
-        return prev;
-      } else {
-        return prev.filter(id => id !== themeId);
-      }
-    });
-    console.log("Theme selection changed:", themeId, isSelected);
+    if (isSelected) {
+      setSelectedThemes(prev => [...prev, themeId]);
+    } else {
+      setSelectedThemes(prev => prev.filter(id => id !== themeId));
+    }
   };
 
-  const handleActivityChange = (activityId: string, isChecked: boolean) => {
-    console.log(`Activity change in ThemesAndActivitiesStep: ${activityId} is now ${isChecked ? 'selected' : 'deselected'}`);
-    
+  const handleActivityChange = (activity: string, isChecked: boolean) => {
     setSelectedActivities(prev => 
       isChecked 
-        ? (prev.includes(activityId) ? prev : [...prev, activityId])
-        : prev.filter(id => id !== activityId)
+        ? [...prev, activity]
+        : prev.filter(a => a !== activity)
     );
   };
 

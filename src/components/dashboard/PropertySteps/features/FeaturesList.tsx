@@ -5,14 +5,14 @@ import { PlusCircle } from "lucide-react";
 interface FeaturesListProps {
   features: string[];
   selectedFeatures: string[];
-  onFeatureChange: (featureName: string, isChecked: boolean) => void;
+  onToggle: (feature: string) => void;
   onAddNewFeature?: () => void;
 }
 
 export function FeaturesList({ 
   features, 
   selectedFeatures,
-  onFeatureChange,
+  onToggle,
   onAddNewFeature 
 }: FeaturesListProps) {
   return (
@@ -23,7 +23,7 @@ export function FeaturesList({
             type="checkbox" 
             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
             checked={selectedFeatures.includes(feature)}
-            onChange={(e) => onFeatureChange(feature, e.target.checked)}
+            onChange={() => onToggle(feature)}
           />
           <span className="text-sm">{feature}</span>
         </label>

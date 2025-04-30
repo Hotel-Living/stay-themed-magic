@@ -13,6 +13,7 @@ import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
 import ReviewsContent from "@/components/dashboard/ReviewsContent";
 import FinancesContent from "@/components/dashboard/FinancesContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
+import AdvertisingContent from "@/components/dashboard/AdvertisingContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -46,6 +47,8 @@ export const TabContentSelector: React.FC<TabContentSelectorProps> = ({
       return <FinancesContent />;
     case "settings":
       return <SettingsContent />;
+    case "advertising":
+      return <AdvertisingContent />;
     default:
       return <DashboardContent />;
   }

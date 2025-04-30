@@ -26,14 +26,22 @@ export default function ThemesAndActivitiesStep({
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+  // Debug the incoming form data
+  useEffect(() => {
+    console.log("ThemesAndActivitiesStep - Initial formData:", {
+      themes: formData.themes,
+      activities: formData.activities
+    });
+  }, []);
+
   // Update local state when formData changes
   useEffect(() => {
-    if (formData.themes && formData.themes.length > 0) {
+    if (formData.themes && Array.isArray(formData.themes)) {
       console.log("Setting themes from formData:", formData.themes);
       setSelectedThemes(formData.themes);
     }
     
-    if (formData.activities && formData.activities.length > 0) {
+    if (formData.activities && Array.isArray(formData.activities)) {
       console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
@@ -43,6 +51,7 @@ export default function ThemesAndActivitiesStep({
   useEffect(() => {
     console.log("Updating themes in formData:", selectedThemes);
     updateFormData('themes', selectedThemes);
+    
     console.log("Updating activities in formData:", selectedActivities);
     updateFormData('activities', selectedActivities);
     
@@ -58,18 +67,17 @@ export default function ThemesAndActivitiesStep({
     } else {
       setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
-    console.log("Theme selection changed:", themeId, isSelected, "Current themes:", 
-      isSelected ? [...selectedThemes, themeId] : selectedThemes.filter(id => id !== themeId));
+    console.log("Theme selection changed:", themeId, isSelected);
   };
 
   const handleActivityChange = (activityId: string, isChecked: boolean) => {
+    console.log(`Activity change in ThemesAndActivitiesStep: ${activityId} is now ${isChecked ? 'selected' : 'deselected'}`);
+    
     setSelectedActivities(prev => 
       isChecked 
         ? [...prev, activityId]
         : prev.filter(id => id !== activityId)
     );
-    console.log("Activity selection changed:", activityId, isChecked, "Current activities:", 
-      isChecked ? [...selectedActivities, activityId] : selectedActivities.filter(id => id !== activityId));
   };
 
   return (

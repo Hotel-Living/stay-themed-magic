@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface ActivitiesSectionProps {
   selectedActivities: string[];
@@ -22,6 +23,7 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
   const [openCategories, setOpenCategories] = useState<string[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -33,22 +35,29 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         
         if (error) {
           console.error("Error fetching activities:", error);
+          toast({
+            title: "Error loading activities",
+            description: "Please try refreshing the page.",
+            variant: "destructive",
+          });
           return;
         }
 
-        if (data) {
+        if (data && data.length > 0) {
           console.log("Fetched activities:", data);
           setActivities(data);
+        } else {
+          console.log("No activities found in the database");
         }
       } catch (error) {
-        console.error("Error fetching activities:", error);
+        console.error("Exception fetching activities:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchActivities();
-  }, []);
+  }, [toast]);
 
   const toggleCategory = (category: string) => {
     setOpenCategories(prev => 
@@ -67,6 +76,11 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     acc[category].push(activity);
     return acc;
   }, {});
+
+  // Debug selected activities
+  useEffect(() => {
+    console.log("Current selected activities (ActivitiesSection):", selectedActivities);
+  }, [selectedActivities]);
 
   return (
     <Collapsible defaultOpen={false} className="w-full">
@@ -106,7 +120,10 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                         <input 
                           type="checkbox" 
                           checked={selectedActivities.includes(activity.id)}
-                          onChange={(e) => onActivityChange(activity.id, e.target.checked)}
+                          onChange={(e) => {
+                            console.log(`Activity ${activity.id} (${activity.name}) ${e.target.checked ? 'selected' : 'deselected'}`);
+                            onActivityChange(activity.id, e.target.checked);
+                          }}
                           className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
                         />
                         <span className="text-sm">{activity.name}</span>

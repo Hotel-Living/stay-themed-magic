@@ -1,6 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse } from "date-fns";
+import { handleSupabaseError } from "@/utils/errorHandling";
 
 export const useRelatedDataSubmission = () => {
   const handleThemesAndActivities = async (hotelId: string, themes: string[], activities: string[]) => {
@@ -49,26 +50,31 @@ export const useRelatedDataSubmission = () => {
         throw deleteActivitiesError;
       }
 
-      console.log("Activities before processing:", activities);
+      console.log("Raw activities to process:", activities);
       
-      // Make sure we're only working with UUIDs
-      const validActivities = activities.filter(activityId => {
-        // Basic UUID format validation
-        const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activityId);
-        if (!isValidUuid) {
-          console.warn(`Invalid activity ID format (skipping): ${activityId}`);
+      try {
+        // First, strictly validate activities are UUIDs before processing
+        const validUuidFormat = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        const validActivities = activities.filter(activityId => {
+          const isValid = validUuidFormat.test(activityId);
+          if (!isValid) {
+            console.warn(`Skipping invalid activity ID format: "${activityId}"`);
+          }
+          return isValid;
+        });
+
+        console.log(`Processing ${validActivities.length} valid activities out of ${activities.length}`);
+
+        if (validActivities.length === 0) {
+          console.warn("No valid activity UUIDs found to insert");
+          return; // Skip insert if no valid UUIDs
         }
-        return isValidUuid;
-      });
 
-      console.log(`Processing ${validActivities.length} valid activities out of ${activities.length}`);
-
-      const activityRows = validActivities.map(activityId => ({
-        hotel_id: hotelId,
-        activity_id: activityId
-      }));
-      
-      if (activityRows.length > 0) {
+        const activityRows = validActivities.map(activityId => ({
+          hotel_id: hotelId,
+          activity_id: activityId
+        }));
+        
         const { error: insertActivitiesError } = await supabase
           .from('hotel_activities')
           .insert(activityRows);
@@ -79,6 +85,9 @@ export const useRelatedDataSubmission = () => {
         } else {
           console.log("Successfully inserted activities:", activityRows.length);
         }
+      } catch (error) {
+        console.error("Critical error processing activities:", error);
+        throw error;
       }
     }
   };

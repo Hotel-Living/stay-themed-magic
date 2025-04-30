@@ -54,10 +54,10 @@ export const useValidationState = () => {
           incompleteThemeFields.push("Affinities");
         }
         
-        // Add UUID validation for activities
+        // Add strict UUID validation for activities
         const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         
-        // Make sure all activities are valid UUIDs
+        // Make sure activities exist and are all valid UUIDs
         const validActivities = formData.activities && Array.isArray(formData.activities) 
           ? formData.activities.filter(id => id && typeof id === 'string' && validUUIDRegex.test(id))
           : [];

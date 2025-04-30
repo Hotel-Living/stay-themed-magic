@@ -178,49 +178,15 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
             ))
           )}
           
-          {/* Add Custom Activities Section - Now integrated within the main Activities block */}
+          {/* Custom Activities Section - TEMPORARILY DISABLED */}
+          {/* Note: This section was causing UUID validation issues and has been disabled */}
           <div className="mt-6 border-t border-fuchsia-800/30 pt-4">
-            <h3 className="text-sm font-medium uppercase mb-4">Add Custom Activity</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium leading-none text-white">Activity Name</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Local Pottery Workshop"
-                  className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium leading-none text-white">Description</label>
-                <textarea
-                  placeholder="Describe the activity..."
-                  className="flex min-h-[80px] w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium leading-none text-white">Duration (hours)</label>
-                  <input
-                    type="number"
-                    min="0.5"
-                    step="0.5"
-                    placeholder="2"
-                    className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium leading-none text-white">Price ($)</label>
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="25"
-                    className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white"
-                  />
-                </div>
-              </div>
-              <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase">
-                Add Custom Activity
-              </button>
+            <h3 className="text-sm font-medium uppercase mb-4">Custom Activities (Temporarily Unavailable)</h3>
+            <div className="p-4 bg-fuchsia-900/20 rounded-md text-center">
+              <p className="text-sm text-fuchsia-200">
+                Custom activities are temporarily disabled for maintenance.
+                Please select from the available activities above.
+              </p>
             </div>
           </div>
         </div>

@@ -8,10 +8,15 @@ export const useRelatedDataSubmission = () => {
     
     if (themes && themes.length > 0) {
       // Delete existing themes first
-      await supabase
+      const { error: deleteThemesError } = await supabase
         .from('hotel_themes')
         .delete()
         .eq('hotel_id', hotelId);
+        
+      if (deleteThemesError) {
+        console.error("Error deleting existing themes:", deleteThemesError);
+        throw deleteThemesError;
+      }
 
       const themeRows = themes.map(themeId => ({
         hotel_id: hotelId,
@@ -19,9 +24,13 @@ export const useRelatedDataSubmission = () => {
       }));
       
       if (themeRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_themes').insert(themeRows);
-        if (error) {
-          console.error("Error inserting themes:", error);
+        const { error: insertThemesError } = await supabase
+          .from('hotel_themes')
+          .insert(themeRows);
+          
+        if (insertThemesError) {
+          console.error("Error inserting themes:", insertThemesError);
+          throw insertThemesError;
         } else {
           console.log("Successfully inserted themes:", themeRows.length);
         }
@@ -30,10 +39,15 @@ export const useRelatedDataSubmission = () => {
 
     if (activities && activities.length > 0) {
       // Delete existing activities first
-      await supabase
+      const { error: deleteActivitiesError } = await supabase
         .from('hotel_activities')
         .delete()
         .eq('hotel_id', hotelId);
+        
+      if (deleteActivitiesError) {
+        console.error("Error deleting existing activities:", deleteActivitiesError);
+        throw deleteActivitiesError;
+      }
 
       const activityRows = activities.map(activityId => ({
         hotel_id: hotelId,
@@ -41,9 +55,13 @@ export const useRelatedDataSubmission = () => {
       }));
       
       if (activityRows.length > 0) {
-        const { data, error } = await supabase.from('hotel_activities').insert(activityRows);
-        if (error) {
-          console.error("Error inserting activities:", error);
+        const { error: insertActivitiesError } = await supabase
+          .from('hotel_activities')
+          .insert(activityRows);
+          
+        if (insertActivitiesError) {
+          console.error("Error inserting activities:", insertActivitiesError);
+          throw insertActivitiesError;
         } else {
           console.log("Successfully inserted activities:", activityRows.length);
         }

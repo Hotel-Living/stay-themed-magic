@@ -1,5 +1,7 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
@@ -9,80 +11,103 @@ interface HotelFeaturesStepProps {
   updateFormData?: (field: string, value: any) => void;
 }
 
-export default function HotelFeaturesStep({
-  onValidationChange = () => {},
+export default function HotelFeaturesStep({ 
+  onValidationChange = () => {}, 
   formData = {},
-  updateFormData = () => {},
+  updateFormData = () => {}
 }: HotelFeaturesStepProps) {
-  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
-  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
+  // Initialize state with values from formData or empty objects
+  const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>(
+    formData.features_hotel || {}
+  );
+  const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>(
+    formData.features_room || {}
+  );
 
-  // Initialize from formData
+  // Update local state when formData changes
   useEffect(() => {
-    if (formData.featuresHotel && typeof formData.featuresHotel === 'object') {
-      console.log("Setting hotel features from formData:", formData.featuresHotel);
-      setSelectedHotelFeatures(formData.featuresHotel);
+    if (formData.features_hotel) {
+      console.log("Setting hotel features from formData:", formData.features_hotel);
+      setSelectedHotelFeatures(formData.features_hotel);
     }
     
-    if (formData.featuresRoom && typeof formData.featuresRoom === 'object') {
-      console.log("Setting room features from formData:", formData.featuresRoom);
-      setSelectedRoomFeatures(formData.featuresRoom);
+    if (formData.features_room) {
+      console.log("Setting room features from formData:", formData.features_room);
+      setSelectedRoomFeatures(formData.features_room);
     }
-  }, [formData.featuresHotel, formData.featuresRoom]);
+  }, [formData.features_hotel, formData.features_room]);
 
-  // Update parent form data when selected features change
+  // Update parent form data and validation state when local state changes
   useEffect(() => {
-    if (updateFormData) {
-      console.log("Updating form data with hotel features:", selectedHotelFeatures);
-      updateFormData('featuresHotel', selectedHotelFeatures);
-      console.log("Updating form data with room features:", selectedRoomFeatures);
-      updateFormData('featuresRoom', selectedRoomFeatures);
-    }
+    console.log("Updating features_hotel in formData:", selectedHotelFeatures);
+    updateFormData('features_hotel', selectedHotelFeatures);
+    console.log("Updating features_room in formData:", selectedRoomFeatures);
+    updateFormData('features_room', selectedRoomFeatures);
     
-    // This step is always valid
-    onValidationChange(true);
+    // Validate - at least one feature in each category must be selected
+    const hasHotelFeature = Object.values(selectedHotelFeatures).some(value => value);
+    const hasRoomFeature = Object.values(selectedRoomFeatures).some(value => value);
+    
+    const isValid = hasHotelFeature && hasRoomFeature;
+    onValidationChange(isValid);
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, onValidationChange]);
 
-  const handleHotelFeatureToggle = (featureId: string) => {
+  // Handle hotel feature selection
+  const handleHotelFeatureChange = (featureName: string, isChecked: boolean) => {
+    console.log(`Hotel feature ${featureName} changed to ${isChecked}`);
     setSelectedHotelFeatures(prev => ({
       ...prev,
-      [featureId]: !prev[featureId]
+      [featureName]: isChecked
     }));
   };
 
-  const handleRoomFeatureToggle = (featureId: string) => {
+  // Handle room feature selection
+  const handleRoomFeatureChange = (featureName: string, isChecked: boolean) => {
+    console.log(`Room feature ${featureName} changed to ${isChecked}`);
     setSelectedRoomFeatures(prev => ({
       ...prev,
-      [featureId]: !prev[featureId]
+      [featureName]: isChecked
     }));
-  };
-
-  // Convert record to array for FeaturesList component
-  const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
-    return Object.entries(featuresRecord)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([feature, _]) => feature);
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Hotel Features</h3>
-        <FeaturesList 
-          features={hotelFeatures} 
-          selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)}
-          onToggle={handleHotelFeatureToggle}
-        />
+    <Collapsible defaultOpen={false} className="w-full">
+      <div className="bg-[#6c0686]">
+        <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
+          <label className="block text-xl font-bold text-foreground/90 uppercase">
+            FEATURES
+          </label>
+          <ChevronDown className="h-5 w-5 text-white" />
+        </CollapsibleTrigger>
       </div>
       
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Room Features</h3>
-        <FeaturesList 
-          features={roomFeatures}
-          selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)}
-          onToggle={handleRoomFeatureToggle}
-        />
-      </div>
-    </div>
+      <CollapsibleContent className="space-y-6 pt-4">
+        <div>
+          <h3 className="text-lg font-semibold mb-3">Hotel Features</h3>
+          <p className="text-sm text-gray-400 mb-4">
+            Select the features that your hotel offers to guests. These are features available in common areas or as
+            general hotel amenities.
+          </p>
+          <FeaturesList
+            features={hotelFeatures}
+            selectedFeatures={selectedHotelFeatures}
+            onFeatureChange={handleHotelFeatureChange}
+          />
+        </div>
+        
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-3">Room Features</h3>
+          <p className="text-sm text-gray-400 mb-4">
+            Select the features that are available in your rooms. These are amenities that guests will have access to
+            in their individual rooms.
+          </p>
+          <FeaturesList
+            features={roomFeatures}
+            selectedFeatures={selectedRoomFeatures}
+            onFeatureChange={handleRoomFeatureChange}
+          />
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

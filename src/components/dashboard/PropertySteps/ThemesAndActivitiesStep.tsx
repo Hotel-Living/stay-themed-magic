@@ -37,7 +37,7 @@ export default function ThemesAndActivitiesStep({
       console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
-  }, []);
+  }, [formData.themes, formData.activities]);
 
   // Update parent form data when local state changes
   useEffect(() => {
@@ -58,6 +58,8 @@ export default function ThemesAndActivitiesStep({
     } else {
       setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
+    console.log("Theme selection changed:", themeId, isSelected, "Current themes:", 
+      isSelected ? [...selectedThemes, themeId] : selectedThemes.filter(id => id !== themeId));
   };
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
@@ -66,6 +68,8 @@ export default function ThemesAndActivitiesStep({
         ? [...prev, activity]
         : prev.filter(a => a !== activity)
     );
+    console.log("Activity selection changed:", activity, isChecked, "Current activities:", 
+      isChecked ? [...selectedActivities, activity] : selectedActivities.filter(a => a !== activity));
   };
 
   return (

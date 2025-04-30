@@ -54,6 +54,8 @@ export function useHotelDetails(id: string | undefined) {
         }
 
         console.log("Fetched hotel data:", hotelData);
+        console.log("Hotel themes:", hotelData.hotel_themes);
+        console.log("Hotel activities:", hotelData.hotel_activities);
         
         // Process room_types if it exists
         const processedHotelData = {
@@ -74,7 +76,10 @@ export function useHotelDetails(id: string | undefined) {
           })) : [],
           // Ensure features_hotel and features_room are objects
           features_hotel: hotelData.features_hotel || {},
-          features_room: hotelData.features_room || {}
+          features_room: hotelData.features_room || {},
+          // Make sure hotel_themes and hotel_activities are arrays
+          hotel_themes: Array.isArray(hotelData.hotel_themes) ? hotelData.hotel_themes : [],
+          hotel_activities: Array.isArray(hotelData.hotel_activities) ? hotelData.hotel_activities : []
         };
         
         setHotel(processedHotelData as AdminHotelDetail);
@@ -87,8 +92,8 @@ export function useHotelDetails(id: string | undefined) {
         console.log("Processed hotel data:", processedHotelData);
         console.log("Hotel features:", processedHotelData.features_hotel);
         console.log("Room features:", processedHotelData.features_room);
-        console.log("Hotel themes:", processedHotelData.hotel_themes);
-        console.log("Hotel activities:", processedHotelData.hotel_activities);
+        console.log("Hotel themes (processed):", processedHotelData.hotel_themes);
+        console.log("Hotel activities (processed):", processedHotelData.hotel_activities);
       } catch (error: any) {
         console.error("Error fetching hotel details:", error);
         toast({

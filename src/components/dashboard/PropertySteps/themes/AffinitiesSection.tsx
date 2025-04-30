@@ -50,6 +50,8 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     return themes;
   };
 
+  console.log("Rendering AffinitiesSection with selectedThemes:", selectedThemes);
+
   return (
     <Collapsible defaultOpen={false} className="w-full">
       <div className="bg-[#6c0686]">
@@ -100,7 +102,10 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                             type="checkbox"
                             id={theme.id}
                             checked={selectedThemes.includes(theme.id)}
-                            onChange={(e) => onThemeSelect(theme.id, e.target.checked)}
+                            onChange={(e) => {
+                              onThemeSelect(theme.id, e.target.checked);
+                              console.log(`Theme ${theme.id} checked: ${e.target.checked}`);
+                            }}
                             className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
                           />
                           <label
@@ -129,4 +134,4 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       </CollapsibleContent>
     </Collapsible>
   );
-};
+}

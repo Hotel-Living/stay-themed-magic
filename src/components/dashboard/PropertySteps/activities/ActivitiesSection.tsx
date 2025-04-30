@@ -37,6 +37,7 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         }
 
         if (data) {
+          console.log("Fetched activities:", data);
           setActivities(data);
         }
       } catch (error) {
@@ -83,6 +84,8 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
           
           {loading ? (
             <p>Loading activities...</p>
+          ) : activities.length === 0 ? (
+            <p>No activities available. Please contact an administrator.</p>
           ) : (
             Object.entries(groupedActivities).map(([category, categoryActivities]) => (
               <div key={category} className="bg-[#860493]/50 rounded-sm mb-1">

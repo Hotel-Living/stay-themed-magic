@@ -43,6 +43,7 @@ export default function StepFour({
         }
 
         if (data) {
+          console.log("StepFour - Fetched activities:", data);
           setActivitiesData(data);
         }
       } catch (error) {
@@ -105,6 +106,8 @@ export default function StepFour({
           
           {loading ? (
             <p>Loading activities...</p>
+          ) : activitiesData.length === 0 ? (
+            <p>No activities available. Please contact an administrator.</p>
           ) : (
             Object.entries(groupedActivities).map(([category, activities]) => (
               <div key={category} className="mb-4">

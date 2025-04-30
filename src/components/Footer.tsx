@@ -29,6 +29,12 @@ export function Footer() {
             <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Our Services
             </Link>
+            <Link to="/videos" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+              Videos
+            </Link>
+            <Link to="/promotions" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
+              Promotions
+            </Link>
             <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-base" : "text-xs"} font-medium`}>
               Privacy & Cookies
             </Link>

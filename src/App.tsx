@@ -36,6 +36,8 @@ import ThemesInformation from './pages/ThemesInformation';
 import Contact from "./pages/Contact";
 import AdminDashboard from './pages/AdminDashboard';
 import AdminAllRoutes from './pages/AdminAllRoutes';
+import Videos from './pages/Videos';
+import Promotions from './pages/Promotions';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -89,6 +91,8 @@ function App() {
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/admin/*" element={<AdminAllRoutes />} />
+                  <Route path="/videos" element={<Videos />} />
+                  <Route path="/promotions" element={<Promotions />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />

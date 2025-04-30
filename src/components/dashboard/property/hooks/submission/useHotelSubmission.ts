@@ -129,7 +129,8 @@ export const useHotelSubmission = () => {
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom,
-      available_months: availableMonths
+      available_months: availableMonths,
+      status: 'pending' // Set status back to pending for admin review
     };
     
     const { error } = await supabase

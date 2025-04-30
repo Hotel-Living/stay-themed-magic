@@ -23,7 +23,9 @@ export function ThemesInfo({ themes }: ThemesInfoProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {validThemes.map((theme) => (
             <div key={theme.theme_id} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
-              <p className="font-medium text-purple-300">{theme.themes?.name || "Unknown Affinity"}</p>
+              <p className="font-medium text-purple-300">
+                {theme.themes?.name || "Unknown Affinity"}
+              </p>
               {theme.themes?.description && (
                 <p className="text-sm text-gray-400 mt-1">{theme.themes.description}</p>
               )}

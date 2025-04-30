@@ -53,6 +53,12 @@ export const useValidationState = () => {
         const hasThemes = formData.themes && Array.isArray(formData.themes) && formData.themes.length > 0;
         if (!hasThemes) {
           incompleteThemeFields.push("Affinities");
+        } else {
+          // Just check that it has at least one non-empty string
+          const hasValidTheme = formData.themes.some(theme => theme && typeof theme === 'string');
+          if (!hasValidTheme) {
+            incompleteThemeFields.push("Affinities");
+          }
         }
         
         // More relaxed activity validation - only validate if it has items

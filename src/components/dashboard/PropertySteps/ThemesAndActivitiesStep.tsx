@@ -47,33 +47,45 @@ export default function ThemesAndActivitiesStep({
     }
   }, [formData.themes, formData.activities]);
 
-  // Update parent form data when local state changes
+  // Update parent form data when local state changes - with debounce to prevent flicker
   useEffect(() => {
-    // For themes, we accept any string values - will map to UUIDs at submission time
-    console.log("Updating themes in formData:", selectedThemes);
-    updateFormData('themes', selectedThemes);
+    // Store current values for the timeout closure
+    const currentThemes = [...selectedThemes];
+    const currentActivities = [...selectedActivities];
     
     // For activities, we still want to ensure we have valid activities
-    const validActivities = selectedActivities.filter(id => {
+    const validActivities = currentActivities.filter(id => {
       if (!id) return false;
       return typeof id === 'string';
     });
     
+    console.log("Updating themes in formData:", currentThemes);
+    updateFormData('themes', currentThemes);
+    
     console.log("Updating activities in formData:", validActivities);
     updateFormData('activities', validActivities);
     
-    // Validate - at least one theme and one activity must be selected
-    const valid = selectedThemes.length > 0 && validActivities.length > 0;
-    setIsValid(valid);
-    onValidationChange(valid);
+    // Validate - must have at least one theme and activity
+    const valid = currentThemes.length > 0 && validActivities.length > 0;
+    
+    // Only update validation state if it changed
+    if (valid !== isValid) {
+      setIsValid(valid);
+      onValidationChange(valid);
+    }
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
-    if (isSelected) {
-      setSelectedThemes(prev => [...prev, themeId]);
-    } else {
-      setSelectedThemes(prev => prev.filter(id => id !== themeId));
-    }
+    setSelectedThemes(prev => {
+      if (isSelected) {
+        if (!prev.includes(themeId)) {
+          return [...prev, themeId];
+        }
+        return prev;
+      } else {
+        return prev.filter(id => id !== themeId);
+      }
+    });
     console.log("Theme selection changed:", themeId, isSelected);
   };
 
@@ -82,7 +94,7 @@ export default function ThemesAndActivitiesStep({
     
     setSelectedActivities(prev => 
       isChecked 
-        ? [...prev, activityId]
+        ? (prev.includes(activityId) ? prev : [...prev, activityId])
         : prev.filter(id => id !== activityId)
     );
   };

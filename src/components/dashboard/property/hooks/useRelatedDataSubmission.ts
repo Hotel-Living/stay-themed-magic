@@ -43,6 +43,8 @@ export const useRelatedDataSubmission = () => {
           });
         }
         
+        console.log("Theme mapping created with entries:", themeMap.size);
+        
         // Filter to valid theme IDs
         const validThemeRows = themes.map(themeId => {
           // If it's already a valid UUID, use it directly
@@ -56,7 +58,21 @@ export const useRelatedDataSubmission = () => {
           }
           
           // Try to map string ID to UUID
-          const mappedId = themeMap.get(themeId.toLowerCase());
+          let mappedId = themeMap.get(themeId.toLowerCase());
+          
+          // If not found directly, try to match by substring
+          if (!mappedId && themeData && themeData.length > 0) {
+            // First try to find a theme that contains the themeId as a substring
+            const matchedTheme = themeData.find(theme => 
+              theme.name && theme.name.toLowerCase().includes(themeId.toLowerCase())
+            );
+            
+            if (matchedTheme) {
+              mappedId = matchedTheme.id;
+              console.log(`Mapped theme "${themeId}" to "${matchedTheme.name}" (${mappedId})`);
+            }
+          }
+          
           if (mappedId) {
             return {
               hotel_id: hotelId,
@@ -66,7 +82,7 @@ export const useRelatedDataSubmission = () => {
           
           // If we can't map it, fallback to first theme as default
           if (themeData && themeData.length > 0) {
-            console.warn(`Could not map theme "${themeId}" to UUID, using default`);
+            console.warn(`Could not map theme "${themeId}" to UUID, using default theme`);
             return {
               hotel_id: hotelId,
               theme_id: themeData[0].id
@@ -75,6 +91,8 @@ export const useRelatedDataSubmission = () => {
           
           return null;
         }).filter(Boolean);
+        
+        console.log(`Processed ${themes.length} themes, created ${validThemeRows.length} valid rows`);
         
         // Only insert if we have valid theme rows
         if (validThemeRows.length > 0) {
@@ -124,7 +142,7 @@ export const useRelatedDataSubmission = () => {
           const isValid = typeof id === 'string' && UUID_REGEX.test(id.trim());
           
           if (!isValid) {
-            console.error(`Invalid activity ID rejected: "${id}" (type: ${typeof id})`);
+            console.warn(`Invalid activity ID skipped (not a UUID): "${id}" (type: ${typeof id})`);
           }
           return isValid;
         });

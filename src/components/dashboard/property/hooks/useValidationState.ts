@@ -49,23 +49,15 @@ export const useValidationState = () => {
         const incompleteThemeFields = [];
         
         // Changed from "Themes" to "Affinities" to match UI terminology
-        // Also fixed validation to properly check the array length
+        // Accept any non-empty array of themes/affinities, no need to validate UUID format
         const hasThemes = formData.themes && Array.isArray(formData.themes) && formData.themes.length > 0;
         if (!hasThemes) {
           incompleteThemeFields.push("Affinities");
         }
         
-        // Only validate activities if they exist - skip UUID validation for themes
-        if (formData.activities && Array.isArray(formData.activities)) {
-          const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-          
-          // We'll only check UUID format for activities, not themes
-          const validActivities = formData.activities.filter(id => id && typeof id === 'string' && validUUIDRegex.test(id));
-          
-          if (validActivities.length === 0) {
-            incompleteThemeFields.push("Activities");
-          }
-        } else {
+        // Only validate activities if they exist - we accept any array of activities with at least one item
+        const hasActivities = formData.activities && Array.isArray(formData.activities) && formData.activities.length > 0;
+        if (!hasActivities) {
           incompleteThemeFields.push("Activities");
         }
         

@@ -17,6 +17,7 @@ import { AdminInfo } from "./hotel-detail/AdminInfo";
 import { RoomTypesInfo } from "./hotel-detail/RoomTypesInfo";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useToast } from "@/hooks/use-toast";
+import { Card } from "@/components/ui/card";
 
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -68,6 +69,18 @@ export default function HotelDetailView() {
     }
   };
 
+  // Helper function to render descriptive content
+  const renderDescriptionCard = (title: string, content: string | null | undefined) => {
+    if (!content) return null;
+    
+    return (
+      <Card className="p-4 bg-[#2A0F44]">
+        <h4 className="text-lg font-medium text-fuchsia-200 mb-2">{title}</h4>
+        <p className="text-gray-300">{content}</p>
+      </Card>
+    );
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
@@ -108,6 +121,14 @@ export default function HotelDetailView() {
           <div className="space-y-6">
             <BasicInfo hotel={hotel} />
             <ImageGallery images={images} hotel={hotel} />
+            
+            {/* Descriptive content section */}
+            <div className="space-y-4">
+              {renderDescriptionCard("Atmosphere", hotel.atmosphere)}
+              {renderDescriptionCard("Ideal For", hotel.ideal_guests)}
+              {renderDescriptionCard("Perfect Location", hotel.perfect_location)}
+            </div>
+            
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />
             <RoomTypesInfo hotel={hotel} />

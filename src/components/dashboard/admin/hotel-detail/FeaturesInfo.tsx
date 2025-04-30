@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Card } from "@/components/ui/card";
+import { Settings2 } from "lucide-react";
 
 interface FeaturesInfoProps {
   hotelFeatures: Record<string, boolean>;
@@ -32,8 +33,11 @@ export const FeaturesInfo = ({ hotelFeatures, roomFeatures }: FeaturesInfoProps)
   };
 
   return (
-    <Card className="p-6 bg-[#2A0F44]">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Features</h3>
+    <div className="rounded-xl p-6 bg-[#2A0F44]">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
+        <Settings2 className="w-5 h-5 text-purple-400" />
+        Features
+      </h3>
       
       <div className="space-y-6">
         <div>
@@ -46,6 +50,6 @@ export const FeaturesInfo = ({ hotelFeatures, roomFeatures }: FeaturesInfoProps)
           {renderFeatures(roomFeatures)}
         </div>
       </div>
-    </Card>
+    </div>
   );
 };

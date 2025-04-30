@@ -32,65 +32,118 @@ export const useRelatedDataSubmission = () => {
           console.error("Error fetching themes:", themeError);
           throw themeError;
         }
+
+        // Create theme mapping and prepare for insertion
+        let validThemeRows = [];
         
-        // Create a mapping of theme name/id to database UUID
-        const themeMap = new Map();
-        if (themeData) {
+        if (themeData && themeData.length > 0) {
+          // Create a mapping of theme name to database UUID
+          const themeMap = new Map();
+          
+          // Map all themes by name lowercase for better matching
           themeData.forEach(theme => {
-            // Map both by name (lowercase) and ID
-            if (theme.name) themeMap.set(theme.name.toLowerCase(), theme.id);
-            if (theme.id) themeMap.set(theme.id, theme.id); // Direct UUIDs pass through
+            if (theme.name) {
+              themeMap.set(theme.name.toLowerCase(), theme.id);
+              
+              // Also map common variations/shorthands
+              if (theme.name.toLowerCase() === "art & design") {
+                themeMap.set("art", theme.id);
+                themeMap.set("design", theme.id);
+              }
+              if (theme.name.toLowerCase() === "technology") {
+                themeMap.set("digital", theme.id);
+                themeMap.set("innovation", theme.id);
+              }
+            }
+          });
+          
+          console.log("Theme mapping created with entries:", themeMap.size);
+          
+          // Create a fallback theme ID (use first theme as default)
+          const fallbackThemeId = themeData[0].id;
+          
+          // Process each theme from the form
+          validThemeRows = themes.map(themeId => {
+            // Direct UUID handling
+            const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            if (validUUIDRegex.test(themeId)) {
+              return { hotel_id: hotelId, theme_id: themeId };
+            }
+            
+            // Convert to lowercase for case-insensitive matching
+            const lowercaseThemeId = themeId.toLowerCase();
+            
+            // Try direct map lookup
+            let mappedId = themeMap.get(lowercaseThemeId);
+            
+            // Special handling for common themes that might not directly map
+            if (!mappedId) {
+              // Handle Innovation explicitly since it's causing issues
+              if (lowercaseThemeId === "innovation") {
+                // Find a technology related theme
+                const techTheme = themeData.find(t => 
+                  t.name && ["technology", "tech", "digital"].includes(t.name.toLowerCase())
+                );
+                if (techTheme) {
+                  mappedId = techTheme.id;
+                  console.log(`Mapped "innovation" to "${techTheme.name}" theme`);
+                }
+              }
+              
+              // Try partial matching if still not found
+              if (!mappedId) {
+                // Find a theme that contains our theme ID as a substring
+                const matchedTheme = themeData.find(theme => 
+                  theme.name && theme.name.toLowerCase().includes(lowercaseThemeId)
+                );
+                
+                if (matchedTheme) {
+                  mappedId = matchedTheme.id;
+                  console.log(`Mapped "${themeId}" to "${matchedTheme.name}" via substring match`);
+                }
+              }
+              
+              // Try word similarity if still not found (check if any words match)
+              if (!mappedId) {
+                const themeWords = lowercaseThemeId.split(/[\s-_]+/);
+                
+                for (const theme of themeData) {
+                  if (theme.name) {
+                    const themeNameWords = theme.name.toLowerCase().split(/[\s-_]+/);
+                    // Check if any words match between the theme names
+                    const hasCommonWord = themeWords.some(word => 
+                      themeNameWords.some(nameWord => nameWord.includes(word) || word.includes(nameWord))
+                    );
+                    
+                    if (hasCommonWord) {
+                      mappedId = theme.id;
+                      console.log(`Mapped "${themeId}" to "${theme.name}" via word similarity`);
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+            
+            // Use the mapped ID if found, otherwise use fallback
+            if (mappedId) {
+              return { hotel_id: hotelId, theme_id: mappedId };
+            } else {
+              console.warn(`Could not map theme "${themeId}" to any known theme, using fallback`);
+              return { hotel_id: hotelId, theme_id: fallbackThemeId };
+            }
+          });
+          
+          // Deduplicate theme rows (in case multiple string IDs map to same UUID)
+          const uniqueThemeIds = new Set();
+          validThemeRows = validThemeRows.filter(row => {
+            if (uniqueThemeIds.has(row.theme_id)) {
+              return false;
+            }
+            uniqueThemeIds.add(row.theme_id);
+            return true;
           });
         }
-        
-        console.log("Theme mapping created with entries:", themeMap.size);
-        
-        // Filter to valid theme IDs
-        const validThemeRows = themes.map(themeId => {
-          // If it's already a valid UUID, use it directly
-          const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-          
-          if (validUUIDRegex.test(themeId)) {
-            return {
-              hotel_id: hotelId,
-              theme_id: themeId
-            };
-          }
-          
-          // Try to map string ID to UUID
-          let mappedId = themeMap.get(themeId.toLowerCase());
-          
-          // If not found directly, try to match by substring
-          if (!mappedId && themeData && themeData.length > 0) {
-            // First try to find a theme that contains the themeId as a substring
-            const matchedTheme = themeData.find(theme => 
-              theme.name && theme.name.toLowerCase().includes(themeId.toLowerCase())
-            );
-            
-            if (matchedTheme) {
-              mappedId = matchedTheme.id;
-              console.log(`Mapped theme "${themeId}" to "${matchedTheme.name}" (${mappedId})`);
-            }
-          }
-          
-          if (mappedId) {
-            return {
-              hotel_id: hotelId,
-              theme_id: mappedId
-            };
-          }
-          
-          // If we can't map it, fallback to first theme as default
-          if (themeData && themeData.length > 0) {
-            console.warn(`Could not map theme "${themeId}" to UUID, using default theme`);
-            return {
-              hotel_id: hotelId,
-              theme_id: themeData[0].id
-            };
-          }
-          
-          return null;
-        }).filter(Boolean);
         
         console.log(`Processed ${themes.length} themes, created ${validThemeRows.length} valid rows`);
         

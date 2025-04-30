@@ -49,12 +49,11 @@ export default function ThemesAndActivitiesStep({
 
   // Update parent form data when local state changes
   useEffect(() => {
-    // For themes, we accept any string values
+    // For themes, we accept any string values - will map to UUIDs at submission time
     console.log("Updating themes in formData:", selectedThemes);
     updateFormData('themes', selectedThemes);
     
-    // For activities, we still enforce UUID format for safety
-    const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    // For activities, we still want to ensure we have valid activities
     const validActivities = selectedActivities.filter(id => {
       if (!id) return false;
       return typeof id === 'string';

@@ -49,15 +49,16 @@ export const useRelatedDataSubmission = () => {
         throw deleteActivitiesError;
       }
 
-      // Validate that all activities are valid UUIDs
+      console.log("Activities before processing:", activities);
+      
+      // Make sure we're only working with UUIDs
       const validActivities = activities.filter(activityId => {
-        try {
-          // Basic UUID format validation
-          return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activityId);
-        } catch (e) {
-          console.warn(`Invalid activity ID format: ${activityId}`);
-          return false;
+        // Basic UUID format validation
+        const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activityId);
+        if (!isValidUuid) {
+          console.warn(`Invalid activity ID format (skipping): ${activityId}`);
         }
+        return isValidUuid;
       });
 
       console.log(`Processing ${validActivities.length} valid activities out of ${activities.length}`);

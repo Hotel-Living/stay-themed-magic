@@ -38,42 +38,48 @@ export const useRelatedDataSubmission = () => {
       }
     }
 
+    // Handle activities - added strict UUID validation
     if (activities && activities.length > 0) {
-      // Delete existing activities first
-      const { error: deleteActivitiesError } = await supabase
-        .from('hotel_activities')
-        .delete()
-        .eq('hotel_id', hotelId);
-        
-      if (deleteActivitiesError) {
-        console.error("Error deleting existing activities:", deleteActivitiesError);
-        throw deleteActivitiesError;
-      }
-
-      console.log("Raw activities to process:", activities);
-      
       try {
-        // First, strictly validate activities are UUIDs before processing
-        const validUuidFormat = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        const validActivities = activities.filter(activityId => {
-          const isValid = validUuidFormat.test(activityId);
+        // Delete existing activities first
+        const { error: deleteActivitiesError } = await supabase
+          .from('hotel_activities')
+          .delete()
+          .eq('hotel_id', hotelId);
+          
+        if (deleteActivitiesError) {
+          console.error("Error deleting existing activities:", deleteActivitiesError);
+          throw deleteActivitiesError;
+        }
+
+        console.log("Activities before filtering:", activities);
+        
+        // Strict UUID validation using regex
+        const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        
+        // Filter out any non-UUID values
+        const validActivities = activities.filter(id => {
+          const isValid = typeof id === 'string' && UUID_REGEX.test(id.trim());
           if (!isValid) {
-            console.warn(`Skipping invalid activity ID format: "${activityId}"`);
+            console.warn(`Invalid activity ID skipped: "${id}" (type: ${typeof id})`);
           }
           return isValid;
         });
 
-        console.log(`Processing ${validActivities.length} valid activities out of ${activities.length}`);
-
+        console.log("Filtered valid activities:", validActivities);
+        
         if (validActivities.length === 0) {
-          console.warn("No valid activity UUIDs found to insert");
-          return; // Skip insert if no valid UUIDs
+          console.warn("No valid activities to insert after filtering");
+          return; // Exit early if no valid activities
         }
 
+        // Create rows for insertion with only valid UUIDs
         const activityRows = validActivities.map(activityId => ({
           hotel_id: hotelId,
           activity_id: activityId
         }));
+        
+        console.log("Activity rows to insert:", activityRows);
         
         const { error: insertActivitiesError } = await supabase
           .from('hotel_activities')

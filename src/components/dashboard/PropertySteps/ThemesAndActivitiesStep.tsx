@@ -43,7 +43,16 @@ export default function ThemesAndActivitiesStep({
     
     if (formData.activities && Array.isArray(formData.activities)) {
       console.log("Setting activities from formData:", formData.activities);
-      setSelectedActivities(formData.activities);
+      // Ensure we only use valid UUIDs
+      const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const validActivities = formData.activities.filter((id: string) => {
+        const isValid = typeof id === 'string' && validUUIDRegex.test(id);
+        if (!isValid) {
+          console.warn(`Filtering out invalid activity ID: ${id}`);
+        }
+        return isValid;
+      });
+      setSelectedActivities(validActivities);
     }
   }, [formData.themes, formData.activities]);
 
@@ -52,11 +61,21 @@ export default function ThemesAndActivitiesStep({
     console.log("Updating themes in formData:", selectedThemes);
     updateFormData('themes', selectedThemes);
     
-    console.log("Updating activities in formData:", selectedActivities);
-    updateFormData('activities', selectedActivities);
+    // Verify activities are valid UUIDs before updating
+    const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const validActivities = selectedActivities.filter(id => {
+      const isValid = typeof id === 'string' && validUUIDRegex.test(id);
+      if (!isValid) {
+        console.warn(`Not updating formData with invalid activity ID: ${id}`);
+      }
+      return isValid;
+    });
+    
+    console.log("Updating activities in formData:", validActivities);
+    updateFormData('activities', validActivities);
     
     // Validate - at least one theme and one activity must be selected
-    const valid = selectedThemes.length > 0 && selectedActivities.length > 0;
+    const valid = selectedThemes.length > 0 && validActivities.length > 0;
     setIsValid(valid);
     onValidationChange(valid);
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
@@ -72,6 +91,18 @@ export default function ThemesAndActivitiesStep({
 
   const handleActivityChange = (activityId: string, isChecked: boolean) => {
     console.log(`Activity change in ThemesAndActivitiesStep: ${activityId} is now ${isChecked ? 'selected' : 'deselected'}`);
+    
+    // Verify this is a valid UUID before adding to selected activities
+    const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!validUUIDRegex.test(activityId)) {
+      console.error(`Attempted to ${isChecked ? 'add' : 'remove'} invalid activity ID: "${activityId}"`);
+      toast({
+        title: "Invalid Activity Selection",
+        description: "Unable to select this activity due to an invalid identifier.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setSelectedActivities(prev => 
       isChecked 

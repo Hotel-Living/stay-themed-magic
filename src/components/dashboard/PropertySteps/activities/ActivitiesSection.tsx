@@ -45,7 +45,19 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
 
         if (data && data.length > 0) {
           console.log("Fetched activities:", data);
-          setActivities(data);
+          // Verify each activity has a valid UUID id
+          const validActivities = data.filter(activity => {
+            const isValid = activity && activity.id && 
+                            typeof activity.id === 'string' && 
+                            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activity.id);
+            
+            if (!isValid) {
+              console.warn("Skipping activity with invalid ID:", activity);
+            }
+            return isValid;
+          });
+          
+          setActivities(validActivities);
         } else {
           console.log("No activities found in the database");
         }
@@ -80,6 +92,16 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
   // Debug selected activities
   useEffect(() => {
     console.log("Current selected activities (ActivitiesSection):", selectedActivities);
+    
+    // Verify if all selected activities are valid UUIDs
+    if (selectedActivities && selectedActivities.length > 0) {
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const invalidIds = selectedActivities.filter(id => !uuidRegex.test(id));
+      
+      if (invalidIds.length > 0) {
+        console.error("Found invalid activity IDs:", invalidIds);
+      }
+    }
   }, [selectedActivities]);
 
   return (
@@ -121,7 +143,7 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                           type="checkbox" 
                           checked={selectedActivities.includes(activity.id)}
                           onChange={(e) => {
-                            console.log(`Activity ${activity.id} (${activity.name}) ${e.target.checked ? 'selected' : 'deselected'}`);
+                            console.log(`Activity change - ID: ${activity.id}, Name: ${activity.name}, Checked: ${e.target.checked}`);
                             onActivityChange(activity.id, e.target.checked);
                           }}
                           className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 

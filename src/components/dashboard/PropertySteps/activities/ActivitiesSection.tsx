@@ -46,10 +46,11 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         if (data && data.length > 0) {
           console.log("Fetched activities:", data);
           // Verify each activity has a valid UUID id
+          const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
           const validActivities = data.filter(activity => {
             const isValid = activity && activity.id && 
                             typeof activity.id === 'string' && 
-                            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activity.id);
+                            validUUIDRegex.test(activity.id);
             
             if (!isValid) {
               console.warn("Skipping activity with invalid ID:", activity);
@@ -81,6 +82,15 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
 
   // Group activities by category
   const groupedActivities = activities.reduce<Record<string, Activity[]>>((acc, activity) => {
+    // Skip if activity has no id or invalid id
+    if (!activity || !activity.id) return acc;
+    
+    const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!validUUIDRegex.test(activity.id)) {
+      console.error(`Invalid activity ID detected during grouping: ${activity.id}`);
+      return acc;
+    }
+    
     const category = activity.category || 'Other';
     if (!acc[category]) {
       acc[category] = [];
@@ -96,7 +106,7 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     // Verify if all selected activities are valid UUIDs
     if (selectedActivities && selectedActivities.length > 0) {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const invalidIds = selectedActivities.filter(id => !uuidRegex.test(id));
+      const invalidIds = selectedActivities.filter(id => !id || !uuidRegex.test(id));
       
       if (invalidIds.length > 0) {
         console.error("Found invalid activity IDs:", invalidIds);
@@ -137,20 +147,31 @@ const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                 
                 {openCategories.includes(category) && (
                   <div className="space-y-1 ml-3 py-1">
-                    {categoryActivities.map(activity => (
-                      <label key={activity.id} className="flex items-start">
-                        <input 
-                          type="checkbox" 
-                          checked={selectedActivities.includes(activity.id)}
-                          onChange={(e) => {
-                            console.log(`Activity change - ID: ${activity.id}, Name: ${activity.name}, Checked: ${e.target.checked}`);
-                            onActivityChange(activity.id, e.target.checked);
-                          }}
-                          className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-                        />
-                        <span className="text-sm">{activity.name}</span>
-                      </label>
-                    ))}
+                    {categoryActivities.map(activity => {
+                      // Skip rendering if activity ID is invalid
+                      if (!activity.id) return null;
+                      
+                      const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                      if (!validUUIDRegex.test(activity.id)) {
+                        console.error(`Skipping rendering of activity with invalid ID: ${activity.id}`);
+                        return null;
+                      }
+                      
+                      return (
+                        <label key={activity.id} className="flex items-start">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedActivities.includes(activity.id)}
+                            onChange={(e) => {
+                              console.log(`Activity change - ID: ${activity.id}, Name: ${activity.name}, Checked: ${e.target.checked}`);
+                              onActivityChange(activity.id, e.target.checked);
+                            }}
+                            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+                          />
+                          <span className="text-sm">{activity.name}</span>
+                        </label>
+                      );
+                    })}
                   </div>
                 )}
               </div>

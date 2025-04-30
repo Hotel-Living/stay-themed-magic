@@ -46,6 +46,7 @@ export default function ThemesAndActivitiesStep({
       // Ensure we only use valid UUIDs
       const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       const validActivities = formData.activities.filter((id: string) => {
+        if (!id) return false;
         const isValid = typeof id === 'string' && validUUIDRegex.test(id);
         if (!isValid) {
           console.warn(`Filtering out invalid activity ID: ${id}`);
@@ -64,9 +65,15 @@ export default function ThemesAndActivitiesStep({
     // Verify activities are valid UUIDs before updating
     const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     const validActivities = selectedActivities.filter(id => {
+      if (!id) return false;
       const isValid = typeof id === 'string' && validUUIDRegex.test(id);
       if (!isValid) {
-        console.warn(`Not updating formData with invalid activity ID: ${id}`);
+        console.error(`Not updating formData with invalid activity ID: ${id}`);
+        toast({
+          title: "Invalid Activity Selection",
+          description: "An activity with an invalid ID was detected and has been removed.",
+          variant: "destructive",
+        });
       }
       return isValid;
     });
@@ -78,7 +85,7 @@ export default function ThemesAndActivitiesStep({
     const valid = selectedThemes.length > 0 && validActivities.length > 0;
     setIsValid(valid);
     onValidationChange(valid);
-  }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
+  }, [selectedThemes, selectedActivities, updateFormData, onValidationChange, toast]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
     if (isSelected) {
@@ -95,7 +102,7 @@ export default function ThemesAndActivitiesStep({
     // Verify this is a valid UUID before adding to selected activities
     const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!validUUIDRegex.test(activityId)) {
-      console.error(`Attempted to ${isChecked ? 'add' : 'remove'} invalid activity ID: "${activityId}"`);
+      console.error(`Rejected invalid activity ID: "${activityId}"`);
       toast({
         title: "Invalid Activity Selection",
         description: "Unable to select this activity due to an invalid identifier.",

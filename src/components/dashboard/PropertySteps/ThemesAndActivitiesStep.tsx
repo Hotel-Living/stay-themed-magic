@@ -60,20 +60,16 @@ export default function ThemesAndActivitiesStep({
   // Update parent form data when local state changes
   useEffect(() => {
     console.log("Updating themes in formData:", selectedThemes);
+    // For themes, we accept any string values - no UUID validation
     updateFormData('themes', selectedThemes);
     
-    // Verify activities are valid UUIDs before updating
+    // For activities, we still enforce UUID format
     const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     const validActivities = selectedActivities.filter(id => {
       if (!id) return false;
       const isValid = typeof id === 'string' && validUUIDRegex.test(id);
       if (!isValid) {
         console.error(`Not updating formData with invalid activity ID: ${id}`);
-        toast({
-          title: "Invalid Activity Selection",
-          description: "An activity with an invalid ID was detected and has been removed.",
-          variant: "destructive",
-        });
       }
       return isValid;
     });

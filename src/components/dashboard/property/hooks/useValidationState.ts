@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
@@ -54,15 +55,17 @@ export const useValidationState = () => {
           incompleteThemeFields.push("Affinities");
         }
         
-        // Add strict UUID validation for activities
-        const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        
-        // Make sure activities exist and are all valid UUIDs
-        const validActivities = formData.activities && Array.isArray(formData.activities) 
-          ? formData.activities.filter(id => id && typeof id === 'string' && validUUIDRegex.test(id))
-          : [];
+        // Only validate activities if they exist - skip UUID validation for themes
+        if (formData.activities && Array.isArray(formData.activities)) {
+          const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
           
-        if (validActivities.length === 0) {
+          // We'll only check UUID format for activities, not themes
+          const validActivities = formData.activities.filter(id => id && typeof id === 'string' && validUUIDRegex.test(id));
+          
+          if (validActivities.length === 0) {
+            incompleteThemeFields.push("Activities");
+          }
+        } else {
           incompleteThemeFields.push("Activities");
         }
         

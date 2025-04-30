@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse } from "date-fns";
 import { handleSupabaseError } from "@/utils/errorHandling";
@@ -7,35 +8,90 @@ export const useRelatedDataSubmission = () => {
   const handleThemesAndActivities = async (hotelId: string, themes: string[], activities: string[]) => {
     console.log("Handling themes and activities for hotel:", hotelId, { themes, activities });
     
-    // Handle themes
+    // Handle themes - we'll map string IDs to UUIDs from the database if needed
     if (themes && themes.length > 0) {
-      // Delete existing themes first
-      const { error: deleteThemesError } = await supabase
-        .from('hotel_themes')
-        .delete()
-        .eq('hotel_id', hotelId);
-        
-      if (deleteThemesError) {
-        console.error("Error deleting existing themes:", deleteThemesError);
-        throw deleteThemesError;
-      }
-
-      const themeRows = themes.map(themeId => ({
-        hotel_id: hotelId,
-        theme_id: themeId
-      }));
-      
-      if (themeRows.length > 0) {
-        const { error: insertThemesError } = await supabase
+      try {
+        // Delete existing themes first
+        const { error: deleteThemesError } = await supabase
           .from('hotel_themes')
-          .insert(themeRows);
+          .delete()
+          .eq('hotel_id', hotelId);
           
-        if (insertThemesError) {
-          console.error("Error inserting themes:", insertThemesError);
-          throw insertThemesError;
-        } else {
-          console.log("Successfully inserted themes:", themeRows.length);
+        if (deleteThemesError) {
+          console.error("Error deleting existing themes:", deleteThemesError);
+          throw deleteThemesError;
         }
+
+        // First, fetch all themes from the database to get valid theme IDs
+        const { data: themeData, error: themeError } = await supabase
+          .from('themes')
+          .select('id, name')
+          .order('name');
+          
+        if (themeError) {
+          console.error("Error fetching themes:", themeError);
+          throw themeError;
+        }
+        
+        // Create a mapping of theme name/id to database UUID
+        const themeMap = new Map();
+        if (themeData) {
+          themeData.forEach(theme => {
+            // Map both by name (lowercase) and ID
+            if (theme.name) themeMap.set(theme.name.toLowerCase(), theme.id);
+            if (theme.id) themeMap.set(theme.id, theme.id); // Direct UUIDs pass through
+          });
+        }
+        
+        // Filter to valid theme IDs
+        const validThemeRows = themes.map(themeId => {
+          // If it's already a valid UUID, use it directly
+          const validUUIDRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          
+          if (validUUIDRegex.test(themeId)) {
+            return {
+              hotel_id: hotelId,
+              theme_id: themeId
+            };
+          }
+          
+          // Try to map string ID to UUID
+          const mappedId = themeMap.get(themeId.toLowerCase());
+          if (mappedId) {
+            return {
+              hotel_id: hotelId,
+              theme_id: mappedId
+            };
+          }
+          
+          // If we can't map it, fallback to first theme as default
+          if (themeData && themeData.length > 0) {
+            console.warn(`Could not map theme "${themeId}" to UUID, using default`);
+            return {
+              hotel_id: hotelId,
+              theme_id: themeData[0].id
+            };
+          }
+          
+          return null;
+        }).filter(Boolean);
+        
+        // Only insert if we have valid theme rows
+        if (validThemeRows.length > 0) {
+          const { error: insertThemesError } = await supabase
+            .from('hotel_themes')
+            .insert(validThemeRows);
+            
+          if (insertThemesError) {
+            console.error("Error inserting themes:", insertThemesError);
+            throw insertThemesError;
+          } else {
+            console.log("Successfully inserted themes:", validThemeRows.length);
+          }
+        }
+      } catch (error) {
+        console.error("Error processing themes:", error);
+        throw error;
       }
     }
 
@@ -69,11 +125,6 @@ export const useRelatedDataSubmission = () => {
           
           if (!isValid) {
             console.error(`Invalid activity ID rejected: "${id}" (type: ${typeof id})`);
-            toast({
-              title: "Invalid Activity ID",
-              description: `An invalid activity ID was detected: ${id}. Please try again.`,
-              variant: "destructive",
-            });
           }
           return isValid;
         });

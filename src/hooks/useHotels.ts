@@ -18,6 +18,13 @@ interface HotelCardData {
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
   available_months?: string[];
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
+  meal_plans?: string[];
+  stay_lengths?: number[];
+  atmosphere?: string;
+  property_type?: string;
+  style?: string;
 }
 
 interface UseHotelsProps {

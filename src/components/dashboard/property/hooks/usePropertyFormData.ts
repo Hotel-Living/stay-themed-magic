@@ -29,8 +29,8 @@ export interface PropertyFormData {
   hotelImages?: UploadedImage[];
   mainImageUrl?: string;
   preferredWeekday?: string;
-  featuresHotel?: any;  
-  featuresRoom?: any;
+  featuresHotel?: Record<string, boolean>;  
+  featuresRoom?: Record<string, boolean>;
   available_months?: string[]; // Added available_months to match database schema
 }
 

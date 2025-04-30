@@ -1,3 +1,4 @@
+
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -28,6 +29,9 @@ interface FilterSidebarProps {
     activities: string[];
     location: string | null;
     category: string | null;
+    stayLengths?: number[];
+    mealPlans?: string[];
+    atmosphere?: string | null;
   };
   handleFilterChange: (filterType: string, value: any) => void;
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;

@@ -30,6 +30,9 @@ export default function Search() {
     activities: string[];
     location: string | null;
     category: string | null;
+    atmosphere: string | null;
+    mealPlans: string[];
+    stayLengths: number[];
   }>({
     country: null,
     month: null,
@@ -44,7 +47,10 @@ export default function Search() {
     lengthOfStay: null,
     activities: [],
     location: null,
-    category: null
+    category: null,
+    atmosphere: null,
+    mealPlans: [],
+    stayLengths: []
   });
 
   // Parse URL parameters when the page loads
@@ -79,6 +85,11 @@ export default function Search() {
       filtersChanged = true;
     }
     
+    if (searchParams.has('propertyStyle')) {
+      newFilters.propertyStyle = searchParams.get('propertyStyle');
+      filtersChanged = true;
+    }
+    
     if (searchParams.has('theme')) {
       // Handle theme differently since it's an object
       const themeId = searchParams.get('theme');
@@ -97,7 +108,8 @@ export default function Search() {
         theme: newFilters.theme,
         priceRange: newFilters.priceRange,
         location: newFilters.location,
-        propertyType: newFilters.propertyType
+        propertyType: newFilters.propertyType,
+        propertyStyle: newFilters.propertyStyle
       });
       
       // Show a toast to inform user about applied filters

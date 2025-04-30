@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 import { Theme } from "@/utils/themes";
 
@@ -12,7 +13,14 @@ export interface FilterState {
   stars?: string[];
   location?: string | null;
   propertyType?: string | null;
+  propertyStyle?: string | null; // Added property style
   activities?: string[];
+  roomTypes?: string[]; // Added room types
+  hotelFeatures?: string[]; // Added hotel features
+  roomFeatures?: string[]; // Added room features
+  mealPlans?: string[]; // Added meal plans
+  stayLengths?: number[]; // Added stay lengths
+  atmosphere?: string | null; // Added atmosphere
 }
 
 export interface FilterSectionProps {

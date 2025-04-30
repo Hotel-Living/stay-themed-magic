@@ -10,7 +10,16 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
     priceRange: null,
     searchTerm: null,
     location: null,
-    propertyType: null
+    propertyType: null,
+    propertyStyle: null,
+    stars: [],
+    activities: [],
+    roomTypes: [],
+    hotelFeatures: [],
+    roomFeatures: [],
+    mealPlans: [],
+    stayLengths: [],
+    atmosphere: null
   });
   
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -48,7 +57,16 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
       priceRange: null,
       searchTerm: null,
       location: null,
-      propertyType: null
+      propertyType: null,
+      propertyStyle: null,
+      stars: [],
+      activities: [],
+      roomTypes: [],
+      hotelFeatures: [],
+      roomFeatures: [],
+      mealPlans: [],
+      stayLengths: [],
+      atmosphere: null
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
@@ -60,7 +78,16 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
            filters.theme !== null || 
            filters.priceRange !== null ||
            filters.location !== null ||
-           filters.propertyType !== null;
+           filters.propertyType !== null ||
+           filters.propertyStyle !== null ||
+           (filters.stars && filters.stars.length > 0) ||
+           (filters.activities && filters.activities.length > 0) ||
+           (filters.roomTypes && filters.roomTypes.length > 0) ||
+           (filters.hotelFeatures && filters.hotelFeatures.length > 0) ||
+           (filters.roomFeatures && filters.roomFeatures.length > 0) ||
+           (filters.mealPlans && filters.mealPlans.length > 0) ||
+           (filters.stayLengths && filters.stayLengths.length > 0) ||
+           filters.atmosphere !== null;
   };
 
   return {

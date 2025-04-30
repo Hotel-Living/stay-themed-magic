@@ -9,6 +9,16 @@ export const createDefaultFilters = (): FilterState => ({
   minPrice: 0,
   maxPrice: 1000,
   stars: [],
+  location: null,
+  propertyType: null,
+  propertyStyle: null,
+  activities: [],
+  roomTypes: [],
+  hotelFeatures: [],
+  roomFeatures: [],
+  mealPlans: [],
+  stayLengths: [],
+  atmosphere: null
 });
 
 export const updateFiltersState = (

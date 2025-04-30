@@ -72,6 +72,9 @@ export interface AdminHotelDetail {
   room_types?: RoomType[] | any[];
   meal_plans?: string[];
   preferredWeekday?: string;
+  atmosphere?: string | null;
+  ideal_guests?: string | null;
+  perfect_location?: string | null;
   terms?: string | null;
 }
 
@@ -102,7 +105,13 @@ export interface HotelDetailProps {
   latitude?: number | string | null;
   longitude?: number | string | null;
   address?: string | null;
+  property_type?: string | null;
+  style?: string | null;
+  meal_plans?: string[];
+  stay_lengths?: number[];
   terms?: string | null;
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
 }
 
 // Update AmenitiesInfo to FeaturesInfo

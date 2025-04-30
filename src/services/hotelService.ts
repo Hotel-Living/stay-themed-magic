@@ -50,6 +50,16 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.eq('property_type', filters.propertyType);
     }
 
+    // Apply property style filter
+    if (filters.propertyStyle) {
+      query = query.eq('style', filters.propertyStyle);
+    }
+
+    // Apply atmosphere filter
+    if (filters.atmosphere) {
+      query = query.ilike('atmosphere', `%${filters.atmosphere}%`);
+    }
+
     // Apply minimum price filter
     if (filters.minPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined)) {
       const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);
@@ -80,6 +90,32 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     // Apply activities filter
     if (filters.activities && filters.activities.length > 0) {
       query = query.in('hotel_activities.activities.category', filters.activities);
+    }
+
+    // Apply hotel features filter
+    if (filters.hotelFeatures && filters.hotelFeatures.length > 0) {
+      // Check if any hotel feature is enabled (true in the jsonb)
+      filters.hotelFeatures.forEach(feature => {
+        query = query.or(`features_hotel->${feature}.eq.true`);
+      });
+    }
+
+    // Apply room features filter
+    if (filters.roomFeatures && filters.roomFeatures.length > 0) {
+      // Check if any room feature is enabled (true in the jsonb)
+      filters.roomFeatures.forEach(feature => {
+        query = query.or(`features_room->${feature}.eq.true`);
+      });
+    }
+
+    // Apply meal plans filter
+    if (filters.mealPlans && filters.mealPlans.length > 0) {
+      query = query.containedBy('meal_plans', filters.mealPlans);
+    }
+
+    // Apply stay lengths filter
+    if (filters.stayLengths && filters.stayLengths.length > 0) {
+      query = query.or(filters.stayLengths.map(length => `stay_lengths.cs.{${length}}`).join(','));
     }
 
     // Include properties with approved status by default
@@ -130,5 +166,12 @@ export const convertHotelToUIFormat = (hotel: any) => {
     theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
       ? hotel.hotel_themes[0].themes.name
       : undefined,
+    features_hotel: hotel.features_hotel || {},
+    features_room: hotel.features_room || {},
+    meal_plans: hotel.meal_plans || [],
+    stay_lengths: hotel.stay_lengths || [],
+    atmosphere: hotel.atmosphere,
+    property_type: hotel.property_type,
+    style: hotel.style,
   };
 };

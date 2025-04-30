@@ -20,7 +20,15 @@ export default function Index() {
     maxPrice: 1000,
     stars: [],
     location: null,
-    propertyType: null
+    propertyType: null,
+    propertyStyle: null,
+    activities: [],
+    roomTypes: [],
+    hotelFeatures: [],
+    roomFeatures: [],
+    mealPlans: [],
+    stayLengths: [],
+    atmosphere: null
   });
 
   // Initialize useHotels hook to prepare for filtering

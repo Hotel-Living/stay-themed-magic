@@ -70,6 +70,13 @@ export default function HotelFeaturesStep({
     }));
   };
 
+  // Convert Record<string, boolean> to string[] for FeaturesList component
+  const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
+    return Object.entries(featuresRecord)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([feature]) => feature);
+  };
+
   return (
     <Collapsible defaultOpen={false} className="w-full">
       <div className="bg-[#6c0686]">
@@ -90,7 +97,7 @@ export default function HotelFeaturesStep({
           </p>
           <FeaturesList
             features={hotelFeatures}
-            selectedFeatures={selectedHotelFeatures}
+            selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)}
             onFeatureChange={handleHotelFeatureChange}
           />
         </div>
@@ -103,7 +110,7 @@ export default function HotelFeaturesStep({
           </p>
           <FeaturesList
             features={roomFeatures}
-            selectedFeatures={selectedRoomFeatures}
+            selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)}
             onFeatureChange={handleRoomFeatureChange}
           />
         </div>

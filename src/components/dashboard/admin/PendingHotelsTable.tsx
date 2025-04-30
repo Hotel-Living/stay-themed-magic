@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface PendingHotelsTableProps {
   hotels: Hotel[];
@@ -18,6 +20,7 @@ export default function PendingHotelsTable({
   onDelete,
   isAllHotelsView 
 }: PendingHotelsTableProps) {
+  const navigate = useNavigate();
 
   return (
     <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
@@ -54,7 +57,7 @@ export default function PendingHotelsTable({
                     variant="outline"
                     size="sm"
                     className="bg-[#1A1F2C] text-white hover:bg-[#2A2F3C]"
-                    onClick={() => window.location.href = `/admin/hotels/${hotel.id}`}
+                    onClick={() => navigate(`/admin/hotels/${hotel.id}`)}
                   >
                     Details
                   </Button>

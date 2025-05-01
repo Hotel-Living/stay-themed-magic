@@ -27,7 +27,9 @@ export default function AddPropertyForm() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useHotelEditing();
-  usePropertySubmission({ formData });
+  if (!editId) {
+    usePropertySubmission({ formData });
+  }
 
   const handleUpdate = async () => {
     if (!editId || !formData?.hotelName) return;

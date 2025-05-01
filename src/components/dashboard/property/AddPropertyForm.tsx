@@ -52,9 +52,20 @@ export default function AddPropertyForm() {
     }
   };
 
+  const stepTitles = [
+    "Basic Information",
+    "Accommodation & Features",
+    "Themes & Activities",
+    "FAQ & Terms"
+  ];
+
   return (
     <div className="max-w-4xl mx-auto px-4">
-      <StepIndicator currentStep={currentStep} />
+      <StepIndicator 
+        currentStep={currentStep} 
+        totalSteps={4} 
+        stepTitle={stepTitles[currentStep - 1]} 
+      />
       <StepContent
         currentStep={currentStep}
         formData={formData}

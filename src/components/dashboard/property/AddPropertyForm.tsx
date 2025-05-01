@@ -1,139 +1,39 @@
+// RUTA: src/components/dashboard/property/AddPropertyForm.tsx
 
 import React from "react";
-import StepIndicator from "../PropertySteps/StepIndicator";
-import StepContent from "../PropertySteps/StepContent";
-import ImportantNotice from "../PropertySteps/ImportantNotice";
-import ValidationErrorBanner from "./ValidationErrorBanner";
-import SuccessMessage from "./SuccessMessage";
-import PropertyFormNavigation from "./components/PropertyFormNavigation";
+import StepIndicator from "./StepIndicator";
+import StepContent from "./StepContent";
 import { usePropertyForm } from "./hooks/usePropertyForm";
-import { useAuth } from "@/context/AuthContext";
-import { useFormNavigation } from "./hooks/useFormNavigation";
-import { useHotelEditing } from "./hooks/useHotelEditing";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
-import { TOTAL_STEPS, STEP_TITLES } from "./constants";
-import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
+import { useHotelEditing } from "./hooks/useHotelEditing";
+import { usePropertyUpdate } from "./hooks/usePropertyUpdate";
 
-export default function AddPropertyForm({
-  editingHotelId,
-  onDoneEditing
-}: {
-  editingHotelId?: string | null;
-  onDoneEditing?: () => void;
-} = {}) {
+export default function AddPropertyForm() {
   const {
-    currentStep,
-    setCurrentStep,
-    stepValidation,
-    validateStep,
-    isSubmitted,
-    setIsSubmitted,
-    submitSuccess,
-    setSubmitSuccess,
-    errorFields,
-    setErrorFields,
-    showValidationErrors,
-    setShowValidationErrors,
     formData,
     setFormData,
-    getIncompleteFields
+    currentStep,
+    setCurrentStep,
+    validateStep,
+    goToNextStep,
+    goToPreviousStep,
   } = usePropertyForm();
 
-  const { user } = useAuth();
-
-  const { validateCurrentStep, goToNextStep, goToPreviousStep } = useFormNavigation({
-    currentStep,
-    totalSteps: TOTAL_STEPS,
-    stepValidation,
-    getIncompleteFields,
-    setErrorFields,
-    setShowValidationErrors,
-    setCurrentStep,
-    formData // Pass formData to validation
-  });
-
-  useHotelEditing({
-    editingHotelId,
-    setFormData,
-    setCurrentStep
-  });
-
-  // Create wrapper functions to match expected signatures
-  const getIncompleteFieldsWrapper = (step: number) => {
-    return getIncompleteFields(step, formData);
-  };
-  
-  const setFormDataWrapper = (data: Partial<PropertyFormData>) => {
-    setFormData(prev => ({...prev, ...data}));
-  };
-
-  const { handleSubmitProperty } = usePropertySubmission({
-    formData,
-    stepValidation,
-    setIsSubmitted,
-    setSubmitSuccess,
-    setErrorFields,
-    setShowValidationErrors,
-    getIncompleteFields: getIncompleteFieldsWrapper,
-    setCurrentStep,
-    setFormData: setFormDataWrapper,
-    userId: user?.id,
-    onDoneEditing
-  });
-
-  const handleSubmit = () => handleSubmitProperty(editingHotelId);
+  useHotelEditing();
+  usePropertyUpdate(formData);
+  usePropertySubmission({ formData });
 
   return (
-    <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
-      <StepIndicator 
-        currentStep={currentStep} 
-        totalSteps={TOTAL_STEPS} 
-        stepTitle={STEP_TITLES[currentStep - 1]} 
-      />
-
-      <PropertyFormNavigation
+    <div className="max-w-4xl mx-auto px-4">
+      <StepIndicator currentStep={currentStep} />
+      <StepContent
         currentStep={currentStep}
-        totalSteps={TOTAL_STEPS}
-        onPrevious={goToPreviousStep}
+        formData={formData}
+        setFormData={setFormData}
         onNext={goToNextStep}
-        onSubmit={handleSubmit}
-      />
-
-      {showValidationErrors && errorFields.length > 0 && (
-        <ValidationErrorBanner errorFields={errorFields} />
-      )}
-
-      {isSubmitted && submitSuccess ? (
-        <SuccessMessage />
-      ) : (
-        <StepContent 
-          currentStep={currentStep}
-          onValidationChange={isValid => validateStep(currentStep, isValid)}
-          formData={formData}
-          updateFormData={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
-        />
-      )}
-
-      <ImportantNotice />
-
-      <PropertyFormNavigation
-        currentStep={currentStep}
-        totalSteps={TOTAL_STEPS}
         onPrevious={goToPreviousStep}
-        onNext={goToNextStep}
-        onSubmit={handleSubmit}
+        validateStep={validateStep}
       />
-
-      {editingHotelId && (
-        <div className="mt-4">
-          <button
-            onClick={onDoneEditing}
-            className="px-4 py-2 rounded bg-fuchsia-700 text-white"
-          >
-            Cancel Editing
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { HotelActivities } from "./HotelActivities";
 import { HotelFaqs } from "./HotelFaqs";
 import { HotelMealPlans } from "./HotelMealPlans";
 import { HotelThemesSection } from "./HotelThemesSection";
+import { DynamicPricingBar } from "./DynamicPricingBar";
 import { Container } from "../ui/container";
 import { HotelDetailProps } from "@/types/hotel";
 
@@ -35,6 +36,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           themes={hotelThemes}
           isLoading={isLoading}
         />
+
+        <DynamicPricingBar />
 
         <HotelGallery 
           images={(hotel.hotel_images || []).map(img => img.image_url)} 

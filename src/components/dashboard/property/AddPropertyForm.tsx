@@ -6,7 +6,7 @@ import StepContent from "./StepContent";
 import { usePropertyForm } from "./hooks/usePropertyForm";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
 import { useHotelEditing } from "./hooks/useHotelEditing";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -24,6 +24,7 @@ export default function AddPropertyForm() {
   const [searchParams] = useSearchParams();
   const editId = searchParams.get("edit");
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useHotelEditing();
@@ -51,6 +52,9 @@ export default function AddPropertyForm() {
         description: "Changes have been saved successfully",
       });
       setUpdateSuccess(true);
+      setTimeout(() => {
+        navigate("/admin");
+      }, 1500);
     }
   };
 

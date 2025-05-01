@@ -26,6 +26,7 @@ export default function AddPropertyForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useHotelEditing();
   if (!editId) {
@@ -35,10 +36,14 @@ export default function AddPropertyForm() {
   const handleUpdate = async () => {
     if (!editId || !formData?.hotelName) return;
 
+    setIsSaving(true);
+
     const { error } = await supabase
       .from("hotels")
       .update({ ...formData })
       .eq("id", editId);
+
+    setIsSaving(false);
 
     if (error) {
       toast({
@@ -53,7 +58,8 @@ export default function AddPropertyForm() {
       });
       setUpdateSuccess(true);
       setTimeout(() => {
-        navigate("/admin");
+        const isAdmin = window.location.pathname.includes("/admin");
+        navigate(isAdmin ? "/admin" : "/hotel-dashboard");
       }, 1500);
     }
   };
@@ -84,9 +90,10 @@ export default function AddPropertyForm() {
         <div className="mt-6">
           <button
             onClick={handleUpdate}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+            disabled={isSaving}
           >
-            Save changes
+            {isSaving ? "Saving..." : "Save changes"}
           </button>
           {updateSuccess && (
             <p className="mt-3 text-green-600 font-medium">

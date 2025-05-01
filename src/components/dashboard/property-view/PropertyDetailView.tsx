@@ -9,9 +9,13 @@ import FeaturesSection from "./sections/FeaturesSection";
 import RoomTypesSection from "./sections/RoomTypesSection";
 import ImageGallery from "./sections/ImageGallery";
 import FaqSection from "./sections/FaqSection";
-import EditMyPropertyButton from "@/components/hotel-dashboard/EditMyPropertyButton";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PropertyDetailView({ hotel }: { hotel: any }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
     <div className="space-y-6">
       <BasicInformation hotel={hotel} />
@@ -22,7 +26,17 @@ export default function PropertyDetailView({ hotel }: { hotel: any }) {
       <RoomTypesSection hotel={hotel} />
       <ImageGallery hotel={hotel} />
       <FaqSection hotel={hotel} />
-      <EditMyPropertyButton hotelId={hotel.id} />
+
+      {isAdmin && (
+        <div className="mt-6">
+          <button
+            onClick={() => navigate(`/add-property?edit=${hotel.id}`)}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Edit this property
+          </button>
+        </div>
+      )}
     </div>
   );
 }

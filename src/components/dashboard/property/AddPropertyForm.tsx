@@ -1,6 +1,6 @@
 // RUTA: src/components/dashboard/property/AddPropertyForm.tsx
 
-import React from "react";
+import React, { useState } from "react";
 import StepIndicator from "./StepIndicator";
 import StepContent from "./StepContent";
 import { usePropertyForm } from "./hooks/usePropertyForm";
@@ -24,6 +24,7 @@ export default function AddPropertyForm() {
   const [searchParams] = useSearchParams();
   const editId = searchParams.get("edit");
   const { toast } = useToast();
+  const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useHotelEditing();
   usePropertySubmission({ formData });
@@ -38,15 +39,16 @@ export default function AddPropertyForm() {
 
     if (error) {
       toast({
-        title: "Error al actualizar",
+        title: "Update failed",
         description: error.message,
         variant: "destructive",
       });
     } else {
       toast({
-        title: "Propiedad actualizada",
-        description: "Los datos se han guardado correctamente",
+        title: "Property updated",
+        description: "Changes have been saved successfully",
       });
+      setUpdateSuccess(true);
     }
   };
 
@@ -62,12 +64,19 @@ export default function AddPropertyForm() {
         validateStep={validateStep}
       />
       {editId && (
-        <button
-          onClick={handleUpdate}
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Guardar cambios
-        </button>
+        <div className="mt-6">
+          <button
+            onClick={handleUpdate}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Save changes
+          </button>
+          {updateSuccess && (
+            <p className="mt-3 text-green-600 font-medium">
+              ✅ Changes saved successfully.
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

@@ -39,7 +39,9 @@ export default function MyPropertiesList() {
               onClick={() => navigate(`/hotel/property/${hotel.id}`)}
             >
               <p className="font-medium">{hotel.hotelName}</p>
-              <p className="text-sm text-gray-500">{hotel.city}, {hotel.country}</p>
+              <p className="text-sm text-gray-500">
+                {hotel.city}, {hotel.country}
+              </p>
             </li>
           ))}
         </ul>

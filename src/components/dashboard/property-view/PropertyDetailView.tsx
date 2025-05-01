@@ -1,26 +1,17 @@
-// RUTA: src/components/dashboard/property-view/PropertyDetailView.tsx
+// RUTA: src/components/dashboard/property-view/HotelPropertyDetailView.tsx
 
 import React from "react";
-import BasicInformation from "./sections/BasicInformation";
-import ContactInformation from "./sections/ContactInformation";
-import LocationInformation from "./sections/LocationInformation";
-import ThemesActivities from "./sections/ThemesActivities";
-import FeaturesSection from "./sections/FeaturesSection";
-import RoomTypesSection from "./sections/RoomTypesSection";
-import ImageGallery from "./sections/ImageGallery";
-import FaqSection from "./sections/FaqSection";
+import PropertyDetailView from "./PropertyDetailView";
+import { useHotelDetails } from "@/components/dashboard/admin/hooks/useHotelDetails";
+import { useParams } from "react-router-dom";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
-export default function PropertyDetailView({ hotel }: { hotel: any }) {
-  return (
-    <div className="space-y-6">
-      <BasicInformation hotel={hotel} />
-      <ContactInformation hotel={hotel} />
-      <LocationInformation hotel={hotel} />
-      <ThemesActivities hotel={hotel} />
-      <FeaturesSection hotel={hotel} />
-      <RoomTypesSection hotel={hotel} />
-      <ImageGallery hotel={hotel} />
-      <FaqSection hotel={hotel} />
-    </div>
-  );
+export default function HotelPropertyDetailView() {
+  const { id } = useParams();
+  const { hotel, isLoading } = useHotelDetails(id || "");
+
+  if (isLoading) return <LoadingSpinner />;
+  if (!hotel) return <div className="text-center text-red-500">Hotel no encontrado.</div>;
+
+  return <PropertyDetailView hotel={hotel} />;
 }

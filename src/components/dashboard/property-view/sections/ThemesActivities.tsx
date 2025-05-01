@@ -1,47 +1,34 @@
+// RUTA: src/components/dashboard/property-view/sections/ThemesActivities.tsx
 
-import React from 'react';
-import { Card } from "@/components/ui/card";
-import { Hotel } from "@/integrations/supabase/types-custom";
+import React from "react";
 
-interface ThemesActivitiesProps {
-  hotel: Hotel;
-}
+export default function ThemesActivities({ hotel }: { hotel: any }) {
+  const themes = hotel?.hotel_themes || [];
+  const activities = hotel?.hotel_activities || [];
 
-export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
-  const hotelThemes = hotel.hotel_themes || [];
-  const hotelActivities = hotel.hotel_activities || [];
-  
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card className="p-6 bg-[#2A0F44]">
-        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Affinities</h3>
-        <div className="flex flex-wrap gap-2">
-          {hotelThemes.length > 0 ? (
-            hotelThemes.map((theme) => (
-              <span key={theme.theme_id} className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm">
-                {theme.themes?.name || "Unknown Theme"}
-              </span>
-            ))
-          ) : (
-            <p>No affinities specified</p>
-          )}
-        </div>
-      </Card>
+    <div>
+      <h2 className="text-xl font-semibold mb-2">Temáticas (Affinities)</h2>
+      {themes.length > 0 ? (
+        <ul className="list-disc list-inside">
+          {themes.map((theme: any, idx: number) => (
+            <li key={idx}>{theme.themes?.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">No hay temáticas asignadas.</p>
+      )}
 
-      <Card className="p-6 bg-[#2A0F44]">
-        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Activities</h3>
-        <div className="flex flex-wrap gap-2">
-          {hotelActivities.length > 0 ? (
-            hotelActivities.map((activity) => (
-              <span key={activity.activity_id} className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm">
-                {activity.activities?.name || "Unknown Activity"}
-              </span>
-            ))
-          ) : (
-            <p>No activities specified</p>
-          )}
-        </div>
-      </Card>
+      <h2 className="text-xl font-semibold mt-6 mb-2">Actividades</h2>
+      {activities.length > 0 ? (
+        <ul className="list-disc list-inside">
+          {activities.map((activity: any, idx: number) => (
+            <li key={idx}>{activity.activities?.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">No hay actividades asignadas.</p>
+      )}
     </div>
   );
-};
+}

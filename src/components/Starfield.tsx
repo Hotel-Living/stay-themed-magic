@@ -28,11 +28,11 @@ export function Starfield() {
       {backgroundImages.map((image, index) => (
         <div 
           key={index}
-          className={`bg-slide absolute inset-0 bg-cover bg-center transition-opacity duration-3000 ease-in-out ${currentSlide === index ? 'opacity-60' : 'opacity-0'}`}
+          className={`bg-slide absolute inset-0 bg-cover bg-center transition-opacity duration-3000 ease-in-out ${currentSlide === index ? 'opacity-80' : 'opacity-0'}`}
           style={{ backgroundImage: `url(${image})` }}
         />
       ))}
-      <div className="overlay absolute inset-0 bg-black/14 backdrop-blur-[2.1px]" />
+      <div className="overlay absolute inset-0 bg-black/11 backdrop-blur-[2.1px]" />
     </div>
   );
 }

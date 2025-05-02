@@ -35,7 +35,7 @@ export const useHotelSubmission = () => {
     const preferredWeekday = formData.preferredWeekday || "Monday";
     
     // Extract rates for different stay lengths
-    const rates = {
+    const rates = formData.rates || {
       "8": formData.price_8,
       "16": formData.price_16,
       "24": formData.price_24,
@@ -121,7 +121,7 @@ export const useHotelSubmission = () => {
     console.log("Room features being updated:", featuresRoom);
     
     // Extract rates for different stay lengths
-    const rates = {
+    const rates = formData.rates || {
       "8": formData.price_8,
       "16": formData.price_16,
       "24": formData.price_24,

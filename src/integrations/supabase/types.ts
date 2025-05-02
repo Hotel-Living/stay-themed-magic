@@ -302,6 +302,7 @@ export type Database = {
           price_per_month: number
           property_style: string | null
           property_type: string | null
+          rates: Json | null
           rejection_reason: string | null
           room_types: Json[] | null
           status: string | null
@@ -349,6 +350,7 @@ export type Database = {
           price_per_month: number
           property_style?: string | null
           property_type?: string | null
+          rates?: Json | null
           rejection_reason?: string | null
           room_types?: Json[] | null
           status?: string | null
@@ -396,6 +398,7 @@ export type Database = {
           price_per_month?: number
           property_style?: string | null
           property_type?: string | null
+          rates?: Json | null
           rejection_reason?: string | null
           room_types?: Json[] | null
           status?: string | null

@@ -77,6 +77,9 @@ export interface AdminHotelDetail {
   perfect_location?: string | null;
   terms?: string | null;
   rates?: Record<string, number>;
+  currency?: string;
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
 }
 
 export interface HotelDetailProps {
@@ -114,6 +117,9 @@ export interface HotelDetailProps {
   features_hotel?: Record<string, boolean>;
   features_room?: Record<string, boolean>;
   rates?: Record<string, number>;
+  currency?: string;
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
 }
 
 // Update AmenitiesInfo to FeaturesInfo

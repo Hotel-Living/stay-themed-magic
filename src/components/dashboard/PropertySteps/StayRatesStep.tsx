@@ -85,6 +85,7 @@ export default function StayRatesStep({
     
     // Convert rates to specific price fields
     const priceFields: Record<string, number> = {};
+    const ratesObject: Record<string, number> = {};
     
     // Extract prices for each stay length
     for (const key in rates) {
@@ -101,6 +102,7 @@ export default function StayRatesStep({
           const fieldName = `price_${days}`;
           if (!priceFields[fieldName] || price > priceFields[fieldName]) {
             priceFields[fieldName] = price;
+            ratesObject[days.toString()] = price;
           }
         }
       }
@@ -112,15 +114,6 @@ export default function StayRatesStep({
     });
     
     // Also update the rates object with the same values
-    const ratesObject: Record<string, number> = {};
-    stayOptions.forEach(option => {
-      const days = option.split(' ')[0];
-      const fieldName = `price_${days}`;
-      if (priceFields[fieldName]) {
-        ratesObject[days] = priceFields[fieldName];
-      }
-    });
-    
     updateFormData('rates', ratesObject);
     
     // Update validation state

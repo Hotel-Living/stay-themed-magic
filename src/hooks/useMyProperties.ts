@@ -45,6 +45,7 @@ export interface MyHotel {
   roomTypes?: any[];
   preferredWeekday?: string | null;
   rates?: Record<string, number>; // Added rates field
+  currency?: string;
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
@@ -128,7 +129,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
-          rates: (hotel.rates as Record<string, number>) || {}, // Added rates
+          rates: (hotel.rates as Record<string, number>) || {}, // Added rates with type safety
           // Additional fields with safe defaults
           ideal_guests: null,
           atmosphere: null,

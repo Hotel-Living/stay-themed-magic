@@ -37,6 +37,9 @@ export interface PropertyFormData {
   price_24?: number; // Price for 24-day stay
   price_32?: number; // Price for 32-day stay
   rates?: Record<string, number>; // For storing all rates together
+  currency?: string; // Added to store currency information
+  enablePriceIncrease?: boolean; // Added for dynamic pricing setting
+  priceIncreaseCap?: number; // Added for dynamic pricing max percentage
 }
 
 export const usePropertyFormData = () => {
@@ -72,7 +75,10 @@ export const usePropertyFormData = () => {
     price_16: 0,
     price_24: 0,
     price_32: 0,
-    rates: {}
+    rates: {},
+    currency: "USD",
+    enablePriceIncrease: false,
+    priceIncreaseCap: 20
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

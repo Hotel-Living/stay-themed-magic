@@ -94,7 +94,7 @@ export const usePropertySubmission = ({
         hotelId = hotelData.id;
       }
       
-      // Handle image submissions - if there are custom images use them, otherwise use placeholders
+      // Handle image submissions immediately after hotel creation/update
       if (formData.hotelImages && formData.hotelImages.length > 0) {
         await handleCustomImages(hotelId, formData.hotelImages);
       } else {
@@ -110,7 +110,8 @@ export const usePropertySubmission = ({
       }
       
       try {
-        await handleAvailability(hotelId, formData.stayLengths || []);
+        // Availability should be processed after the hotel has been created/updated
+        await handleAvailability(hotelId, formData.available_months || [], formData.stayLengths || []);
       } catch (availError) {
         console.warn("Availability submission had issues but continuing:", availError);
         // Continue with submission even if availability has issues

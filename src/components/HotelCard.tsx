@@ -1,91 +1,111 @@
-import { Link } from "react-router-dom";
-import { Star, Calendar } from "lucide-react";
-import { HotelThemes } from "./ThemeTag";
-import { Theme } from "@/utils/themes";
 
-export interface HotelCardProps {
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { formatCurrency } from "@/utils/dynamicPricing";
+
+interface HotelCardProps {
   id: string;
   name: string;
   city: string;
   country: string;
   stars: number;
-  pricePerMonth: number;
-  themes: string[] | Theme[];
+  pricePerMonth?: number;
+  themes?: Array<{ id: string; name: string }>;
   image: string;
   availableMonths?: string[];
+  rates?: Record<string, number>;
+  currency?: string;
+  onClick?: () => void;
 }
 
-export function HotelCard({ 
-  id, 
-  name, 
-  city, 
-  country, 
-  stars, 
-  pricePerMonth, 
-  themes, 
+export const HotelCard = ({
+  id,
+  name,
+  city,
+  country,
+  stars,
+  pricePerMonth,
+  themes = [],
   image,
-  availableMonths = []
-}: HotelCardProps) {
-  const themeObjects = themes.map(theme => {
-    if (typeof theme === 'string') {
-      return { id: theme, name: theme, category: 'Unknown' } as Theme;
+  availableMonths = [],
+  rates = {},
+  currency = "USD",
+  onClick
+}: HotelCardProps) => {
+  // Helper function to display rates in the desired format
+  const displayRates = () => {
+    const stayLengths = ["8", "16", "24", "32"];
+    const availableRates = stayLengths.filter(length => rates[length]);
+    
+    if (availableRates.length === 0) {
+      // If no rates defined in the new format, use the old pricePerMonth
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "";
     }
-    return theme;
-  });
-
+    
+    // Start with the lowest stay length that has a rate
+    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
+    
+    if (availableRates.length === 1) {
+      return `${formatCurrency(rates[lowestStayLength], currency)} (${lowestStayLength} days)`;
+    }
+    
+    return (
+      <div>
+        <div className="text-sm font-semibold">From {formatCurrency(rates[lowestStayLength], currency)}</div>
+        <div className="text-xs">
+          {availableRates.map(length => 
+            `${formatCurrency(rates[length], currency)} (${length} days)`
+          ).join(" · ")}
+        </div>
+      </div>
+    );
+  };
+  
   return (
-    <Link 
-      to={`/hotel/${id}`} 
-      className="group block animate-fade-in"
+    <Card 
+      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card"
+      onClick={onClick}
     >
-      <div className="glass-card-hover overflow-hidden rounded-2xl transition-all duration-500 group-hover:shadow-[0_10px_30px_rgba(217,70,239,0.3)]">
-        <div className="aspect-[4/3] overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
-          <img 
-            src={image} 
-            alt={name}
-            className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-          />
-          <div className="absolute top-3 left-3 rounded-full bg-black/40 backdrop-blur-md px-3 py-1 flex items-center gap-1 z-20">
-            {Array.from({ length: stars }).map((_, i) => (
-              <Star key={i} className="w-3 h-3 fill-fuchsia-400 text-fuchsia-400" />
+      <div className="aspect-[16/9] overflow-hidden relative">
+        <img 
+          src={image || "/placeholder.svg"} 
+          alt={name} 
+          className="object-cover w-full h-full"
+        />
+        {themes.length > 0 && (
+          <div className="absolute top-2 left-2">
+            <Badge variant="secondary" className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80">
+              {themes[0].name}
+            </Badge>
+          </div>
+        )}
+      </div>
+      <CardContent className="p-4">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-semibold line-clamp-1">{name}</h3>
+          <div className="flex items-center">
+            {Array.from({ length: Math.min(stars, 5) }).map((_, i) => (
+              <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
             ))}
           </div>
         </div>
         
-        <div className="p-5">
-          <div className="mb-2">
-            <HotelThemes themes={themeObjects.slice(0, 2)} size="sm" />
-            {themeObjects.length > 2 && (
-              <span className="text-xs text-fuchsia-400 ml-2">+{themeObjects.length - 2} more</span>
-            )}
-          </div>
-          
-          <h3 className="text-xl font-bold mb-1 group-hover:text-fuchsia-300 transition-colors">{name}</h3>
-          
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-            <span>{city}, {country}</span>
-          </div>
-          
-          {availableMonths.length > 0 && (
-            <div className="flex items-center gap-2 text-sm text-fuchsia-400/80 mb-3">
-              <Calendar className="w-4 h-4" />
-              <span>
-                {availableMonths.length === 1 
-                  ? `${availableMonths[0]} available` 
-                  : `${availableMonths.length} months available`}
-              </span>
-            </div>
-          )}
-          
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-bold text-gradient">${pricePerMonth}/month</div>
-            <span className="text-xs text-fuchsia-400 px-3 py-1 rounded-full bg-fuchsia-400/10 border border-fuchsia-400/20">
-              Available
-            </span>
-          </div>
+        <div className="text-sm text-muted-foreground mb-3">
+          {city}, {country}
         </div>
-      </div>
-    </Link>
+        
+        <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
+          <div className="text-sm font-medium">
+            {displayRates()}
+          </div>
+          
+          {availableMonths && availableMonths.length > 0 && (
+            <div className="text-xs text-fuchsia-400">{availableMonths.length} months available</div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
-}
+};

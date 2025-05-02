@@ -30,6 +30,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           city={hotel.city || ""}
           country={hotel.country || ""}
           themes={hotelThemes}
+          rates={hotel.rates}
+          currency={hotel.currency}
           isLoading={isLoading}
         />
         

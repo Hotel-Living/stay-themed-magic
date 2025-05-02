@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
@@ -17,9 +17,11 @@ export default function HotelFeaturesStep({
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
   const [isInitialized, setIsInitialized] = useState(false);
+  const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize from formData once
   useEffect(() => {
+    // Always initialize from formData, regardless of if we've already initialized
     if (formData.featuresHotel && typeof formData.featuresHotel === 'object') {
       console.log("Setting hotel features from formData:", formData.featuresHotel);
       setSelectedHotelFeatures(formData.featuresHotel);
@@ -33,23 +35,37 @@ export default function HotelFeaturesStep({
     setIsInitialized(true);
     // This step is always valid
     onValidationChange(true);
-  }, []);
+  }, [formData]); // Add formData as dependency to reinitialize when it changes
 
   // Debounce form updates to prevent flickering
   useEffect(() => {
     // Skip the initial render to avoid resetting form data
     if (!isInitialized) return;
     
+    // Clear any existing timeout
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    
     // Use a timeout to batch update parent form only after user stops making changes
-    const updateTimeout = setTimeout(() => {
+    updateTimeoutRef.current = setTimeout(() => {
       console.log("Updating form data with hotel features:", selectedHotelFeatures);
       updateFormData('featuresHotel', selectedHotelFeatures);
       
       console.log("Updating form data with room features:", selectedRoomFeatures);
       updateFormData('featuresRoom', selectedRoomFeatures);
-    }, 500); // 500ms debounce delay
+    }, 300); // 300ms debounce delay
     
-    return () => clearTimeout(updateTimeout);
+    // Cleanup function that ensures updates happen before unmount
+    return () => {
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+        // Force update on unmount to ensure data is saved
+        console.log("Forcing update on unmount");
+        updateFormData('featuresHotel', selectedHotelFeatures);
+        updateFormData('featuresRoom', selectedRoomFeatures);
+      }
+    };
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, isInitialized]);
 
   const handleHotelFeatureToggle = useCallback((featureId: string) => {

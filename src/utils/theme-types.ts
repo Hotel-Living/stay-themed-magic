@@ -1,9 +1,9 @@
-
 export interface Theme {
   id: string;
   name: string;
   description?: string;
   isAddOption?: boolean;
+  category?: string;
 }
 
 export interface ThemeOption {

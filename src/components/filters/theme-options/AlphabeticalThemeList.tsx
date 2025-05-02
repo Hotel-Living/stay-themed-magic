@@ -44,7 +44,7 @@ export function AlphabeticalThemeList({
     onChange({ 
       id: affinity.toLowerCase(), 
       name: affinity,
-      category: ""  // We don't need category for this simplified list
+      category: "GENERAL" 
     });
   };
   
@@ -61,7 +61,7 @@ export function AlphabeticalThemeList({
       {filteredAffinities.map(affinity => (
         <ThemeButton
           key={affinity}
-          theme={{ id: affinity.toLowerCase(), name: affinity, category: "" }}
+          theme={{ id: affinity.toLowerCase(), name: affinity, category: "GENERAL" }}
           isActive={activeTheme?.name === affinity}
           onClick={() => handleThemeClick(affinity)}
         />

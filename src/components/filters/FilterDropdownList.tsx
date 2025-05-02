@@ -27,7 +27,7 @@ interface FilterDropdownListProps {
   toggleThemeCategory: (category: string) => void;
   textColor: string;
   availableThemes: string[];
-  labelTextSize?: string; // Added labelTextSize prop
+  labelTextSize?: string;
 }
 
 export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
@@ -48,7 +48,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
   toggleThemeCategory,
   textColor,
   availableThemes,
-  labelTextSize = "text-sm" // Added default value
+  labelTextSize = "text-sm"
 }) => {
   return (
     <>
@@ -67,7 +67,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[0.88em]" // 20% smaller than default
+        labelTextSize="text-[0.7em]" // 30% smaller than default
       />
       
       <FilterDropdown
@@ -85,7 +85,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[0.88em]" // 20% smaller than default
+        labelTextSize="text-[0.7em]" // 30% smaller than default
       />
       
       <FilterDropdown
@@ -112,7 +112,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
           useLargerMobileText
         })}
         textColor={textColor}
-        labelTextSize="text-[0.88em]" // 20% smaller than default
+        labelTextSize="text-[0.7em]" // 30% smaller than default
       />
       
       <FilterDropdown
@@ -130,7 +130,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[0.88em]" // 20% smaller than default
+        labelTextSize="text-[0.7em]" // 30% smaller than default
       />
     </>
   );

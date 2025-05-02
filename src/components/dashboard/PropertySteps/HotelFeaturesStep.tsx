@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 
@@ -16,8 +16,9 @@ export default function HotelFeaturesStep({
 }: HotelFeaturesStepProps) {
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize from formData
+  // Initialize from formData once
   useEffect(() => {
     if (formData.featuresHotel && typeof formData.featuresHotel === 'object') {
       console.log("Setting hotel features from formData:", formData.featuresHotel);
@@ -28,34 +29,42 @@ export default function HotelFeaturesStep({
       console.log("Setting room features from formData:", formData.featuresRoom);
       setSelectedRoomFeatures(formData.featuresRoom);
     }
-  }, [formData.featuresHotel, formData.featuresRoom]);
 
-  // Update parent form data when selected features change
-  useEffect(() => {
-    if (updateFormData) {
-      console.log("Updating form data with hotel features:", selectedHotelFeatures);
-      updateFormData('featuresHotel', selectedHotelFeatures);
-      console.log("Updating form data with room features:", selectedRoomFeatures);
-      updateFormData('featuresRoom', selectedRoomFeatures);
-    }
-    
+    setIsInitialized(true);
     // This step is always valid
     onValidationChange(true);
-  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, onValidationChange]);
+  }, []);
 
-  const handleHotelFeatureToggle = (featureId: string) => {
+  // Debounce form updates to prevent flickering
+  useEffect(() => {
+    // Skip the initial render to avoid resetting form data
+    if (!isInitialized) return;
+    
+    // Use a timeout to batch update parent form only after user stops making changes
+    const updateTimeout = setTimeout(() => {
+      console.log("Updating form data with hotel features:", selectedHotelFeatures);
+      updateFormData('featuresHotel', selectedHotelFeatures);
+      
+      console.log("Updating form data with room features:", selectedRoomFeatures);
+      updateFormData('featuresRoom', selectedRoomFeatures);
+    }, 500); // 500ms debounce delay
+    
+    return () => clearTimeout(updateTimeout);
+  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, isInitialized]);
+
+  const handleHotelFeatureToggle = useCallback((featureId: string) => {
     setSelectedHotelFeatures(prev => ({
       ...prev,
       [featureId]: !prev[featureId]
     }));
-  };
+  }, []);
 
-  const handleRoomFeatureToggle = (featureId: string) => {
+  const handleRoomFeatureToggle = useCallback((featureId: string) => {
     setSelectedRoomFeatures(prev => ({
       ...prev,
       [featureId]: !prev[featureId]
     }));
-  };
+  }, []);
 
   // Convert record to array for FeaturesList component
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {

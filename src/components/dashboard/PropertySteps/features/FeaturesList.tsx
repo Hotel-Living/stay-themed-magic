@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { memo } from "react";
 import { PlusCircle } from "lucide-react";
 
 interface FeaturesListProps {
@@ -9,7 +9,7 @@ interface FeaturesListProps {
   onAddNewFeature?: () => void;
 }
 
-export function FeaturesList({ 
+export const FeaturesList = memo(function FeaturesList({ 
   features, 
   selectedFeatures,
   onToggle,
@@ -39,4 +39,4 @@ export function FeaturesList({
       )}
     </div>
   );
-}
+});

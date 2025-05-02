@@ -1,55 +1,51 @@
 
 import React from "react";
-import { Card } from "@/components/ui/card";
-import { Settings2 } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 interface FeaturesInfoProps {
   hotelFeatures: Record<string, boolean>;
   roomFeatures: Record<string, boolean>;
 }
 
-export const FeaturesInfo = ({ hotelFeatures, roomFeatures }: FeaturesInfoProps) => {
-  // Helper function to render features
-  const renderFeatures = (features: Record<string, boolean>) => {
-    if (!features || Object.keys(features).length === 0) {
-      return <p className="text-gray-500 italic">No features specified</p>;
+export function FeaturesInfo({ hotelFeatures, roomFeatures }: FeaturesInfoProps) {
+  const renderFeatureList = (features: Record<string, boolean>) => {
+    const enabledFeatures = Object.entries(features)
+      .filter(([_, isEnabled]) => isEnabled)
+      .map(([feature]) => feature);
+    
+    if (enabledFeatures.length === 0) {
+      return <p className="text-gray-400 italic">No features specified</p>;
     }
-
+    
     return (
-      <div className="flex flex-wrap gap-2">
-        {Object.entries(features)
-          .filter(([_, selected]) => selected)
-          .map(([featureId]) => (
-            <span 
-              key={featureId} 
-              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
-            >
-              {featureId.replace(/_/g, ' ')}
-            </span>
-          ))
-        }
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {enabledFeatures.map(feature => (
+          <div key={feature} className="flex items-center gap-2 p-2 bg-purple-900/20 rounded-md">
+            <Check className="h-4 w-4 text-purple-400" />
+            <span className="text-sm">{feature.replace(/_/g, ' ')}</span>
+          </div>
+        ))}
       </div>
     );
   };
-
+  
   return (
     <div className="rounded-xl p-6 bg-[#2A0F44]">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
-        <Settings2 className="w-5 h-5 text-purple-400" />
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">
         Features
       </h3>
       
       <div className="space-y-6">
         <div>
-          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Hotel Features</h4>
-          {renderFeatures(hotelFeatures)}
+          <h4 className="text-lg text-purple-300 font-medium mb-3">Hotel Features</h4>
+          {renderFeatureList(hotelFeatures)}
         </div>
         
         <div>
-          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Room Features</h4>
-          {renderFeatures(roomFeatures)}
+          <h4 className="text-lg text-purple-300 font-medium mb-3">Room Features</h4>
+          {renderFeatureList(roomFeatures)}
         </div>
       </div>
     </div>
   );
-};
+}

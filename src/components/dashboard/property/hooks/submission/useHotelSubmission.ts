@@ -21,9 +21,12 @@ export const useHotelSubmission = () => {
     // Convert themes selected to proper format
     const themes = formData.themes || [];
     
-    // Extract hotel and room features
+    // Extract hotel and room features - ensure they're actually objects
     const featuresHotel = formData.featuresHotel || {};
     const featuresRoom = formData.featuresRoom || {};
+    
+    console.log("Hotel features being submitted:", featuresHotel);
+    console.log("Room features being submitted:", featuresRoom);
     
     // Extract faqs
     const faqs = formData.faqs || [];
@@ -99,9 +102,12 @@ export const useHotelSubmission = () => {
     // Get the selected weekday
     const preferredWeekday = formData.preferredWeekday || "Monday";
 
-    // Extract hotel and room features
+    // Extract hotel and room features - ensure they're actually objects
     const featuresHotel = formData.featuresHotel || {};
     const featuresRoom = formData.featuresRoom || {};
+    
+    console.log("Hotel features being updated:", featuresHotel);
+    console.log("Room features being updated:", featuresRoom);
     
     // Prepare the hotel data for update
     const hotelData = {

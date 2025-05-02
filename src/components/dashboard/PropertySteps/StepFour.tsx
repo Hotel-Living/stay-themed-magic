@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,9 +20,17 @@ export default function StepFour({
 }: StepFourProps) {
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
 
+  // Initialize from form data
+  useEffect(() => {
+    if (formData.activities && Array.isArray(formData.activities)) {
+      setSelectedActivities(formData.activities);
+    }
+  }, [formData.activities]);
+
   // Update parent form data when activities change
   useEffect(() => {
     if (updateFormData) {
+      console.log("Updating activities in form data:", selectedActivities);
       updateFormData('activities', selectedActivities);
     }
   }, [selectedActivities, updateFormData]);

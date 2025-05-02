@@ -48,6 +48,17 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
     }
   });
 
+  // Function to display the value properly, handling different formats
+  const displayValue = () => {
+    if (!value) return label;
+    
+    if (typeof value === 'object' && value.name) {
+      return value.name;
+    }
+    
+    return value;
+  };
+
   return (
     <div 
       ref={dropdownRef} 
@@ -69,9 +80,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
             uppercase
           `}
         >
-          {value ? (
-            typeof value === 'object' && value.name ? value.name : value
-          ) : label}
+          {displayValue()}
         </span>
         <div className="flex items-center gap-1">
           {value && (

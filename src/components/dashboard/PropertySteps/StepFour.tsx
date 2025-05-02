@@ -33,19 +33,19 @@ export default function StepFour({
       console.log("Updating activities in form data:", selectedActivities);
       updateFormData('activities', selectedActivities);
     }
-  }, [selectedActivities, updateFormData]);
-
-  // Update validation based on selected activities
-  useEffect(() => {
+    
     // Consider the step valid if at least one activity is selected
     const isValid = selectedActivities.length > 0;
     onValidationChange(isValid);
-  }, [selectedActivities, onValidationChange]);
+  }, [selectedActivities, updateFormData, onValidationChange]);
 
   const handleActivityChange = (activity: string, isChecked: boolean) => {
     setSelectedActivities(prev => {
       if (isChecked) {
-        return [...prev, activity];
+        if (!prev.includes(activity)) {
+          return [...prev, activity];
+        }
+        return prev;
       }
       return prev.filter(a => a !== activity);
     });

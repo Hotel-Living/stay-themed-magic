@@ -37,7 +37,7 @@ export default function ThemesAndActivitiesStep({
       console.log("Setting activities from formData:", formData.activities);
       setSelectedActivities(formData.activities);
     }
-  }, []);
+  }, [formData.themes, formData.activities]);
 
   // Update parent form data when local state changes
   useEffect(() => {

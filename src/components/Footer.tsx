@@ -11,7 +11,7 @@ export function Footer() {
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
-            <div className={isMobile ? "h-[51px]" : ""}>
+            <div className={isMobile ? "h-[45.9px]" : ""}>
               <Logo />
             </div>
           </div>
@@ -58,13 +58,13 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
-            <Link to="/signup" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-sm scale-[1.3] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/signup" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
               Register
             </Link>
-            <Link to="/login" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-sm scale-[1.3] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/login" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
               Sign In
             </Link>
-            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-sm scale-[1.3] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
               Hotels
             </Link>
           </div>

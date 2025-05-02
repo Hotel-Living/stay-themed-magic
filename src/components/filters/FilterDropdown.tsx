@@ -48,9 +48,6 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
     }
   });
 
-  // Use the passed labelTextSize and make it 10% bigger
-  const mobileLabelSize = isMobile ? "text-base" : "";
-  
   return (
     <div 
       ref={dropdownRef} 
@@ -67,7 +64,6 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
         <span 
           className={`
             ${labelTextSize}
-            ${mobileLabelSize}
             ${useBoldLabels ? "font-bold" : ""} 
             ${value ? "text-white" : `text-[#860493]`}
             uppercase

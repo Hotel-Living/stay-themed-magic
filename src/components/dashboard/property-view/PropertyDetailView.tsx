@@ -11,6 +11,7 @@ import { ContactInformation } from "./sections/ContactInformation";
 import { FaqSection } from "./sections/FaqSection";
 import { ImageGallery } from "./sections/ImageGallery";
 import { RoomTypesSection } from "./sections/RoomTypesSection";
+import { Badge } from "@/components/ui/badge";
 
 interface PropertyDetailViewProps {
   hotel: any;
@@ -19,6 +20,20 @@ interface PropertyDetailViewProps {
 
 export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailViewProps) {
   console.log("PropertyDetailView hotel data:", hotel);
+  
+  // Helper function to get badge variant based on status
+  const getStatusBadge = () => {
+    switch (hotel.status) {
+      case 'pending':
+        return <Badge variant="outline" className="ml-2 bg-yellow-100/20 text-yellow-300 border-yellow-400">Pending Approval</Badge>;
+      case 'rejected':
+        return <Badge variant="outline" className="ml-2 bg-red-100/20 text-red-300 border-red-400">Rejected</Badge>;
+      case 'approved':
+        return <Badge variant="outline" className="ml-2 bg-green-100/20 text-green-300 border-green-400">Approved</Badge>;
+      default:
+        return null;
+    }
+  };
   
   return (
     <div className="relative bg-fuchsia-950/30 p-4 sm:p-6 rounded-xl">
@@ -29,8 +44,11 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         </Button>
       </div>
 
-      {/* Property Title */}
-      <h2 className="text-2xl sm:text-3xl font-bold mb-6 pr-24">{hotel.name}</h2>
+      {/* Property Title with Status Badge */}
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 pr-24 flex items-center">
+        {hotel.name}
+        {getStatusBadge()}
+      </h2>
       
       <div className="space-y-8">
         <ImageGallery hotel={hotel} />

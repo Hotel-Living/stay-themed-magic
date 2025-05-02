@@ -26,7 +26,7 @@ export const useSubmissionSuccess = ({
     
     toast({
       title: "Property saved successfully",
-      description: "Your property has been saved.",
+      description: "Your property has been saved and is pending administrator approval.",
       variant: "default"
     });
     

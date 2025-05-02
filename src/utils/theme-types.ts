@@ -1,7 +1,7 @@
+
 export interface Theme {
   id: string;
   name: string;
-  category?: string;
   description?: string;
   isAddOption?: boolean;
 }

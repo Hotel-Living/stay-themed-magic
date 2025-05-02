@@ -26,28 +26,6 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
 }) => {
   const { data: themes, isLoading, error } = useThemes();
 
-  // Group themes by category for a more organized layout
-  const themesByCategory = React.useMemo(() => {
-    if (!themes) return {};
-    
-    return themes.reduce((acc: Record<string, Theme[]>, theme) => {
-      const category = theme.category || "Uncategorized";
-      
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-      
-      acc[category].push(theme);
-      return acc;
-    }, {});
-  }, [themes]);
-
-  // Get unique categories
-  const categories = React.useMemo(() => {
-    if (!themes) return [];
-    return Object.keys(themesByCategory).sort();
-  }, [themesByCategory]);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-8">
@@ -63,6 +41,17 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       </div>
     );
   }
+
+  if (!themes || themes.length === 0) {
+    return (
+      <div className="p-4 text-foreground/70">
+        No themes available.
+      </div>
+    );
+  }
+
+  // Sort themes alphabetically by name
+  const sortedThemes = [...themes].sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <Collapsible defaultOpen={false} className="w-full">
@@ -89,54 +78,37 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
           More Information
         </Link>
         
-        <div className="grid grid-cols-1 gap-0.5">
-          {categories.map(category => (
-            <div key={category} className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
-              <div
-                className="flex items-center justify-between w-full text-sm cursor-pointer"
-                onClick={() => setOpenCategory(openCategory === category ? null : category)}
-              >
-                <span className="uppercase">{category}</span>
-                <ChevronDown
-                  className={`h-3 w-3 transform transition-transform ${
-                    openCategory === category ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-
-              {openCategory === category && themesByCategory[category] && (
-                <div className="mt-2 space-y-1">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-                    {themesByCategory[category].map(theme => (
-                      <div key={theme.id} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={theme.id}
-                          checked={selectedThemes.includes(theme.id)}
-                          onChange={(e) => onThemeSelect(theme.id, e.target.checked)}
-                          className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
-                        />
-                        <label
-                          htmlFor={theme.id}
-                          className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
-                        >
-                          {theme.name}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <button 
-                    className="flex items-center cursor-pointer p-2"
-                    onClick={() => {/* Add custom theme handling */}}
+        <div className="bg-[#5A1876]/20 rounded-lg p-1.5 border border-fuchsia-800/20">
+          <div className="mt-2 space-y-1">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+              {sortedThemes.map(theme => (
+                <div key={theme.id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={theme.id}
+                    checked={selectedThemes.includes(theme.id)}
+                    onChange={(e) => onThemeSelect(theme.id, e.target.checked)}
+                    className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+                  />
+                  <label
+                    htmlFor={theme.id}
+                    className="text-xs cursor-pointer hover:text-fuchsia-300 truncate"
+                    title={theme.description || theme.name}
                   >
-                    <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
-                    <span className="text-xs text-fuchsia-400">Add new {category.toLowerCase()} theme</span>
-                  </button>
+                    {theme.name}
+                  </label>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+            
+            <button 
+              className="flex items-center cursor-pointer p-2"
+              onClick={() => {/* Add custom theme handling */}}
+            >
+              <PlusCircle className="w-4 h-4 mr-1 text-fuchsia-400" />
+              <span className="text-xs text-fuchsia-400">Add new theme</span>
+            </button>
+          </div>
         </div>
       </CollapsibleContent>
     </Collapsible>

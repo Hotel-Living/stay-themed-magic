@@ -3,12 +3,7 @@ import React from "react";
 import ThemeItem from "./ThemeItem";
 import { useThemes } from "@/hooks/useThemes";
 import { Spinner } from "@/components/ui/spinner";
-
-interface Theme {
-  id: string;
-  name: string;
-  isAddOption?: boolean;
-}
+import { Theme } from "@/utils/theme-types";
 
 interface DirectThemesProps {
   themes?: Theme[];
@@ -18,13 +13,13 @@ interface DirectThemesProps {
 }
 
 const DirectThemes = ({ selectedThemes = [], onThemeSelect, onThemeChange }: DirectThemesProps) => {
-  const { data: dbThemes, isLoading } = useThemes();
+  const { data: themes, isLoading } = useThemes();
   
-  // Filter for "direct" themes - those without a specific category
-  const directThemes = React.useMemo(() => {
-    if (!dbThemes) return [];
-    return dbThemes.filter(theme => !theme.category || theme.category.trim() === "");
-  }, [dbThemes]);
+  // Get a smaller selection of featured themes (first 3-5 themes)
+  const featuredThemes = React.useMemo(() => {
+    if (!themes) return [];
+    return themes.slice(0, 5); // Take first 5 themes as "featured" or "direct" themes
+  }, [themes]);
 
   if (isLoading) {
     return (
@@ -34,14 +29,14 @@ const DirectThemes = ({ selectedThemes = [], onThemeSelect, onThemeChange }: Dir
     );
   }
 
-  if (!directThemes || directThemes.length === 0) {
+  if (!featuredThemes || featuredThemes.length === 0) {
     return null;
   }
 
   return (
     <div className="bg-[#5A1876]/15 rounded-lg p-1.5 border border-fuchsia-800/15">
       <div className="space-y-0.5">
-        {directThemes.map(theme => (
+        {featuredThemes.map(theme => (
           <div key={theme.id} className="bg-[#5A1876]/10 rounded-lg p-1.5 border border-fuchsia-800/10">
             <ThemeItem
               id={theme.id}

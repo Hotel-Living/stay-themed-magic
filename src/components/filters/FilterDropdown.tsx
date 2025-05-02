@@ -70,7 +70,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
             ${mobileLabelSize}
             ${useBoldLabels ? "font-bold" : ""} 
             ${value ? "text-white" : `text-[#860493]`}
-            text-[1.32em] uppercase
+            uppercase
           `}
         >
           {value ? (

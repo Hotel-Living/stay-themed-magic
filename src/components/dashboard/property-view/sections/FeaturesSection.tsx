@@ -1,38 +1,47 @@
-// RUTA: src/components/dashboard/property-view/sections/FeaturesSection.tsx
 
-import React from "react";
+import React from 'react';
+import { Card } from "@/components/ui/card";
+import { Hotel } from "@/integrations/supabase/types-custom";
 
-export default function FeaturesSection({ hotel }: { hotel: any }) {
-  const featuresHotel = hotel?.featuresHotel || {};
-  const featuresRoom = hotel?.featuresRoom || {};
+interface FeaturesSectionProps {
+  hotel: Hotel;
+}
+
+export const FeaturesSection = ({ hotel }: FeaturesSectionProps) => {
+  const renderFeatures = (features: Record<string, boolean> | undefined) => {
+    if (!features || Object.keys(features).length === 0) {
+      return <p>No features specified</p>;
+    }
+
+    return (
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(features)
+          .filter(([_, selected]) => selected)
+          .map(([featureId]) => (
+            <span 
+              key={featureId} 
+              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+            >
+              {featureId.replace(/_/g, ' ')}
+            </span>
+          ))}
+      </div>
+    );
+  };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Características del Hotel</h2>
-        {Object.keys(featuresHotel).length > 0 ? (
-          <ul className="list-disc list-inside">
-            {Object.entries(featuresHotel).map(([feature, value]) => (
-              value && <li key={feature}>{feature}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-500">No hay características del hotel.</p>
-        )}
+    <Card className="p-6 bg-[#2A0F44]">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Features</h3>
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Hotel Features</h4>
+          {renderFeatures(hotel.features_hotel)}
+        </div>
+        <div>
+          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Room Features</h4>
+          {renderFeatures(hotel.features_room)}
+        </div>
       </div>
-
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Características de la Habitación</h2>
-        {Object.keys(featuresRoom).length > 0 ? (
-          <ul className="list-disc list-inside">
-            {Object.entries(featuresRoom).map(([feature, value]) => (
-              value && <li key={feature}>{feature}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-500">No hay características de habitación.</p>
-        )}
-      </div>
-    </div>
+    </Card>
   );
-}
+};

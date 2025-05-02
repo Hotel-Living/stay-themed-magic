@@ -1,4 +1,3 @@
-// RUTA: src/components/hotel-detail/HotelDetailContent.tsx
 
 import React from "react";
 import { HotelHeader } from "./HotelHeader";
@@ -10,10 +9,6 @@ import { HotelLocation } from "./HotelLocation";
 import { HotelReviews } from "./HotelReviews";
 import { HotelRoomTypes } from "./HotelRoomTypes";
 import { HotelActivities } from "./HotelActivities";
-import { HotelFaqs } from "./HotelFaqs";
-import { HotelMealPlans } from "./HotelMealPlans";
-import { HotelThemesSection } from "./HotelThemesSection";
-import { DynamicPricingBar } from "./DynamicPricingBar";
 import { Container } from "../ui/container";
 import { HotelDetailProps } from "@/types/hotel";
 
@@ -23,6 +18,7 @@ export interface HotelDetailContentProps {
 }
 
 export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailContentProps) {
+  // Extract themes from hotel_themes for the header component
   const hotelThemes = hotel.hotel_themes?.map(theme => theme.themes) || [];
 
   return (
@@ -36,15 +32,13 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           themes={hotelThemes}
           isLoading={isLoading}
         />
-
-        <DynamicPricingBar />
-
+        
         <HotelGallery 
           images={(hotel.hotel_images || []).map(img => img.image_url)} 
           hotelName={hotel.name || ""} 
           isLoading={isLoading} 
         />
-
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-8">
             <HotelDescription 
@@ -54,22 +48,43 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               perfectLocation={hotel.perfectLocation || ""} 
               isLoading={isLoading} 
             />
+            
+            <HotelRoomTypes 
+              hotel={hotel}
+              hotelId={hotel.id} 
+              isLoading={isLoading} 
+            />
+            
+            <HotelFeaturesInfo
+              hotelFeatures={hotel.hotelFeatures || []}
+              roomFeatures={hotel.roomFeatures || []}
+            />
 
-            <HotelThemesSection themes={hotel.hotel_themes || []} isLoading={isLoading} />
-            <HotelActivities hotel={hotel} isLoading={isLoading} />
-            <HotelFeaturesInfo hotel={hotel} isLoading={isLoading} />
-            <HotelAvailableMonths months={hotel.available_months || []} />
-            <HotelMealPlans plans={hotel.mealPlans || []} />
-            <HotelFaqs faqs={hotel.faqs || []} />
+            <HotelActivities 
+              activities={hotel.activities || []} 
+            />
           </div>
-
+          
           <div className="space-y-8">
-            <HotelLocation hotel={hotel} isLoading={isLoading} />
-            <HotelReviews hotelId={hotel.id} />
+            <HotelAvailableMonths 
+              months={hotel.available_months || []} 
+              isLoading={isLoading} 
+            />
+            
+            <HotelLocation 
+              latitude={Number(hotel.latitude)} 
+              longitude={Number(hotel.longitude)} 
+              hotelName={hotel.name || ""} 
+              address={hotel.address || ""} 
+            />
+            
+            <HotelReviews 
+              hotelId={hotel.id} 
+              averageRating={hotel.average_rating} 
+              isLoading={isLoading} 
+            />
           </div>
         </div>
-
-        <HotelRoomTypes hotel={hotel} hotelId={hotel.id} isLoading={isLoading} />
       </div>
     </Container>
   );

@@ -1,7 +1,3 @@
-
-// RUTA: src/App.tsx
-
-import HotelPropertyDetailView from "@/components/dashboard/property-view/HotelPropertyDetailView";
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -75,7 +71,6 @@ function App() {
                   <Route path="/hotel-dashboard" element={<HotelDashboard />} />
                   <Route path="/user-dashboard" element={<UserDashboard />} />
                   <Route path="/hotel/:id" element={<HotelDetail />} />
-                  <Route path="/hotel/property/:id" element={<HotelPropertyDetailView />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
                   <Route path="/affinity-stays" element={<AffinityStays />} />
@@ -85,26 +80,26 @@ function App() {
                   <Route path="/faq-hotels" element={<FAQHotels />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/values" element={<OurValues />} />
-                  <Route path="/services" element={<OurServices />} />
+                  <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
+                  <Route path="/our-values" element={<OurValues />} />
+                  <Route path="/our-services" element={<OurServices />} />
                   <Route path="/intellectual-property" element={<IntellectualProperty />} />
                   <Route path="/customer-service" element={<CustomerService />} />
-                  <Route path="/hotel-partner-agreement" element={<HotelPartnerAgreement />} />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/add-property" element={<AddPropertyPage />} />
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/admin/*" element={<AdminAllRoutes />} />
                   <Route path="/videos" element={<Videos />} />
                   <Route path="/promotions" element={<Promotions />} />
-                  <Route path="/admin" element={<DashboardAccess roles={["admin"]}><AdminDashboard /></DashboardAccess>} />
-                  <Route path="/admin/*" element={<DashboardAccess roles={["admin"]}><AdminAllRoutes /></DashboardAccess>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                <DashboardAccess />
+                <Toaster />
               </BrowserRouter>
             </div>
           </div>
-          <Toaster />
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

@@ -1,105 +1,137 @@
-// RUTA: src/components/dashboard/property/AddPropertyForm.tsx
 
-import React, { useState } from "react";
-import StepIndicator from "./StepIndicator";
-import StepContent from "./StepContent";
+import React from "react";
+import StepIndicator from "../PropertySteps/StepIndicator";
+import StepContent from "../PropertySteps/StepContent";
+import ImportantNotice from "../PropertySteps/ImportantNotice";
+import ValidationErrorBanner from "./ValidationErrorBanner";
+import SuccessMessage from "./SuccessMessage";
+import PropertyFormNavigation from "./components/PropertyFormNavigation";
 import { usePropertyForm } from "./hooks/usePropertyForm";
-import { usePropertySubmission } from "./hooks/usePropertySubmission";
+import { useAuth } from "@/context/AuthContext";
+import { useFormNavigation } from "./hooks/useFormNavigation";
 import { useHotelEditing } from "./hooks/useHotelEditing";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
+import { usePropertySubmission } from "./hooks/usePropertySubmission";
+import { TOTAL_STEPS, STEP_TITLES } from "./constants";
+import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
 
-export default function AddPropertyForm() {
+export default function AddPropertyForm({
+  editingHotelId,
+  onDoneEditing
+}: {
+  editingHotelId?: string | null;
+  onDoneEditing?: () => void;
+} = {}) {
   const {
-    formData,
-    setFormData,
     currentStep,
     setCurrentStep,
+    stepValidation,
     validateStep,
-    goToNextStep,
-    goToPreviousStep,
+    isSubmitted,
+    setIsSubmitted,
+    submitSuccess,
+    setSubmitSuccess,
+    errorFields,
+    setErrorFields,
+    showValidationErrors,
+    setShowValidationErrors,
+    formData,
+    setFormData,
+    getIncompleteFields
   } = usePropertyForm();
 
-  const [searchParams] = useSearchParams();
-  const editId = searchParams.get("edit");
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const { user } = useAuth();
 
-  useHotelEditing();
-  if (!editId) {
-    usePropertySubmission({ formData });
-  }
+  const { validateCurrentStep, goToNextStep, goToPreviousStep } = useFormNavigation({
+    currentStep,
+    totalSteps: TOTAL_STEPS,
+    stepValidation,
+    getIncompleteFields,
+    setErrorFields,
+    setShowValidationErrors,
+    setCurrentStep,
+    formData // Pass formData to validation
+  });
 
-  const handleUpdate = async () => {
-    if (!editId || !formData?.hotelName) return;
+  useHotelEditing({
+    editingHotelId,
+    setFormData,
+    setCurrentStep
+  });
 
-    setIsSaving(true);
-
-    const { error } = await supabase
-      .from("hotels")
-      .update({ ...formData })
-      .eq("id", editId);
-
-    setIsSaving(false);
-
-    if (error) {
-      toast({
-        title: "Update failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Property updated",
-        description: "Changes have been saved successfully",
-      });
-      setUpdateSuccess(true);
-      setTimeout(() => {
-        const isAdmin = window.location.pathname.includes("/admin");
-        navigate(isAdmin ? "/admin" : "/hotel-dashboard");
-      }, 1500);
-    }
+  // Create wrapper functions to match expected signatures
+  const getIncompleteFieldsWrapper = (step: number) => {
+    return getIncompleteFields(step, formData);
+  };
+  
+  const setFormDataWrapper = (data: Partial<PropertyFormData>) => {
+    setFormData(prev => ({...prev, ...data}));
   };
 
-  const stepTitles = [
-    "Basic Information",
-    "Accommodation & Features",
-    "Themes & Activities",
-    "FAQ & Terms"
-  ];
+  const { handleSubmitProperty } = usePropertySubmission({
+    formData,
+    stepValidation,
+    setIsSubmitted,
+    setSubmitSuccess,
+    setErrorFields,
+    setShowValidationErrors,
+    getIncompleteFields: getIncompleteFieldsWrapper,
+    setCurrentStep,
+    setFormData: setFormDataWrapper,
+    userId: user?.id,
+    onDoneEditing
+  });
+
+  const handleSubmit = () => handleSubmitProperty(editingHotelId);
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
+    <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
       <StepIndicator 
         currentStep={currentStep} 
-        totalSteps={4} 
-        stepTitle={stepTitles[currentStep - 1]} 
+        totalSteps={TOTAL_STEPS} 
+        stepTitle={STEP_TITLES[currentStep - 1]} 
       />
-      <StepContent
+
+      <PropertyFormNavigation
         currentStep={currentStep}
-        formData={formData}
-        setFormData={setFormData}
-        onNext={goToNextStep}
+        totalSteps={TOTAL_STEPS}
         onPrevious={goToPreviousStep}
-        validateStep={validateStep}
+        onNext={goToNextStep}
+        onSubmit={handleSubmit}
       />
-      {editId && (
-        <div className="mt-6">
+
+      {showValidationErrors && errorFields.length > 0 && (
+        <ValidationErrorBanner errorFields={errorFields} />
+      )}
+
+      {isSubmitted && submitSuccess ? (
+        <SuccessMessage />
+      ) : (
+        <StepContent 
+          currentStep={currentStep}
+          onValidationChange={isValid => validateStep(currentStep, isValid)}
+          formData={formData}
+          updateFormData={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+        />
+      )}
+
+      <ImportantNotice />
+
+      <PropertyFormNavigation
+        currentStep={currentStep}
+        totalSteps={TOTAL_STEPS}
+        onPrevious={goToPreviousStep}
+        onNext={goToNextStep}
+        onSubmit={handleSubmit}
+      />
+
+      {editingHotelId && (
+        <div className="mt-4">
           <button
-            onClick={handleUpdate}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-            disabled={isSaving}
+            onClick={onDoneEditing}
+            className="px-4 py-2 rounded bg-fuchsia-700 text-white"
           >
-            {isSaving ? "Saving..." : "Save changes"}
+            Cancel Editing
           </button>
-          {updateSuccess && (
-            <p className="mt-3 text-green-600 font-medium">
-              ✅ Changes saved successfully.
-            </p>
-          )}
         </div>
       )}
     </div>

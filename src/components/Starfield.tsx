@@ -1,6 +1,5 @@
 
 import { useEffect, useRef, useState } from 'react';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 export function Starfield() {
   const bgRef = useRef<HTMLDivElement>(null);
@@ -26,18 +25,13 @@ export function Starfield() {
 
   return (
     <div ref={bgRef} className="background-slideshow fixed inset-0 -z-10" style={{ backgroundColor: "#C9CAFE" }}>
-      <Carousel className="h-full w-full" opts={{ loop: true }}>
-        <CarouselContent className="h-full">
-          {backgroundImages.map((image, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div 
-                className={`bg-slide absolute inset-0 bg-cover bg-center transition-opacity duration-3000 ease-in-out ${currentSlide === index ? 'opacity-60' : 'opacity-0'}`}
-                style={{ backgroundImage: `url(${image})` }}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+      {backgroundImages.map((image, index) => (
+        <div 
+          key={index}
+          className={`bg-slide absolute inset-0 bg-cover bg-center transition-opacity duration-3000 ease-in-out ${currentSlide === index ? 'opacity-60' : 'opacity-0'}`}
+          style={{ backgroundImage: `url(${image})` }}
+        />
+      ))}
       <div className="overlay absolute inset-0 bg-black/14 backdrop-blur-[2.1px]" />
     </div>
   );

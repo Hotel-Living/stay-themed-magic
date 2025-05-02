@@ -10,9 +10,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/80 rounded-full;
+  @apply bg-[#1E3A8A]/80 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
+  @apply bg-[#1E3A8A];
 }

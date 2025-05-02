@@ -32,6 +32,11 @@ export interface PropertyFormData {
   featuresHotel?: Record<string, boolean>;  
   featuresRoom?: Record<string, boolean>;
   available_months?: string[]; // Added available_months to match database schema
+  price_8?: number; // Price for 8-day stay
+  price_16?: number; // Price for 16-day stay
+  price_24?: number; // Price for 24-day stay
+  price_32?: number; // Price for 32-day stay
+  rates?: Record<string, number>; // For storing all rates together
 }
 
 export const usePropertyFormData = () => {
@@ -62,7 +67,12 @@ export const usePropertyFormData = () => {
     preferredWeekday: "Monday",
     featuresHotel: {},
     featuresRoom: {},
-    available_months: [] // Initialize available_months as empty array
+    available_months: [], // Initialize available_months as empty array
+    price_8: 0,
+    price_16: 0,
+    price_24: 0,
+    price_32: 0,
+    rates: {}
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

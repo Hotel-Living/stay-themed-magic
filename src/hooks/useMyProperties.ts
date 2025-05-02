@@ -44,6 +44,7 @@ export interface MyHotel {
   terms?: string | null;
   roomTypes?: any[];
   preferredWeekday?: string | null;
+  rates?: Record<string, number>; // Added rates field
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
@@ -68,6 +69,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         style,
         address,
         available_months,
+        rates,
         hotel_images (id, hotel_id, image_url, is_main, created_at),
         hotel_themes (theme_id, themes:themes(id, name)),
         hotel_activities (activity_id, activities:activities(id, name))
@@ -126,6 +128,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
+          rates: (hotel.rates as Record<string, number>) || {}, // Added rates
           // Additional fields with safe defaults
           ideal_guests: null,
           atmosphere: null,
@@ -146,7 +149,6 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         // Try to get any additional fields if they are available in the response
         try {
           // Handle each field carefully with type checking
-          // Note: These fields may not exist in the database schema
           if ('ideal_guests' in hotel) processedHotel.ideal_guests = hotel.ideal_guests as string | null;
           if ('atmosphere' in hotel) processedHotel.atmosphere = hotel.atmosphere as string | null;
           if ('perfect_location' in hotel) processedHotel.perfect_location = hotel.perfect_location as string | null;
@@ -162,6 +164,11 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           if ('faqs' in hotel && Array.isArray(hotel.faqs)) processedHotel.faqs = hotel.faqs;
           if ('terms' in hotel) processedHotel.terms = hotel.terms as string | null;
           if ('preferredWeekday' in hotel) processedHotel.preferredWeekday = hotel.preferredWeekday as string | null;
+          
+          // Handle rates if present
+          if ('rates' in hotel && typeof hotel.rates === 'object') {
+            processedHotel.rates = hotel.rates as Record<string, number>;
+          }
         } catch (err) {
           console.warn("Error processing extended hotel fields:", err);
         }

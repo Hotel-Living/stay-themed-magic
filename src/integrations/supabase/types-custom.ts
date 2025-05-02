@@ -46,6 +46,7 @@ export type Hotel = {
   faqs?: any[];
   terms?: string | null;
   preferredWeekday?: string | null;
+  rates?: Record<string, number>;
   hotel_images?: {
     id: string;
     hotel_id: string;

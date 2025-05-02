@@ -34,6 +34,16 @@ export const useHotelSubmission = () => {
     // Get the selected weekday
     const preferredWeekday = formData.preferredWeekday || "Monday";
     
+    // Extract rates for different stay lengths
+    const rates = {
+      "8": formData.price_8,
+      "16": formData.price_16,
+      "24": formData.price_24,
+      "32": formData.price_32
+    };
+    
+    console.log("Submitting rates:", rates);
+    
     // Prepare the hotel data
     const hotelData = {
       owner_id: userId,
@@ -63,7 +73,8 @@ export const useHotelSubmission = () => {
       preferredWeekday: preferredWeekday,
       features_hotel: featuresHotel,
       features_room: featuresRoom,
-      available_months: availableMonths
+      available_months: availableMonths,
+      rates: rates // Add rates to hotel data
     };
     
     const { data, error } = await supabase
@@ -109,6 +120,16 @@ export const useHotelSubmission = () => {
     console.log("Hotel features being updated:", featuresHotel);
     console.log("Room features being updated:", featuresRoom);
     
+    // Extract rates for different stay lengths
+    const rates = {
+      "8": formData.price_8,
+      "16": formData.price_16,
+      "24": formData.price_24,
+      "32": formData.price_32
+    };
+    
+    console.log("Updating rates:", rates);
+    
     // Prepare the hotel data for update
     const hotelData = {
       name: formData.hotelName,
@@ -136,6 +157,7 @@ export const useHotelSubmission = () => {
       features_hotel: featuresHotel,
       features_room: featuresRoom,
       available_months: availableMonths,
+      rates: rates, // Add rates to hotel data
       status: 'pending' // Set status back to pending for admin review
     };
     

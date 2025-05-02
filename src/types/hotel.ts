@@ -76,6 +76,7 @@ export interface AdminHotelDetail {
   ideal_guests?: string | null;
   perfect_location?: string | null;
   terms?: string | null;
+  rates?: Record<string, number>;
 }
 
 export interface HotelDetailProps {
@@ -112,6 +113,7 @@ export interface HotelDetailProps {
   terms?: string | null;
   features_hotel?: Record<string, boolean>;
   features_room?: Record<string, boolean>;
+  rates?: Record<string, number>;
 }
 
 // Update AmenitiesInfo to FeaturesInfo

@@ -14,14 +14,18 @@ export default function HotelFeaturesStep({
   formData = {},
   updateFormData = () => {},
 }: HotelFeaturesStepProps) {
+  // Local state for features selection
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
-  const [isInitialized, setIsInitialized] = useState(false);
-  const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Initialize from formData once
+  
+  // Store formData in ref to avoid re-renders when it changes
+  const formDataRef = useRef(formData);
+  const initializedRef = useRef(false);
+  const isDirtyRef = useRef(false);
+  
+  // Only run once on mount to initialize from formData
   useEffect(() => {
-    // Always initialize from formData, regardless of if we've already initialized
+    // Initialize from formData
     if (formData.featuresHotel && typeof formData.featuresHotel === 'object') {
       console.log("Setting hotel features from formData:", formData.featuresHotel);
       setSelectedHotelFeatures(formData.featuresHotel);
@@ -32,55 +36,75 @@ export default function HotelFeaturesStep({
       setSelectedRoomFeatures(formData.featuresRoom);
     }
 
-    setIsInitialized(true);
+    // Update ref
+    formDataRef.current = formData;
+    initializedRef.current = true;
+    
     // This step is always valid
     onValidationChange(true);
-  }, [formData]); // Add formData as dependency to reinitialize when it changes
+  }, []); // Empty dependency array - only run once on mount
 
-  // Debounce form updates to prevent flickering
+  // Handle updates to formData without re-rendering
   useEffect(() => {
-    // Skip the initial render to avoid resetting form data
-    if (!isInitialized) return;
-    
-    // Clear any existing timeout
-    if (updateTimeoutRef.current) {
-      clearTimeout(updateTimeoutRef.current);
-    }
-    
-    // Use a timeout to batch update parent form only after user stops making changes
-    updateTimeoutRef.current = setTimeout(() => {
-      console.log("Updating form data with hotel features:", selectedHotelFeatures);
-      updateFormData('featuresHotel', selectedHotelFeatures);
-      
-      console.log("Updating form data with room features:", selectedRoomFeatures);
-      updateFormData('featuresRoom', selectedRoomFeatures);
-    }, 300); // 300ms debounce delay
-    
-    // Cleanup function that ensures updates happen before unmount
+    // Update saved data when component unmounts
     return () => {
-      if (updateTimeoutRef.current) {
-        clearTimeout(updateTimeoutRef.current);
-        // Force update on unmount to ensure data is saved
-        console.log("Forcing update on unmount");
+      if (isDirtyRef.current) {
+        console.log("Saving features on unmount");
         updateFormData('featuresHotel', selectedHotelFeatures);
         updateFormData('featuresRoom', selectedRoomFeatures);
       }
     };
-  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData, isInitialized]);
+  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
+
+  // Save data periodically if dirty
+  useEffect(() => {
+    if (!initializedRef.current) return;
+    
+    // Only update if something changed
+    if (!isDirtyRef.current) return;
+    
+    // Save data every 2 seconds if dirty (much less frequent than toggles)
+    const saveInterval = setInterval(() => {
+      if (isDirtyRef.current) {
+        console.log("Periodic saving of features");
+        updateFormData('featuresHotel', selectedHotelFeatures);
+        updateFormData('featuresRoom', selectedRoomFeatures);
+        isDirtyRef.current = false;
+      }
+    }, 2000);
+    
+    return () => clearInterval(saveInterval);
+  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
 
   const handleHotelFeatureToggle = useCallback((featureId: string) => {
-    setSelectedHotelFeatures(prev => ({
-      ...prev,
-      [featureId]: !prev[featureId]
-    }));
+    setSelectedHotelFeatures(prev => {
+      isDirtyRef.current = true;
+      return {
+        ...prev,
+        [featureId]: !prev[featureId]
+      };
+    });
   }, []);
 
   const handleRoomFeatureToggle = useCallback((featureId: string) => {
-    setSelectedRoomFeatures(prev => ({
-      ...prev,
-      [featureId]: !prev[featureId]
-    }));
+    setSelectedRoomFeatures(prev => {
+      isDirtyRef.current = true;
+      return {
+        ...prev,
+        [featureId]: !prev[featureId]
+      };
+    });
   }, []);
+
+  // Manual save method for blur events
+  const handleSectionBlur = useCallback(() => {
+    if (isDirtyRef.current) {
+      console.log("Saving features on blur");
+      updateFormData('featuresHotel', selectedHotelFeatures);
+      updateFormData('featuresRoom', selectedRoomFeatures);
+      isDirtyRef.current = false;
+    }
+  }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
 
   // Convert record to array for FeaturesList component
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
@@ -90,7 +114,7 @@ export default function HotelFeaturesStep({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
         <h3 className="text-lg font-semibold mb-3">Hotel Features</h3>
         <FeaturesList 

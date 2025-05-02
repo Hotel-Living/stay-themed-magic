@@ -17,7 +17,7 @@ export default function ThemesAndActivitiesStep({
 }: ThemesAndActivitiesStepProps) {
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true); // Changed to default true since these fields are optional
   const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -42,10 +42,9 @@ export default function ThemesAndActivitiesStep({
     console.log("Updating activities in formData:", selectedActivities);
     updateFormData('activities', selectedActivities);
     
-    // Validate - at least one theme and one activity must be selected
-    const valid = selectedThemes.length > 0 && selectedActivities.length > 0;
-    setIsValid(valid);
-    onValidationChange(valid);
+    // Always consider this step valid since Affinities and Activities are optional
+    setIsValid(true);
+    onValidationChange(true);
   }, [selectedThemes, selectedActivities, updateFormData, onValidationChange]);
 
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {

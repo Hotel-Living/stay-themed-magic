@@ -46,21 +46,8 @@ export const useValidationState = () => {
         
         return incompleteAccommodationFields;
       case 3:
-        const incompleteThemeFields = [];
-        
-        // Changed from "Themes" to "Affinities" to match UI terminology
-        // Also fixed validation to properly check the array length
-        const hasThemes = formData.themes && Array.isArray(formData.themes) && formData.themes.length > 0;
-        if (!hasThemes) {
-          incompleteThemeFields.push("Affinities");
-        }
-        
-        const hasActivities = formData.activities && Array.isArray(formData.activities) && formData.activities.length > 0;
-        if (!hasActivities) {
-          incompleteThemeFields.push("Activities");
-        }
-        
-        return incompleteThemeFields;
+        // Make Affinities and Activities optional by returning an empty array
+        return [];
       case 4:
         // Check ONLY for Terms & Conditions acceptance
         console.log("Checking Terms & Conditions acceptance:", formData.termsAccepted);

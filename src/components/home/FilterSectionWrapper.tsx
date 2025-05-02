@@ -62,10 +62,10 @@ export function FilterSectionWrapper({
             onFilterChange={handleFilterChange} 
             showSearchButton={false} 
             placeholders={{
-              month: "Month?",
-              country: "Country?",
-              theme: "Affinity?",
-              priceRange: "Price per Month?"
+              month: "MONTH?",
+              country: "COUNTRY?",
+              theme: "AFFINITY?",
+              priceRange: "PRICE PER MONTH?"
             }} 
             useCollapsibleThemes={false} 
             expandedLayout={true} 

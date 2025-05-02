@@ -70,6 +70,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
             ${mobileLabelSize}
             ${useBoldLabels ? "font-bold" : ""} 
             ${value ? "text-white" : `text-[#860493]`}
+            text-[1.2em] uppercase
           `}
         >
           {value ? (
@@ -89,7 +90,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
             </button>
           )}
           <ChevronDown 
-            className={`h-4 w-4 transition-transform text-white/70 ${isOpen ? "transform rotate-180" : ""}`} 
+            className={`h-4 w-4 transition-transform text-[#860493] ${isOpen ? "transform rotate-180" : ""}`} 
           />
         </div>
       </button>

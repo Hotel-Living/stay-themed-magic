@@ -16,37 +16,45 @@ export function Footer() {
             </div>
           </div>
           
-          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
-            <Link to="/faq" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              FAQ
-            </Link>
-            <Link to="/contact" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Contact
-            </Link>
-            <Link to="/our-values" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Our Values
-            </Link>
-            <Link to="/our-services" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Our Services
-            </Link>
-            <Link to="/videos" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Videos
-            </Link>
-            <Link to="/promotions" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Promotions
-            </Link>
-            <Link to="/privacy" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Privacy & Cookies
-            </Link>
-            <Link to="/terms" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Terms & Conditions
-            </Link>
-            <Link to="/customer-service" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Customer Service
-            </Link>
-            <Link to="/intellectual-property" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
-              Intellectual Property
-            </Link>
+          <div className="flex flex-wrap justify-center gap-y-4 gap-x-10 mb-2 mx-auto text-center w-full">
+            <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
+              <Link to="/faq" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                FAQ
+              </Link>
+              <Link to="/affinity-stays" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Affinity Stays?
+              </Link>
+              <Link to="/videos" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Videos
+              </Link>
+              <Link to="/promotions" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Promotions
+              </Link>
+              <Link to="/our-services" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Our Services
+              </Link>
+              <Link to="/our-values" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Our Values
+              </Link>
+            </div>
+            
+            <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
+              <Link to="/intellectual-property" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Intellectual Property
+              </Link>
+              <Link to="/terms" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Terms & Conditions
+              </Link>
+              <Link to="/privacy" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Privacy & Cookies
+              </Link>
+              <Link to="/contact" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Contact
+              </Link>
+              <Link to="/customer-service" className={`text-[#860493] hover:text-[#860493]/90 ${isMobile ? "text-base" : "text-xs"} font-bold`}>
+                Customer Service
+              </Link>
+            </div>
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>

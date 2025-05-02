@@ -11,11 +11,10 @@ export function HeroSection() {
           {/* New 1950s style neon sign slogan - with adjusted sizing for mobile */}
           <div className={`flex justify-center ${isMobile ? "mb-8" : "mb-1"}`}>
             <div className={`relative ${isMobile ? "w-[90%]" : "w-[30%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-[#FFF7C7] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className={`${isMobile ? "text-xl" : "text-lg sm:text-xl md:text-2xl"} font-bold max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",
-                     // Removed the textShadow effect
                    }}>
                   The Future is Here!
                 </p>
@@ -33,7 +32,7 @@ export function HeroSection() {
           </h2>
         </div>
         
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-white/15 rounded-lg backdrop-blur-sm p-2`}>
+        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-white/50 rounded-lg backdrop-blur-sm p-2`}>
           {/* Increased vertical space above and below slogans by doubling current values */}
           <div className={`${isMobile ? "space-y-3 pl-0 py-6" : "space-y-0.125 py-3"}`}>
             {/* Changed text color to #B919B0 and removed any line color */}

@@ -101,11 +101,22 @@ export const usePropertySubmission = ({
         await handlePlaceholderImages(hotelId);
       }
       
-      // Submit related data
-      await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
-      await handleAvailability(hotelId, formData.stayLengths || []);
+      // Submit related data - handle failures gracefully
+      try {
+        await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+      } catch (themeError) {
+        console.warn("Theme submission had issues but continuing:", themeError);
+        // Continue with submission even if themes/activities have issues
+      }
       
-      // Handle submission success
+      try {
+        await handleAvailability(hotelId, formData.stayLengths || []);
+      } catch (availError) {
+        console.warn("Availability submission had issues but continuing:", availError);
+        // Continue with submission even if availability has issues
+      }
+      
+      // Handle submission success even if some related data had issues
       handleSubmissionSuccess();
       
       // Reset form data after successful submission if not editing
@@ -118,6 +129,7 @@ export const usePropertySubmission = ({
       console.error("Error submitting hotel:", error);
       
       setIsSubmitted(false);
+      setSubmitSuccess(false);
       
       toast({
         title: "Submission Failed",

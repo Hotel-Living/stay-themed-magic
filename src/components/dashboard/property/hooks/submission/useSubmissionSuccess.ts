@@ -21,10 +21,14 @@ export const useSubmissionSuccess = ({
 
   const handleSubmissionSuccess = () => {
     console.log('Property submitted successfully!');
-    setIsSubmitted(true);
+    setIsSubmitted(false);
     setSubmitSuccess(true);
     
-    // Removed specific toast message
+    toast({
+      title: "Property saved successfully",
+      description: "Your property has been saved.",
+      variant: "default"
+    });
     
     setTimeout(() => {
       setCurrentStep(1);
@@ -52,7 +56,7 @@ export const useSubmissionSuccess = ({
         hotelImages: []
       });
       if (onDoneEditing) onDoneEditing();
-    }, 5000);
+    }, 2000);
   };
 
   return { handleSubmissionSuccess };

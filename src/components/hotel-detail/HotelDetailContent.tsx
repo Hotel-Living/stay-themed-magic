@@ -60,6 +60,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               roomFeatures={hotel.roomFeatures || []}
             />
 
+            {/* Only render HotelActivities once */}
             <HotelActivities 
               activities={hotel.activities || []} 
             />

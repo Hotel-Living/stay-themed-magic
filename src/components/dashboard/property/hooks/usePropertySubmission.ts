@@ -111,7 +111,7 @@ export const usePropertySubmission = ({
       
       try {
         // Availability should be processed after the hotel has been created/updated
-        await handleAvailability(hotelId, formData.available_months || [], formData.stayLengths || []);
+        await handleAvailability(hotelId, formData.available_months || []);
       } catch (availError) {
         console.warn("Availability submission had issues but continuing:", availError);
         // Continue with submission even if availability has issues

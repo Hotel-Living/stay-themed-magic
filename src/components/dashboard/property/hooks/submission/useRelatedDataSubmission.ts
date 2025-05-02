@@ -123,25 +123,11 @@ export const useRelatedDataSubmission = () => {
     }
   };
 
-  const handleAvailability = async (hotelId: string, stayLengths: number[]) => {
-    if (!stayLengths || stayLengths.length === 0) return;
+  const handleAvailability = async (hotelId: string, availableMonths: string[]) => {
+    if (!availableMonths || availableMonths.length === 0) return;
     
     try {
-      // Get the selected months from the hotel submission
-      const { data: hotelData, error: hotelError } = await supabase
-        .from('hotels')
-        .select('available_months, preferredWeekday')
-        .eq('id', hotelId)
-        .single();
-        
-      if (hotelError) {
-        console.warn("Error fetching hotel available months, skipping availability creation:", hotelError);
-        return;
-      }
-      
-      // Use the available months data from the hotel record
-      const availableMonths = hotelData?.available_months || [];
-      const preferredWeekday = hotelData?.preferredWeekday || 'Monday';
+      const preferredWeekday = 'Monday'; // Default weekday
       
       console.log("Available months for hotel:", availableMonths);
       

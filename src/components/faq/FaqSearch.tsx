@@ -40,7 +40,7 @@ export function FaqSearch({
   return (
     <div className="relative w-full max-w-xl mx-auto mb-8">
       <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-        <Search className="h-5 w-5 text-fuchsia-300" />
+        <Search className="h-5 w-5 text-[#3300B0]" />
       </div>
       
       <Input
@@ -48,14 +48,14 @@ export function FaqSearch({
         placeholder={placeholder}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className="pl-12 pr-12 py-6 h-14 bg-[#460F54]/50 border border-fuchsia-500/30 rounded-xl text-white shadow-lg focus:ring-2 focus:ring-fuchsia-500/70 text-lg"
+        className="pl-12 pr-12 py-6 h-14 bg-[#AACAFE]/80 border border-[#3300B0]/30 rounded-xl text-[#3300B0] shadow-lg focus:ring-2 focus:ring-[#3300B0]/70 text-lg"
         aria-label="Search FAQs"
       />
       
       {inputValue && (
         <button
           onClick={handleClearSearch}
-          className="absolute inset-y-0 right-4 flex items-center text-fuchsia-300 hover:text-fuchsia-100 transition-colors"
+          className="absolute inset-y-0 right-4 flex items-center text-[#3300B0] hover:text-[#3300B0]/80 transition-colors"
           aria-label="Clear search"
           type="button"
         >

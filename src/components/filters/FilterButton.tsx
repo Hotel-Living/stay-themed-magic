@@ -36,7 +36,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
         </div>
         <div class="flex justify-end space-x-2">
           <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md" onclick="this.closest('.fixed').remove()">Cancel</button>
-          <button class="px-4 py-2 bg-[#860493] text-white rounded-md">Add Category</button>
+          <button class="px-4 py-2 bg-[#AACAFE] text-[#3300B0] rounded-md">Add Category</button>
         </div>
       </div>
     `;
@@ -47,7 +47,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
       {hasActiveFilters && 
         <button 
           onClick={onClearAllFilters} 
-          className="px-4 py-2 rounded-lg bg-fuchsia-950/50 text-foreground/80 hover:bg-fuchsia-900/30 text-sm transition-colors"
+          className="px-4 py-2 rounded-lg bg-[#AACAFE]/80 text-[#3300B0] hover:bg-[#AACAFE]/60 text-sm transition-colors"
         >
           Clear All
         </button>
@@ -55,7 +55,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
       
       <button 
         onClick={onSearch}
-        className={`px-4 py-2 rounded-lg ${searchBgColor} text-white ${searchHoverBgColor} text-sm transition-colors ml-auto`}
+        className={`px-4 py-2 rounded-lg ${searchBgColor} text-[#3300B0] ${searchHoverBgColor} text-sm transition-colors ml-auto`}
       >
         <Search className="w-4 h-4 inline mr-1" />
         Search

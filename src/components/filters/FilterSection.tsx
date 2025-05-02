@@ -24,7 +24,7 @@ export const FilterSection = ({
   },
   availableThemes = [],
   useLargerMobileText = false,
-  textColor = "inherit",
+  textColor = "#3300B0",
   labelTextSize = "text-sm" // Added default value for labelTextSize
 }: FilterSectionProps) => {
   const navigate = useNavigate();
@@ -56,10 +56,10 @@ export const FilterSection = ({
     navigate(`/search?${params.toString()}`);
   };
 
-  const formWrapperBgColor = usePurpleFilterBackground ? 'bg-[#7030A0]/90' : 'bg-[#5A1876]/80';
-  const filterBgColor = usePurpleFilterBackground ? 'bg-[#7030A0]' : 'bg-fuchsia-950/50';
-  const searchBgColor = usePurpleFilterBackground ? 'bg-[#7030A0]' : 'bg-fuchsia-600';
-  const searchHoverBgColor = usePurpleFilterBackground ? 'hover:bg-[#5A1876]' : 'hover:bg-fuchsia-500';
+  const formWrapperBgColor = 'bg-[#AACAFE]';
+  const filterBgColor = 'bg-[#AACAFE]/90';
+  const searchBgColor = 'bg-white';
+  const searchHoverBgColor = 'hover:bg-white/90';
   
   return (
     <FilterContainer

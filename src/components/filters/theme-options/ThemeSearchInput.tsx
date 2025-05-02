@@ -34,7 +34,7 @@ export const ThemeSearchInput: React.FC<ThemeSearchInputProps> = ({
       e.stopPropagation();
     }}>
       <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
-        <Search className="h-4 w-4 text-fuchsia-400" />
+        <Search className="h-4 w-4 text-[#3300B0]" />
       </div>
       
       <input
@@ -43,13 +43,13 @@ export const ThemeSearchInput: React.FC<ThemeSearchInputProps> = ({
         value={themeQuery}
         onChange={handleInputChange}
         onClick={handleInputClick}
-        className="w-full pl-8 pr-8 py-2 bg-fuchsia-900/30 border border-fuchsia-800/20 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-fuchsia-500/50"
+        className="w-full pl-8 pr-8 py-2 bg-[#AACAFE]/30 border border-[#3300B0]/20 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#3300B0]/50 text-[#3300B0]"
       />
       
       {themeQuery && (
         <button
           onClick={handleClearSearch}
-          className="absolute inset-y-0 right-2 flex items-center text-fuchsia-400 hover:text-fuchsia-300"
+          className="absolute inset-y-0 right-2 flex items-center text-[#3300B0] hover:text-[#3300B0]/80"
         >
           <X className="h-4 w-4" />
         </button>

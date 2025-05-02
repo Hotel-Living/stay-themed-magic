@@ -20,7 +20,7 @@ export const FeaturesSection = ({ hotel }: FeaturesSectionProps) => {
           .map(([featureId]) => (
             <span 
               key={featureId} 
-              className="px-3 py-1 bg-fuchsia-900/50 rounded-full text-sm"
+              className="px-3 py-1 bg-[#AACAFE]/70 rounded-full text-sm text-[#3300B0]"
             >
               {featureId.replace(/_/g, ' ')}
             </span>
@@ -30,15 +30,15 @@ export const FeaturesSection = ({ hotel }: FeaturesSectionProps) => {
   };
 
   return (
-    <Card className="p-6 bg-[#2A0F44]">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Features</h3>
+    <Card className="p-6 bg-[#AACAFE]/30">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-[#3300B0]/30 text-[#3300B0]">Features</h3>
       <div className="grid grid-cols-1 gap-4">
         <div>
-          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Hotel Features</h4>
+          <h4 className="font-medium text-lg text-[#3300B0] mb-2">Hotel Features</h4>
           {renderFeatures(hotel.features_hotel)}
         </div>
         <div>
-          <h4 className="font-medium text-lg text-fuchsia-200 mb-2">Room Features</h4>
+          <h4 className="font-medium text-lg text-[#3300B0] mb-2">Room Features</h4>
           {renderFeatures(hotel.features_room)}
         </div>
       </div>

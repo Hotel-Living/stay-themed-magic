@@ -25,6 +25,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2); /* Reduced opacity from 0.32 to 0.2 */
+  background-color: rgba(0, 0, 0, 0.14); /* Reduced opacity from 0.2 to 0.14 (30% lighter) */
   backdrop-filter: blur(2.1px);
 }

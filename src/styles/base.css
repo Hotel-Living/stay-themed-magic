@@ -47,6 +47,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
-    background-color: #b006be; /* Lightened the background color by 30% from #860493 */
+    /* Removed background-color: #b006be; */
   }
 }

@@ -54,7 +54,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
     <>
       <FilterDropdown
         type="country"
-        label={placeholders.country || "Country"}
+        label={placeholders.country || "COUNTRY"}
         value={filters.country}
         options={availableThemes} // This is intentional, the options are passed to renderOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
@@ -67,12 +67,12 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
+        labelTextSize="text-[1.1em]" // 10% bigger than default
       />
       
       <FilterDropdown
         type="month"
-        label={placeholders.month || "Month"}
+        label={placeholders.month || "MONTH"}
         value={filters.month}
         options={availableThemes} // This is intentional, the options are passed to renderOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
@@ -85,12 +85,12 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
+        labelTextSize="text-[1.1em]" // 10% bigger than default
       />
       
       <FilterDropdown
         type="theme"
-        label={placeholders.theme || "Affinity"}
+        label={placeholders.theme || "AFFINITY"}
         value={filters.theme}
         options={availableThemes}
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
@@ -112,12 +112,12 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
           useLargerMobileText
         })}
         textColor={textColor}
-        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
+        labelTextSize="text-[1.1em]" // 10% bigger than default
       />
       
       <FilterDropdown
         type="priceRange"
-        label={placeholders.priceRange || "Price per Month"}
+        label={placeholders.priceRange || "PRICE PER MONTH"}
         value={filters.priceRange}
         options={availableThemes} // This is intentional, the options are passed to renderOptions
         onChange={(key, value) => updateFilter(key as keyof FilterState, value)}
@@ -130,7 +130,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize={labelTextSize} // Pass labelTextSize to FilterDropdown
+        labelTextSize="text-[1.1em]" // 10% bigger than default
       />
     </>
   );

@@ -10,9 +10,9 @@ export function HeroSection() {
         <div className={`pt-4 ${isMobile ? "mb-6" : "mb-0.5"}`}>
           {/* New 1950s style neon sign slogan - with adjusted sizing for mobile and 20% smaller */}
           <div className={`flex justify-center ${isMobile ? "mb-8" : "mb-1"}`}>
-            <div className={`relative ${isMobile ? "w-[72%]" : "w-[24%]"} mx-auto`}>
+            <div className={`relative ${isMobile ? "w-[58%]" : "w-[19%]"} mx-auto`}>
               <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
-                <p className={`${isMobile ? "text-base" : "text-sm sm:text-base md:text-xl"} font-bold max-w-full text-center whitespace-nowrap`}
+                <p className={`${isMobile ? "text-sm" : "text-xs sm:text-sm md:text-base"} font-bold max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",
                    }}>
@@ -22,13 +22,13 @@ export function HeroSection() {
             </div>
           </div>
           
-          {/* Dynamic gold background for "LIVE IN HOTELS" - updated with stronger gold gradient */}
-          <h1 className={`${isMobile ? "text-[54px]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-[#860493] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFC500] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">LIVE IN HOTELS</span>
+          {/* Changed color to #FFFF00 for "LIVE IN HOTELS" */}
+          <h1 className={`${isMobile ? "text-[54px]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-[#FFFF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
+            LIVE IN HOTELS
           </h1>
-          {/* Dynamic gold background for "Boost Your Life!" with capitalization fixed - updated with stronger gold gradient */}
-          <h2 className={`${isMobile ? "text-4xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-[#860493] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            <span className="bg-gradient-to-r from-[#FFF600] via-[#FFC500] to-[#FFF600] bg-[length:200%_auto] animate-text-slow bg-clip-text text-transparent">Boost Your Life!</span>
+          {/* Changed color to #FFFF00 for "Boost Your Life!" */}
+          <h2 className={`${isMobile ? "text-4xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-[#FFFF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
+            Boost Your Life!
           </h2>
         </div>
         

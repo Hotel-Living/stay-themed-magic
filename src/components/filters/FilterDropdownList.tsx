@@ -67,7 +67,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[1.1em]" // 10% bigger than default
+        labelTextSize="text-[0.88em]" // 20% smaller than default
       />
       
       <FilterDropdown
@@ -85,7 +85,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[1.1em]" // 10% bigger than default
+        labelTextSize="text-[0.88em]" // 20% smaller than default
       />
       
       <FilterDropdown
@@ -112,7 +112,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
           useLargerMobileText
         })}
         textColor={textColor}
-        labelTextSize="text-[1.1em]" // 10% bigger than default
+        labelTextSize="text-[0.88em]" // 20% smaller than default
       />
       
       <FilterDropdown
@@ -130,7 +130,7 @@ export const FilterDropdownList: React.FC<FilterDropdownListProps> = ({
         useLargerMobileText={useLargerMobileText}
         renderOptions={renderDropdownOptions}
         textColor={textColor}
-        labelTextSize="text-[1.1em]" // 10% bigger than default
+        labelTextSize="text-[0.88em]" // 20% smaller than default
       />
     </>
   );

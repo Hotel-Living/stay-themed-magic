@@ -1,20 +1,35 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { Theme, allThemes } from "@/utils/themes";
+import { supabase } from "@/integrations/supabase/client";
+import { Theme } from "@/utils/theme-types";
 
-// Function to get all themes
-const getThemes = async (): Promise<Theme[]> => {
-  // In a real application, this would be an API call
-  // For now, we'll just return the static themes data
-  return Promise.resolve(allThemes);
+// Function to get all themes from the database
+const fetchThemesFromDB = async (): Promise<Theme[]> => {
+  const { data, error } = await supabase
+    .from('themes')
+    .select('*')
+    .order('name');
+
+  if (error) {
+    console.error("Error fetching themes:", error);
+    throw error;
+  }
+
+  // Transform database themes to match the Theme interface
+  return data.map(theme => ({
+    id: theme.id,
+    name: theme.name,
+    category: theme.category || "",
+    description: theme.description
+  }));
 };
 
 // Custom hook to fetch themes
 export const useThemes = () => {
   return useQuery({
     queryKey: ['themes'],
-    queryFn: getThemes,
-    staleTime: Infinity, // Since this is static data, we can set a long staleTime
-    initialData: allThemes // Provide initial data to avoid loading state
+    queryFn: fetchThemesFromDB,
+    staleTime: 1000 * 60 * 5, // 5 minutes cache
+    refetchOnWindowFocus: false,
   });
 };

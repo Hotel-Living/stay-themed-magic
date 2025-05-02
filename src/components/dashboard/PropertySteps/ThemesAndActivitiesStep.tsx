@@ -11,9 +11,6 @@ interface ThemesAndActivitiesStepProps {
   updateFormData?: (field: string, value: any) => void;
 }
 
-// Direct themes that should be immediately available for selection
-const directThemes: any[] = [];
-
 export default function ThemesAndActivitiesStep({
   onValidationChange = () => {},
   formData = {},
@@ -72,7 +69,6 @@ export default function ThemesAndActivitiesStep({
     <div className="space-y-6 max-w-[80%]">
       <div className="space-y-8">
         <DirectThemes 
-          themes={directThemes}
           selectedThemes={selectedThemes} 
           onThemeSelect={handleThemeSelect}
         />

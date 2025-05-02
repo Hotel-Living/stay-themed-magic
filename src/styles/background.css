@@ -28,3 +28,8 @@
   background-color: rgba(0, 0, 0, 0.14); /* Reduced opacity from 0.2 to 0.14 (30% lighter) */
   backdrop-filter: blur(2.1px);
 }
+
+/* Add duration class for longer transitions */
+.duration-3000 {
+  transition-duration: 3000ms;
+}

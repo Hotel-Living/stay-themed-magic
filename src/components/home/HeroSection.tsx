@@ -11,11 +11,11 @@ export function HeroSection() {
           {/* New 1950s style neon sign slogan - with adjusted sizing for mobile */}
           <div className={`flex justify-center ${isMobile ? "mb-8" : "mb-1"}`}>
             <div className={`relative ${isMobile ? "w-[90%]" : "w-[30%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-[#FFF7C7] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className={`${isMobile ? "text-xl" : "text-lg sm:text-xl md:text-2xl"} font-bold animate-pulse-glow max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",
-                     textShadow: "0 0 7px #D946EF, 0 0 10px #D946EF, 0 0 21px #D946EF",
+                     textShadow: "0 0 7px #FFF7C7, 0 0 10px #FFF7C7, 0 0 21px #FFF7C7",
                    }}>
                   The Future is Here!
                 </p>

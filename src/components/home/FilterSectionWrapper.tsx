@@ -75,18 +75,18 @@ export function FilterSectionWrapper({
             availableThemes={themes ? themes.map(theme => theme.name) : availableThemes}
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}
-            textColor="#FFFFFF"
+            textColor="#860493"
             labelTextSize="text-xs" // Making filter labels 15% smaller
           />
           
           <div className="flex justify-center bg-[#721876]">
             <Button 
               size="sm" 
-              className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#721876] hover:bg-[#5A1358] font-bold border-t-2 border-fuchsia-400/70"
+              className="text-[#860493] w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#AACAFE] hover:bg-[#AACAFE]/90 font-bold border-t-2 border-fuchsia-400/70"
               onClick={handleSearch}
             >
               <Search className="w-4 h-4 mr-2" />
-              <span className="text-white">Search</span>
+              <span className="text-[#860493]">Search</span>
             </Button>
           </div>
         </div>

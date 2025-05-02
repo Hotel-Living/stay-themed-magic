@@ -76,7 +76,7 @@ export function FilterSectionWrapper({
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}
             textColor="#860493"
-            labelTextSize="text-xs" // Making filter labels 15% smaller
+            labelTextSize="text-xs"
           />
           
           <div className="flex justify-center bg-[#721876]">

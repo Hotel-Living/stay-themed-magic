@@ -55,7 +55,7 @@ export const FilterButton: React.FC<FilterButtonProps> = ({
       
       <button 
         onClick={onSearch}
-        className={`px-4 py-2 rounded-lg ${searchBgColor} text-[#3300B0] ${searchHoverBgColor} text-sm transition-colors ml-auto`}
+        className="px-4 py-2 rounded-lg bg-[#AACAFE] text-[#3300B0] hover:bg-[#AACAFE]/90 text-sm transition-colors ml-auto"
       >
         <Search className="w-4 h-4 inline mr-1" />
         Search

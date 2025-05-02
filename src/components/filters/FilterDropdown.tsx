@@ -19,7 +19,7 @@ interface FilterDropdownProps {
   useLargerMobileText: boolean;
   renderOptions: (type: string, extraProps?: any) => React.ReactNode;
   textColor: string;
-  labelTextSize?: string; // Added labelTextSize prop
+  labelTextSize?: string;
 }
 
 export const FilterDropdown: React.FC<FilterDropdownProps> = ({
@@ -37,7 +37,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
   useLargerMobileText,
   renderOptions,
   textColor,
-  labelTextSize = "text-sm" // Added default value
+  labelTextSize = "text-sm"
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -69,7 +69,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
             ${labelTextSize}
             ${mobileLabelSize}
             ${useBoldLabels ? "font-bold" : ""} 
-            ${value ? "text-white" : `${textColor} opacity-90`}
+            ${value ? "text-white" : `text-[#860493]`}
           `}
         >
           {value ? (

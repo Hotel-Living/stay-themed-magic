@@ -1,9 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import DirectThemes from "./themes/DirectThemes";
-import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
+import { AffinitiesSection } from "./themes/AffinitiesSection";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -68,11 +67,6 @@ export default function ThemesAndActivitiesStep({
   return (
     <div className="space-y-6 max-w-[80%]">
       <div className="space-y-8">
-        <DirectThemes 
-          selectedThemes={selectedThemes} 
-          onThemeSelect={handleThemeSelect}
-        />
-        
         <AffinitiesSection 
           selectedThemes={selectedThemes}
           onThemeSelect={handleThemeSelect}

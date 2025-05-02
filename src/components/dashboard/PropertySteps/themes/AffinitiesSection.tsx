@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown, PlusCircle } from "lucide-react";
 import { useThemes } from "@/hooks/useThemes";
 import { Spinner } from "@/components/ui/spinner";
-import { Theme } from "@/utils/theme-types"; // Import the correct Theme type
+import { Theme } from "@/utils/theme-types";
 
 interface AffinitiesSectionProps {
   openCategory: string | null;

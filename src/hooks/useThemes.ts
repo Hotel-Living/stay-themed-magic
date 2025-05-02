@@ -19,8 +19,8 @@ const fetchThemesFromDB = async (): Promise<Theme[]> => {
   return data.map(theme => ({
     id: theme.id,
     name: theme.name,
-    category: theme.category || "",
-    description: theme.description
+    description: theme.description,
+    category: theme.category || "" // Provide a default value for category if it doesn't exist
   }));
 };
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Building, Edit, Trash2, AlertTriangle } from "lucide-react";
 import EmptyState from "./EmptyState";
@@ -10,6 +9,7 @@ import { Hotel } from "@/integrations/supabase/types-custom";
 import PropertyDetailView from "./property-view/PropertyDetailView";
 import DeletePropertyDialog from "./DeletePropertyDialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface PropertiesContentProps {
   hotel?: Hotel;

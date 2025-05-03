@@ -61,7 +61,17 @@ export function useRoomTypeForm({
   useEffect(() => {
     if (editingRoomType && editingRoomType.rates) {
       console.log("Loading existing rates from editingRoomType:", editingRoomType.rates);
-      setRates(editingRoomType.rates);
+      
+      // Convert string keys to number keys if needed
+      const numericRates: Record<number, number> = {};
+      Object.entries(editingRoomType.rates).forEach(([key, value]) => {
+        const numKey = parseInt(key, 10);
+        if (!isNaN(numKey)) {
+          numericRates[numKey] = typeof value === 'string' ? parseFloat(value) : Number(value);
+        }
+      });
+      
+      setRates(numericRates);
     }
   }, [editingRoomType, setRates]);
 

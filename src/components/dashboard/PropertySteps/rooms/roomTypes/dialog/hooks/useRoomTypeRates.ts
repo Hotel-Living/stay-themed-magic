@@ -2,20 +2,19 @@
 import { useState, useEffect } from 'react';
 
 export function useRoomTypeRates(availableStayLengths: number[] = []) {
-  const [stayLengths, setStayLengths] = useState<string[]>([]);
-  const [rates, setRates] = useState<Record<string, string>>({});
+  const [stayLengths, setStayLengths] = useState<number[]>([]);
+  const [rates, setRates] = useState<Record<number, number>>({});
   
   // Update stay lengths when availableStayLengths changes
   useEffect(() => {
     if (availableStayLengths && availableStayLengths.length > 0) {
-      const formattedStayLengths = availableStayLengths.map(days => `${days} days`);
-      setStayLengths(formattedStayLengths);
+      setStayLengths(availableStayLengths);
       
       // Initialize rates object with empty values if not already set
-      const initialRates: Record<string, string> = {};
-      formattedStayLengths.forEach(stayLength => {
-        if (!rates[stayLength]) {
-          initialRates[stayLength] = '';
+      const initialRates: Record<number, number> = {};
+      availableStayLengths.forEach(days => {
+        if (!rates[days]) {
+          initialRates[days] = 0;
         }
       });
       
@@ -25,10 +24,10 @@ export function useRoomTypeRates(availableStayLengths: number[] = []) {
     }
   }, [availableStayLengths]);
 
-  const handleRateChange = (stayLength: string, value: string) => {
+  const handleRateChange = (stayLength: number, value: string) => {
     setRates(prev => ({
       ...prev,
-      [stayLength]: value
+      [stayLength]: Number(value) || 0
     }));
   };
 

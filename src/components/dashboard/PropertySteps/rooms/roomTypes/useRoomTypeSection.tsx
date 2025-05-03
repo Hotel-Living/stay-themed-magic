@@ -16,6 +16,7 @@ export function useRoomTypeSection(
 ) {
   console.log("useRoomTypeSection initializing with formData:", formData);
   
+  // Initialize useRoomTypes with empty array
   const {
     selectedUnit,
     setSelectedUnit,
@@ -23,7 +24,6 @@ export function useRoomTypeSection(
     setRoomTypes,
     dialogOpen,
     selectedStayLengths,
-    setSelectedStayLengths,
     setDialogOpen,
     handleAddRoomType,
     handleDeleteRoomType
@@ -61,12 +61,10 @@ export function useRoomTypeSection(
       setRoomTypes(processedRoomTypes);
     }
     
-    // Initialize stay lengths from formData
-    if (formData.stayLengths && Array.isArray(formData.stayLengths) && formData.stayLengths.length > 0) {
-      console.log("Setting stay lengths from formData:", formData.stayLengths);
-      setSelectedStayLengths(formData.stayLengths);
-    }
-  }, [formData.roomTypes, formData.stayLengths, setRoomTypes, setSelectedStayLengths]);
+    // Note: We're not using setSelectedStayLengths here because it's not available
+    // in the return value from useRoomTypes. The selectedStayLengths will be updated
+    // internally by useRoomTypes based on formData.stayLengths and localStorage.
+  }, [formData.roomTypes, setRoomTypes]);
 
   // Update parent form data when roomTypes change
   useEffect(() => {

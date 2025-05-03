@@ -78,7 +78,8 @@ export default function StayRatesStep({
             
             mealOptions.forEach(mealOption => {
               const key = `${roomType}-${stayLength}-${mealOption}`;
-              initialRates[key] = price;
+              // Fix: Ensure price is cast to a number or string type
+              initialRates[key] = Number(price) || String(price);
             });
           }
         });

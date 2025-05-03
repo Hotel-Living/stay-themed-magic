@@ -7,12 +7,10 @@ import { HotelImageGallery } from "./HotelImageGallery";
 import { HotelThemesAndActivities } from "./HotelThemesAndActivities";
 import { HotelHighlights } from "./HotelHighlights";
 import { HotelDescriptionSection } from "./HotelDescription";
-import { HotelPriceBreakdown } from "./HotelPriceBreakdown";
 import { HotelBookingSection } from "./HotelBookingSection";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
-import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -66,11 +64,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Dynamic starfield background */}
-      <HotelStarfield />
-
-      {/* Content wrapped in dark semi-transparent container */}
+    <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
       <div className="container mx-auto px-4 py-8">
         <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-black/60 backdrop-blur-sm text-white shadow-lg">
           {/* Header */}
@@ -101,13 +95,6 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             <div className="md:col-span-2">
               {/* General Description */}
               <HotelDescriptionSection description={hotel.description} />
-              
-              {/* Price breakdown moved up */}
-              <HotelPriceBreakdown 
-                stayLengths={stayDurations} 
-                rates={hotel.rates || {}} 
-                currency={hotel.currency || "USD"} 
-              />
               
               {/* Features */}
               <HotelFeaturesInfo

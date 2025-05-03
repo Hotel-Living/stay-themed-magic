@@ -11,7 +11,7 @@ export function HotelDescriptionSection({ description }: HotelDescriptionProps) 
   return (
     <div className="mb-8">
       <h2 className="text-xl font-semibold mb-2 text-white">General description</h2>
-      <p className="text-gray-200">
+      <p className="text-white">
         {description || "No description available for this hotel."}
       </p>
     </div>

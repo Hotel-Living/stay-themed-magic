@@ -25,7 +25,8 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
             {hotelFeatures.map((feature) => (
               <Badge 
                 key={feature} 
-                className="hover:scale-105 transition-all duration-200"
+                variant="outline"
+                className="bg-white/10 text-white hover:scale-105 transition-all duration-200"
               >
                 {formatFeatureName(feature)}
               </Badge>
@@ -40,8 +41,9 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
           <div className="flex flex-wrap gap-2">
             {roomFeatures.map((feature) => (
               <Badge 
-                key={feature} 
-                className="hover:scale-105 transition-all duration-200"
+                key={feature}
+                variant="outline"
+                className="bg-white/10 text-white hover:scale-105 transition-all duration-200"
               >
                 {formatFeatureName(feature)}
               </Badge>

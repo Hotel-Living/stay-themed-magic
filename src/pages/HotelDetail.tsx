@@ -28,7 +28,7 @@ export default function HotelDetail() {
   }, [error, toast]);
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
       <Navbar />
       
       <main className="flex-1">

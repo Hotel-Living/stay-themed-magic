@@ -18,9 +18,6 @@ export const useHotelSubmission = () => {
     // Get room types data
     const roomTypes = formData.roomTypes || [];
 
-    // Convert themes selected to proper format
-    const themes = formData.themes || [];
-    
     // Extract hotel and room features - ensure they're actually objects
     const featuresHotel = formData.featuresHotel || {};
     const featuresRoom = formData.featuresRoom || {};
@@ -53,6 +50,8 @@ export const useHotelSubmission = () => {
       city: formData.city,
       address: formData.address || null,
       postal_code: formData.postalCode || null,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
       price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
       category: parseInt(formData.category),
       property_type: formData.propertyType,
@@ -74,7 +73,8 @@ export const useHotelSubmission = () => {
       features_hotel: featuresHotel,
       features_room: featuresRoom,
       available_months: availableMonths,
-      rates: rates // Add rates to hotel data
+      rates: rates, // Add rates to hotel data
+      main_image_url: formData.mainImageUrl || null
     };
     
     const { data, error } = await supabase
@@ -138,6 +138,8 @@ export const useHotelSubmission = () => {
       city: formData.city,
       address: formData.address || null,
       postal_code: formData.postalCode || null,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
       price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
       category: parseInt(formData.category),
       property_type: formData.propertyType,
@@ -158,7 +160,8 @@ export const useHotelSubmission = () => {
       features_room: featuresRoom,
       available_months: availableMonths,
       rates: rates, // Add rates to hotel data
-      status: 'pending' // Set status back to pending for admin review
+      status: 'pending', // Set status back to pending for admin review
+      main_image_url: formData.mainImageUrl || null
     };
     
     const { error } = await supabase

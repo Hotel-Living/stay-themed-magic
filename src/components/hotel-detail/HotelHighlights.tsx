@@ -16,7 +16,8 @@ export function HotelHighlights({ highlights }: HotelHighlightsProps) {
       <div className="space-y-2">
         {highlights.map((highlight, index) => (
           <p key={index} className="font-medium">
-            {highlight.question} {highlight.answer}
+            <span className="font-medium">{highlight.question} </span>
+            <span className="font-medium">{highlight.answer}</span>
           </p>
         ))}
       </div>

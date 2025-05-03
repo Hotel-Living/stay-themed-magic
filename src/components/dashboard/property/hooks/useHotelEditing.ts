@@ -1,6 +1,8 @@
+
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PropertyFormData } from "./usePropertyFormData";
+import { useToast } from "@/hooks/use-toast";
 
 interface HotelEditingProps {
   editingHotelId: string | null | undefined;
@@ -26,6 +28,8 @@ export const useHotelEditing = ({
   setFormData,
   setCurrentStep
 }: HotelEditingProps) => {
+  const { toast } = useToast();
+  
   useEffect(() => {
     if (!editingHotelId) return;
 
@@ -35,17 +39,32 @@ export const useHotelEditing = ({
       try {
         const { data: hotel, error } = await supabase
           .from('hotels')
-          .select('*, hotel_themes(theme_id, themes(*)), hotel_activities(activity_id, activities(*)), hotel_images(*)')
+          .select(`
+            *, 
+            hotel_themes(theme_id, themes(*)), 
+            hotel_activities(activity_id, activities(*)), 
+            hotel_images(*)
+          `)
           .eq('id', editingHotelId)
           .single();
         
         if (error) {
           console.error("Error fetching hotel details:", error);
+          toast({
+            title: "Error loading hotel",
+            description: "Could not load hotel details. Please try again.",
+            variant: "destructive",
+          });
           return;
         }
 
         if (!hotel) {
           console.error("Hotel not found");
+          toast({
+            title: "Hotel not found",
+            description: "The hotel you're trying to edit could not be found.",
+            variant: "destructive",
+          });
           return;
         }
 
@@ -64,6 +83,8 @@ export const useHotelEditing = ({
           isMain: img.is_main
         })) || [];
 
+        console.log("Mapped uploaded images:", uploadedImages);
+
         // Parse hotel data for form
         setFormData({
           hotelName: hotel.name || "",
@@ -77,6 +98,8 @@ export const useHotelEditing = ({
           address: hotel.address || "",
           city: hotel.city || "",
           postalCode: hotel.postal_code || "",
+          latitude: hotel.latitude,
+          longitude: hotel.longitude,
           contactName: hotel.contact_name || "",
           contactEmail: hotel.contact_email || "",
           contactPhone: hotel.contact_phone || "",
@@ -94,8 +117,11 @@ export const useHotelEditing = ({
           preferredWeekday: hotel.preferredWeekday || "Monday",
           featuresHotel: safeFeatureConversion(hotel.features_hotel),
           featuresRoom: safeFeatureConversion(hotel.features_room),
-          available_months: hotel.available_months || []
+          available_months: hotel.available_months || [],
+          rates: hotel.rates || {}
         });
+        
+        console.log("Set form data for editing");
         
         // Navigate to first step if setting current step is provided
         if (setCurrentStep) {
@@ -103,11 +129,16 @@ export const useHotelEditing = ({
         }
       } catch (error) {
         console.error("Error in fetchHotelDetails:", error);
+        toast({
+          title: "Error loading hotel",
+          description: "There was a problem loading hotel details.",
+          variant: "destructive",
+        });
       }
     };
 
     fetchHotelDetails();
-  }, [editingHotelId, setFormData, setCurrentStep]);
+  }, [editingHotelId, setFormData, setCurrentStep, toast]);
 
   return { editingHotelId };
 };

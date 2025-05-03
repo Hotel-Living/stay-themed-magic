@@ -57,25 +57,19 @@ export const usePropertySubmission = ({
 
   const handleSubmitProperty = async (editingHotelId: string | null = null) => {
     const isEditing = Boolean(editingHotelId);
+    console.log("Submitting property:", isEditing ? "Editing existing" : "Creating new");
+    console.log("Form data:", formData);
 
-    // Validate all steps before final submission
-    let incompleteFieldsByStep = [];
-    for (let i = 1; i <= Object.keys(stepValidation).length; i++) {
-      const incompleteFields = getIncompleteFields(i);
-      if (incompleteFields.length > 0) {
-        incompleteFieldsByStep.push({ step: i, fields: incompleteFields });
-      }
-    }
-
-    if (incompleteFieldsByStep.length > 0) {
-      handleValidationError();
-      
-      // Navigate to the first step with incomplete fields
-      const firstIncompleteStep = incompleteFieldsByStep[0].step;
-      setCurrentStep(firstIncompleteStep);
-      setErrorFields(incompleteFieldsByStep[0].fields);
-      setShowValidationErrors(true);
-      
+    // Check for critical required fields only
+    const requiredFields = ['hotelName', 'country', 'city', 'category'];
+    const missingRequired = requiredFields.filter(field => !formData[field as keyof PropertyFormData]);
+    
+    if (missingRequired.length > 0) {
+      toast({
+        title: "Missing required information",
+        description: `Please fill out the following fields: ${missingRequired.join(', ')}`,
+        variant: "destructive"
+      });
       return;
     }
 
@@ -88,37 +82,50 @@ export const usePropertySubmission = ({
         // Update existing hotel
         await updateExistingHotel(formData, editingHotelId);
         hotelId = editingHotelId;
+        console.log("Hotel updated successfully:", hotelId);
       } else {
         // Create new hotel
         const hotelData = await createNewHotel(formData, userId);
         hotelId = hotelData.id;
+        console.log("New hotel created successfully:", hotelId);
       }
+      
+      console.log("Processing images for hotel:", hotelId);
       
       // Handle image submissions immediately after hotel creation/update
       if (formData.hotelImages && formData.hotelImages.length > 0) {
+        console.log("Using custom images:", formData.hotelImages);
         await handleCustomImages(hotelId, formData.hotelImages);
       } else {
+        console.log("No images provided, using placeholders");
         await handlePlaceholderImages(hotelId);
       }
       
       // Submit related data - handle failures gracefully
       try {
+        console.log("Processing themes and activities");
         await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
       } catch (themeError) {
         console.warn("Theme submission had issues but continuing:", themeError);
-        // Continue with submission even if themes/activities have issues
       }
       
       try {
+        console.log("Processing availability");
         // Availability should be processed after the hotel has been created/updated
         await handleAvailability(hotelId, formData.available_months || []);
       } catch (availError) {
         console.warn("Availability submission had issues but continuing:", availError);
-        // Continue with submission even if availability has issues
       }
       
       // Handle submission success even if some related data had issues
       handleSubmissionSuccess();
+      
+      toast({
+        title: isEditing ? "Hotel Updated" : "Hotel Submitted",
+        description: isEditing 
+          ? "Your hotel has been updated and is pending approval." 
+          : "Your hotel has been submitted and is pending approval.",
+      });
       
       // Reset form data after successful submission if not editing
       if (!isEditing) {

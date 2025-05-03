@@ -1,64 +1,49 @@
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+console.log("Listening on http://localhost:9999/");
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
-  }
-
+  console.log("Receiving request to get-maps-key function");
+  
   try {
-    console.log('Receiving request to get-maps-key function')
-    
-    // Parse request body if it exists
-    let requestBody = {}
+    // Parse the request body if any is sent
+    let payload = {};
     try {
-      if (req.body) {
-        const body = await req.json()
-        requestBody = body
-        console.log('Request body:', JSON.stringify(requestBody))
+      const reqText = await req.text();
+      if (reqText) {
+        payload = JSON.parse(reqText);
+      } else {
+        console.log("No request body or invalid JSON: Unexpected end of JSON input");
       }
     } catch (e) {
-      console.log('No request body or invalid JSON:', e.message)
-    }
-    
-    console.log('Fetching Google Maps API key from environment variables')
-    const apiKey = Deno.env.get('GOOGLE_MAPS_API_KEY')
-    
-    if (!apiKey) {
-      console.error('Google Maps API key not found in environment variables')
-      throw new Error('API key not configured')
+      console.log(`No request body or invalid JSON: ${e.message}`);
     }
 
-    console.log('Successfully retrieved Google Maps API key')
+    console.log("Fetching Google Maps API key from environment variables");
+    const apiKey = Deno.env.get("GOOGLE_MAPS_API_KEY");
+    
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({ error: "Google Maps API key not found in environment" }),
+        { headers: { "Content-Type": "application/json" }, status: 500 }
+      );
+    }
+
+    console.log("Successfully retrieved Google Maps API key");
+    
     return new Response(
-      JSON.stringify({ apiKey }),
-      { 
-        headers: { 
-          ...corsHeaders,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-  } catch (error) {
-    console.error('Error in get-maps-key function:', error)
-    return new Response(
-      JSON.stringify({ 
-        error: 'Failed to fetch API key',
-        details: error.message 
+      JSON.stringify({
+        key: apiKey,
+        message: "Maps API key retrieved successfully",
       }),
-      { 
-        status: 500,
-        headers: { 
-          ...corsHeaders,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+      { headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error("Error in maps key function:", error);
+    return new Response(
+      JSON.stringify({ error: error.message || "Unknown error occurred" }),
+      { headers: { "Content-Type": "application/json" }, status: 500 }
+    );
   }
-})
+});

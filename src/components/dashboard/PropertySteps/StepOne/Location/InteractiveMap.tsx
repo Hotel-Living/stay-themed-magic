@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { MapProps } from "./types";
 import { useGoogleMaps } from "./hooks/useGoogleMaps";
-import { MapMarker } from "./components/MapMarker";
 import { LoadingState } from "./components/LoadingState";
 import { ErrorState } from "./components/ErrorState";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
@@ -16,22 +15,28 @@ const InteractiveMap: React.FC<MapProps> = ({
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
+  const [mapInitialized, setMapInitialized] = useState(false);
   const { isLoading, error, retryLoading } = useGoogleMaps();
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
   const [previousAddress, setPreviousAddress] = useState<string>("");
   const [marker, setMarker] = useState<any>(null);
   
-  // Initialize map
+  // Initialize map once Google Maps is loaded
   useEffect(() => {
-    if (!mapRef.current || !window.google || isLoading) return;
+    if (isLoading || !mapRef.current || !window.google || error || mapInitialized) {
+      return;
+    }
     
     try {
+      console.log('Initializing Google Map');
+      setMapInitialized(true);
+      
       const center = {
         lat: latitude ? parseFloat(latitude) : 40.7128,
         lng: longitude ? parseFloat(longitude) : -74.0060
       };
 
-      // Create the styled map type
+      // Create the styled map
       const styledMapType = new window.google.maps.StyledMapType([
         { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
         { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
@@ -157,10 +162,10 @@ const InteractiveMap: React.FC<MapProps> = ({
         streetViewControl: false,
       };
       
-      console.log('Creating new Google Maps instance with light theme');
+      console.log('Creating new Google Maps instance');
       const newMap = new window.google.maps.Map(mapRef.current, mapOptions);
       
-      // Associate the styled map with the MapTypeId
+      // Associate the styled map
       newMap.mapTypes.set("styled_map", styledMapType);
       setMap(newMap);
       
@@ -171,7 +176,6 @@ const InteractiveMap: React.FC<MapProps> = ({
           const lng = event.latLng.lng().toFixed(6);
           console.log(`Map clicked: lat=${lat}, lng=${lng}`);
           
-          // Update marker position
           updateMarker(newMap, {
             lat: parseFloat(lat),
             lng: parseFloat(lng)
@@ -181,7 +185,7 @@ const InteractiveMap: React.FC<MapProps> = ({
         }
       });
       
-      // Initialize the marker if coordinates are provided
+      // Initialize marker if coordinates provided
       if (latitude && longitude) {
         const position = {
           lat: parseFloat(latitude),
@@ -190,16 +194,15 @@ const InteractiveMap: React.FC<MapProps> = ({
         updateMarker(newMap, position);
       }
       
-      console.log('Map initialized successfully with light theme');
-      
-      // Clear any previous geocode errors since map loaded successfully
+      console.log('Map initialized successfully');
       setGeocodeError(null);
       
     } catch (err) {
       console.error('Error initializing map:', err);
       setGeocodeError('Error initializing the map. Please try again.');
+      setMapInitialized(false);
     }
-  }, [isLoading, latitude, longitude, onLocationSelect]);
+  }, [isLoading, error, latitude, longitude, onLocationSelect, mapInitialized]);
 
   // Helper function to update or create marker
   const updateMarker = (mapInstance: any, position: { lat: number, lng: number }) => {
@@ -232,7 +235,7 @@ const InteractiveMap: React.FC<MapProps> = ({
 
   // Handle geocoding whenever address changes
   useEffect(() => {
-    if (!map || !window.google || !address) return;
+    if (!map || !window.google || !address || !mapInitialized) return;
     
     // Skip if address hasn't changed
     if (address === previousAddress || address.trim() === "") return;
@@ -288,7 +291,14 @@ const InteractiveMap: React.FC<MapProps> = ({
       console.error('Error during geocoding:', err);
       setGeocodeError('Error looking up address. Please try again.');
     }
-  }, [address, map, onLocationSelect, previousAddress]);
+  }, [address, map, onLocationSelect, previousAddress, mapInitialized]);
+
+  // Reset map initialization when Google Maps loading state changes
+  useEffect(() => {
+    if (isLoading) {
+      setMapInitialized(false);
+    }
+  }, [isLoading]);
 
   return (
     <div className="mb-4">

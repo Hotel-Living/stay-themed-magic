@@ -1,25 +1,25 @@
 
 import React from "react";
 
-interface HighlightItem {
+interface Highlight {
   question: string;
-  answer: string | null | undefined;
+  answer: string;
 }
 
 interface HotelHighlightsProps {
-  highlights: HighlightItem[];
+  highlights: Highlight[];
 }
 
 export function HotelHighlights({ highlights }: HotelHighlightsProps) {
   return (
-    <div className="mt-4 space-y-2">
-      {highlights.map((item, index) => (
-        item.answer ? (
-          <p key={index} className="text-sm font-semibold text-white">
-            {item.question} {item.answer}
+    <div className="my-5 p-4 bg-fuchsia-900/20 rounded-lg">
+      <div className="space-y-2">
+        {highlights.map((highlight, index) => (
+          <p key={index} className="font-medium">
+            {highlight.question} {highlight.answer}
           </p>
-        ) : null
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

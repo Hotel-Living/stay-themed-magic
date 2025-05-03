@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { formatCurrency } from "@/utils/dynamicPricing";
+import { cn } from "@/lib/utils";
 
 interface HotelBookingSectionProps {
   checkInDate: Date | undefined;
@@ -57,6 +58,10 @@ export function HotelBookingSection({
             variant={selectedDuration === d ? "default" : "outline"} 
             key={d}
             onClick={() => setSelectedDuration(d)}
+            className={cn(
+              "border-white",
+              selectedDuration === d && "bg-white text-fuchsia-900"
+            )}
           >
             {d}
           </Button>

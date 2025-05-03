@@ -11,6 +11,7 @@ import { HotelBookingSection } from "./HotelBookingSection";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
+import { cn } from "@/lib/utils";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -28,6 +29,13 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   // Extract themes from hotel_themes for the header component
   const hotelThemes = hotel.themes || [];
   const hotelActivities = hotel.activities || [];
+
+  console.log("Hotel detail content rendering with:", {
+    hotelName: hotel.name,
+    imagesCount: hotel.hotel_images?.length || 0,
+    stayLengths: hotel.stay_lengths,
+    coordinates: `${hotel.latitude}, ${hotel.longitude}`
+  });
 
   const lowercase = (text: string | null | undefined) => {
     if (!text) return '';
@@ -84,7 +92,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             
             {/* Updated Image Gallery - now inside the container */}
             <HotelImageGallery 
-              hotelImages={hotel.hotel_images} 
+              hotelImages={hotel.hotel_images || []} 
               hotelName={hotel.name} 
             />
 
@@ -95,7 +103,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               hotelActivities={hotelActivities}
             />
             
-            {/* Highlights from Hotel Form - updated style to be consistent across whole sentence */}
+            {/* Highlights from Hotel Form - updated style to be consistent */}
             <HotelHighlights highlights={hotelHighlights} />
           </div>
 

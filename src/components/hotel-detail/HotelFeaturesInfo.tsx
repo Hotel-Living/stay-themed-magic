@@ -1,56 +1,38 @@
 
 import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { HotelFeaturesInfoProps } from "@/types/hotel";
+
+interface HotelFeaturesInfoProps {
+  hotelFeatures: string[];
+  roomFeatures: string[];
+}
 
 export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeaturesInfoProps) {
-  // Function to format feature name for display (convert snake_case to Title Case)
-  const formatFeatureName = (feature: string): string => {
-    return feature
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
-
-  if ((!hotelFeatures || hotelFeatures.length === 0) && (!roomFeatures || roomFeatures.length === 0)) {
-    return null;
-  }
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-      {hotelFeatures && hotelFeatures.length > 0 && (
+    <div className="my-6 p-4 bg-fuchsia-900/20 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="font-semibold text-white mb-2">HOTEL FEATURES</h3>
-          <div className="flex flex-wrap gap-2">
-            {hotelFeatures.map((feature) => (
-              <Badge 
-                key={feature} 
-                variant="outline"
-                className="bg-white text-[#761B98] hover:scale-105 transition-all duration-200"
-              >
-                {formatFeatureName(feature)}
-              </Badge>
+          <h3 className="text-xl font-semibold mb-4 text-white">HOTEL FEATURES</h3>
+          <div className="grid grid-cols-2 gap-2">
+            {hotelFeatures && hotelFeatures.map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-white rounded-full" />
+                <span className="text-sm">{feature}</span>
+              </div>
             ))}
           </div>
         </div>
-      )}
-      
-      {roomFeatures && roomFeatures.length > 0 && (
         <div>
-          <h3 className="font-semibold text-white mb-2">ROOM FEATURES</h3>
-          <div className="flex flex-wrap gap-2">
-            {roomFeatures.map((feature) => (
-              <Badge 
-                key={feature}
-                variant="outline"
-                className="bg-white text-[#761B98] hover:scale-105 transition-all duration-200"
-              >
-                {formatFeatureName(feature)}
-              </Badge>
+          <h3 className="text-xl font-semibold mb-4 text-white">ROOM FEATURES</h3>
+          <div className="grid grid-cols-2 gap-2">
+            {roomFeatures && roomFeatures.map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-white rounded-full" />
+                <span className="text-sm">{feature}</span>
+              </div>
             ))}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

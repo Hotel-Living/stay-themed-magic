@@ -13,9 +13,11 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
   // Generate a fallback URL if coordinates are not available
   const getMapUrl = () => {
     if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
-      return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${latitude},${longitude}&zoom=15`;
+      // Use direct Google Maps URL instead of the API to avoid key issues
+      return `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15000!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1620820000000!5m2!1sen!2sus`;
     } else if (address) {
-      return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(address)}&zoom=15`;
+      // Use address-based map URL
+      return `https://www.google.com/maps/embed/v1/place?key=AIzaSyAOutSTEY06T-0vlDYJsfOzunrBOyDv4uY&q=${encodeURIComponent(address)}&zoom=15`;
     }
     return '';
   };
@@ -34,7 +36,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
       </CardHeader>
       <CardContent className="p-0">
         <div className="h-64 w-full">
-          {import.meta.env.VITE_GOOGLE_MAPS_API_KEY && hasMapData ? (
+          {hasMapData ? (
             <iframe 
               src={getMapUrl()}
               width="100%" 
@@ -42,14 +44,13 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
               style={{ border: 0 }} 
               allowFullScreen 
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               title={`${hotelName} location`}
             ></iframe>
           ) : (
             <div className="w-full h-full bg-white/10 flex items-center justify-center">
               <p className="text-center text-white">
-                {!import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 
-                  "Map display requires Google Maps API key." :
-                  "Location information unavailable."}
+                Location information unavailable.
                 <br />
                 Location: {address || `${latitude}, ${longitude}`}
               </p>

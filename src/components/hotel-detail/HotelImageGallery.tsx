@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { HotelImage } from "@/types/hotel";
 import { 
   Carousel, 
@@ -8,6 +8,7 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 interface HotelImageGalleryProps {
   hotelImages: HotelImage[];
@@ -15,12 +16,24 @@ interface HotelImageGalleryProps {
 }
 
 export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryProps) {
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  
   // Filter out invalid images (those without valid URLs)
   const validImages = hotelImages?.filter(img => 
-    img && img.image_url && 
+    img && 
+    img.image_url && 
     typeof img.image_url === 'string' &&
-    img.image_url.trim() !== ''
+    img.image_url.trim() !== '' &&
+    !failedImages.has(img.image_url)
   ) || [];
+
+  const handleImageError = (imageUrl: string) => {
+    setFailedImages(prev => {
+      const updated = new Set(prev);
+      updated.add(imageUrl);
+      return updated;
+    });
+  };
 
   return (
     <div className="mt-4">
@@ -29,27 +42,22 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
           <Carousel className="w-full">
             <CarouselContent>
               {validImages.map((image, index) => (
-                <CarouselItem key={image.id || index}>
-                  <div className="p-1">
-                    <div className="overflow-hidden rounded-xl">
+                <CarouselItem key={image.id || index} className="flex justify-center">
+                  <div className="p-1 w-full">
+                    <div className="overflow-hidden rounded-xl w-full">
                       <img
                         src={image.image_url}
                         alt={`${hotelName} view ${index + 1}`}
                         className="h-72 w-full object-cover"
-                        onError={(e) => {
-                          // If image fails to load, set a placeholder or hide it
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
+                        onError={() => handleImageError(image.image_url)}
                       />
                     </div>
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
-              <CarouselPrevious className="relative -left-0" />
-              <CarouselNext className="relative -right-0" />
-            </div>
+            <CarouselPrevious className="absolute left-2" />
+            <CarouselNext className="absolute right-2" />
           </Carousel>
           <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
             {validImages.length} photos
@@ -58,6 +66,28 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
       ) : (
         <div className="w-full h-72 bg-fuchsia-900/20 flex items-center justify-center rounded-xl">
           <p className="text-white">No images available</p>
+        </div>
+      )}
+      
+      {/* Thumbnail gallery */}
+      {validImages.length > 3 && (
+        <div className="mt-4 grid grid-cols-6 gap-2">
+          {validImages.slice(0, 6).map((image, index) => (
+            <div 
+              key={`thumb-${image.id || index}`} 
+              className={cn(
+                "aspect-square rounded-md overflow-hidden cursor-pointer",
+                index === 0 && "col-span-2 row-span-2"
+              )}
+            >
+              <img 
+                src={image.image_url}
+                alt={`${hotelName} thumbnail ${index + 1}`}
+                className="h-full w-full object-cover"
+                onError={() => handleImageError(image.image_url)}
+              />
+            </div>
+          ))}
         </div>
       )}
     </div>

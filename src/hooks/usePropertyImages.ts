@@ -35,7 +35,7 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       const mainIndex = initialImages.findIndex(img => img.isMain);
       setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
     }
-  }, [JSON.stringify(initialImages)]); // Use JSON.stringify to compare object arrays
+  }, [initialImages]); // Use direct reference to initialImages instead of JSON.stringify
 
   const addFiles = useCallback((newFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...newFiles]);

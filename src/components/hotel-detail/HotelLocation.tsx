@@ -10,8 +10,20 @@ interface HotelLocationProps {
 }
 
 export function HotelLocation({ latitude, longitude, hotelName, address }: HotelLocationProps) {
+  // Generate a fallback URL if coordinates are not available
+  const getMapUrl = () => {
+    if (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) {
+      return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${latitude},${longitude}&zoom=15`;
+    } else if (address) {
+      return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(address)}&zoom=15`;
+    }
+    return '';
+  };
+
   // Check if required props are available
-  if (!latitude || !longitude) {
+  const hasMapData = (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) || address;
+  
+  if (!hasMapData) {
     return null;
   }
 
@@ -22,9 +34,9 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
       </CardHeader>
       <CardContent className="p-0">
         <div className="h-64 w-full">
-          {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? (
+          {import.meta.env.VITE_GOOGLE_MAPS_API_KEY && hasMapData ? (
             <iframe 
-              src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${latitude},${longitude}&zoom=15`} 
+              src={getMapUrl()}
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
@@ -35,7 +47,10 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
           ) : (
             <div className="w-full h-full bg-white/10 flex items-center justify-center">
               <p className="text-center text-white">
-                Map display requires Google Maps API key.<br />
+                {!import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? 
+                  "Map display requires Google Maps API key." :
+                  "Location information unavailable."}
+                <br />
                 Location: {address || `${latitude}, ${longitude}`}
               </p>
             </div>

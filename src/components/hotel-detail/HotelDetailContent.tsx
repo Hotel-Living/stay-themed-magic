@@ -68,6 +68,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     return <HotelSkeletonLoader />;
   }
 
+  // Get the check-in weekday from the hotel data
+  const checkInWeekday = hotel.preferredWeekday || hotel.check_in_weekday || "Monday";
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
       <div className="container mx-auto px-4 py-8">
@@ -128,7 +131,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               rates={hotel.rates || {}}
               currency={hotel.currency || "USD"}
               handleBookClick={handleBookClick}
-              preferredWeekday={hotel.preferredWeekday || hotel.check_in_weekday || "Monday"}
+              preferredWeekday={checkInWeekday}
             />
           </div>
         </div>

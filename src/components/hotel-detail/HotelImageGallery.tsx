@@ -15,13 +15,20 @@ interface HotelImageGalleryProps {
 }
 
 export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryProps) {
+  // Filter out invalid images (those without valid URLs)
+  const validImages = hotelImages?.filter(img => 
+    img && img.image_url && 
+    typeof img.image_url === 'string' &&
+    img.image_url.trim() !== ''
+  ) || [];
+
   return (
     <div className="mt-4">
-      {(hotelImages && hotelImages.length > 0) ? (
+      {validImages.length > 0 ? (
         <div className="relative">
           <Carousel className="w-full">
             <CarouselContent>
-              {hotelImages.map((image, index) => (
+              {validImages.map((image, index) => (
                 <CarouselItem key={image.id || index}>
                   <div className="p-1">
                     <div className="overflow-hidden rounded-xl">
@@ -29,6 +36,10 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
                         src={image.image_url}
                         alt={`${hotelName} view ${index + 1}`}
                         className="h-72 w-full object-cover"
+                        onError={(e) => {
+                          // If image fails to load, set a placeholder or hide it
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
                       />
                     </div>
                   </div>
@@ -41,12 +52,12 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
             </div>
           </Carousel>
           <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
-            {hotelImages.length} photos
+            {validImages.length} photos
           </div>
         </div>
       ) : (
         <div className="w-full h-72 bg-fuchsia-900/20 flex items-center justify-center rounded-xl">
-          <p className="text-fuchsia-300">No images available</p>
+          <p className="text-white">No images available</p>
         </div>
       )}
     </div>

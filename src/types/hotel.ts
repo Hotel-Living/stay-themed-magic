@@ -1,4 +1,3 @@
-
 import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -120,6 +119,8 @@ export interface HotelDetailProps {
   currency?: string;
   enablePriceIncrease?: boolean;
   priceIncreaseCap?: number;
+  preferredWeekday?: string;
+  check_in_weekday?: string;
 }
 
 // Update AmenitiesInfo to FeaturesInfo

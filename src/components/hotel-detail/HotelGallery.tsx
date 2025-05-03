@@ -6,24 +6,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps & { isLoading?: boolean }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [validImages, setValidImages] = useState<string[]>([]);
-  
-  // Debug the incoming images
-  useEffect(() => {
-    console.log("HotelGallery received images:", images);
-  }, [images]);
   
   // Reset active image index when images change
   useEffect(() => {
-    // Filter out blob URLs which won't be valid across sessions
-    const filtered = (images || []).filter(url => 
-      typeof url === 'string' && 
-      url.trim() !== '' && 
-      !url.startsWith('blob:')
-    );
-    
-    console.log("HotelGallery filtered images:", filtered);
-    setValidImages(filtered);
     setActiveImageIndex(0);
   }, [images]);
   
@@ -31,7 +16,7 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
   const fallbackImage = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070";
   
   // Use the provided images or fallback to a default one
-  const displayImages = validImages && validImages.length > 0 ? validImages : [fallbackImage];
+  const displayImages = images && images.length > 0 ? images : [fallbackImage];
 
   if (isLoading) {
     return (
@@ -55,7 +40,6 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
           className="w-full h-full object-cover transition-all duration-500"
           onError={(e) => {
             // If image fails to load, set src to fallback
-            console.error("Image failed to load:", displayImages[activeImageIndex]);
             const target = e.target as HTMLImageElement;
             target.src = fallbackImage;
           }}
@@ -100,7 +84,6 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // If thumbnail fails to load, set src to fallback
-                  console.error("Thumbnail failed to load:", image);
                   const target = e.target as HTMLImageElement;
                   target.src = fallbackImage;
                 }}

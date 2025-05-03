@@ -90,13 +90,6 @@ export const usePropertySubmission = ({
         console.log("New hotel created successfully:", hotelId);
       }
       
-      // ✅ Fix: persist themes and activities
-      console.log("Processing themes and activities for hotel:", hotelId, {
-        themes: formData.themes || [],
-        activities: formData.activities || []
-      });
-      await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
-      
       console.log("Processing images for hotel:", hotelId);
       
       // Handle image submissions immediately after hotel creation/update
@@ -106,6 +99,14 @@ export const usePropertySubmission = ({
       } else {
         console.log("No images provided, using placeholders");
         await handlePlaceholderImages(hotelId);
+      }
+      
+      // Submit related data - handle failures gracefully
+      try {
+        console.log("Processing themes and activities");
+        await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+      } catch (themeError) {
+        console.warn("Theme submission had issues but continuing:", themeError);
       }
       
       try {

@@ -26,9 +26,6 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       
     if (error) throw error;
     
-    // Add debugging to check hotel images
-    console.log("Raw hotel_images from Supabase:", data.hotel_images);
-    
     // Extract hotel features from features_hotel object
     const hotelFeatures = data.features_hotel 
       ? Object.entries(data.features_hotel)

@@ -19,51 +19,18 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const [processedImages, setProcessedImages] = useState<HotelImage[]>([]);
   
-  // Debug the incoming hotel images
-  useEffect(() => {
-    console.log("HotelImageGallery received images:", hotelImages);
-  }, [hotelImages]);
-  
-  // New debug log to specifically inspect what the component is receiving
-  useEffect(() => {
-    console.log("📸 hotelImages received in gallery:", hotelImages);
-    
-    // Additional information to help debug
-    if (hotelImages && Array.isArray(hotelImages)) {
-      console.log("Number of images:", hotelImages.length);
-      console.log("First image (if exists):", hotelImages[0]);
-      
-      // Check specifically for blob URLs
-      const blobUrls = hotelImages.filter(img => 
-        img?.image_url?.startsWith('blob:')
-      );
-      
-      if (blobUrls.length > 0) {
-        console.log("⚠️ Found blob URLs:", blobUrls.length);
-        console.log("Example blob URL:", blobUrls[0]);
-      }
-    } else {
-      console.log("⚠️ hotelImages is not an array or is undefined:", hotelImages);
-    }
-  }, [hotelImages]);
-  
-  // Filter out blob URLs and invalid images
   useEffect(() => {
     if (hotelImages && Array.isArray(hotelImages)) {
-      // Filter out invalid images (those without valid URLs or blob URLs)
+      // Filter out invalid images (those without valid URLs)
       const validImages = hotelImages.filter(img => 
         img && 
         img.image_url && 
         typeof img.image_url === 'string' &&
         img.image_url.trim() !== '' &&
-        !img.image_url.startsWith('blob:') && // Exclude blob URLs
         !failedImages.has(img.image_url)
       );
-      
-      console.log("Processed hotel images:", validImages);
       setProcessedImages(validImages);
     } else {
-      console.log("No valid hotel images found");
       setProcessedImages([]);
     }
   }, [hotelImages, failedImages]);
@@ -127,7 +94,7 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
               )}
             >
               <img 
-                src={image.image_url} 
+                src={image.image_url}
                 alt={`${hotelName} thumbnail ${index + 1}`}
                 className="h-full w-full object-cover"
                 onError={() => handleImageError(image.image_url)}

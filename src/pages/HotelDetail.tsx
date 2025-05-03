@@ -17,12 +17,6 @@ export default function HotelDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Add debugging for hotel data and images
-    if (hotel) {
-      console.log("HotelDetail page received hotel data:", hotel);
-      console.log("HotelDetail page received hotel images:", hotel.hotel_images);
-    }
-    
     if (error) {
       toast({
         title: "Error loading hotel",
@@ -31,7 +25,7 @@ export default function HotelDetail() {
       });
       console.error("Error fetching hotel data:", error);
     }
-  }, [error, toast, hotel]);
+  }, [error, toast]);
   
   return (
     <div className="min-h-screen flex flex-col bg-[#B3B3FF]">

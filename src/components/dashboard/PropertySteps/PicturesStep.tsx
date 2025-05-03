@@ -21,14 +21,8 @@ export default function PicturesStep({
   },
   updateFormData = () => {}
 }: PicturesStepProps) {
-  // Debug incoming formData
-  useEffect(() => {
-    console.log("PicturesStep: Received formData:", formData);
-    console.log("PicturesStep: Received images:", formData.hotelImages);
-  }, [formData]);
-
-  const [images, setImages] = useState<UploadedImage[]>([]);
-  const [mainImageUrl, setMainImageUrl] = useState<string>("");
+  const [images, setImages] = useState<UploadedImage[]>(formData.hotelImages || []);
+  const [mainImageUrl, setMainImageUrl] = useState<string>(formData.mainImageUrl || "");
   const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,41 +30,18 @@ export default function PicturesStep({
   // Update local state when formData changes (e.g., when loading existing hotel data)
   useEffect(() => {
     if (formData.hotelImages && formData.hotelImages.length > 0) {
-      console.log("PicturesStep: Processing existing images:", formData.hotelImages);
-      
-      // Filter out any expired blob URLs
-      const validImages = formData.hotelImages.filter(img => {
-        // If it's a blob URL or marked as a blob, filter it out
-        if (img.isBlob || (img.url && img.url.startsWith('blob:'))) {
-          console.log("Filtering out blob URL:", img.url);
-          return false;
-        }
-        return true;
-      });
-      
-      console.log("PicturesStep: Valid images after filtering:", validImages);
-      setImages(validImages);
-    } else {
-      setImages([]);
+      console.log("PicturesStep: Received existing images:", formData.hotelImages);
+      setImages(formData.hotelImages);
     }
     
     if (formData.mainImageUrl) {
       console.log("PicturesStep: Received main image URL:", formData.mainImageUrl);
-      // Only set mainImageUrl if it's not a blob URL
-      if (!formData.mainImageUrl.startsWith('blob:')) {
-        setMainImageUrl(formData.mainImageUrl);
-      } else {
-        console.log("Ignoring blob main image URL");
-        setMainImageUrl("");
-      }
-    } else {
-      setMainImageUrl("");
+      setMainImageUrl(formData.mainImageUrl);
     }
   }, [formData.hotelImages, formData.mainImageUrl]);
 
   // Update parent form data when local state changes
   useEffect(() => {
-    console.log("PicturesStep: Updating parent formData with images:", images);
     updateFormData("hotelImages", images);
     updateFormData("mainImageUrl", mainImageUrl);
   }, [images, mainImageUrl, updateFormData]);
@@ -82,14 +53,8 @@ export default function PicturesStep({
   const handleImageUpload = (uploadedImage: UploadedImage) => {
     // Set as main image if it's the first image or if no main image is set
     const isMain = images.length === 0 || !mainImageUrl;
-    const newImage = { 
-      ...uploadedImage, 
-      isMain, 
-      name: uploadedImage.name || `image-${Date.now()}`,
-      isBlob: uploadedImage.url.startsWith('blob:')
-    };
+    const newImage = { ...uploadedImage, isMain, name: uploadedImage.name || `image-${Date.now()}` };
     
-    console.log("Adding new image:", newImage);
     setImages(prev => [...prev, newImage]);
     
     if (isMain) {
@@ -102,7 +67,6 @@ export default function PicturesStep({
   };
 
   const handleRemoveImage = (imageToRemove: UploadedImage) => {
-    console.log("Removing image:", imageToRemove);
     const updatedImages = images.filter(img => img.url !== imageToRemove.url);
     setImages(updatedImages);
     
@@ -122,7 +86,6 @@ export default function PicturesStep({
   };
 
   const handleSetMainImage = (image: UploadedImage) => {
-    console.log("Setting main image:", image);
     // Update the main image URL
     setMainImageUrl(image.url);
     
@@ -139,13 +102,11 @@ export default function PicturesStep({
     // Create demo uploaded images from files
     for (const file of files) {
       const fileUrl = URL.createObjectURL(file);
-      console.log(`Created blob URL for ${file.name}: ${fileUrl}`);
       handleImageUpload({
         url: fileUrl,
         isMain: images.length === 0,
         name: file.name,
-        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        isBlob: true // Mark as blob URL
+        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
       });
     }
     setFiles([]);

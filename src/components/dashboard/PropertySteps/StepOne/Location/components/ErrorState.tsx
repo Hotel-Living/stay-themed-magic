@@ -25,7 +25,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ error, onRetry }) => {
         <ul className="text-xs text-yellow-200 list-disc pl-5 mt-1">
           <li>localhost</li>
           <li>*.lovable.app</li>
-          <li>Any custom domains you're using</li>
+          <li>Your custom domains</li>
         </ul>
       </div>
       

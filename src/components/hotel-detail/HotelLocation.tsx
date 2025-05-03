@@ -16,6 +16,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
   const [mapKey, setMapKey] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [mapReady, setMapReady] = useState(false);
   
   const fetchMapKey = async () => {
     try {
@@ -33,6 +34,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
           console.log('Using fallback API key from environment');
           setMapKey(envKey);
           setIsLoading(false);
+          setMapReady(true);
           return;
         }
         setError("Could not load map key");
@@ -43,6 +45,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
       if (data && (data.key || data.apiKey)) {
         console.log('Successfully retrieved API key');
         setMapKey(data.key || data.apiKey);
+        setMapReady(true);
       } else {
         console.error('No map key in response:', data);
         // Try fallback from environment variable
@@ -50,6 +53,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
         if (envKey) {
           console.log('Using fallback API key from environment');
           setMapKey(envKey);
+          setMapReady(true);
           return;
         }
         setError("No map key available");
@@ -82,7 +86,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
 
   // Check if required props are available
   const hasMapData = (latitude && longitude && !isNaN(latitude) && !isNaN(longitude)) || address;
-  const mapUrl = getMapUrl();
+  const mapUrl = mapReady ? getMapUrl() : null;
   
   if (!hasMapData) {
     return null;
@@ -121,7 +125,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
             </div>
           )}
           
-          {!isLoading && !error && mapUrl && (
+          {!isLoading && !error && mapReady && mapUrl && (
             <iframe 
               src={mapUrl}
               width="100%" 
@@ -134,7 +138,7 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
             ></iframe>
           )}
           
-          {!isLoading && !error && !mapUrl && (
+          {!isLoading && !error && (!mapReady || !mapUrl) && (
             <div className="w-full h-full bg-white/10 flex items-center justify-center">
               <p className="text-center text-white">
                 Location information unavailable.

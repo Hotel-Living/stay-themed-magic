@@ -2,6 +2,7 @@
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { toast } from "sonner";
 
 interface PreferredWeekdaySectionProps {
   preferredWeekday?: string;
@@ -15,14 +16,25 @@ export default function PreferredWeekdaySection({
   weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 }: PreferredWeekdaySectionProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  
+  React.useEffect(() => {
+    console.log("PreferredWeekdaySection - Current weekday:", preferredWeekday);
+  }, [preferredWeekday]);
 
-  // Dispatch an event when the component mounts to sync with other components
+  // Dispatch an event when the component mounts or preferredWeekday changes 
+  // to sync with other components
   React.useEffect(() => {
     if (preferredWeekday) {
+      console.log("Dispatching preferredWeekdayUpdated event:", preferredWeekday);
       const event = new CustomEvent('preferredWeekdayUpdated', { detail: preferredWeekday });
       window.dispatchEvent(event);
     }
   }, [preferredWeekday]);
+
+  const handleWeekdayChange = (day: string) => {
+    onWeekdayChange(day);
+    toast.success(`Preferred check-in/out day updated to ${day}`);
+  };
 
   return (
     <Collapsible 
@@ -32,7 +44,9 @@ export default function PreferredWeekdaySection({
       defaultOpen={false}
     >
       <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
-        <h2 className="font-medium text-base text-white">Preferred Weekday for all Check-in / outs</h2>
+        <h2 className="font-medium text-base text-white">
+          Preferred Weekday for all Check-in / outs: <span className="font-bold">{preferredWeekday}</span>
+        </h2>
         {isOpen ? 
           <ChevronUp className="h-5 w-5 text-white" /> : 
           <ChevronDown className="h-5 w-5 text-white" />
@@ -48,7 +62,7 @@ export default function PreferredWeekdaySection({
                 className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
                 value={day}
                 checked={preferredWeekday === day}
-                onChange={() => onWeekdayChange(day)}
+                onChange={() => handleWeekdayChange(day)}
               />
               <span className="text-xs text-center text-white">{day}</span>
             </label>

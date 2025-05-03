@@ -1,10 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { useRoomTypes, RoomType } from "./useRoomTypes";
 
 // Define interface for the formData parameter
 interface FormData {
   roomTypes?: RoomType[];
+  stayLengths?: number[];
+  preferredWeekday?: string;
   [key: string]: any;
 }
 
@@ -22,10 +23,11 @@ export function useRoomTypeSection(
     setRoomTypes,
     dialogOpen,
     selectedStayLengths,
+    setSelectedStayLengths,
     setDialogOpen,
     handleAddRoomType,
     handleDeleteRoomType
-  } = useRoomTypes(formData.roomTypes || []);
+  } = useRoomTypes([]);
   
   // Initialize roomTypes from formData if available
   useEffect(() => {
@@ -33,10 +35,38 @@ export function useRoomTypeSection(
     
     if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0) {
       console.log("Setting room types from formData:", formData.roomTypes);
-      // Directly set room types from form data to ensure they're properly loaded
-      setRoomTypes(formData.roomTypes);
+      
+      // Ensure all required fields are present in each room type
+      const processedRoomTypes = formData.roomTypes.map((roomType: any) => {
+        // Normalize the roomType object to ensure it has all expected fields
+        return {
+          id: roomType.id || `rt-${Math.random().toString(36).substr(2, 9)}`,
+          name: roomType.name || roomType.selectedRoomType || "Unnamed Room",
+          description: roomType.description || "",
+          maxOccupancy: roomType.maxOccupancy || 2,
+          size: roomType.size || roomType.roomSize || 0,
+          roomCount: roomType.roomCount || 1,
+          basePrice: roomType.basePrice || roomType.baseRate || 0,
+          images: roomType.images || roomType.roomImages || [],
+          availabilityDates: roomType.availabilityDates || [],
+          rates: roomType.rates || {},
+          // Other fields that might be present
+          selectedRoomType: roomType.selectedRoomType || roomType.name || "Unnamed Room",
+          roomImages: roomType.roomImages || roomType.images || [],
+          baseRate: roomType.baseRate || roomType.basePrice || 0,
+          roomSize: roomType.roomSize || roomType.size || 0
+        };
+      });
+      
+      setRoomTypes(processedRoomTypes);
     }
-  }, []);
+    
+    // Initialize stay lengths from formData
+    if (formData.stayLengths && Array.isArray(formData.stayLengths) && formData.stayLengths.length > 0) {
+      console.log("Setting stay lengths from formData:", formData.stayLengths);
+      setSelectedStayLengths(formData.stayLengths);
+    }
+  }, [formData.roomTypes, formData.stayLengths, setRoomTypes, setSelectedStayLengths]);
 
   // Update parent form data when roomTypes change
   useEffect(() => {

@@ -27,6 +27,16 @@ export default function RoomTypeDialog({
   preferredWeekday = "Monday",
   editingRoomType = null
 }: RoomTypeDialogProps) {
+  React.useEffect(() => {
+    if (editingRoomType) {
+      console.log("RoomTypeDialog - Editing room type:", editingRoomType);
+    }
+    if (availableStayLengths.length > 0) {
+      console.log("RoomTypeDialog - Available stay lengths:", availableStayLengths);
+    }
+    console.log("RoomTypeDialog - Preferred weekday:", preferredWeekday);
+  }, [editingRoomType, availableStayLengths, preferredWeekday, isOpen]);
+
   const {
     formState,
     setters,
@@ -51,7 +61,9 @@ export default function RoomTypeDialog({
         side="bottom"
       >
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-white mb-4">{dialogTitle}</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-white mb-4">
+            {dialogTitle} {formState.isEditing ? ` - ${formState.selectedRoomType}` : ''}
+          </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
@@ -70,6 +82,7 @@ export default function RoomTypeDialog({
                   onChange={(e) => setters.setDescription(e.target.value)}
                   className="w-full bg-[#850390] text-white border-white rounded p-2 text-sm h-20"
                   rows={2}
+                  placeholder="Describe this room type"
                 />
               </div>
 

@@ -24,6 +24,16 @@ export default function RoomInfoForm({
   onRoomSizeChange,
   onDescriptionChange
 }: RoomInfoFormProps) {
+  // Log props to verify data is properly passed
+  React.useEffect(() => {
+    console.log("RoomInfoForm - Received values:", { 
+      roomType: newRoomType,
+      maxOccupancy,
+      roomSize,
+      description
+    });
+  }, [newRoomType, maxOccupancy, roomSize, description]);
+
   return (
     <div className="space-y-4">
       {/* Room Type Field */}

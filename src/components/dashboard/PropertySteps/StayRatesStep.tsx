@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
+import { toast } from "sonner";
 
 interface StayRatesStepProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -22,12 +23,23 @@ export default function StayRatesStep({
   const [enablePriceIncrease, setEnablePriceIncrease] = useState(false);
   const [priceIncreaseCap, setPriceIncreaseCap] = useState(20);
 
-  const roomTypes = ["Single", "Double", "Suite", "Apartment"];
-  const stayOptions = ["8 days", "16 days", "24 days", "32 days"];
-  const mealOptions = ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
+  // Use room types from formData if available, otherwise use defaults
+  const roomTypes = formData.roomTypes?.length > 0 
+    ? formData.roomTypes.map((rt: any) => rt.name || rt.selectedRoomType) 
+    : ["Single", "Double", "Suite", "Apartment"];
+    
+  const stayOptions = formData.stayLengths?.length > 0
+    ? formData.stayLengths.map((days: number) => `${days} days`)
+    : ["8 days", "16 days", "24 days", "32 days"];
+    
+  const mealOptions = formData.mealPlans?.length > 0
+    ? formData.mealPlans
+    : ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
 
   // Initialize from formData
   useEffect(() => {
+    console.log("StayRatesStep - received formData:", formData);
+    
     // Initialize currency
     if (formData.currency) {
       setCurrency(formData.currency);
@@ -44,35 +56,43 @@ export default function StayRatesStep({
     
     // Initialize rates from formData
     const initialRates: Record<string, number | string> = {};
-    const daysToPriceField: Record<string, string> = {
-      "8 days": "price_8",
-      "16 days": "price_16",
-      "24 days": "price_24",
-      "32 days": "price_32"
+    
+    // Helper to convert stay length format
+    const formatStayLength = (days: number | string) => {
+      if (typeof days === 'number') return `${days} days`;
+      return days;
     };
     
-    // Check if we have individual price fields in formData
-    roomTypes.forEach(roomType => {
-      stayOptions.forEach(stayLength => {
-        mealOptions.forEach(mealOption => {
-          const key = `${roomType}-${stayLength}-${mealOption}`;
-          const dayKey = daysToPriceField[stayLength];
-          
-          if (formData[dayKey]) {
-            initialRates[key] = formData[dayKey];
-          } else if (formData.rates && formData.rates[stayLength.split(' ')[0]]) {
-            // Try to get from rates object if individual fields are not set
-            initialRates[key] = formData.rates[stayLength.split(' ')[0]];
+    // If we have rates in formData
+    if (formData.rates && typeof formData.rates === 'object') {
+      console.log("Found rates in formData:", formData.rates);
+      
+      // Create rate keys for all combinations
+      roomTypes.forEach(roomType => {
+        // Extract number values from stay options (e.g., '8 days' -> 8)
+        Object.entries(formData.rates).forEach(([dayStr, price]) => {
+          // For compatibility with different formats of stay lengths
+          const dayNum = parseInt(dayStr);
+          if (!isNaN(dayNum)) {
+            const stayLength = formatStayLength(dayNum);
+            
+            mealOptions.forEach(mealOption => {
+              const key = `${roomType}-${stayLength}-${mealOption}`;
+              initialRates[key] = price;
+            });
           }
         });
       });
-    });
-    
-    if (Object.keys(initialRates).length > 0) {
-      setRates(initialRates);
-      setRatesFilled(true);
+
+      if (Object.keys(initialRates).length > 0) {
+        console.log("Initialized rates:", initialRates);
+        setRates(initialRates);
+        setRatesFilled(true);
+      }
+    } else {
+      console.log("No rates found in formData");
     }
-  }, [formData, roomTypes, stayOptions, mealOptions]);
+  }, [formData, roomTypes, mealOptions]);
 
   // When rates, currency or other settings change, update formData
   useEffect(() => {
@@ -118,7 +138,7 @@ export default function StayRatesStep({
     
     // Update validation state
     onValidationChange(ratesFilled);
-  }, [rates, currency, enablePriceIncrease, priceIncreaseCap, ratesFilled, updateFormData, onValidationChange, stayOptions]);
+  }, [rates, currency, enablePriceIncrease, priceIncreaseCap, ratesFilled, updateFormData, onValidationChange]);
 
   const handleRateChange = (roomType: string, stayLength: string, mealOption: string, value: string) => {
     const key = `${roomType}-${stayLength}-${mealOption}`;
@@ -131,6 +151,9 @@ export default function StayRatesStep({
     if (value) {
       setRatesFilled(true);
     }
+    
+    // Show toast for feedback
+    toast.success(`Rate updated for ${roomType}, ${stayLength}, ${mealOption}`);
   };
 
   return (

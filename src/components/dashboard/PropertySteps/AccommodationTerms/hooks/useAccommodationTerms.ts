@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { useWeekdayState } from "./useWeekdayState";
 import { useStayLengthState } from "./useStayLengthState";
 import { useAccommodationOptions } from "./useAccommodationOptions";
@@ -49,6 +50,16 @@ export const useAccommodationTerms = ({
     roomTypes,
     onValidationChange
   });
+
+  // Log formData for debugging
+  useEffect(() => {
+    console.log("useAccommodationTerms - Current formData:", {
+      preferredWeekday: formData.preferredWeekday,
+      stayLengths: formData.stayLengths,
+      mealPlans: formData.mealPlans,
+      roomTypes: formData.roomTypes?.length
+    });
+  }, [formData]);
 
   return {
     selectedWeekday,

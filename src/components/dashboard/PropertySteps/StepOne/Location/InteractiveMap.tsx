@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { MapProps } from "./types";
@@ -15,7 +16,7 @@ const InteractiveMap: React.FC<MapProps> = ({
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
-  const { isLoading, error } = useGoogleMaps();
+  const { isLoading, error, retryLoading } = useGoogleMaps();
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
   const [previousAddress, setPreviousAddress] = useState<string>("");
   const [marker, setMarker] = useState<any>(null);
@@ -190,11 +191,15 @@ const InteractiveMap: React.FC<MapProps> = ({
       }
       
       console.log('Map initialized successfully with light theme');
+      
+      // Clear any previous geocode errors since map loaded successfully
+      setGeocodeError(null);
+      
     } catch (err) {
       console.error('Error initializing map:', err);
       setGeocodeError('Error initializing the map. Please try again.');
     }
-  }, [isLoading]);
+  }, [isLoading, latitude, longitude, onLocationSelect]);
 
   // Helper function to update or create marker
   const updateMarker = (mapInstance: any, position: { lat: number, lng: number }) => {
@@ -283,7 +288,7 @@ const InteractiveMap: React.FC<MapProps> = ({
       console.error('Error during geocoding:', err);
       setGeocodeError('Error looking up address. Please try again.');
     }
-  }, [address, map]);
+  }, [address, map, onLocationSelect, previousAddress]);
 
   return (
     <div className="mb-4">
@@ -303,7 +308,7 @@ const InteractiveMap: React.FC<MapProps> = ({
         className="w-full h-[300px] rounded-lg border border-fuchsia-800/30 flex items-center justify-center bg-[#7A0486]"
       >
         {isLoading && <LoadingState />}
-        {error && <ErrorState error={error} />}
+        {error && <ErrorState error={error} onRetry={retryLoading} />}
       </div>
       <p className="text-xs text-white/60 mt-1">
         Click anywhere on the map to set your property's exact location

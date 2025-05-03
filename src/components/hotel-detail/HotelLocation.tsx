@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface HotelLocationProps {
   latitude: number;
@@ -16,45 +17,52 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  useEffect(() => {
-    const fetchMapKey = async () => {
-      try {
-        setIsLoading(true);
-        
-        // Fetch from the edge function that securely provides the API key
-        const { data, error } = await supabase.functions.invoke('get-maps-key');
-        
-        if (error) {
-          console.error('Error fetching map key:', error);
-          // Try fallback from environment variable
-          const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-          if (envKey) {
-            setMapKey(envKey);
-            return;
-          }
-          setError("Could not load map key");
+  const fetchMapKey = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      // Fetch from the edge function that securely provides the API key
+      const { data, error } = await supabase.functions.invoke('get-maps-key');
+      
+      if (error) {
+        console.error('Error fetching map key:', error);
+        // Try fallback from environment variable
+        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+        if (envKey) {
+          console.log('Using fallback API key from environment');
+          setMapKey(envKey);
+          setIsLoading(false);
           return;
         }
-        
-        if (data && data.key) {
-          setMapKey(data.key);
-        } else {
-          // Try fallback from environment variable
-          const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-          if (envKey) {
-            setMapKey(envKey);
-            return;
-          }
-          setError("No map key available");
-        }
-      } catch (err) {
-        console.error('Exception fetching map key:', err);
-        setError("Error loading map");
-      } finally {
+        setError("Could not load map key");
         setIsLoading(false);
+        return;
       }
-    };
-    
+      
+      if (data && (data.key || data.apiKey)) {
+        console.log('Successfully retrieved API key');
+        setMapKey(data.key || data.apiKey);
+      } else {
+        console.error('No map key in response:', data);
+        // Try fallback from environment variable
+        const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+        if (envKey) {
+          console.log('Using fallback API key from environment');
+          setMapKey(envKey);
+          return;
+        }
+        setError("No map key available");
+      }
+    } catch (err) {
+      console.error('Exception fetching map key:', err);
+      setError("Error loading map");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
     fetchMapKey();
   }, []);
 
@@ -96,11 +104,20 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
           {!isLoading && error && (
             <div className="w-full h-full bg-white/10 flex flex-col items-center justify-center p-4">
               <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
-              <p className="text-center text-white">
+              <p className="text-center text-white mb-3">
                 {error}
-                <br />
+              </p>
+              <p className="text-sm text-white/70 mb-3">
                 Location: {address || `${latitude}, ${longitude}`}
               </p>
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="bg-purple-700/40 hover:bg-purple-700/60 border-purple-500"
+                onClick={fetchMapKey}
+              >
+                Retry Loading Map
+              </Button>
             </div>
           )}
           

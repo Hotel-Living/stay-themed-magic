@@ -12,6 +12,7 @@ import { HotelBookingSection } from "./HotelBookingSection";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -65,70 +66,78 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="mb-6">
-        <HotelHeader 
-          hotel={hotel} 
-          handleAddToFavorites={handleAddToFavorites} 
-        />
-        
-        {/* Image Gallery */}
-        <HotelImageGallery 
-          hotelImages={hotel.hotel_images} 
-          hotelName={hotel.name} 
-        />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Dynamic starfield background */}
+      <HotelStarfield />
 
-        <HotelThemesAndActivities 
-          stayLengths={stayDurations}
-          hotelThemes={hotelThemes}
-          hotelActivities={hotelActivities}
-        />
-        
-        {/* Highlights from Hotel Form */}
-        <HotelHighlights highlights={hotelHighlights} />
-      </div>
-
-      {/* Calendar + Price */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <div className="md:col-span-2">
-          {/* General Description */}
-          <HotelDescriptionSection description={hotel.description} />
-          
-          {/* Price breakdown moved up */}
-          <HotelPriceBreakdown 
-            stayLengths={stayDurations} 
-            rates={hotel.rates || {}} 
-            currency={hotel.currency || "USD"} 
-          />
-          
-          {/* Features */}
-          <HotelFeaturesInfo
-            hotelFeatures={hotel.hotelFeatures || []}
-            roomFeatures={hotel.roomFeatures || []}
-          />
-          
-          {/* Map */}
-          <div className="mt-8">
-            <HotelLocation 
-              latitude={Number(hotel.latitude)} 
-              longitude={Number(hotel.longitude)} 
+      {/* Content wrapped in dark semi-transparent container */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-black/60 backdrop-blur-sm text-white shadow-lg">
+          {/* Header */}
+          <div className="mb-6">
+            <HotelHeader 
+              hotel={hotel} 
+              handleAddToFavorites={handleAddToFavorites} 
+            />
+            
+            {/* Updated Image Gallery - now inside the container */}
+            <HotelImageGallery 
+              hotelImages={hotel.hotel_images} 
               hotelName={hotel.name} 
-              address={hotel.address || ""}
+            />
+
+            <HotelThemesAndActivities 
+              stayLengths={stayDurations}
+              hotelThemes={hotelThemes}
+              hotelActivities={hotelActivities}
+            />
+            
+            {/* Highlights from Hotel Form */}
+            <HotelHighlights highlights={hotelHighlights} />
+          </div>
+
+          {/* Calendar + Price */}
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="md:col-span-2">
+              {/* General Description */}
+              <HotelDescriptionSection description={hotel.description} />
+              
+              {/* Price breakdown moved up */}
+              <HotelPriceBreakdown 
+                stayLengths={stayDurations} 
+                rates={hotel.rates || {}} 
+                currency={hotel.currency || "USD"} 
+              />
+              
+              {/* Features */}
+              <HotelFeaturesInfo
+                hotelFeatures={hotel.hotelFeatures || []}
+                roomFeatures={hotel.roomFeatures || []}
+              />
+              
+              {/* Map */}
+              <div className="mt-8">
+                <HotelLocation 
+                  latitude={Number(hotel.latitude)} 
+                  longitude={Number(hotel.longitude)} 
+                  hotelName={hotel.name} 
+                  address={hotel.address || ""}
+                />
+              </div>
+            </div>
+
+            <HotelBookingSection 
+              checkInDate={checkInDate}
+              setCheckInDate={setCheckInDate}
+              selectedDuration={selectedDuration}
+              setSelectedDuration={setSelectedDuration}
+              stayDurations={stayDurations}
+              rates={hotel.rates || {}}
+              currency={hotel.currency || "USD"}
+              handleBookClick={handleBookClick}
             />
           </div>
         </div>
-
-        <HotelBookingSection 
-          checkInDate={checkInDate}
-          setCheckInDate={setCheckInDate}
-          selectedDuration={selectedDuration}
-          setSelectedDuration={setSelectedDuration}
-          stayDurations={stayDurations}
-          rates={hotel.rates || {}}
-          currency={hotel.currency || "USD"}
-          handleBookClick={handleBookClick}
-        />
       </div>
     </div>
   );

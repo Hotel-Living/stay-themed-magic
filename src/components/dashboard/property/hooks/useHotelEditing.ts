@@ -153,7 +153,7 @@ export const useHotelEditing = ({
         
         // Navigate to first step if setting current step is provided
         if (setCurrentStep) {
-          setCurrentStep(1);
+          setCurrentStep(1); // Changed from 4 to 1 so users start at the beginning and can see all steps
         }
       } catch (error) {
         console.error("Error in fetchHotelDetails:", error);

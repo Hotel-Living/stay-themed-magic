@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { MapPin, Heart } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { format } from "date-fns";
 import { HotelDetailProps } from "@/types/hotel";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/utils/dynamicPricing";
 import { HotelLocation } from "./HotelLocation";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
-import "swiper/css";
 
 export interface HotelDetailContentProps {
   hotel: HotelDetailProps;
@@ -104,25 +102,26 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             
             {/* Image Gallery */}
             <div className="mt-4">
-              <Swiper className="rounded-xl overflow-hidden">
+              <div className="rounded-xl overflow-hidden">
                 {(hotel.hotel_images && hotel.hotel_images.length > 0) ? (
-                  hotel.hotel_images.map((img) => (
-                    <SwiperSlide key={img.id}>
-                      <img
-                        src={img.image_url}
-                        alt={`${hotel.name}`}
-                        className="w-full h-72 object-cover"
-                      />
-                    </SwiperSlide>
-                  ))
+                  <div className="relative">
+                    <img
+                      src={hotel.hotel_images[0].image_url}
+                      alt={`${hotel.name}`}
+                      className="w-full h-72 object-cover"
+                    />
+                    {hotel.hotel_images.length > 1 && (
+                      <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+                        +{hotel.hotel_images.length - 1} more
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <SwiperSlide>
-                    <div className="w-full h-72 bg-fuchsia-900/20 flex items-center justify-center rounded-xl">
-                      <p className="text-fuchsia-300">No images available</p>
-                    </div>
-                  </SwiperSlide>
+                  <div className="w-full h-72 bg-fuchsia-900/20 flex items-center justify-center rounded-xl">
+                    <p className="text-fuchsia-300">No images available</p>
+                  </div>
                 )}
-              </Swiper>
+              </div>
             </div>
 
             {stayDurations.length > 0 && (

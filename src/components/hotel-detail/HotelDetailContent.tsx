@@ -86,30 +86,14 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             />
 
             {/* Modified ThemesAndActivities to show the text differently */}
-            <div className="mt-4">
-              {hotelThemes.length > 0 && (
-                <p className="text-sm text-white mt-1">
-                  This is a welcoming place for guests with a passion for {hotelThemes.map(theme => theme.name).join(", ").replace(/, ([^,]*)$/, " and $1")}.
-                </p>
-              )}
-              
-              {hotelActivities.length > 0 && (
-                <p className="text-sm text-white mt-1">
-                  Guests can enjoy activities such as {hotelActivities.join(", ").replace(/, ([^,]*)$/, " and $1")} right from the hotel or nearby.
-                </p>
-              )}
-            </div>
+            <HotelThemesAndActivities
+              stayLengths={hotel.stay_lengths || []}
+              hotelThemes={hotelThemes}
+              hotelActivities={hotelActivities}
+            />
             
-            {/* Highlights from Hotel Form - updated to remove colons */}
-            <div className="mt-4 space-y-2">
-              {hotelHighlights.map((item, index) => (
-                item.answer ? (
-                  <p key={index} className="text-sm text-white">
-                    <strong className="text-white">{item.question}</strong> {item.answer}
-                  </p>
-                ) : null
-              ))}
-            </div>
+            {/* Highlights from Hotel Form - updated style to be consistent across whole sentence */}
+            <HotelHighlights highlights={hotelHighlights} />
           </div>
 
           {/* Calendar + Price */}
@@ -144,6 +128,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               rates={hotel.rates || {}}
               currency={hotel.currency || "USD"}
               handleBookClick={handleBookClick}
+              preferredWeekday={hotel.preferredWeekday || hotel.check_in_weekday || "Monday"}
             />
           </div>
         </div>

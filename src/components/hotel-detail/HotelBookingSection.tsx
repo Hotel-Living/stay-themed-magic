@@ -14,6 +14,7 @@ interface HotelBookingSectionProps {
   rates: Record<string, number>;
   currency: string;
   handleBookClick: () => void;
+  preferredWeekday?: string;
 }
 
 export function HotelBookingSection({ 
@@ -24,7 +25,8 @@ export function HotelBookingSection({
   stayDurations,
   rates,
   currency,
-  handleBookClick
+  handleBookClick,
+  preferredWeekday = "Monday"
 }: HotelBookingSectionProps) {
   
   // Calculate check-out date based on check-in and duration
@@ -37,7 +39,10 @@ export function HotelBookingSection({
   
   return (
     <div className="bg-fuchsia-950/30 rounded-xl p-4 shadow">
-      <h2 className="text-lg font-semibold mb-2 text-purple-100">Check-in</h2>
+      <h2 className="text-lg font-semibold mb-2 text-center text-purple-100">CHECK-IN</h2>
+      <p className="text-xs text-center text-purple-100 mb-2">
+        Check-in/out day: {preferredWeekday}
+      </p>
       <Calendar 
         className="mb-4" 
         selected={checkInDate}
@@ -65,10 +70,16 @@ export function HotelBookingSection({
           "Price not available"
         } per person
       </p>
-      <Button className="mt-3 w-full" onClick={handleBookClick}>Book</Button>
-      <p className="text-xs text-purple-400 mt-2">
-        This hotel uses dynamic pricing. Book early to secure the best rate.
-      </p>
+      <Button 
+        className="mt-3 w-full bg-white text-[#000066] hover:bg-white/90" 
+        onClick={handleBookClick}
+      >
+        Book
+      </Button>
+      <div className="text-xs text-purple-100 mt-2 flex flex-col">
+        <span>This hotel uses dynamic pricing.</span>
+        <span>Book early to secure the best rate!</span>
+      </div>
     </div>
   );
 }

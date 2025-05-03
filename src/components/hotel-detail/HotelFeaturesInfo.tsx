@@ -20,7 +20,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
       {hotelFeatures && hotelFeatures.length > 0 && (
         <div>
-          <h3 className="font-semibold text-white mb-2">Hotel features</h3>
+          <h3 className="font-semibold text-white mb-2">HOTEL FEATURES</h3>
           <div className="flex flex-wrap gap-2">
             {hotelFeatures.map((feature) => (
               <Badge 
@@ -37,7 +37,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
       
       {roomFeatures && roomFeatures.length > 0 && (
         <div>
-          <h3 className="font-semibold text-white mb-2">Room features</h3>
+          <h3 className="font-semibold text-white mb-2">ROOM FEATURES</h3>
           <div className="flex flex-wrap gap-2">
             {roomFeatures.map((feature) => (
               <Badge 

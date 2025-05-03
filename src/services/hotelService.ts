@@ -128,10 +128,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       throw new Error(`Failed to fetch hotels: ${error.message}`);
     }
 
-    // Add debugging to see what's being returned
+    // Add debugging to see image data
     console.log("Fetched hotels:", data?.length || 0, "hotels");
     if (data && data.length > 0) {
       console.log("Sample hotel data:", data[0]);
+      console.log("Sample hotel images:", data[0].hotel_images);
     }
 
     // Ensure we always return an array, even if empty
@@ -145,6 +146,9 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 // Helper function to convert API fields to UI format
 export const convertHotelToUIFormat = (hotel: any) => {
   if (!hotel) return null;
+  
+  // Log the hotel_images for debugging
+  console.log(`Converting hotel ${hotel.id} images:`, hotel.hotel_images);
   
   return {
     id: hotel.id,

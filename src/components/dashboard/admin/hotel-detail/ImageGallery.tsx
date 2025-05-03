@@ -8,6 +8,11 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images, hotel }: ImageGalleryProps) {
+  // Debug incoming images
+  useEffect(() => {
+    console.log("Admin ImageGallery received images:", images);
+  }, [images]);
+  
   // Filter out any blob URLs
   const [validImages, setValidImages] = useState<typeof images>([]);
   
@@ -17,10 +22,9 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
       ? images.filter(img => img && img.image_url && !img.image_url.startsWith('blob:')) 
       : [];
     
+    console.log("Admin ImageGallery processed images:", filtered);
     setValidImages(filtered);
   }, [images]);
-  
-  console.log("Processing hotel images:", validImages);
   
   return (
     <div className="rounded-xl p-6 bg-[#2A0F44]">

@@ -8,6 +8,14 @@ interface ImageGalleryProps {
 }
 
 export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
+  // Debug the incoming hotel data
+  useEffect(() => {
+    console.log("Property view ImageGallery received hotel:", hotel);
+    if (hotel.hotel_images) {
+      console.log("Property view ImageGallery images:", hotel.hotel_images);
+    }
+  }, [hotel]);
+
   const [validImages, setValidImages] = useState<typeof hotel.hotel_images>([]);
   
   useEffect(() => {
@@ -16,6 +24,7 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
       ? hotel.hotel_images.filter(img => img && img.image_url && !img.image_url.startsWith('blob:'))
       : [];
     
+    console.log("Property view filtered images:", filtered);
     setValidImages(filtered);
   }, [hotel.hotel_images]);
   

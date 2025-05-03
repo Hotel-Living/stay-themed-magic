@@ -19,6 +19,11 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const [processedImages, setProcessedImages] = useState<HotelImage[]>([]);
   
+  // Debug the incoming hotel images
+  useEffect(() => {
+    console.log("HotelImageGallery received images:", hotelImages);
+  }, [hotelImages]);
+  
   // Filter out blob URLs and invalid images
   useEffect(() => {
     if (hotelImages && Array.isArray(hotelImages)) {
@@ -31,8 +36,11 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
         !img.image_url.startsWith('blob:') && // Exclude blob URLs
         !failedImages.has(img.image_url)
       );
+      
+      console.log("Processed hotel images:", validImages);
       setProcessedImages(validImages);
     } else {
+      console.log("No valid hotel images found");
       setProcessedImages([]);
     }
   }, [hotelImages, failedImages]);

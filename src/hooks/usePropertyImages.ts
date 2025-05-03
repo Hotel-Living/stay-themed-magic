@@ -15,39 +15,44 @@ export interface UploadedImage {
 
 export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(
-    // Process initial images to identify blob URLs
-    initialImages.map(img => ({
-      ...img,
-      isBlob: img.url.startsWith('blob:')
-    }))
-  );
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [mainImageIndex, setMainImageIndex] = useState<number>(
-    initialImages.findIndex(img => img.isMain) !== -1 
-      ? initialImages.findIndex(img => img.isMain) 
-      : initialImages.length > 0 ? 0 : -1
-  );
+  const [mainImageIndex, setMainImageIndex] = useState<number>(-1);
   
   const { user } = useAuth();
   const { toast } = useToast();
 
   // Update uploaded images when initialImages change (for editing)
   useEffect(() => {
+    console.log("usePropertyImages: initialImages updated", initialImages);
+    
     if (initialImages && initialImages.length > 0) {
-      console.log("usePropertyImages: initialImages updated", initialImages);
-      
       // Process images to detect and flag blob URLs
       const processedImages = initialImages.map(img => ({
         ...img,
         isBlob: img.url.startsWith('blob:')
       }));
       
-      setUploadedImages(processedImages);
+      // Filter out any blob URLs which are no longer valid
+      const validImages = processedImages.filter(img => {
+        if (img.isBlob || img.url.startsWith('blob:')) {
+          // For blob URLs, we'll mark them as invalid since they expire across sessions
+          console.log(`Filtering out blob URL: ${img.url}`);
+          return false;
+        }
+        return true;
+      });
+      
+      console.log("usePropertyImages: processed valid images", validImages);
+      
+      setUploadedImages(validImages);
       
       // Set main image index
-      const mainIndex = processedImages.findIndex(img => img.isMain);
-      setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
+      const mainIndex = validImages.findIndex(img => img.isMain);
+      setMainImageIndex(mainIndex !== -1 ? mainIndex : (validImages.length > 0 ? 0 : -1));
+    } else {
+      setUploadedImages([]);
+      setMainImageIndex(-1);
     }
   }, [initialImages]);
 
@@ -77,6 +82,7 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
     }
     
     setUploading(true);
+    console.log("Starting upload of files:", files);
     
     try {
       // For demo purposes, simulate uploading by creating object URLs
@@ -85,15 +91,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       for (const file of files) {
         // Create a local URL for the file (this is a demo, not real uploading)
         const fileUrl = URL.createObjectURL(file);
+        console.log(`Created blob URL for ${file.name}: ${fileUrl}`);
         
         newUploadedImages.push({
           url: fileUrl,
           isMain: newUploadedImages.length === 0, // First image is main by default
           id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          name: file.name,
           isBlob: true // Mark as blob URL
         });
       }
       
+      console.log("New uploaded images after file processing:", newUploadedImages);
       setUploadedImages(newUploadedImages);
       setFiles([]);
       
@@ -103,12 +112,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       }
     } catch (error: any) {
       console.error("Error uploading files:", error);
+      toast({
+        variant: "destructive",
+        title: "Upload Failed",
+        description: error.message || "An error occurred while uploading your images."
+      });
     } finally {
       setUploading(false);
     }
-  }, [files, uploadedImages, mainImageIndex]);
+  }, [files, uploadedImages, mainImageIndex, toast]);
   
   const setMainImage = useCallback((index: number) => {
+    console.log(`Setting main image to index ${index}`);
     setUploadedImages(prev => 
       prev.map((img, i) => ({
         ...img,

@@ -35,7 +35,7 @@ export const useImageSubmission = () => {
       
       console.log("Creating placeholder images:", imageRows);
       
-      const { error: insertError } = await supabase
+      const { data: insertData, error: insertError } = await supabase
         .from('hotel_images')
         .insert(imageRows);
         
@@ -44,12 +44,18 @@ export const useImageSubmission = () => {
         throw insertError;
       }
       
+      console.log("Insert result:", insertData);
+      
       // Always ensure a main_image_url is set in the hotels table
       if (placeholderImages.length > 0) {
-        await supabase
+        const { error: updateError } = await supabase
           .from('hotels')
           .update({ main_image_url: placeholderImages[0] })
           .eq('id', hotelId);
+          
+        if (updateError) {
+          console.error("Error updating main image URL:", updateError);
+        }
       }
     } catch (error) {
       console.error("Error in handlePlaceholderImages:", error);
@@ -69,6 +75,8 @@ export const useImageSubmission = () => {
       
       // Filter out any blob URLs as they can't be persisted
       const persistentImages = images.filter(image => !image.isBlob && !image.url.startsWith('blob:'));
+      
+      console.log("Filtered persistent images:", persistentImages);
       
       // If all images were blobs and we filtered them out, use placeholders
       if (persistentImages.length === 0) {
@@ -94,7 +102,7 @@ export const useImageSubmission = () => {
       
       console.log("Creating custom images:", imageRows);
       
-      const { error: insertError } = await supabase
+      const { data: insertData, error: insertError } = await supabase
         .from('hotel_images')
         .insert(imageRows);
         
@@ -103,19 +111,29 @@ export const useImageSubmission = () => {
         throw insertError;
       }
       
+      console.log("Insert result:", insertData);
+      
       // Find the main image and ensure it's set in the hotels table
       const mainImage = persistentImages.find(img => img.isMain);
       if (mainImage) {
-        await supabase
+        const { error: updateError } = await supabase
           .from('hotels')
           .update({ main_image_url: mainImage.url })
           .eq('id', hotelId);
+          
+        if (updateError) {
+          console.error("Error updating main image URL:", updateError);
+        }
       } else if (persistentImages.length > 0) {
         // If no image marked as main, use the first one
-        await supabase
+        const { error: updateError } = await supabase
           .from('hotels')
           .update({ main_image_url: persistentImages[0].url })
           .eq('id', hotelId);
+          
+        if (updateError) {
+          console.error("Error updating main image URL:", updateError);
+        }
       }
     } catch (error) {
       console.error("Error in handleCustomImages:", error);

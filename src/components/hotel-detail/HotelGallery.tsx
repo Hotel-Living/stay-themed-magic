@@ -8,6 +8,11 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [validImages, setValidImages] = useState<string[]>([]);
   
+  // Debug the incoming images
+  useEffect(() => {
+    console.log("HotelGallery received images:", images);
+  }, [images]);
+  
   // Reset active image index when images change
   useEffect(() => {
     // Filter out blob URLs which won't be valid across sessions
@@ -17,6 +22,7 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
       !url.startsWith('blob:')
     );
     
+    console.log("HotelGallery filtered images:", filtered);
     setValidImages(filtered);
     setActiveImageIndex(0);
   }, [images]);
@@ -49,6 +55,7 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
           className="w-full h-full object-cover transition-all duration-500"
           onError={(e) => {
             // If image fails to load, set src to fallback
+            console.error("Image failed to load:", displayImages[activeImageIndex]);
             const target = e.target as HTMLImageElement;
             target.src = fallbackImage;
           }}
@@ -93,6 +100,7 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // If thumbnail fails to load, set src to fallback
+                  console.error("Thumbnail failed to load:", image);
                   const target = e.target as HTMLImageElement;
                   target.src = fallbackImage;
                 }}

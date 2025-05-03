@@ -24,6 +24,29 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
     console.log("HotelImageGallery received images:", hotelImages);
   }, [hotelImages]);
   
+  // New debug log to specifically inspect what the component is receiving
+  useEffect(() => {
+    console.log("📸 hotelImages received in gallery:", hotelImages);
+    
+    // Additional information to help debug
+    if (hotelImages && Array.isArray(hotelImages)) {
+      console.log("Number of images:", hotelImages.length);
+      console.log("First image (if exists):", hotelImages[0]);
+      
+      // Check specifically for blob URLs
+      const blobUrls = hotelImages.filter(img => 
+        img?.image_url?.startsWith('blob:')
+      );
+      
+      if (blobUrls.length > 0) {
+        console.log("⚠️ Found blob URLs:", blobUrls.length);
+        console.log("Example blob URL:", blobUrls[0]);
+      }
+    } else {
+      console.log("⚠️ hotelImages is not an array or is undefined:", hotelImages);
+    }
+  }, [hotelImages]);
+  
   // Filter out blob URLs and invalid images
   useEffect(() => {
     if (hotelImages && Array.isArray(hotelImages)) {

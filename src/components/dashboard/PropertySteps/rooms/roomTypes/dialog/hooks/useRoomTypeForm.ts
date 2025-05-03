@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PREDEFINED_ROOM_TYPES } from "../../constants";
 import { useRoomTypeImages } from "./useRoomTypeImages";
 import { useRoomTypeRates } from "./useRoomTypeRates";
@@ -19,6 +19,8 @@ export function useRoomTypeForm({
   onAdd,
   preferredWeekday = "Monday"
 }: UseRoomTypeFormProps) {
+  console.log("useRoomTypeForm initialized with editingRoomType:", editingRoomType);
+  
   const {
     selectedRoomType,
     description,
@@ -33,16 +35,45 @@ export function useRoomTypeForm({
     roomImages,
     roomImagePreviews,
     handleImageUpload,
-    removeImage
+    removeImage,
+    setRoomImagePreviews
   } = useRoomTypeImages();
+  
+  // Load existing images when editing
+  useEffect(() => {
+    if (editingRoomType && editingRoomType.images && editingRoomType.images.length > 0) {
+      console.log("Loading existing images from editingRoomType:", editingRoomType.images);
+      setRoomImagePreviews(editingRoomType.images);
+    } else if (editingRoomType && editingRoomType.roomImages && editingRoomType.roomImages.length > 0) {
+      console.log("Loading existing roomImages from editingRoomType:", editingRoomType.roomImages);
+      setRoomImagePreviews(editingRoomType.roomImages);
+    }
+  }, [editingRoomType, setRoomImagePreviews]);
 
   const {
     rates,
     stayLengths,
-    handleRateChange
+    handleRateChange,
+    setRates
   } = useRoomTypeRates(availableStayLengths);
+  
+  // Load existing rates when editing
+  useEffect(() => {
+    if (editingRoomType && editingRoomType.rates) {
+      console.log("Loading existing rates from editingRoomType:", editingRoomType.rates);
+      setRates(editingRoomType.rates);
+    }
+  }, [editingRoomType, setRates]);
 
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
+  
+  // Load existing availability dates when editing
+  useEffect(() => {
+    if (editingRoomType && editingRoomType.availabilityDates && editingRoomType.availabilityDates.length > 0) {
+      console.log("Loading availability dates from editingRoomType:", editingRoomType.availabilityDates);
+      setAvailabilityDates(editingRoomType.availabilityDates);
+    }
+  }, [editingRoomType]);
 
   const handleAvailabilityChange = (dates: string[]) => {
     setAvailabilityDates(dates);

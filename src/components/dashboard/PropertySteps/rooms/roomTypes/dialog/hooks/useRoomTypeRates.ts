@@ -1,33 +1,41 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-interface UseRoomTypeRatesReturn {
-  rates: Record<number, number>;
-  stayLengths: number[];
-  handleRateChange: (duration: number, value: string) => void;
-}
-
-export function useRoomTypeRates(initialStayLengths: number[] = []): UseRoomTypeRatesReturn {
-  const [rates, setRates] = useState<Record<number, number>>({});
-  const [stayLengths, setStayLengths] = useState<number[]>(initialStayLengths);
-
-  // Initialize rates with any duration provided
+export function useRoomTypeRates(availableStayLengths: number[] = []) {
+  const [stayLengths, setStayLengths] = useState<string[]>([]);
+  const [rates, setRates] = useState<Record<string, string>>({});
+  
+  // Update stay lengths when availableStayLengths changes
   useEffect(() => {
-    if (initialStayLengths && initialStayLengths.length > 0) {
-      setStayLengths(initialStayLengths);
+    if (availableStayLengths && availableStayLengths.length > 0) {
+      const formattedStayLengths = availableStayLengths.map(days => `${days} days`);
+      setStayLengths(formattedStayLengths);
+      
+      // Initialize rates object with empty values if not already set
+      const initialRates: Record<string, string> = {};
+      formattedStayLengths.forEach(stayLength => {
+        if (!rates[stayLength]) {
+          initialRates[stayLength] = '';
+        }
+      });
+      
+      if (Object.keys(initialRates).length > 0) {
+        setRates(prev => ({ ...prev, ...initialRates }));
+      }
     }
-  }, [initialStayLengths]);
+  }, [availableStayLengths]);
 
-  const handleRateChange = (duration: number, value: string) => {
+  const handleRateChange = (stayLength: string, value: string) => {
     setRates(prev => ({
       ...prev,
-      [duration]: parseInt(value) || 0
+      [stayLength]: value
     }));
   };
 
   return {
     rates,
     stayLengths,
-    handleRateChange
+    handleRateChange,
+    setRates // Expose this setter to allow external updates
   };
 }

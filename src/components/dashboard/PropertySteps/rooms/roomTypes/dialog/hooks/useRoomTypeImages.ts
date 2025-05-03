@@ -1,34 +1,38 @@
 
-import { useState } from "react";
+import { useState } from 'react';
 
-interface UseRoomTypeImagesReturn {
-  roomImages: File[];
-  roomImagePreviews: string[];
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removeImage: (index: number) => void;
-}
-
-export function useRoomTypeImages(): UseRoomTypeImagesReturn {
+export function useRoomTypeImages() {
   const [roomImages, setRoomImages] = useState<File[]>([]);
   const [roomImagePreviews, setRoomImagePreviews] = useState<string[]>([]);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files);
-      setRoomImages(prev => [...prev, ...newFiles]);
-      setRoomImagePreviews(prev => [
-        ...prev,
-        ...newFiles.map(file => URL.createObjectURL(file))
-      ]);
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const newImages = Array.from(event.target.files);
+      setRoomImages(prev => [...prev, ...newImages]);
+      
+      // Create URL previews for new images
+      const newPreviews = newImages.map(file => URL.createObjectURL(file));
+      setRoomImagePreviews(prev => [...prev, ...newPreviews]);
     }
   };
 
   const removeImage = (index: number) => {
-    setRoomImages(prev => prev.filter((_, i) => i !== index));
+    // Remove the image file
+    setRoomImages(prev => {
+      const updated = [...prev];
+      updated.splice(index, 1);
+      return updated;
+    });
+    
+    // Remove the image preview URL
     setRoomImagePreviews(prev => {
-      const urlToRevoke = prev[index];
-      URL.revokeObjectURL(urlToRevoke);
-      return prev.filter((_, i) => i !== index);
+      const updated = [...prev];
+      // Revoke the object URL to prevent memory leaks
+      if (updated[index] && updated[index].startsWith('blob:')) {
+        URL.revokeObjectURL(updated[index]);
+      }
+      updated.splice(index, 1);
+      return updated;
     });
   };
 
@@ -36,6 +40,7 @@ export function useRoomTypeImages(): UseRoomTypeImagesReturn {
     roomImages,
     roomImagePreviews,
     handleImageUpload,
-    removeImage
+    removeImage,
+    setRoomImagePreviews // Expose this setter to allow external updates
   };
 }

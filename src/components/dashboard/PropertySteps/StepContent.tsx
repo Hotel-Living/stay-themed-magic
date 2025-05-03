@@ -6,6 +6,8 @@ import HotelFeaturesStep from "./HotelFeaturesStep";
 import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import PriceTable from "./PriceTable";
+import StayRatesStep from "./StayRatesStep";
+import PicturesStep from "./PicturesStep";
 
 interface StepContentProps {
   currentStep: number;
@@ -72,6 +74,19 @@ export default function StepContent({
             updateFormData={updateFormData}
           />
         </div>
+      )}
+      {currentStep === 5 && (
+        <PicturesStep
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      )}
+      {currentStep === 6 && (
+        <StayRatesStep
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
       )}
     </div>
   );

@@ -44,4 +44,4 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
       </Card>
     </div>
   );
-};
+}

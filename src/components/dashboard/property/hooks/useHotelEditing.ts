@@ -101,8 +101,13 @@ export const useHotelEditing = ({
         // Map the selected themes from hotel_themes relation
         const selectedThemes = hotel.hotel_themes?.map(theme => theme.theme_id) || [];
         
+        // DEBUG: Log the hotel_activities to see what we're getting
+        console.log("DEBUG: hotel.hotel_activities", hotel.hotel_activities);
+        
         // Map the selected activities from hotel_activities relation
         const selectedActivities = hotel.hotel_activities?.map(activity => activity.activity_id) || [];
+        
+        console.log("Mapped activities:", selectedActivities);
 
         // Map uploaded images
         const uploadedImages = hotel.hotel_images?.map(img => ({

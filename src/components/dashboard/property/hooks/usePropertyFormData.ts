@@ -40,6 +40,8 @@ export interface PropertyFormData {
   currency?: string; // Added to store currency information
   enablePriceIncrease?: boolean; // Added for dynamic pricing setting
   priceIncreaseCap?: number; // Added for dynamic pricing max percentage
+  latitude?: number | string; // Add latitude for map location
+  longitude?: number | string; // Add longitude for map location
 }
 
 export const usePropertyFormData = () => {
@@ -78,7 +80,9 @@ export const usePropertyFormData = () => {
     rates: {},
     currency: "USD",
     enablePriceIncrease: false,
-    priceIncreaseCap: 20
+    priceIncreaseCap: 20,
+    latitude: undefined,
+    longitude: undefined
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

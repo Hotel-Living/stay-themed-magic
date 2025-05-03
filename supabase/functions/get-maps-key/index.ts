@@ -1,9 +1,24 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-console.log("Listening on http://localhost:9999/");
+// Define CORS headers for browser access
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+};
+
+console.log("Maps API key function started");
 
 serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { 
+      status: 204, 
+      headers: corsHeaders 
+    });
+  }
+  
   console.log("Receiving request to get-maps-key function");
   
   try {
@@ -14,7 +29,7 @@ serve(async (req) => {
       if (reqText) {
         payload = JSON.parse(reqText);
       } else {
-        console.log("No request body or invalid JSON: Unexpected end of JSON input");
+        console.log("No request body provided");
       }
     } catch (e) {
       console.log(`No request body or invalid JSON: ${e.message}`);
@@ -24,9 +39,19 @@ serve(async (req) => {
     const apiKey = Deno.env.get("GOOGLE_MAPS_API_KEY");
     
     if (!apiKey) {
+      console.error("Google Maps API key not found in environment");
       return new Response(
-        JSON.stringify({ error: "Google Maps API key not found in environment" }),
-        { headers: { "Content-Type": "application/json" }, status: 500 }
+        JSON.stringify({ 
+          error: "Google Maps API key not found in environment",
+          message: "Please configure the GOOGLE_MAPS_API_KEY in Supabase secrets"
+        }),
+        { 
+          headers: { 
+            ...corsHeaders, 
+            "Content-Type": "application/json" 
+          }, 
+          status: 500 
+        }
       );
     }
 
@@ -37,13 +62,27 @@ serve(async (req) => {
         key: apiKey,
         message: "Maps API key retrieved successfully",
       }),
-      { headers: { "Content-Type": "application/json" } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          "Content-Type": "application/json" 
+        } 
+      }
     );
   } catch (error) {
     console.error("Error in maps key function:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Unknown error occurred" }),
-      { headers: { "Content-Type": "application/json" }, status: 500 }
+      JSON.stringify({ 
+        error: error.message || "Unknown error occurred",
+        stack: error.stack
+      }),
+      { 
+        headers: { 
+          ...corsHeaders, 
+          "Content-Type": "application/json" 
+        }, 
+        status: 500 
+      }
     );
   }
 });

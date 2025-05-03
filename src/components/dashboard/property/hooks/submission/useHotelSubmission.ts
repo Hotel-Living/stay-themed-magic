@@ -40,6 +40,17 @@ export const useHotelSubmission = () => {
     };
     
     console.log("Submitting rates:", rates);
+
+    // Parse latitude and longitude if they're strings
+    const latitude = formData.latitude ? 
+      (typeof formData.latitude === 'string' ? parseFloat(formData.latitude) : formData.latitude) : 
+      null;
+    
+    const longitude = formData.longitude ? 
+      (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
+      null;
+    
+    console.log(`Location data: lat=${latitude}, lng=${longitude}`);
     
     // Prepare the hotel data
     const hotelData = {
@@ -50,8 +61,8 @@ export const useHotelSubmission = () => {
       city: formData.city,
       address: formData.address || null,
       postal_code: formData.postalCode || null,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
+      latitude: latitude,
+      longitude: longitude,
       price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
       category: parseInt(formData.category),
       property_type: formData.propertyType,
@@ -129,6 +140,17 @@ export const useHotelSubmission = () => {
     };
     
     console.log("Updating rates:", rates);
+
+    // Parse latitude and longitude if they're strings
+    const latitude = formData.latitude ? 
+      (typeof formData.latitude === 'string' ? parseFloat(formData.latitude) : formData.latitude) : 
+      null;
+    
+    const longitude = formData.longitude ? 
+      (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
+      null;
+    
+    console.log(`Location data: lat=${latitude}, lng=${longitude}`);
     
     // Prepare the hotel data for update
     const hotelData = {
@@ -138,8 +160,8 @@ export const useHotelSubmission = () => {
       city: formData.city,
       address: formData.address || null,
       postal_code: formData.postalCode || null,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
+      latitude: latitude,
+      longitude: longitude,
       price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
       category: parseInt(formData.category),
       property_type: formData.propertyType,

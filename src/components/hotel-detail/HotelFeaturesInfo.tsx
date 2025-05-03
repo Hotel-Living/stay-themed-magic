@@ -8,8 +8,8 @@ interface HotelFeaturesInfoProps {
 
 export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeaturesInfoProps) {
   // Process and ensure we have valid arrays
-  const validHotelFeatures = Array.isArray(hotelFeatures) ? hotelFeatures : [];
-  const validRoomFeatures = Array.isArray(roomFeatures) ? roomFeatures : [];
+  const validHotelFeatures = Array.isArray(hotelFeatures) ? hotelFeatures.filter(Boolean) : [];
+  const validRoomFeatures = Array.isArray(roomFeatures) ? roomFeatures.filter(Boolean) : [];
   
   // If both arrays are empty, return null
   if (validHotelFeatures.length === 0 && validRoomFeatures.length === 0) {

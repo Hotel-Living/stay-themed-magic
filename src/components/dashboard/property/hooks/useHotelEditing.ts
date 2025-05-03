@@ -23,6 +23,34 @@ const safeFeatureConversion = (featureData: any): Record<string, boolean> => {
   return {};
 };
 
+// Helper function to safely convert rates to the correct format
+const safeRatesConversion = (ratesData: any): Record<string, number> => {
+  if (!ratesData) return {};
+  
+  // If it's already an object but not an array, try to convert
+  if (typeof ratesData === 'object' && !Array.isArray(ratesData)) {
+    const result: Record<string, number> = {};
+    
+    // Iterate over the object properties and ensure values are numbers
+    Object.entries(ratesData).forEach(([key, value]) => {
+      if (typeof value === 'number') {
+        result[key] = value;
+      } else if (typeof value === 'string') {
+        // Try to parse string to number
+        const parsedValue = parseFloat(value);
+        if (!isNaN(parsedValue)) {
+          result[key] = parsedValue;
+        }
+      }
+    });
+    
+    return result;
+  }
+  
+  console.warn('Unexpected rates data format:', ratesData);
+  return {};
+};
+
 export const useHotelEditing = ({
   editingHotelId,
   setFormData,
@@ -118,7 +146,7 @@ export const useHotelEditing = ({
           featuresHotel: safeFeatureConversion(hotel.features_hotel),
           featuresRoom: safeFeatureConversion(hotel.features_room),
           available_months: hotel.available_months || [],
-          rates: hotel.rates || {}
+          rates: safeRatesConversion(hotel.rates)
         });
         
         console.log("Set form data for editing");

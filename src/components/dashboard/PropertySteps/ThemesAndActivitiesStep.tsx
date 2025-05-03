@@ -22,6 +22,11 @@ export default function ThemesAndActivitiesStep({
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+  // Debug log for incoming formData activities
+  useEffect(() => {
+    console.log("ThemesAndActivitiesStep - formData.activities:", formData.activities);
+  }, [formData.activities]);
+
   // Update local state when formData changes
   useEffect(() => {
     if (formData.themes && formData.themes.length > 0) {
@@ -55,11 +60,12 @@ export default function ThemesAndActivitiesStep({
     }
   };
 
-  const handleActivityChange = (activity: string, isChecked: boolean) => {
+  const handleActivityChange = (activityId: string, isChecked: boolean) => {
+    console.log("Activity change:", activityId, isChecked);
     setSelectedActivities(prev => 
       isChecked 
-        ? [...prev, activity]
-        : prev.filter(a => a !== activity)
+        ? [...prev, activityId]
+        : prev.filter(a => a !== activityId)
     );
   };
 
@@ -83,3 +89,4 @@ export default function ThemesAndActivitiesStep({
     </div>
   );
 }
+

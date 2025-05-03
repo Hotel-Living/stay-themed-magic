@@ -44,8 +44,15 @@ export interface MyHotel {
   terms?: string | null;
   roomTypes?: any[];
   preferredWeekday?: string | null;
-  rates?: Record<string, number>; // Added rates field
+  rates?: Record<string, number>; 
   currency?: string;
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
+  stay_lengths?: number[];
+  latitude?: number | null;
+  longitude?: number | null;
+  status?: string;
+  rejection_reason?: string | null;
 }
 
 export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
@@ -54,7 +61,7 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
   console.log("Fetching hotels for owner:", ownerId);
   
   try {
-    // Build base query with essential fields that should always exist
+    // Enhanced query to fetch complete hotel data with all related information
     const { data, error } = await supabase
       .from("hotels")
       .select(`
@@ -71,6 +78,25 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
         address,
         available_months,
         rates,
+        latitude,
+        longitude,
+        features_hotel,
+        features_room,
+        stay_lengths,
+        status,
+        rejection_reason,
+        atmosphere,
+        ideal_guests,
+        perfect_location,
+        postal_code,
+        contact_name,
+        contact_email,
+        contact_phone,
+        preferredWeekday,
+        terms,
+        room_types,
+        meal_plans,
+        faqs,
         hotel_images (id, hotel_id, image_url, is_main, created_at),
         hotel_themes (theme_id, themes:themes(id, name)),
         hotel_activities (activity_id, activities:activities(id, name))
@@ -86,6 +112,8 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
       console.error("No data returned or invalid data format");
       return [];
     }
+    
+    console.log("Raw hotel data retrieved:", data);
     
     // Process the data to ensure all fields have appropriate values
     const processedHotels = data
@@ -129,50 +157,32 @@ export async function fetchHotelsByOwner(ownerId: string): Promise<MyHotel[]> {
           hotel_images: Array.isArray(hotel.hotel_images) ? hotel.hotel_images : [],
           hotel_themes: Array.isArray(hotel.hotel_themes) ? hotel.hotel_themes : [],
           hotel_activities: Array.isArray(hotel.hotel_activities) ? hotel.hotel_activities : [],
-          rates: (hotel.rates as Record<string, number>) || {}, // Added rates with type safety
-          // Additional fields with safe defaults
-          ideal_guests: null,
-          atmosphere: null,
-          perfect_location: null,
-          postal_code: null,
-          contact_name: null,
-          contact_email: null,
-          contact_phone: null,
-          meal_plans: [],
-          room_types: [],
-          faqs: [],
-          terms: null,
-          preferredWeekday: "Monday",
-          // Add roomTypes property for compatibility
-          roomTypes: defaultRoomTypes
-        };
-        
-        // Try to get any additional fields if they are available in the response
-        try {
-          // Handle each field carefully with type checking
-          if ('ideal_guests' in hotel) processedHotel.ideal_guests = hotel.ideal_guests as string | null;
-          if ('atmosphere' in hotel) processedHotel.atmosphere = hotel.atmosphere as string | null;
-          if ('perfect_location' in hotel) processedHotel.perfect_location = hotel.perfect_location as string | null;
-          if ('postal_code' in hotel) processedHotel.postal_code = hotel.postal_code as string | null;
-          if ('contact_name' in hotel) processedHotel.contact_name = hotel.contact_name as string | null;
-          if ('contact_email' in hotel) processedHotel.contact_email = hotel.contact_email as string | null;
-          if ('contact_phone' in hotel) processedHotel.contact_phone = hotel.contact_phone as string | null;
-          if ('meal_plans' in hotel && Array.isArray(hotel.meal_plans)) processedHotel.meal_plans = hotel.meal_plans;
-          if ('room_types' in hotel && Array.isArray(hotel.room_types)) {
-            processedHotel.room_types = hotel.room_types;
-            processedHotel.roomTypes = hotel.room_types;
-          }
-          if ('faqs' in hotel && Array.isArray(hotel.faqs)) processedHotel.faqs = hotel.faqs;
-          if ('terms' in hotel) processedHotel.terms = hotel.terms as string | null;
-          if ('preferredWeekday' in hotel) processedHotel.preferredWeekday = hotel.preferredWeekday as string | null;
+          rates: (hotel.rates as Record<string, number>) || {},
+          features_hotel: (hotel.features_hotel as Record<string, boolean>) || {},
+          features_room: (hotel.features_room as Record<string, boolean>) || {},
+          stay_lengths: Array.isArray(hotel.stay_lengths) ? hotel.stay_lengths : [],
+          latitude: (hotel.latitude as number | null) || null,
+          longitude: (hotel.longitude as number | null) || null,
+          status: (hotel.status as string) || "pending",
+          rejection_reason: (hotel.rejection_reason as string | null) || null,
           
-          // Handle rates if present
-          if ('rates' in hotel && typeof hotel.rates === 'object') {
-            processedHotel.rates = hotel.rates as Record<string, number>;
-          }
-        } catch (err) {
-          console.warn("Error processing extended hotel fields:", err);
-        }
+          // Additional fields with safe defaults
+          ideal_guests: (hotel.ideal_guests as string | null) || null,
+          atmosphere: (hotel.atmosphere as string | null) || null,
+          perfect_location: (hotel.perfect_location as string | null) || null,
+          postal_code: (hotel.postal_code as string | null) || null,
+          contact_name: (hotel.contact_name as string | null) || null,
+          contact_email: (hotel.contact_email as string | null) || null,
+          contact_phone: (hotel.contact_phone as string | null) || null,
+          meal_plans: Array.isArray(hotel.meal_plans) ? hotel.meal_plans : [],
+          room_types: Array.isArray(hotel.room_types) ? hotel.room_types : [],
+          faqs: Array.isArray(hotel.faqs) ? hotel.faqs : [],
+          terms: (hotel.terms as string | null) || null,
+          preferredWeekday: (hotel.preferredWeekday as string | null) || "Monday",
+          
+          // Add roomTypes property for compatibility
+          roomTypes: Array.isArray(hotel.room_types) ? hotel.room_types : defaultRoomTypes
+        };
         
         return processedHotel;
       });

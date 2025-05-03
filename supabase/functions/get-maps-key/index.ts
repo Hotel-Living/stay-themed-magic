@@ -1,87 +1,49 @@
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+// This Edge Function retrieves the Google Maps API key from environment variables
+// and returns it to the client in a consistent format.
 
-// Define CORS headers for browser access
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-};
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
 
-console.log("Maps API key function started");
+console.log("Hello from get-maps-key Edge Function!");
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { 
-      status: 204, 
-      headers: corsHeaders 
-    });
-  }
-  
-  console.log("Receiving request to get-maps-key function");
-  
   try {
-    // Parse the request body if any is sent
-    let payload = {};
-    try {
-      const reqText = await req.text();
-      if (reqText) {
-        payload = JSON.parse(reqText);
-      } else {
-        console.log("No request body provided");
-      }
-    } catch (e) {
-      console.log(`No request body or invalid JSON: ${e.message}`);
-    }
-
-    console.log("Fetching Google Maps API key from environment variables");
+    // Get API key from Edge Function environment variables
     const apiKey = Deno.env.get("GOOGLE_MAPS_API_KEY");
     
     if (!apiKey) {
-      console.error("Google Maps API key not found in environment");
+      console.error("GOOGLE_MAPS_API_KEY not defined in Edge Function environment");
       return new Response(
         JSON.stringify({ 
-          error: "Google Maps API key not found in environment",
-          message: "Please configure the GOOGLE_MAPS_API_KEY in Supabase secrets"
+          error: "API key not configured on server" 
         }),
         { 
-          headers: { 
-            ...corsHeaders, 
-            "Content-Type": "application/json" 
-          }, 
-          status: 500 
+          status: 500,
+          headers: { "Content-Type": "application/json" }
         }
       );
     }
-
-    console.log("Successfully retrieved Google Maps API key");
     
+    // Return the API key with both naming conventions for maximum compatibility
     return new Response(
-      JSON.stringify({
+      JSON.stringify({ 
         key: apiKey,
-        message: "Maps API key retrieved successfully",
+        apiKey: apiKey
       }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          "Content-Type": "application/json" 
-        } 
+        status: 200,
+        headers: { "Content-Type": "application/json" }
       }
     );
   } catch (error) {
-    console.error("Error in maps key function:", error);
+    console.error("Error in get-maps-key Edge Function:", error);
     return new Response(
       JSON.stringify({ 
-        error: error.message || "Unknown error occurred",
-        stack: error.stack
+        error: "Internal server error retrieving API key" 
       }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          "Content-Type": "application/json" 
-        }, 
-        status: 500 
+        status: 500,
+        headers: { "Content-Type": "application/json" }
       }
     );
   }

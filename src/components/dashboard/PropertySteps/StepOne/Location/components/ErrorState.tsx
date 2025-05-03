@@ -15,6 +15,11 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
       <p className="mt-3 text-xs text-white/50">
         Please check that your Google Maps API key is correctly configured with the appropriate domain restrictions.
       </p>
+      <div className="mt-4 p-3 bg-yellow-900/30 rounded-md border border-yellow-700/50">
+        <p className="text-xs text-yellow-300">
+          <strong>Tip:</strong> Ensure your API key allows these domains: localhost, *.lovable.app, and any custom domains you're using.
+        </p>
+      </div>
     </div>
   );
 };

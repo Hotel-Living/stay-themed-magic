@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Building, Edit, Trash2 } from "lucide-react";
+import { Building, Edit, Trash2, AlertTriangle } from "lucide-react";
 import EmptyState from "./EmptyState";
 import { useAuth } from "@/context/AuthContext";
 import { useMyProperties } from "@/hooks/useMyProperties";
@@ -9,6 +9,7 @@ import AddProperty from "./AddProperty";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import PropertyDetailView from "./property-view/PropertyDetailView";
 import DeletePropertyDialog from "./DeletePropertyDialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -22,23 +23,18 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [hotelToDelete, setHotelToDelete] = useState<Hotel | null>(null);
 
-  if (!user) {
-    return (
-      <EmptyState
-        icon={<Building className="w-8 h-8" />}
-        title="No Properties Found"
-        description="You haven't added any properties yet. Add your first property to get started."
-      />
-    );
-  }
-
-  const { data: hotels, isLoading, refetch } = useMyProperties(user.id);
+  // Use the enhanced hook to get complete hotel data
+  const { data: hotels, isLoading, error, refetch } = useMyProperties(user?.id);
   
   useEffect(() => {
     if (hotels && hotels.length > 0) {
       console.log("Loaded hotel properties:", hotels);
     }
-  }, [hotels]);
+    
+    if (error) {
+      console.error("Error loading hotels:", error);
+    }
+  }, [hotels, error]);
 
   useEffect(() => {
     if (propHotel) {
@@ -47,7 +43,10 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   }, [propHotel]);
 
   const handleViewDetails = (hotel: Hotel) => {
-    setSelectedHotel(hotel);
+    // Find the complete hotel data from the hotels array
+    const completeHotel = hotels?.find(h => h.id === hotel.id) || hotel;
+    console.log("Selected hotel for details view:", completeHotel);
+    setSelectedHotel(completeHotel);
     setEditingHotelId(null);
   };
 
@@ -76,11 +75,22 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
         await refetch();
         setDeleteDialogOpen(false);
         setHotelToDelete(null);
+        setSelectedHotel(null); // Return to list view after deletion
       } catch (error) {
         console.error("Error during property deletion:", error);
       }
     }
   };
+
+  if (!user) {
+    return (
+      <EmptyState
+        icon={<Building className="w-8 h-8" />}
+        title="No Properties Found"
+        description="You haven't added any properties yet. Add your first property to get started."
+      />
+    );
+  }
 
   if (editingHotelId) {
     return (
@@ -115,10 +125,37 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <div key={i} className="glass-card rounded-2xl p-6 animate-pulse h-80 bg-[#5c0869]" />
-        ))}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Your Properties</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="rounded-2xl overflow-hidden">
+              <Skeleton className="h-48 w-full bg-fuchsia-900/30" />
+              <div className="p-4 space-y-2 bg-fuchsia-950/30">
+                <Skeleton className="h-6 w-3/4 bg-fuchsia-900/30" />
+                <Skeleton className="h-4 w-1/2 bg-fuchsia-900/30" />
+                <Skeleton className="h-4 w-2/3 bg-fuchsia-900/30" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 bg-red-900/20 border border-red-700/50 rounded-xl">
+        <div className="flex items-center gap-3 mb-3">
+          <AlertTriangle className="h-6 w-6 text-red-400" />
+          <h3 className="text-lg font-semibold text-red-300">Error Loading Properties</h3>
+        </div>
+        <p className="text-white/70 mb-4">There was a problem loading your properties. Please try again later.</p>
+        <Button onClick={() => refetch()} variant="outline" className="bg-red-700/30 hover:bg-red-700/50">
+          Try Again
+        </Button>
       </div>
     );
   }

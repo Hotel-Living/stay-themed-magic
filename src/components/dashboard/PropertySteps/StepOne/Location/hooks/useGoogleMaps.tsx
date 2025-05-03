@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useLocation } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export const useGoogleMaps = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,8 @@ export const useGoogleMaps = () => {
           }
         } else {
           console.log('Edge function response:', data);
-          apiKey = data?.key;
+          // Check both key and apiKey properties as the function might use either
+          apiKey = data?.key || data?.apiKey;
           
           if (!apiKey) {
             console.error('No API key returned from edge function');
@@ -63,14 +65,18 @@ export const useGoogleMaps = () => {
         
         script.onerror = (e) => {
           console.error('Error loading Google Maps script:', e);
-          setError("Failed to load Google Maps. Please check your internet connection or API key configuration. Make sure the API key has the correct domain restrictions.");
+          const errorMessage = "Failed to load Google Maps. Please check your internet connection or API key configuration. Make sure the API key has the correct domain restrictions.";
+          setError(errorMessage);
+          toast.error(errorMessage);
           setIsLoading(false);
         };
         
         document.head.appendChild(script);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error in loadGoogleMapsScript:', err);
-        setError(err.message || 'Failed to initialize Google Maps');
+        const errorMessage = err.message || 'Failed to initialize Google Maps';
+        setError(errorMessage);
+        toast.error(errorMessage);
         setIsLoading(false);
       }
     };

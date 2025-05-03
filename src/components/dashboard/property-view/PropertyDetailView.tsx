@@ -12,6 +12,7 @@ import { FaqSection } from "./sections/FaqSection";
 import { ImageGallery } from "./sections/ImageGallery";
 import { RoomTypesSection } from "./sections/RoomTypesSection";
 import { Badge } from "@/components/ui/badge";
+import { AdminHotelDetail } from "@/types/hotel";
 
 interface PropertyDetailViewProps {
   hotel: any;
@@ -31,7 +32,7 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
       case 'approved':
         return <Badge variant="outline" className="ml-2 bg-green-100/20 text-green-300 border-green-400">Approved</Badge>;
       default:
-        return null;
+        return <Badge variant="outline" className="ml-2 bg-yellow-100/20 text-yellow-300 border-yellow-400">Pending Approval</Badge>;
     }
   };
   
@@ -49,6 +50,13 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         {hotel.name}
         {getStatusBadge()}
       </h2>
+
+      {hotel.rejection_reason && (
+        <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
+          <h3 className="font-semibold text-red-400">Rejection Reason:</h3>
+          <p className="mt-1 text-white/80">{hotel.rejection_reason}</p>
+        </div>
+      )}
       
       <div className="space-y-8">
         <ImageGallery hotel={hotel} />

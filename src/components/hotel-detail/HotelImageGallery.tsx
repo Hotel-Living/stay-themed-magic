@@ -96,7 +96,7 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
               )}
             >
               <img 
-                src={image.url || image.image_url}
+                src={image.image_url} 
                 alt={`${hotelName} thumbnail ${index + 1}`}
                 className="h-full w-full object-cover"
                 onError={() => handleImageError(image.image_url)}

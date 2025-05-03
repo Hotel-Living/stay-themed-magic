@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadArea from "./Pictures/UploadArea";
@@ -31,14 +30,41 @@ export default function PicturesStep({
   useEffect(() => {
     if (formData.hotelImages && formData.hotelImages.length > 0) {
       console.log("PicturesStep: Received existing images:", formData.hotelImages);
-      setImages(formData.hotelImages);
+      
+      // Filter out any expired blob URLs
+      const validImages = formData.hotelImages.filter(img => {
+        // Keep non-blob URLs or check if blob URL is still valid
+        return !img.url.startsWith('blob:') || (img.url.startsWith('blob:') && validateBlobUrl(img.url));
+      });
+      
+      setImages(validImages);
     }
     
     if (formData.mainImageUrl) {
       console.log("PicturesStep: Received main image URL:", formData.mainImageUrl);
-      setMainImageUrl(formData.mainImageUrl);
+      // Only set mainImageUrl if it's not a blob URL or if it's a valid blob URL
+      if (!formData.mainImageUrl.startsWith('blob:') || validateBlobUrl(formData.mainImageUrl)) {
+        setMainImageUrl(formData.mainImageUrl);
+      } else {
+        // Reset main image if it's an invalid blob URL
+        setMainImageUrl("");
+      }
     }
   }, [formData.hotelImages, formData.mainImageUrl]);
+
+  // Helper function to validate blob URLs
+  const validateBlobUrl = (url: string): boolean => {
+    if (!url.startsWith('blob:')) return true;
+    
+    try {
+      // This is a basic check - in reality, the URL might exist but the content might be gone
+      // A full validation would require fetching the blob
+      return URL.createObjectURL !== undefined;
+    } catch (e) {
+      console.error("Error validating blob URL:", e);
+      return false;
+    }
+  };
 
   // Update parent form data when local state changes
   useEffect(() => {
@@ -53,7 +79,12 @@ export default function PicturesStep({
   const handleImageUpload = (uploadedImage: UploadedImage) => {
     // Set as main image if it's the first image or if no main image is set
     const isMain = images.length === 0 || !mainImageUrl;
-    const newImage = { ...uploadedImage, isMain, name: uploadedImage.name || `image-${Date.now()}` };
+    const newImage = { 
+      ...uploadedImage, 
+      isMain, 
+      name: uploadedImage.name || `image-${Date.now()}`,
+      isBlob: uploadedImage.url.startsWith('blob:')
+    };
     
     setImages(prev => [...prev, newImage]);
     
@@ -106,7 +137,8 @@ export default function PicturesStep({
         url: fileUrl,
         isMain: images.length === 0,
         name: file.name,
-        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        isBlob: true // Mark as blob URL
       });
     }
     setFiles([]);

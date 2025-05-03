@@ -6,9 +6,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps & { isLoading?: boolean }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [validImages, setValidImages] = useState<string[]>([]);
   
   // Reset active image index when images change
   useEffect(() => {
+    // Filter out blob URLs which won't be valid across sessions
+    const filtered = (images || []).filter(url => 
+      typeof url === 'string' && 
+      url.trim() !== '' && 
+      !url.startsWith('blob:')
+    );
+    
+    setValidImages(filtered);
     setActiveImageIndex(0);
   }, [images]);
   
@@ -16,7 +25,7 @@ export function HotelGallery({ images, hotelName, isLoading }: HotelGalleryProps
   const fallbackImage = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070";
   
   // Use the provided images or fallback to a default one
-  const displayImages = images && images.length > 0 ? images : [fallbackImage];
+  const displayImages = validImages && validImages.length > 0 ? validImages : [fallbackImage];
 
   if (isLoading) {
     return (

@@ -5,6 +5,7 @@ export interface UploadedImage {
   url: string;
   isMain: boolean;
   id?: string;
+  isBlob?: boolean;
 }
 
 export const useImageSubmission = () => {
@@ -66,6 +67,15 @@ export const useImageSubmission = () => {
         return await handlePlaceholderImages(hotelId);
       }
       
+      // Filter out any blob URLs as they can't be persisted
+      const persistentImages = images.filter(image => !image.isBlob && !image.url.startsWith('blob:'));
+      
+      // If all images were blobs and we filtered them out, use placeholders
+      if (persistentImages.length === 0) {
+        console.warn("No persistent images found, using placeholders instead");
+        return await handlePlaceholderImages(hotelId);
+      }
+      
       // First, clean up any existing images
       const { error: deleteError } = await supabase
         .from('hotel_images')
@@ -76,7 +86,7 @@ export const useImageSubmission = () => {
         console.error("Error deleting existing images:", deleteError);
       }
       
-      const imageRows = images.map(image => ({
+      const imageRows = persistentImages.map(image => ({
         hotel_id: hotelId,
         image_url: image.url,
         is_main: image.isMain
@@ -94,17 +104,17 @@ export const useImageSubmission = () => {
       }
       
       // Find the main image and ensure it's set in the hotels table
-      const mainImage = images.find(img => img.isMain);
+      const mainImage = persistentImages.find(img => img.isMain);
       if (mainImage) {
         await supabase
           .from('hotels')
           .update({ main_image_url: mainImage.url })
           .eq('id', hotelId);
-      } else if (images.length > 0) {
+      } else if (persistentImages.length > 0) {
         // If no image marked as main, use the first one
         await supabase
           .from('hotels')
-          .update({ main_image_url: images[0].url })
+          .update({ main_image_url: persistentImages[0].url })
           .eq('id', hotelId);
       }
     } catch (error) {

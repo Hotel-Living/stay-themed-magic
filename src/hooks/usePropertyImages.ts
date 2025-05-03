@@ -10,11 +10,18 @@ export interface UploadedImage {
   id?: string;
   name?: string;
   uploaded?: boolean;
+  isBlob?: boolean; // Flag to identify blob URLs
 }
 
 export function usePropertyImages(initialImages: UploadedImage[] = []) {
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(initialImages);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(
+    // Process initial images to identify blob URLs
+    initialImages.map(img => ({
+      ...img,
+      isBlob: img.url.startsWith('blob:')
+    }))
+  );
   const [uploading, setUploading] = useState(false);
   const [mainImageIndex, setMainImageIndex] = useState<number>(
     initialImages.findIndex(img => img.isMain) !== -1 
@@ -29,13 +36,20 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
   useEffect(() => {
     if (initialImages && initialImages.length > 0) {
       console.log("usePropertyImages: initialImages updated", initialImages);
-      setUploadedImages(initialImages);
+      
+      // Process images to detect and flag blob URLs
+      const processedImages = initialImages.map(img => ({
+        ...img,
+        isBlob: img.url.startsWith('blob:')
+      }));
+      
+      setUploadedImages(processedImages);
       
       // Set main image index
-      const mainIndex = initialImages.findIndex(img => img.isMain);
+      const mainIndex = processedImages.findIndex(img => img.isMain);
       setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
     }
-  }, [initialImages]); // Use direct reference to initialImages instead of JSON.stringify
+  }, [initialImages]);
 
   const addFiles = useCallback((newFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...newFiles]);
@@ -55,13 +69,10 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       // Adjust main image index if a previous image was removed
       setMainImageIndex(prev => prev - 1);
     }
-    
-    // Removed toast message
   }, [mainImageIndex]);
 
   const uploadFiles = useCallback(async () => {
     if (files.length === 0) {
-      // Removed toast message about no files
       return;
     }
     
@@ -78,7 +89,8 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
         newUploadedImages.push({
           url: fileUrl,
           isMain: newUploadedImages.length === 0, // First image is main by default
-          id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+          id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          isBlob: true // Mark as blob URL
         });
       }
       
@@ -89,11 +101,8 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       if (mainImageIndex === -1 && newUploadedImages.length > 0) {
         setMainImageIndex(0);
       }
-      
-      // Removed toast message about successful upload
     } catch (error: any) {
       console.error("Error uploading files:", error);
-      // Removed toast message for upload failure
     } finally {
       setUploading(false);
     }

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AdminHotelDetail } from "@/types/hotel";
 
 interface ImageGalleryProps {
@@ -8,8 +8,17 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images, hotel }: ImageGalleryProps) {
-  // Ensure images is always an array
-  const validImages = Array.isArray(images) ? images.filter(img => img && img.image_url) : [];
+  // Filter out any blob URLs
+  const [validImages, setValidImages] = useState<typeof images>([]);
+  
+  useEffect(() => {
+    // Ensure images is always an array and filter out blob URLs
+    const filtered = Array.isArray(images) 
+      ? images.filter(img => img && img.image_url && !img.image_url.startsWith('blob:')) 
+      : [];
+    
+    setValidImages(filtered);
+  }, [images]);
   
   console.log("Processing hotel images:", validImages);
   
@@ -25,6 +34,10 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
                 src={hotel.main_image_url || validImages.find(img => img.is_main)?.image_url || validImages[0].image_url} 
                 alt={`${hotel.name} - Main`}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.error("Error loading main image:", e);
+                  // Could set a fallback image here
+                }}
               />
             </div>
           </div>
@@ -37,6 +50,10 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
                     src={image.image_url} 
                     alt={`${hotel.name} - ${index + 1}`}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error("Error loading image:", e);
+                      // Could hide this image or show a placeholder
+                    }}
                   />
                   {image.is_main && (
                     <div className="absolute top-1 right-1 bg-purple-700 text-white text-xs px-2 py-1 rounded">

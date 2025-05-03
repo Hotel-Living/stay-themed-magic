@@ -19,14 +19,16 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const [processedImages, setProcessedImages] = useState<HotelImage[]>([]);
   
+  // Filter out blob URLs and invalid images
   useEffect(() => {
     if (hotelImages && Array.isArray(hotelImages)) {
-      // Filter out invalid images (those without valid URLs)
+      // Filter out invalid images (those without valid URLs or blob URLs)
       const validImages = hotelImages.filter(img => 
         img && 
         img.image_url && 
         typeof img.image_url === 'string' &&
         img.image_url.trim() !== '' &&
+        !img.image_url.startsWith('blob:') && // Exclude blob URLs
         !failedImages.has(img.image_url)
       );
       setProcessedImages(validImages);
@@ -94,7 +96,7 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
               )}
             >
               <img 
-                src={image.image_url}
+                src={image.url || image.image_url}
                 alt={`${hotelName} thumbnail ${index + 1}`}
                 className="h-full w-full object-cover"
                 onError={() => handleImageError(image.image_url)}

@@ -26,7 +26,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
               <Badge 
                 key={feature} 
                 variant="outline"
-                className="bg-white/10 text-white hover:scale-105 transition-all duration-200"
+                className="bg-white text-[#761B98] hover:scale-105 transition-all duration-200"
               >
                 {formatFeatureName(feature)}
               </Badge>
@@ -43,7 +43,7 @@ export function HotelFeaturesInfo({ hotelFeatures, roomFeatures }: HotelFeatures
               <Badge 
                 key={feature}
                 variant="outline"
-                className="bg-white/10 text-white hover:scale-105 transition-all duration-200"
+                className="bg-white text-[#761B98] hover:scale-105 transition-all duration-200"
               >
                 {formatFeatureName(feature)}
               </Badge>

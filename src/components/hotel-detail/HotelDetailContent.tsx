@@ -28,20 +28,25 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   // Extract themes from hotel_themes for the header component
   const hotelThemes = hotel.themes || [];
   const hotelActivities = hotel.activities || [];
+
+  const lowercase = (text: string | null | undefined) => {
+    if (!text) return '';
+    return text.charAt(0).toLowerCase() + text.slice(1);
+  };
   
   // Format hotel highlights from the form data
   const hotelHighlights = [
     {
-      question: "This hotel is perfect for:",
-      answer: hotel.idealGuests || "Guests seeking a memorable stay."
+      question: "This hotel is perfect for",
+      answer: hotel.idealGuests ? lowercase(hotel.idealGuests) : "guests seeking a memorable stay."
     },
     {
-      question: "The atmosphere of this hotel is:",
-      answer: hotel.atmosphere || "Welcoming and comfortable."
+      question: "The atmosphere of this hotel is",
+      answer: hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable."
     },
     {
-      question: "Our location is perfect for:",
-      answer: hotel.perfectLocation || "Exploring the local area and attractions."
+      question: "Our location is perfect for",
+      answer: hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions."
     }
   ];
   
@@ -64,9 +69,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#761B98]">
+    <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
       <div className="container mx-auto px-4 py-8">
-        <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-black/60 backdrop-blur-sm text-white shadow-lg">
+        <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-[#761B98] text-white shadow-lg">
           {/* Header */}
           <div className="mb-6">
             <HotelHeader 
@@ -80,14 +85,31 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               hotelName={hotel.name} 
             />
 
-            <HotelThemesAndActivities 
-              stayLengths={stayDurations}
-              hotelThemes={hotelThemes}
-              hotelActivities={hotelActivities}
-            />
+            {/* Modified ThemesAndActivities to show the text differently */}
+            <div className="mt-4">
+              {hotelThemes.length > 0 && (
+                <p className="text-sm text-white mt-1">
+                  This is a welcoming place for guests with a passion for {hotelThemes.map(theme => theme.name).join(", ").replace(/, ([^,]*)$/, " and $1")}.
+                </p>
+              )}
+              
+              {hotelActivities.length > 0 && (
+                <p className="text-sm text-white mt-1">
+                  Guests can enjoy activities such as {hotelActivities.join(", ").replace(/, ([^,]*)$/, " and $1")} right from the hotel or nearby.
+                </p>
+              )}
+            </div>
             
-            {/* Highlights from Hotel Form */}
-            <HotelHighlights highlights={hotelHighlights} />
+            {/* Highlights from Hotel Form - updated to remove colons */}
+            <div className="mt-4 space-y-2">
+              {hotelHighlights.map((item, index) => (
+                item.answer ? (
+                  <p key={index} className="text-sm text-white">
+                    <strong className="text-white">{item.question}</strong> {item.answer}
+                  </p>
+                ) : null
+              ))}
+            </div>
           </div>
 
           {/* Calendar + Price */}

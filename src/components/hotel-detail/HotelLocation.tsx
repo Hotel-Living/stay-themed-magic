@@ -16,9 +16,9 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
   }
 
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="bg-[#AACAFE]/40 pb-4">
-        <CardTitle className="text-xl font-bold text-[#3300B0]">Location</CardTitle>
+    <Card className="overflow-hidden bg-[#761B98] border-white/20">
+      <CardHeader className="bg-white/10 pb-4">
+        <CardTitle className="text-xl font-bold text-white">Location</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="h-64 w-full">
@@ -33,8 +33,8 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
               title={`${hotelName} location`}
             ></iframe>
           ) : (
-            <div className="w-full h-full bg-[#AACAFE]/50 flex items-center justify-center">
-              <p className="text-center text-[#3300B0]">
+            <div className="w-full h-full bg-white/10 flex items-center justify-center">
+              <p className="text-center text-white">
                 Map display requires Google Maps API key.<br />
                 Location: {address || `${latitude}, ${longitude}`}
               </p>
@@ -43,9 +43,9 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
         </div>
         
         {address && (
-          <div className="p-4 border-t border-[#3300B0]/30">
-            <h3 className="text-sm font-medium mb-1 text-[#3300B0]">Address</h3>
-            <p className="text-[#3300B0]">{address}</p>
+          <div className="p-4 border-t border-white/20">
+            <h3 className="text-sm font-medium mb-1 text-white">Address</h3>
+            <p className="text-white">{address}</p>
           </div>
         )}
       </CardContent>

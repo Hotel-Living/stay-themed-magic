@@ -64,7 +64,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
+    <div className="relative min-h-screen overflow-hidden bg-[#761B98]">
       <div className="container mx-auto px-4 py-8">
         <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-black/60 backdrop-blur-sm text-white shadow-lg">
           {/* Header */}

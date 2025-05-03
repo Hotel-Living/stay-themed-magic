@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { AlertTriangle } from "lucide-react";
 
 interface HotelLocationProps {
   latitude: number;
@@ -21,10 +22,16 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
         setIsLoading(true);
         
         // Fetch from the edge function that securely provides the API key
-        const { data, error } = await supabase.functions.invoke('get-maps-key', {});
+        const { data, error } = await supabase.functions.invoke('get-maps-key');
         
         if (error) {
           console.error('Error fetching map key:', error);
+          // Try fallback from environment variable
+          const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+          if (envKey) {
+            setMapKey(envKey);
+            return;
+          }
           setError("Could not load map key");
           return;
         }
@@ -32,6 +39,12 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
         if (data && data.key) {
           setMapKey(data.key);
         } else {
+          // Try fallback from environment variable
+          const envKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+          if (envKey) {
+            setMapKey(envKey);
+            return;
+          }
           setError("No map key available");
         }
       } catch (err) {
@@ -81,7 +94,8 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
           )}
           
           {!isLoading && error && (
-            <div className="w-full h-full bg-white/10 flex items-center justify-center">
+            <div className="w-full h-full bg-white/10 flex flex-col items-center justify-center p-4">
+              <AlertTriangle className="h-10 w-10 text-red-500 mb-3" />
               <p className="text-center text-white">
                 {error}
                 <br />

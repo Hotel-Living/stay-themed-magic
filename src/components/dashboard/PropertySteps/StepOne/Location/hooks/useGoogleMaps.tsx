@@ -35,7 +35,7 @@ export const useGoogleMaps = () => {
           }
         } else {
           console.log('Edge function response:', data);
-          apiKey = data?.apiKey;
+          apiKey = data?.key;
           
           if (!apiKey) {
             console.error('No API key returned from edge function');
@@ -63,7 +63,7 @@ export const useGoogleMaps = () => {
         
         script.onerror = (e) => {
           console.error('Error loading Google Maps script:', e);
-          setError("Failed to load Google Maps. Please check your internet connection or API key.");
+          setError("Failed to load Google Maps. Please check your internet connection or API key configuration. Make sure the API key has the correct domain restrictions.");
           setIsLoading(false);
         };
         

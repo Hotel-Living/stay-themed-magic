@@ -1,15 +1,20 @@
 
+import React from 'react';
+import { AlertTriangle } from 'lucide-react';
+
 interface ErrorStateProps {
   error: string;
 }
 
-export const ErrorState = ({ error }: ErrorStateProps) => (
-  <div className="text-center p-4">
-    <div className="bg-red-100/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-      <span className="text-red-500 text-3xl">!</span>
+export const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full p-4 text-center">
+      <AlertTriangle className="h-12 w-12 text-red-500 mb-3" />
+      <h3 className="text-lg font-semibold text-red-400 mb-2">Google Maps Error</h3>
+      <p className="text-sm text-white/70">{error}</p>
+      <p className="mt-3 text-xs text-white/50">
+        Please check that your Google Maps API key is correctly configured with the appropriate domain restrictions.
+      </p>
     </div>
-    <h3 className="text-xl font-semibold mb-2">Oops! Something went wrong.</h3>
-    <p className="text-red-400">{error}</p>
-    <p className="text-sm text-white/60 mt-2">See the JavaScript console for technical details.</p>
-  </div>
-);
+  );
+};

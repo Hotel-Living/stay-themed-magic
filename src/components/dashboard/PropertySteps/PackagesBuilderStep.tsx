@@ -31,21 +31,55 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
     const roomTypes = formData.roomTypes || [];
     const stayDurations = formData.stayLengths || [];
     const mealPlans = formData.mealPlans || [];
-
-    if (!formData.pricingMatrix || formData.pricingMatrix.length === 0) {
-      if (roomTypes.length > 0 && stayDurations.length > 0 && mealPlans.length > 0) {
+    
+    // Only generate a new matrix if the necessary data is available and either:
+    // 1. No pricing matrix exists yet, or
+    // 2. The structure of dependencies has changed (different count of combinations)
+    if (roomTypes.length > 0 && stayDurations.length > 0 && mealPlans.length > 0) {
+      const currentMatrix = formData.pricingMatrix || [];
+      const expectedCount = roomTypes.length * stayDurations.length * mealPlans.length;
+      
+      // Check if we need to regenerate the matrix
+      const structureMismatch = currentMatrix.length !== expectedCount;
+      
+      // Check if we need to regenerate because room types, durations or meal plans changed
+      const needsRegeneration = structureMismatch || 
+        !currentMatrix.every((row: PricingRow) => 
+          roomTypes.some((room: any) => (room.name || room.type) === row.roomType) && 
+          stayDurations.includes(row.stayDuration) && 
+          mealPlans.includes(row.mealPlan)
+        );
+      
+      if (!currentMatrix.length || needsRegeneration) {
+        console.log("Regenerating pricing matrix due to structure changes");
+        
         const matrix: PricingRow[] = [];
+        const existingPrices: Record<string, any> = {};
+        
+        // Create a map of existing prices to preserve them when regenerating
+        if (currentMatrix.length > 0) {
+          currentMatrix.forEach((row: PricingRow) => {
+            const key = `${row.roomType}-${row.stayDuration}-${row.mealPlan}-${row.laundryIncluded}`;
+            existingPrices[key] = row.price;
+          });
+        }
 
         roomTypes.forEach((room: any) => {
           stayDurations.forEach(duration => {
             mealPlans.forEach(plan => {
+              const roomType = room.name || room.type;
+              const key = `${roomType}-${duration}-${plan}-false`;
+              
+              // Try to preserve existing price if available
+              const existingPrice = existingPrices[key] !== undefined ? existingPrices[key] : "";
+              
               matrix.push({
                 id: uuidv4(),
-                roomType: room.name || room.type,
+                roomType: roomType,
                 stayDuration: duration,
                 mealPlan: plan,
                 laundryIncluded: false,
-                price: ""
+                price: existingPrice
               });
             });
           });

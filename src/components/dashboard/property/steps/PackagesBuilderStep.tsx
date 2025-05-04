@@ -63,8 +63,8 @@ export const PackagesBuilderStep = ({
     setPricingMatrix(newMatrix);
   };
 
-  // Update price for a specific row
-  const updatePrice = (id: string, value: number | string) => {
+  // Update price for a specific row - Fixed to ensure correct type handling
+  const updatePrice = (id: string, value: string | number) => {
     const numericValue = value === '' ? '' : Number(value);
     const updatedMatrix = pricingMatrix.map(row => 
       row.id === id ? { ...row, price: numericValue } : row

@@ -6,6 +6,7 @@ import { validateAccommodationTerms, formatMonths } from "./AccommodationTerms/u
 import { useAvailabilityDates } from "./AccommodationTerms/hooks/useAvailabilityDates";
 import { weekdays } from "@/utils/constants";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
+import AvailabilitySection from "./AccommodationTerms/AvailabilitySection";
 
 export interface AccommodationTermsStepProps {
   formData: any;
@@ -58,7 +59,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     );
     
     onValidationChange(isValid);
-  }, [stayDurations, checkinDay, mealPlans, formData.available_months, formData.roomTypes]);
+  }, [stayDurations, checkinDay, mealPlans, formData.available_months, formData.roomTypes, updateFormData, onValidationChange]);
 
   const toggleDuration = (duration: number) => {
     setStayDurations(prev => 
@@ -144,25 +145,19 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         </div>
       </Card>
 
-      {/* Available Months Section */}
+      {/* Available Months Section - Full functionality */}
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">Available Months</h3>
         <p className="text-sm text-gray-300 mb-4">Select the months when your hotel is available:</p>
-        <div className="flex flex-wrap gap-3">
-          {getCurrentMonthsArray().map(month => (
-            <button
-              key={month}
-              onClick={() => handleMonthToggle(month, !selectedMonths[month])}
-              className={`px-4 py-2 rounded-full text-sm ${
-                selectedMonths[month]
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-fuchsia-900/30 text-gray-300"
-              }`}
-            >
-              {month}
-            </button>
-          ))}
-        </div>
+        <AvailabilitySection 
+          formData={formData}
+          updateFormData={updateFormData}
+          onValidationChange={(valid) => {
+            if (!valid) {
+              onValidationChange(false);
+            }
+          }}
+        />
         {showErrors && 
           (!formData.available_months || formData.available_months.length === 0) && (
           <p className="text-red-400 text-sm mt-2">Please select at least one month</p>

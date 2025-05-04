@@ -46,12 +46,11 @@ export default function AvailabilitySection({
   }, [selectedMonths, onValidationChange]);
 
   return (
-    <div className="grid grid-cols-4 items-start gap-4">
-      <Label className="text-right text-sm text-white">AVAILABILITY DATES</Label>
-      <div className="col-span-3">
-        <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
+    <div className="grid grid-cols-1 gap-4">
+      <div>
+        <div className="bg-fuchsia-950/50 border border-white/10 rounded-lg p-4 text-white">
           <p className="text-sm mb-3">
-            Select full months or specific check-in dates
+            Select the months your hotel is available:
           </p>
           <div className="space-y-2">
             {months.map((month) => (

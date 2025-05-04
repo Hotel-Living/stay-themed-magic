@@ -64,12 +64,13 @@ export const PackagesBuilderStep = ({
     updateFormData('pricingMatrix', newMatrix);
   };
 
-  // Update price for a specific row - Fixed for strict type enforcement
+  // Update price for a specific row - With explicit type annotations for strict type enforcement
   const updatePrice = (id: string, value: string) => {
-    // Ensure the conversion happens properly - empty string or number only
-    const parsedValue = value === '' ? '' : Number(value);
+    // Use explicit type annotation to ensure correct typing
+    const parsedValue: number | "" = value === "" ? "" : Number(value);
     
-    const updatedMatrix = pricingMatrix.map(row => 
+    // Create an explicitly typed updated matrix
+    const updatedMatrix: PricingRow[] = pricingMatrix.map(row => 
       row.id === id ? { ...row, price: parsedValue } : row
     );
     
@@ -94,7 +95,7 @@ export const PackagesBuilderStep = ({
 
   // Apply the same price to all rows
   const applyBulkPrice = (price: number) => {
-    const updatedMatrix = pricingMatrix.map(row => ({
+    const updatedMatrix: PricingRow[] = pricingMatrix.map(row => ({
       ...row,
       price: price
     }));
@@ -143,8 +144,8 @@ export const PackagesBuilderStep = ({
             </tr>
           </thead>
           <tbody>
-            {pricingMatrix.map((row, index) => (
-              <tr key={row.id} className={index % 2 === 0 ? "bg-fuchsia-950/20" : ""}>
+            {pricingMatrix.map((row) => (
+              <tr key={row.id} className={row.id.charCodeAt(0) % 2 === 0 ? "bg-fuchsia-950/20" : ""}>
                 <td className="border px-4 py-2">{row.roomType}</td>
                 <td className="border px-4 py-2">{row.stayDuration}</td>
                 <td className="border px-4 py-2">{row.mealPlan}</td>

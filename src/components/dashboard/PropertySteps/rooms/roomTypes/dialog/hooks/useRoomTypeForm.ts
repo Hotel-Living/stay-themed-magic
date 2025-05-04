@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { PREDEFINED_ROOM_TYPES } from "../../constants";
 import { useRoomTypeImages } from "./useRoomTypeImages";
-import { useRoomTypeRates } from "./useRoomTypeRates";
 import { useRoomTypeDetails } from "./useRoomTypeDetails";
 
 interface UseRoomTypeFormProps {
@@ -50,31 +49,6 @@ export function useRoomTypeForm({
     }
   }, [editingRoomType, setRoomImagePreviews]);
 
-  const {
-    rates,
-    stayLengths,
-    handleRateChange,
-    setRates
-  } = useRoomTypeRates(availableStayLengths);
-  
-  // Load existing rates when editing
-  useEffect(() => {
-    if (editingRoomType && editingRoomType.rates) {
-      console.log("Loading existing rates from editingRoomType:", editingRoomType.rates);
-      
-      // Convert string keys to number keys if needed
-      const numericRates: Record<number, number> = {};
-      Object.entries(editingRoomType.rates).forEach(([key, value]) => {
-        const numKey = parseInt(key, 10);
-        if (!isNaN(numKey)) {
-          numericRates[numKey] = typeof value === 'string' ? parseFloat(value) : Number(value);
-        }
-      });
-      
-      setRates(numericRates);
-    }
-  }, [editingRoomType, setRates]);
-
   const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
   
   // Load existing availability dates when editing
@@ -100,7 +74,6 @@ export function useRoomTypeForm({
         description,
         baseRate: 0,
         roomCount,
-        rates,
         images: roomImagePreviews,
         availabilityDates,
         preferredWeekday
@@ -112,8 +85,6 @@ export function useRoomTypeForm({
     formState: {
       selectedRoomType,
       description,
-      rates,
-      stayLengths,
       roomImages,
       roomImagePreviews,
       roomCount,
@@ -127,7 +98,6 @@ export function useRoomTypeForm({
     },
     handleImageUpload,
     removeImage,
-    handleRateChange,
     handleAvailabilityChange,
     handleAddRoomType,
     dialogTitle: isEditing ? "Edit Room Type" : "Add New Room Type"

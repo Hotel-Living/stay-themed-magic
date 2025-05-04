@@ -4,7 +4,6 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import RoomTypeSelector from "./roomTypes/dialog/RoomTypeSelector";
 import RoomImageSection from "./roomTypes/dialog/RoomImageSection";
-import RatesSection from "./roomTypes/dialog/sections/RatesSection";
 import AvailabilitySection from "./roomTypes/dialog/sections/AvailabilitySection";
 import RoomCountSection from "./roomTypes/dialog/sections/RoomCountSection";
 import RoomDetailsForm from "./roomTypes/dialog/RoomDetailsForm";
@@ -42,8 +41,6 @@ export default function RoomTypeDialog({
     setters,
     handleImageUpload,
     removeImage,
-    handleRateChange,
-    handleAvailabilityChange,
     handleAddRoomType,
     dialogTitle
   } = useRoomTypeForm({ 
@@ -91,12 +88,6 @@ export default function RoomTypeDialog({
                 roomImagePreviews={formState.roomImagePreviews}
                 onImageUpload={handleImageUpload}
                 onRemoveImage={removeImage}
-              />
-              
-              <RatesSection
-                stayLengths={formState.stayLengths}
-                rates={formState.rates}
-                onRateChange={handleRateChange}
               />
               
               <RoomCountSection 

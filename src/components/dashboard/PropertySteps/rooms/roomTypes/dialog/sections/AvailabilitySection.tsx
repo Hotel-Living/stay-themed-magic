@@ -6,9 +6,7 @@ import { Label } from "@/components/ui/label";
 // This empty component is kept temporarily to avoid breaking imports, but should be removed in a future cleanup
 
 interface AvailabilitySectionProps {
-  preferredWeekday: string;
-  onAvailabilityChange: (dates: string[]) => void;
-  selectedDates: string[];
+  // Removed all props as this component is now deprecated
 }
 
 export default function AvailabilitySection() {

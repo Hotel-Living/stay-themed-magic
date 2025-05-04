@@ -104,11 +104,7 @@ export default function RoomTypeDialog({
                 onChange={setters.setRoomCount}
               />
               
-              <AvailabilitySection 
-                preferredWeekday={preferredWeekday}
-                onAvailabilityChange={handleAvailabilityChange}
-                selectedDates={formState.availabilityDates}
-              />
+              <AvailabilitySection />
             </>
           )}
         </div>

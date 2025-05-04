@@ -16,7 +16,6 @@ interface RoomTypeDialogProps {
   onSave: (roomType: any) => void;
   initialData?: any;
   stayLengths?: number[];
-  preferredWeekday?: string;
 }
 
 export default function RoomTypeDialog({
@@ -25,24 +24,20 @@ export default function RoomTypeDialog({
   onSave,
   initialData = {},
   stayLengths = [],
-  preferredWeekday = "Monday"
 }: RoomTypeDialogProps) {
   const { toast } = useToast();
-  const [selectedType, setSelectedType] = useState<string>(initialData.type || "");
+  const [selectedRoomType, setSelectedRoomType] = useState<string>(initialData.type || "");
   const [roomCount, setRoomCount] = useState<number>(initialData.roomCount || 1);
-  const [bedCount, setBedCount] = useState<number>(initialData.bedCount || 1);
-  const [guestCount, setGuestCount] = useState<number>(initialData.guestCount || 1);
   const [description, setDescription] = useState<string>(initialData.description || "");
   const [images, setImages] = useState<string[]>(initialData.images || []);
   const [rates, setRates] = useState<Record<number, number>>(initialData.rates || {});
   
-  // No longer need these for availability
-  // const [availabilityDates, setAvailabilityDates] = useState<string[]>(initialData.availabilityDates || []);
+  // No longer need availability dates
   
   const isEditing = !!initialData.id;
 
   const handleSave = () => {
-    if (!selectedType) {
+    if (!selectedRoomType) {
       toast({
         title: "Error",
         description: "Please select a room type",
@@ -62,15 +57,11 @@ export default function RoomTypeDialog({
 
     const roomTypeData = {
       id: initialData.id || uuidv4(),
-      type: selectedType,
+      type: selectedRoomType,
       roomCount,
-      bedCount,
-      guestCount,
       description,
       images,
       rates,
-      // The availability dates are no longer stored at the room level
-      // availabilityDates,
       createdAt: initialData.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -88,36 +79,48 @@ export default function RoomTypeDialog({
         
         <div className="space-y-6">
           <RoomTypeSelector
-            selectedType={selectedType}
-            onTypeSelect={setSelectedType}
+            selectedRoomType={selectedRoomType}
+            onRoomTypeChange={setSelectedRoomType}
           />
           
-          <RoomDetailsForm
-            description={description}
-            onDescriptionChange={setDescription}
-          />
+          <div className="space-y-3">
+            <label className="text-white text-sm">Description</label>
+            <textarea 
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-[#850390] text-white border-white rounded p-2 text-sm h-20"
+              rows={2}
+              placeholder="Describe this room type"
+            />
+          </div>
           
           <RoomCountSection 
             roomCount={roomCount}
-            bedCount={bedCount}
-            guestCount={guestCount}
-            onRoomCountChange={setRoomCount}
-            onBedCountChange={setBedCount}
-            onGuestCountChange={setGuestCount}
+            onChange={setRoomCount}
           />
           
           <RoomImageSection
-            images={images}
-            onImagesChange={setImages}
+            roomImages={[]}
+            roomImagePreviews={images}
+            onImageUpload={(e) => {
+              // Handle image upload
+              console.log("Image upload handled externally");
+            }}
+            onRemoveImage={(index) => {
+              setImages(prev => prev.filter((_, i) => i !== index));
+            }}
           />
           
           <RatesSection
-            rates={rates}
-            onRatesChange={setRates}
             stayLengths={stayLengths}
+            rates={rates}
+            onRateChange={(duration, value) => {
+              setRates(prev => ({
+                ...prev,
+                [duration]: Number(value) || 0
+              }));
+            }}
           />
-          
-          {/* Removed the AvailabilitySection component since it's now in Step 3 */}
           
           <div className="flex justify-end gap-2 pt-4">
             <Button

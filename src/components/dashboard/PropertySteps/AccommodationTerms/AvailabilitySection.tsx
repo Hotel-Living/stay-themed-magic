@@ -28,13 +28,34 @@ export default function AvailabilitySection({
   // Get the preferred weekday from formData, default to Monday if not set
   const preferredWeekday = formData?.preferredWeekday || "Monday";
   
+  // Handle availability changes
+  const handleAvailabilityChange = (dates: string[]) => {
+    if (updateFormData) {
+      updateFormData('availableDates', dates);
+      
+      // Also update the available_months field for backward compatibility
+      const months = dates.map(date => {
+        try {
+          const monthName = format(new Date(date), 'MMMM').toLowerCase();
+          return monthName;
+        } catch (e) {
+          return '';
+        }
+      }).filter(Boolean);
+      
+      // Remove duplicates
+      const uniqueMonths = [...new Set(months)];
+      updateFormData('available_months', uniqueMonths);
+    }
+  };
+  
   // Notify parent component about validation state
   React.useEffect(() => {
-    const hasSelectedMonths = Object.values(selectedMonths).some(isSelected => isSelected);
+    const hasSelectedDates = formData?.availableDates?.length > 0;
     if (onValidationChange) {
-      onValidationChange(hasSelectedMonths);
+      onValidationChange(hasSelectedDates);
     }
-  }, [selectedMonths, onValidationChange]);
+  }, [formData?.availableDates, onValidationChange]);
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -43,26 +64,11 @@ export default function AvailabilitySection({
           <p className="text-sm mb-3">
             Select the months your hotel is available:
           </p>
-          {/* Use the migrated AvailabilityDateSection component here */}
+          {/* Pass all required props to AvailabilityDateSection */}
           <AvailabilityDateSection 
             preferredWeekday={preferredWeekday}
-            onAvailabilityChange={(dates) => {
-              if (updateFormData) {
-                const months = dates.map(date => {
-                  try {
-                    const monthName = format(new Date(date), 'MMMM').toLowerCase();
-                    return monthName;
-                  } catch (e) {
-                    return '';
-                  }
-                }).filter(Boolean);
-                
-                // Remove duplicates
-                const uniqueMonths = [...new Set(months)];
-                updateFormData('available_months', uniqueMonths);
-              }
-            }}
-            selectedDates={formData?.availabilityDates || []}
+            onAvailabilityChange={handleAvailabilityChange}
+            selectedDates={formData?.availableDates || []}
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { validateAccommodationTerms, formatMonths } from "./AccommodationTerms/utils/validation";
 import { useAvailabilityDates } from "./AccommodationTerms/hooks/useAvailabilityDates";
 import { weekdays } from "@/utils/constants";
+import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 
 export interface AccommodationTermsStepProps {
   formData: any;
@@ -82,6 +83,16 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       "September", "October", "November", "December"
     ];
     return months;
+  };
+
+  const handleRoomTypesValidation = (isValid: boolean) => {
+    // This will be called from the RoomTypeSection component
+    onValidationChange(
+      isValid && 
+      stayDurations.length > 0 && 
+      mealPlans.length > 0 && 
+      (formData.available_months?.length > 0)
+    );
   };
 
   return (
@@ -179,6 +190,22 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         </div>
         {showErrors && mealPlans.length === 0 && (
           <p className="text-red-400 text-sm mt-2">Please select at least one meal plan</p>
+        )}
+      </Card>
+
+      {/* Room Types Section */}
+      <Card className="p-4 bg-fuchsia-950/30">
+        <h3 className="font-medium mb-3">Room Types</h3>
+        <p className="text-sm text-gray-300 mb-4">Define your room types with photos and availability:</p>
+        <RoomTypeSection 
+          onValidationChange={handleRoomTypesValidation} 
+          formData={formData} 
+          updateFormData={updateFormData} 
+          fullWidth={true}
+          showHeader={false}
+        />
+        {showErrors && (!formData.roomTypes || formData.roomTypes.length === 0) && (
+          <p className="text-red-400 text-sm mt-2">Please add at least one room type</p>
         )}
       </Card>
 

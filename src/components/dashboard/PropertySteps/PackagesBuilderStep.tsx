@@ -28,35 +28,34 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    // If pricing matrix doesn't exist yet, create it based on other form data
-    if (!formData.pricingMatrix && !initialized && formData.roomTypes?.length > 0) {
-      const matrix: PricingRow[] = [];
-      
-      // Get all combinations of room types, stay durations and meal plans
-      const roomTypes = formData.roomTypes || [];
-      const stayDurations = formData.stayLengths || [8, 16, 24, 32];
-      const mealPlans = formData.mealPlans || ["breakfast", "halfBoard", "fullBoard", "allInclusive"];
-      
-      // Generate all combinations
-      roomTypes.forEach((room: any) => {
-        stayDurations.forEach(duration => {
-          mealPlans.forEach(plan => {
-            matrix.push({
-              id: uuidv4(),
-              roomType: room.name || room.type,
-              stayDuration: duration,
-              mealPlan: plan,
-              laundryIncluded: false,
-              price: ""
+    const roomTypes = formData.roomTypes || [];
+    const stayDurations = formData.stayLengths || [];
+    const mealPlans = formData.mealPlans || [];
+
+    if (!formData.pricingMatrix || formData.pricingMatrix.length === 0) {
+      if (roomTypes.length > 0 && stayDurations.length > 0 && mealPlans.length > 0) {
+        const matrix: PricingRow[] = [];
+
+        roomTypes.forEach((room: any) => {
+          stayDurations.forEach(duration => {
+            mealPlans.forEach(plan => {
+              matrix.push({
+                id: uuidv4(),
+                roomType: room.name || room.type,
+                stayDuration: duration,
+                mealPlan: plan,
+                laundryIncluded: false,
+                price: ""
+              });
             });
           });
         });
-      });
-      
-      updateFormData("pricingMatrix", matrix);
-      setInitialized(true);
+
+        updateFormData("pricingMatrix", matrix);
+        setInitialized(true);
+      }
     }
-  }, [formData, initialized, updateFormData]);
+  }, [formData.roomTypes, formData.stayLengths, formData.mealPlans, formData.pricingMatrix, updateFormData]);
 
   // Update price in the matrix
   const updatePrice = (id: string, value: string) => {

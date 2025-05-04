@@ -64,12 +64,13 @@ export const PackagesBuilderStep = ({
     updateFormData('pricingMatrix', newMatrix);
   };
 
-  // Update price for a specific row - Corrected to ensure strict typing
+  // Update price for a specific row - Fixed for strict type enforcement
   const updatePrice = (id: string, value: string) => {
-    const converted = value === '' ? '' : Number(value);
+    // Ensure the conversion happens properly - empty string or number only
+    const parsedValue = value === '' ? '' : Number(value);
     
     const updatedMatrix = pricingMatrix.map(row => 
-      row.id === id ? { ...row, price: converted } : row
+      row.id === id ? { ...row, price: parsedValue } : row
     );
     
     setPricingMatrix(updatedMatrix);

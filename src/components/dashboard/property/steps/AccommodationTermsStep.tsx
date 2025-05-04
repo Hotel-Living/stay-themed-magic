@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import { PropertyFormData } from "../hooks/usePropertyFormData";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useAccommodationOptions } from "../PropertySteps/AccommodationTerms/hooks/useAccommodationOptions";
-import { useAccommodationTerms } from "../PropertySteps/AccommodationTerms/hooks/useAccommodationTerms";
-import { format, parse } from "date-fns";
 
 interface AccommodationTermsStepProps {
   formData: PropertyFormData;
@@ -18,9 +15,6 @@ export const AccommodationTermsStep = ({
   updateFormData,
   onValidationChange = () => {}
 }: AccommodationTermsStepProps) => {
-  // Accommodation options
-  const { stayLengthOptions, mealPlanOptions } = useAccommodationOptions();
-  
   // Local state
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>(formData.stayLengths || []);
   const [selectedMealPlans, setSelectedMealPlans] = useState<string[]>(formData.mealPlans || []);
@@ -36,6 +30,22 @@ export const AccommodationTermsStep = ({
 
   // Weekday options
   const weekdayOptions = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Stay duration options
+  const stayLengthOptions = [
+    { value: 8, label: '8 nights' },
+    { value: 16, label: '16 nights' },
+    { value: 24, label: '24 nights' },
+    { value: 32, label: '32 nights' }
+  ];
+
+  // Meal plan options
+  const mealPlanOptions = [
+    { value: 'breakfast', label: 'Breakfast' },
+    { value: 'halfBoard', label: 'Half Board' },
+    { value: 'fullBoard', label: 'Full Board' },
+    { value: 'allInclusive', label: 'All Inclusive' }
+  ];
 
   useEffect(() => {
     // Update local state from formData

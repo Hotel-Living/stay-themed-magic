@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { PropertyFormData } from "../hooks/usePropertyFormData";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DirectThemes } from "../PropertySteps/themes/DirectThemes";
-import { ActivitiesSection } from "../PropertySteps/activities/ActivitiesSection";
-import { FeaturesList } from "../PropertySteps/features/FeaturesList";
+import { DirectThemes } from "../components/DirectThemes";
+import { ActivitiesSection } from "../components/ActivitiesSection";
+import { FeaturesList } from "../components/FeaturesList";
 
 interface GeneralInformationStep2Props {
   formData: PropertyFormData;

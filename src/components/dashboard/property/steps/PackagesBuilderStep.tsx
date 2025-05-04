@@ -1,16 +1,8 @@
 
 import React, { useEffect, useState } from "react";
-import { PropertyFormData } from "../hooks/usePropertyFormData";
+import { PropertyFormData, PricingRow } from "../hooks/usePropertyFormData";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-interface PricingRow {
-  id: string;
-  roomType: string;
-  stayDuration: number;
-  mealPlan: string;
-  price: number | '';
-}
 
 interface PackagesBuilderStepProps {
   formData: PropertyFormData;

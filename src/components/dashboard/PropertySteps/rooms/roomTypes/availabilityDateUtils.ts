@@ -2,6 +2,51 @@
 import { format } from 'date-fns';
 
 /**
+ * Map day names to day numbers (0-6)
+ */
+export const weekdayMap: Record<string, number> = {
+  "Sunday": 0,
+  "Monday": 1,
+  "Tuesday": 2,
+  "Wednesday": 3,
+  "Thursday": 4,
+  "Friday": 5,
+  "Saturday": 6,
+};
+
+/**
+ * Get all available dates for a specific weekday in a given month
+ */
+export const getAvailableDatesForMonth = (month: Date, preferredDayNum: number): Date[] => {
+  const dates: Date[] = [];
+  const year = month.getFullYear();
+  const monthIndex = month.getMonth();
+  const firstDay = new Date(year, monthIndex, 1);
+  
+  // Find the first occurrence of the preferred day in the month
+  let currentDay = new Date(firstDay);
+  while (currentDay.getDay() !== preferredDayNum) {
+    currentDay.setDate(currentDay.getDate() + 1);
+  }
+  
+  // Add all occurrences of the preferred day in the month
+  while (currentDay.getMonth() === monthIndex) {
+    dates.push(new Date(currentDay));
+    currentDay.setDate(currentDay.getDate() + 7);
+  }
+  
+  return dates;
+};
+
+/**
+ * Get the month name from a month index
+ */
+export const getMonthName = (monthIndex: number): string => {
+  const date = new Date(2023, monthIndex, 1);
+  return format(date, 'MMMM');
+};
+
+/**
  * Converts an array of date strings to an array of month names
  */
 export const datesToMonthNames = (dates: string[]): string[] => {

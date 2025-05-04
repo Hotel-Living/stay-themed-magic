@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { v4 as uuidv4 } from "uuid";
 
 export type PricingRow = {

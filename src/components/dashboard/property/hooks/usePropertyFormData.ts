@@ -2,14 +2,6 @@
 import { useState } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 
-export interface PricingRow {
-  id: string;
-  roomType: string;
-  stayDuration: number;
-  mealPlan: string;
-  price: number | '';
-}
-
 export interface PropertyFormData {
   hotelName: string;
   propertyType: string;
@@ -39,18 +31,17 @@ export interface PropertyFormData {
   preferredWeekday?: string;
   featuresHotel?: Record<string, boolean>;  
   featuresRoom?: Record<string, boolean>;
-  available_months?: string[]; 
-  price_8?: number; 
-  price_16?: number; 
-  price_24?: number; 
-  price_32?: number; 
-  rates?: Record<string, number>; 
-  currency?: string; 
-  enablePriceIncrease?: boolean; 
-  priceIncreaseCap?: number; 
-  latitude?: number | string; 
-  longitude?: number | string;
-  pricingMatrix?: PricingRow[]; // Added pricingMatrix property
+  available_months?: string[]; // Added available_months to match database schema
+  price_8?: number; // Price for 8-day stay
+  price_16?: number; // Price for 16-day stay
+  price_24?: number; // Price for 24-day stay
+  price_32?: number; // Price for 32-day stay
+  rates?: Record<string, number>; // For storing all rates together
+  currency?: string; // Added to store currency information
+  enablePriceIncrease?: boolean; // Added for dynamic pricing setting
+  priceIncreaseCap?: number; // Added for dynamic pricing max percentage
+  latitude?: number | string; // Add latitude for map location
+  longitude?: number | string; // Add longitude for map location
 }
 
 export const usePropertyFormData = () => {
@@ -81,7 +72,7 @@ export const usePropertyFormData = () => {
     preferredWeekday: "Monday",
     featuresHotel: {},
     featuresRoom: {},
-    available_months: [], 
+    available_months: [], // Initialize available_months as empty array
     price_8: 0,
     price_16: 0,
     price_24: 0,
@@ -91,8 +82,7 @@ export const usePropertyFormData = () => {
     enablePriceIncrease: false,
     priceIncreaseCap: 20,
     latitude: undefined,
-    longitude: undefined,
-    pricingMatrix: [] // Initialize with empty array
+    longitude: undefined
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

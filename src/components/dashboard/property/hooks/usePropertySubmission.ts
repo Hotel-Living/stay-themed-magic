@@ -1,3 +1,4 @@
+
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useHotelSubmission } from "./submission/useHotelSubmission";
@@ -70,27 +71,6 @@ export const usePropertySubmission = ({
         variant: "destructive"
       });
       return;
-    }
-
-    // Check if pricing matrix is complete
-    if (formData.pricingMatrix?.length) {
-      const allPricesComplete = formData.pricingMatrix.every(
-        (row: any) =>
-          row.price !== null &&
-          row.price !== undefined &&
-          row.price !== '' &&
-          !isNaN(Number(row.price))
-      );
-      
-      if (!allPricesComplete) {
-        toast({
-          title: "Incomplete Price Table",
-          description: "Please complete all prices in the pricing table before submitting.",
-          variant: "destructive"
-        });
-        setCurrentStep(4); // Navigate to pricing step
-        return;
-      }
     }
 
     setIsSubmitted(true);

@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse } from "date-fns";
 import { handleSupabaseError } from "@/utils/errorHandling";
@@ -56,52 +55,12 @@ export const useRelatedDataSubmission = () => {
           console.warn("Error deleting existing activities, will try to insert anyway:", deleteActError);
         }
   
-        // First, ensure we have all activity IDs from the database
-        const { data: activityData, error: activityLookupError } = await supabase
-          .from('activities')
-          .select('id, name')
-          .in('name', activities);
-          
-        if (activityLookupError) {
-          console.warn("Error looking up activities, will try to create new ones:", activityLookupError);
-        }
-        
-        // Create a mapping of activity names to IDs
-        const activityMap = new Map();
-        if (activityData) {
-          activityData.forEach(activity => {
-            activityMap.set(activity.name, activity.id);
-          });
-        }
-        
-        // For any activities that don't exist yet, create them
-        const missingActivities = activities.filter(name => !activityMap.has(name));
-        
-        if (missingActivities.length > 0) {
-          const newActivitiesRows = missingActivities.map(name => ({
-            name: name
-          }));
-          
-          const { data: newActivitiesData, error: createError } = await supabase
-            .from('activities')
-            .insert(newActivitiesRows)
-            .select('id, name');
-            
-          if (createError) {
-            console.warn("Error creating new activities:", createError);
-          } else if (newActivitiesData) {
-            // Add new activities to our map
-            newActivitiesData.forEach(activity => {
-              activityMap.set(activity.name, activity.id);
-            });
-          }
-        }
-        
-        // Now create hotel_activities records using the correct activity IDs
-        const activityRows = activities.map(activityName => ({
+        // Activities are now directly provided as IDs, no need to fetch or create
+        // Simply insert them into the hotel_activities table
+        const activityRows = activities.map(activityId => ({
           hotel_id: hotelId,
-          activity_id: activityMap.get(activityName)
-        })).filter(row => row.activity_id); // Filter out any undefined activity IDs
+          activity_id: activityId
+        }));
         
         if (activityRows.length > 0) {
           const { data, error } = await supabase
@@ -113,7 +72,7 @@ export const useRelatedDataSubmission = () => {
             console.error("Error inserting activities:", error);
             handleSupabaseError(error, "Failed to add hotel activities");
           } else {
-            console.log("Successfully inserted activities:", data?.length || 0);
+            console.log("Successfully inserted activities:", data?.length || 0, activityRows);
           }
         }
       } catch (error) {

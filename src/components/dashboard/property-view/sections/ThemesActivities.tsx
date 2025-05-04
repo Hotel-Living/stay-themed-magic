@@ -1,7 +1,13 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Hotel } from "@/integrations/supabase/types-custom";
+import { supabase } from "@/integrations/supabase/client";
+
+interface ActivityData {
+  id: string;
+  name: string;
+}
 
 interface ThemesActivitiesProps {
   hotel: Hotel;
@@ -10,6 +16,40 @@ interface ThemesActivitiesProps {
 export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
   const hotelThemes = hotel.hotel_themes || [];
   const hotelActivities = hotel.hotel_activities || [];
+  
+  const [activitiesData, setActivitiesData] = useState<Record<string, string>>({});
+  
+  // Fetch activity names
+  useEffect(() => {
+    const fetchActivitiesData = async () => {
+      if (hotelActivities.length === 0) return;
+      
+      const activityIds = hotelActivities.map(activity => activity.activity_id);
+      
+      try {
+        const { data, error } = await supabase
+          .from('activities')
+          .select('id, name')
+          .in('id', activityIds);
+          
+        if (error) {
+          console.error("Error fetching activities data:", error);
+          return;
+        }
+        
+        const activitiesMap: Record<string, string> = {};
+        data.forEach((activity: ActivityData) => {
+          activitiesMap[activity.id] = activity.name;
+        });
+        
+        setActivitiesData(activitiesMap);
+      } catch (error) {
+        console.error("Error in fetchActivitiesData:", error);
+      }
+    };
+    
+    fetchActivitiesData();
+  }, [hotelActivities]);
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -34,7 +74,7 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
           {hotelActivities.length > 0 ? (
             hotelActivities.map((activity) => (
               <span key={activity.activity_id} className="px-3 py-1 bg-[#AACAFE]/70 rounded-full text-sm text-[#3300B0]">
-                {activity.activities?.name || "Unknown Activity"}
+                {activitiesData[activity.activity_id] || activity.activities?.name || "Unknown Activity"}
               </span>
             ))
           ) : (

@@ -61,13 +61,15 @@ export const PackagesBuilderStep = ({
     });
     
     setPricingMatrix(newMatrix);
+    updateFormData('pricingMatrix', newMatrix);
   };
 
-  // Update price for a specific row - Fixed to ensure correct type handling
-  const updatePrice = (id: string, value: string | number) => {
-    const numericValue = value === '' ? '' : Number(value);
+  // Update price for a specific row - Corrected to ensure strict typing
+  const updatePrice = (id: string, value: string) => {
+    const converted = value === '' ? '' : Number(value);
+    
     const updatedMatrix = pricingMatrix.map(row => 
-      row.id === id ? { ...row, price: numericValue } : row
+      row.id === id ? { ...row, price: converted } : row
     );
     
     setPricingMatrix(updatedMatrix);

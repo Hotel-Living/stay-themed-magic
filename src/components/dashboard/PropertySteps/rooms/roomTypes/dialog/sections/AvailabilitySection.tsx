@@ -1,7 +1,9 @@
 
 import React from "react";
 import { Label } from "@/components/ui/label";
-import AvailabilityDateSection from "../../AvailabilityDateSection";
+
+// This file is now deprecated since the availability functionality has been moved to Step 3
+// This empty component is kept temporarily to avoid breaking imports, but should be removed in a future cleanup
 
 interface AvailabilitySectionProps {
   preferredWeekday: string;
@@ -9,24 +11,12 @@ interface AvailabilitySectionProps {
   selectedDates: string[];
 }
 
-export default function AvailabilitySection({
-  preferredWeekday,
-  onAvailabilityChange,
-  selectedDates
-}: AvailabilitySectionProps) {
+export default function AvailabilitySection() {
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-white mb-4">AVAILABILITY DATES</h3>
-      <div className="grid grid-cols-4 items-start gap-4">
-        <Label className="text-right text-sm text-white">Select Dates</Label>
-        <div className="col-span-3">
-          <AvailabilityDateSection 
-            preferredWeekday={preferredWeekday}
-            onAvailabilityChange={onAvailabilityChange}
-            selectedDates={selectedDates}
-          />
-        </div>
-      </div>
+    <div className="bg-fuchsia-900/30 p-4 rounded-lg">
+      <p className="text-center text-amber-300">
+        Availability is now configured in the main Accommodation Terms step.
+      </p>
     </div>
   );
 }

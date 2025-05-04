@@ -24,15 +24,15 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   const [checkinDay, setCheckinDay] = useState<string>(formData.preferredWeekday || "Monday");
   const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
   const [showErrors, setShowErrors] = useState(false);
+  const [availabilityValid, setAvailabilityValid] = useState(false);
   
-  const { 
-    selectedMonths, 
-    handleMonthToggle 
-  } = useAvailabilityDates(
-    formData.available_months || [], 
-    updateFormData
-  );
-
+  // Initialize availabilityDates from formData if present
+  useEffect(() => {
+    if (!formData.availabilityDates) {
+      updateFormData("availabilityDates", []);
+    }
+  }, [formData, updateFormData]);
+  
   // Standard meal plan options
   const mealPlanOptions = [
     { id: "breakfast", label: "Breakfast" },
@@ -58,8 +58,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
       formData.available_months
     );
     
-    onValidationChange(isValid);
-  }, [stayDurations, checkinDay, mealPlans, formData.available_months, formData.roomTypes, updateFormData, onValidationChange]);
+    onValidationChange(isValid && availabilityValid);
+  }, [stayDurations, checkinDay, mealPlans, formData.available_months, formData.roomTypes, updateFormData, onValidationChange, availabilityValid]);
 
   const toggleDuration = (duration: number) => {
     setStayDurations(prev => 
@@ -77,22 +77,13 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     );
   };
 
-  const getCurrentMonthsArray = () => {
-    const months = [
-      "January", "February", "March", "April",
-      "May", "June", "July", "August",
-      "September", "October", "November", "December"
-    ];
-    return months;
-  };
-
   const handleRoomTypesValidation = (isValid: boolean) => {
     // This will be called from the RoomTypeSection component
     onValidationChange(
       isValid && 
       stayDurations.length > 0 && 
       mealPlans.length > 0 && 
-      (formData.available_months?.length > 0)
+      availabilityValid
     );
   };
 
@@ -145,18 +136,14 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         </div>
       </Card>
 
-      {/* Available Months Section - Full functionality */}
+      {/* Available Months Section - Using full calendar functionality */}
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">Available Months</h3>
         <p className="text-sm text-gray-300 mb-4">Select the months when your hotel is available:</p>
         <AvailabilitySection 
           formData={formData}
           updateFormData={updateFormData}
-          onValidationChange={(valid) => {
-            if (!valid) {
-              onValidationChange(false);
-            }
-          }}
+          onValidationChange={setAvailabilityValid}
         />
         {showErrors && 
           (!formData.available_months || formData.available_months.length === 0) && (
@@ -216,7 +203,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
               formData.available_months
             );
             
-            if (isValid) {
+            if (isValid && availabilityValid) {
               toast({
                 title: "Validation successful",
                 description: "All required accommodation terms have been completed.",
@@ -230,7 +217,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
               });
             }
             
-            onValidationChange(isValid);
+            onValidationChange(isValid && availabilityValid);
           }}
           className="px-6 py-2 bg-fuchsia-600 rounded-lg text-white hover:bg-fuchsia-700"
         >

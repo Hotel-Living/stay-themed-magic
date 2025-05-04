@@ -1,115 +1,142 @@
 
-import React from "react";
-import { DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import React, { useState, useEffect } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import RoomTypeSelector from "./RoomTypeSelector";
+import RoomDetailsForm from "./RoomDetailsForm";
 import RoomImageSection from "./RoomImageSection";
 import RatesSection from "./sections/RatesSection";
-import AvailabilitySection from "./sections/AvailabilitySection";
 import RoomCountSection from "./sections/RoomCountSection";
-import { useRoomTypeForm } from "./hooks/useRoomTypeForm";
+import { v4 as uuidv4 } from "uuid";
 
 interface RoomTypeDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (roomType: any) => void;
-  availableStayLengths?: number[];
+  onSave: (roomType: any) => void;
+  initialData?: any;
+  stayLengths?: number[];
   preferredWeekday?: string;
-  editingRoomType?: any | null;
 }
 
-export default function RoomTypeDialog({ 
-  isOpen, 
-  onClose, 
-  onAdd,
-  availableStayLengths = [],
-  preferredWeekday = "Monday",
-  editingRoomType = null
+export default function RoomTypeDialog({
+  isOpen,
+  onClose,
+  onSave,
+  initialData = {},
+  stayLengths = [],
+  preferredWeekday = "Monday"
 }: RoomTypeDialogProps) {
-  const {
-    formState,
-    setters,
-    handleImageUpload,
-    removeImage,
-    handleRateChange,
-    handleAvailabilityChange,
-    handleAddRoomType,
-    dialogTitle
-  } = useRoomTypeForm({ 
-    isOpen, 
-    editingRoomType, 
-    availableStayLengths,
-    onAdd,
-    preferredWeekday
-  });
+  const { toast } = useToast();
+  const [selectedType, setSelectedType] = useState<string>(initialData.type || "");
+  const [roomCount, setRoomCount] = useState<number>(initialData.roomCount || 1);
+  const [bedCount, setBedCount] = useState<number>(initialData.bedCount || 1);
+  const [guestCount, setGuestCount] = useState<number>(initialData.guestCount || 1);
+  const [description, setDescription] = useState<string>(initialData.description || "");
+  const [images, setImages] = useState<string[]>(initialData.images || []);
+  const [rates, setRates] = useState<Record<number, number>>(initialData.rates || {});
+  
+  // No longer need these for availability
+  // const [availabilityDates, setAvailabilityDates] = useState<string[]>(initialData.availabilityDates || []);
+  
+  const isEditing = !!initialData.id;
+
+  const handleSave = () => {
+    if (!selectedType) {
+      toast({
+        title: "Error",
+        description: "Please select a room type",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (images.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please upload at least one image",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const roomTypeData = {
+      id: initialData.id || uuidv4(),
+      type: selectedType,
+      roomCount,
+      bedCount,
+      guestCount,
+      description,
+      images,
+      rates,
+      // The availability dates are no longer stored at the room level
+      // availabilityDates,
+      createdAt: initialData.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    onSave(roomTypeData);
+    onClose();
+  };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="bg-[#430453] text-white w-[90%] max-w-4xl h-full overflow-y-auto" side="bottom">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-white mb-6">{dialogTitle}</DialogTitle>
-        </DialogHeader>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-[600px] bg-fuchsia-950/90 text-white p-6 border-fuchsia-800/50">
+        <h2 className="text-xl font-semibold mb-6">
+          {isEditing ? "Edit Room Type" : "Add Room Type"}
+        </h2>
         
-        <div className="space-y-8">
-          <RoomTypeSelector 
-            selectedRoomType={formState.selectedRoomType}
-            onRoomTypeChange={(type) => setters.setSelectedRoomType(type)}
-            isEditing={formState.isEditing}
+        <div className="space-y-6">
+          <RoomTypeSelector
+            selectedType={selectedType}
+            onTypeSelect={setSelectedType}
           />
-
-          {formState.selectedRoomType && (
-            <>
-              <div className="space-y-4">
-                <label className="block text-white">Description</label>
-                <textarea 
-                  value={formState.description}
-                  onChange={(e) => setters.setDescription(e.target.value)}
-                  className="w-full bg-[#850390] text-white border-white rounded p-2"
-                  rows={3}
-                />
-              </div>
-
-              <RoomImageSection
-                roomImages={formState.roomImages}
-                roomImagePreviews={formState.roomImagePreviews}
-                onImageUpload={handleImageUpload}
-                onRemoveImage={removeImage}
-              />
-              
-              <RatesSection
-                stayLengths={formState.stayLengths}
-                rates={formState.rates}
-                onRateChange={handleRateChange}
-              />
-              
-              <RoomCountSection 
-                roomCount={formState.roomCount}
-                onChange={(count) => setters.setRoomCount(count)}
-              />
-              
-              <AvailabilitySection 
-                preferredWeekday={preferredWeekday}
-                onAvailabilityChange={handleAvailabilityChange}
-                selectedDates={formState.availabilityDates}
-              />
-            </>
-          )}
+          
+          <RoomDetailsForm
+            description={description}
+            onDescriptionChange={setDescription}
+          />
+          
+          <RoomCountSection 
+            roomCount={roomCount}
+            bedCount={bedCount}
+            guestCount={guestCount}
+            onRoomCountChange={setRoomCount}
+            onBedCountChange={setBedCount}
+            onGuestCountChange={setGuestCount}
+          />
+          
+          <RoomImageSection
+            images={images}
+            onImagesChange={setImages}
+          />
+          
+          <RatesSection
+            rates={rates}
+            onRatesChange={setRates}
+            stayLengths={stayLengths}
+          />
+          
+          {/* Removed the AvailabilitySection component since it's now in Step 3 */}
+          
+          <div className="flex justify-end gap-2 pt-4">
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              className="border border-white/20 hover:bg-fuchsia-800/30"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="default"
+              onClick={handleSave}
+              className="bg-fuchsia-600 hover:bg-fuchsia-700"
+            >
+              {isEditing ? "Update" : "Add"} Room
+            </Button>
+          </div>
         </div>
-        
-        <DialogFooter className="mt-8">
-          <Button 
-            onClick={handleAddRoomType} 
-            disabled={!formState.selectedRoomType || formState.roomImagePreviews.length === 0}
-            className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-2 text-base font-medium"
-          >
-            {formState.isEditing ? "Update Room Type" : "Add Room Type"}
-          </Button>
-          {formState.roomImagePreviews.length === 0 && (
-            <p className="text-red-400 text-sm mt-2">Please upload at least one room image</p>
-          )}
-        </DialogFooter>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 }

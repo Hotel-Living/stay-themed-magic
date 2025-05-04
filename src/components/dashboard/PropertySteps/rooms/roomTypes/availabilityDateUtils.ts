@@ -15,6 +15,19 @@ export const weekdayMap: Record<string, number> = {
 };
 
 /**
+ * Reverse map of weekdayMap - maps day numbers (0-6) to day names
+ */
+export const weekdayNumToName: Record<number, string> = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+};
+
+/**
  * Get all available dates for a specific weekday in a given month
  */
 export const getAvailableDatesForMonth = (month: Date, preferredDayNum: number): Date[] => {

@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { nanoid } from "nanoid";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { v4 as uuidv4 } from "uuid";
 
 export type PricingRow = {
   id: string;
@@ -40,7 +41,7 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
         stayDurations.forEach(duration => {
           mealPlans.forEach(plan => {
             matrix.push({
-              id: nanoid(),
+              id: uuidv4(),
               roomType: room.name || room.type,
               stayDuration: duration,
               mealPlan: plan,
@@ -54,7 +55,7 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
       updateFormData("pricingMatrix", matrix);
       setInitialized(true);
     }
-  }, [formData, initialized]);
+  }, [formData, initialized, updateFormData]);
 
   // Update price in the matrix
   const updatePrice = (id: string, value: string) => {
@@ -124,21 +125,21 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
       {Object.keys(matrixByRoom).map((roomType) => (
         <Card key={roomType} className="p-4 bg-fuchsia-950/30 mb-6">
           <h3 className="font-semibold text-lg mb-4 text-fuchsia-300">{roomType}</h3>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="text-left border-b border-fuchsia-800/40">
-                <th className="py-2 pl-2">Stay Duration</th>
-                <th className="py-2">Meal Plan</th>
-                <th className="py-2">Laundry</th>
-                <th className="py-2">Price (USD)</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-fuchsia-800/40">
+                <TableHead className="py-2 pl-2">Stay Duration</TableHead>
+                <TableHead className="py-2">Meal Plan</TableHead>
+                <TableHead className="py-2">Laundry</TableHead>
+                <TableHead className="py-2">Price (USD)</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {matrixByRoom[roomType].map((row: PricingRow) => (
-                <tr key={row.id} className="border-b border-fuchsia-800/20">
-                  <td className="py-3 pl-2">{row.stayDuration} days</td>
-                  <td className="py-3">{formatMealPlan(row.mealPlan)}</td>
-                  <td className="py-3">
+                <TableRow key={row.id} className="border-b border-fuchsia-800/20">
+                  <TableCell className="py-3 pl-2">{row.stayDuration} days</TableCell>
+                  <TableCell className="py-3">{formatMealPlan(row.mealPlan)}</TableCell>
+                  <TableCell className="py-3">
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <input
                         type="checkbox"
@@ -148,8 +149,8 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
                       />
                       <span className="text-sm">Included</span>
                     </label>
-                  </td>
-                  <td className="py-3">
+                  </TableCell>
+                  <TableCell className="py-3">
                     <div className="flex items-center">
                       <span className="mr-2">$</span>
                       <input
@@ -160,11 +161,11 @@ export const PackagesBuilderStep: React.FC<PackagesBuilderStepProps> = ({
                         placeholder="0"
                       />
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </Card>
       ))}
 

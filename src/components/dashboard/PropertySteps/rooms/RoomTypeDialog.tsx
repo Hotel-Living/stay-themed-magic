@@ -41,6 +41,7 @@ export default function RoomTypeDialog({
     setters,
     handleImageUpload,
     removeImage,
+    handleAvailabilityChange,
     handleAddRoomType,
     dialogTitle
   } = useRoomTypeForm({ 

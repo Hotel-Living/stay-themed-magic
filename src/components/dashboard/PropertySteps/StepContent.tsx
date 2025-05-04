@@ -1,10 +1,11 @@
 
 import React from "react";
 import StepOne from "./StepOne";
-import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
-import HotelFeaturesStep from "./HotelFeaturesStep";
-import ThemesAndActivitiesStep from "./ThemesAndActivitiesStep";
-import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
+import { GeneralInformationStep1 } from "./GeneralInformationStep1";
+import { GeneralInformationStep2 } from "./GeneralInformationStep2";
+import { AccommodationTermsStep } from "./AccommodationTermsStep";
+import { PackagesBuilderStep } from "./PackagesBuilderStep";
+import { FinalTermsStep } from "./FinalTermsStep";
 import PriceTable from "./PriceTable";
 import StayRatesStep from "./StayRatesStep";
 import PicturesStep from "./PicturesStep";
@@ -37,57 +38,40 @@ export default function StepContent({
   return (
     <div className="mb-4">
       {currentStep === 1 && 
-        <StepOne 
+        <GeneralInformationStep1 
           onValidationChange={onValidationChange} 
           formData={formData}
           updateFormData={updateFormData}
         />
       }
-      {currentStep === 2 && (
-        <>
-          <AccommodationTermsStep 
-            onValidationChange={onValidationChange}
-            formData={formData}
-            updateFormData={updateFormData}
-          />
-          <div className="mt-6">
-            <HotelFeaturesStep 
-              onValidationChange={onValidationChange}
-              formData={formData}
-              updateFormData={updateFormData}
-            />
-          </div>
-        </>
-      )}
-      {currentStep === 3 && 
-        <ThemesAndActivitiesStep 
+      {currentStep === 2 && 
+        <GeneralInformationStep2
           onValidationChange={onValidationChange}
           formData={formData}
           updateFormData={updateFormData}
         />
       }
-      {currentStep === 4 && (
-        <div className="space-y-4">
-          <HotelFaqAndTermsStep 
-            onValidationChange={onValidationChange}
-            formData={formData}
-            updateFormData={updateFormData}
-          />
-        </div>
-      )}
-      {currentStep === 5 && (
-        <PicturesStep
-          formData={formData}
-          updateFormData={updateFormData}
-        />
-      )}
-      {currentStep === 6 && (
-        <StayRatesStep
+      {currentStep === 3 && 
+        <AccommodationTermsStep 
           onValidationChange={onValidationChange}
           formData={formData}
           updateFormData={updateFormData}
         />
-      )}
+      }
+      {currentStep === 4 && 
+        <PackagesBuilderStep
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
+      {currentStep === 5 && 
+        <FinalTermsStep
+          onValidationChange={onValidationChange}
+          formData={formData}
+          updateFormData={updateFormData}
+        />
+      }
     </div>
   );
 }

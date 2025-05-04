@@ -42,6 +42,10 @@ export interface PropertyFormData {
   priceIncreaseCap?: number; // Added for dynamic pricing max percentage
   latitude?: number | string; // Add latitude for map location
   longitude?: number | string; // Add longitude for map location
+  pricingMatrix?: any[]; // Added for pricing matrix from Step 4
+  checkinDay?: string; // Added for check-in day selection in Step 3
+  stayDurations?: number[]; // Alternative to stayLengths for consistency
+  affinities?: string[]; // Alternative to themes for consistency
 }
 
 export const usePropertyFormData = () => {
@@ -82,7 +86,11 @@ export const usePropertyFormData = () => {
     enablePriceIncrease: false,
     priceIncreaseCap: 20,
     latitude: undefined,
-    longitude: undefined
+    longitude: undefined,
+    pricingMatrix: [],
+    checkinDay: "Monday",
+    stayDurations: [],
+    affinities: []
   });
 
   const updateFormData = (field: keyof PropertyFormData, value: any) => {

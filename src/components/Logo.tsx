@@ -14,7 +14,7 @@ export function Logo({ className }: { className?: string }) {
         <img 
           src="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" 
           alt="Hotel-Living Logo"
-          className={isMobile ? "h-[59.67px]" : "h-[11.7px]"} // Increased by 30% from previous sizes
+          className={isMobile ? "h-[59.67px]" : "h-[40px]"} // Significantly increased desktop size
         />
       </div>
     </Link>

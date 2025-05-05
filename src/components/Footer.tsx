@@ -11,7 +11,7 @@ export function Footer() {
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
-            <div className={isMobile ? "h-[45.9px]" : ""}>
+            <div className={isMobile ? "h-[59.67px]" : ""}>
               <Logo />
             </div>
           </div>

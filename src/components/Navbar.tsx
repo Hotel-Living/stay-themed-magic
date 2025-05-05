@@ -55,7 +55,7 @@ export function Navbar() {
   };
 
   return <header className="bg-[#AACAFE] shadow-md">
-      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
+      <div className="container px-2 sm:px-3 py-3 flex items-center justify-between">
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">

@@ -80,7 +80,13 @@ const LocationSection = ({
     handleChange('longitude', lng);
   };
   return <div className="space-y-4">
-      <h3 className="font-semibold text-white mb-4 text-xl">LOCATION INFORMATION</h3>
+      <h3 className="font-semibold text-white mb-4 text-xl">LOCATION
+
+
+
+
+
+    </h3>
       
       <AddressInput value={formData.address} onChange={e => handleChange('address', e.target.value)} onBlur={() => handleBlur('address')} error={errors.address} touched={touchedFields.address} />
       

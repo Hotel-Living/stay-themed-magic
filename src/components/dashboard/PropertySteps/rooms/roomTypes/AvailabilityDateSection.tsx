@@ -88,7 +88,7 @@ export default function AvailabilityDateSection({
                   <CollapsibleTrigger className="flex items-center justify-between w-full p-3 text-left bg-fuchsia-900/30 hover:bg-fuchsia-900/50">
                     <div className="flex items-center">
                       <input type="checkbox" checked={isMonthSelected(month)} onChange={() => handleMonthSelection(month)} onClick={e => e.stopPropagation()} className="mr-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" />
-                      <span>{month}</span>
+                      <span className="text-sm">{month}</span>
                     </div>
                     {expandedMonths[month] ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                   </CollapsibleTrigger>

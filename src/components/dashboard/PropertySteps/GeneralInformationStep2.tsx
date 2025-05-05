@@ -87,4 +87,4 @@ export const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = (
       </div>
     </div>
   );
-};
+}

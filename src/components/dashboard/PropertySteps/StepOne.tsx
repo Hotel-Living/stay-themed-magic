@@ -34,12 +34,14 @@ interface StepOneProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  showHeading?: boolean;
 }
 
 export default function StepOne({
   onValidationChange = () => {},
   formData = {},
-  updateFormData = () => {}
+  updateFormData = () => {},
+  showHeading = true
 }: StepOneProps) {
   const {
     formData: localFormData,
@@ -92,7 +94,7 @@ export default function StepOne({
 
   return (
     <div className="space-y-4 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-2 text-white">1. GENERAL INFORMATION</h2>
+      {showHeading && <h2 className="text-xl font-bold mb-2 text-white">1. GENERAL INFORMATION</h2>}
       
       <div className="grid gap-3">
         <HotelInfoSection 

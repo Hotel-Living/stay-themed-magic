@@ -22,11 +22,14 @@ export function GeneralInformationStep1({
 
   return (
     <div>
+      <h2 className="text-xl font-bold mb-4 text-white">1. GENERAL INFORMATION</h2>
+      
       {/* The actual implementation is handled in StepOne.tsx */}
       <StepOne 
         formData={formData} 
         updateFormData={updateFormData}
         onValidationChange={onValidationChange}
+        showHeading={false}
       />
     </div>
   );

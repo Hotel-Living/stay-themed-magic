@@ -28,14 +28,13 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
   // Update uploaded images when initialImages change (for editing)
   useEffect(() => {
     if (initialImages && initialImages.length > 0) {
-      console.log("usePropertyImages: initialImages updated", initialImages);
       setUploadedImages(initialImages);
       
       // Set main image index
       const mainIndex = initialImages.findIndex(img => img.isMain);
       setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
     }
-  }, [initialImages]); // Use direct reference to initialImages instead of JSON.stringify
+  }, [initialImages]);
 
   const addFiles = useCallback((newFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...newFiles]);
@@ -55,13 +54,10 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       // Adjust main image index if a previous image was removed
       setMainImageIndex(prev => prev - 1);
     }
-    
-    // Removed toast message
   }, [mainImageIndex]);
 
   const uploadFiles = useCallback(async () => {
     if (files.length === 0) {
-      // Removed toast message about no files
       return;
     }
     
@@ -89,11 +85,8 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       if (mainImageIndex === -1 && newUploadedImages.length > 0) {
         setMainImageIndex(0);
       }
-      
-      // Removed toast message about successful upload
     } catch (error: any) {
       console.error("Error uploading files:", error);
-      // Removed toast message for upload failure
     } finally {
       setUploading(false);
     }

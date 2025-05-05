@@ -173,7 +173,7 @@ export const convertHotelToUIFormat = (hotel: any) => {
         ? hotel.main_image_url 
         : hotel.hotel_images && hotel.hotel_images.length > 0
           ? hotel.hotel_images[0].image_url
-          : undefined,
+          : null,
     hotel_images: hotel.hotel_images || [],
     hotel_themes: hotel.hotel_themes || [],
     available_months: hotel.available_months || [],

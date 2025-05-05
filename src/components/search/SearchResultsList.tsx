@@ -52,15 +52,6 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     );
   }
 
-  const getPlaceholderImage = (index) => {
-    const placeholders = [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format",
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&auto=format",
-      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&auto=format"
-    ];
-    return placeholders[index % placeholders.length];
-  };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => (
@@ -68,13 +59,9 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
           <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="aspect-video bg-muted relative overflow-hidden">
               <img 
-                src={hotel.thumbnail || getPlaceholderImage(index)} 
+                src={hotel.thumbnail} 
                 alt={hotel.name}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.onerror = null; 
-                  e.currentTarget.src = getPlaceholderImage(index);
-                }}
               />
               {hotel.theme && (
                 <div className="absolute bottom-2 left-2 bg-fuchsia-600/90 text-white text-xs px-2 py-1 rounded-full">

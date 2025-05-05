@@ -1,25 +1,34 @@
+
 import React from "react";
 import { weekdayMap } from "../availabilityDateUtils";
+
 interface CalendarHeaderProps {
   preferredWeekday: string;
 }
-export function CalendarHeader({
-  preferredWeekday
-}: CalendarHeaderProps) {
+
+export function CalendarHeader({ preferredWeekday }: CalendarHeaderProps) {
   // Find the readable weekday label from the mapping
   const getWeekdayLabel = () => {
     // Default to the provided weekday if not in the map
     if (!preferredWeekday) return "Day";
 
-    // Try to find the label in the map
-    const weekdayLabel = Object.keys(weekdayMap).find(key => weekdayMap[key] === weekdayMap[preferredWeekday]);
-    return weekdayLabel || preferredWeekday;
+    // Find the key in weekdayMap that corresponds to the preferredWeekday value
+    const weekdayKey = Object.entries(weekdayMap).find(
+      ([key, value]) => value === weekdayMap[preferredWeekday]
+    )?.[0];
+    
+    return weekdayKey || preferredWeekday;
   };
+
   const weekdayLabel = getWeekdayLabel();
-  return <div className="grid grid-cols-1">
+  
+  return (
+    <div className="grid grid-cols-1">
       <div className="flex items-center mb-1 justify-center">
         <span className="font-semibold text-sm">{weekdayLabel}</span>
       </div>
-    </div>;
+    </div>
+  );
 }
+
 export default CalendarHeader;

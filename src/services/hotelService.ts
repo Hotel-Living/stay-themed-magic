@@ -12,68 +12,70 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
         hotel_themes(theme_id, themes:themes(*)),
         hotel_activities(activity_id, activities:activities(*)),
         hotel_availability(*)
-      `);
+      `)
+      .eq('status', 'approved'); // Always filter for approved hotels
 
-    // Apply search term filter
-    if (filters.searchTerm) {
+    console.log("Applying filters:", filters);
+
+    // Apply search term filter ONLY if it has a value
+    if (filters.searchTerm && filters.searchTerm.trim() !== '') {
       query = query.ilike('name', `%${filters.searchTerm}%`);
     }
 
-    // Apply theme filter
+    // Apply theme filter ONLY if it has a value
     if (filters.theme && filters.theme.id) {
       query = query.or(`hotel_themes.theme_id.eq.${filters.theme.id},hotel_themes.themes.name.ilike.%${filters.theme.name}%`);
     }
 
-    // Apply country filter - use case-insensitive matching
-    if (filters.country) {
+    // Apply country filter ONLY if it has a value
+    if (filters.country && filters.country.trim() !== '') {
       query = query.ilike('country', filters.country);
     }
 
-    // Apply month filter - check both available_months and hotel_availability
-    if (filters.month) {
+    // Apply month filter ONLY if it has a value
+    if (filters.month && filters.month.trim() !== '') {
       const month = filters.month.toLowerCase();
-      // This combines: 
-      // 1. hotels.available_months contains the month 
-      // 2. OR there exists hotel_availability with the same month
       query = query.or(
         `available_months.cs.{${month}},hotel_availability.availability_month.eq.${month}`
       );
     }
 
-    // Apply city/location filter
-    if (filters.location) {
+    // Apply city/location filter ONLY if it has a value
+    if (filters.location && filters.location.trim() !== '') {
       query = query.ilike('city', `%${filters.location}%`);
     }
 
-    // Apply property type filter
-    if (filters.propertyType) {
+    // Apply property type filter ONLY if it has a value
+    if (filters.propertyType && filters.propertyType.trim() !== '') {
       query = query.eq('property_type', filters.propertyType);
     }
 
-    // Apply property style filter
-    if (filters.propertyStyle) {
+    // Apply property style filter ONLY if it has a value
+    if (filters.propertyStyle && filters.propertyStyle.trim() !== '') {
       query = query.eq('style', filters.propertyStyle);
     }
 
-    // Apply atmosphere filter
-    if (filters.atmosphere) {
+    // Apply atmosphere filter ONLY if it has a value
+    if (filters.atmosphere && filters.atmosphere.trim() !== '') {
       query = query.ilike('atmosphere', `%${filters.atmosphere}%`);
     }
 
-    // Apply minimum price filter
-    if (filters.minPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined)) {
+    // Apply minimum price filter ONLY if it has a value
+    if ((filters.minPrice !== undefined && filters.minPrice > 0) || 
+        (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined && filters.priceRange.min > 0)) {
       const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);
       query = query.gte('price_per_month', minPrice);
     }
 
-    // Apply maximum price filter
-    if (filters.maxPrice !== undefined || (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.max !== undefined)) {
+    // Apply maximum price filter ONLY if it has a value
+    if ((filters.maxPrice !== undefined && filters.maxPrice < 1000) || 
+        (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.max !== undefined)) {
       const maxPrice = filters.maxPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.max : 1000);
       query = query.lte('price_per_month', maxPrice);
     }
 
-    // Handle numeric priceRange (for dropdown selection)
-    if (typeof filters.priceRange === 'number') {
+    // Handle numeric priceRange (for dropdown selection) ONLY if it has a value
+    if (typeof filters.priceRange === 'number' && filters.priceRange > 0) {
       if (filters.priceRange > 2000) {
         query = query.gte('price_per_month', 2000);
       } else {
@@ -81,45 +83,55 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply star rating filter - Convert string[] to number[] for category comparison
+    // Apply star rating filter ONLY if it has a value and is not empty
     if (filters.stars && filters.stars.length > 0) {
       const numericStars = filters.stars.map(star => parseInt(star)).filter(star => !isNaN(star));
-      query = query.in('category', numericStars);
+      if (numericStars.length > 0) {
+        query = query.in('category', numericStars);
+      }
     }
 
-    // Apply activities filter
+    // Apply activities filter ONLY if it has a value and is not empty
     if (filters.activities && filters.activities.length > 0) {
       query = query.in('hotel_activities.activities.category', filters.activities);
     }
 
-    // Apply hotel features filter
+    // Apply hotel features filter ONLY if it has a value and is not empty
     if (filters.hotelFeatures && filters.hotelFeatures.length > 0) {
-      // Check if any hotel feature is enabled (true in the jsonb)
-      filters.hotelFeatures.forEach(feature => {
-        query = query.or(`features_hotel->${feature}.eq.true`);
-      });
+      // We need a complex OR condition for jsonb fields
+      const featureConditions = filters.hotelFeatures.map(feature => 
+        `features_hotel->${feature}.eq.true`
+      );
+      if (featureConditions.length > 0) {
+        query = query.or(featureConditions.join(','));
+      }
     }
 
-    // Apply room features filter
+    // Apply room features filter ONLY if it has a value and is not empty
     if (filters.roomFeatures && filters.roomFeatures.length > 0) {
-      // Check if any room feature is enabled (true in the jsonb)
-      filters.roomFeatures.forEach(feature => {
-        query = query.or(`features_room->${feature}.eq.true`);
-      });
+      // We need a complex OR condition for jsonb fields
+      const featureConditions = filters.roomFeatures.map(feature => 
+        `features_room->${feature}.eq.true`
+      );
+      if (featureConditions.length > 0) {
+        query = query.or(featureConditions.join(','));
+      }
     }
 
-    // Apply meal plans filter
+    // Apply meal plans filter ONLY if it has a value and is not empty
     if (filters.mealPlans && filters.mealPlans.length > 0) {
       query = query.containedBy('meal_plans', filters.mealPlans);
     }
 
-    // Apply stay lengths filter
+    // Apply stay lengths filter ONLY if it has a value and is not empty
     if (filters.stayLengths && filters.stayLengths.length > 0) {
-      query = query.or(filters.stayLengths.map(length => `stay_lengths.cs.{${length}}`).join(','));
+      const lengthConditions = filters.stayLengths.map(length => 
+        `stay_lengths.cs.{${length}}`
+      );
+      if (lengthConditions.length > 0) {
+        query = query.or(lengthConditions.join(','));
+      }
     }
-
-    // Include properties with approved status by default
-    query = query.eq('status', 'approved');
 
     const { data, error } = await query;
 
@@ -129,9 +141,11 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     }
 
     // Add debugging to see what's being returned
-    console.log("Fetched hotels:", data?.length || 0, "hotels");
+    console.log("Fetched hotels count:", data?.length || 0);
     if (data && data.length > 0) {
-      console.log("Sample hotel data:", data[0]);
+      console.log("First hotel in results:", data[0].name, "Status:", data[0].status);
+    } else {
+      console.log("No hotels found with current filters:", filters);
     }
 
     // Ensure we always return an array, even if empty

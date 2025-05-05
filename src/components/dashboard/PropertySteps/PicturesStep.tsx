@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadArea from "./Pictures/UploadArea";
@@ -28,41 +27,33 @@ export default function PicturesStep({
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Properly initialize state from formData on mount and updates
+  // Initialize state from formData only once when component mounts or when formData first becomes available
   useEffect(() => {
-    // Only update if formData.hotelImages has real data and is different from current state
-    // or if we haven't initialized yet
-    if (formData.hotelImages && formData.hotelImages.length > 0) {
-      console.log("PicturesStep: Received existing images:", formData.hotelImages);
+    if (!initialized && formData.hotelImages && formData.hotelImages.length > 0) {
+      console.log("PicturesStep: Initializing from formData");
       setImages(formData.hotelImages);
-      
-      // Find the main image
+
       const mainImage = formData.hotelImages.find(img => img.isMain);
       if (mainImage) {
         setMainImageUrl(mainImage.url);
       } else if (formData.mainImageUrl) {
         setMainImageUrl(formData.mainImageUrl);
       } else if (formData.hotelImages.length > 0) {
-        // Default to first image if no main image is set
         setMainImageUrl(formData.hotelImages[0].url);
       }
-      
+
       setInitialized(true);
-    } else if (formData.mainImageUrl && !mainImageUrl) {
+    } else if (!initialized && formData.mainImageUrl && !mainImageUrl) {
       // If we have a main image URL but no images, set the main image URL
       setMainImageUrl(formData.mainImageUrl);
     }
-    
-    // If formData was emptied, reset our state too
-    if (initialized && formData.hotelImages && formData.hotelImages.length === 0) {
-      setImages([]);
-      setMainImageUrl("");
-    }
-  }, [formData.hotelImages, formData.mainImageUrl]);
+  }, [formData.hotelImages, formData.mainImageUrl, initialized]);
 
-  // Update parent form data when local state changes
+  // Update parent form data when local state changes, but only after initialization
+  // or when user makes actual changes
   useEffect(() => {
     if (initialized || images.length > 0) {
+      console.log("PicturesStep: Updating parent formData with local state");
       updateFormData("hotelImages", images);
       updateFormData("mainImageUrl", mainImageUrl);
     }

@@ -1,28 +1,25 @@
-
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
-
 interface HotelFeaturesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
-
 export default function HotelFeaturesStep({
   onValidationChange = () => {},
   formData = {},
-  updateFormData = () => {},
+  updateFormData = () => {}
 }: HotelFeaturesStepProps) {
   // Local state for features selection
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
-  
+
   // Store formData in ref to avoid re-renders when it changes
   const formDataRef = useRef(formData);
   const initializedRef = useRef(false);
   const isDirtyRef = useRef(false);
-  
+
   // Only run once on mount to initialize from formData
   useEffect(() => {
     // Initialize from formData
@@ -30,7 +27,6 @@ export default function HotelFeaturesStep({
       console.log("Setting hotel features from formData:", formData.featuresHotel);
       setSelectedHotelFeatures(formData.featuresHotel);
     }
-    
     if (formData.featuresRoom && typeof formData.featuresRoom === 'object') {
       console.log("Setting room features from formData:", formData.featuresRoom);
       setSelectedRoomFeatures(formData.featuresRoom);
@@ -39,7 +35,7 @@ export default function HotelFeaturesStep({
     // Update ref
     formDataRef.current = formData;
     initializedRef.current = true;
-    
+
     // This step is always valid
     onValidationChange(true);
   }, []); // Empty dependency array - only run once on mount
@@ -59,10 +55,10 @@ export default function HotelFeaturesStep({
   // Save data periodically if dirty
   useEffect(() => {
     if (!initializedRef.current) return;
-    
+
     // Only update if something changed
     if (!isDirtyRef.current) return;
-    
+
     // Save data every 2 seconds if dirty (much less frequent than toggles)
     const saveInterval = setInterval(() => {
       if (isDirtyRef.current) {
@@ -72,10 +68,8 @@ export default function HotelFeaturesStep({
         isDirtyRef.current = false;
       }
     }, 2000);
-    
     return () => clearInterval(saveInterval);
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
-
   const handleHotelFeatureToggle = useCallback((featureId: string) => {
     setSelectedHotelFeatures(prev => {
       isDirtyRef.current = true;
@@ -85,7 +79,6 @@ export default function HotelFeaturesStep({
       };
     });
   }, []);
-
   const handleRoomFeatureToggle = useCallback((featureId: string) => {
     setSelectedRoomFeatures(prev => {
       isDirtyRef.current = true;
@@ -108,30 +101,17 @@ export default function HotelFeaturesStep({
 
   // Convert record to array for FeaturesList component
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
-    return Object.entries(featuresRecord)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([feature, _]) => feature);
+    return Object.entries(featuresRecord).filter(([_, isSelected]) => isSelected).map(([feature, _]) => feature);
   };
-
-  return (
-    <div className="space-y-6" onBlur={handleSectionBlur}>
+  return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
-        <h3 className="text-lg font-semibold mb-3">Hotel Features</h3>
-        <FeaturesList 
-          features={hotelFeatures} 
-          selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)}
-          onToggle={handleHotelFeatureToggle}
-        />
+        <h3 className="text-lg font-semibold mb-3">HOTEL FEATURES</h3>
+        <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} />
       </div>
       
       <div>
-        <h3 className="text-lg font-semibold mb-3">Room Features</h3>
-        <FeaturesList 
-          features={roomFeatures}
-          selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)}
-          onToggle={handleRoomFeatureToggle}
-        />
+        <h3 className="text-lg font-semibold mb-3">ROOM FEATURES</h3>
+        <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} />
       </div>
-    </div>
-  );
+    </div>;
 }

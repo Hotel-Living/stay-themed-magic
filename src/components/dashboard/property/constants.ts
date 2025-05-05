@@ -1,5 +1,4 @@
 
-
 export const TOTAL_STEPS = 5;
 
 export const STEP_TITLES = [
@@ -9,4 +8,3 @@ export const STEP_TITLES = [
   "4. PACKAGES & PRICING",
   "5. FAQS & TERMS"
 ];
-

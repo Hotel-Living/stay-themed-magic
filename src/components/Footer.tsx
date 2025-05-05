@@ -10,7 +10,7 @@ export function Footer() {
   return <footer className="py-4 px-4 bg-[#AACAFE] border-t border-[#3300B0]/20 mt-20">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <div className={isMobile ? "mb-4" : "mb-6"}>
+          <div className={`${isMobile ? "mb-4" : "mb-6"} w-full flex justify-center`}>
             <div className={isMobile ? "h-[59.67px]" : ""}>
               <Logo />
             </div>

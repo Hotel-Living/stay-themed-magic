@@ -8,9 +8,9 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link 
       to="/" 
-      className={className}
+      className={`${className} flex`}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         <img 
           src="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" 
           alt="Hotel-Living Logo"

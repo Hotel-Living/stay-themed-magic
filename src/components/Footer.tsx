@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -9,8 +10,8 @@ export function Footer() {
   return <footer className="py-4 px-4 bg-[#AACAFE] border-t border-[#3300B0]/20 mt-20">
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
-          <div className={isMobile ? "mb-4 self-center" : "mb-6 self-center"}>
-            <div className={isMobile ? "h-[62px]" : ""}>
+          <div className={isMobile ? "mb-4" : "mb-6"}>
+            <div className={isMobile ? "h-[45.9px]" : ""}>
               <Logo />
             </div>
           </div>

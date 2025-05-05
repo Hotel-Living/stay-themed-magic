@@ -54,7 +54,7 @@ export function Navbar() {
     }
   };
 
-  return <header className="shadow-md" style={{ backgroundImage: "url('/lovable-uploads/fa21e5a6-eef0-44c9-9f47-f28daebf2070.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
+  return <header className="shadow-md bg-[#860493]">
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
         <div className="flex-shrink-0">
           <Logo />
@@ -120,7 +120,7 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ backgroundImage: "url('/lovable-uploads/fa21e5a6-eef0-44c9-9f47-f28daebf2070.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
+      <div className={cn("fixed inset-0 top-[48px] bg-[#860493] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
             FAQ

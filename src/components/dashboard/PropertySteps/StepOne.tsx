@@ -92,7 +92,7 @@ export default function StepOne({
 
   return (
     <div className="space-y-4 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-2 text-white">MAIN HOTEL DATA</h2>
+      <h2 className="text-xl font-bold mb-2 text-white">1. GENERAL INFORMATION</h2>
       
       <div className="grid gap-3">
         <HotelInfoSection 

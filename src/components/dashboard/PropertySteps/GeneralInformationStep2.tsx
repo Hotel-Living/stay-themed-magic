@@ -62,7 +62,7 @@ export const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = (
 
   return (
     <div className="space-y-6 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-4 text-white">HOTEL PROFILE</h2>
+      <h2 className="text-xl font-bold mb-4 text-white">2. HOTEL PROFILE</h2>
       
       <div className="space-y-8">
         <AffinitiesSection 

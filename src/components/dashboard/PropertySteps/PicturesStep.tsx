@@ -21,30 +21,52 @@ export default function PicturesStep({
   },
   updateFormData = () => {}
 }: PicturesStepProps) {
-  const [images, setImages] = useState<UploadedImage[]>(formData.hotelImages || []);
-  const [mainImageUrl, setMainImageUrl] = useState<string>(formData.mainImageUrl || "");
+  const [initialized, setInitialized] = useState<boolean>(false);
+  const [images, setImages] = useState<UploadedImage[]>([]);
+  const [mainImageUrl, setMainImageUrl] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Update local state when formData changes (e.g., when loading existing hotel data)
+  // Properly initialize state from formData on mount and updates
   useEffect(() => {
+    // Only update if formData.hotelImages has real data and is different from current state
+    // or if we haven't initialized yet
     if (formData.hotelImages && formData.hotelImages.length > 0) {
       console.log("PicturesStep: Received existing images:", formData.hotelImages);
       setImages(formData.hotelImages);
+      
+      // Find the main image
+      const mainImage = formData.hotelImages.find(img => img.isMain);
+      if (mainImage) {
+        setMainImageUrl(mainImage.url);
+      } else if (formData.mainImageUrl) {
+        setMainImageUrl(formData.mainImageUrl);
+      } else if (formData.hotelImages.length > 0) {
+        // Default to first image if no main image is set
+        setMainImageUrl(formData.hotelImages[0].url);
+      }
+      
+      setInitialized(true);
+    } else if (formData.mainImageUrl && !mainImageUrl) {
+      // If we have a main image URL but no images, set the main image URL
+      setMainImageUrl(formData.mainImageUrl);
     }
     
-    if (formData.mainImageUrl) {
-      console.log("PicturesStep: Received main image URL:", formData.mainImageUrl);
-      setMainImageUrl(formData.mainImageUrl);
+    // If formData was emptied, reset our state too
+    if (initialized && formData.hotelImages && formData.hotelImages.length === 0) {
+      setImages([]);
+      setMainImageUrl("");
     }
   }, [formData.hotelImages, formData.mainImageUrl]);
 
   // Update parent form data when local state changes
   useEffect(() => {
-    updateFormData("hotelImages", images);
-    updateFormData("mainImageUrl", mainImageUrl);
-  }, [images, mainImageUrl, updateFormData]);
+    if (initialized || images.length > 0) {
+      updateFormData("hotelImages", images);
+      updateFormData("mainImageUrl", mainImageUrl);
+    }
+  }, [images, mainImageUrl, updateFormData, initialized]);
 
   const handleFilesChange = (newFiles: File[]) => {
     setFiles(newFiles);
@@ -64,6 +86,10 @@ export default function PicturesStep({
     // Remove the file from the files array
     const updatedFiles = files.filter(file => file.name !== (uploadedImage.name || ''));
     setFiles(updatedFiles);
+    
+    if (!initialized) {
+      setInitialized(true);
+    }
   };
 
   const handleRemoveImage = (imageToRemove: UploadedImage) => {

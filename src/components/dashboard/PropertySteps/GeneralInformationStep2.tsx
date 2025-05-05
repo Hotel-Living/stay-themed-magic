@@ -11,11 +11,11 @@ export interface GeneralInformationStep2Props {
   onValidationChange?: (isValid: boolean) => void;
 }
 
-export const GeneralInformationStep2: React.FC<GeneralInformationStep2Props> = ({
+export function GeneralInformationStep2({
   formData,
   updateFormData,
   onValidationChange = () => {}
-}) => {
+}: GeneralInformationStep2Props) {
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
   const { toast } = useToast();

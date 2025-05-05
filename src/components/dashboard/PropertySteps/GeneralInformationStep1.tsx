@@ -1,6 +1,7 @@
 
 import React from "react";
 import { PropertyFormData } from "../property/hooks/usePropertyFormData";
+import StepOne from "./StepOne";
 
 interface StepProps {
   onValidationChange: (isValid: boolean) => void;
@@ -34,6 +35,3 @@ export function GeneralInformationStep1({
     </div>
   );
 }
-
-// Import the actual implementation
-import StepOne from "./StepOne";

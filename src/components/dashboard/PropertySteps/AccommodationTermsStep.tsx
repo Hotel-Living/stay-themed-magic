@@ -74,7 +74,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Duration Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">Length of Stay</h3>
+        <h3 className="font-medium mb-3">LENGTH OF STAY</h3>
         <p className="text-sm text-gray-300 mb-4">Select all the stay durations you offer:</p>
         <div className="flex flex-wrap gap-3">
           {durationOptions.map(duration => <button key={duration} onClick={() => toggleDuration(duration)} className={`px-4 py-2 rounded-full text-sm ${stayDurations.includes(duration) ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
@@ -86,7 +86,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Check-in Day Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">Check-in Day</h3>
+        <h3 className="font-medium mb-3">ONLY WEEKDAY FOR CHECK-INS / OUTS</h3>
         <p className="text-sm text-gray-300 mb-4">Select the day when guests check in/out:</p>
         <div className="flex flex-wrap gap-3">
           {weekdays.map(day => <button key={day} onClick={() => setCheckinDay(day)} className={`px-4 py-2 rounded-full text-sm ${checkinDay === day ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
@@ -97,16 +97,16 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Available Months Section - Using full calendar functionality */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">Available Months</h3>
-        <p className="text-sm text-gray-300 mb-4">Select the months when your hotel is available:</p>
+        <h3 className="font-medium mb-3">AVAILABILITY DATES</h3>
+        
         <AvailabilitySection formData={formData} updateFormData={updateFormData} onValidationChange={setAvailabilityValid} />
         {showErrors && (!formData.available_months || formData.available_months.length === 0) && <p className="text-red-400 text-sm mt-2">Please select at least one month</p>}
       </Card>
 
       {/* Meal Plans Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">Meal Plans</h3>
-        <p className="text-sm text-gray-300 mb-4">Select the meal plans you offer:</p>
+        <h3 className="font-medium mb-3">MEAL PLANS</h3>
+        
         <div className="flex flex-wrap gap-3">
           {mealPlanOptions.map(plan => <button key={plan.id} onClick={() => toggleMealPlan(plan.id)} className={`px-4 py-2 rounded-full text-sm ${mealPlans.includes(plan.id) ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
               {plan.label}
@@ -117,7 +117,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Room Types Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">Room Types</h3>
+        <h3 className="font-medium mb-3">ROOM TYPES</h3>
         <p className="text-sm text-gray-300 mb-4">Define your room types with photos and availability:</p>
         <RoomTypeSection onValidationChange={handleRoomTypesValidation} formData={formData} updateFormData={updateFormData} fullWidth={true} showHeader={false} />
         {showErrors && (!formData.roomTypes || formData.roomTypes.length === 0) && <p className="text-red-400 text-sm mt-2">Please add at least one room type</p>}
@@ -125,26 +125,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Validation Button */}
       <div className="mt-6">
-        <button onClick={() => {
-        setShowErrors(true);
-        const isValid = validateAccommodationTerms(stayDurations, mealPlans, formData.roomTypes || [], formData.available_months);
-        if (isValid && availabilityValid) {
-          toast({
-            title: "Validation successful",
-            description: "All required accommodation terms have been completed.",
-            variant: "default"
-          });
-        } else {
-          toast({
-            title: "Validation failed",
-            description: "Please complete all required fields.",
-            variant: "destructive"
-          });
-        }
-        onValidationChange(isValid && availabilityValid);
-      }} className="px-6 py-2 bg-fuchsia-600 rounded-lg text-white hover:bg-fuchsia-700">
-          Validate 3. ACCOMMODATION TERMS
-        </button>
+        
       </div>
     </div>;
 };

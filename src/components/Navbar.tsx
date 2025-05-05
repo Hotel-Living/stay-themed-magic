@@ -56,9 +56,7 @@ export function Navbar() {
 
   return <header className="bg-[#AACAFE] shadow-md">
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
-        <div className="flex-shrink-0">
-          <Logo />
-        </div>
+        <Logo />
         
         <div className="hidden md:flex items-center gap-8">
           <Link to="/faq" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">

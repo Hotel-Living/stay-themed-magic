@@ -105,12 +105,12 @@ export default function HotelFeaturesStep({
   };
   return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
-        <h3 className="text-lg font-semibold mb-3">HOTEL FEATURES</h3>
+        <h3 className="text-lg font-semibold mb-3">2.3- HOTEL FEATURES</h3>
         <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} />
       </div>
       
       <div>
-        <h3 className="text-lg font-semibold mb-3">ROOM FEATURES</h3>
+        <h3 className="text-lg font-semibold mb-3">2.4- ROOM FEATURES</h3>
         <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} />
       </div>
     </div>;

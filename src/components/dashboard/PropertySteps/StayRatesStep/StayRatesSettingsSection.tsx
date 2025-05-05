@@ -1,20 +1,9 @@
-
 import React from "react";
 import { ChevronRight, Info } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-
 interface StayRatesSettingsSectionProps {
   currency: string;
   setCurrency: (code: string) => void;
@@ -23,29 +12,38 @@ interface StayRatesSettingsSectionProps {
   priceIncreaseCap: number;
   setPriceIncreaseCap: (cap: number) => void;
 }
-
-const currencies = [
-  { code: "USD", symbol: "$", name: "US Dollar" },
-  { code: "EUR", symbol: "€", name: "Euro" },
-  { code: "GBP", symbol: "£", name: "British Pound" },
-  { code: "JPY", symbol: "¥", name: "Japanese Yen" },
-  { code: "CNY", symbol: "¥", name: "Chinese Yuan" }
-];
-
+const currencies = [{
+  code: "USD",
+  symbol: "$",
+  name: "US Dollar"
+}, {
+  code: "EUR",
+  symbol: "€",
+  name: "Euro"
+}, {
+  code: "GBP",
+  symbol: "£",
+  name: "British Pound"
+}, {
+  code: "JPY",
+  symbol: "¥",
+  name: "Japanese Yen"
+}, {
+  code: "CNY",
+  symbol: "¥",
+  name: "Chinese Yuan"
+}];
 export function StayRatesSettingsSection({
   currency,
   setCurrency,
   enablePriceIncrease,
   setEnablePriceIncrease,
   priceIncreaseCap,
-  setPriceIncreaseCap,
+  setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
-  return (
-    <Collapsible className="w-full" defaultOpen>
+  return <Collapsible className="w-full" defaultOpen>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-        <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">
-          SETTINGS
-        </label>
+        <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">4-1 GENERAL SETTINGS</label>
         <ChevronRight className="h-4 w-4" />
       </CollapsibleTrigger>
       <CollapsibleContent>
@@ -57,19 +55,9 @@ export function StayRatesSettingsSection({
               </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  {currencies.map((curr) => (
-                    <button
-                      key={curr.code}
-                      className={`py-1 px-2 text-sm border rounded-lg transition-colors ${
-                        currency === curr.code
-                          ? "bg-fuchsia-500/20 border-fuchsia-500/50"
-                          : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"
-                      }`}
-                      onClick={() => setCurrency(curr.code)}
-                    >
+                  {currencies.map(curr => <button key={curr.code} className={`py-1 px-2 text-sm border rounded-lg transition-colors ${currency === curr.code ? "bg-fuchsia-500/20 border-fuchsia-500/50" : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"}`} onClick={() => setCurrency(curr.code)}>
                       {curr.symbol} {curr.code}
-                    </button>
-                  ))}
+                    </button>)}
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -81,12 +69,7 @@ export function StayRatesSettingsSection({
               <AccordionContent>
                 <div className="space-y-4 pt-2">
                   <label className="flex items-center">
-                    <input 
-                      type="checkbox" 
-                      checked={enablePriceIncrease}
-                      onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
-                    />
+                    <input type="checkbox" checked={enablePriceIncrease} onChange={() => setEnablePriceIncrease(!enablePriceIncrease)} className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" />
                     <span className="text-sm">ENABLE DYNAMIC PRICING BASED ON NIGHTS SOLD</span>
                     <TooltipProvider>
                       <Tooltip>
@@ -103,21 +86,13 @@ export function StayRatesSettingsSection({
                     </TooltipProvider>
                   </label>
                   
-                  {enablePriceIncrease && (
-                    <div className="space-y-4">
+                  {enablePriceIncrease && <div className="space-y-4">
                       <div>
                         <label className="block text-sm mb-1 uppercase flex items-center justify-between">
                           <span>MAXIMUM PRICE INCREASE</span>
                           <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
                         </label>
-                        <Slider
-                          value={[priceIncreaseCap]}
-                          onValueChange={(values) => setPriceIncreaseCap(values[0])}
-                          min={5}
-                          max={50}
-                          step={1}
-                          className="w-full"
-                        />
+                        <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
                         <p className="text-xs text-foreground/70 mt-1">
                           This is the maximum percentage that prices can increase due to demand.
                         </p>
@@ -136,14 +111,12 @@ export function StayRatesSettingsSection({
                           the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
                         </p>
                       </div>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
       </CollapsibleContent>
-    </Collapsible>
-  );
+    </Collapsible>;
 }

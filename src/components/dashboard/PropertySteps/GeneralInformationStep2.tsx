@@ -1,16 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
 import HotelFeaturesStep from "./HotelFeaturesStep";
-
 export interface GeneralInformationStep2Props {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   onValidationChange?: (isValid: boolean) => void;
 }
-
 export function GeneralInformationStep2({
   formData,
   updateFormData,
@@ -18,7 +15,9 @@ export function GeneralInformationStep2({
 }: GeneralInformationStep2Props) {
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
@@ -27,7 +26,6 @@ export function GeneralInformationStep2({
     if (formData.themes && formData.themes.length > 0) {
       setSelectedThemes(formData.themes);
     }
-    
     if (formData.activities && formData.activities.length > 0) {
       setSelectedActivities(formData.activities);
     }
@@ -37,13 +35,11 @@ export function GeneralInformationStep2({
   useEffect(() => {
     updateFormData('themes', selectedThemes);
     updateFormData('activities', selectedActivities);
-    
+
     // Validate based on the requirements in stepsConfig
-    const isValid = selectedThemes.length > 0 && selectedActivities.length > 0 && 
-                    (formData.roomTypes && formData.roomTypes.length > 0);
+    const isValid = selectedThemes.length > 0 && selectedActivities.length > 0 && formData.roomTypes && formData.roomTypes.length > 0;
     onValidationChange(isValid);
   }, [selectedThemes, selectedActivities, formData.roomTypes, updateFormData, onValidationChange]);
-
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
     if (isSelected) {
       setSelectedThemes(prev => [...prev, themeId]);
@@ -51,40 +47,18 @@ export function GeneralInformationStep2({
       setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
   };
-
   const handleActivityChange = (activity: string, isChecked: boolean) => {
-    setSelectedActivities(prev => 
-      isChecked 
-        ? [...prev, activity]
-        : prev.filter(a => a !== activity)
-    );
+    setSelectedActivities(prev => isChecked ? [...prev, activity] : prev.filter(a => a !== activity));
   };
-
-  return (
-    <div className="space-y-6 max-w-[80%]">
-      <h2 className="text-xl font-bold mb-4 text-white">2. HOTEL PROFILE</h2>
+  return <div className="space-y-6 max-w-[80%]">
+      
       
       <div className="space-y-8">
-        <AffinitiesSection 
-          selectedThemes={selectedThemes}
-          onThemeSelect={handleThemeSelect}
-          openCategory={openCategory}
-          setOpenCategory={setOpenCategory}
-          openSubmenu={openSubmenu}
-          setOpenSubmenu={setOpenSubmenu}
-        />
+        <AffinitiesSection selectedThemes={selectedThemes} onThemeSelect={handleThemeSelect} openCategory={openCategory} setOpenCategory={setOpenCategory} openSubmenu={openSubmenu} setOpenSubmenu={setOpenSubmenu} />
         
-        <ActivitiesSection 
-          selectedActivities={selectedActivities}
-          onActivityChange={handleActivityChange}
-        />
+        <ActivitiesSection selectedActivities={selectedActivities} onActivityChange={handleActivityChange} />
         
-        <HotelFeaturesStep
-          onValidationChange={onValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-        />
+        <HotelFeaturesStep onValidationChange={onValidationChange} formData={formData} updateFormData={updateFormData} />
       </div>
-    </div>
-  );
+    </div>;
 }

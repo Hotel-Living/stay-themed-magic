@@ -16,6 +16,7 @@ export const FilterSection = ({
   compactSpacing = false,
   useBoldLabels = false,
   usePurpleFilterBackground = false,
+  filterBgColor,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -57,9 +58,12 @@ export const FilterSection = ({
   };
 
   const formWrapperBgColor = 'bg-[#AACAFE]';
-  const filterBgColor = 'bg-[#AACAFE]/90';
+  const defaultFilterBgColor = 'bg-[#FFFBCC]'; // Default if not provided
   const searchBgColor = 'bg-white';
   const searchHoverBgColor = 'hover:bg-white/90';
+  
+  // Use the filterBgColor prop if provided, otherwise use the default
+  const actualFilterBgColor = filterBgColor || defaultFilterBgColor;
   
   return (
     <FilterContainer
@@ -75,7 +79,7 @@ export const FilterSection = ({
         updateFilter={updateFilter}
         clearFilter={clearFilter}
         placeholders={placeholders}
-        filterBgColor={filterBgColor}
+        filterBgColor={actualFilterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
@@ -86,7 +90,7 @@ export const FilterSection = ({
         toggleThemeCategory={toggleThemeCategory}
         textColor={textColor}
         availableThemes={availableThemes}
-        labelTextSize={labelTextSize} // Pass the labelTextSize to FilterDropdownList
+        labelTextSize={labelTextSize}
       />
       
       <FilterSearchButton 

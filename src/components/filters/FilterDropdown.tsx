@@ -67,7 +67,8 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       <button 
         className={`
           flex items-center justify-between w-full rounded-md border border-transparent 
-          ${filterBgColor === "bg-[#AACAFE]/30" ? "bg-[#FFFBCC]" : filterBgColor} ${compactSpacing ? "px-2 py-1" : "px-3 py-2"} 
+          ${filterBgColor === "bg-[#AACAFE]/30" ? "bg-[#FFFBCC]" : filterBgColor.startsWith("bg-") ? filterBgColor : `bg-[${filterBgColor}]`} 
+          ${compactSpacing ? "px-2 py-1" : "px-3 py-2"} 
           transition-colors hover:bg-fuchsia-950/60
         `}
         onClick={() => toggleOpen(type)}

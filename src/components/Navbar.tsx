@@ -55,7 +55,7 @@ export function Navbar() {
   };
 
   return (
-    <header className="bg-[#AACAFE] shadow-md relative">
+    <header className="shadow-md relative">
       {/* Background image div with semi-transparency */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
@@ -125,7 +125,7 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-[48px] bg-[#AACAFE] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
+      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         {/* Background image for mobile menu */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center opacity-60"

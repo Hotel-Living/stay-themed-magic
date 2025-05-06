@@ -55,10 +55,10 @@ export function Navbar() {
 
   return (
     <header className="shadow-md relative">
-      {/* Golden gradient background image for header */}
+      {/* Golden background image for header */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/lovable-uploads/d128427b-1bed-4018-8383-362e40b65aa9.png')" }}
+        style={{ backgroundImage: "url('/lovable-uploads/df739259-58f1-43f9-a3f2-15a165d9a86b.png')" }}
       ></div>
       
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
@@ -126,10 +126,10 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
-        {/* Same golden gradient background for mobile menu */}
+        {/* Same background image for mobile menu */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/lovable-uploads/d128427b-1bed-4018-8383-362e40b65aa9.png')" }}
+          style={{ backgroundImage: "url('/lovable-uploads/df739259-58f1-43f9-a3f2-15a165d9a86b.png')" }}
         ></div>
         
         <nav className="flex flex-col space-y-4 relative z-10">

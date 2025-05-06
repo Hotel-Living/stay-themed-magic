@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -9,7 +10,7 @@ export function Footer() {
       {/* Background image div with semi-transparency */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
-        style={{ backgroundImage: "url('/lovable-uploads/84db51bb-a72a-4a8c-afe2-f06cf592fa7d.png')" }}
+        style={{ backgroundImage: "url('/lovable-uploads/df739259-58f1-43f9-a3f2-15a165d9a86b.png')" }}
       ></div>
       
       <div className="container max-w-6xl mx-auto relative z-10">

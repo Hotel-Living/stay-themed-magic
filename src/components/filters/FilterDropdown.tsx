@@ -59,6 +59,15 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
     return value;
   };
 
+  // Determine text size based on mobile status and useLargerMobileText prop
+  const getMobileTextSize = () => {
+    if (isMobile) {
+      // Increase text size by 30% for mobile
+      return "text-lg";  // Increased from the previous size
+    }
+    return labelTextSize;
+  };
+
   return (
     <div 
       ref={dropdownRef} 
@@ -74,7 +83,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       >
         <span 
           className={`
-            ${labelTextSize}
+            ${isMobile ? getMobileTextSize() : labelTextSize}
             ${useBoldLabels ? "font-bold" : ""} 
             ${value ? "text-white" : `text-[#860493]`}
             uppercase

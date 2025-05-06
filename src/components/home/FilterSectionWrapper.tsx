@@ -101,7 +101,7 @@ export function FilterSectionWrapper({
               }}
             >
               <Search className="w-4 h-4 mr-2" />
-              <span className="text-white">Search</span>
+              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
             </Button>
           </div>
         </div>

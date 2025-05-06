@@ -59,7 +59,7 @@ export const FilterSection = ({
 
   // Set the filter background color based on props
   const actualFilterBgColor = filterBgColor || (usePurpleFilterBackground ? 'bg-[#7B0A7C]' : 'bg-[#AACAFE]/90');
-  const formWrapperBgColor = 'bg-[#AACAFE]';
+  const formWrapperBgColor = 'bg-[#FFFBCC]';
   const searchBgColor = 'bg-white';
   const searchHoverBgColor = 'hover:bg-white/90';
   

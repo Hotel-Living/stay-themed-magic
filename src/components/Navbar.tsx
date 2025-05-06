@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -52,10 +53,10 @@ export function Navbar() {
 
   return (
     <header className="shadow-md relative">
-      {/* Solid golden background for header */}
+      {/* Using the actual uploaded image for header background */}
       <div
-        className="absolute inset-0 z-0"
-        style={{ backgroundColor: "#e6a700" }}
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/lovable-uploads/7fdfa242-55a3-44c5-a4a5-1a522a667bd5.png')" }}
       ></div>
       
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
@@ -123,10 +124,10 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
-        {/* Same solid golden background for mobile menu */}
+        {/* Using the same image for mobile menu background */}
         <div
-          className="absolute inset-0 z-0"
-          style={{ backgroundColor: "#e6a700" }}
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/lovable-uploads/7fdfa242-55a3-44c5-a4a5-1a522a667bd5.png')" }}
         ></div>
         
         <nav className="flex flex-col space-y-4 relative z-10">

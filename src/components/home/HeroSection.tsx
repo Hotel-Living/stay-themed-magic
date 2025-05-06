@@ -1,65 +1,99 @@
 
-import { Check } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import React from 'react';
 
-export function HeroSection() {
-  const isMobile = useIsMobile();
-  
-  return <section className="py-0 px-4 overflow-hidden pt-4 w-full">
-      <div className="container relative z-10 max-w-6xl mx-auto text-center">
-        <div className={`pt-4 ${isMobile ? "mb-6" : "mb-0.5"}`}>
-          {/* New 1950s style neon sign slogan - with adjusted sizing for mobile (30% bigger) and 10% wider */}
-          <div className={`flex justify-center ${isMobile ? "mb-8" : "mb-1"}`}>
-            <div className={`relative ${isMobile ? "w-[66.35%]" : "w-[16.72%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
-                <p className={`${isMobile ? "text-sm" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`}
-                   style={{
-                     color: "#860493",
-                   }}>
-                  The Future is Here!
-                </p>
+export const HeroSection: React.FC = () => {
+  return (
+    <div className="py-4 px-4 md:py-8 md:px-8 w-full overflow-hidden">
+      <div className="container mx-auto">
+        <div className="relative z-10">
+          {/* Hero content */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10">
+            <div className="w-full md:max-w-[50%] grid grid-cols-1 gap-4">
+              <div 
+                className="p-4 rounded-lg"
+                style={{
+                  backgroundImage: "url('/lovable-uploads/2626de45-cd10-455a-b822-be73d17a335b.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
+                <div className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-[#810E96] flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 className="text-[#810E96] font-semibold text-lg md:text-xl">Get rid of household chores!</h2>
+                </div>
+              </div>
+              
+              <div 
+                className="p-4 rounded-lg"
+                style={{
+                  backgroundImage: "url('/lovable-uploads/2626de45-cd10-455a-b822-be73d17a335b.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
+                <div className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-[#810E96] flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 className="text-[#810E96] font-semibold text-lg md:text-xl">Select hotels based on favourite themes!</h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full md:max-w-[50%] grid grid-cols-1 gap-4">
+              <div 
+                className="p-4 rounded-lg"
+                style={{
+                  backgroundImage: "url('/lovable-uploads/2626de45-cd10-455a-b822-be73d17a335b.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
+                <div className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-[#810E96] flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 className="text-[#810E96] font-semibold text-lg md:text-xl">Boost your social life!</h2>
+                </div>
+              </div>
+              
+              <div 
+                className="p-4 rounded-lg"
+                style={{
+                  backgroundImage: "url('/lovable-uploads/2626de45-cd10-455a-b822-be73d17a335b.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
+                <div className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">
+                    <div className="w-5 h-5 rounded-full bg-[#810E96] flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 className="text-[#810E96] font-semibold text-lg md:text-xl">Meet and enjoy like-minded people!</h2>
+                </div>
               </div>
             </div>
           </div>
-          
-          {/* 20% smaller text for "LIVE IN HOTELS" on mobile with 40% reduced vertical space */}
-          <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            LIVE IN HOTELS
-          </h1>
-          {/* 20% smaller text for "Boost Your Life!" on mobile */}
-          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
-            Boost Your Life!
-          </h2>
-        </div>
-        
-        {/* Changed the container background color to #FFFBCC */}
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-2`}>
-          {/* Adjusted to have equal spacing between slogans and reduced vertical padding by 30% */}
-          <div className={`${isMobile ? "space-y-2 pl-0 py-4" : "space-y-0.125 py-3"}`}>
-            {/* Changed background color to #FFF8A9 */}
-            {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
-                <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-                <p className={`text-left font-bold ${isMobile ? "text-base whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}>
-                  {slogan}
-                </p>
-              </div>)}
-          </div>
-          
-          <div className={`${isMobile ? "space-y-2 pl-0 py-4" : "space-y-0.125 py-3"}`}>
-            {/* Changed background color to #FFF8A9 */}
-            {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
-                <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-                <p className={`text-left font-bold ${isMobile ? "text-base whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}>
-                  {slogan}
-                </p>
-              </div>)}
-          </div>
         </div>
       </div>
-    </section>;
-}
-
+    </div>
+  );
+};

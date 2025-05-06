@@ -5,7 +5,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Logo } from "./Logo";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,7 +62,9 @@ export function Navbar() {
       ></div>
       
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
-        <Logo />
+        <Link to="/" className="text-[#860493] font-bold text-lg">
+          Hotel Living
+        </Link>
         
         <div className="hidden md:flex items-center gap-8">
           <Link to="/faq" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">

@@ -8,7 +8,7 @@ export function Footer() {
   const isMobile = useIsMobile();
   
   return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{ 
-      backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+      backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
       backgroundSize: "cover", 
       backgroundPosition: "center" 
     }}>
@@ -63,21 +63,21 @@ export function Footer() {
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
             <Link to="/signup" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
               backgroundSize: "cover", 
               backgroundPosition: "center" 
             }}>
               Register
             </Link>
             <Link to="/login" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
               backgroundSize: "cover", 
               backgroundPosition: "center" 
             }}>
               Sign In
             </Link>
             <Link to="/hotels" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
               backgroundSize: "cover", 
               backgroundPosition: "center" 
             }}>

@@ -84,7 +84,7 @@ export function FilterSectionWrapper({
           />
           
           <div className="flex justify-center" style={{ 
-            backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+            backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
             backgroundSize: "cover", 
             backgroundPosition: "center" 
           }}>
@@ -93,7 +93,7 @@ export function FilterSectionWrapper({
               className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#AACAFE] hover:bg-[#AACAFE]/90 font-bold border-t-2 border-fuchsia-400/70"
               onClick={handleSearch}
               style={{ 
-                backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+                backgroundImage: "url('/lovable-uploads/4477eee8-949e-4b00-ad81-8be3bf260976.png')", 
                 backgroundSize: "cover", 
                 backgroundPosition: "center" 
               }}

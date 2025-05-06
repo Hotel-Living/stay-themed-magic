@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -16,9 +15,7 @@ export function Footer() {
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
-            <Link to="/" className="text-[#860493] font-bold text-lg">
-              Hotel Living
-            </Link>
+            {/* Removed Hotel Living text here according to requirements */}
           </div>
           
           <div className="flex flex-wrap justify-center gap-y-4 gap-x-10 mb-2 mx-auto text-center w-full">

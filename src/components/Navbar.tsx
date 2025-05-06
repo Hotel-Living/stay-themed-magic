@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -55,16 +54,15 @@ export function Navbar() {
 
   return (
     <header className="shadow-md relative">
-      {/* Background image div with semi-transparency */}
+      {/* Background image div with full opacity */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
-        style={{ backgroundImage: "url('/lovable-uploads/84db51bb-a72a-4a8c-afe2-f06cf592fa7d.png')" }}
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/lovable-uploads/30607d7d-0faa-43ad-97cc-c71dcb4bc286.png')" }}
       ></div>
       
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
-        <Link to="/" className="text-[#860493] font-bold text-lg">
-          Hotel Living
-        </Link>
+        {/* Empty div to maintain layout spacing where logo was */}
+        <div></div>
         
         <div className="hidden md:flex items-center gap-8">
           <Link to="/faq" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
@@ -129,8 +127,8 @@ export function Navbar() {
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         {/* Background image for mobile menu */}
         <div
-          className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
-          style={{ backgroundImage: "url('/lovable-uploads/84db51bb-a72a-4a8c-afe2-f06cf592fa7d.png')" }}
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/lovable-uploads/30607d7d-0faa-43ad-97cc-c71dcb4bc286.png')" }}
         ></div>
         
         <nav className="flex flex-col space-y-4 relative z-10">

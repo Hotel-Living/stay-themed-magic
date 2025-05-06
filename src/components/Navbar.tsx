@@ -65,62 +65,62 @@ export function Navbar() {
         </div>
         
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/faq" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+          <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             FAQ
           </Link>
           
           {!isLoggedIn && !isDevelopment && (
             <>
-              <Link to="/signup" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
                 Register
               </Link>
-              <Link to="/login" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+              <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
                 Login
               </Link>
             </>
           )}
           
-          <Link to="/affinity-stays" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Affinity Stays?
           </Link>
-          <Link to="/hotels" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+          <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Hotels
           </Link>
-          <Link to="/videos" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+          <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Videos
           </Link>
-          <Link to="/promotions" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+          <Link to="/promotions" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Promotions
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase flex items-center gap-1">
+            <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
               <User className="w-3 h-3" />
               My Account
             </Link>
           )}
           
           {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+            <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               Hotel Dashboard
             </Link>
           )}
           
           {isLoggedIn && (
-            <Link to="/admin/hotels" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+            <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               Admin Dashboard
             </Link>
           )}
           
           {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
+            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               Logout
             </button>
           )}
         </div>
         
         <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-          {isMenuOpen ? <X className="w-5 h-5 text-[#860493]" /> : <Menu className="w-5 h-5 text-[#860493]" />}
+          {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
         </button>
       </div>
       
@@ -130,49 +130,49 @@ export function Navbar() {
           backgroundPosition: "center"
         }}>
         <nav className="flex flex-col space-y-4">
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             FAQ
           </Link>
           
           {!isLoggedIn && !isDevelopment && (
             <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
                 Register
               </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
                 Login
               </Link>
             </>
           )}
           
-          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Affinity Stays?
           </Link>
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Hotels
           </Link>
-          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Videos
           </Link>
-          <Link to="/promotions" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+          <Link to="/promotions" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Promotions
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase flex items-center justify-center gap-1">
+            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
               <User className="w-4 h-4" />
               My Account
             </Link>
           )}
           
           {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
               Hotel Dashboard
             </Link>
           )}
           
           {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
+            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
               Logout
             </button>
           )}

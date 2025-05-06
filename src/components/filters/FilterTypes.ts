@@ -42,6 +42,7 @@ export interface FilterSectionProps {
   useLargerMobileText?: boolean;
   textColor?: string;
   labelTextSize?: string;
+  filterBgColor?: string;
 }
 
 export interface FilterContainerProps {

@@ -25,7 +25,8 @@ export const FilterSection = ({
   availableThemes = [],
   useLargerMobileText = false,
   textColor = "#3300B0",
-  labelTextSize = "text-sm" // Added default value for labelTextSize
+  labelTextSize = "text-sm", // Added default value for labelTextSize
+  filterBgColor = "bg-[#FFFBCC]"
 }: FilterSectionProps) => {
   const navigate = useNavigate();
   
@@ -57,7 +58,6 @@ export const FilterSection = ({
   };
 
   const formWrapperBgColor = 'bg-[#AACAFE]';
-  const filterBgColor = 'bg-[#AACAFE]/90';
   const searchBgColor = 'bg-white';
   const searchHoverBgColor = 'hover:bg-white/90';
   
@@ -86,7 +86,7 @@ export const FilterSection = ({
         toggleThemeCategory={toggleThemeCategory}
         textColor={textColor}
         availableThemes={availableThemes}
-        labelTextSize={labelTextSize} // Pass the labelTextSize to FilterDropdownList
+        labelTextSize={labelTextSize}
       />
       
       <FilterSearchButton 

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -76,7 +75,7 @@ export function FilterSectionWrapper({
             compactSpacing={true} 
             useBoldLabels={true} 
             usePurpleFilterBackground={false} 
-            filterBgColor="bg-[#FFFBCC]"
+            filterBgColor="bg-[#7B0A7C]"
             availableThemes={themes ? themes.map(theme => theme.name) : availableThemes}
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}

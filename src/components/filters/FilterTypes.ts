@@ -32,6 +32,7 @@ export interface FilterSectionProps {
   compactSpacing?: boolean;
   useBoldLabels?: boolean;
   usePurpleFilterBackground?: boolean;
+  filterBgColor?: string;
   placeholders?: {
     country?: string;
     month?: string;

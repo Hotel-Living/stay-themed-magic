@@ -7,7 +7,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function Footer() {
   const isMobile = useIsMobile();
   
-  return <footer className="py-4 px-4 bg-[#AACAFE] border-t border-[#3300B0]/20 mt-20">
+  return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{ 
+      backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+      backgroundSize: "cover", 
+      backgroundPosition: "center" 
+    }}>
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
@@ -58,13 +62,25 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
-            <Link to="/signup" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/signup" className={`text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
+              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundSize: "cover", 
+              backgroundPosition: "center" 
+            }}>
               Register
             </Link>
-            <Link to="/login" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/login" className={`text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
+              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundSize: "cover", 
+              backgroundPosition: "center" 
+            }}>
               Sign In
             </Link>
-            <Link to="/hotels" className={`bg-white text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`}>
+            <Link to="/hotels" className={`text-[#860493] hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
+              backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+              backgroundSize: "cover", 
+              backgroundPosition: "center" 
+            }}>
               Hotels
             </Link>
           </div>

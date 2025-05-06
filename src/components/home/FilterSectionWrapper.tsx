@@ -57,7 +57,11 @@ export function FilterSectionWrapper({
   
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
-        <div className="rounded-lg p-1 bg-[#721876] shadow-lg border-3 border-fuchsia-400/80">
+        <div className="rounded-lg p-1 bg-[#721876] shadow-lg border-3 border-fuchsia-400/80" style={{ 
+          backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+          backgroundSize: "cover", 
+          backgroundPosition: "center" 
+        }}>
           <FilterSection 
             onFilterChange={handleFilterChange} 
             showSearchButton={false} 
@@ -79,11 +83,20 @@ export function FilterSectionWrapper({
             labelTextSize="text-xs"
           />
           
-          <div className="flex justify-center bg-[#721876]">
+          <div className="flex justify-center" style={{ 
+            backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+            backgroundSize: "cover", 
+            backgroundPosition: "center" 
+          }}>
             <Button 
               size="sm" 
               className="text-[#860493] w-full max-w-6xl flex items-center justify-center py-0.5 bg-[#AACAFE] hover:bg-[#AACAFE]/90 font-bold border-t-2 border-fuchsia-400/70"
               onClick={handleSearch}
+              style={{ 
+                backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
+                backgroundSize: "cover", 
+                backgroundPosition: "center" 
+              }}
             >
               <Search className="w-4 h-4 mr-2" />
               <span className="text-[#860493]">Search</span>

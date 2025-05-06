@@ -70,6 +70,11 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
           ${filterBgColor} ${compactSpacing ? "px-2 py-1" : "px-3 py-2"} 
           transition-colors hover:bg-fuchsia-950/60
         `}
+        style={{ 
+          backgroundImage: "url('/lovable-uploads/963150f1-eeae-4db3-b3fe-6c57484c8b7a.png')", 
+          backgroundSize: "cover", 
+          backgroundPosition: "center" 
+        }}
         onClick={() => toggleOpen(type)}
       >
         <span 

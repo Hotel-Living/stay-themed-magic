@@ -1,22 +1,19 @@
 
 import { Link } from "react-router-dom";
+import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Footer() {
   const isMobile = useIsMobile();
   
-  return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20 relative">
-      {/* Background image div with semi-transparency */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
-        style={{ backgroundImage: "url('/lovable-uploads/df739259-58f1-43f9-a3f2-15a165d9a86b.png')" }}
-      ></div>
-      
-      <div className="container max-w-6xl mx-auto relative z-10">
+  return <footer className="py-4 px-4 bg-[#AACAFE] border-t border-[#3300B0]/20 mt-20">
+      <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">
           <div className={isMobile ? "mb-4" : "mb-6"}>
-            {/* Removed Hotel Living text here according to requirements */}
+            <div className={isMobile ? "h-[59.67px]" : ""}>
+              <Logo />
+            </div>
           </div>
           
           <div className="flex flex-wrap justify-center gap-y-4 gap-x-10 mb-2 mx-auto text-center w-full">

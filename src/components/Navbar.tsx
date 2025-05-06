@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { Logo } from "./Logo";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +15,9 @@ export function Navbar() {
     signOut,
     session
   } = useAuth();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -51,17 +54,11 @@ export function Navbar() {
     }
   };
 
-  return (
-    <header className="shadow-md relative">
-      {/* Using the correct golden gradient image for header background */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/lovable-uploads/6d75ecee-1a7f-47e1-9866-5092bed3798e.png')" }}
-      ></div>
-      
-      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
-        {/* Empty div to maintain layout spacing where logo was */}
-        <div></div>
+  return <header className="bg-[#AACAFE] shadow-md">
+      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
+        <div className="flex-shrink-0">
+          <Logo />
+        </div>
         
         <div className="hidden md:flex items-center gap-8">
           <Link to="/faq" className="text-[#860493] font-bold hover:text-[#860493]/80 text-[0.66rem] uppercase">
@@ -123,14 +120,8 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
-        {/* Using the same golden gradient image for mobile menu background */}
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/lovable-uploads/6d75ecee-1a7f-47e1-9866-5092bed3798e.png')" }}
-        ></div>
-        
-        <nav className="flex flex-col space-y-4 relative z-10">
+      <div className={cn("fixed inset-0 top-[48px] bg-[#AACAFE] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
+        <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
             FAQ
           </Link>
@@ -179,6 +170,5 @@ export function Navbar() {
           )}
         </nav>
       </div>
-    </header>
-  );
+    </header>;
 }

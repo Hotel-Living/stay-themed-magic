@@ -12,9 +12,9 @@ export function Logo({ className }: { className?: string }) {
     >
       <div className="flex items-center gap-2">
         <img 
-          src="/lovable-uploads/6a8f03bf-4d50-4216-8288-cb10fe973731.png" 
+          src="/lovable-uploads/fe0b8f22-ec21-4b14-b6a1-d10b1db86c3f.png" 
           alt="Hotel-Living Logo"
-          className={isMobile ? "h-[45.9px]" : "h-9"} // 10% smaller from original 51px
+          className={isMobile ? "h-[59.67px]" : "h-[40px]"} // Significantly increased desktop size
         />
       </div>
     </Link>

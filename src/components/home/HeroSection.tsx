@@ -32,7 +32,8 @@ export function HeroSection() {
           </h2>
         </div>
         
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-white/70 rounded-lg backdrop-blur-sm p-2`}>
+        {/* Changed the container background color to #FFFBCC */}
+        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-6 mt-6 px-0 w-[95%]" : "mb-0.5"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-2`}>
           {/* Adjusted to have equal spacing between slogans and reduced vertical padding by 30% */}
           <div className={`${isMobile ? "space-y-2 pl-0 py-4" : "space-y-0.125 py-3"}`}>
             {/* Changed background color to #FFF8A9 */}

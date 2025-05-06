@@ -75,8 +75,7 @@ export function FilterSectionWrapper({
             expandedLayout={true} 
             compactSpacing={true} 
             useBoldLabels={true} 
-            usePurpleFilterBackground={false} 
-            filterBgColor="bg-[#7B0A7C]"
+            usePurpleFilterBackground={true} 
             availableThemes={themes ? themes.map(theme => theme.name) : availableThemes}
             verticalLayout={isMobile}
             useLargerMobileText={isMobile}

@@ -16,7 +16,6 @@ export const FilterSection = ({
   compactSpacing = false,
   useBoldLabels = false,
   usePurpleFilterBackground = false,
-  filterBgColor,
   placeholders = {
     country: "Country",
     month: "Month",
@@ -26,7 +25,7 @@ export const FilterSection = ({
   availableThemes = [],
   useLargerMobileText = false,
   textColor = "#3300B0",
-  labelTextSize = "text-sm"
+  labelTextSize = "text-sm" // Added default value for labelTextSize
 }: FilterSectionProps) => {
   const navigate = useNavigate();
   
@@ -57,9 +56,8 @@ export const FilterSection = ({
     navigate(`/search?${params.toString()}`);
   };
 
-  // Set the filter background color based on props
-  const actualFilterBgColor = filterBgColor || (usePurpleFilterBackground ? 'bg-[#7B0A7C]' : 'bg-[#AACAFE]/90');
-  const formWrapperBgColor = 'bg-[#FFFBCC]';
+  const formWrapperBgColor = 'bg-[#AACAFE]';
+  const filterBgColor = 'bg-[#AACAFE]/90';
   const searchBgColor = 'bg-white';
   const searchHoverBgColor = 'hover:bg-white/90';
   
@@ -77,7 +75,7 @@ export const FilterSection = ({
         updateFilter={updateFilter}
         clearFilter={clearFilter}
         placeholders={placeholders}
-        filterBgColor={actualFilterBgColor}
+        filterBgColor={filterBgColor}
         compactSpacing={compactSpacing}
         useBoldLabels={useBoldLabels}
         useLargerMobileText={useLargerMobileText}
@@ -88,7 +86,7 @@ export const FilterSection = ({
         toggleThemeCategory={toggleThemeCategory}
         textColor={textColor}
         availableThemes={availableThemes}
-        labelTextSize={labelTextSize}
+        labelTextSize={labelTextSize} // Pass the labelTextSize to FilterDropdownList
       />
       
       <FilterSearchButton 

@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -53,14 +54,10 @@ export function Navbar() {
     }
   };
 
-  return <header className="shadow-md" style={{ 
-    backgroundImage: `url('/lovable-uploads/e9e20054-044b-48d3-89b9-5cd18662ce02.png')`, 
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  }}>
+  return <header className="bg-[#DE8F00] shadow-md">
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
         <div className="flex-shrink-0">
-          
+          <Logo />
         </div>
         
         <div className="hidden md:flex items-center gap-8">
@@ -123,13 +120,7 @@ export function Navbar() {
         </button>
       </div>
       
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}
-        style={{ 
-          backgroundImage: `url('/lovable-uploads/e9e20054-044b-48d3-89b9-5cd18662ce02.png')`, 
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
+      <div className={cn("fixed inset-0 top-[48px] bg-[#DE8F00] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
             FAQ

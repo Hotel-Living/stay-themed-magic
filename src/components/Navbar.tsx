@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -69,17 +68,6 @@ export function Navbar() {
             FAQ
           </Link>
           
-          {!isLoggedIn && !isDevelopment && (
-            <>
-              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-                Register
-              </Link>
-              <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-                Login
-              </Link>
-            </>
-          )}
-          
           <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Affinity Stays?
           </Link>
@@ -112,6 +100,17 @@ export function Navbar() {
             </Link>
           )}
           
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+                Register
+              </Link>
+              <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+                Login
+              </Link>
+            </>
+          )}
+          
           {isLoggedIn && !isDevelopment && (
             <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               Logout
@@ -133,17 +132,6 @@ export function Navbar() {
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             FAQ
           </Link>
-          
-          {!isLoggedIn && !isDevelopment && (
-            <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
-                Register
-              </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
-                Login
-              </Link>
-            </>
-          )}
           
           <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Affinity Stays?
@@ -171,6 +159,17 @@ export function Navbar() {
             </Link>
           )}
           
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+                Register
+              </Link>
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+                Login
+              </Link>
+            </>
+          )}
+          
           {isLoggedIn && !isDevelopment && (
             <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
               Logout
@@ -180,4 +179,3 @@ export function Navbar() {
       </div>
     </header>;
 }
-

@@ -54,8 +54,15 @@ export function Navbar() {
     }
   };
 
-  return <header className="bg-[#AACAFE] shadow-md">
-      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
+  return (
+    <header className="bg-[#AACAFE] shadow-md relative">
+      {/* Background image div with semi-transparency */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
+        style={{ backgroundImage: "url('/lovable-uploads/84db51bb-a72a-4a8c-afe2-f06cf592fa7d.png')" }}
+      ></div>
+      
+      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
         <Logo />
         
         <div className="hidden md:flex items-center gap-8">
@@ -119,7 +126,13 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] bg-[#AACAFE] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
-        <nav className="flex flex-col space-y-4">
+        {/* Background image for mobile menu */}
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center opacity-60"
+          style={{ backgroundImage: "url('/lovable-uploads/84db51bb-a72a-4a8c-afe2-f06cf592fa7d.png')" }}
+        ></div>
+        
+        <nav className="flex flex-col space-y-4 relative z-10">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-[#860493] font-bold hover:text-[#860493]/80 text-center text-base uppercase">
             FAQ
           </Link>
@@ -168,5 +181,6 @@ export function Navbar() {
           )}
         </nav>
       </div>
-    </header>;
+    </header>
+  );
 }

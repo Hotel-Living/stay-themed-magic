@@ -55,7 +55,7 @@ export function Navbar() {
   };
 
   return <header className="shadow-md" style={{ 
-      backgroundImage: "url('/lovable-uploads/20ea4f2b-5c54-417e-8e4d-a6364e5946de.png')",
+      backgroundImage: "url('/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png')",
       backgroundSize: "cover",
       backgroundPosition: "center"
     }}>
@@ -125,7 +125,7 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
-          backgroundImage: "url('/lovable-uploads/20ea4f2b-5c54-417e-8e4d-a6364e5946de.png')",
+          backgroundImage: "url('/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png')",
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}>

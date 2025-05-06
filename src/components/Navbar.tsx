@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -14,9 +13,7 @@ export function Navbar() {
     signOut,
     session
   } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -55,10 +52,10 @@ export function Navbar() {
 
   return (
     <header className="shadow-md relative">
-      {/* Golden gradient background image for header */}
+      {/* Solid golden background for header */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/lovable-uploads/934e5769-4019-43d4-b590-73eee5d0e002.png')" }}
+        className="absolute inset-0 z-0"
+        style={{ backgroundColor: "#e6a700" }}
       ></div>
       
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between relative z-10">
@@ -126,10 +123,10 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")}>
-        {/* Same golden gradient background for mobile menu */}
+        {/* Same solid golden background for mobile menu */}
         <div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/lovable-uploads/934e5769-4019-43d4-b590-73eee5d0e002.png')" }}
+          className="absolute inset-0 z-0"
+          style={{ backgroundColor: "#e6a700" }}
         ></div>
         
         <nav className="flex flex-col space-y-4 relative z-10">

@@ -7,6 +7,7 @@ import { FilterState } from '@/components/filters';
 import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
 import { useThemes } from '@/hooks/useThemes';
 import { useHotels } from '@/hooks/useHotels';
+import { HotelStarfield } from '@/components/hotels/HotelStarfield';
 
 export default function Index() {
   const { data: themes } = useThemes();
@@ -44,6 +45,7 @@ export default function Index() {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 w-full">

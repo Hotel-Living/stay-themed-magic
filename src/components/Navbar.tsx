@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -55,7 +54,7 @@ export function Navbar() {
   };
 
   return <header className="shadow-md" style={{ 
-      backgroundImage: "url('/lovable-uploads/1de3e19f-2543-4b26-8c58-8c694a4c02d2.png')",
+      backgroundImage: "url('/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png')",
       backgroundSize: "cover",
       backgroundPosition: "center"
     }}>

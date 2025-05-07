@@ -23,11 +23,11 @@ export function HeroSection() {
           </div>
           
           {/* 20% smaller text for "LIVE IN HOTELS" on mobile with 40% reduced vertical space */}
-          <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
+          <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0.25 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
             LIVE IN HOTELS
           </h1>
           {/* 20% smaller text for "Boost Your Life!" on mobile */}
-          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-1 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
+          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-1 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
             Boost Your Life!
           </h2>
         </div>

@@ -25,7 +25,7 @@ const AddNewCategoryForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-2 bg-[#5A1876]/10 rounded-lg space-y-2">
+    <form onSubmit={handleSubmit} className="p-2 bg-[#5d0083]/10 rounded-lg space-y-2">
       <Input 
         type="text"
         placeholder="Enter category name"

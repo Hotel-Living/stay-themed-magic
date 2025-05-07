@@ -10,7 +10,7 @@ interface FaqSectionProps {
 export const FaqSection = ({ hotel }: FaqSectionProps) => {
   return (
     <>
-      <Card className="p-6 bg-[#2A0F44]">
+      <Card className="p-6 bg-[#5d0083]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">FAQs</h3>
         {hotel.faqs && hotel.faqs.length > 0 ? (
           <div className="space-y-4">
@@ -26,7 +26,7 @@ export const FaqSection = ({ hotel }: FaqSectionProps) => {
         )}
       </Card>
 
-      <Card className="p-6 bg-[#2A0F44]">
+      <Card className="p-6 bg-[#5d0083]">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Terms & Conditions</h3>
         <p className="whitespace-pre-wrap">{hotel.terms || "No terms specified"}</p>
       </Card>

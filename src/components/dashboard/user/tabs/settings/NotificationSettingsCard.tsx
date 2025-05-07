@@ -16,10 +16,10 @@ export const NotificationSettingsCard: React.FC<NotificationSettingsCardProps> =
 }) => {
   return (
     <Card>
-      <CardHeader className="bg-[#860493] text-white pb-2 border-b border-fuchsia-800">
+      <CardHeader className="bg-[#5d0083] text-white pb-2 border-b border-fuchsia-800">
         <CardTitle>Notification Preferences</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 bg-[#860493]">
+      <CardContent className="space-y-4 bg-[#5d0083]">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="email-notifications" className="text-base text-white">Email Notifications</Label>

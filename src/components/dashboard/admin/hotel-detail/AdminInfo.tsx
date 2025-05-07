@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Clock } from "lucide-react";
 import { AdminHotelDetail } from "@/types/hotel";
@@ -8,7 +9,7 @@ interface AdminInfoProps {
 
 export function AdminInfo({ hotel }: AdminInfoProps) {
   return (
-    <div className="rounded-xl p-6 bg-[#2A0F44]">
+    <div className="rounded-xl p-6 bg-[#5d0083]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
         <Clock className="w-5 h-5 text-purple-400" />
         Administrative Details

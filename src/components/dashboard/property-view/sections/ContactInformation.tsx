@@ -9,7 +9,7 @@ interface ContactInformationProps {
 
 export const ContactInformation = ({ hotel }: ContactInformationProps) => {
   return (
-    <Card className="p-6 bg-[#2A0F44]">
+    <Card className="p-6 bg-[#5d0083]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Contact Information</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

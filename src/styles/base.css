@@ -47,6 +47,5 @@
   body {
     @apply bg-background text-foreground antialiased;
     position: relative;
-    /* Removed background-color: #b006be; */
   }
 }

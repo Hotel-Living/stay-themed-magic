@@ -57,7 +57,7 @@ export const FilterSection = ({
     navigate(`/search?${params.toString()}`);
   };
 
-  const formWrapperBgColor = 'bg-[#7B0A7C]';
+  const formWrapperBgColor = 'bg-[#5d0083]';
   const searchBgColor = 'bg-white';
   const searchHoverBgColor = 'hover:bg-white/90';
   

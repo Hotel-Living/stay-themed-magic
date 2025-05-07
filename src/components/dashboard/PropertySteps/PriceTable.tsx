@@ -1,3 +1,4 @@
+
 import React from "react";
 interface PriceTableProps {
   roomType: string;
@@ -19,14 +20,14 @@ export default function PriceTable({
         <thead>
           <tr className="bg-fuchsia-900/50">
             <th className="p-2 text-left text-xs"></th>
-            {stayDurations.map(duration => <th key={duration} className="p-2 text-center text-xs bg-[#c70dcd]">{duration} DAYS</th>)}
+            {stayDurations.map(duration => <th key={duration} className="p-2 text-center text-xs bg-[#5d0083]">{duration} DAYS</th>)}
           </tr>
         </thead>
         <tbody>
           {mealTypes.map((mealType, index) => <tr key={mealType} className={index % 2 === 0 ? "bg-fuchsia-900/20" : "bg-fuchsia-900/30"}>
-              <td className="p-2 text-xs font-medium bg-[#be0fc4]">{mealType}</td>
+              <td className="p-2 text-xs font-medium bg-[#5d0083]">{mealType}</td>
               {stayDurations.map(duration => <td key={`${mealType}-${duration}`} className="p-2 text-center text-xs">
-                  <input type="number" placeholder="0.00" required className="w-16 border border-fuchsia-800/30 rounded-lg p-1 text-center bg-[#7f0582]" />
+                  <input type="number" placeholder="0.00" required className="w-16 border border-fuchsia-800/30 rounded-lg p-1 text-center bg-[#5d0083]" />
                 </td>)}
             </tr>)}
         </tbody>

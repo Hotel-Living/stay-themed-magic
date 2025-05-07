@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -56,7 +57,7 @@ export function FilterSectionWrapper({
   
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
-        <div className="rounded-lg p-1 bg-[#721876] shadow-lg border-3 border-fuchsia-400/80" style={{ 
+        <div className="rounded-lg p-1 bg-[#a98805] shadow-lg border-3 border-fuchsia-400/80" style={{ 
           backgroundColor: "#a98805" 
         }}>
           <FilterSection 

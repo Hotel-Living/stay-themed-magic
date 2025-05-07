@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -54,9 +55,7 @@ export function Navbar() {
   };
 
   return <header className="shadow-md" style={{ 
-      backgroundImage: "url('/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png')",
-      backgroundSize: "cover",
-      backgroundPosition: "center"
+      backgroundColor: "#a98805",
     }}>
       <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
         <div className="flex-shrink-0">
@@ -124,9 +123,7 @@ export function Navbar() {
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
-          backgroundImage: "url('/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center"
+          backgroundColor: "#a98805",
         }}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">

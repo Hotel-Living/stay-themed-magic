@@ -32,8 +32,8 @@ export function HeroSection() {
           </h2>
         </div>
         
-        {/* Changed the container background color to #FFFBCC */}
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-4 mt-3 px-0 w-[100%]" : "mb-0.25"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-1`}>
+        {/* Changed the container background color to #FFFBCC and made it narrower */}
+        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-4 mt-3 px-0 w-[90%]" : "mb-0.25 w-[80%]"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-1`}>
           {/* Adjusted to have equal spacing between slogans and reduced vertical padding by 50% */}
           <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"}`}>
             {/* Changed background color to #FFF8A9 */}
@@ -41,7 +41,8 @@ export function HeroSection() {
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}>
+                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}
+                   style={{ fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif" }}>
                   {slogan}
                 </p>
               </div>)}
@@ -53,7 +54,8 @@ export function HeroSection() {
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
-                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}>
+                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}
+                   style={{ fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif" }}>
                   {slogan}
                 </p>
               </div>)}

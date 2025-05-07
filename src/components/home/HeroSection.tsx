@@ -5,13 +5,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function HeroSection() {
   const isMobile = useIsMobile();
   
-  return <section className="py-0 px-4 overflow-hidden pt-4 w-full">
+  return <section className="py-0 px-4 overflow-hidden pt-2 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
-        <div className={`pt-4 ${isMobile ? "mb-6" : "mb-0.5"}`}>
+        <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
           {/* New 1950s style neon sign slogan - with adjusted sizing for mobile (30% bigger) and 10% wider */}
-          <div className={`flex justify-center ${isMobile ? "mb-8" : "mb-1"}`}>
+          <div className={`flex justify-center ${isMobile ? "mb-4" : "mb-0.5"}`}>
             <div className={`relative ${isMobile ? "w-[66.35%]" : "w-[16.72%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-1 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className={`${isMobile ? "text-sm" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",
@@ -27,15 +27,15 @@ export function HeroSection() {
             LIVE IN HOTELS
           </h1>
           {/* 20% smaller text for "Boost Your Life!" on mobile */}
-          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-2 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
+          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-1 text-[#FFEF00] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]`}>
             Boost Your Life!
           </h2>
         </div>
         
         {/* Changed the container background color to #FFFBCC */}
-        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.25 ${isMobile ? "mb-8 mt-6 px-0 w-[100%]" : "mb-0.5"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-2`}>
-          {/* Adjusted to have equal spacing between slogans and increased vertical padding by 25% */}
-          <div className={`${isMobile ? "space-y-3 pl-0 py-5" : "space-y-0.125 py-3"}`}>
+        <div className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-4 mt-3 px-0 w-[100%]" : "mb-0.25"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-1`}>
+          {/* Adjusted to have equal spacing between slogans and reduced vertical padding by 50% */}
+          <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"}`}>
             {/* Changed background color to #FFF8A9 */}
             {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
@@ -47,7 +47,7 @@ export function HeroSection() {
               </div>)}
           </div>
           
-          <div className={`${isMobile ? "space-y-3 pl-0 py-5" : "space-y-0.125 py-3"}`}>
+          <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"}`}>
             {/* Changed background color to #FFF8A9 */}
             {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">

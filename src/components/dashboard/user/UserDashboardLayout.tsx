@@ -7,6 +7,7 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -65,6 +66,7 @@ export default function UserDashboardLayout({
   
   return (
     <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

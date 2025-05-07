@@ -1,4 +1,3 @@
-
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -7,6 +6,7 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -89,6 +89,7 @@ export default function DashboardLayout({
   
   return (
     <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -83,19 +82,14 @@ export function FilterSectionWrapper({
           />
           
           <div className="flex justify-center" style={{ 
-            backgroundImage: "url('/lovable-uploads/b5dce0fc-55f8-4fd1-9b4b-709e6037edef.png')", 
-            backgroundSize: "cover", 
-            backgroundPosition: "center" 
+            backgroundColor: "#a98805" 
           }}>
             <Button 
               size="sm" 
               className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 hover:bg-[#AACAFE]/90 font-bold border-t-2 border-fuchsia-400/70"
               onClick={handleSearch}
               style={{ 
-                backgroundImage: "url('/lovable-uploads/b5dce0fc-55f8-4fd1-9b4b-709e6037edef.png')", 
-                backgroundSize: "cover", 
-                backgroundPosition: "center",
-                backgroundColor: "transparent"
+                backgroundColor: "#a98805",
               }}
             >
               <Search className="w-4 h-4 mr-2" />

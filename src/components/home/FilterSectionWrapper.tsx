@@ -58,9 +58,7 @@ export function FilterSectionWrapper({
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div className="rounded-lg p-1 bg-[#721876] shadow-lg border-3 border-fuchsia-400/80" style={{ 
-          backgroundImage: "url('/lovable-uploads/ad9cfddd-b5fb-424d-a0c8-616975092294.png')", 
-          backgroundSize: "cover", 
-          backgroundPosition: "center" 
+          backgroundColor: "#a98805" 
         }}>
           <FilterSection 
             onFilterChange={handleFilterChange} 

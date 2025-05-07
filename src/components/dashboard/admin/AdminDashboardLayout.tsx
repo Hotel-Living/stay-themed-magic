@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 interface AdminDashboardLayoutProps {
   children: ReactNode;
@@ -76,6 +77,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
 
   return (
     <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

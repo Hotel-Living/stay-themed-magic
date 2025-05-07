@@ -28,13 +28,13 @@ export function HeroSection() {
             LIVE IN HOTELS
           </h1>
           {/* 20% smaller text for "Boost Your Life!" on mobile */}
-          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-1 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
+          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
             Boost Your Life!
           </h2>
         </div>
         
         {/* Changed the container background color to #FFFBCC and made it narrower */}
-        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-16 mt-3 px-0 w-[90%]" : "mb-16 w-[80%]"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-1`}>
+        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-6 mt-3 px-0 w-[90%]" : "mb-6 w-[80%]"} bg-[#FFFBCC] rounded-lg backdrop-blur-sm p-1`}>
           {/* Adjusted to have equal spacing between slogans and reduced vertical padding by 50% */}
           <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"}`}>
             {/* Changed background color to #FFF8A9 */}

@@ -120,8 +120,8 @@ export function StayRatesSettingsSection({
       {/* Dynamic pricing content moved COMPLETELY outside both Accordion and Collapsible */}
       {typeof enablePriceIncrease !== "undefined" && (
         <div 
-          className={`dynamic-pricing-content ${
-            visibleBlock ? "block opacity-100 transition-opacity duration-300" : "hidden"
+          className={`dynamic-pricing-content overflow-hidden transition-transform duration-300 origin-top ${
+            visibleBlock ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 h-0"
           }`}
         >
           <div className="pricing-content-inner bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">

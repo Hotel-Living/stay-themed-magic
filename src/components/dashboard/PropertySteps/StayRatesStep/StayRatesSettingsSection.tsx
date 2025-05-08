@@ -1,9 +1,11 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { ChevronRight, Info } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+
 interface StayRatesSettingsSectionProps {
   currency: string;
   setCurrency: (code: string) => void;
@@ -12,6 +14,7 @@ interface StayRatesSettingsSectionProps {
   priceIncreaseCap: number;
   setPriceIncreaseCap: (cap: number) => void;
 }
+
 const currencies = [{
   code: "USD",
   symbol: "$",
@@ -33,6 +36,7 @@ const currencies = [{
   symbol: "¥",
   name: "Chinese Yuan"
 }];
+
 export function StayRatesSettingsSection({
   currency,
   setCurrency,
@@ -41,6 +45,19 @@ export function StayRatesSettingsSection({
   priceIncreaseCap,
   setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
+  // Add state to control delayed rendering of price increase settings
+  const [showPriceSettings, setShowPriceSettings] = useState(false);
+  
+  // Effect to handle delayed rendering when enablePriceIncrease changes
+  useEffect(() => {
+    if (enablePriceIncrease) {
+      const timeout = setTimeout(() => setShowPriceSettings(true), 100);
+      return () => clearTimeout(timeout);
+    } else {
+      setShowPriceSettings(false);
+    }
+  }, [enablePriceIncrease]);
+
   return <Collapsible className="w-full" defaultOpen>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">4-1 GENERAL SETTINGS</label>
@@ -86,7 +103,8 @@ export function StayRatesSettingsSection({
                     </TooltipProvider>
                   </label>
                   
-                  {enablePriceIncrease && <div className="space-y-4">
+                  {showPriceSettings && (
+                    <div className="space-y-4">
                       <div>
                         <label className="block text-sm mb-1 uppercase flex items-center justify-between">
                           <span>MAXIMUM PRICE INCREASE</span>
@@ -111,7 +129,8 @@ export function StayRatesSettingsSection({
                           the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
                         </p>
                       </div>
-                    </div>}
+                    </div>
+                  )}
                 </div>
               </AccordionContent>
             </AccordionItem>

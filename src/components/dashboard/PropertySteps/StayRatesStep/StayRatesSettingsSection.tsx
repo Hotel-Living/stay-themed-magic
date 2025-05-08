@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ChevronRight, Info } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -45,19 +45,6 @@ export function StayRatesSettingsSection({
   priceIncreaseCap,
   setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
-  // Add state to control delayed rendering of price increase settings
-  const [showPriceSettings, setShowPriceSettings] = useState(false);
-  
-  // Effect to handle visibility changes when enablePriceIncrease changes
-  useEffect(() => {
-    if (enablePriceIncrease) {
-      const timeout = setTimeout(() => setShowPriceSettings(true), 100);
-      return () => clearTimeout(timeout);
-    } else {
-      setShowPriceSettings(false);
-    }
-  }, [enablePriceIncrease]);
-
   return <Collapsible className="w-full" defaultOpen>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">4-1 GENERAL SETTINGS</label>
@@ -86,7 +73,12 @@ export function StayRatesSettingsSection({
               <AccordionContent>
                 <div className="space-y-4 pt-2">
                   <label className="flex items-center">
-                    <input type="checkbox" checked={enablePriceIncrease} onChange={() => setEnablePriceIncrease(!enablePriceIncrease)} className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" />
+                    <input 
+                      type="checkbox" 
+                      checked={enablePriceIncrease} 
+                      onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
+                    />
                     <span className="text-sm">ENABLE DYNAMIC PRICING BASED ON NIGHTS SOLD</span>
                     <TooltipProvider>
                       <Tooltip>
@@ -103,12 +95,16 @@ export function StayRatesSettingsSection({
                     </TooltipProvider>
                   </label>
                   
-                  {/* Always render the settings but control visibility with CSS classes */}
-                  <div className={`space-y-4 overflow-hidden transition-all duration-300 ease-in-out ${
-                    enablePriceIncrease && showPriceSettings 
-                      ? "opacity-100 max-h-[500px]" 
-                      : "opacity-0 max-h-0 pointer-events-none"
-                  }`}>
+                  <div 
+                    className="space-y-4 overflow-hidden transition-all duration-300 ease-in-out will-change-transform"
+                    data-state={enablePriceIncrease ? "open" : "closed"}
+                    style={{
+                      maxHeight: enablePriceIncrease ? '500px' : '0',
+                      opacity: enablePriceIncrease ? 1 : 0,
+                      transform: 'translateZ(0)',
+                      pointerEvents: enablePriceIncrease ? 'auto' : 'none',
+                    }}
+                  >
                     <div>
                       <label className="block text-sm mb-1 uppercase flex items-center justify-between">
                         <span>MAXIMUM PRICE INCREASE</span>

@@ -82,33 +82,33 @@
   .border-input { border-color: hsl(var(--input)); }
 
   .ring-ring { --tw-ring-color: hsl(var(--ring)); }
-
-  @keyframes text-shine {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
-  /* Neon sign pulsing animation - updated for purple glow for yellow text, without text-stroke */
-  @keyframes pulse-glow {
-    from {
-      opacity: 0.8;
-      text-shadow: 0 0 7px #5D0478, 0 0 10px #5D0478, 0 0 21px #5D0478;
-    }
-    to {
-      opacity: 1;
-      text-shadow: 0 0 10px #5D0478, 0 0 20px #5D0478, 0 0 30px #5D0478, 0 0 40px #5D0478;
-    }
-  }
   
   /* Custom duration for longer transitions */
   .duration-3000 {
     transition-duration: 3000ms;
+  }
+}
+
+@keyframes text-shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+  
+/* Neon sign pulsing animation - updated for purple glow for yellow text, without text-stroke */
+@keyframes pulse-glow {
+  from {
+    opacity: 0.8;
+    text-shadow: 0 0 7px #5D0478, 0 0 10px #5D0478, 0 0 21px #5D0478;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 10px #5D0478, 0 0 20px #5D0478, 0 0 30px #5D0478, 0 0 40px #5D0478;
   }
 }

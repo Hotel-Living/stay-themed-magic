@@ -63,7 +63,7 @@ export function StayRatesSettingsSection({
                 X = (Total nights in month) ÷ {priceIncreaseCap}
               </div>
               <p className="text-xs text-foreground/80">
-                For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
+                For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%,
                 the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
               </p>
             </div>

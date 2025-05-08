@@ -50,6 +50,11 @@
   .pricing-content-inner {
     transform: translateZ(0);
   }
+  
+  /* Border utility class for shadcn/ui design pattern */
+  .border-border {
+    border-color: hsl(var(--border));
+  }
 
   @keyframes text-shine {
     0% {

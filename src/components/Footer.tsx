@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
   const isMobile = useIsMobile();
@@ -78,7 +79,8 @@ export function Footer() {
           </div>
         </div>
         
-        <Separator className="bg-[#3300B0]/40 my-2" />
+        {/* Fix: Use the cn utility to properly apply className to Separator */}
+        <Separator className={cn("bg-[#3300B0]/40 my-2")} />
         
         <div className={`text-center text-xs text-white ${isMobile ? "mt-8 mb-6" : ""}`}>
           <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>

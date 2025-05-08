@@ -48,7 +48,7 @@ export function StayRatesSettingsSection({
   // Add state to control delayed rendering of price increase settings
   const [showPriceSettings, setShowPriceSettings] = useState(false);
   
-  // Effect to handle delayed rendering when enablePriceIncrease changes
+  // Effect to handle visibility changes when enablePriceIncrease changes
   useEffect(() => {
     if (enablePriceIncrease) {
       const timeout = setTimeout(() => setShowPriceSettings(true), 100);
@@ -103,34 +103,37 @@ export function StayRatesSettingsSection({
                     </TooltipProvider>
                   </label>
                   
-                  {showPriceSettings && (
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm mb-1 uppercase flex items-center justify-between">
-                          <span>MAXIMUM PRICE INCREASE</span>
-                          <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
-                        </label>
-                        <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
-                        <p className="text-xs text-foreground/70 mt-1">
-                          This is the maximum percentage that prices can increase due to demand.
-                        </p>
-                      </div>
-                      
-                      <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30">
-                        <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
-                        <p className="text-xs text-foreground/80 mb-2">
-                          The price increases by 1% for every X nights sold in a month, where X is calculated as:
-                        </p>
-                        <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
-                          X = (Total nights in month) ÷ {priceIncreaseCap}
-                        </div>
-                        <p className="text-xs text-foreground/80">
-                          For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
-                          the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
-                        </p>
-                      </div>
+                  {/* Always render the settings but control visibility with CSS classes */}
+                  <div className={`space-y-4 overflow-hidden transition-all duration-300 ease-in-out ${
+                    enablePriceIncrease && showPriceSettings 
+                      ? "opacity-100 max-h-[500px]" 
+                      : "opacity-0 max-h-0 pointer-events-none"
+                  }`}>
+                    <div>
+                      <label className="block text-sm mb-1 uppercase flex items-center justify-between">
+                        <span>MAXIMUM PRICE INCREASE</span>
+                        <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
+                      </label>
+                      <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
+                      <p className="text-xs text-foreground/70 mt-1">
+                        This is the maximum percentage that prices can increase due to demand.
+                      </p>
                     </div>
-                  )}
+                    
+                    <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30">
+                      <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
+                      <p className="text-xs text-foreground/80 mb-2">
+                        The price increases by 1% for every X nights sold in a month, where X is calculated as:
+                      </p>
+                      <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
+                        X = (Total nights in month) ÷ {priceIncreaseCap}
+                      </div>
+                      <p className="text-xs text-foreground/80">
+                        For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
+                        the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>

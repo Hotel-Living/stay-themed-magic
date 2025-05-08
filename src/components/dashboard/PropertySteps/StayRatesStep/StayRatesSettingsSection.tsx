@@ -122,7 +122,7 @@ export function StayRatesSettingsSection({
         <div 
           className={`dynamic-pricing-content overflow-hidden transition-all duration-300 ${
             visibleBlock
-              ? "opacity-100 max-h-[500px] mt-4"
+              ? "opacity-100 max-h-screen mt-4"
               : "opacity-0 max-h-0 pointer-events-none"
           }`}
         >

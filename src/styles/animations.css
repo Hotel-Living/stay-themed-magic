@@ -25,32 +25,14 @@
     animation: pulse-glow 2s infinite alternate;
   }
 
-  /* Dynamic pricing animation classes */
+  /* Dynamic pricing animation classes - Updated for smoother transitions */
   .dynamic-pricing-content {
     overflow: hidden;
-    will-change: height, opacity;
-    transition-property: height, opacity, transform;
+    transition-property: all;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: top;
   }
 
-  .dynamic-pricing-content[data-state="closed"] {
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .dynamic-pricing-content[data-state="open"] {
-    height: auto;
-    opacity: 1;
-    margin-top: 1rem;
-  }
-
-  .pricing-content-inner {
-    transform: translateZ(0);
-  }
-  
   /* CSS variable utility classes for shadcn/ui design pattern */
   .bg-background { background-color: hsl(var(--background)); }
   .bg-foreground { background-color: hsl(var(--foreground)); }

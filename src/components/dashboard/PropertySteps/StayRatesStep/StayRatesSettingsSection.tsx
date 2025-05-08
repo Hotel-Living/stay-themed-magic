@@ -96,8 +96,11 @@ export function StayRatesSettingsSection({
                   </label>
                   
                   <div 
-                    className="dynamic-pricing-content"
-                    data-state={enablePriceIncrease ? "open" : "closed"}
+                    className={`dynamic-pricing-content overflow-hidden transition-all duration-300 ${
+                      enablePriceIncrease
+                        ? "opacity-100 max-h-[500px] mt-4"
+                        : "opacity-0 max-h-0 pointer-events-none"
+                    }`}
                   >
                     <div className="pricing-content-inner">
                       <div>

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ChevronRight, Info } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -45,19 +45,6 @@ export function StayRatesSettingsSection({
   priceIncreaseCap,
   setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
-  // Add a separate state for visual rendering with a small delay
-  const [visibleBlock, setVisibleBlock] = useState(enablePriceIncrease);
-
-  // Effect to handle delayed visibility changes
-  useEffect(() => {
-    if (enablePriceIncrease) {
-      const timeout = setTimeout(() => setVisibleBlock(true), 10);
-      return () => clearTimeout(timeout);
-    } else {
-      setVisibleBlock(false);
-    }
-  }, [enablePriceIncrease]);
-
   return (
     <>
       <Collapsible className="w-full" defaultOpen>
@@ -117,25 +104,34 @@ export function StayRatesSettingsSection({
         </CollapsibleContent>
       </Collapsible>
       
-      {/* Dynamic pricing content moved COMPLETELY outside both Accordion and Collapsible */}
-      {typeof enablePriceIncrease !== "undefined" && (
-        <div 
-          className={`dynamic-pricing-content overflow-hidden transition-transform duration-300 origin-top ${
-            visibleBlock ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 h-0"
-          }`}
-        >
-          <div className="pricing-content-inner bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-            <div>
-              <label className="block text-sm mb-1 uppercase flex items-center justify-between">
-                <span>MAXIMUM PRICE INCREASE</span>
-                <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
-              </label>
-              <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
-              <p className="text-xs text-foreground/70 mt-1">
-                This is the maximum percentage that prices can increase due to demand.
-              </p>
-            </div>
-            
+      {/* Dynamic pricing content with GPU-accelerated transforms */}
+      <div
+        className={`transform-gpu transition-transform duration-300 origin-top ease-in-out overflow-hidden ${
+          enablePriceIncrease ? "scale-y-100" : "scale-y-0"
+        }`}
+      >
+        <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
+          <div>
+            <label className="block text-sm mb-1 uppercase flex items-center justify-between">
+              <span>MAXIMUM PRICE INCREASE</span>
+              <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
+            </label>
+            {enablePriceIncrease && (
+              <Slider
+                value={[priceIncreaseCap]}
+                onValueChange={values => setPriceIncreaseCap(values[0])}
+                min={5}
+                max={50}
+                step={1}
+                className="w-full"
+              />
+            )}
+            <p className="text-xs text-foreground/70 mt-1">
+              This is the maximum percentage that prices can increase due to demand.
+            </p>
+          </div>
+          
+          {enablePriceIncrease && (
             <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30 mt-4">
               <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
               <p className="text-xs text-foreground/80 mb-2">
@@ -149,9 +145,9 @@ export function StayRatesSettingsSection({
                 the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
               </p>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 }

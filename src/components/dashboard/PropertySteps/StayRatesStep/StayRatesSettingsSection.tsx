@@ -86,7 +86,6 @@ export function StayRatesSettingsSection({
                   <span className="text-sm font-medium uppercase">DYNAMIC PRICING</span>
                 </AccordionTrigger>
                 <AccordionContent>
-                  {/* Static content in accordion content */}
                   <div className="space-y-4 pt-2">
                     <label className="flex items-center">
                       <input 

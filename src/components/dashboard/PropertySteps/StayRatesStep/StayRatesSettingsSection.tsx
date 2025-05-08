@@ -1,45 +1,15 @@
 
-import React, { useState } from "react";
-import { ChevronRight, Info } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import React from "react";
 import { Slider } from "@/components/ui/slider";
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 interface StayRatesSettingsSectionProps {
-  currency: string;
-  setCurrency: (code: string) => void;
   enablePriceIncrease: boolean;
   setEnablePriceIncrease: (enabled: boolean) => void;
   priceIncreaseCap: number;
   setPriceIncreaseCap: (cap: number) => void;
 }
 
-const currencies = [{
-  code: "USD",
-  symbol: "$",
-  name: "US Dollar"
-}, {
-  code: "EUR",
-  symbol: "€",
-  name: "Euro"
-}, {
-  code: "GBP",
-  symbol: "£",
-  name: "British Pound"
-}, {
-  code: "JPY",
-  symbol: "¥",
-  name: "Japanese Yen"
-}, {
-  code: "CNY",
-  symbol: "¥",
-  name: "Chinese Yuan"
-}];
-
 export function StayRatesSettingsSection({
-  currency,
-  setCurrency,
   enablePriceIncrease,
   setEnablePriceIncrease,
   priceIncreaseCap,
@@ -47,64 +17,16 @@ export function StayRatesSettingsSection({
 }: StayRatesSettingsSectionProps) {
   return (
     <>
-      <Collapsible className="w-full" defaultOpen>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">4-1 GENERAL SETTINGS</label>
-          <ChevronRight className="h-4 w-4" />
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="currency">
-                <AccordionTrigger className="py-2 px-0 hover:no-underline">
-                  <span className="text-sm font-medium uppercase">CURRENCY</span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {currencies.map(curr => <button key={curr.code} className={`py-1 px-2 text-sm border rounded-lg transition-colors ${currency === curr.code ? "bg-fuchsia-500/20 border-fuchsia-500/50" : "border-fuchsia-500/30 hover:bg-fuchsia-500/10"}`} onClick={() => setCurrency(curr.code)}>
-                        {curr.symbol} {curr.code}
-                      </button>)}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              
-              <AccordionItem value="price-increase" className="border-t border-fuchsia-800/30 mt-2 pt-2">
-                <AccordionTrigger className="py-2 px-0 hover:no-underline">
-                  <span className="text-sm font-medium uppercase">DYNAMIC PRICING</span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-4 pt-2">
-                    <label className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        checked={enablePriceIncrease} 
-                        onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2" 
-                      />
-                      <span className="text-sm">ENABLE DYNAMIC PRICING BASED ON NIGHTS SOLD</span>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Info className="w-4 h-4 ml-2 text-foreground/60" />
-                          </TooltipTrigger>
-                          <TooltipContent className="max-w-sm">
-                            <p>
-                              When enabled, prices will automatically increase based on the number of nights booked in a month.
-                              The price increases by 1% for every X nights sold, where X depends on the total available nights.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </label>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
-      
-      {/* Dynamic pricing content with GPU-accelerated transforms */}
+      <label className="flex items-center mb-4">
+        <input
+          type="checkbox"
+          checked={enablePriceIncrease}
+          onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
+          className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
+        />
+        <span className="text-sm">ENABLE DYNAMIC PRICING BASED ON NIGHTS SOLD</span>
+      </label>
+
       <div
         className={`transform-gpu transition-transform duration-300 origin-top ease-in-out overflow-hidden ${
           enablePriceIncrease ? "scale-y-100" : "scale-y-0"
@@ -130,7 +52,7 @@ export function StayRatesSettingsSection({
               This is the maximum percentage that prices can increase due to demand.
             </p>
           </div>
-          
+
           {enablePriceIncrease && (
             <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30 mt-4">
               <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>

@@ -55,6 +55,11 @@
   .border-border {
     border-color: hsl(var(--border));
   }
+  
+  /* Background utility class for shadcn/ui design pattern */
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
 
   @keyframes text-shine {
     0% {

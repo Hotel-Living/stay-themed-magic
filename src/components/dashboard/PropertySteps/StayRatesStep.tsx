@@ -160,6 +160,8 @@ export default function StayRatesStep({
   return (
     <div className="space-y-6">
       <StayRatesSettingsSection
+        currency={currency}
+        setCurrency={setCurrency}
         enablePriceIncrease={enablePriceIncrease}
         setEnablePriceIncrease={setEnablePriceIncrease}
         priceIncreaseCap={priceIncreaseCap}

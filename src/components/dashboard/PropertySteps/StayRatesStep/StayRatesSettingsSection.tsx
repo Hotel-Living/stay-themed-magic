@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronRight, Info } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -45,6 +45,19 @@ export function StayRatesSettingsSection({
   priceIncreaseCap,
   setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
+  // Add a separate state for visual rendering with a small delay
+  const [visibleBlock, setVisibleBlock] = useState(enablePriceIncrease);
+
+  // Effect to handle delayed visibility changes
+  useEffect(() => {
+    if (enablePriceIncrease) {
+      const timeout = setTimeout(() => setVisibleBlock(true), 10);
+      return () => clearTimeout(timeout);
+    } else {
+      setVisibleBlock(false);
+    }
+  }, [enablePriceIncrease]);
+
   return <Collapsible className="w-full" defaultOpen>
       <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
         <label className="block text-lg font-medium text-foreground/90 mb-3 uppercase">4-1 GENERAL SETTINGS</label>
@@ -97,7 +110,7 @@ export function StayRatesSettingsSection({
                   
                   <div 
                     className={`dynamic-pricing-content overflow-hidden transition-all duration-300 ${
-                      enablePriceIncrease
+                      visibleBlock
                         ? "opacity-100 max-h-[500px] mt-4"
                         : "opacity-0 max-h-0 pointer-events-none"
                     }`}

@@ -113,41 +113,43 @@ export function StayRatesSettingsSection({
             </AccordionItem>
           </Accordion>
           
-          {/* Dynamic pricing content moved outside accordion */}
-          <div 
-            className={`dynamic-pricing-content overflow-hidden transition-all duration-300 ${
-              visibleBlock
-                ? "opacity-100 max-h-[500px] mt-4"
-                : "opacity-0 max-h-0 pointer-events-none"
-            }`}
-          >
-            <div className="pricing-content-inner">
-              <div>
-                <label className="block text-sm mb-1 uppercase flex items-center justify-between">
-                  <span>MAXIMUM PRICE INCREASE</span>
-                  <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
-                </label>
-                <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
-                <p className="text-xs text-foreground/70 mt-1">
-                  This is the maximum percentage that prices can increase due to demand.
-                </p>
-              </div>
-              
-              <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30 mt-4">
-                <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
-                <p className="text-xs text-foreground/80 mb-2">
-                  The price increases by 1% for every X nights sold in a month, where X is calculated as:
-                </p>
-                <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
-                  X = (Total nights in month) ÷ {priceIncreaseCap}
+          {/* Dynamic pricing content moved completely outside accordion */}
+          {typeof enablePriceIncrease !== "undefined" && (
+            <div 
+              className={`dynamic-pricing-content overflow-hidden transition-all duration-300 ${
+                visibleBlock
+                  ? "opacity-100 max-h-[500px] mt-4"
+                  : "opacity-0 max-h-0 pointer-events-none"
+              }`}
+            >
+              <div className="pricing-content-inner">
+                <div>
+                  <label className="block text-sm mb-1 uppercase flex items-center justify-between">
+                    <span>MAXIMUM PRICE INCREASE</span>
+                    <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
+                  </label>
+                  <Slider value={[priceIncreaseCap]} onValueChange={values => setPriceIncreaseCap(values[0])} min={5} max={50} step={1} className="w-full" />
+                  <p className="text-xs text-foreground/70 mt-1">
+                    This is the maximum percentage that prices can increase due to demand.
+                  </p>
                 </div>
-                <p className="text-xs text-foreground/80">
-                  For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
-                  the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
-                </p>
+                
+                <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30 mt-4">
+                  <h4 className="text-sm font-medium mb-2">How Dynamic Pricing Works</h4>
+                  <p className="text-xs text-foreground/80 mb-2">
+                    The price increases by 1% for every X nights sold in a month, where X is calculated as:
+                  </p>
+                  <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
+                    X = (Total nights in month) ÷ {priceIncreaseCap}
+                  </div>
+                  <p className="text-xs text-foreground/80">
+                    For example, with 30 rooms × 30 days = 900 total nights and a maximum increase of {priceIncreaseCap}%, 
+                    the price would increase by 1% for every {Math.round(900 / priceIncreaseCap)} nights sold.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </CollapsibleContent>
     </Collapsible>;

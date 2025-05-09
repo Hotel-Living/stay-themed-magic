@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Starfield } from "@/components/Starfield";
 import { AuthProvider } from './context/auth/AuthProvider';
 import { DashboardAccess } from './components/DashboardAccess';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 import Index from './pages/Index';
 import Login from './pages/Login';
@@ -69,8 +70,22 @@ function App() {
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/hotel-signup" element={<HotelSignUp />} />
                   <Route path="/hotel-login" element={<Navigate to="/login?tab=hotel" />} />
-                  <Route path="/hotel-dashboard" element={<HotelDashboard />} />
-                  <Route path="/user-dashboard" element={<UserDashboard />} />
+                  <Route 
+                    path="/hotel-dashboard" 
+                    element={
+                      <ProtectedRoute requireHotelOwner>
+                        <HotelDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/user-dashboard" 
+                    element={
+                      <ProtectedRoute>
+                        <UserDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
                   <Route path="/hotel/:id" element={<HotelDetail />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/hotels" element={<Hotels />} />
@@ -88,10 +103,24 @@ function App() {
                   <Route path="/customer-service" element={<CustomerService />} />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
-                  <Route path="/add-property" element={<AddPropertyPage />} />
+                  <Route 
+                    path="/add-property" 
+                    element={
+                      <ProtectedRoute requireHotelOwner>
+                        <AddPropertyPage />
+                      </ProtectedRoute>
+                    } 
+                  />
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/admin/*" element={<AdminAllRoutes />} />
+                  <Route 
+                    path="/admin/*" 
+                    element={
+                      <ProtectedRoute>
+                        <AdminAllRoutes />
+                      </ProtectedRoute>
+                    } 
+                  />
                   <Route path="/videos" element={<Videos />} />
                   <Route path="/featured-hotels" element={<FeaturedHotels />} />
                   <Route path="/promotions" element={<Navigate to="/featured-hotels" />} />

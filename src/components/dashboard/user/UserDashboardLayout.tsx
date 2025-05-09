@@ -1,5 +1,5 @@
 
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HelpCircle, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -22,23 +22,9 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab
 }: UserDashboardLayoutProps) {
-  const { user, session, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
-  
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  
-  // Check if user is authenticated
-  useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
-    
-    if (!user || !session) {
-      console.log("No authenticated user detected, redirecting to login");
-      navigate('/login');
-    }
-  }, [user, session, navigate, isDevelopment]);
   
   // Handle logout
   const handleLogout = async () => {
@@ -58,11 +44,6 @@ export default function UserDashboardLayout({
       });
     }
   };
-  
-  // If not authenticated and not in development mode, don't render anything
-  if (!user && !session && !isDevelopment) {
-    return null;
-  }
   
   return (
     <div className="min-h-screen flex flex-col">

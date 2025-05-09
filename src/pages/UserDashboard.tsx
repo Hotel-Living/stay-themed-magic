@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { 
   Calendar, 
   CreditCard, 
@@ -27,40 +27,25 @@ import { supabase } from "@/integrations/supabase/client";
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
-  const { user, profile, session } = useAuth();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   
-  // For development purposes - allow access to the dashboard without authentication
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  
-  // Check if user is authenticated and is not an admin
-  useEffect(() => {
-    // Skip the auth check in development mode
-    if (isDevelopment) return;
-    
-    if (!user || !session) {
-      console.log("No authenticated user detected in user dashboard");
-      navigate('/login');
-      return;
-    }
-    
-    // Check if user is an admin
-    const checkAdminStatus = async () => {
+  // Check if user is an admin
+  const checkAdminStatus = async () => {
+    if (user) {
       const { data: isAdmin, error } = await supabase.rpc('is_admin', { user_id: user.id });
       if (!error && isAdmin) {
         console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
         navigate('/admin/hotels');
         return;
       }
-    };
-
-    checkAdminStatus();
-    
-    if (profile && profile.is_hotel_owner === true) {
-      console.log("Hotel owner detected in user dashboard, redirecting to hotel dashboard");
-      navigate('/hotel-dashboard');
     }
-  }, [user, profile, session, navigate, isDevelopment]);
+  };
+
+  // Run admin check once
+  useState(() => {
+    checkAdminStatus();
+  });
   
   const tabs: DashboardTab[] = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },

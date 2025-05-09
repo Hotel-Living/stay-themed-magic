@@ -195,7 +195,7 @@ export const useHotelSubmission = () => {
       main_image_url: formData.mainImageUrl || null
     };
     
-    // Compare with current data and only include changed fields in pending_changes
+    // Improved comparison logic to detect actual changes
     const pendingChanges: Record<string, any> = {};
     let hasChanges = false;
     
@@ -206,64 +206,86 @@ export const useHotelSubmission = () => {
       // Improved comparison logic for different types of values
       let isChanged = false;
       
-      // Debug logging to understand what's being compared
-      console.log(`Comparing field: ${key}`);
-      
-      if (Array.isArray(newValue) && Array.isArray(currentValue)) {
-        // For arrays, we need to handle different array types differently
-        if (newValue.length === 0 && currentValue.length === 0) {
-          // Both arrays are empty, no change
-          isChanged = false;
-        } else if (newValue.length !== currentValue.length) {
-          // Different lengths, definitely changed
-          console.log(`Array length difference for ${key}: new=${newValue.length}, current=${currentValue.length}`);
-          isChanged = true;
-        } else if (newValue.length > 0 && typeof newValue[0] === 'object') {
-          // Array of objects - do a deep comparison by converting to string
-          const normalizedNew = JSON.stringify([...newValue].sort((a, b) => 
-            JSON.stringify(a).localeCompare(JSON.stringify(b))
-          ));
-          const normalizedCurrent = JSON.stringify([...currentValue].sort((a, b) => 
-            JSON.stringify(a).localeCompare(JSON.stringify(b))
-          ));
+      try {
+        if (Array.isArray(newValue) && Array.isArray(currentValue)) {
+          // For arrays, specialized handling depending on content
+          if (newValue.length === 0 && currentValue.length === 0) {
+            // Both arrays are empty, no change
+            isChanged = false;
+          } else if (newValue.length !== currentValue.length) {
+            // Different lengths, definitely changed
+            console.log(`Array length difference for ${key}: new=${newValue.length}, current=${currentValue.length}`);
+            isChanged = true;
+          } else if (newValue.length > 0 && typeof newValue[0] === 'object') {
+            // For array of objects (like room_types), use a more robust comparison
+            // Create stable JSON representations for comparison
+            const stableStringifyArray = (arr: any[]) => {
+              // Map each object to a stable string representation and sort to ensure consistent order
+              return JSON.stringify(
+                arr.map(item => sortObjectKeysRecursively(item))
+                   .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)))
+              );
+            };
+            
+            const normalizedNew = stableStringifyArray(newValue);
+            const normalizedCurrent = stableStringifyArray(currentValue);
+            
+            isChanged = normalizedNew !== normalizedCurrent;
+            
+            // Extra logging to help diagnose the issue with room_types
+            if (key === 'room_types' && isChanged) {
+              console.log('Room types detected as changed:');
+              console.log('New:', normalizedNew);
+              console.log('Current:', normalizedCurrent);
+              
+              // Try a deeper analysis of what changed
+              const currentRoomTypes = currentValue || [];
+              const newRoomTypes = newValue || [];
+              
+              // Additional check to see if they're actually different
+              // Sometimes there are slight differences in representation but not in content
+              let actualDifference = false;
+              
+              // Check number of rooms, types, names, etc.
+              if (JSON.stringify(sortObjectKeysRecursively(newRoomTypes)) === 
+                  JSON.stringify(sortObjectKeysRecursively(currentRoomTypes))) {
+                console.log('After deeper analysis, room_types appear to be the same');
+                isChanged = false;
+              }
+            }
+          } else {
+            // Simple array of primitives
+            // Sort and convert to string for a stable comparison
+            const normalizedNew = [...newValue].sort().toString();
+            const normalizedCurrent = [...currentValue].sort().toString();
+            
+            isChanged = normalizedNew !== normalizedCurrent;
+          }
+        } else if (
+          typeof newValue === 'object' && 
+          newValue !== null && 
+          currentValue !== null && 
+          typeof currentValue === 'object'
+        ) {
+          // For objects, use recursive sorting for stable comparison
+          const normalizedNew = JSON.stringify(sortObjectKeysRecursively(newValue));
+          const normalizedCurrent = JSON.stringify(sortObjectKeysRecursively(currentValue));
           
           isChanged = normalizedNew !== normalizedCurrent;
-          if (isChanged) {
-            console.log(`Array of objects changed for ${key}`);
-            console.log('New:', normalizedNew);
-            console.log('Current:', normalizedCurrent);
-          }
         } else {
-          // Simple array of primitives
-          // Sort and convert to string for a stable comparison
-          const normalizedNew = [...newValue].sort().toString();
-          const normalizedCurrent = [...currentValue].sort().toString();
-          
-          isChanged = normalizedNew !== normalizedCurrent;
-          if (isChanged) {
-            console.log(`Array changed for ${key}`);
-            console.log('New:', normalizedNew);
-            console.log('Current:', normalizedCurrent);
+          // Simple value comparison, with special handling for numbers that might be strings
+          if (typeof newValue === 'number' && typeof currentValue === 'string') {
+            isChanged = newValue !== parseFloat(currentValue);
+          } else if (typeof newValue === 'string' && typeof currentValue === 'number') {
+            isChanged = parseFloat(newValue) !== currentValue;
+          } else {
+            isChanged = newValue !== currentValue;
           }
         }
-      } else if (typeof newValue === 'object' && newValue !== null && 
-                currentValue !== null && typeof currentValue === 'object') {
-        // For objects (excluding null), do a deep comparison with stable key order
-        const normalizedNew = JSON.stringify(sortObjectKeys(newValue));
-        const normalizedCurrent = JSON.stringify(sortObjectKeys(currentValue));
-        
-        isChanged = normalizedNew !== normalizedCurrent;
-        if (isChanged) {
-          console.log(`Object changed for ${key}`);
-          console.log('New:', normalizedNew);
-          console.log('Current:', normalizedCurrent);
-        }
-      } else {
-        // Simple value comparison
-        isChanged = newValue !== currentValue;
-        if (isChanged) {
-          console.log(`Simple value changed for ${key}: new=${newValue}, current=${currentValue}`);
-        }
+      } catch (error) {
+        console.error(`Error comparing ${key}:`, error);
+        // If comparison fails, assume no change to be safe
+        isChanged = false;
       }
       
       if (isChanged) {
@@ -276,18 +298,25 @@ export const useHotelSubmission = () => {
       }
     }
     
-    // Helper function to sort object keys for stable comparison
-    function sortObjectKeys(obj: object): object {
-      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return obj;
+    // Helper function to recursively sort object keys for stable comparison
+    function sortObjectKeysRecursively(obj: any): any {
+      // Handle non-objects and null
+      if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
+        // If it's an array, recurse into each element
+        if (Array.isArray(obj)) {
+          return obj.map(item => sortObjectKeysRecursively(item));
+        }
+        return obj;
+      }
       
+      // Create a new object with sorted keys
       const sortedObj: Record<string, any> = {};
       const sortedKeys = Object.keys(obj).sort();
       
       for (const key of sortedKeys) {
-        const value = obj[key as keyof typeof obj];
-        sortedObj[key] = typeof value === 'object' && value !== null 
-          ? sortObjectKeys(value) 
-          : value;
+        const value = obj[key];
+        // Recursively sort nested objects
+        sortedObj[key] = sortObjectKeysRecursively(value);
       }
       
       return sortedObj;
@@ -307,7 +336,7 @@ export const useHotelSubmission = () => {
       .from('hotels')
       .update({
         pending_changes: pendingChanges,
-        status: 'pending'  // Using 'pending' status rather than 'pending_changes'
+        status: 'pending'
       })
       .eq('id', hotelId);
     
@@ -321,7 +350,7 @@ export const useHotelSubmission = () => {
       await supabase.functions.invoke('send-notification', {
         body: {
           type: 'message',
-          recipient: 'admin@hotel-living.com', // Replace with actual admin email
+          recipient: 'admin@hotel-living.com',
           data: {
             sender: 'Hotel Living System',
             hotelName: formData.hotelName,

@@ -294,6 +294,7 @@ export type Database = {
           meals_offered: string[] | null
           name: string
           owner_id: string | null
+          pending_changes: Json | null
           perfect_location: string | null
           photos: string[] | null
           postal_code: string | null
@@ -342,6 +343,7 @@ export type Database = {
           meals_offered?: string[] | null
           name: string
           owner_id?: string | null
+          pending_changes?: Json | null
           perfect_location?: string | null
           photos?: string[] | null
           postal_code?: string | null
@@ -390,6 +392,7 @@ export type Database = {
           meals_offered?: string[] | null
           name?: string
           owner_id?: string | null
+          pending_changes?: Json | null
           perfect_location?: string | null
           photos?: string[] | null
           postal_code?: string | null

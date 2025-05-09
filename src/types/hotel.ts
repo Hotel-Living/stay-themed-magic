@@ -105,6 +105,7 @@ export interface AdminHotelDetail {
   pending_changes?: Record<string, any>;
   ideal_guests?: string | null;
   perfect_location?: string | null;
+  room_types?: RoomType[];
 }
 
 export interface HotelDetailProps {

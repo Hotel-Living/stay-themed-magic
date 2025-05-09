@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Info } from "lucide-react";
-import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
 
 interface StayRatesTableSectionProps {
   ratesFilled: boolean;
@@ -68,7 +67,7 @@ export function StayRatesTableSection({
                           <div className="relative">
                             <input
                               type="number"
-                              className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 text-xs text-black"
+                              className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-1 text-xs text-white font-bold"
                               placeholder="0.00"
                               required
                               value={rates[rateKey] || ""}

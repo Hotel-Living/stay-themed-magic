@@ -12,7 +12,7 @@ export function HeroSection() {
           {/* Added triple vertical space above and below "The Living Revolution" */}
           <div className={`flex justify-center ${isMobile ? "mb-12 mt-6" : "mb-6 mt-3"}`}>
             <div className={`relative ${isMobile ? "w-[66.35%]" : "w-[16.72%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-[#FEF200] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className={`${isMobile ? "text-sm" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",

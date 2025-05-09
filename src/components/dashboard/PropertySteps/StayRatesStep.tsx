@@ -16,9 +16,6 @@ export default function StayRatesStep({
   updateFormData = () => {}
 }: StayRatesStepProps) {
   const [ratesFilled, setRatesFilled] = React.useState(false);
-  const [rates, setRates] = React.useState<Record<string, number | string>>({});
-
-  const [currency, setCurrency] = React.useState("USD");
 
   const roomTypes = formData.roomTypes?.length > 0
     ? formData.roomTypes.map((rt: any) => rt.name || rt.selectedRoomType)
@@ -33,49 +30,53 @@ export default function StayRatesStep({
     : ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
 
   React.useEffect(() => {
-    if (formData.currency) setCurrency(formData.currency);
+    // Check if rates exist in formData to determine if rates are filled
+    const rates = formData.rates || {};
+    const hasValidRates = Object.values(rates).some((value) => {
+      const numValue = Number(value);
+      return !isNaN(numValue) && numValue > 0;
+    });
+    
+    setRatesFilled(hasValidRates);
+    onValidationChange(hasValidRates);
+  }, [formData.rates, onValidationChange]);
 
-    const initialRates: Record<string, number | string> = {};
-    const formatStayLength = (days: number | string) => typeof days === 'number' ? `${days} days` : days;
+  const handleRateChange = (roomType: string, stayLength: string, mealOption: string, value: string) => {
+    const key = `${roomType}-${stayLength}-${mealOption}`;
+    
+    // Skip update if value hasn't changed
+    if (formData.rates?.[key] === value) return;
+    
+    updateFormData("rates", {
+      ...(formData.rates || {}),
+      [key]: value
+    });
 
-    if (formData.rates && typeof formData.rates === 'object') {
-      roomTypes.forEach(roomType => {
-        Object.entries(formData.rates).forEach(([dayStr, price]) => {
-          const dayNum = parseInt(dayStr);
-          if (!isNaN(dayNum)) {
-            const stayLength = formatStayLength(dayNum);
-            mealOptions.forEach(mealOption => {
-              const key = `${roomType}-${stayLength}-${mealOption}`;
-              initialRates[key] = Number(price) || String(price);
-            });
-          }
-        });
-      });
-
-      if (Object.keys(initialRates).length > 0) {
-        setRates(initialRates);
-        setRatesFilled(true);
-      }
+    if (value && !isNaN(Number(value))) {
+      setRatesFilled(true);
+      toast.success(`Rate updated for ${roomType}, ${stayLength}, ${mealOption}`);
     }
-  }, [formData, roomTypes, mealOptions]);
+  };
 
   React.useEffect(() => {
-    updateFormData('currency', currency);
-
+    updateFormData('currency', formData.currency || "USD");
+    
     const priceFields: Record<string, number> = {};
     const ratesObject: Record<string, number> = {};
 
-    for (const key in rates) {
-      const parts = key.split('-');
-      if (parts.length === 3) {
-        const stayLength = parts[1];
-        const price = Number(rates[key]);
-        const days = parseInt(stayLength.split(' ')[0]);
-        if (!isNaN(price) && price > 0) {
-          const fieldName = `price_${days}`;
-          if (!priceFields[fieldName] || price > priceFields[fieldName]) {
-            priceFields[fieldName] = price;
-            ratesObject[days.toString()] = price;
+    if (formData.rates) {
+      for (const key in formData.rates) {
+        const parts = key.split('-');
+        if (parts.length === 3) {
+          const stayLength = parts[1];
+          const price = Number(formData.rates[key]);
+          const days = parseInt(stayLength.split(' ')[0]);
+          if (!isNaN(price) && price > 0) {
+            const fieldName = `price_${days}`;
+            if (!priceFields[fieldName] || price > priceFields[fieldName]) {
+              priceFields[fieldName] = price;
+              ratesObject[days.toString()] = price;
+            }
           }
         }
       }
@@ -85,27 +86,8 @@ export default function StayRatesStep({
       updateFormData(field, value);
     });
 
-    updateFormData('rates', ratesObject);
-    onValidationChange(ratesFilled);
-  }, [rates, currency, ratesFilled, updateFormData, onValidationChange]);
-
-  const handleRateChange = (roomType: string, stayLength: string, mealOption: string, value: string) => {
-    const key = `${roomType}-${stayLength}-${mealOption}`;
-    
-    setRates(prev => {
-      if (prev[key] === value) return prev; // Skip unnecessary update
-      return {
-        ...prev,
-        [key]: value
-      };
-    });
-
-    if (value && !isNaN(Number(value))) {
-      setRatesFilled(true);
-      // Moved toast to only show when there's actually a change and valid number
-      toast.success(`Rate updated for ${roomType}, ${stayLength}, ${mealOption}`);
-    }
-  };
+    updateFormData('rates', formData.rates || {});
+  }, [formData.currency, updateFormData]);
 
   return (
     <div className="space-y-6">
@@ -120,7 +102,7 @@ export default function StayRatesStep({
         ratesFilled={ratesFilled}
         enablePriceIncrease={formData.enablePriceIncrease ?? false}
         priceIncreaseCap={formData.priceIncreaseCap ?? 20}
-        rates={rates}
+        rates={formData.rates || {}}
         roomTypes={roomTypes}
         stayOptions={stayOptions}
         mealOptions={mealOptions}

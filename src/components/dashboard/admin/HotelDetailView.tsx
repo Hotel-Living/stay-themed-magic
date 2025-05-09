@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,21 +15,170 @@ import { ThemesInfo } from "./hotel-detail/ThemesInfo";
 import { ActivitiesInfo } from "./hotel-detail/ActivitiesInfo";
 import { AdminInfo } from "./hotel-detail/AdminInfo";
 import { RoomTypesInfo } from "./hotel-detail/RoomTypesInfo";
+import { ChangesHighlight } from "./hotel-detail/ChangesHighlight";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+
+// Field display name mapping
+const fieldDisplayNames: { [key: string]: string } = {
+  name: "Hotel Name",
+  description: "Description",
+  address: "Address",
+  city: "City",
+  country: "Country",
+  postal_code: "Postal Code",
+  category: "Star Rating",
+  property_type: "Property Type",
+  atmosphere: "Atmosphere",
+  ideal_guests: "Ideal Guests",
+  perfect_location: "Location Description",
+  features_hotel: "Hotel Features",
+  features_room: "Room Features",
+  meal_plans: "Meal Plans",
+  contact_name: "Contact Name",
+  contact_email: "Contact Email",
+  contact_phone: "Contact Phone",
+  price_per_month: "Price Per Month",
+  stay_lengths: "Stay Lengths",
+  room_types: "Room Types",
+  terms: "Terms & Conditions",
+  faqs: "FAQs"
+};
+
+// Field type mapping
+const fieldTypes: { [key: string]: 'text' | 'number' | 'boolean' | 'array' | 'object' } = {
+  name: 'text',
+  description: 'text',
+  address: 'text',
+  city: 'text',
+  country: 'text',
+  postal_code: 'text',
+  category: 'number',
+  property_type: 'text',
+  atmosphere: 'text',
+  ideal_guests: 'text',
+  perfect_location: 'text',
+  features_hotel: 'object',
+  features_room: 'object',
+  meal_plans: 'array',
+  contact_name: 'text',
+  contact_email: 'text',
+  contact_phone: 'text',
+  price_per_month: 'number',
+  stay_lengths: 'array',
+  room_types: 'array',
+  terms: 'text',
+  faqs: 'array'
+};
 
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { hotel, loading, themes, activities, images } = useHotelDetails(id);
+  const { hotel, loading, themes, activities, images, refetch } = useHotelDetails(id);
+  const [changes, setChanges] = useState<Array<{
+    fieldName: string;
+    displayName: string;
+    previousValue: any;
+    newValue: any;
+    fieldType: 'text' | 'number' | 'boolean' | 'array' | 'object';
+  }>>([]);
+  
+  useEffect(() => {
+    if (hotel && hotel.pending_changes) {
+      // Process pending changes
+      const pendingChanges = [];
+      for (const [key, value] of Object.entries(hotel.pending_changes)) {
+        if (value !== null) {
+          pendingChanges.push({
+            fieldName: key,
+            displayName: fieldDisplayNames[key] || key,
+            previousValue: hotel[key as keyof typeof hotel],
+            newValue: value,
+            fieldType: fieldTypes[key] || 'text'
+          });
+        }
+      }
+      setChanges(pendingChanges);
+    } else {
+      setChanges([]);
+    }
+  }, [hotel]);
   
   const refreshData = async () => {
-    navigate('/admin/hotels');
+    await refetch();
   };
   
   const { handleApprove, handleReject, handleDelete } = useHotelActions(refreshData);
+  
+  const handleApproveAllChanges = async () => {
+    if (!hotel || !changes.length) return;
+    
+    try {
+      // Create an object with all updated fields
+      const updates: { [key: string]: any } = {};
+      
+      // Add all fields to be updated
+      changes.forEach(change => {
+        updates[change.fieldName] = change.newValue;
+      });
+      
+      // Clear pending_changes
+      updates.pending_changes = null;
+      
+      // Update the hotel
+      const { error } = await supabase
+        .from('hotels')
+        .update(updates)
+        .eq('id', hotel.id);
+        
+      if (error) throw error;
+      
+      toast({
+        title: "All changes approved",
+        description: "The changes have been approved and applied to the property."
+      });
+      
+      await refreshData();
+    } catch (error: any) {
+      console.error("Error approving all changes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to approve changes",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  const handleRejectAllChanges = async () => {
+    if (!hotel) return;
+    
+    try {
+      // Just clear all pending changes without updating any fields
+      const { error } = await supabase
+        .from('hotels')
+        .update({ pending_changes: null })
+        .eq('id', hotel.id);
+        
+      if (error) throw error;
+      
+      toast({
+        title: "All changes rejected",
+        description: "All proposed changes have been rejected."
+      });
+      
+      await refreshData();
+    } catch (error: any) {
+      console.error("Error rejecting all changes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to reject changes",
+        variant: "destructive"
+      });
+    }
+  };
   
   const onApprove = async () => {
     if (hotel) {
@@ -119,6 +268,17 @@ export default function HotelDetailView() {
           </div>
         ) : hotel ? (
           <div className="space-y-6">
+            {/* Display changes at the top if there are pending changes */}
+            {changes.length > 0 && (
+              <ChangesHighlight 
+                hotelId={hotel.id}
+                changes={changes}
+                onApproveAll={handleApproveAllChanges}
+                onRejectAll={handleRejectAllChanges}
+                onRefresh={refreshData}
+              />
+            )}
+            
             <BasicInfo hotel={hotel} />
             <ImageGallery images={images} hotel={hotel} />
             

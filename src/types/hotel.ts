@@ -38,47 +38,34 @@ export interface RoomType {
   availabilityDates?: string[];
 }
 
-export interface AdminHotelDetail {
-  id: string;
-  name: string;
-  description: string | null;
-  city: string;
-  country: string;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  category: number | null;
-  price_per_month: number;
-  main_image_url: string | null;
-  property_type: string | null;
-  style: string | null;
-  status: 'approved' | 'pending' | 'rejected';
-  rejection_reason?: string | null;
-  is_featured: boolean;
-  owner_id: string;
-  created_at: string;
-  updated_at: string;
-  available_months?: string[];
-  hotel_images: HotelImage[];
+export interface AdminHotelDetail extends Hotel {
+  hotel_images: {
+    id: string;
+    hotel_id: string;
+    image_url: string;
+    is_main: boolean;
+    created_at: string;
+  }[];
   hotel_themes: {
     theme_id: string;
-    themes: HotelTheme;
+    themes?: {
+      id: string;
+      name: string;
+      description?: string;
+      category?: string;
+    };
   }[];
-  hotel_activities: HotelActivity[];
+  hotel_activities: {
+    activity_id: string;
+    activities?: {
+      id: string;
+      name: string;
+      category?: string;
+    };
+  }[];
   features_hotel?: Record<string, boolean>;
   features_room?: Record<string, boolean>;
-  stay_lengths?: number[];
-  room_types?: RoomType[] | any[];
-  meal_plans?: string[];
-  preferredWeekday?: string;
-  atmosphere?: string | null;
-  ideal_guests?: string | null;
-  perfect_location?: string | null;
-  terms?: string | null;
-  rates?: Record<string, number>;
-  currency?: string;
-  enablePriceIncrease?: boolean;
-  priceIncreaseCap?: number;
+  pending_changes?: Record<string, any>;
 }
 
 export interface HotelDetailProps {

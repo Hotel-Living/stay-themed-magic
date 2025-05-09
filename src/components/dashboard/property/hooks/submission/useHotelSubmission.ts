@@ -228,11 +228,12 @@ export const useHotelSubmission = () => {
     console.log("Detected changes:", pendingChanges);
     
     // Store changes in pending_changes column and update status
+    // FIX: Use 'pending' status instead of 'pending_changes' which is not in the check constraint
     const { error } = await supabase
       .from('hotels')
       .update({
         pending_changes: pendingChanges,
-        status: 'pending_changes'
+        status: 'pending'  // Changed from 'pending_changes' to 'pending'
       })
       .eq('id', hotelId);
     

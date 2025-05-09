@@ -4,7 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
 
-export default function Promotions() {
+export default function FeaturedHotels() {
   // Sample hotel data for placeholders
   const sampleHotels = [
     {
@@ -75,8 +75,6 @@ export default function Promotions() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Featured</h1>
-          
           <div className="glass-card rounded-2xl p-6 bg-[#7a0486]/80 mb-8">
             <h2 className="text-2xl font-semibold mb-6 text-fuchsia-100">Featured Hotels</h2>
             
@@ -94,6 +92,16 @@ export default function Promotions() {
                   image={hotel.image}
                 />
               ))}
+            </div>
+            
+            <div className="mt-10 p-4 bg-[#5d0478]/70 rounded-lg text-center">
+              <h3 className="text-lg font-medium text-fuchsia-200 mb-2">Want your hotel to be seen first?</h3>
+              <p className="text-fuchsia-100">
+                We can feature your property right here — no big fees, just smart collaboration.
+              </p>
+              <p className="text-fuchsia-100 mt-1">
+                Log in to your hotel dashboard for more info!
+              </p>
             </div>
           </div>
         </div>

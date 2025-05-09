@@ -76,8 +76,8 @@ export function Navbar() {
           <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Videos
           </Link>
-          <Link to="/promotions" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            Promotions
+          <Link to="/featured-hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            Featured Hotels
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
@@ -139,8 +139,8 @@ export function Navbar() {
           <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Videos
           </Link>
-          <Link to="/promotions" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
-            Promotions
+          <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+            Featured Hotels
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (

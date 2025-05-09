@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -37,7 +38,7 @@ import Contact from "./pages/Contact";
 import AdminDashboard from './pages/AdminDashboard';
 import AdminAllRoutes from './pages/AdminAllRoutes';
 import Videos from './pages/Videos';
-import Promotions from './pages/Promotions';
+import FeaturedHotels from './pages/FeaturedHotels';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -92,7 +93,8 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/admin/*" element={<AdminAllRoutes />} />
                   <Route path="/videos" element={<Videos />} />
-                  <Route path="/promotions" element={<Promotions />} />
+                  <Route path="/featured-hotels" element={<FeaturedHotels />} />
+                  <Route path="/promotions" element={<Navigate to="/featured-hotels" />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <DashboardAccess />

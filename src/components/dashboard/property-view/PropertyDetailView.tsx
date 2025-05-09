@@ -1,7 +1,9 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { AdminHotelDetail } from "@/types/hotel";
 import { BasicInformation } from "./sections/BasicInformation";
 import { LocationInformation } from "./sections/LocationInformation";
 import { AccommodationTerms } from "./sections/AccommodationTerms";
@@ -11,8 +13,6 @@ import { ContactInformation } from "./sections/ContactInformation";
 import { FaqSection } from "./sections/FaqSection";
 import { ImageGallery } from "./sections/ImageGallery";
 import { RoomTypesSection } from "./sections/RoomTypesSection";
-import { Badge } from "@/components/ui/badge";
-import { AdminHotelDetail } from "@/types/hotel";
 
 interface PropertyDetailViewProps {
   hotel: any;

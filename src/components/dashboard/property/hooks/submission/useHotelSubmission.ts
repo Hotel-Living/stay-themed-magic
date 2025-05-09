@@ -200,21 +200,38 @@ export const useHotelSubmission = () => {
     let hasChanges = false;
     
     for (const [key, value] of Object.entries(updatedData)) {
-      // Check if the field has been modified, handle arrays and objects separately
+      // Improved comparison logic for different types of values
+      let isChanged = false;
+      
       if (Array.isArray(value) && Array.isArray(currentHotel[key])) {
-        // Deep compare arrays
-        if (JSON.stringify(value) !== JSON.stringify(currentHotel[key])) {
-          pendingChanges[key] = value;
-          hasChanges = true;
-        }
-      } else if (typeof value === 'object' && value !== null && currentHotel[key] !== null && typeof currentHotel[key] === 'object') {
-        // Deep compare objects
-        if (JSON.stringify(value) !== JSON.stringify(currentHotel[key])) {
-          pendingChanges[key] = value;
-          hasChanges = true;
-        }
-      } else if (value !== currentHotel[key]) {
+        // For arrays, compare stringified versions with stable order
+        const sortAndStringify = (arr: any[]) => JSON.stringify([...arr].sort());
+        isChanged = sortAndStringify(value) !== sortAndStringify(currentHotel[key]);
+      } else if (typeof value === 'object' && value !== null && 
+                currentHotel[key] !== null && typeof currentHotel[key] === 'object') {
+        // For objects, sort keys for stable comparison
+        const normalizeObject = (obj: object) => {
+          const normalized: Record<string, any> = {};
+          Object.keys(obj).sort().forEach(k => {
+            if (obj.hasOwnProperty(k)) {
+              normalized[k] = obj[k as keyof typeof obj];
+            }
+          });
+          return normalized;
+        };
+        
+        isChanged = JSON.stringify(normalizeObject(value)) !== 
+                    JSON.stringify(normalizeObject(currentHotel[key]));
+      } else {
         // Simple value comparison
+        isChanged = value !== currentHotel[key];
+      }
+      
+      if (isChanged) {
+        console.log(`Field changed: ${key}`, { 
+          old: currentHotel[key], 
+          new: value 
+        });
         pendingChanges[key] = value;
         hasChanges = true;
       }
@@ -228,12 +245,11 @@ export const useHotelSubmission = () => {
     console.log("Detected changes:", pendingChanges);
     
     // Store changes in pending_changes column and update status
-    // FIX: Use 'pending' status instead of 'pending_changes' which is not in the check constraint
     const { error } = await supabase
       .from('hotels')
       .update({
         pending_changes: pendingChanges,
-        status: 'pending'  // Changed from 'pending_changes' to 'pending'
+        status: 'pending'  // Using 'pending' status rather than 'pending_changes'
       })
       .eq('id', hotelId);
     

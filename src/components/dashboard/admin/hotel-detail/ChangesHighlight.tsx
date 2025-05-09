@@ -45,16 +45,36 @@ export const ChangesHighlight = ({
       const fieldChange = changes.find(change => change.fieldName === fieldName);
       if (!fieldChange) return;
       
-      const { error } = await supabase
+      console.log("Approving field change:", {
+        field: fieldName,
+        oldValue: fieldChange.previousValue,
+        newValue: fieldChange.newValue
+      });
+      
+      // First update the field with its new value
+      const { error: updateError } = await supabase
         .from('hotels')
         .update({ 
-          [fieldName]: fieldChange.newValue,
-          // Mark this change as reviewed
-          [`pending_changes.${fieldName}`]: null
+          [fieldName]: fieldChange.newValue
         })
         .eq('id', hotelId);
 
-      if (error) throw error;
+      if (updateError) {
+        console.error("Error updating field value:", updateError);
+        throw updateError;
+      }
+      
+      // Then in a separate operation, remove the field from pending_changes
+      const { error: pendingError } = await supabase
+        .rpc('remove_pending_change_field', { 
+          hotel_id: hotelId,
+          field_name: fieldName
+        });
+
+      if (pendingError) {
+        console.error("Error removing field from pending_changes:", pendingError);
+        // Even if this fails, the value was updated correctly
+      }
       
       toast({
         title: "Field approved",
@@ -66,7 +86,7 @@ export const ChangesHighlight = ({
       console.error("Error approving field:", error);
       toast({
         title: "Error",
-        description: "Failed to approve field change",
+        description: "Failed to approve field change: " + (error.message || "Unknown error"),
         variant: "destructive"
       });
     } finally {
@@ -78,15 +98,31 @@ export const ChangesHighlight = ({
     try {
       setLoading(prev => ({ ...prev, [fieldName]: true }));
       
-      // Just remove the pending change without updating the actual field
+      console.log("Rejecting field change:", { field: fieldName });
+      
+      // Use RPC function to remove just this field from pending_changes
       const { error } = await supabase
-        .from('hotels')
-        .update({ 
-          [`pending_changes.${fieldName}`]: null
-        })
-        .eq('id', hotelId);
+        .rpc('remove_pending_change_field', { 
+          hotel_id: hotelId,
+          field_name: fieldName
+        });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error rejecting field with RPC:", error);
+        
+        // Fallback to direct JSONB update if RPC fails
+        const { error: fallbackError } = await supabase
+          .from('hotels')
+          .update({ 
+            [`pending_changes`]: supabase.rpc('remove_jsonb_key', { 
+              json_object: supabase.raw('pending_changes'), 
+              key_to_remove: fieldName 
+            })
+          })
+          .eq('id', hotelId);
+        
+        if (fallbackError) throw fallbackError;
+      }
       
       toast({
         title: "Change rejected",
@@ -98,7 +134,7 @@ export const ChangesHighlight = ({
       console.error("Error rejecting field:", error);
       toast({
         title: "Error",
-        description: "Failed to reject field change",
+        description: "Failed to reject field change: " + (error.message || "Unknown error"),
         variant: "destructive"
       });
     } finally {

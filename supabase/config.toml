@@ -3,3 +3,6 @@ project_id = "pgdzrvdwgoomjnnegkcn"
 
 [functions.send-notification]
 verify_jwt = true
+
+[functions.remove_pending_change_field]
+verify_jwt = true

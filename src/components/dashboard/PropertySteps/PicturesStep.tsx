@@ -4,7 +4,7 @@ import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadArea from "./Pictures/UploadArea";
 import UploadedImages from "./Pictures/UploadedImages";
 import { useToast } from "@/hooks/use-toast";
-import { UploadedImage } from "@/hooks/usePropertyImages";
+import { UploadedImage, usePropertyImages } from "@/hooks/usePropertyImages";
 
 interface PicturesStepProps {
   formData?: {
@@ -22,121 +22,36 @@ export default function PicturesStep({
   updateFormData = () => {}
 }: PicturesStepProps) {
   const [initialized, setInitialized] = useState<boolean>(false);
-  const [images, setImages] = useState<UploadedImage[]>([]);
-  const [mainImageUrl, setMainImageUrl] = useState<string>("");
-  const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Use the hook with the updateFormData function
+  const {
+    files,
+    uploadedImages: images,
+    uploading,
+    mainImageIndex,
+    addFiles: handleFilesChange,
+    removeFile: handleRemoveFile,
+    removeUploadedImage: handleRemoveIndex,
+    uploadFiles: handleUpload,
+    setMainImage: handleSetMainIndex
+  } = usePropertyImages(formData.hotelImages || [], updateFormData);
 
   // Initialize state from formData only once when component mounts or when formData first becomes available
   useEffect(() => {
     if (!initialized && formData.hotelImages && formData.hotelImages.length > 0) {
-      setImages(formData.hotelImages);
-      const mainImage = formData.hotelImages.find(img => img.isMain);
-      if (mainImage) {
-        setMainImageUrl(mainImage.url);
-      } else if (formData.mainImageUrl) {
-        setMainImageUrl(formData.mainImageUrl);
-      } else if (formData.hotelImages.length > 0) {
-        setMainImageUrl(formData.hotelImages[0].url);
-      }
+      // Mark as initialized since the hook will handle the initial state
       setInitialized(true);
-    } else if (!initialized && formData.mainImageUrl && !mainImageUrl) {
-      // If we have a main image URL but no images, set the main image URL
-      setMainImageUrl(formData.mainImageUrl);
     }
-  }, [formData.hotelImages, formData.mainImageUrl, initialized, mainImageUrl]);
+  }, [formData.hotelImages, initialized]);
 
-  // Update parent form data when local state changes, but only after initialization
-  // or when user makes actual changes
+  // Update parent form data when local state changes
   useEffect(() => {
     if (initialized || images.length > 0) {
       updateFormData("hotelImages", images);
-      updateFormData("mainImageUrl", mainImageUrl);
     }
-  }, [images, mainImageUrl, updateFormData, initialized]);
-
-  const handleFilesChange = (newFiles: File[]) => {
-    setFiles(newFiles);
-  };
-
-  const handleImageUpload = (uploadedImage: UploadedImage) => {
-    // Set as main image if it's the first image or if no main image is set
-    const isMain = images.length === 0 || !mainImageUrl;
-    const newImage = {
-      ...uploadedImage,
-      isMain,
-      name: uploadedImage.name || `image-${Date.now()}`
-    };
-    setImages(prev => [...prev, newImage]);
-    if (isMain) {
-      setMainImageUrl(uploadedImage.url);
-    }
-
-    // Remove the file from the files array
-    const updatedFiles = files.filter(file => file.name !== (uploadedImage.name || ''));
-    setFiles(updatedFiles);
-    if (!initialized) {
-      setInitialized(true);
-    }
-  };
-
-  const handleRemoveImage = (imageToRemove: UploadedImage) => {
-    const updatedImages = images.filter(img => img.url !== imageToRemove.url);
-    setImages(updatedImages);
-
-    // If the removed image was the main image, set a new main image
-    if (imageToRemove.isMain && updatedImages.length > 0) {
-      const newMainImage = updatedImages[0];
-      newMainImage.isMain = true;
-      setMainImageUrl(newMainImage.url);
-
-      // Update the remaining images to ensure only one is marked as main
-      updatedImages.forEach((img, index) => {
-        img.isMain = index === 0;
-      });
-    } else if (updatedImages.length === 0) {
-      setMainImageUrl("");
-    }
-  };
-
-  const handleSetMainImage = (image: UploadedImage) => {
-    // Update the main image URL
-    setMainImageUrl(image.url);
-
-    // Update the isMain flag on all images
-    const updatedImages = images.map(img => ({
-      ...img,
-      isMain: img.url === image.url
-    }));
-    setImages(updatedImages);
-  };
-
-  const handleUpload = () => {
-    // Create demo uploaded images from files
-    for (const file of files) {
-      const fileUrl = URL.createObjectURL(file);
-      handleImageUpload({
-        url: fileUrl,
-        isMain: images.length === 0,
-        name: file.name,
-        id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
-      });
-    }
-    setFiles([]);
-  };
-
-  const handleSetMainIndex = (index: number) => {
-    if (index >= 0 && index < images.length) {
-      handleSetMainImage(images[index]);
-    }
-  };
-
-  const handleRemoveIndex = (index: number) => {
-    if (index >= 0 && index < images.length) {
-      handleRemoveImage(images[index]);
-    }
-  };
+  }, [images, updateFormData, initialized]);
 
   const triggerFileInput = () => {
     if (fileInputRef.current) {
@@ -153,17 +68,15 @@ export default function PicturesStep({
       <FilesToUpload 
         files={files} 
         onUpload={handleUpload} 
-        onRemoveFile={index => setFiles(files.filter((_, i) => i !== index))} 
+        onRemoveFile={handleRemoveFile} 
       />
       
       <UploadedImages 
         images={images} 
         onRemoveImage={handleRemoveIndex} 
         onSetMainImage={handleSetMainIndex} 
-        mainImageUrl={mainImageUrl} 
+        mainImageUrl={images.length > 0 && mainImageIndex >= 0 ? images[mainImageIndex].url : ""} 
         onAddMoreClick={triggerFileInput} 
-        onRemove={handleRemoveImage} 
-        onSetMain={handleSetMainImage} 
       />
       
       {images.length === 0 && (

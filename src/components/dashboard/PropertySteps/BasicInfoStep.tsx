@@ -27,17 +27,19 @@ export default function BasicInfoStep({
 }: BasicInfoStepProps) {
   useEffect(() => {
     const hasImages = formData.hotelImages && formData.hotelImages.length > 0;
+    const hasMainImage = formData.mainImageUrl && formData.mainImageUrl.length > 0;
     
     const isValid = Boolean(formData.hotelName) && 
                     Boolean(formData.propertyType) && 
                     Boolean(formData.description) &&
-                    hasImages;
+                    (hasImages || hasMainImage);
     
     console.log("BasicInfoStep validation:", {
       hotelName: Boolean(formData.hotelName),
       propertyType: Boolean(formData.propertyType),
       description: Boolean(formData.description),
       hasImages: hasImages,
+      hasMainImage: hasMainImage,
       imageCount: formData.hotelImages?.length || 0,
       isValid: isValid
     });
@@ -50,6 +52,7 @@ export default function BasicInfoStep({
     formData.propertyType, 
     formData.description, 
     formData.hotelImages, 
+    formData.mainImageUrl,
     onValidationChange
   ]);
 

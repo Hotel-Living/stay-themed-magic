@@ -96,12 +96,14 @@ export const useImageSubmission = () => {
       // Find the main image and ensure it's set in the hotels table
       const mainImage = images.find(img => img.isMain);
       if (mainImage) {
+        console.log("Setting main image URL to:", mainImage.url);
         await supabase
           .from('hotels')
           .update({ main_image_url: mainImage.url })
           .eq('id', hotelId);
       } else if (images.length > 0) {
         // If no image marked as main, use the first one
+        console.log("No main image found, using first image:", images[0].url);
         await supabase
           .from('hotels')
           .update({ main_image_url: images[0].url })

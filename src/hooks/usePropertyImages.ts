@@ -12,7 +12,7 @@ export interface UploadedImage {
   uploaded?: boolean;
 }
 
-export function usePropertyImages(initialImages: UploadedImage[] = []) {
+export function usePropertyImages(initialImages: UploadedImage[] = [], updateFormData?: (field: string, value: any) => void) {
   const [files, setFiles] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>(initialImages);
   const [uploading, setUploading] = useState(false);
@@ -35,6 +35,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = []) {
       setMainImageIndex(mainIndex !== -1 ? mainIndex : 0);
     }
   }, [initialImages]);
+
+  // Ensure formData.mainImageUrl is kept in sync whenever mainImageIndex changes
+  useEffect(() => {
+    if (uploadedImages.length > 0 && mainImageIndex >= 0) {
+      const mainUrl = uploadedImages[mainImageIndex].url;
+      
+      // Update form data if the updateFormData function is provided
+      if (updateFormData) {
+        updateFormData("mainImageUrl", mainUrl);
+      }
+    }
+  }, [mainImageIndex, uploadedImages, updateFormData]);
 
   const addFiles = useCallback((newFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...newFiles]);

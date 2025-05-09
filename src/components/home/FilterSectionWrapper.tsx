@@ -79,7 +79,7 @@ export function FilterSectionWrapper({
             useLargerMobileText={isMobile}
             textColor="white"
             labelTextSize="text-xs"
-            filterBgColor="bg-[#FFFBCC]"
+            filterBgColor="bg-[#FFF8A9]"
           />
           
           <div className="flex justify-center" style={{ 

@@ -26,7 +26,7 @@ export const FilterSection = ({
   useLargerMobileText = false,
   textColor = "#3300B0",
   labelTextSize = "text-sm", // Added default value for labelTextSize
-  filterBgColor = "bg-[#FFFBCC]"
+  filterBgColor = "bg-[#FFF8A9]"
 }: FilterSectionProps) => {
   const navigate = useNavigate();
   

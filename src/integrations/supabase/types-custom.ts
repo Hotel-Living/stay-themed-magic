@@ -47,6 +47,7 @@ export type Hotel = {
   terms?: string | null;
   preferredWeekday?: string | null;
   rates?: Record<string, number>;
+  pending_changes?: Record<string, any>;
   hotel_images?: {
     id: string;
     hotel_id: string;

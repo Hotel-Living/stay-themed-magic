@@ -118,7 +118,7 @@ export default function HotelDetailView() {
     
     try {
       // Create an object with all updated fields
-      const updates: { [key: string]: any } = {};
+      const updates: Record<string, any> = {};
       
       // Add all fields to be updated
       changes.forEach(change => {

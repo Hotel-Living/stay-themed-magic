@@ -36,7 +36,8 @@ export function useHotelDetails(id: string | undefined) {
           hotel_activities!hotel_id(
             activity_id,
             activities(*)
-          )
+          ),
+          pending_changes
         `)
         .eq("id", id)
         .maybeSingle();

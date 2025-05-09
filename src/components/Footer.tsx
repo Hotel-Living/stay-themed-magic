@@ -61,19 +61,13 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
-            <Link to="/signup" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundColor: "#a98805"
-            }}>
+            <Link to="/signup" className="text-white hover:text-white/90 bg-[#a98805] px-6 py-2 font-bold rounded-none uppercase">
               Register
             </Link>
-            <Link to="/login" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundColor: "#a98805"
-            }}>
+            <Link to="/login" className="text-white hover:text-white/90 bg-[#a98805] px-6 py-2 font-bold rounded-none uppercase">
               Sign In
             </Link>
-            <Link to="/hotels" className={`text-white hover:bg-white/90 px-3 py-1 ${isMobile ? "text-[0.8rem] scale-[1.04] font-bold" : "text-[0.9rem] font-bold"} rounded-md uppercase`} style={{ 
-              backgroundColor: "#a98805"
-            }}>
+            <Link to="/hotels" className="text-white hover:text-white/90 bg-[#a98805] px-6 py-2 font-bold rounded-none uppercase">
               Hotels
             </Link>
           </div>
@@ -88,3 +82,4 @@ export function Footer() {
       </div>
     </footer>;
 }
+

@@ -22,7 +22,7 @@ export function HotelAccordionMenu() {
   };
   
   return (
-    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm">
+    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2">
       <Accordion 
         type="single" 
         collapsible 
@@ -223,7 +223,9 @@ export function HotelAccordionMenu() {
           value="steps-to-join" 
           className="overflow-hidden border-none shadow-xl"
         >
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+          <AccordionTrigger 
+            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
+          >
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               12-   Steps to join Hotel-Living
             </div>

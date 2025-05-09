@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -59,7 +60,7 @@ export default function Hotels() {
             <HotelAccordionMenu />
           </div>
           
-          <div className="w-full max-w-4xl mt-48">
+          <div className="w-full max-w-4xl mt-10">
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10">
               <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">Frequently Asked Questions</h2>
               

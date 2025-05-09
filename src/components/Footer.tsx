@@ -61,13 +61,13 @@ export function Footer() {
           </div>
           
           <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
-            <Link to="/signup" className="text-white hover:text-white/90 bg-[#9b87f5] px-6 py-2 font-bold rounded-none uppercase">
+            <Link to="/signup" className="text-white hover:text-white/90 bg-[#7A127C] px-6 py-2 font-bold rounded-md uppercase">
               Register
             </Link>
-            <Link to="/login" className="text-white hover:text-white/90 bg-[#9b87f5] px-6 py-2 font-bold rounded-none uppercase">
+            <Link to="/login" className="text-white hover:text-white/90 bg-[#7A127C] px-6 py-2 font-bold rounded-md uppercase">
               Sign In
             </Link>
-            <Link to="/hotels" className="text-white hover:text-white/90 bg-[#9b87f5] px-6 py-2 font-bold rounded-none uppercase">
+            <Link to="/hotels" className="text-white hover:text-white/90 bg-[#7A127C] px-6 py-2 font-bold rounded-md uppercase">
               Hotels
             </Link>
           </div>

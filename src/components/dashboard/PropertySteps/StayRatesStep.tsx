@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
 import { toast } from "sonner";
@@ -15,12 +15,10 @@ export default function StayRatesStep({
   formData = {},
   updateFormData = () => {}
 }: StayRatesStepProps) {
-  const [ratesFilled, setRatesFilled] = useState(false);
-  const [rates, setRates] = useState<Record<string, number | string>>({});
+  const [ratesFilled, setRatesFilled] = React.useState(false);
+  const [rates, setRates] = React.useState<Record<string, number | string>>({});
 
-  const [currency, setCurrency] = useState("USD");
-  const [enablePriceIncrease, setEnablePriceIncrease] = useState(false);
-  const [priceIncreaseCap, setPriceIncreaseCap] = useState(20);
+  const [currency, setCurrency] = React.useState("USD");
 
   const roomTypes = formData.roomTypes?.length > 0
     ? formData.roomTypes.map((rt: any) => rt.name || rt.selectedRoomType)
@@ -34,10 +32,8 @@ export default function StayRatesStep({
     ? formData.mealPlans
     : ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (formData.currency) setCurrency(formData.currency);
-    if (formData.enablePriceIncrease !== undefined) setEnablePriceIncrease(formData.enablePriceIncrease);
-    if (formData.priceIncreaseCap) setPriceIncreaseCap(formData.priceIncreaseCap);
 
     const initialRates: Record<string, number | string> = {};
     const formatStayLength = (days: number | string) => typeof days === 'number' ? `${days} days` : days;
@@ -63,10 +59,8 @@ export default function StayRatesStep({
     }
   }, [formData, roomTypes, mealOptions]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     updateFormData('currency', currency);
-    updateFormData('enablePriceIncrease', enablePriceIncrease);
-    updateFormData('priceIncreaseCap', priceIncreaseCap);
 
     const priceFields: Record<string, number> = {};
     const ratesObject: Record<string, number> = {};
@@ -93,7 +87,7 @@ export default function StayRatesStep({
 
     updateFormData('rates', ratesObject);
     onValidationChange(ratesFilled);
-  }, [rates, currency, enablePriceIncrease, priceIncreaseCap, ratesFilled, updateFormData, onValidationChange]);
+  }, [rates, currency, ratesFilled, updateFormData, onValidationChange]);
 
   const handleRateChange = (roomType: string, stayLength: string, mealOption: string, value: string) => {
     const key = `${roomType}-${stayLength}-${mealOption}`;
@@ -109,16 +103,16 @@ export default function StayRatesStep({
   return (
     <div className="space-y-6">
       <StayRatesSettingsSection
-        enablePriceIncrease={enablePriceIncrease}
-        setEnablePriceIncrease={setEnablePriceIncrease}
-        priceIncreaseCap={priceIncreaseCap}
-        setPriceIncreaseCap={setPriceIncreaseCap}
+        enablePriceIncrease={formData.enablePriceIncrease ?? false}
+        setEnablePriceIncrease={(val) => updateFormData("enablePriceIncrease", val)}
+        priceIncreaseCap={formData.priceIncreaseCap ?? 20}
+        setPriceIncreaseCap={(val) => updateFormData("priceIncreaseCap", val)}
       />
 
       <StayRatesTableSection
         ratesFilled={ratesFilled}
-        enablePriceIncrease={enablePriceIncrease}
-        priceIncreaseCap={priceIncreaseCap}
+        enablePriceIncrease={formData.enablePriceIncrease ?? false}
+        priceIncreaseCap={formData.priceIncreaseCap ?? 20}
         rates={rates}
         roomTypes={roomTypes}
         stayOptions={stayOptions}

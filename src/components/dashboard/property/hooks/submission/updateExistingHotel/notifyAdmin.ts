@@ -2,7 +2,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * Sends notification to admin about pending hotel changes
+ * Sends notification to the admin about pending changes
  */
 export const notifyAdmin = async (hotelName: string): Promise<void> => {
   try {
@@ -12,7 +12,7 @@ export const notifyAdmin = async (hotelName: string): Promise<void> => {
         recipient: 'admin@hotel-living.com',
         data: {
           sender: 'Hotel Living System',
-          hotelName: hotelName,
+          hotelName,
           message: `Hotel '${hotelName}' has submitted changes that require your approval.`
         }
       }

@@ -38,7 +38,23 @@ export interface RoomType {
   availabilityDates?: string[];
 }
 
-export interface AdminHotelDetail extends Hotel {
+export interface AdminHotelDetail {
+  id: string;
+  name: string;
+  description: string | null;
+  idealGuests?: string | null;
+  atmosphere?: string | null;
+  perfectLocation?: string | null;
+  city: string;
+  country: string;
+  category: number | null;
+  price_per_month: number;
+  main_image_url: string | null;
+  average_rating?: number;
+  hotelFeatures?: string[];
+  roomFeatures?: string[];
+  available_months?: string[];
+  activities?: string[];
   hotel_images: {
     id: string;
     hotel_id: string;
@@ -63,9 +79,32 @@ export interface AdminHotelDetail extends Hotel {
       category?: string;
     };
   }[];
+  latitude?: number | string | null;
+  longitude?: number | string | null;
+  address?: string | null;
+  property_type?: string | null;
+  style?: string | null;
+  meal_plans?: string[];
+  stay_lengths?: number[];
+  terms?: string | null;
   features_hotel?: Record<string, boolean>;
   features_room?: Record<string, boolean>;
+  rates?: Record<string, number>;
+  currency?: string;
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
+  preferredWeekday?: string;
+  check_in_weekday?: string;
+  
+  // Add the following fields to fix TypeScript errors
+  status?: string;
+  created_at: string;
+  updated_at: string;
+  owner_id?: string | null;
+  rejection_reason?: string | null;
   pending_changes?: Record<string, any>;
+  ideal_guests?: string | null;
+  perfect_location?: string | null;
 }
 
 export interface HotelDetailProps {

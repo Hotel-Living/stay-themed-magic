@@ -9,7 +9,7 @@ export function HeroSection() {
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
           {/* New 1950s style neon sign slogan - with adjusted sizing for mobile (30% bigger) and 10% wider */}
-          {/* Added triple vertical space above and below "The Future is Here!" */}
+          {/* Added triple vertical space above and below "The Living Revolution" */}
           <div className={`flex justify-center ${isMobile ? "mb-12 mt-6" : "mb-6 mt-3"}`}>
             <div className={`relative ${isMobile ? "w-[66.35%]" : "w-[16.72%]"} mx-auto`}>
               <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-white backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
@@ -17,7 +17,7 @@ export function HeroSection() {
                    style={{
                      color: "#860493",
                    }}>
-                  The Future is Here!
+                  The Living Revolution
                 </p>
               </div>
             </div>

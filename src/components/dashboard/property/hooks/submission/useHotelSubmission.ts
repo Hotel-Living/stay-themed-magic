@@ -199,50 +199,108 @@ export const useHotelSubmission = () => {
     const pendingChanges: Record<string, any> = {};
     let hasChanges = false;
     
-    for (const [key, value] of Object.entries(updatedData)) {
+    for (const [key, newValue] of Object.entries(updatedData)) {
+      // Get the current value from the database
+      const currentValue = currentHotel[key];
+      
       // Improved comparison logic for different types of values
       let isChanged = false;
       
-      if (Array.isArray(value) && Array.isArray(currentHotel[key])) {
-        // For arrays, compare stringified versions with stable order
-        const sortAndStringify = (arr: any[]) => JSON.stringify([...arr].sort());
-        isChanged = sortAndStringify(value) !== sortAndStringify(currentHotel[key]);
-      } else if (typeof value === 'object' && value !== null && 
-                currentHotel[key] !== null && typeof currentHotel[key] === 'object') {
-        // For objects, sort keys for stable comparison
-        const normalizeObject = (obj: object) => {
-          const normalized: Record<string, any> = {};
-          Object.keys(obj).sort().forEach(k => {
-            if (obj.hasOwnProperty(k)) {
-              normalized[k] = obj[k as keyof typeof obj];
-            }
-          });
-          return normalized;
-        };
+      // Debug logging to understand what's being compared
+      console.log(`Comparing field: ${key}`);
+      
+      if (Array.isArray(newValue) && Array.isArray(currentValue)) {
+        // For arrays, we need to handle different array types differently
+        if (newValue.length === 0 && currentValue.length === 0) {
+          // Both arrays are empty, no change
+          isChanged = false;
+        } else if (newValue.length !== currentValue.length) {
+          // Different lengths, definitely changed
+          console.log(`Array length difference for ${key}: new=${newValue.length}, current=${currentValue.length}`);
+          isChanged = true;
+        } else if (newValue.length > 0 && typeof newValue[0] === 'object') {
+          // Array of objects - do a deep comparison by converting to string
+          const normalizedNew = JSON.stringify([...newValue].sort((a, b) => 
+            JSON.stringify(a).localeCompare(JSON.stringify(b))
+          ));
+          const normalizedCurrent = JSON.stringify([...currentValue].sort((a, b) => 
+            JSON.stringify(a).localeCompare(JSON.stringify(b))
+          ));
+          
+          isChanged = normalizedNew !== normalizedCurrent;
+          if (isChanged) {
+            console.log(`Array of objects changed for ${key}`);
+            console.log('New:', normalizedNew);
+            console.log('Current:', normalizedCurrent);
+          }
+        } else {
+          // Simple array of primitives
+          // Sort and convert to string for a stable comparison
+          const normalizedNew = [...newValue].sort().toString();
+          const normalizedCurrent = [...currentValue].sort().toString();
+          
+          isChanged = normalizedNew !== normalizedCurrent;
+          if (isChanged) {
+            console.log(`Array changed for ${key}`);
+            console.log('New:', normalizedNew);
+            console.log('Current:', normalizedCurrent);
+          }
+        }
+      } else if (typeof newValue === 'object' && newValue !== null && 
+                currentValue !== null && typeof currentValue === 'object') {
+        // For objects (excluding null), do a deep comparison with stable key order
+        const normalizedNew = JSON.stringify(sortObjectKeys(newValue));
+        const normalizedCurrent = JSON.stringify(sortObjectKeys(currentValue));
         
-        isChanged = JSON.stringify(normalizeObject(value)) !== 
-                    JSON.stringify(normalizeObject(currentHotel[key]));
+        isChanged = normalizedNew !== normalizedCurrent;
+        if (isChanged) {
+          console.log(`Object changed for ${key}`);
+          console.log('New:', normalizedNew);
+          console.log('Current:', normalizedCurrent);
+        }
       } else {
         // Simple value comparison
-        isChanged = value !== currentHotel[key];
+        isChanged = newValue !== currentValue;
+        if (isChanged) {
+          console.log(`Simple value changed for ${key}: new=${newValue}, current=${currentValue}`);
+        }
       }
       
       if (isChanged) {
         console.log(`Field changed: ${key}`, { 
-          old: currentHotel[key], 
-          new: value 
+          old: currentValue, 
+          new: newValue 
         });
-        pendingChanges[key] = value;
+        pendingChanges[key] = newValue;
         hasChanges = true;
       }
     }
     
+    // Helper function to sort object keys for stable comparison
+    function sortObjectKeys(obj: object): object {
+      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return obj;
+      
+      const sortedObj: Record<string, any> = {};
+      const sortedKeys = Object.keys(obj).sort();
+      
+      for (const key of sortedKeys) {
+        const value = obj[key as keyof typeof obj];
+        sortedObj[key] = typeof value === 'object' && value !== null 
+          ? sortObjectKeys(value) 
+          : value;
+      }
+      
+      return sortedObj;
+    }
+    
     // If there are no changes, let the user know
     if (!hasChanges) {
+      console.log("No changes detected in hotel data");
       return { id: hotelId, noChangesDetected: true };
     }
     
     console.log("Detected changes:", pendingChanges);
+    console.log("Number of changed fields:", Object.keys(pendingChanges).length);
     
     // Store changes in pending_changes column and update status
     const { error } = await supabase

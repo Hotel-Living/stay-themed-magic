@@ -91,13 +91,20 @@ export default function StayRatesStep({
 
   const handleRateChange = (roomType: string, stayLength: string, mealOption: string, value: string) => {
     const key = `${roomType}-${stayLength}-${mealOption}`;
-    setRates(prev => ({
-      ...prev,
-      [key]: value
-    }));
+    
+    setRates(prev => {
+      if (prev[key] === value) return prev; // Skip unnecessary update
+      return {
+        ...prev,
+        [key]: value
+      };
+    });
 
-    if (value) setRatesFilled(true);
-    toast.success(`Rate updated for ${roomType}, ${stayLength}, ${mealOption}`);
+    if (value && !isNaN(Number(value))) {
+      setRatesFilled(true);
+      // Moved toast to only show when there's actually a change and valid number
+      toast.success(`Rate updated for ${roomType}, ${stayLength}, ${mealOption}`);
+    }
   };
 
   return (

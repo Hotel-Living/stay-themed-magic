@@ -64,12 +64,14 @@ export const ChangesHighlight = ({
         throw updateError;
       }
       
-      // Then in a separate operation, remove the field from pending_changes
-      const { error: pendingError } = await supabase
-        .rpc('remove_pending_change_field', { 
+      // Then in a separate operation, call the edge function to remove the field from pending_changes
+      // Using functions.invoke to call the Edge function
+      const { error: pendingError } = await supabase.functions.invoke("remove_pending_change_field", {
+        body: {
           hotel_id: hotelId,
           field_name: fieldName
-        });
+        }
+      });
 
       if (pendingError) {
         console.error("Error removing field from pending_changes:", pendingError);
@@ -100,28 +102,17 @@ export const ChangesHighlight = ({
       
       console.log("Rejecting field change:", { field: fieldName });
       
-      // Use RPC function to remove just this field from pending_changes
-      const { error } = await supabase
-        .rpc('remove_pending_change_field', { 
+      // Use the edge function to remove just this field from pending_changes
+      const { error } = await supabase.functions.invoke("remove_pending_change_field", {
+        body: {
           hotel_id: hotelId,
           field_name: fieldName
-        });
+        }
+      });
 
       if (error) {
-        console.error("Error rejecting field with RPC:", error);
-        
-        // Fallback to direct JSONB update if RPC fails
-        const { error: fallbackError } = await supabase
-          .from('hotels')
-          .update({ 
-            [`pending_changes`]: supabase.rpc('remove_jsonb_key', { 
-              json_object: supabase.raw('pending_changes'), 
-              key_to_remove: fieldName 
-            })
-          })
-          .eq('id', hotelId);
-        
-        if (fallbackError) throw fallbackError;
+        console.error("Error rejecting field with Edge Function:", error);
+        throw error;
       }
       
       toast({

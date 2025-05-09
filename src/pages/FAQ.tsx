@@ -22,12 +22,14 @@ export default function FAQ() {
       <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <div className="space-y-4 mb-16">
-            <h2 className={`text-center font-bold ${isMobile ? "text-3xl" : "text-4xl"} mb-10 text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 rounded-lg`}>
-              EXPERIENCE THE BENEFITS OF HOTEL-LIVING
-            </h2>
-            <div className="space-y-3">
+            <div className="flex justify-center">
+              <h2 className={`text-center font-bold ${isMobile ? "text-3xl" : "text-4xl"} mb-10 text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 px-6 rounded-lg inline-block mx-auto`}>
+                EXPERIENCE THE BENEFITS OF HOTEL-LIVING
+              </h2>
+            </div>
+            <div className="space-y-3 max-w-3xl mx-auto">
               {benefitsList.map((benefit, index) => (
-                <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg">
+                <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg mx-auto max-w-fit">
                   <p className="text-center text-[#8017B0] text-base md:text-xl font-medium">{benefit}</p>
                 </div>
               ))}
@@ -35,14 +37,16 @@ export default function FAQ() {
           </div>
           
           <div className="text-center mb-6">
-            <h1 className={`
-              ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-4 text-[#eedbf7] glow 
-              tracking-tight leading-tight
-              bg-[#8017B0] py-2 rounded-lg
-            `}>
-              Frequently Asked Questions
-            </h1>
+            <div className="flex justify-center">
+              <h1 className={`
+                ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
+                font-bold mb-4 text-[#eedbf7] glow 
+                tracking-tight leading-tight
+                bg-[#8017B0] py-2 px-8 rounded-lg inline-block
+              `}>
+                Frequently Asked Questions
+              </h1>
+            </div>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
               Find answers to common questions
             </p>

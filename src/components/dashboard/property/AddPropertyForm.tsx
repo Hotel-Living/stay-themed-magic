@@ -104,7 +104,7 @@ export default function AddPropertyForm({
       )}
 
       {isSubmitted && submitSuccess ? (
-        <SuccessMessage />
+        <SuccessMessage isEditingMode={!!editingHotelId} />
       ) : (
         <StepContent 
           currentStep={currentStep}

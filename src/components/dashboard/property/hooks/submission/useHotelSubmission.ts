@@ -106,6 +106,23 @@ export const useHotelSubmission = () => {
     console.log("Updating hotel with ID:", hotelId);
     console.log("Update data:", formData);
     
+    // First, get the current hotel data to determine what has changed
+    const { data: currentHotel, error: fetchError } = await supabase
+      .from('hotels')
+      .select('*')
+      .eq('id', hotelId)
+      .single();
+    
+    if (fetchError) {
+      console.error("Error fetching current hotel data:", fetchError);
+      throw fetchError;
+    }
+    
+    // Check if there are already pending changes
+    if (currentHotel.pending_changes && Object.keys(currentHotel.pending_changes).length > 0) {
+      throw new Error("This hotel already has pending changes awaiting approval. Please wait for admin review before making additional changes.");
+    }
+    
     // Convert the stay lengths from an array of numbers to a PostgreSQL array
     const stayLengths = formData.stayLengths || [];
     
@@ -128,9 +145,6 @@ export const useHotelSubmission = () => {
     const featuresHotel = formData.featuresHotel || {};
     const featuresRoom = formData.featuresRoom || {};
     
-    console.log("Hotel features being updated:", featuresHotel);
-    console.log("Room features being updated:", featuresRoom);
-    
     // Extract rates for different stay lengths
     const rates = formData.rates || {
       "8": formData.price_8,
@@ -138,8 +152,6 @@ export const useHotelSubmission = () => {
       "24": formData.price_24,
       "32": formData.price_32
     };
-    
-    console.log("Updating rates:", rates);
 
     // Parse latitude and longitude if they're strings
     const latitude = formData.latitude ? 
@@ -150,10 +162,8 @@ export const useHotelSubmission = () => {
       (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
       null;
     
-    console.log(`Location data: lat=${latitude}, lng=${longitude}`);
-    
-    // Prepare the hotel data for update
-    const hotelData = {
+    // Prepare the new hotel data
+    const updatedData: Record<string, any> = {
       name: formData.hotelName,
       description: formData.description,
       country: formData.country,
@@ -162,7 +172,7 @@ export const useHotelSubmission = () => {
       postal_code: formData.postalCode || null,
       latitude: latitude,
       longitude: longitude,
-      price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
+      price_per_month: parseInt(formData.category) * 1000,
       category: parseInt(formData.category),
       property_type: formData.propertyType,
       style: formData.style,
@@ -181,22 +191,75 @@ export const useHotelSubmission = () => {
       features_hotel: featuresHotel,
       features_room: featuresRoom,
       available_months: availableMonths,
-      rates: rates, // Add rates to hotel data
-      status: 'pending', // Set status back to pending for admin review
+      rates: rates,
       main_image_url: formData.mainImageUrl || null
     };
     
+    // Compare with current data and only include changed fields in pending_changes
+    const pendingChanges: Record<string, any> = {};
+    let hasChanges = false;
+    
+    for (const [key, value] of Object.entries(updatedData)) {
+      // Check if the field has been modified, handle arrays and objects separately
+      if (Array.isArray(value) && Array.isArray(currentHotel[key])) {
+        // Deep compare arrays
+        if (JSON.stringify(value) !== JSON.stringify(currentHotel[key])) {
+          pendingChanges[key] = value;
+          hasChanges = true;
+        }
+      } else if (typeof value === 'object' && value !== null && currentHotel[key] !== null && typeof currentHotel[key] === 'object') {
+        // Deep compare objects
+        if (JSON.stringify(value) !== JSON.stringify(currentHotel[key])) {
+          pendingChanges[key] = value;
+          hasChanges = true;
+        }
+      } else if (value !== currentHotel[key]) {
+        // Simple value comparison
+        pendingChanges[key] = value;
+        hasChanges = true;
+      }
+    }
+    
+    // If there are no changes, let the user know
+    if (!hasChanges) {
+      return { id: hotelId, noChangesDetected: true };
+    }
+    
+    console.log("Detected changes:", pendingChanges);
+    
+    // Store changes in pending_changes column and update status
     const { error } = await supabase
       .from('hotels')
-      .update(hotelData)
+      .update({
+        pending_changes: pendingChanges,
+        status: 'pending_changes'
+      })
       .eq('id', hotelId);
     
     if (error) {
-      console.error("Error updating hotel:", error);
+      console.error("Error updating hotel with pending changes:", error);
       throw error;
     }
     
-    return { id: hotelId };
+    // Send notification to admin about pending changes
+    try {
+      await supabase.functions.invoke('send-notification', {
+        body: {
+          type: 'message',
+          recipient: 'admin@hotel-living.com', // Replace with actual admin email
+          data: {
+            sender: 'Hotel Living System',
+            hotelName: formData.hotelName,
+            message: `Hotel '${formData.hotelName}' has submitted changes that require your approval.`
+          }
+        }
+      });
+    } catch (notifyError) {
+      console.warn("Error sending admin notification:", notifyError);
+      // Continue despite notification error
+    }
+    
+    return { id: hotelId, changes: Object.keys(pendingChanges).length };
   };
 
   return {

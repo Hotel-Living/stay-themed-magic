@@ -77,12 +77,26 @@ export const usePropertySubmission = ({
 
     try {
       let hotelId: string;
+      let noChangesDetected = false;
+      let changesCount = 0;
       
       if (isEditing) {
         // Update existing hotel
-        await updateExistingHotel(formData, editingHotelId);
-        hotelId = editingHotelId;
-        console.log("Hotel updated successfully:", hotelId);
+        const result = await updateExistingHotel(formData, editingHotelId);
+        hotelId = result.id;
+        noChangesDetected = result.noChangesDetected;
+        changesCount = result.changes;
+        
+        if (noChangesDetected) {
+          toast({
+            title: "No changes detected",
+            description: "No changes were detected in your submission."
+          });
+          setIsSubmitted(false);
+          return;
+        }
+        
+        console.log(`Hotel update request submitted with ${changesCount} changes pending approval`);
       } else {
         // Create new hotel
         const hotelData = await createNewHotel(formData, userId);
@@ -96,34 +110,38 @@ export const usePropertySubmission = ({
       if (formData.hotelImages && formData.hotelImages.length > 0) {
         console.log("Using custom images:", formData.hotelImages);
         await handleCustomImages(hotelId, formData.hotelImages);
-      } else {
+      } else if (!isEditing) {
+        // Only use placeholder images for new hotels
         console.log("No images provided, using placeholders");
         await handlePlaceholderImages(hotelId);
       }
       
-      // Submit related data - handle failures gracefully
-      try {
-        console.log("Processing themes and activities");
-        await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
-      } catch (themeError) {
-        console.warn("Theme submission had issues but continuing:", themeError);
-      }
-      
-      try {
-        console.log("Processing availability");
-        // Availability should be processed after the hotel has been created/updated
-        await handleAvailability(hotelId, formData.available_months || []);
-      } catch (availError) {
-        console.warn("Availability submission had issues but continuing:", availError);
+      // For new hotels, process related data
+      if (!isEditing) {
+        // Submit related data - handle failures gracefully
+        try {
+          console.log("Processing themes and activities");
+          await handleThemesAndActivities(hotelId, formData.themes || [], formData.activities || []);
+        } catch (themeError) {
+          console.warn("Theme submission had issues but continuing:", themeError);
+        }
+        
+        try {
+          console.log("Processing availability");
+          // Availability should be processed after the hotel has been created/updated
+          await handleAvailability(hotelId, formData.available_months || []);
+        } catch (availError) {
+          console.warn("Availability submission had issues but continuing:", availError);
+        }
       }
       
       // Handle submission success even if some related data had issues
       handleSubmissionSuccess();
       
       toast({
-        title: isEditing ? "Hotel Updated" : "Hotel Submitted",
+        title: isEditing ? "Changes Submitted for Review" : "Hotel Submitted",
         description: isEditing 
-          ? "Your hotel has been updated and is pending approval." 
+          ? "Your changes have been submitted and are pending admin approval." 
           : "Your hotel has been submitted and is pending approval.",
       });
       

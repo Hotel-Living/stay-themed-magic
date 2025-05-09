@@ -29,7 +29,7 @@ export default function FAQ() {
             </div>
             <div className="space-y-3 max-w-3xl mx-auto">
               {benefitsList.map((benefit, index) => (
-                <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg mx-auto max-w-fit">
+                <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg ml-0 max-w-fit">
                   <p className="text-center text-[#8017B0] text-base md:text-xl font-medium">{benefit}</p>
                 </div>
               ))}

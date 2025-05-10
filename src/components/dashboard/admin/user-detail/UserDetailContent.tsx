@@ -9,6 +9,7 @@ import { UserStatsSection } from "./UserStatsSection";
 import { UserAffinitiesSection } from "./UserAffinitiesSection";
 import { UserHotelsSection } from "./UserHotelsSection";
 import { UserReportsSection } from "./UserReportsSection";
+import { UserReferralsSection } from "./UserReferralsSection";
 import { TotalSpentCard } from "./TotalSpentCard";
 import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
@@ -23,6 +24,7 @@ interface UserDetailContentProps {
   userPreferences: any;
   hotels: any[];
   reports: any[];
+  referrals: any[];
   editing: boolean;
   editForm: any;
   setEditForm: (form: any) => void;
@@ -42,6 +44,7 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   userPreferences,
   hotels,
   reports,
+  referrals,
   editing,
   editForm,
   setEditForm,
@@ -84,6 +87,18 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
               This user has {reports.length} report(s) filed against them:
             </div>
             <UserReportsSection reports={reports} />
+          </div>
+        </DetailCard>
+      )}
+      
+      {/* Hotel Referrals Section */}
+      {referrals && referrals.length > 0 && (
+        <DetailCard title="Hotel Referrals">
+          <div className="space-y-2">
+            <div className="text-sm font-medium mb-2">
+              This user has referred {referrals.length} hotel(s) to the platform:
+            </div>
+            <UserReferralsSection referrals={referrals} />
           </div>
         </DetailCard>
       )}

@@ -22,6 +22,7 @@ export default function AdminUserDetailView() {
     userPreferences,
     hotels,
     reports,
+    referrals,
     loading,
     editing,
     setEditing,
@@ -121,6 +122,7 @@ export default function AdminUserDetailView() {
             userPreferences={userPreferences}
             hotels={hotels}
             reports={reports}
+            referrals={referrals}
             editing={editing}
             editForm={editForm}
             setEditForm={setEditForm}

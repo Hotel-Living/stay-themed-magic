@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -30,7 +31,7 @@ export const useUserDetailActions = (
     return null;
   };
 
-  // Ensure all handler functions explicitly return Promise<void>
+  // Fix the handleSave function to explicitly return Promise<void>
   const handleSave = async (): Promise<void> => {
     try {
       await handleSaveUserDetails();
@@ -45,6 +46,7 @@ export const useUserDetailActions = (
         variant: "destructive"
       });
     }
+    // No return value here to ensure Promise<void>
   };
 
   const handleResendVerification = async (): Promise<void> => {

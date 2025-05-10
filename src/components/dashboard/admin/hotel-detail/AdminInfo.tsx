@@ -16,6 +16,11 @@ interface AdminInfoProps {
 export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
   const hotelOwners = useHotelOwners();
   const totalBookings = useBookingsCount(hotel.id);
+  
+  // Get the main hotel image or first image if no main image is set
+  const mainImage = hotel.hotel_images?.find(img => img.is_main)?.image_url || 
+                   hotel.hotel_images?.[0]?.image_url || 
+                   hotel.main_image_url;
 
   return (
     <div className="rounded-xl p-6 bg-[#5d0083]">
@@ -24,6 +29,15 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
         Administrative Details
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {mainImage && (
+          <div className="md:col-span-2 flex justify-center mb-4">
+            <img 
+              src={mainImage} 
+              alt={`${hotel.name} thumbnail`} 
+              className="w-32 h-32 rounded shadow-md object-cover border-2 border-purple-400" 
+            />
+          </div>
+        )}
         <div className="md:col-span-2">
           <p className="text-sm text-gray-400">Owner</p>
           <OwnerSelector

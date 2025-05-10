@@ -31,6 +31,7 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
   const [hotelOwners, setHotelOwners] = useState<HotelOwner[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isStatusLoading, setIsStatusLoading] = useState<boolean>(false);
+  const [totalBookings, setTotalBookings] = useState<number>(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -63,6 +64,24 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
 
     fetchHotelOwners();
   }, [toast]);
+
+  useEffect(() => {
+    const fetchBookingsCount = async () => {
+      const { count, error } = await supabase
+        .from("bookings")
+        .select("*", { count: "exact", head: true })
+        .eq("hotel_id", hotel.id);
+      
+      if (error) {
+        console.error("Error fetching bookings count:", error);
+        return;
+      }
+      
+      setTotalBookings(count || 0);
+    };
+
+    fetchBookingsCount();
+  }, [hotel.id]);
 
   const updateOwner = async () => {
     setIsLoading(true);
@@ -204,6 +223,10 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
         <div>
           <p className="text-sm text-gray-400">Published</p>
           <p className="font-medium">{hotel.status === 'approved' ? "Yes" : "No"}</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-400">Total Bookings</p>
+          <p className="font-medium">{totalBookings}</p>
         </div>
         <div>
           <p className="text-sm text-gray-400">Created At</p>

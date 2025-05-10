@@ -80,6 +80,40 @@ export const useBookings = () => {
     }
   };
 
+  const updateBookingStatus = async (bookingId: string, newStatus: string) => {
+    try {
+      setLoading(true);
+      
+      const { error } = await supabase
+        .from('bookings')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .eq('id', bookingId);
+      
+      if (error) throw error;
+      
+      // Update the local state to reflect the change
+      setBookings(bookings.map(booking => 
+        booking.id === bookingId 
+          ? { ...booking, status: newStatus } 
+          : booking
+      ));
+      
+      toast({
+        title: "Status Updated",
+        description: `Booking status changed to ${newStatus}`,
+      });
+      
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update booking status",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     bookings,
     loading,
@@ -93,6 +127,7 @@ export const useBookings = () => {
     totalCount,
     limit,
     handleSort,
-    handlePageChange
+    handlePageChange,
+    updateBookingStatus
   };
 };

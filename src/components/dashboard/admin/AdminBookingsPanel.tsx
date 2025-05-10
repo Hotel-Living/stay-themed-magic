@@ -20,7 +20,8 @@ export default function AdminBookingsPanel() {
     totalCount,
     limit,
     handleSort,
-    handlePageChange
+    handlePageChange,
+    updateBookingStatus
   } = useBookings();
 
   const totalPages = Math.ceil(totalCount / limit);
@@ -49,6 +50,7 @@ export default function AdminBookingsPanel() {
             handleSort={handleSort}
             searchTerm={searchTerm}
             statusFilter={statusFilter}
+            updateBookingStatus={updateBookingStatus}
           />
 
           {/* Pagination */}

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -31,6 +30,7 @@ export const useUserDetailActions = (
     return null;
   };
 
+  // Ensure all handler functions explicitly return Promise<void>
   const handleSave = async (): Promise<void> => {
     try {
       await handleSaveUserDetails();

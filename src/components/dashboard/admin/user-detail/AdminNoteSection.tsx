@@ -19,20 +19,18 @@ export const AdminNoteSection: React.FC<AdminNoteSectionProps> = ({
   const [note, setNote] = useState(initialNote || "");
   const [isSaving, setIsSaving] = useState(false);
   
-  const handleSaveNote = async () => {
+  const handleSaveNote = async (): Promise<void> => {
     if (!profileId) return;
     
     setIsSaving(true);
     try {
       // Call without capturing return value
       await onUpdateNote(profileId, note);
-      // No return value check needed
     } catch (error) {
       console.error("Failed to save admin note:", error);
     } finally {
       setIsSaving(false);
     }
-    // No return statement
   };
   
   return (

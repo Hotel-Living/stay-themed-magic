@@ -53,11 +53,10 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // Modified function to ensure it never returns any value
+  // Completely rewritten to ensure it never returns any value
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) {
-      // No return statement here
-      return;
+      return; // Early return with no value
     }
 
     try {
@@ -76,7 +75,6 @@ export const useUserProfile = (id: string | undefined) => {
         description: "Admin note updated successfully",
       });
       
-      // No return statement here
     } catch (error: any) {
       console.error("Error updating admin note:", error);
       toast({
@@ -84,9 +82,8 @@ export const useUserProfile = (id: string | undefined) => {
         description: error.message || "Failed to update admin note",
         variant: "destructive"
       });
-      // No re-throw, no return
     }
-    // No return statement at the end
+    // Function exits with no return value
   };
 
   return { profile, setProfile, loading, updateAdminNote };

@@ -24,6 +24,15 @@ export function useHotelBasicDetails(id: string | undefined) {
         .from("hotels")
         .select(`
           *,
+          hotel_images(*),
+          hotel_themes(
+            theme_id,
+            themes(*)
+          ),
+          hotel_activities(
+            activity_id,
+            activities(*)
+          ),
           pending_changes
         `)
         .eq("id", id)

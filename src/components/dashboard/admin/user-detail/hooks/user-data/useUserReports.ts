@@ -30,7 +30,7 @@ export const useUserReports = (userId: string | undefined) => {
       try {
         const { data, error } = await supabase
           .from("user_reports")
-          .select("id, reason, created_at, status, hotel_id, hotel:hotels(id, name)")
+          .select("id, reported_user_id, reason, created_at, updated_at, status, hotel_id, hotel:hotels(id, name)")
           .eq("reported_user_id", userId);
 
         if (error) {

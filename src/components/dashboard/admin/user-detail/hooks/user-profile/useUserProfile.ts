@@ -53,9 +53,12 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // ✅ This version guarantees it only returns Promise<void>
+  // Explicitly typed as Promise<void> with no implicit or explicit boolean returns
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
-    if (!userId) return;
+    if (!userId) {
+      // Early return with no value
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -63,10 +66,15 @@ export const useUserProfile = (id: string | undefined) => {
         .update({ admin_note: note })
         .eq("id", userId);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       
-      // Update local state
-      setProfile(prev => prev ? { ...prev, admin_note: note } : prev);
+      // Update state without returning anything
+      setProfile((prev) => {
+        if (!prev) return prev;
+        return { ...prev, admin_note: note };
+      });
       
       toast({
         title: "Success",
@@ -80,7 +88,7 @@ export const useUserProfile = (id: string | undefined) => {
         variant: "destructive"
       });
     }
-    // No return statement → Promise<void>
+    // Function ends without return - implicitly returns undefined (void)
   };
 
   return { profile, setProfile, loading, updateAdminNote };

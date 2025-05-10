@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { X, Edit, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import AdminDashboardLayout from "./AdminDashboardLayout";
-import { useFilters, FilterItem } from "@/hooks/useFilters";
+import { useFilters, FilterItem } from "@/hooks/filters";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EditableFiltersPanel() {

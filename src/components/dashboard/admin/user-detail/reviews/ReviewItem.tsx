@@ -1,12 +1,13 @@
 
 import React, { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { type UserReview } from "../hooks/user-data/useUserReviews";
+import { ReviewHeader } from "./components/ReviewHeader";
+import { ReviewContent } from "./components/ReviewContent";
+import { ReviewEditor } from "./components/ReviewEditor";
+import { AdminNoteSection } from "./components/AdminNoteSection";
+import { ReviewActionButtons } from "./components/ReviewActionButtons";
 
 interface ReviewItemProps {
   review: UserReview;
@@ -15,9 +16,7 @@ interface ReviewItemProps {
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-  const [adminNote, setAdminNote] = useState(review.admin_note || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSavingNote, setIsSavingNote] = useState(false);
   const { toast } = useToast();
   
   const isEditing = editingId === review.id;
@@ -59,35 +58,6 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
       });
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const saveAdminNote = async () => {
-    setIsSavingNote(true);
-    try {
-      const { error } = await supabase
-        .from("reviews")
-        .update({ admin_note: adminNote })
-        .eq("id", review.id);
-
-      if (error) throw error;
-      
-      toast({
-        title: "Admin note saved",
-        description: "The admin note has been successfully saved",
-      });
-      
-      // Update the local review admin note
-      review.admin_note = adminNote;
-    } catch (error) {
-      console.error("Error saving admin note:", error);
-      toast({
-        title: "Save failed",
-        description: "Failed to save admin note. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSavingNote(false);
     }
   };
 
@@ -143,96 +113,40 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
     }
   };
 
+  const updateAdminNote = (note: string) => {
+    review.admin_note = note;
+  };
+
   return (
     <li className="border p-3 rounded-md bg-muted/20">
-      <div className="flex justify-between items-start mb-2">
-        <div><strong>Hotel:</strong> {review.hotel?.name}</div>
-        <div className="flex gap-1">
-          <Badge variant={review.is_flagged ? "error" : "outline"}>
-            {review.is_flagged ? "Flagged" : "Reviewed"}
-          </Badge>
-          <Badge variant={review.is_hidden ? "warning" : "success"}>
-            {review.is_hidden ? "Hidden" : "Published"}
-          </Badge>
-        </div>
-      </div>
-      <div><strong>Rating:</strong> {review.rating} / 5</div>
+      <ReviewHeader review={review} />
       
       {isEditing ? (
-        <div className="mt-2">
-          <Textarea 
-            value={editText} 
-            onChange={(e) => setEditText(e.target.value)}
-            className="min-h-[80px] mb-2"
-          />
-          <div className="flex gap-2 justify-end">
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={handleCancelEdit}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button 
-              size="sm" 
-              onClick={handleSaveEdit}
-              disabled={isSubmitting || editText === review.comment}
-            >
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
-        </div>
+        <ReviewEditor 
+          editText={editText}
+          isSubmitting={isSubmitting}
+          onEditChange={setEditText}
+          onSave={handleSaveEdit}
+          onCancel={handleCancelEdit}
+          originalText={review.comment || ""}
+        />
       ) : (
         <>
-          <div><strong>Comment:</strong> {review.comment || "No comment provided"}</div>
-          <div className="text-xs text-muted-foreground">{review.formattedDate}</div>
+          <ReviewContent review={review} />
           
-          {/* Admin Notes Section */}
-          <div className="mt-3 border-t pt-3">
-            <Label htmlFor={`admin-note-${review.id}`} className="text-sm font-medium">
-              Admin Note
-            </Label>
-            <div className="mt-1 flex gap-2">
-              <Textarea
-                id={`admin-note-${review.id}`}
-                value={adminNote}
-                onChange={(e) => setAdminNote(e.target.value)}
-                placeholder="Private note visible only to admins"
-                className="min-h-[60px] text-sm"
-              />
-            </div>
-            <div className="flex justify-end mt-1">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={saveAdminNote}
-                disabled={isSavingNote || adminNote === review.admin_note}
-              >
-                {isSavingNote ? "Saving..." : "Save Note"}
-              </Button>
-            </div>
-          </div>
+          <AdminNoteSection 
+            reviewId={review.id} 
+            initialNote={review.admin_note}
+            onUpdate={updateAdminNote}
+          />
           
-          <div className="mt-2 flex gap-2">
-            <Button size="sm" variant="outline" onClick={handleEditClick}>
-              Edit
-            </Button>
-            <Button 
-              size="sm" 
-              variant={review.is_hidden ? "default" : "secondary"}
-              onClick={toggleVisibility}
-            >
-              {review.is_hidden ? "Publish" : "Hide"}
-            </Button>
-            <Button 
-              size="sm" 
-              variant={review.is_flagged ? "outline" : "destructive"}
-              onClick={toggleFlag}
-            >
-              {review.is_flagged ? "Remove Flag" : "Flag"}
-            </Button>
-          </div>
+          <ReviewActionButtons 
+            isHidden={review.is_hidden}
+            isFlagged={review.is_flagged}
+            onEdit={handleEditClick}
+            onToggleVisibility={toggleVisibility}
+            onToggleFlag={toggleFlag}
+          />
         </>
       )}
     </li>

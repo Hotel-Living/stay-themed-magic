@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Edit, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDate, formatTimeAgo } from "@/components/dashboard/utils/dateUtils";
+import { Badge } from "@/components/ui/badge";
 
 export default function AdminUserDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -104,8 +105,14 @@ export default function AdminUserDetailView() {
           <div className="space-y-6">
             {/* User Registration Info */}
             <div className="flex flex-col md:flex-row md:justify-between gap-2 text-sm text-gray-500">
-              <div>
+              <div className="flex items-center">
                 Registered on: {formatDate(profile.created_at)}
+                {profile.is_active === false && (
+                  <Badge variant="destructive" className="ml-2">Deactivated</Badge>
+                )}
+                {profile.is_active === true && (
+                  <Badge variant="success" className="ml-2">Active</Badge>
+                )}
               </div>
               {authData && authData.last_sign_in_at && (
                 <div>

@@ -1,15 +1,21 @@
 
 import React from 'react';
-import { BarChart3 } from 'lucide-react';
-import EmptyState from './EmptyState';
+import DashboardStats from "@/components/dashboard/user/tabs/dashboard/DashboardStats";
+import { useDashboardData } from './hooks/useDashboardData';
 
 export const AnalyticsContent = () => {
+  const { bookingsCount, completedStaysCount, savedHotelsCount, isLoading } = useDashboardData();
+
   return (
-    <EmptyState 
-      icon={<BarChart3 className="w-8 h-8" />}
-      title="Analytics Coming Soon"
-      description="Detailed analytics about your properties and bookings will be available here."
-    />
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Analytics</h2>
+      <DashboardStats
+        bookingsCount={bookingsCount}
+        completedStaysCount={completedStaysCount}
+        savedHotelsCount={savedHotelsCount}
+        isLoading={isLoading}
+      />
+    </div>
   );
 };
 

@@ -48,6 +48,31 @@ export function BookingForm({
       });
       return;
     }
+
+    // New validation checks for booking
+    const weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    
+    // Check if the date is a valid weekday
+    const isValidWeekday = weekdayNames[startDate.getDay()] === preferredWeekday;
+    
+    // Check if the duration is in allowed durations
+    const isValidDuration = availableStayLengths ? availableStayLengths.includes(duration) : true;
+    
+    // Check if the month is in available months
+    const monthName = format(startDate, 'MMMM').toLowerCase();
+    const isValidMonth = availableMonths ? 
+      availableMonths.map(m => m.toLowerCase()).includes(monthName) : 
+      true;
+
+    if (!isValidWeekday || !isValidDuration || !isValidMonth) {
+      toast({
+        title: "Invalid booking attempt",
+        description: "Please select a valid date, day, and duration based on hotel availability.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setLoading(true);
     setTimeout(() => {
       // Assign the room (existing logic)

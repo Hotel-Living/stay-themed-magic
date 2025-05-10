@@ -24,6 +24,14 @@ export function AdminInfo({ hotel }: AdminInfoProps) {
           <p className="font-medium font-mono text-xs">{hotel.owner_id || "Not assigned"}</p>
         </div>
         <div>
+          <p className="text-sm text-gray-400">Status</p>
+          <p className="font-medium capitalize">{hotel.status}</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-400">Published</p>
+          <p className="font-medium">{hotel.status === 'approved' ? "Yes" : "No"}</p>
+        </div>
+        <div>
           <p className="text-sm text-gray-400">Created At</p>
           <p className="font-medium">{new Date(hotel.created_at).toLocaleString()}</p>
         </div>

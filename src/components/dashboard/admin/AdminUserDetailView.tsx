@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
@@ -153,6 +154,13 @@ export default function AdminUserDetailView() {
               <ThemesSection 
                 themes={themes} 
                 loading={loading}
+                pagination={{
+                  page: 1,
+                  totalThemes: themes.length,
+                  hasMore: false,
+                  setPage: () => {},
+                  pageSize: 10
+                }}
               />
             </DetailCard>
           </div>

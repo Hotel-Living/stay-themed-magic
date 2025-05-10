@@ -129,6 +129,8 @@ export const useUserDetail = (id: string | undefined) => {
         title: "Success",
         description: "User information updated successfully",
       });
+      
+      return true;
     } catch (error: any) {
       console.error("Error updating user:", error);
       toast({
@@ -136,6 +138,8 @@ export const useUserDetail = (id: string | undefined) => {
         description: error.message || "Failed to update user information",
         variant: "destructive"
       });
+      
+      throw error;
     }
   };
 

@@ -10,6 +10,7 @@ export interface Payment {
   transaction_id: string | null;
   created_at: string;
   updated_at: string;
+  user_name?: string;
   hotel?: {
     name: string;
   };

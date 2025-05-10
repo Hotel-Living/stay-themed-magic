@@ -40,8 +40,8 @@ export const usePayments = () => {
         .from('payments')
         .select(`
           id,
-          booking_id,
           user_id,
+          booking_id,
           hotel_id,
           amount,
           method,
@@ -77,13 +77,30 @@ export const usePayments = () => {
       query = query.range((page - 1) * limit, page * limit - 1);
       
       // Execute the query
-      const { data, error, count } = await query;
+      const { data: paymentsData, error, count } = await query;
       
       if (error) throw error;
+
+      // Fetch profiles data to get user names
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name');
+      
+      // Combine the payments data with profile information
+      const enrichedPayments = (paymentsData || []).map(payment => {
+        const profile = profilesData?.find(profile => profile.id === payment.user_id);
+        
+        return {
+          ...payment,
+          user_name: profile ? 
+            `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown' : 
+            'Unknown'
+        };
+      });
       
       setState(prev => ({
         ...prev,
-        payments: data as Payment[],
+        payments: enrichedPayments as Payment[],
         loading: false,
         totalCount: count || 0
       }));

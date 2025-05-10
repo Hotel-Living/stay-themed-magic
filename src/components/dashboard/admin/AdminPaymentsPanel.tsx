@@ -49,7 +49,7 @@ export default function AdminPaymentsPanel() {
   // Function to export filtered payments to Excel
   const exportToExcel = () => {
     const rows = payments.map(payment => ({
-      // Remove references to payment.user
+      'Guest': payment.user_name || 'Unknown',
       'Hotel': payment.hotel?.name || 'Unknown Hotel',
       'Amount': formatPrice(payment.amount),
       'Method': payment.method,

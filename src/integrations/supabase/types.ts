@@ -490,6 +490,7 @@ export type Database = {
           email_verified: boolean
           first_name: string | null
           id: string
+          is_active: boolean | null
           is_hotel_owner: boolean | null
           last_name: string | null
           phone: string | null
@@ -502,6 +503,7 @@ export type Database = {
           email_verified?: boolean
           first_name?: string | null
           id: string
+          is_active?: boolean | null
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null
@@ -514,6 +516,7 @@ export type Database = {
           email_verified?: boolean
           first_name?: string | null
           id?: string
+          is_active?: boolean | null
           is_hotel_owner?: boolean | null
           last_name?: string | null
           phone?: string | null

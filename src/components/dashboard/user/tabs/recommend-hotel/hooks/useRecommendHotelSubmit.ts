@@ -3,50 +3,44 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { ReferralFormValues } from "../schema";
+import { RecommendHotelFormValues } from "../schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { referralFormSchema } from "../schema";
+import { recommendHotelSchema } from "../schema";
 
-export const useReferralSubmit = () => {
+export const useRecommendHotelSubmit = () => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Set up the form
-  const form = useForm<ReferralFormValues>({
-    resolver: zodResolver(referralFormSchema),
+  const form = useForm<RecommendHotelFormValues>({
+    resolver: zodResolver(recommendHotelSchema),
     defaultValues: {
       hotelName: "",
       contactName: "",
       contactEmail: "",
       contactPhone: "",
       city: "",
-      referralDate: new Date(),
       additionalInfo: "",
     },
   });
 
   // Form submission handler
-  const onSubmit = async (data: ReferralFormValues) => {
+  const onSubmit = async (data: RecommendHotelFormValues) => {
     if (!user) {
       toast({
         title: "Error",
-        description: "You must be logged in to submit a hotel referral.",
+        description: "You must be logged in to submit a hotel recommendation.",
         variant: "destructive",
       });
       return;
     }
     
-    // Calculate the referral expiration date (15 days from referral date)
-    const referralDate = new Date(data.referralDate);
-    const expirationDate = new Date(referralDate);
-    expirationDate.setDate(expirationDate.getDate() + 15);
-    
     setIsSubmitting(true);
     
     try {
-      // Insert the data into the hotel_referrals table with the referral program specific fields
+      // Insert the data into the hotel_referrals table
       const { error } = await supabase.from("hotel_referrals").insert({
         user_id: user.id,
         hotel_name: data.hotelName,
@@ -55,25 +49,21 @@ export const useReferralSubmit = () => {
         contact_phone: data.contactPhone,
         additional_info: data.additionalInfo,
         city: data.city,
-        referral_type: "three_free_nights",
-        referral_date: referralDate.toISOString(),
-        expiration_date: expirationDate.toISOString(),
-        reward_status: "pending"
       });
 
       if (error) {
-        console.error("Error submitting hotel referral:", error);
+        console.error("Error submitting hotel recommendation:", error);
         toast({
-          title: "Error saving referral",
-          description: error.message || "Failed to submit your referral. Please try again.",
+          title: "Error saving recommendation",
+          description: error.message || "Failed to submit your recommendation. Please try again.",
           variant: "destructive",
         });
         return;
       }
       
       toast({
-        title: "Referral submitted!",
-        description: `Thank you for your referral. The hotel must register by ${expirationDate.toLocaleDateString()} for you to receive three free nights.`,
+        title: "Recommendation submitted!",
+        description: "Thank you for your recommendation. We'll contact the hotel and notify you of the outcome.",
       });
       
       form.reset();

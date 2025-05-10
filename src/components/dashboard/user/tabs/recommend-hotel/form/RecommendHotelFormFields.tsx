@@ -9,19 +9,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
 import { UseFormReturn } from "react-hook-form";
-import { ReferralFormValues } from "../schema";
+import { RecommendHotelFormValues } from "../schema";
 
-interface ReferralFormFieldsProps {
-  form: UseFormReturn<ReferralFormValues>;
+interface RecommendHotelFormFieldsProps {
+  form: UseFormReturn<RecommendHotelFormValues>;
 }
 
-export const ReferralFormFields: React.FC<ReferralFormFieldsProps> = ({ form }) => {
+export const RecommendHotelFormFields: React.FC<RecommendHotelFormFieldsProps> = ({ form }) => {
   return (
     <>
       {/* Hotel Name */}
@@ -99,46 +94,6 @@ export const ReferralFormFields: React.FC<ReferralFormFieldsProps> = ({ form }) 
         )}
       />
 
-      {/* Referral Date */}
-      <FormField
-        control={form.control}
-        name="referralDate"
-        render={({ field }) => (
-          <FormItem className="flex flex-col">
-            <FormLabel>Referral Date</FormLabel>
-            <Popover>
-              <PopoverTrigger asChild>
-                <FormControl>
-                  <Button
-                    variant={"outline"}
-                    className={
-                      "w-full pl-3 text-left font-normal"
-                    }
-                  >
-                    {field.value ? (
-                      format(field.value, "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                  </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
       {/* Additional Info */}
       <FormField
         control={form.control}
@@ -148,7 +103,7 @@ export const ReferralFormFields: React.FC<ReferralFormFieldsProps> = ({ form }) 
             <FormLabel>Additional Information (Optional)</FormLabel>
             <FormControl>
               <Textarea 
-                placeholder="Any additional details about your referral" 
+                placeholder="Any additional details or notes about the hotel" 
                 className="min-h-[100px]"
                 {...field} 
               />

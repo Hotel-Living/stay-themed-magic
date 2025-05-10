@@ -1,13 +1,13 @@
 
 import React from "react";
-import { Gift } from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface ReferralSubmitButtonProps {
+interface RecommendHotelSubmitButtonProps {
   isSubmitting?: boolean;
 }
 
-export const ReferralSubmitButton: React.FC<ReferralSubmitButtonProps> = ({
+export const RecommendHotelSubmitButton: React.FC<RecommendHotelSubmitButtonProps> = ({
   isSubmitting = false,
 }) => {
   return (
@@ -16,8 +16,8 @@ export const ReferralSubmitButton: React.FC<ReferralSubmitButtonProps> = ({
       className="w-full bg-fuchsia-600 hover:bg-fuchsia-700"
       disabled={isSubmitting}
     >
-      <Gift className="mr-2 h-4 w-4" /> 
-      {isSubmitting ? "Submitting..." : "Submit Referral for Free Nights"}
+      <Check className="mr-2 h-4 w-4" /> 
+      {isSubmitting ? "Submitting..." : "Submit Recommendation"}
     </Button>
   );
 };

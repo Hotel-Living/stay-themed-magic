@@ -62,6 +62,13 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
+  // Create a wrapper function that converts Promise<boolean> to Promise<void>
+  const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
+    if (updateAdminNote) {
+      await updateAdminNote(userId, note);
+    }
+  };
+
   // Prepare all the props for UserDetailContent
   const detailProps = {
     authData,
@@ -89,7 +96,7 @@ export default function AdminUserDetailView() {
     onMarkRewardAsUsed: handleMarkRewardAsUsed,
     onMarkRewardAsUnused: handleMarkRewardAsUnused,
     handleResendVerification,
-    updateAdminNote
+    updateAdminNote: handleUpdateAdminNote
   };
 
   return (

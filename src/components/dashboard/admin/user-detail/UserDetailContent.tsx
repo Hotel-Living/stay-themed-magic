@@ -46,7 +46,7 @@ interface UserDetailContentProps {
   onMarkRewardAsUsed?: (rewardId: string) => Promise<void>;
   onMarkRewardAsUnused?: (rewardId: string) => Promise<void>;
   handleResendVerification: () => Promise<void>;
-  updateAdminNote?: (userId: string, note: string) => Promise<boolean>;
+  updateAdminNote?: (userId: string, note: string) => Promise<void>;
 }
 
 export const UserDetailContent: React.FC<UserDetailContentProps> = ({

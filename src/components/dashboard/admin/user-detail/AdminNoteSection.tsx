@@ -1,73 +1,57 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { SaveIcon } from "lucide-react";
 
 interface AdminNoteSectionProps {
   profileId: string;
-  initialNote: string | null | undefined;
-  onUpdateNote: (userId: string, note: string) => Promise<boolean>;
+  initialNote: string | null;
+  onUpdateNote: (userId: string, note: string) => Promise<void>;
 }
 
-export const AdminNoteSection: React.FC<AdminNoteSectionProps> = ({ 
-  profileId, 
-  initialNote, 
-  onUpdateNote 
+export const AdminNoteSection: React.FC<AdminNoteSectionProps> = ({
+  profileId,
+  initialNote,
+  onUpdateNote
 }) => {
   const [note, setNote] = useState(initialNote || "");
-  const [isSaving, setSaving] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    setNote(initialNote || "");
-  }, [initialNote]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNote(e.target.value);
-    setIsDirty(true);
-  };
-
-  const handleSave = async () => {
+  const [isSaving, setIsSaving] = useState(false);
+  
+  const handleSaveNote = async () => {
     if (!profileId) return;
     
-    setSaving(true);
+    setIsSaving(true);
     try {
-      const success = await onUpdateNote(profileId, note);
-      if (success) {
-        setIsDirty(false);
-      }
+      await onUpdateNote(profileId, note);
+    } catch (error) {
+      console.error("Failed to save admin note:", error);
     } finally {
-      setSaving(false);
+      setIsSaving(false);
     }
   };
-
+  
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <Label htmlFor="admin-note" className="text-sm font-medium">
-          Admin Note (Internal)
-        </Label>
-        {isDirty && (
-          <Button 
-            size="sm" 
-            onClick={handleSave} 
-            disabled={isSaving}
-          >
-            {isSaving ? "Saving..." : "Save Note"}
-          </Button>
-        )}
-      </div>
+    <div className="space-y-2">
       <Textarea
         id="admin-note"
         value={note}
-        onChange={handleChange}
+        onChange={(e) => setNote(e.target.value)}
         placeholder="This note is only visible to admins..."
-        className="min-h-[120px] text-sm"
+        className="min-h-[100px]"
       />
-      <p className="text-xs text-muted-foreground">
-        This note is only visible to administrators and will not be shown to the user.
-      </p>
+      <div className="flex justify-end">
+        <Button 
+          onClick={handleSaveNote} 
+          disabled={isSaving} 
+          size="sm"
+          variant="outline"
+          className="gap-1"
+        >
+          <SaveIcon className="h-4 w-4" />
+          {isSaving ? "Saving..." : "Save Note"}
+        </Button>
+      </div>
     </div>
   );
-};
+}

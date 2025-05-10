@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -53,8 +52,8 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // Add function to update admin note
-  const updateAdminNote = async (userId: string, note: string) => {
+  // Update function to return Promise<void> instead of Promise<boolean>
+  const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) return;
 
     try {
@@ -72,8 +71,6 @@ export const useUserProfile = (id: string | undefined) => {
         title: "Success",
         description: "Admin note updated successfully",
       });
-      
-      return true;
     } catch (error: any) {
       console.error("Error updating admin note:", error);
       toast({
@@ -81,7 +78,7 @@ export const useUserProfile = (id: string | undefined) => {
         description: error.message || "Failed to update admin note",
         variant: "destructive"
       });
-      return false;
+      throw error; // Re-throw to allow handling in the component
     }
   };
 

@@ -1,6 +1,6 @@
 
 import { PostgrestError } from "@supabase/supabase-js";
-import { type Toast } from "@/hooks/use-toast";
+import { toast as toastFunction } from "@/hooks/use-toast";
 
 interface ApiError {
   message?: string;
@@ -9,7 +9,7 @@ interface ApiError {
 export const handleApiError = (
   error: PostgrestError | ApiError | unknown,
   defaultMessage: string = "An error occurred",
-  toast?: Toast
+  toast?: typeof toastFunction
 ) => {
   // Extract error message
   let errorMessage = defaultMessage;
@@ -35,4 +35,12 @@ export const handleApiError = (
   }
 
   return errorMessage;
+};
+
+// Add the missing handleSupabaseError function that useRelatedDataSubmission is trying to use
+export const handleSupabaseError = (
+  error: PostgrestError | unknown,
+  defaultMessage: string = "An error occurred with the database operation"
+) => {
+  return handleApiError(error, defaultMessage);
 };

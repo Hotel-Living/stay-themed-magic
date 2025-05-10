@@ -11,6 +11,7 @@ interface ProfileSectionProps {
     first_name: string;
     last_name: string;
     phone: string;
+    email: string;
     is_hotel_owner: boolean;
     is_active: boolean;
   };
@@ -18,6 +19,7 @@ interface ProfileSectionProps {
     first_name: string;
     last_name: string;
     phone: string;
+    email: string;
     is_hotel_owner: boolean;
     is_active: boolean;
   }>>;
@@ -51,6 +53,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               className="mt-1"
             />
           </div>
+        </div>
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input 
+            id="email"
+            type="email"
+            value={editForm.email}
+            onChange={(e) => setEditForm({...editForm, email: e.target.value})}
+            className="mt-1"
+          />
         </div>
         <div>
           <Label htmlFor="phone">Phone</Label>
@@ -92,6 +104,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div className="text-sm font-medium text-gray-500">Last Name</div>
           <div>{profile.last_name || "Not provided"}</div>
         </div>
+      </div>
+      <div>
+        <div className="text-sm font-medium text-gray-500">Email</div>
+        <div>{profile.email || "Not provided"}</div>
       </div>
       <div>
         <div className="text-sm font-medium text-gray-500">Phone</div>

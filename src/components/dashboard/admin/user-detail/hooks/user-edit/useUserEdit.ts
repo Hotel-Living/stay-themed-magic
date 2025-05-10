@@ -8,6 +8,7 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
     first_name: "",
     last_name: "",
     phone: "",
+    email: "",
     is_hotel_owner: false,
     is_active: true
   });
@@ -19,6 +20,7 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
         first_name: profile.first_name || "",
         last_name: profile.last_name || "",
         phone: profile.phone || "",
+        email: profile.email || "",
         is_hotel_owner: profile.is_hotel_owner || false,
         is_active: profile.is_active !== false // Default to true if field doesn't exist
       });
@@ -27,6 +29,10 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
 
   const handleSaveUserDetails = async () => {
     try {
+      // Check if email is changed
+      const emailChanged = profile?.email !== editForm.email;
+      
+      // Update profile data
       const { error } = await supabase
         .from("profiles")
         .update({
@@ -39,6 +45,32 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
         .eq("id", id);
 
       if (error) throw error;
+      
+      // If email changed, update it separately using auth admin API
+      if (emailChanged && id) {
+        try {
+          // Note: This requires admin privileges and might not work with the current auth setup
+          // A proper implementation would use an Edge Function with service_role key
+          const { data, error: emailError } = await supabase.functions.invoke("update-user-email", {
+            body: { userId: id, email: editForm.email }
+          });
+          
+          if (emailError) {
+            toast({
+              title: "Warning",
+              description: "Profile updated but email couldn't be changed. Admin privileges required.",
+              variant: "destructive"
+            });
+          }
+        } catch (emailUpdateError) {
+          console.error("Failed to update email:", emailUpdateError);
+          toast({
+            title: "Warning",
+            description: "Profile updated but email couldn't be changed. Admin privileges required.",
+            variant: "destructive"
+          });
+        }
+      }
       
       setEditing(false);
       toast({

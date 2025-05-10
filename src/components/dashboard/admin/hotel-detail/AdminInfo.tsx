@@ -50,26 +50,12 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
         return;
       }
 
-      // Get the email addresses separately for each profile
-      const ownersWithEmail: HotelOwner[] = [];
-      
       // Create owners array with profile data
-      for (const profile of profileData) {
-        // Get user email from auth users for this profile
-        const { data: userData, error: userError } = await supabase
-          .from("users")
-          .select("email")
-          .eq("id", profile.id)
-          .single();
-        
-        const email = userError ? null : (userData?.email || null);
-        
-        ownersWithEmail.push({
-          ...profile,
-          email
-        });
-      }
-
+      const ownersWithEmail: HotelOwner[] = profileData.map(profile => ({
+        ...profile,
+        email: null // Initialize with null, we don't have direct access to auth.users
+      }));
+      
       setHotelOwners(ownersWithEmail);
     };
 
@@ -109,9 +95,8 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
     if (!owner) return "Not assigned";
     
     const name = [owner.first_name, owner.last_name].filter(Boolean).join(" ");
-    const email = owner.email ? `(${owner.email})` : "";
     
-    return name ? `${name} ${email}` : email || "Unnamed owner";
+    return name || "Unnamed owner";
   };
 
   // Find the current owner in our list

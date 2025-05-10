@@ -62,15 +62,13 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // Create a simple pass-through wrapper that ensures void return type
+  // ✅ Fully compliant wrapper that guarantees Promise<void> type
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (updateAdminNote) {
       await updateAdminNote(userId, note);
     }
-    // No return statement - guaranteed void
   };
 
-  // Prepare all the props for UserDetailContent
   const detailProps = {
     authData,
     bookings,

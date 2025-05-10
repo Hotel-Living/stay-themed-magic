@@ -11,9 +11,8 @@ export const useUserProfile = (id: string | undefined) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!id) return;
-      
+
       try {
-        // Fetch user profile
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("*")
@@ -21,13 +20,12 @@ export const useUserProfile = (id: string | undefined) => {
           .single();
 
         if (profileError) throw profileError;
-        
-        // Enhance profile with email from auth.users (requires admin privileges)
-        const enhancedProfile = { ...profileData, email: "" }; // Initialize with empty email
-        
+
+        const enhancedProfile = { ...profileData, email: "" };
+
         try {
           const { data: userData, error: userError } = await supabase.functions.invoke("get-user-email", {
-            body: { userId: id }
+            body: { userId: id },
           });
 
           if (!userError && userData?.email) {
@@ -36,14 +34,14 @@ export const useUserProfile = (id: string | undefined) => {
         } catch (emailError) {
           console.warn("Could not fetch user email:", emailError);
         }
-        
+
         setProfile(enhancedProfile);
       } catch (error: any) {
         console.error("Error fetching user profile:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to fetch user profile",
-          variant: "destructive"
+          variant: "destructive",
         });
       } finally {
         setLoading(false);
@@ -53,12 +51,9 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // Explicitly typed as Promise<void> with no implicit or explicit boolean returns
+  // 🔧 FIXED: updateAdminNote now strictly returns Promise<void> without any implicit boolean
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
-    if (!userId) {
-      // Early return with no value
-      return;
-    }
+    if (!userId) return;
 
     try {
       const { error } = await supabase
@@ -66,16 +61,13 @@ export const useUserProfile = (id: string | undefined) => {
         .update({ admin_note: note })
         .eq("id", userId);
 
-      if (error) {
-        throw error;
-      }
-      
-      // Update state without returning anything
-      setProfile((prev) => {
+      if (error) throw error;
+
+      setProfile(prev => {
         if (!prev) return prev;
         return { ...prev, admin_note: note };
       });
-      
+
       toast({
         title: "Success",
         description: "Admin note updated successfully",
@@ -85,10 +77,9 @@ export const useUserProfile = (id: string | undefined) => {
       toast({
         title: "Error",
         description: error.message || "Failed to update admin note",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
-    // Function ends without return - implicitly returns undefined (void)
   };
 
   return { profile, setProfile, loading, updateAdminNote };

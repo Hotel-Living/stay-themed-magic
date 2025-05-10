@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { handleApiError } from "@/utils/errorHandling";
 
 export const useUserEdit = (id: string | undefined, profile: any, setEditing: (editing: boolean) => void, toast: any) => {
   const [editForm, setEditForm] = useState({
@@ -38,9 +39,6 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
         .eq("id", id);
 
       if (error) throw error;
-
-      // Update the local profile state with the edited data
-      // This will be handled by the parent component
       
       setEditing(false);
       toast({
@@ -49,11 +47,12 @@ export const useUserEdit = (id: string | undefined, profile: any, setEditing: (e
       });
       
       return true;
-    } catch (error: any) {
-      console.error("Error updating user:", error);
+    } catch (error) {
+      const errorMessage = handleApiError(error, "Failed to update user information");
+      
       toast({
         title: "Error updating user",
-        description: error.message || "Failed to update user information",
+        description: errorMessage,
         variant: "destructive"
       });
       

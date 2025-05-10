@@ -41,7 +41,8 @@ export default function AdminUserDetailView() {
     handleSaveUserDetails,
     themesPagination,
     isEmailVerified,
-    resendVerificationEmail
+    resendVerificationEmail,
+    formattedTotal
   } = useUserDetail(id);
 
   const handleCancelEdit = () => {
@@ -180,6 +181,14 @@ export default function AdminUserDetailView() {
             
             {/* User Stats */}
             <UserStatsSection bookings={bookings} favorites={favorites} />
+            
+            {/* Total Amount Spent */}
+            <div className="mt-4 p-4 bg-green-50 rounded-md border border-green-200">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-green-800">Total amount spent on confirmed bookings:</span>
+                <span className="text-lg font-bold text-green-700">{formattedTotal}</span>
+              </div>
+            </div>
             
             {/* User Reports Section */}
             {reports && reports.length > 0 && (

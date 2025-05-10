@@ -9,6 +9,7 @@ import { useUserThemes } from "./user-data/useUserThemes";
 import { useUserEdit } from "./user-edit/useUserEdit";
 import { useUserHotels } from "./user-data/useUserHotels";
 import { useUserReports } from "./user-data/useUserReports";
+import { useUserTotalSpent } from "./user-data/useUserTotalSpent";
 
 export const useUserDetail = (id: string | undefined) => {
   const [editing, setEditing] = useState(false);
@@ -26,6 +27,7 @@ export const useUserDetail = (id: string | undefined) => {
     pageSize: 10
   });
   const { reports } = useUserReports(id);
+  const { totalSpent, formattedTotal } = useUserTotalSpent(id);
 
   // Fetch hotel data if user is a hotel owner
   const { hotels } = useUserHotels(id, profile?.is_hotel_owner);
@@ -63,6 +65,8 @@ export const useUserDetail = (id: string | undefined) => {
       pageSize: 10
     },
     isEmailVerified,
-    resendVerificationEmail
+    resendVerificationEmail,
+    totalSpent,
+    formattedTotal
   };
 };

@@ -4,15 +4,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { EditableThemeCell } from "./EditableThemeCell";
+import { Theme, EditingTheme } from "./types";
 
 interface ThemeTableProps {
-  themes: any[];
-  editingTheme: { id: string, field: string, value: string } | null;
+  themes: Theme[];
+  editingTheme: EditingTheme | null;
   handleEdit: (id: string, field: string, value: string) => void;
   handleSaveEdit: () => void;
   handleCancelEdit: () => void;
   openDeleteDialog: (id: string, name: string) => void;
-  setEditingTheme: React.Dispatch<React.SetStateAction<{ id: string, field: string, value: string } | null>>;
+  setEditingTheme: React.Dispatch<React.SetStateAction<EditingTheme | null>>;
 }
 
 export const ThemeTable: React.FC<ThemeTableProps> = ({

@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { NewTheme } from "./types";
 
 interface AddThemeDialogProps {
-  newTheme: { name: string, description: string };
-  setNewTheme: React.Dispatch<React.SetStateAction<{ name: string, description: string }>>;
+  newTheme: NewTheme;
+  setNewTheme: React.Dispatch<React.SetStateAction<NewTheme>>;
   handleAddNewTheme: () => void;
   closeDialog: () => void;
 }

@@ -6,8 +6,6 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 import { PaginationState } from "./types";
 
@@ -43,25 +41,35 @@ export const ThemePagination: React.FC<ThemePaginationProps> = ({
     <Pagination className="mt-4">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious 
+          <Button 
             onClick={handlePrevious} 
             disabled={currentPage === 1}
+            variant="ghost"
+            size="sm"
             className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-          />
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            Previous
+          </Button>
         </PaginationItem>
         
-        <PaginationItem className="flex items-center">
+        <PaginationItem className="flex items-center mx-4">
           <span className="text-sm">
             Page {currentPage} of {totalPages}
           </span>
         </PaginationItem>
         
         <PaginationItem>
-          <PaginationNext 
+          <Button 
             onClick={handleNext} 
             disabled={currentPage >= totalPages}
+            variant="ghost"
+            size="sm"
             className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-          />
+          >
+            Next
+            <ChevronRight className="h-4 w-4 ml-1" />
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

@@ -17,24 +17,31 @@ export default function StepFive({
   formData = {},
   updateFormData = () => {}
 }: StepFiveProps) {
-  // Check if room types exist and have length
+  // Check if room types, meal plans, and stay lengths all exist and have valid values
   const hasValidRoomTypes = formData?.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
+  const hasValidMealPlans = formData?.mealPlans && Array.isArray(formData.mealPlans) && formData.mealPlans.length > 0;
+  const hasValidStayLengths = formData?.stayLengths && Array.isArray(formData.stayLengths) && formData.stayLengths.length > 0;
+  
+  // Only render price tables if all three conditions are met
+  const shouldRenderPriceTables = hasValidRoomTypes && hasValidMealPlans && hasValidStayLengths;
   
   return (
     <div className="space-y-8">
       <h2 className="text-xl font-bold mb-4">FAQ & TERMS AND CONDITIONS</h2>
       
-      {/* Only render price tables if valid room types exist */}
-      {hasValidRoomTypes ? (
+      {/* Only render price tables if all required data exists */}
+      {shouldRenderPriceTables ? (
         formData.roomTypes.map((roomType: any) => (
           renderPriceTable?.(
-            roomType.name || roomType, 
+            roomType.name || roomType.selectedRoomType || roomType, 
             formData.mealPlans || [], 
-            formData.stayLengths || [8, 16, 24, 32]
+            formData.stayLengths || []
           )
         ))
       ) : (
-        <p className="text-yellow-300">Please define room types in Step 3 before setting prices.</p>
+        <div className="bg-fuchsia-950/30 p-4 rounded-lg border border-fuchsia-800/30">
+          <p className="text-yellow-300">Please define room types, meal plans, and stay lengths in Step 3 before setting prices.</p>
+        </div>
       )}
       
       <Accordion type="single" collapsible className="w-full mb-6">

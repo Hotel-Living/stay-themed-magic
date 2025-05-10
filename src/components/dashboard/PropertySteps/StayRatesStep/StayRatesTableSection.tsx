@@ -23,9 +23,19 @@ export function StayRatesTableSection({
   mealOptions,
   handleRateChange
 }: StayRatesTableSectionProps) {
-  // Don't render the table if there are no valid room types
-  if (!roomTypes || roomTypes.length === 0) {
-    return <p className="text-yellow-300">Please define room types in Step 3 before setting rates.</p>;
+  // Don't render the table if there are no valid inputs
+  if (
+    !roomTypes || roomTypes.length === 0 ||
+    !stayOptions || stayOptions.length === 0 ||
+    !mealOptions || mealOptions.length === 0
+  ) {
+    return (
+      <div className="bg-fuchsia-950/30 p-4 rounded-lg border border-fuchsia-800/30">
+        <p className="text-yellow-300">
+          Please define room types, stay lengths, and meal plans in Step 3 before setting rates.
+        </p>
+      </div>
+    );
   }
   
   return (

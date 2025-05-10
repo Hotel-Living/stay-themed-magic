@@ -1,3 +1,4 @@
+
 import React from "react";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
@@ -24,13 +25,17 @@ export default function StayRatesStep({
     ? formData.roomTypes.map((rt: any) => rt.name || rt.selectedRoomType)
     : [];
 
-  const stayOptions = formData.stayLengths?.length > 0
+  // Only use defined stay lengths, no fallbacks
+  const hasValidStayLengths = formData.stayLengths && Array.isArray(formData.stayLengths) && formData.stayLengths.length > 0;
+  const stayOptions = hasValidStayLengths
     ? formData.stayLengths.map((days: number) => `${days} days`)
-    : ["8 days", "16 days", "24 days", "32 days"];
+    : [];
 
-  const mealOptions = formData.mealPlans?.length > 0
+  // Only use defined meal plans, no fallbacks
+  const hasValidMealPlans = formData.mealPlans && Array.isArray(formData.mealPlans) && formData.mealPlans.length > 0;
+  const mealOptions = hasValidMealPlans
     ? formData.mealPlans
-    : ["Breakfast only", "Half board", "Full board", "All inclusive", "No Meals Included"];
+    : [];
 
   React.useEffect(() => {
     // Check if rates exist in formData to determine if rates are filled
@@ -125,7 +130,12 @@ export default function StayRatesStep({
         setPriceIncreaseCap={(val) => updateFormData("priceIncreaseCap", val)}
       />
 
-      {hasValidRoomTypes ? (
+      {/* Show warning if any of the required data is missing */}
+      {(!hasValidRoomTypes || !hasValidStayLengths || !hasValidMealPlans) ? (
+        <div className="bg-fuchsia-950/30 p-4 rounded-lg border border-fuchsia-800/30">
+          <p className="text-yellow-300">Please define room types, stay lengths, and meal plans in Step 3 before setting rates.</p>
+        </div>
+      ) : (
         <StayRatesTableSection
           ratesFilled={ratesFilled}
           enablePriceIncrease={formData.enablePriceIncrease ?? false}
@@ -136,8 +146,6 @@ export default function StayRatesStep({
           mealOptions={mealOptions}
           handleRateChange={handleRateChange}
         />
-      ) : (
-        <p className="text-yellow-300">Please define room types in Step 3 before setting rates.</p>
       )}
     </div>
   );

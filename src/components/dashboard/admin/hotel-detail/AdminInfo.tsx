@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Clock, ExternalLink, FileExcel, Download } from "lucide-react";
+import { Clock, ExternalLink, FileText, Download } from "lucide-react";
 import { AdminHotelDetail } from "@/types/hotel";
 import { useHotelOwners } from "./hooks/useHotelOwners";
 import { useBookingsCount } from "./hooks/useBookingsCount";
@@ -133,7 +133,7 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
             onClick={exportToExcel}
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#3a0052] hover:bg-[#4a0062] text-white rounded-md transition-colors"
           >
-            <FileExcel className="h-4 w-4" />
+            <FileText className="h-4 w-4" />
             Export Hotel Data
           </button>
           

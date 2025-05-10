@@ -55,7 +55,6 @@ export const useUserDetail = (id: string | undefined) => {
 
         // Separately fetch user's auth details from auth.users using admin function
         try {
-          // Only use the RPC name directly with supabase.rpc, not with any hooks
           const { data, error: authUserError } = await supabase.rpc(
             "get_user_auth_details",
             { user_id: id }

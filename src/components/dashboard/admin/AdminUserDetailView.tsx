@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
@@ -64,8 +65,12 @@ export default function AdminUserDetailView() {
   // Fix: Ensuring this function is truly void by completely ignoring any return value
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (updateAdminNote) {
-      // Use void operator to explicitly discard any return value
-      void updateAdminNote(userId, note);
+      try {
+        await updateAdminNote(userId, note);
+      } catch (error) {
+        console.error("Error in handleUpdateAdminNote:", error);
+      }
+      // No return value
     }
   };
 

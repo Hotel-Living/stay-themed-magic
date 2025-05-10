@@ -13,6 +13,7 @@ export interface UserReview {
   formattedDate: string;
   is_hidden: boolean;
   is_flagged: boolean;
+  admin_note: string | null;  // Added admin_note field
   hotel: {
     name: string;
   } | null;
@@ -41,7 +42,7 @@ export const useUserReviews = (userId: string | undefined) => {
       try {
         const { data, error: supabaseError } = await supabase
           .from("reviews")
-          .select("id, rating, comment, created_at, is_hidden, is_flagged, hotel:hotel_id(name)")
+          .select("id, rating, comment, created_at, is_hidden, is_flagged, admin_note, hotel:hotel_id(name)")  // Added admin_note to selection
           .eq("user_id", userId)
           .abortSignal(abortController.signal);
 

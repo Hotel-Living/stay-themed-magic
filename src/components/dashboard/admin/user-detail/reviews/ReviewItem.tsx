@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { type UserReview } from "../hooks/user-data/useUserReviews";
@@ -14,7 +15,9 @@ interface ReviewItemProps {
 export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
+  const [adminNote, setAdminNote] = useState(review.admin_note || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSavingNote, setIsSavingNote] = useState(false);
   const { toast } = useToast();
   
   const isEditing = editingId === review.id;
@@ -56,6 +59,35 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const saveAdminNote = async () => {
+    setIsSavingNote(true);
+    try {
+      const { error } = await supabase
+        .from("reviews")
+        .update({ admin_note: adminNote })
+        .eq("id", review.id);
+
+      if (error) throw error;
+      
+      toast({
+        title: "Admin note saved",
+        description: "The admin note has been successfully saved",
+      });
+      
+      // Update the local review admin note
+      review.admin_note = adminNote;
+    } catch (error) {
+      console.error("Error saving admin note:", error);
+      toast({
+        title: "Save failed",
+        description: "Failed to save admin note. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSavingNote(false);
     }
   };
 
@@ -155,6 +187,32 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
         <>
           <div><strong>Comment:</strong> {review.comment || "No comment provided"}</div>
           <div className="text-xs text-muted-foreground">{review.formattedDate}</div>
+          
+          {/* Admin Notes Section */}
+          <div className="mt-3 border-t pt-3">
+            <Label htmlFor={`admin-note-${review.id}`} className="text-sm font-medium">
+              Admin Note
+            </Label>
+            <div className="mt-1 flex gap-2">
+              <Textarea
+                id={`admin-note-${review.id}`}
+                value={adminNote}
+                onChange={(e) => setAdminNote(e.target.value)}
+                placeholder="Private note visible only to admins"
+                className="min-h-[60px] text-sm"
+              />
+            </div>
+            <div className="flex justify-end mt-1">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={saveAdminNote}
+                disabled={isSavingNote || adminNote === review.admin_note}
+              >
+                {isSavingNote ? "Saving..." : "Save Note"}
+              </Button>
+            </div>
+          </div>
           
           <div className="mt-2 flex gap-2">
             <Button size="sm" variant="outline" onClick={handleEditClick}>

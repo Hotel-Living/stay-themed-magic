@@ -8,6 +8,9 @@ interface AdminInfoDetailsProps {
 }
 
 export function AdminInfoDetails({ hotel, totalBookings }: AdminInfoDetailsProps) {
+  // Calculate total rooms from the hotel's room types
+  const totalRooms = hotel.room_types?.reduce((sum, room) => sum + (room.roomCount || 0), 0) || 0;
+  
   return (
     <>
       <div>
@@ -21,6 +24,10 @@ export function AdminInfoDetails({ hotel, totalBookings }: AdminInfoDetailsProps
       <div>
         <p className="text-sm text-gray-400">Total Bookings</p>
         <p className="font-medium">{totalBookings}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-400">Total Rooms</p>
+        <p className="font-medium">{totalRooms}</p>
       </div>
       <div>
         <p className="text-sm text-gray-400">Created At</p>

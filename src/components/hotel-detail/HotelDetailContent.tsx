@@ -140,6 +140,10 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               currency={hotel.currency || "USD"}
               handleBookClick={handleBookClick}
               preferredWeekday={checkInWeekday}
+              enablePriceIncrease={hotel.enablePriceIncrease}
+              priceIncreaseCap={hotel.priceIncreaseCap}
+              availableMonths={hotel.available_months}
+              pricingMatrix={hotel.pricingMatrix}
             />
           </div>
         </div>

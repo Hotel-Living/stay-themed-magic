@@ -13,9 +13,18 @@ interface BookingFormProps {
   hotelName: string;
   pricePerMonth: number;
   availableStayLengths?: number[];
+  availableMonths?: string[];
+  preferredWeekday?: string;
 }
 
-export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLengths }: BookingFormProps) {
+export function BookingForm({ 
+  hotelId, 
+  hotelName, 
+  pricePerMonth, 
+  availableStayLengths,
+  availableMonths,
+  preferredWeekday
+}: BookingFormProps) {
   const {
     startDate, setStartDate,
     duration, setDuration,
@@ -109,6 +118,8 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
               endDate={endDate}
               dynamicPrice={dynamicPrice}
               availableStayLengths={availableStayLengths}
+              availableMonths={availableMonths}
+              preferredWeekday={preferredWeekday}
             />
             <DynamicPricingBar
               nightsSold={nightsSold}

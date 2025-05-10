@@ -16,6 +16,8 @@ interface BookingFormActionsProps {
   endDate: Date | null;
   dynamicPrice: number;
   availableStayLengths?: number[];
+  availableMonths?: string[];
+  preferredWeekday?: string;
 }
 
 export function BookingFormActions({
@@ -30,12 +32,16 @@ export function BookingFormActions({
   endDate,
   dynamicPrice,
   availableStayLengths,
+  availableMonths,
+  preferredWeekday
 }: BookingFormActionsProps) {
   return (
     <div className="space-y-4">
       <BookingCalendarSelector
         startDate={startDate}
         setStartDate={setStartDate}
+        availableMonths={availableMonths}
+        preferredWeekday={preferredWeekday}
       />
       <BookingDurationSelector
         duration={duration}

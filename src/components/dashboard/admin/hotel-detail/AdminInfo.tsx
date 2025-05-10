@@ -33,27 +33,42 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
 
   useEffect(() => {
     const fetchHotelOwners = async () => {
-      const { data, error } = await supabase
+      // First query to get profiles
+      const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("id, first_name, last_name, email:auth.users!profiles.id(email)")
+        .select("id, first_name, last_name")
         .eq("is_hotel_owner", true)
         .order("first_name");
 
-      if (error) {
-        console.error("Error fetching hotel owners:", error);
+      if (profileError) {
+        console.error("Error fetching hotel owners:", profileError);
         toast({
           title: "Error loading hotel owners",
-          description: error.message,
+          description: profileError.message,
           variant: "destructive"
         });
         return;
       }
 
-      // Format the data to include the email from the joined table
-      const ownersWithEmail = data.map(owner => ({
-        ...owner,
-        email: owner.email?.[0]?.email || null
-      }));
+      // Get the email addresses separately for each profile
+      const ownersWithEmail: HotelOwner[] = [];
+      
+      // Create owners array with profile data
+      for (const profile of profileData) {
+        // Get user email from auth users for this profile
+        const { data: userData, error: userError } = await supabase
+          .from("auth.users")
+          .select("email")
+          .eq("id", profile.id)
+          .single();
+        
+        const email = userError ? null : (userData?.email || null);
+        
+        ownersWithEmail.push({
+          ...profile,
+          email
+        });
+      }
 
       setHotelOwners(ownersWithEmail);
     };

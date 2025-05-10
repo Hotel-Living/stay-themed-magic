@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { referralFormSchema, ReferralFormValues } from "./schema";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { ReferralPreview } from "./ReferralPreview";
 
 const ReferralForm = () => {
   const { toast } = useToast();
@@ -31,6 +32,7 @@ const ReferralForm = () => {
       contactName: "",
       contactEmail: "",
       contactPhone: "",
+      city: "",
       additionalInfo: "",
     },
   });
@@ -55,6 +57,7 @@ const ReferralForm = () => {
         contact_email: data.contactEmail,
         contact_phone: data.contactPhone,
         additional_info: data.additionalInfo,
+        city: data.city,
       });
 
       if (error) {
@@ -85,7 +88,10 @@ const ReferralForm = () => {
 
   return (
     <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-      <h3 className="text-xl font-semibold mb-6">Refer a Hotel</h3>
+      <h3 className="text-xl font-semibold mb-6">Recommend a Hotel</h3>
+      
+      {/* Message Preview */}
+      <ReferralPreview />
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -98,6 +104,21 @@ const ReferralForm = () => {
                 <FormLabel>Hotel Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter the hotel name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* City */}
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter the hotel's city" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

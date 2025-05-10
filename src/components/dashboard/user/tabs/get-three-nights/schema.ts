@@ -1,14 +1,13 @@
 
-import { z } from "zod";
+import * as z from 'zod';
 
-// Define the form validation schema
 export const referralFormSchema = z.object({
-  hotelName: z.string().min(2, { message: "Hotel name must be at least 2 characters." }),
-  contactName: z.string().min(2, { message: "Contact name must be at least 2 characters." }),
-  contactEmail: z.string().email({ message: "Please enter a valid email address." }),
+  hotelName: z.string().min(1, { message: "Hotel name is required" }),
+  contactName: z.string().min(1, { message: "Contact person name is required" }),
+  contactEmail: z.string().email({ message: "Valid email address is required" }),
   contactPhone: z.string().optional(),
+  city: z.string().optional(),
   additionalInfo: z.string().optional(),
 });
 
-// Define the form values type
 export type ReferralFormValues = z.infer<typeof referralFormSchema>;

@@ -18,7 +18,7 @@ import HistoryContent from "@/components/dashboard/user/tabs/HistoryContent";
 import SavedContent from "@/components/dashboard/user/tabs/SavedContent";
 import PaymentsContent from "@/components/dashboard/user/tabs/PaymentsContent";
 import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
-import SettingsContent from "@/components/dashboard/user/tabs/settings/SettingsContent";
+import SettingsContent from "@/components/dashboard/user/tabs/SettingsContent";
 import GetThreeNightsContent from "@/components/dashboard/user/tabs/GetThreeNightsContent";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
@@ -53,7 +53,7 @@ export default function UserDashboard() {
     { id: "history", label: "Stay History", icon: <History className="w-5 h-5" /> },
     { id: "saved", label: "Saved Hotels", icon: <Building className="w-5 h-5" /> },
     { id: "payments", label: "Payment Methods", icon: <CreditCard className="w-5 h-5" /> },
-    { id: "getThreeNights", label: "Get Three Free Nights", icon: <Gift className="w-5 h-5" /> },
+    { id: "getThreeNights", label: "Recommend a Hotel", icon: <Gift className="w-5 h-5" /> },
     { id: "profile", label: "Profile", icon: <User className="w-5 h-5" /> },
     { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
   ];

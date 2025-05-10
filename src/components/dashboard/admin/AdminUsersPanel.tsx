@@ -9,6 +9,9 @@ import { UserLoadingState } from "./users/UserLoadingState";
 import { useUserData } from "./users/hooks/useUserData";
 import { useUserFiltering } from "./users/hooks/useUserFiltering";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { utils, writeFile } from "xlsx";
+import { Download } from "lucide-react";
 
 export default function AdminUsersPanel() {
   const [page, setPage] = useState(1);
@@ -31,6 +34,24 @@ export default function AdminUsersPanel() {
     }
   };
 
+  const exportUsers = () => {
+    const dataToExport = filteredUsers.map(user => ({
+      'First Name': user.first_name || '-',
+      'Last Name': user.last_name || '-',
+      'Email': user.email || '-',
+      'User Type': user.is_hotel_owner ? "Hotel Owner" : "Regular User",
+      'Status': user.is_active ? "Active" : "Inactive",
+      'Hotel Name': user.hotels?.name || '-',
+      'Hotel City': user.hotels?.city || '-',
+      'Joined': new Date(user.created_at).toLocaleDateString()
+    }));
+
+    const ws = utils.json_to_sheet(dataToExport);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, "Users");
+    writeFile(wb, "users_export.xlsx");
+  };
+
   if (loading) {
     return (
       <AdminDashboardLayout>
@@ -44,6 +65,13 @@ export default function AdminUsersPanel() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">User Management</h2>
+          <Button 
+            variant="outline" 
+            onClick={exportUsers}
+            className="flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" /> Export to Excel
+          </Button>
         </div>
 
         {/* Search and filter controls */}

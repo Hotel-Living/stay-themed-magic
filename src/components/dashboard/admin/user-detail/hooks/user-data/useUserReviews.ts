@@ -9,6 +9,8 @@ export interface UserReview {
   comment: string | null;
   created_at: string;
   formattedDate: string;
+  is_hidden?: boolean;
+  is_flagged?: boolean;
   hotel: {
     name: string;
   } | null;
@@ -30,7 +32,7 @@ export const useUserReviews = (userId: string | undefined) => {
       try {
         const { data, error } = await supabase
           .from("reviews")
-          .select("id, rating, comment, created_at, hotel:hotel_id(name)")
+          .select("id, rating, comment, created_at, is_hidden, is_flagged, hotel:hotel_id(name)")
           .eq("user_id", userId);
 
         if (error) {
@@ -57,3 +59,4 @@ export const useUserReviews = (userId: string | undefined) => {
 
   return { reviews, loading };
 };
+

@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Send } from 'lucide-react';
+import { MessageSquare, Send, AlertTriangle } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import EmptyState from './EmptyState';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import ReviewItem from './ReviewItem';
 
 type Review = {
@@ -226,6 +227,13 @@ export const ReviewsContent = () => {
                       )}
                     </Button>
                   </div>
+                  
+                  <Alert className="mt-4 bg-amber-500/10 border-amber-500/20">
+                    <AlertTriangle className="h-4 w-4 text-amber-500" />
+                    <AlertDescription className="text-xs">
+                      Hotel Living reserves the right to review, edit, or withhold the publication of any review that includes inappropriate language or content that violates our platform policies.
+                    </AlertDescription>
+                  </Alert>
                 </div>
               </div>
             </div>

@@ -62,15 +62,14 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // Wrapper with strict void return
+  // ✅ Fixed: Promise<void> wrapper without return
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
     try {
-      if (updateAdminNote) {
-        await updateAdminNote(userId, note);
-      }
-    } catch (error) {
-      console.error("Failed to update admin note:", error);
+      await updateAdminNote(userId, note);
+    } catch (err) {
+      console.error("Failed to update admin note:", err);
     }
+    // No return value
   };
 
   const detailProps = {

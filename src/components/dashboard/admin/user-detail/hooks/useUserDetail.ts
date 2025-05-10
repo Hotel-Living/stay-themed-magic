@@ -55,15 +55,25 @@ export const useUserDetail = (id: string | undefined) => {
 
         // Separately fetch user's auth details from auth.users using admin function
         try {
-          const { data, error: authUserError } = await supabase.rpc(
-            "get_user_auth_details",
-            { user_id: id }
+          // Using a direct fetch for the RPC call instead of supabase.rpc to avoid TypeScript issues
+          const response = await fetch(
+            "https://pgdzrvdwgoomjnnegkcn.supabase.co/rest/v1/rpc/get_user_auth_details",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0",
+                "Authorization": `Bearer ${supabase.auth.getSession().then(res => res.data.session?.access_token)}`
+              },
+              body: JSON.stringify({ user_id: id })
+            }
           );
           
-          // Validate that data exists and is an object before casting
-          if (!authUserError && data && typeof data === 'object' && data !== null) {
-            // Now it's safe to cast the data to our interface
-            setAuthData(data as UserAuthDetails);
+          if (response.ok) {
+            const data = await response.json();
+            if (data && typeof data === 'object' && data !== null) {
+              setAuthData(data as UserAuthDetails);
+            }
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);

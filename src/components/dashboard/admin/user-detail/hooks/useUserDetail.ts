@@ -8,6 +8,7 @@ import { useUserFavorites } from "./user-data/useUserFavorites";
 import { useUserThemes } from "./user-data/useUserThemes";
 import { useUserEdit } from "./user-edit/useUserEdit";
 import { useUserHotels } from "./user-data/useUserHotels";
+import { useUserReports } from "./user-data/useUserReports";
 
 export const useUserDetail = (id: string | undefined) => {
   const [editing, setEditing] = useState(false);
@@ -24,6 +25,7 @@ export const useUserDetail = (id: string | undefined) => {
     enabled: true,
     pageSize: 10
   });
+  const { reports } = useUserReports(id);
 
   // Fetch hotel data if user is a hotel owner
   const { hotels } = useUserHotels(id, profile?.is_hotel_owner);
@@ -46,6 +48,7 @@ export const useUserDetail = (id: string | undefined) => {
     themes,
     userPreferences,
     hotels,
+    reports,
     loading,
     editing,
     setEditing,

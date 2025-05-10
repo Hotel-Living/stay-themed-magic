@@ -711,6 +711,36 @@ export type Database = {
         }
         Relationships: []
       }
+      user_reports: {
+        Row: {
+          created_at: string | null
+          hotel_id: string
+          id: string
+          reason: string
+          reported_user_id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          hotel_id: string
+          id?: string
+          reason: string
+          reported_user_id: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          hotel_id?: string
+          id?: string
+          reason?: string
+          reported_user_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

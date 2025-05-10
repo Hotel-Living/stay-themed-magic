@@ -14,6 +14,7 @@ import { ThemesSection } from "./user-detail/ThemesSection";
 import { UserStatsSection } from "./user-detail/UserStatsSection";
 import { UserAffinitiesSection } from "./user-detail/UserAffinitiesSection";
 import { UserHotelsSection } from "./user-detail/UserHotelsSection";
+import { UserReportsSection } from "./user-detail/UserReportsSection";
 import { Button } from "@/components/ui/button";
 import { Edit, Save, X, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +32,7 @@ export default function AdminUserDetailView() {
     themes,
     userPreferences,
     hotels,
+    reports,
     loading,
     editing,
     setEditing,
@@ -178,6 +180,18 @@ export default function AdminUserDetailView() {
             
             {/* User Stats */}
             <UserStatsSection bookings={bookings} favorites={favorites} />
+            
+            {/* User Reports Section */}
+            {reports && reports.length > 0 && (
+              <DetailCard title="User Reports">
+                <div className="space-y-2">
+                  <div className="text-sm text-destructive font-semibold mb-2">
+                    This user has {reports.length} report(s) filed against them:
+                  </div>
+                  <UserReportsSection reports={reports} />
+                </div>
+              </DetailCard>
+            )}
             
             {/* User Profile */}
             <DetailCard title="Basic Information">

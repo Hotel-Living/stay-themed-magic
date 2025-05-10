@@ -47,10 +47,33 @@ export default function StayRatesStep({
     // Skip update if value hasn't changed
     if (formData.rates?.[key] === value) return;
     
+    // Update the rates as before
     updateFormData("rates", {
       ...(formData.rates || {}),
       [key]: value
     });
+
+    // Update the pricingMatrix structure as well
+    const updatedMatrix = [...(formData.pricingMatrix || [])];
+    const existingIndex = updatedMatrix.findIndex(
+      (entry: any) =>
+        entry.roomType === roomType &&
+        entry.stayLength === stayLength &&
+        entry.mealPlan === mealOption
+    );
+
+    if (existingIndex !== -1) {
+      updatedMatrix[existingIndex].price = Number(value);
+    } else {
+      updatedMatrix.push({
+        roomType,
+        stayLength,
+        mealPlan: mealOption,
+        price: Number(value)
+      });
+    }
+
+    updateFormData("pricingMatrix", updatedMatrix);
 
     if (value && !isNaN(Number(value))) {
       setRatesFilled(true);

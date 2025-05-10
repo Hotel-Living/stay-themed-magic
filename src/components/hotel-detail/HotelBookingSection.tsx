@@ -25,6 +25,14 @@ interface HotelBookingSectionProps {
   priceIncreaseCap?: number;
   roomCount?: number;
   bookings?: Array<{ startDate: Date; endDate: Date }>;
+  pricingMatrix?: Array<{ 
+    roomType: string; 
+    stayLength: string; 
+    mealPlan: string; 
+    price: number 
+  }>;
+  selectedRoomType?: string;
+  selectedMealPlan?: string;
 }
 
 export function HotelBookingSection({ 
@@ -40,7 +48,10 @@ export function HotelBookingSection({
   enablePriceIncrease = false,
   priceIncreaseCap = 20,
   roomCount = 10,
-  bookings = []
+  bookings = [],
+  pricingMatrix = [],
+  selectedRoomType = "Standard",
+  selectedMealPlan = "Breakfast only"
 }: HotelBookingSectionProps) {
   
   // Calculate check-out date based on check-in and duration
@@ -53,7 +64,17 @@ export function HotelBookingSection({
 
   // Calculate the dynamic price
   const getDisplayPrice = () => {
-    const basePrice = rates[selectedDuration];
+    // First check if we have a specific price in the pricingMatrix
+    const stayLengthStr = `${selectedDuration} days`;
+    const matrixEntry = pricingMatrix.find(
+      entry =>
+        entry.roomType === selectedRoomType &&
+        entry.stayLength === stayLengthStr &&
+        entry.mealPlan === selectedMealPlan
+    );
+    
+    // Use the specific price from matrix if available, otherwise fall back to rates
+    const basePrice = matrixEntry?.price || rates[selectedDuration];
     
     if (!enablePriceIncrease || !checkInDate || !basePrice) {
       return basePrice ? formatCurrency(basePrice, currency) : "Price not available";

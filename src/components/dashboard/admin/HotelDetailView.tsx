@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -77,35 +76,7 @@ export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { hotel, loading, themes, activities, images, refetch } = useHotelDetails(id);
-  const [changes, setChanges] = useState<Array<{
-    fieldName: string;
-    displayName: string;
-    previousValue: any;
-    newValue: any;
-    fieldType: 'text' | 'number' | 'boolean' | 'array' | 'object';
-  }>>([]);
-  
-  useEffect(() => {
-    if (hotel && hotel.pending_changes) {
-      // Process pending changes
-      const pendingChanges = [];
-      for (const [key, value] of Object.entries(hotel.pending_changes)) {
-        if (value !== null) {
-          pendingChanges.push({
-            fieldName: key,
-            displayName: fieldDisplayNames[key] || key,
-            previousValue: hotel[key as keyof typeof hotel],
-            newValue: value,
-            fieldType: fieldTypes[key] || 'text'
-          });
-        }
-      }
-      setChanges(pendingChanges);
-    } else {
-      setChanges([]);
-    }
-  }, [hotel]);
+  const { hotel, loading, themes, activities, images, changes, refetch } = useHotelDetails(id);
   
   const refreshData = async () => {
     await refetch();
@@ -284,9 +255,24 @@ export default function HotelDetailView() {
             
             {/* Descriptive content section */}
             <div className="space-y-4">
-              {renderDescriptionCard("Atmosphere", hotel.atmosphere)}
-              {renderDescriptionCard("Ideal For", hotel.ideal_guests)}
-              {renderDescriptionCard("Perfect Location", hotel.perfect_location)}
+              {hotel.atmosphere && (
+                <Card className="p-4 bg-[#2A0F44]">
+                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Atmosphere</h4>
+                  <p className="text-gray-300">{hotel.atmosphere}</p>
+                </Card>
+              )}
+              {hotel.ideal_guests && (
+                <Card className="p-4 bg-[#2A0F44]">
+                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Ideal For</h4>
+                  <p className="text-gray-300">{hotel.ideal_guests}</p>
+                </Card>
+              )}
+              {hotel.perfect_location && (
+                <Card className="p-4 bg-[#2A0F44]">
+                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Perfect Location</h4>
+                  <p className="text-gray-300">{hotel.perfect_location}</p>
+                </Card>
+              )}
             </div>
             
             <LocationInfo hotel={hotel} />
@@ -298,7 +284,7 @@ export default function HotelDetailView() {
             />
             <ThemesInfo themes={hotel.hotel_themes || []} />
             <ActivitiesInfo activities={hotel.hotel_activities || []} />
-            <AdminInfo hotel={hotel} />
+            <AdminInfo hotel={hotel} refetch={refreshData} />
             
             {hotel.status !== 'pending' && (
               <div className="flex justify-end space-x-4 pt-4">

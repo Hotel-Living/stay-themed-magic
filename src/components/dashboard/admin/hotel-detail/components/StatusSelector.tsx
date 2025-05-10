@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
-import { Save } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { 
   Select, 
@@ -9,8 +10,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 interface StatusSelectorProps {
   hotelId: string;
@@ -19,62 +18,58 @@ interface StatusSelectorProps {
 }
 
 export function StatusSelector({ hotelId, currentStatus, onSuccess }: StatusSelectorProps) {
-  const [newStatus, setNewStatus] = useState<string>(currentStatus || "pending");
+  const [status, setStatus] = useState<string>(currentStatus);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   const updateStatus = async () => {
-    setIsLoading(true);
+    if (status === currentStatus) return;
     
-    const { error } = await supabase
-      .from("hotels")
-      .update({ status: newStatus })
-      .eq("id", hotelId);
-
-    setIsLoading(false);
-
-    if (!error) {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .update({ status })
+        .eq('id', hotelId);
+        
+      if (error) throw error;
+      
       toast({
-        title: "Success",
-        description: "Hotel status updated successfully",
+        title: "Status updated",
+        description: `Hotel status has been updated to ${status}`
       });
       
-      // Refetch hotel data if onSuccess function is provided
-      if (onSuccess) {
-        await onSuccess();
-      }
-    } else {
+      if (onSuccess) await onSuccess();
+    } catch (error: any) {
+      console.error("Error updating hotel status:", error);
       toast({
-        title: "Error updating status",
-        description: error.message,
+        title: "Error",
+        description: error.message || "Failed to update hotel status",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  
   return (
-    <div className="flex items-center gap-2 mt-1">
-      <div className="flex-grow">
-        <Select value={newStatus} onValueChange={setNewStatus}>
-          <SelectTrigger className="bg-[#4a006c] border-purple-700">
-            <SelectValue placeholder="Select a status">
-              {newStatus ? newStatus.charAt(0).toUpperCase() + newStatus.slice(1) : "Pending"}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="flex items-center gap-2">
+      <Select value={status} onValueChange={setStatus}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="pending">Pending</SelectItem>
+          <SelectItem value="approved">Approved</SelectItem>
+          <SelectItem value="rejected">Rejected</SelectItem>
+        </SelectContent>
+      </Select>
+      
       <Button 
-        onClick={updateStatus} 
-        size="sm" 
-        disabled={isLoading || newStatus === currentStatus}
+        onClick={updateStatus}
+        disabled={isLoading || status === currentStatus}
       >
-        <Save className="w-4 h-4 mr-1" />
-        Save
+        {isLoading ? "Saving..." : "Update"}
       </Button>
     </div>
   );

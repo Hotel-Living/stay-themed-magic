@@ -1,7 +1,9 @@
 
 import React, { useState } from "react";
-import { Save } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { HotelOwner } from "../hooks/useHotelOwners";
 import { 
   Select, 
   SelectContent, 
@@ -9,9 +11,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { HotelOwner } from "../hooks/useHotelOwners";
 
 interface OwnerSelectorProps {
   hotelId: string;
@@ -21,73 +20,73 @@ interface OwnerSelectorProps {
 }
 
 export function OwnerSelector({ hotelId, currentOwnerId, hotelOwners, onSuccess }: OwnerSelectorProps) {
-  const [newOwnerId, setNewOwnerId] = useState<string | null>(currentOwnerId);
+  const [selectedOwnerId, setSelectedOwnerId] = useState<string | null>(currentOwnerId);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   const updateOwner = async () => {
-    setIsLoading(true);
+    if (selectedOwnerId === currentOwnerId) return;
     
-    const { error } = await supabase
-      .from("hotels")
-      .update({ owner_id: newOwnerId })
-      .eq("id", hotelId);
-
-    setIsLoading(false);
-
-    if (!error) {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .update({ owner_id: selectedOwnerId })
+        .eq('id', hotelId);
+        
+      if (error) throw error;
+      
       toast({
-        title: "Success",
-        description: "Hotel owner reassigned successfully",
+        title: "Owner updated",
+        description: "Hotel owner has been updated successfully"
       });
       
-      // Refetch hotel data if onSuccess function is provided
-      if (onSuccess) {
-        await onSuccess();
-      }
-    } else {
+      if (onSuccess) await onSuccess();
+    } catch (error: any) {
+      console.error("Error updating hotel owner:", error);
       toast({
-        title: "Error updating owner",
-        description: error.message,
+        title: "Error",
+        description: error.message || "Failed to update hotel owner",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  const getOwnerDisplayName = (owner: HotelOwner | undefined) => {
-    if (!owner) return "Not assigned";
-    
-    const name = [owner.first_name, owner.last_name].filter(Boolean).join(" ");
-    
-    return name || "Unnamed owner";
+  
+  const getOwnerName = (ownerId: string | null) => {
+    if (!ownerId) return "Not assigned";
+    const owner = hotelOwners.find(o => o.id === ownerId);
+    if (owner) {
+      return `${owner.first_name || ''} ${owner.last_name || ''}`.trim() || owner.id;
+    }
+    return "Unknown owner";
   };
 
   return (
-    <div className="flex items-center gap-2 mt-1">
-      <div className="flex-grow">
-        <Select value={newOwnerId || ""} onValueChange={setNewOwnerId}>
-          <SelectTrigger className="bg-[#4a006c] border-purple-700">
-            <SelectValue placeholder="Select an owner">
-              {newOwnerId ? getOwnerDisplayName(hotelOwners.find(o => o.id === newOwnerId)) : "Not assigned"}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent className="max-h-[300px]">
-            <SelectItem value="">Not assigned</SelectItem>
-            {hotelOwners.map(owner => (
-              <SelectItem key={owner.id} value={owner.id}>
-                {getOwnerDisplayName(owner)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <Button 
-        onClick={updateOwner} 
-        size="sm" 
-        disabled={isLoading || newOwnerId === currentOwnerId}
+    <div className="flex items-center gap-2">
+      <Select 
+        value={selectedOwnerId || ""} 
+        onValueChange={val => setSelectedOwnerId(val || null)}
       >
-        <Save className="w-4 h-4 mr-1" />
-        Save
+        <SelectTrigger className="w-[280px]">
+          <SelectValue placeholder="Select owner" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="">Not assigned</SelectItem>
+          {hotelOwners.map(owner => (
+            <SelectItem key={owner.id} value={owner.id}>
+              {`${owner.first_name || ''} ${owner.last_name || ''}`.trim() || owner.id}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      
+      <Button 
+        onClick={updateOwner}
+        disabled={isLoading || selectedOwnerId === currentOwnerId}
+      >
+        {isLoading ? "Saving..." : "Update"}
       </Button>
     </div>
   );

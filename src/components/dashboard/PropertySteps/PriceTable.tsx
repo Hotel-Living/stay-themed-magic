@@ -1,15 +1,22 @@
 
 import React from "react";
+
 interface PriceTableProps {
   roomType: string;
   mealTypes: string[];
   stayDurations: number[];
 }
+
 export default function PriceTable({
   roomType,
   mealTypes,
   stayDurations
 }: PriceTableProps) {
+  // Don't render if there are no valid inputs
+  if (!roomType || !mealTypes?.length || !stayDurations?.length) {
+    return null;
+  }
+  
   return <div className="mb-6 overflow-x-auto">
       <div className="bg-fuchsia-800/40 p-3 rounded-t-lg">
         <h3 className="text-base font-medium text-center">{roomType}</h3>

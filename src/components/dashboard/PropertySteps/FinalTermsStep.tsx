@@ -2,18 +2,23 @@
 import React from "react";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import { PropertyFormData } from "../property/hooks/usePropertyFormData";
+
 interface FinalTermsStepProps {
   onValidationChange: (isValid: boolean) => void;
   formData: PropertyFormData;
   updateFormData: (field: string, value: any) => void;
 }
+
 export function FinalTermsStep({
   onValidationChange,
   formData,
   updateFormData
 }: FinalTermsStepProps) {
+  // Check if room types exist and have length
+  const hasValidRoomTypes = formData?.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
+  
   return <div className="space-y-6">
-      {formData?.roomTypes?.length > 0 ? (
+      {hasValidRoomTypes ? (
         formData.roomTypes.map((roomType: any) => (
           <div key={roomType.id || roomType.name}>
             {/* Render price table logic here */}

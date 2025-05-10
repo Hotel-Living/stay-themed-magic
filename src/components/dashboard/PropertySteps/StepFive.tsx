@@ -7,12 +7,35 @@ import { Textarea } from "@/components/ui/textarea";
 interface StepFiveProps {
   onValidationChange?: (isValid: boolean) => void;
   renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
-export default function StepFive({ onValidationChange = () => {}, renderPriceTable }: StepFiveProps) {
+export default function StepFive({ 
+  onValidationChange = () => {}, 
+  renderPriceTable,
+  formData = {},
+  updateFormData = () => {}
+}: StepFiveProps) {
+  // Check if room types exist and have length
+  const hasValidRoomTypes = formData?.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
+  
   return (
     <div className="space-y-8">
       <h2 className="text-xl font-bold mb-4">FAQ & TERMS AND CONDITIONS</h2>
+      
+      {/* Only render price tables if valid room types exist */}
+      {hasValidRoomTypes ? (
+        formData.roomTypes.map((roomType: any) => (
+          renderPriceTable?.(
+            roomType.name || roomType, 
+            formData.mealPlans || [], 
+            formData.stayLengths || [8, 16, 24, 32]
+          )
+        ))
+      ) : (
+        <p className="text-yellow-300">Please define room types in Step 3 before setting prices.</p>
+      )}
       
       <Accordion type="single" collapsible className="w-full mb-6">
         <AccordionItem value="faq" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">

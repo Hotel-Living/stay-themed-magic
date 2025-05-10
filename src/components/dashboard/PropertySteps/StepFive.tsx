@@ -7,16 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 interface StepFiveProps {
   onValidationChange?: (isValid: boolean) => void;
   renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
 }
 
-export default function StepFive({ 
-  onValidationChange = () => {}, 
-  renderPriceTable,
-  formData = {},
-  updateFormData = () => {}
-}: StepFiveProps) {
+export default function StepFive({ onValidationChange = () => {}, renderPriceTable }: StepFiveProps) {
   return (
     <div className="space-y-8">
       <h2 className="text-xl font-bold mb-4">FAQ & TERMS AND CONDITIONS</h2>

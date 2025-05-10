@@ -53,7 +53,7 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // Update function to return Promise<void> instead of Promise<boolean>
+  // IMPORTANT: Ensuring it returns Promise<void> without any boolean returns
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) return;
 
@@ -72,6 +72,8 @@ export const useUserProfile = (id: string | undefined) => {
         title: "Success",
         description: "Admin note updated successfully",
       });
+      
+      // No return statement here - ensuring void return
     } catch (error: any) {
       console.error("Error updating admin note:", error);
       toast({
@@ -79,8 +81,9 @@ export const useUserProfile = (id: string | undefined) => {
         description: error.message || "Failed to update admin note",
         variant: "destructive"
       });
-      throw error; // Re-throw to allow handling in the component
+      throw error; // Re-throwing is fine as it doesn't affect return type
     }
+    // No return statement at the end of the function
   };
 
   return { profile, setProfile, loading, updateAdminNote };

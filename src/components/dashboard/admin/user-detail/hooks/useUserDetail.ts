@@ -43,15 +43,18 @@ export const useUserDetail = (id: string | undefined) => {
         
         // Fetch user's last_sign_in_at from auth.users using admin function
         try {
-          const { data: authUserData, error: authUserError } = await supabase.rpc<UserAuthDetails>(
+          const { data: authUserData, error: authUserError } = await supabase.rpc(
             'get_user_auth_details',
             { user_id: id }
           );
           
           if (!authUserError && authUserData) {
+            // Cast the JSON response to our interface
+            const authData = authUserData as UserAuthDetails;
+            
             // Combine auth user data with profile data
-            profileData.last_sign_in_at = authUserData.last_sign_in_at;
-            profileData.email_confirmed_at = authUserData.email_confirmed_at;
+            profileData.last_sign_in_at = authData.last_sign_in_at;
+            profileData.email_confirmed_at = authData.email_confirmed_at;
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);

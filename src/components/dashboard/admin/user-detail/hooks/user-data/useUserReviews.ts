@@ -9,8 +9,8 @@ export interface UserReview {
   comment: string | null;
   created_at: string;
   formattedDate: string;
-  is_hidden?: boolean;
-  is_flagged?: boolean;
+  is_hidden: boolean;
+  is_flagged: boolean;
   hotel: {
     name: string;
   } | null;
@@ -59,4 +59,3 @@ export const useUserReviews = (userId: string | undefined) => {
 
   return { reviews, loading };
 };
-

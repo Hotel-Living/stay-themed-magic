@@ -609,6 +609,8 @@ export type Database = {
           created_at: string
           hotel_id: string | null
           id: string
+          is_flagged: boolean | null
+          is_hidden: boolean | null
           is_notified: boolean | null
           rating: number
           response_text: string | null
@@ -620,6 +622,8 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_flagged?: boolean | null
+          is_hidden?: boolean | null
           is_notified?: boolean | null
           rating: number
           response_text?: string | null
@@ -631,6 +635,8 @@ export type Database = {
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_flagged?: boolean | null
+          is_hidden?: boolean | null
           is_notified?: boolean | null
           rating?: number
           response_text?: string | null

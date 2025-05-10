@@ -200,4 +200,3 @@ export const UserReviewsSection: React.FC<UserReviewsSectionProps> = ({ reviews 
     </ul>
   );
 };
-

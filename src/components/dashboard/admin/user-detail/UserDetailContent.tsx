@@ -1,3 +1,4 @@
+
 import React from "react";
 import { DetailCard } from "./DetailCard";
 import { ProfileSection } from "./ProfileSection";

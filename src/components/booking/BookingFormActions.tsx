@@ -3,6 +3,7 @@ import { BookingCalendarSelector } from "./BookingCalendarSelector";
 import { BookingDurationSelector } from "./BookingDurationSelector";
 import { RoomTypeSelector } from "./RoomTypeSelector";
 import { BookingSummaryCard } from "./BookingSummaryCard";
+import { RoomType } from "@/types/hotel";
 
 interface BookingFormActionsProps {
   startDate: Date | null;
@@ -18,6 +19,7 @@ interface BookingFormActionsProps {
   availableStayLengths?: number[];
   availableMonths?: string[];
   preferredWeekday?: string;
+  roomTypes?: RoomType[];
 }
 
 export function BookingFormActions({
@@ -33,7 +35,8 @@ export function BookingFormActions({
   dynamicPrice,
   availableStayLengths,
   availableMonths,
-  preferredWeekday
+  preferredWeekday,
+  roomTypes
 }: BookingFormActionsProps) {
   return (
     <div className="space-y-4">
@@ -51,6 +54,7 @@ export function BookingFormActions({
       <RoomTypeSelector
         selectedRoomType={selectedRoomType}
         setSelectedRoomType={setSelectedRoomType}
+        roomTypes={roomTypes}
       />
       {startDate && endDate && (
         <BookingSummaryCard

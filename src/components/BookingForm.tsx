@@ -7,6 +7,8 @@ import { BookingFormActions } from "./booking/BookingFormActions";
 import { DynamicPricingBar } from "./booking/DynamicPricingBar";
 import { BookingSuccessMessage } from "./booking/BookingSuccessMessage";
 import { useBookingState } from "@/hooks/useBookingState";
+import { findBestAvailableRoom } from "@/utils/roomAssignmentLogic";
+import { RoomType } from "@/types/hotel";
 
 interface BookingFormProps {
   hotelId: string;
@@ -15,6 +17,7 @@ interface BookingFormProps {
   availableStayLengths?: number[];
   availableMonths?: string[];
   preferredWeekday?: string;
+  roomTypes?: RoomType[];
 }
 
 export function BookingForm({ 
@@ -23,7 +26,8 @@ export function BookingForm({
   pricePerMonth, 
   availableStayLengths,
   availableMonths,
-  preferredWeekday
+  preferredWeekday,
+  roomTypes
 }: BookingFormProps) {
   const {
     startDate, setStartDate,
@@ -73,16 +77,30 @@ export function BookingForm({
       return;
     }
     
+    // Check if a room of the selected type is available
+    const { StayRequest } = require("@/types/booking");
+    const stayRequest = {
+      startDate,
+      endDate: endDate!,
+      duration
+    };
+    
+    // Check if there is an available room of the selected type
+    const roomId = findBestAvailableRoom(stayRequest, rooms, selectedRoomType);
+    
+    if (!roomId) {
+      toast({
+        title: "No available rooms",
+        description: "Please select another room type or date.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setLoading(true);
     setTimeout(() => {
       // Assign the room (existing logic)
       const { assignRoom } = require("@/utils/roomAssignmentLogic");
-      const { StayRequest } = require("@/types/booking");
-      const stayRequest = {
-        startDate,
-        endDate: endDate!,
-        duration
-      };
       const { roomId, isNewRoom } = assignRoom(stayRequest, rooms, selectedRoomType);
       const newBookingId = `booking-${Date.now()}`;
       const bookingToAdd = {
@@ -145,6 +163,7 @@ export function BookingForm({
               availableStayLengths={availableStayLengths}
               availableMonths={availableMonths}
               preferredWeekday={preferredWeekday}
+              roomTypes={roomTypes}
             />
             <DynamicPricingBar
               nightsSold={nightsSold}

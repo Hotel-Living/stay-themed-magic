@@ -2,13 +2,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ThemeWithCategory } from "./hooks/user-data/useUserThemes";
-import { ThemeTag } from "@/components/ThemeTag";
 
 interface ThemesSectionProps {
-  themes: ThemeWithCategory[];
-  loading?: boolean;
-  pagination?: {
+  themes: any[];
+  pagination: {
     page: number;
     totalThemes: number;
     hasMore: boolean;
@@ -17,80 +14,52 @@ interface ThemesSectionProps {
   };
 }
 
-export const ThemesSection = ({ 
-  themes, 
-  loading = false,
-  pagination 
-}: ThemesSectionProps) => {
-  if (loading) {
-    return (
-      <div className="py-4 text-center">
-        <div className="animate-pulse flex space-x-2 justify-center">
-          <div className="h-2.5 w-2.5 bg-gray-300 rounded-full"></div>
-          <div className="h-2.5 w-2.5 bg-gray-300 rounded-full"></div>
-          <div className="h-2.5 w-2.5 bg-gray-300 rounded-full"></div>
-        </div>
-        <p className="mt-2 text-sm text-gray-500">Loading themes...</p>
-      </div>
-    );
-  }
-
+export const ThemesSection = ({ themes, pagination }: ThemesSectionProps) => {
+  const { page, totalThemes, hasMore, setPage, pageSize } = pagination;
+  
+  const startIndex = (page - 1) * pageSize + 1;
+  const endIndex = Math.min(page * pageSize, totalThemes);
+  
   if (themes.length === 0) {
-    return <p className="text-center py-4 text-gray-500">No preferred themes found for this user.</p>;
+    return <p className="text-center py-4">No theme preferences found for this user.</p>;
   }
-
-  // Group themes by category
-  const themesByCategory = themes.reduce((acc, theme) => {
-    const category = theme.category || 'Uncategorized';
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(theme);
-    return acc;
-  }, {} as Record<string, ThemeWithCategory[]>);
 
   return (
-    <div className="space-y-6">
-      {/* Display themes grouped by category */}
-      {Object.entries(themesByCategory).map(([category, categoryThemes]) => (
-        <div key={category} className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-700">{category}</h4>
-          <div className="flex flex-wrap gap-2">
-            {categoryThemes.map((theme) => (
-              <ThemeTag 
-                key={theme.id} 
-                theme={theme}
-                size="md"
-              />
-            ))}
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+        {themes.map((theme) => (
+          <div key={theme.id} className="p-2 bg-white/10 rounded-md">
+            <div className="font-medium">{theme.name}</div>
+            <div className="text-xs text-muted-foreground">{theme.category}</div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
       
-      {/* Pagination controls if enabled */}
-      {pagination && (
-        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={pagination.page === 1}
-            onClick={() => pagination.setPage(pagination.page - 1)}
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Previous
-          </Button>
-          
-          <span className="text-sm text-gray-500">
-            {pagination.pageSize * (pagination.page - 1) + 1} - {Math.min(pagination.pageSize * pagination.page, pagination.totalThemes)} of {pagination.totalThemes}
-          </span>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={!pagination.hasMore}
-            onClick={() => pagination.setPage(pagination.page + 1)}
-          >
-            Next <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
+      {totalThemes > pageSize && (
+        <div className="flex items-center justify-between pt-4">
+          <div className="text-sm text-muted-foreground">
+            Showing {startIndex}-{endIndex} of {totalThemes}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Previous Page</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPage(page + 1)}
+              disabled={!hasMore}
+            >
+              <ChevronRight className="h-4 w-4" />
+              <span className="sr-only">Next Page</span>
+            </Button>
+          </div>
         </div>
       )}
     </div>

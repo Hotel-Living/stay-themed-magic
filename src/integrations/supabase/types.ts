@@ -563,6 +563,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          admin_note: string | null
           avatar_url: string | null
           created_at: string
           email_verified: boolean
@@ -576,6 +577,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          admin_note?: string | null
           avatar_url?: string | null
           created_at?: string
           email_verified?: boolean
@@ -589,6 +591,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          admin_note?: string | null
           avatar_url?: string | null
           created_at?: string
           email_verified?: boolean

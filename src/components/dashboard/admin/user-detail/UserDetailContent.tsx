@@ -15,6 +15,7 @@ import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
 import { EmailVerificationAlert } from "./EmailVerificationAlert";
 import { UserReviewsSection } from "./UserReviewsSection";
+import { AdminNoteSection } from "./AdminNoteSection";
 import { type UserReview } from "./hooks/user-data/useUserReviews";
 
 interface UserDetailContentProps {
@@ -45,6 +46,7 @@ interface UserDetailContentProps {
   onMarkRewardAsUsed?: (rewardId: string) => Promise<void>;
   onMarkRewardAsUnused?: (rewardId: string) => Promise<void>;
   handleResendVerification: () => Promise<void>;
+  updateAdminNote?: (userId: string, note: string) => Promise<boolean>;
 }
 
 export const UserDetailContent: React.FC<UserDetailContentProps> = ({
@@ -74,7 +76,8 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   onRemoveFreeNight,
   onMarkRewardAsUsed,
   onMarkRewardAsUnused,
-  handleResendVerification
+  handleResendVerification,
+  updateAdminNote
 }) => {
   return (
     <div className="space-y-6">
@@ -91,6 +94,17 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
         isEmailVerified={isEmailVerified}
         onResendVerification={handleResendVerification}
       />
+      
+      {/* Admin Note Section */}
+      {isAdmin && updateAdminNote && (
+        <DetailCard title="Admin Notes">
+          <AdminNoteSection 
+            profileId={profile.id} 
+            initialNote={profile.admin_note} 
+            onUpdateNote={updateAdminNote} 
+          />
+        </DetailCard>
+      )}
       
       {/* User Stats */}
       <UserStatsSection bookings={bookings} favorites={favorites} />

@@ -19,7 +19,7 @@ export const useUserDetail = (id: string | undefined) => {
   const { toast } = useToast();
 
   // Fetch user profile and auth data
-  const { profile, loading: profileLoading } = useUserProfile(id);
+  const { profile, loading: profileLoading, updateAdminNote } = useUserProfile(id);
   const { authData, isEmailVerified, resendVerificationEmail } = useUserAuth(id);
 
   // Fetch user-related data
@@ -98,6 +98,7 @@ export const useUserDetail = (id: string | undefined) => {
     markRewardAsUnused,
     removeFreeNight,
     isAdmin: isCurrentUserAdmin,
-    referrals
+    referrals,
+    updateAdminNote
   };
 };

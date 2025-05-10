@@ -53,5 +53,37 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  return { profile, setProfile, loading };
+  // Add function to update admin note
+  const updateAdminNote = async (userId: string, note: string) => {
+    if (!userId) return;
+
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ admin_note: note })
+        .eq("id", userId);
+
+      if (error) throw error;
+      
+      // Update local state
+      setProfile(prev => prev ? { ...prev, admin_note: note } : prev);
+      
+      toast({
+        title: "Success",
+        description: "Admin note updated successfully",
+      });
+      
+      return true;
+    } catch (error: any) {
+      console.error("Error updating admin note:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update admin note",
+        variant: "destructive"
+      });
+      return false;
+    }
+  };
+
+  return { profile, setProfile, loading, updateAdminNote };
 };

@@ -283,6 +283,7 @@ export type Database = {
       hotel_referrals: {
         Row: {
           additional_info: string | null
+          city: string | null
           contact_email: string
           contact_name: string
           contact_phone: string | null
@@ -293,6 +294,7 @@ export type Database = {
         }
         Insert: {
           additional_info?: string | null
+          city?: string | null
           contact_email: string
           contact_name: string
           contact_phone?: string | null
@@ -303,6 +305,7 @@ export type Database = {
         }
         Update: {
           additional_info?: string | null
+          city?: string | null
           contact_email?: string
           contact_name?: string
           contact_phone?: string | null

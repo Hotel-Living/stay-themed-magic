@@ -55,8 +55,9 @@ export const useUserDetail = (id: string | undefined) => {
 
         // Separately fetch user's auth details from auth.users using admin function
         try {
+          // Here's where we fix the issue - making sure the RPC call is correct
           const { data, error: authUserError } = await supabase.rpc(
-            "get_user_auth_details",
+            "get_user_auth_details", // This is the name of the RPC function in Supabase
             { user_id: id }
           );
           

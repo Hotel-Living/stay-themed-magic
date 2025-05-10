@@ -57,7 +57,7 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
       for (const profile of profileData) {
         // Get user email from auth users for this profile
         const { data: userData, error: userError } = await supabase
-          .from("auth.users")
+          .from("users")
           .select("email")
           .eq("id", profile.id)
           .single();

@@ -11,6 +11,7 @@ import { ProfileSection } from "./user-detail/ProfileSection";
 import { BookingsSection } from "./user-detail/BookingsSection";
 import { FavoritesSection } from "./user-detail/FavoritesSection";
 import { ThemesSection } from "./user-detail/ThemesSection";
+import { UserStatsSection } from "./user-detail/UserStatsSection";
 
 export default function AdminUserDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -40,6 +41,9 @@ export default function AdminUserDetailView() {
           <UserLoadingState />
         ) : profile ? (
           <div className="space-y-6">
+            {/* User Stats */}
+            <UserStatsSection bookings={bookings} favorites={favorites} />
+            
             {/* User Profile */}
             <DetailCard title="Basic Information">
               <ProfileSection 

@@ -1,11 +1,16 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Save, Edit, UserX } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 export default function AdminUserDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +19,15 @@ export default function AdminUserDetailView() {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [themes, setThemes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    first_name: "",
+    last_name: "",
+    phone: "",
+    is_hotel_owner: false,
+    is_active: true
+  });
+  
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -30,6 +44,15 @@ export default function AdminUserDetailView() {
 
         if (profileError) throw profileError;
         setProfile(profileData);
+        
+        // Initialize edit form with user data
+        setEditForm({
+          first_name: profileData.first_name || "",
+          last_name: profileData.last_name || "",
+          phone: profileData.phone || "",
+          is_hotel_owner: profileData.is_hotel_owner || false,
+          is_active: profileData.is_active !== false // Default to true if field doesn't exist
+        });
 
         // Fetch user bookings with proper join syntax
         const { data: bookingsData, error: bookingsError } = await supabase
@@ -91,6 +114,42 @@ export default function AdminUserDetailView() {
     }
   }, [id, toast]);
 
+  const handleSaveUserDetails = async () => {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          first_name: editForm.first_name,
+          last_name: editForm.last_name,
+          phone: editForm.phone,
+          is_hotel_owner: editForm.is_hotel_owner,
+          is_active: editForm.is_active
+        })
+        .eq("id", id);
+
+      if (error) throw error;
+
+      // Update the local profile state with the edited data
+      setProfile({
+        ...profile,
+        ...editForm
+      });
+      
+      setEditing(false);
+      toast({
+        title: "Success",
+        description: "User information updated successfully",
+      });
+    } catch (error: any) {
+      console.error("Error updating user:", error);
+      toast({
+        title: "Error updating user",
+        description: error.message || "Failed to update user information",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
@@ -113,41 +172,116 @@ export default function AdminUserDetailView() {
           <div className="space-y-6">
             {/* User Profile */}
             <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
-              <h3 className="text-xl font-semibold mb-4 border-b pb-2">Basic Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-400">First Name</p>
-                  <p className="font-medium">{profile.first_name || "Not provided"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Last Name</p>
-                  <p className="font-medium">{profile.last_name || "Not provided"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Phone</p>
-                  <p className="font-medium">{profile.phone || "Not provided"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Hotel Owner</p>
-                  <p className="font-medium">{profile.is_hotel_owner ? "Yes" : "No"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Email Verified</p>
-                  <p className="font-medium">{profile.email_verified ? "Yes" : "No"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Role</p>
-                  <p className="font-medium capitalize">{profile.role || "guest"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">User ID</p>
-                  <p className="font-medium font-mono text-xs">{profile.id}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Joined</p>
-                  <p className="font-medium">{new Date(profile.created_at).toLocaleDateString()}</p>
-                </div>
+              <div className="flex justify-between items-center mb-4 border-b pb-2">
+                <h3 className="text-xl font-semibold">Basic Information</h3>
+                {editing ? (
+                  <Button 
+                    variant="outline" 
+                    onClick={handleSaveUserDetails}
+                    className="flex items-center gap-2"
+                  >
+                    <Save className="w-4 h-4" /> Save Changes
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setEditing(true)}
+                    className="flex items-center gap-2"
+                  >
+                    <Edit className="w-4 h-4" /> Edit User
+                  </Button>
+                )}
               </div>
+
+              {editing ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="first_name">First Name</Label>
+                    <Input
+                      id="first_name"
+                      value={editForm.first_name}
+                      onChange={(e) => setEditForm({ ...editForm, first_name: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="last_name">Last Name</Label>
+                    <Input
+                      id="last_name"
+                      value={editForm.last_name}
+                      onChange={(e) => setEditForm({ ...editForm, last_name: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      value={editForm.phone}
+                      onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2 mt-6">
+                    <Checkbox
+                      id="is_hotel_owner"
+                      checked={editForm.is_hotel_owner}
+                      onCheckedChange={(checked) => 
+                        setEditForm({ ...editForm, is_hotel_owner: checked === true })
+                      }
+                    />
+                    <Label htmlFor="is_hotel_owner">Hotel Owner</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="is_active"
+                        checked={editForm.is_active}
+                        onCheckedChange={(checked) => 
+                          setEditForm({ ...editForm, is_active: checked })
+                        }
+                      />
+                      <Label htmlFor="is_active">User Active</Label>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-400">First Name</p>
+                    <p className="font-medium">{profile.first_name || "Not provided"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Last Name</p>
+                    <p className="font-medium">{profile.last_name || "Not provided"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Phone</p>
+                    <p className="font-medium">{profile.phone || "Not provided"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Hotel Owner</p>
+                    <p className="font-medium">{profile.is_hotel_owner ? "Yes" : "No"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Email Verified</p>
+                    <p className="font-medium">{profile.email_verified ? "Yes" : "No"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Role</p>
+                    <p className="font-medium capitalize">{profile.role || "guest"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">User ID</p>
+                    <p className="font-medium font-mono text-xs">{profile.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Joined</p>
+                    <p className="font-medium">{new Date(profile.created_at).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Status</p>
+                    <p className="font-medium">{profile.is_active !== false ? "Active" : "Inactive"}</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Bookings */}
@@ -168,7 +302,7 @@ export default function AdminUserDetailView() {
                   <TableBody>
                     {bookings.map((booking) => (
                       <TableRow key={booking.id}>
-                        <TableCell>{booking.hotels?.name || "Unknown Hotel"}</TableCell>
+                        <TableCell>{booking.hotel?.name || "Unknown Hotel"}</TableCell>
                         <TableCell>{new Date(booking.check_in).toLocaleDateString()}</TableCell>
                         <TableCell>{new Date(booking.check_out).toLocaleDateString()}</TableCell>
                         <TableCell>${booking.total_price}</TableCell>

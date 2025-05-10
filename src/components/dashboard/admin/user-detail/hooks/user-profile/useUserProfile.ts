@@ -53,22 +53,29 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // Completely rewritten to ensure it never returns any value
+  // Fixed implementation to ensure it definitely returns void with no implicit returns
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) {
-      return; // Early return with no value
+      // Void early return
+      return;
     }
 
     try {
+      // Destructure only error to avoid implicit returns of data
       const { error } = await supabase
         .from("profiles")
         .update({ admin_note: note })
         .eq("id", userId);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       
       // Update local state
-      setProfile(prev => prev ? { ...prev, admin_note: note } : prev);
+      setProfile(prev => {
+        if (!prev) return prev;
+        return { ...prev, admin_note: note };
+      });
       
       toast({
         title: "Success",
@@ -83,7 +90,7 @@ export const useUserProfile = (id: string | undefined) => {
         variant: "destructive"
       });
     }
-    // Function exits with no return value
+    // No return statement, ensuring Promise<void>
   };
 
   return { profile, setProfile, loading, updateAdminNote };

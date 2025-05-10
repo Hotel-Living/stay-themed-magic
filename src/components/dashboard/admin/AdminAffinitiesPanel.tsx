@@ -1,7 +1,7 @@
 
 import React from "react";
-import EditableAffinitiesPanel from "./EditableAffinitiesPanel";
+import AffinitiesPanel from "./affinities/AffinitiesPanel";
 
 export default function AdminAffinitiesPanel() {
-  return <EditableAffinitiesPanel />;
+  return <AffinitiesPanel />;
 }

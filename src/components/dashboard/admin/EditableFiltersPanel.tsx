@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { X, Edit, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import AdminDashboardLayout from "./AdminDashboardLayout";
+import { useFilters, FilterItem } from "@/hooks/useFilters";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EditableFiltersPanel() {
   const [activeTab, setActiveTab] = useState("countries");
@@ -14,33 +16,22 @@ export default function EditableFiltersPanel() {
   const [newItemValue, setNewItemValue] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  
+  const { 
+    filters, 
+    loading, 
+    addFilter, 
+    updateFilter, 
+    deleteFilter 
+  } = useFilters();
 
-  // Initial filter data
-  const [filters, setFilters] = useState({
-    countries: ["France", "Italy", "Spain", "Greece", "Portugal", "Germany", "Switzerland", "United Kingdom", "United States", "Canada", "Japan", "Thailand"],
-    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    price: ["$0-$500", "$500-$1000", "$1000-$1500", "$1500-$2000", "$2000-$3000", "$3000+"],
-    stars: ["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"],
-    property: ["Hotel", "Apartment", "Resort", "Villa", "Cottage", "Cabin", "Hostel"]
-  });
-
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (!editingItem) return;
     
-    setFilters(prev => {
-      const newFilters = { ...prev };
-      const categoryItems = [...newFilters[activeTab as keyof typeof filters]];
-      const itemIndex = categoryItems.findIndex((_, idx) => `${activeTab}-${idx}` === editingItem.id);
-      
-      if (itemIndex !== -1) {
-        categoryItems[itemIndex] = editingItem.value;
-        newFilters[activeTab as keyof typeof filters] = categoryItems;
-      }
-      
-      return newFilters;
-    });
-    
-    setEditingItem(null);
+    const success = await updateFilter(activeTab, editingItem.id, editingItem.value);
+    if (success) {
+      setEditingItem(null);
+    }
   };
 
   const handleCancelEdit = () => {
@@ -51,20 +42,14 @@ export default function EditableFiltersPanel() {
     setEditingItem({ id, value });
   };
 
-  const handleAddNew = () => {
+  const handleAddNew = async () => {
     if (!newItemValue.trim()) return;
     
-    setFilters(prev => {
-      const newFilters = { ...prev };
-      newFilters[activeTab as keyof typeof filters] = [
-        ...newFilters[activeTab as keyof typeof filters],
-        newItemValue
-      ];
-      return newFilters;
-    });
-    
-    setNewItemValue("");
-    setNewItemDialogOpen(false);
+    const success = await addFilter(activeTab, newItemValue);
+    if (success) {
+      setNewItemValue("");
+      setNewItemDialogOpen(false);
+    }
   };
 
   const confirmDelete = (id: string) => {
@@ -72,31 +57,36 @@ export default function EditableFiltersPanel() {
     setDeleteConfirmOpen(true);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!itemToDelete) return;
     
-    const parts = itemToDelete.split('-');
-    const index = parseInt(parts[1]);
-    
-    setFilters(prev => {
-      const newFilters = { ...prev };
-      const categoryItems = [...newFilters[activeTab as keyof typeof filters]];
-      categoryItems.splice(index, 1);
-      newFilters[activeTab as keyof typeof filters] = categoryItems;
-      return newFilters;
-    });
-    
-    setDeleteConfirmOpen(false);
-    setItemToDelete(null);
+    const success = await deleteFilter(activeTab, itemToDelete);
+    if (success) {
+      setDeleteConfirmOpen(false);
+      setItemToDelete(null);
+    }
   };
 
-  const renderFilterItems = (category: keyof typeof filters) => {
-    return filters[category].map((item, index) => {
-      const itemId = `${category}-${index}`;
-      const isEditing = editingItem?.id === itemId;
+  const renderFilterItems = (category: string) => {
+    if (loading) {
+      return Array(6).fill(0).map((_, index) => (
+        <div key={`skeleton-${index}`} className="flex items-center gap-2 p-3 border rounded-lg justify-between">
+          <Skeleton className="h-6 w-40" />
+          <div className="flex gap-1">
+            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-8" />
+          </div>
+        </div>
+      ));
+    }
+
+    const categoryItems = filters[category] || [];
+    
+    return categoryItems.map((item: FilterItem) => {
+      const isEditing = editingItem?.id === item.id;
       
       return (
-        <div key={itemId} className="flex items-center gap-2 p-3 border rounded-lg justify-between">
+        <div key={item.id} className="flex items-center gap-2 p-3 border rounded-lg justify-between">
           {isEditing ? (
             <Input 
               value={editingItem.value}
@@ -104,7 +94,7 @@ export default function EditableFiltersPanel() {
               className="flex-grow"
             />
           ) : (
-            <span>{item}</span>
+            <span>{item.value}</span>
           )}
           <div className="flex gap-1">
             {isEditing ? (
@@ -118,10 +108,10 @@ export default function EditableFiltersPanel() {
               </>
             ) : (
               <>
-                <Button onClick={() => handleStartEdit(itemId, item)} size="sm" variant="ghost" className="h-8 w-8 p-0">
+                <Button onClick={() => handleStartEdit(item.id, item.value)} size="sm" variant="ghost" className="h-8 w-8 p-0">
                   <Edit className="h-4 w-4" />
                 </Button>
-                <Button onClick={() => confirmDelete(itemId)} size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-500">
+                <Button onClick={() => confirmDelete(item.id)} size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-500">
                   <X className="h-4 w-4" />
                 </Button>
               </>

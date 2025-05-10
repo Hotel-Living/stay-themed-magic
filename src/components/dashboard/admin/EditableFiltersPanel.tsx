@@ -1,13 +1,13 @@
 
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { X, Edit, Check } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Tabs } from "@/components/ui/tabs";
+import { Dialog } from "@/components/ui/dialog";
 import AdminDashboardLayout from "./AdminDashboardLayout";
-import { useFilters, FilterItem } from "@/hooks/filters";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useFilters } from "@/hooks/useFilters";
+import { FilterTabs } from "./filters/FilterTabs";
+import { FilterTabContent } from "./filters/FilterTabContent";
+import { AddFilterDialog } from "./filters/AddFilterDialog";
+import { DeleteConfirmDialog } from "./filters/DeleteConfirmDialog";
 
 export default function EditableFiltersPanel() {
   const [activeTab, setActiveTab] = useState("countries");
@@ -67,59 +67,8 @@ export default function EditableFiltersPanel() {
     }
   };
 
-  const renderFilterItems = (category: string) => {
-    if (loading) {
-      return Array(6).fill(0).map((_, index) => (
-        <div key={`skeleton-${index}`} className="flex items-center gap-2 p-3 border rounded-lg justify-between">
-          <Skeleton className="h-6 w-40" />
-          <div className="flex gap-1">
-            <Skeleton className="h-8 w-8" />
-            <Skeleton className="h-8 w-8" />
-          </div>
-        </div>
-      ));
-    }
-
-    const categoryItems = filters[category] || [];
-    
-    return categoryItems.map((item: FilterItem) => {
-      const isEditing = editingItem?.id === item.id;
-      
-      return (
-        <div key={item.id} className="flex items-center gap-2 p-3 border rounded-lg justify-between">
-          {isEditing ? (
-            <Input 
-              value={editingItem.value}
-              onChange={(e) => setEditingItem({ ...editingItem, value: e.target.value })}
-              className="flex-grow"
-            />
-          ) : (
-            <span>{item.value}</span>
-          )}
-          <div className="flex gap-1">
-            {isEditing ? (
-              <>
-                <Button onClick={handleSaveEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                  <Check className="h-4 w-4" />
-                </Button>
-                <Button onClick={handleCancelEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                  <X className="h-4 w-4" />
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button onClick={() => handleStartEdit(item.id, item.value)} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button onClick={() => confirmDelete(item.id)} size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-500">
-                  <X className="h-4 w-4" />
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-      );
-    });
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
   };
 
   return (
@@ -131,91 +80,91 @@ export default function EditableFiltersPanel() {
 
         <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
           <Tabs defaultValue="countries" value={activeTab} onValueChange={setActiveTab}>
-            <div className="flex justify-between items-center mb-6">
-              <TabsList>
-                <TabsTrigger value="countries">Countries</TabsTrigger>
-                <TabsTrigger value="months">Months</TabsTrigger>
-                <TabsTrigger value="price">Price Ranges</TabsTrigger>
-                <TabsTrigger value="stars">Star Ratings</TabsTrigger>
-                <TabsTrigger value="property">Property Types</TabsTrigger>
-              </TabsList>
-              <Button onClick={() => setNewItemDialogOpen(true)}>Add New</Button>
-            </div>
+            <FilterTabs 
+              activeTab={activeTab} 
+              onTabChange={handleTabChange} 
+              onAddNew={() => setNewItemDialogOpen(true)} 
+            />
             
-            <TabsContent value="countries" className="p-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {renderFilterItems("countries")}
-              </div>
-            </TabsContent>
+            <FilterTabContent
+              category="countries"
+              filters={filters}
+              loading={loading}
+              editingItem={editingItem}
+              onStartEdit={handleStartEdit}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
+              onConfirmDelete={confirmDelete}
+              setEditingItem={setEditingItem}
+            />
             
-            <TabsContent value="months" className="p-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {renderFilterItems("months")}
-              </div>
-            </TabsContent>
+            <FilterTabContent
+              category="months"
+              filters={filters}
+              loading={loading}
+              editingItem={editingItem}
+              onStartEdit={handleStartEdit}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
+              onConfirmDelete={confirmDelete}
+              setEditingItem={setEditingItem}
+            />
             
-            <TabsContent value="price" className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {renderFilterItems("price")}
-              </div>
-            </TabsContent>
+            <FilterTabContent
+              category="price"
+              filters={filters}
+              loading={loading}
+              editingItem={editingItem}
+              onStartEdit={handleStartEdit}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
+              onConfirmDelete={confirmDelete}
+              setEditingItem={setEditingItem}
+            />
             
-            <TabsContent value="stars" className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {renderFilterItems("stars")}
-              </div>
-            </TabsContent>
+            <FilterTabContent
+              category="stars"
+              filters={filters}
+              loading={loading}
+              editingItem={editingItem}
+              onStartEdit={handleStartEdit}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
+              onConfirmDelete={confirmDelete}
+              setEditingItem={setEditingItem}
+            />
             
-            <TabsContent value="property" className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {renderFilterItems("property")}
-              </div>
-            </TabsContent>
+            <FilterTabContent
+              category="property"
+              filters={filters}
+              loading={loading}
+              editingItem={editingItem}
+              onStartEdit={handleStartEdit}
+              onSaveEdit={handleSaveEdit}
+              onCancelEdit={handleCancelEdit}
+              onConfirmDelete={confirmDelete}
+              setEditingItem={setEditingItem}
+            />
           </Tabs>
         </div>
 
         {/* Add New Item Dialog */}
         <Dialog open={newItemDialogOpen} onOpenChange={setNewItemDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New {activeTab.charAt(0).toUpperCase() + activeTab.slice(1, -1)}</DialogTitle>
-            </DialogHeader>
-            <div className="py-4">
-              <Input
-                value={newItemValue}
-                onChange={(e) => setNewItemValue(e.target.value)}
-                placeholder={`Enter new ${activeTab.slice(0, -1)}...`}
-              />
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setNewItemDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleAddNew}>
-                Add
-              </Button>
-            </DialogFooter>
-          </DialogContent>
+          <AddFilterDialog
+            newItemValue={newItemValue}
+            activeTab={activeTab}
+            setNewItemValue={setNewItemValue}
+            handleAddNew={handleAddNew}
+            closeDialog={() => setNewItemDialogOpen(false)}
+          />
         </Dialog>
 
         {/* Delete Confirmation Dialog */}
         <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Confirm Deletion</DialogTitle>
-            </DialogHeader>
-            <div className="py-4">
-              Are you sure you want to delete this item? This action cannot be undone.
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setDeleteConfirmOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="destructive" onClick={handleDelete}>
-                Delete
-              </Button>
-            </DialogFooter>
-          </DialogContent>
+          <DeleteConfirmDialog
+            handleDelete={handleDelete}
+            closeDialog={() => setDeleteConfirmOpen(false)}
+          />
         </Dialog>
       </div>
     </AdminDashboardLayout>

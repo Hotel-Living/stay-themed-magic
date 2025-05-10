@@ -7,7 +7,10 @@ export const useBookings = () => {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchHotel, setSearchHotel] = useState("");
+  const [searchUser, setSearchUser] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
   const [sortField, setSortField] = useState("check_in");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [totalCount, setTotalCount] = useState(0);
@@ -114,13 +117,53 @@ export const useBookings = () => {
     }
   };
 
+  // Filter bookings based on search and filter criteria
+  const filteredBookings = bookings.filter(booking => {
+    // General search term (across multiple fields)
+    const generalSearch = searchTerm.toLowerCase();
+    const hotelName = (booking.hotel?.name || "").toLowerCase();
+    const guestName = `${booking.user?.first_name || ""} ${booking.user?.last_name || ""}`.toLowerCase();
+    const matchesGeneralSearch = !searchTerm || 
+      hotelName.includes(generalSearch) || 
+      guestName.includes(generalSearch);
+    
+    // Specific hotel name search
+    const matchesHotelSearch = !searchHotel || 
+      hotelName.includes(searchHotel.toLowerCase());
+    
+    // Specific guest name search
+    const matchesUserSearch = !searchUser || 
+      guestName.includes(searchUser.toLowerCase());
+    
+    // Status filter
+    const matchesStatus = statusFilter === "all" || 
+      booking.status === statusFilter;
+    
+    // Date filter (check-in date)
+    const matchesDate = !dateFilter || 
+      new Date(booking.check_in).toDateString() === dateFilter.toDateString();
+    
+    // Combined filtering
+    return matchesGeneralSearch && 
+      matchesHotelSearch && 
+      matchesUserSearch && 
+      matchesStatus && 
+      matchesDate;
+  });
+
   return {
-    bookings,
+    bookings: filteredBookings,
     loading,
     searchTerm,
     setSearchTerm,
+    searchHotel,
+    setSearchHotel,
+    searchUser,
+    setSearchUser,
     statusFilter,
     setStatusFilter,
+    dateFilter,
+    setDateFilter,
     sortField,
     sortDirection,
     page,

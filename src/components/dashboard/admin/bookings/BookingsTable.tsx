@@ -29,8 +29,6 @@ export const BookingsTable: React.FC<BookingTableProps> = ({
   sortField,
   sortDirection,
   handleSort,
-  searchTerm,
-  statusFilter,
   updateBookingStatus
 }) => {
   const { toast } = useToast();
@@ -66,19 +64,6 @@ export const BookingsTable: React.FC<BookingTableProps> = ({
     }
   };
 
-  const filteredBookings = bookings.filter(booking => {
-    const hotelName = booking.hotel?.name?.toLowerCase() || "";
-    const userName = `${booking.user?.first_name || ""} ${booking.user?.last_name || ""}`.toLowerCase();
-    const matchesSearch = 
-      hotelName.includes(searchTerm.toLowerCase()) ||
-      userName.includes(searchTerm.toLowerCase());
-    
-    const matchesStatus =
-      statusFilter === "all" || booking.status === statusFilter;
-    
-    return matchesSearch && matchesStatus;
-  });
-
   if (loading && bookings.length === 0) {
     return (
       <div className="text-center py-10">
@@ -90,15 +75,13 @@ export const BookingsTable: React.FC<BookingTableProps> = ({
     );
   }
 
-  if (filteredBookings.length === 0) {
+  if (bookings.length === 0) {
     return (
       <div className="text-center py-10">
         <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
         <h3 className="mt-2 text-lg font-medium">No bookings found</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          {searchTerm || statusFilter !== 'all' 
-            ? "Try changing your search or filter criteria."
-            : "There are no bookings in the system yet."}
+          Try changing your search or filter criteria.
         </p>
       </div>
     );
@@ -128,7 +111,7 @@ export const BookingsTable: React.FC<BookingTableProps> = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filteredBookings.map(booking => (
+        {bookings.map(booking => (
           <TableRow key={booking.id}>
             <TableCell>{booking.hotel?.name || "Unknown Hotel"}</TableCell>
             <TableCell>

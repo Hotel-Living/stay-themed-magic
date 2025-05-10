@@ -12,8 +12,14 @@ export default function AdminBookingsPanel() {
     loading,
     searchTerm,
     setSearchTerm,
+    searchHotel,
+    setSearchHotel,
+    searchUser,
+    setSearchUser,
     statusFilter,
     setStatusFilter,
+    dateFilter,
+    setDateFilter,
     sortField,
     sortDirection,
     page,
@@ -33,12 +39,18 @@ export default function AdminBookingsPanel() {
           <h2 className="text-2xl font-bold">Bookings Management</h2>
         </div>
 
-        {/* Search and filter controls */}
+        {/* Enhanced search and filter controls */}
         <BookingsFilter
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          searchHotel={searchHotel}
+          setSearchHotel={setSearchHotel}
+          searchUser={searchUser}
+          setSearchUser={setSearchUser}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
+          dateFilter={dateFilter}
+          setDateFilter={setDateFilter}
         />
 
         <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">

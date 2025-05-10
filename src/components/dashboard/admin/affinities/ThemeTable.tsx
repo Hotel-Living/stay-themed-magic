@@ -2,9 +2,8 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Edit, Trash2, Check, X } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import { EditableThemeCell } from "./EditableThemeCell";
 
 interface ThemeTableProps {
   themes: any[];
@@ -39,64 +38,29 @@ export const ThemeTable: React.FC<ThemeTableProps> = ({
         {themes.map(theme => (
           <TableRow key={theme.id}>
             <TableCell>
-              {editingTheme && editingTheme.id === theme.id && editingTheme.field === 'name' ? (
-                <div className="flex items-center gap-2">
-                  <Input 
-                    value={editingTheme.value} 
-                    onChange={(e) => setEditingTheme({...editingTheme, value: e.target.value})}
-                    className="min-w-[150px]"
-                  />
-                  <Button onClick={handleSaveEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                    <Check className="h-4 w-4" />
-                  </Button>
-                  <Button onClick={handleCancelEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  {theme.name}
-                  <Button 
-                    onClick={() => handleEdit(theme.id, 'name', theme.name)} 
-                    size="sm" 
-                    variant="ghost" 
-                    className="h-6 w-6 p-0"
-                  >
-                    <Edit className="h-3 w-3" />
-                  </Button>
-                </div>
-              )}
+              <EditableThemeCell
+                id={theme.id}
+                field="name"
+                value={theme.name}
+                isEditing={!!(editingTheme && editingTheme.id === theme.id && editingTheme.field === 'name')}
+                onEdit={() => handleEdit(theme.id, 'name', theme.name)}
+                onSave={handleSaveEdit}
+                onCancel={handleCancelEdit}
+                onChange={(newValue) => setEditingTheme({...editingTheme!, value: newValue})}
+              />
             </TableCell>
             <TableCell>
-              {editingTheme && editingTheme.id === theme.id && editingTheme.field === 'description' ? (
-                <div className="flex items-center gap-2">
-                  <Textarea 
-                    value={editingTheme.value} 
-                    onChange={(e) => setEditingTheme({...editingTheme, value: e.target.value})}
-                    className="min-w-[200px]"
-                  />
-                  <div className="flex flex-col gap-1">
-                    <Button onClick={handleSaveEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button onClick={handleCancelEdit} size="sm" variant="ghost" className="h-8 w-8 p-0">
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  {theme.description || "-"}
-                  <Button 
-                    onClick={() => handleEdit(theme.id, 'description', theme.description || '')} 
-                    size="sm" 
-                    variant="ghost" 
-                    className="h-6 w-6 p-0"
-                  >
-                    <Edit className="h-3 w-3" />
-                  </Button>
-                </div>
-              )}
+              <EditableThemeCell
+                id={theme.id}
+                field="description"
+                value={theme.description || ""}
+                isEditing={!!(editingTheme && editingTheme.id === theme.id && editingTheme.field === 'description')}
+                onEdit={() => handleEdit(theme.id, 'description', theme.description || '')}
+                onSave={handleSaveEdit}
+                onCancel={handleCancelEdit}
+                onChange={(newValue) => setEditingTheme({...editingTheme!, value: newValue})}
+                isTextArea
+              />
             </TableCell>
             <TableCell>{new Date(theme.created_at).toLocaleDateString()}</TableCell>
             <TableCell>

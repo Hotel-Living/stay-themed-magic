@@ -15,6 +15,7 @@ import { UserStatsSection } from "./user-detail/UserStatsSection";
 import { Button } from "@/components/ui/button";
 import { Edit, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { formatDate, formatTimeAgo } from "@/components/dashboard/utils/dateUtils";
 
 export default function AdminUserDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -98,6 +99,18 @@ export default function AdminUserDetailView() {
           <UserLoadingState />
         ) : profile ? (
           <div className="space-y-6">
+            {/* User Registration Info */}
+            <div className="flex flex-col md:flex-row md:justify-between gap-2 text-sm text-gray-500">
+              <div>
+                Registered on: {formatDate(profile.created_at)}
+              </div>
+              {profile.last_sign_in_at && (
+                <div>
+                  Last login: {formatDate(profile.last_sign_in_at)} ({formatTimeAgo(profile.last_sign_in_at)})
+                </div>
+              )}
+            </div>
+            
             {/* User Stats */}
             <UserStatsSection bookings={bookings} favorites={favorites} />
             

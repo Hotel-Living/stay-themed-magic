@@ -34,6 +34,23 @@ export const useUserDetail = (id: string | undefined) => {
           .single();
 
         if (profileError) throw profileError;
+        
+        // Fetch user's last_sign_in_at from auth.users using admin function
+        try {
+          const { data: authUserData, error: authUserError } = await supabase.rpc(
+            'get_user_auth_details',
+            { user_id: id }
+          );
+          
+          if (!authUserError && authUserData) {
+            // Combine auth user data with profile data
+            profileData.last_sign_in_at = authUserData.last_sign_in_at;
+          }
+        } catch (authError) {
+          console.error("Error fetching auth user data:", authError);
+          // Continue without last_sign_in_at data
+        }
+        
         setProfile(profileData);
         
         // Initialize edit form with user data

@@ -23,3 +23,9 @@ export interface NewTheme {
   description: string;
   category?: string;
 }
+
+export interface PaginationState {
+  currentPage: number;
+  pageSize: number;
+  totalCount: number;
+}

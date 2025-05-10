@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Theme, EditingTheme, NewTheme, ThemeToDelete } from "../types";
+import { Theme, EditingTheme, NewTheme, ThemeToDelete, PaginationState } from "../types";
 
 export function useAffinities() {
   const [themes, setThemes] = useState<Theme[]>([]);
@@ -11,18 +11,53 @@ export function useAffinities() {
   const [newTheme, setNewTheme] = useState<NewTheme>({ name: "", description: "", category: "" });
   const [themeToDelete, setThemeToDelete] = useState<null | ThemeToDelete>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [pagination, setPagination] = useState<PaginationState>({
+    currentPage: 1,
+    pageSize: 10,
+    totalCount: 0
+  });
   
   const { toast } = useToast();
 
   useEffect(() => {
     fetchThemes();
-  }, []);
+  }, [pagination.currentPage, searchTerm]);
 
   const fetchThemes = async () => {
     try {
-      const { data, error } = await supabase
+      setLoading(true);
+      
+      // First get the total count for pagination
+      const countQuery = supabase
         .from('themes')
-        .select('*');
+        .select('id', { count: 'exact', head: true });
+        
+      if (searchTerm) {
+        countQuery
+          .or(`name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%${searchTerm && ',category.ilike.%' + searchTerm + '%'}`);
+      }
+      
+      const { count, error: countError } = await countQuery;
+      
+      if (countError) throw countError;
+      
+      // Update total count
+      setPagination(prev => ({...prev, totalCount: count || 0}));
+      
+      // Then fetch the current page of data
+      const start = (pagination.currentPage - 1) * pagination.pageSize;
+      const end = start + pagination.pageSize - 1;
+      
+      let query = supabase
+        .from('themes')
+        .select('*')
+        .range(start, end);
+        
+      if (searchTerm) {
+        query = query.or(`name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%${searchTerm && ',category.ilike.%' + searchTerm + '%'}`);
+      }
+        
+      const { data, error } = await query;
 
       if (error) {
         throw error;
@@ -38,6 +73,10 @@ export function useAffinities() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setPagination(prev => ({...prev, currentPage: page}));
   };
 
   const handleEdit = (id: string, field: string, value: string) => {
@@ -147,7 +186,11 @@ export function useAffinities() {
         
       if (error) throw error;
       
-      setThemes(prev => [...prev, ...(data || [])]);
+      // Reset to first page after adding a new theme
+      setPagination(prev => ({...prev, currentPage: 1}));
+      
+      // Refresh the themes list
+      fetchThemes();
       
       toast({
         title: "Success",
@@ -175,7 +218,8 @@ export function useAffinities() {
         
       if (error) throw error;
       
-      setThemes(prev => prev.filter(theme => theme.id !== themeToDelete.id));
+      // Refresh themes after deletion
+      fetchThemes();
       
       toast({
         title: "Success",
@@ -192,23 +236,19 @@ export function useAffinities() {
     }
   };
 
-  const filteredThemes = themes.filter(theme => 
-    theme.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (theme.description && theme.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (theme.category && theme.category.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
   return {
-    themes: filteredThemes,
+    themes,
     loading,
     editingTheme,
     newTheme,
     themeToDelete,
     searchTerm,
+    pagination,
     setSearchTerm,
     setEditingTheme,
     setNewTheme,
     setThemeToDelete,
+    handlePageChange,
     handleEdit,
     handleSaveEdit,
     handleCancelEdit,

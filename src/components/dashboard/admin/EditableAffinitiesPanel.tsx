@@ -9,6 +9,7 @@ import { AddThemeDialog } from "./affinities/AddThemeDialog";
 import { DeleteConfirmDialog } from "./filters/DeleteConfirmDialog";
 import { SearchBar } from "./affinities/SearchBar";
 import { useAffinities } from "./affinities/hooks/useAffinities";
+import { ThemePagination } from "./affinities/ThemePagination";
 
 export default function EditableAffinitiesPanel() {
   const [newThemeDialogOpen, setNewThemeDialogOpen] = useState(false);
@@ -21,10 +22,12 @@ export default function EditableAffinitiesPanel() {
     newTheme,
     themeToDelete,
     searchTerm,
+    pagination,
     setSearchTerm,
     setEditingTheme,
     setNewTheme,
     setThemeToDelete,
+    handlePageChange,
     handleEdit,
     handleSaveEdit,
     handleCancelEdit,
@@ -74,6 +77,11 @@ export default function EditableAffinitiesPanel() {
             handleCancelEdit={handleCancelEdit}
             openDeleteDialog={openDeleteDialog}
             setEditingTheme={setEditingTheme}
+          />
+          
+          <ThemePagination 
+            pagination={pagination}
+            onPageChange={handlePageChange}
           />
         </div>
 

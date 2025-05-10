@@ -12,14 +12,13 @@ import { useUserReports } from "./user-data/useUserReports";
 import { useUserTotalSpent } from "./user-data/useUserTotalSpent";
 import { useUserRewards } from "./user-data/useUserRewards";
 import { useUserReferrals } from "./user-data/useUserReferrals";
-import { useUserReviews } from "./user-data/useUserReviews";
 
 export const useUserDetail = (id: string | undefined) => {
   const [editing, setEditing] = useState(false);
   const { toast } = useToast();
 
   // Fetch user profile and auth data
-  const { profile, loading: profileLoading, updateAdminNote } = useUserProfile(id);
+  const { profile, loading: profileLoading } = useUserProfile(id);
   const { authData, isEmailVerified, resendVerificationEmail } = useUserAuth(id);
 
   // Fetch user-related data
@@ -31,19 +30,8 @@ export const useUserDetail = (id: string | undefined) => {
   });
   const { reports } = useUserReports(id);
   const { totalSpent, formattedTotal } = useUserTotalSpent(id);
-  const { 
-    freeNightsCount,
-    usedFreeNights,
-    remainingFreeNights,
-    rewards,
-    isGranting,
-    grantFreeNight,
-    markRewardAsUsed,
-    markRewardAsUnused,
-    removeFreeNight 
-  } = useUserRewards(id);
+  const { freeNightsCount } = useUserRewards(id);
   const { referrals } = useUserReferrals(id);
-  const { reviews } = useUserReviews(id);
 
   // Fetch hotel data if user is a hotel owner
   const { hotels } = useUserHotels(id, profile?.is_hotel_owner);
@@ -58,9 +46,6 @@ export const useUserDetail = (id: string | undefined) => {
   // Determine overall loading state
   const loading = profileLoading;
 
-  // Check if the current user is an admin (for UI controls)
-  const isCurrentUserAdmin = true; // In admin view, always true
-
   return {
     profile,
     authData,
@@ -70,7 +55,6 @@ export const useUserDetail = (id: string | undefined) => {
     userPreferences,
     hotels,
     reports,
-    reviews,
     loading,
     editing,
     setEditing,
@@ -89,16 +73,6 @@ export const useUserDetail = (id: string | undefined) => {
     totalSpent,
     formattedTotal,
     freeNightsCount,
-    usedFreeNights,
-    remainingFreeNights,
-    rewards,
-    isGranting,
-    grantFreeNight,
-    markRewardAsUsed,
-    markRewardAsUnused,
-    removeFreeNight,
-    isAdmin: isCurrentUserAdmin,
-    referrals,
-    updateAdminNote
+    referrals
   };
 };

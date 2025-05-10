@@ -53,38 +53,5 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // IMPORTANT: Ensuring it returns Promise<void> without any boolean returns
-  const updateAdminNote = async (userId: string, note: string): Promise<void> => {
-    if (!userId) return;
-
-    try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ admin_note: note })
-        .eq("id", userId);
-
-      if (error) throw error;
-      
-      // Update local state
-      setProfile(prev => prev ? { ...prev, admin_note: note } : prev);
-      
-      toast({
-        title: "Success",
-        description: "Admin note updated successfully",
-      });
-      
-      // No return statement here - ensuring void return
-    } catch (error: any) {
-      console.error("Error updating admin note:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to update admin note",
-        variant: "destructive"
-      });
-      throw error; // Re-throwing is fine as it doesn't affect return type
-    }
-    // No return statement at the end of the function
-  };
-
-  return { profile, setProfile, loading, updateAdminNote };
+  return { profile, setProfile, loading };
 };

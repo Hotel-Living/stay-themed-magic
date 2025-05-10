@@ -1,3 +1,4 @@
+
 import React from "react";
 import { DetailCard } from "./DetailCard";
 import { ProfileSection } from "./ProfileSection";
@@ -13,9 +14,6 @@ import { TotalSpentCard } from "./TotalSpentCard";
 import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
 import { EmailVerificationAlert } from "./EmailVerificationAlert";
-import { UserReviewsSection } from "./UserReviewsSection";
-import { AdminNoteSection } from "./AdminNoteSection";
-import { type UserReview } from "./hooks/user-data/useUserReviews";
 
 interface UserDetailContentProps {
   profile: any;
@@ -27,7 +25,6 @@ interface UserDetailContentProps {
   hotels: any[];
   reports: any[];
   referrals: any[];
-  reviews: UserReview[];
   editing: boolean;
   editForm: any;
   setEditForm: (form: any) => void;
@@ -35,17 +32,7 @@ interface UserDetailContentProps {
   isEmailVerified: boolean | undefined;
   formattedTotal: string;
   freeNightsCount: number;
-  usedFreeNights: number;
-  remainingFreeNights: number;
-  rewards?: any[];
-  isGranting?: boolean;
-  isAdmin?: boolean;
-  onGrantFreeNight?: (quantity: number) => Promise<void>;
-  onRemoveFreeNight?: (rewardId: string) => Promise<void>;
-  onMarkRewardAsUsed?: (rewardId: string) => Promise<void>;
-  onMarkRewardAsUnused?: (rewardId: string) => Promise<void>;
   handleResendVerification: () => Promise<void>;
-  updateAdminNote?: (userId: string, note: string) => Promise<void>;
 }
 
 export const UserDetailContent: React.FC<UserDetailContentProps> = ({
@@ -58,7 +45,6 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   hotels,
   reports,
   referrals,
-  reviews,
   editing,
   editForm,
   setEditForm,
@@ -66,17 +52,7 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   isEmailVerified,
   formattedTotal,
   freeNightsCount,
-  usedFreeNights = 0,
-  remainingFreeNights = 0,
-  rewards = [],
-  isGranting = false,
-  isAdmin = false,
-  onGrantFreeNight,
-  onRemoveFreeNight,
-  onMarkRewardAsUsed,
-  onMarkRewardAsUnused,
-  handleResendVerification,
-  updateAdminNote
+  handleResendVerification
 }) => {
   return (
     <div className="space-y-6">
@@ -94,17 +70,6 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
         onResendVerification={handleResendVerification}
       />
       
-      {/* Admin Note Section */}
-      {isAdmin && updateAdminNote && (
-        <DetailCard title="Admin Notes">
-          <AdminNoteSection 
-            profileId={profile.id} 
-            initialNote={profile.admin_note} 
-            onUpdateNote={updateAdminNote} 
-          />
-        </DetailCard>
-      )}
-      
       {/* User Stats */}
       <UserStatsSection bookings={bookings} favorites={favorites} />
       
@@ -112,18 +77,7 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
       <TotalSpentCard formattedTotal={formattedTotal} />
       
       {/* Free Nights Redeemed */}
-      <FreeNightsCard 
-        freeNightsCount={freeNightsCount}
-        usedFreeNights={usedFreeNights}
-        remainingFreeNights={remainingFreeNights}
-        rewards={rewards}
-        isAdmin={isAdmin}
-        isGranting={isGranting}
-        onGrant={onGrantFreeNight}
-        onRemove={onRemoveFreeNight}
-        onMarkUsed={onMarkRewardAsUsed}
-        onMarkUnused={onMarkRewardAsUnused}
-      />
+      <FreeNightsCard freeNightsCount={freeNightsCount} />
       
       {/* User Reports Section */}
       {reports && reports.length > 0 && (
@@ -148,18 +102,6 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
           </div>
         </DetailCard>
       )}
-      
-      {/* User Reviews Section */}
-      <DetailCard title="User Reviews">
-        <div className="space-y-2">
-          <div className="text-sm font-medium mb-2">
-            {reviews && reviews.length > 0 
-              ? `This user has submitted ${reviews.length} review(s):`
-              : "This user hasn't submitted any reviews yet."}
-          </div>
-          <UserReviewsSection reviews={reviews || []} />
-        </div>
-      </DetailCard>
       
       {/* User Profile */}
       <DetailCard title="Basic Information">

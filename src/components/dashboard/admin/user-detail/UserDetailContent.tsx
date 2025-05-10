@@ -10,6 +10,7 @@ import { UserAffinitiesSection } from "./UserAffinitiesSection";
 import { UserHotelsSection } from "./UserHotelsSection";
 import { UserReportsSection } from "./UserReportsSection";
 import { TotalSpentCard } from "./TotalSpentCard";
+import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
 import { EmailVerificationAlert } from "./EmailVerificationAlert";
 
@@ -28,6 +29,7 @@ interface UserDetailContentProps {
   themesPagination: any;
   isEmailVerified: boolean | undefined;
   formattedTotal: string;
+  freeNightsCount: number;
   handleResendVerification: () => Promise<void>;
 }
 
@@ -46,6 +48,7 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   themesPagination,
   isEmailVerified,
   formattedTotal,
+  freeNightsCount,
   handleResendVerification
 }) => {
   return (
@@ -69,6 +72,9 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
       
       {/* Total Amount Spent */}
       <TotalSpentCard formattedTotal={formattedTotal} />
+      
+      {/* Free Nights Redeemed */}
+      <FreeNightsCard freeNightsCount={freeNightsCount} />
       
       {/* User Reports Section */}
       {reports && reports.length > 0 && (

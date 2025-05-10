@@ -31,7 +31,8 @@ export default function AdminUserDetailView() {
     themesPagination,
     isEmailVerified,
     resendVerificationEmail,
-    formattedTotal
+    formattedTotal,
+    freeNightsCount
   } = useUserDetail(id);
 
   const handleCancelEdit = () => {
@@ -126,6 +127,7 @@ export default function AdminUserDetailView() {
             themesPagination={themesPagination}
             isEmailVerified={isEmailVerified}
             formattedTotal={formattedTotal}
+            freeNightsCount={freeNightsCount}
             handleResendVerification={handleResendVerification}
           />
         ) : (

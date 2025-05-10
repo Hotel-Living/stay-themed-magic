@@ -15,6 +15,7 @@ export const useUserDetail = (id: string | undefined) => {
   const [bookings, setBookings] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [themes, setThemes] = useState<any[]>([]);
+  const [userPreferences, setUserPreferences] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState({
@@ -111,6 +112,13 @@ export const useUserDetail = (id: string | undefined) => {
           .select("favorite_themes")
           .eq("user_id", id)
           .single();
+        
+        if (prefsError && prefsError.code !== 'PGRST116') { // PGRST116 is "no rows returned" error
+          throw prefsError;
+        }
+        
+        // Set preferences even if empty, for UI display
+        setUserPreferences(prefsData || { favorite_themes: [] });
 
         if (prefsData && prefsData.favorite_themes && prefsData.favorite_themes.length > 0) {
           // Fetch theme names based on IDs
@@ -184,6 +192,7 @@ export const useUserDetail = (id: string | undefined) => {
     bookings,
     favorites,
     themes,
+    userPreferences,
     loading,
     editing,
     setEditing,

@@ -12,6 +12,7 @@ import { BookingsSection } from "./user-detail/BookingsSection";
 import { FavoritesSection } from "./user-detail/FavoritesSection";
 import { ThemesSection } from "./user-detail/ThemesSection";
 import { UserStatsSection } from "./user-detail/UserStatsSection";
+import { UserAffinitiesSection } from "./user-detail/UserAffinitiesSection";
 import { Button } from "@/components/ui/button";
 import { Edit, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -26,6 +27,7 @@ export default function AdminUserDetailView() {
     bookings,
     favorites,
     themes,
+    userPreferences,
     loading,
     editing,
     setEditing,
@@ -123,6 +125,11 @@ export default function AdminUserDetailView() {
                 editForm={editForm} 
                 setEditForm={setEditForm} 
               />
+            </DetailCard>
+
+            {/* User Affinities/Themes */}
+            <DetailCard title="User Affinities">
+              <UserAffinitiesSection themes={themes} userPreferences={userPreferences} />
             </DetailCard>
 
             {/* Bookings */}

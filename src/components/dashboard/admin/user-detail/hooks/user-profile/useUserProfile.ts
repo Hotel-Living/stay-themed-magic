@@ -53,7 +53,7 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // IMPORTANT: Modified to ensure it returns Promise<void> without returning any value
+  // IMPORTANT: Ensuring it returns Promise<void> without any boolean returns
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) return;
 
@@ -73,7 +73,7 @@ export const useUserProfile = (id: string | undefined) => {
         description: "Admin note updated successfully",
       });
       
-      // Remove any return statement here to ensure void return
+      // No return statement here - ensuring void return
     } catch (error: any) {
       console.error("Error updating admin note:", error);
       toast({

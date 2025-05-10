@@ -31,7 +31,7 @@ export const useUserDetailActions = (
     return null;
   };
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     try {
       await handleSaveUserDetails();
       toast({
@@ -47,7 +47,7 @@ export const useUserDetailActions = (
     }
   };
 
-  const handleResendVerification = async () => {
+  const handleResendVerification = async (): Promise<void> => {
     if (!profile?.email) {
       toast({
         title: "Error",
@@ -77,7 +77,7 @@ export const useUserDetailActions = (
     }
   };
 
-  const handleGrantFreeNight = async (quantity: number) => {
+  const handleGrantFreeNight = async (quantity: number): Promise<void> => {
     try {
       await grantFreeNight(quantity);
     } catch (error: any) {
@@ -89,7 +89,7 @@ export const useUserDetailActions = (
     }
   };
 
-  const handleRemoveFreeNight = async (rewardId: string) => {
+  const handleRemoveFreeNight = async (rewardId: string): Promise<void> => {
     try {
       await removeFreeNight(rewardId);
     } catch (error: any) {
@@ -101,7 +101,7 @@ export const useUserDetailActions = (
     }
   };
 
-  const handleMarkRewardAsUsed = async (rewardId: string) => {
+  const handleMarkRewardAsUsed = async (rewardId: string): Promise<void> => {
     try {
       await markRewardAsUsed(rewardId);
     } catch (error: any) {
@@ -113,7 +113,7 @@ export const useUserDetailActions = (
     }
   };
 
-  const handleMarkRewardAsUnused = async (rewardId: string) => {
+  const handleMarkRewardAsUnused = async (rewardId: string): Promise<void> => {
     try {
       await markRewardAsUnused(rewardId);
     } catch (error: any) {

@@ -62,10 +62,11 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // Create a wrapper function that converts Promise<boolean> to Promise<void>
+  // Create a wrapper function that returns Promise<void> (never returns a value)
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (updateAdminNote) {
       await updateAdminNote(userId, note);
+      // No return statement here, this ensures Promise<void>
     }
   };
 

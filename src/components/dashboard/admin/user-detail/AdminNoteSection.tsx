@@ -24,6 +24,7 @@ export const AdminNoteSection: React.FC<AdminNoteSectionProps> = ({
     setIsSaving(true);
     try {
       await onUpdateNote(profileId, note);
+      // No need to check return value since it's void
     } catch (error) {
       console.error("Failed to save admin note:", error);
     } finally {

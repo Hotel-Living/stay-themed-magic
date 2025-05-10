@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Plus, Search } from "lucide-react";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 import { ThemeTable } from "./affinities/ThemeTable";
 import { AddThemeDialog } from "./affinities/AddThemeDialog";
@@ -18,6 +19,7 @@ export default function EditableAffinitiesPanel() {
   const [newTheme, setNewTheme] = useState({ name: "", description: "" });
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [themeToDelete, setThemeToDelete] = useState<null | { id: string, name: string }>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   
   const { toast } = useToast();
 
@@ -54,6 +56,33 @@ export default function EditableAffinitiesPanel() {
   const handleSaveEdit = async () => {
     if (!editingTheme) return;
     
+    // Validate empty name
+    if (editingTheme.field === 'name' && !editingTheme.value.trim()) {
+      toast({
+        title: "Invalid input",
+        description: "Affinity name cannot be empty",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Validate duplicate name
+    if (editingTheme.field === 'name') {
+      const isDuplicate = themes.some(theme => 
+        theme.id !== editingTheme.id && 
+        theme.name.toLowerCase() === editingTheme.value.toLowerCase()
+      );
+      
+      if (isDuplicate) {
+        toast({
+          title: "Duplicate name",
+          description: "An affinity with this name already exists",
+          variant: "destructive"
+        });
+        return;
+      }
+    }
+    
     try {
       const { error } = await supabase
         .from('themes')
@@ -88,6 +117,30 @@ export default function EditableAffinitiesPanel() {
   };
 
   const handleAddNewTheme = async () => {
+    // Validate empty name
+    if (!newTheme.name.trim()) {
+      toast({
+        title: "Invalid input",
+        description: "Affinity name cannot be empty",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Validate duplicate name
+    const isDuplicate = themes.some(theme => 
+      theme.name.toLowerCase() === newTheme.name.toLowerCase()
+    );
+    
+    if (isDuplicate) {
+      toast({
+        title: "Duplicate name",
+        description: "An affinity with this name already exists",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     try {
       const { data, error } = await supabase
         .from('themes')
@@ -154,6 +207,11 @@ export default function EditableAffinitiesPanel() {
   const closeDeleteDialog = () => {
     setDeleteDialogOpen(false);
   };
+  
+  const filteredThemes = themes.filter(theme => 
+    theme.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (theme.description && theme.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   if (loading) {
     return (
@@ -173,9 +231,21 @@ export default function EditableAffinitiesPanel() {
           </Button>
         </div>
 
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input 
+              placeholder="Search affinities..." 
+              className="pl-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+
         <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
           <ThemeTable 
-            themes={themes}
+            themes={filteredThemes}
             editingTheme={editingTheme}
             handleEdit={handleEdit}
             handleSaveEdit={handleSaveEdit}

@@ -62,16 +62,15 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // ✅ Fixed: Promise<void> wrapper without return
+  // Create a wrapper function that returns Promise<void> (never returns a value)
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
-    try {
+    if (updateAdminNote) {
       await updateAdminNote(userId, note);
-    } catch (err) {
-      console.error("Failed to update admin note:", err);
+      // No return statement here, this ensures Promise<void>
     }
-    // No return value
   };
 
+  // Prepare all the props for UserDetailContent
   const detailProps = {
     authData,
     bookings,

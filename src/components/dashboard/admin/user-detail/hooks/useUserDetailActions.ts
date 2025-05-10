@@ -31,7 +31,6 @@ export const useUserDetailActions = (
     return null;
   };
 
-  // Fix the handleSave function to explicitly return Promise<void>
   const handleSave = async (): Promise<void> => {
     try {
       await handleSaveUserDetails();
@@ -46,7 +45,6 @@ export const useUserDetailActions = (
         variant: "destructive"
       });
     }
-    // No return value here to ensure Promise<void>
   };
 
   const handleResendVerification = async (): Promise<void> => {

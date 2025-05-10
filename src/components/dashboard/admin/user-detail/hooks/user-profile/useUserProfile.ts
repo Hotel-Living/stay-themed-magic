@@ -11,8 +11,9 @@ export const useUserProfile = (id: string | undefined) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!id) return;
-
+      
       try {
+        // Fetch user profile
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("*")
@@ -20,12 +21,13 @@ export const useUserProfile = (id: string | undefined) => {
           .single();
 
         if (profileError) throw profileError;
-
-        const enhancedProfile = { ...profileData, email: "" };
-
+        
+        // Enhance profile with email from auth.users (requires admin privileges)
+        const enhancedProfile = { ...profileData, email: "" }; // Initialize with empty email
+        
         try {
           const { data: userData, error: userError } = await supabase.functions.invoke("get-user-email", {
-            body: { userId: id },
+            body: { userId: id }
           });
 
           if (!userError && userData?.email) {
@@ -34,14 +36,14 @@ export const useUserProfile = (id: string | undefined) => {
         } catch (emailError) {
           console.warn("Could not fetch user email:", emailError);
         }
-
+        
         setProfile(enhancedProfile);
       } catch (error: any) {
         console.error("Error fetching user profile:", error);
         toast({
           title: "Error",
           description: error.message || "Failed to fetch user profile",
-          variant: "destructive",
+          variant: "destructive"
         });
       } finally {
         setLoading(false);
@@ -51,6 +53,7 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
+  // Update function to return Promise<void> instead of Promise<boolean>
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) return;
 
@@ -60,31 +63,24 @@ export const useUserProfile = (id: string | undefined) => {
         .update({ admin_note: note })
         .eq("id", userId);
 
-      if (error) {
-        console.error("Error updating admin note:", error.message);
-        toast({
-          title: "Error",
-          description: error.message || "Failed to update admin note.",
-          variant: "destructive"
-        });
-      } else {
-        setProfile((prev) => prev ? { ...prev, admin_note: note } : prev);
-        toast({
-          title: "Note updated",
-          description: "The admin note was saved successfully.",
-        });
-      }
-
-    } catch (err: any) {
-      console.error("Unexpected error:", err);
+      if (error) throw error;
+      
+      // Update local state
+      setProfile(prev => prev ? { ...prev, admin_note: note } : prev);
+      
+      toast({
+        title: "Success",
+        description: "Admin note updated successfully",
+      });
+    } catch (error: any) {
+      console.error("Error updating admin note:", error);
       toast({
         title: "Error",
-        description: err.message || "Unexpected failure.",
+        description: error.message || "Failed to update admin note",
         variant: "destructive"
       });
+      throw error; // Re-throw to allow handling in the component
     }
-
-    // ✅ No return value here.
   };
 
   return { profile, setProfile, loading, updateAdminNote };

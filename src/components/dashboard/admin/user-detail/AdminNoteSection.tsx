@@ -7,7 +7,6 @@ import { SaveIcon } from "lucide-react";
 interface AdminNoteSectionProps {
   profileId: string;
   initialNote: string | null;
-  // Explicitly specify void return to ensure consistency
   onUpdateNote: (userId: string, note: string) => Promise<void>;
 }
 
@@ -19,12 +18,11 @@ export const AdminNoteSection: React.FC<AdminNoteSectionProps> = ({
   const [note, setNote] = useState(initialNote || "");
   const [isSaving, setIsSaving] = useState(false);
   
-  const handleSaveNote = async (): Promise<void> => {
+  const handleSaveNote = async () => {
     if (!profileId) return;
     
     setIsSaving(true);
     try {
-      // Call without capturing return value
       await onUpdateNote(profileId, note);
     } catch (error) {
       console.error("Failed to save admin note:", error);

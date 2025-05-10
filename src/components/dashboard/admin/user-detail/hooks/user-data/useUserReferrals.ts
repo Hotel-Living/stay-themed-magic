@@ -37,8 +37,7 @@ export const useUserReferrals = (userId: string | undefined) => {
         // Process and format the referrals data
         const formattedReferrals = data.map(referral => ({
           ...referral,
-          // Add a default status since it doesn't exist in the database
-          status: 'pending', // Default status for all referrals
+          status: referral.status || 'pending',
           formattedDate: formatDate(referral.created_at)
         }));
         

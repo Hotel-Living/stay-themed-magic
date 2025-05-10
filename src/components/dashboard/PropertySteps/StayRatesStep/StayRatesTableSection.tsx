@@ -23,6 +23,11 @@ export function StayRatesTableSection({
   mealOptions,
   handleRateChange
 }: StayRatesTableSectionProps) {
+  // Don't render the table if there are no valid room types
+  if (!roomTypes || roomTypes.length === 0) {
+    return <p className="text-yellow-300">Please define room types in Step 3 before setting rates.</p>;
+  }
+  
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
       <h3 className="font-medium mb-2 uppercase text-base">IMPORTANT NOTICE</h3>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
@@ -17,9 +16,13 @@ export default function StayRatesStep({
 }: StayRatesStepProps) {
   const [ratesFilled, setRatesFilled] = React.useState(false);
 
-  const roomTypes = formData.roomTypes?.length > 0
+  // Use only room types that have been explicitly defined
+  const hasValidRoomTypes = formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
+  
+  // Only use defined room types, no fallbacks
+  const roomTypes = hasValidRoomTypes
     ? formData.roomTypes.map((rt: any) => rt.name || rt.selectedRoomType)
-    : ["Single", "Double", "Suite", "Apartment"];
+    : [];
 
   const stayOptions = formData.stayLengths?.length > 0
     ? formData.stayLengths.map((days: number) => `${days} days`)
@@ -82,6 +85,7 @@ export default function StayRatesStep({
   };
 
   React.useEffect(() => {
+    // ... keep existing code (currency and rates effects)
     updateFormData('currency', formData.currency || "USD");
     
     const priceFields: Record<string, number> = {};
@@ -121,16 +125,20 @@ export default function StayRatesStep({
         setPriceIncreaseCap={(val) => updateFormData("priceIncreaseCap", val)}
       />
 
-      <StayRatesTableSection
-        ratesFilled={ratesFilled}
-        enablePriceIncrease={formData.enablePriceIncrease ?? false}
-        priceIncreaseCap={formData.priceIncreaseCap ?? 20}
-        rates={formData.rates || {}}
-        roomTypes={roomTypes}
-        stayOptions={stayOptions}
-        mealOptions={mealOptions}
-        handleRateChange={handleRateChange}
-      />
+      {hasValidRoomTypes ? (
+        <StayRatesTableSection
+          ratesFilled={ratesFilled}
+          enablePriceIncrease={formData.enablePriceIncrease ?? false}
+          priceIncreaseCap={formData.priceIncreaseCap ?? 20}
+          rates={formData.rates || {}}
+          roomTypes={roomTypes}
+          stayOptions={stayOptions}
+          mealOptions={mealOptions}
+          handleRateChange={handleRateChange}
+        />
+      ) : (
+        <p className="text-yellow-300">Please define room types in Step 3 before setting rates.</p>
+      )}
     </div>
   );
 }

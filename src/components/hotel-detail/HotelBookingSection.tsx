@@ -3,7 +3,12 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { formatCurrency } from "@/utils/dynamicPricing";
+import { 
+  formatCurrency, 
+  calculateDynamicPrice,
+  calculateTotalNightsInMonth,
+  calculateNightsSold
+} from "@/utils/dynamicPricing";
 import { cn } from "@/lib/utils";
 
 interface HotelBookingSectionProps {
@@ -16,6 +21,10 @@ interface HotelBookingSectionProps {
   currency: string;
   handleBookClick: () => void;
   preferredWeekday?: string;
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
+  roomCount?: number;
+  bookings?: Array<{ startDate: Date; endDate: Date }>;
 }
 
 export function HotelBookingSection({ 
@@ -27,7 +36,11 @@ export function HotelBookingSection({
   rates,
   currency,
   handleBookClick,
-  preferredWeekday = "Monday"
+  preferredWeekday = "Monday",
+  enablePriceIncrease = false,
+  priceIncreaseCap = 20,
+  roomCount = 10,
+  bookings = []
 }: HotelBookingSectionProps) {
   
   // Calculate check-out date based on check-in and duration
@@ -36,6 +49,30 @@ export function HotelBookingSection({
     const checkoutDate = new Date(checkInDate);
     checkoutDate.setDate(checkoutDate.getDate() + (selectedDuration || 8));
     return format(checkoutDate, "MM/dd/yyyy");
+  };
+
+  // Calculate the dynamic price
+  const getDisplayPrice = () => {
+    const basePrice = rates[selectedDuration];
+    
+    if (!enablePriceIncrease || !checkInDate || !basePrice) {
+      return basePrice ? formatCurrency(basePrice, currency) : "Price not available";
+    }
+    
+    const year = checkInDate.getFullYear();
+    const month = checkInDate.getMonth();
+    
+    const totalNights = calculateTotalNightsInMonth(roomCount, year, month);
+    const soldNights = calculateNightsSold(bookings, year, month);
+    
+    const finalPrice = calculateDynamicPrice(
+      basePrice, 
+      totalNights, 
+      soldNights, 
+      priceIncreaseCap
+    );
+    
+    return formatCurrency(finalPrice, currency);
   };
   
   return (
@@ -70,10 +107,7 @@ export function HotelBookingSection({
       <p className="text-sm text-white mb-2">Check-out: {calculateCheckoutDate()}</p>
 
       <p className="text-2xl font-bold text-white">
-        {rates && rates[selectedDuration] ? 
-          formatCurrency(rates[selectedDuration], currency) : 
-          "Price not available"
-        } per person
+        {getDisplayPrice()} per person
       </p>
       <Button 
         className="mt-3 w-full bg-white text-[#000066] hover:bg-white/90" 

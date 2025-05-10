@@ -4,6 +4,7 @@ export interface Theme {
   name: string;
   description: string;
   created_at: string;
+  category?: string;
 }
 
 export interface EditingTheme {
@@ -20,4 +21,5 @@ export interface ThemeToDelete {
 export interface NewTheme {
   name: string;
   description: string;
+  category?: string;
 }

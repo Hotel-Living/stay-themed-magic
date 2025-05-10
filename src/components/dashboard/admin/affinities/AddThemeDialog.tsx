@@ -35,6 +35,15 @@ export const AddThemeDialog: React.FC<AddThemeDialogProps> = ({
           />
         </div>
         <div>
+          <label htmlFor="category" className="block text-sm font-medium mb-1">Category</label>
+          <Input
+            id="category"
+            value={newTheme.category || ""}
+            onChange={(e) => setNewTheme({...newTheme, category: e.target.value})}
+            placeholder="Enter category (optional)"
+          />
+        </div>
+        <div>
           <label htmlFor="description" className="block text-sm font-medium mb-1">Description</label>
           <Textarea
             id="description"

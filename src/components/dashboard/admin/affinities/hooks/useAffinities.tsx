@@ -2,26 +2,14 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-
-export interface Theme {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
-}
-
-export interface EditingTheme {
-  id: string;
-  field: string;
-  value: string;
-}
+import { Theme, EditingTheme, NewTheme, ThemeToDelete } from "../types";
 
 export function useAffinities() {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingTheme, setEditingTheme] = useState<null | EditingTheme>(null);
-  const [newTheme, setNewTheme] = useState({ name: "", description: "" });
-  const [themeToDelete, setThemeToDelete] = useState<null | { id: string, name: string }>(null);
+  const [newTheme, setNewTheme] = useState<NewTheme>({ name: "", description: "", category: "" });
+  const [themeToDelete, setThemeToDelete] = useState<null | ThemeToDelete>(null);
   const [searchTerm, setSearchTerm] = useState("");
   
   const { toast } = useToast();
@@ -145,12 +133,16 @@ export function useAffinities() {
     }
     
     try {
+      // Prepare the data - omit empty category
+      const themeData = {
+        name: newTheme.name,
+        description: newTheme.description,
+        ...(newTheme.category ? { category: newTheme.category } : {})
+      };
+
       const { data, error } = await supabase
         .from('themes')
-        .insert([{ 
-          name: newTheme.name,
-          description: newTheme.description
-        }])
+        .insert([themeData])
         .select();
         
       if (error) throw error;
@@ -162,7 +154,7 @@ export function useAffinities() {
         description: "New affinity added successfully"
       });
       
-      setNewTheme({ name: "", description: "" });
+      setNewTheme({ name: "", description: "", category: "" });
     } catch (error: any) {
       toast({
         title: "Error",
@@ -202,7 +194,8 @@ export function useAffinities() {
 
   const filteredThemes = themes.filter(theme => 
     theme.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (theme.description && theme.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    (theme.description && theme.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (theme.category && theme.category.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return {

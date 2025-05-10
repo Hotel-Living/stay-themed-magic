@@ -62,6 +62,7 @@ export default function EditableAffinitiesPanel() {
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          placeholder="Search affinities by name, category or description..."
         />
 
         <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">

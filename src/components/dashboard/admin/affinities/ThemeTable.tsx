@@ -30,6 +30,7 @@ export const ThemeTable: React.FC<ThemeTableProps> = ({
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
+          <TableHead>Category</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Created At</TableHead>
           <TableHead>Actions</TableHead>
@@ -45,6 +46,18 @@ export const ThemeTable: React.FC<ThemeTableProps> = ({
                 value={theme.name}
                 isEditing={!!(editingTheme && editingTheme.id === theme.id && editingTheme.field === 'name')}
                 onEdit={() => handleEdit(theme.id, 'name', theme.name)}
+                onSave={handleSaveEdit}
+                onCancel={handleCancelEdit}
+                onChange={(newValue) => setEditingTheme({...editingTheme!, value: newValue})}
+              />
+            </TableCell>
+            <TableCell>
+              <EditableThemeCell
+                id={theme.id}
+                field="category"
+                value={theme.category || ""}
+                isEditing={!!(editingTheme && editingTheme.id === theme.id && editingTheme.field === 'category')}
+                onEdit={() => handleEdit(theme.id, 'category', theme.category || '')}
                 onSave={handleSaveEdit}
                 onCancel={handleCancelEdit}
                 onChange={(newValue) => setEditingTheme({...editingTheme!, value: newValue})}
@@ -77,7 +90,7 @@ export const ThemeTable: React.FC<ThemeTableProps> = ({
         ))}
         {themes.length === 0 && (
           <TableRow>
-            <TableCell colSpan={4} className="text-center py-4">No affinities found</TableCell>
+            <TableCell colSpan={5} className="text-center py-4">No affinities found</TableCell>
           </TableRow>
         )}
       </TableBody>

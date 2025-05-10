@@ -147,6 +147,27 @@ export type Database = {
         }
         Relationships: []
       }
+      filters: {
+        Row: {
+          category: string
+          created_at: string | null
+          id: string
+          value: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          id?: string
+          value: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          id?: string
+          value?: string
+        }
+        Relationships: []
+      }
       hotel_activities: {
         Row: {
           activity_id: string | null

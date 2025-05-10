@@ -6,3 +6,9 @@ verify_jwt = true
 
 [functions.remove_pending_change_field]
 verify_jwt = true
+
+[functions.cleanup-inactive-owners]
+verify_jwt = true
+
+[functions.setup-cleanup-cron]
+verify_jwt = true

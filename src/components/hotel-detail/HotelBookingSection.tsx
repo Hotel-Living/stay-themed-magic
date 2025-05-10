@@ -33,6 +33,7 @@ interface HotelBookingSectionProps {
   }>;
   selectedRoomType?: string;
   selectedMealPlan?: string;
+  availableMonths?: string[]; // Added missing prop
 }
 
 export function HotelBookingSection({ 
@@ -51,7 +52,8 @@ export function HotelBookingSection({
   bookings = [],
   pricingMatrix = [],
   selectedRoomType = "Standard",
-  selectedMealPlan = "Breakfast only"
+  selectedMealPlan = "Breakfast only",
+  availableMonths = [] // Added missing prop with default
 }: HotelBookingSectionProps) {
   
   // Calculate check-out date based on check-in and duration

@@ -42,11 +42,12 @@ export default function AdminUserDetailView() {
 
   const handleCancelEdit = () => {
     if (profile) {
-      // Reset form to original profile data
+      // Reset form to original profile data with all required fields
       setEditForm({
         first_name: profile.first_name || "",
         last_name: profile.last_name || "",
         phone: profile.phone || "",
+        email: profile.email || "",
         is_hotel_owner: profile.is_hotel_owner || false,
         is_active: profile.is_active !== false // Default to true if field doesn't exist
       });

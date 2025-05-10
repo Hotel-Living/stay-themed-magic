@@ -22,20 +22,22 @@ export const useUserProfile = (id: string | undefined) => {
 
         if (profileError) throw profileError;
         
-        // Fetch user email from auth.users (requires admin privileges)
+        // Enhance profile with email from auth.users (requires admin privileges)
+        const enhancedProfile = { ...profileData, email: "" }; // Initialize with empty email
+        
         try {
           const { data: userData, error: userError } = await supabase.functions.invoke("get-user-email", {
             body: { userId: id }
           });
 
           if (!userError && userData?.email) {
-            profileData.email = userData.email;
+            enhancedProfile.email = userData.email;
           }
         } catch (emailError) {
           console.warn("Could not fetch user email:", emailError);
         }
         
-        setProfile(profileData);
+        setProfile(enhancedProfile);
       } catch (error: any) {
         console.error("Error fetching user profile:", error);
         toast({

@@ -51,7 +51,6 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // 🔧 FIXED: updateAdminNote now strictly returns Promise<void> without any implicit boolean
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (!userId) return;
 
@@ -61,25 +60,31 @@ export const useUserProfile = (id: string | undefined) => {
         .update({ admin_note: note })
         .eq("id", userId);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error updating admin note:", error.message);
+        toast({
+          title: "Error",
+          description: error.message || "Failed to update admin note.",
+          variant: "destructive"
+        });
+      } else {
+        setProfile((prev) => prev ? { ...prev, admin_note: note } : prev);
+        toast({
+          title: "Note updated",
+          description: "The admin note was saved successfully.",
+        });
+      }
 
-      setProfile(prev => {
-        if (!prev) return prev;
-        return { ...prev, admin_note: note };
-      });
-
-      toast({
-        title: "Success",
-        description: "Admin note updated successfully",
-      });
-    } catch (error: any) {
-      console.error("Error updating admin note:", error);
+    } catch (err: any) {
+      console.error("Unexpected error:", err);
       toast({
         title: "Error",
-        description: error.message || "Failed to update admin note",
-        variant: "destructive",
+        description: err.message || "Unexpected failure.",
+        variant: "destructive"
       });
     }
+
+    // ✅ No return value here.
   };
 
   return { profile, setProfile, loading, updateAdminNote };

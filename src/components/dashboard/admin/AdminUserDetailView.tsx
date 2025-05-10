@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
@@ -61,12 +62,16 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // Fix: Ensuring this function is truly void by completely ignoring any return value
+  // Create a completely void-returning wrapper function
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
     if (updateAdminNote) {
-      // Use void operator to explicitly discard any return value
-      void updateAdminNote(userId, note);
+      // Execute without returning or awaiting the result
+      void (async () => { 
+        await updateAdminNote(userId, note);
+        // No return here, explicitly void
+      })();
     }
+    // No return statement at all
   };
 
   // Prepare all the props for UserDetailContent

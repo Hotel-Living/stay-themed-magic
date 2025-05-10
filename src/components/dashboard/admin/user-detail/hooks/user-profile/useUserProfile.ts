@@ -53,9 +53,12 @@ export const useUserProfile = (id: string | undefined) => {
     fetchUserProfile();
   }, [id, toast]);
 
-  // IMPORTANT: Ensuring it returns Promise<void> without any boolean returns
+  // Modified function to ensure it never returns any value
   const updateAdminNote = async (userId: string, note: string): Promise<void> => {
-    if (!userId) return;
+    if (!userId) {
+      // No return statement here
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -73,7 +76,7 @@ export const useUserProfile = (id: string | undefined) => {
         description: "Admin note updated successfully",
       });
       
-      // No return statement here - ensuring void return
+      // No return statement here
     } catch (error: any) {
       console.error("Error updating admin note:", error);
       toast({
@@ -81,9 +84,9 @@ export const useUserProfile = (id: string | undefined) => {
         description: error.message || "Failed to update admin note",
         variant: "destructive"
       });
-      throw error; // Re-throwing is fine as it doesn't affect return type
+      // No re-throw, no return
     }
-    // No return statement at the end of the function
+    // No return statement at the end
   };
 
   return { profile, setProfile, loading, updateAdminNote };

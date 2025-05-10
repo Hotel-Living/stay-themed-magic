@@ -7,6 +7,7 @@ import { useUserBookings } from "./user-data/useUserBookings";
 import { useUserFavorites } from "./user-data/useUserFavorites";
 import { useUserThemes } from "./user-data/useUserThemes";
 import { useUserEdit } from "./user-edit/useUserEdit";
+import { useUserHotels } from "./user-data/useUserHotels";
 
 export const useUserDetail = (id: string | undefined) => {
   const [editing, setEditing] = useState(false);
@@ -19,7 +20,13 @@ export const useUserDetail = (id: string | undefined) => {
   // Fetch user-related data
   const { bookings } = useUserBookings(id);
   const { favorites } = useUserFavorites(id);
-  const { themes, userPreferences } = useUserThemes(id);
+  const { themes, userPreferences, totalThemes, page, setPage, hasMore } = useUserThemes(id, {
+    enabled: true,
+    pageSize: 10
+  });
+
+  // Fetch hotel data if user is a hotel owner
+  const { hotels } = useUserHotels(id, profile?.is_hotel_owner);
 
   // Handle user editing
   const { 
@@ -38,11 +45,19 @@ export const useUserDetail = (id: string | undefined) => {
     favorites,
     themes,
     userPreferences,
+    hotels,
     loading,
     editing,
     setEditing,
     editForm,
     setEditForm,
-    handleSaveUserDetails
+    handleSaveUserDetails,
+    themesPagination: {
+      page,
+      totalThemes,
+      hasMore,
+      setPage,
+      pageSize: 10
+    }
   };
 };

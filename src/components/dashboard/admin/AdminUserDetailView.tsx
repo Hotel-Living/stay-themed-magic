@@ -13,6 +13,7 @@ import { FavoritesSection } from "./user-detail/FavoritesSection";
 import { ThemesSection } from "./user-detail/ThemesSection";
 import { UserStatsSection } from "./user-detail/UserStatsSection";
 import { UserAffinitiesSection } from "./user-detail/UserAffinitiesSection";
+import { UserHotelsSection } from "./user-detail/UserHotelsSection";
 import { Button } from "@/components/ui/button";
 import { Edit, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -29,12 +30,14 @@ export default function AdminUserDetailView() {
     favorites,
     themes,
     userPreferences,
+    hotels,
     loading,
     editing,
     setEditing,
     editForm,
     setEditForm,
-    handleSaveUserDetails
+    handleSaveUserDetails,
+    themesPagination
   } = useUserDetail(id);
 
   const handleCancelEdit = () => {
@@ -134,6 +137,13 @@ export default function AdminUserDetailView() {
               />
             </DetailCard>
 
+            {/* User's Hotels - Only shown for hotel owners */}
+            {profile.is_hotel_owner && (
+              <DetailCard title="Hotels Registered">
+                <UserHotelsSection hotels={hotels} loading={loading} />
+              </DetailCard>
+            )}
+
             {/* User Affinities/Themes */}
             <DetailCard title="User Affinities">
               <UserAffinitiesSection themes={themes} userPreferences={userPreferences} />
@@ -154,13 +164,7 @@ export default function AdminUserDetailView() {
               <ThemesSection 
                 themes={themes} 
                 loading={loading}
-                pagination={{
-                  page: 1,
-                  totalThemes: themes.length,
-                  hasMore: false,
-                  setPage: () => {},
-                  pageSize: 10
-                }}
+                pagination={themesPagination}
               />
             </DetailCard>
           </div>

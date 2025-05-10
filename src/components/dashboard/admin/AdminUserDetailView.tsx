@@ -15,7 +15,7 @@ import { UserStatsSection } from "./user-detail/UserStatsSection";
 import { UserAffinitiesSection } from "./user-detail/UserAffinitiesSection";
 import { UserHotelsSection } from "./user-detail/UserHotelsSection";
 import { Button } from "@/components/ui/button";
-import { Edit, Save, X } from "lucide-react";
+import { Edit, Save, X, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDate, formatTimeAgo } from "@/components/dashboard/utils/dateUtils";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +37,9 @@ export default function AdminUserDetailView() {
     editForm,
     setEditForm,
     handleSaveUserDetails,
-    themesPagination
+    themesPagination,
+    isEmailVerified,
+    resendVerificationEmail
   } = useUserDetail(id);
 
   const handleCancelEdit = () => {
@@ -66,6 +68,36 @@ export default function AdminUserDetailView() {
       toast({
         title: "Error",
         description: error.message || "Failed to update user information",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!profile?.email) {
+      toast({
+        title: "Error",
+        description: "User email is not available",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const result = await resendVerificationEmail(profile.email);
+      
+      if (result.success) {
+        toast({
+          title: "Success",
+          description: "Verification email sent successfully",
+        });
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to resend verification email",
         variant: "destructive"
       });
     }
@@ -124,6 +156,25 @@ export default function AdminUserDetailView() {
                 </div>
               )}
             </div>
+            
+            {/* Email Verification Status */}
+            {profile.email && isEmailVerified === false && (
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-gray-50 rounded-md border border-gray-200">
+                <Badge variant="outline" className="text-red-600 border-red-600 whitespace-nowrap">
+                  Email not verified
+                </Badge>
+                <div className="flex-grow text-sm text-gray-600">
+                  User has not verified their email address
+                </div>
+                <Button 
+                  variant="secondary" 
+                  onClick={handleResendVerification}
+                  className="flex items-center gap-2"
+                >
+                  <RefreshCw className="w-4 h-4" /> Resend verification email
+                </Button>
+              </div>
+            )}
             
             {/* User Stats */}
             <UserStatsSection bookings={bookings} favorites={favorites} />

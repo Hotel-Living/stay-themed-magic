@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
 
 interface RequestBody {
-  userId: string;
+  email: string;
 }
 
 const corsHeaders = {
@@ -39,11 +39,11 @@ serve(async (req) => {
       }
     );
     
-    const { userId }: RequestBody = await req.json();
+    const { email }: RequestBody = await req.json();
     
-    if (!userId) {
+    if (!email) {
       return new Response(
-        JSON.stringify({ error: "User ID is required" }),
+        JSON.stringify({ error: "Email is required" }),
         { 
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -51,29 +51,24 @@ serve(async (req) => {
       );
     }
     
-    // Get user data by ID
-    const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+    // Send invitation email
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
     
     if (error) {
       throw error;
     }
     
     return new Response(
-      JSON.stringify({ 
-        email: data.user?.email,
-        last_sign_in_at: data.user?.last_sign_in_at,
-        email_confirmed: data.user?.email_confirmed_at !== null,
-        created_at: data.user?.created_at
-      }),
+      JSON.stringify({ success: true, message: "Verification email sent" }),
       { 
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
   } catch (error) {
-    console.error("Error getting user email:", error);
+    console.error("Error resending verification email:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Failed to get user email" }),
+      JSON.stringify({ error: error.message || "Failed to resend verification email" }),
       { 
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

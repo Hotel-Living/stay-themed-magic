@@ -15,7 +15,7 @@ export const useUserDetail = (id: string | undefined) => {
 
   // Fetch user profile and auth data
   const { profile, loading: profileLoading } = useUserProfile(id);
-  const { authData } = useUserAuth(id);
+  const { authData, isEmailVerified, resendVerificationEmail } = useUserAuth(id);
 
   // Fetch user-related data
   const { bookings } = useUserBookings(id);
@@ -58,6 +58,8 @@ export const useUserDetail = (id: string | undefined) => {
       hasMore,
       setPage,
       pageSize: 10
-    }
+    },
+    isEmailVerified,
+    resendVerificationEmail
   };
 };

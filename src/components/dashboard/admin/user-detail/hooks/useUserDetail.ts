@@ -11,6 +11,7 @@ interface UserAuthDetails {
 
 export const useUserDetail = (id: string | undefined) => {
   const [profile, setProfile] = useState<any>(null);
+  const [authData, setAuthData] = useState<UserAuthDetails | null>(null);
   const [bookings, setBookings] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [themes, setThemes] = useState<any[]>([]);
@@ -41,9 +42,17 @@ export const useUserDetail = (id: string | undefined) => {
 
         if (profileError) throw profileError;
         
-        // Create a copy of the profile data to avoid mutation issues
-        const userData = { ...profileData };
+        setProfile(profileData);
         
+        // Initialize edit form with user data
+        setEditForm({
+          first_name: profileData.first_name || "",
+          last_name: profileData.last_name || "",
+          phone: profileData.phone || "",
+          is_hotel_owner: profileData.is_hotel_owner || false,
+          is_active: profileData.is_active !== false // Default to true if field doesn't exist
+        });
+
         // Separately fetch user's auth details from auth.users using admin function
         try {
           const { data, error: authUserError } = await supabase.rpc(
@@ -54,31 +63,12 @@ export const useUserDetail = (id: string | undefined) => {
           // Validate that data exists and is an object before casting
           if (!authUserError && data && typeof data === 'object' && data !== null) {
             // Now it's safe to cast the data to our interface
-            const authData = data as UserAuthDetails;
-            
-            // Add auth data to profile data without modifying original profile structure
-            if (authData.last_sign_in_at) {
-              userData.last_sign_in_at = authData.last_sign_in_at;
-            }
-            if (authData.email_confirmed_at) {
-              userData.email_confirmed_at = authData.email_confirmed_at;
-            }
+            setAuthData(data as UserAuthDetails);
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);
-          // Continue without last_sign_in_at data
+          // Continue without auth data
         }
-        
-        setProfile(userData);
-        
-        // Initialize edit form with user data
-        setEditForm({
-          first_name: userData.first_name || "",
-          last_name: userData.last_name || "",
-          phone: userData.phone || "",
-          is_hotel_owner: userData.is_hotel_owner || false,
-          is_active: userData.is_active !== false // Default to true if field doesn't exist
-        });
 
         // Fetch user bookings with proper join syntax
         const { data: bookingsData, error: bookingsError } = await supabase
@@ -180,6 +170,7 @@ export const useUserDetail = (id: string | undefined) => {
 
   return {
     profile,
+    authData,
     bookings,
     favorites,
     themes,

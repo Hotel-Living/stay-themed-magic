@@ -22,6 +22,7 @@ export default function AdminUserDetailView() {
   const { toast } = useToast();
   const {
     profile,
+    authData,
     bookings,
     favorites,
     themes,
@@ -104,9 +105,9 @@ export default function AdminUserDetailView() {
               <div>
                 Registered on: {formatDate(profile.created_at)}
               </div>
-              {profile.last_sign_in_at && (
+              {authData && authData.last_sign_in_at && (
                 <div>
-                  Last login: {formatDate(profile.last_sign_in_at)} ({formatTimeAgo(profile.last_sign_in_at)})
+                  Last login: {formatDate(authData.last_sign_in_at)} ({formatTimeAgo(authData.last_sign_in_at)})
                 </div>
               )}
             </div>

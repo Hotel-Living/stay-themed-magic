@@ -6,7 +6,7 @@ import { BookingsFilter } from "./bookings/BookingsFilter";
 import { BookingsPagination } from "./bookings/BookingsPagination";
 import { useBookings } from "./bookings/useBookings";
 import { Button } from "@/components/ui/button";
-import { FileExport } from "lucide-react";
+import { FileText } from "lucide-react";
 import { utils, writeFile } from "xlsx";
 import { format } from "date-fns";
 
@@ -81,7 +81,7 @@ export default function AdminBookingsPanel() {
             disabled={bookings.length === 0 || loading}
             className="flex items-center gap-2"
           >
-            <FileExport className="h-4 w-4" />
+            <FileText className="h-4 w-4" />
             Export to Excel
           </Button>
         </div>

@@ -62,18 +62,14 @@ export default function AdminUserDetailView() {
     markRewardAsUnused
   );
 
-  // Explicitly typed wrapper function that guarantees Promise<void> with no implicit returns
+  // Wrapper with strict void return
   const handleUpdateAdminNote = async (userId: string, note: string): Promise<void> => {
-    if (!updateAdminNote) {
-      return;
-    }
-    
     try {
-      await updateAdminNote(userId, note);
-      // No return statement here - crucial for Promise<void>
+      if (updateAdminNote) {
+        await updateAdminNote(userId, note);
+      }
     } catch (error) {
-      console.error("Error in handleUpdateAdminNote:", error);
-      // No return statement here either - ensures Promise<void>
+      console.error("Failed to update admin note:", error);
     }
   };
 

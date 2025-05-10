@@ -27,8 +27,10 @@ interface HotelOwner {
 
 export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
   const [newOwnerId, setNewOwnerId] = useState<string | null>(hotel.owner_id || null);
+  const [newStatus, setNewStatus] = useState<string>(hotel.status || "pending");
   const [hotelOwners, setHotelOwners] = useState<HotelOwner[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isStatusLoading, setIsStatusLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -91,6 +93,35 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
     }
   };
 
+  const updateStatus = async () => {
+    setIsStatusLoading(true);
+    
+    const { error } = await supabase
+      .from("hotels")
+      .update({ status: newStatus })
+      .eq("id", hotel.id);
+
+    setIsStatusLoading(false);
+
+    if (!error) {
+      toast({
+        title: "Success",
+        description: "Hotel status updated successfully",
+      });
+      
+      // Refetch hotel data if refetch function is provided
+      if (refetch) {
+        await refetch();
+      }
+    } else {
+      toast({
+        title: "Error updating status",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  };
+
   const getOwnerDisplayName = (owner: HotelOwner | undefined) => {
     if (!owner) return "Not assigned";
     
@@ -143,9 +174,32 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
             </Button>
           </div>
         </div>
-        <div>
+        <div className="md:col-span-2">
           <p className="text-sm text-gray-400">Status</p>
-          <p className="font-medium capitalize">{hotel.status}</p>
+          <div className="flex items-center gap-2 mt-1">
+            <div className="flex-grow">
+              <Select value={newStatus} onValueChange={setNewStatus}>
+                <SelectTrigger className="bg-[#4a006c] border-purple-700">
+                  <SelectValue placeholder="Select a status">
+                    {newStatus ? newStatus.charAt(0).toUpperCase() + newStatus.slice(1) : "Pending"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button 
+              onClick={updateStatus} 
+              size="sm" 
+              disabled={isStatusLoading || newStatus === hotel.status}
+            >
+              <Save className="w-4 h-4 mr-1" />
+              Save
+            </Button>
+          </div>
         </div>
         <div>
           <p className="text-sm text-gray-400">Published</p>

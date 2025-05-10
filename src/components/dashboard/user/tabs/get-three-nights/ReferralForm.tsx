@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { referralFormSchema, ReferralFormValues } from "./schema";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import ReferralPreview from "./ReferralPreview";
 
 const ReferralForm = () => {
   const { toast } = useToast();
@@ -86,6 +87,9 @@ const ReferralForm = () => {
   return (
     <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
       <h3 className="text-xl font-semibold mb-6">Refer a Hotel</h3>
+      
+      {/* Preview of message that will be sent to the hotel */}
+      <ReferralPreview />
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

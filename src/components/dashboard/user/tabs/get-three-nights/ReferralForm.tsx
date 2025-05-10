@@ -16,9 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { referralFormSchema, ReferralFormValues } from "./schema";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const ReferralForm = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
   
   // Set up the form
   const form = useForm<ReferralFormValues>({
@@ -33,18 +36,51 @@ const ReferralForm = () => {
   });
 
   // Form submission handler
-  function onSubmit(data: ReferralFormValues) {
-    console.log("Referral form submitted:", data);
+  async function onSubmit(data: ReferralFormValues) {
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to submit a hotel referral.",
+        variant: "destructive",
+      });
+      return;
+    }
     
-    // Here you would typically send the data to your backend
-    // For now, we'll just show a success message
-    
-    toast({
-      title: "Referral submitted!",
-      description: "Thank you for your referral. We'll contact the hotel and notify you of the outcome.",
-    });
-    
-    form.reset();
+    try {
+      // Insert the data into the hotel_referrals table
+      const { error } = await supabase.from("hotel_referrals").insert({
+        user_id: user.id,
+        hotel_name: data.hotelName,
+        contact_name: data.contactName,
+        contact_email: data.contactEmail,
+        contact_phone: data.contactPhone,
+        additional_info: data.additionalInfo,
+      });
+
+      if (error) {
+        console.error("Error submitting hotel referral:", error);
+        toast({
+          title: "Error saving referral",
+          description: error.message || "Failed to submit your referral. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      toast({
+        title: "Referral submitted!",
+        description: "Thank you for your referral. We'll contact the hotel and notify you of the outcome.",
+      });
+      
+      form.reset();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (

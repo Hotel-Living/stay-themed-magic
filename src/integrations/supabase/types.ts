@@ -259,6 +259,39 @@ export type Database = {
           },
         ]
       }
+      hotel_referrals: {
+        Row: {
+          additional_info: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string | null
+          created_at: string | null
+          hotel_name: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          additional_info?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone?: string | null
+          created_at?: string | null
+          hotel_name: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          additional_info?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string | null
+          created_at?: string | null
+          hotel_name?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       hotel_themes: {
         Row: {
           hotel_id: string | null

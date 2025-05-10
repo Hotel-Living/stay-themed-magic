@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 // Define the form validation schema
 const advertisingFormSchema = z.object({
@@ -54,19 +55,55 @@ export default function AdvertisingContent() {
   });
 
   // Form submission handler
-  function onSubmit(data: AdvertisingFormValues) {
-    console.log("Advertising form submitted:", data);
+  async function onSubmit(data: AdvertisingFormValues) {
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to submit a promotion request.",
+        variant: "destructive",
+      });
+      return;
+    }
     
-    toast({
-      title: "Promotion request submitted!",
-      description: "We'll review your request and contact you soon.",
-    });
-    
-    form.reset({
-      ...form.getValues(),
-      availableMonths: [],
-      termsAccepted: false as any, // Use type assertion to bypass the type check
-    });
+    try {
+      // Insert the data into the advertising_requests table
+      const { error } = await supabase.from("advertising_requests").insert({
+        user_id: user.id,
+        contact_name: data.contactName,
+        contact_email: data.contactEmail,
+        available_months: data.availableMonths
+      });
+
+      if (error) {
+        console.error("Error submitting promotion request:", error);
+        toast({
+          title: "Error",
+          description: error.message || "Failed to submit your request. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      toast({
+        title: "Promotion request submitted!",
+        description: "We'll review your request and contact you soon.",
+      });
+      
+      // Reset form fields except for contact information
+      form.reset({
+        contactName: data.contactName,
+        contactEmail: data.contactEmail,
+        availableMonths: [],
+        termsAccepted: false as any,
+      });
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (

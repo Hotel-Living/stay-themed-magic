@@ -45,6 +45,36 @@ export type Database = {
         }
         Relationships: []
       }
+      advertising_requests: {
+        Row: {
+          available_months: string[] | null
+          contact_email: string
+          contact_name: string
+          created_at: string | null
+          id: string
+          terms_accepted: boolean
+          user_id: string | null
+        }
+        Insert: {
+          available_months?: string[] | null
+          contact_email: string
+          contact_name: string
+          created_at?: string | null
+          id?: string
+          terms_accepted?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          available_months?: string[] | null
+          contact_email?: string
+          contact_name?: string
+          created_at?: string | null
+          id?: string
+          terms_accepted?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           check_in: string

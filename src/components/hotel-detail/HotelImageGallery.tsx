@@ -29,7 +29,14 @@ export function HotelImageGallery({ hotelImages, hotelName }: HotelImageGalleryP
         img.image_url.trim() !== '' &&
         !failedImages.has(img.image_url)
       );
-      setProcessedImages(validImages);
+      
+      // Prioritize main image - sort to ensure main image comes first
+      const sortedImages = [
+        ...validImages.filter(img => img.is_main),
+        ...validImages.filter(img => !img.is_main)
+      ];
+      
+      setProcessedImages(sortedImages);
     } else {
       setProcessedImages([]);
     }

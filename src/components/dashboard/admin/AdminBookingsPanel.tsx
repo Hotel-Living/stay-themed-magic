@@ -5,6 +5,10 @@ import { BookingsTable } from "./bookings/BookingsTable";
 import { BookingsFilter } from "./bookings/BookingsFilter";
 import { BookingsPagination } from "./bookings/BookingsPagination";
 import { useBookings } from "./bookings/useBookings";
+import { Button } from "@/components/ui/button";
+import { FileExport } from "lucide-react";
+import { utils, writeFile } from "xlsx";
+import { format } from "date-fns";
 
 export default function AdminBookingsPanel() {
   const {
@@ -32,11 +36,54 @@ export default function AdminBookingsPanel() {
 
   const totalPages = Math.ceil(totalCount / limit);
 
+  // Format dates for display and export
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), "MMM dd, yyyy");
+    } catch (error) {
+      return dateString;
+    }
+  };
+
+  // Format price for display and export
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD',
+      minimumFractionDigits: 0
+    }).format(price);
+  };
+
+  // Function to export filtered bookings to CSV/Excel
+  const exportToExcel = () => {
+    const rows = bookings.map(booking => ({
+      'Hotel': booking.hotel?.name || 'Unknown Hotel',
+      'Guest': `${booking.user?.first_name || ''} ${booking.user?.last_name || ''}`,
+      'Check-in': formatDate(booking.check_in),
+      'Check-out': formatDate(booking.check_out),
+      'Total Price': formatPrice(booking.total_price),
+      'Status': booking.status
+    }));
+
+    const worksheet = utils.json_to_sheet(rows);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Bookings");
+    writeFile(workbook, `bookings_export_${new Date().toISOString().split('T')[0]}.xlsx`);
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Bookings Management</h2>
+          <Button 
+            onClick={exportToExcel} 
+            disabled={bookings.length === 0 || loading}
+            className="flex items-center gap-2"
+          >
+            <FileExport className="h-4 w-4" />
+            Export to Excel
+          </Button>
         </div>
 
         {/* Enhanced search and filter controls */}

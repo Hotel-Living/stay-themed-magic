@@ -47,17 +47,22 @@ export const useUserDetail = (id: string | undefined) => {
         // Separately fetch user's auth details from auth.users using admin function
         try {
           const { data, error: authUserError } = await supabase.rpc(
-            'get_user_auth_details',
+            "get_user_auth_details",
             { user_id: id }
           );
           
-          if (!authUserError && data) {
-            // Cast the JSON response to our interface
+          // Validate that data exists and is an object before casting
+          if (!authUserError && data && typeof data === 'object' && data !== null) {
+            // Now it's safe to cast the data to our interface
             const authData = data as UserAuthDetails;
             
             // Add auth data to profile data without modifying original profile structure
-            userData.last_sign_in_at = authData.last_sign_in_at;
-            userData.email_confirmed_at = authData.email_confirmed_at;
+            if (authData.last_sign_in_at) {
+              userData.last_sign_in_at = authData.last_sign_in_at;
+            }
+            if (authData.email_confirmed_at) {
+              userData.email_confirmed_at = authData.email_confirmed_at;
+            }
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);

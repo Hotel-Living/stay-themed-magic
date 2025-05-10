@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -7,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { filter, table, calendar } from "lucide-react";
+import { Filter, Table as TableIcon, Calendar } from "lucide-react";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 import {
   Pagination,
@@ -243,7 +242,7 @@ export default function AdminBookingsPanel() {
             </Table>
           ) : (
             <div className="text-center py-10">
-              <calendar className="mx-auto h-12 w-12 text-muted-foreground" />
+              <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
               <h3 className="mt-2 text-lg font-medium">No bookings found</h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 {searchTerm || statusFilter !== 'all' 

@@ -41,35 +41,38 @@ export const useUserDetail = (id: string | undefined) => {
 
         if (profileError) throw profileError;
         
-        // Fetch user's last_sign_in_at from auth.users using admin function
+        // Create a copy of the profile data to avoid mutation issues
+        const userData = { ...profileData };
+        
+        // Separately fetch user's auth details from auth.users using admin function
         try {
-          const { data: authUserData, error: authUserError } = await supabase.rpc(
+          const { data, error: authUserError } = await supabase.rpc(
             'get_user_auth_details',
             { user_id: id }
           );
           
-          if (!authUserError && authUserData) {
+          if (!authUserError && data) {
             // Cast the JSON response to our interface
-            const authData = authUserData as UserAuthDetails;
+            const authData = data as UserAuthDetails;
             
-            // Combine auth user data with profile data
-            profileData.last_sign_in_at = authData.last_sign_in_at;
-            profileData.email_confirmed_at = authData.email_confirmed_at;
+            // Add auth data to profile data without modifying original profile structure
+            userData.last_sign_in_at = authData.last_sign_in_at;
+            userData.email_confirmed_at = authData.email_confirmed_at;
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);
           // Continue without last_sign_in_at data
         }
         
-        setProfile(profileData);
+        setProfile(userData);
         
         // Initialize edit form with user data
         setEditForm({
-          first_name: profileData.first_name || "",
-          last_name: profileData.last_name || "",
-          phone: profileData.phone || "",
-          is_hotel_owner: profileData.is_hotel_owner || false,
-          is_active: profileData.is_active !== false // Default to true if field doesn't exist
+          first_name: userData.first_name || "",
+          last_name: userData.last_name || "",
+          phone: userData.phone || "",
+          is_hotel_owner: userData.is_hotel_owner || false,
+          is_active: userData.is_active !== false // Default to true if field doesn't exist
         });
 
         // Fetch user bookings with proper join syntax

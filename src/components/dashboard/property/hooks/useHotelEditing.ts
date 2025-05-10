@@ -119,8 +119,8 @@ export const useHotelEditing = ({
         console.log("Mapped uploaded images:", uploadedImages);
 
         // Build pricingMatrix from rates if it doesn't exist
-        let pricingMatrix = hotel.pricingMatrix || [];
-        if (!hotel.pricingMatrix && hotel.rates) {
+        let pricingMatrix = (hotel as any).pricingMatrix || [];
+        if (!(hotel as any).pricingMatrix && hotel.rates) {
           pricingMatrix = Object.entries(hotel.rates).map(([key, value]) => {
             const parts = key.split('-');
             if (parts.length === 3) {
@@ -132,7 +132,7 @@ export const useHotelEditing = ({
               };
             }
             return null;
-          }).filter(item => item !== null);
+          }).filter((item): item is any => item !== null);
         }
 
         // Parse hotel data for form
@@ -169,7 +169,10 @@ export const useHotelEditing = ({
           featuresRoom: safeFeatureConversion(hotel.features_room),
           available_months: hotel.available_months || [],
           rates: safeRatesConversion(hotel.rates),
-          pricingMatrix: pricingMatrix
+          pricingMatrix: pricingMatrix,
+          currency: (hotel as any).currency || "USD",
+          enablePriceIncrease: (hotel as any).enablePriceIncrease || false,
+          priceIncreaseCap: (hotel as any).priceIncreaseCap || 20
         });
         
         console.log("Set form data for editing");

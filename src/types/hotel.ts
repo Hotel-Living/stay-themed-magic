@@ -95,6 +95,12 @@ export interface AdminHotelDetail {
   priceIncreaseCap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
+  pricingMatrix?: Array<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+  }>;
   
   // Add the following fields to fix TypeScript errors
   status?: string;
@@ -148,6 +154,12 @@ export interface HotelDetailProps {
   priceIncreaseCap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
+  pricingMatrix?: Array<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+  }>;
 }
 
 // Update AmenitiesInfo to FeaturesInfo

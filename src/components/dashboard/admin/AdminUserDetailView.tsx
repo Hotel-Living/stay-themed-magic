@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
@@ -149,9 +148,12 @@ export default function AdminUserDetailView() {
               <FavoritesSection favorites={favorites} />
             </DetailCard>
 
-            {/* Preferred Themes */}
+            {/* Preferred Themes - Updated with pagination */}
             <DetailCard title="Preferred Affinities/Themes">
-              <ThemesSection themes={themes} />
+              <ThemesSection 
+                themes={themes} 
+                loading={loading}
+              />
             </DetailCard>
           </div>
         ) : (

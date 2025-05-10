@@ -32,10 +32,14 @@ export const useUserDetail = (id: string | undefined) => {
   const { reports } = useUserReports(id);
   const { totalSpent, formattedTotal } = useUserTotalSpent(id);
   const { 
-    freeNightsCount, 
+    freeNightsCount,
+    usedFreeNights,
+    remainingFreeNights,
     rewards,
     isGranting,
     grantFreeNight,
+    markRewardAsUsed,
+    markRewardAsUnused,
     removeFreeNight 
   } = useUserRewards(id);
   const { referrals } = useUserReferrals(id);
@@ -85,9 +89,13 @@ export const useUserDetail = (id: string | undefined) => {
     totalSpent,
     formattedTotal,
     freeNightsCount,
+    usedFreeNights,
+    remainingFreeNights,
     rewards,
     isGranting,
     grantFreeNight,
+    markRewardAsUsed,
+    markRewardAsUnused,
     removeFreeNight,
     isAdmin: isCurrentUserAdmin,
     referrals

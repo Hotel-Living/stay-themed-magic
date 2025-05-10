@@ -1,25 +1,33 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus, Trash2 } from "lucide-react";
+import { Plus, Minus, Trash2, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface FreeNightsCardProps {
   freeNightsCount: number;
+  usedFreeNights?: number;
+  remainingFreeNights?: number;
   rewards?: any[];
   isAdmin?: boolean;
   isGranting?: boolean;
   onGrant?: (quantity: number) => Promise<void>;
   onRemove?: (rewardId: string) => Promise<void>;
+  onMarkUsed?: (rewardId: string) => Promise<void>;
+  onMarkUnused?: (rewardId: string) => Promise<void>;
 }
 
 export const FreeNightsCard: React.FC<FreeNightsCardProps> = ({ 
   freeNightsCount, 
+  usedFreeNights = 0,
+  remainingFreeNights = 0,
   rewards = [], 
   isAdmin = false,
   isGranting = false,
   onGrant,
-  onRemove
+  onRemove,
+  onMarkUsed,
+  onMarkUnused
 }) => {
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
@@ -51,15 +59,49 @@ export const FreeNightsCard: React.FC<FreeNightsCardProps> = ({
       console.error("Error in remove handler:", error);
     }
   };
+
+  const handleMarkUsedClick = async (rewardId: string) => {
+    if (!onMarkUsed) return;
+    
+    try {
+      await onMarkUsed(rewardId);
+    } catch (error) {
+      console.error("Error in mark used handler:", error);
+    }
+  };
+
+  const handleMarkUnusedClick = async (rewardId: string) => {
+    if (!onMarkUnused) return;
+    
+    try {
+      await onMarkUnused(rewardId);
+    } catch (error) {
+      console.error("Error in mark unused handler:", error);
+    }
+  };
   
   // If there are no free nights and we're not an admin, don't show anything
   if (freeNightsCount === 0 && !isAdmin) return null;
   
   return (
     <div className="mt-4 p-4 bg-indigo-50 rounded-md border border-indigo-200">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-indigo-800">Free nights redeemed:</span>
-        <span className="text-lg font-bold text-indigo-700">{freeNightsCount}</span>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-indigo-800">Free nights total:</span>
+          <span className="text-lg font-bold text-indigo-700">{freeNightsCount}</span>
+        </div>
+        
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-indigo-700">Used:</span>
+            <span className="font-medium text-indigo-700">{usedFreeNights}</span>
+          </div>
+          
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-indigo-700">Remaining:</span>
+            <span className="font-semibold text-indigo-700">{remainingFreeNights}</span>
+          </div>
+        </div>
       </div>
       
       {isAdmin && (
@@ -103,7 +145,7 @@ export const FreeNightsCard: React.FC<FreeNightsCardProps> = ({
               </Button>
             </div>
             
-            {/* Rewards list with remove option */}
+            {/* Rewards list with status and actions */}
             {rewards.length > 0 && (
               <div className="mt-2">
                 <div className="text-xs text-indigo-600 font-medium mb-1">Reward History</div>
@@ -116,16 +158,45 @@ export const FreeNightsCard: React.FC<FreeNightsCardProps> = ({
                         <span className="text-slate-400 ml-1">
                           ({new Date(reward.created_at).toLocaleDateString()})
                         </span>
+                        <span className={`ml-2 px-1.5 py-0.5 text-xs rounded ${reward.is_used ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}`}>
+                          {reward.is_used ? 'Used' : 'Available'}
+                        </span>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleRemoveClick(reward.id)}
-                        disabled={isGranting}
-                        className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
+                      <div className="flex items-center space-x-1">
+                        {reward.is_used ? (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleMarkUnusedClick(reward.id)}
+                            disabled={isGranting}
+                            className="h-6 w-6 p-0 text-amber-500 hover:text-amber-700"
+                            title="Mark as unused"
+                          >
+                            <XCircle className="h-3 w-3" />
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleMarkUsedClick(reward.id)}
+                            disabled={isGranting}
+                            className="h-6 w-6 p-0 text-green-500 hover:text-green-700"
+                            title="Mark as used"
+                          >
+                            <CheckCircle className="h-3 w-3" />
+                          </Button>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleRemoveClick(reward.id)}
+                          disabled={isGranting}
+                          className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                          title="Remove reward"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </li>
                   ))}
                 </ul>

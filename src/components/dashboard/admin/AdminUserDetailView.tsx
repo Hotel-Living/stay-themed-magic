@@ -35,9 +35,13 @@ export default function AdminUserDetailView() {
     resendVerificationEmail,
     formattedTotal,
     freeNightsCount,
+    usedFreeNights,
+    remainingFreeNights,
     rewards,
     isGranting,
     grantFreeNight,
+    markRewardAsUsed,
+    markRewardAsUnused,
     removeFreeNight,
     isAdmin
   } = useUserDetail(id);
@@ -127,6 +131,30 @@ export default function AdminUserDetailView() {
     }
   };
 
+  const handleMarkRewardAsUsed = async (rewardId: string) => {
+    try {
+      await markRewardAsUsed(rewardId);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to mark reward as used",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleMarkRewardAsUnused = async (rewardId: string) => {
+    try {
+      await markRewardAsUnused(rewardId);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to mark reward as unused",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
@@ -161,10 +189,14 @@ export default function AdminUserDetailView() {
             isEmailVerified={isEmailVerified}
             formattedTotal={formattedTotal}
             freeNightsCount={freeNightsCount}
+            usedFreeNights={usedFreeNights}
+            remainingFreeNights={remainingFreeNights}
             rewards={rewards}
             isGranting={isGranting}
             onGrantFreeNight={handleGrantFreeNight}
             onRemoveFreeNight={handleRemoveFreeNight}
+            onMarkRewardAsUsed={handleMarkRewardAsUsed}
+            onMarkRewardAsUnused={handleMarkRewardAsUnused}
             isAdmin={isAdmin}
             handleResendVerification={handleResendVerification}
           />

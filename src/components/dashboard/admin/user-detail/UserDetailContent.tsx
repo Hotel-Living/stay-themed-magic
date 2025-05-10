@@ -35,11 +35,15 @@ interface UserDetailContentProps {
   isEmailVerified: boolean | undefined;
   formattedTotal: string;
   freeNightsCount: number;
+  usedFreeNights: number;
+  remainingFreeNights: number;
   rewards?: any[];
   isGranting?: boolean;
   isAdmin?: boolean;
   onGrantFreeNight?: (quantity: number) => Promise<void>;
   onRemoveFreeNight?: (rewardId: string) => Promise<void>;
+  onMarkRewardAsUsed?: (rewardId: string) => Promise<void>;
+  onMarkRewardAsUnused?: (rewardId: string) => Promise<void>;
   handleResendVerification: () => Promise<void>;
 }
 
@@ -61,11 +65,15 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   isEmailVerified,
   formattedTotal,
   freeNightsCount,
+  usedFreeNights = 0,
+  remainingFreeNights = 0,
   rewards = [],
   isGranting = false,
   isAdmin = false,
   onGrantFreeNight,
   onRemoveFreeNight,
+  onMarkRewardAsUsed,
+  onMarkRewardAsUnused,
   handleResendVerification
 }) => {
   return (
@@ -93,11 +101,15 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
       {/* Free Nights Redeemed */}
       <FreeNightsCard 
         freeNightsCount={freeNightsCount}
+        usedFreeNights={usedFreeNights}
+        remainingFreeNights={remainingFreeNights}
         rewards={rewards}
         isAdmin={isAdmin}
         isGranting={isGranting}
         onGrant={onGrantFreeNight}
         onRemove={onRemoveFreeNight}
+        onMarkUsed={onMarkRewardAsUsed}
+        onMarkUnused={onMarkRewardAsUnused}
       />
       
       {/* User Reports Section */}

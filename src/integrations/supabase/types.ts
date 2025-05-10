@@ -763,30 +763,39 @@ export type Database = {
       }
       user_rewards: {
         Row: {
+          booking_id: string | null
           created_at: string
           id: string
+          is_used: boolean | null
           quantity: number
           reward_type: string
           source: string
           updated_at: string
+          used_at: string | null
           user_id: string
         }
         Insert: {
+          booking_id?: string | null
           created_at?: string
           id?: string
+          is_used?: boolean | null
           quantity?: number
           reward_type: string
           source: string
           updated_at?: string
+          used_at?: string | null
           user_id: string
         }
         Update: {
+          booking_id?: string | null
           created_at?: string
           id?: string
+          is_used?: boolean | null
           quantity?: number
           reward_type?: string
           source?: string
           updated_at?: string
+          used_at?: string | null
           user_id?: string
         }
         Relationships: []

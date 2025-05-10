@@ -109,7 +109,7 @@ export const useUserDetail = (id: string | undefined) => {
         // Fetch user preferences with themes
         const { data: prefsData, error: prefsError } = await supabase
           .from("user_preferences")
-          .select("affinities")
+          .select("favorite_themes")
           .eq("user_id", id)
           .single();
         
@@ -118,14 +118,14 @@ export const useUserDetail = (id: string | undefined) => {
         }
         
         // Set preferences even if empty, for UI display
-        setUserPreferences(prefsData || { affinities: [] });
+        setUserPreferences(prefsData || { favorite_themes: [] });
 
-        if (prefsData && prefsData.affinities && prefsData.affinities.length > 0) {
+        if (prefsData && prefsData.favorite_themes && prefsData.favorite_themes.length > 0) {
           // Fetch theme names based on IDs
           const { data: themesData, error: themesError } = await supabase
             .from("themes")
             .select("id, name")
-            .in("id", prefsData.affinities);
+            .in("id", prefsData.favorite_themes);
 
           if (themesError) throw themesError;
           setThemes(themesData || []);

@@ -26,9 +26,9 @@ export const UserAffinitiesSection: React.FC<UserAffinitiesSectionProps> = ({ th
         <p className="text-sm text-gray-400">No affinities selected.</p>
       )}
       
-      {userPreferences && userPreferences.affinities && userPreferences.affinities.length > 0 && themes.length === 0 && (
+      {userPreferences && userPreferences.favorite_themes && userPreferences.favorite_themes.length > 0 && themes.length === 0 && (
         <p className="text-sm text-amber-500">
-          User has {userPreferences.affinities.length} theme IDs that couldn't be matched to existing themes.
+          User has {userPreferences.favorite_themes.length} theme IDs that couldn't be matched to existing themes.
         </p>
       )}
     </div>

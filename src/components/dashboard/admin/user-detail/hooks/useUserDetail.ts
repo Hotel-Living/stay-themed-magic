@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+interface UserAuthDetails {
+  last_sign_in_at?: string;
+  created_at?: string;
+  email_confirmed_at?: string;
+}
+
 export const useUserDetail = (id: string | undefined) => {
   const [profile, setProfile] = useState<any>(null);
   const [bookings, setBookings] = useState<any[]>([]);
@@ -37,7 +43,7 @@ export const useUserDetail = (id: string | undefined) => {
         
         // Fetch user's last_sign_in_at from auth.users using admin function
         try {
-          const { data: authUserData, error: authUserError } = await supabase.rpc(
+          const { data: authUserData, error: authUserError } = await supabase.rpc<UserAuthDetails>(
             'get_user_auth_details',
             { user_id: id }
           );
@@ -45,6 +51,7 @@ export const useUserDetail = (id: string | undefined) => {
           if (!authUserError && authUserData) {
             // Combine auth user data with profile data
             profileData.last_sign_in_at = authUserData.last_sign_in_at;
+            profileData.email_confirmed_at = authUserData.email_confirmed_at;
           }
         } catch (authError) {
           console.error("Error fetching auth user data:", authError);

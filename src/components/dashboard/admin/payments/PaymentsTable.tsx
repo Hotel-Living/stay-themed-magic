@@ -84,9 +84,6 @@ export const PaymentsTable: React.FC<PaymentsTableProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead {...getSortableHeaderProps("guest")}>
-              Guest {renderSortIcon("guest")}
-            </TableHead>
             <TableHead {...getSortableHeaderProps("hotel")}>
               Hotel {renderSortIcon("hotel")}
             </TableHead>
@@ -107,9 +104,6 @@ export const PaymentsTable: React.FC<PaymentsTableProps> = ({
         <TableBody>
           {payments.map((payment) => (
             <TableRow key={payment.id}>
-              <TableCell>
-                {payment.user?.first_name} {payment.user?.last_name}
-              </TableCell>
               <TableCell>{payment.hotel?.name || "Unknown Hotel"}</TableCell>
               <TableCell>{formatAmount(payment.amount)}</TableCell>
               <TableCell className="capitalize">{payment.method}</TableCell>

@@ -38,13 +38,26 @@ export const usePayments = () => {
       // Start building the query
       let query = supabase
         .from('payments')
-        .select('*, user:profiles(first_name, last_name), hotel:hotels(name), booking:bookings(check_in, check_out)', { 
+        .select(`
+          id,
+          booking_id,
+          user_id,
+          hotel_id,
+          amount,
+          method,
+          status,
+          transaction_id,
+          created_at,
+          updated_at,
+          hotel:hotels(name),
+          booking:bookings(check_in, check_out)
+        `, { 
           count: 'exact' 
         });
       
       // Apply filters
       if (searchTerm) {
-        query = query.or(`user.first_name.ilike.%${searchTerm}%,user.last_name.ilike.%${searchTerm}%,hotel.name.ilike.%${searchTerm}%`);
+        query = query.or(`hotel.name.ilike.%${searchTerm}%`);
       }
       
       if (statusFilter !== 'all') {

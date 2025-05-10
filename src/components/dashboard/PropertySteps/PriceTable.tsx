@@ -13,8 +13,16 @@ export default function PriceTable({
   stayDurations
 }: PriceTableProps) {
   // Don't render if there are no valid inputs
-  if (!roomType || !mealTypes?.length || !stayDurations?.length) {
-    return null;
+  if (
+    !roomType ||
+    !Array.isArray(mealTypes) || mealTypes.length === 0 ||
+    !Array.isArray(stayDurations) || stayDurations.length === 0
+  ) {
+    return (
+      <div className="text-yellow-300 text-sm bg-fuchsia-950/30 p-3 rounded-lg">
+        Please define at least one room type, one meal plan, and one stay duration before setting prices.
+      </div>
+    );
   }
   
   return <div className="mb-6 overflow-x-auto">

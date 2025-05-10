@@ -1,12 +1,13 @@
 
 import React from "react";
-import { Clock } from "lucide-react";
+import { Clock, ExternalLink } from "lucide-react";
 import { AdminHotelDetail } from "@/types/hotel";
 import { useHotelOwners } from "./hooks/useHotelOwners";
 import { useBookingsCount } from "./hooks/useBookingsCount";
 import { OwnerSelector } from "./components/OwnerSelector";
 import { StatusSelector } from "./components/StatusSelector";
 import { AdminInfoDetails } from "./components/AdminInfoDetails";
+import { Button } from "@/components/ui/button";
 
 interface AdminInfoProps {
   hotel: AdminHotelDetail;
@@ -56,6 +57,19 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
           />
         </div>
         <AdminInfoDetails hotel={hotel} totalBookings={totalBookings} />
+        
+        {/* Add view as visitor button */}
+        <div className="md:col-span-2 mt-4 flex justify-center">
+          <a
+            href={`/hotel/${hotel.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#3a0052] hover:bg-[#4a0062] text-white rounded-md transition-colors"
+          >
+            <ExternalLink className="h-4 w-4" />
+            View as visitor
+          </a>
+        </div>
       </div>
     </div>
   );

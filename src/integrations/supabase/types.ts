@@ -563,6 +563,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          admin_note: string | null
           avatar_url: string | null
           created_at: string
           email_verified: boolean
@@ -576,6 +577,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          admin_note?: string | null
           avatar_url?: string | null
           created_at?: string
           email_verified?: boolean
@@ -589,6 +591,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          admin_note?: string | null
           avatar_url?: string | null
           created_at?: string
           email_verified?: boolean
@@ -605,10 +608,13 @@ export type Database = {
       }
       reviews: {
         Row: {
+          admin_note: string | null
           comment: string | null
           created_at: string
           hotel_id: string | null
           id: string
+          is_flagged: boolean | null
+          is_hidden: boolean | null
           is_notified: boolean | null
           rating: number
           response_text: string | null
@@ -616,10 +622,13 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          admin_note?: string | null
           comment?: string | null
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_flagged?: boolean | null
+          is_hidden?: boolean | null
           is_notified?: boolean | null
           rating: number
           response_text?: string | null
@@ -627,10 +636,13 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          admin_note?: string | null
           comment?: string | null
           created_at?: string
           hotel_id?: string | null
           id?: string
+          is_flagged?: boolean | null
+          is_hidden?: boolean | null
           is_notified?: boolean | null
           rating?: number
           response_text?: string | null
@@ -751,6 +763,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_rewards: {
+        Row: {
+          booking_id: string | null
+          created_at: string
+          id: string
+          is_used: boolean | null
+          quantity: number
+          reward_type: string
+          source: string
+          updated_at: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          is_used?: boolean | null
+          quantity?: number
+          reward_type: string
+          source: string
+          updated_at?: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          is_used?: boolean | null
+          quantity?: number
+          reward_type?: string
+          source?: string
+          updated_at?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {

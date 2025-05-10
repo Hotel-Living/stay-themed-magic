@@ -51,7 +51,7 @@ export default function AdminUserDetailView() {
     setEditing(false);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     try {
       await handleSaveUserDetails();
       toast({

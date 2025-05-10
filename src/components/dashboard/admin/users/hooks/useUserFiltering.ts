@@ -1,62 +1,35 @@
 
-import { useState } from "react";
-import { User } from "./useUserData";
+import { useState, useMemo } from "react";
+import type { User } from "./useUserData";
 
 export function useUserFiltering(users: User[]) {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
 
-  const filteredUsers = users.filter(user => {
-    // Global search across multiple fields
-    const searchText = searchTerm.toLowerCase();
-    const firstName = user.first_name?.toLowerCase() || "";
-    const lastName = user.last_name?.toLowerCase() || "";
-    const fullName = `${firstName} ${lastName}`.toLowerCase();
-    const email = user.email?.toLowerCase() || "";
-    const userId = user.id?.toLowerCase() || "";
-    const userType = user.is_hotel_owner ? "hotel owner" : "user";
-    const role = user.role?.toLowerCase() || "";
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => {
+      // Role filtering
+      if (roleFilter !== "all") {
+        if (roleFilter === "owner" && !user.is_hotel_owner) return false;
+        if (roleFilter === "guest" && user.is_hotel_owner) return false;
+      }
 
-    // Check hotel-related fields if the user has hotels data
-    let hotelMatches = false;
-    if (user.hotels && Array.isArray(user.hotels)) {
-      hotelMatches = user.hotels.some((hotel: any) => 
-        (hotel.name?.toLowerCase() || "").includes(searchText) ||
-        (hotel.city?.toLowerCase() || "").includes(searchText)
+      // Search filtering
+      if (searchTerm.trim() === "") return true;
+      
+      const query = searchTerm.toLowerCase().trim();
+      
+      return (
+        user.first_name?.toLowerCase().includes(query) ||
+        user.last_name?.toLowerCase().includes(query) ||
+        user.email?.toLowerCase().includes(query) ||
+        user.id?.toLowerCase().includes(query) ||
+        (user.hotels && user.hotels.name?.toLowerCase().includes(query)) ||
+        (user.hotels && user.hotels.city?.toLowerCase().includes(query)) ||
+        (user.is_hotel_owner ? "hotel owner" : "user").includes(query)
       );
-    } else if (user.hotels) {
-      // Single hotel object
-      hotelMatches = 
-        (user.hotels.name?.toLowerCase() || "").includes(searchText) ||
-        (user.hotels.city?.toLowerCase() || "").includes(searchText);
-    }
+    });
+  }, [users, searchTerm, roleFilter]);
 
-    // Combined search across all fields
-    const matchesSearch = 
-      searchTerm === "" || 
-      firstName.includes(searchText) ||
-      lastName.includes(searchText) ||
-      fullName.includes(searchText) ||
-      email.includes(searchText) ||
-      userId.includes(searchText) ||
-      userType.includes(searchText) ||
-      role.includes(searchText) ||
-      hotelMatches;
-
-    // Apply role filter after search
-    const matchesRole =
-      roleFilter === "all" ||
-      (roleFilter === "owner" && user.is_hotel_owner) ||
-      (roleFilter === "guest" && !user.is_hotel_owner);
-
-    return matchesSearch && matchesRole;
-  });
-
-  return {
-    searchTerm,
-    setSearchTerm,
-    roleFilter,
-    setRoleFilter,
-    filteredUsers
-  };
+  return { searchTerm, setSearchTerm, roleFilter, setRoleFilter, filteredUsers };
 }

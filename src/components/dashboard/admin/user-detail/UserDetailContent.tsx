@@ -35,6 +35,11 @@ interface UserDetailContentProps {
   isEmailVerified: boolean | undefined;
   formattedTotal: string;
   freeNightsCount: number;
+  rewards?: any[];
+  isGranting?: boolean;
+  isAdmin?: boolean;
+  onGrantFreeNight?: (quantity: number) => Promise<void>;
+  onRemoveFreeNight?: (rewardId: string) => Promise<void>;
   handleResendVerification: () => Promise<void>;
 }
 
@@ -56,6 +61,11 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   isEmailVerified,
   formattedTotal,
   freeNightsCount,
+  rewards = [],
+  isGranting = false,
+  isAdmin = false,
+  onGrantFreeNight,
+  onRemoveFreeNight,
   handleResendVerification
 }) => {
   return (
@@ -81,7 +91,14 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
       <TotalSpentCard formattedTotal={formattedTotal} />
       
       {/* Free Nights Redeemed */}
-      <FreeNightsCard freeNightsCount={freeNightsCount} />
+      <FreeNightsCard 
+        freeNightsCount={freeNightsCount}
+        rewards={rewards}
+        isAdmin={isAdmin}
+        isGranting={isGranting}
+        onGrant={onGrantFreeNight}
+        onRemove={onRemoveFreeNight}
+      />
       
       {/* User Reports Section */}
       {reports && reports.length > 0 && (

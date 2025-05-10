@@ -31,7 +31,13 @@ export const useUserDetail = (id: string | undefined) => {
   });
   const { reports } = useUserReports(id);
   const { totalSpent, formattedTotal } = useUserTotalSpent(id);
-  const { freeNightsCount } = useUserRewards(id);
+  const { 
+    freeNightsCount, 
+    rewards,
+    isGranting,
+    grantFreeNight,
+    removeFreeNight 
+  } = useUserRewards(id);
   const { referrals } = useUserReferrals(id);
   const { reviews } = useUserReviews(id);
 
@@ -47,6 +53,9 @@ export const useUserDetail = (id: string | undefined) => {
 
   // Determine overall loading state
   const loading = profileLoading;
+
+  // Check if the current user is an admin (for UI controls)
+  const isCurrentUserAdmin = true; // In admin view, always true
 
   return {
     profile,
@@ -76,6 +85,11 @@ export const useUserDetail = (id: string | undefined) => {
     totalSpent,
     formattedTotal,
     freeNightsCount,
+    rewards,
+    isGranting,
+    grantFreeNight,
+    removeFreeNight,
+    isAdmin: isCurrentUserAdmin,
     referrals
   };
 };

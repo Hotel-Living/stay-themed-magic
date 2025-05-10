@@ -7,54 +7,122 @@ export const useUserRewards = (userId: string | undefined) => {
   const [rewards, setRewards] = useState<any[]>([]);
   const [freeNightsCount, setFreeNightsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isGranting, setIsGranting] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchUserRewards = async () => {
-      if (!userId) {
-        setLoading(false);
-        return;
-      }
+  const fetchUserRewards = async () => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+    
+    try {
+      const { data, error } = await supabase
+        .from("user_rewards")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("reward_type", "free_night");
       
-      try {
-        // For now, since there's no user_rewards table, we'll use a mock implementation
-        // In a real implementation, this would be a query to the user_rewards table
-        
-        // Mock implementation - replace with actual query when table exists
-        /*
-        const { data, error } = await supabase
-          .from("user_rewards")
-          .select("*")
-          .eq("user_id", userId)
-          .eq("status", "redeemed");
-        
-        if (error) throw error;
-        
-        const freeNights = data.filter(reward => reward.reward_type === 'free_night').length;
-        setRewards(data);
-        setFreeNightsCount(freeNights);
-        */
-        
-        // Mock data for demo purposes
-        const mockRewards = [];
-        // This would be replaced with actual database data
-        setRewards(mockRewards);
-        setFreeNightsCount(0); // Default to 0 redeemed free nights
-        
-      } catch (error: any) {
-        console.error("Error fetching user rewards:", error);
-        toast({
-          title: "Error",
-          description: "Failed to fetch user rewards information",
-          variant: "destructive"
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
+      if (error) throw error;
+      
+      // Calculate total free nights by summing the quantity field
+      const totalFreeNights = data?.reduce((sum, reward) => sum + (reward.quantity || 1), 0) || 0;
+      
+      setRewards(data || []);
+      setFreeNightsCount(totalFreeNights);
+      
+    } catch (error: any) {
+      console.error("Error fetching user rewards:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch user rewards information",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const grantFreeNight = async (quantity: number = 1) => {
+    if (!userId) return;
+    
+    try {
+      setIsGranting(true);
+      
+      // Insert new reward record
+      const { error } = await supabase
+        .from("user_rewards")
+        .insert({
+          user_id: userId,
+          reward_type: "free_night",
+          source: "manual_admin",
+          quantity
+        });
+        
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: `Successfully granted ${quantity} free night${quantity !== 1 ? 's' : ''} to the user.`,
+      });
+      
+      // Refresh rewards data
+      await fetchUserRewards();
+      
+    } catch (error: any) {
+      console.error("Error granting free night:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to grant free night",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGranting(false);
+    }
+  };
+
+  const removeFreeNight = async (rewardId: string) => {
+    try {
+      setIsGranting(true);
+      
+      const { error } = await supabase
+        .from("user_rewards")
+        .delete()
+        .eq("id", rewardId);
+        
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Successfully removed the free night reward.",
+      });
+      
+      // Refresh rewards data
+      await fetchUserRewards();
+      
+    } catch (error: any) {
+      console.error("Error removing free night:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to remove free night",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGranting(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUserRewards();
   }, [userId, toast]);
 
-  return { rewards, freeNightsCount, loading };
+  return { 
+    rewards, 
+    freeNightsCount, 
+    loading, 
+    isGranting,
+    grantFreeNight,
+    removeFreeNight,
+    refreshRewards: fetchUserRewards
+  };
 };

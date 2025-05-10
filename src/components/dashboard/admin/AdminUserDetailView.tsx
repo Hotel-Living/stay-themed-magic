@@ -34,7 +34,12 @@ export default function AdminUserDetailView() {
     isEmailVerified,
     resendVerificationEmail,
     formattedTotal,
-    freeNightsCount
+    freeNightsCount,
+    rewards,
+    isGranting,
+    grantFreeNight,
+    removeFreeNight,
+    isAdmin
   } = useUserDetail(id);
 
   const handleCancelEdit = () => {
@@ -98,6 +103,30 @@ export default function AdminUserDetailView() {
     }
   };
 
+  const handleGrantFreeNight = async (quantity: number) => {
+    try {
+      await grantFreeNight(quantity);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to grant free night",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleRemoveFreeNight = async (rewardId: string) => {
+    try {
+      await removeFreeNight(rewardId);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to remove free night",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
@@ -132,6 +161,11 @@ export default function AdminUserDetailView() {
             isEmailVerified={isEmailVerified}
             formattedTotal={formattedTotal}
             freeNightsCount={freeNightsCount}
+            rewards={rewards}
+            isGranting={isGranting}
+            onGrantFreeNight={handleGrantFreeNight}
+            onRemoveFreeNight={handleRemoveFreeNight}
+            isAdmin={isAdmin}
             handleResendVerification={handleResendVerification}
           />
         ) : (

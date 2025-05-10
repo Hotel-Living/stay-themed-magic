@@ -47,7 +47,7 @@ export default function AdminUsersPanel() {
         
         const { data, error } = await supabase
           .from('profiles')
-          .select('*')
+          .select('*, hotels(name, city)')
           .range(from, to);
 
         if (error) {
@@ -70,14 +70,48 @@ export default function AdminUsersPanel() {
   }, [page]);
 
   const filteredUsers = users.filter(user => {
+    // Global search across multiple fields
+    const searchText = searchTerm.toLowerCase();
     const firstName = user.first_name?.toLowerCase() || "";
     const lastName = user.last_name?.toLowerCase() || "";
     const fullName = `${firstName} ${lastName}`.toLowerCase();
-    const matchesSearch = fullName.includes(searchTerm.toLowerCase());
+    const email = user.email?.toLowerCase() || "";
+    const userId = user.id?.toLowerCase() || "";
+    const userType = user.is_hotel_owner ? "hotel owner" : "user";
+    const role = user.role?.toLowerCase() || "";
+
+    // Check hotel-related fields if the user has hotels data
+    let hotelMatches = false;
+    if (user.hotels && Array.isArray(user.hotels)) {
+      hotelMatches = user.hotels.some((hotel: any) => 
+        (hotel.name?.toLowerCase() || "").includes(searchText) ||
+        (hotel.city?.toLowerCase() || "").includes(searchText)
+      );
+    } else if (user.hotels) {
+      // Single hotel object
+      hotelMatches = 
+        (user.hotels.name?.toLowerCase() || "").includes(searchText) ||
+        (user.hotels.city?.toLowerCase() || "").includes(searchText);
+    }
+
+    // Combined search across all fields
+    const matchesSearch = 
+      searchTerm === "" || 
+      firstName.includes(searchText) ||
+      lastName.includes(searchText) ||
+      fullName.includes(searchText) ||
+      email.includes(searchText) ||
+      userId.includes(searchText) ||
+      userType.includes(searchText) ||
+      role.includes(searchText) ||
+      hotelMatches;
+
+    // Apply role filter after search
     const matchesRole =
       roleFilter === "all" ||
       (roleFilter === "owner" && user.is_hotel_owner) ||
       (roleFilter === "guest" && !user.is_hotel_owner);
+
     return matchesSearch && matchesRole;
   });
 
@@ -109,7 +143,7 @@ export default function AdminUsersPanel() {
           <div className="relative flex-1">
             <Input
               type="text"
-              placeholder="Search by name"
+              placeholder="Search by name, email, ID, role, hotel name or city..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full"

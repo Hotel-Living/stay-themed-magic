@@ -1,13 +1,107 @@
 
-import React from "react";
-import { Clock } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Clock, Save } from "lucide-react";
 import { AdminHotelDetail } from "@/types/hotel";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 
 interface AdminInfoProps {
   hotel: AdminHotelDetail;
+  refetch?: () => Promise<void>; // Optional refetch function to update data
 }
 
-export function AdminInfo({ hotel }: AdminInfoProps) {
+interface HotelOwner {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+}
+
+export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
+  const [newOwnerId, setNewOwnerId] = useState<string | null>(hotel.owner_id || null);
+  const [hotelOwners, setHotelOwners] = useState<HotelOwner[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchHotelOwners = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, first_name, last_name, email:auth.users!profiles.id(email)")
+        .eq("is_hotel_owner", true)
+        .order("first_name");
+
+      if (error) {
+        console.error("Error fetching hotel owners:", error);
+        toast({
+          title: "Error loading hotel owners",
+          description: error.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Format the data to include the email from the joined table
+      const ownersWithEmail = data.map(owner => ({
+        ...owner,
+        email: owner.email?.[0]?.email || null
+      }));
+
+      setHotelOwners(ownersWithEmail);
+    };
+
+    fetchHotelOwners();
+  }, [toast]);
+
+  const updateOwner = async () => {
+    setIsLoading(true);
+    
+    const { error } = await supabase
+      .from("hotels")
+      .update({ owner_id: newOwnerId })
+      .eq("id", hotel.id);
+
+    setIsLoading(false);
+
+    if (!error) {
+      toast({
+        title: "Success",
+        description: "Hotel owner reassigned successfully",
+      });
+      
+      // Refetch hotel data if refetch function is provided
+      if (refetch) {
+        await refetch();
+      }
+    } else {
+      toast({
+        title: "Error updating owner",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  };
+
+  const getOwnerDisplayName = (owner: HotelOwner | undefined) => {
+    if (!owner) return "Not assigned";
+    
+    const name = [owner.first_name, owner.last_name].filter(Boolean).join(" ");
+    const email = owner.email ? `(${owner.email})` : "";
+    
+    return name ? `${name} ${email}` : email || "Unnamed owner";
+  };
+
+  // Find the current owner in our list
+  const currentOwner = hotelOwners.find(owner => owner.id === hotel.owner_id);
+
   return (
     <div className="rounded-xl p-6 bg-[#5d0083]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
@@ -19,9 +113,35 @@ export function AdminInfo({ hotel }: AdminInfoProps) {
           <p className="text-sm text-gray-400">Hotel ID</p>
           <p className="font-medium font-mono text-xs">{hotel.id}</p>
         </div>
-        <div>
-          <p className="text-sm text-gray-400">Owner ID</p>
-          <p className="font-medium font-mono text-xs">{hotel.owner_id || "Not assigned"}</p>
+        <div className="md:col-span-2">
+          <p className="text-sm text-gray-400">Owner</p>
+          <div className="flex items-center gap-2 mt-1">
+            <div className="flex-grow">
+              <Select value={newOwnerId || ""} onValueChange={setNewOwnerId}>
+                <SelectTrigger className="bg-[#4a006c] border-purple-700">
+                  <SelectValue placeholder="Select an owner">
+                    {newOwnerId ? getOwnerDisplayName(hotelOwners.find(o => o.id === newOwnerId)) : "Not assigned"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  <SelectItem value="">Not assigned</SelectItem>
+                  {hotelOwners.map(owner => (
+                    <SelectItem key={owner.id} value={owner.id}>
+                      {getOwnerDisplayName(owner)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button 
+              onClick={updateOwner} 
+              size="sm" 
+              disabled={isLoading || newOwnerId === hotel.owner_id}
+            >
+              <Save className="w-4 h-4 mr-1" />
+              Save
+            </Button>
+          </div>
         </div>
         <div>
           <p className="text-sm text-gray-400">Status</p>

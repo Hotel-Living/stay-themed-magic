@@ -14,6 +14,8 @@ import { TotalSpentCard } from "./TotalSpentCard";
 import { FreeNightsCard } from "./FreeNightsCard";
 import { RegistrationInfo } from "./RegistrationInfo";
 import { EmailVerificationAlert } from "./EmailVerificationAlert";
+import { UserReviewsSection } from "./UserReviewsSection";
+import { type UserReview } from "./hooks/user-data/useUserReviews";
 
 interface UserDetailContentProps {
   profile: any;
@@ -25,6 +27,7 @@ interface UserDetailContentProps {
   hotels: any[];
   reports: any[];
   referrals: any[];
+  reviews: UserReview[];
   editing: boolean;
   editForm: any;
   setEditForm: (form: any) => void;
@@ -45,6 +48,7 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
   hotels,
   reports,
   referrals,
+  reviews,
   editing,
   editForm,
   setEditForm,
@@ -102,6 +106,18 @@ export const UserDetailContent: React.FC<UserDetailContentProps> = ({
           </div>
         </DetailCard>
       )}
+      
+      {/* User Reviews Section */}
+      <DetailCard title="User Reviews">
+        <div className="space-y-2">
+          <div className="text-sm font-medium mb-2">
+            {reviews && reviews.length > 0 
+              ? `This user has submitted ${reviews.length} review(s):`
+              : "This user hasn't submitted any reviews yet."}
+          </div>
+          <UserReviewsSection reviews={reviews || []} />
+        </div>
+      </DetailCard>
       
       {/* User Profile */}
       <DetailCard title="Basic Information">

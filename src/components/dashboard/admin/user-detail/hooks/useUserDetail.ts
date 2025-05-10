@@ -12,6 +12,7 @@ import { useUserReports } from "./user-data/useUserReports";
 import { useUserTotalSpent } from "./user-data/useUserTotalSpent";
 import { useUserRewards } from "./user-data/useUserRewards";
 import { useUserReferrals } from "./user-data/useUserReferrals";
+import { useUserReviews } from "./user-data/useUserReviews";
 
 export const useUserDetail = (id: string | undefined) => {
   const [editing, setEditing] = useState(false);
@@ -32,6 +33,7 @@ export const useUserDetail = (id: string | undefined) => {
   const { totalSpent, formattedTotal } = useUserTotalSpent(id);
   const { freeNightsCount } = useUserRewards(id);
   const { referrals } = useUserReferrals(id);
+  const { reviews } = useUserReviews(id);
 
   // Fetch hotel data if user is a hotel owner
   const { hotels } = useUserHotels(id, profile?.is_hotel_owner);
@@ -55,6 +57,7 @@ export const useUserDetail = (id: string | undefined) => {
     userPreferences,
     hotels,
     reports,
+    reviews,
     loading,
     editing,
     setEditing,

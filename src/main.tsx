@@ -16,6 +16,10 @@ supabase.channel('public:reviews')
   .subscribe();
 
 // Added console log to verify the application is running correctly
-console.log('Application starting...');
+console.log('Application starting with latest Lovable version...');
 
-createRoot(document.getElementById("root")!).render(<App />);
+// Create root with null check to ensure element exists
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Root element not found");
+
+createRoot(rootElement).render(<App />);

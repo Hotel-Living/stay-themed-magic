@@ -1,9 +1,13 @@
 
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+
+// Define type for componentTagger to avoid TypeScript errors
+type ComponentTaggerType = () => Plugin;
+
 // Import componentTagger conditionally to prevent build errors
-let componentTagger;
+let componentTagger: ComponentTaggerType | null = null;
 try {
   // Try to dynamically import the tagger only if needed
   if (process.env.NODE_ENV === 'development') {

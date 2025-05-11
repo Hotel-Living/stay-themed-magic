@@ -16,7 +16,7 @@ supabase.channel('public:reviews')
   .subscribe();
 
 // Add structured logging for better debugging
-console.log('Application starting with latest Lovable version...', {
+console.log('Application starting...', {
   timestamp: new Date().toISOString(),
   environment: import.meta.env.MODE,
   version: import.meta.env.VITE_APP_VERSION || 'development'

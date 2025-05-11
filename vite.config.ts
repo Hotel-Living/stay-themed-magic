@@ -1,21 +1,7 @@
 
-import { defineConfig, loadEnv, Plugin } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-
-// Define type for componentTagger to avoid TypeScript errors
-type ComponentTaggerType = () => Plugin;
-
-// Import componentTagger conditionally to prevent build errors
-let componentTagger: ComponentTaggerType | null = null;
-try {
-  // Try to dynamically import the tagger only if needed
-  if (process.env.NODE_ENV === 'development') {
-    componentTagger = require("lovable-tagger").componentTagger;
-  }
-} catch (error) {
-  console.warn("Lovable tagger not available, skipping component tagging");
-}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -29,9 +15,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      // Only use componentTagger in development and if available
-      mode === 'development' && componentTagger ? componentTagger() : null,
-    ].filter(Boolean),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

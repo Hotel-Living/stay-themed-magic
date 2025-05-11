@@ -22,8 +22,6 @@
 [[plugins]]
   package = "@netlify/plugin-gatsby"
 
-  [plugins.inputs]
-    ignore = ["supabase/functions/**"]
     
 # Redirect all routes to index.html for SPA routing
 [[redirects]]

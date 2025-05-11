@@ -14,8 +14,6 @@ skip_processing = true
 [build.processing.html]
 pretty_urls = true
 
-[[plugins]]
-package = "@netlify/plugin-gatsby"
 
 [[redirects]]
 from = "/*"

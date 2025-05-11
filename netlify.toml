@@ -3,7 +3,7 @@
 
 [build]
   # Specify the command to build your site
-  command = "npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
   
   # Directory that contains the deploy-ready HTML files and assets
   publish = "dist"

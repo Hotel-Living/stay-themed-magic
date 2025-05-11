@@ -1,0 +1,32 @@
+
+# netlify.toml - Configuration for Netlify deployments
+
+[build]
+  # Specify the command to build your site
+  command = "npm run build"
+  
+  # Directory that contains the deploy-ready HTML files and assets
+  publish = "dist"
+  
+  # Environment variables set during build
+  environment = { SKIP_GO_INSTALL = "true", NODE_VERSION = "18" }
+
+# Exclude Supabase functions from processing
+[build.processing]
+  skip_processing = true
+  
+[build.processing.html]
+  pretty_urls = true
+
+# Ignore the Supabase functions directory during build
+[[plugins]]
+  package = "@netlify/plugin-gatsby"
+
+  [plugins.inputs]
+    ignore = ["supabase/functions/**"]
+    
+# Redirect all routes to index.html for SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

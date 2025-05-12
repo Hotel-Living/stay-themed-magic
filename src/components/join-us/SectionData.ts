@@ -5,9 +5,34 @@ export const whoWeAreData = {
   ]
 };
 
+export const texasRevolutionData = {
+  paragraphs: [
+    "New Market is Born",
+    "Because we haven't entered an industry. We've created a new one.",
+    "Hotel Living has invented a new $12.7 billion global opportunity — a previously untapped, virgin market that blends everything society has long been striving for: a new level of living, an unprecedented form of human connection, an entirely new world of hospitality, long-awaited long-term stays — and so much more."
+  ]
+};
+
 export const welcomingTalentData = {
   paragraphs: [
-    "This is just the beginning. We're actively building our founding team and opening unique opportunities for brilliant people who want to shape the future of how humans live, connect, and move."
+    "This is just the beginning. We're actively building our founding team and opening unique opportunities for brilliant people who want to shape the future of how humans live, connect, and move.",
+    "To make this vision real, we're building a team of extraordinary people. Wherever they might be.",
+    "Extraordinary people because we don't just need workers, but pioneers, creatives, strategists, connectors, dreamers. Builders of the new world.",
+    "People who are excited to shape something bold, scalable, and deeply human from the very beginning.",
+    "If you're someone who can see the future before others do",
+    "If you want to help create something meaningful and global",
+    "We've designed an extraordinary benefit-sharing model that rewards those who help build the foundation of Hotel Living. As the platform expands, so does the value of your role.",
+    "This is a real opportunity to multiply your impact — and your income.",
+    "Then this is your invitation"
+  ]
+};
+
+export const strategicPartnershipsData = {
+  paragraphs: [
+    "At Hotel Living, we believe in building meaningful partnerships that go beyond traditional transactions.",
+    "We are open to collaborations involving a wide range of assets and services — including office spaces, accommodations, meals, transportation, travel logistics, and more.",
+    "In recognition of long-term value, we are prepared to offer profit-sharing arrangements in exchange for contributions that support the growth and sustainability of Hotel-Living — whether on a short-term or strategic long-term basis.",
+    "If you represent a business, a property, or a service that aligns with our vision, we welcome the opportunity to explore how we can build something exceptional together."
   ]
 };
 

@@ -2,7 +2,7 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star } from "lucide-react";
+import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { JoinUsHeader } from "@/components/join-us/JoinUsHeader";
@@ -19,7 +19,9 @@ import {
   whyEmergeData, 
   whatWeOfferData, 
   jobsInnovationData, 
-  technologyData 
+  technologyData,
+  texasRevolutionData,
+  strategicPartnershipsData
 } from "@/components/join-us/SectionData";
 
 export default function JoinUs() {
@@ -39,12 +41,26 @@ export default function JoinUs() {
               title="Who we are" 
               paragraphs={whoWeAreData.paragraphs} 
             />
+
+            {/* The Revolution has Started in Texas section */}
+            <TextSection 
+              icon={Flame} 
+              title="The Revolution has Started in Texas" 
+              paragraphs={texasRevolutionData.paragraphs} 
+            />
             
             {/* We're welcoming new talent section */}
             <TextSection 
               icon={Lightbulb} 
               title="We're welcoming new talent" 
               paragraphs={welcomingTalentData.paragraphs} 
+            />
+
+            {/* Strategic partnerships section */}
+            <TextSection 
+              icon={Handshake} 
+              title="WE ARE OPEN TO STRATEGIC PARTNERSHIPS!" 
+              paragraphs={strategicPartnershipsData.paragraphs} 
             />
             
             {/* Hotel Living: a necessary revolution section */}

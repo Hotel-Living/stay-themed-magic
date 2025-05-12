@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -18,51 +19,66 @@ export function Footer() {
             </div>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-y-4 gap-x-10 mb-2 mx-auto text-center w-full">
-            <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
-              <Link to="/join-us" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                JOIN US
-              </Link>
-              <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                FAQ
-              </Link>
-              <Link to="/affinity-stays" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                AFFINITY STAYS?
-              </Link>
-              <Link to="/videos" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                VIDEOS
-              </Link>
-              <Link to="/promotions" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                PROMOTIONS
-              </Link>
-              <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                OUR SERVICES
-              </Link>
-              <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                OUR VALUES
-              </Link>
-            </div>
-            
-            <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
-              <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                INTELLECTUAL PROPERTY
-              </Link>
-              <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                TERMS & CONDITIONS
-              </Link>
-              <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                PRIVACY & COOKIES
-              </Link>
-              <Link to="/contact" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                CONTACT
-              </Link>
-              <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-                CUSTOMER SERVICE
-              </Link>
-            </div>
+          {/* First Line - Header links */}
+          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-4 mx-auto text-center w-full`}>
+            <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              FAQ
+            </Link>
+            <Link to="/affinity-stays" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              AFFINITY STAYS?
+            </Link>
+            <Link to="/hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              Hotels
+            </Link>
+            <Link to="/videos" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              VIDEOS
+            </Link>
+            <Link to="/featured-hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              FEATURED HOTELS
+            </Link>
+            <Link to="/join-us" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              JOIN US
+            </Link>
           </div>
           
-          <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-6" : "mb-4"}`}>
+          {/* Separator between first and second line */}
+          <div className="w-full px-4 mb-2">
+            <Separator className={cn("bg-[#3300B0]/40")} />
+          </div>
+          
+          {/* Second Line */}
+          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
+            <Link to="/hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              HOTELS
+            </Link>
+            <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              OUR SERVICES
+            </Link>
+            <Link to="/our-values" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              OUR VALUES
+            </Link>
+            <Link to="/customer-service" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              CUSTOMER SERVICE
+            </Link>
+          </div>
+          
+          {/* Third Line */}
+          <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-6 mx-auto text-center w-full`}>
+            <Link to="/contact" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              CONTACT
+            </Link>
+            <Link to="/terms" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              TERMS & CONDITIONS
+            </Link>
+            <Link to="/privacy" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              PRIVACY & COOKIES
+            </Link>
+            <Link to="/intellectual-property" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+              INTELLECTUAL PROPERTY
+            </Link>
+          </div>
+          
+          <div className={`flex flex-wrap gap-4 justify-center ${isMobile ? "mt-2" : "mb-4"}`}>
             <Link to="/signup" className="text-white hover:text-white/90 bg-[#7A127C] px-6 py-2 font-bold rounded-md uppercase">
               Register
             </Link>

@@ -30,82 +30,191 @@ export default function AboutUs() {
                 <h2 className="text-2xl md:text-3xl font-bold text-white">Who we are</h2>
               </div>
               <p className="text-white/90 leading-relaxed">
-                We are a pioneering group of professionals with deep experience in hospitality, 
-                technology, and human behavior. We know the industry from within and have traveled 
-                the world enough to recognize that the model needs change — and we've set out to lead that change.
+                We are a pioneering group of professionals with deep experience in hospitality, software, and global 
+                business. With a clear human focus and a passion for travel, we have lived inside the challenges of 
+                the hotel industry while observing how society has evolved. Something had to change — and we're building it.
               </p>
             </section>
             
-            {/* A Revolutionary Idea section */}
+            {/* We're welcoming new talent section */}
             <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
               <div className="flex items-start mb-4">
                 <Lightbulb className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
-                <h2 className="text-2xl md:text-3xl font-bold text-white">A Revolutionary Idea</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">We're welcoming new talent</h2>
               </div>
               <p className="text-white/90 leading-relaxed">
-                Hotel Living is not just a project. It's a revolution. A revolution that realigns society, 
-                rejuvenates human contact, updates outdated lifestyles, and multiplies economic possibilities.
-                For the first time in history, hotel life is no longer just for millionaires and royalty. 
-                We are democratizing it.
+                This is just the beginning. We're actively building our founding team and opening unique opportunities 
+                for brilliant people who want to shape the future of how humans live, connect, and move.
               </p>
             </section>
             
-            {/* A New Social Alignment section */}
-            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
-              <div className="flex items-start mb-4">
-                <Globe className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
-                <h2 className="text-2xl md:text-3xl font-bold text-white">A New Social Alignment</h2>
-              </div>
-              <p className="text-white/90 leading-relaxed">
-                Society has changed dramatically in the past 50 years, but our ways of living haven't.
-                Families are smaller, more people live alone, mobility is easier than ever, remote work is 
-                widespread, and people seek deeper human connections — yet still live isolated in outdated 
-                home structures.
-                Meanwhile, millions of hotel rooms sit empty every year. We unite these two mismatched worlds.
-              </p>
-            </section>
-            
-            {/* What We're Creating section */}
-            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
-              <div className="flex items-start mb-4">
-                <Compass className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
-                <h2 className="text-2xl md:text-3xl font-bold text-white">What We're Creating</h2>
-              </div>
-              <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2">
-                <li>A new Western lifestyle: practical, affordable, social, flexible, and mobile</li>
-                <li>Extended hotel stays with personalized themes and shared passions</li>
-                <li>Hotels full year-round with services people love — no chores, no isolation</li>
-                <li>Communities of people grouped by interests, like music, languages, food, or wellness</li>
-                <li>Youth job creation: group organizers, experience leaders, social facilitators</li>
-                <li>A platform that makes it simple for hotels and humans to match perfectly</li>
-              </ul>
-            </section>
-            
-            {/* Why It's Inevitable section */}
-            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
-              <div className="flex items-start mb-4">
-                <BarChart3 className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
-                <h2 className="text-2xl md:text-3xl font-bold text-white">Why It's Inevitable</h2>
-              </div>
-              <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2">
-                <li>The hospitality model must evolve — and now is the time</li>
-                <li>Living in hotels isn't crazy — it's the future</li>
-                <li>We're merging technology with humanity, not separating them</li>
-                <li>Shared life costs less and gives more: it's smarter, richer, and kinder</li>
-                <li>Our platform unlocks massive wealth for hotels and real comfort for people</li>
-              </ul>
-            </section>
-            
-            {/* Our Mission section */}
+            {/* Hotel Living: a necessary revolution section */}
             <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
               <div className="flex items-start mb-4">
                 <Flame className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
-                <h2 className="text-2xl md:text-3xl font-bold text-white">Our Mission</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Hotel Living: a necessary revolution</h2>
+              </div>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Hotel Living is a revolution — one of alignment, humanity, and shared wealth.
+                It's not just a new lifestyle model; it's a reorganization of society that places the human being — not property — at the center.
+              </p>
+              <p className="text-white/90 leading-relaxed mb-4">
+                For the first time in history:
+                Living in hotels is no longer just for millionaires and royalty.
+                We've come to democratize the concept of hotel living — the very idea of making a hotel your home — and to make it accessible, logical, and socially meaningful.
+              </p>
+            </section>
+            
+            {/* A new alignment section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <Globe className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">A new alignment</h2>
               </div>
               <p className="text-white/90 leading-relaxed">
-                To lead a massive, sustainable realignment of how people live, travel, work, and connect.
-                To solve loneliness, financial strain, and inefficiencies of housing with one seamless system.
-                To use what already exists — hotels — and reinvent their purpose for modern times.
+                Families are smaller.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                Millions of people live alone.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                Remote work and global mobility are now the norm.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                People want better lives, with less burden and more meaning.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                Yet homes and hotels haven't evolved.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                And millions of hotel rooms remain empty.
+              </p>
+              <p className="text-white/90 leading-relaxed mt-4">
+                Hotel Living connects these disconnected realities. It transforms underused hotel space into human-centered 
+                ecosystems — where people live longer stays, share experiences, and thrive by affinity.
+              </p>
+            </section>
+            
+            {/* Why did this emerge? section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <Lightbulb className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Why did this emerge?</h2>
+              </div>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Because it had to be someone with:
+              </p>
+              <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2">
+                <li>Deep knowledge of hotel operations</li>
+                <li>A lifetime of travel and social observation</li>
+                <li>Enough experience to understand systems</li>
+                <li>Enough independence of thought to transcend them</li>
+              </ul>
+              <p className="text-white/90 leading-relaxed mt-4">
+                Hotel Living could only come from someone inside — who looked outside.
+              </p>
+            </section>
+            
+            {/* What we offer section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <Compass className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">What we offer</h2>
+              </div>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-white mb-3">To hotels:</h3>
+                <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2">
+                  <li>Permanent year-round occupancy</li>
+                  <li>New revenue without disrupting traditional operations</li>
+                  <li>Enhanced social relevance and visibility</li>
+                  <li>Better resource use, higher profitability</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">To people:</h3>
+                <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2">
+                  <li>A more social, supported way of living</li>
+                  <li>Less isolation, more connection</li>
+                  <li>A lifestyle with fewer domestic burdens</li>
+                  <li>Access to thematic communities (arts, languages, wellness, etc.)</li>
+                  <li>Affordability, flexibility, and improved well-being</li>
+                </ul>
+              </div>
+            </section>
+            
+            {/* Jobs, innovation, future section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <BarChart3 className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Jobs, innovation, future</h2>
+              </div>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Hotel Living also generates new professions and real employment:
+              </p>
+              <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2 mb-4">
+                <li>Group facilitators</li>
+                <li>Experience coordinators</li>
+                <li>Hospitality professionals in evolving roles</li>
+                <li>Cross-sector job creation in real estate, hospitality, entertainment, and logistics</li>
+              </ul>
+              <p className="text-white/90 leading-relaxed">
+                It will also unlock housing alternatives, drive new real estate models, and empower individuals to live globally, affordably, and meaningfully.
+              </p>
+            </section>
+            
+            {/* Technology with a human purpose section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <Star className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Technology with a human purpose</h2>
+              </div>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Hotel Living uses advanced technology not to replace people, but to connect them.
+                Our platform matches individuals through their passions, lifestyles, and travel preferences — closing the gap between digital convenience and emotional connection.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                We believe in using technology to enhance humanity, not isolate it.
+              </p>
+            </section>
+            
+            {/* Intellectual Positioning Statement section */}
+            <section className="mb-16 glass-card p-8 rounded-xl border border-fuchsia-400/30">
+              <div className="flex items-start mb-4">
+                <Lightbulb className="h-7 w-7 text-fuchsia-300 mr-3 mt-1" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Intellectual Positioning Statement</h2>
+              </div>
+              <p className="text-white/90 leading-relaxed mb-4">
+                What you see here is only the beginning.
+              </p>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Hotel Living is not just a concept — it's the visible layer of a much broader, sophisticated system that we have already designed, structured, documented, and registered internationally.
+              </p>
+              <p className="text-white/90 leading-relaxed mb-4">
+                What we're presenting now is only the first launch module of a full architecture, composed of multiple original ideas, each with its own internal logic and practical implementation.
+              </p>
+              <p className="text-white/90 leading-relaxed mb-4">
+                These are deep, powerful models, designed to generate real utility and profitability across all stakeholder layers — from hotels and partners to users and local communities.
+              </p>
+              <p className="text-white/90 leading-relaxed mb-4">
+                Each element:
+              </p>
+              <ul className="text-white/90 leading-relaxed list-disc pl-6 space-y-2 mb-4">
+                <li>Is entirely innovative</li>
+                <li>Has been developed with care over years</li>
+                <li>Is internationally protected</li>
+                <li>Will be rolled out progressively, in clearly defined stages</li>
+                <li>Forms part of a much larger strategic and intellectual framework</li>
+              </ul>
+              <p className="text-white/90 leading-relaxed mb-4">
+                This is not just a functional structure — it's a conceptual system.
+                Not something that can be easily recreated — it's a social mechanism with internal coherence and high-level design.
+              </p>
+              <p className="text-white/90 leading-relaxed">
+                This project cannot be reproduced simply with what is visible.
+                What makes Hotel Living unique is what comes next — and it is already built.
+              </p>
+              <p className="text-white/90 leading-relaxed mt-4">
+                We are releasing our modules one by one — and we are ready.
               </p>
             </section>
             
@@ -116,13 +225,12 @@ export default function AboutUs() {
                 <h2 className="text-2xl md:text-3xl font-bold text-white">Want to join us?</h2>
               </div>
               <p className="text-white/90 leading-relaxed mb-6">
-                We are actively looking for visionary talent to join this early-stage revolution.
-                Writers, coders, hoteliers, designers, organizers — your time is now.
+                If you feel aligned with this vision and want to help bring it to life, we want to hear from you.
               </p>
               
               <div className="flex items-center mb-6">
                 <Mail className="h-6 w-6 text-fuchsia-300 mr-3" />
-                <h3 className="text-xl font-semibold text-white">Fill out this form below and be part of the founding team:</h3>
+                <h3 className="text-xl font-semibold text-white">Apply to join our founding team:</h3>
               </div>
               
               <ContactForm />

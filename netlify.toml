@@ -7,6 +7,7 @@ publish = "dist"
 [build.environment]
 NODE_VERSION = "18"
 SKIP_GO_INSTALL = "true"
+NPM_FLAGS = "--legacy-peer-deps"
 
 [build.processing]
 skip_processing = true

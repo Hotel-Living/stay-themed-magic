@@ -40,6 +40,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminAllRoutes from './pages/AdminAllRoutes';
 import Videos from './pages/Videos';
 import FeaturedHotels from './pages/FeaturedHotels';
+import AboutUs from './pages/AboutUs';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -113,6 +114,7 @@ function App() {
                   />
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/about-us" element={<AboutUs />} />
                   <Route 
                     path="/admin/*" 
                     element={

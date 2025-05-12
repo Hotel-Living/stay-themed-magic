@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -49,19 +48,12 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
       const result = await submitJoinUsForm(submission, files);
       
       if (result) {
-        toast({
-          title: "Success",
-          description: "Your message has been sent! We'll get back to you soon."
-        });
+        toast("Your message has been sent! We'll get back to you soon.");
         form.reset();
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to send your message. Please try again later.",
-        variant: "destructive"
-      });
+      toast("Failed to send your message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

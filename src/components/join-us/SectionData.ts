@@ -7,7 +7,7 @@ export const whoWeAreData = {
 
 export const texasRevolutionData = {
   paragraphs: [
-    "New Market is Born",
+    "A New Market is Born",
     "Because we haven't entered an industry. We've created a new one.",
     "Hotel Living has invented a new $12.7 billion global opportunity — a previously untapped, virgin market that blends everything society has long been striving for: a new level of living, an unprecedented form of human connection, an entirely new world of hospitality, long-awaited long-term stays — and so much more."
   ]

@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
+    "postinstall": "npm install --legacy-peer-deps",
   },
   "browserslist": [
     "defaults"

@@ -1,18 +1,30 @@
 
 import React, { useState } from "react";
-import { Mail, Paperclip, Star, Upload } from "lucide-react";
+import { Mail, Paperclip, Star, Upload, Loader2 } from "lucide-react";
 import { Section } from "./Section";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { toast } from "sonner";
 
 export function JoinUsForm() {
   const [files, setFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      // Limit to 5 files
+      // Check file sizes
       const selectedFiles = Array.from(e.target.files);
-      const newFiles = [...files, ...selectedFiles].slice(0, 5);
+      const oversizedFiles = selectedFiles.filter(file => file.size > 5 * 1024 * 1024); // 5MB limit
+      
+      if (oversizedFiles.length > 0) {
+        toast.error("Some files exceed the 5MB size limit and were not added.");
+      }
+      
+      const validFiles = selectedFiles.filter(file => file.size <= 5 * 1024 * 1024);
+      const newFiles = [...files, ...validFiles].slice(0, 5);
       setFiles(newFiles);
+      
+      // Reset input value to allow selecting the same file again
+      e.target.value = '';
     }
   };
 
@@ -40,17 +52,22 @@ export function JoinUsForm() {
           <div className="mb-6">
             <label 
               htmlFor="resume-upload" 
-              className="flex items-center gap-2 px-4 py-2 bg-[#8017B0]/80 hover:bg-[#8017B0] text-white rounded-md cursor-pointer w-fit transition-colors"
+              className={`flex items-center gap-2 px-4 py-2 ${files.length >= 5 ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#8017B0]/80 hover:bg-[#8017B0] cursor-pointer'} text-white rounded-md w-fit transition-colors`}
             >
-              <Upload className="w-4 h-4" />
-              <span>Upload Files (max 5)</span>
+              {isUploading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Upload className="w-4 h-4" />
+              )}
+              <span>Upload Files (max 5, each ≤ 5MB)</span>
               <input
                 id="resume-upload"
                 type="file"
                 multiple
                 className="hidden"
                 onChange={handleFileChange}
-                disabled={files.length >= 5}
+                disabled={files.length >= 5 || isUploading}
+                accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
               />
             </label>
             
@@ -62,10 +79,12 @@ export function JoinUsForm() {
                     <li key={index} className="flex items-center gap-2 bg-[#8017B0]/40 px-3 py-2 rounded-md">
                       <Paperclip className="w-4 h-4 text-[#FFF9B0]" />
                       <span className="text-white text-sm flex-1 truncate">{file.name}</span>
+                      <span className="text-white/70 text-xs">{(file.size / 1024).toFixed(1)} KB</span>
                       <button 
                         onClick={() => handleRemoveFile(index)} 
                         className="text-red-400 hover:text-red-300 p-1"
                         aria-label="Remove file"
+                        disabled={isUploading}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <line x1="18" y1="6" x2="6" y2="18"></line>

@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { submitJoinUsForm } from "@/services/joinUsService";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -23,6 +24,8 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,26 +35,22 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
     },
   });
 
-  function onSubmit(data: FormValues) {
-    // Prepare form data with files
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("message", data.message);
+  async function onSubmit(data: FormValues) {
+    setIsSubmitting(true);
     
-    // Append files if any
-    if (files && files.length > 0) {
-      files.forEach((file, index) => {
-        formData.append(`file-${index}`, file);
-      });
+    try {
+      const result = await submitJoinUsForm(data, files);
+      
+      if (result) {
+        toast.success("Your message has been sent! We'll get back to you soon.");
+        form.reset();
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("Failed to send your message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    // For demonstration purposes - in a real app, you'd send this to your backend
-    console.log("Form submitted:", data);
-    console.log("Files:", files);
-    
-    toast.success("Your message has been sent! We'll get back to you soon.");
-    form.reset();
   }
 
   return (
@@ -117,8 +116,9 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
         <Button 
           type="submit" 
           className="w-full bg-[#8017B0] hover:bg-[#9028C1] text-white"
+          disabled={isSubmitting}
         >
-          Send Message
+          {isSubmitting ? "Sending..." : "Send Message"}
         </Button>
       </form>
     </Form>

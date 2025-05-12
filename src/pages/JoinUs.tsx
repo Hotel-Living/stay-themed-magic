@@ -6,16 +6,17 @@ import { Star, Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Mail } from 
 import { Container } from "@/components/ui/container";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export default function JoinUs() {
   const isMobile = useIsMobile();
   
   return (
     <div className="min-h-screen flex flex-col relative">
-      <div className="bg-gradient-to-b from-[#570366]/40 to-transparent fixed inset-0 -z-10"></div>
+      <HotelStarfield />
       <Navbar />
       
-      <main className="flex-1 py-12 bg-gradient-to-b from-[#570366]/40 to-transparent">
+      <main className="flex-1 py-12">
         <Container>
           <div className="max-w-4xl mx-auto">
             <header className="mb-16 text-center">

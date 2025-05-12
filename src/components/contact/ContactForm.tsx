@@ -39,7 +39,14 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
     setIsSubmitting(true);
     
     try {
-      const result = await submitJoinUsForm(data, files);
+      // Ensure all required fields are present in the submission
+      const submission = {
+        name: data.name,
+        email: data.email,
+        message: data.message
+      };
+      
+      const result = await submitJoinUsForm(submission, files);
       
       if (result) {
         toast.success("Your message has been sent! We'll get back to you soon.");

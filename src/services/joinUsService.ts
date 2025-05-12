@@ -75,7 +75,8 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     
     return true;
   } catch (error) {
-    handleApiError(error, "Failed to submit form. Please try again later.", toast);
+    // Use toast directly without passing it as a parameter since handleApiError expects a specific type
+    handleApiError(error, "Failed to submit form. Please try again later.");
     return false;
   }
 }

@@ -1,4 +1,3 @@
-
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -13,6 +12,9 @@ export default defineConfig(({ mode }) => {
     server: {
       host: "::",
       port: 8080,
+      allowedHosts: [
+        "ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
+      ]
     },
     plugins: [
       react(),
@@ -23,11 +25,9 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    // Define environment variables
     define: {
       'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify(env.VITE_GOOGLE_MAPS_API_KEY)
     },
-    // Add explicit build target configuration
     build: {
       target: 'es2015',
       outDir: 'dist',

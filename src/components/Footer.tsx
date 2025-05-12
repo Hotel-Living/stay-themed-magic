@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -21,6 +20,9 @@ export function Footer() {
           
           <div className="flex flex-wrap justify-center gap-y-4 gap-x-10 mb-2 mx-auto text-center w-full">
             <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
+              <Link to="/join-us" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
+                JOIN US
+              </Link>
               <Link to="/faq" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
                 FAQ
               </Link>

@@ -39,7 +39,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
       });
       return;
     }
-    setLoading(true);
+   const { toast } = useToast();
     setTimeout(() => {
       // Assign the room (existing logic)
       const { assignRoom } = require("@/utils/roomAssignmentLogic");

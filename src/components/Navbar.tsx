@@ -4,7 +4,7 @@ import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/spinner"; // o el archivo donde pegaste el nuevo código
 import { Logo } from "./Logo";
 
 export function Navbar() {

@@ -44,6 +44,7 @@ serve(async (req) => {
     
     // Determine recipient email (use the specific one provided or fall back to default)
     const recipientEmail = submission.recipient_email || "info@hotel-living.com";
+    console.log("Sending notification to:", recipientEmail);
     
     // Create Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
@@ -65,6 +66,12 @@ serve(async (req) => {
       const publicUrl = `${supabaseUrl}/storage/v1/object/public/join-us-uploads/${file.file_path}`;
       return `<p><a href="${publicUrl}" target="_blank">${file.file_name}</a> (${(file.file_size / 1024).toFixed(1)} KB)</p>`;
     }).join("") : "";
+
+    console.log("Preparing to send email with payload:", {
+      recipientEmail,
+      hasFiles: files ? files.length > 0 : false,
+      submissionName: submission.name
+    });
 
     // Send email using Resend
     const emailResponse = await fetch("https://api.resend.com/emails", {

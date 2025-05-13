@@ -1,12 +1,11 @@
 import { toast as sonnerToast } from "sonner";
 
-// Create a hook interface that's compatible with the existing usage pattern
+// Hook personalizado
 export const useToast = () => {
   return {
     toast: sonnerToast,
-    toasts: [] // This maintains compatibility with the Toaster component
-  };
-};
+    toasts: []
+  }
+}
 
-// Export toast directly for cases where it's used without the hook
 export const toast = sonnerToast;

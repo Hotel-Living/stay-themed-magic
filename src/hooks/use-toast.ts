@@ -1,4 +1,3 @@
-
 import { toast as sonnerToast } from "sonner";
 
 // Create a hook interface that's compatible with the existing usage pattern

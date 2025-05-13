@@ -7,7 +7,6 @@ export interface JoinUsSubmission {
   name: string;
   email: string;
   message: string;
-  recipientEmail?: string;
 }
 
 export interface FileUpload {
@@ -24,8 +23,7 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
         { 
           name: formData.name, 
           email: formData.email, 
-          message: formData.message,
-          recipient_email: formData.recipientEmail || null
+          message: formData.message 
         }
       ])
       .select()

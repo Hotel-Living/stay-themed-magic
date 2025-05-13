@@ -22,15 +22,10 @@ export function useThemeDeletion(fetchThemes: () => Promise<{count: number}>) {
       // Refresh themes after deletion
       await fetchThemes();
       
-      toast({
-        title: "Success",
-        description: "Affinity deleted successfully"
-      });
+      toast.success("Affinity deleted successfully");
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete affinity",
-        variant: "destructive"
+      toast.error("Failed to delete affinity", {
+        description: error.message || "An unexpected error occurred"
       });
     } finally {
       setThemeToDelete(null);

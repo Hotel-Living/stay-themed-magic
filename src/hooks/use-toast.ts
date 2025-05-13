@@ -11,12 +11,12 @@ export const useToast = () => {
       action?: React.ReactNode;
     }) => {
       if (props.variant === "destructive") {
-        return sonnerToast.error(props.title, {
+        return sonnerToast.error(props.title || "", {
           description: props.description,
           action: props.action,
         });
       }
-      return sonnerToast(props.title, {
+      return sonnerToast(props.title || "", {
         description: props.description,
         action: props.action,
       });

@@ -14,11 +14,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     e.preventDefault();
     
     if (!email || !password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
+      toast.error("Please fill in all fields");
       return;
     }
     
@@ -26,18 +22,14 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     try {
       const result = await signIn(email, password);
       if (result.error) {
-        toast({
-          title: "Error al iniciar sesión",
-          description: result.error,
-          variant: "destructive",
+        toast.error("Error al iniciar sesión", {
+          description: result.error
         });
       }
     } catch (error: any) {
       console.error("Login error:", error);
-      toast({
-        title: "Error al iniciar sesión",
-        description: error.message || "An unexpected error occurred",
-        variant: "destructive",
+      toast.error("Error al iniciar sesión", {
+        description: error.message || "An unexpected error occurred"
       });
     }
   };

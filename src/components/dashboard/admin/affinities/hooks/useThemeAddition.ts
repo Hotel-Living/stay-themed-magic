@@ -11,10 +11,8 @@ export function useThemeAddition(themes: Theme[], fetchThemes: () => Promise<{co
   const handleAddNewTheme = async () => {
     // Validate empty name
     if (!newTheme.name.trim()) {
-      toast({
-        title: "Invalid input",
-        description: "Affinity name cannot be empty",
-        variant: "destructive"
+      toast.error("Invalid input", {
+        description: "Affinity name cannot be empty"
       });
       return;
     }
@@ -25,10 +23,8 @@ export function useThemeAddition(themes: Theme[], fetchThemes: () => Promise<{co
     );
     
     if (isDuplicate) {
-      toast({
-        title: "Duplicate name",
-        description: "An affinity with this name already exists",
-        variant: "destructive"
+      toast.error("Duplicate name", {
+        description: "An affinity with this name already exists"
       });
       return;
     }
@@ -50,17 +46,12 @@ export function useThemeAddition(themes: Theme[], fetchThemes: () => Promise<{co
       // Refresh the themes list
       await fetchThemes();
       
-      toast({
-        title: "Success",
-        description: "New affinity added successfully"
-      });
+      toast.success("New affinity added successfully");
       
       setNewTheme({ name: "", description: "", category: "" });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to add new affinity",
-        variant: "destructive"
+      toast.error("Failed to add new affinity", {
+        description: error.message || "An unexpected error occurred"
       });
     }
   };

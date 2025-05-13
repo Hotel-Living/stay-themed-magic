@@ -1,72 +1,48 @@
-import { useState } from "react";
-import { Eye, EyeOff, Lock } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { PasswordValidation } from "./PasswordValidation";
-import { validatePassword, getPasswordStrengthColor } from "@/utils/passwordValidation";
 
-interface PasswordFieldProps {
+import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff } from "lucide-react";
+
+interface PasswordFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-  showPassword: boolean;
-  toggleShowPassword: () => void;
-  inputClassName?: string;
-  showValidation?: boolean;
+  error?: string;
+  placeholder?: string;
 }
 
-export function PasswordField({
-  id,
-  label,
-  value,
-  onChange,
-  placeholder,
-  showPassword,
-  toggleShowPassword,
-  showValidation = false,
-  inputClassName
-}: PasswordFieldProps) {
-  const [isFocused, setIsFocused] = useState(false);
-  const strengthColor = getPasswordStrengthColor(value);
-  
+export const PasswordField = ({ id, label, error, placeholder, ...props }: PasswordFieldProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium text-white">
+      <Label htmlFor={id} className="text-sm font-medium">
         {label}
-      </label>
+      </Label>
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white">
-          <Lock className="h-5 w-5" />
-        </div>
-        <input
-          type={showPassword ? "text" : "password"}
+        <Input
           id={id}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          type={showPassword ? "text" : "password"}
           placeholder={placeholder}
-          className={`w-full rounded-lg py-2 pl-10 pr-12 text-white placeholder-white/60 bg-white/10 border border-white/20 focus:border-white/30 focus:ring-0 transition-colors ${inputClassName}`}
+          className={`w-full transition-colors ${
+            error ? "border-red-500 focus:border-red-500" : ""
+          }`}
+          {...props}
         />
         <button
           type="button"
-          onClick={toggleShowPassword}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-white hover:text-white/80"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          onClick={() => setShowPassword(!showPassword)}
+          tabIndex={-1}
         >
           {showPassword ? (
-            <EyeOff className="h-5 w-5" />
+            <EyeOff className="h-4 w-4" aria-hidden="true" />
           ) : (
-            <Eye className="h-5 w-5" />
+            <Eye className="h-4 w-4" aria-hidden="true" />
           )}
         </button>
       </div>
-      {showValidation && (
-        <PasswordValidation 
-          password={value} 
-          showRequirements={showValidation && (isFocused || value.length > 0)}
-        />
-      )}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
-}
+};

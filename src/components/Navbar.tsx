@@ -20,7 +20,7 @@ export function Navbar() {
   } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development';
 
   const handleLogout = async () => {
     try {

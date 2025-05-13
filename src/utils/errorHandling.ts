@@ -12,15 +12,14 @@ export const handleApiError = (
 ) => {
   // Extract error message
   let errorMessage = defaultMessage;
-
-  if (error && typeof error === 'object') {
-    if ('message' in error && error.message) {
-      errorMessage = error.message as string;
-    } else if ('error' in error && error.error) {
-      errorMessage = error.error as string;
-    }
+  
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (typeof error === 'object' && error !== null) {
+    const possibleError = error as { message?: string, error?: string };
+    errorMessage = possibleError.message || possibleError.error || defaultMessage;
   }
-
+  
   // Log the error for debugging
   console.error("API Error:", errorMessage, error);
 
@@ -32,12 +31,4 @@ export const handleApiError = (
   });
 
   return errorMessage;
-};
-
-// Add the missing handleSupabaseError function that useRelatedDataSubmission is trying to use
-export const handleSupabaseError = (
-  error: PostgrestError | unknown,
-  defaultMessage: string = "An error occurred with the database operation"
-) => {
-  return handleApiError(error, defaultMessage);
 };

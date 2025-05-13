@@ -74,7 +74,7 @@ function App() {
                   <Route 
                     path="/hotel-dashboard" 
                     element={
-                      <ProtectedRoute requireHotelOwner>
+                      <ProtectedRoute requireHotelOwner={true}>
                         <HotelDashboard />
                       </ProtectedRoute>
                     } 
@@ -107,7 +107,7 @@ function App() {
                   <Route 
                     path="/add-property" 
                     element={
-                      <ProtectedRoute requireHotelOwner>
+                      <ProtectedRoute requireHotelOwner={true}>
                         <AddPropertyPage />
                       </ProtectedRoute>
                     } 

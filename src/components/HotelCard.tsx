@@ -76,7 +76,7 @@ export const HotelCard = ({
         />
         {themes.length > 0 && (
           <div className="absolute top-2 left-2">
-            <Badge variant="secondary" className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80">
+            <Badge className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80" variant="secondary">
               {themes[0].name}
             </Badge>
           </div>

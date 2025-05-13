@@ -20,8 +20,9 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
         console.log("No active session found, redirecting to login without calling signOut API");
         // Clear local state regardless
         
-        toast.success("Sesión finalizada", {
-          description: "Tu sesión ha finalizado"
+        toast({
+          title: "Sesión finalizada",
+          description: "Tu sesión ha finalizado",
         });
         
         // Force page reload to clear any persistent state
@@ -38,22 +39,27 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
 
       if (error) {
         console.error("Error signing out:", error);
-        toast.error("Error al cerrar sesión", {
-          description: error.message
+        toast({
+          title: "Error al cerrar sesión",
+          description: error.message,
+          variant: "destructive",
         });
         return;
       }
       
-      toast.success("Sesión cerrada", {
-        description: "Has cerrado sesión con éxito"
+      toast({
+        title: "Sesión cerrada",
+        description: "Has cerrado sesión con éxito",
       });
 
       // Completely reload the application to clear any application state
       window.location.href = "/login";
     } catch (error: any) {
       console.error("Error in signOut function:", error);
-      toast.error("Error al cerrar sesión", {
-        description: error.message || "Ha ocurrido un error"
+      toast({
+        title: "Error al cerrar sesión",
+        description: error.message || "Ha ocurrido un error",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);

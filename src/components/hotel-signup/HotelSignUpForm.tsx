@@ -27,23 +27,39 @@ export function HotelSignUpForm() {
     e.preventDefault();
     
     if (!hotelName || !email || !password || !confirmPassword) {
-      toast.error("Please fill in all fields");
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
       return;
     }
     
     const { isValid } = validatePassword(password);
     if (!isValid) {
-      toast.error("Please ensure your password meets all requirements");
+      toast({
+        title: "Error",
+        description: "Please ensure your password meets all requirements",
+        variant: "destructive"
+      });
       return;
     }
     
     if (password !== confirmPassword) {
-      toast.error("Passwords don't match");
+      toast({
+        title: "Error",
+        description: "Passwords don't match",
+        variant: "destructive"
+      });
       return;
     }
     
     if (!acceptTerms || !acceptBusinessTerms) {
-      toast.error("You must accept the terms and conditions");
+      toast({
+        title: "Error",
+        description: "You must accept the terms and conditions",
+        variant: "destructive"
+      });
       return;
     }
     
@@ -55,19 +71,24 @@ export function HotelSignUpForm() {
       });
       
       if (result && result.error) {
-        toast.error("Registration Error", {
-          description: result.error
+        toast({
+          title: "Registration Error",
+          description: result.error,
+          variant: "destructive"
         });
       } else if (result && result.success) {
-        toast.success("Registration Successful", {
+        toast({
+          title: "Registration Successful",
           description: "You can now log in with your credentials"
         });
         navigate('/hotel-login');
       }
     } catch (error: any) {
       console.error("Signup error:", error);
-      toast.error("Registration Error", {
-        description: error.message || "An unexpected error occurred"
+      toast({
+        title: "Registration Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive"
       });
     }
   };

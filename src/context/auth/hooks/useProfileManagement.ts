@@ -23,12 +23,15 @@ export function useProfileManagement({ setIsLoading, setProfile }: ProfileManage
         setProfile(updatedProfile);
       }
 
-      toast.success("Perfil actualizado", {
-        description: "Tu perfil ha sido actualizado con éxito"
+      toast({
+        title: "Perfil actualizado",
+        description: "Tu perfil ha sido actualizado con éxito",
       });
     } catch (error: any) {
-      toast.error("Error al actualizar perfil", {
-        description: error.message || "Ha ocurrido un error"
+      toast({
+        title: "Error al actualizar perfil",
+        description: error.message || "Ha ocurrido un error",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);

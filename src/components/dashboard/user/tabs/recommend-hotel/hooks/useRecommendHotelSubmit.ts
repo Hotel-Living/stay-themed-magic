@@ -29,7 +29,11 @@ export const useRecommendHotelSubmit = () => {
   // Form submission handler
   const onSubmit = async (data: RecommendHotelFormValues) => {
     if (!user) {
-      toast.error("You must be logged in to submit a hotel recommendation");
+      toast({
+        title: "Error",
+        description: "You must be logged in to submit a hotel recommendation.",
+        variant: "destructive",
+      });
       return;
     }
     
@@ -49,21 +53,26 @@ export const useRecommendHotelSubmit = () => {
 
       if (error) {
         console.error("Error submitting hotel recommendation:", error);
-        toast.error("Failed to submit your recommendation", {
-          description: error.message || "Please try again"
+        toast({
+          title: "Error saving recommendation",
+          description: error.message || "Failed to submit your recommendation. Please try again.",
+          variant: "destructive",
         });
         return;
       }
       
-      toast.success("Recommendation submitted!", {
-        description: "Thank you for your recommendation. We'll contact the hotel and notify you of the outcome."
+      toast({
+        title: "Recommendation submitted!",
+        description: "Thank you for your recommendation. We'll contact the hotel and notify you of the outcome.",
       });
       
       form.reset();
     } catch (err) {
       console.error("Unexpected error:", err);
-      toast.error("An unexpected error occurred", {
-        description: "Please try again later"
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);

@@ -34,15 +34,18 @@ export function StatusSelector({ hotelId, currentStatus, onSuccess }: StatusSele
         
       if (error) throw error;
       
-      toast.success("Status updated", {
+      toast({
+        title: "Status updated",
         description: `Hotel status has been updated to ${status}`
       });
       
       if (onSuccess) await onSuccess();
     } catch (error: any) {
       console.error("Error updating hotel status:", error);
-      toast.error("Failed to update hotel status", {
-        description: error.message || "An unexpected error occurred"
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update hotel status",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);

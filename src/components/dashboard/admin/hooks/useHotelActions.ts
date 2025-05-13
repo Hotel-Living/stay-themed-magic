@@ -14,11 +14,19 @@ export const useHotelActions = (
       .eq('id', hotelId);
 
     if (error) {
-      toast.error("Failed to approve hotel");
+      toast({
+        title: "Error",
+        description: "Failed to approve hotel",
+        variant: "destructive"
+      });
       return;
     }
 
-    toast.success("Hotel has been approved");
+    toast({
+      title: "Success",
+      description: "Hotel has been approved"
+    });
+
     onSuccess();
   };
 
@@ -32,11 +40,19 @@ export const useHotelActions = (
       .eq('id', hotelId);
 
     if (error) {
-      toast.error("Failed to reject hotel");
+      toast({
+        title: "Error",
+        description: "Failed to reject hotel",
+        variant: "destructive"
+      });
       return;
     }
 
-    toast.success("Hotel has been rejected");
+    toast({
+      title: "Success",
+      description: "Hotel has been rejected"
+    });
+
     onSuccess();
   };
 
@@ -47,11 +63,19 @@ export const useHotelActions = (
       .eq('id', hotelId);
 
     if (error) {
-      toast.error("Failed to delete hotel");
+      toast({
+        title: "Error",
+        description: "Failed to delete hotel",
+        variant: "destructive"
+      });
       return;
     }
 
-    toast.success("Hotel has been deleted");
+    toast({
+      title: "Success",
+      description: "Hotel has been deleted"
+    });
+
     onSuccess();
   };
 

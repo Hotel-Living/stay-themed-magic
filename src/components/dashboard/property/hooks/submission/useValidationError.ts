@@ -26,8 +26,10 @@ export const useValidationError = ({
     setErrorFields(allIncompleteFields);
     setShowValidationErrors(true);
 
-    toast.error("Cannot Submit Property", {
-      description: "Please complete all required fields before submitting."
+    toast({
+      title: "Cannot Submit Property",
+      description: "Please complete all required fields before submitting.",
+      variant: "destructive"
     });
   };
 

@@ -36,10 +36,7 @@ export const useUserHotels = (userId: string | undefined, isHotelOwner: boolean 
         
         setHotels(data || []);
       } catch (error) {
-        // Use the sonner toast directly
-        toast.error("Failed to fetch user hotels", {
-          description: error instanceof Error ? error.message : "Unknown error"
-        });
+        handleApiError(error, "Failed to fetch user hotels", toast);
       } finally {
         setLoading(false);
       }

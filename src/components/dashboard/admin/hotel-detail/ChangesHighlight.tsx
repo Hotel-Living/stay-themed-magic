@@ -78,15 +78,18 @@ export const ChangesHighlight = ({
         // Even if this fails, the value was updated correctly
       }
       
-      toast.success("Field approved", {
+      toast({
+        title: "Field approved",
         description: `The change to ${fieldChange.displayName} has been approved.`
       });
       
       onRefresh();
     } catch (error: any) {
       console.error("Error approving field:", error);
-      toast.error("Failed to approve field change", {
-        description: error.message || "Unknown error"
+      toast({
+        title: "Error",
+        description: "Failed to approve field change: " + (error.message || "Unknown error"),
+        variant: "destructive"
       });
     } finally {
       setLoading(prev => ({ ...prev, [fieldName]: false }));
@@ -112,15 +115,18 @@ export const ChangesHighlight = ({
         throw error;
       }
       
-      toast.success("Change rejected", {
+      toast({
+        title: "Change rejected",
         description: "The proposed change has been rejected."
       });
       
       onRefresh();
     } catch (error: any) {
       console.error("Error rejecting field:", error);
-      toast.error("Failed to reject field change", {
-        description: error.message || "Unknown error"
+      toast({
+        title: "Error",
+        description: "Failed to reject field change: " + (error.message || "Unknown error"),
+        variant: "destructive"
       });
     } finally {
       setLoading(prev => ({ ...prev, [fieldName]: false }));

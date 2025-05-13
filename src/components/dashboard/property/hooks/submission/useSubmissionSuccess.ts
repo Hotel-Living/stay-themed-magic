@@ -24,8 +24,10 @@ export const useSubmissionSuccess = ({
     setIsSubmitted(false);
     setSubmitSuccess(true);
     
-    toast.success("Property saved successfully", {
-      description: "Your property has been saved and is pending administrator approval."
+    toast({
+      title: "Property saved successfully",
+      description: "Your property has been saved and is pending administrator approval.",
+      variant: "default"
     });
     
     setTimeout(() => {

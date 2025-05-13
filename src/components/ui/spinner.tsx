@@ -1,8 +1,10 @@
-import { useToast as useSonnerToast } from "sonner"
+import { toast as sonnerToast } from "sonner";
 
 export const useToast = () => {
-  const { toast } = useSonnerToast()
   return {
-    toast,
+    toast: sonnerToast,
+    toasts: []
   }
 }
+
+export const toast = sonnerToast;

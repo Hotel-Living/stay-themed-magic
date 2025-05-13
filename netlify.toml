@@ -1,22 +1,21 @@
 # netlify.toml - Configuration for Netlify deployments
 
 [build]
-command = "npx update-browserslist-db@latest --no-update-notifier && npm install --legacy-peer-deps && npm run build"
-publish = "dist"
+  command = "npm run build"
+  publish = "dist"
 
 [build.environment]
-NODE_VERSION = "18"
-SKIP_GO_INSTALL = "true"
-NPM_FLAGS = "--legacy-peer-deps"
+  NODE_VERSION = "18"
+  SKIP_GO_INSTALL = "true"
+  NPM_FLAGS = "--legacy-peer-deps"
 
 [build.processing]
-skip_processing = true
+  skip_processing = true
 
 [build.processing.html]
-pretty_urls = true
-
+  pretty_urls = true
 
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -22,9 +22,10 @@ interface ContactFormProps {
   renderFileUpload?: () => React.ReactNode;
   files?: File[];
   recipientEmail?: string;
+  onSubmitSuccess?: (success: boolean) => void;
 }
 
-export function ContactForm({ renderFileUpload, files = [], recipientEmail = "" }: ContactFormProps) {
+export function ContactForm({ renderFileUpload, files = [], recipientEmail = "", onSubmitSuccess }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
   const form = useForm<FormValues>({
@@ -53,10 +54,20 @@ export function ContactForm({ renderFileUpload, files = [], recipientEmail = "" 
       if (result) {
         toast("Your message has been sent! We'll get back to you soon.");
         form.reset();
+        if (onSubmitSuccess) {
+          onSubmitSuccess(true);
+        }
+      } else {
+        if (onSubmitSuccess) {
+          onSubmitSuccess(false);
+        }
       }
     } catch (error) {
       console.error("Form submission error:", error);
       toast("Failed to send your message. Please try again later.");
+      if (onSubmitSuccess) {
+        onSubmitSuccess(false);
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -24,8 +24,7 @@ export const useWeekdayState = ({ formData, updateFormData }: UseWeekdayStatePro
     const event = new CustomEvent('preferredWeekdayUpdated', { detail: weekday });
     window.dispatchEvent(event);
     
-    toast({
-      title: "Weekday Updated",
+    toast("Weekday Updated", {
       description: `Preferred check-in/out day set to ${weekday}.`
     });
   };

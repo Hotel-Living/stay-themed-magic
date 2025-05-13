@@ -81,10 +81,8 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
           } else {
             // This case shouldn't happen now with our updated logic
             console.error("Non-hotel owner tried to log in through hotel login");
-            toast({
-              title: "Acceso denegado",
-              description: "Esta cuenta no está registrada como propietario de hotel",
-              variant: "destructive",
+            toast.error("Acceso denegado", {
+              description: "Esta cuenta no está registrada como propietario de hotel"
             });
             // Sign out the user since they're not a hotel owner
             await supabase.auth.signOut();

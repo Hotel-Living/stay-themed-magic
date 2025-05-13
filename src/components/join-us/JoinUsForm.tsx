@@ -8,6 +8,7 @@ import { toast } from "sonner";
 export function JoinUsForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -32,8 +33,28 @@ export function JoinUsForm() {
     setFiles(files.filter((_, i) => i !== index));
   };
 
+  const handleFormSubmitted = (success: boolean) => {
+    if (success) {
+      setIsSubmitted(true);
+      setFiles([]);
+    }
+  };
+
+  if (isSubmitted) {
+    return (
+      <Section icon={Star} title="Want to Join Us?">
+        <div className="bg-[#3A0952]/50 rounded-lg p-8 text-center">
+          <h3 className="text-xl font-semibold text-[#FFF9B0] mb-4">Thank you!</h3>
+          <p className="text-white leading-relaxed mb-6">
+            Your form has been submitted successfully. We'll get back to you as soon as possible.
+          </p>
+        </div>
+      </Section>
+    );
+  }
+
   return (
-    <Section icon={Star} title="Want to join us?">
+    <Section icon={Star} title="Want to Join Us?">
       <p className="text-white leading-relaxed mb-6">
         If you feel aligned with this vision and want to help bring it to life, we want to hear from you.
       </p>
@@ -99,6 +120,8 @@ export function JoinUsForm() {
           </div>
         )}
         files={files}
+        recipientEmail="grand_soiree@yahoo.com"
+        onSubmitSuccess={handleFormSubmitted}
       />
     </Section>
   );

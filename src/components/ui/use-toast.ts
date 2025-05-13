@@ -1,7 +1,5 @@
-import { toast } from "@/components/ui/toast"
 
-export const useToast = () => {
-  return {
-    toast,
-  }
-}
+// Re-export from our hook implementation
+import { useToast, toast } from "@/hooks/use-toast";
+
+export { useToast, toast };

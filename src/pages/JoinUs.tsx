@@ -35,52 +35,52 @@ export default function JoinUs() {
           <div className="max-w-4xl mx-auto">
             <JoinUsHeader />
             
+            {/* We Created a $12.7B Market section (formerly Texas Revolution) */}
+            <TextSection 
+              icon={Flame} 
+              title="We Created a $12.7B Market" 
+              paragraphs={texasRevolutionData.paragraphs} 
+            />
+            
             {/* Who we are section */}
             <TextSection 
               icon={Rocket} 
-              title="Who we are" 
+              title="Who We Are" 
               paragraphs={whoWeAreData.paragraphs} 
-            />
-
-            {/* The Revolution has Started in Texas section */}
-            <TextSection 
-              icon={Flame} 
-              title="The Revolution has Started in Texas" 
-              paragraphs={texasRevolutionData.paragraphs} 
             />
             
             {/* We're welcoming new talent section */}
             <TextSection 
               icon={Lightbulb} 
-              title="We're welcoming new talent" 
+              title="We're Welcoming New Talent" 
               paragraphs={welcomingTalentData.paragraphs} 
             />
 
             {/* Strategic partnerships section */}
             <TextSection 
               icon={Handshake} 
-              title="WE ARE OPEN TO STRATEGIC PARTNERSHIPS!" 
+              title="We are Open to Strategic Partnerships" 
               paragraphs={strategicPartnershipsData.paragraphs} 
             />
             
             {/* Hotel Living: a necessary revolution section */}
             <TextSection 
               icon={Flame} 
-              title="Hotel Living: a necessary revolution" 
+              title="Hotel Living: A Necessary Revolution" 
               paragraphs={revolutionData.paragraphs} 
             />
             
             {/* A new alignment section */}
             <TextSection 
               icon={Globe} 
-              title="A new alignment" 
+              title="A New Alignment" 
               paragraphs={alignmentData.paragraphs} 
             />
             
             {/* Why did this emerge? section */}
             <ListSection 
               icon={Lightbulb} 
-              title="Why did this emerge?" 
+              title="Why Did This Emerge?" 
               intro={whyEmergeData.intro}
               items={whyEmergeData.items}
               outro={whyEmergeData.outro}
@@ -89,14 +89,14 @@ export default function JoinUs() {
             {/* What we offer section */}
             <MultiListSection 
               icon={Compass} 
-              title="What we offer" 
+              title="What We Offer" 
               listGroups={whatWeOfferData.listGroups} 
             />
             
             {/* Jobs, innovation, future section */}
             <ListSection 
               icon={BarChart3} 
-              title="Jobs, innovation, future" 
+              title="Jobs, Innovation, Future" 
               intro={jobsInnovationData.intro}
               items={jobsInnovationData.items}
               outro={jobsInnovationData.outro}
@@ -105,7 +105,7 @@ export default function JoinUs() {
             {/* Technology with a human purpose section */}
             <TextSection 
               icon={Star} 
-              title="Technology with a human purpose" 
+              title="Technology With a Human Purpose" 
               paragraphs={technologyData.paragraphs} 
             />
             

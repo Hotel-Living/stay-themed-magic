@@ -30,11 +30,7 @@ export const useReferralSubmit = () => {
   // Form submission handler
   const onSubmit = async (data: ReferralFormValues) => {
     if (!user) {
-      toast({
-        title: "Error",
-        description: "You must be logged in to submit a hotel referral.",
-        variant: "destructive",
-      });
+      toast.error("You must be logged in to submit a hotel referral");
       return;
     }
     
@@ -63,26 +59,21 @@ export const useReferralSubmit = () => {
 
       if (error) {
         console.error("Error submitting hotel referral:", error);
-        toast({
-          title: "Error saving referral",
-          description: error.message || "Failed to submit your referral. Please try again.",
-          variant: "destructive",
+        toast.error("Error saving referral", {
+          description: error.message || "Failed to submit your referral. Please try again."
         });
         return;
       }
       
-      toast({
-        title: "Referral submitted!",
-        description: `Thank you for your referral. The hotel must register by ${expirationDate.toLocaleDateString()} for you to receive three free nights.`,
+      toast.success("Referral submitted!", {
+        description: `Thank you for your referral. The hotel must register by ${expirationDate.toLocaleDateString()} for you to receive three free nights.`
       });
       
       form.reset();
     } catch (err) {
       console.error("Unexpected error:", err);
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again later.",
-        variant: "destructive",
+      toast.error("An unexpected error occurred", {
+        description: "Please try again later"
       });
     } finally {
       setIsSubmitting(false);

@@ -1,5 +1,5 @@
+
 import { LucideIcon } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 interface InputFieldProps {
   id: string;

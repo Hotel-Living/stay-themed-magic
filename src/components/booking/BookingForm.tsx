@@ -30,7 +30,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
 
   const endDate = startDate ? addDays(startDate, duration) : null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!startDate) {
       toast({

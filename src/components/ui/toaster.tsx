@@ -1,25 +1,19 @@
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
+
+import { Toaster as SonnerToaster } from "sonner";
+
 export function Toaster() {
-  const {
-    toasts
-  } = useToast();
-  return <ToastProvider>
-      {toasts.map(function ({
-      id,
-      title,
-      description,
-      action,
-      ...props
-    }) {
-      return <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && <ToastDescription className="bg-[#690774]">{description}</ToastDescription>}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>;
-    })}
-      <ToastViewport />
-    </ToastProvider>;
+  return (
+    <SonnerToaster 
+      className="toaster group" 
+      toastOptions={{
+        classNames: {
+          toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
+          title: "group-[.toast]:text-foreground text-sm font-semibold",
+          description: "group-[.toast]:text-muted-foreground text-sm opacity-90",
+          error: "destructive group border-destructive bg-destructive text-destructive-foreground",
+          success: "bg-green-500 text-white",
+        }
+      }}
+    />
+  );
 }

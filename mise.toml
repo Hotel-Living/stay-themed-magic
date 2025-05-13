@@ -1,3 +1,7 @@
+
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+approved_build_scripts = ["@swc/core", "esbuild"]
 

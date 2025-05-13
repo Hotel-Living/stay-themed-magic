@@ -3,9 +3,10 @@ import { useAuth } from "@/context/AuthContext";
 import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+import React from "react";
 
 interface AdminRouteProps {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export const AdminRoute = ({ children }: AdminRouteProps) => {
@@ -53,5 +54,5 @@ export const AdminRoute = ({ children }: AdminRouteProps) => {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return <>{children}</>;
 };

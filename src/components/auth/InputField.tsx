@@ -8,6 +8,7 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   error?: string;
   placeholder?: string;
+  type?: string;
 }
 
 export const InputField = ({ label, id, error, placeholder, type = "text", ...props }: InputFieldProps) => {

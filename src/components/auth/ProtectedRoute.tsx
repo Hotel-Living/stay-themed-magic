@@ -1,9 +1,10 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { Navigate } from "react-router-dom";
+import React from "react";
 
 interface ProtectedRouteProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   requireHotelOwner?: boolean;
 }
 
@@ -18,5 +19,5 @@ export const ProtectedRoute = ({ children, requireHotelOwner }: ProtectedRoutePr
     return <Navigate to="/user-dashboard" />;
   }
 
-  return children;
+  return <>{children}</>;
 };

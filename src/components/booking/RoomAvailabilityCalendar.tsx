@@ -1,37 +1,42 @@
 
 import React, { useState } from "react";
-import { Room, HighlightedBooking } from "@/types/booking";
-import { format, addMonths, subMonths } from "date-fns";
-import { Calendar } from "lucide-react";
 import { MonthNavigation } from "./MonthNavigation";
 import { CalendarHeader } from "./CalendarHeader";
 import { RoomRow } from "./RoomRow";
+import { addMonths, format, getDaysInMonth, subMonths } from "date-fns";
 import { EmptyCalendarState } from "./EmptyCalendarState";
+import { Room } from "@/types/booking";
 
 interface RoomAvailabilityCalendarProps {
   rooms: Room[];
-  onAddStay?: (roomId: string, startDate: Date, duration: number) => void;
-  highlightNewBooking?: HighlightedBooking | null;
+  newBooking?: {
+    roomId: string;
+    startDate: Date;
+    endDate: Date;
+  } | null;
 }
 
-export function RoomAvailabilityCalendar({ 
+export function RoomAvailabilityCalendar({
   rooms,
-  onAddStay,
-  highlightNewBooking
+  newBooking
 }: RoomAvailabilityCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const year = currentDate.getFullYear();
   
-  // Generate array of days for the month header
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  // Create array of days for the given month
+  const daysInMonth = getDaysInMonth(currentDate);
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   
-  // Group days by tens for cleaner header
-  const dayGroups = [];
-  for (let i = 0; i < daysInMonth; i += 10) {
-    const end = Math.min(i + 9, daysInMonth);
-    dayGroups.push(`${i + 1}-${end}`);
+  // Group days into chunks (e.g., by week)
+  const dayGroups: string[] = [];
+  for (let i = 0; i < daysInMonth; i += 7) {
+    const startDay = i + 1;
+    const endDay = Math.min(i + 7, daysInMonth);
+    const startDate = new Date(year, month, startDay);
+    const endDate = new Date(year, month, endDay);
+    
+    dayGroups.push(`${format(startDate, "d")} - ${format(endDate, "d")}`);
   }
   
   const handlePrevMonth = () => {
@@ -42,11 +47,15 @@ export function RoomAvailabilityCalendar({
     setCurrentDate(addMonths(currentDate, 1));
   };
   
+  const hasRoomsWithBookings = rooms.some(room => 
+    room.bookings && room.bookings.length > 0
+  );
+  
   return (
-    <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-medium">Room Availability Calendar</h3>
-        <MonthNavigation 
+    <div className="bg-fuchsia-950/20 border border-fuchsia-900/20 rounded-lg overflow-hidden">
+      <div className="p-4 border-b border-fuchsia-900/20 flex justify-between items-center">
+        <h3 className="font-semibold">Room Availability</h3>
+        <MonthNavigation
           currentDate={currentDate}
           onPrevMonth={handlePrevMonth}
           onNextMonth={handleNextMonth}
@@ -54,22 +63,25 @@ export function RoomAvailabilityCalendar({
       </div>
       
       <div className="overflow-x-auto">
-        <div className="min-w-[640px]">
-          {/* Calendar header with days */}
+        <div className="min-w-[600px]">
           <CalendarHeader dayGroups={dayGroups} />
           
-          {/* Room rows */}
-          {rooms.length > 0 ? (
-            rooms.map((room) => (
-              <RoomRow
-                key={room.id}
-                room={room}
-                month={currentMonth}
-                year={currentYear}
-                daysArray={daysArray}
-                highlightedBooking={highlightNewBooking}
-              />
-            ))
+          {hasRoomsWithBookings ? (
+            <div>
+              {rooms.map((room, index) => (
+                <RoomRow
+                  key={`room-${room.id}-${index}`}
+                  room={room}
+                  month={month}
+                  year={year}
+                  daysArray={daysArray}
+                  highlightedBooking={
+                    newBooking && newBooking.roomId === room.id ? 
+                    { id: "new-booking", roomId: room.id } : null
+                  }
+                />
+              ))}
+            </div>
           ) : (
             <EmptyCalendarState />
           )}

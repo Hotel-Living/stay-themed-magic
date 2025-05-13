@@ -1,46 +1,36 @@
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { componentTagger } from "lovable-tagger";
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  // Load env file based on `mode`
+  const env = loadEnv(mode, process.cwd(), '');
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 8080
-  },
-  build: {
-    rollupOptions: {
-      external: [
-        'axios',
-        'clsx',
-        'class-variance-authority',
-        'react-dropzone',
-        'zod',
-        'tailwind-merge',
-        'react-hook-form',
-        '@tanstack/react-query',
-        '@supabase/supabase-js',
-        'react-day-picker',
-        'country-state-city',
-        'embla-carousel-react',
-        'xlsx',
-        '@radix-ui/react-accordion',
-        '@radix-ui/react-alert-dialog',
-        '@radix-ui/react-dialog',
-        '@radix-ui/react-dropdown-menu',
-        '@radix-ui/react-label',
-        '@radix-ui/react-menubar',
-        '@radix-ui/react-slot',
-        '@radix-ui/react-tabs',
-        '@radix-ui/react-toast',
-        '@radix-ui/react-toggle',
-        '@radix-ui/react-tooltip',
-        '@radix-ui/react-separator',
-        '@radix-ui/react-avatar',
-        '@radix-ui/react-checkbox',
-        '@radix-ui/react-switch',
-        '@radix-ui/react-select',
-        '@radix-ui/react-popover'
+  return {
+    server: {
+      host: "::",
+      port: 8080,
+      allowedHosts: [
+        "ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
       ]
-    }
-  }
-})
+    },
+    plugins: [
+      react(),
+      mode === 'development' && componentTagger(),
+    ].filter(Boolean),
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+    define: {
+      'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify(env.VITE_GOOGLE_MAPS_API_KEY)
+    },
+    build: {
+      target: 'es2015',
+      outDir: 'dist',
+    },
+  };
+});

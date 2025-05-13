@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { submitJoinUsForm } from "@/services/joinUsService";
 
 const formSchema = z.object({
@@ -49,19 +48,12 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
       const result = await submitJoinUsForm(submission, files);
       
       if (result) {
-        toast({
-          title: "Success",
-          description: "Your message has been sent! We'll get back to you soon."
-        });
+        toast("Your message has been sent! We'll get back to you soon.");
         form.reset();
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to send your message. Please try again later.",
-        variant: "destructive"
-      });
+      toast("Failed to send your message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

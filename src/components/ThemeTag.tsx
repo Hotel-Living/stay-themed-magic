@@ -39,8 +39,8 @@ export function HotelThemes({ themes, size = 'md', className }: { themes: HotelT
   
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
-      {validThemes.map((theme, index) => (
-        <ThemeTag key={`theme-${theme.id}-${index}`} theme={theme} size={size} />
+      {validThemes.map(theme => (
+        <ThemeTag key={theme.id} theme={theme} size={size} />
       ))}
     </div>
   );

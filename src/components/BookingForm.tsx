@@ -43,7 +43,7 @@ export function BookingForm({
 
   const endDate = startDate ? addDays(startDate, duration) : null;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate) {
       toast({

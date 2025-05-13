@@ -27,7 +27,7 @@ export function BookingCalendarSelector({
   const [open, setOpen] = useState(false);
   
   // Convert preferred weekday to number (0 = Sunday, 1 = Monday, etc.)
-  const preferredDayNum = preferredWeekday ? weekdayMap[preferredWeekday] ?? 1 : 1; // Default to Monday
+  const preferredDayNum = preferredWeekday ? weekdayMap[preferredWeekday] : 1; // Default to Monday
   
   // Function to check if a date is selectable
   const isDateSelectable = (date: Date) => {

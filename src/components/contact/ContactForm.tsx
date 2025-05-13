@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -20,9 +21,10 @@ type FormValues = z.infer<typeof formSchema>;
 interface ContactFormProps {
   renderFileUpload?: () => React.ReactNode;
   files?: File[];
+  recipientEmail?: string;
 }
 
-export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) {
+export function ContactForm({ renderFileUpload, files = [], recipientEmail = "" }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
   const form = useForm<FormValues>({
@@ -42,7 +44,8 @@ export function ContactForm({ renderFileUpload, files = [] }: ContactFormProps) 
       const submission = {
         name: data.name,
         email: data.email,
-        message: data.message
+        message: data.message,
+        recipientEmail: recipientEmail || undefined
       };
       
       const result = await submitJoinUsForm(submission, files);

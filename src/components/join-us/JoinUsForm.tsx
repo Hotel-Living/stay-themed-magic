@@ -33,7 +33,7 @@ export function JoinUsForm() {
   };
 
   return (
-    <Section icon={Star} title="Want to join us?">
+    <Section icon={Star} title="Want to Join Us?">
       <p className="text-white leading-relaxed mb-6">
         If you feel aligned with this vision and want to help bring it to life, we want to hear from you.
       </p>
@@ -99,6 +99,7 @@ export function JoinUsForm() {
           </div>
         )}
         files={files}
+        recipientEmail="grand_soiree@yahoo.com"
       />
     </Section>
   );

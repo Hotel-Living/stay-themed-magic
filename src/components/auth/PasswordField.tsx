@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { PasswordValidation } from "./PasswordValidation";
-import { getPasswordStrengthColor } from "@/utils/passwordValidation";
+import { validatePassword, getPasswordStrengthColor } from "@/utils/passwordValidation";
 
 interface PasswordFieldProps {
   id: string;

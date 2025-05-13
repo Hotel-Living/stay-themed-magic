@@ -1,7 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { handleApiError } from "@/utils/errorHandling";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
 
 export interface JoinUsSubmission {
   name: string;
@@ -75,7 +75,7 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     
     return true;
   } catch (error) {
-    // Use toast directly without passing it as a parameter since handleApiError expects a specific type
+    // Use the imported toast instead of directly referencing it
     handleApiError(error, "Failed to submit form. Please try again later.");
     return false;
   }

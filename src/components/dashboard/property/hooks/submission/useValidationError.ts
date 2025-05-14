@@ -11,7 +11,7 @@ export const useValidationError = ({
 }: {
   setErrorFields: (fields: string[]) => void;
   setShowValidationErrors: (show: boolean) => void;
-  getIncompleteFields: (step: number, formData: PropertyFormData) => string[];
+  getIncompleteFields: (step: number) => string[];
   stepValidation: Record<number, boolean>;
   formData: PropertyFormData;
 }) => {
@@ -22,7 +22,7 @@ export const useValidationError = ({
       .filter(([_, isValid]) => !isValid)
       .map(([step]) => parseInt(step));
     
-    const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step, formData));
+    const allIncompleteFields = invalidSteps.flatMap(step => getIncompleteFields(step));
     setErrorFields(allIncompleteFields);
     setShowValidationErrors(true);
 

@@ -5,7 +5,7 @@ import { toast as sonnerToast } from "sonner";
 interface ToastOptions {
   title?: string;
   description?: string;
-  variant?: 'default' | 'destructive' | 'success' | 'warning' | 'info';
+  variant?: 'default' | 'destructive' | 'success' | 'warning' | 'info' | 'error';
   [key: string]: any;
 }
 

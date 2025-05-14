@@ -64,12 +64,11 @@ export function JoinUsForm() {
       </div>
       
       <p className="text-white leading-relaxed mb-6">
-        Tell us about yourself! 
-        You can either:
+        Tell us about yourself! You can:
         <ol className="list-decimal pl-6 mt-3 space-y-2">
-          <li>Reach us directly sending an email to contact@hotel-living.com, describing your experience and what you can contribute</li>
-          <li>Join our Broadcast List (Whatsapp). Just send a message to 1 (210) 548-3002</li>
-          <li>Use the form below.</li>
+          <li>Email us at contact@hotel-living.com — let us know about your background and how you'd like to contribute</li>
+          <li>Join our WhatsApp Broadcast List — just send a message to +1 (210) 548-3002</li>
+          <li>Use the form below</li>
         </ol>
       </p>
 

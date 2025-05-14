@@ -65,7 +65,9 @@ export const usePropertySubmission = ({
     const missingRequired = requiredFields.filter(field => !formData[field as keyof PropertyFormData]);
     
     if (missingRequired.length > 0) {
-      toast.error("Missing required information", {
+      toast({
+        variant: "error",
+        title: "Missing required information",
         description: `Please fill out the following fields: ${missingRequired.join(', ')}`
       });
       return;
@@ -86,7 +88,8 @@ export const usePropertySubmission = ({
         changesCount = result.changes;
         
         if (noChangesDetected) {
-          toast("No changes detected", {
+          toast({
+            title: "No changes detected",
             description: "No changes were detected in your submission."
           });
           setIsSubmitted(false);
@@ -135,7 +138,9 @@ export const usePropertySubmission = ({
       // Handle submission success even if some related data had issues
       handleSubmissionSuccess();
       
-      toast.success(isEditing ? "Changes Submitted for Review" : "Hotel Submitted", {
+      toast({
+        variant: "success",
+        title: isEditing ? "Changes Submitted for Review" : "Hotel Submitted",
         description: isEditing 
           ? "Your changes have been submitted and are pending admin approval." 
           : "Your hotel has been submitted and is pending approval."
@@ -153,7 +158,9 @@ export const usePropertySubmission = ({
       setIsSubmitted(false);
       setSubmitSuccess(false);
       
-      toast.error("Submission Failed", {
+      toast({
+        variant: "error",
+        title: "Submission Failed",
         description: error.message || "There was a problem submitting your property."
       });
     }

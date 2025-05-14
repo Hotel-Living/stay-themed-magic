@@ -38,20 +38,12 @@ export default function RoomTypeDialog({
 
   const handleSave = () => {
     if (!selectedRoomType) {
-      toast({
-        title: "Error",
-        description: "Please select a room type",
-        variant: "destructive",
-      });
+      toast.error("Please select a room type");
       return;
     }
 
     if (images.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please upload at least one image",
-        variant: "destructive",
-      });
+      toast.error("Please upload at least one image");
       return;
     }
 

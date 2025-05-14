@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { Calculator, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast, toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CalculatorContent() {
   const [isDownloading, setIsDownloading] = useState(false);
-  const { toast: useToastRef } = useToast();
+  const { toast } = useToast();
   
   const handleDownloadExcel = async () => {
     try {

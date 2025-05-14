@@ -60,11 +60,7 @@ export default function MealPlanSection({
       if (isSelected) {
         // Don't allow removing the last option
         if (prev.length <= 1) {
-          toast({
-            title: "Cannot remove all options",
-            description: "You must select at least one meal plan.",
-            variant: "destructive"
-          });
+          toast.error("Cannot remove all options - You must select at least one meal plan.");
           return prev;
         }
         

@@ -92,10 +92,7 @@ const AccommodationTermsStep = ({
     const event = new CustomEvent('preferredWeekdayUpdated', { detail: weekday });
     window.dispatchEvent(event);
     
-    toast({
-      title: "Weekday Updated",
-      description: `Preferred check-in/out day set to ${weekday}.`
-    });
+    toast(`Preferred check-in/out day set to ${weekday}.`);
   };
 
   const handleStayLengthChange = (lengths: number[]) => {

@@ -29,10 +29,7 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({
         variant="outline"
         size="sm"
         onClick={() => {
-          toast({
-            title: "Feature coming soon",
-            description: "Booking detail view is under development"
-          });
+          toast("Feature coming soon - Booking detail view is under development");
         }}
         className="mr-2"
       >

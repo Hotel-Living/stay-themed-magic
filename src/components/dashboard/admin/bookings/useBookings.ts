@@ -54,11 +54,7 @@ export const useBookings = () => {
 
         setBookings(data || []);
       } catch (error: any) {
-        toast({
-          title: "Error",
-          description: error.message || "Failed to fetch bookings",
-          variant: "destructive"
-        });
+        toast.error(error.message || "Failed to fetch bookings");
       } finally {
         setLoading(false);
       }
@@ -101,17 +97,10 @@ export const useBookings = () => {
           : booking
       ));
       
-      toast({
-        title: "Status Updated",
-        description: `Booking status changed to ${newStatus}`,
-      });
+      toast(`Booking status changed to ${newStatus}`);
       
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to update booking status",
-        variant: "destructive"
-      });
+      toast.error(error.message || "Failed to update booking status");
     } finally {
       setLoading(false);
     }

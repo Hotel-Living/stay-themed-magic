@@ -1,4 +1,3 @@
-
 import React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -6,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -40,7 +39,7 @@ const availableMonths = [
 ];
 
 export default function AdvertisingContent() {
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
   const { profile, user } = useAuth();
   
   // Set up the form
@@ -57,8 +56,7 @@ export default function AdvertisingContent() {
   // Form submission handler
   async function onSubmit(data: AdvertisingFormValues) {
     if (!user) {
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "You must be logged in to submit a promotion request.",
         variant: "destructive",
       });
@@ -76,16 +74,14 @@ export default function AdvertisingContent() {
 
       if (error) {
         console.error("Error submitting promotion request:", error);
-        toast({
-          title: "Error",
+        toast("Error", {
           description: error.message || "Failed to submit your request. Please try again.",
           variant: "destructive",
         });
         return;
       }
       
-      toast({
-        title: "Promotion request submitted!",
+      toast("Promotion request submitted!", {
         description: "We'll review your request and contact you soon.",
       });
       
@@ -98,8 +94,7 @@ export default function AdvertisingContent() {
       });
     } catch (err) {
       console.error("Unexpected error:", err);
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
       });

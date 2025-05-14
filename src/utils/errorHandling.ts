@@ -1,6 +1,6 @@
 
 import { PostgrestError } from "@supabase/supabase-js";
-import { toast as toastFunction } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 interface ApiError {
   message?: string;
@@ -9,7 +9,7 @@ interface ApiError {
 export const handleApiError = (
   error: PostgrestError | ApiError | unknown,
   defaultMessage: string = "An error occurred",
-  toast?: typeof toastFunction
+  toastFn?: typeof toast
 ) => {
   // Extract error message
   let errorMessage = defaultMessage;
@@ -26,8 +26,8 @@ export const handleApiError = (
   console.error("API Error:", errorMessage, error);
 
   // Display toast notification if toast function is provided
-  if (toast) {
-    toast.error("Error", {
+  if (toastFn) {
+    toastFn.error("Error", {
       description: errorMessage
     });
   }

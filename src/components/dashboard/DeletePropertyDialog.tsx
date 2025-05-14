@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   AlertDialog, 
@@ -10,7 +9,7 @@ import {
   AlertDialogHeader, 
   AlertDialogTitle 
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
@@ -29,7 +28,7 @@ export default function DeletePropertyDialog({
   hotelName,
   hotelId
 }: DeletePropertyDialogProps) {
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
@@ -45,17 +44,14 @@ export default function DeletePropertyDialog({
         throw error;
       }
 
-      toast({
-        title: "Property deleted",
-        description: "The property has been permanently deleted.",
-        variant: "default"
+      toast("Property deleted", {
+        description: "The property has been permanently deleted."
       });
       
       onConfirm();
     } catch (error) {
       console.error("Error deleting property:", error);
-      toast({
-        title: "Deletion failed",
+      toast("Deletion failed", {
         description: "There was a problem deleting your property. Please try again.",
         variant: "destructive"
       });

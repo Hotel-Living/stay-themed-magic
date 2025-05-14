@@ -1,10 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/components/ui/spinner"; // o el archivo donde pegaste el nuevo código
+import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
 
 export function Navbar() {
@@ -15,9 +14,7 @@ export function Navbar() {
     signOut,
     session
   } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { toast: useToastRef } = useToast();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -29,8 +26,7 @@ export function Navbar() {
       }
       if (!session) {
         console.log("No active session found, cannot logout properly");
-        toast({
-          title: "Error",
+        toast("Error", {
           description: "No session found. Please refresh the page and try again.",
           variant: "destructive"
         });
@@ -46,8 +42,7 @@ export function Navbar() {
       }, 500);
     } catch (error) {
       console.error("Error during logout:", error);
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "Could not complete logout. Please try again.",
         variant: "destructive"
       });

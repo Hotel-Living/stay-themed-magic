@@ -1,5 +1,4 @@
-
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, addDays } from "date-fns";
@@ -26,20 +25,19 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
     newBooking, setNewBooking,
     nightsSold, totalNights, dynamicPrice, priceIncrease
   } = useBookingState(pricePerMonth, hotelName);
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   const endDate = startDate ? addDays(startDate, duration) : null;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!startDate) {
-      toast({
-        title: "Please select a check-in date",
+      toast("Please select a check-in date", {
         variant: "destructive",
       });
       return;
     }
-   const { toast } = useToast();
+   
     setTimeout(() => {
       // Assign the room (existing logic)
       const { assignRoom } = require("@/utils/roomAssignmentLogic");
@@ -79,8 +77,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
       setNewBooking({ roomId, startDate, endDate: endDate! });
       setLoading(false);
       setBooked(true);
-      toast({
-        title: "Booking confirmed!",
+      toast("Booking confirmed!", {
         description: `Your stay at ${hotelName} has been booked in ${roomId}.`,
       });
     }, 1500);

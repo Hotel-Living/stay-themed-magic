@@ -1,5 +1,5 @@
 
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { PropertyFormData } from "../usePropertyFormData";
 
 export const useValidationError = ({
@@ -15,7 +15,7 @@ export const useValidationError = ({
   stepValidation: Record<number, boolean>;
   formData: PropertyFormData;
 }) => {
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   const handleValidationError = () => {
     const invalidSteps = Object.entries(stepValidation)

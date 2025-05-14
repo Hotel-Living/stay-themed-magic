@@ -4,7 +4,7 @@ import { LogOut, HelpCircle, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
@@ -27,9 +27,7 @@ export default function DashboardLayout({
     user,
     session
   } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { toast: useToastRef } = useToast();
   const navigate = useNavigate();
 
   // For development purposes - allow access to the dashboard without authentication
@@ -53,8 +51,7 @@ export default function DashboardLayout({
       console.log("Logout button clicked, checking session...");
       
       // Force redirect without checking session status
-      toast({
-        title: "Logging Out",
+      toast("Logging Out", {
         description: "Redirecting to login page..."
       });
       
@@ -69,8 +66,7 @@ export default function DashboardLayout({
       }, 500);
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
-      toast({
-        title: "Error",
+      toast("Error", {
         description: "Could not complete logout. Please try again.",
         variant: "destructive"
       });

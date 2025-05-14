@@ -1,12 +1,11 @@
-
 import { useState } from "react";
 import { Calculator, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 
 export default function CalculatorContent() {
   const [isDownloading, setIsDownloading] = useState(false);
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
   
   const handleDownloadExcel = async () => {
     try {
@@ -33,14 +32,12 @@ export default function CalculatorContent() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(link);
       
-      toast({
-        title: "Download successful",
+      toast("Download successful", {
         description: "The Hotel-Living Calculator has been downloaded successfully.",
       });
     } catch (error) {
       console.error("Download error:", error);
-      toast({
-        title: "Download failed",
+      toast("Download failed", {
         description: "There was a problem downloading the calculator. Please try again.",
         variant: "destructive",
       });

@@ -1,5 +1,5 @@
 
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { PropertyFormData } from '../usePropertyFormData';
 
 interface SubmissionSuccessProps {
@@ -17,7 +17,7 @@ export const useSubmissionSuccess = ({
   setFormData,
   onDoneEditing
 }: SubmissionSuccessProps) => {
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   const handleSubmissionSuccess = () => {
     console.log('Property submitted successfully!');

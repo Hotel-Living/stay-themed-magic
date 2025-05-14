@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { 
   Select, 
@@ -20,7 +20,7 @@ interface StatusSelectorProps {
 export function StatusSelector({ hotelId, currentStatus, onSuccess }: StatusSelectorProps) {
   const [status, setStatus] = useState<string>(currentStatus);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   const updateStatus = async () => {
     if (status === currentStatus) return;

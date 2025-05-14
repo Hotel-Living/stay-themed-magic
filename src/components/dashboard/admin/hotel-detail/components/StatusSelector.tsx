@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast, toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { 
   Select, 
@@ -20,7 +20,7 @@ interface StatusSelectorProps {
 export function StatusSelector({ hotelId, currentStatus, onSuccess }: StatusSelectorProps) {
   const [status, setStatus] = useState<string>(currentStatus);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { toast: useToastRef } = useToast();
+  const { toast } = useToast();
 
   const updateStatus = async () => {
     if (status === currentStatus) return;
@@ -34,16 +34,12 @@ export function StatusSelector({ hotelId, currentStatus, onSuccess }: StatusSele
         
       if (error) throw error;
       
-      toast.success("Status updated", {
-        description: `Hotel status has been updated to ${status}`
-      });
+      toast.success("Hotel status has been updated to " + status);
       
       if (onSuccess) await onSuccess();
     } catch (error: any) {
       console.error("Error updating hotel status:", error);
-      toast.error("Failed to update hotel status", {
-        description: error.message || "An unexpected error occurred"
-      });
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }

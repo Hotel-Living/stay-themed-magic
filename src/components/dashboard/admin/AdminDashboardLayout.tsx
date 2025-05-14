@@ -62,13 +62,11 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
     try {
       await signOut();
       toast({
-        title: "Logged out successfully",
         description: "Redirecting to login page..."
       });
       navigate('/login');
     } catch (error) {
       toast({
-        title: "Error",
         description: "Could not log out. Please try again.",
         variant: "destructive"
       });

@@ -88,7 +88,6 @@ export const ReviewsContent = () => {
       } catch (error) {
         console.error('Error fetching reviews:', error);
         toast({
-          title: 'Error',
           description: 'Failed to load reviews. Please try again.',
           variant: 'destructive'
         });
@@ -122,7 +121,6 @@ export const ReviewsContent = () => {
       if (error) throw error;
       
       toast({
-        title: 'Response Submitted',
         description: 'Your response has been saved successfully.',
       });
       
@@ -137,7 +135,6 @@ export const ReviewsContent = () => {
     } catch (error) {
       console.error('Error submitting response:', error);
       toast({
-        title: 'Error',
         description: 'Failed to submit your response. Please try again.',
         variant: 'destructive'
       });

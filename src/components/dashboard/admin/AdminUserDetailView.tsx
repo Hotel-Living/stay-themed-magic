@@ -55,12 +55,10 @@ export default function AdminUserDetailView() {
     try {
       await handleSaveUserDetails();
       toast({
-        title: "Success",
         description: "User information updated successfully",
       });
     } catch (error: any) {
       toast({
-        title: "Error",
         description: error.message || "Failed to update user information",
         variant: "destructive"
       });
@@ -70,7 +68,6 @@ export default function AdminUserDetailView() {
   const handleResendVerification = async () => {
     if (!profile?.email) {
       toast({
-        title: "Error",
         description: "User email is not available",
         variant: "destructive"
       });
@@ -82,7 +79,6 @@ export default function AdminUserDetailView() {
       
       if (result.success) {
         toast({
-          title: "Success",
           description: "Verification email sent successfully",
         });
       } else {
@@ -90,7 +86,6 @@ export default function AdminUserDetailView() {
       }
     } catch (error: any) {
       toast({
-        title: "Error",
         description: error.message || "Failed to resend verification email",
         variant: "destructive"
       });

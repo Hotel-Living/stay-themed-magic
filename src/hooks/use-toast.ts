@@ -1,29 +1,67 @@
 
 import { toast as sonnerToast } from "sonner";
 
+// Define type for toast options to match what our components are expecting
+interface ToastOptions {
+  title?: string;
+  description?: string;
+  variant?: 'default' | 'destructive' | 'success' | 'warning' | 'info';
+  [key: string]: any;
+}
+
 // Create a customized version of sonnerToast that matches what our app expects
-const customToast = (message: string | React.ReactNode) => {
-  if (typeof message === "string") {
-    return sonnerToast(message);
+const customToast = (options: ToastOptions | string) => {
+  if (typeof options === "string") {
+    return sonnerToast(options);
   }
-  return sonnerToast(message);
+  
+  const { title, description, variant, ...rest } = options;
+  
+  if (variant === 'destructive' || variant === 'error') {
+    return sonnerToast.error(title || '', { description, ...rest });
+  } else if (variant === 'success') {
+    return sonnerToast.success(title || '', { description, ...rest });
+  } else if (variant === 'warning') {
+    return sonnerToast.warning(title || '', { description, ...rest });
+  } else if (variant === 'info') {
+    return sonnerToast.info(title || '', { description, ...rest });
+  }
+  
+  // Default case
+  return sonnerToast(title || '', { description, ...rest });
 };
 
 // Add methods to match our expected API
-customToast.success = (message: string, options?: any) => {
-  return sonnerToast.success(options?.description || message);
+customToast.success = (message: string | ToastOptions, options?: ToastOptions) => {
+  if (typeof message === 'string') {
+    return sonnerToast.success(message, options);
+  }
+  const { title, description, ...rest } = message;
+  return sonnerToast.success(title || '', { description, ...rest });
 };
 
-customToast.error = (message: string, options?: any) => {
-  return sonnerToast.error(options?.description || message);
+customToast.error = (message: string | ToastOptions, options?: ToastOptions) => {
+  if (typeof message === 'string') {
+    return sonnerToast.error(message, options);
+  }
+  const { title, description, ...rest } = message;
+  return sonnerToast.error(title || '', { description, ...rest });
 };
 
-customToast.warning = (message: string, options?: any) => {
-  return sonnerToast.warning(options?.description || message);
+customToast.warning = (message: string | ToastOptions, options?: ToastOptions) => {
+  if (typeof message === 'string') {
+    return sonnerToast.warning(message, options);
+  }
+  const { title, description, ...rest } = message;
+  return sonnerToast.warning(title || '', { description, ...rest });
 };
 
-customToast.info = (message: string, options?: any) => {
-  return sonnerToast.info(options?.description || message);
+customToast.info = (message: string | ToastOptions, options?: ToastOptions) => {
+  if (typeof message === 'string') {
+    return sonnerToast.info(message, options);
+  }
+  const { title, description, ...rest } = message;
+  return sonnerToast.info(title || '', { description, ...rest });
 };
 
 // Export the enhanced toast functionality

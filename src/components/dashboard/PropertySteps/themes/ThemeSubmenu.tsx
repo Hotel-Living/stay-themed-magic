@@ -45,7 +45,6 @@ const ThemeSubmenu = ({
       }
       
       toast({
-        title: "Option added",
         description: `${newOptionName} has been added to ${submenu.name}`
       });
       
@@ -62,7 +61,6 @@ const ThemeSubmenu = ({
     }
     
     toast({
-      title: "Option deleted",
       description: `${optionName} has been removed from ${submenu.name}`
     });
   };

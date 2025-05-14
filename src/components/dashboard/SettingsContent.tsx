@@ -27,7 +27,6 @@ export default function SettingsContent() {
   
   const handleSaveSettings = () => {
     toast({
-      title: "Settings saved",
       description: "Your settings have been updated successfully."
     });
   };

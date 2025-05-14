@@ -1,3 +1,4 @@
+
 import React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -56,10 +57,7 @@ export default function AdvertisingContent() {
   // Form submission handler
   async function onSubmit(data: AdvertisingFormValues) {
     if (!user) {
-      toast("Error", {
-        description: "You must be logged in to submit a promotion request.",
-        variant: "destructive",
-      });
+      toast.error("You must be logged in to submit a promotion request.");
       return;
     }
     
@@ -74,15 +72,14 @@ export default function AdvertisingContent() {
 
       if (error) {
         console.error("Error submitting promotion request:", error);
-        toast("Error", {
-          description: error.message || "Failed to submit your request. Please try again.",
-          variant: "destructive",
+        toast.error("Failed to submit your request. Please try again.", {
+          description: error.message
         });
         return;
       }
       
-      toast("Promotion request submitted!", {
-        description: "We'll review your request and contact you soon.",
+      toast.success("Promotion request submitted!", {
+        description: "We'll review your request and contact you soon."
       });
       
       // Reset form fields except for contact information
@@ -94,10 +91,7 @@ export default function AdvertisingContent() {
       });
     } catch (err) {
       console.error("Unexpected error:", err);
-      toast("Error", {
-        description: "An unexpected error occurred. Please try again later.",
-        variant: "destructive",
-      });
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   }
 

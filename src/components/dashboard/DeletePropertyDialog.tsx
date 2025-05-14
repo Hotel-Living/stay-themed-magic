@@ -45,7 +45,7 @@ export default function DeletePropertyDialog({
         throw error;
       }
 
-      toast("Property deleted", {
+      toast({
         description: "The property has been permanently deleted."
       });
       

@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -26,10 +27,7 @@ export function Navbar() {
       }
       if (!session) {
         console.log("No active session found, cannot logout properly");
-        toast("Error", {
-          description: "No session found. Please refresh the page and try again.",
-          variant: "destructive"
-        });
+        toast.error("No session found. Please refresh the page and try again.");
         return;
       }
       console.log("Attempting to sign out from Navbar...");
@@ -42,10 +40,7 @@ export function Navbar() {
       }, 500);
     } catch (error) {
       console.error("Error during logout:", error);
-      toast("Error", {
-        description: "Could not complete logout. Please try again.",
-        variant: "destructive"
-      });
+      toast.error("Could not complete logout. Please try again.");
     }
   };
 

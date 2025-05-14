@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 
 interface UseWeekdayStateProps {
   formData: any;
@@ -9,7 +9,7 @@ interface UseWeekdayStateProps {
 
 export const useWeekdayState = ({ formData, updateFormData }: UseWeekdayStateProps) => {
   const [selectedWeekday, setSelectedWeekday] = useState<string>(formData.preferredWeekday || "Monday");
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   useEffect(() => {
     if (formData.preferredWeekday) {
@@ -24,9 +24,7 @@ export const useWeekdayState = ({ formData, updateFormData }: UseWeekdayStatePro
     const event = new CustomEvent('preferredWeekdayUpdated', { detail: weekday });
     window.dispatchEvent(event);
     
-    toast("Weekday Updated", {
-      description: `Preferred check-in/out day set to ${weekday}.`
-    });
+    toast(`Preferred check-in/out day set to ${weekday}.`);
   };
 
   return {

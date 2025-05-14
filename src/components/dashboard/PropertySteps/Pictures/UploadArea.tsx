@@ -34,13 +34,9 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
       
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
-        toast({
-          description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
-        });
+        toast(`${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`);
       } else {
-        toast.error({
-          description: "Please upload image files only.",
-        });
+        toast.error("Please upload image files only.");
       }
     }
   }, [toast, onFilesSelected]);
@@ -53,13 +49,9 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
       
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
-        toast({
-          description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
-        });
+        toast(`${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`);
       } else {
-        toast.error({
-          description: "Please upload image files only.",
-        });
+        toast.error("Please upload image files only.");
       }
     }
   }, [toast, onFilesSelected]);

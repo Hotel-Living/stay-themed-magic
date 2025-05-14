@@ -33,14 +33,10 @@ export default function CalculatorContent() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(link);
       
-      toast({
-        description: "The Hotel-Living Calculator has been downloaded successfully.",
-      });
+      toast("The Hotel-Living Calculator has been downloaded successfully.");
     } catch (error) {
       console.error("Download error:", error);
-      toast.error({
-        description: "There was a problem downloading the calculator. Please try again.",
-      });
+      toast.error("There was a problem downloading the calculator. Please try again.");
     } finally {
       setIsDownloading(false);
     }

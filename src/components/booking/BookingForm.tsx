@@ -1,3 +1,4 @@
+
 import { useToast, toast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,9 +33,7 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!startDate) {
-      toast("Please select a check-in date", {
-        variant: "destructive",
-      });
+      toast.error("Please select a check-in date");
       return;
     }
    
@@ -77,8 +76,8 @@ export function BookingForm({ hotelId, hotelName, pricePerMonth, availableStayLe
       setNewBooking({ roomId, startDate, endDate: endDate! });
       setLoading(false);
       setBooked(true);
-      toast("Booking confirmed!", {
-        description: `Your stay at ${hotelName} has been booked in ${roomId}.`,
+      toast.success("Booking confirmed!", {
+        description: `Your stay at ${hotelName} has been booked in ${roomId}.`
       });
     }, 1500);
   };

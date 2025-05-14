@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -51,7 +52,7 @@ export default function DashboardLayout({
       console.log("Logout button clicked, checking session...");
       
       // Force redirect without checking session status
-      toast("Logging Out", {
+      toast({
         description: "Redirecting to login page..."
       });
       
@@ -66,10 +67,7 @@ export default function DashboardLayout({
       }, 500);
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
-      toast("Error", {
-        description: "Could not complete logout. Please try again.",
-        variant: "destructive"
-      });
+      toast.error("Could not complete logout. Please try again.");
       
       // Force redirect even if there's an error
       setTimeout(() => {

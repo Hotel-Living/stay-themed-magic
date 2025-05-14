@@ -1,3 +1,4 @@
+
 import { useToast, toast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -45,9 +46,7 @@ export function BookingForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!startDate) {
-      toast("Please select a check-in date", {
-        variant: "destructive",
-      });
+      toast.error("Please select a check-in date");
       return;
     }
 
@@ -67,9 +66,8 @@ export function BookingForm({
       true;
 
     if (!isValidWeekday || !isValidDuration || !isValidMonth) {
-      toast("Invalid booking attempt", {
-        description: "Please select a valid date, day, and duration based on hotel availability.",
-        variant: "destructive",
+      toast.error("Invalid booking attempt", {
+        description: "Please select a valid date, day, and duration based on hotel availability."
       });
       return;
     }
@@ -86,9 +84,8 @@ export function BookingForm({
     const roomId = findBestAvailableRoom(stayRequest, rooms, selectedRoomType);
     
     if (!roomId) {
-      toast("No available rooms", {
-        description: "Please select another room type or date.",
-        variant: "destructive",
+      toast.error("No available rooms", {
+        description: "Please select another room type or date."
       });
       return;
     }
@@ -127,8 +124,8 @@ export function BookingForm({
       setNewBooking({ roomId, startDate, endDate: endDate! });
       setLoading(false);
       setBooked(true);
-      toast("Booking confirmed!", {
-        description: `Your stay at ${hotelName} has been booked in ${roomId}.`,
+      toast.success("Booking confirmed!", {
+        description: `Your stay at ${hotelName} has been booked in ${roomId}.`
       });
     }, 1500);
   };

@@ -60,7 +60,7 @@ export function JoinUsForm() {
       
       <div className="flex items-center mb-6">
         <Mail className="h-6 w-6 text-[#FFF9B0] mr-3" />
-        <h3 className="text-xl font-semibold text-[#FFF9B0]">Apply to join our founding team:</h3>
+        <h3 className="text-xl font-semibold text-[#FFF9B0]">Apply to Join our Founding Team!</h3>
       </div>
       
       <p className="text-white leading-relaxed mb-6">

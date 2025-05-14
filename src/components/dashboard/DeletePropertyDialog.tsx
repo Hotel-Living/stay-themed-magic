@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { 
   AlertDialog, 
@@ -51,9 +52,8 @@ export default function DeletePropertyDialog({
       onConfirm();
     } catch (error) {
       console.error("Error deleting property:", error);
-      toast("Deletion failed", {
-        description: "There was a problem deleting your property. Please try again.",
-        variant: "destructive"
+      toast.error("Deletion failed", {
+        description: "There was a problem deleting your property. Please try again."
       });
     } finally {
       setIsDeleting(false);

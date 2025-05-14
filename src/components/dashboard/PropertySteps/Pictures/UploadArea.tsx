@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback, RefObject } from "react";
 import { Upload, Image } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast, toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 interface UploadAreaProps {
@@ -11,7 +11,7 @@ interface UploadAreaProps {
 
 export default function UploadArea({ onFilesSelected, fileInputRef }: UploadAreaProps) {
   const [dragOver, setDragOver] = useState(false);
-  const { toast } = useToast();
+  const { toast: useToastRef } = useToast();
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -35,14 +35,11 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
         toast({
-          title: "Files added",
           description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
         });
       } else {
-        toast({
-          title: "Invalid file type",
+        toast.error({
           description: "Please upload image files only.",
-          variant: "destructive",
         });
       }
     }
@@ -57,14 +54,11 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
       if (newFiles.length > 0) {
         onFilesSelected(newFiles);
         toast({
-          title: "Files added",
           description: `${newFiles.length} image${newFiles.length > 1 ? 's' : ''} ready to upload.`,
         });
       } else {
-        toast({
-          title: "Invalid file type",
+        toast.error({
           description: "Please upload image files only.",
-          variant: "destructive",
         });
       }
     }

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Calculator, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,14 +33,13 @@ export default function CalculatorContent() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(link);
       
-      toast("Download successful", {
+      toast({
         description: "The Hotel-Living Calculator has been downloaded successfully.",
       });
     } catch (error) {
       console.error("Download error:", error);
-      toast("Download failed", {
+      toast.error({
         description: "There was a problem downloading the calculator. Please try again.",
-        variant: "destructive",
       });
     } finally {
       setIsDownloading(false);

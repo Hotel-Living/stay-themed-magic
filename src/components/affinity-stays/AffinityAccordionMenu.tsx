@@ -41,7 +41,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] md:text-base leading-relaxed text-sm">
               It's a Hotel-Living hotel where everyone staying shares a common interest. Whether it's jazz, gardening, philosophy, or photography, you'll find people who speak your language—no matter where you're from.
             </p>
           </AccordionContent>

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -19,11 +20,11 @@ export default function FAQ() {
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <div className="space-y-4 mb-16">
             <div className="flex justify-center">
-              <h2 className={`text-center font-bold ${isMobile ? "text-3xl" : "text-4xl"} mb-10 text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 px-6 rounded-lg inline-block mx-auto`}>Step Into a New World of Benefits </h2>
+              <h2 className={`text-center font-bold ${isMobile ? "text-2xl mb-5" : "text-4xl mb-10"} text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 px-6 rounded-lg inline-block mx-auto`}>Step Into a New World of Benefits </h2>
             </div>
             <div className="space-y-3 max-w-3xl mx-auto">
               {benefitsList.map((benefit, index) => <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg ml-0 max-w-fit text-left">
-                  <p className="text-[#8017B0] md:text-xl font-bold text-base">{benefit}</p>
+                  <p className={`text-[#8017B0] ${isMobile ? "text-xl" : "text-base"} font-bold`}>{benefit}</p>
                 </div>)}
             </div>
           </div>
@@ -31,7 +32,7 @@ export default function FAQ() {
           <div className="text-center mb-6">
             <div className="flex justify-center">
               <h1 className={`
-                ${isMobile ? "text-4xl" : "text-3xl md:text-4xl"} 
+                ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
                 font-bold mb-4 text-[#eedbf7] glow 
                 tracking-tight leading-tight
                 bg-[#8017B0] py-2 px-8 rounded-lg inline-block
@@ -46,7 +47,17 @@ export default function FAQ() {
             <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder="Search all FAQs..." />
           </div>
 
-          <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={faqCategories} faqsByCategory={faqsByCategory} numbered={true} searchQuery={searchQuery} textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" />
+          <FaqTabs 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            faqCategories={faqCategories} 
+            faqsByCategory={faqsByCategory} 
+            numbered={true} 
+            searchQuery={searchQuery} 
+            textSizeClass="text-base md:text-lg" 
+            answerTextSizeClass="text-sm md:text-base"
+            marginBottom={isMobile ? "mb-10" : "mb-20"} 
+          />
         </div>
       </main>
       

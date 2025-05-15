@@ -1,19 +1,10 @@
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
 export function AffinityAccordionMenu() {
-  return (
-    <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6">
-      <Accordion 
-        type="single" 
-        collapsible 
-        className="w-full space-y-3"
-      >
+  return <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 mx-0 px-0 py-[18px]">
+      <Accordion type="single" collapsible className="w-full space-y-3">
         {/* NEW MENU ITEM */}
         <AccordionItem value="item-0" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 text-lg font-normal">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               What are Affinity Hotels?
             </div>
@@ -30,9 +21,7 @@ export function AffinityAccordionMenu() {
 
         {/* MENU 1 */}
         <AccordionItem value="item-1" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Tired of traveling alone? Want to meet people who just get you?
             </div>
@@ -46,9 +35,7 @@ export function AffinityAccordionMenu() {
 
         {/* MENU 2 */}
         <AccordionItem value="item-2" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               What exactly is an Affinity Hotel?
             </div>
@@ -62,9 +49,7 @@ export function AffinityAccordionMenu() {
         
         {/* MENU 3 */}
         <AccordionItem value="item-3" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Will I make friends?
             </div>
@@ -77,9 +62,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-4" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Does the hotel organize activities?
             </div>
@@ -92,9 +75,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-5" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Is there always a group leader or host?
             </div>
@@ -107,9 +88,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-6" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Is the hotel decorated around the theme?
             </div>
@@ -122,9 +101,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
         
         <AccordionItem value="item-7" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               How long are the stays?
             </div>
@@ -137,9 +114,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-8" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Can I try different affinities in different hotels?
             </div>
@@ -152,9 +127,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-9" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               What if I just want to relax?
             </div>
@@ -167,9 +140,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-10" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Is this for solo travelers only?
             </div>
@@ -182,9 +153,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-11" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               What if I don't find a theme that fits my interest yet?
             </div>
@@ -197,9 +166,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-12" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Are the affinity themes available at every hotel right now?
             </div>
@@ -212,9 +179,7 @@ export function AffinityAccordionMenu() {
         </AccordionItem>
 
         <AccordionItem value="item-13" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger 
-            className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-          >
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
               Can I still make connections even if there's no specific theme?
             </div>
@@ -226,6 +191,5 @@ export function AffinityAccordionMenu() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>
-  );
+    </div>;
 }

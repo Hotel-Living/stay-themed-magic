@@ -26,11 +26,11 @@ export function AffinityStaysSlogans() {
         {/* Slogans - increased space between quote and slogans by 50% and 20% between slogans */}
         <div className="space-y-5 py-4 mt-12 mb-8">
           {/* Enhanced glow effect by 20% on all slogans */}
-          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow-enhanced">Not just a stay. A shared world</p>
-          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow-enhanced">Meet. Share. Belong</p>
-          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow-enhanced">Stay with those who get you</p>
-          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow-enhanced">Tired of random? Choose your people</p>
-          <p className="text-xl text-center text-yellow-300 font-bold animate-pulse-glow-enhanced">Stay, and connect through what you love</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced py-0 mx-0 my-[22px] font-extrabold">Not just a stay. A shared world</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold">Meet. Share. Belong</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold">Stay with those who get you</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-bold">Tired of random? Choose your people</p>
+          <p className="text-center text-yellow-300 animate-pulse-glow-enhanced text-xl font-bold">Stay, and connect through what you love</p>
         </div>
       </div>
     </>;

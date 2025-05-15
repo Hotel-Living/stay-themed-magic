@@ -11,10 +11,10 @@ export function AffinityAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
-              <p className="text-lg">Affinity Hotels are a registered concept created exclusively by hotel-living.com.</p>
-              <p className="text-lg mt-2">This unique idea—protected by copyright—was designed by us to bring people together around shared interests.</p>
-              <p className="text-lg mt-2">Affinity Hotels are a lot more than just travel: it's a new way for society to connect, for individuals to meet like-minded people, and for many to break through social isolation.</p>
-              <p className="text-lg mt-2">Affinity Hotels make it easy to find common ground, community, and real human connection.</p>
+              <p className="text-base">Affinity Hotels are a registered concept created exclusively by hotel-living.com.</p>
+              <p className="mt-2 text-base">This unique idea—protected by copyright—was designed by us to bring people together around shared interests.</p>
+              <p className="mt-2 text-base">Affinity Hotels are a lot more than just travel: it's a new way for society to connect, for individuals to meet like-minded people, and for many to break through social isolation.</p>
+              <p className="mt-2 text-base">Affinity Hotels make it easy to find common ground, community, and real human connection.</p>
             </p>
           </AccordionContent>
         </AccordionItem>

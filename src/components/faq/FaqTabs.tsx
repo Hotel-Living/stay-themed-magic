@@ -114,7 +114,7 @@ export function FaqTabs({
   return <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
       {!hideTabsList && !searchQuery && <div className="flex justify-center mb-4">
           <TabsList className="flex flex-wrap justify-center gap-1 p-1 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-            {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 py-0 font-normal text-base text-justify rounded-lg">
+            {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 font-normal text-base text-justify rounded-lg py-[37px]">
                 {category.name}
               </TabsTrigger>)}
           </TabsList>
@@ -136,7 +136,7 @@ export function FaqTabs({
                   {filteredFaqs.map((faq, index) => {
             const questionNumber = startIndex + index;
             return <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-xl">
-                        <AccordionTrigger className="px-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 mx-0 py-0">
+                        <AccordionTrigger className="px-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 mx-0 py-0 font-normal text-lg">
                           <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                             {numbered ? `${questionNumber}. ` : ''}{faq.question}
                           </div>

@@ -34,12 +34,11 @@ export function HeroSection() {
         </div>
         
         {/* Changed the container background color to #FFF8A9 */}
-        {/* Doubled the spacing below on mobile (from mb-3.9 to mb-6) */}
-        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-6 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1`}>
-          {/* Adjusted to have consistent spacing between all slogans on mobile */}
-          <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"} flex flex-col justify-evenly`}>
+        {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
+        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1`}>
+          <div className={`${isMobile ? "py-2.5 pl-0" : "space-y-0.125 py-1.5"} flex flex-col justify-between h-full`}>
             {/* Changed background color to #FFF8A9 */}
-            {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
+            {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>
@@ -50,9 +49,9 @@ export function HeroSection() {
               </div>)}
           </div>
           
-          <div className={`${isMobile ? "space-y-1.5 pl-0 py-2.5" : "space-y-0.125 py-1.5"} flex flex-col justify-evenly`}>
+          <div className={`${isMobile ? "py-2.5 pl-0" : "space-y-0.125 py-1.5"} flex flex-col justify-between h-full`}>
             {/* Changed background color to #FFF8A9 */}
-            {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
+            {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
                 <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
                   <Check className="w-3 h-3 text-white" />
                 </div>

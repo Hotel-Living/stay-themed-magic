@@ -19,7 +19,7 @@ export default function FAQ() {
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <div className="space-y-4 mb-16">
             <div className="flex justify-center">
-              <h2 className={`text-center font-bold ${isMobile ? "text-3xl" : "text-4xl"} mb-10 text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 px-6 rounded-lg inline-block mx-auto`}>EXPERIENCE OUR EXTRAORDINAY  BENEFITS </h2>
+              <h2 className={`text-center font-bold ${isMobile ? "text-3xl" : "text-4xl"} mb-10 text-[#FFF9B0] tracking-tight uppercase bg-[#8017B0] py-2 px-6 rounded-lg inline-block mx-auto`}>Step Into a New World of Benefits </h2>
             </div>
             <div className="space-y-3 max-w-3xl mx-auto">
               {benefitsList.map((benefit, index) => <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg ml-0 max-w-fit text-left">

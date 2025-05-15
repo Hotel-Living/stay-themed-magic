@@ -16,11 +16,11 @@ export function AffinityStaysSlogans() {
         
         {/* Quote section - text made 10% smaller */}
         <div className="max-w-2xl mx-auto text-center mb-8">
-          <p className="text-white italic text-base">
+          <p className="text-white italic text-lg font-semibold">
             "When you surround yourself with like-minded people who share<br />
             a passionate commitment around a common purpose, anything is possible"
           </p>
-          <p className="text-right text-white mt-2 mr-12 text-base">Howard Schultz</p>
+          <p className="text-right text-white mt-2 mr-12 text-base font-bold">Howard Schultz</p>
         </div>
         
         {/* Slogans - increased space between quote and slogans by 50% and 20% between slogans */}

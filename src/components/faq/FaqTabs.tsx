@@ -1,19 +1,15 @@
-
 import React, { useMemo, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-
 export interface FaqItem {
   question: string;
   answer: string;
 }
-
 export interface FaqCategory {
   id: string;
   name: string;
 }
-
 interface FaqTabsProps {
   activeTab: string;
   setActiveTab: (value: string) => void;
@@ -30,11 +26,10 @@ interface FaqTabsProps {
   answerTextSizeClass?: string;
   hideTabsList?: boolean;
 }
-
-export function FaqTabs({ 
-  activeTab, 
-  setActiveTab, 
-  faqCategories, 
+export function FaqTabs({
+  activeTab,
+  setActiveTab,
+  faqCategories,
   faqsByCategory,
   numbered = false,
   searchQuery = "",
@@ -53,58 +48,43 @@ export function FaqTabs({
   // Modified getFilteredFaqs to return all faqs that match the query from all categories
   const getFilteredFaqs = (categoryId: string) => {
     if (!searchQuery) return faqsByCategory[categoryId as keyof typeof faqsByCategory] || [];
-    
-    return (faqsByCategory[categoryId as keyof typeof faqsByCategory] || []).filter(
-      faq => 
-        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return (faqsByCategory[categoryId as keyof typeof faqsByCategory] || []).filter(faq => faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(searchQuery.toLowerCase()));
   };
 
   // Get all matching FAQs across all categories when searching
   const getAllSearchResults = useMemo(() => {
     if (!searchQuery) return {};
-
     const results: Record<string, FaqItem[]> = {};
-    
     faqCategories.forEach(category => {
       const filteredFaqs = getFilteredFaqs(category.id);
       if (filteredFaqs.length > 0) {
         results[category.id] = filteredFaqs;
       }
     });
-    
     return results;
   }, [faqCategories, faqsByCategory, searchQuery]);
 
   // Check if there are any search results across all categories
-  const hasSearchResults = searchQuery ? 
-    Object.values(getAllSearchResults).some(results => results.length > 0) : true;
-
+  const hasSearchResults = searchQuery ? Object.values(getAllSearchResults).some(results => results.length > 0) : true;
   const categoryStartIndices = useMemo(() => {
     const indices: Record<string, number> = {};
     let currentIndex = 1;
-
     for (const category of faqCategories) {
       indices[category.id] = currentIndex;
       if (!searchQuery) {
         currentIndex += (faqsByCategory[category.id] || []).length;
       }
     }
-
     return indices;
   }, [faqCategories, faqsByCategory, searchQuery]);
 
   // If there's a search query, show all matching results from all categories
   // regardless of which tab is active
-  const searchResultsView = searchQuery && (
-    <div className="animate-fade-in">
+  const searchResultsView = searchQuery && <div className="animate-fade-in">
       {Object.entries(getAllSearchResults).map(([categoryId, faqs]) => {
-        const category = faqCategories.find(cat => cat.id === categoryId);
-        if (!faqs.length) return null;
-        
-        return (
-          <div key={categoryId} className="mb-6">
+      const category = faqCategories.find(cat => cat.id === categoryId);
+      if (!faqs.length) return null;
+      return <div key={categoryId} className="mb-6">
             <div className="mb-2">
               <h3 className="text-[#FFF9B0] text-sm font-medium border-b border-[#FFF9B0]/30 pb-1">
                 Results in {category?.name || categoryId}
@@ -112,18 +92,10 @@ export function FaqTabs({
             </div>
             <Accordion type="single" collapsible className="w-full space-y-3">
               {faqs.map((faq, index) => {
-                const startIndex = categoryStartIndices[categoryId] || 1;
-                const questionNumber = startIndex + index;
-                
-                return (
-                  <AccordionItem 
-                    key={index} 
-                    value={`search-${categoryId}-${index}`} 
-                    className="overflow-hidden border-none shadow-xl"
-                  >
-                    <AccordionTrigger 
-                      className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-                    >
+            const startIndex = categoryStartIndices[categoryId] || 1;
+            const questionNumber = startIndex + index;
+            return <AccordionItem key={index} value={`search-${categoryId}-${index}`} className="overflow-hidden border-none shadow-xl">
+                    <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
                       <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                         {numbered ? `${questionNumber}. ` : ''}{faq.question}
                       </div>
@@ -133,66 +105,38 @@ export function FaqTabs({
                         {faq.answer}
                       </p>
                     </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
+                  </AccordionItem>;
+          })}
             </Accordion>
-          </div>
-        );
-      })}
-    </div>
-  );
-
-  return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      {!hideTabsList && !searchQuery && (
-        <div className="flex justify-center mb-4">
+          </div>;
+    })}
+    </div>;
+  return <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
+      {!hideTabsList && !searchQuery && <div className="flex justify-center mb-4">
           <TabsList className="flex flex-wrap justify-center gap-1 p-1 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-            {faqCategories.map(category => (
-              <TabsTrigger 
-                key={category.id} 
-                value={category.id} 
-                className="px-2 py-0.5 rounded-lg uppercase whitespace-nowrap text-[0.65rem] font-bold bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20"
-              >
+            {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 py-0 font-normal text-base text-justify rounded-lg">
                 {category.name}
-              </TabsTrigger>
-            ))}
+              </TabsTrigger>)}
           </TabsList>
-        </div>
-      )}
+        </div>}
       
-      {!hasSearchResults && (
-        <div className="text-center py-10 glass-card rounded-xl mb-8">
+      {!hasSearchResults && <div className="text-center py-10 glass-card rounded-xl mb-8">
           <p className="text-[#e3d6e9] text-xl">No FAQs found matching "{searchQuery}"</p>
           <p className="text-[#e3d6e9] text-base mt-2">Try different keywords or clear your search</p>
-        </div>
-      )}
+        </div>}
       
       {/* Show search results from all categories when searching */}
-      {searchQuery ? (
-        searchResultsView
-      ) : (
-        // Show normal tabs when not searching
-        faqCategories.map(category => {
-          const filteredFaqs = getFilteredFaqs(category.id);
-          const startIndex = categoryStartIndices[category.id];
-          
-          return (
-            <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
-              {filteredFaqs.length > 0 ? (
-                <Accordion type="single" collapsible className="w-full space-y-3">
+      {searchQuery ? searchResultsView :
+    // Show normal tabs when not searching
+    faqCategories.map(category => {
+      const filteredFaqs = getFilteredFaqs(category.id);
+      const startIndex = categoryStartIndices[category.id];
+      return <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
+              {filteredFaqs.length > 0 ? <Accordion type="single" collapsible className="w-full space-y-3">
                   {filteredFaqs.map((faq, index) => {
-                    const questionNumber = startIndex + index;
-                    
-                    return (
-                      <AccordionItem 
-                        key={index} 
-                        value={`${category.id}-${index}`} 
-                        className="overflow-hidden border-none shadow-xl"
-                      >
-                        <AccordionTrigger 
-                          className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
-                        >
+            const questionNumber = startIndex + index;
+            return <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-xl">
+                        <AccordionTrigger className="px-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 mx-0 py-0">
                           <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                             {numbered ? `${questionNumber}. ` : ''}{faq.question}
                           </div>
@@ -202,15 +146,10 @@ export function FaqTabs({
                             {faq.answer}
                           </p>
                         </AccordionContent>
-                      </AccordionItem>
-                    );
-                  })}
-                </Accordion>
-              ) : null}
-            </TabsContent>
-          );
-        })
-      )}
-    </Tabs>
-  );
+                      </AccordionItem>;
+          })}
+                </Accordion> : null}
+            </TabsContent>;
+    })}
+    </Tabs>;
 }

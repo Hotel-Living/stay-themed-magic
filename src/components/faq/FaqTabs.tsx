@@ -133,8 +133,8 @@ export function FaqTabs({
       const filteredFaqs = getFilteredFaqs(category.id);
       const startIndex = categoryStartIndices[category.id];
       return <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
-              {/* Added mt-8 for mobile to fix spacing between FAQ menu blocks and questions */}
-              {filteredFaqs.length > 0 ? <Accordion type="single" collapsible className={`w-full space-y-3 ${isMobile ? "mt-8" : ""}`}>
+              {/* Increased vertical spacing between menu and questions */}
+              {filteredFaqs.length > 0 ? <Accordion type="single" collapsible className={`w-full space-y-3 ${isMobile ? "mt-16" : ""}`}>
                   {filteredFaqs.map((faq, index) => {
             const questionNumber = startIndex + index;
             return <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-xl">

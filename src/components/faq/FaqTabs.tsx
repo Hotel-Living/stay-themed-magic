@@ -114,7 +114,7 @@ export function FaqTabs({
   return <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
       {!hideTabsList && !searchQuery && <div className="flex justify-center mb-4">
           <TabsList className="flex flex-wrap justify-center gap-1 p-1 bg-[#460F54]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">
-            {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 font-normal text-base text-justify rounded-lg py-[37px]">
+            {faqCategories.map(category => <TabsTrigger key={category.id} value={category.id} className="px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#730483] to-[#570366] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 font-normal text-base text-justify rounded-lg py-0">
                 {category.name}
               </TabsTrigger>)}
           </TabsList>

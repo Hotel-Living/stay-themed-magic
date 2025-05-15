@@ -5,6 +5,33 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export function HeroSection() {
   const isMobile = useIsMobile();
   
+  // Common slogans data to avoid duplication
+  const slogans = [
+    "Get rid of household chores!",
+    "Select hotels based on favourite themes!",
+    "Boost your social life!",
+    "Meet and enjoy like-minded people!"
+  ];
+  
+  // Render a single slogan item consistently
+  const renderSlogan = (slogan: string, index: number) => (
+    <div 
+      key={index} 
+      className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} 
+      style={{ backgroundColor: "#FFF8A9" }}
+    >
+      <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
+        <Check className="w-3 h-3 text-white" />
+      </div>
+      <p 
+        className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}
+        style={{ fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif" }}
+      >
+        {slogan}
+      </p>
+    </div>
+  );
+  
   return <section className="py-0 px-4 overflow-hidden pt-2 w-full">
       <div className="container relative z-10 max-w-6xl mx-auto text-center">
         <div className={`pt-2 ${isMobile ? "mb-3" : "mb-0.25"}`}>
@@ -35,32 +62,23 @@ export function HeroSection() {
         
         {/* Changed the container background color to #FFF8A9 */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
-        <div className={`max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.125 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1`}>
-          <div className={`${isMobile ? "py-2.5 pl-0" : "space-y-0.125 py-1.5"} flex flex-col justify-between h-full`}>
-            {/* Changed background color to #FFF8A9 */}
-            {["Get rid of household chores!", "Select hotels based on favourite themes!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
-                <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}
-                   style={{ fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif" }}>
-                  {slogan}
-                </p>
-              </div>)}
-          </div>
-          
-          <div className={`${isMobile ? "py-2.5 pl-0" : "space-y-0.125 py-1.5"} flex flex-col justify-between h-full`}>
-            {/* Changed background color to #FFF8A9 */}
-            {["Boost your social life!", "Meet and enjoy like-minded people!"].map((slogan, index) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{ backgroundColor: "#FFF8A9" }}>
-                <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-                <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`}
-                   style={{ fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif" }}>
-                  {slogan}
-                </p>
-              </div>)}
-          </div>
+        <div className={`max-w-2xl mx-auto bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
+          {/* For mobile: render all slogans in a single column */}
+          {isMobile ? (
+            <div className="py-2.5 pl-0">
+              {slogans.map(renderSlogan)}
+            </div>
+          ) : (
+            // For desktop: maintain the two-column grid layout
+            <div className="grid grid-cols-2 gap-x-4 gap-y-0.125">
+              <div className="space-y-0.125 py-1.5">
+                {slogans.slice(0, 2).map(renderSlogan)}
+              </div>
+              <div className="space-y-0.125 py-1.5">
+                {slogans.slice(2, 4).map(renderSlogan)}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>;

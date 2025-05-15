@@ -1,3 +1,4 @@
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 export function AffinityAccordionMenu() {
   return <div className="pt-6 mb-12 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 mx-0 px-0 py-[18px]">
@@ -10,7 +11,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               <p className="text-base">Affinity Hotels are a registered concept created exclusively by hotel-living.com.</p>
               <p className="mt-2 text-base">This unique idea—protected by copyright—was designed by us to bring people together around shared interests.</p>
               <p className="mt-2 text-base">Affinity Hotels are a lot more than just travel: it's a new way for society to connect, for individuals to meet like-minded people, and for many to break through social isolation.</p>
@@ -27,7 +28,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Affinity Hotels by Hotel-Living.com are the perfect way to connect with others who share your passions—from astronomy to opera, from salsa dancing to stamp collecting. No awkward small talk—just real connection from day one.
             </p>
           </AccordionContent>
@@ -41,7 +42,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] md:text-base leading-relaxed text-sm">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               It's a Hotel-Living hotel where everyone staying shares a common interest. Whether it's jazz, gardening, philosophy, or photography, you'll find people who speak your language—no matter where you're from.
             </p>
           </AccordionContent>
@@ -55,7 +56,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Chances are, yes. When people gather around something they love, friendships happen naturally. Many guests leave with new friends—and some even return together.
             </p>
           </AccordionContent>
@@ -68,7 +69,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Some do, especially for more hands-on interests like dance or hiking. But in most cases, the magic happens naturally. The hotel sets the theme—you and your fellow guests make the experience your own.
             </p>
           </AccordionContent>
@@ -81,7 +82,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Not necessarily. Some hotels may offer a coordinator, others are more free-flow. It's up to the hotel and the affinity. But guests often organize spontaneous meetups, outings, or dinners.
             </p>
           </AccordionContent>
@@ -94,7 +95,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Not usually. This isn't a theme park—it's about real people, not themed decor. The focus is human connection through shared passion.
             </p>
           </AccordionContent>
@@ -107,7 +108,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Choose from fixed stays of 8, 16, 24, or 32 days. Just long enough to connect, unwind, and maybe even change your perspective.
             </p>
           </AccordionContent>
@@ -120,7 +121,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Absolutely. You can explore different passions in different locations, all within the Affinity Hotels by Hotel-Living.com network.
             </p>
           </AccordionContent>
@@ -133,7 +134,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               No pressure. Whether you join every dinner or simply enjoy the atmosphere, the experience is yours to shape.
             </p>
           </AccordionContent>
@@ -146,7 +147,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Not at all. Come alone, with a friend, or as a couple—Affinity Hotels are for anyone who wants to share meaningful time with others who enjoy the same things.
             </p>
           </AccordionContent>
@@ -159,7 +160,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Hotel-Living.com's Affinity Hotels are just getting started, and new themes will be added regularly as more hotels join the network. Even if your perfect theme isn't there yet, every stay is already designed for people who want to meet others and enjoy meaningful time together.
             </p>
           </AccordionContent>
@@ -172,7 +173,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Not yet. Themes will grow gradually as more hotels join and define their own focus. But no matter the theme—or even without one—you'll find guests who are open, curious, and looking to connect. That's the spirit of Hotel Living.
             </p>
           </AccordionContent>
@@ -185,7 +186,7 @@ export function AffinityAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <p className="text-[#FFF9B0] text-sm md:text-base leading-relaxed">
+            <p className="text-[#FFF9B0] text-base leading-relaxed">
               Absolutely. Everyone at a Hotel Living stay has chosen this experience because they want more than just a place to sleep. It's easy to meet people, share meals, talk, and build friendships—theme or no theme.
             </p>
           </AccordionContent>

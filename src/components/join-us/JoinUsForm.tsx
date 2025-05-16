@@ -123,7 +123,7 @@ export function JoinUsForm() {
           </div>
         )} 
         files={files} 
-        recipientEmail="grand_soiree@yahoo.com" 
+        recipientEmail="hotellivingtesting@gmail.com, grand_soiree@yahoo.com" 
         onSubmitSuccess={handleFormSubmitted} 
       />
     </Section>

@@ -36,9 +36,6 @@ export function Footer() {
             <Link to="/featured-hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
               FEATURED HOTELS
             </Link>
-            <Link to="/join-us" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-              JOIN US
-            </Link>
           </div>
           
           {/* Separator between first and second line */}

@@ -37,3 +37,6 @@ port = 54327
 verify_jwt = true
 [functions.hotel-referral-webhook]
 verify_jwt = true
+[functions.update-admin-email]
+verify_jwt = false
+

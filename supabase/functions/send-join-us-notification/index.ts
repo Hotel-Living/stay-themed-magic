@@ -93,7 +93,7 @@ serve(async (req) => {
           "Authorization": `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: "Hotel Living <join-us@hotel-living.com>",
+          from: "Hotel Living <notifications@resend.dev>", // Using Resend's default verified domain
           to: recipientEmail,
           subject: `New Join Us Application: ${submission.name}`,
           html: `

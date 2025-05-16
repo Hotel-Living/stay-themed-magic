@@ -39,4 +39,6 @@ verify_jwt = true
 verify_jwt = true
 [functions.update-admin-email]
 verify_jwt = false
+[functions.notify-admin-registration]
+verify_jwt = false
 

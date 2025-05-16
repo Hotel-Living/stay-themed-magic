@@ -55,9 +55,17 @@ export function HotelSignUpForm() {
       });
       
       if (result && result.error) {
-        toast.error("Registration Error", {
-          description: result.error
-        });
+        // Check if it's the email confirmation message
+        if (result.error.includes("check your email")) {
+          toast.success("Registration Successful", {
+            description: "Please check your email for a confirmation link before signing in."
+          });
+          navigate('/hotel-login');
+        } else {
+          toast.error("Registration Error", {
+            description: result.error
+          });
+        }
       } else if (result && result.success) {
         toast.success("Registration Successful", {
           description: "You can now log in with your credentials"

@@ -40,12 +40,13 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
         };
       }
       
-      // Sign up with Supabase
+      // Sign up with Supabase - explicitly require email confirmation
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: userData // Store user data in user_metadata
+          data: userData, // Store user data in user_metadata
+          emailRedirectTo: `${window.location.origin}/login` // Redirect to login page after email confirmation
         }
       });
       
@@ -56,10 +57,34 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
       }
       
       if (data.user) {
-        console.log("User signed up successfully:", data.user.email);
+        console.log("User signup initiated:", data.user.email);
         
-        // Normally profiles are created automatically via a trigger,
-        // but we'll check and create one explicitly if needed
+        // Notify admin about the new registration
+        try {
+          const { data: notifyData, error: notifyError } = await supabase.functions.invoke(
+            "notify-admin-registration", 
+            { body: { user: data.user } }
+          );
+          
+          if (notifyError) {
+            console.error("Admin notification error:", notifyError);
+          } else {
+            console.log("Admin notification sent:", notifyData);
+          }
+        } catch (notifyErr) {
+          console.error("Failed to send admin notification:", notifyErr);
+        }
+        
+        // Check if email confirmation is needed
+        if (data.session === null) {
+          // User needs to confirm email
+          return { 
+            success: true, 
+            error: "Please check your email for confirmation link before signing in." 
+          };
+        }
+        
+        // In case confirmation is not required or was instant
         let profileData = await fetchProfile(data.user.id);
         
         if (!profileData && userData) {

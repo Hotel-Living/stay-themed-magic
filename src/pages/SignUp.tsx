@@ -73,15 +73,24 @@ export default function SignUp() {
       const result = await signUp(email, password, {
         first_name: firstName,
         last_name: lastName || null,
-        is_hotel_owner: false // Always set to false for travelers
+        is_hotel_owner: false
       });
       
       if (result && result.error) {
-        toast({
-          title: "Registration Error",
-          description: result.error,
-          variant: "destructive"
-        });
+        // Check if it's the email confirmation message
+        if (result.error.includes("check your email")) {
+          toast({
+            title: "Registration Successful",
+            description: "Please check your email for a confirmation link before signing in."
+          });
+          navigate('/login');
+        } else {
+          toast({
+            title: "Registration Error",
+            description: result.error,
+            variant: "destructive"
+          });
+        }
       } else if (result && result.success) {
         toast({
           title: "Registration Successful",

@@ -9,20 +9,20 @@ on Empty Rooms</span>
         </h1>
         
         <div className="space-y-4 rounded-xl bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 px-[30px] py-[8px]">
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[8px]">Your hotel, always full.  
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[12px] py-[14px]">Your hotel, always full.   
 All year long</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[8px]">100% occupancy. 
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[38px] py-[18px]">100% occupancy.  
 Every single day</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[10px]">Turn your dead dates into gold</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[6px]">Multiply your profits dramatically</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[9px]">Longer, more profitable stays</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px]">Just one weekday
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[39px] py-[17px]">Turn your dead dates into gold</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[21px]">Multiply your profits dramatically</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[20px] px-[42px]">Longer, more profitable stays</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[29px] py-[23px]">Just one weekday
 for all check-ins/outs</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px]">Outsmarting rental apartments</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[19px]">Rental apartments?
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[28px]">Outsmarting rental apartments</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[21px] py-[34px]">Rental apartments?
 Let's take our customers back</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px]">Great expenses reduction</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">Year-round staff consistency</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[38px] py-[25px]">Great expenses reduction</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[32px]">Year-round staff consistency</p>
         </div>
       </div>
     </>;

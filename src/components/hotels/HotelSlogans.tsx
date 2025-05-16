@@ -9,7 +9,7 @@ on Empty Rooms</span>
         </h1>
         
         <div className="space-y-4 rounded-xl bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 px-[30px] py-[8px]">
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[14px] px-[17px] text-xl">Your hotel, always full.   
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[14px] text-xl px-[17px]">Your hotel, always full.   
 All year long</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[18px] px-[45px]">100% occupancy.  
 Every single day</p>

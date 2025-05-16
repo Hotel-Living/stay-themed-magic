@@ -57,11 +57,21 @@ export default function CustomerService() {
       
       <main className="flex-1 pt-20 px-4 text-white">
         <div className="container max-w-4xl mx-auto py-10">
-          <h1 className={`text-3xl font-bold mb-6 ${isMobile ? 'text-[#4b0456]' : 'text-white'}`}>Customer Service</h1>
-          
-          <div className="prose prose-invert max-w-none mb-8">
-            <p className={isMobile ? 'text-[#4b0456]' : 'text-white'}>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
-          </div>
+          {isMobile ? (
+            <div className="bg-[#4b0456] p-6 rounded-lg mb-8">
+              <h1 className="text-3xl font-bold mb-6 text-white">Customer Service</h1>
+              <div className="prose prose-invert max-w-none">
+                <p className="text-white">Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-6">Customer Service</h1>
+              <div className="prose prose-invert max-w-none mb-8">
+                <p>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
+              </div>
+            </>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto glass-card p-6 rounded-lg" style={{ backgroundColor: "#110375" }}>
             <div className="space-y-4">

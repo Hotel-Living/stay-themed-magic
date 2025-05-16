@@ -6,7 +6,7 @@ BEGIN
   -- Call the Edge Function to send notification
   PERFORM
     net.http_post(
-      url:='{{SUPABASE_URL}}/functions/v1/send-join-us-notification',
+      url:='https://pgdzrvdwgoomjnnegkcn.supabase.co/functions/v1/send-join-us-notification',
       body:=json_build_object(
         'type', TG_OP,
         'table', TG_TABLE_NAME,
@@ -24,3 +24,4 @@ DROP TRIGGER IF EXISTS on_join_us_submission_inserted ON public.join_us_submissi
 CREATE TRIGGER on_join_us_submission_inserted
   AFTER INSERT ON public.join_us_submissions
   FOR EACH ROW EXECUTE FUNCTION public.handle_join_us_submission();
+

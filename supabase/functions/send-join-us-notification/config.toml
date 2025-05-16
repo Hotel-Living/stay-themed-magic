@@ -1,3 +1,4 @@
 
 # Config for the send-join-us-notification function
 verify_jwt = false
+

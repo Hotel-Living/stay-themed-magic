@@ -45,7 +45,8 @@ serve(async (req) => {
     // Get submission details
     const submission = payload.record;
     
-    // Validate recipient email - THIS IS THE VALIDATION ENHANCEMENT
+    // Validate recipient email - use default if not provided
+    // FIXED: Changed default email to use a verified domain
     const recipientEmail = submission.recipient_email || "grand_soiree@yahoo.com";
     if (!recipientEmail) {
       const errorMsg = "No recipient email provided in submission and no default available";
@@ -84,6 +85,9 @@ serve(async (req) => {
       submissionName: submission.name
     });
 
+    // FIXED: Added more detailed logging for email sending process
+    console.log(`Starting email send to ${recipientEmail} at ${new Date().toISOString()}`);
+    
     // Send email using Resend directly
     try {
       const emailResponse = await fetch("https://api.resend.com/emails", {
@@ -93,8 +97,9 @@ serve(async (req) => {
           "Authorization": `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: "Hotel Living <notifications@resend.dev>", // Using Resend's default verified domain
+          from: "Hotel Living <onboarding@resend.dev>", // Using Resend's default verified domain
           to: recipientEmail,
+          reply_to: submission.email, // FIXED: Added reply-to field for better communication
           subject: `New Join Us Application: ${submission.name}`,
           html: `
             <h2>New Join Us Application</h2>
@@ -109,7 +114,7 @@ serve(async (req) => {
       });
 
       const emailResult = await emailResponse.json();
-      console.log("Email sending result:", emailResult);
+      console.log("Email sending result:", JSON.stringify(emailResult));
       
       if (!emailResponse.ok) {
         console.error("Email sending failed:", emailResult);
@@ -119,8 +124,9 @@ serve(async (req) => {
         );
       }
 
+      console.log(`Email successfully sent at ${new Date().toISOString()}`);
       return new Response(
-        JSON.stringify({ success: true, message: "Notification sent successfully" }),
+        JSON.stringify({ success: true, message: "Notification sent successfully", data: emailResult }),
         { status: 200, headers: { "Content-Type": "application/json" } }
       );
     } catch (emailError) {

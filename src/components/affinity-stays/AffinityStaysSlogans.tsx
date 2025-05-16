@@ -26,11 +26,11 @@ export function AffinityStaysSlogans() {
         {/* Slogans - increased space between quote and slogans by 50% and 20% between slogans */}
         <div className="space-y-5 py-4 mt-12 mb-8">
           {/* Enhanced glow effect by 20% on all slogans */}
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced py-0 mx-0 my-[22px] font-extrabold">Not just a stay. A shared world</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold">Meet. Share. Belong</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold">Stay with those who get you</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold px-[63px]">Tired of random? Choose your people</p>
-          <p className="text-center text-yellow-300 animate-pulse-glow-enhanced text-xl font-extrabold mx-0 px-[38px]">Stay, and connect through what you love</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced mx-0 my-[22px] font-extrabold py-[8px]">Not just a stay. A shared world</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold py-[8px]">Meet. Share. Belong</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold py-[8px]">Stay with those who get you</p>
+          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold px-[63px] py-[8px]">Tired of random? Choose your people</p>
+          <p className="text-center text-yellow-300 animate-pulse-glow-enhanced text-xl font-extrabold mx-0 px-[38px] py-[8px]">Stay, and connect through what you love</p>
         </div>
       </div>
     </>;

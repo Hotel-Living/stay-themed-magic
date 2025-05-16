@@ -94,7 +94,7 @@ export default function SignUp() {
       } else if (result && result.success) {
         toast({
           title: "Registration Successful",
-          description: "You can now log in with your credentials"
+          description: "Please check your email for a confirmation link before signing in."
         });
         navigate('/login');
       }

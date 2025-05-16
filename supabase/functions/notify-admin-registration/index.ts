@@ -54,15 +54,15 @@ serve(async (req) => {
       ? `${profileData.first_name} ${profileData.last_name || ''}`
       : user.email;
     
-    // Don't rely on the send-notification function, instead send email directly using Resend
+    // Check for RESEND API key
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
     if (!RESEND_API_KEY) {
       throw new Error("RESEND_API_KEY environment variable is not set");
     }
     
-    // Send email using Resend directly
-    const emailResponse = await fetch("https://api.resend.com/emails", {
+    // Send admin notification using Resend
+    const adminEmailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +70,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Hotel Living <registration@hotel-living.com>",
-        to: "gransoare@yahoo.com",
+        to: "gransoare@yahoo.com", // Admin email address
         subject: `New ${accountType} Registration: ${userName}`,
         html: `
           <h2>New User Registration</h2>
@@ -83,11 +83,11 @@ serve(async (req) => {
       }),
     });
 
-    const emailResult = await emailResponse.json();
-    console.log("Email sending result:", emailResult);
+    const adminEmailResult = await adminEmailResponse.json();
+    console.log("Admin notification email result:", adminEmailResult);
     
-    if (!emailResponse.ok) {
-      throw new Error(`Failed to send email: ${JSON.stringify(emailResult)}`);
+    if (!adminEmailResponse.ok) {
+      throw new Error(`Failed to send admin notification: ${JSON.stringify(adminEmailResult)}`);
     }
     
     return new Response(

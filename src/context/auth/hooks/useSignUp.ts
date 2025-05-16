@@ -40,13 +40,13 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
         };
       }
       
-      // Sign up with Supabase - explicitly require email confirmation
+      // Sign up with Supabase - EXPLICITLY require email confirmation
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: userData, // Store user data in user_metadata
-          emailRedirectTo: `${window.location.origin}/login` // Redirect to login page after email confirmation
+          emailRedirectTo: `${window.location.origin}/login`, // Redirect to login page after email confirmation
         }
       });
       
@@ -75,27 +75,11 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
           console.error("Failed to send admin notification:", notifyErr);
         }
         
-        // Check if email confirmation is needed
-        if (data.session === null) {
-          // User needs to confirm email
-          return { 
-            success: true, 
-            error: "Please check your email for confirmation link before signing in." 
-          };
-        }
-        
-        // In case confirmation is not required or was instant
-        let profileData = await fetchProfile(data.user.id);
-        
-        if (!profileData && userData) {
-          console.log("Creating profile explicitly for new user");
-          profileData = await updateUserProfile(data.user, userData);
-        }
-        
-        setProfile(profileData);
-        
-        // Return success without redirecting - let the component handle redirection
-        return { success: true, error: null };
+        // Email confirmation is required for all new users
+        return { 
+          success: true, 
+          error: "Please check your email for confirmation link before signing in." 
+        };
       }
       
       return { success: false, error: "Unknown error during signup" };

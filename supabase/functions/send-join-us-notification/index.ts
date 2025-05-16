@@ -23,7 +23,7 @@ serve(async (req) => {
     if (!RESEND_API_KEY) {
       console.error("Missing RESEND_API_KEY");
       return new Response(
-        JSON.stringify({ error: "Server configuration error" }),
+        JSON.stringify({ error: "Server configuration error: Missing RESEND_API_KEY" }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
@@ -45,8 +45,16 @@ serve(async (req) => {
     // Get submission details
     const submission = payload.record;
     
-    // Determine recipient email (use the specific one provided or fall back to default)
+    // Validate recipient email - THIS IS THE VALIDATION ENHANCEMENT
     const recipientEmail = submission.recipient_email || "grand_soiree@yahoo.com";
+    if (!recipientEmail) {
+      const errorMsg = "No recipient email provided in submission and no default available";
+      console.error(errorMsg);
+      return new Response(
+        JSON.stringify({ error: errorMsg }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
     console.log("Sending notification to:", recipientEmail);
     
     // Create Supabase client

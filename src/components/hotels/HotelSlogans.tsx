@@ -8,7 +8,7 @@ export function HotelSlogans() {
 on Empty Rooms</span>
         </h1>
         
-        <div className="space-y-4 py-6 px-4 rounded-xl bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20">
+        <div className="space-y-4 rounded-xl bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 px-[30px] py-[8px]">
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[8px]">Your hotel, always full.  
 All year long</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[8px]">100% occupancy. 

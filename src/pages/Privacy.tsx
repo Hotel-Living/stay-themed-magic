@@ -1,3 +1,4 @@
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
@@ -9,7 +10,7 @@ export default function Privacy() {
       <Navbar />
       
       <main className="flex-1 pt-20 px-4 text-white">
-        <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456]">
+        <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456] px-6 md:px-8">
           <h1 className="text-3xl font-bold mb-6">Privacy & Cookies</h1>
           
           <div className="prose prose-invert max-w-none space-y-8">

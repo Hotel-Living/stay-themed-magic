@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
-
 export default function Terms() {
   return <div className="min-h-screen flex flex-col">
       <Starfield />
@@ -9,41 +8,41 @@ export default function Terms() {
       
       <main className="flex-1 pt-20 px-4 text-white">
         <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456]">
-          <h1 className="font-bold mb-6 text-2xl">Terms & Conditions</h1>
+          <h1 className="font-bold mb-6 text-2xl text-center">Terms & Conditions</h1>
           
           <div className="prose prose-invert max-w-none text-sm">
-            <h2 className="font-semibold mb-4 text-lg">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
+            <h2 className="font-semibold mb-4 text-lg px-[21px] text-center">SERVICE CONDITIONS FOR HOTEL-LIVING.COM CUSTOMERS</h2>
             <p className="text-xs text-right text-gray-400 mb-6">Updated on 12/11/2024</p>
             
-            <p className="mb-4">
+            <p className="mb-4 px-[17px]">
               By completing your Reservation, you are accepting these Conditions and any other provisions that have been provided to you during the booking process.
             </p>
             
-            <p className="mb-4">
+            <p className="mb-4 px-[20px]">
               If any provision of these Conditions is (or becomes) invalid or unenforceable:
             </p>
             <ul className="list-disc pl-6 mb-6 space-y-2">
-              <li>it will continue to have effect to the maximum extent permitted by law;</li>
+              <li className="px-[5px]">it will continue to have effect to the maximum extent permitted by law;</li>
               <li>you will remain bound by the rest of the provisions of the Conditions.</li>
             </ul>
             
             <section className="mb-8">
-              <h3 className="text-xl font-medium mb-4 text-slate-50">ABOUT HOTEL-LIVING</h3>
-              <p className="mb-4">
+              <h3 className="text-xl font-medium mb-4 text-slate-50 text-center">ABOUT HOTEL-LIVING</h3>
+              <p className="mb-4 px-[16px]">
                 When you book accommodation, Hotel-Living.com is the provider and responsible for the Platform, but not for the Travel Experience itself (see section A4.4).
               </p>
-              <p className="mb-4">
+              <p className="mb-4 px-[18px]">
                 We work with companies that offer local attention services (e.g., Customer Service or account management). They do not:
               </p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>control or manage our Platform;</li>
                 <li>have their own platform;</li>
-                <li>formalize a legal or contractual relationship with you;</li>
+                <li className="px-0">formalize a legal or contractual relationship with you;</li>
                 <li>offer Travel Experiences;</li>
                 <li>represent us, or enter into contracts or accept legal documents on our behalf;</li>
                 <li>operate as our "service or process agents".</li>
               </ul>
-              <p className="mb-4">
+              <p className="mb-4 px-[20px]">
                 We take reasonable precautions when offering our Platform, but we cannot guarantee that all content is accurate (we obtain information from Service Providers). To the extent permitted by law, we will not be responsible for any errors, interruptions, or if information is missing, although we will do our best to correct and resolve these situations as quickly as we can.
               </p>
               <p className="mb-4">

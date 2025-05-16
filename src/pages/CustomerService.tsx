@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function CustomerService() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ export default function CustomerService() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -55,10 +57,10 @@ export default function CustomerService() {
       
       <main className="flex-1 pt-20 px-4 text-white">
         <div className="container max-w-4xl mx-auto py-10">
-          <h1 className="text-3xl font-bold mb-6">Customer Service</h1>
+          <h1 className={`text-3xl font-bold mb-6 ${isMobile ? 'text-[#4b0456]' : 'text-white'}`}>Customer Service</h1>
           
           <div className="prose prose-invert max-w-none mb-8">
-            <p>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
+            <p className={isMobile ? 'text-[#4b0456]' : 'text-white'}>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto glass-card p-6 rounded-lg" style={{ backgroundColor: "#110375" }}>

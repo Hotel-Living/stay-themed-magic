@@ -41,4 +41,6 @@ verify_jwt = true
 verify_jwt = false
 [functions.notify-admin-registration]
 verify_jwt = false
+[functions.send-join-us-notification]
+verify_jwt = false
 

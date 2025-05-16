@@ -31,8 +31,11 @@ serve(async (req) => {
     // Get payload from request
     const payload: WebhookPayload = await req.json();
     
+    console.log("Received webhook payload:", JSON.stringify(payload));
+    
     // Only proceed if this is a join_us_submissions insert
     if (payload.table !== "join_us_submissions" || payload.type !== "INSERT") {
+      console.log("Not a join_us_submissions insert event, skipping");
       return new Response(
         JSON.stringify({ message: "Not a join_us_submissions insert event" }),
         { status: 200, headers: { "Content-Type": "application/json" } }
@@ -43,7 +46,7 @@ serve(async (req) => {
     const submission = payload.record;
     
     // Determine recipient email (use the specific one provided or fall back to default)
-    const recipientEmail = submission.recipient_email || "info@hotel-living.com";
+    const recipientEmail = submission.recipient_email || "grand_soiree@yahoo.com";
     console.log("Sending notification to:", recipientEmail);
     
     // Create Supabase client
@@ -73,44 +76,52 @@ serve(async (req) => {
       submissionName: submission.name
     });
 
-    // Send email using Resend
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from: "Hotel Living <join-us@hotel-living.com>",
-        to: recipientEmail, // Use the specified recipient email
-        subject: `New Join Us Application: ${submission.name}`,
-        html: `
-          <h2>New Join Us Application</h2>
-          <p><strong>Name:</strong> ${submission.name}</p>
-          <p><strong>Email:</strong> ${submission.email}</p>
-          <p><strong>Date:</strong> ${new Date(submission.created_at).toLocaleString()}</p>
-          <p><strong>Message:</strong></p>
-          <p>${submission.message.replace(/\n/g, "<br>")}</p>
-          ${files && files.length > 0 ? `<h3>Uploaded Files:</h3>${fileLinks}` : ""}
-        `,
-      }),
-    });
+    // Send email using Resend directly
+    try {
+      const emailResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: "Hotel Living <join-us@hotel-living.com>",
+          to: recipientEmail,
+          subject: `New Join Us Application: ${submission.name}`,
+          html: `
+            <h2>New Join Us Application</h2>
+            <p><strong>Name:</strong> ${submission.name}</p>
+            <p><strong>Email:</strong> ${submission.email}</p>
+            <p><strong>Date:</strong> ${new Date(submission.created_at).toLocaleString()}</p>
+            <p><strong>Message:</strong></p>
+            <p>${submission.message.replace(/\n/g, "<br>")}</p>
+            ${files && files.length > 0 ? `<h3>Uploaded Files:</h3>${fileLinks}` : ""}
+          `,
+        }),
+      });
 
-    const emailResult = await emailResponse.json();
-    console.log("Email sending result:", emailResult);
-    
-    if (!emailResponse.ok) {
-      console.error("Email sending failed:", emailResult);
+      const emailResult = await emailResponse.json();
+      console.log("Email sending result:", emailResult);
+      
+      if (!emailResponse.ok) {
+        console.error("Email sending failed:", emailResult);
+        return new Response(
+          JSON.stringify({ error: "Failed to send notification email", details: emailResult }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
       return new Response(
-        JSON.stringify({ error: "Failed to send notification email" }),
+        JSON.stringify({ success: true, message: "Notification sent successfully" }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } catch (emailError) {
+      console.error("Error sending email:", emailError);
+      return new Response(
+        JSON.stringify({ error: "Failed to send email", details: emailError.message }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
-
-    return new Response(
-      JSON.stringify({ success: true, message: "Notification sent successfully" }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
   } catch (error) {
     console.error("Function error:", error);
     return new Response(

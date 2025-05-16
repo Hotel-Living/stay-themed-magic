@@ -54,27 +54,40 @@ serve(async (req) => {
       ? `${profileData.first_name} ${profileData.last_name || ''}`
       : user.email;
     
-    // Send notification email to admin
-    const { data: emailData, error: emailError } = await supabaseAdmin.functions.invoke(
-      "send-notification",
-      {
-        body: {
-          type: "admin-notification",
-          recipient: "gransoare@yahoo.com",
-          data: {
-            subject: `New ${accountType} Registration: ${userName}`,
-            userName: userName,
-            userEmail: user.email,
-            accountType: accountType,
-            registrationTime: new Date().toISOString(),
-            message: `A new user has registered on Hotel-Living.com. Please review their account details.`
-          }
-        }
-      }
-    );
+    // Don't rely on the send-notification function, instead send email directly using Resend
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
-    if (emailError) {
-      throw emailError;
+    if (!RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY environment variable is not set");
+    }
+    
+    // Send email using Resend directly
+    const emailResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: "Hotel Living <registration@hotel-living.com>",
+        to: "gransoare@yahoo.com",
+        subject: `New ${accountType} Registration: ${userName}`,
+        html: `
+          <h2>New User Registration</h2>
+          <p><strong>Name:</strong> ${userName}</p>
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p><strong>Account Type:</strong> ${accountType}</p>
+          <p><strong>Registration Time:</strong> ${new Date().toLocaleString()}</p>
+          <p>A new user has registered on Hotel-Living.com. Please review their account details.</p>
+        `,
+      }),
+    });
+
+    const emailResult = await emailResponse.json();
+    console.log("Email sending result:", emailResult);
+    
+    if (!emailResponse.ok) {
+      throw new Error(`Failed to send email: ${JSON.stringify(emailResult)}`);
     }
     
     return new Response(

@@ -20,6 +20,13 @@ interface WebhookPayload {
 serve(async (req) => {
   try {
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    
+    // Add API key verification logging
+    console.log("API Key verification check:");
+    console.log("API Key exists:", !!RESEND_API_KEY);
+    console.log("API Key length:", RESEND_API_KEY ? RESEND_API_KEY.length : 0);
+    console.log("API Key prefix:", RESEND_API_KEY ? `${RESEND_API_KEY.substring(0, 2)}...` : "none");
+    
     if (!RESEND_API_KEY) {
       console.error("Missing RESEND_API_KEY");
       return new Response(

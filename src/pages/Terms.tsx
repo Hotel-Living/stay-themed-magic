@@ -1,3 +1,4 @@
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
@@ -7,7 +8,7 @@ export default function Terms() {
       <Navbar />
       
       <main className="flex-1 pt-20 px-4 text-white">
-        <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456]">
+        <div className="container max-w-4xl mx-auto py-10 bg-[#4b0456] px-6 md:px-8">
           <h1 className="font-bold mb-6 text-2xl text-center">Terms & Conditions</h1>
           
           <div className="prose prose-invert max-w-none text-sm">

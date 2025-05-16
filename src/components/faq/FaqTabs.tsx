@@ -137,7 +137,7 @@ export function FaqTabs({
                   {filteredFaqs.map((faq, index) => {
             const questionNumber = startIndex + index;
             return <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-xl">
-                        <AccordionTrigger className="px-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 mx-0 text-lg font-bold py-[5px]">
+                        <AccordionTrigger className="px-6 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300 mx-0 text-lg font-bold py-[5px] my-[13px]">
                           <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                             {numbered ? `${questionNumber}. ` : ''}{faq.question}
                           </div>

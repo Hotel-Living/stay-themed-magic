@@ -13,7 +13,8 @@ on Empty Rooms</span>
 All year long</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[18px] px-[45px]">100% occupancy.  
 Every single day</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[39px] py-[17px]">Turn your dead dates into gold</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[17px] px-[60px]">Turn your dead 
+dates into gold</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[21px]">Multiply your profits dramatically</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[20px] px-[58px]">Longer, more profitable stays</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow px-[29px] py-[23px]">Just one weekday

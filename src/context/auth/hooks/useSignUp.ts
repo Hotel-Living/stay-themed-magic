@@ -63,7 +63,12 @@ export function useSignUp({ setIsLoading, setProfile }: SignUpProps) {
         try {
           const { data: notifyData, error: notifyError } = await supabase.functions.invoke(
             "notify-admin-registration", 
-            { body: { user: data.user } }
+            { 
+              body: { 
+                user: data.user,
+                userData: userData || {}
+              } 
+            }
           );
           
           if (notifyError) {

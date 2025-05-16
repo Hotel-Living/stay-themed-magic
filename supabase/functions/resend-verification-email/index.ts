@@ -2,10 +2,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
 
-interface RequestBody {
-  email: string;
-}
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -27,6 +23,12 @@ serve(async (req) => {
   }
 
   try {
+    const { email } = await req.json();
+    
+    if (!email) {
+      throw new Error("Email is required");
+    }
+
     // Create a Supabase client with the service role key
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -39,27 +41,26 @@ serve(async (req) => {
       }
     );
     
-    const { email }: RequestBody = await req.json();
+    console.log(`Resending verification email to: ${email}`);
     
-    if (!email) {
-      return new Response(
-        JSON.stringify({ error: "Email is required" }),
-        { 
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-    
-    // Send invitation email
-    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
+    // Resend the verification email
+    const { error } = await supabaseAdmin.auth.admin.generateLink({
+      type: 'signup',
+      email,
+      options: {
+        redirectTo: `${req.headers.get('origin') || ''}/login`,
+      }
+    });
     
     if (error) {
       throw error;
     }
     
     return new Response(
-      JSON.stringify({ success: true, message: "Verification email sent" }),
+      JSON.stringify({ 
+        success: true, 
+        message: "Verification email sent successfully" 
+      }),
       { 
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -23,7 +23,7 @@ serve(async (req) => {
   }
 
   try {
-    const { user } = await req.json();
+    const { user, userData } = await req.json();
     
     if (!user || !user.email) {
       throw new Error("Invalid user data provided");
@@ -52,7 +52,9 @@ serve(async (req) => {
     const accountType = profileData?.is_hotel_owner ? "Hotel Partner" : "Traveler";
     const userName = profileData?.first_name 
       ? `${profileData.first_name} ${profileData.last_name || ''}`
-      : user.email;
+      : userData?.first_name
+        ? `${userData.first_name} ${userData.last_name || ''}`
+        : user.email;
     
     // Check for RESEND API key
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -60,6 +62,10 @@ serve(async (req) => {
     if (!RESEND_API_KEY) {
       throw new Error("RESEND_API_KEY environment variable is not set");
     }
+    
+    const adminEmail = "grand_soiree@yahoo.com"; // Use the proper admin email
+    
+    console.log(`Sending admin notification to: ${adminEmail}`);
     
     // Send admin notification using Resend
     const adminEmailResponse = await fetch("https://api.resend.com/emails", {
@@ -69,8 +75,8 @@ serve(async (req) => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Hotel Living <registration@hotel-living.com>",
-        to: "gransoare@yahoo.com", // Admin email address
+        from: "Hotel Living <notifications@resend.dev>",
+        to: adminEmail,
         subject: `New ${accountType} Registration: ${userName}`,
         html: `
           <h2>New User Registration</h2>

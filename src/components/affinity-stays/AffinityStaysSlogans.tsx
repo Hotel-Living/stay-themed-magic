@@ -4,7 +4,7 @@ export function AffinityStaysSlogans() {
       <div className="space-y-4 mb-8">
         <div className="text-center mb-6">
           {/* Updated Affinity Stays logo */}
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-2 my-[19px] py-[23px]">
             <img src="/lovable-uploads/0143058c-8fff-4da1-92a4-c00ad1b52595.png" alt="Affinity Stays Logo" style={{
             width: '250px',
             height: 'auto'
@@ -16,7 +16,7 @@ export function AffinityStaysSlogans() {
         
         {/* Quote section - text made 10% smaller */}
         <div className="max-w-2xl mx-auto text-center mb-8">
-          <p className="text-white italic text-lg font-semibold">
+          <p className="text-white italic text-lg font-semibold py-0">
             "When you surround yourself with like-minded people who share<br />
             a passionate commitment around a common purpose, anything is possible"
           </p>

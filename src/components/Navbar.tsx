@@ -105,10 +105,6 @@ export function Navbar() {
               Logout
             </button>
           )}
-          
-          <Link to="/join-us" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            Join Us
-          </Link>
         </div>
         
         <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
@@ -166,10 +162,6 @@ export function Navbar() {
               Logout
             </button>
           )}
-          
-          <Link to="/join-us" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
-            Join Us
-          </Link>
         </nav>
       </div>
     </header>;

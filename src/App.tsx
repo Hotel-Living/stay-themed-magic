@@ -41,6 +41,7 @@ import AdminAllRoutes from './pages/AdminAllRoutes';
 import Videos from './pages/Videos';
 import FeaturedHotels from './pages/FeaturedHotels';
 import JoinUs from './pages/JoinUs';
+import JoinUsTest from './pages/JoinUsTest';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -115,6 +116,7 @@ function App() {
                   <Route path="/themes-information" element={<ThemesInformation />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/join-us" element={<JoinUs />} />
+                  <Route path="/join-us-test" element={<JoinUsTest />} />
                   <Route 
                     path="/admin/*" 
                     element={

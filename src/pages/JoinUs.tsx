@@ -187,6 +187,15 @@ export default function JoinUs() {
               paragraphs={welcomingTalentData.paragraphs} 
             />
 
+            {/* Image section before Strategic Partnerships */}
+            <div className="mb-16 flex justify-center">
+              <img 
+                src="/lovable-uploads/b669f866-0145-452e-ac52-0ac18a1dde72.png" 
+                alt="Hotel-Living Partners Tier Structure and Projected Profits" 
+                className="w-full max-w-3xl rounded-lg shadow-lg border border-[#3300B0]/30"
+              />
+            </div>
+
             {/* Strategic partnerships section */}
             <TextSection 
               icon={Handshake} 

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -67,9 +68,9 @@ export default function JoinUs() {
             {/* We're welcoming new talent section */}
             <TextSection icon={Lightbulb} title="We're Welcoming New Talent" paragraphs={welcomingTalentData.paragraphs} />
 
-            {/* Image section before Strategic Partnerships */}
+            {/* Image section before Strategic Partnerships - REPLACED WITH NEW IMAGE AT HALF SIZE */}
             <div className="mb-16 flex justify-center">
-              <img src="/lovable-uploads/b669f866-0145-452e-ac52-0ac18a1dde72.png" alt="Hotel-Living Partners Tier Structure and Projected Profits" className="w-full max-w-3xl rounded-lg shadow-lg border border-[#3300B0]/30 object-scale-down" />
+              <img src="/lovable-uploads/ce5f1cc2-14f9-4811-b54b-a204288d75a3.png" alt="Hotel-Living Partners Tier Structure and Projected Profits" className="w-1/2 max-w-3xl rounded-lg shadow-lg border border-[#3300B0]/30 object-scale-down" />
             </div>
 
             {/* Strategic partnerships section */}

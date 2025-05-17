@@ -21,16 +21,16 @@ export function HotelStarfield() {
     const maxDepth = 1000; // Maximum depth
     const speed = 0.6; // Speed increased by 20% (from 0.5 to 0.6)
     
-    // Color palette for stars
+    // Color palette for stars - slightly brighter colors
     const starColors = [
-      'rgba(255, 255, 255, 0.9)', // White
-      'rgba(173, 216, 230, 0.9)', // Light blue
-      'rgba(255, 223, 186, 0.9)', // Light orange
-      'rgba(221, 160, 221, 0.9)', // Plum
-      'rgba(175, 238, 238, 0.9)', // Pale turquoise
-      'rgba(240, 128, 128, 0.9)', // Light coral
-      'rgba(152, 251, 152, 0.9)', // Pale green
-      'rgba(255, 182, 193, 0.9)'  // Light pink
+      'rgba(255, 255, 255, 0.95)', // White - slightly brighter
+      'rgba(183, 226, 240, 0.95)', // Light blue - slightly brighter
+      'rgba(255, 233, 196, 0.95)', // Light orange - slightly brighter
+      'rgba(231, 170, 231, 0.95)', // Plum - slightly brighter
+      'rgba(185, 248, 248, 0.95)', // Pale turquoise - slightly brighter
+      'rgba(250, 138, 138, 0.95)', // Light coral - slightly brighter
+      'rgba(162, 255, 162, 0.95)', // Pale green - slightly brighter
+      'rgba(255, 192, 203, 0.95)'  // Light pink - slightly brighter
     ];
     
     // Generate random stars
@@ -44,11 +44,36 @@ export function HotelStarfield() {
       });
     }
     
+    // Create radial gradient for central light source
+    function drawCentralGlow(ctx: CanvasRenderingContext2D) {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.min(canvas.width, canvas.height) * 0.4;
+      
+      const gradient = ctx.createRadialGradient(
+        centerX, centerY, 0,
+        centerX, centerY, radius
+      );
+      
+      // Very subtle gradient - slightly lighter in the center
+      gradient.addColorStop(0, 'rgba(90, 30, 120, 0.25)');
+      gradient.addColorStop(0.5, 'rgba(80, 20, 110, 0.15)');
+      gradient.addColorStop(1, 'rgba(60, 6, 90, 0.05)');
+      
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
     // Animation function
     function animate() {
-      // Changed to darker rich purple background color with opacity (40% darker)
-      context.fillStyle = 'rgba(60, 6, 90, 0.2)';
+      requestAnimationFrame(animate);
+      
+      // Changed to slightly lighter rich purple background color
+      context.fillStyle = 'rgba(65, 12, 95, 0.2)'; // Slightly lighter than before
       context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw the subtle central glow
+      drawCentralGlow(context);
       
       // Update and draw stars
       for (let i = 0; i < starCount; i++) {
@@ -80,8 +105,6 @@ export function HotelStarfield() {
         context.arc(screenX, screenY, size, 0, Math.PI * 2);
         context.fill();
       }
-      
-      requestAnimationFrame(animate);
     }
     
     animate();
@@ -103,7 +126,7 @@ export function HotelStarfield() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-[-1]"
-      style={{ background: 'rgb(54, 12, 72)', pointerEvents: 'none' }}
+      style={{ background: 'rgb(65, 15, 82)', pointerEvents: 'none' }} // Slightly lighter background
     />
   );
 }

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Section } from "@/components/join-us/Section";
-import { Briefcase } from "lucide-react";
+import { LucideIcon, Briefcase } from "lucide-react";
 
 interface SectionItem {
   title: string;
@@ -12,7 +12,7 @@ interface FoundersSectionProps {
   title: string;
   sections: SectionItem[];
   extraItems: string[];
-  icon?: React.ComponentType<any>;
+  icon?: LucideIcon;
 }
 
 export function FoundersSection({ title, sections, extraItems, icon: Icon = Briefcase }: FoundersSectionProps) {

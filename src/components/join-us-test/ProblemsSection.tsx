@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Section } from "@/components/join-us/Section";
-import { Flame } from "lucide-react";
+import { LucideIcon, Flame } from "lucide-react";
 
 interface SectionItem {
   title: string;
@@ -11,7 +11,7 @@ interface SectionItem {
 interface ProblemsSectionProps {
   title: string;
   sections: SectionItem[];
-  icon?: React.ComponentType<any>;
+  icon?: LucideIcon;
 }
 
 export function ProblemsSection({ title, sections, icon: Icon = Flame }: ProblemsSectionProps) {

@@ -2,7 +2,7 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake, Wrench } from "lucide-react";
+import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake, Wrench, ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { JoinUsHeader } from "@/components/join-us/JoinUsHeader";
@@ -11,6 +11,7 @@ import { ListSection } from "@/components/join-us/ListSection";
 import { MultiListSection } from "@/components/join-us/MultiListSection";
 import { IntellectualPositioningSection } from "@/components/join-us/IntellectualPositioningSection";
 import { JoinUsForm } from "@/components/join-us/JoinUsForm";
+import { TeamLevelsAccordion } from "@/components/join-us/TeamLevelsAccordion";
 import { whoWeAreData, welcomingTalentData, revolutionData, alignmentData, whyEmergeData, whatWeOfferData, jobsInnovationData, technologyData, texasRevolutionData, strategicPartnershipsData } from "@/components/join-us/SectionData";
 
 // Updated data for the first section
@@ -96,6 +97,9 @@ export default function JoinUs() {
             
             {/* Intellectual Positioning Statement section */}
             <IntellectualPositioningSection />
+            
+            {/* Team Levels Accordion - NEW SECTION */}
+            <TeamLevelsAccordion />
             
             {/* Join Us section */}
             <JoinUsForm />

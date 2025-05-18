@@ -16,7 +16,7 @@ export function Logo({ className }: { className?: string }) {
           alt="Hotel-Living Logo"
           loading="eager"
           fetchPriority="high"
-          className={isMobile ? "h-[59.67px]" : "h-[40px]"}
+          className={isMobile ? "h-[77.57px]" : "h-[52px]"}
         />
       </div>
     </Link>

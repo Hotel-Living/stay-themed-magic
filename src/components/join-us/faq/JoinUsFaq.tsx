@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Section } from "@/components/join-us/Section";
-import { Question } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { JoinUsFaqSection } from "./JoinUsFaqSection";
 import { joinUsFaqData } from "./joinUsFaqData";
 
@@ -17,7 +17,7 @@ export function JoinUsFaq() {
   };
 
   return (
-    <Section icon={Question} title="Frequently Asked Questions" className="mt-24">
+    <Section icon={HelpCircle} title="Frequently Asked Questions" className="mt-24">
       <div className="space-y-8">
         {joinUsFaqData.map((section) => (
           <JoinUsFaqSection 

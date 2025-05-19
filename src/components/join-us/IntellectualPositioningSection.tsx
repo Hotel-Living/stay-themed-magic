@@ -5,7 +5,7 @@ import { Section } from "./Section";
 
 export function IntellectualPositioningSection() {
   return (
-    <Section icon={Lightbulb} title="INTELLECTUAL POSITIONING STATEMENT">
+    <Section icon={Lightbulb} title="INTELLECTUAL POSITIONING STATEMENT" defaultOpen={false}>
       <p className="text-white leading-relaxed mb-4">
         What you see here is only the beginning.
       </p>

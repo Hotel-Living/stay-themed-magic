@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   Accordion,
@@ -12,15 +12,23 @@ import { Section } from "./Section";
 interface TeamLevel {
   id: string;
   name: string;
+  tier: string;
+  shortName: string;
+  color: string;
   content: React.ReactNode;
 }
 
 export function TeamLevelsAccordion() {
+  const [activeLevel, setActiveLevel] = useState<string>("glow");
+
   // Team levels with content
   const teamLevels: TeamLevel[] = [
     {
       id: "glow",
-      name: "GLOW LEVEL - TIER 4",
+      name: "GLOW LEVEL",
+      tier: "TIER 4",
+      shortName: "GLOW",
+      color: "#FFC83D",
       content: (
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-[#FFF9B0]">OPERATIONAL & CREATIVE TEAM</h3>
@@ -103,7 +111,10 @@ export function TeamLevelsAccordion() {
     },
     {
       id: "bridge",
-      name: "BRIDGE LEVEL - TIER 3",
+      name: "BRIDGE LEVEL",
+      tier: "TIER 3",
+      shortName: "BRIDGE",
+      color: "#9387F5", 
       content: (
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-[#FFF9B0]">OUTREACH COORDINATORS</h3>
@@ -189,7 +200,10 @@ export function TeamLevelsAccordion() {
     },
     {
       id: "drive",
-      name: "DRIVE LEVEL - TIER 2",
+      name: "DRIVE LEVEL",
+      tier: "TIER 2",
+      shortName: "DRIVE",
+      color: "#FC9F5B", 
       content: (
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-[#FFF9B0]">EXPANSION DIRECTORS</h3>
@@ -244,37 +258,133 @@ export function TeamLevelsAccordion() {
     },
     {
       id: "summit",
-      name: "SUMMIT LEVEL - TIER 1",
-      content: "Content for Summit Level - Tier 1 will be provided soon."
+      name: "SUMMIT LEVEL",
+      tier: "TIER 1",
+      shortName: "SUMMIT",
+      color: "#E932A2", 
+      content: (
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-[#FFF9B0]">STRATEGIC ALLIES & HIGH-IMPACT PARTNERS</h3>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
+            <p>
+              The Summit Level (Tier 1) includes high-value individuals whose involvement creates access, 
+              visibility, trust, or massive opportunity — through influence, network, or reputation.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
+            <p>
+              Not part of daily operations. Their participation adds prestige, legitimacy, and exponential 
+              reach to Hotel Living.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">WHO WE'RE LOOKING FOR:</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Executives or former directors of hotel/tourism associations</li>
+              <li>Investors with access to large hotel portfolios</li>
+              <li>Hotel chain owners or regional operators</li>
+              <li>Influencers or content creators with massive audiences</li>
+              <li>Public figures, academics, or cultural leaders with strong reputations</li>
+              <li>Connectors capable of opening entire networks with one introduction</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">STRATEGIC ROLE</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Unlock mass onboarding through partnerships</li>
+              <li>Build public confidence in the platform</li>
+              <li>Offer strategic advice and presence when needed</li>
+              <li>Shape perception through their voice, name, or support</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-2">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Good English level is advisable. Spanish knowledge would be a great plus</li>
+            </ul>
+          </div>
+        </div>
+      )
     }
   ];
 
+  const handleSelectLevel = (levelId: string) => {
+    setActiveLevel(levelId);
+  };
+
   return (
     <Section icon={ChevronDown} title="Team Structure Levels">
-      <p className="text-white leading-relaxed mb-4">
-        Explore the different levels of our team structure below:
+      <p className="text-white leading-relaxed mb-8 text-center">
+        Explore the different levels of our team structure:
       </p>
-      <Accordion type="single" collapsible className="w-full">
-        {teamLevels.map((level) => (
-          <AccordionItem 
-            key={level.id} 
-            value={level.id}
-            className="border-b border-[#3300B0]/30 py-2"
+      
+      {/* Horizontal Tabs */}
+      <div className="flex flex-col lg:flex-row mb-8 space-y-4 lg:space-y-0 lg:space-x-3 justify-center">
+        {/* Reverse the levels so Tier 4 appears first (left) */}
+        {[...teamLevels].reverse().map((level) => (
+          <div 
+            key={level.id}
+            onClick={() => handleSelectLevel(level.id)}
+            className={`flex-1 relative cursor-pointer flex flex-col items-center group transition-all duration-300 ${
+              activeLevel === level.id ? "transform scale-105" : "opacity-80 hover:opacity-100"
+            }`}
           >
-            <AccordionTrigger 
-              className="hover:no-underline group" 
-              titleClassName="text-lg font-medium text-[#FFF9B0] group-hover:text-[#FEF7CD]"
+            {/* Hexagon Shape with gradient background */}
+            <div 
+              className={`w-20 h-20 flex items-center justify-center relative`} 
+              style={{ filter: activeLevel === level.id ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : '' }}
             >
-              {level.name}
-            </AccordionTrigger>
-            <AccordionContent className="text-white">
-              <div className="px-4 py-6 bg-[#8017B0]/40 rounded-lg mt-2">
-                {level.content}
+              <svg viewBox="0 0 100 100" className="w-full h-full">
+                <polygon 
+                  points="50 0, 93.3 25, 93.3 75, 50 100, 6.7 75, 6.7 25" 
+                  className={`transition-all duration-300`}
+                  fill={activeLevel === level.id ? level.color : `${level.color}80`}
+                  stroke={activeLevel === level.id ? "#FFFFFF" : "#FFFFFF50"}
+                  strokeWidth="2"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                {level.tier}
               </div>
-            </AccordionContent>
-          </AccordionItem>
+            </div>
+            
+            {/* Label */}
+            <div className="mt-2 text-center">
+              <p className={`text-sm font-bold transition-colors duration-300 ${
+                activeLevel === level.id ? "text-[#FFF9B0]" : "text-white group-hover:text-[#FFF9B0]"
+              }`}>
+                {level.shortName}
+              </p>
+            </div>
+            
+            {/* Active indicator arrow */}
+            {activeLevel === level.id && (
+              <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[8px] border-l-transparent border-r-transparent border-t-[#FFF9B0] mt-1"></div>
+            )}
+          </div>
         ))}
-      </Accordion>
+      </div>
+      
+      {/* Content Display */}
+      <div className="bg-[#8017B0]/40 rounded-lg p-6 shadow-lg backdrop-blur-sm border border-[#FFF9B0]/30">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold text-center" style={{ color: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}>
+            {teamLevels.find(l => l.id === activeLevel)?.name} - {teamLevels.find(l => l.id === activeLevel)?.tier}
+          </h2>
+          <div className="w-20 h-1 mx-auto mt-2 rounded-full" style={{ backgroundColor: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}></div>
+        </div>
+        
+        <div className="text-white">
+          {teamLevels.find(l => l.id === activeLevel)?.content}
+        </div>
+      </div>
     </Section>
   );
 }

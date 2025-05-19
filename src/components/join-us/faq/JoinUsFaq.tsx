@@ -17,7 +17,7 @@ export function JoinUsFaq() {
   };
 
   return (
-    <Section icon={HelpCircle} title="Frequently Asked Questions" className="mt-24">
+    <Section icon={HelpCircle} title="FREQUENTLY ASKED QUESTIONS" className="mt-24">
       <div className="space-y-8">
         {joinUsFaqData.map((section) => (
           <JoinUsFaqSection 

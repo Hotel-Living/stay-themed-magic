@@ -5,7 +5,7 @@ import { Section } from "./Section";
 
 export function IntellectualPositioningSection() {
   return (
-    <Section icon={Lightbulb} title="Intellectual Positioning Statement">
+    <Section icon={Lightbulb} title="INTELLECTUAL POSITIONING STATEMENT">
       <p className="text-white leading-relaxed mb-4">
         What you see here is only the beginning.
       </p>

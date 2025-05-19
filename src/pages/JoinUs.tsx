@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -19,9 +20,24 @@ const marketCreationData = {
   paragraphs: ["🚀 We haven't just created a business — we've created an entirely new global market", "• 🌍 A completely new business model, legally registered and protected", "• 💰 With $12 billion in estimated annual profits", "• 🌐 And access to a brand-new $131 billion global market", "• ✅ A market that belongs entirely to us"]
 };
 
-// New section data - SaaS application
+// New section data - SaaS application updated to be more digestible blocks
 const saasApplicationData = {
-  paragraphs: ["• ⚡ Fully scalable", "• 📈 Profit margins nearly equal to total revenue", "• 🌎 Deployable instantly, in any country", "________________________________________", "🚦Our revolution is fully legal", "• We are not Uber.", "• We don't break the system — we empower it with smart, lawful innovation.", "________________________________________", "🤝 What do we do?", "We connect two worlds in urgent need of each other:", "1. 🏨 Hospitality businesses losing millions to underused resources", "2. 👥 People looking to radically improve their lives through meaningful, long-term stays", "________________________________________", "💡 A simple, legal, game-changing solution.", "And it's ready to reshape the future of lodging"]
+  paragraphs: [
+    "• ⚡ Fully scalable SaaS solution",
+    "• 📈 Profit margins nearly equal to total revenue",
+    "• 🌎 Deployable instantly in any country",
+    "________________________________________",
+    "🚦 Our solution is 100% legal",
+    "• We don't break systems — we enhance them with smart innovation",
+    "• No regulatory conflicts like other disruptive platforms",
+    "________________________________________",
+    "🤝 Our core mission:",
+    "Connecting two urgent needs:",
+    "1. 🏨 Hospitality businesses losing millions on unused capacity",
+    "2. 👥 People seeking meaningful, service-rich long-term stays",
+    "________________________________________",
+    "💡 A simple, elegant solution ready to reshape the future of lodging"
+  ]
 };
 
 // New section data - Problems We Solve
@@ -48,60 +64,60 @@ export default function JoinUs() {
           <div className="max-w-4xl mx-auto">
             <JoinUsHeader />
             
-            {/* We Created a $12.7B Market section - updated content */}
-            <TextSection icon={Flame} title="We Created a $12.7B Market" paragraphs={marketCreationData.paragraphs} />
+            {/* WE CREATED A $131B MARKET section - updated content */}
+            <TextSection icon={Flame} title="WE CREATED A $131B MARKET" paragraphs={marketCreationData.paragraphs} />
             
-            {/* New section - We are a SaaS application */}
-            <TextSection icon={Wrench} title="🛠️ We are a SaaS application" paragraphs={saasApplicationData.paragraphs} />
-            
-            {/* Who we are section */}
-            <TextSection icon={Rocket} title="Who We Are" paragraphs={whoWeAreData.paragraphs} />
-            
-            {/* New section - The Problems We Solve */}
-            <TextSection icon={Lightbulb} title="The Problems We Solve" paragraphs={problemsWeSolveData.paragraphs} />
-            
-            {/* New section - The Hotel-Living Solution */}
-            <TextSection icon={Star} title="The Hotel-Living Solution" paragraphs={hotelLivingSolutionData.paragraphs} />
-            
-            {/* New section - THE IMPACT */}
+            {/* THE IMPACT section */}
             <TextSection icon={BarChart3} title="THE IMPACT" paragraphs={impactData.paragraphs} />
             
-            {/* We're welcoming new talent section */}
-            <TextSection icon={Lightbulb} title="We're Welcoming New Talent" paragraphs={welcomingTalentData.paragraphs} />
-
+            {/* WE ARE A SaaS APPLICATION section - updated content */}
+            <TextSection icon={Wrench} title="WE ARE A SaaS APPLICATION" paragraphs={saasApplicationData.paragraphs} />
+            
+            {/* THE PROBLEMS WE SOLVE section */}
+            <TextSection icon={Lightbulb} title="THE PROBLEMS WE SOLVE" paragraphs={problemsWeSolveData.paragraphs} />
+            
+            {/* THE HOTEL-LIVING SOLUTION section */}
+            <TextSection icon={Star} title="THE HOTEL-LIVING SOLUTION" paragraphs={hotelLivingSolutionData.paragraphs} />
+            
+            {/* HOTEL LIVING: A NECESSARY REVOLUTION section */}
+            <TextSection icon={Flame} title="HOTEL LIVING: A NECESSARY REVOLUTION" paragraphs={revolutionData.paragraphs} />
+            
+            {/* A NEW ALIGNMENT section */}
+            <TextSection icon={Globe} title="A NEW ALIGNMENT" paragraphs={alignmentData.paragraphs} />
+            
+            {/* WHAT WE OFFER section */}
+            <MultiListSection icon={Compass} title="WHAT WE OFFER" listGroups={whatWeOfferData.listGroups} />
+            
+            {/* JOBS, INNOVATION, FUTURE section */}
+            <ListSection icon={BarChart3} title="JOBS, INNOVATION, FUTURE" intro={jobsInnovationData.intro} items={jobsInnovationData.items} outro={jobsInnovationData.outro} />
+            
+            {/* TECHNOLOGY WITH A HUMAN PURPOSE section */}
+            <TextSection icon={Star} title="TECHNOLOGY WITH A HUMAN PURPOSE" paragraphs={technologyData.paragraphs} />
+            
+            {/* WE'RE WELCOMING NEW TALENT section */}
+            <TextSection icon={Lightbulb} title="WE'RE WELCOMING NEW TALENT" paragraphs={welcomingTalentData.paragraphs} />
+            
             {/* Image section before Strategic Partnerships - UPDATED WITH NEW IMAGE */}
             <div className="mb-16 flex justify-center">
               <img src="/lovable-uploads/06045feb-cf93-4027-bb37-f0c3102aace4.png" alt="Hotel-Living Partners Tier Structure and Projected Profits" className="w-1/2 max-w-3xl rounded-lg shadow-lg border border-[#3300B0]/30 object-scale-down" />
             </div>
 
-            {/* Strategic partnerships section */}
-            <TextSection icon={Handshake} title="We are Open to Strategic Partnerships" paragraphs={strategicPartnershipsData.paragraphs} />
+            {/* WE ARE OPEN TO STRATEGIC PARTNERSHIPS section */}
+            <TextSection icon={Handshake} title="WE ARE OPEN TO STRATEGIC PARTNERSHIPS" paragraphs={strategicPartnershipsData.paragraphs} />
             
-            {/* Hotel Living: a necessary revolution section */}
-            <TextSection icon={Flame} title="Hotel Living: A Necessary Revolution" paragraphs={revolutionData.paragraphs} />
+            {/* WHO WE ARE section */}
+            <TextSection icon={Rocket} title="WHO WE ARE" paragraphs={whoWeAreData.paragraphs} />
             
-            {/* A new alignment section */}
-            <TextSection icon={Globe} title="A New Alignment" paragraphs={alignmentData.paragraphs} />
+            {/* WHY DID THIS EMERGE? section */}
+            <ListSection icon={Lightbulb} title="WHY DID THIS EMERGE?" intro={whyEmergeData.intro} items={whyEmergeData.items} outro={whyEmergeData.outro} />
             
-            {/* Why did this emerge? section */}
-            <ListSection icon={Lightbulb} title="Why Did This Emerge?" intro={whyEmergeData.intro} items={whyEmergeData.items} outro={whyEmergeData.outro} />
-            
-            {/* What we offer section */}
-            <MultiListSection icon={Compass} title="What We Offer" listGroups={whatWeOfferData.listGroups} />
-            
-            {/* Jobs, innovation, future section */}
-            <ListSection icon={BarChart3} title="Jobs, Innovation, Future" intro={jobsInnovationData.intro} items={jobsInnovationData.items} outro={jobsInnovationData.outro} />
-            
-            {/* Technology with a human purpose section */}
-            <TextSection icon={Star} title="Technology With a Human Purpose" paragraphs={technologyData.paragraphs} />
-            
-            {/* Intellectual Positioning Statement section */}
+            {/* INTELLECTUAL POSITIONING STATEMENT section */}
             <IntellectualPositioningSection />
             
-            {/* Team Levels Accordion */}
+            {/* Team Levels Accordion - title is already updated */}
             <TeamLevelsAccordion />
             
-            {/* FAQ Section */}
+            {/* FREQUENTLY ASKED QUESTIONS Section */}
             <JoinUsFaq />
             
             {/* Join Us form */}

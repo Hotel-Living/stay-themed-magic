@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import {
@@ -20,6 +19,7 @@ interface TeamLevel {
 
 export function TeamLevelsAccordion() {
   const [activeLevel, setActiveLevel] = useState<string>("glow");
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   // Team levels with content
   const teamLevels: TeamLevel[] = [
@@ -261,7 +261,7 @@ export function TeamLevelsAccordion() {
       name: "SUMMIT LEVEL",
       tier: "TIER 1",
       shortName: "SUMMIT",
-      color: "#E932A2", 
+      color: "#8CD867", // Changed from #E932A2 (magenta) to light green
       content: (
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-[#FFF9B0]">STRATEGIC ALLIES & HIGH-IMPACT PARTNERS</h3>
@@ -319,72 +319,91 @@ export function TeamLevelsAccordion() {
     setActiveLevel(levelId);
   };
 
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <Section icon={ChevronDown} title="Team Structure Levels">
-      <p className="text-white leading-relaxed mb-8 text-center">
-        Explore the different levels of our team structure:
-      </p>
-      
-      {/* Horizontal Tabs */}
-      <div className="flex flex-col lg:flex-row mb-8 space-y-4 lg:space-y-0 lg:space-x-3 justify-center">
-        {/* Reverse the levels so Tier 4 appears first (left) */}
-        {[...teamLevels].reverse().map((level) => (
-          <div 
-            key={level.id}
-            onClick={() => handleSelectLevel(level.id)}
-            className={`flex-1 relative cursor-pointer flex flex-col items-center group transition-all duration-300 ${
-              activeLevel === level.id ? "transform scale-105" : "opacity-80 hover:opacity-100"
-            }`}
-          >
-            {/* Hexagon Shape with gradient background */}
-            <div 
-              className={`w-20 h-20 flex items-center justify-center relative`} 
-              style={{ filter: activeLevel === level.id ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : '' }}
-            >
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <polygon 
-                  points="50 0, 93.3 25, 93.3 75, 50 100, 6.7 75, 6.7 25" 
-                  className={`transition-all duration-300`}
-                  fill={activeLevel === level.id ? level.color : `${level.color}80`}
-                  stroke={activeLevel === level.id ? "#FFFFFF" : "#FFFFFF50"}
-                  strokeWidth="2"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
-                {level.tier}
-              </div>
-            </div>
-            
-            {/* Label */}
-            <div className="mt-2 text-center">
-              <p className={`text-sm font-bold transition-colors duration-300 ${
-                activeLevel === level.id ? "text-[#FFF9B0]" : "text-white group-hover:text-[#FFF9B0]"
-              }`}>
-                {level.shortName}
-              </p>
-            </div>
-            
-            {/* Active indicator arrow */}
-            {activeLevel === level.id && (
-              <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[8px] border-l-transparent border-r-transparent border-t-[#FFF9B0] mt-1"></div>
-            )}
+    <Accordion 
+      type="single" 
+      collapsible 
+      defaultValue={isOpen ? "team-levels" : undefined} 
+      onValueChange={(value) => setIsOpen(!!value)}
+    >
+      <AccordionItem value="team-levels" className="border-none">
+        <AccordionTrigger className="flex items-center py-2">
+          <div className="flex items-center">
+            <ChevronDown className="h-6 w-6 text-yellow-300 mr-2 transition-transform" />
+            <h2 className="text-3xl font-bold text-yellow-300">Team Structure Levels</h2>
           </div>
-        ))}
-      </div>
-      
-      {/* Content Display */}
-      <div className="bg-[#8017B0]/40 rounded-lg p-6 shadow-lg backdrop-blur-sm border border-[#FFF9B0]/30">
-        <div className="mb-4">
-          <h2 className="text-2xl font-bold text-center" style={{ color: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}>
-            {teamLevels.find(l => l.id === activeLevel)?.name} - {teamLevels.find(l => l.id === activeLevel)?.tier}
-          </h2>
-          <div className="w-20 h-1 mx-auto mt-2 rounded-full" style={{ backgroundColor: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}></div>
-        </div>
-        
-        <div className="text-white">
-          {teamLevels.find(l => l.id === activeLevel)?.content}
-        </div>
-      </div>
-    </Section>
+        </AccordionTrigger>
+        <AccordionContent>
+          <p className="text-white leading-relaxed mb-8 text-center">
+            Explore the different levels of our team structure:
+          </p>
+          
+          {/* Horizontal Tabs */}
+          <div className="flex flex-col lg:flex-row mb-8 space-y-4 lg:space-y-0 lg:space-x-3 justify-center">
+            {/* Reverse the levels so Tier 4 appears first (left) */}
+            {[...teamLevels].reverse().map((level) => (
+              <div 
+                key={level.id}
+                onClick={() => handleSelectLevel(level.id)}
+                className={`flex-1 relative cursor-pointer flex flex-col items-center group transition-all duration-300 ${
+                  activeLevel === level.id ? "transform scale-105" : "opacity-80 hover:opacity-100"
+                }`}
+              >
+                {/* Hexagon Shape with gradient background */}
+                <div 
+                  className={`w-20 h-20 flex items-center justify-center relative`} 
+                  style={{ filter: activeLevel === level.id ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : '' }}
+                >
+                  <svg viewBox="0 0 100 100" className="w-full h-full">
+                    <polygon 
+                      points="50 0, 93.3 25, 93.3 75, 50 100, 6.7 75, 6.7 25" 
+                      className={`transition-all duration-300`}
+                      fill={activeLevel === level.id ? level.color : `${level.color}80`}
+                      stroke={activeLevel === level.id ? "#FFFFFF" : "#FFFFFF50"}
+                      strokeWidth="2"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                    {level.tier}
+                  </div>
+                </div>
+                
+                {/* Label */}
+                <div className="mt-2 text-center">
+                  <p className={`text-sm font-bold transition-colors duration-300 ${
+                    activeLevel === level.id ? "text-[#FFF9B0]" : "text-white group-hover:text-[#FFF9B0]"
+                  }`}>
+                    {level.shortName}
+                  </p>
+                </div>
+                
+                {/* Active indicator arrow */}
+                {activeLevel === level.id && (
+                  <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[8px] border-l-transparent border-r-transparent border-t-[#FFF9B0] mt-1"></div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {/* Content Display */}
+          <div className="bg-[#8017B0]/40 rounded-lg p-6 shadow-lg backdrop-blur-sm border border-[#FFF9B0]/30">
+            <div className="mb-4">
+              <h2 className="text-2xl font-bold text-center" style={{ color: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}>
+                {teamLevels.find(l => l.id === activeLevel)?.name} - {teamLevels.find(l => l.id === activeLevel)?.tier}
+              </h2>
+              <div className="w-20 h-1 mx-auto mt-2 rounded-full" style={{ backgroundColor: teamLevels.find(l => l.id === activeLevel)?.color || "#FFF9B0" }}></div>
+            </div>
+            
+            <div className="text-white">
+              {teamLevels.find(l => l.id === activeLevel)?.content}
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 }

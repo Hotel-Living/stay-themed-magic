@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -12,6 +11,7 @@ import { MultiListSection } from "@/components/join-us/MultiListSection";
 import { IntellectualPositioningSection } from "@/components/join-us/IntellectualPositioningSection";
 import { JoinUsForm } from "@/components/join-us/JoinUsForm";
 import { TeamLevelsAccordion } from "@/components/join-us/TeamLevelsAccordion";
+import { JoinUsFaq } from "@/components/join-us/faq/JoinUsFaq";
 import { whoWeAreData, welcomingTalentData, revolutionData, alignmentData, whyEmergeData, whatWeOfferData, jobsInnovationData, technologyData, texasRevolutionData, strategicPartnershipsData } from "@/components/join-us/SectionData";
 
 // Updated data for the first section
@@ -98,10 +98,13 @@ export default function JoinUs() {
             {/* Intellectual Positioning Statement section */}
             <IntellectualPositioningSection />
             
-            {/* Team Levels Accordion - NEW SECTION */}
+            {/* Team Levels Accordion */}
             <TeamLevelsAccordion />
             
-            {/* Join Us section */}
+            {/* FAQ Section */}
+            <JoinUsFaq />
+            
+            {/* Join Us form */}
             <JoinUsForm />
           </div>
         </Container>

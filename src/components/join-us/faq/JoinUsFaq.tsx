@@ -1,0 +1,33 @@
+
+import React, { useState } from "react";
+import { Section } from "@/components/join-us/Section";
+import { Question } from "lucide-react";
+import { JoinUsFaqSection } from "./JoinUsFaqSection";
+import { joinUsFaqData } from "./joinUsFaqData";
+
+export function JoinUsFaq() {
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => 
+      prev.includes(sectionId)
+        ? prev.filter(id => id !== sectionId)
+        : [...prev, sectionId]
+    );
+  };
+
+  return (
+    <Section icon={Question} title="Frequently Asked Questions" className="mt-24">
+      <div className="space-y-8">
+        {joinUsFaqData.map((section) => (
+          <JoinUsFaqSection 
+            key={section.id}
+            section={section}
+            isExpanded={expandedSections.includes(section.id)}
+            toggleSection={() => toggleSection(section.id)}
+          />
+        ))}
+      </div>
+    </Section>
+  );
+}

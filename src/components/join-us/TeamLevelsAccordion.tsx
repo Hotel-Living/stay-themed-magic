@@ -30,7 +30,7 @@ export function TeamLevelsAccordion() {
         <AccordionTrigger className="flex items-center py-2">
           <div className="flex items-center">
             <ChevronDown className="h-6 w-6 text-yellow-300 mr-2 transition-transform" />
-            <h2 className="text-3xl font-bold text-yellow-300">Team Structure Levels</h2>
+            <h2 className="text-3xl font-bold text-yellow-300">Explore Our Team Levels – Choose Your Impact</h2>
           </div>
         </AccordionTrigger>
         <AccordionContent>

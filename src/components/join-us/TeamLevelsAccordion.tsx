@@ -190,7 +190,57 @@ export function TeamLevelsAccordion() {
     {
       id: "drive",
       name: "DRIVE LEVEL - TIER 2",
-      content: "Content for Drive Level - Tier 2 will be provided soon."
+      content: (
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-[#FFF9B0]">EXPANSION DIRECTORS</h3>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
+            <p>
+              Senior-level professionals with experience in any area of expertise that can meaningfully 
+              contribute to the growth of the business.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
+            <p>
+              The Drive Level (Tier 2) members are empowered to build and lead their own Tier 3 team — 
+              a group of two collaborators they trust and guide. Tier 2 members are responsible for leading 
+              hotel acquisition efforts across regions or segments. They manage their own team, negotiate with 
+              associations and others, helping to refine commercial strategies in alignment with Hotel Living's goals.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Develop and execute acquisition strategies by country, region, or type of hotel</li>
+              <li>Negotiate with hotel chains, associations and others</li>
+              <li>Supervise Tier 3 coordinators and their operational teams</li>
+              <li>Represent Hotel Living at key meetings or events</li>
+              <li>Monitor results and improve tactics based on data</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">DUAL ROLE — STRATEGIC & OPERATIONAL</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Generate strategic contacts and leads</li>
+              <li>Help design materials and scripts tailored to each region</li>
+              <li>Ensure execution quality throughout the team structure</li>
+            </ul>
+          </div>
+          
+          <div className="space-y-2">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Fluency in English is required. Good Spanish knowledge is a great plus</li>
+              <li>Additional languages would be great for regional assignments</li>
+            </ul>
+          </div>
+        </div>
+      )
     },
     {
       id: "summit",

@@ -104,7 +104,88 @@ export function TeamLevelsAccordion() {
     {
       id: "bridge",
       name: "BRIDGE LEVEL - TIER 3",
-      content: "Content for Bridge Level - Tier 3 will be provided soon."
+      content: (
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-[#FFF9B0]">OUTREACH COORDINATORS</h3>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
+            <p>
+              Ambitious, resourceful, and well-connected professionals ready to take the lead. Tier 3 members 
+              are empowered to build and lead their own Tier 4 team — a group of three collaborators they trust 
+              and guide. This is not just about joining a project — it's about stepping into a leadership role 
+              with real influence and visibility within the company.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
+            <p>
+              The Bridge Level (Tier 3) members act as the bridge between strategic planning and daily operations. 
+              At the Startup Phase, they are responsible for sourcing and organizing hotel data, assigning contact 
+              tasks to Tier 4, and ensuring quality and consistency in the outreach process.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">LEADERSHIP SCOPE</h4>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>
+                Tier 3 members take on a leadership role with real influence — they are empowered to build and lead 
+                their own Tier 4 teams, selecting up to three trusted individuals who share their vision, values, or 
+                professional interests. This allows them to shape their own working environment and create a strong, 
+                reliable unit.
+              </li>
+              <li>
+                As visible representatives of Hotel Living, Tier 3 leaders play a key role in expanding the project's 
+                reach and reputation. Their leadership is not only operational, but social — building networks, setting 
+                standards, and inspiring others.
+              </li>
+              <li>
+                Alongside team coordination, they remain professionally active within their area of expertise, contributing 
+                to the platform's ongoing quality, innovation, and strategic direction.
+              </li>
+              <li>
+                They participate in quality control, progress tracking, and high-level discussions that shape the evolution 
+                of Hotel Living.
+              </li>
+            </ul>
+          </div>
+          
+          <div className="space-y-3">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
+            
+            <div>
+              <h5 className="text-base font-semibold text-[#FFF9B0]">1) STARTUP PHASE</h5>
+              <ul className="list-disc pl-6 space-y-1 mt-2">
+                <li>Identify and compile lists of potential hotels from portals, directories, and networks</li>
+                <li>Distribute leads and assignments to Tier 4</li>
+                <li>Clean and structure data; track campaign outcomes</li>
+                <li>Provide daily support and supervision to their team</li>
+                <li>Collaborate with Tier 2 directors for strategy alignment</li>
+                <li>Leverage personal and professional networks to bring in valuable contacts or trusted collaborators who can enhance the project's reach and impact</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h5 className="text-base font-semibold text-[#FFF9B0]">2) MID-TERM GROWTH</h5>
+              <p className="mt-1">
+                Expertise or experience in any professional field that can meaningfully contribute to the growth of Hotel Living — 
+                including, but not limited to, legal, marketing, communications, business administration, finance, UX/UI design, 
+                software development, and project management.
+              </p>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <h4 className="text-lg font-semibold text-[#FFF9B0]">Language Requirements</h4>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Fluency in English is required. Good Spanish knowledge is a great plus</li>
+              <li>Additional languages would be great for regional assignments</li>
+            </ul>
+          </div>
+        </div>
+      )
     },
     {
       id: "drive",

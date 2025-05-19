@@ -20,7 +20,7 @@ export function TeamLevelsAccordion() {
   };
 
   return (
-    <div className="mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg">
+    <div className="mb-8 bg-[#8017B0]/90 p-5 rounded-xl border border-[#3300B0]/30 shadow-lg">
       <Accordion 
         type="single" 
         collapsible 
@@ -28,14 +28,14 @@ export function TeamLevelsAccordion() {
         onValueChange={(value) => setIsOpen(!!value)}
       >
         <AccordionItem value="team-levels" className="border-none">
-          <AccordionTrigger className="flex items-center py-2">
+          <AccordionTrigger className="flex items-center py-0">
             <div className="flex items-center">
-              <ChevronDown className="h-6 w-6 text-yellow-300 mr-2 transition-transform" />
-              <h2 className="text-3xl font-bold text-yellow-300">Explore Our Team Levels – Choose Your Impact</h2>
+              <ChevronDown className="h-4 w-4 text-yellow-300 mr-2 transition-transform" />
+              <h2 className="text-lg md:text-xl font-bold text-yellow-300">Explore Our Team Levels – Choose Your Impact</h2>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <p className="text-white leading-relaxed mb-8 text-center">
+            <p className="text-white leading-relaxed mb-6 text-center text-sm">
               Explore the different levels of our team structure:
             </p>
             

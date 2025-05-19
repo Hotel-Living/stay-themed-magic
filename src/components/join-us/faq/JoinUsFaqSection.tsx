@@ -15,16 +15,16 @@ export function JoinUsFaqSection({ section, isExpanded, toggleSection }: JoinUsF
   return (
     <div className="bg-[#730483]/50 rounded-lg overflow-hidden shadow-lg border border-fuchsia-500/30">
       <button 
-        className="w-full text-left px-6 py-4 flex items-center justify-between bg-gradient-to-r from-[#730483] to-[#570366] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
+        className="w-full text-left px-4 py-3 flex items-center justify-between bg-gradient-to-r from-[#730483] to-[#570366] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300"
         onClick={toggleSection}
       >
         <div className="flex items-center">
-          {section.emoji && <span className="text-2xl mr-3">{section.emoji}</span>}
-          <h3 className="text-xl font-bold text-[#FFF9B0]">{section.title}</h3>
+          {section.emoji && <span className="text-xl mr-2">{section.emoji}</span>}
+          <h3 className="text-base font-bold text-[#FFF9B0]">{section.title}</h3>
         </div>
         <ChevronDown 
           className={cn(
-            "h-5 w-5 text-[#FFF9B0] transition-transform duration-300",
+            "h-4 w-4 text-[#FFF9B0] transition-transform duration-300",
             isExpanded ? "rotate-180" : ""
           )}
         />

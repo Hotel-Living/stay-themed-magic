@@ -20,10 +20,10 @@ export function JoinUsFaq() {
     <Section 
       icon={HelpCircle} 
       title="FREQUENTLY ASKED QUESTIONS" 
-      className="mt-24"
+      className="mt-12"
       defaultOpen={false}
     >
-      <div className="space-y-8">
+      <div className="space-y-4">
         {joinUsFaqData.map((section) => (
           <JoinUsFaqSection 
             key={section.id}

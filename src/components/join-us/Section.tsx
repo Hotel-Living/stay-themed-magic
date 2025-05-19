@@ -21,20 +21,20 @@ export function Section({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   
   return (
-    <section className={`mb-16 bg-[#8017B0]/90 p-8 rounded-xl border border-[#3300B0]/30 shadow-lg ${className}`}>
+    <section className={`mb-8 bg-[#8017B0]/90 p-5 rounded-xl border border-[#3300B0]/30 shadow-lg ${className}`}>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger className="flex items-start w-full text-left">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <Icon className="h-7 w-7 text-[#FFF9B0] mr-3" />
-              <h2 className="text-2xl md:text-3xl font-bold text-[#FFF9B0]">{title}</h2>
+              <Icon className="h-5 w-5 text-[#FFF9B0] mr-2" />
+              <h2 className="text-lg md:text-xl font-bold text-[#FFF9B0]">{title}</h2>
             </div>
             <ChevronDown 
-              className={`h-6 w-6 text-[#FFF9B0] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+              className={`h-4 w-4 text-[#FFF9B0] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
             />
           </div>
         </CollapsibleTrigger>
-        <CollapsibleContent className="mt-4">
+        <CollapsibleContent className="mt-3">
           {children}
         </CollapsibleContent>
       </Collapsible>

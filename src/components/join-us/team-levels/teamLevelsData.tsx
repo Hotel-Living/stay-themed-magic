@@ -12,79 +12,54 @@ export const teamLevelsData: TeamLevel[] = [
     color: "#FFC83D",
     content: (
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">OPERATIONAL & CREATIVE TEAM</h3>
+        <h3 className="text-xl font-bold text-[#FFF9B0]">Level 4 – Core Team Members (30 people)</h3>
+        
+        <p>
+          The Glow team represents the operational and visible foundation of our organization. They are the first point of contact with the public and the ones who clearly and directly convey the essential values of our project.
+        </p>
+        <p>
+          They act as daily ambassadors of our brand, bringing presence, consistency, and dynamism to every action. Their role is key to ensuring a strong connection between the company and its surroundings.
+        </p>
+        <p>
+          Each team of three is carefully selected by a Bridge Leader (Level 3) to form a fundamental unit within the organization.
+        </p>
         
         <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
-          <p>
-            Dynamic and adaptable persons who are ready to act on the frontlines of hotel acquisition 
-            while also contributing to the development of Hotel Living in a variety of areas. 
-            Members may come from different backgrounds, including tech, content creation, marketing, or hospitality.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            The Glow Level (Tier 4) represents the largest group within Hotel Living's founding structure. 
-            Members play a key operational role in the startup phase, with a strong focus on direct outreach to hotels, 
-            while also offering the potential to contribute in technical, marketing, and creative areas as the project grows.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">COLLABORATION & REPRESENTATION SCOPE</h4>
-          <p>
-            Tier 4 team members are dynamic individuals with strong interpersonal skills and a natural talent for communication. 
-            While professional qualifications are not strictly required at this level, it is essential that they embody 
-            the values of Hotel Living and can represent the platform with confidence, enthusiasm, and credibility.
-          </p>
-          <p>
-            They act as the social front line of the project — engaging with contacts, promoting the vision, 
-            and helping extend the network of potential hotels, partners, or clients. Their ability to build trust, 
-            maintain a positive presence, and connect with diverse audiences makes them an essential part of each Tier 3 leader's team.
-          </p>
-          <p>
-            Tier 4 members may grow into more specialized roles over time, but their primary value lies in 
-            their energy, social intelligence, and dedication to the success of the team and the platform.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
-          
-          <div>
-            <h5 className="text-base font-semibold text-[#FFF9B0]">1) STARTUP PHASE</h5>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Actively reach out to hotels via phone, email, and messaging platforms — this is a core responsibility of the role, whether identifying hotels independently or working with leads provided by Tier 3.</li>
-              <li>Present the Hotel Living model using approved materials</li>
-              <li>Track responses and report progress to Tier 3 coordinators</li>
-              <li>Handle basic hotel inquiries and redirect as needed</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h5 className="text-base font-semibold text-[#FFF9B0]">2) MID-TERM GROWTH</h5>
-            <p className="mt-1">
-              Any professional field or area of contribution that could support the growth of Hotel Living includes, 
-              among others but is not limited to:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Legal, accounting, business administration, and other roles relevant to a growing tech platform</li>
-              <li>Hotel content creation (descriptions, FAQs, translation)</li>
-              <li>Graphic design and UX interface feedback</li>
-              <li>Front-end/back-end support and testing</li>
-              <li>Digital marketing campaigns and community engagement</li>
-              <li>Admin work: uploading photos, texts, or updating listings</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">Language Requirements</h4>
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">A) HOTEL RELATIONS AND COMMERCIAL OPERATIONS DEPARTMENT (18 PEOPLE)</h4>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Fluency in English is required. Spanish knowledge would be a great plus</li>
-            <li>Additional languages would be great for regional assignments</li>
+            <li>Onboarding Specialists (12): Hotel relations for both presentation and acquisition.</li>
+            <li>Integration Specialists (6): Contract integration and follow-up.</li>
+          </ul>
+        </div>
+        
+        <div className="space-y-3">
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">B) MARKETING AND EXPANSION DEPARTMENT (3 PEOPLE)</h4>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>SEO/SEM Specialists (3): Search engine optimization and marketing campaigns.</li>
+            <li>Content Creators (3): Blog writing, newsletters, and promotional materials.</li>
+            <li>Social Media Managers (3): Managing social profiles and community engagement.</li>
+          </ul>
+        </div>
+        
+        <div className="space-y-3">
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">C) TECHNOLOGY AND DEVELOPMENT DEPARTMENT (3 PEOPLE)</h4>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>Frontend and Backend Developers (3): Implementation of functional and attractive user interfaces, server logic, and database management.</li>
+          </ul>
+        </div>
+        
+        <div className="space-y-3">
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">D) CUSTOMER SERVICE – HOTELS AND USERS (3 PEOPLE)</h4>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>Customer Support Representatives (3): Handling user inquiries and issue resolution.</li>
+          </ul>
+        </div>
+        
+        <div className="space-y-3">
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">E) LEGAL AND HUMAN RESOURCES DEPARTMENT (3 PEOPLE)</h4>
+          <ul className="list-disc pl-6 space-y-1">
+            <li>Human Resources Manager (1): Legal support and regulatory compliance.</li>
+            <li>Human Resources Specialists (2): Talent management and development of internal company culture.</li>
           </ul>
         </div>
       </div>
@@ -98,83 +73,39 @@ export const teamLevelsData: TeamLevel[] = [
     color: "#9387F5", 
     content: (
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">OUTREACH COORDINATORS</h3>
+        <h3 className="text-xl font-bold text-[#FFF9B0]">Level 3 – Team Leaders (10 people)</h3>
+        
+        <p>
+          Ten essential Team Leaders, each authorized to form and lead a team of three Glow members. These leaders are distributed across the departments of Hotel Relations, Marketing, Technology, Customer Support, and Legal/HR.
+        </p>
         
         <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
-          <p>
-            Ambitious, resourceful, and well-connected professionals ready to take the lead. Tier 3 members 
-            are empowered to build and lead their own Tier 4 team — a group of three collaborators they trust 
-            and guide. This is not just about joining a project — it's about stepping into a leadership role 
-            with real influence and visibility within the company.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            The Bridge Level (Tier 3) members act as the bridge between strategic planning and daily operations. 
-            At the Startup Phase, they are responsible for sourcing and organizing hotel data, assigning contact 
-            tasks to Tier 4, and ensuring quality and consistency in the outreach process.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LEADERSHIP SCOPE</h4>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              Tier 3 members take on a leadership role with real influence — they are empowered to build and lead 
-              their own Tier 4 teams, selecting up to three trusted individuals who share their vision, values, or 
-              professional interests. This allows them to shape their own working environment and create a strong, 
-              reliable unit.
-            </li>
-            <li>
-              As visible representatives of Hotel Living, Tier 3 leaders play a key role in expanding the project's 
-              reach and reputation. Their leadership is not only operational, but social — building networks, setting 
-              standards, and inspiring others.
-            </li>
-            <li>
-              Alongside team coordination, they remain professionally active within their area of expertise, contributing 
-              to the platform's ongoing quality, innovation, and strategic direction.
-            </li>
-            <li>
-              They participate in quality control, progress tracking, and high-level discussions that shape the evolution 
-              of Hotel Living.
-            </li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
+          <h4 className="text-lg font-semibold text-[#FFF9B0]">DEPARTMENTS</h4>
           
-          <div>
-            <h5 className="text-base font-semibold text-[#FFF9B0]">1) STARTUP PHASE</h5>
-            <ul className="list-disc pl-6 space-y-1 mt-2">
-              <li>Identify and compile lists of potential hotels from portals, directories, and networks</li>
-              <li>Distribute leads and assignments to Tier 4</li>
-              <li>Clean and structure data; track campaign outcomes</li>
-              <li>Provide daily support and supervision to their team</li>
-              <li>Collaborate with Tier 2 directors for strategy alignment</li>
-              <li>Leverage personal and professional networks to bring in valuable contacts or trusted collaborators who can enhance the project's reach and impact</li>
-            </ul>
+          <div className="space-y-2">
+            <h5 className="text-base font-semibold text-[#FFF9B0]">A) HOTEL RELATIONS AND COMMERCIAL OPERATIONS DEPARTMENT (6 TEAMS – 6 LEADERS)</h5>
+            <p>Leaders of Hotel and User Base Development</p>
           </div>
           
-          <div>
-            <h5 className="text-base font-semibold text-[#FFF9B0]">2) MID-TERM GROWTH</h5>
-            <p className="mt-1">
-              Expertise or experience in any professional field that can meaningfully contribute to the growth of Hotel Living — 
-              including, but not limited to, legal, marketing, communications, business administration, finance, UX/UI design, 
-              software development, and project management.
-            </p>
+          <div className="space-y-2">
+            <h5 className="text-base font-semibold text-[#FFF9B0]">B) MARKETING AND EXPANSION DEPARTMENT (1 TEAM – 1 LEADER)</h5>
+            <p>Digital Marketing Leader: SEO, SEM strategies, advertising campaigns, and social media.</p>
           </div>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">Language Requirements</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Fluency in English is required. Good Spanish knowledge is a great plus</li>
-            <li>Additional languages would be great for regional assignments</li>
-          </ul>
+          
+          <div className="space-y-2">
+            <h5 className="text-base font-semibold text-[#FFF9B0]">C) TECHNOLOGY AND DEVELOPMENT DEPARTMENT (1 TEAM – 1 LEADER)</h5>
+            <p>Software Development Leader: Maintenance and Frontend/Backend development.</p>
+          </div>
+          
+          <div className="space-y-2">
+            <h5 className="text-base font-semibold text-[#FFF9B0]">D) CUSTOMER SERVICE DEPARTMENT– HOTELS AND USERS (1 TEAM – 1 LEADER)</h5>
+            <p>Customer Support Leader: Customer service and user experience for both hotels and end users.</p>
+          </div>
+          
+          <div className="space-y-2">
+            <h5 className="text-base font-semibold text-[#FFF9B0]">E) LEGAL AND HUMAN RESOURCES DEPARTMENT (1 TEAM – 1 LEADER)</h5>
+            <p>Legal and HR Leader: Legal matters, talent management, and internal company culture.</p>
+          </div>
         </div>
       </div>
     )
@@ -187,53 +118,11 @@ export const teamLevelsData: TeamLevel[] = [
     color: "#FC9F5B", 
     content: (
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">EXPANSION DIRECTORS</h3>
+        <h3 className="text-xl font-bold text-[#FFF9B0]">Level 2 – Key Expansion Partners (5 people)</h3>
         
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
-          <p>
-            Senior-level professionals with experience in any area of expertise that can meaningfully 
-            contribute to the growth of the business.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            The Drive Level (Tier 2) members are empowered to build and lead their own Tier 3 team — 
-            a group of two collaborators they trust and guide. Tier 2 members are responsible for leading 
-            hotel acquisition efforts across regions or segments. They manage their own team, negotiate with 
-            associations and others, helping to refine commercial strategies in alignment with Hotel Living's goals.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Develop and execute acquisition strategies by country, region, or type of hotel</li>
-            <li>Negotiate with hotel chains, associations and others</li>
-            <li>Supervise Tier 3 coordinators and their operational teams</li>
-            <li>Represent Hotel Living at key meetings or events</li>
-            <li>Monitor results and improve tactics based on data</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">DUAL ROLE — STRATEGIC & OPERATIONAL</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Generate strategic contacts and leads</li>
-            <li>Help design materials and scripts tailored to each region</li>
-            <li>Ensure execution quality throughout the team structure</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Fluency in English is required. Good Spanish knowledge is a great plus</li>
-            <li>Additional languages would be great for regional assignments</li>
-          </ul>
-        </div>
+        <p>
+          Each Summit Ambassador selects a trusted individual to join this level. These allies also hold relevant influence in strategic environments, and their primary role is to drive the expansion of Hotel Living through their network and direct involvement in high-impact actions.
+        </p>
       </div>
     )
   },
@@ -245,52 +134,11 @@ export const teamLevelsData: TeamLevel[] = [
     color: "#8CD867",
     content: (
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">STRATEGIC ALLIES & HIGH-IMPACT PARTNERS</h3>
+        <h3 className="text-xl font-bold text-[#FFF9B0]">Level 1 – Strategic Ambassadors (5 people)</h3>
         
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            The Summit Level (Tier 1) includes high-value individuals whose involvement creates access, 
-            visibility, trust, or massive opportunity — through influence, network, or reputation.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PROFILE</h4>
-          <p>
-            Not part of daily operations. Their participation adds prestige, legitimacy, and exponential 
-            reach to Hotel Living.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">WHO WE'RE LOOKING FOR:</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Executives or former directors of hotel/tourism associations</li>
-            <li>Investors with access to large hotel portfolios</li>
-            <li>Hotel chain owners or regional operators</li>
-            <li>Influencers or content creators with massive audiences</li>
-            <li>Public figures, academics, or cultural leaders with strong reputations</li>
-            <li>Connectors capable of opening entire networks with one introduction</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">STRATEGIC ROLE</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Unlock mass onboarding through partnerships</li>
-            <li>Build public confidence in the platform</li>
-            <li>Offer strategic advice and presence when needed</li>
-            <li>Shape perception through their voice, name, or support</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Good English level is advisable. Spanish knowledge would be a great plus</li>
-          </ul>
-        </div>
+        <p>
+          Individuals with significant influence in their respective fields: entrepreneurs, influencers, experts, or public figures who bring visibility, credibility, and key opportunities. They are role models who open doors and support our vision.
+        </p>
       </div>
     )
   }

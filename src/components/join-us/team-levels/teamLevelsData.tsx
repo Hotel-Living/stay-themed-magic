@@ -15,28 +15,13 @@ export const teamLevelsData: TeamLevel[] = [
         <h3 className="text-xl font-bold text-[#FFF9B0]">LEVEL 4- CORE TEAM MEMBERS (30 PEOPLE)</h3>
         
         <p>
-          The Glow team represents the operational and visible foundation of our organization. They are the first point of contact with the public and the ones who clearly and directly express the core values of our project.
+          The Glow team represents the operational and visible foundation of our organization. They are the first point of contact with the public and the ones who clearly and directly convey the essential values of our project.
         </p>
         <p>
-          They act as daily ambassadors of our brand, bringing presence, consistency, and dynamism to every action. Their role is essential to ensure a strong and authentic connection between the company and its surroundings.
+          They act as daily ambassadors of our brand, bringing presence, consistency, and dynamism to every action. Their role is key to ensuring a strong connection between the company and its surroundings.
         </p>
         <p>
           Each team of three is carefully selected by a Bridge Leader (Level 3) to form a fundamental unit within the organization.
-        </p>
-        <p>
-          Glow members are dynamic and adaptable individuals, ready to act on the frontlines of hotel acquisition while also contributing to the ongoing development of Hotel Living in a wide range of areas. Members may come from various professional or personal backgrounds, including technology, content creation, marketing, or hospitality.
-        </p>
-        <p>
-          While formal qualifications are not strictly required, it is essential that every member of Glow Level embodies the values of Hotel Living and is capable of representing the platform with confidence, enthusiasm, and credibility.
-        </p>
-        <p>
-          Glow Level members possess strong interpersonal skills and a natural ability for communication and engagement. They serve as the social front line of the project—interacting with contacts, promoting the vision, and helping to expand the network of potential hotels, partners, and clients.
-        </p>
-        <p>
-          Their ability to build trust, maintain a positive and magnetic presence, and connect with diverse audiences makes them a key asset to every Bridge Leader's team.
-        </p>
-        <p>
-          Although Glow Level members may evolve into more specialized roles over time, their primary value lies in their energy, social intelligence, and deep dedication to the collective success of the team and the platform. They will be involved in hotel outreach, while also offering the potential to contribute in technical, marketing, or creative areas as Hotel Living continues to grow.
         </p>
         
         <div className="space-y-3">

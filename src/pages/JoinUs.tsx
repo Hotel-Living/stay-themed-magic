@@ -47,7 +47,7 @@ const saasApplicationData = {
   ]
 };
 
-// Updated data for the problems we solve section
+// Updated data for the problems we solve section - fixing quotes
 const problemsWeSolveData = {
   paragraphs: [
     "🏨 On one side:",
@@ -63,7 +63,7 @@ const problemsWeSolveData = {
     "________________________________________",
     "These are 370 million individuals with stable income and freedom of movement.",
     "",
-    "• Their "impossible dream"?",
+    "• Their \"impossible dream\"?", // Fixed quotes here
     "To live with everything taken care of, enjoying a full array of services, attention, vibrant social interaction, and constant activities. And for many of them, pre-retired, retired, ecc, to live as if on permanent vacation",
     "",
     "• And if they're going to dream...",

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { sendJoinUsForm } from "@/services/joinUsService";
+import { submitJoinUsForm } from "@/services/joinUsService";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,8 @@ export function JoinUsForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      await sendJoinUsForm(values);
+      // Updated the function call to use submitJoinUsForm instead of sendJoinUsForm
+      await submitJoinUsForm(values, []);
       form.reset();
       toast.success("Your message has been sent. We'll be in touch soon!");
     } catch (error) {

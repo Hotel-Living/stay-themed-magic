@@ -7,6 +7,6 @@ export interface FaqItem {
 export interface FaqSection {
   id: string;
   title: string;
-  emoji: string;
+  emoji?: string; // Making emoji optional with the ? modifier
   questions: FaqItem[];
 }

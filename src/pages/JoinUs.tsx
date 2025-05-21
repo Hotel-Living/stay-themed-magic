@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake, Wrench, Heart } from "lucide-react";
@@ -34,7 +34,7 @@ const saasApplicationData = {
     "📈 Profit margins nearly equal to total revenue",
     "🌎 Deployable instantly in any country",
     "",
-    "💚 WE DON'T BREAK SYSTEMS", // Changed from red icon to green heart
+    "💚 WE DON'T BREAK SYSTEMS", // Changed from 🚫 to 💚 (green heart)
     "🚫 We're not Uber or Airbnb: we don't disrupt and wait years to scale",
     "✅ We enhance existing systems through smart, seamless innovation",
     "",
@@ -47,16 +47,16 @@ const saasApplicationData = {
   ]
 };
 
-// Updated data for the problems we solve section - fixing quotes
+// Updated data for the problems we solve section - removing asterisks
 const problemsWeSolveData = {
   paragraphs: [
     "🏨 On one side:",
-    "🏢 HOTEL OCCUPANCY IN THE WEST IS JUST 50.3% *",
-    "• That means 4.7 billion hotel nights** every year not only go unused — they generate losses.",
-    "• Every year, 72,000 Western hotels*** are forced to shut down for up to 7 months due to lack of demand.",
+    "🏢 HOTEL OCCUPANCY IN THE WEST IS JUST 50.3%", // Removed asterisk
+    "• That means 4.7 billion hotel nights every year not only go unused — they generate losses.", // Removed asterisks
+    "• Every year, 72,000 Western hotels are forced to shut down for up to 7 months due to lack of demand.", // Removed asterisks
     "________________________________________",
     "👤 ON THE OTHER SIDE — IN THOSE SAME COUNTRIES:",
-    "370 MILLION PEOPLE****:",
+    "370 MILLION PEOPLE:", // Removed asterisks
     "• Living alone or as couples",
     "• Pre-retired, retired, digital workers, or remote professionals",
     "• Tired of cooking, cleaning, daily repetition, loneliness, and lack of meaningful social life",
@@ -71,7 +71,7 @@ const problemsWeSolveData = {
     "",
     "Because the ultimate life is to live among people who truly match who you are.",
     "",
-    "WE ARE THE SOLUTION FOR THOSE 4,7 B EMPTY HOTEL NIGHTS, AND FOR A LUCKY FRACTION, 3,1%****** IN FACT, OF THOSE 370 MILLIONS OF PEOPLE NEEDING OUR SERVICES"
+    "WE ARE THE SOLUTION FOR THOSE 4,7 B EMPTY HOTEL NIGHTS, AND FOR A LUCKY FRACTION, 3,1% IN FACT, OF THOSE 370 MILLIONS OF PEOPLE NEEDING OUR SERVICES" // Removed asterisks and keeping unformatted
   ]
 };
 
@@ -270,6 +270,29 @@ const updatedWelcomingTalentData = {
 };
 
 export default function JoinUs() {
+  // Add an effect to scroll the open section to the top of the viewport
+  useEffect(() => {
+    // Listen for section toggle events
+    const handleSectionToggle = (event: CustomEvent) => {
+      setTimeout(() => {
+        // Find the open section (the one that was just clicked)
+        const openSection = document.querySelector('[data-state="open"]');
+        if (openSection) {
+          // Scroll to the top of the section
+          openSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100); // Small delay to ensure the section is fully open
+    };
+
+    // Add event listener
+    window.addEventListener('section-toggle-event', handleSectionToggle as EventListener);
+    
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('section-toggle-event', handleSectionToggle as EventListener);
+    };
+  }, []);
+
   return <div className="min-h-screen flex flex-col relative">
       <HotelStarfield />
       <Navbar />
@@ -279,7 +302,7 @@ export default function JoinUs() {
           <div className="max-w-4xl mx-auto">
             <JoinUsHeader />
             
-            {/* WE CREATED A $131B MARKET section - updated content */}
+            {/* WE CREATED A $131 B MARKET section - updated content */}
             <TextSection icon={Flame} title="WE CREATED A $131 B MARKET" paragraphs={marketCreationData.paragraphs} />
             
             {/* WE ARE A SaaS APPLICATION section - updated content */}
@@ -314,8 +337,8 @@ export default function JoinUs() {
             {/* WE ARE OPEN TO STRATEGIC PARTNERSHIPS section */}
             <TextSection icon={Handshake} title="WE ARE OPEN TO STRATEGIC PARTNERSHIPS" paragraphs={strategicPartnershipsData.paragraphs} />
             
-            {/* WHO IS THE FOUNDER OF HOTEL-LIVING? section - renamed from "WHY DID THIS EMERGE?" */}
-            <ListSection icon={Rocket} title="WHO IS THE FOUNDER OF HOTEL-LIVING?" intro={whyEmergeData.intro} items={whyEmergeData.items} outro={whyEmergeData.outro} />
+            {/* THE MIND BEHIND THE MOVEMENT section - renamed from "WHO IS THE FOUNDER OF HOTEL-LIVING?" */}
+            <ListSection icon={Rocket} title="THE MIND BEHIND THE MOVEMENT" intro={whyEmergeData.intro} items={whyEmergeData.items} outro={whyEmergeData.outro} />
             
             {/* INTELLECTUAL POSITIONING STATEMENT section */}
             <IntellectualPositioningSection />

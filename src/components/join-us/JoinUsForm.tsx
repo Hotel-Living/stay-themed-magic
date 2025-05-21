@@ -1,86 +1,112 @@
+
 import React, { useState } from "react";
-import { Mail, Paperclip, Star, Upload, Loader2 } from "lucide-react";
-import { Section } from "./Section";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { sendJoinUsForm } from "@/services/joinUsService";
+import { Heart } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+});
+
 export function JoinUsForm() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      // Check file sizes
-      const selectedFiles = Array.from(e.target.files);
-      const oversizedFiles = selectedFiles.filter(file => file.size > 5 * 1024 * 1024); // 5MB limit
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
 
-      if (oversizedFiles.length > 0) {
-        toast.error("Some files exceed the 5MB size limit and were not added.");
-      }
-      const validFiles = selectedFiles.filter(file => file.size <= 5 * 1024 * 1024);
-      const newFiles = [...files, ...validFiles].slice(0, 5);
-      setFiles(newFiles);
-
-      // Reset input value to allow selecting the same file again
-      e.target.value = '';
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    try {
+      await sendJoinUsForm(values);
+      form.reset();
+      toast.success("Your message has been sent. We'll be in touch soon!");
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error("Form submission error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
-  };
-  const handleRemoveFile = (index: number) => {
-    setFiles(files.filter((_, i) => i !== index));
-  };
-  const handleFormSubmitted = (success: boolean) => {
-    if (success) {
-      setIsSubmitted(true);
-      setFiles([]);
-    }
-  };
-  if (isSubmitted) {
-    return <Section icon={Star} title="Want to Join Us?">
-        <div className="bg-[#3A0952]/50 rounded-lg p-8 text-center">
-          <h3 className="text-xl font-semibold text-[#FFF9B0] mb-4">Thank you!</h3>
-          <p className="text-white leading-relaxed mb-6">
-            Your form has been submitted successfully. We'll get back to you as soon as possible.
-          </p>
-        </div>
-      </Section>;
   }
-  return <Section icon={Star} title="Want to Join Us?">
-      <p className="text-white leading-relaxed mb-6">
-        If you feel aligned with this vision and want to help bring it to life, we want to hear from you.
-      </p>
-      
+
+  return (
+    <div className="mb-16 bg-[#8017B0]/90 p-6 rounded-xl border border-[#3300B0]/30 shadow-lg">
       <div className="flex items-center mb-6">
-        <Mail className="h-6 w-6 text-[#FFF9B0] mr-3" />
-        <h3 className="text-xl font-semibold text-[#FFF9B0]">Apply to Join our Founding Team!</h3>
+        <Heart className="h-6 w-6 text-[#FFF9B0] mr-2" />
+        <h2 className="text-xl font-bold text-[#FFF9B0]">APPLY TO JOIN</h2>
       </div>
       
-      <p className="text-white leading-relaxed mb-6">
-        Tell us about yourself! You can:
-        <ol className="list-decimal pl-6 mt-3 space-y-2">
-          <li>Email us at contact@hotel-living.com — let us know about your background and how you'd like to contribute</li>
-          <li>Join our WhatsApp Broadcast List — just send a message to +1 (210) 548-3002</li>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your name" className="bg-white/10 text-white border-[#3300B0]/30" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           
-        </ol>
-      </p>
-
-      <ContactForm renderFileUpload={() => <div className="mb-6">
-            
-            
-            {files.length > 0 && <div className="mt-4">
-                <p className="text-white text-sm mb-2">Uploaded files ({files.length}/5):</p>
-                <ul className="space-y-2">
-                  {files.map((file, index) => <li key={index} className="flex items-center gap-2 bg-[#8017B0]/40 px-3 py-2 rounded-md">
-                      <Paperclip className="w-4 h-4 text-[#FFF9B0]" />
-                      <span className="text-white text-sm flex-1 truncate">{file.name}</span>
-                      <span className="text-white/70 text-xs">{(file.size / 1024).toFixed(1)} KB</span>
-                      <button onClick={() => handleRemoveFile(index)} className="text-red-400 hover:text-red-300 p-1" aria-label="Remove file" disabled={isUploading}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="18" y1="6" x2="6" y2="18"></line>
-                          <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                      </button>
-                    </li>)}
-                </ul>
-              </div>}
-          </div>} files={files} recipientEmail="hotellivingtesting@gmail.com, grand_soiree@yahoo.com" onSubmitSuccess={handleFormSubmitted} />
-    </Section>;
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your email" className="bg-white/10 text-white border-[#3300B0]/30" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Message</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Tell us about yourself and how you'd like to contribute" 
+                    className="bg-white/10 text-white border-[#3300B0]/30 min-h-[120px]" 
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <Button 
+            type="submit" 
+            className="bg-[#FFF9B0] text-[#8017B0] hover:bg-yellow-300 mt-2 font-medium"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send Message"}
+          </Button>
+        </form>
+      </Form>
+    </div>
+  );
 }

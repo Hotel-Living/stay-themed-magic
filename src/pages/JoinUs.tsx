@@ -34,7 +34,7 @@ const saasApplicationData = {
     "📈 Profit margins nearly equal to total revenue",
     "🌎 Deployable instantly in any country",
     "",
-    "💚 WE DON'T BREAK SYSTEMS", // Changed from 🚫 to 💚 (green heart)
+    "💚 WE DON'T BREAK SYSTEMS",
     "🚫 We're not Uber or Airbnb: we don't disrupt and wait years to scale",
     "✅ We enhance existing systems through smart, seamless innovation",
     "",
@@ -51,12 +51,12 @@ const saasApplicationData = {
 const problemsWeSolveData = {
   paragraphs: [
     "🏨 On one side:",
-    "🏢 HOTEL OCCUPANCY IN THE WEST IS JUST 50.3%", // Removed asterisk
-    "• That means 4.7 billion hotel nights every year not only go unused — they generate losses.", // Removed asterisks
-    "• Every year, 72,000 Western hotels are forced to shut down for up to 7 months due to lack of demand.", // Removed asterisks
+    "🏢 HOTEL OCCUPANCY IN THE WEST IS JUST 50.3%",
+    "• That means 4.7 billion hotel nights every year not only go unused — they generate losses.",
+    "• Every year, 72,000 Western hotels are forced to shut down for up to 7 months due to lack of demand.",
     "________________________________________",
     "👤 ON THE OTHER SIDE — IN THOSE SAME COUNTRIES:",
-    "370 MILLION PEOPLE:", // Removed asterisks
+    "370 MILLION PEOPLE:",
     "• Living alone or as couples",
     "• Pre-retired, retired, digital workers, or remote professionals",
     "• Tired of cooking, cleaning, daily repetition, loneliness, and lack of meaningful social life",
@@ -71,7 +71,7 @@ const problemsWeSolveData = {
     "",
     "Because the ultimate life is to live among people who truly match who you are.",
     "",
-    "WE ARE THE SOLUTION FOR THOSE 4,7 B EMPTY HOTEL NIGHTS, AND FOR A LUCKY FRACTION, 3,1% IN FACT, OF THOSE 370 MILLIONS OF PEOPLE NEEDING OUR SERVICES" // Removed asterisks and keeping unformatted
+    "WE ARE THE SOLUTION FOR THOSE 4,7 B EMPTY HOTEL NIGHTS, AND FOR A LUCKY FRACTION, 3,1% IN FACT, OF THOSE 370 MILLIONS OF PEOPLE NEEDING OUR SERVICES"
   ]
 };
 
@@ -314,8 +314,8 @@ export default function JoinUs() {
             {/* THE HOTEL-LIVING SOLUTION section - updated content */}
             <TextSection icon={Star} title="THE HOTEL-LIVING SOLUTION" paragraphs={hotelLivingSolutionData.paragraphs} />
             
-            {/* HOTEL LIVING: A NECESSARY REVOLUTION section */}
-            <TextSection icon={Flame} title="HOTEL LIVING: A NECESSARY REVOLUTION" paragraphs={revolutionData.paragraphs} />
+            {/* A NECESSARY REVOLUTION section - Title changed from "HOTEL LIVING: A NECESSARY REVOLUTION" */}
+            <TextSection icon={Flame} title="A NECESSARY REVOLUTION" paragraphs={revolutionData.paragraphs} />
             
             {/* WHAT WE OFFER section - updated content */}
             <MultiListSection icon={Compass} title="WHAT WE OFFER" listGroups={whatWeOfferData.listGroups} />

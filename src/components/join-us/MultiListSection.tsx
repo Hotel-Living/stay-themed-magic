@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LucideIcon } from "lucide-react";
 import { Section } from "./Section";
 import { 
@@ -27,17 +27,31 @@ export function MultiListSection({ icon, title, listGroups }: MultiListSectionPr
     setOpenItems(prev => 
       prev.includes(value)
         ? prev.filter(item => item !== value)
-        : [...prev, value]
+        : [value]  // Now only keeps one item open at a time
     );
+  };
+
+  const formatText = (text: string, itemIndex: number) => {
+    // Check if this paragraph is in all caps (or mostly caps)
+    const isCapsParagraph = text.toUpperCase() === text && text.length > 2;
+    
+    // Apply bold formatting to CAPS text
+    if (isCapsParagraph) {
+      return <p key={itemIndex} className="text-white font-bold text-base">{text}</p>;
+    }
+    
+    // Apply larger text size for all content in WHAT WE OFFER section
+    return <p key={itemIndex} className="text-white text-base">{text}</p>;
   };
 
   return (
     <Section icon={icon} title={title}>
       <div className="space-y-6">
         <Accordion 
-          type="multiple" 
-          value={openItems}
+          type="single" 
+          value={openItems.length > 0 ? openItems[0] : undefined}
           className="space-y-4"
+          collapsible
         >
           {listGroups.map((group, index) => (
             <AccordionItem 
@@ -53,10 +67,10 @@ export function MultiListSection({ icon, title, listGroups }: MultiListSectionPr
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4 pt-2 text-white">
                 <div className="space-y-3">
-                  {group.items.map((item, itemIndex) => (
-                    <p key={itemIndex} className="text-white">{item}</p>
-                  ))}
+                  {group.items.map((item, itemIndex) => formatText(item, itemIndex))}
                 </div>
+                {/* Add extra space at the end */}
+                <div className="h-2"></div>
               </AccordionContent>
             </AccordionItem>
           ))}

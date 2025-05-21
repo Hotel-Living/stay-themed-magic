@@ -2,7 +2,7 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake, Wrench } from "lucide-react";
+import { Rocket, Lightbulb, Globe, Compass, BarChart3, Flame, Star, Briefcase, Handshake, Wrench, Heart } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { JoinUsHeader } from "@/components/join-us/JoinUsHeader";
@@ -34,7 +34,7 @@ const saasApplicationData = {
     "📈 Profit margins nearly equal to total revenue",
     "🌎 Deployable instantly in any country",
     "",
-    "🚫 WE DON'T BREAK SYSTEMS",
+    "💚 WE DON'T BREAK SYSTEMS", // Changed from red icon to green heart
     "🚫 We're not Uber or Airbnb: we don't disrupt and wait years to scale",
     "✅ We enhance existing systems through smart, seamless innovation",
     "",
@@ -63,7 +63,7 @@ const problemsWeSolveData = {
     "________________________________________",
     "These are 370 million individuals with stable income and freedom of movement.",
     "",
-    "• Their \"impossible dream\"?", // Fixed quotes here
+    "• Their \"impossible dream\"?",
     "To live with everything taken care of, enjoying a full array of services, attention, vibrant social interaction, and constant activities. And for many of them, pre-retired, retired, ecc, to live as if on permanent vacation",
     "",
     "• And if they're going to dream...",
@@ -175,6 +175,100 @@ const whatWeOfferData = {
   ]
 };
 
+// Update the job innovations data with added spacing
+const updatedJobsInnovationData = {
+  intro: "Hotel Living is a revolution of alignment between available unused resources and massive social needs. A revolution of humanity, new jobs and shared wealth. For the first time in history: Living in hotels is no longer just for millionaires and royalty. We've come to democratize the concept of hotel living — the very idea of making a hotel, multiples hotels, your home for longer, logical, accessible, meaningful stays.",
+  items: [
+    "💼 Massive job creation — especially in the hotel industry, where total occupancy levels will require expanded and diversified staff.",
+    
+    "👥 Group facilitators and social connectors – professionals trained to promote interaction, guide affinity-based communities, and host themed encounters.",
+    
+    "🎯 Experience coordinators and lifestyle managers – individuals who curate local events, workshops, and micro-experiences tailored to each property's theme.",
+    
+    "🏨 Hospitality professionals in evolving roles – from traditional front desk and housekeeping to long-stay client liaisons, concierge-services, and resident relations managers.",
+    
+    "🔗 Cross-sector employment – new demand in real estate, logistics, entertainment, wellness, food services, and cultural programming — all revolving around a more fluid, longer-term guest.",
+    
+    "🛠️ Technological roles – IT support for smart rooms, app-based guest management, CRM integration, and digital onboarding.",
+    
+    "📦 Local service providers – increased demand for laundry, food supply chains, mobility services, medical professionals, and local guides, stimulating local economies.",
+    
+    "🌍 A new class of global citizens – professionals empowered to work from anywhere, live affordably, and form meaningful social bonds, reducing the precarity of urban living.",
+    
+    "🏘️ New real estate roles and models – operators, hybrid building managers, and consultants for mixed-use lodging that blends hospitality and long-stay living.",
+    
+    "🧱 Construction and renovation workers – as demand grows for properties adapted to longer stays and thematic experiences.",
+    
+    "📈 A parallel service economy – flourishing around long-stay guests: gyms, cafes, co-working hubs, learning centers, wellness providers."
+  ],
+  outro: "Hotel Living is more than a business model — it's a new ecosystem of opportunity for workers, communities, and cities."
+};
+
+// Update technology with a human purpose data with added spacing and joined lines
+const updatedTechnologyData = {
+  paragraphs: [
+    "💡 Hotel Living uses advanced technology not to replace people, but to connect them.",
+    "Our platform is designed to foster human relationships — not automate them away.",
+    "",
+    "",
+    "🧭 Smart matching based on affinities, interests, and lifestyle preferences",
+    "We help individuals find the right stay, in the right place, surrounded by the right people — creating natural communities through algorithms that understand people.",
+    "",
+    "",
+    "📱 A seamless digital interface for real-world living",
+    "Our tools make it easy to book, check in, connect, and discover — with everything in one place and without friction.",
+    "",
+    "",
+    "🧠 AI used for personalization, not manipulation",
+    "We don't track people to sell them things — we use intelligent design to understand needs and enhance well-being.",
+    "",
+    "",
+    "📅 Automated planning of meaningful stays",
+    "Guests can browse by themes, durations, affinities, or travel rhythm — making their stays intentional and inspiring.",
+    "",
+    "",
+    "🫶 Community-based discovery tools",
+    "Users can see who's staying where, what affinities are present, and join safe, interest-based environments that reduce social risk.",
+    "",
+    "",
+    "🔒 Privacy-first technology",
+    "All connections and recommendations are opt-in, respecting comfort and personal boundaries at all times.",
+    "",
+    "",
+    "📊 Real-time data to help hotels serve better",
+    "Properties get intelligent insights into guest preferences, satisfaction levels, and operational needs — improving service quality without guesswork.",
+    "",
+    "",
+    "🌍 Localized experiences at your fingertips",
+    "Our system integrates curated local content, services, and experiences — connecting guests to the culture and people of each destination.",
+    "",
+    "",
+    "🔁 Continuous feedback loops that learn and evolve",
+    "From check-in to check-out, our tech refines the experience — while keeping the guest in full control.",
+    "",
+    "",
+    "🧬 Technology as a human amplifier",
+    "Everything we build is guided by one principle: people first. Tech doesn't replace warmth, but extends its reach."
+  ]
+};
+
+// Update welcoming new talent data - join the two lines
+const updatedWelcomingTalentData = {
+  paragraphs: [
+    "🚀 This is just the beginning.",
+    "We're actively building our founding team and opening unique opportunities for brilliant people who want to shape the future of how humans live, connect, and move.",
+    "🌟 We need extraordinary people — not just workers but pioneers, creatives, strategists, connectors, dreamers.",
+    "Builders of the new world.",
+    "🧠 People who are excited to shape something bold, scalable, and deeply human from the very beginning.",
+    "🔮 If you're someone who can see the future before others do...",
+    "🌍 If you want to help create something meaningful and global...",
+    "💎 We've designed a truly extraordinary benefit-sharing model that rewards those who help build the foundation of Hotel Living.",
+    "📈 As the platform expands, so does the value of your role.",
+    "💥 This is a real opportunity to multiply your impact — and your income.",
+    "✉️ If you are like that... then this is your invitation."
+  ]
+};
+
 export default function JoinUs() {
   return <div className="min-h-screen flex flex-col relative">
       <HotelStarfield />
@@ -186,7 +280,7 @@ export default function JoinUs() {
             <JoinUsHeader />
             
             {/* WE CREATED A $131B MARKET section - updated content */}
-            <TextSection icon={Flame} title="WE CREATED A $131B MARKET" paragraphs={marketCreationData.paragraphs} />
+            <TextSection icon={Flame} title="WE CREATED A $131 B MARKET" paragraphs={marketCreationData.paragraphs} />
             
             {/* WE ARE A SaaS APPLICATION section - updated content */}
             <TextSection icon={Wrench} title="WE ARE A SaaS APPLICATION" paragraphs={saasApplicationData.paragraphs} />
@@ -203,14 +297,14 @@ export default function JoinUs() {
             {/* WHAT WE OFFER section - updated content */}
             <MultiListSection icon={Compass} title="WHAT WE OFFER" listGroups={whatWeOfferData.listGroups} />
             
-            {/* JOBS, INNOVATION, FUTURE section */}
-            <ListSection icon={BarChart3} title="JOBS, INNOVATION, FUTURE" intro={jobsInnovationData.intro} items={jobsInnovationData.items} outro={jobsInnovationData.outro} />
+            {/* JOBS, INNOVATION, FUTURE section - with updated spacing */}
+            <ListSection icon={BarChart3} title="JOBS, INNOVATION, FUTURE" intro={updatedJobsInnovationData.intro} items={updatedJobsInnovationData.items} outro={updatedJobsInnovationData.outro} />
             
-            {/* TECHNOLOGY WITH A HUMAN PURPOSE section */}
-            <TextSection icon={Star} title="TECHNOLOGY WITH A HUMAN PURPOSE" paragraphs={technologyData.paragraphs} />
+            {/* TECHNOLOGY WITH A HUMAN PURPOSE section - with updated spacing */}
+            <TextSection icon={Star} title="TECHNOLOGY WITH A HUMAN PURPOSE" paragraphs={updatedTechnologyData.paragraphs} />
             
-            {/* WE'RE WELCOMING NEW TALENT section */}
-            <TextSection icon={Lightbulb} title="WE'RE WELCOMING NEW TALENT" paragraphs={welcomingTalentData.paragraphs} />
+            {/* WE'RE WELCOMING NEW TALENT section - with joined lines */}
+            <TextSection icon={Lightbulb} title="WE'RE WELCOMING NEW TALENT" paragraphs={updatedWelcomingTalentData.paragraphs} />
             
             {/* Image section before Strategic Partnerships */}
             <div className="mb-16 flex justify-center">

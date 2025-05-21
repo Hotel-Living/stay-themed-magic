@@ -33,8 +33,12 @@ export function JoinUsForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      // Updated the function call to use submitJoinUsForm instead of sendJoinUsForm
-      await submitJoinUsForm(values, []);
+      // Explicitly cast the values to ensure TypeScript knows they match JoinUsSubmission
+      await submitJoinUsForm({
+        name: values.name,
+        email: values.email,
+        message: values.message
+      }, []);
       form.reset();
       toast.success("Your message has been sent. We'll be in touch soon!");
     } catch (error) {

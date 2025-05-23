@@ -11,14 +11,16 @@ export function useHotelBasicDetails(id: string | undefined) {
 
   const fetchHotelDetails = async () => {
     setLoading(true);
+    setHotel(null); // Reset hotel data when starting fetch
     
     if (!id) {
+      console.log("useHotelBasicDetails - No ID provided");
       setLoading(false);
       return;
     }
     
     try {
-      console.log("Fetching hotel with ID:", id);
+      console.log("useHotelBasicDetails - Fetching hotel with ID:", id);
       
       const { data: hotelData, error: hotelError } = await supabase
         .from("hotels")
@@ -39,17 +41,18 @@ export function useHotelBasicDetails(id: string | undefined) {
         .maybeSingle();
 
       if (hotelError) {
-        console.error("Error fetching hotel details:", hotelError);
+        console.error("useHotelBasicDetails - Error fetching hotel details:", hotelError);
         throw hotelError;
       }
 
       if (!hotelData) {
-        console.log("No hotel found with ID:", id);
+        console.log("useHotelBasicDetails - No hotel found with ID:", id);
+        setHotel(null);
         setLoading(false);
         return;
       }
 
-      console.log("Fetched hotel data:", hotelData);
+      console.log("useHotelBasicDetails - Fetched hotel data:", hotelData);
       
       // Ensure required structures exist
       const processedHotelData = {
@@ -75,14 +78,16 @@ export function useHotelBasicDetails(id: string | undefined) {
         pending_changes: hotelData.pending_changes || {}
       };
       
+      console.log("useHotelBasicDetails - Processed hotel data:", processedHotelData);
       setHotel(processedHotelData as AdminHotelDetail);
     } catch (error: any) {
-      console.error("Error fetching hotel details:", error);
+      console.error("useHotelBasicDetails - Error fetching hotel details:", error);
       toast({
-        title: "Error",
+        title: "Error loading hotel",
         description: error.message || "Failed to fetch hotel details",
         variant: "destructive"
       });
+      setHotel(null);
     } finally {
       setLoading(false);
     }
@@ -91,8 +96,11 @@ export function useHotelBasicDetails(id: string | undefined) {
   useEffect(() => {
     if (id) {
       fetchHotelDetails();
+    } else {
+      setLoading(false);
+      setHotel(null);
     }
-  }, [id, toast]);
+  }, [id]);
 
   const refetch = async () => {
     await fetchHotelDetails();

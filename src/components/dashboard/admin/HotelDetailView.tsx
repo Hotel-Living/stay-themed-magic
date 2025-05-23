@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -20,63 +21,16 @@ import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 
-// Field display name mapping
-const fieldDisplayNames: { [key: string]: string } = {
-  name: "Hotel Name",
-  description: "Description",
-  address: "Address",
-  city: "City",
-  country: "Country",
-  postal_code: "Postal Code",
-  category: "Star Rating",
-  property_type: "Property Type",
-  atmosphere: "Atmosphere",
-  ideal_guests: "Ideal Guests",
-  perfect_location: "Location Description",
-  features_hotel: "Hotel Features",
-  features_room: "Room Features",
-  meal_plans: "Meal Plans",
-  contact_name: "Contact Name",
-  contact_email: "Contact Email",
-  contact_phone: "Contact Phone",
-  price_per_month: "Price Per Month",
-  stay_lengths: "Stay Lengths",
-  room_types: "Room Types",
-  terms: "Terms & Conditions",
-  faqs: "FAQs"
-};
-
-// Field type mapping
-const fieldTypes: { [key: string]: 'text' | 'number' | 'boolean' | 'array' | 'object' } = {
-  name: 'text',
-  description: 'text',
-  address: 'text',
-  city: 'text',
-  country: 'text',
-  postal_code: 'text',
-  category: 'number',
-  property_type: 'text',
-  atmosphere: 'text',
-  ideal_guests: 'text',
-  perfect_location: 'text',
-  features_hotel: 'object',
-  features_room: 'object',
-  meal_plans: 'array',
-  contact_name: 'text',
-  contact_email: 'text',
-  contact_phone: 'text',
-  price_per_month: 'number',
-  stay_lengths: 'array',
-  room_types: 'array',
-  terms: 'text',
-  faqs: 'array'
-};
-
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  console.log("HotelDetailView - Rendering with ID:", id);
+  
   const { hotel, loading, themes, activities, images, changes, refetch } = useHotelDetails(id);
+  
+  console.log("HotelDetailView - Hook results:", { hotel, loading, themes, activities, images, changes });
   
   const refreshData = async () => {
     await refetch();
@@ -189,17 +143,29 @@ export default function HotelDetailView() {
     }
   };
 
-  // Helper function to render descriptive content
-  const renderDescriptionCard = (title: string, content: string | null | undefined) => {
-    if (!content) return null;
-    
+  // Early return if no ID
+  if (!id) {
+    console.log("HotelDetailView - No ID provided");
     return (
-      <Card className="p-4 bg-[#2A0F44]">
-        <h4 className="text-lg font-medium text-fuchsia-200 mb-2">{title}</h4>
-        <p className="text-gray-300">{content}</p>
-      </Card>
+      <AdminDashboardLayout>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Hotels
+            </Button>
+            <h2 className="text-2xl font-bold">Hotel Details</h2>
+          </div>
+          <Card className="p-6 bg-[#2A0F44]">
+            <p className="text-center text-red-400">No hotel ID provided</p>
+          </Card>
+        </div>
+      </AdminDashboardLayout>
     );
-  };
+  }
 
   return (
     <AdminDashboardLayout>
@@ -234,13 +200,16 @@ export default function HotelDetailView() {
         </div>
 
         {loading ? (
-          <div className="rounded-xl p-6 bg-[#2A0F44]">
-            <p className="text-center">Loading hotel details...</p>
-          </div>
+          <Card className="p-6 bg-[#2A0F44]">
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+              <span className="ml-3">Loading hotel details...</span>
+            </div>
+          </Card>
         ) : hotel ? (
           <div className="space-y-6">
             {/* Display changes at the top if there are pending changes */}
-            {changes.length > 0 && (
+            {changes && changes.length > 0 && (
               <ChangesHighlight 
                 hotelId={hotel.id}
                 changes={changes}
@@ -298,7 +267,19 @@ export default function HotelDetailView() {
             )}
           </div>
         ) : (
-          <HotelNotFound />
+          <Card className="p-6 bg-[#2A0F44]">
+            <div className="text-center py-8">
+              <h3 className="text-lg font-medium text-red-400 mb-2">Hotel Not Found</h3>
+              <p className="text-gray-300 mb-4">The hotel with ID "{id}" could not be found.</p>
+              <Button 
+                variant="outline" 
+                onClick={() => navigate('/admin/hotels')}
+                className="flex items-center gap-2 mx-auto"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back to Hotels List
+              </Button>
+            </div>
+          </Card>
         )}
       </div>
     </AdminDashboardLayout>

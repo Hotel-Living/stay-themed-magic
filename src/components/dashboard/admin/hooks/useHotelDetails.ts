@@ -14,21 +14,29 @@ export function useHotelDetails(id: string | undefined) {
   const { activities, loading: activitiesLoading } = useHotelActivities(id);
   const { changes } = useHotelChanges(hotel);
 
-  // Combined loading state
-  const loading = hotelLoading || imagesLoading || themesLoading || activitiesLoading;
+  // Combined loading state - only show loading when hotel is loading (main data)
+  const loading = hotelLoading;
 
   // Refetch all data
   const refetch = async () => {
     await refetchHotel();
   };
 
+  // Debug logging
+  useEffect(() => {
+    console.log("useHotelDetails - Hotel ID:", id);
+    console.log("useHotelDetails - Hotel data:", hotel);
+    console.log("useHotelDetails - Loading states:", { hotelLoading, imagesLoading, themesLoading, activitiesLoading });
+    console.log("useHotelDetails - Combined loading:", loading);
+  }, [id, hotel, hotelLoading, imagesLoading, themesLoading, activitiesLoading, loading]);
+
   return { 
     hotel, 
     loading, 
-    themes, 
-    activities, 
-    images, 
-    changes,
+    themes: themes || [], 
+    activities: activities || [], 
+    images: images || [], 
+    changes: changes || [],
     refetch 
   };
 }

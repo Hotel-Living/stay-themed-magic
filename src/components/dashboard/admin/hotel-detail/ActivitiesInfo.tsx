@@ -8,10 +8,17 @@ interface ActivitiesInfoProps {
 }
 
 export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
+  console.log("ActivitiesInfo - Raw activities data:", activities);
+  
   // Ensure activities is always an array and filter out any empty entries
   const validActivities = Array.isArray(activities) 
-    ? activities.filter(activity => activity && activity.activity_id && activity.activities)
+    ? activities.filter(activity => {
+        console.log("ActivitiesInfo - Processing activity:", activity);
+        return activity && (activity.activity_id || activity.activities);
+      })
     : [];
+  
+  console.log("ActivitiesInfo - Valid activities after filtering:", validActivities);
   
   return (
     <div className="rounded-xl p-6 bg-[#5d0083]">
@@ -21,19 +28,28 @@ export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
       </h3>
       {validActivities && validActivities.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {validActivities.map((activity) => (
-            <div key={activity.activity_id} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
-              <p className="font-medium text-purple-300">
-                {activity.activities?.name || "Unknown Activity"}
-              </p>
-              {activity.activities?.category && (
-                <p className="text-xs text-fuchsia-400 mt-2">Category: {activity.activities.category}</p>
-              )}
-            </div>
-          ))}
+          {validActivities.map((activity, index) => {
+            console.log("ActivitiesInfo - Rendering activity:", activity);
+            const activityName = activity.activities?.name || activity.activity_id || `Activity ${index + 1}`;
+            const activityCategory = activity.activities?.category || "Uncategorized";
+            
+            return (
+              <div key={activity.activity_id || index} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
+                <p className="font-medium text-purple-300">
+                  {activityName}
+                </p>
+                {activityCategory && (
+                  <p className="text-xs text-fuchsia-400 mt-2">Category: {activityCategory}</p>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
-        <p>No activities associated with this hotel.</p>
+        <div className="text-center py-4">
+          <p className="text-gray-400">No activities associated with this hotel.</p>
+          <p className="text-xs text-gray-500 mt-2">Activities data: {JSON.stringify(activities)}</p>
+        </div>
       )}
     </div>
   );

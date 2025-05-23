@@ -78,7 +78,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
             <h3 className="text-xl font-bold text-fuchsia-200 mb-2">Check-in / Check-out Day</h3>
             <div className="inline-flex items-center px-6 py-3 bg-fuchsia-700 rounded-lg">
               <span className="text-2xl font-bold text-white">
-                {hotel.preferredWeekday || hotel.check_in_weekday || "Monday"}
+                {hotel.preferredWeekday || "Monday"}
               </span>
             </div>
             <p className="text-sm text-gray-300 mt-2">

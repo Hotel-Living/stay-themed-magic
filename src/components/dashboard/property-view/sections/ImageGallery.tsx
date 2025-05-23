@@ -8,7 +8,10 @@ interface ImageGalleryProps {
 }
 
 export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
-  const hotelImages = Array.isArray(hotel.hotel_images) ? hotel.hotel_images.filter(img => img && img.image_url && img.image_url.trim() !== '') : [];
+  const hotelImages = Array.isArray(hotel.hotel_images) ? hotel.hotel_images.filter(img => {
+    console.log("Property ImageGallery - Checking image:", img);
+    return img && img.image_url && img.image_url.trim() !== '';
+  }) : [];
   
   console.log("Property ImageGallery - Processing hotel images:", hotelImages);
   console.log("Property ImageGallery - Hotel main_image_url:", hotel.main_image_url);
@@ -17,6 +20,14 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
   const mainImageUrl = hotel.main_image_url || 
                       hotelImages.find(img => img.is_main)?.image_url || 
                       (hotelImages.length > 0 ? hotelImages[0].image_url : null);
+
+  const handleImageError = (imageUrl: string) => {
+    console.error("Property image failed to load:", imageUrl);
+  };
+
+  const handleImageLoad = (imageUrl: string) => {
+    console.log("Property image loaded successfully:", imageUrl);
+  };
   
   return (
     <Card className="p-6 bg-[#2A0F44]">
@@ -31,11 +42,8 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
                   src={mainImageUrl} 
                   alt={`${hotel.name} - Main`}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    console.error("Property main image failed to load:", mainImageUrl);
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  onLoad={() => console.log("Property main image loaded successfully:", mainImageUrl)}
+                  onError={() => handleImageError(mainImageUrl)}
+                  onLoad={() => handleImageLoad(mainImageUrl)}
                 />
               </div>
             </div>
@@ -49,11 +57,8 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
                     src={image.image_url} 
                     alt={`${hotel.name} - Gallery Image`}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      console.error("Property gallery image failed to load:", image.image_url);
-                      e.currentTarget.style.display = 'none';
-                    }}
-                    onLoad={() => console.log("Property gallery image loaded successfully:", image.image_url)}
+                    onError={() => handleImageError(image.image_url)}
+                    onLoad={() => handleImageLoad(image.image_url)}
                   />
                   {image.is_main && (
                     <div className="absolute top-1 right-1 bg-purple-700 text-white text-xs px-2 py-1 rounded">
@@ -68,6 +73,7 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
       ) : (
         <div className="text-center py-8 bg-gray-800/50 rounded-lg">
           <p className="text-gray-400">No images available for this hotel.</p>
+          <p className="text-xs text-gray-500 mt-2">Debug: Images count: {hotel.hotel_images?.length || 0}</p>
         </div>
       )}
     </Card>

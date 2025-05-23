@@ -14,7 +14,12 @@ export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
   const validActivities = Array.isArray(activities) 
     ? activities.filter(activity => {
         console.log("ActivitiesInfo - Processing activity:", activity);
-        return activity && (activity.activity_id || activity.activities);
+        // Check if activity has either activity_id or activities object
+        const hasActivityId = activity?.activity_id;
+        const hasActivitiesObject = activity?.activities;
+        const isValid = hasActivityId || hasActivitiesObject;
+        console.log("ActivitiesInfo - Activity validation:", { hasActivityId, hasActivitiesObject, isValid });
+        return isValid;
       })
     : [];
   
@@ -30,7 +35,7 @@ export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {validActivities.map((activity, index) => {
             console.log("ActivitiesInfo - Rendering activity:", activity);
-            const activityName = activity.activities?.name || activity.activity_id || `Activity ${index + 1}`;
+            const activityName = activity.activities?.name || `Activity ID: ${activity.activity_id}` || `Activity ${index + 1}`;
             const activityCategory = activity.activities?.category || "Uncategorized";
             
             return (
@@ -38,7 +43,7 @@ export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
                 <p className="font-medium text-purple-300">
                   {activityName}
                 </p>
-                {activityCategory && (
+                {activity.activities?.category && (
                   <p className="text-xs text-fuchsia-400 mt-2">Category: {activityCategory}</p>
                 )}
               </div>
@@ -48,7 +53,8 @@ export function ActivitiesInfo({ activities }: ActivitiesInfoProps) {
       ) : (
         <div className="text-center py-4">
           <p className="text-gray-400">No activities associated with this hotel.</p>
-          <p className="text-xs text-gray-500 mt-2">Activities data: {JSON.stringify(activities)}</p>
+          <p className="text-xs text-gray-500 mt-2">Activities count: {activities?.length || 0}</p>
+          <p className="text-xs text-gray-500 mt-1">Raw data: {JSON.stringify(activities)}</p>
         </div>
       )}
     </div>

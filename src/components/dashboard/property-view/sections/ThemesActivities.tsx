@@ -30,7 +30,10 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
         return;
       }
       
-      const activityIds = hotelActivities.map(activity => activity.activity_id).filter(Boolean);
+      const activityIds = hotelActivities
+        .map(activity => activity.activity_id)
+        .filter(Boolean);
+      
       console.log("ThemesActivities - Activity IDs to fetch:", activityIds);
       
       if (activityIds.length === 0) {
@@ -88,7 +91,10 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
         <div className="flex flex-wrap gap-2">
           {hotelActivities.length > 0 ? (
             hotelActivities.map((activity) => {
-              const activityName = activitiesData[activity.activity_id] || activity.activities?.name || "Unknown Activity";
+              const activityName = activitiesData[activity.activity_id] || 
+                                 activity.activities?.name || 
+                                 `Activity ID: ${activity.activity_id}` ||
+                                 "Unknown Activity";
               console.log("ThemesActivities - Rendering activity:", activity.activity_id, "->", activityName);
               
               return (
@@ -100,7 +106,7 @@ export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
           ) : (
             <div>
               <p className="text-[#3300B0]">No activities specified</p>
-              <p className="text-xs text-gray-500 mt-1">Debug: {JSON.stringify(hotelActivities)}</p>
+              <p className="text-xs text-gray-500 mt-1">Activities count: {hotelActivities.length}</p>
             </div>
           )}
         </div>

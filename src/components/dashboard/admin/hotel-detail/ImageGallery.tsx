@@ -9,7 +9,10 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ images, hotel }: ImageGalleryProps) {
   // Ensure images is always an array and filter for valid image URLs
-  const validImages = Array.isArray(images) ? images.filter(img => img && img.image_url && img.image_url.trim() !== '') : [];
+  const validImages = Array.isArray(images) ? images.filter(img => {
+    console.log("ImageGallery - Checking image:", img);
+    return img && img.image_url && img.image_url.trim() !== '';
+  }) : [];
   
   console.log("ImageGallery - Processing hotel images:", validImages);
   console.log("ImageGallery - Hotel main_image_url:", hotel.main_image_url);
@@ -18,6 +21,14 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
   const mainImageUrl = hotel.main_image_url || 
                       validImages.find(img => img.is_main)?.image_url || 
                       (validImages.length > 0 ? validImages[0].image_url : null);
+  
+  const handleImageError = (imageUrl: string) => {
+    console.log("ImageGallery - Image failed to load:", imageUrl);
+  };
+
+  const handleImageLoad = (imageUrl: string) => {
+    console.log("ImageGallery - Image loaded successfully:", imageUrl);
+  };
   
   return (
     <div className="rounded-xl p-6 bg-[#2A0F44]">
@@ -32,11 +43,8 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
                   src={mainImageUrl} 
                   alt={`${hotel.name} - Main`}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    console.error("Main image failed to load:", mainImageUrl);
-                    e.currentTarget.style.display = 'none';
-                  }}
-                  onLoad={() => console.log("Main image loaded successfully:", mainImageUrl)}
+                  onError={() => handleImageError(mainImageUrl)}
+                  onLoad={() => handleImageLoad(mainImageUrl)}
                 />
               </div>
             </div>
@@ -50,11 +58,8 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
                     src={image.image_url} 
                     alt={`${hotel.name} - ${index + 1}`}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      console.error("Gallery image failed to load:", image.image_url);
-                      e.currentTarget.style.display = 'none';
-                    }}
-                    onLoad={() => console.log("Gallery image loaded successfully:", image.image_url)}
+                    onError={() => handleImageError(image.image_url)}
+                    onLoad={() => handleImageLoad(image.image_url)}
                   />
                   {image.is_main && (
                     <div className="absolute top-1 right-1 bg-purple-700 text-white text-xs px-2 py-1 rounded">
@@ -69,6 +74,7 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
       ) : (
         <div className="text-center py-8 bg-gray-800/50 rounded-lg">
           <p className="text-gray-400">No images available for this hotel.</p>
+          <p className="text-xs text-gray-500 mt-2">Debug: Images count: {images?.length || 0}</p>
         </div>
       )}
     </div>

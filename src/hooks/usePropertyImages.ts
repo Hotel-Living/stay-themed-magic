@@ -76,17 +76,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
     setUploading(true);
     
     try {
-      // For demo purposes, simulate uploading by creating object URLs
+      // Create temporary object URLs for immediate preview
       const newUploadedImages = [...uploadedImages];
       
       for (const file of files) {
-        // Create a local URL for the file (this is a demo, not real uploading)
-        const fileUrl = URL.createObjectURL(file);
+        // Create a temporary URL for preview (will be replaced with actual storage URL during submission)
+        const tempUrl = URL.createObjectURL(file);
         
         newUploadedImages.push({
-          url: fileUrl,
+          url: tempUrl,
           isMain: newUploadedImages.length === 0, // First image is main by default
-          id: `local-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+          id: `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          uploaded: false // Mark as not yet uploaded to storage
         });
       }
       
@@ -98,11 +99,16 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
         setMainImageIndex(0);
       }
     } catch (error: any) {
-      console.error("Error uploading files:", error);
+      console.error("Error processing files:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to process images"
+      });
     } finally {
       setUploading(false);
     }
-  }, [files, uploadedImages, mainImageIndex]);
+  }, [files, uploadedImages, mainImageIndex, toast]);
   
   const setMainImage = useCallback((index: number) => {
     setUploadedImages(prev => 

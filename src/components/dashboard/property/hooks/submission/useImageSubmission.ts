@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 export interface UploadedImage {
@@ -26,6 +25,12 @@ export const useImageSubmission = () => {
       .getPublicUrl(fileName);
 
     return publicUrl;
+  };
+
+  const convertBlobToFile = async (blobUrl: string, fileName: string): Promise<File> => {
+    const response = await fetch(blobUrl);
+    const blob = await response.blob();
+    return new File([blob], fileName, { type: blob.type || 'image/jpeg' });
   };
 
   const handlePlaceholderImages = async (hotelId: string) => {
@@ -96,30 +101,41 @@ export const useImageSubmission = () => {
         console.error("Error deleting existing images:", deleteError);
       }
       
-      // Process images - convert blob URLs to actual files and upload them
+      // Process images - convert blob URLs to permanent storage URLs
       const processedImages = [];
       
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         let finalImageUrl = image.url;
         
-        // If it's a blob URL, we need to upload it to storage
+        // If it's a blob URL, we need to upload it to permanent storage
         if (image.url.startsWith('blob:')) {
           try {
-            // Fetch the blob data
-            const response = await fetch(image.url);
-            const blob = await response.blob();
-            
-            // Create a file from the blob
-            const file = new File([blob], `image-${i}.jpg`, { type: blob.type || 'image/jpeg' });
-            
-            // Upload to storage
+            console.log(`Converting blob URL ${i} to permanent storage...`);
+            const file = await convertBlobToFile(image.url, `image-${i}.jpg`);
             finalImageUrl = await uploadImageToStorage(file, hotelId, i);
-            console.log(`Uploaded blob image ${i} to storage:`, finalImageUrl);
+            console.log(`Successfully uploaded blob image ${i} to storage:`, finalImageUrl);
+            
+            // Clean up the blob URL to free memory
+            URL.revokeObjectURL(image.url);
           } catch (uploadError) {
             console.error(`Error uploading blob image ${i}:`, uploadError);
             // Fall back to placeholder if upload fails
             finalImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80";
+          }
+        } else if (image.url.startsWith('http') && !image.url.includes('supabase.co/storage')) {
+          // If it's an external URL (not from our storage), re-upload it for persistence
+          try {
+            console.log(`Re-uploading external URL ${i} to permanent storage...`);
+            const response = await fetch(image.url);
+            const blob = await response.blob();
+            const file = new File([blob], `image-${i}.jpg`, { type: blob.type || 'image/jpeg' });
+            finalImageUrl = await uploadImageToStorage(file, hotelId, i);
+            console.log(`Successfully re-uploaded external image ${i} to storage:`, finalImageUrl);
+          } catch (uploadError) {
+            console.error(`Error re-uploading external image ${i}:`, uploadError);
+            // Keep the original URL if re-upload fails
+            console.log(`Keeping original URL for image ${i}:`, image.url);
           }
         }
         

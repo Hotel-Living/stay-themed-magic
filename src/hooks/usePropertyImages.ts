@@ -28,6 +28,7 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
   // Update uploaded images when initialImages change (for editing)
   useEffect(() => {
     if (initialImages && initialImages.length > 0) {
+      console.log("usePropertyImages - Setting initial images:", initialImages);
       setUploadedImages(initialImages);
       
       // Set main image index
@@ -57,7 +58,16 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
   }, []);
 
   const removeUploadedImage = useCallback((index: number) => {
-    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+    setUploadedImages(prev => {
+      const imageToRemove = prev[index];
+      
+      // Clean up blob URL if it exists
+      if (imageToRemove?.url.startsWith('blob:')) {
+        URL.revokeObjectURL(imageToRemove.url);
+      }
+      
+      return prev.filter((_, i) => i !== index);
+    });
     
     // If removed image was the main image, set first remaining image as main
     if (index === mainImageIndex) {
@@ -83,14 +93,18 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
         // Create a temporary URL for preview (will be replaced with actual storage URL during submission)
         const tempUrl = URL.createObjectURL(file);
         
+        console.log("usePropertyImages - Creating blob URL for file:", file.name, "->", tempUrl);
+        
         newUploadedImages.push({
           url: tempUrl,
           isMain: newUploadedImages.length === 0, // First image is main by default
           id: `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          name: file.name,
           uploaded: false // Mark as not yet uploaded to storage
         });
       }
       
+      console.log("usePropertyImages - Setting uploaded images:", newUploadedImages);
       setUploadedImages(newUploadedImages);
       setFiles([]);
       
@@ -98,6 +112,11 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
       if (mainImageIndex === -1 && newUploadedImages.length > 0) {
         setMainImageIndex(0);
       }
+      
+      toast({
+        title: "Images added",
+        description: `${files.length} image(s) added successfully. They will be permanently stored when you submit the property.`
+      });
     } catch (error: any) {
       console.error("Error processing files:", error);
       toast({
@@ -118,6 +137,17 @@ export function usePropertyImages(initialImages: UploadedImage[] = [], updateFor
       }))
     );
     setMainImageIndex(index);
+  }, []);
+
+  // Clean up blob URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      uploadedImages.forEach(img => {
+        if (img.url.startsWith('blob:')) {
+          URL.revokeObjectURL(img.url);
+        }
+      });
+    };
   }, []);
 
   return {

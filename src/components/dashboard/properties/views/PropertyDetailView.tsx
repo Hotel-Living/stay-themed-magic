@@ -72,6 +72,21 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
       </div>
       
       <div className="max-w-5xl mx-auto space-y-6">
+        {/* Preferred Weekday - Prominent Display */}
+        <Card className="p-6 bg-[#2A0F44] border-2 border-fuchsia-500/50">
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-fuchsia-200 mb-2">Check-in / Check-out Day</h3>
+            <div className="inline-flex items-center px-6 py-3 bg-fuchsia-700 rounded-lg">
+              <span className="text-2xl font-bold text-white">
+                {hotel.preferredWeekday || hotel.check_in_weekday || "Monday"}
+              </span>
+            </div>
+            <p className="text-sm text-gray-300 mt-2">
+              Your designated weekly check-in and check-out day
+            </p>
+          </div>
+        </Card>
+
         {/* Basic Information */}
         <Card className="p-6 bg-[#2A0F44]">
           <h2 className="text-2xl font-bold text-white mb-4">{hotel.name}</h2>

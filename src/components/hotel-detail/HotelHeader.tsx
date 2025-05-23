@@ -16,7 +16,7 @@ export function HotelHeader({ hotel, handleAddToFavorites }: HotelHeaderProps) {
           {hotel.name} {hotel.category && "★".repeat(hotel.category)}
         </h1>
         <p className="text-white flex items-center gap-1">
-          <MapPin size={16} /> {hotel.address || `${hotel.city}, ${hotel.country}`}
+          <MapPin size={16} /> {hotel.address ? `${hotel.address}, ${hotel.city}, ${hotel.country}` : `${hotel.city}, ${hotel.country}`}
         </p>
       </div>
       <button 

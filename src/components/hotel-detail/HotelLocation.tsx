@@ -148,13 +148,6 @@ export function HotelLocation({ latitude, longitude, hotelName, address }: Hotel
             </div>
           )}
         </div>
-        
-        {address && (
-          <div className="p-4 border-t border-white/20">
-            <h3 className="text-sm font-medium mb-1 text-white">Address</h3>
-            <p className="text-white">{address}</p>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

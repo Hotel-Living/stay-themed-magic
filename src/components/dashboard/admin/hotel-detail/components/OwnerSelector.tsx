@@ -29,9 +29,11 @@ export function OwnerSelector({ hotelId, currentOwnerId, hotelOwners, onSuccess 
     
     setIsLoading(true);
     try {
+      const ownerIdToUpdate = selectedOwnerId === "unassigned" ? null : selectedOwnerId;
+      
       const { error } = await supabase
         .from('hotels')
-        .update({ owner_id: selectedOwnerId })
+        .update({ owner_id: ownerIdToUpdate })
         .eq('id', hotelId);
         
       if (error) throw error;
@@ -66,14 +68,14 @@ export function OwnerSelector({ hotelId, currentOwnerId, hotelOwners, onSuccess 
   return (
     <div className="flex items-center gap-2">
       <Select 
-        value={selectedOwnerId || ""} 
-        onValueChange={val => setSelectedOwnerId(val || null)}
+        value={selectedOwnerId || "unassigned"} 
+        onValueChange={val => setSelectedOwnerId(val === "unassigned" ? null : val)}
       >
         <SelectTrigger className="w-[280px]">
           <SelectValue placeholder="Select owner" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">Not assigned</SelectItem>
+          <SelectItem value="unassigned">Not assigned</SelectItem>
           {hotelOwners.map(owner => (
             <SelectItem key={owner.id} value={owner.id}>
               {`${owner.first_name || ''} ${owner.last_name || ''}`.trim() || owner.id}

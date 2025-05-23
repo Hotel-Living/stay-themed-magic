@@ -16,7 +16,6 @@ import { ActivitiesInfo } from "./hotel-detail/ActivitiesInfo";
 import { AdminInfo } from "./hotel-detail/AdminInfo";
 import { RoomTypesInfo } from "./hotel-detail/RoomTypesInfo";
 import { ChangesHighlight } from "./hotel-detail/ChangesHighlight";
-import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,13 +25,21 @@ export default function HotelDetailView() {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  console.log("HotelDetailView - Rendering with ID:", id);
+  console.log("HotelDetailView - Component rendering with ID:", id);
   
   const { hotel, loading, themes, activities, images, changes, refetch } = useHotelDetails(id);
   
-  console.log("HotelDetailView - Hook results:", { hotel, loading, themes, activities, images, changes });
+  console.log("HotelDetailView - Current state:", { 
+    hotel: hotel ? `Hotel: ${hotel.name}` : 'No hotel', 
+    loading, 
+    hasThemes: themes?.length > 0, 
+    hasActivities: activities?.length > 0, 
+    hasImages: images?.length > 0, 
+    hasChanges: changes?.length > 0 
+  });
   
   const refreshData = async () => {
+    console.log("HotelDetailView - Refreshing data");
     await refetch();
   };
   
@@ -42,18 +49,14 @@ export default function HotelDetailView() {
     if (!hotel || !changes.length) return;
     
     try {
-      // Create an object with all updated fields
       const updates: Record<string, any> = {};
       
-      // Add all fields to be updated
       changes.forEach(change => {
         updates[change.fieldName] = change.newValue;
       });
       
-      // Clear pending_changes
       updates.pending_changes = null;
       
-      // Update the hotel
       const { error } = await supabase
         .from('hotels')
         .update(updates)
@@ -81,7 +84,6 @@ export default function HotelDetailView() {
     if (!hotel) return;
     
     try {
-      // Just clear all pending changes without updating any fields
       const { error } = await supabase
         .from('hotels')
         .update({ pending_changes: null })
@@ -145,14 +147,14 @@ export default function HotelDetailView() {
 
   // Early return if no ID
   if (!id) {
-    console.log("HotelDetailView - No ID provided");
+    console.log("HotelDetailView - No ID provided, showing error");
     return (
       <AdminDashboardLayout>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <Button 
               variant="outline" 
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/admin/hotels')}
               className="flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Hotels
@@ -167,13 +169,15 @@ export default function HotelDetailView() {
     );
   }
 
+  console.log("HotelDetailView - Rendering main content, loading:", loading, "hotel:", !!hotel);
+
   return (
     <AdminDashboardLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <Button 
             variant="outline" 
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/admin/hotels')}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Hotels
@@ -208,7 +212,6 @@ export default function HotelDetailView() {
           </Card>
         ) : hotel ? (
           <div className="space-y-6">
-            {/* Display changes at the top if there are pending changes */}
             {changes && changes.length > 0 && (
               <ChangesHighlight 
                 hotelId={hotel.id}
@@ -222,27 +225,28 @@ export default function HotelDetailView() {
             <BasicInfo hotel={hotel} />
             <ImageGallery images={images} hotel={hotel} />
             
-            {/* Descriptive content section */}
-            <div className="space-y-4">
-              {hotel.atmosphere && (
-                <Card className="p-4 bg-[#2A0F44]">
-                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Atmosphere</h4>
-                  <p className="text-gray-300">{hotel.atmosphere}</p>
-                </Card>
-              )}
-              {hotel.ideal_guests && (
-                <Card className="p-4 bg-[#2A0F44]">
-                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Ideal For</h4>
-                  <p className="text-gray-300">{hotel.ideal_guests}</p>
-                </Card>
-              )}
-              {hotel.perfect_location && (
-                <Card className="p-4 bg-[#2A0F44]">
-                  <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Perfect Location</h4>
-                  <p className="text-gray-300">{hotel.perfect_location}</p>
-                </Card>
-              )}
-            </div>
+            {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
+              <div className="space-y-4">
+                {hotel.atmosphere && (
+                  <Card className="p-4 bg-[#2A0F44]">
+                    <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Atmosphere</h4>
+                    <p className="text-gray-300">{hotel.atmosphere}</p>
+                  </Card>
+                )}
+                {hotel.ideal_guests && (
+                  <Card className="p-4 bg-[#2A0F44]">
+                    <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Ideal For</h4>
+                    <p className="text-gray-300">{hotel.ideal_guests}</p>
+                  </Card>
+                )}
+                {hotel.perfect_location && (
+                  <Card className="p-4 bg-[#2A0F44]">
+                    <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Perfect Location</h4>
+                    <p className="text-gray-300">{hotel.perfect_location}</p>
+                  </Card>
+                )}
+              </div>
+            )}
             
             <LocationInfo hotel={hotel} />
             <AvailabilityInfo hotel={hotel} />

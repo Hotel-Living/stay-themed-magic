@@ -19,18 +19,16 @@ export function HotelStarfield() {
     const stars: {x: number; y: number; originalX: number; originalY: number; speed: number; size: number; maxSize: number; color: string; opacity: number; life: number; maxLife: number; angle: number}[] = [];
     const starCount = 60; // Increased for better visibility
     
-    // Brighter, more vibrant star colors
+    // Silver and gold star colors only
     const starColors = [
-      '#FFD700', // Bright gold
-      '#FFB6C1', // Light pink
-      '#FFA500', // Orange
-      '#DDA0DD', // Plum
-      '#98FB98', // Pale green
-      '#87CEEB', // Sky blue
-      '#F0E68C', // Khaki
-      '#FFE4E1', // Misty rose
-      '#FFFFE0', // Light yellow
-      '#E6E6FA'  // Lavender
+      '#C0C0C0', // Silver
+      '#D4D4D4', // Light silver
+      '#B8B8B8', // Medium silver
+      '#E8E8E8', // Bright silver
+      '#FFD700', // Gold
+      '#FFC107', // Bright gold
+      '#FFB300', // Medium gold
+      '#FFECB3'  // Light gold
     ];
     
     // Create stars starting from center
@@ -46,13 +44,13 @@ export function HotelStarfield() {
         originalY: centerY + Math.sin(angle) * distance,
         x: centerX + Math.cos(angle) * distance,
         y: centerY + Math.sin(angle) * distance,
-        speed: 0.8 + Math.random() * 1.2, // Visible movement speed
+        speed: (0.8 + Math.random() * 1.2) * 0.7, // Reduced speed by 30%
         size: 0.5,
         maxSize: 2 + Math.random() * 2, // Larger maximum size
         color: starColors[Math.floor(Math.random() * starColors.length)],
         opacity: 0,
         life: 0,
-        maxLife: 180 + Math.random() * 120, // Shorter lifecycle for more dynamic
+        maxLife: (180 + Math.random() * 120) * 1.43, // Increased lifecycle proportionally for 30% slower speed
         angle: angle
       };
     }

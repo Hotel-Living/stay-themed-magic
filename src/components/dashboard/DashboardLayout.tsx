@@ -126,7 +126,7 @@ export default function DashboardLayout({
             </aside>
             
             {/* Main Content */}
-            <div className="lg:col-span-3 bg-[#5700AD] rounded-2xl p-6">
+            <div className="lg:col-span-3">
               {children}
             </div>
           </div>

@@ -106,7 +106,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
   };
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-[#5700AD] rounded-2xl p-6">
       <div className="flex justify-between items-center">
         <button
           className="px-4 py-2 rounded bg-fuchsia-700 text-white"

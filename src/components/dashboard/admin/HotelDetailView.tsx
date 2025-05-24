@@ -173,7 +173,7 @@ export default function HotelDetailView() {
 
   return (
     <AdminDashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 bg-[#5700AD] rounded-2xl p-6">
         <div className="flex items-center justify-between">
           <Button 
             variant="outline" 

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -7,11 +8,14 @@ import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { benefitsList, faqCategories, faqsByCategory } from "@/components/faq/faqData";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+
 export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
-  return <div className="min-h-screen flex flex-col relative">
+
+  return (
+    <div className="min-h-screen flex flex-col relative">
       <HotelStarfield />
       <Navbar />
       
@@ -24,9 +28,11 @@ export default function FAQ() {
             </div>
             {/* Doubled vertical spacing below the main line with mt-12 (was mt-6) */}
             <div className={`space-y-3 max-w-3xl mx-auto ${isMobile ? "mt-12" : ""}`}>
-              {benefitsList.map((benefit, index) => <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg ml-0 max-w-fit text-center">
+              {benefitsList.map((benefit, index) => (
+                <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg mx-auto max-w-fit text-center">
                   <p className={`text-[#8017B0] ${isMobile ? "text-xl" : "text-base"} font-bold`}>{benefit}</p>
-                </div>)}
+                </div>
+              ))}
             </div>
           </div>
           
@@ -48,10 +54,21 @@ export default function FAQ() {
             <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder="Search all FAQs..." />
           </div>
 
-          <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={faqCategories} faqsByCategory={faqsByCategory} numbered={true} searchQuery={searchQuery} textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" marginBottom={isMobile ? "mb-10" : "mb-20"} />
+          <FaqTabs 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            faqCategories={faqCategories} 
+            faqsByCategory={faqsByCategory} 
+            numbered={true} 
+            searchQuery={searchQuery} 
+            textSizeClass="text-base md:text-lg" 
+            answerTextSizeClass="text-sm md:text-base" 
+            marginBottom={isMobile ? "mb-10" : "mb-20"} 
+          />
         </div>
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

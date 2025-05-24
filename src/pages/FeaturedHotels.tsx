@@ -82,7 +82,7 @@ export default function FeaturedHotels() {
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="glass-card rounded-2xl p-6 bg-[#7a0486]/80 mb-8">
+          <div className="glass-card rounded-2xl p-6 mb-8 bg-[#6a1d72]">
             <h2 className="text-2xl font-semibold mb-6 text-fuchsia-100">Featured Hotels</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

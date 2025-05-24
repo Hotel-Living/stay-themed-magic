@@ -88,7 +88,7 @@ export default function AdminPaymentsPanel() {
           setDateFilter={setDateFilter}
         />
 
-        <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+        <div className="rounded-xl p-6 bg-[#7a0486]">
           <PaymentsTable
             payments={payments}
             loading={loading}

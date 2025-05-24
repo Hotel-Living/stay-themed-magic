@@ -82,7 +82,7 @@ export default function AdminUsersPanel() {
           setRoleFilter={setRoleFilter}
         />
 
-        <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+        <div className="rounded-xl p-6 bg-[#7a0486]">
           {isMobile ? (
             <div className="space-y-4">
               {filteredUsers.length > 0 ? (

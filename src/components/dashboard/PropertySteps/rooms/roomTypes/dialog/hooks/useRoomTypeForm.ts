@@ -1,35 +1,30 @@
 
-import { useState, useEffect } from "react";
-import { PREDEFINED_ROOM_TYPES } from "../../constants";
-import { useRoomTypeImages } from "./useRoomTypeImages";
-import { useRoomTypeDetails } from "./useRoomTypeDetails";
+import { useState, useEffect } from 'react';
+import { useRoomTypeImages } from './useRoomTypeImages';
+import { useRoomImagePersistence } from '@/hooks/useRoomImagePersistence';
 
 interface UseRoomTypeFormProps {
   isOpen: boolean;
-  editingRoomType: any | null;
-  availableStayLengths?: number[];
+  editingRoomType?: any | null;
+  availableStayLengths: number[];
   onAdd: (roomType: any) => void;
-  preferredWeekday?: string;
+  preferredWeekday: string;
 }
 
 export function useRoomTypeForm({ 
+  isOpen, 
   editingRoomType, 
-  availableStayLengths = [],
+  availableStayLengths,
   onAdd,
-  preferredWeekday = "Monday"
+  preferredWeekday
 }: UseRoomTypeFormProps) {
-  console.log("useRoomTypeForm initialized with editingRoomType:", editingRoomType);
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [description, setDescription] = useState('');
+  const [roomCount, setRoomCount] = useState(1);
+  const [isEditing, setIsEditing] = useState(false);
   
-  const {
-    selectedRoomType,
-    description,
-    roomCount,
-    isEditing,
-    setSelectedRoomType,
-    setDescription,
-    setRoomCount
-  } = useRoomTypeDetails(editingRoomType);
-
+  const { persistRoomImages, convertBlobUrlsToPermanent, uploading: imageUploading } = useRoomImagePersistence();
+  
   const {
     roomImages,
     roomImagePreviews,
@@ -37,69 +32,113 @@ export function useRoomTypeForm({
     removeImage,
     setRoomImagePreviews
   } = useRoomTypeImages();
-  
-  // Load existing images when editing
-  useEffect(() => {
-    if (editingRoomType && editingRoomType.images && editingRoomType.images.length > 0) {
-      console.log("Loading existing images from editingRoomType:", editingRoomType.images);
-      setRoomImagePreviews(editingRoomType.images);
-    } else if (editingRoomType && editingRoomType.roomImages && editingRoomType.roomImages.length > 0) {
-      console.log("Loading existing roomImages from editingRoomType:", editingRoomType.roomImages);
-      setRoomImagePreviews(editingRoomType.roomImages);
-    }
-  }, [editingRoomType, setRoomImagePreviews]);
 
-  const [availabilityDates, setAvailabilityDates] = useState<string[]>([]);
-  
-  // Load existing availability dates when editing
+  // Initialize form when editing
   useEffect(() => {
-    if (editingRoomType && editingRoomType.availabilityDates && editingRoomType.availabilityDates.length > 0) {
-      console.log("Loading availability dates from editingRoomType:", editingRoomType.availabilityDates);
-      setAvailabilityDates(editingRoomType.availabilityDates);
+    if (isOpen && editingRoomType) {
+      console.log("useRoomTypeForm - Initializing for editing:", editingRoomType);
+      setIsEditing(true);
+      setSelectedRoomType(editingRoomType.name || '');
+      setDescription(editingRoomType.description || '');
+      setRoomCount(editingRoomType.roomCount || 1);
+      
+      // Set existing images as previews
+      if (editingRoomType.images && editingRoomType.images.length > 0) {
+        console.log("useRoomTypeForm - Setting existing images:", editingRoomType.images);
+        setRoomImagePreviews(editingRoomType.images);
+      }
+    } else if (isOpen) {
+      // Reset form for new room type
+      setIsEditing(false);
+      setSelectedRoomType('');
+      setDescription('');
+      setRoomCount(1);
+      setRoomImagePreviews([]);
     }
-  }, [editingRoomType]);
+  }, [isOpen, editingRoomType, setRoomImagePreviews]);
 
   const handleAvailabilityChange = (dates: string[]) => {
-    setAvailabilityDates(dates);
+    // Availability handling logic here
+    console.log("Room type availability changed:", dates);
   };
 
-  const handleAddRoomType = () => {
-    if (selectedRoomType && roomImagePreviews.length > 0) {
-      const roomType = PREDEFINED_ROOM_TYPES.find(rt => rt.id === selectedRoomType);
-      onAdd({
-        id: isEditing ? editingRoomType.id : Date.now().toString(),
-        name: roomType?.name || "",
-        maxOccupancy: 1,
-        size: 200,
-        description,
-        baseRate: 0,
-        roomCount,
-        images: roomImagePreviews,
-        availabilityDates,
-        preferredWeekday
-      });
+  const handleAddRoomType = async () => {
+    if (!selectedRoomType) {
+      console.warn("No room type selected");
+      return;
     }
+
+    try {
+      let finalImages: string[] = [];
+
+      // Process images - convert any blob URLs to permanent storage URLs
+      if (roomImagePreviews.length > 0) {
+        const hotelId = 'temp-hotel-id'; // This should be the actual hotel ID
+        const roomTypeId = `${selectedRoomType}-${Date.now()}`;
+        
+        // Check if we have blob URLs that need to be converted
+        const hasBlobUrls = roomImagePreviews.some(url => url.startsWith('blob:'));
+        
+        if (hasBlobUrls) {
+          console.log("Converting blob URLs to permanent storage...");
+          finalImages = await convertBlobUrlsToPermanent(roomImagePreviews, hotelId, roomTypeId);
+        } else {
+          // All images are already permanent URLs
+          finalImages = roomImagePreviews;
+        }
+      }
+
+      const roomTypeData = {
+        id: isEditing ? editingRoomType?.id : `${selectedRoomType}-${Date.now()}`,
+        name: selectedRoomType,
+        description,
+        roomCount,
+        images: finalImages,
+        rates: {},
+        availabilityDates: [],
+        maxOccupancy: 2,
+        size: null
+      };
+
+      console.log("Adding/updating room type with data:", roomTypeData);
+      onAdd(roomTypeData);
+      
+      // Reset form
+      setSelectedRoomType('');
+      setDescription('');
+      setRoomCount(1);
+      setRoomImagePreviews([]);
+      
+    } catch (error) {
+      console.error("Error processing room type:", error);
+    }
+  };
+
+  const dialogTitle = isEditing ? "Edit Room Type" : "Add Room Type";
+
+  const formState = {
+    selectedRoomType,
+    description,
+    roomCount,
+    roomImages,
+    roomImagePreviews,
+    isEditing
+  };
+
+  const setters = {
+    setSelectedRoomType,
+    setDescription,
+    setRoomCount
   };
 
   return {
-    formState: {
-      selectedRoomType,
-      description,
-      roomImages,
-      roomImagePreviews,
-      roomCount,
-      availabilityDates,
-      isEditing
-    },
-    setters: {
-      setSelectedRoomType,
-      setDescription,
-      setRoomCount
-    },
+    formState,
+    setters,
     handleImageUpload,
     removeImage,
     handleAvailabilityChange,
     handleAddRoomType,
-    dialogTitle: isEditing ? "Edit Room Type" : "Add New Room Type"
+    dialogTitle,
+    imageUploading
   };
 }

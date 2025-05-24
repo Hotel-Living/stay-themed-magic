@@ -10,8 +10,12 @@ export function useRoomTypeImages() {
       const newImages = Array.from(event.target.files);
       setRoomImages(prev => [...prev, ...newImages]);
       
-      // Create URL previews for new images
-      const newPreviews = newImages.map(file => URL.createObjectURL(file));
+      // Create URL previews for new images - these will be converted to permanent URLs when saved
+      const newPreviews = newImages.map(file => {
+        const blobUrl = URL.createObjectURL(file);
+        console.log("Created blob URL for room image:", blobUrl);
+        return blobUrl;
+      });
       setRoomImagePreviews(prev => [...prev, ...newPreviews]);
     }
   };
@@ -24,13 +28,17 @@ export function useRoomTypeImages() {
       return updated;
     });
     
-    // Remove the image preview URL
+    // Remove the image preview URL and clean up blob URLs
     setRoomImagePreviews(prev => {
       const updated = [...prev];
-      // Revoke the object URL to prevent memory leaks
-      if (updated[index] && updated[index].startsWith('blob:')) {
-        URL.revokeObjectURL(updated[index]);
+      const urlToRemove = updated[index];
+      
+      // Only revoke blob URLs, not permanent storage URLs
+      if (urlToRemove && urlToRemove.startsWith('blob:')) {
+        console.log("Revoking blob URL:", urlToRemove);
+        URL.revokeObjectURL(urlToRemove);
       }
+      
       updated.splice(index, 1);
       return updated;
     });

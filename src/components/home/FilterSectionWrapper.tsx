@@ -60,9 +60,9 @@ export function FilterSectionWrapper({
           <div className="flex justify-center" style={{
           backgroundColor: "#a98805"
         }}>
-            <Button size="sm" className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 hover:bg-[#AACAFE]/90 font-bold border-t-2 border-fuchsia-400/70" onClick={handleSearch} style={{
+            <Button size="sm" onClick={handleSearch} style={{
             backgroundColor: "#a98805"
-          }}>
+          }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
               <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
             </Button>

@@ -4,8 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { formatCurrency } from "@/utils/dynamicPricing";
 
-export const BasicInfo = ({ hotel }) => {
-  const renderStars = (count) => {
+export const BasicInfo = ({ hotel }: { hotel: any }) => {
+  const renderStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (
       <Star 
         key={index} 
@@ -35,7 +35,7 @@ export const BasicInfo = ({ hotel }) => {
   };
 
   return (
-    <Card className="rounded-xl p-6 bg-[#5C0869]">
+    <Card className="rounded-xl p-6 bg-[#5A0080]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Basic Information</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

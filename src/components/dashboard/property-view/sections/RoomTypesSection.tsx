@@ -1,6 +1,7 @@
 
 import React from "react";
-import { formatDatesForDisplay } from "@/utils/availabilityUtils";
+import { Card } from "@/components/ui/card";
+import { Bed } from "lucide-react";
 
 interface RoomTypesSectionProps {
   hotel: any;
@@ -9,91 +10,54 @@ interface RoomTypesSectionProps {
 export function RoomTypesSection({ hotel }: RoomTypesSectionProps) {
   const roomTypes = hotel.room_types || [];
   
-  if (roomTypes.length === 0) {
-    return (
-      <div className="bg-fuchsia-950/30 p-6 rounded-xl">
-        <h3 className="text-xl font-bold mb-4 border-b pb-2">Room Types</h3>
-        <p className="text-gray-300">No room types have been defined for this property.</p>
-      </div>
-    );
-  }
-  
   return (
-    <div className="bg-fuchsia-950/30 p-6 rounded-xl">
-      <h3 className="text-xl font-bold mb-4 border-b pb-2">Room Types ({roomTypes.length})</h3>
+    <Card className="p-6 bg-[#5A0080]">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
+        <Bed className="w-5 h-5 text-purple-400" />
+        Room Types
+      </h3>
       
-      <div className="space-y-6">
-        {roomTypes.map((room: any, index: number) => (
-          <div key={room.id || index} className="bg-fuchsia-900/20 rounded-lg p-4">
-            <div className="flex justify-between items-start mb-4">
-              <h4 className="text-lg font-semibold">{room.name}</h4>
-              <div className="bg-fuchsia-700 text-white text-xs px-3 py-1 rounded-full">
-                {room.roomCount || 1} {room.roomCount === 1 ? 'Room' : 'Rooms'} Available
-              </div>
-            </div>
-            
-            {room.description && (
-              <p className="text-gray-300 mb-3">{room.description}</p>
-            )}
-            
-            {/* Room Images */}
-            {room.images && room.images.length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-sm font-medium mb-2">Room Images:</h5>
-                <div className="grid grid-cols-3 gap-2">
-                  {room.images.map((image: string, imgIndex: number) => (
-                    <div key={imgIndex} className="aspect-video bg-fuchsia-900/40 rounded overflow-hidden">
-                      <img 
-                        src={image} 
-                        alt={`${room.name} image ${imgIndex + 1}`} 
-                        className="w-full h-full object-cover"
-                      />
+      {roomTypes && roomTypes.length > 0 ? (
+        <div className="space-y-4">
+          {roomTypes.map((room: any, index: number) => (
+            <div key={index} className="p-4 border border-purple-700/30 rounded-lg bg-purple-900/20">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <p className="text-sm text-gray-400">Room Type</p>
+                  <p className="font-medium text-purple-300">{room.name || `Room Type ${index + 1}`}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-400">Room Count</p>
+                  <p className="font-medium text-purple-300">{room.roomCount || room.room_count || 0}</p>
+                </div>
+                {room.description && (
+                  <div className="md:col-span-2">
+                    <p className="text-sm text-gray-400">Description</p>
+                    <p className="text-white">{room.description}</p>
+                  </div>
+                )}
+                {room.rates && Object.keys(room.rates).length > 0 && (
+                  <div className="md:col-span-2">
+                    <p className="text-sm text-gray-400">Rates</p>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {Object.entries(room.rates).map(([duration, price]) => (
+                        <span 
+                          key={duration} 
+                          className="px-2 py-1 bg-fuchsia-900/50 rounded text-xs text-white"
+                        >
+                          {duration}: ${price}
+                        </span>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {/* Room Rates */}
-            {room.rates && Object.keys(room.rates).length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-sm font-medium mb-2">Rates:</h5>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {Object.entries(room.rates).map(([duration, rate]: [string, any]) => (
-                    <div key={duration} className="bg-fuchsia-900/40 p-2 rounded text-center">
-                      <div className="text-xs text-gray-300">{duration} days</div>
-                      <div className="font-medium">${rate}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {/* Room Availability */}
-            {room.availabilityDates && room.availabilityDates.length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-sm font-medium mb-2">Availability:</h5>
-                <div className="bg-fuchsia-900/40 p-3 rounded text-sm">
-                  {formatDatesForDisplay(room.availabilityDates, hotel.available_months || []).join(', ')}
-                </div>
-              </div>
-            )}
-            
-            <div className="mt-2 pt-2 border-t border-fuchsia-700/50">
-              <div className="flex justify-between">
-                <div className="text-sm">
-                  <span className="text-gray-300">Max Occupancy:</span> {room.maxOccupancy || '1'} persons
-                </div>
-                {room.size && (
-                  <div className="text-sm">
-                    <span className="text-gray-300">Room Size:</span> {room.size} sq. ft.
                   </div>
                 )}
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-400">No room types specified for this hotel.</p>
+      )}
+    </Card>
   );
 }

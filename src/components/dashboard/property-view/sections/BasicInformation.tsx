@@ -1,24 +1,29 @@
 
-import React from 'react';
+import React from "react";
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { formatCurrency } from "@/utils/dynamicPricing";
 
-export const BasicInformation = ({ hotel }) => {
-  const renderStars = (count) => {
+interface BasicInformationProps {
+  hotel: any;
+}
+
+export function BasicInformation({ hotel }: BasicInformationProps) {
+  const renderStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (
-      <Star key={index} className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+      <Star 
+        key={index} 
+        className="h-4 w-4 fill-yellow-500 text-yellow-500" 
+      />
     ));
   };
   
-  // Helper function to display rates in the desired format
   const displayRates = () => {
     const rates = hotel.rates || {};
     const stayLengths = ["8", "16", "24", "32"];
     const availableRates = stayLengths.filter(length => rates[length]);
     
     if (availableRates.length === 0) {
-      // If no rates defined in the new format, use the old pricePerMonth
       return hotel.price_per_month ? `${formatCurrency(hotel.price_per_month, hotel.currency || "USD")}` : "Not specified";
     }
     
@@ -32,36 +37,67 @@ export const BasicInformation = ({ hotel }) => {
   };
 
   return (
-    <Card className="p-6 bg-[#2A0F44]">
+    <Card className="p-6 bg-[#5A0080]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Basic Information</h3>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
+          <h4 className="font-medium text-fuchsia-200">Hotel Name</h4>
+          <p className="text-white">{hotel.name}</p>
+        </div>
+        
+        <div>
           <h4 className="font-medium text-fuchsia-200">Category</h4>
-          <div className="flex items-center mt-1">
-            {hotel.category ? renderStars(hotel.category) : <span className="text-gray-400">Not specified</span>}
+          <div className="flex items-center">
+            {hotel.category ? renderStars(hotel.category) : "Not specified"}
           </div>
         </div>
-
+        
         <div>
           <h4 className="font-medium text-fuchsia-200">Property Type</h4>
-          <p>{hotel.property_type || "Not specified"}</p>
+          <p className="text-white">{hotel.property_type || "Not specified"}</p>
         </div>
-
+        
         <div>
           <h4 className="font-medium text-fuchsia-200">Style</h4>
-          <p>{hotel.style || "Not specified"}</p>
+          <p className="text-white">{hotel.style || "Not specified"}</p>
         </div>
-
+        
         <div>
           <h4 className="font-medium text-fuchsia-200">Pricing</h4>
-          <p>{displayRates()}</p>
-        </div>
-
-        <div className="col-span-1 md:col-span-2">
-          <h4 className="font-medium text-fuchsia-200">Description</h4>
-          <p>{hotel.description || "No description provided."}</p>
+          <p className="text-white">{displayRates()}</p>
         </div>
       </div>
+      
+      {hotel.description && (
+        <div className="mt-4">
+          <h4 className="font-medium text-fuchsia-200">Description</h4>
+          <p className="text-white whitespace-pre-wrap">{hotel.description}</p>
+        </div>
+      )}
+      
+      {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
+        <div className="mt-6 space-y-4">
+          {hotel.atmosphere && (
+            <div>
+              <h4 className="font-medium text-fuchsia-200">Atmosphere</h4>
+              <p className="text-white">{hotel.atmosphere}</p>
+            </div>
+          )}
+          {hotel.ideal_guests && (
+            <div>
+              <h4 className="font-medium text-fuchsia-200">Ideal For</h4>
+              <p className="text-white">{hotel.ideal_guests}</p>
+            </div>
+          )}
+          {hotel.perfect_location && (
+            <div>
+              <h4 className="font-medium text-fuchsia-200">Perfect Location</h4>
+              <p className="text-white">{hotel.perfect_location}</p>
+            </div>
+          )}
+        </div>
+      )}
     </Card>
   );
-};
+}

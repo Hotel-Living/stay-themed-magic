@@ -1,115 +1,82 @@
 
-import React, { useEffect, useState } from 'react';
+import React from "react";
 import { Card } from "@/components/ui/card";
-import { Hotel } from "@/integrations/supabase/types-custom";
-import { supabase } from "@/integrations/supabase/client";
-
-interface ActivityData {
-  id: string;
-  name: string;
-}
+import { Tag, Activity } from "lucide-react";
 
 interface ThemesActivitiesProps {
-  hotel: Hotel;
+  hotel: any;
 }
 
-export const ThemesActivities = ({ hotel }: ThemesActivitiesProps) => {
-  const hotelThemes = hotel.hotel_themes || [];
-  const hotelActivities = hotel.hotel_activities || [];
+export function ThemesActivities({ hotel }: ThemesActivitiesProps) {
+  const themes = hotel.hotel_themes || [];
+  const activities = hotel.hotel_activities || [];
   
-  console.log("ThemesActivities - Hotel themes:", hotelThemes);
-  console.log("ThemesActivities - Hotel activities:", hotelActivities);
-  
-  const [activitiesData, setActivitiesData] = useState<Record<string, string>>({});
-  
-  // Fetch activity names
-  useEffect(() => {
-    const fetchActivitiesData = async () => {
-      if (hotelActivities.length === 0) {
-        console.log("ThemesActivities - No activities to fetch");
-        return;
-      }
-      
-      const activityIds = hotelActivities
-        .map(activity => activity.activity_id)
-        .filter(Boolean);
-      
-      console.log("ThemesActivities - Activity IDs to fetch:", activityIds);
-      
-      if (activityIds.length === 0) {
-        console.log("ThemesActivities - No valid activity IDs found");
-        return;
-      }
-      
-      try {
-        const { data, error } = await supabase
-          .from('activities')
-          .select('id, name')
-          .in('id', activityIds);
-          
-        if (error) {
-          console.error("ThemesActivities - Error fetching activities data:", error);
-          return;
-        }
-        
-        console.log("ThemesActivities - Fetched activities data:", data);
-        
-        const activitiesMap: Record<string, string> = {};
-        data?.forEach((activity: ActivityData) => {
-          activitiesMap[activity.id] = activity.name;
-        });
-        
-        console.log("ThemesActivities - Activities map:", activitiesMap);
-        setActivitiesData(activitiesMap);
-      } catch (error) {
-        console.error("ThemesActivities - Error in fetchActivitiesData:", error);
-      }
-    };
+  const validThemes = Array.isArray(themes) 
+    ? themes.filter(theme => theme && theme.theme_id && theme.themes)
+    : [];
     
-    fetchActivitiesData();
-  }, [hotelActivities]);
-  
+  const validActivities = Array.isArray(activities) 
+    ? activities.filter(activity => {
+        const hasActivityId = activity?.activity_id;
+        const hasActivitiesObject = activity?.activities;
+        return hasActivityId || hasActivitiesObject;
+      })
+    : [];
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card className="p-6 bg-[#AACAFE]/30">
-        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-[#3300B0]/30 text-[#3300B0]">Affinities</h3>
-        <div className="flex flex-wrap gap-2">
-          {hotelThemes.length > 0 ? (
-            hotelThemes.map((theme) => (
-              <span key={theme.theme_id} className="px-3 py-1 bg-[#AACAFE]/70 rounded-full text-sm text-[#3300B0]">
-                {theme.themes?.name || "Unknown Theme"}
-              </span>
-            ))
-          ) : (
-            <p className="text-[#3300B0]">No affinities specified</p>
-          )}
-        </div>
+    <div className="space-y-6">
+      <Card className="p-6 bg-[#5A0080]">
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
+          <Tag className="w-5 h-5 text-purple-400" />
+          Affinities
+        </h3>
+        {validThemes && validThemes.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {validThemes.map((theme) => (
+              <div key={theme.theme_id} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
+                <p className="font-medium text-purple-300">
+                  {theme.themes?.name || "Unknown Affinity"}
+                </p>
+                {theme.themes?.description && (
+                  <p className="text-sm text-gray-400 mt-1">{theme.themes.description}</p>
+                )}
+                {theme.themes?.category && (
+                  <p className="text-xs text-fuchsia-400 mt-2">Category: {theme.themes.category}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400">No affinities associated with this hotel.</p>
+        )}
       </Card>
 
-      <Card className="p-6 bg-[#AACAFE]/30">
-        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-[#3300B0]/30 text-[#3300B0]">Activities</h3>
-        <div className="flex flex-wrap gap-2">
-          {hotelActivities.length > 0 ? (
-            hotelActivities.map((activity) => {
-              const activityName = activitiesData[activity.activity_id] || 
-                                 activity.activities?.name || 
-                                 `Activity ID: ${activity.activity_id}` ||
-                                 "Unknown Activity";
-              console.log("ThemesActivities - Rendering activity:", activity.activity_id, "->", activityName);
+      <Card className="p-6 bg-[#5A0080]">
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-purple-400" />
+          Activities
+        </h3>
+        {validActivities && validActivities.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {validActivities.map((activity, index) => {
+              const activityName = activity.activities?.name || `Activity ID: ${activity.activity_id}` || `Activity ${index + 1}`;
+              const activityCategory = activity.activities?.category || "Uncategorized";
               
               return (
-                <span key={activity.activity_id} className="px-3 py-1 bg-[#AACAFE]/70 rounded-full text-sm text-[#3300B0]">
-                  {activityName}
-                </span>
+                <div key={activity.activity_id || index} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
+                  <p className="font-medium text-purple-300">
+                    {activityName}
+                  </p>
+                  {activity.activities?.category && (
+                    <p className="text-xs text-fuchsia-400 mt-2">Category: {activityCategory}</p>
+                  )}
+                </div>
               );
-            })
-          ) : (
-            <div>
-              <p className="text-[#3300B0]">No activities specified</p>
-              <p className="text-xs text-gray-500 mt-1">Activities count: {hotelActivities.length}</p>
-            </div>
-          )}
-        </div>
+            })}
+          </div>
+        ) : (
+          <p className="text-gray-400">No activities associated with this hotel.</p>
+        )}
       </Card>
     </div>
   );

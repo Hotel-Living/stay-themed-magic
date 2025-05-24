@@ -1,47 +1,54 @@
 
-import React from 'react';
+import React from "react";
 import { Card } from "@/components/ui/card";
-import { Hotel } from "@/integrations/supabase/types-custom";
+import { Check } from "lucide-react";
 
 interface FeaturesSectionProps {
-  hotel: Hotel;
+  hotel: any;
 }
 
-export const FeaturesSection = ({ hotel }: FeaturesSectionProps) => {
-  const renderFeatures = (features: Record<string, boolean> | undefined) => {
-    if (!features || Object.keys(features).length === 0) {
-      return <p>No features specified</p>;
+export function FeaturesSection({ hotel }: FeaturesSectionProps) {
+  const hotelFeatures = hotel.features_hotel || {};
+  const roomFeatures = hotel.features_room || {};
+  
+  const renderFeatureList = (features: Record<string, boolean>) => {
+    const enabledFeatures = Object.entries(features)
+      .filter(([_, isEnabled]) => isEnabled)
+      .map(([feature]) => feature);
+    
+    if (enabledFeatures.length === 0) {
+      return <p className="text-gray-400 italic">No features specified</p>;
     }
-
+    
     return (
-      <div className="flex flex-wrap gap-2">
-        {Object.entries(features)
-          .filter(([_, selected]) => selected)
-          .map(([featureId]) => (
-            <span 
-              key={featureId} 
-              className="px-3 py-1 bg-[#AACAFE]/70 rounded-full text-sm text-[#3300B0]"
-            >
-              {featureId.replace(/_/g, ' ')}
-            </span>
-          ))}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {enabledFeatures.map(feature => (
+          <div key={feature} className="flex items-center gap-2 p-2 bg-purple-900/20 rounded-md">
+            <Check className="h-4 w-4 text-purple-400" />
+            <span className="text-sm">{feature.replace(/_/g, ' ')}</span>
+          </div>
+        ))}
       </div>
     );
   };
-
+  
   return (
-    <Card className="p-6 bg-[#AACAFE]/30">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-[#3300B0]/30 text-[#3300B0]">Features</h3>
-      <div className="grid grid-cols-1 gap-4">
+    <Card className="p-6 bg-[#5A0080]">
+      <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">
+        Features
+      </h3>
+      
+      <div className="space-y-6">
         <div>
-          <h4 className="font-medium text-lg text-[#3300B0] mb-2">Hotel Features</h4>
-          {renderFeatures(hotel.features_hotel)}
+          <h4 className="text-lg text-purple-300 font-medium mb-3">Hotel Features</h4>
+          {renderFeatureList(hotelFeatures)}
         </div>
+        
         <div>
-          <h4 className="font-medium text-lg text-[#3300B0] mb-2">Room Features</h4>
-          {renderFeatures(hotel.features_room)}
+          <h4 className="text-lg text-purple-300 font-medium mb-3">Room Features</h4>
+          {renderFeatureList(roomFeatures)}
         </div>
       </div>
     </Card>
   );
-};
+}

@@ -3,7 +3,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Bed } from "lucide-react";
 
-export function RoomTypesInfo({ hotel }) {
+export function RoomTypesInfo({ hotel }: { hotel: any }) {
   const roomTypes = hotel.room_types || [];
   
   return (
@@ -15,7 +15,7 @@ export function RoomTypesInfo({ hotel }) {
       
       {roomTypes && roomTypes.length > 0 ? (
         <div className="space-y-4">
-          {roomTypes.map((room, index) => (
+          {roomTypes.map((room: any, index: number) => (
             <div key={index} className="p-4 border border-purple-700/30 rounded-lg bg-purple-900/20">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>

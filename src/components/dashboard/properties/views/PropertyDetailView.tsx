@@ -92,6 +92,18 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
     
     return Array.from(allDates);
   };
+
+  // Calculate total available rooms
+  const getTotalAvailableRooms = () => {
+    if (!hotel.room_types || hotel.room_types.length === 0) {
+      return 0;
+    }
+    
+    return hotel.room_types.reduce((total, room) => {
+      const roomCount = room.roomCount || room.room_count || 0;
+      return total + (typeof roomCount === 'number' ? roomCount : 0);
+    }, 0);
+  };
   
   return (
     <div className="space-y-6">
@@ -111,19 +123,117 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
       </div>
       
       <div className="max-w-5xl mx-auto space-y-6">
-        {/* Preferred Weekday - Prominent Display */}
+        {/* Essential Property Information - NEW SECTION */}
         <Card className="p-6 bg-[#2A0F44] border-2 border-fuchsia-500/50">
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-fuchsia-200 mb-2">Check-in / Check-out Day</h3>
-            <div className="inline-flex items-center px-6 py-3 bg-fuchsia-700 rounded-lg">
-              <span className="text-2xl font-bold text-white">
-                {hotel.preferredWeekday || "Monday"}
-              </span>
+          <h3 className="text-xl font-bold text-white mb-4">Property Overview</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Check-in/Check-out Day */}
+            <div className="text-center">
+              <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Check-in / Check-out Day</h4>
+              <div className="inline-flex items-center px-4 py-2 bg-fuchsia-700 rounded-lg">
+                <span className="text-lg font-bold text-white">
+                  {hotel.preferredWeekday || "Monday"}
+                </span>
+              </div>
             </div>
-            <p className="text-sm text-gray-300 mt-2">
-              Your designated weekly check-in and check-out day
-            </p>
+
+            {/* Available Rooms */}
+            <div className="text-center">
+              <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Total Available Rooms</h4>
+              <div className="inline-flex items-center px-4 py-2 bg-green-700 rounded-lg">
+                <span className="text-lg font-bold text-white">
+                  {getTotalAvailableRooms()} rooms
+                </span>
+              </div>
+            </div>
+
+            {/* Availability Status */}
+            <div className="text-center">
+              <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Availability Dates</h4>
+              <div className="inline-flex items-center px-4 py-2 bg-blue-700 rounded-lg">
+                <span className="text-lg font-bold text-white">
+                  {formatAvailabilityDates().length} date periods
+                </span>
+              </div>
+            </div>
           </div>
+        </Card>
+
+        {/* Detailed Availability Information */}
+        <Card className="p-6 bg-[#2A0F44]">
+          <h3 className="text-xl font-semibold text-white mb-4">Detailed Availability Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+            <div>
+              <h4 className="font-medium text-fuchsia-200 mb-3">Available Dates</h4>
+              {formatAvailabilityDates().length > 0 ? (
+                <div className="space-y-2">
+                  {formatAvailabilityDates().map((date) => (
+                    <div 
+                      key={date} 
+                      className="px-3 py-2 bg-fuchsia-700/30 rounded-lg text-sm text-white border border-fuchsia-500/30"
+                    >
+                      {date}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 italic">No availability dates specified</p>
+              )}
+            </div>
+            
+            <div>
+              <h4 className="font-medium text-fuchsia-200 mb-3">Room Types & Availability</h4>
+              {hotel.room_types && hotel.room_types.length > 0 ? (
+                <div className="space-y-2">
+                  {hotel.room_types.map((room, index) => (
+                    <div 
+                      key={index} 
+                      className="px-3 py-2 bg-blue-700/30 rounded-lg text-sm text-white border border-blue-500/30"
+                    >
+                      <div className="font-medium">{room.name || `Room Type ${index + 1}`}</div>
+                      <div className="text-xs text-gray-300">
+                        {room.roomCount || room.room_count || 0} rooms available
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 italic">No room types specified</p>
+              )}
+            </div>
+          </div>
+          
+          {hotel.stay_lengths && hotel.stay_lengths.length > 0 && (
+            <div className="mt-6">
+              <h4 className="font-medium text-fuchsia-200 mb-2">Stay Lengths</h4>
+              <div className="flex flex-wrap gap-2">
+                {hotel.stay_lengths.map((length) => (
+                  <span 
+                    key={length} 
+                    className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
+                  >
+                    {length} days
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {hotel.meal_plans && hotel.meal_plans.length > 0 && (
+            <div className="mt-4">
+              <h4 className="font-medium text-fuchsia-200 mb-2">Meal Plans</h4>
+              <div className="flex flex-wrap gap-2">
+                {hotel.meal_plans.map((plan) => (
+                  <span 
+                    key={plan} 
+                    className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
+                  >
+                    {plan}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </Card>
 
         {/* Basic Information */}
@@ -183,64 +293,6 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
             </div>
           </Card>
         )}
-
-        {/* Availability Information - Fixed to show saved dates */}
-        <Card className="p-6 bg-[#2A0F44]">
-          <h3 className="text-xl font-semibold text-white mb-4">Availability Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
-            <div>
-              <h4 className="font-medium text-fuchsia-200 mb-2">Available Dates</h4>
-              {formatAvailabilityDates().length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {formatAvailabilityDates().map((date) => (
-                    <span 
-                      key={date} 
-                      className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
-                    >
-                      {date}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-400">No availability dates specified</p>
-              )}
-            </div>
-            
-            <div>
-              <h4 className="font-medium text-fuchsia-200 mb-2">Stay Lengths</h4>
-              {hotel.stay_lengths && hotel.stay_lengths.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {hotel.stay_lengths.map((length) => (
-                    <span 
-                      key={length} 
-                      className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
-                    >
-                      {length} days
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-400">No stay lengths specified</p>
-              )}
-            </div>
-          </div>
-          
-          {hotel.meal_plans && hotel.meal_plans.length > 0 && (
-            <div className="mt-4">
-              <h4 className="font-medium text-fuchsia-200 mb-2">Meal Plans</h4>
-              <div className="flex flex-wrap gap-2">
-                {hotel.meal_plans.map((plan) => (
-                  <span 
-                    key={plan} 
-                    className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
-                  >
-                    {plan}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-        </Card>
 
         {/* Images */}
         <ImageGallery hotel={hotel} />

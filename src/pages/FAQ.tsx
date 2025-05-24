@@ -24,7 +24,7 @@ export default function FAQ() {
             </div>
             {/* Doubled vertical spacing below the main line with mt-12 (was mt-6) */}
             <div className={`space-y-3 max-w-3xl mx-auto flex flex-col items-center ${isMobile ? "mt-12" : ""}`}>
-              {benefitsList.map((benefit, index) => <div key={index} className="bg-[#FFC700] py-2 px-4 rounded-lg text-center my-[11px]">
+              {benefitsList.map((benefit, index) => <div key={index} className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
                   <p className={`text-[#8017B0] ${isMobile ? "text-xl" : "text-base"} font-bold`}>{benefit}</p>
                 </div>)}
             </div>

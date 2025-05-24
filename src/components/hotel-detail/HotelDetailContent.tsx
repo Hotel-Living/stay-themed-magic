@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -36,7 +35,10 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     rates: hotel.rates,
     roomTypes: hotel.room_types,
     idealGuests: hotel.idealGuests,
-    perfectLocation: hotel.perfectLocation
+    ideal_guests: hotel.ideal_guests,
+    perfectLocation: hotel.perfectLocation,
+    perfect_location: hotel.perfect_location,
+    atmosphere: hotel.atmosphere
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -133,6 +135,19 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     return `${sortedLengths.join(", ")} and ${lastLength} days`;
   };
 
+  // Get the correct field values, trying multiple possible field names
+  const getIdealGuestsText = () => {
+    return hotel.ideal_guests || hotel.idealGuests || "memorable experiences";
+  };
+
+  const getPerfectLocationText = () => {
+    return hotel.perfect_location || hotel.perfectLocation || "exploring the local area and attractions";
+  };
+
+  const getAtmosphereText = () => {
+    return hotel.atmosphere || "welcoming and comfortable";
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Enhanced gradient background with subtle animation */}
@@ -174,19 +189,19 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                 
                 <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.4s' }}>
                   <p className="text-white">
-                    It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
+                    It's ideal for guests who enjoy {lowercase(getIdealGuestsText())}.
                   </p>
                 </div>
                 
                 <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '0.8s' }}>
                   <p className="text-white">
-                    The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
+                    The vibe of this hotel is {lowercase(getAtmosphereText())}.
                   </p>
                 </div>
                 
                 <div className="p-3 rounded-lg bg-gradient-to-br from-[#B400FF]/50 via-[#D032FF]/40 to-[#E5B80B]/30 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 400%', animationDuration: '8s', animationDelay: '1.2s' }}>
                   <p className="text-white">
-                    Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
+                    Our location is perfect for {lowercase(getPerfectLocationText())}.
                   </p>
                 </div>
                 

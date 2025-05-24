@@ -94,7 +94,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
       
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Essential Property Information - NEW SECTION */}
-        <Card className="p-6 border-2 border-fuchsia-500/50 bg-[#5a0080]">
+        <Card className="p-6 border-2 border-fuchsia-500/50 bg-[#5c0869]">
           <h3 className="text-xl font-bold text-white mb-4">Property Overview</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Check-in/Check-out Day */}

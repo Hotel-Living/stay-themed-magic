@@ -9,7 +9,7 @@ export function Footer() {
   const isMobile = useIsMobile();
   
   return <footer className="py-4 px-4 border-t border-[#3300B0]/20 mt-20" style={{ 
-      backgroundColor: "#a98805"
+      backgroundColor: "#996515"
     }}>
       <div className="container max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center">

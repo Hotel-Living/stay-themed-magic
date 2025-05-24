@@ -1,17 +1,14 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
-
 export default function Videos() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-8">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="glass-card rounded-2xl p-6 bg-[#6A1D72]/80 mb-8">
+          <div className="glass-card rounded-2xl p-6 mb-8 bg-[#6a1d72]">
             <div className="space-y-8">
               <div className="space-y-4">
                 <h3 className="text-xl font-medium text-fuchsia-200">Featured: Themed Hotels Experience</h3>
@@ -46,6 +43,5 @@ export default function Videos() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

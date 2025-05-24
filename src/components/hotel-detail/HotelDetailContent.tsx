@@ -8,6 +8,7 @@ import { HotelBookingSection } from "./HotelBookingSection";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
+import { HotelStarfield } from "./HotelStarfield";
 import { cn } from "@/lib/utils";
 
 export interface HotelDetailContentProps {
@@ -137,6 +138,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
       {/* Enhanced gradient background with subtle animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#B3B3FF] via-[#9999FF] to-[#8080FF] animate-gradient-x"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-blue-300/10"></div>
+      
+      {/* Add the dynamic starfield effect */}
+      <HotelStarfield />
       
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Main content card with enhanced styling */}

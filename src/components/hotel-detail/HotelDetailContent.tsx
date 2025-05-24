@@ -160,7 +160,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
         {/* Main content card with enhanced styling */}
         <div className="max-w-5xl mx-auto">
           {/* Header card */}
-          <div className="bg-gradient-to-r from-[#761B98] via-[#8B1FA3] to-[#761B98] rounded-t-2xl p-6 shadow-2xl border border-white/10">
+          <div className="bg-gradient-to-r from-[#7B1C92] via-[#8B1FA3] to-[#7B1C92] rounded-t-2xl p-6 shadow-2xl border border-white/10">
             <HotelHeader 
               hotel={hotel} 
               handleAddToFavorites={handleAddToFavorites} 
@@ -221,7 +221,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             {/* Left content area */}
             <div className="md:col-span-2 space-y-6">
               {/* Features card with enhanced styling */}
-              <div className="bg-gradient-to-br from-[#761B98] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
+              <div className="bg-gradient-to-br from-[#7B1C92] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
                 <HotelFeaturesInfo
                   hotelFeatures={hotel.hotelFeatures || []}
                   roomFeatures={hotel.roomFeatures || []}
@@ -229,7 +229,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               </div>
               
               {/* Location card with enhanced styling */}
-              <div className="bg-gradient-to-br from-[#761B98] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
+              <div className="bg-gradient-to-br from-[#7B1C92] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
                 <HotelLocation 
                   latitude={Number(hotel.latitude)} 
                   longitude={Number(hotel.longitude)} 
@@ -240,7 +240,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             </div>
 
             {/* Booking section with enhanced styling */}
-            <div className="bg-gradient-to-br from-[#761B98] via-[#8B1FA3] to-[#6B1A87] rounded-xl shadow-2xl border border-white/10 p-1">
+            <div className="bg-gradient-to-br from-[#7B1C92] via-[#8B1FA3] to-[#6B1A87] rounded-xl shadow-2xl border border-white/10 p-1">
               <div className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 rounded-lg backdrop-blur-sm border border-white/10">
                 <HotelBookingSection 
                   checkInDate={checkInDate}

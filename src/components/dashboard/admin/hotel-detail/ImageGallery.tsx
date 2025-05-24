@@ -31,7 +31,7 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
   };
   
   return (
-    <div className="rounded-xl p-6 bg-[#2A0F44]">
+    <div className="rounded-xl p-6 bg-[#5C0869]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Hotel Images</h3>
       {validImages && validImages.length > 0 ? (
         <div>
@@ -62,7 +62,7 @@ export function ImageGallery({ images, hotel }: ImageGalleryProps) {
                     onLoad={() => handleImageLoad(image.image_url)}
                   />
                   {image.is_main && (
-                    <div className="absolute top-1 right-1 bg-purple-700 text-white text-xs px-2 py-1 rounded">
+                    <div className="absolute top-1 right-1 bg-[#5A0080] text-white text-xs px-2 py-1 rounded">
                       Main
                     </div>
                   )}

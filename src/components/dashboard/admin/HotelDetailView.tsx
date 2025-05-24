@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -161,7 +160,7 @@ export default function HotelDetailView() {
             </Button>
             <h2 className="text-2xl font-bold">Hotel Details</h2>
           </div>
-          <Card className="p-6 bg-[#2A0F44]">
+          <Card className="p-6 bg-[#5C0869]">
             <p className="text-center text-red-400">No hotel ID provided</p>
           </Card>
         </div>
@@ -173,7 +172,7 @@ export default function HotelDetailView() {
 
   return (
     <AdminDashboardLayout>
-      <div className="space-y-6 bg-[#5700AD] rounded-2xl p-6">
+      <div className="space-y-6 bg-[#5C0869] rounded-2xl p-6">
         <div className="flex items-center justify-between">
           <Button 
             variant="outline" 
@@ -204,7 +203,7 @@ export default function HotelDetailView() {
         </div>
 
         {loading ? (
-          <Card className="p-6 bg-[#2A0F44]">
+          <Card className="p-6 bg-[#5C0869]">
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
               <span className="ml-3">Loading hotel details...</span>
@@ -228,19 +227,19 @@ export default function HotelDetailView() {
             {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
               <div className="space-y-4">
                 {hotel.atmosphere && (
-                  <Card className="p-4 bg-[#2A0F44]">
+                  <Card className="p-4 bg-[#5C0869]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Atmosphere</h4>
                     <p className="text-gray-300">{hotel.atmosphere}</p>
                   </Card>
                 )}
                 {hotel.ideal_guests && (
-                  <Card className="p-4 bg-[#2A0F44]">
+                  <Card className="p-4 bg-[#5C0869]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Ideal For</h4>
                     <p className="text-gray-300">{hotel.ideal_guests}</p>
                   </Card>
                 )}
                 {hotel.perfect_location && (
-                  <Card className="p-4 bg-[#2A0F44]">
+                  <Card className="p-4 bg-[#5C0869]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Perfect Location</h4>
                     <p className="text-gray-300">{hotel.perfect_location}</p>
                   </Card>
@@ -271,7 +270,7 @@ export default function HotelDetailView() {
             )}
           </div>
         ) : (
-          <Card className="p-6 bg-[#2A0F44]">
+          <Card className="p-6 bg-[#5C0869]">
             <div className="text-center py-8">
               <h3 className="text-lg font-medium text-red-400 mb-2">Hotel Not Found</h3>
               <p className="text-gray-300 mb-4">The hotel with ID "{id}" could not be found.</p>

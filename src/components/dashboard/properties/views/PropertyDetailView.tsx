@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Hotel } from "@/integrations/supabase/types-custom";
@@ -106,7 +105,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
   };
   
   return (
-    <div className="space-y-6 bg-[#5700AD] rounded-2xl p-6">
+    <div className="space-y-6 bg-[#5C0869] rounded-2xl p-6">
       <div className="flex justify-between items-center">
         <button
           className="px-4 py-2 rounded bg-fuchsia-700 text-white"
@@ -124,13 +123,13 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
       
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Essential Property Information - NEW SECTION */}
-        <Card className="p-6 bg-[#2A0F44] border-2 border-fuchsia-500/50">
+        <Card className="p-6 bg-[#5C0869] border-2 border-fuchsia-500/50">
           <h3 className="text-xl font-bold text-white mb-4">Property Overview</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Check-in/Check-out Day */}
             <div className="text-center">
               <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Check-in / Check-out Day</h4>
-              <div className="inline-flex items-center px-4 py-2 bg-fuchsia-700 rounded-lg">
+              <div className="inline-flex items-center px-4 py-2 bg-[#5A0080] rounded-lg">
                 <span className="text-lg font-bold text-white">
                   {hotel.preferredWeekday || "Monday"}
                 </span>
@@ -140,7 +139,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
             {/* Available Rooms */}
             <div className="text-center">
               <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Total Available Rooms</h4>
-              <div className="inline-flex items-center px-4 py-2 bg-green-700 rounded-lg">
+              <div className="inline-flex items-center px-4 py-2 bg-[#5A0080] rounded-lg">
                 <span className="text-lg font-bold text-white">
                   {getTotalAvailableRooms()} rooms
                 </span>
@@ -150,7 +149,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
             {/* Availability Status */}
             <div className="text-center">
               <h4 className="text-lg font-semibold text-fuchsia-200 mb-2">Availability Dates</h4>
-              <div className="inline-flex items-center px-4 py-2 bg-blue-700 rounded-lg">
+              <div className="inline-flex items-center px-4 py-2 bg-[#5A0080] rounded-lg">
                 <span className="text-lg font-bold text-white">
                   {formatAvailabilityDates().length} date periods
                 </span>
@@ -160,7 +159,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
         </Card>
 
         {/* Detailed Availability Information */}
-        <Card className="p-6 bg-[#2A0F44]">
+        <Card className="p-6 bg-[#5C0869]">
           <h3 className="text-xl font-semibold text-white mb-4">Detailed Availability Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
             <div>
@@ -237,7 +236,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
         </Card>
 
         {/* Basic Information */}
-        <Card className="p-6 bg-[#2A0F44]">
+        <Card className="p-6 bg-[#5C0869]">
           <h2 className="text-2xl font-bold text-white mb-4">{hotel.name}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
             <div>
@@ -269,7 +268,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
 
         {/* Hotel Highlights - The Missing Sections */}
         {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
-          <Card className="p-6 bg-[#2A0F44]">
+          <Card className="p-6 bg-[#5C0869]">
             <h3 className="text-xl font-semibold text-white mb-4">Hotel Highlights</h3>
             <div className="space-y-4 text-white">
               {hotel.atmosphere && (
@@ -298,7 +297,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
         <ImageGallery hotel={hotel} />
 
         {/* Hotel Features and Room Features */}
-        <Card className="p-6 bg-[#2A0F44]">
+        <Card className="p-6 bg-[#5C0869]">
           <h3 className="text-xl font-semibold text-white mb-4">Features</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
             {renderFeatures(hotel.features_hotel, "Hotel Features")}
@@ -308,7 +307,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
 
         {/* Pricing */}
         {hotel.rates && Object.keys(hotel.rates).length > 0 && (
-          <Card className="p-6 bg-[#2A0F44]">
+          <Card className="p-6 bg-[#5C0869]">
             <h3 className="text-xl font-semibold text-white mb-4">Pricing</h3>
             <div className="text-white">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -337,7 +336,7 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
         <ThemesActivities hotel={hotel} />
         
         {/* Status Information */}
-        <Card className="p-6 bg-[#2A0F44]">
+        <Card className="p-6 bg-[#5C0869]">
           <h3 className="text-xl font-semibold text-white mb-4">Status Information</h3>
           <div className="text-white">
             <div className="mb-2">

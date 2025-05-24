@@ -59,6 +59,29 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         </div>
       )}
 
+      {/* Property Overview Section */}
+      <Card className="p-6 bg-[#5A0080] mb-8">
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Property Overview</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <h4 className="text-sm text-gray-400 mb-2">Check-in / Check-out Day</h4>
+            <p className="text-xl font-bold text-white">{hotel.preferredWeekday || "Monday"}</p>
+          </div>
+          <div className="text-center">
+            <h4 className="text-sm text-gray-400 mb-2">Total Available Rooms</h4>
+            <p className="text-xl font-bold text-white">
+              {hotel.room_types?.reduce((total: number, room: any) => total + (room.roomCount || room.room_count || 0), 0) || 0} rooms
+            </p>
+          </div>
+          <div className="text-center">
+            <h4 className="text-sm text-gray-400 mb-2">Availability Dates</h4>
+            <p className="text-xl font-bold text-white">
+              {hotel.available_months?.length || 0} date periods
+            </p>
+          </div>
+        </div>
+      </Card>
+
       {/* Pricing Section */}
       {hotel.room_types && hotel.room_types.length > 0 && hotel.room_types.some((room: any) => room.rates && Object.keys(room.rates).length > 0) && (
         <Card className="p-6 bg-[#5A0080] mb-8">
@@ -79,6 +102,100 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
           })}
         </Card>
       )}
+
+      {/* Hotel Highlights Section */}
+      {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
+        <Card className="p-6 bg-[#5A0080] mb-8">
+          <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Hotel Highlights</h3>
+          <div className="space-y-4">
+            {hotel.atmosphere && (
+              <div>
+                <h4 className="text-lg font-medium text-fuchsia-200 mb-2">The atmosphere of this hotel is</h4>
+                <p className="text-gray-300">{hotel.atmosphere}</p>
+              </div>
+            )}
+            {hotel.ideal_guests && (
+              <div>
+                <h4 className="text-lg font-medium text-fuchsia-200 mb-2">This hotel is ideal for guests who enjoy</h4>
+                <p className="text-gray-300">{hotel.ideal_guests}</p>
+              </div>
+            )}
+            {hotel.perfect_location && (
+              <div>
+                <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Our location is perfect for</h4>
+                <p className="text-gray-300">{hotel.perfect_location}</p>
+              </div>
+            )}
+          </div>
+        </Card>
+      )}
+
+      {/* Detailed Availability Information */}
+      <Card className="p-6 bg-[#5A0080] mb-8">
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Detailed Availability Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="text-lg font-medium text-fuchsia-200 mb-3">Available Dates</h4>
+            {hotel.available_months && hotel.available_months.length > 0 ? (
+              <div className="space-y-2">
+                {hotel.available_months.map((month: string, index: number) => (
+                  <div key={index} className="px-3 py-2 bg-fuchsia-900/50 rounded text-sm">
+                    {month} (Full Month)
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-400 italic">No availability dates specified</p>
+            )}
+            
+            <div className="mt-4">
+              <h5 className="font-medium text-fuchsia-200 mb-2">Stay Lengths</h5>
+              {hotel.stay_lengths && hotel.stay_lengths.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {hotel.stay_lengths.map((length: number) => (
+                    <span key={length} className="px-2 py-1 bg-fuchsia-900/50 rounded text-xs">
+                      {length} days
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 italic text-sm">No stay lengths specified</p>
+              )}
+            </div>
+
+            <div className="mt-4">
+              <h5 className="font-medium text-fuchsia-200 mb-2">Meal Plans</h5>
+              {hotel.meal_plans && hotel.meal_plans.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {hotel.meal_plans.map((plan: string) => (
+                    <span key={plan} className="px-2 py-1 bg-fuchsia-900/50 rounded text-xs">
+                      {plan}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 italic text-sm">No meal plans specified</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-medium text-fuchsia-200 mb-3">Room Types & Availability</h4>
+            {hotel.room_types && hotel.room_types.length > 0 ? (
+              <div className="space-y-3">
+                {hotel.room_types.map((room: any, index: number) => (
+                  <div key={index} className="p-3 bg-purple-900/20 rounded-lg border border-purple-700/30">
+                    <h5 className="font-medium text-purple-300">{room.name || `Room Type ${index + 1}`}</h5>
+                    <p className="text-sm text-gray-400">{room.roomCount || room.room_count || 0} rooms available</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-400 italic">No room types specified</p>
+            )}
+          </div>
+        </div>
+      </Card>
       
       <div className="space-y-8">
         <ImageGallery hotel={hotel} />

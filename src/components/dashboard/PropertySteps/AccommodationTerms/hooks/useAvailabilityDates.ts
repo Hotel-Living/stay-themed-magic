@@ -1,88 +1,79 @@
 
 import { useState, useEffect } from 'react';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, eachWeekOfInterval, isSameDay } from 'date-fns';
 import { datesToMonthNames, selectedMonthsToArray } from '../../rooms/roomTypes/availabilityDateUtils';
 
 type SelectedMonthsType = Record<string, boolean>;
 
 export const useAvailabilityDates = (
   initialAvailableMonths: string[] = [],
-  updateFormData?: (field: string, value: any) => void
+  updateFormData?: (field: string, value: any) => void,
+  selectedWeekday: number = 1 // Monday by default
 ) => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [selectedMonths, setSelectedMonths] = useState<SelectedMonthsType>({});
-  
-  // Initialize from form data
+
+  // Initialize months
   useEffect(() => {
-    if (initialAvailableMonths && initialAvailableMonths.length > 0) {
-      console.log("Initializing available months:", initialAvailableMonths);
-      
-      const currentDate = new Date();
-      const monthsWithYear: Record<string, boolean> = {};
-      
-      // Generate all months for the next two years
-      for (let i = 0; i < 24; i++) {
-        const date = addMonths(currentDate, i);
-        const monthYear = format(date, 'MMMM yyyy');
-        monthsWithYear[monthYear] = false;
+    const currentDate = new Date();
+    const monthsWithYear: Record<string, boolean> = {};
+    for (let i = 0; i < 24; i++) {
+      const date = addMonths(currentDate, i);
+      const monthYear = format(date, 'MMMM yyyy');
+      monthsWithYear[monthYear] = false;
+    }
+    setSelectedMonths(monthsWithYear);
+  }, []);
+
+  // Generate all matching weekdays in a month
+  const generateWeekdaysInMonth = (monthYear: string): Date[] => {
+    const [monthName, yearStr] = monthYear.split(' ');
+    const monthIndex = new Date(`${monthName} 1, ${yearStr}`).getMonth();
+    const year = parseInt(yearStr);
+
+    const start = new Date(year, monthIndex, 1);
+    const end = new Date(year, monthIndex + 1, 0);
+
+    return eachWeekOfInterval({ start, end }, { weekStartsOn: 0 })
+      .map(weekStart => {
+        const date = new Date(weekStart);
+        date.setDate(date.getDate() + ((selectedWeekday + 7 - date.getDay()) % 7));
+        return date <= end ? date : null;
+      })
+      .filter((d): d is Date => d !== null);
+  };
+
+  const toggleMonth = (monthYear: string) => {
+    const newSelectedDates = [...selectedDates];
+    const allWeekdays = generateWeekdaysInMonth(monthYear);
+
+    allWeekdays.forEach(date => {
+      const dateStr = format(date, 'yyyy-MM-dd');
+      const index = newSelectedDates.indexOf(dateStr);
+      if (index === -1) {
+        newSelectedDates.push(dateStr);
+      } else {
+        newSelectedDates.splice(index, 1);
       }
-      
-      // Mark selected months
-      initialAvailableMonths.forEach(month => {
-        if (!month) return;
-        
-        // Normalize month name to proper case
-        const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-        
-        // Find the entry in monthsWithYear that matches this month
-        Object.keys(monthsWithYear).forEach(monthYear => {
-          if (monthYear.toLowerCase().startsWith(normalizedMonth.toLowerCase())) {
-            monthsWithYear[monthYear] = true;
-          }
-        });
-      });
-      
-      setSelectedMonths(monthsWithYear);
-    }
-  }, [initialAvailableMonths]);
-  
-  // Update form data when selectedMonths changes
-  useEffect(() => {
-    if (updateFormData) {
-      const availableMonths = Object.entries(selectedMonths)
-        .filter(([_, isSelected]) => isSelected)
-        .map(([month]) => {
-          const monthName = month.split(' ')[0].toLowerCase();
-          return monthName;
-        });
-      
-      console.log("Updating available_months:", availableMonths);
-      updateFormData('available_months', availableMonths);
-    }
-  }, [selectedMonths, updateFormData]);
-  
-  const handleMonthToggle = (month: string, isSelected: boolean) => {
-    console.log("Month toggled:", month, isSelected);
-    setSelectedMonths(prev => ({
-      ...prev,
-      [month]: isSelected
-    }));
+    });
+
+    setSelectedDates([...new Set(newSelectedDates)].sort());
+    if (updateFormData) updateFormData('availableDates', newSelectedDates);
   };
-  
-  const handleDateSelection = (dates: string[]) => {
-    setSelectedDates(dates);
-    
-    // Update available_months based on the selected dates
-    if (updateFormData) {
-      const monthNames = datesToMonthNames(dates);
-      updateFormData('available_months', monthNames);
-    }
+
+  const removeDate = (dateStr: string) => {
+    const filtered = selectedDates.filter(d => d !== dateStr);
+    setSelectedDates(filtered);
+    if (updateFormData) updateFormData('availableDates', filtered);
   };
-  
+
   return {
     selectedDates,
+    setSelectedDates,
     selectedMonths,
-    handleMonthToggle,
-    handleDateSelection
+    setSelectedMonths,
+    toggleMonth,
+    removeDate,
+    generateWeekdaysInMonth
   };
 };

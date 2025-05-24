@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { ImageGallery } from "../../property-view/sections/ImageGallery";
 import { ThemesActivities } from "../../property-view/sections/ThemesActivities";
+import { formatDatesForDisplay } from "@/utils/availabilityUtils";
 
 interface PropertyDetailViewProps {
   hotel: Hotel;
@@ -52,6 +53,44 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
         )}
       </div>
     );
+  };
+
+  // Format availability dates for display
+  const formatAvailabilityDates = () => {
+    const allDates = new Set<string>();
+    
+    // Add full month availability dates
+    if (hotel.available_months && hotel.available_months.length > 0) {
+      hotel.available_months.forEach((month: string) => {
+        if (month) {
+          const normalizedMonth = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+          allDates.add(`${normalizedMonth} (Full Month)`);
+        }
+      });
+    }
+    
+    // Add specific dates from room types
+    if (hotel.room_types && hotel.room_types.length > 0) {
+      hotel.room_types.forEach(room => {
+        if (room.availabilityDates) {
+          room.availabilityDates.forEach((date: string) => {
+            try {
+              const parsedDate = new Date(date);
+              const formattedDate = parsedDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              });
+              allDates.add(formattedDate);
+            } catch (error) {
+              console.error('Error parsing date:', error);
+            }
+          });
+        }
+      });
+    }
+    
+    return Array.from(allDates);
   };
   
   return (
@@ -145,6 +184,64 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
           </Card>
         )}
 
+        {/* Availability Information - Fixed to show saved dates */}
+        <Card className="p-6 bg-[#2A0F44]">
+          <h3 className="text-xl font-semibold text-white mb-4">Availability Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+            <div>
+              <h4 className="font-medium text-fuchsia-200 mb-2">Available Dates</h4>
+              {formatAvailabilityDates().length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {formatAvailabilityDates().map((date) => (
+                    <span 
+                      key={date} 
+                      className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
+                    >
+                      {date}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400">No availability dates specified</p>
+              )}
+            </div>
+            
+            <div>
+              <h4 className="font-medium text-fuchsia-200 mb-2">Stay Lengths</h4>
+              {hotel.stay_lengths && hotel.stay_lengths.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {hotel.stay_lengths.map((length) => (
+                    <span 
+                      key={length} 
+                      className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
+                    >
+                      {length} days
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400">No stay lengths specified</p>
+              )}
+            </div>
+          </div>
+          
+          {hotel.meal_plans && hotel.meal_plans.length > 0 && (
+            <div className="mt-4">
+              <h4 className="font-medium text-fuchsia-200 mb-2">Meal Plans</h4>
+              <div className="flex flex-wrap gap-2">
+                {hotel.meal_plans.map((plan) => (
+                  <span 
+                    key={plan} 
+                    className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
+                  >
+                    {plan}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </Card>
+
         {/* Images */}
         <ImageGallery hotel={hotel} />
 
@@ -180,22 +277,6 @@ export const PropertyDetailView: React.FC<PropertyDetailViewProps> = ({
                   );
                 })}
               </div>
-              
-              {hotel.stay_lengths && hotel.stay_lengths.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-medium text-fuchsia-200">Available Stay Lengths</h4>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {hotel.stay_lengths.map((length) => (
-                      <span 
-                        key={length} 
-                        className="px-3 py-1 bg-fuchsia-700/30 rounded-full text-sm text-white border border-fuchsia-500/30"
-                      >
-                        {length} days
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </Card>
         )}

@@ -34,7 +34,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     hotelName: hotel.name,
     imagesCount: hotel.hotel_images?.length || 0,
     stayLengths: hotel.stay_lengths,
-    coordinates: `${hotel.latitude}, ${hotel.longitude}`
+    coordinates: `${hotel.latitude}, ${hotel.longitude}`,
+    rates: hotel.rates,
+    roomTypes: hotel.room_types
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -78,6 +80,57 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   // Get the check-in weekday from the hotel data
   const checkInWeekday = hotel.preferredWeekday || hotel.check_in_weekday || "Monday";
+
+  // Prepare rates data - try multiple sources
+  const preparedRates = (() => {
+    console.log("Preparing rates from hotel data:", {
+      hotelRates: hotel.rates,
+      roomTypes: hotel.room_types
+    });
+
+    // Start with hotel.rates if available
+    if (hotel.rates && typeof hotel.rates === 'object' && Object.keys(hotel.rates).length > 0) {
+      console.log("Using hotel.rates:", hotel.rates);
+      return hotel.rates;
+    }
+
+    // Try to extract rates from room_types
+    if (hotel.room_types && hotel.room_types.length > 0) {
+      const firstRoomWithRates = hotel.room_types.find(room => room.rates && Object.keys(room.rates).length > 0);
+      if (firstRoomWithRates?.rates) {
+        console.log("Using rates from first room type:", firstRoomWithRates.rates);
+        return firstRoomWithRates.rates;
+      }
+    }
+
+    // Fallback: create rates from individual price fields if they exist
+    const fallbackRates: Record<string, number> = {};
+    stayDurations.forEach(duration => {
+      const priceKey = `price_${duration}`;
+      if (hotel[priceKey] && hotel[priceKey] > 0) {
+        fallbackRates[duration.toString()] = hotel[priceKey];
+      }
+    });
+
+    if (Object.keys(fallbackRates).length > 0) {
+      console.log("Using fallback rates from price fields:", fallbackRates);
+      return fallbackRates;
+    }
+
+    console.log("No rates found, returning empty object");
+    return {};
+  })();
+
+  // Prepare pricing matrix if available
+  const pricingMatrix = hotel.pricingMatrix || (hotel.room_types && hotel.room_types.length > 0 ? 
+    hotel.room_types.flatMap(room => 
+      stayDurations.map(duration => ({
+        roomType: room.name || "Standard",
+        stayLength: `${duration} days`,
+        mealPlan: "Breakfast only",
+        price: room.rates?.[duration] || room.rates?.[duration.toString()] || 0
+      })).filter(entry => entry.price > 0)
+    ) : []);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
@@ -136,14 +189,14 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               selectedDuration={selectedDuration}
               setSelectedDuration={setSelectedDuration}
               stayDurations={stayDurations}
-              rates={hotel.rates || {}}
+              rates={preparedRates}
               currency={hotel.currency || "USD"}
               handleBookClick={handleBookClick}
               preferredWeekday={checkInWeekday}
               enablePriceIncrease={hotel.enablePriceIncrease}
               priceIncreaseCap={hotel.priceIncreaseCap}
               availableMonths={hotel.available_months}
-              pricingMatrix={hotel.pricingMatrix}
+              pricingMatrix={pricingMatrix}
             />
           </div>
         </div>

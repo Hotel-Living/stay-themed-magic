@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -7,11 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 export default function Login() {
   const [activeTab, setActiveTab] = useState("traveler");
   const location = useLocation();
-  const { user } = useAuth();
+  const {
+    user
+  } = useAuth();
   const navigate = useNavigate();
 
   // Handle tab selection from URL parameter
@@ -34,51 +34,37 @@ export default function Login() {
       navigate('/user-dashboard');
     }
   }, [user, navigate]);
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
           <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-[#8017B0]">
-              <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white">
+              <TabsTrigger value="traveler" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
                 Traveler
               </TabsTrigger>
-              <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white">
+              <TabsTrigger value="hotel" className="text-white data-[state=active]:bg-[#5c0869] data-[state=active]:text-white text-lg">
                 Hotel Partner
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="traveler">
-              <AuthCard 
-                title="Traveler Login" 
-                subtitle="Sign in to your Hotel-Living account"
-                footerLinks={[
-                  {
-                    text: "Don't have an account yet?",
-                    linkText: "Create a traveler account",
-                    linkUrl: "/signup"
-                  }
-                ]}
-              >
+              <AuthCard title="Traveler Login" subtitle="Sign in to your Hotel-Living account" footerLinks={[{
+              text: "Don't have an account yet?",
+              linkText: "Create a traveler account",
+              linkUrl: "/signup"
+            }]}>
                 <LoginForm isHotelLogin={false} />
               </AuthCard>
             </TabsContent>
             
             <TabsContent value="hotel">
-              <AuthCard 
-                title="Hotel Partner Login" 
-                subtitle="Sign in to your Hotel-Living partner account"
-                footerLinks={[
-                  {
-                    text: "Don't have a hotel partner account?",
-                    linkText: "Register as a Hotel Partner",
-                    linkUrl: "/hotel-signup"
-                  }
-                ]}
-              >
+              <AuthCard title="Hotel Partner Login" subtitle="Sign in to your Hotel-Living partner account" footerLinks={[{
+              text: "Don't have a hotel partner account?",
+              linkText: "Register as a Hotel Partner",
+              linkUrl: "/hotel-signup"
+            }]}>
                 <LoginForm isHotelLogin={true} />
               </AuthCard>
             </TabsContent>
@@ -87,6 +73,5 @@ export default function Login() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

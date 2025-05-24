@@ -1,4 +1,3 @@
-
 interface SubmitButtonProps {
   isLoading: boolean;
   loadingText: string;
@@ -9,7 +8,7 @@ export function SubmitButton({
   loadingText,
   text
 }: SubmitButtonProps) {
-  return <button type="submit" disabled={isLoading} className="w-full py-2 text-sm rounded-lg text-white font-medium transition-colors disabled:opacity-70 mt-3 bg-[#5d0083]">
+  return <button type="submit" disabled={isLoading} className="w-full py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-70 mt-3 bg-[#5d0083] text-base">
       {isLoading ? loadingText : text}
     </button>;
 }

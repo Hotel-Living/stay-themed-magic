@@ -22,7 +22,7 @@ export default function AvailabilitySection({
   
   const {
     selectedMonths,
-    handleMonthToggle
+    toggleMonth
   } = useAvailabilityDates(formData?.available_months || [], updateFormData);
 
   // Get the preferred weekday from formData, default to Monday if not set

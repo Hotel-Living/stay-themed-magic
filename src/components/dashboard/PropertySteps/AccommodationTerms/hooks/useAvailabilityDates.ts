@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { format, addMonths, eachWeekOfInterval, isSameDay } from 'date-fns';
+import { format, addMonths, eachDayOfInterval, isSameDay } from 'date-fns';
 import { datesToMonthNames, selectedMonthsToArray } from '../../rooms/roomTypes/availabilityDateUtils';
 
 type SelectedMonthsType = Record<string, boolean>;
@@ -34,31 +34,27 @@ export const useAvailabilityDates = (
     const start = new Date(year, monthIndex, 1);
     const end = new Date(year, monthIndex + 1, 0);
 
-    return eachWeekOfInterval({ start, end }, { weekStartsOn: 0 })
-      .map(weekStart => {
-        const date = new Date(weekStart);
-        date.setDate(date.getDate() + ((selectedWeekday + 7 - date.getDay()) % 7));
-        return date <= end ? date : null;
-      })
-      .filter((d): d is Date => d !== null);
+    const allDays = eachDayOfInterval({ start, end });
+    return allDays.filter(date => date.getDay() === selectedWeekday);
   };
 
   const toggleMonth = (monthYear: string) => {
-    const newSelectedDates = [...selectedDates];
-    const allWeekdays = generateWeekdaysInMonth(monthYear);
+    const weekdays = generateWeekdaysInMonth(monthYear);
+    const newDates = [...selectedDates];
 
-    allWeekdays.forEach(date => {
+    weekdays.forEach(date => {
       const dateStr = format(date, 'yyyy-MM-dd');
-      const index = newSelectedDates.indexOf(dateStr);
+      const index = newDates.indexOf(dateStr);
       if (index === -1) {
-        newSelectedDates.push(dateStr);
+        newDates.push(dateStr);
       } else {
-        newSelectedDates.splice(index, 1);
+        newDates.splice(index, 1);
       }
     });
 
-    setSelectedDates([...new Set(newSelectedDates)].sort());
-    if (updateFormData) updateFormData('availableDates', newSelectedDates);
+    const uniqueSorted = Array.from(new Set(newDates)).sort();
+    setSelectedDates(uniqueSorted);
+    if (updateFormData) updateFormData('availableDates', uniqueSorted);
   };
 
   const removeDate = (dateStr: string) => {

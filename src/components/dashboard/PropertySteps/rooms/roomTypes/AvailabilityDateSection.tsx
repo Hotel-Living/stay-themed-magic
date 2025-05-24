@@ -21,7 +21,6 @@ export default function AvailabilityDateSection({
 }: AvailabilityDateSectionProps) {
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
   const [effectiveWeekday, setEffectiveWeekday] = useState<string>(preferredWeekday);
-  const [selectedMonths, setSelectedMonths] = useState<Set<string>>(new Set());
 
   // Update effective weekday when prop changes
   useEffect(() => {
@@ -54,16 +53,11 @@ export default function AvailabilityDateSection({
     if (hasAll) {
       // Remove all dates from this month
       const newSelectedDates = selectedDates.filter(date => !availableDates.includes(date));
-      setSelectedMonths(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(month);
-        return newSet;
-      });
       onAvailabilityChange(newSelectedDates);
     } else {
-      // Add all dates from this month
-      const newSelectedDates = Array.from(new Set([...selectedDates, ...availableDates]));
-      setSelectedMonths(prev => new Set([...prev, month]));
+      // Add all dates from this month, but prevent duplicates
+      const uniqueNewDates = availableDates.filter(date => !selectedDates.includes(date));
+      const newSelectedDates = [...selectedDates, ...uniqueNewDates];
       onAvailabilityChange(newSelectedDates);
     }
   };
@@ -75,21 +69,6 @@ export default function AvailabilityDateSection({
     if (selectedDates.includes(dateString)) {
       // Remove this specific date
       const newSelectedDates = selectedDates.filter(d => d !== dateString);
-      
-      // Check if month should be unselected
-      const monthDate = new Date(month + " 01");
-      const dayNum = weekdayMap[effectiveWeekday];
-      const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
-      const remainingDatesInMonth = newSelectedDates.filter(d => availableDates.includes(d));
-      
-      if (remainingDatesInMonth.length === 0) {
-        setSelectedMonths(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(month);
-          return newSet;
-        });
-      }
-      
       onAvailabilityChange(newSelectedDates);
     } else {
       // Add this specific date (limit to 2 per month)
@@ -116,10 +95,16 @@ export default function AvailabilityDateSection({
   };
 
   const isMonthSelected = (month: string) => {
-    return selectedMonths.has(month);
+    const monthDate = new Date(month + " 01");
+    const dayNum = weekdayMap[effectiveWeekday];
+    const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
+    return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
   };
 
   const preferredDayNum = weekdayMap[effectiveWeekday];
+
+  // Remove duplicates from selectedDates to prevent display issues
+  const uniqueSelectedDates = Array.from(new Set(selectedDates));
 
   return (
     <div className="grid grid-cols-4 items-start gap-4">
@@ -155,7 +140,7 @@ export default function AvailabilityDateSection({
                     <CustomCalendarSingleWeekday 
                       month={monthDate} 
                       preferredDayNum={preferredDayNum} 
-                      selected={selectedDates} 
+                      selected={uniqueSelectedDates} 
                       preferredWeekday={effectiveWeekday} 
                       onSelectDate={(date) => handleDateSelect(date, month)} 
                     />
@@ -167,18 +152,18 @@ export default function AvailabilityDateSection({
         </div>
         
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
-          {selectedDates.length > 0 ? (
+          {uniqueSelectedDates.length > 0 ? (
             <>
               <h4 className="text-sm font-medium mb-2">Selected Availability:</h4>
               <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
-                {selectedDates.map(date => (
+                {uniqueSelectedDates.map(date => (
                   <div key={date} className="bg-fuchsia-800/40 text-white text-xs px-2 py-1 rounded flex items-center">
                     {date.includes("-") ? format(parseISO(date), "MMM dd, yyyy") : date}
                     <Button 
                       variant="ghost" 
                       size="sm" 
                       className="ml-1 h-4 w-4 p-0 text-white hover:bg-fuchsia-700/30" 
-                      onClick={() => onAvailabilityChange(selectedDates.filter(d => d !== date))}
+                      onClick={() => onAvailabilityChange(uniqueSelectedDates.filter(d => d !== date))}
                     >
                       ×
                     </Button>

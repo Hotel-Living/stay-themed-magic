@@ -70,15 +70,15 @@ export function HotelBookingSection({
   // Get the preferred weekday number
   const preferredWeekdayNum = weekdayMap[preferredWeekday] ?? 1; // Default to Monday
 
-  // Function to disable dates that don't match the preferred weekday
+  // Function to disable dates that should NOT be selectable
   const isDateDisabled = (date: Date) => {
-    // Hide dates in the past
+    // Disable dates in the past
     if (date < new Date()) return true;
     
-    // Hide dates that don't match the preferred weekday
+    // Disable dates that don't match the preferred weekday
     if (date.getDay() !== preferredWeekdayNum) return true;
     
-    // If available months are specified, check if the date's month is included
+    // If available months are specified, disable dates not in those months
     if (availableMonths && availableMonths.length > 0) {
       const monthName = format(date, 'MMMM').toLowerCase();
       if (!availableMonths.map(m => m.toLowerCase()).includes(monthName)) {

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -34,8 +33,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     coordinates: `${hotel.latitude}, ${hotel.longitude}`,
     rates: hotel.rates,
     roomTypes: hotel.room_types,
-    idealGuests: hotel.ideal_guests,
-    perfectLocation: hotel.perfect_location
+    idealGuests: hotel.idealGuests,
+    perfectLocation: hotel.perfectLocation
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -133,66 +132,85 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="relative z-10 max-w-5xl mx-auto p-6 rounded-2xl bg-[#761B98] text-white shadow-lg">
-          {/* Header */}
-          <div className="mb-6">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Enhanced gradient background with subtle animation */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#B3B3FF] via-[#9999FF] to-[#8080FF] animate-gradient-x"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-blue-300/10"></div>
+      
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        {/* Main content card with enhanced styling */}
+        <div className="max-w-5xl mx-auto">
+          {/* Header card */}
+          <div className="bg-gradient-to-r from-[#761B98] via-[#8B1FA3] to-[#761B98] rounded-t-2xl p-6 shadow-2xl border border-white/10">
             <HotelHeader 
               hotel={hotel} 
               handleAddToFavorites={handleAddToFavorites} 
             />
             
-            {/* Updated Image Gallery - now inside the container */}
-            <HotelImageGallery 
-              hotelImages={hotel.hotel_images || []} 
-              hotelName={hotel.name} 
-            />
+            {/* Image gallery with enhanced container */}
+            <div className="mt-6 rounded-xl overflow-hidden shadow-inner bg-black/20 backdrop-blur-sm border border-white/10">
+              <HotelImageGallery 
+                hotelImages={hotel.hotel_images || []} 
+                hotelName={hotel.name} 
+              />
+            </div>
 
-            {/* New AT A GLANCE section with proper spacing */}
-            <div className="mb-8 mt-8">
+            {/* AT A GLANCE section with premium card styling */}
+            <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">
               <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
               
-              {/* Dynamic property description line with lowercase property type */}
-              <p className="text-white mb-2">
-                This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
-              </p>
-              
-              {/* Rephrased lines using correct field mapping */}
-              <p className="text-white mb-2">
-                It's ideal for guests who enjoy {hotel.ideal_guests ? lowercase(hotel.ideal_guests) : "memorable experiences"}.
-              </p>
-              
-              <p className="text-white mb-2">
-                The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
-              </p>
-              
-              <p className="text-white mb-4">
-                Our location is perfect for {hotel.perfect_location ? lowercase(hotel.perfect_location) : "exploring the local area and attractions"}.
-              </p>
-              
-              {/* Vertical space and description */}
-              {hotel.description && (
-                <div className="mt-6">
+              {/* Content with subtle card backgrounds */}
+              <div className="space-y-3">
+                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
                   <p className="text-white">
-                    {hotel.description}
+                    This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
                   </p>
                 </div>
-              )}
+                
+                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                  <p className="text-white">
+                    It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
+                  </p>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                  <p className="text-white">
+                    The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
+                  </p>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                  <p className="text-white">
+                    Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
+                  </p>
+                </div>
+                
+                {/* Description with enhanced styling */}
+                {hotel.description && (
+                  <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm border border-white/20 shadow-inner">
+                    <p className="text-white leading-relaxed">
+                      {hotel.description}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Calendar + Price */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <div className="md:col-span-2">
-              {/* Features */}
-              <HotelFeaturesInfo
-                hotelFeatures={hotel.hotelFeatures || []}
-                roomFeatures={hotel.roomFeatures || []}
-              />
+          {/* Main content grid with enhanced cards */}
+          <div className="grid md:grid-cols-3 gap-6 mt-6">
+            {/* Left content area */}
+            <div className="md:col-span-2 space-y-6">
+              {/* Features card with enhanced styling */}
+              <div className="bg-gradient-to-br from-[#761B98] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
+                <HotelFeaturesInfo
+                  hotelFeatures={hotel.hotelFeatures || []}
+                  roomFeatures={hotel.roomFeatures || []}
+                />
+              </div>
               
-              {/* Map */}
-              <div className="mt-8">
+              {/* Location card with enhanced styling */}
+              <div className="bg-gradient-to-br from-[#761B98] via-[#6B1A87] to-[#5A1575] rounded-xl shadow-2xl border border-white/10 overflow-hidden">
                 <HotelLocation 
                   latitude={Number(hotel.latitude)} 
                   longitude={Number(hotel.longitude)} 
@@ -202,24 +220,34 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               </div>
             </div>
 
-            <HotelBookingSection 
-              checkInDate={checkInDate}
-              setCheckInDate={setCheckInDate}
-              selectedDuration={selectedDuration}
-              setSelectedDuration={setSelectedDuration}
-              stayDurations={stayDurations}
-              rates={preparedRates}
-              currency={hotel.currency || "USD"}
-              handleBookClick={handleBookClick}
-              preferredWeekday={checkInWeekday}
-              enablePriceIncrease={hotel.enablePriceIncrease}
-              priceIncreaseCap={hotel.priceIncreaseCap}
-              availableMonths={hotel.available_months}
-              pricingMatrix={pricingMatrix}
-            />
+            {/* Booking section with enhanced styling */}
+            <div className="bg-gradient-to-br from-[#761B98] via-[#8B1FA3] to-[#6B1A87] rounded-xl shadow-2xl border border-white/10 p-1">
+              <div className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 rounded-lg backdrop-blur-sm border border-white/10">
+                <HotelBookingSection 
+                  checkInDate={checkInDate}
+                  setCheckInDate={setCheckInDate}
+                  selectedDuration={selectedDuration}
+                  setSelectedDuration={setSelectedDuration}
+                  stayDurations={stayDurations}
+                  rates={preparedRates}
+                  currency={hotel.currency || "USD"}
+                  handleBookClick={handleBookClick}
+                  preferredWeekday={checkInWeekday}
+                  enablePriceIncrease={hotel.enablePriceIncrease}
+                  priceIncreaseCap={hotel.priceIncreaseCap}
+                  availableMonths={hotel.available_months}
+                  pricingMatrix={pricingMatrix}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* Subtle animated background elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-white/5 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-48 h-48 bg-purple-400/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-fuchsia-400/5 rounded-full blur-lg animate-pulse delay-500"></div>
     </div>
   );
 }

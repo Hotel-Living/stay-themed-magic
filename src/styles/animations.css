@@ -33,6 +33,12 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* New gradient animation for enhanced backgrounds */
+  .animate-gradient-x {
+    background-size: 400% 400%;
+    animation: gradient-x 15s ease infinite;
+  }
+
   /* CSS variable utility classes for shadcn/ui design pattern */
   .bg-background { background-color: hsl(var(--background)); }
   .bg-foreground { background-color: hsl(var(--foreground)); }
@@ -80,6 +86,16 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* New gradient animation keyframes */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
   

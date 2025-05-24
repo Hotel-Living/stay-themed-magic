@@ -74,13 +74,13 @@ export default function AvailabilityDateSection({
       const endDate = sortedDates[i + 1];
       
       let currentDate = new Date(startDate);
-      currentDate.setDate(currentDate.getDate() + 7); // Start from next week
       
-      while (isBefore(currentDate, endDate)) {
-        if (currentDate.getDay() === dayNum) {
+      // Move to next occurrence of the weekday
+      while (currentDate < endDate) {
+        currentDate.setDate(currentDate.getDate() + 7);
+        if (currentDate < endDate && currentDate.getDay() === dayNum) {
           result.add(format(currentDate, "yyyy-MM-dd"));
         }
-        currentDate.setDate(currentDate.getDate() + 7);
       }
     }
     

@@ -159,27 +159,27 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">
               <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
               
-              {/* Content with subtle card backgrounds */}
+              {/* Content with enhanced card backgrounds */}
               <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-white/10 to-white/8 backdrop-blur-sm border border-white/15 shadow-md">
                   <p className="text-white">
                     This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-white/10 to-white/8 backdrop-blur-sm border border-white/15 shadow-md">
                   <p className="text-white">
                     It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-white/10 to-white/8 backdrop-blur-sm border border-white/15 shadow-md">
                   <p className="text-white">
                     The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="p-3 rounded-lg bg-gradient-to-r from-white/10 to-white/8 backdrop-blur-sm border border-white/15 shadow-md">
                   <p className="text-white">
                     Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
                   </p>
@@ -187,7 +187,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                 
                 {/* Description with enhanced styling */}
                 {hotel.description && (
-                  <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm border border-white/20 shadow-inner">
+                  <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-white/12 to-white/8 backdrop-blur-sm border border-white/20 shadow-inner">
                     <p className="text-white leading-relaxed">
                       {hotel.description}
                     </p>

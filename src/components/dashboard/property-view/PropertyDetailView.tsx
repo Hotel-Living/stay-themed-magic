@@ -13,6 +13,7 @@ import { ContactInformation } from "./sections/ContactInformation";
 import { FaqSection } from "./sections/FaqSection";
 import { ImageGallery } from "./sections/ImageGallery";
 import { RoomTypesSection } from "./sections/RoomTypesSection";
+import { Card } from "@/components/ui/card";
 
 interface PropertyDetailViewProps {
   hotel: any;
@@ -57,6 +58,27 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
           <p className="mt-1 text-white/80">{hotel.rejection_reason}</p>
         </div>
       )}
+
+      {/* Pricing Section */}
+      {hotel.room_types && hotel.room_types.length > 0 && hotel.room_types.some((room: any) => room.rates && Object.keys(room.rates).length > 0) && (
+        <Card className="p-6 bg-[#5A0080] mb-8">
+          <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Pricing</h3>
+          {hotel.room_types.map((room: any, index: number) => {
+            if (!room.rates || Object.keys(room.rates).length === 0) return null;
+            
+            return (
+              <div key={index} className="mb-4 last:mb-0">
+                <h4 className="font-medium text-purple-300 mb-2">{room.name || `Room Type ${index + 1}`}</h4>
+                <p className="text-sm text-gray-400 mb-2">Duration: 32 days</p>
+                <p className="text-sm text-gray-400 mb-2">Meal Plan: half board</p>
+                {Object.entries(room.rates).map(([duration, price]) => (
+                  <p key={duration} className="text-2xl font-bold text-white">${String(price)}</p>
+                ))}
+              </div>
+            );
+          })}
+        </Card>
+      )}
       
       <div className="space-y-8">
         <ImageGallery hotel={hotel} />
@@ -65,7 +87,11 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         <AccommodationTerms hotel={hotel} />
         <RoomTypesSection hotel={hotel} />
         <FeaturesSection hotel={hotel} />
-        <ThemesActivities hotel={hotel} />
+        <div className="space-y-6">
+          <Card className="p-6 bg-[#5A0080]">
+            <ThemesActivities hotel={hotel} />
+          </Card>
+        </div>
         <ContactInformation hotel={hotel} />
         <FaqSection hotel={hotel} />
       </div>

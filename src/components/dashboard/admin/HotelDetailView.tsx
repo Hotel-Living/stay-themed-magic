@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -227,19 +228,19 @@ export default function HotelDetailView() {
             {(hotel.atmosphere || hotel.ideal_guests || hotel.perfect_location) && (
               <div className="space-y-4">
                 {hotel.atmosphere && (
-                  <Card className="p-4 bg-[#5C0869]">
+                  <Card className="p-4 bg-[#5A0080]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Atmosphere</h4>
                     <p className="text-gray-300">{hotel.atmosphere}</p>
                   </Card>
                 )}
                 {hotel.ideal_guests && (
-                  <Card className="p-4 bg-[#5C0869]">
+                  <Card className="p-4 bg-[#5A0080]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Ideal For</h4>
                     <p className="text-gray-300">{hotel.ideal_guests}</p>
                   </Card>
                 )}
                 {hotel.perfect_location && (
-                  <Card className="p-4 bg-[#5C0869]">
+                  <Card className="p-4 bg-[#5A0080]">
                     <h4 className="text-lg font-medium text-fuchsia-200 mb-2">Perfect Location</h4>
                     <p className="text-gray-300">{hotel.perfect_location}</p>
                   </Card>

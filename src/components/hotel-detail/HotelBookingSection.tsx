@@ -152,8 +152,10 @@ export function HotelBookingSection({
             key={d}
             onClick={() => setSelectedDuration(d)}
             className={cn(
-              "border-white",
-              selectedDuration === d && "bg-white text-fuchsia-900"
+              "border-white transition-colors",
+              selectedDuration === d 
+                ? "bg-[#8000B0] text-white hover:bg-[#5A0080]" 
+                : "bg-[#8000B0] text-white hover:bg-[#5A0080] border-[#8000B0]"
             )}
           >
             {d}

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -48,7 +49,7 @@ export function FilterSectionWrapper({
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div style={{
-        backgroundColor: "#a98805"
+        backgroundColor: "#996515"
       }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
           <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={{
           month: "MONTH?",
@@ -58,10 +59,10 @@ export function FilterSectionWrapper({
         }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFF8A9]" />
           
           <div className="flex justify-center" style={{
-          backgroundColor: "#a98805"
+          backgroundColor: "#996515"
         }}>
             <Button size="sm" onClick={handleSearch} style={{
-            backgroundColor: "#a98805"
+            backgroundColor: "#996515"
           }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
               <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>

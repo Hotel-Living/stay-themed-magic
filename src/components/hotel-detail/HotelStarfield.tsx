@@ -15,42 +15,45 @@ export function HotelStarfield() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Star properties for subtle, refined effect
-    const stars: {x: number; y: number; originalX: number; originalY: number; speed: number; size: number; maxSize: number; color: string; opacity: number; life: number; maxLife: number}[] = [];
-    const starCount = 40; // Much lower density for subtlety
+    // Star properties for visible, joyful effect
+    const stars: {x: number; y: number; originalX: number; originalY: number; speed: number; size: number; maxSize: number; color: string; opacity: number; life: number; maxLife: number; angle: number}[] = [];
+    const starCount = 60; // Increased for better visibility
     
-    // Soft, joyful star colors - very light and pastel
+    // Brighter, more vibrant star colors
     const starColors = [
-      '#FFF9E6', // Very soft cream-yellow
-      '#FFE4B5', // Soft pastel orange
-      '#E6E6FA', // Light lavender
-      '#F0F8FF', // Very light blue
-      '#FFF0F5', // Soft pink
-      '#F5FFFA', // Mint cream
-      '#FFFACD', // Light golden yellow
-      '#F8F8FF'  // Ghost white
+      '#FFD700', // Bright gold
+      '#FFB6C1', // Light pink
+      '#FFA500', // Orange
+      '#DDA0DD', // Plum
+      '#98FB98', // Pale green
+      '#87CEEB', // Sky blue
+      '#F0E68C', // Khaki
+      '#FFE4E1', // Misty rose
+      '#FFFFE0', // Light yellow
+      '#E6E6FA'  // Lavender
     ];
     
-    // Create stars starting from center with gentle outward movement
+    // Create stars starting from center
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     
     function createStar() {
       const angle = Math.random() * Math.PI * 2; // Random direction
-      const distance = Math.random() * 50; // Start close to center
+      const distance = Math.random() * 100; // Start near center
       
       return {
         originalX: centerX + Math.cos(angle) * distance,
         originalY: centerY + Math.sin(angle) * distance,
         x: centerX + Math.cos(angle) * distance,
         y: centerY + Math.sin(angle) * distance,
-        speed: 0.3 + Math.random() * 0.4, // Very slow movement
-        size: 0.5, // Start very small
-        maxSize: 1.5 + Math.random() * 1, // Small maximum size
+        speed: 0.8 + Math.random() * 1.2, // Visible movement speed
+        size: 0.5,
+        maxSize: 2 + Math.random() * 2, // Larger maximum size
         color: starColors[Math.floor(Math.random() * starColors.length)],
         opacity: 0,
         life: 0,
-        maxLife: 300 + Math.random() * 200 // Longer, gentle lifecycle
+        maxLife: 180 + Math.random() * 120, // Shorter lifecycle for more dynamic
+        angle: angle
       };
     }
     
@@ -59,14 +62,11 @@ export function HotelStarfield() {
       stars.push(createStar());
     }
     
-    let animationTime = 0;
-    
-    // Animation function for gentle outward drift
+    // Animation function
     function animate() {
       requestAnimationFrame(animate);
-      animationTime += 0.01;
       
-      // Clear canvas with transparency to show background
+      // Clear canvas
       context.clearRect(0, 0, canvas.width, canvas.height);
       
       // Update and draw each star
@@ -78,27 +78,26 @@ export function HotelStarfield() {
         
         // Calculate outward movement from center
         const progress = star.life / star.maxLife;
-        const angle = Math.atan2(star.originalY - centerY, star.originalX - centerX);
-        const maxDistance = Math.min(canvas.width, canvas.height) * 0.4;
+        const maxDistance = Math.min(canvas.width, canvas.height) * 0.6;
         const currentDistance = progress * maxDistance * star.speed;
         
-        star.x = centerX + Math.cos(angle) * currentDistance;
-        star.y = centerY + Math.sin(angle) * currentDistance;
+        star.x = centerX + Math.cos(star.angle) * currentDistance;
+        star.y = centerY + Math.sin(star.angle) * currentDistance;
         
-        // Gentle size growth and fade
-        if (progress < 0.3) {
-          // Growing phase
-          star.size = (progress / 0.3) * star.maxSize;
-          star.opacity = (progress / 0.3) * 0.6;
-        } else if (progress < 0.7) {
-          // Stable phase
+        // Enhanced size growth and fade with better visibility
+        if (progress < 0.2) {
+          // Growing phase - faster growth
+          star.size = (progress / 0.2) * star.maxSize;
+          star.opacity = (progress / 0.2) * 0.9; // Higher opacity
+        } else if (progress < 0.8) {
+          // Stable phase - fully visible
           star.size = star.maxSize;
-          star.opacity = 0.6;
+          star.opacity = 0.9;
         } else {
           // Fading phase
-          const fadeProgress = (progress - 0.7) / 0.3;
-          star.size = star.maxSize * (1 - fadeProgress * 0.3);
-          star.opacity = 0.6 * (1 - fadeProgress);
+          const fadeProgress = (progress - 0.8) / 0.2;
+          star.size = star.maxSize * (1 - fadeProgress * 0.5);
+          star.opacity = 0.9 * (1 - fadeProgress);
         }
         
         // Reset star when lifecycle is complete
@@ -108,28 +107,34 @@ export function HotelStarfield() {
           continue;
         }
         
-        // Draw star with soft glow
+        // Draw star with enhanced visibility
         if (star.opacity > 0 && star.size > 0) {
           context.save();
-          context.globalAlpha = star.opacity;
           
-          // Very subtle glow
+          // Main star body with stronger glow
+          context.globalAlpha = star.opacity;
           context.shadowColor = star.color;
-          context.shadowBlur = star.size * 3;
+          context.shadowBlur = star.size * 4;
           context.fillStyle = star.color;
           
-          // Draw the star as a soft circle
+          // Draw the main star
           context.beginPath();
           context.arc(star.x, star.y, star.size, 0, Math.PI * 2);
           context.fill();
           
-          // Add gentle twinkle with center highlight
+          // Add bright center highlight
           context.shadowBlur = 0;
           context.fillStyle = '#FFFFFF';
-          context.globalAlpha = star.opacity * 0.5;
+          context.globalAlpha = star.opacity * 0.8;
           context.beginPath();
-          context.arc(star.x, star.y, star.size * 0.3, 0, Math.PI * 2);
+          context.arc(star.x, star.y, star.size * 0.4, 0, Math.PI * 2);
           context.fill();
+          
+          // Add sparkle effect for extra visibility
+          context.globalAlpha = star.opacity * 0.6;
+          context.fillStyle = star.color;
+          context.fillRect(star.x - star.size * 0.8, star.y - star.size * 0.1, star.size * 1.6, star.size * 0.2);
+          context.fillRect(star.x - star.size * 0.1, star.y - star.size * 0.8, star.size * 0.2, star.size * 1.6);
           
           context.restore();
         }
@@ -154,8 +159,8 @@ export function HotelStarfield() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[1] pointer-events-none"
-      style={{ mixBlendMode: 'screen' }}
+      className="fixed inset-0 z-[2] pointer-events-none"
+      style={{ mixBlendMode: 'normal' }}
     />
   );
 }

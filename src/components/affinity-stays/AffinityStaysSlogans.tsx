@@ -1,3 +1,4 @@
+
 export function AffinityStaysSlogans() {
   return <>
       {/* Main header and quote section */}
@@ -23,14 +24,23 @@ export function AffinityStaysSlogans() {
           <p className="text-right text-white mt-2 mr-12 text-base font-bold">Howard Schultz</p>
         </div>
         
-        {/* Slogans - increased space between quote and slogans by 50% and 20% between slogans */}
-        <div className="space-y-5 py-4 mt-12 mb-8">
-          {/* Enhanced glow effect by 20% on all slogans */}
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced mx-0 my-[22px] font-extrabold py-[8px]">Not just a stay. A shared world</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold py-[8px]">Meet. Share. Belong</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold py-[8px]">Stay with those who get you</p>
-          <p className="text-xl text-center text-yellow-300 animate-pulse-glow-enhanced font-extrabold px-[63px] py-[8px]">Tired of random? Choose your people</p>
-          <p className="text-center text-yellow-300 animate-pulse-glow-enhanced text-xl font-extrabold mx-0 px-[38px] py-[8px]">Stay, and connect through what you love</p>
+        {/* Slogans - updated to match FAQ page styling */}
+        <div className="space-y-5 py-4 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center">
+          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+            <p className="text-[#8017B0] text-xl font-bold">Not just a stay. A shared world</p>
+          </div>
+          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+            <p className="text-[#8017B0] text-xl font-bold">Meet. Share. Belong</p>
+          </div>
+          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+            <p className="text-[#8017B0] text-xl font-bold">Stay with those who get you</p>
+          </div>
+          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+            <p className="text-[#8017B0] text-xl font-bold">Tired of random? Choose your people</p>
+          </div>
+          <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
+            <p className="text-[#8017B0] text-xl font-bold">Stay, and connect through what you love</p>
+          </div>
         </div>
       </div>
     </>;

@@ -125,25 +125,10 @@ export default function AvailabilityDateSection({
       const filledDates = fillDateRange(newSelectedDates);
       onAvailabilityChange(filledDates);
     } else {
-      // Add this specific date (limit to 2 per month)
-      const monthDate = new Date(month + " 01");
-      const dayNum = weekdayMap[effectiveWeekday];
-      const datesInMonth = cleanDates.filter(d => {
-        try {
-          const selectedDate = parseISO(d);
-          return selectedDate.getMonth() === monthDate.getMonth() && 
-                 selectedDate.getFullYear() === monthDate.getFullYear() && 
-                 selectedDate.getDay() === dayNum;
-        } catch {
-          return false;
-        }
-      });
-      
-      if (datesInMonth.length < 2) {
-        const newSelectedDates = [...cleanDates, dateString];
-        const filledDates = fillDateRange(newSelectedDates);
-        onAvailabilityChange(filledDates);
-      }
+      // Add this specific date - no limit on number of dates per month
+      const newSelectedDates = [...cleanDates, dateString];
+      const filledDates = fillDateRange(newSelectedDates);
+      onAvailabilityChange(filledDates);
     }
   };
 

@@ -33,7 +33,7 @@ interface HotelBookingSectionProps {
   }>;
   selectedRoomType?: string;
   selectedMealPlan?: string;
-  availableMonths?: string[]; // Added missing prop
+  availableMonths?: string[];
 }
 
 export function HotelBookingSection({ 
@@ -53,9 +53,42 @@ export function HotelBookingSection({
   pricingMatrix = [],
   selectedRoomType = "Standard",
   selectedMealPlan = "Breakfast only",
-  availableMonths = [] // Added missing prop with default
+  availableMonths = []
 }: HotelBookingSectionProps) {
   
+  // Map weekday names to numbers (0 = Sunday, 1 = Monday, etc.)
+  const weekdayMap: Record<string, number> = {
+    "Sunday": 0,
+    "Monday": 1,
+    "Tuesday": 2,
+    "Wednesday": 3,
+    "Thursday": 4,
+    "Friday": 5,
+    "Saturday": 6,
+  };
+
+  // Get the preferred weekday number
+  const preferredWeekdayNum = weekdayMap[preferredWeekday] ?? 1; // Default to Monday
+
+  // Function to disable dates that don't match the preferred weekday
+  const isDateDisabled = (date: Date) => {
+    // Hide dates in the past
+    if (date < new Date()) return true;
+    
+    // Hide dates that don't match the preferred weekday
+    if (date.getDay() !== preferredWeekdayNum) return true;
+    
+    // If available months are specified, check if the date's month is included
+    if (availableMonths && availableMonths.length > 0) {
+      const monthName = format(date, 'MMMM').toLowerCase();
+      if (!availableMonths.map(m => m.toLowerCase()).includes(monthName)) {
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
   // Calculate check-out date based on check-in and duration
   const calculateCheckoutDate = () => {
     if (!checkInDate) return "";
@@ -108,7 +141,7 @@ export function HotelBookingSection({
         className="mb-4" 
         selected={checkInDate}
         onSelect={setCheckInDate}
-        disabled={(date) => date < new Date()}
+        disabled={isDateDisabled}
       />
 
       <h2 className="text-lg font-semibold mb-2 text-white">Stay duration</h2>

@@ -151,6 +151,11 @@ export function HotelBookingSection({
     
     return formatCurrency(finalPrice, currency);
   };
+
+  // Determine the stay duration label based on whether a date is selected
+  const getStayDurationLabel = () => {
+    return checkInDate ? "Stay duration?" : "Stay duration";
+  };
   
   return (
     <div className="bg-fuchsia-950/30 rounded-xl p-4 shadow">
@@ -165,7 +170,7 @@ export function HotelBookingSection({
         disabled={isDateDisabled}
       />
 
-      <h2 className="text-lg font-semibold mb-2 text-white">Stay duration</h2>
+      <h2 className="text-lg font-semibold mb-2 text-white">{getStayDurationLabel()}</h2>
       <div className="flex flex-wrap gap-2 mb-2">
         {stayDurations.map((d) => (
           <Button 

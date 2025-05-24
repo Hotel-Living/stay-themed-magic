@@ -17,7 +17,7 @@ export function HotelStarfield() {
     
     // Star properties for visible, joyful effect
     const stars: {x: number; y: number; originalX: number; originalY: number; speed: number; size: number; maxSize: number; color: string; opacity: number; life: number; maxLife: number; angle: number}[] = [];
-    const starCount = 60; // Increased for better visibility
+    const starCount = 100; // Increased significantly for better visibility
     
     // Silver and gold star colors only
     const starColors = [
@@ -37,20 +37,20 @@ export function HotelStarfield() {
     
     function createStar() {
       const angle = Math.random() * Math.PI * 2; // Random direction
-      const distance = Math.random() * 100; // Start near center
+      const distance = Math.random() * 50; // Start very close to center
       
       return {
         originalX: centerX + Math.cos(angle) * distance,
         originalY: centerY + Math.sin(angle) * distance,
         x: centerX + Math.cos(angle) * distance,
         y: centerY + Math.sin(angle) * distance,
-        speed: (0.8 + Math.random() * 1.2) * 0.7, // Reduced speed by 30%
+        speed: (0.8 + Math.random() * 1.2) * 0.7 * 0.7, // Additional 30% slower from current version
         size: 0.5,
         maxSize: 2 + Math.random() * 2, // Larger maximum size
         color: starColors[Math.floor(Math.random() * starColors.length)],
         opacity: 0,
         life: 0,
-        maxLife: (180 + Math.random() * 120) * 1.43, // Increased lifecycle proportionally for 30% slower speed
+        maxLife: (180 + Math.random() * 120) * 1.43 * 1.43, // Increased lifecycle proportionally for additional 30% slower speed
         angle: angle
       };
     }
@@ -76,7 +76,7 @@ export function HotelStarfield() {
         
         // Calculate outward movement from center
         const progress = star.life / star.maxLife;
-        const maxDistance = Math.min(canvas.width, canvas.height) * 0.6;
+        const maxDistance = Math.min(canvas.width, canvas.height) * 0.7;
         const currentDistance = progress * maxDistance * star.speed;
         
         star.x = centerX + Math.cos(star.angle) * currentDistance;

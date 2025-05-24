@@ -45,7 +45,7 @@ export function RoomTypesSection({ hotel }: RoomTypesSectionProps) {
                           key={duration} 
                           className="px-2 py-1 bg-fuchsia-900/50 rounded text-xs text-white"
                         >
-                          {duration}: ${price}
+                          {duration}: ${String(price)}
                         </span>
                       ))}
                     </div>

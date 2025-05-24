@@ -186,9 +186,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   </p>
                 </div>
                 
-                {/* Description with enhanced styling */}
+                {/* Description with enhanced styling - NOW WITH SAME ANIMATED BACKGROUND */}
                 {hotel.description && (
-                  <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-white/12 to-white/8 backdrop-blur-sm border border-white/20 shadow-inner">
+                  <div className="p-3 rounded-lg bg-gradient-to-r from-[#4FC3F7]/40 via-[#81C7FF]/30 to-purple-600/20 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '300% 100%', animationDuration: '8s', animationDelay: '1.6s' }}>
                     <p className="text-white leading-relaxed">
                       {hotel.description}
                     </p>

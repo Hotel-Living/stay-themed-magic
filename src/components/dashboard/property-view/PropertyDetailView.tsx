@@ -87,11 +87,9 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         <AccommodationTerms hotel={hotel} />
         <RoomTypesSection hotel={hotel} />
         <FeaturesSection hotel={hotel} />
-        <div className="space-y-6">
-          <Card className="p-6 bg-[#5A0080]">
-            <ThemesActivities hotel={hotel} />
-          </Card>
-        </div>
+        <Card className="p-6 bg-[#5A0080]">
+          <ThemesActivities hotel={hotel} />
+        </Card>
         <ContactInformation hotel={hotel} />
         <FaqSection hotel={hotel} />
       </div>

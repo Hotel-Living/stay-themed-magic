@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Card } from "@/components/ui/card";
 import { Tag, Activity } from "lucide-react";
 
 interface ThemesActivitiesProps {
@@ -25,7 +24,7 @@ export function ThemesActivities({ hotel }: ThemesActivitiesProps) {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 bg-[#5A0080]">
+      <div>
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
           <Tag className="w-5 h-5 text-purple-400" />
           Affinities
@@ -49,9 +48,9 @@ export function ThemesActivities({ hotel }: ThemesActivitiesProps) {
         ) : (
           <p className="text-gray-400">No affinities associated with this hotel.</p>
         )}
-      </Card>
+      </div>
 
-      <Card className="p-6 bg-[#5A0080]">
+      <div>
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700 flex items-center gap-2">
           <Activity className="w-5 h-5 text-purple-400" />
           Activities
@@ -77,7 +76,7 @@ export function ThemesActivities({ hotel }: ThemesActivitiesProps) {
         ) : (
           <p className="text-gray-400">No activities associated with this hotel.</p>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

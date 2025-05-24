@@ -118,7 +118,7 @@ export function HotelBookingSection({
     }
   }, [stayDurations, selectedDuration, setSelectedDuration]);
 
-  // Calculate the dynamic price - FIXED LOGIC
+  // Enhanced price retrieval logic to handle complex rate keys
   const getDisplayPrice = () => {
     console.log("Getting display price for duration:", selectedDuration);
     console.log("Available rates:", rates);
@@ -142,10 +142,10 @@ export function HotelBookingSection({
       }
     }
     
-    // If no pricing matrix entry, check rates object
+    // If no pricing matrix entry, check rates object with enhanced logic
     if (!basePrice && rates) {
-      // Try different key formats for the duration
-      const possibleKeys = [
+      // First try simple duration keys
+      const simplePossibleKeys = [
         selectedDuration.toString(),
         selectedDuration,
         `${selectedDuration}`,
@@ -153,11 +153,45 @@ export function HotelBookingSection({
         `${selectedDuration}_days`
       ];
       
-      for (const key of possibleKeys) {
+      for (const key of simplePossibleKeys) {
         if (rates[key] && rates[key] > 0) {
           basePrice = rates[key];
-          console.log(`Found price in rates with key "${key}":`, basePrice);
+          console.log(`Found price in rates with simple key "${key}":`, basePrice);
           break;
+        }
+      }
+      
+      // If still no price found, try to parse complex keys that include duration
+      if (!basePrice) {
+        console.log("Trying to parse complex rate keys...");
+        
+        // Look for keys that contain the duration in the format "X days"
+        const durationPattern = `${selectedDuration} days`;
+        
+        for (const [key, value] of Object.entries(rates)) {
+          if (key.includes(durationPattern) && value > 0) {
+            // Convert string values to numbers if needed
+            const priceValue = typeof value === 'string' ? parseFloat(value) : value;
+            if (!isNaN(priceValue) && priceValue > 0) {
+              basePrice = priceValue;
+              console.log(`Found price in complex rate key "${key}":`, basePrice);
+              break;
+            }
+          }
+        }
+        
+        // If still no exact match, try any key that contains the duration number
+        if (!basePrice) {
+          for (const [key, value] of Object.entries(rates)) {
+            if (key.includes(selectedDuration.toString()) && value > 0) {
+              const priceValue = typeof value === 'string' ? parseFloat(value) : value;
+              if (!isNaN(priceValue) && priceValue > 0) {
+                basePrice = priceValue;
+                console.log(`Found price in duration-containing key "${key}":`, basePrice);
+                break;
+              }
+            }
+          }
         }
       }
     }

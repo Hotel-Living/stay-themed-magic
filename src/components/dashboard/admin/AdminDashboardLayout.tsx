@@ -1,4 +1,5 @@
 
+
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search } from "lucide-react";
@@ -85,7 +86,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside className="lg:col-span-1">
               <div className="glass-card rounded-2xl overflow-hidden mb-8 sticky top-24">
-                <nav className="p-2 bg-[#5c0869]">
+                <nav className="p-2 bg-[#7a0486]">
                   {adminTabs.map(tab => (
                     <button
                       key={tab.id}
@@ -97,8 +98,8 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                         (tab.id === "pending" && location.pathname === "/admin") ||
                         (tab.id === "all" && location.pathname.includes("/admin/hotels")) ||
                         (tab.id !== "pending" && tab.id !== "all" && location.pathname === `/admin/${tab.id}`)
-                          ? "bg-[#7A0486]/50"
-                          : "hover:bg-[#7A0486]/30"
+                          ? "bg-[#5A1876]/50"
+                          : "hover:bg-[#5A1876]/30"
                       )}
                     >
                       {tab.icon}
@@ -112,7 +113,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                   
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-[#7A0486]/30 transition-colors"
+                    className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-[#5A1876]/30 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />
                     Log Out
@@ -120,9 +121,9 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                 </nav>
               </div>
               
-              <div className="glass-card rounded-2xl p-5 bg-[#5c0869]">
+              <div className="glass-card rounded-2xl p-5 bg-[#7a0486]">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-[#7A0486]/20 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
                   </div>
                   <h3 className="font-bold text-white">Need Help?</h3>
@@ -130,7 +131,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                 <p className="text-sm text-white/80 mb-4">
                   Contact support if you need assistance with admin functions.
                 </p>
-                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-[#770477] hover:bg-[#8A058A]">
+                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-[#5A1876] hover:bg-[#6B1F8A]">
                   Contact Support
                 </button>
               </div>
@@ -147,3 +148,4 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
     </div>
   );
 }
+

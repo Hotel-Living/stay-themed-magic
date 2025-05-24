@@ -15,86 +15,90 @@ export function HotelStarfield() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Star properties for a joyful, optimistic effect
-    const stars: {x: number; y: number; z: number; radius: number; color: string; twinkleSpeed: number; twinklePhase: number}[] = [];
-    const starCount = 300; // More stars for a richer effect
-    const maxDepth = 800;
-    const speed = 0.3; // Gentle movement
+    // Star properties for vivid, joyful rain effect
+    const stars: {x: number; y: number; speed: number; size: number; color: string; opacity: number; twinkle: number}[] = [];
+    const starCount = 150; // More stars for better visibility
     
-    // Bright, optimistic star colors
+    // Vibrant, joyful star colors
     const starColors = [
-      'rgba(255, 255, 255, 0.9)', // Bright white
-      'rgba(255, 248, 220, 0.8)', // Warm white
-      'rgba(173, 216, 230, 0.7)', // Light blue
-      'rgba(255, 250, 205, 0.8)', // Light golden
-      'rgba(230, 230, 250, 0.7)', // Lavender
-      'rgba(240, 248, 255, 0.8)', // Alice blue
+      '#FFD700', // Bright gold
+      '#FF69B4', // Hot pink
+      '#FF6347', // Tomato/coral
+      '#98FB98', // Pale green
+      '#87CEEB', // Sky blue
+      '#DDA0DD', // Plum/lavender
+      '#F0E68C', // Khaki/light yellow
+      '#FFA07A', // Light salmon
+      '#20B2AA', // Light sea green
+      '#FF1493', // Deep pink
+      '#00CED1', // Dark turquoise
+      '#FFB6C1'  // Light pink
     ];
     
-    // Generate random stars with twinkle properties
+    // Initialize stars with random positions and properties
     for (let i = 0; i < starCount; i++) {
       stars.push({
-        x: Math.random() * canvas.width - canvas.width / 2,
-        y: Math.random() * canvas.height - canvas.height / 2,
-        z: Math.random() * maxDepth,
-        radius: 0.5 + Math.random() * 1.5,
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height, // Start above screen
+        speed: 1 + Math.random() * 3, // Varying fall speeds
+        size: 2 + Math.random() * 4, // Larger, more visible sizes
         color: starColors[Math.floor(Math.random() * starColors.length)],
-        twinkleSpeed: 0.02 + Math.random() * 0.03, // Gentle twinkling
-        twinklePhase: Math.random() * Math.PI * 2
+        opacity: 0.7 + Math.random() * 0.3, // Good visibility
+        twinkle: Math.random() * Math.PI * 2
       });
     }
     
-    let time = 0;
+    let animationTime = 0;
     
-    // Animation function
+    // Animation function for rain of stars
     function animate() {
       requestAnimationFrame(animate);
-      time += 0.016; // Roughly 60fps
+      animationTime += 0.02;
       
       // Clear canvas with transparency to show background
       context.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Update and draw stars
+      // Update and draw each star
       for (let i = 0; i < starCount; i++) {
         const star = stars[i];
         
-        // Gentle forward movement
-        star.z -= speed;
+        // Move star downward
+        star.y += star.speed;
         
-        // Reset star to far distance if it gets too close
-        if (star.z <= 0) {
-          star.z = maxDepth;
-          star.x = Math.random() * canvas.width - canvas.width / 2;
-          star.y = Math.random() * canvas.height - canvas.height / 2;
+        // Reset star to top when it falls off screen
+        if (star.y > canvas.height + 10) {
+          star.y = -10;
+          star.x = Math.random() * canvas.width;
           star.color = starColors[Math.floor(Math.random() * starColors.length)];
         }
         
-        // Calculate star position with perspective
-        const depth = star.z / maxDepth;
-        const screenX = (star.x / depth) + canvas.width / 2;
-        const screenY = (star.y / depth) + canvas.height / 2;
+        // Calculate twinkling effect
+        const twinkleIntensity = 0.3 + 0.7 * (Math.sin(animationTime * 3 + star.twinkle) + 1) / 2;
+        const currentOpacity = star.opacity * twinkleIntensity;
         
-        // Calculate star size based on depth
-        const size = Math.max(0.3, (1 - depth) * star.radius);
+        // Draw star with vibrant colors and glow effect
+        context.save();
+        context.globalAlpha = currentOpacity;
         
-        // Calculate twinkle effect
-        const twinkleIntensity = 0.5 + 0.5 * Math.sin(time * star.twinkleSpeed + star.twinklePhase);
+        // Create glow effect
+        context.shadowColor = star.color;
+        context.shadowBlur = star.size * 2;
+        context.fillStyle = star.color;
         
-        // Extract base color and apply twinkle
-        const baseOpacity = parseFloat(star.color.match(/[\d.]+(?=\))/)?.[0] || '0.8');
-        const finalOpacity = baseOpacity * twinkleIntensity;
-        const twinkleColor = star.color.replace(/[\d.]+(?=\))/, finalOpacity.toString());
-        
-        // Draw star with glow effect for extra sparkle
-        context.fillStyle = twinkleColor;
-        context.shadowColor = twinkleColor;
-        context.shadowBlur = size * 2;
+        // Draw the star as a circle
         context.beginPath();
-        context.arc(screenX, screenY, size, 0, Math.PI * 2);
+        context.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         context.fill();
         
-        // Reset shadow for next star
+        // Add extra sparkle with a smaller bright center
         context.shadowBlur = 0;
+        context.fillStyle = '#FFFFFF';
+        context.globalAlpha = currentOpacity * 0.8;
+        context.beginPath();
+        context.arc(star.x, star.y, star.size * 0.4, 0, Math.PI * 2);
+        context.fill();
+        
+        context.restore();
       }
     }
     
@@ -104,6 +108,13 @@ export function HotelStarfield() {
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      
+      // Redistribute stars across new canvas size
+      stars.forEach(star => {
+        if (star.x > canvas.width) {
+          star.x = Math.random() * canvas.width;
+        }
+      });
     };
     
     window.addEventListener('resize', handleResize);

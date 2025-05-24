@@ -89,13 +89,34 @@ export function HotelBookingSection({
     return false;
   };
 
-  // Calculate check-out date based on check-in and duration
+  // Calculate check-out date ensuring it falls on the correct weekday
   const calculateCheckoutDate = () => {
     if (!checkInDate) return "";
+    
+    // Start with the check-in date and add the duration
     const checkoutDate = new Date(checkInDate);
-    checkoutDate.setDate(checkoutDate.getDate() + (selectedDuration || 8));
+    checkoutDate.setDate(checkoutDate.getDate() + selectedDuration);
+    
+    // Ensure the checkout date is on the same weekday as check-in
+    const daysDifference = checkoutDate.getDay() - checkInDate.getDay();
+    if (daysDifference !== 0) {
+      // Adjust to the next occurrence of the preferred weekday
+      let daysToAdd = preferredWeekdayNum - checkoutDate.getDay();
+      if (daysToAdd <= 0) {
+        daysToAdd += 7; // Move to next week if needed
+      }
+      checkoutDate.setDate(checkoutDate.getDate() + daysToAdd);
+    }
+    
     return format(checkoutDate, "MM/dd/yyyy");
   };
+
+  // Auto-select duration if only one option available
+  React.useEffect(() => {
+    if (stayDurations.length === 1 && selectedDuration !== stayDurations[0]) {
+      setSelectedDuration(stayDurations[0]);
+    }
+  }, [stayDurations, selectedDuration, setSelectedDuration]);
 
   // Calculate the dynamic price
   const getDisplayPrice = () => {

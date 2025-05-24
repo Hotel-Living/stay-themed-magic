@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -6,11 +7,13 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { format, addMonths, parseISO } from "date-fns";
 import CustomCalendarSingleWeekday from "./CustomCalendarSingleWeekday";
 import { weekdayMap, getAvailableDatesForMonth } from "./availabilityDateUtils";
+
 interface AvailabilityDateSectionProps {
   preferredWeekday: string;
   onAvailabilityChange: (dates: string[]) => void;
   selectedDates: string[];
 }
+
 export default function AvailabilityDateSection({
   preferredWeekday = "Monday",
   onAvailabilityChange,
@@ -18,11 +21,13 @@ export default function AvailabilityDateSection({
 }: AvailabilityDateSectionProps) {
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
   const [effectiveWeekday, setEffectiveWeekday] = useState<string>(preferredWeekday);
+  const [selectedMonths, setSelectedMonths] = useState<Set<string>>(new Set());
 
   // Update effective weekday when prop changes
   useEffect(() => {
     setEffectiveWeekday(preferredWeekday);
   }, [preferredWeekday]);
+
   const currentDate = new Date();
   const months = Array.from({
     length: 12
@@ -30,52 +35,94 @@ export default function AvailabilityDateSection({
     const date = addMonths(currentDate, i);
     return format(date, "MMMM yyyy");
   });
+
   const toggleMonth = (month: string) => {
     setExpandedMonths(prev => ({
       ...prev,
       [month]: !prev[month]
     }));
   };
+
   const handleMonthSelection = (month: string) => {
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
+    
+    // Check if this month is currently selected (has all its dates)
     const hasAll = availableDates.every(d => selectedDates.includes(d));
+    
     if (hasAll) {
-      onAvailabilityChange(selectedDates.filter(date => !availableDates.includes(date)));
+      // Remove all dates from this month
+      const newSelectedDates = selectedDates.filter(date => !availableDates.includes(date));
+      setSelectedMonths(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(month);
+        return newSet;
+      });
+      onAvailabilityChange(newSelectedDates);
     } else {
-      onAvailabilityChange(Array.from(new Set([...selectedDates, ...availableDates])));
+      // Add all dates from this month
+      const newSelectedDates = Array.from(new Set([...selectedDates, ...availableDates]));
+      setSelectedMonths(prev => new Set([...prev, month]));
+      onAvailabilityChange(newSelectedDates);
     }
   };
+
   const handleDateSelect = (date: Date | undefined, month: string) => {
     if (!date) return;
     const dateString = format(date, "yyyy-MM-dd");
-    const monthDate = new Date(month + " 01");
-    const dayNum = weekdayMap[effectiveWeekday];
-    const datesInMonth = selectedDates.map(d => {
-      try {
-        return parseISO(d);
-      } catch {
-        return null;
-      }
-    }).filter(d => d && d.getMonth() === monthDate.getMonth() && d.getFullYear() === monthDate.getFullYear() && d.getDay() === dayNum).map(d => format(d as Date, "yyyy-MM-dd"));
+    
     if (selectedDates.includes(dateString)) {
-      onAvailabilityChange(selectedDates.filter(d => d !== dateString));
+      // Remove this specific date
+      const newSelectedDates = selectedDates.filter(d => d !== dateString);
+      
+      // Check if month should be unselected
+      const monthDate = new Date(month + " 01");
+      const dayNum = weekdayMap[effectiveWeekday];
+      const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
+      const remainingDatesInMonth = newSelectedDates.filter(d => availableDates.includes(d));
+      
+      if (remainingDatesInMonth.length === 0) {
+        setSelectedMonths(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(month);
+          return newSet;
+        });
+      }
+      
+      onAvailabilityChange(newSelectedDates);
     } else {
+      // Add this specific date (limit to 2 per month)
+      const monthDate = new Date(month + " 01");
+      const dayNum = weekdayMap[effectiveWeekday];
+      const datesInMonth = selectedDates.map(d => {
+        try {
+          return parseISO(d);
+        } catch {
+          return null;
+        }
+      }).filter(d => 
+        d && 
+        d.getMonth() === monthDate.getMonth() && 
+        d.getFullYear() === monthDate.getFullYear() && 
+        d.getDay() === dayNum
+      ).map(d => format(d as Date, "yyyy-MM-dd"));
+      
       if (datesInMonth.length < 2) {
-        onAvailabilityChange([...selectedDates, dateString]);
+        const newSelectedDates = [...selectedDates, dateString];
+        onAvailabilityChange(newSelectedDates);
       }
     }
   };
+
   const isMonthSelected = (month: string) => {
-    const monthDate = new Date(month + " 01");
-    const dayNum = weekdayMap[effectiveWeekday];
-    const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
-    return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
+    return selectedMonths.has(month);
   };
+
   const preferredDayNum = weekdayMap[effectiveWeekday];
-  return <div className="grid grid-cols-4 items-start gap-4">
-      
+
+  return (
+    <div className="grid grid-cols-4 items-start gap-4">
       <div className="col-span-3 grid grid-cols-2 gap-4">
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
           <p className="text-sm mb-3">
@@ -83,36 +130,67 @@ export default function AvailabilityDateSection({
           </p>
           <div className="space-y-2">
             {months.map((month, idx) => {
-            const monthDate = addMonths(currentDate, idx);
-            return <Collapsible key={month} open={expandedMonths[month]} onOpenChange={() => toggleMonth(month)} className="border border-fuchsia-800/30 rounded-md overflow-hidden">
+              const monthDate = addMonths(currentDate, idx);
+              return (
+                <Collapsible 
+                  key={month} 
+                  open={expandedMonths[month]} 
+                  onOpenChange={() => toggleMonth(month)} 
+                  className="border border-fuchsia-800/30 rounded-md overflow-hidden"
+                >
                   <CollapsibleTrigger className="flex items-center justify-between w-full p-3 text-left bg-fuchsia-900/30 hover:bg-fuchsia-900/50">
                     <div className="flex items-center">
-                      <input type="checkbox" checked={isMonthSelected(month)} onChange={() => handleMonthSelection(month)} onClick={e => e.stopPropagation()} className="mr-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" />
+                      <input 
+                        type="checkbox" 
+                        checked={isMonthSelected(month)} 
+                        onChange={() => handleMonthSelection(month)} 
+                        onClick={(e) => e.stopPropagation()}
+                        className="mr-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50" 
+                      />
                       <span className="text-sm">{month}</span>
                     </div>
                     {expandedMonths[month] ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                   </CollapsibleTrigger>
                   <CollapsibleContent className="px-3 py-2">
-                    <CustomCalendarSingleWeekday month={monthDate} preferredDayNum={preferredDayNum} selected={selectedDates} preferredWeekday={effectiveWeekday} onSelectDate={date => handleDateSelect(date, month)} />
+                    <CustomCalendarSingleWeekday 
+                      month={monthDate} 
+                      preferredDayNum={preferredDayNum} 
+                      selected={selectedDates} 
+                      preferredWeekday={effectiveWeekday} 
+                      onSelectDate={(date) => handleDateSelect(date, month)} 
+                    />
                   </CollapsibleContent>
-                </Collapsible>;
-          })}
+                </Collapsible>
+              );
+            })}
           </div>
         </div>
         
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
-          {selectedDates.length > 0 ? <>
+          {selectedDates.length > 0 ? (
+            <>
               <h4 className="text-sm font-medium mb-2">Selected Availability:</h4>
-              <div className="flex flex-wrap gap-2">
-                {selectedDates.map(date => <div key={date} className="bg-fuchsia-800/40 text-white text-xs px-2 py-1 rounded flex items-center">
+              <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
+                {selectedDates.map(date => (
+                  <div key={date} className="bg-fuchsia-800/40 text-white text-xs px-2 py-1 rounded flex items-center">
                     {date.includes("-") ? format(parseISO(date), "MMM dd, yyyy") : date}
-                    <Button variant="ghost" size="sm" className="ml-1 h-4 w-4 p-0 text-white hover:bg-fuchsia-700/30" onClick={() => onAvailabilityChange(selectedDates.filter(d => d !== date))}>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="ml-1 h-4 w-4 p-0 text-white hover:bg-fuchsia-700/30" 
+                      onClick={() => onAvailabilityChange(selectedDates.filter(d => d !== date))}
+                    >
                       ×
                     </Button>
-                  </div>)}
+                  </div>
+                ))}
               </div>
-            </> : <p className="text-sm text-center italic text-fuchsia-300">No dates selected yet</p>}
+            </>
+          ) : (
+            <p className="text-sm text-center italic text-fuchsia-300">No dates selected yet</p>
+          )}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }

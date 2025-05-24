@@ -118,17 +118,13 @@ export function HotelBookingSection({
     }
   }, [stayDurations, selectedDuration, setSelectedDuration]);
 
-  // Enhanced price retrieval logic to handle complex rate keys
-  const getDisplayPrice = () => {
-    console.log("Getting display price for duration:", selectedDuration);
-    console.log("Available rates:", rates);
-    console.log("Pricing matrix:", pricingMatrix);
-    
+  // Helper function to get price for a specific duration
+  const getPriceForDuration = (duration: number) => {
     let basePrice = null;
     
     // First check if we have a specific price in the pricingMatrix
     if (pricingMatrix && pricingMatrix.length > 0) {
-      const stayLengthStr = `${selectedDuration} days`;
+      const stayLengthStr = `${duration} days`;
       const matrixEntry = pricingMatrix.find(
         entry =>
           entry.roomType === selectedRoomType &&
@@ -138,7 +134,6 @@ export function HotelBookingSection({
       
       if (matrixEntry?.price) {
         basePrice = matrixEntry.price;
-        console.log("Found price in pricing matrix:", basePrice);
       }
     }
     
@@ -146,27 +141,24 @@ export function HotelBookingSection({
     if (!basePrice && rates) {
       // First try simple duration keys
       const simplePossibleKeys = [
-        selectedDuration.toString(),
-        selectedDuration,
-        `${selectedDuration}`,
-        `price_${selectedDuration}`,
-        `${selectedDuration}_days`
+        duration.toString(),
+        duration,
+        `${duration}`,
+        `price_${duration}`,
+        `${duration}_days`
       ];
       
       for (const key of simplePossibleKeys) {
         if (rates[key] && rates[key] > 0) {
           basePrice = rates[key];
-          console.log(`Found price in rates with simple key "${key}":`, basePrice);
           break;
         }
       }
       
       // If still no price found, try to parse complex keys that include duration
       if (!basePrice) {
-        console.log("Trying to parse complex rate keys...");
-        
         // Look for keys that contain the duration in the format "X days"
-        const durationPattern = `${selectedDuration} days`;
+        const durationPattern = `${duration} days`;
         
         for (const [key, value] of Object.entries(rates)) {
           if (key.includes(durationPattern) && value > 0) {
@@ -174,7 +166,6 @@ export function HotelBookingSection({
             const priceValue = typeof value === 'string' ? parseFloat(value) : value;
             if (!isNaN(priceValue) && priceValue > 0) {
               basePrice = priceValue;
-              console.log(`Found price in complex rate key "${key}":`, basePrice);
               break;
             }
           }
@@ -183,11 +174,10 @@ export function HotelBookingSection({
         // If still no exact match, try any key that contains the duration number
         if (!basePrice) {
           for (const [key, value] of Object.entries(rates)) {
-            if (key.includes(selectedDuration.toString()) && value > 0) {
+            if (key.includes(duration.toString()) && value > 0) {
               const priceValue = typeof value === 'string' ? parseFloat(value) : value;
               if (!isNaN(priceValue) && priceValue > 0) {
                 basePrice = priceValue;
-                console.log(`Found price in duration-containing key "${key}":`, basePrice);
                 break;
               }
             }
@@ -195,6 +185,21 @@ export function HotelBookingSection({
         }
       }
     }
+    
+    if (!basePrice || basePrice <= 0) {
+      return null;
+    }
+    
+    return basePrice;
+  };
+
+  // Enhanced price retrieval logic to handle complex rate keys
+  const getDisplayPrice = () => {
+    console.log("Getting display price for duration:", selectedDuration);
+    console.log("Available rates:", rates);
+    console.log("Pricing matrix:", pricingMatrix);
+    
+    const basePrice = getPriceForDuration(selectedDuration);
     
     if (!basePrice || basePrice <= 0) {
       console.log("No valid base price found");
@@ -235,6 +240,37 @@ export function HotelBookingSection({
       <p className="text-xs text-center text-white mb-2">
         Check-in/out day: {preferredWeekday}
       </p>
+      
+      {/* Stay Duration Prices Display */}
+      <div className="mb-4 text-center">
+        {stayDurations.map((duration) => {
+          const price = getPriceForDuration(duration);
+          if (price) {
+            return (
+              <div key={duration} className="text-sm text-white mb-1">
+                {duration} nights – {formatCurrency(price, currency)}
+              </div>
+            );
+          }
+          return null;
+        }).filter(Boolean).length > 0 ? null : (
+          <div className="text-sm text-white/70 mb-1">
+            Prices available upon duration selection
+          </div>
+        )}
+        {stayDurations.map((duration) => {
+          const price = getPriceForDuration(duration);
+          if (price) {
+            return (
+              <div key={duration} className="text-sm text-white mb-1">
+                {duration} nights – {formatCurrency(price, currency)}
+              </div>
+            );
+          }
+          return null;
+        })}
+      </div>
+
       <Calendar 
         className="mb-4" 
         selected={checkInDate}

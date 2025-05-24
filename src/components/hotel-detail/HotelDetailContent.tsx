@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -148,8 +149,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Enhanced gradient background with #0000CC blue */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0000CC] via-[#0000B3] to-[#00009A] animate-gradient-x"></div>
+      {/* Enhanced gradient background with #0000A3 blue */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0000A3] via-[#000095] to-[#000087] animate-gradient-x"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-blue-300/10"></div>
       
       {/* Add the dynamic starfield effect */}

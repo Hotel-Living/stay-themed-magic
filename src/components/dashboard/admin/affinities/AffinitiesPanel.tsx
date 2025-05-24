@@ -49,18 +49,20 @@ export default function AffinitiesPanel() {
           placeholder="Search affinities by name, category or description..."
         />
 
-        <AffinityContent
-          themes={themes}
-          editingTheme={editingTheme}
-          pagination={pagination}
-          handlePageChange={handlePageChange}
-          handleEdit={handleEdit}
-          handleSaveEdit={handleSaveEdit}
-          handleCancelEdit={handleCancelEdit}
-          openDeleteDialog={openDeleteDialog}
-          setEditingTheme={setEditingTheme}
-          loading={loading}
-        />
+        <div className="rounded-xl p-6 bg-[#7a0486]">
+          <AffinityContent
+            themes={themes}
+            editingTheme={editingTheme}
+            pagination={pagination}
+            handlePageChange={handlePageChange}
+            handleEdit={handleEdit}
+            handleSaveEdit={handleSaveEdit}
+            handleCancelEdit={handleCancelEdit}
+            openDeleteDialog={openDeleteDialog}
+            setEditingTheme={setEditingTheme}
+            loading={loading}
+          />
+        </div>
 
         <AffinityDialogs 
           newThemeDialogOpen={newThemeDialogOpen}

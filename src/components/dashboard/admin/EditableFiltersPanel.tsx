@@ -78,7 +78,7 @@ export default function EditableFiltersPanel() {
           <h2 className="text-2xl font-bold">Filter Management</h2>
         </div>
 
-        <div className="glass-card rounded-xl p-6 bg-white/5 backdrop-blur-sm">
+        <div className="rounded-xl p-6 bg-[#7a0486]">
           <Tabs defaultValue="countries" value={activeTab} onValueChange={setActiveTab}>
             <FilterTabs 
               activeTab={activeTab} 

@@ -30,7 +30,7 @@ export const ImageGallery = ({ hotel }: ImageGalleryProps) => {
   };
   
   return (
-    <Card className="p-6 bg-[#2A0F44]">
+    <Card className="p-6 bg-[#5A0080]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Hotel Images</h3>
       {hotelImages.length > 0 ? (
         <div>

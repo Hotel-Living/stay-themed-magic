@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { format, parseISO } from "date-fns";
@@ -45,7 +44,7 @@ export const AvailabilityInfo = ({ hotel }) => {
   };
 
   return (
-    <Card className="p-6 bg-[#2A0F44]">
+    <Card className="p-6 bg-[#5A0080]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Availability Information</h3>
       
       <div className="grid grid-cols-1 gap-4">

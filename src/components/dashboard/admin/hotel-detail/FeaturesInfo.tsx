@@ -30,7 +30,7 @@ export function FeaturesInfo({ hotelFeatures, roomFeatures }: FeaturesInfoProps)
   };
   
   return (
-    <div className="rounded-xl p-6 bg-[#2A0F44]">
+    <div className="rounded-xl p-6 bg-[#5A0080]">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">
         Features
       </h3>

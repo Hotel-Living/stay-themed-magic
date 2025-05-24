@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -35,9 +36,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     rates: hotel.rates,
     roomTypes: hotel.room_types,
     idealGuests: hotel.idealGuests,
-    ideal_guests: hotel.ideal_guests,
     perfectLocation: hotel.perfectLocation,
-    perfect_location: hotel.perfect_location,
     atmosphere: hotel.atmosphere
   });
 
@@ -137,11 +136,11 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   // Get the correct field values, trying multiple possible field names
   const getIdealGuestsText = () => {
-    return hotel.ideal_guests || hotel.idealGuests || "memorable experiences";
+    return hotel.idealGuests || "memorable experiences";
   };
 
   const getPerfectLocationText = () => {
-    return hotel.perfect_location || hotel.perfectLocation || "exploring the local area and attractions";
+    return hotel.perfectLocation || "exploring the local area and attractions";
   };
 
   const getAtmosphereText = () => {
@@ -150,8 +149,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Enhanced gradient background with subtle animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#B3B3FF] via-[#9999FF] to-[#8080FF] animate-gradient-x"></div>
+      {/* Enhanced gradient background with more intense blue */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#004FFF] via-[#0040E5] to-[#0033CC] animate-gradient-x"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-blue-300/10"></div>
       
       {/* Add the dynamic starfield effect */}

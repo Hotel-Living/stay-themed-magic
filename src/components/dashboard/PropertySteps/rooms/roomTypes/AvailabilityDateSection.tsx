@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { format, addMonths, parseISO } from "date-fns";
+import { format, addMonths, parseISO, addDays, isBefore, isAfter, isSameDay } from "date-fns";
 import CustomCalendarSingleWeekday from "./CustomCalendarSingleWeekday";
 import { weekdayMap, getAvailableDatesForMonth } from "./availabilityDateUtils";
 
@@ -57,6 +57,36 @@ export default function AvailabilityDateSection({
     return Array.from(new Set(validDates));
   };
 
+  // Fill in dates between selected endpoints for the same weekday
+  const fillDateRange = (dates: string[]) => {
+    if (dates.length < 2) return dates;
+    
+    const dayNum = weekdayMap[effectiveWeekday];
+    const sortedDates = dates
+      .map(d => parseISO(d))
+      .sort((a, b) => a.getTime() - b.getTime());
+    
+    const result = new Set(dates);
+    
+    // For each pair of consecutive dates, fill in the gaps
+    for (let i = 0; i < sortedDates.length - 1; i++) {
+      const startDate = sortedDates[i];
+      const endDate = sortedDates[i + 1];
+      
+      let currentDate = new Date(startDate);
+      currentDate.setDate(currentDate.getDate() + 7); // Start from next week
+      
+      while (isBefore(currentDate, endDate)) {
+        if (currentDate.getDay() === dayNum) {
+          result.add(format(currentDate, "yyyy-MM-dd"));
+        }
+        currentDate.setDate(currentDate.getDate() + 7);
+      }
+    }
+    
+    return Array.from(result).sort();
+  };
+
   const handleMonthSelection = (month: string) => {
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[effectiveWeekday];
@@ -71,12 +101,14 @@ export default function AvailabilityDateSection({
     if (hasAll) {
       // Remove all dates from this month
       const newSelectedDates = cleanDates.filter(date => !availableDates.includes(date));
-      onAvailabilityChange(newSelectedDates);
+      const filledDates = fillDateRange(newSelectedDates);
+      onAvailabilityChange(filledDates);
     } else {
       // Add all dates from this month, but prevent duplicates
       const uniqueNewDates = availableDates.filter(date => !cleanDates.includes(date));
       const newSelectedDates = [...cleanDates, ...uniqueNewDates];
-      onAvailabilityChange(newSelectedDates);
+      const filledDates = fillDateRange(newSelectedDates);
+      onAvailabilityChange(filledDates);
     }
   };
 
@@ -90,7 +122,8 @@ export default function AvailabilityDateSection({
     if (cleanDates.includes(dateString)) {
       // Remove this specific date
       const newSelectedDates = cleanDates.filter(d => d !== dateString);
-      onAvailabilityChange(newSelectedDates);
+      const filledDates = fillDateRange(newSelectedDates);
+      onAvailabilityChange(filledDates);
     } else {
       // Add this specific date (limit to 2 per month)
       const monthDate = new Date(month + " 01");
@@ -108,7 +141,8 @@ export default function AvailabilityDateSection({
       
       if (datesInMonth.length < 2) {
         const newSelectedDates = [...cleanDates, dateString];
-        onAvailabilityChange(newSelectedDates);
+        const filledDates = fillDateRange(newSelectedDates);
+        onAvailabilityChange(filledDates);
       }
     }
   };
@@ -185,7 +219,9 @@ export default function AvailabilityDateSection({
                       className="ml-1 h-4 w-4 p-0 text-white hover:bg-fuchsia-700/30" 
                       onClick={() => {
                         const cleanDates = cleanSelectedDates(selectedDates);
-                        onAvailabilityChange(cleanDates.filter(d => d !== date));
+                        const newDates = cleanDates.filter(d => d !== date);
+                        const filledDates = fillDateRange(newDates);
+                        onAvailabilityChange(filledDates);
                       }}
                     >
                       ×

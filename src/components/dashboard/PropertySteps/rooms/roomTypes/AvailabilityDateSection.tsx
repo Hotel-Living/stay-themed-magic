@@ -42,22 +42,40 @@ export default function AvailabilityDateSection({
     }));
   };
 
+  // Clean the selected dates to ensure only valid dates for the current weekday
+  const cleanSelectedDates = (dates: string[]) => {
+    const dayNum = weekdayMap[effectiveWeekday];
+    const validDates = dates.filter(dateStr => {
+      try {
+        const date = parseISO(dateStr);
+        return date.getDay() === dayNum;
+      } catch {
+        return false;
+      }
+    });
+    // Remove duplicates
+    return Array.from(new Set(validDates));
+  };
+
   const handleMonthSelection = (month: string) => {
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
     
+    // Clean the current selected dates first
+    const cleanDates = cleanSelectedDates(selectedDates);
+    
     // Check if this month is currently selected (has all its dates)
-    const hasAll = availableDates.every(d => selectedDates.includes(d));
+    const hasAll = availableDates.every(d => cleanDates.includes(d));
     
     if (hasAll) {
       // Remove all dates from this month
-      const newSelectedDates = selectedDates.filter(date => !availableDates.includes(date));
+      const newSelectedDates = cleanDates.filter(date => !availableDates.includes(date));
       onAvailabilityChange(newSelectedDates);
     } else {
       // Add all dates from this month, but prevent duplicates
-      const uniqueNewDates = availableDates.filter(date => !selectedDates.includes(date));
-      const newSelectedDates = [...selectedDates, ...uniqueNewDates];
+      const uniqueNewDates = availableDates.filter(date => !cleanDates.includes(date));
+      const newSelectedDates = [...cleanDates, ...uniqueNewDates];
       onAvailabilityChange(newSelectedDates);
     }
   };
@@ -66,29 +84,30 @@ export default function AvailabilityDateSection({
     if (!date) return;
     const dateString = format(date, "yyyy-MM-dd");
     
-    if (selectedDates.includes(dateString)) {
+    // Clean the current selected dates first
+    const cleanDates = cleanSelectedDates(selectedDates);
+    
+    if (cleanDates.includes(dateString)) {
       // Remove this specific date
-      const newSelectedDates = selectedDates.filter(d => d !== dateString);
+      const newSelectedDates = cleanDates.filter(d => d !== dateString);
       onAvailabilityChange(newSelectedDates);
     } else {
       // Add this specific date (limit to 2 per month)
       const monthDate = new Date(month + " 01");
       const dayNum = weekdayMap[effectiveWeekday];
-      const datesInMonth = selectedDates.map(d => {
+      const datesInMonth = cleanDates.filter(d => {
         try {
-          return parseISO(d);
+          const selectedDate = parseISO(d);
+          return selectedDate.getMonth() === monthDate.getMonth() && 
+                 selectedDate.getFullYear() === monthDate.getFullYear() && 
+                 selectedDate.getDay() === dayNum;
         } catch {
-          return null;
+          return false;
         }
-      }).filter(d => 
-        d && 
-        d.getMonth() === monthDate.getMonth() && 
-        d.getFullYear() === monthDate.getFullYear() && 
-        d.getDay() === dayNum
-      ).map(d => format(d as Date, "yyyy-MM-dd"));
+      });
       
       if (datesInMonth.length < 2) {
-        const newSelectedDates = [...selectedDates, dateString];
+        const newSelectedDates = [...cleanDates, dateString];
         onAvailabilityChange(newSelectedDates);
       }
     }
@@ -98,13 +117,14 @@ export default function AvailabilityDateSection({
     const monthDate = new Date(month + " 01");
     const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
-    return availableDates.length > 0 && availableDates.every(d => selectedDates.includes(d));
+    const cleanDates = cleanSelectedDates(selectedDates);
+    return availableDates.length > 0 && availableDates.every(d => cleanDates.includes(d));
   };
 
   const preferredDayNum = weekdayMap[effectiveWeekday];
 
-  // Remove duplicates from selectedDates to prevent display issues
-  const uniqueSelectedDates = Array.from(new Set(selectedDates));
+  // Always use cleaned selected dates for display
+  const displayDates = cleanSelectedDates(selectedDates);
 
   return (
     <div className="grid grid-cols-4 items-start gap-4">
@@ -140,7 +160,7 @@ export default function AvailabilityDateSection({
                     <CustomCalendarSingleWeekday 
                       month={monthDate} 
                       preferredDayNum={preferredDayNum} 
-                      selected={uniqueSelectedDates} 
+                      selected={displayDates} 
                       preferredWeekday={effectiveWeekday} 
                       onSelectDate={(date) => handleDateSelect(date, month)} 
                     />
@@ -152,18 +172,21 @@ export default function AvailabilityDateSection({
         </div>
         
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
-          {uniqueSelectedDates.length > 0 ? (
+          {displayDates.length > 0 ? (
             <>
               <h4 className="text-sm font-medium mb-2">Selected Availability:</h4>
               <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
-                {uniqueSelectedDates.map(date => (
+                {displayDates.map(date => (
                   <div key={date} className="bg-fuchsia-800/40 text-white text-xs px-2 py-1 rounded flex items-center">
-                    {date.includes("-") ? format(parseISO(date), "MMM dd, yyyy") : date}
+                    {format(parseISO(date), "MMM dd, yyyy")}
                     <Button 
                       variant="ghost" 
                       size="sm" 
                       className="ml-1 h-4 w-4 p-0 text-white hover:bg-fuchsia-700/30" 
-                      onClick={() => onAvailabilityChange(uniqueSelectedDates.filter(d => d !== date))}
+                      onClick={() => {
+                        const cleanDates = cleanSelectedDates(selectedDates);
+                        onAvailabilityChange(cleanDates.filter(d => d !== date));
+                      }}
                     >
                       ×
                     </Button>

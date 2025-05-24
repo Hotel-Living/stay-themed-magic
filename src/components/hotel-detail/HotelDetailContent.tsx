@@ -159,27 +159,27 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
             <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-800/30 via-fuchsia-800/20 to-purple-900/30 backdrop-blur-sm border border-white/20 shadow-lg">
               <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
               
-              {/* Content with bright blue-to-purple animated backgrounds */}
+              {/* Content with lavender-to-purple animated backgrounds */}
               <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-gradient-to-r from-[#00CBFF]/50 via-[#3DDCFF]/35 to-purple-600/25 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 100%', animationDuration: '6s' }}>
+                <div className="p-3 rounded-lg bg-gradient-to-r from-[#B377FF]/20 via-[#9955FF]/15 to-purple-600/10 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '300% 100%', animationDuration: '8s' }}>
                   <p className="text-white">
                     This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-gradient-to-r from-[#00CBFF]/50 via-[#3DDCFF]/35 to-purple-600/25 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 100%', animationDuration: '6s', animationDelay: '0.3s' }}>
+                <div className="p-3 rounded-lg bg-gradient-to-r from-[#B377FF]/20 via-[#9955FF]/15 to-purple-600/10 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '300% 100%', animationDuration: '8s', animationDelay: '0.4s' }}>
                   <p className="text-white">
                     It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-gradient-to-r from-[#00CBFF]/50 via-[#3DDCFF]/35 to-purple-600/25 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 100%', animationDuration: '6s', animationDelay: '0.6s' }}>
+                <div className="p-3 rounded-lg bg-gradient-to-r from-[#B377FF]/20 via-[#9955FF]/15 to-purple-600/10 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '300% 100%', animationDuration: '8s', animationDelay: '0.8s' }}>
                   <p className="text-white">
                     The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
                   </p>
                 </div>
                 
-                <div className="p-3 rounded-lg bg-gradient-to-r from-[#00CBFF]/50 via-[#3DDCFF]/35 to-purple-600/25 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '400% 100%', animationDuration: '6s', animationDelay: '0.9s' }}>
+                <div className="p-3 rounded-lg bg-gradient-to-r from-[#B377FF]/20 via-[#9955FF]/15 to-purple-600/10 backdrop-blur-sm border border-white/15 shadow-md bg-size-200 animate-gradient-x" style={{ backgroundSize: '300% 100%', animationDuration: '8s', animationDelay: '1.2s' }}>
                   <p className="text-white">
                     Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
                   </p>

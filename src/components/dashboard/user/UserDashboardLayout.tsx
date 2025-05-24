@@ -106,7 +106,7 @@ export default function UserDashboardLayout({
             </aside>
             
             {/* Main Content */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 bg-[#5700AD] rounded-2xl p-6">
               {children}
             </div>
           </div>

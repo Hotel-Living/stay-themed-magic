@@ -33,7 +33,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     stayLengths: hotel.stay_lengths,
     coordinates: `${hotel.latitude}, ${hotel.longitude}`,
     rates: hotel.rates,
-    roomTypes: hotel.room_types
+    roomTypes: hotel.room_types,
+    idealGuests: hotel.ideal_guests,
+    perfectLocation: hotel.perfect_location
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -147,18 +149,18 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               hotelName={hotel.name} 
             />
 
-            {/* New AT A GLANCE section */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE</h2>
+            {/* New AT A GLANCE section with proper spacing */}
+            <div className="mb-8 mt-8">
+              <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE...</h2>
               
-              {/* Dynamic property description line */}
+              {/* Dynamic property description line with lowercase property type */}
               <p className="text-white mb-2">
-                This {hotel.property_type || "Property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
+                This {hotel.property_type ? hotel.property_type.toLowerCase() : "property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
               </p>
               
-              {/* Rephrased lines */}
+              {/* Rephrased lines using correct field mapping */}
               <p className="text-white mb-2">
-                It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
+                It's ideal for guests who enjoy {hotel.ideal_guests ? lowercase(hotel.ideal_guests) : "memorable experiences"}.
               </p>
               
               <p className="text-white mb-2">
@@ -166,7 +168,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               </p>
               
               <p className="text-white mb-4">
-                Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
+                Our location is perfect for {hotel.perfect_location ? lowercase(hotel.perfect_location) : "exploring the local area and attractions"}.
               </p>
               
               {/* Vertical space and description */}

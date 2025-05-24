@@ -4,9 +4,6 @@ import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
 import { HotelHeader } from "./HotelHeader";
 import { HotelImageGallery } from "./HotelImageGallery";
-import { HotelThemesAndActivities } from "./HotelThemesAndActivities";
-import { HotelHighlights } from "./HotelHighlights";
-import { HotelDescriptionSection } from "./HotelDescription";
 import { HotelBookingSection } from "./HotelBookingSection";
 import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
@@ -43,22 +40,6 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     if (!text) return '';
     return text.charAt(0).toLowerCase() + text.slice(1);
   };
-  
-  // Format hotel highlights from the form data
-  const hotelHighlights = [
-    {
-      question: "This hotel is perfect for",
-      answer: hotel.idealGuests ? lowercase(hotel.idealGuests) : "guests seeking a memorable stay."
-    },
-    {
-      question: "The atmosphere of this hotel is",
-      answer: hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable."
-    },
-    {
-      question: "Our location is perfect for",
-      answer: hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions."
-    }
-  ];
   
   const handleAddToFavorites = () => {
     toast({
@@ -132,6 +113,23 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
       })).filter(entry => entry.price > 0)
     ) : []);
 
+  // Format stay lengths for display
+  const formatStayLengths = () => {
+    if (!stayDurations || stayDurations.length === 0) return "various durations";
+    
+    if (stayDurations.length === 1) {
+      return `${stayDurations[0]} days`;
+    }
+    
+    const sortedLengths = [...stayDurations].sort((a, b) => a - b);
+    if (sortedLengths.length === 2) {
+      return `${sortedLengths[0]} and ${sortedLengths[1]} days`;
+    }
+    
+    const lastLength = sortedLengths.pop();
+    return `${sortedLengths.join(", ")} and ${lastLength} days`;
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#B3B3FF]">
       <div className="container mx-auto px-4 py-8">
@@ -149,23 +147,42 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               hotelName={hotel.name} 
             />
 
-            {/* Modified ThemesAndActivities to show the text differently */}
-            <HotelThemesAndActivities
-              stayLengths={hotel.stay_lengths || []}
-              hotelThemes={hotelThemes}
-              hotelActivities={hotelActivities}
-            />
-            
-            {/* Highlights from Hotel Form - updated style to be consistent */}
-            <HotelHighlights highlights={hotelHighlights} />
+            {/* New AT A GLANCE section */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 text-white text-left">AT A GLANCE</h2>
+              
+              {/* Dynamic property description line */}
+              <p className="text-white mb-2">
+                This {hotel.property_type || "Property"} is {hotel.style || "welcoming"} and offers extended stay options of {formatStayLengths()}.
+              </p>
+              
+              {/* Rephrased lines */}
+              <p className="text-white mb-2">
+                It's ideal for guests who enjoy {hotel.idealGuests ? lowercase(hotel.idealGuests) : "memorable experiences"}.
+              </p>
+              
+              <p className="text-white mb-2">
+                The vibe of this hotel is {hotel.atmosphere ? lowercase(hotel.atmosphere) : "welcoming and comfortable"}.
+              </p>
+              
+              <p className="text-white mb-4">
+                Our location is perfect for {hotel.perfectLocation ? lowercase(hotel.perfectLocation) : "exploring the local area and attractions"}.
+              </p>
+              
+              {/* Vertical space and description */}
+              {hotel.description && (
+                <div className="mt-6">
+                  <p className="text-white">
+                    {hotel.description}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Calendar + Price */}
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="md:col-span-2">
-              {/* General Description */}
-              <HotelDescriptionSection description={hotel.description} />
-              
               {/* Features */}
               <HotelFeaturesInfo
                 hotelFeatures={hotel.hotelFeatures || []}

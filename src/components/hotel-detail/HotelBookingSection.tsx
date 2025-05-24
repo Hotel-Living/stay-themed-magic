@@ -118,22 +118,59 @@ export function HotelBookingSection({
     }
   }, [stayDurations, selectedDuration, setSelectedDuration]);
 
-  // Calculate the dynamic price
+  // Calculate the dynamic price - FIXED LOGIC
   const getDisplayPrice = () => {
+    console.log("Getting display price for duration:", selectedDuration);
+    console.log("Available rates:", rates);
+    console.log("Pricing matrix:", pricingMatrix);
+    
+    let basePrice = null;
+    
     // First check if we have a specific price in the pricingMatrix
-    const stayLengthStr = `${selectedDuration} days`;
-    const matrixEntry = pricingMatrix.find(
-      entry =>
-        entry.roomType === selectedRoomType &&
-        entry.stayLength === stayLengthStr &&
-        entry.mealPlan === selectedMealPlan
-    );
+    if (pricingMatrix && pricingMatrix.length > 0) {
+      const stayLengthStr = `${selectedDuration} days`;
+      const matrixEntry = pricingMatrix.find(
+        entry =>
+          entry.roomType === selectedRoomType &&
+          entry.stayLength === stayLengthStr &&
+          entry.mealPlan === selectedMealPlan
+      );
+      
+      if (matrixEntry?.price) {
+        basePrice = matrixEntry.price;
+        console.log("Found price in pricing matrix:", basePrice);
+      }
+    }
     
-    // Use the specific price from matrix if available, otherwise fall back to rates
-    const basePrice = matrixEntry?.price || rates[selectedDuration];
+    // If no pricing matrix entry, check rates object
+    if (!basePrice && rates) {
+      // Try different key formats for the duration
+      const possibleKeys = [
+        selectedDuration.toString(),
+        selectedDuration,
+        `${selectedDuration}`,
+        `price_${selectedDuration}`,
+        `${selectedDuration}_days`
+      ];
+      
+      for (const key of possibleKeys) {
+        if (rates[key] && rates[key] > 0) {
+          basePrice = rates[key];
+          console.log(`Found price in rates with key "${key}":`, basePrice);
+          break;
+        }
+      }
+    }
     
-    if (!enablePriceIncrease || !checkInDate || !basePrice) {
-      return basePrice ? formatCurrency(basePrice, currency) : "Price not available";
+    if (!basePrice || basePrice <= 0) {
+      console.log("No valid base price found");
+      return "Price not available";
+    }
+    
+    // Apply dynamic pricing if enabled
+    if (!enablePriceIncrease || !checkInDate) {
+      console.log("Returning base price:", basePrice);
+      return formatCurrency(basePrice, currency);
     }
     
     const year = checkInDate.getFullYear();
@@ -149,6 +186,7 @@ export function HotelBookingSection({
       priceIncreaseCap
     );
     
+    console.log("Returning dynamic price:", finalPrice);
     return formatCurrency(finalPrice, currency);
   };
 

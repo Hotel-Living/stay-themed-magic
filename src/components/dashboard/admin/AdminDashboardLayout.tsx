@@ -1,5 +1,4 @@
 
-
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search } from "lucide-react";
@@ -85,8 +84,8 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside className="lg:col-span-1">
-              <div className="glass-card rounded-2xl overflow-hidden mb-8 sticky top-24">
-                <nav className="p-2 bg-[#7a0486]">
+              <div className="rounded-2xl overflow-hidden mb-8 sticky top-24 bg-[#7a0486]">
+                <nav className="p-2">
                   {adminTabs.map(tab => (
                     <button
                       key={tab.id}
@@ -121,7 +120,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                 </nav>
               </div>
               
-              <div className="glass-card rounded-2xl p-5 bg-[#7a0486]">
+              <div className="rounded-2xl p-5 bg-[#7a0486]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
@@ -148,4 +147,3 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
     </div>
   );
 }
-

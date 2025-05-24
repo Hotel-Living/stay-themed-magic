@@ -5,7 +5,6 @@ import { format, addMonths } from "date-fns";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import AvailabilityDateSection from "../rooms/roomTypes/AvailabilityDateSection";
-import { useAvailabilityDates } from "./hooks/useAvailabilityDates";
 
 interface AvailabilitySectionProps {
   formData?: any;
@@ -18,13 +17,6 @@ export default function AvailabilitySection({
   updateFormData,
   onValidationChange
 }: AvailabilitySectionProps) {
-  const [expandedMonths, setExpandedMonths] = React.useState<Record<string, boolean>>({});
-  
-  const {
-    selectedMonths,
-    toggleMonth
-  } = useAvailabilityDates(formData?.available_months || [], updateFormData);
-
   // Get the preferred weekday from formData, default to Monday if not set
   const preferredWeekday = formData?.preferredWeekday || "Monday";
 

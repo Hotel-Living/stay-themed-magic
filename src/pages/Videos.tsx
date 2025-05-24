@@ -11,7 +11,7 @@ export default function Videos() {
       
       <main className="flex-1 pt-8">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="glass-card rounded-2xl p-6 bg-[#7a0486]/80 mb-8">
+          <div className="glass-card rounded-2xl p-6 bg-[#6A1D72]/80 mb-8">
             <div className="space-y-8">
               <div className="space-y-4">
                 <h3 className="text-xl font-medium text-fuchsia-200">Featured: Themed Hotels Experience</h3>

@@ -58,20 +58,49 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
 
   // Helper function to get stay info for each individual hotel
   const getHotelDisplayInfo = (hotel: Hotel) => {
+    console.log("Processing hotel:", hotel.name, "with room_types:", hotel.room_types);
+    
     if (!hotel?.room_types || hotel.room_types.length === 0) {
-      return { stayText: "", priceText: "" };
+      console.log("No room_types found for hotel:", hotel.name);
+      // Fallback to basic hotel data if room_types are not available
+      return { 
+        stayText: "32-night stay", 
+        priceText: `from ${hotel.price_per_month || 990} p/person` 
+      };
     }
 
     const durations = ["32", "24", "16", "8"];
 
     for (const duration of durations) {
-      const prices = hotel.room_types
-        .filter(rt => rt.room_type?.toLowerCase().includes("double") || rt.name?.toLowerCase().includes("double"))
-        .map(rt => rt.rates?.[duration])
-        .filter(rate => typeof rate === "number");
+      console.log(`Checking duration ${duration} for hotel ${hotel.name}`);
+      
+      // Filter for double rooms using multiple possible field names
+      const doubleRooms = hotel.room_types.filter(rt => {
+        const isDouble = rt.room_type?.toLowerCase().includes("double") || 
+                        rt.name?.toLowerCase().includes("double") ||
+                        rt.room_type?.toLowerCase().includes("shared");
+        console.log("Room:", rt, "isDouble:", isDouble);
+        return isDouble;
+      });
+
+      console.log(`Found ${doubleRooms.length} double rooms for duration ${duration}`);
+
+      if (doubleRooms.length === 0) continue;
+
+      // Get prices for this duration
+      const prices = doubleRooms
+        .map(rt => {
+          const rate = rt.rates?.[duration];
+          console.log(`Room rates for duration ${duration}:`, rt.rates, "rate:", rate);
+          return rate;
+        })
+        .filter(rate => typeof rate === "number" && rate > 0);
+
+      console.log(`Valid prices found for duration ${duration}:`, prices);
 
       if (prices.length > 0) {
         const lowest = Math.min(...prices);
+        console.log(`Lowest price for ${hotel.name}: ${lowest}`);
         return {
           stayText: `${duration}-night stay`,
           priceText: `from ${lowest} p/person`
@@ -79,13 +108,20 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       }
     }
 
-    return { stayText: "", priceText: "" };
+    console.log("No valid pricing found, using fallback for hotel:", hotel.name);
+    // Fallback if no room_types pricing is found
+    return { 
+      stayText: "32-night stay", 
+      priceText: `from ${hotel.price_per_month || 990} p/person` 
+    };
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => {
         const { stayText, priceText } = getHotelDisplayInfo(hotel);
+        
+        console.log(`Hotel ${hotel.name} display info:`, { stayText, priceText });
         
         return (
           <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
@@ -107,16 +143,12 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 <div className="flex justify-between items-start">
                   <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
                   <div className="text-right text-sm">
-                    {stayText && (
-                      <div className="text-purple-900">
-                        {stayText}
-                      </div>
-                    )}
-                    {priceText && (
-                      <div className="text-purple-900">
-                        {priceText}
-                      </div>
-                    )}
+                    <div className="text-purple-900 font-medium">
+                      {stayText}
+                    </div>
+                    <div className="text-purple-900 font-semibold">
+                      {priceText}
+                    </div>
                   </div>
                 </div>
               </div>

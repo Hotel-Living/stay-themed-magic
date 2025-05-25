@@ -24,13 +24,14 @@ export default function MealPlanSection({
   );
   const { toast } = useToast();
   
-  // Updated meal plan options - removed "Self Catering" and replaced with "Laundry"
+  // Updated meal plan options - removed "Self Catering", replaced with "Laundry", and added "External Laundry Service Available"
   const mealPlanOptions = [
     { id: "breakfast", label: "Breakfast" },
     { id: "half-board", label: "Half Board (Breakfast + Dinner)" },
     { id: "full-board", label: "Full Board (All Meals)" },
     { id: "all-inclusive", label: "All Inclusive" },
-    { id: "laundry", label: "Laundry" }
+    { id: "laundry", label: "Laundry" },
+    { id: "external-laundry", label: "External Laundry Service Available" }
   ];
 
   // Update local state when formData changes

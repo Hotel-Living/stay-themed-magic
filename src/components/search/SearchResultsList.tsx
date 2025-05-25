@@ -15,6 +15,7 @@ interface Hotel {
     baseRate?: number;
     basePrice?: number;
     rates?: Record<string, number>;
+    name?: string;
   }>;
   stay_lengths?: number[];
 }
@@ -25,47 +26,56 @@ interface SearchResultsListProps {
   error: Error | null;
 }
 
-// Helper function to get the longest available stay and lowest price
+// Helper function to get the longest available stay and lowest total price for double room
 const getStayInfo = (hotel: Hotel) => {
   // Get the longest available stay length (default to 32 if none specified)
   const longestStay = hotel.stay_lengths && hotel.stay_lengths.length > 0 
     ? Math.max(...hotel.stay_lengths)
     : 32;
 
-  // Get the lowest price from room types
-  let lowestPrice = null;
+  // Get the lowest total price for double room for the longest stay
+  let lowestTotalPrice = null;
   
-  // First try to get price from room types
+  // First try to get price from room types for double rooms
   if (hotel.room_types && hotel.room_types.length > 0) {
-    const prices = hotel.room_types
+    const doubleRoomPrices = hotel.room_types
+      .filter(room => room.name && room.name.toLowerCase().includes('double'))
       .map(room => {
-        // Try to get price from different sources
-        return room.baseRate || room.basePrice || 
-          (room.rates && Object.values(room.rates).length > 0 
-            ? Math.min(...Object.values(room.rates)) 
-            : null);
+        // Get the base price for the room
+        const basePrice = room.baseRate || room.basePrice;
+        if (basePrice) {
+          // Calculate total price for the longest stay
+          return basePrice * longestStay;
+        }
+        // Check rates object for pricing
+        if (room.rates && Object.values(room.rates).length > 0) {
+          const nightlyRate = Math.min(...Object.values(room.rates));
+          return nightlyRate * longestStay;
+        }
+        return null;
       })
       .filter(price => price !== null && price > 0);
     
-    if (prices.length > 0) {
-      lowestPrice = Math.min(...prices);
+    if (doubleRoomPrices.length > 0) {
+      lowestTotalPrice = Math.min(...doubleRoomPrices);
     }
   }
   
-  // Fallback to price_per_month if no room-specific pricing found
-  if (!lowestPrice && hotel.price_per_month) {
-    // Convert monthly price to per-night price for the longest stay
-    lowestPrice = Math.round(hotel.price_per_month / longestStay);
+  // Fallback: use price_per_month if no room-specific pricing found
+  // Assuming price_per_month is for ~30 days, calculate proportionally
+  if (!lowestTotalPrice && hotel.price_per_month) {
+    // Calculate total price for the longest stay based on monthly rate
+    lowestTotalPrice = Math.round((hotel.price_per_month / 30) * longestStay);
   }
 
   console.log(`Hotel ${hotel.name}:`, {
     longestStay,
-    lowestPrice,
+    lowestTotalPrice,
     roomTypes: hotel.room_types,
     pricePerMonth: hotel.price_per_month
   });
 
-  return { longestStay, lowestPrice };
+  return { longestStay, lowestTotalPrice };
 };
 
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({ 
@@ -100,7 +110,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => {
-        const { longestStay, lowestPrice } = getStayInfo(hotel);
+        const { longestStay, lowestTotalPrice } = getStayInfo(hotel);
         
         return (
           <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
@@ -126,7 +136,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                       {longestStay}-night stay
                     </div>
                     <div className="text-purple-900">
-                      From {lowestPrice || 450} p/person
+                      From {lowestTotalPrice || 990} p/person
                     </div>
                   </div>
                 </div>

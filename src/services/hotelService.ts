@@ -160,6 +160,23 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 export const convertHotelToUIFormat = (hotel: any) => {
   if (!hotel) return null;
   
+  // Process room_types properly from the database
+  const processedRoomTypes = hotel.room_types && Array.isArray(hotel.room_types) 
+    ? hotel.room_types.map((room: any) => ({
+        id: room.id || `room-${Math.random().toString(36).substr(2, 9)}`,
+        name: room.name || 'Unnamed Room',
+        description: room.description,
+        maxOccupancy: room.maxOccupancy,
+        size: room.size,
+        roomCount: room.roomCount,
+        baseRate: room.baseRate || room.basePrice,
+        basePrice: room.basePrice || room.baseRate,
+        rates: room.rates || {},
+        images: room.images || [],
+        availabilityDates: room.availabilityDates || []
+      }))
+    : [];
+  
   return {
     id: hotel.id,
     name: hotel.name,
@@ -187,5 +204,6 @@ export const convertHotelToUIFormat = (hotel: any) => {
     atmosphere: hotel.atmosphere,
     property_type: hotel.property_type,
     style: hotel.style,
+    room_types: processedRoomTypes,
   };
 };

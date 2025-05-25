@@ -61,8 +61,8 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      // Safely handle the spread operation with proper null checking
-      const currentPendingChanges = currentHotel.pending_changes || {};
+      // Safely handle the spread operation with proper null checking and explicit typing
+      const currentPendingChanges: Record<string, any> = currentHotel.pending_changes || {};
       const updatedPendingChanges = { ...currentPendingChanges };
       delete updatedPendingChanges[change.fieldName];
 
@@ -110,8 +110,8 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      // Safely handle the spread operation with proper null checking
-      const currentPendingChanges = currentHotel.pending_changes || {};
+      // Safely handle the spread operation with proper null checking and explicit typing
+      const currentPendingChanges: Record<string, any> = currentHotel.pending_changes || {};
       const updatedPendingChanges = { ...currentPendingChanges };
       delete updatedPendingChanges[change.fieldName];
 

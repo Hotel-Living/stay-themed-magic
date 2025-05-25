@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
@@ -70,6 +71,7 @@ export default function HotelFeaturesStep({
     }, 2000);
     return () => clearInterval(saveInterval);
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
+  
   const handleHotelFeatureToggle = useCallback((featureId: string) => {
     setSelectedHotelFeatures(prev => {
       isDirtyRef.current = true;
@@ -79,6 +81,7 @@ export default function HotelFeaturesStep({
       };
     });
   }, []);
+  
   const handleRoomFeatureToggle = useCallback((featureId: string) => {
     setSelectedRoomFeatures(prev => {
       isDirtyRef.current = true;
@@ -87,6 +90,36 @@ export default function HotelFeaturesStep({
         [featureId]: !prev[featureId]
       };
     });
+  }, []);
+
+  // Hotel features select/deselect all functions
+  const handleHotelSelectAll = useCallback(() => {
+    const allSelected = hotelFeatures.reduce((acc, feature) => {
+      acc[feature] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+    setSelectedHotelFeatures(allSelected);
+    isDirtyRef.current = true;
+  }, []);
+
+  const handleHotelDeselectAll = useCallback(() => {
+    setSelectedHotelFeatures({});
+    isDirtyRef.current = true;
+  }, []);
+
+  // Room features select/deselect all functions
+  const handleRoomSelectAll = useCallback(() => {
+    const allSelected = roomFeatures.reduce((acc, feature) => {
+      acc[feature] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+    setSelectedRoomFeatures(allSelected);
+    isDirtyRef.current = true;
+  }, []);
+
+  const handleRoomDeselectAll = useCallback(() => {
+    setSelectedRoomFeatures({});
+    isDirtyRef.current = true;
   }, []);
 
   // Manual save method for blur events
@@ -103,15 +136,28 @@ export default function HotelFeaturesStep({
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
     return Object.entries(featuresRecord).filter(([_, isSelected]) => isSelected).map(([feature, _]) => feature);
   };
+  
   return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
         <h3 className="text-lg font-semibold mb-3">2.3- HOTEL FEATURES</h3>
-        <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} />
+        <FeaturesList 
+          features={hotelFeatures} 
+          selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} 
+          onToggle={handleHotelFeatureToggle}
+          onSelectAll={handleHotelSelectAll}
+          onDeselectAll={handleHotelDeselectAll}
+        />
       </div>
       
       <div>
         <h3 className="text-lg font-semibold mb-3">2.4- ROOM FEATURES</h3>
-        <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} />
+        <FeaturesList 
+          features={roomFeatures} 
+          selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} 
+          onToggle={handleRoomFeatureToggle}
+          onSelectAll={handleRoomSelectAll}
+          onDeselectAll={handleRoomDeselectAll}
+        />
       </div>
     </div>;
 }

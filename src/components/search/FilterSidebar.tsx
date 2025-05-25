@@ -48,8 +48,8 @@ export function FilterSidebar({
   // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
   
-  // Updated meal options - removed "Self Catering" and added "Laundry"
-  const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry"];
+  // Updated meal options - removed "Self Catering", added "Laundry" and "External Laundry Service Available"
+  const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
   
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
       {/* Reset All Filters Button - Top */}

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -107,7 +108,7 @@ export function HotelBookingSection({
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2 text-white">BOOKING</h2>
         <p className="text-white/80 mb-2">
-          Check-in/out day: {preferredWeekday}
+          Weekly Check-In/Out Day: {preferredWeekday}
         </p>
         <p className="text-xl font-semibold text-white">
           {selectedDuration} nights – {currency === "USD" ? "$" : "€"}{calculatePrice().toFixed(2)}

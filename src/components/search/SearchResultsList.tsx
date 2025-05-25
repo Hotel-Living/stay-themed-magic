@@ -34,6 +34,8 @@ const getStayInfo = (hotel: Hotel) => {
 
   // Get the lowest price from room types
   let lowestPrice = null;
+  
+  // First try to get price from room types
   if (hotel.room_types && hotel.room_types.length > 0) {
     const prices = hotel.room_types
       .map(room => {
@@ -49,6 +51,19 @@ const getStayInfo = (hotel: Hotel) => {
       lowestPrice = Math.min(...prices);
     }
   }
+  
+  // Fallback to price_per_month if no room-specific pricing found
+  if (!lowestPrice && hotel.price_per_month) {
+    // Convert monthly price to per-night price for the longest stay
+    lowestPrice = Math.round(hotel.price_per_month / longestStay);
+  }
+
+  console.log(`Hotel ${hotel.name}:`, {
+    longestStay,
+    lowestPrice,
+    roomTypes: hotel.room_types,
+    pricePerMonth: hotel.price_per_month
+  });
 
   return { longestStay, lowestPrice };
 };
@@ -110,11 +125,9 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                     <div className="text-purple-900">
                       {longestStay}-night stay
                     </div>
-                    {lowestPrice && (
-                      <div className="text-purple-900">
-                        From {lowestPrice} p/person
-                      </div>
-                    )}
+                    <div className="text-purple-900">
+                      From {lowestPrice || 450} p/person
+                    </div>
                   </div>
                 </div>
               </div>

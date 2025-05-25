@@ -63,7 +63,7 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
     null;
   
-  // Prepare the new hotel data - INCLUDING DYNAMIC PRICING SETTINGS
+  // Prepare the new hotel data - INCLUDING DYNAMIC PRICING SETTINGS WITH CORRECT FIELD NAMES
   const updatedData: Record<string, any> = {
     name: formData.hotelName,
     description: formData.description,
@@ -94,9 +94,9 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     available_months: availableMonths,
     rates: rates,
     main_image_url: formData.mainImageUrl || null,
-    // ADD THE MISSING DYNAMIC PRICING FIELDS
-    enablePriceIncrease: formData.enablePriceIncrease || false,
-    priceIncreaseCap: formData.priceIncreaseCap || 20
+    // USE CORRECT SNAKE_CASE FIELD NAMES FOR DYNAMIC PRICING
+    enable_price_increase: formData.enablePriceIncrease || false,
+    price_increase_cap: formData.priceIncreaseCap || 20
   };
   
   // Improved comparison logic to detect actual changes

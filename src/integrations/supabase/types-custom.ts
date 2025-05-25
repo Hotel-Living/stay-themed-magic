@@ -1,4 +1,3 @@
-
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -48,6 +47,9 @@ export type Hotel = {
   preferredWeekday?: string | null;
   rates?: Record<string, number>;
   pending_changes?: Record<string, any>;
+  // USE CORRECT SNAKE_CASE FIELD NAMES FOR DYNAMIC PRICING
+  enable_price_increase?: boolean;
+  price_increase_cap?: number;
   hotel_images?: {
     id: string;
     hotel_id: string;

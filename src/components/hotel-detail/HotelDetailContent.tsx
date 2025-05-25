@@ -35,7 +35,10 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     coordinates: `${hotel.latitude}, ${hotel.longitude}`,
     rates: hotel.rates,
     roomTypes: hotel.room_types,
-    availableMonths: hotel.available_months
+    availableMonths: hotel.available_months,
+    // LOG DYNAMIC PRICING SETTINGS WITH CORRECT FIELD NAMES
+    enablePriceIncrease: hotel.enable_price_increase,
+    priceIncreaseCap: hotel.price_increase_cap
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -232,7 +235,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
               </div>
             </div>
 
-            {/* Booking section with enhanced styling */}
+            {/* Booking section with enhanced styling and CORRECT DYNAMIC PRICING FIELD NAMES */}
             <div className="bg-gradient-to-br from-[#7B1C92] via-[#8B1FA3] to-[#6B1A87] rounded-xl shadow-2xl border border-white/10 p-1">
               <div className="bg-gradient-to-br from-purple-900/40 to-fuchsia-900/30 rounded-lg backdrop-blur-sm border border-white/10">
                 <HotelBookingSection 
@@ -245,8 +248,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   currency={hotel.currency || "USD"}
                   handleBookClick={handleBookClick}
                   preferredWeekday={checkInWeekday}
-                  enablePriceIncrease={hotel.enablePriceIncrease}
-                  priceIncreaseCap={hotel.priceIncreaseCap}
+                  enablePriceIncrease={hotel.enable_price_increase}
+                  priceIncreaseCap={hotel.price_increase_cap}
                   availableMonths={hotel.available_months}
                   mealPlans={hotel.meal_plans}
                 />

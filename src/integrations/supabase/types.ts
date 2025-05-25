@@ -364,6 +364,7 @@ export type Database = {
           country: string
           created_at: string
           description: string | null
+          enable_price_increase: boolean | null
           faqs: Json[] | null
           features_hotel: Json | null
           features_room: Json | null
@@ -387,6 +388,7 @@ export type Database = {
           postal_code: string | null
           preferred: string | null
           preferredWeekday: string | null
+          price_increase_cap: number | null
           price_per_month: number
           property_style: string | null
           property_type: string | null
@@ -413,6 +415,7 @@ export type Database = {
           country: string
           created_at?: string
           description?: string | null
+          enable_price_increase?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -436,6 +439,7 @@ export type Database = {
           postal_code?: string | null
           preferred?: string | null
           preferredWeekday?: string | null
+          price_increase_cap?: number | null
           price_per_month: number
           property_style?: string | null
           property_type?: string | null
@@ -462,6 +466,7 @@ export type Database = {
           country?: string
           created_at?: string
           description?: string | null
+          enable_price_increase?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -485,6 +490,7 @@ export type Database = {
           postal_code?: string | null
           preferred?: string | null
           preferredWeekday?: string | null
+          price_increase_cap?: number | null
           price_per_month?: number
           property_style?: string | null
           property_type?: string | null

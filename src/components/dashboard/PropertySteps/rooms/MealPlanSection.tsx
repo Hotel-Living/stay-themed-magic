@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import {
@@ -22,8 +23,15 @@ export default function MealPlanSection({
   formData = {},
   updateFormData = () => {}
 }: MealPlanSectionProps) {
-  // Updated meal plans - removed "Self Catering", replaced with "Laundry", and added "External Laundry Service Available"
-  const mealPlans = ["No Meals", "Breakfast only", "Half board", "Full board", "All inclusive", "All inclusive plus Laundry", "External Laundry Service Available"];
+  // Updated meal plans to match the public filter options exactly
+  const mealPlans = [
+    "Breakfast Included", 
+    "Half Board", 
+    "Full Board", 
+    "All Inclusive", 
+    "Laundry", 
+    "External Laundry Service Available"
+  ];
   
   // Initialize from formData if available
   const initialMealPlan = formData.mealPlans && formData.mealPlans.length > 0 

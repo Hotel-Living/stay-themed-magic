@@ -24,11 +24,11 @@ export default function MealPlanSection({
   );
   const { toast } = useToast();
   
-  // Updated meal plan options - removed "Self Catering", replaced with "Laundry", and added "External Laundry Service Available"
+  // Updated meal plan options to match the public filter exactly
   const mealPlanOptions = [
-    { id: "breakfast", label: "Breakfast" },
-    { id: "half-board", label: "Half Board (Breakfast + Dinner)" },
-    { id: "full-board", label: "Full Board (All Meals)" },
+    { id: "breakfast-included", label: "Breakfast Included" },
+    { id: "half-board", label: "Half Board" },
+    { id: "full-board", label: "Full Board" },
     { id: "all-inclusive", label: "All Inclusive" },
     { id: "laundry", label: "Laundry" },
     { id: "external-laundry", label: "External Laundry Service Available" }

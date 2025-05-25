@@ -27,57 +27,6 @@ interface SearchResultsListProps {
   error: Error | null;
 }
 
-// Helper function to get the longest available stay and lowest total price for double room
-const getStayInfo = (hotel: Hotel) => {
-  // Get the longest available stay length (default to 32 if none specified)
-  const longestStay = hotel.stay_lengths && hotel.stay_lengths.length > 0 
-    ? Math.max(...hotel.stay_lengths)
-    : 32;
-
-  // Get pricing using the corrected logic
-  const displayRates = (hotel: Hotel): { longestStay: number; lowestTotalPrice: number } => {
-    if (!hotel?.room_types || hotel.room_types.length === 0) {
-      return { longestStay, lowestTotalPrice: 990 }; // fallback
-    }
-
-    // Filter only double rooms - using both 'name' and 'room_type' fields
-    const doubleRooms = hotel.room_types.filter(rt =>
-      rt.name?.toLowerCase().includes("double") || rt.room_type?.toLowerCase().includes("double")
-    );
-
-    if (doubleRooms.length === 0) {
-      return { longestStay, lowestTotalPrice: 990 }; // fallback
-    }
-
-    // Get all available stay durations with valid rates
-    const validDurations = ["8", "16", "24", "32"];
-    const availableDurations = validDurations.filter(duration =>
-      doubleRooms.some(room => room.rates && room.rates[duration])
-    );
-
-    if (availableDurations.length === 0) {
-      return { longestStay, lowestTotalPrice: 990 }; // fallback
-    }
-
-    // Select the longest duration
-    const selectedStay = availableDurations.sort((a, b) => Number(b) - Number(a))[0];
-
-    // Find the lowest price among double rooms for that duration
-    const prices = doubleRooms
-      .map(room => room.rates?.[selectedStay])
-      .filter(Boolean) as number[];
-
-    if (prices.length === 0) {
-      return { longestStay, lowestTotalPrice: 990 }; // fallback
-    }
-
-    const lowestPrice = Math.min(...prices);
-    return { longestStay: Number(selectedStay), lowestTotalPrice: lowestPrice };
-  };
-
-  return displayRates(hotel);
-};
-
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({ 
   filteredHotels, 
   isLoading, 
@@ -107,10 +56,36 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     );
   }
 
+  // Helper function to get stay info for each individual hotel
+  const getHotelDisplayInfo = (hotel: Hotel) => {
+    if (!hotel?.room_types || hotel.room_types.length === 0) {
+      return { stayText: "", priceText: "" };
+    }
+
+    const durations = ["32", "24", "16", "8"];
+
+    for (const duration of durations) {
+      const prices = hotel.room_types
+        .filter(rt => rt.room_type?.toLowerCase().includes("double") || rt.name?.toLowerCase().includes("double"))
+        .map(rt => rt.rates?.[duration])
+        .filter(rate => typeof rate === "number");
+
+      if (prices.length > 0) {
+        const lowest = Math.min(...prices);
+        return {
+          stayText: `${duration}-night stay`,
+          priceText: `from ${lowest} p/person`
+        };
+      }
+    }
+
+    return { stayText: "", priceText: "" };
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => {
-        const { longestStay, lowestTotalPrice } = getStayInfo(hotel);
+        const { stayText, priceText } = getHotelDisplayInfo(hotel);
         
         return (
           <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
@@ -132,12 +107,16 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 <div className="flex justify-between items-start">
                   <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
                   <div className="text-right text-sm">
-                    <div className="text-purple-900">
-                      {longestStay}-night stay
-                    </div>
-                    <div className="text-purple-900">
-                      from {lowestTotalPrice} p/person
-                    </div>
+                    {stayText && (
+                      <div className="text-purple-900">
+                        {stayText}
+                      </div>
+                    )}
+                    {priceText && (
+                      <div className="text-purple-900">
+                        {priceText}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

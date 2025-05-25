@@ -104,7 +104,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
               </div>
               <div className="p-4">
                 <h3 className="font-semibold mb-2 line-clamp-2 text-purple-900 text-center">{hotel.name}</h3>
-                <div className="flex justify-between items-end">
+                <div className="flex justify-between items-start">
                   <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
                   <div className="text-right text-sm">
                     <div className="text-purple-900">

@@ -33,7 +33,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     }
   }, [formData, updateFormData]);
 
-  // Updated meal plan options to match the public filter exactly
+  // Standardized meal plan options using consistent kebab-case format
   const mealPlanOptions = [
     { id: "breakfast-included", label: "Breakfast Included" },
     { id: "half-board", label: "Half Board" },

@@ -23,15 +23,25 @@ export default function MealPlanSection({
   formData = {},
   updateFormData = () => {}
 }: MealPlanSectionProps) {
-  // Updated meal plans to match the public filter options exactly
+  // Standardized meal plans using consistent kebab-case format
   const mealPlans = [
-    "Breakfast Included", 
-    "Half Board", 
-    "Full Board", 
-    "All Inclusive", 
-    "Laundry", 
-    "External Laundry Service Available"
+    "breakfast-included", 
+    "half-board", 
+    "full-board", 
+    "all-inclusive", 
+    "laundry", 
+    "external-laundry"
   ];
+
+  // Map for display labels
+  const mealPlanLabels: Record<string, string> = {
+    "breakfast-included": "Breakfast Included",
+    "half-board": "Half Board",
+    "full-board": "Full Board",
+    "all-inclusive": "All Inclusive",
+    "laundry": "Laundry",
+    "external-laundry": "External Laundry Service Available"
+  };
   
   // Initialize from formData if available
   const initialMealPlan = formData.mealPlans && formData.mealPlans.length > 0 
@@ -98,7 +108,7 @@ export default function MealPlanSection({
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
             {mealPlans.map((plan) => (
               <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                {plan}
+                {mealPlanLabels[plan]}
               </SelectItem>
             ))}
           </SelectContent>

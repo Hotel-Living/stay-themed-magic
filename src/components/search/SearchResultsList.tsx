@@ -16,6 +16,7 @@ interface Hotel {
     basePrice?: number;
     rates?: Record<string, number>;
     name?: string;
+    room_type?: string;
   }>;
   stay_lengths?: number[];
 }
@@ -39,9 +40,9 @@ const getStayInfo = (hotel: Hotel) => {
       return { longestStay, lowestTotalPrice: 990 }; // fallback
     }
 
-    // Filter only double rooms - using 'name' field instead of 'room_type'
+    // Filter only double rooms - using both 'name' and 'room_type' fields
     const doubleRooms = hotel.room_types.filter(rt =>
-      rt.name?.toLowerCase().includes("double")
+      rt.name?.toLowerCase().includes("double") || rt.room_type?.toLowerCase().includes("double")
     );
 
     if (doubleRooms.length === 0) {

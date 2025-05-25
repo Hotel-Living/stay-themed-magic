@@ -18,6 +18,11 @@ interface HotelCardProps {
   rates?: Record<string, number>;
   currency?: string;
   onClick?: () => void;
+  room_types?: Array<{
+    room_type?: string;
+    name?: string;
+    rates?: Record<string, number>;
+  }>;
 }
 
 export const HotelCard = ({
@@ -32,45 +37,32 @@ export const HotelCard = ({
   availableMonths = [],
   rates = {},
   currency = "USD",
-  onClick
+  onClick,
+  room_types = []
 }: HotelCardProps) => {
   // Helper function to display rates in the desired format
-  const displayRates = (hotel: any): string | null => {
+  const displayRates = (hotel: { room_types?: Array<{ room_type?: string; name?: string; rates?: Record<string, number> }> }): string | null => {
     if (!hotel?.room_types || hotel.room_types.length === 0) return null;
 
-    // Consider only double rooms
-    const doubleRooms = hotel.room_types.filter((rt: any) =>
-      rt.room_type?.toLowerCase().includes("double")
-    );
+    const durations = ["32", "24", "16", "8"];
 
-    if (doubleRooms.length === 0) return null;
+    for (const duration of durations) {
+      const prices = hotel.room_types
+        .filter(rt => rt.room_type?.toLowerCase().includes("double") || rt.name?.toLowerCase().includes("double"))
+        .map(rt => rt.rates?.[duration])
+        .filter(rate => typeof rate === "number");
 
-    const validDurations = ["8", "16", "24", "32"];
-
-    // Find longest stay that has valid pricing
-    for (const duration of validDurations.slice().reverse()) {
-      const pricesForDuration = doubleRooms
-        .map((room: any) => room.rates?.[duration])
-        .filter((rate: any) => typeof rate === "number");
-
-      if (pricesForDuration.length > 0) {
-        const lowest = Math.min(...pricesForDuration);
-        return `From ${lowest} p/person`;
+      if (prices.length > 0) {
+        const lowest = Math.min(...prices);
+        return `from ${lowest} p/person`;
       }
     }
 
     return null;
   };
 
-  // Use the hotel data passed as props to calculate rates
-  const hotelData = {
-    room_types: rates ? Object.keys(rates).map(key => ({
-      room_type: "double", // Assuming double room for now
-      rates: rates
-    })) : []
-  };
-
-  const rateDisplay = displayRates(hotelData);
+  // Use the actual hotel data from props
+  const rateDisplay = displayRates({ room_types });
   
   return (
     <Card 

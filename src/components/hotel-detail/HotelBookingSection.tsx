@@ -105,7 +105,7 @@ export function HotelBookingSection({
   return (
     <div className="p-6 space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2 text-white">CHECK-IN</h2>
+        <h2 className="text-2xl font-bold mb-2 text-white">BOOKING</h2>
         <p className="text-white/80 mb-2">
           Check-in/out day: {preferredWeekday}
         </p>

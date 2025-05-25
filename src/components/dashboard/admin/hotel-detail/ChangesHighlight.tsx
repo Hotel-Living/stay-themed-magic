@@ -34,10 +34,21 @@ export function ChangesHighlight({
     try {
       console.log("Approving single change:", change.fieldName, "->", change.newValue);
       
-      // Apply the single change to the hotel
-      const updateData: Record<string, any> = {
-        [change.fieldName]: change.newValue
-      };
+      // Apply the single change to the hotel - handle both camelCase and snake_case fields
+      const updateData: Record<string, any> = {};
+      
+      // Map the field name to ensure we update the correct database column
+      if (change.fieldName === 'enablePriceIncrease') {
+        updateData.enablepriceincrease = change.newValue;
+        updateData.enable_price_increase = change.newValue; // Also update snake_case version for consistency
+      } else if (change.fieldName === 'priceIncreaseCap') {
+        updateData.priceincreasecap = change.newValue;
+        updateData.price_increase_cap = change.newValue; // Also update snake_case version for consistency
+      } else {
+        updateData[change.fieldName] = change.newValue;
+      }
+
+      console.log("Update data:", updateData);
 
       const { error } = await supabase
         .from('hotels')

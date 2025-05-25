@@ -26,6 +26,14 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       
     if (error) throw error;
     
+    console.log("Fetched hotel data:", data);
+    console.log("Dynamic pricing fields from DB:", {
+      enablepriceincrease: data.enablepriceincrease,
+      priceincreasecap: data.priceincreasecap,
+      enable_price_increase: data.enable_price_increase,
+      price_increase_cap: data.price_increase_cap
+    });
+    
     // Extract hotel features from features_hotel object
     const hotelFeatures = data.features_hotel 
       ? Object.entries(data.features_hotel)
@@ -69,14 +77,28 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
         }))
       : [];
     
-    return {
+    const result = {
       ...data,
       hotelFeatures,
       roomFeatures,
       activities,
       themes,
-      room_types: processedRoomTypes
+      room_types: processedRoomTypes,
+      // Map dynamic pricing fields correctly - prioritize the camelCase versions
+      enablePriceIncrease: data.enablepriceincrease ?? data.enable_price_increase ?? false,
+      priceIncreaseCap: data.priceincreasecap ?? data.price_increase_cap ?? 20,
+      enable_price_increase: data.enable_price_increase ?? data.enablepriceincrease ?? false,
+      price_increase_cap: data.price_increase_cap ?? data.priceincreasecap ?? 20
     } as HotelDetailProps;
+    
+    console.log("Processed hotel data with dynamic pricing:", {
+      enablePriceIncrease: result.enablePriceIncrease,
+      priceIncreaseCap: result.priceIncreaseCap,
+      enable_price_increase: result.enable_price_increase,
+      price_increase_cap: result.price_increase_cap
+    });
+    
+    return result;
   } catch (error) {
     console.error("Error fetching hotel details:", error);
     throw error;

@@ -15,6 +15,9 @@ export function StayRatesSettingsSection({
   priceIncreaseCap,
   setPriceIncreaseCap
 }: StayRatesSettingsSectionProps) {
+  console.log("StayRatesSettingsSection - enablePriceIncrease:", enablePriceIncrease);
+  console.log("StayRatesSettingsSection - priceIncreaseCap:", priceIncreaseCap);
+
   return (
     <>
       <label className="flex items-center mb-4">

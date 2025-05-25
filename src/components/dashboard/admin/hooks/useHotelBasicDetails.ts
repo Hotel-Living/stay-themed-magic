@@ -62,6 +62,12 @@ export function useHotelBasicDetails(id: string | undefined) {
       }
 
       console.log("useHotelBasicDetails - Successfully fetched hotel data:", hotelData);
+      console.log("Dynamic pricing values from DB:", {
+        enablepriceincrease: hotelData.enablepriceincrease,
+        priceincreasecap: hotelData.priceincreasecap,
+        enable_price_increase: hotelData.enable_price_increase,
+        price_increase_cap: hotelData.price_increase_cap
+      });
       
       // Ensure required structures exist
       const processedHotelData = {
@@ -81,10 +87,20 @@ export function useHotelBasicDetails(id: string | undefined) {
         })) : [],
         features_hotel: hotelData.features_hotel || {},
         features_room: hotelData.features_room || {},
-        pending_changes: hotelData.pending_changes || {}
+        pending_changes: hotelData.pending_changes || {},
+        // Map dynamic pricing fields correctly
+        enablePriceIncrease: hotelData.enablepriceincrease ?? hotelData.enable_price_increase ?? false,
+        priceIncreaseCap: hotelData.priceincreasecap ?? hotelData.price_increase_cap ?? 20,
+        enable_price_increase: hotelData.enable_price_increase ?? hotelData.enablepriceincrease ?? false,
+        price_increase_cap: hotelData.price_increase_cap ?? hotelData.priceincreasecap ?? 20
       };
       
-      console.log("useHotelBasicDetails - Setting processed hotel data:", processedHotelData);
+      console.log("useHotelBasicDetails - Setting processed hotel data with dynamic pricing:", {
+        enablePriceIncrease: processedHotelData.enablePriceIncrease,
+        priceIncreaseCap: processedHotelData.priceIncreaseCap,
+        enable_price_increase: processedHotelData.enable_price_increase,
+        price_increase_cap: processedHotelData.price_increase_cap
+      });
       setHotel(processedHotelData as AdminHotelDetail);
       setError(null);
     } catch (error: any) {

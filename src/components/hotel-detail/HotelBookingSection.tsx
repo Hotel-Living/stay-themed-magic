@@ -15,8 +15,8 @@ interface HotelBookingSectionProps {
   currency: string;
   handleBookClick: () => void;
   preferredWeekday: string;
-  enablePriceIncrease?: boolean;
-  priceIncreaseCap?: number;
+  enable_price_increase?: boolean;
+  price_increase_cap?: number;
   availableMonths?: string[];
   pricingMatrix?: Array<{
     roomType: string;
@@ -37,8 +37,8 @@ export function HotelBookingSection({
   currency,
   handleBookClick,
   preferredWeekday,
-  enablePriceIncrease,
-  priceIncreaseCap,
+  enable_price_increase,
+  price_increase_cap,
   availableMonths,
   pricingMatrix,
   mealPlans
@@ -85,9 +85,9 @@ export function HotelBookingSection({
 
     console.log("Base price found:", basePrice, "for duration:", selectedDuration);
 
-    if (enablePriceIncrease && basePrice > 0) {
+    if (enable_price_increase && basePrice > 0) {
       const dayOfMonth = checkInDate ? checkInDate.getDate() : 1;
-      const increaseFactor = Math.min(dayOfMonth / 100, priceIncreaseCap || 0.3);
+      const increaseFactor = Math.min(dayOfMonth / 100, price_increase_cap || 0.3);
       basePrice *= (1 + increaseFactor);
     }
 
@@ -206,7 +206,7 @@ export function HotelBookingSection({
       )}
 
       {/* Dynamic Pricing Message */}
-      {enablePriceIncrease && (
+      {enable_price_increase && (
         <div className="bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-3">
           <p className="text-white/90 text-sm text-center">
             This property uses dynamic pricing based on demand. Book early to secure the best rates!

@@ -1,3 +1,4 @@
+
 import { HotelImage as SupabaseHotelImage } from "@/integrations/supabase/types-custom";
 
 export interface HotelTheme {
@@ -91,8 +92,8 @@ export interface AdminHotelDetail {
   features_room?: Record<string, boolean>;
   rates?: Record<string, number>;
   currency?: string;
-  enablePriceIncrease?: boolean;
-  priceIncreaseCap?: number;
+  enable_price_increase?: boolean;
+  price_increase_cap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
   pricingMatrix?: Array<{
@@ -150,8 +151,8 @@ export interface HotelDetailProps {
   features_room?: Record<string, boolean>;
   rates?: Record<string, number>;
   currency?: string;
-  enablePriceIncrease?: boolean;
-  priceIncreaseCap?: number;
+  enable_price_increase?: boolean;
+  price_increase_cap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
   pricingMatrix?: Array<{

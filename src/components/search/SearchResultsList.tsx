@@ -57,20 +57,62 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     );
   }
 
-  // Helper function to get stay info for each individual hotel
+  // Helper function to get the correct pricing from hotel's room_types data
   const getHotelDisplayInfo = (hotel: Hotel) => {
     console.log("=== Processing hotel:", hotel.name);
-    console.log("Hotel data:", hotel);
+    console.log("Hotel room_types:", hotel.room_types);
+    console.log("Hotel rates:", hotel.rates);
+    console.log("Hotel stay_lengths:", hotel.stay_lengths);
     
-    // Check if hotel has rates at the top level
-    if (hotel.rates && Object.keys(hotel.rates).length > 0) {
-      console.log("Found hotel-level rates:", hotel.rates);
-      
+    // If hotel has room_types with rates, use that data
+    if (hotel.room_types && hotel.room_types.length > 0) {
       const durations = ["32", "24", "16", "8"];
+      
+      // Find the longest duration with available pricing
+      for (const duration of durations) {
+        const roomsWithPricing = hotel.room_types.filter(rt => {
+          // Check if this room type has rates for this duration
+          return rt.rates && rt.rates[duration] && rt.rates[duration] > 0;
+        });
+        
+        console.log(`Duration ${duration} - rooms with pricing:`, roomsWithPricing);
+        
+        if (roomsWithPricing.length > 0) {
+          // Filter for double/shared rooms first
+          const doubleRooms = roomsWithPricing.filter(rt => {
+            const roomTypeName = (rt.room_type || rt.name || "").toLowerCase();
+            return roomTypeName.includes("double") || roomTypeName.includes("shared");
+          });
+          
+          console.log(`Duration ${duration} - double rooms:`, doubleRooms);
+          
+          // Use double rooms if available, otherwise use any available room
+          const roomsToUse = doubleRooms.length > 0 ? doubleRooms : roomsWithPricing;
+          
+          // Get the lowest price for this duration
+          const prices = roomsToUse.map(rt => rt.rates![duration]).filter(price => price > 0);
+          
+          if (prices.length > 0) {
+            const lowestPrice = Math.min(...prices);
+            console.log(`Found price for ${duration} nights: ${lowestPrice}`);
+            return {
+              stayText: `${duration}-night stay`,
+              priceText: `from ${lowestPrice} p/person`
+            };
+          }
+        }
+      }
+    }
+    
+    // If hotel has top-level rates, use those
+    if (hotel.rates && Object.keys(hotel.rates).length > 0) {
+      console.log("Using hotel-level rates:", hotel.rates);
+      const durations = ["32", "24", "16", "8"];
+      
       for (const duration of durations) {
         const rate = hotel.rates[duration];
         if (typeof rate === "number" && rate > 0) {
-          console.log(`Found rate for ${duration} nights: ${rate}`);
+          console.log(`Using hotel rate for ${duration} nights: ${rate}`);
           return {
             stayText: `${duration}-night stay`,
             priceText: `from ${rate} p/person`
@@ -79,98 +121,23 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       }
     }
     
-    // Check room_types for rates
-    if (hotel.room_types && hotel.room_types.length > 0) {
-      console.log("Checking room_types:", hotel.room_types);
-      
-      const durations = ["32", "24", "16", "8"];
-      
-      for (const duration of durations) {
-        console.log(`Checking duration ${duration}`);
-        
-        // Look for double/shared rooms
-        const doubleRooms = hotel.room_types.filter(rt => {
-          const isDouble = rt.room_type?.toLowerCase().includes("double") || 
-                          rt.name?.toLowerCase().includes("double") ||
-                          rt.room_type?.toLowerCase().includes("shared");
-          return isDouble;
-        });
-        
-        console.log(`Found ${doubleRooms.length} double rooms`);
-        
-        if (doubleRooms.length > 0) {
-          // Get prices from rates or baseRate/basePrice
-          const prices = doubleRooms
-            .map(rt => {
-              if (rt.rates && rt.rates[duration]) {
-                return rt.rates[duration];
-              }
-              if (rt.baseRate && rt.baseRate > 0) {
-                return rt.baseRate;
-              }
-              if (rt.basePrice && rt.basePrice > 0) {
-                return rt.basePrice;
-              }
-              return null;
-            })
-            .filter(rate => typeof rate === "number" && rate > 0);
-          
-          console.log(`Valid prices for duration ${duration}:`, prices);
-          
-          if (prices.length > 0) {
-            const lowest = Math.min(...prices);
-            console.log(`Using lowest price: ${lowest}`);
-            return {
-              stayText: `${duration}-night stay`,
-              priceText: `from ${lowest} p/person`
-            };
-          }
-        }
-      }
-    }
-    
-    // Check stay_lengths to determine available durations
+    // If hotel has stay_lengths, use the longest one with price_per_month
     if (hotel.stay_lengths && hotel.stay_lengths.length > 0) {
-      console.log("Using stay_lengths:", hotel.stay_lengths);
       const longestStay = Math.max(...hotel.stay_lengths);
       const price = hotel.price_per_month || 990;
       
+      console.log(`Using stay_lengths fallback: ${longestStay} nights, price: ${price}`);
       return {
         stayText: `${longestStay}-night stay`,
         priceText: `from ${price} p/person`
       };
     }
     
-    console.log("Using fallback pricing for:", hotel.name);
-    
-    // Different fallback for each hotel based on their specific data
-    let basePrice = hotel.price_per_month || 990;
-    
-    // Hotel-specific pricing based on the names we see in console
-    if (hotel.name.includes("Domus")) {
-      basePrice = 680;
-      return {
-        stayText: "16-night stay",
-        priceText: `from ${basePrice} p/person`
-      };
-    } else if (hotel.name.includes("Astoria")) {
-      basePrice = 340;
-      return {
-        stayText: "8-night stay",
-        priceText: `from ${basePrice} p/person`
-      };
-    } else if (hotel.name.includes("Gran Legazpi")) {
-      basePrice = 990;
-      return {
-        stayText: "32-night stay",
-        priceText: `from ${basePrice} p/person`
-      };
-    }
-    
-    // Default fallback
+    // Final fallback using price_per_month
+    console.log("Using final fallback with price_per_month:", hotel.price_per_month);
     return {
       stayText: "32-night stay",
-      priceText: `from ${basePrice} p/person`
+      priceText: `from ${hotel.price_per_month || 990} p/person`
     };
   };
 

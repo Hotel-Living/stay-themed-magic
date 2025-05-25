@@ -61,21 +61,24 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      // Safely handle the spread operation with proper null checking and explicit typing
-      const currentPendingChanges: Record<string, any> = currentHotel.pending_changes || {};
-      const updatedPendingChanges = { ...currentPendingChanges };
-      delete updatedPendingChanges[change.fieldName];
+      // Safely handle the spread operation with proper type checking
+      const pendingChanges = currentHotel.pending_changes;
+      if (pendingChanges && typeof pendingChanges === 'object' && !Array.isArray(pendingChanges)) {
+        const currentPendingChanges = pendingChanges as Record<string, any>;
+        const updatedPendingChanges = { ...currentPendingChanges };
+        delete updatedPendingChanges[change.fieldName];
 
-      const { error: updatePendingError } = await supabase
-        .from('hotels')
-        .update({ 
-          pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
-        })
-        .eq('id', hotelId);
+        const { error: updatePendingError } = await supabase
+          .from('hotels')
+          .update({ 
+            pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
+          })
+          .eq('id', hotelId);
 
-      if (updatePendingError) {
-        console.error("Error updating pending changes:", updatePendingError);
-        throw updatePendingError;
+        if (updatePendingError) {
+          console.error("Error updating pending changes:", updatePendingError);
+          throw updatePendingError;
+        }
       }
 
       toast({
@@ -110,21 +113,24 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      // Safely handle the spread operation with proper null checking and explicit typing
-      const currentPendingChanges: Record<string, any> = currentHotel.pending_changes || {};
-      const updatedPendingChanges = { ...currentPendingChanges };
-      delete updatedPendingChanges[change.fieldName];
+      // Safely handle the spread operation with proper type checking
+      const pendingChanges = currentHotel.pending_changes;
+      if (pendingChanges && typeof pendingChanges === 'object' && !Array.isArray(pendingChanges)) {
+        const currentPendingChanges = pendingChanges as Record<string, any>;
+        const updatedPendingChanges = { ...currentPendingChanges };
+        delete updatedPendingChanges[change.fieldName];
 
-      const { error: updateError } = await supabase
-        .from('hotels')
-        .update({ 
-          pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
-        })
-        .eq('id', hotelId);
+        const { error: updateError } = await supabase
+          .from('hotels')
+          .update({ 
+            pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
+          })
+          .eq('id', hotelId);
 
-      if (updateError) {
-        console.error("Error updating pending changes:", updateError);
-        throw updateError;
+        if (updateError) {
+          console.error("Error updating pending changes:", updateError);
+          throw updateError;
+        }
       }
 
       toast({

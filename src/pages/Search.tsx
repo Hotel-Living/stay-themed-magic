@@ -153,6 +153,37 @@ export default function Search() {
     updateFilters({ [filterType]: newValues });
   };
 
+  // Reset all filters function
+  const handleResetAllFilters = () => {
+    const resetFilters = {
+      country: null,
+      month: null,
+      theme: null,
+      priceRange: null,
+      propertyType: null,
+      propertyStyle: null,
+      roomTypes: [],
+      hotelFeatures: [],
+      roomFeatures: [],
+      meals: [],
+      lengthOfStay: null,
+      activities: [],
+      location: null,
+      category: null,
+      atmosphere: null,
+      mealPlans: [],
+      stayLengths: []
+    };
+    
+    setActiveFilters(resetFilters);
+    updateFilters(resetFilters);
+    
+    toast({
+      title: "Filters Reset",
+      description: "All filters have been cleared"
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -164,6 +195,7 @@ export default function Search() {
               activeFilters={activeFilters}
               handleFilterChange={handleFilterChange}
               handleArrayFilterChange={handleArrayFilterChange}
+              onResetAllFilters={handleResetAllFilters}
             />
           </div>
           <div className="w-full md:w-3/4">

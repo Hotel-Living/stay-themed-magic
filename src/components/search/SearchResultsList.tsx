@@ -34,20 +34,16 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
 
   if (error) {
     return (
-      <div className="border border-fuchsia-400 rounded-lg p-4 text-center bg-[#460F54]/50 backdrop-blur-sm">
-        <h3 className="text-xl font-semibold mb-2 text-white">Error Loading Results</h3>
-        <p className="text-white">
-          Please, search again. Thanks
-        </p>
+      <div className="border border-fuchsia-400 rounded-lg p-8 text-center bg-[#460F54]/50 backdrop-blur-sm">
+        <h3 className="text-2xl font-semibold mb-4 text-white">No results. Please, Search Again. Thanks!</h3>
       </div>
     );
   }
 
   if (filteredHotels.length === 0) {
     return (
-      <div className="border border-fuchsia-400 rounded-lg p-4 text-center bg-[#460F54]/50 backdrop-blur-sm">
-        <h3 className="text-xl font-semibold mb-2 text-white">No hotels found</h3>
-        <p className="text-white">Please, search again. Thanks</p>
+      <div className="border border-fuchsia-400 rounded-lg p-8 text-center bg-[#460F54]/50 backdrop-blur-sm">
+        <h3 className="text-2xl font-semibold mb-4 text-white">No results. Please, Search Again. Thanks!</h3>
       </div>
     );
   }

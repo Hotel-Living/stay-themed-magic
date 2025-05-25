@@ -12,6 +12,7 @@ import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { ActivityFilter } from "./ActivityFilter";
 import { Theme } from "@/utils/themes";
 import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
+import { Button } from "@/components/ui/button";
 
 interface FilterSidebarProps {
   activeFilters: {
@@ -35,12 +36,14 @@ interface FilterSidebarProps {
   };
   handleFilterChange: (filterType: string, value: any) => void;
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
+  onResetAllFilters: () => void;
 }
 
 export function FilterSidebar({
   activeFilters,
   handleFilterChange,
-  handleArrayFilterChange
+  handleArrayFilterChange,
+  onResetAllFilters
 }: FilterSidebarProps) {
   // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
@@ -49,6 +52,15 @@ export function FilterSidebar({
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Self Catering"];
   
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
+      {/* Reset All Filters Button - Top */}
+      <Button 
+        onClick={onResetAllFilters}
+        variant="outline"
+        className="w-full mb-4 bg-white text-purple-700 hover:bg-gray-100"
+      >
+        Reset All Filters
+      </Button>
+
       <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
       
       <LengthOfStayFilter activeLength={activeFilters.lengthOfStay} onChange={value => handleFilterChange("lengthOfStay", value)} />
@@ -79,5 +91,14 @@ export function FilterSidebar({
       <CheckboxFilter title="HOTEL FEATURES" options={hotelFeatures} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)} />
       
       <CheckboxFilter title="ROOM FEATURES" options={roomFeatures} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
+
+      {/* Reset All Filters Button - Bottom */}
+      <Button 
+        onClick={onResetAllFilters}
+        variant="outline"
+        className="w-full mt-4 bg-white text-purple-700 hover:bg-gray-100"
+      >
+        Reset All Filters
+      </Button>
     </div>;
 }

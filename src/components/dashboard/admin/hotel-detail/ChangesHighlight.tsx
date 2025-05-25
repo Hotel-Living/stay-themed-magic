@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -62,7 +61,9 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      const updatedPendingChanges = { ...currentHotel.pending_changes };
+      // Safely handle the spread operation with proper null checking
+      const currentPendingChanges = currentHotel.pending_changes || {};
+      const updatedPendingChanges = { ...currentPendingChanges };
       delete updatedPendingChanges[change.fieldName];
 
       const { error: updatePendingError } = await supabase
@@ -109,7 +110,9 @@ export function ChangesHighlight({
         throw fetchError;
       }
 
-      const updatedPendingChanges = { ...currentHotel.pending_changes };
+      // Safely handle the spread operation with proper null checking
+      const currentPendingChanges = currentHotel.pending_changes || {};
+      const updatedPendingChanges = { ...currentPendingChanges };
       delete updatedPendingChanges[change.fieldName];
 
       const { error: updateError } = await supabase

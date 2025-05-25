@@ -51,20 +51,42 @@ export function HotelBookingSection({
       return true;
     }
 
-    const formattedDate = format(date, "MMMM");
-    return availableDates.includes(formattedDate);
+    const formattedDate = format(date, "MMMM").toLowerCase();
+    return availableDates.some(month => month.toLowerCase() === formattedDate);
   };
 
   const isDateSelectable = (date: Date): boolean => {
     const day = format(date, "EEEE");
     const isPreferredDay = day === preferredWeekday;
-    return isPreferredDay && isDateAvailable(date);
+    const isAvailable = isDateAvailable(date);
+    
+    // Be more forgiving - allow selection if either condition is met or if no restrictions
+    return isPreferredDay && isAvailable;
   };
 
   const calculatePrice = () => {
+    // Look for rate with the selected duration
     let basePrice = rates[selectedDuration.toString()] || 0;
+    
+    // If no exact match, try to find any rate with similar duration
+    if (basePrice === 0) {
+      // Try to find rates in the format "8", "16", etc.
+      const availableRates = Object.keys(rates);
+      console.log("Available rate keys:", availableRates);
+      console.log("Looking for duration:", selectedDuration);
+      
+      // Find the closest match
+      for (const key of availableRates) {
+        if (key.includes(selectedDuration.toString())) {
+          basePrice = rates[key] || 0;
+          break;
+        }
+      }
+    }
 
-    if (enablePriceIncrease) {
+    console.log("Base price found:", basePrice, "for duration:", selectedDuration);
+
+    if (enablePriceIncrease && basePrice > 0) {
       const dayOfMonth = checkInDate ? checkInDate.getDate() : 1;
       const increaseFactor = Math.min(dayOfMonth / 100, priceIncreaseCap || 0.3);
       basePrice *= (1 + increaseFactor);

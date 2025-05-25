@@ -64,7 +64,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   // Get the check-in weekday from the hotel data
   const checkInWeekday = hotel.preferredWeekday || hotel.check_in_weekday || "Monday";
 
-  // Prepare rates data - simplified and more reliable approach
+  // Enhanced rates preparation with proper parsing of complex rate keys
   const preparedRates = (() => {
     console.log("Preparing rates from hotel data:", {
       hotelRates: hotel.rates,
@@ -73,13 +73,31 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
     // First check if hotel has direct rates
     if (hotel.rates && typeof hotel.rates === 'object' && Object.keys(hotel.rates).length > 0) {
-      console.log("Using hotel.rates:", hotel.rates);
-      return hotel.rates;
+      console.log("Processing hotel.rates:", hotel.rates);
+      
+      // Parse complex rate keys like "double-8 days-fullBoard": "360"
+      const simplifiedRates: Record<string, number> = {};
+      
+      Object.entries(hotel.rates).forEach(([key, value]) => {
+        // Extract duration from keys like "double-8 days-fullBoard" or "single-16 days-fullBoard"
+        const durationMatch = key.match(/(\d+)\s*days?/i);
+        if (durationMatch) {
+          const duration = durationMatch[1];
+          const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+          
+          // If we don't have a rate for this duration yet, or this one is lower, use it
+          if (!simplifiedRates[duration] || numericValue < simplifiedRates[duration]) {
+            simplifiedRates[duration] = numericValue;
+          }
+        }
+      });
+      
+      console.log("Simplified rates from complex keys:", simplifiedRates);
+      return simplifiedRates;
     }
 
-    // If no direct rates, extract from room_types
+    // If no direct rates, try to extract from room_types
     if (hotel.room_types && Array.isArray(hotel.room_types) && hotel.room_types.length > 0) {
-      // Find the first room type with rates
       for (const room of hotel.room_types) {
         if (room.rates && typeof room.rates === 'object' && Object.keys(room.rates).length > 0) {
           console.log("Using rates from room type:", room.name, room.rates);

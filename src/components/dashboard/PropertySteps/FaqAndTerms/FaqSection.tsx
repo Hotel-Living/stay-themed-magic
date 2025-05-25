@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronUp, ChevronDown, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,17 +23,6 @@ export default function FaqSection({
   const [isAddingFaq, setIsAddingFaq] = useState(false);
   const [newFaqQuestion, setNewFaqQuestion] = useState("");
   const [newFaqAnswer, setNewFaqAnswer] = useState("");
-
-  const predefinedFaqs = [
-    { question: "What is your property?", answer: "Our property is located in the heart of the city." },
-    { question: "How much does it cost?", answer: "The property costs $500,000." }
-  ];
-
-  useEffect(() => {
-    if (faqItems.length === 0) {
-      setFaqItems(predefinedFaqs);
-    }
-  }, []);
 
   const addFaqItem = () => {
     if (newFaqQuestion && newFaqAnswer) {
@@ -88,7 +78,7 @@ export default function FaqSection({
           <div className="space-y-4">
             {faqItems.length === 0 && (
               <p className="text-sm text-fuchsia-300/80 italic mb-2">
-                Common preloaded FAQs are provided below. You can edit them, remove them, or add new ones as needed.
+                You can add frequently asked questions to help guests understand your property better.
                 This section is optional for property submission.
               </p>
             )}

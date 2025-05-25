@@ -1,33 +1,7 @@
 
 import { FaqItem } from "./types";
 
-export const predefinedFaqs: FaqItem[] = [
-  {
-    question: "What time is check-in and check-out?",
-    answer: "Check-in is at 3:00 PM and check-out is at 11:00 AM. Early check-in and late check-out may be available upon request for an additional fee.",
-    isEditing: false
-  },
-  {
-    question: "Do you offer airport transfers?",
-    answer: "Yes, we offer airport transfers for an additional fee. Please contact us at least 48 hours before your arrival to arrange this service.",
-    isEditing: false
-  },
-  {
-    question: "Is breakfast included?",
-    answer: "Breakfast is included in some of our room rates. Please check your specific booking for details.",
-    isEditing: false
-  },
-  {
-    question: "Do you have Wi-Fi?",
-    answer: "Yes, we offer complimentary high-speed Wi-Fi throughout the property.",
-    isEditing: false
-  },
-  {
-    question: "Are pets allowed?",
-    answer: "We have a no-pets policy, except for service animals.",
-    isEditing: false
-  }
-];
+export const predefinedFaqs: FaqItem[] = [];
 
 export const predefinedTerms: string = `1. RESERVATIONS: All reservations must be guaranteed with a valid credit card at the time of booking.
 

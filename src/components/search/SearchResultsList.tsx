@@ -60,20 +60,20 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 className="w-full h-full object-cover"
               />
               {hotel.theme && (
-                <div className="absolute bottom-2 left-2 bg-fuchsia-600/90 text-white text-xs px-2 py-1 rounded-full">
+                <div className="absolute bottom-2 left-2 bg-purple-900 text-white text-xs px-2 py-1 rounded-full">
                   {hotel.theme}
                 </div>
               )}
             </div>
             <div className="p-4">
-              <h3 className="font-semibold mb-2 line-clamp-2">{hotel.name}</h3>
+              <h3 className="font-semibold mb-2 line-clamp-2 text-purple-900">{hotel.name}</h3>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">{hotel.location || "Location unavailable"}</span>
-                <span className="font-medium">
-                  {hotel.price_per_month > 0 
-                    ? `$${hotel.price_per_month}/mo` 
-                    : "Contact for price"}
-                </span>
+                <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
+                {hotel.price_per_month && hotel.price_per_month > 0 && (
+                  <span className="font-medium text-purple-900">
+                    ${hotel.price_per_month}/mo
+                  </span>
+                )}
               </div>
             </div>
           </Card>

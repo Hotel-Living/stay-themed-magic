@@ -86,14 +86,14 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            This hotel is ideal for guests who enjoy...
+            It's ideal for guests who enjoy…
           </label>
           <textarea placeholder="Describe your ideal guests and their interests" className={inputClassName + " min-h-[80px]"} value={formData.idealGuests || ''} onChange={e => handleChange('idealGuests', e.target.value)} onBlur={() => handleBlur('idealGuests')} />
         </div>
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            The atmosphere at this hotel is...
+            The vibe is…
           </label>
           <textarea placeholder="Describe the atmosphere and ambiance of your hotel" className={inputClassName + " min-h-[80px]"} value={formData.atmosphere || ''} onChange={e => handleChange('atmosphere', e.target.value)} onBlur={() => handleBlur('atmosphere')} />
         </div>

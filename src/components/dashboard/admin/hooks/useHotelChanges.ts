@@ -37,7 +37,10 @@ const fieldDisplayNames: { [key: string]: string } = {
   terms: "Terms & Conditions",
   faqs: "FAQs",
   enable_price_increase: "Dynamic Pricing Enabled",
-  price_increase_cap: "Price Increase Cap (%)"
+  price_increase_cap: "Price Increase Cap (%)",
+  // ADD MAPPING FOR NEW CAMELCASE COLUMNS
+  enablePriceIncrease: "Dynamic Pricing Enabled",
+  priceIncreaseCap: "Price Increase Cap (%)"
 };
 
 // Field type mapping
@@ -65,7 +68,10 @@ const fieldTypes: { [key: string]: FieldType } = {
   terms: 'text',
   faqs: 'array',
   enable_price_increase: 'boolean',
-  price_increase_cap: 'number'
+  price_increase_cap: 'number',
+  // ADD MAPPING FOR NEW CAMELCASE COLUMNS
+  enablePriceIncrease: 'boolean',
+  priceIncreaseCap: 'number'
 };
 
 export function useHotelChanges(hotel: AdminHotelDetail | null) {

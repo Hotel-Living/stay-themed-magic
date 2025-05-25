@@ -94,6 +94,9 @@ export interface AdminHotelDetail {
   currency?: string;
   enable_price_increase?: boolean;
   price_increase_cap?: number;
+  // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
   pricingMatrix?: Array<{
@@ -153,6 +156,9 @@ export interface HotelDetailProps {
   currency?: string;
   enable_price_increase?: boolean;
   price_increase_cap?: number;
+  // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE  
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
   preferredWeekday?: string;
   check_in_weekday?: string;
   pricingMatrix?: Array<{

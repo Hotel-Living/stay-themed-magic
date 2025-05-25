@@ -50,6 +50,9 @@ export type Hotel = {
   // USE CORRECT SNAKE_CASE FIELD NAMES FOR DYNAMIC PRICING
   enable_price_increase?: boolean;
   price_increase_cap?: number;
+  // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE
+  enablePriceIncrease?: boolean;
+  priceIncreaseCap?: number;
   hotel_images?: {
     id: string;
     hotel_id: string;

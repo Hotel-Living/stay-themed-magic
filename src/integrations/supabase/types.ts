@@ -365,6 +365,7 @@ export type Database = {
           created_at: string
           description: string | null
           enable_price_increase: boolean | null
+          enablepriceincrease: boolean | null
           faqs: Json[] | null
           features_hotel: Json | null
           features_room: Json | null
@@ -390,6 +391,7 @@ export type Database = {
           preferredWeekday: string | null
           price_increase_cap: number | null
           price_per_month: number
+          priceincreasecap: number | null
           property_style: string | null
           property_type: string | null
           rates: Json | null
@@ -416,6 +418,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           enable_price_increase?: boolean | null
+          enablepriceincrease?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -441,6 +444,7 @@ export type Database = {
           preferredWeekday?: string | null
           price_increase_cap?: number | null
           price_per_month: number
+          priceincreasecap?: number | null
           property_style?: string | null
           property_type?: string | null
           rates?: Json | null
@@ -467,6 +471,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           enable_price_increase?: boolean | null
+          enablepriceincrease?: boolean | null
           faqs?: Json[] | null
           features_hotel?: Json | null
           features_room?: Json | null
@@ -492,6 +497,7 @@ export type Database = {
           preferredWeekday?: string | null
           price_increase_cap?: number | null
           price_per_month?: number
+          priceincreasecap?: number | null
           property_style?: string | null
           property_type?: string | null
           rates?: Json | null

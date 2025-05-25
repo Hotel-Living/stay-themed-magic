@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -37,8 +36,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     roomTypes: hotel.room_types,
     availableMonths: hotel.available_months,
     // LOG DYNAMIC PRICING SETTINGS WITH CORRECT FIELD NAMES
-    enablePriceIncrease: hotel.enable_price_increase,
-    priceIncreaseCap: hotel.price_increase_cap
+    enable_price_increase: hotel.enable_price_increase,
+    price_increase_cap: hotel.price_increase_cap
   });
 
   const lowercase = (text: string | null | undefined) => {
@@ -248,8 +247,8 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   currency={hotel.currency || "USD"}
                   handleBookClick={handleBookClick}
                   preferredWeekday={checkInWeekday}
-                  enablePriceIncrease={hotel.enable_price_increase}
-                  priceIncreaseCap={hotel.price_increase_cap}
+                  enable_price_increase={hotel.enable_price_increase}
+                  price_increase_cap={hotel.price_increase_cap}
                   availableMonths={hotel.available_months}
                   mealPlans={hotel.meal_plans}
                 />

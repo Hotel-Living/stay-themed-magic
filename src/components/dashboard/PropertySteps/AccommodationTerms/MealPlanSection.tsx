@@ -24,11 +24,13 @@ export default function MealPlanSection({
   );
   const { toast } = useToast();
   
+  // Updated meal plan options - removed "Self Catering" and replaced with "Laundry"
   const mealPlanOptions = [
     { id: "breakfast", label: "Breakfast" },
     { id: "half-board", label: "Half Board (Breakfast + Dinner)" },
     { id: "full-board", label: "Full Board (All Meals)" },
-    { id: "all-inclusive", label: "All Inclusive" }
+    { id: "all-inclusive", label: "All Inclusive" },
+    { id: "laundry", label: "Laundry" }
   ];
 
   // Update local state when formData changes
@@ -60,7 +62,11 @@ export default function MealPlanSection({
       if (isSelected) {
         // Don't allow removing the last option
         if (prev.length <= 1) {
-          toast.error("Cannot remove all options - You must select at least one meal plan.");
+          toast({
+            title: "Error",
+            description: "Cannot remove all options - You must select at least one meal plan.",
+            variant: "destructive"
+          });
           return prev;
         }
         

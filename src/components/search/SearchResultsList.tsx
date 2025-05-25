@@ -33,89 +33,48 @@ const getStayInfo = (hotel: Hotel) => {
     ? Math.max(...hotel.stay_lengths)
     : 32;
 
-  // Get the lowest total price for double room for the longest stay
-  let lowestTotalPrice = null;
-  
-  console.log(`Processing hotel ${hotel.name}:`, {
-    longestStay,
-    roomTypes: hotel.room_types,
-    stayLengths: hotel.stay_lengths
-  });
-  
-  // First try to get price from room types for double rooms
-  if (hotel.room_types && hotel.room_types.length > 0) {
-    // Look specifically for double rooms
-    const doubleRooms = hotel.room_types.filter(room => 
-      room.name && (
-        room.name.toLowerCase().includes('double') ||
-        room.name.toLowerCase().includes('twin') ||
-        room.name.toLowerCase().includes('standard')
-      )
-    );
-    
-    console.log(`Found ${doubleRooms.length} potential double rooms for ${hotel.name}:`, doubleRooms);
-    
-    if (doubleRooms.length > 0) {
-      const doubleRoomPrices = doubleRooms.map(room => {
-        // Check rates object first for the longest stay duration
-        if (room.rates && Object.keys(room.rates).length > 0) {
-          // Look for the longest stay duration in rates
-          const longestStayKey = longestStay.toString();
-          if (room.rates[longestStayKey]) {
-            console.log(`Found rate for ${longestStay} days: ${room.rates[longestStayKey]}`);
-            return room.rates[longestStayKey];
-          }
-          
-          // If exact duration not found, use the highest duration available
-          const availableDurations = Object.keys(room.rates)
-            .map(key => parseInt(key))
-            .filter(duration => !isNaN(duration))
-            .sort((a, b) => b - a); // Sort descending
-          
-          if (availableDurations.length > 0) {
-            const bestDuration = availableDurations[0];
-            console.log(`Using rate for ${bestDuration} days: ${room.rates[bestDuration.toString()]}`);
-            return room.rates[bestDuration.toString()];
-          }
-        }
-        
-        // Fallback to base price if rates not available
-        const basePrice = room.baseRate || room.basePrice;
-        if (basePrice) {
-          const totalPrice = basePrice * longestStay;
-          console.log(`Using base price calculation: ${basePrice} * ${longestStay} = ${totalPrice}`);
-          return totalPrice;
-        }
-        
-        return null;
-      }).filter(price => price !== null && price > 0);
-      
-      if (doubleRoomPrices.length > 0) {
-        lowestTotalPrice = Math.min(...doubleRoomPrices);
-        console.log(`Lowest total price from double rooms: ${lowestTotalPrice}`);
-      }
+  // Get pricing using the corrected logic
+  const displayRates = (hotel: Hotel): { longestStay: number; lowestTotalPrice: number } => {
+    if (!hotel?.room_types || hotel.room_types.length === 0) {
+      return { longestStay, lowestTotalPrice: 990 }; // fallback
     }
-  }
-  
-  // Fallback: use price_per_month if no room-specific pricing found
-  if (!lowestTotalPrice && hotel.price_per_month) {
-    // Calculate total price for the longest stay based on monthly rate
-    lowestTotalPrice = Math.round((hotel.price_per_month / 30) * longestStay);
-    console.log(`Using monthly rate fallback: ${hotel.price_per_month} / 30 * ${longestStay} = ${lowestTotalPrice}`);
-  }
 
-  // Final fallback to ensure we always have a price
-  if (!lowestTotalPrice) {
-    lowestTotalPrice = 990; // Use the expected price as shown in the screenshot
-    console.log(`Using final fallback price: ${lowestTotalPrice}`);
-  }
+    // Filter only double rooms - using 'name' field instead of 'room_type'
+    const doubleRooms = hotel.room_types.filter(rt =>
+      rt.name?.toLowerCase().includes("double")
+    );
 
-  console.log(`Final result for ${hotel.name}:`, {
-    longestStay,
-    lowestTotalPrice
-  });
+    if (doubleRooms.length === 0) {
+      return { longestStay, lowestTotalPrice: 990 }; // fallback
+    }
 
-  return { longestStay, lowestTotalPrice };
+    // Get all available stay durations with valid rates
+    const validDurations = ["8", "16", "24", "32"];
+    const availableDurations = validDurations.filter(duration =>
+      doubleRooms.some(room => room.rates && room.rates[duration])
+    );
+
+    if (availableDurations.length === 0) {
+      return { longestStay, lowestTotalPrice: 990 }; // fallback
+    }
+
+    // Select the longest duration
+    const selectedStay = availableDurations.sort((a, b) => Number(b) - Number(a))[0];
+
+    // Find the lowest price among double rooms for that duration
+    const prices = doubleRooms
+      .map(room => room.rates?.[selectedStay])
+      .filter(Boolean) as number[];
+
+    if (prices.length === 0) {
+      return { longestStay, lowestTotalPrice: 990 }; // fallback
+    }
+
+    const lowestPrice = Math.min(...prices);
+    return { longestStay: Number(selectedStay), lowestTotalPrice: lowestPrice };
+  };
+
+  return displayRates(hotel);
 };
 
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({ 

@@ -149,6 +149,9 @@ export function HotelBookingSection({
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
 
+  // Calculate checkout date
+  const checkoutDate = checkInDate ? addDays(checkInDate, selectedDuration) : null;
+
   return (
     <div className="p-6 space-y-6">
       <div className="text-center">
@@ -192,6 +195,25 @@ export function HotelBookingSection({
           className="border rounded-md w-full mx-auto bg-fuchsia-950/30 text-white"
         />
       </Card>
+
+      {/* Checkout Date Display */}
+      {checkInDate && checkoutDate && (
+        <div className="text-center space-y-2">
+          <div className="text-white/90 text-sm">
+            <div>Check-in: {format(checkInDate, "PPP")}</div>
+            <div>Check-out: {format(checkoutDate, "PPP")}</div>
+          </div>
+        </div>
+      )}
+
+      {/* Dynamic Pricing Message */}
+      {enablePriceIncrease && (
+        <div className="bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-3">
+          <p className="text-white/90 text-sm text-center">
+            This property uses dynamic pricing based on demand. Book early to secure the best rates!
+          </p>
+        </div>
+      )}
 
       <Button className="w-full bg-fuchsia-500 hover:bg-fuchsia-700 text-white" onClick={handleBookClick}>
         Book Now

@@ -106,13 +106,15 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 <h3 className="font-semibold mb-2 line-clamp-2 text-purple-900 text-center">{hotel.name}</h3>
                 <div className="flex justify-between items-end">
                   <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
-                  <div className="text-right text-xs">
-                    <div className="font-bold text-purple-900">
+                  <div className="text-right text-sm">
+                    <div className="text-purple-900">
                       {longestStay}-night stay
                     </div>
-                    <div className="text-purple-900">
-                      {lowestPrice ? `From $${lowestPrice} per person` : 'Contact for pricing'}
-                    </div>
+                    {lowestPrice && (
+                      <div className="text-purple-900">
+                        From ${lowestPrice} p/person
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

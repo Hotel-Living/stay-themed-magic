@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -65,7 +66,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   // Get the check-in weekday from the hotel data
   const checkInWeekday = hotel.preferredWeekday || hotel.check_in_weekday || "Monday";
 
-  // Prepare rates data - improved logic to properly extract rates from room types
+  // Prepare rates data - try multiple sources
   const preparedRates = (() => {
     console.log("Preparing rates from hotel data:", {
       hotelRates: hotel.rates,
@@ -78,29 +79,12 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
       return hotel.rates;
     }
 
-    // Try to extract rates from room_types - improved logic
+    // Try to extract rates from room_types
     if (hotel.room_types && hotel.room_types.length > 0) {
-      const aggregatedRates: Record<string, number> = {};
-      let foundRates = false;
-
-      hotel.room_types.forEach(room => {
-        if (room.rates && typeof room.rates === 'object') {
-          Object.entries(room.rates).forEach(([duration, price]) => {
-            if (price && typeof price === 'number' && price > 0) {
-              // Use the lowest price for each duration across all room types
-              const currentPrice = aggregatedRates[duration];
-              if (!currentPrice || price < currentPrice) {
-                aggregatedRates[duration] = price;
-              }
-              foundRates = true;
-            }
-          });
-        }
-      });
-
-      if (foundRates) {
-        console.log("Using aggregated rates from room types:", aggregatedRates);
-        return aggregatedRates;
+      const firstRoomWithRates = hotel.room_types.find(room => room.rates && Object.keys(room.rates).length > 0);
+      if (firstRoomWithRates?.rates) {
+        console.log("Using rates from first room type:", firstRoomWithRates.rates);
+        return firstRoomWithRates.rates;
       }
     }
 

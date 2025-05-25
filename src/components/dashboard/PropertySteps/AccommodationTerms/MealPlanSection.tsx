@@ -24,7 +24,7 @@ export default function MealPlanSection({
   );
   const { toast } = useToast();
   
-  // Standardized meal plan options using consistent kebab-case format
+  // Updated meal plan options to match the public filter exactly
   const mealPlanOptions = [
     { id: "breakfast-included", label: "Breakfast Included" },
     { id: "half-board", label: "Half Board" },

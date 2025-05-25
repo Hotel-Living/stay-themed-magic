@@ -87,40 +87,19 @@ export function HotelBookingSection({
     }
   };
 
-  const formatMealPlanText = (mealPlan: string) => {
-    // Handle different meal plan formats and convert to user-friendly text
-    const mealPlanMap: Record<string, string> = {
-      'fullBoard': 'Full Board',
-      'full-board': 'Full Board',
-      'halfBoard': 'Half Board',
-      'half-board': 'Half Board',
-      'breakfastIncluded': 'Breakfast Included',
-      'breakfast-included': 'Breakfast Included',
-      'allInclusive': 'All Inclusive',
-      'all-inclusive': 'All Inclusive',
-      'laundry': 'Laundry',
-      'external-laundry': 'External Laundry Service Available'
-    };
-
-    // Return mapped value or format the string properly
-    return mealPlanMap[mealPlan] || mealPlan.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
-  };
-
   const formatMealPlans = () => {
     if (!mealPlans || mealPlans.length === 0) return "";
     
-    const formattedPlans = mealPlans.map(plan => formatMealPlanText(plan));
-    
-    if (formattedPlans.length === 1) {
-      return formattedPlans[0];
+    if (mealPlans.length === 1) {
+      return mealPlans[0];
     }
     
-    if (formattedPlans.length === 2) {
-      return `${formattedPlans[0]} and ${formattedPlans[1]}`;
+    if (mealPlans.length === 2) {
+      return `${mealPlans[0]} and ${mealPlans[1]}`;
     }
     
-    const lastPlan = formattedPlans[formattedPlans.length - 1];
-    const otherPlans = formattedPlans.slice(0, -1);
+    const lastPlan = mealPlans[mealPlans.length - 1];
+    const otherPlans = mealPlans.slice(0, -1);
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from "react";
 import { useRoomTypes, RoomType } from "./useRoomTypes";
 
@@ -30,14 +29,11 @@ export function useRoomTypeSection(
     handleDeleteRoomType: originalHandleDeleteRoomType
   } = useRoomTypes([]);
   
-  // Track if we're in the middle of an update to prevent race conditions
-  const [isUpdating, setIsUpdating] = useState(false);
-  
   // Initialize roomTypes from formData if available
   useEffect(() => {
     console.log("useRoomTypeSection effect with formData.roomTypes:", formData.roomTypes);
     
-    if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0 && !isUpdating) {
+    if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0) {
       console.log("Setting room types from formData:", formData.roomTypes);
       
       // Ensure all required fields are present in each room type
@@ -64,72 +60,61 @@ export function useRoomTypeSection(
       
       setRoomTypes(processedRoomTypes);
     }
-  }, [formData.roomTypes, setRoomTypes, isUpdating]);
+  }, [formData.roomTypes, setRoomTypes]);
 
-  // Wrapped handlers to prevent race conditions
+  // Wrapped handlers with immediate form data updates
   const handleAddRoomType = useCallback((roomType: RoomType) => {
-    if (isUpdating) {
-      console.log("Already updating, skipping add room type");
-      return;
-    }
-    
-    setIsUpdating(true);
     console.log("Adding room type:", roomType);
     
-    try {
-      originalHandleAddRoomType(roomType);
-    } catch (error) {
-      console.error("Error adding room type:", error);
-    } finally {
-      // Reset updating flag after a short delay
-      setTimeout(() => {
-        setIsUpdating(false);
-      }, 100);
+    // Update local state first
+    originalHandleAddRoomType(roomType);
+    
+    // Immediately update parent form data
+    const updatedRoomTypes = [...roomTypes];
+    const existingIndex = updatedRoomTypes.findIndex(room => room.id === roomType.id);
+    
+    if (existingIndex >= 0) {
+      updatedRoomTypes[existingIndex] = roomType;
+    } else {
+      updatedRoomTypes.push(roomType);
     }
-  }, [originalHandleAddRoomType, isUpdating]);
+    
+    console.log("Immediately updating form data with room types:", updatedRoomTypes);
+    updateFormData('roomTypes', updatedRoomTypes);
+    
+    // Validate immediately
+    const isValid = updatedRoomTypes.length > 0;
+    onValidationChange(isValid);
+  }, [originalHandleAddRoomType, roomTypes, updateFormData, onValidationChange]);
 
   const handleDeleteRoomType = useCallback((id: string) => {
-    if (isUpdating) {
-      console.log("Already updating, skipping delete room type");
-      return;
-    }
-    
-    setIsUpdating(true);
     console.log("Deleting room type:", id);
     
-    try {
-      originalHandleDeleteRoomType(id);
-    } catch (error) {
-      console.error("Error deleting room type:", error);
-    } finally {
-      // Reset updating flag after a short delay
-      setTimeout(() => {
-        setIsUpdating(false);
-      }, 100);
-    }
-  }, [originalHandleDeleteRoomType, isUpdating]);
-
-  // Update parent form data when roomTypes change, but only if not currently updating
-  useEffect(() => {
-    if (isUpdating) {
-      console.log("Skipping form data update while updating");
-      return;
-    }
+    // Update local state first
+    originalHandleDeleteRoomType(id);
     
-    console.log("Room types changed, updating form data:", roomTypes);
-    if (updateFormData && roomTypes) {
-      // Use a timeout to ensure the update happens after all state changes are complete
-      const timeoutId = setTimeout(() => {
-        updateFormData('roomTypes', roomTypes);
-        
-        // Validate when roomTypes changes
-        const isValid = roomTypes.length > 0;
-        onValidationChange(isValid);
-      }, 50);
+    // Immediately update parent form data
+    const updatedRoomTypes = roomTypes.filter(room => room.id !== id);
+    
+    console.log("Immediately updating form data after deletion:", updatedRoomTypes);
+    updateFormData('roomTypes', updatedRoomTypes);
+    
+    // Validate immediately
+    const isValid = updatedRoomTypes.length > 0;
+    onValidationChange(isValid);
+  }, [originalHandleDeleteRoomType, roomTypes, updateFormData, onValidationChange]);
+
+  // Update parent form data when roomTypes change (backup sync)
+  useEffect(() => {
+    console.log("Room types changed, syncing with form data:", roomTypes);
+    if (updateFormData && roomTypes && roomTypes.length > 0) {
+      updateFormData('roomTypes', roomTypes);
       
-      return () => clearTimeout(timeoutId);
+      // Validate when roomTypes changes
+      const isValid = roomTypes.length > 0;
+      onValidationChange(isValid);
     }
-  }, [roomTypes, updateFormData, onValidationChange, isUpdating]);
+  }, [roomTypes, updateFormData, onValidationChange]);
 
   return {
     selectedUnit,

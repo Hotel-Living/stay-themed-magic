@@ -22,16 +22,13 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedStayLengths, setSelectedStayLengths] = useState<number[]>([8, 16, 24, 32]); // Updated default values
   
-  // Track if we're processing an update to prevent duplicate operations
-  const [isProcessing, setIsProcessing] = useState(false);
-  
   // Initialize roomTypes if provided
   useEffect(() => {
-    if (initialRoomTypes && initialRoomTypes.length > 0 && !isProcessing) {
+    if (initialRoomTypes && initialRoomTypes.length > 0) {
       console.log("Setting initial room types:", initialRoomTypes);
       setRoomTypes(initialRoomTypes);
     }
-  }, [initialRoomTypes, isProcessing]);
+  }, [initialRoomTypes]);
   
   // Get selected stay lengths from localStorage if available
   useEffect(() => {
@@ -53,12 +50,6 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
   }, []);
   
   const handleAddRoomType = (roomType: RoomType) => {
-    if (isProcessing) {
-      console.log("Already processing room type operation, skipping");
-      return;
-    }
-    
-    setIsProcessing(true);
     console.log("Adding/updating room type:", roomType);
     
     // Use functional update to ensure we have the latest state
@@ -80,20 +71,9 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
     });
     
     setDialogOpen(false);
-    
-    // Reset processing flag after operation is complete
-    setTimeout(() => {
-      setIsProcessing(false);
-    }, 100);
   };
   
   const handleDeleteRoomType = (id: string) => {
-    if (isProcessing) {
-      console.log("Already processing room type operation, skipping");
-      return;
-    }
-    
-    setIsProcessing(true);
     console.log("Deleting room type with id:", id);
     
     // Use functional update to ensure we have the latest state
@@ -102,11 +82,6 @@ export function useRoomTypes(initialRoomTypes: RoomType[] = []) {
       console.log("Filtered room types:", filtered);
       return filtered;
     });
-    
-    // Reset processing flag after operation is complete
-    setTimeout(() => {
-      setIsProcessing(false);
-    }, 100);
   };
   
   return {

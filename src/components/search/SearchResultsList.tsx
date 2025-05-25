@@ -112,7 +112,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                     </div>
                     {lowestPrice && (
                       <div className="text-purple-900">
-                        From ${lowestPrice} p/person
+                        From {lowestPrice} p/person
                       </div>
                     )}
                   </div>

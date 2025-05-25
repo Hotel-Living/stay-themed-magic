@@ -35,33 +35,42 @@ export const HotelCard = ({
   onClick
 }: HotelCardProps) => {
   // Helper function to display rates in the desired format
-  const displayRates = () => {
-    const stayLengths = ["8", "16", "24", "32"];
-    const availableRates = stayLengths.filter(length => rates[length]);
-    
-    if (availableRates.length === 0) {
-      // If no rates defined in the new format, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "";
-    }
-    
-    // Start with the lowest stay length that has a rate
-    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
-    
-    if (availableRates.length === 1) {
-      return `${formatCurrency(rates[lowestStayLength], currency)} (${lowestStayLength} days)`;
-    }
-    
-    return (
-      <div>
-        <div className="text-sm font-semibold">From {formatCurrency(rates[lowestStayLength], currency)}</div>
-        <div className="text-xs">
-          {availableRates.map(length => 
-            `${formatCurrency(rates[length], currency)} (${length} days)`
-          ).join(" · ")}
-        </div>
-      </div>
+  const displayRates = (hotel: any): string | null => {
+    if (!hotel?.room_types || hotel.room_types.length === 0) return null;
+
+    // Consider only double rooms
+    const doubleRooms = hotel.room_types.filter((rt: any) =>
+      rt.room_type?.toLowerCase().includes("double")
     );
+
+    if (doubleRooms.length === 0) return null;
+
+    const validDurations = ["8", "16", "24", "32"];
+
+    // Find longest stay that has valid pricing
+    for (const duration of validDurations.slice().reverse()) {
+      const pricesForDuration = doubleRooms
+        .map((room: any) => room.rates?.[duration])
+        .filter((rate: any) => typeof rate === "number");
+
+      if (pricesForDuration.length > 0) {
+        const lowest = Math.min(...pricesForDuration);
+        return `From ${lowest} p/person`;
+      }
+    }
+
+    return null;
   };
+
+  // Use the hotel data passed as props to calculate rates
+  const hotelData = {
+    room_types: rates ? Object.keys(rates).map(key => ({
+      room_type: "double", // Assuming double room for now
+      rates: rates
+    })) : []
+  };
+
+  const rateDisplay = displayRates(hotelData);
   
   return (
     <Card 
@@ -98,7 +107,7 @@ export const HotelCard = ({
         
         <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
           <div className="text-sm font-medium">
-            {displayRates()}
+            {rateDisplay || (pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "")}
           </div>
           
           {availableMonths && availableMonths.length > 0 && (

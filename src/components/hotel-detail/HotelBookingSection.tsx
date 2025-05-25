@@ -90,16 +90,40 @@ export function HotelBookingSection({
   const formatMealPlans = () => {
     if (!mealPlans || mealPlans.length === 0) return "";
     
-    if (mealPlans.length === 1) {
-      return mealPlans[0];
+    // Convert meal plan IDs to display names
+    const mealPlanDisplayNames = mealPlans.map(plan => {
+      switch (plan) {
+        case 'breakfast-included':
+          return 'Breakfast Included';
+        case 'half-board':
+          return 'Half Board';
+        case 'full-board':
+        case 'fullBoard':
+          return 'Full Board';
+        case 'all-inclusive':
+          return 'All Inclusive';
+        case 'laundry':
+          return 'Laundry';
+        case 'external-laundry':
+          return 'External Laundry Service Available';
+        default:
+          // Handle any other format by capitalizing words
+          return plan.split(/[-_]/).map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          ).join(' ');
+      }
+    });
+    
+    if (mealPlanDisplayNames.length === 1) {
+      return mealPlanDisplayNames[0];
     }
     
-    if (mealPlans.length === 2) {
-      return `${mealPlans[0]} and ${mealPlans[1]}`;
+    if (mealPlanDisplayNames.length === 2) {
+      return `${mealPlanDisplayNames[0]} and ${mealPlanDisplayNames[1]}`;
     }
     
-    const lastPlan = mealPlans[mealPlans.length - 1];
-    const otherPlans = mealPlans.slice(0, -1);
+    const lastPlan = mealPlanDisplayNames[mealPlanDisplayNames.length - 1];
+    const otherPlans = mealPlanDisplayNames.slice(0, -1);
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
 

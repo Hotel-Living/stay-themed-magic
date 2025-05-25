@@ -18,11 +18,6 @@ interface HotelCardProps {
   rates?: Record<string, number>;
   currency?: string;
   onClick?: () => void;
-  room_types?: Array<{
-    room_type?: string;
-    name?: string;
-    rates?: Record<string, number>;
-  }>;
 }
 
 export const HotelCard = ({
@@ -37,32 +32,36 @@ export const HotelCard = ({
   availableMonths = [],
   rates = {},
   currency = "USD",
-  onClick,
-  room_types = []
+  onClick
 }: HotelCardProps) => {
   // Helper function to display rates in the desired format
-  const displayRates = (hotel: { room_types?: Array<{ room_type?: string; name?: string; rates?: Record<string, number> }> }): string | null => {
-    if (!hotel?.room_types || hotel.room_types.length === 0) return null;
-
-    const durations = ["32", "24", "16", "8"];
-
-    for (const duration of durations) {
-      const prices = hotel.room_types
-        .filter(rt => rt.room_type?.toLowerCase().includes("double") || rt.name?.toLowerCase().includes("double"))
-        .map(rt => rt.rates?.[duration])
-        .filter(rate => typeof rate === "number");
-
-      if (prices.length > 0) {
-        const lowest = Math.min(...prices);
-        return `from ${lowest} p/person`;
-      }
+  const displayRates = () => {
+    const stayLengths = ["8", "16", "24", "32"];
+    const availableRates = stayLengths.filter(length => rates[length]);
+    
+    if (availableRates.length === 0) {
+      // If no rates defined in the new format, use the old pricePerMonth
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "";
     }
-
-    return null;
+    
+    // Start with the lowest stay length that has a rate
+    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
+    
+    if (availableRates.length === 1) {
+      return `${formatCurrency(rates[lowestStayLength], currency)} (${lowestStayLength} days)`;
+    }
+    
+    return (
+      <div>
+        <div className="text-sm font-semibold">From {formatCurrency(rates[lowestStayLength], currency)}</div>
+        <div className="text-xs">
+          {availableRates.map(length => 
+            `${formatCurrency(rates[length], currency)} (${length} days)`
+          ).join(" · ")}
+        </div>
+      </div>
+    );
   };
-
-  // Use the actual hotel data from props
-  const rateDisplay = displayRates({ room_types });
   
   return (
     <Card 
@@ -99,7 +98,7 @@ export const HotelCard = ({
         
         <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
           <div className="text-sm font-medium">
-            {rateDisplay || (pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "")}
+            {displayRates()}
           </div>
           
           {availableMonths && availableMonths.length > 0 && (

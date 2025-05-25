@@ -35,7 +35,9 @@ const fieldDisplayNames: { [key: string]: string } = {
   stay_lengths: "Stay Lengths",
   room_types: "Room Types",
   terms: "Terms & Conditions",
-  faqs: "FAQs"
+  faqs: "FAQs",
+  enable_price_increase: "Dynamic Pricing Enabled",
+  price_increase_cap: "Price Increase Cap (%)"
 };
 
 // Field type mapping
@@ -61,7 +63,9 @@ const fieldTypes: { [key: string]: FieldType } = {
   stay_lengths: 'array',
   room_types: 'array',
   terms: 'text',
-  faqs: 'array'
+  faqs: 'array',
+  enable_price_increase: 'boolean',
+  price_increase_cap: 'number'
 };
 
 export function useHotelChanges(hotel: AdminHotelDetail | null) {

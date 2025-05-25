@@ -1,13 +1,12 @@
 
-import React, { useState } from "react";
-import { Check, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import React from "react";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
-interface FieldChange {
+interface HotelChange {
   fieldName: string;
   displayName: string;
   previousValue: any;
@@ -17,200 +16,227 @@ interface FieldChange {
 
 interface ChangesHighlightProps {
   hotelId: string;
-  changes: FieldChange[];
+  changes: HotelChange[];
   onApproveAll: () => Promise<void>;
   onRejectAll: () => Promise<void>;
-  onRefresh: () => void;
+  onRefresh: () => Promise<void>;
 }
 
-export const ChangesHighlight = ({ 
+export function ChangesHighlight({ 
   hotelId, 
   changes, 
   onApproveAll, 
-  onRejectAll,
-  onRefresh
-}: ChangesHighlightProps) => {
+  onRejectAll, 
+  onRefresh 
+}: ChangesHighlightProps) {
   const { toast } = useToast();
-  const [loading, setLoading] = useState<{[key: string]: boolean}>({});
 
-  if (changes.length === 0) {
-    return null;
-  }
-
-  const handleApproveField = async (fieldName: string) => {
+  const handleApproveChange = async (change: HotelChange) => {
     try {
-      setLoading(prev => ({ ...prev, [fieldName]: true }));
+      console.log("Approving single change:", change.fieldName, "->", change.newValue);
       
-      // Extract just the single field from changes
-      const fieldChange = changes.find(change => change.fieldName === fieldName);
-      if (!fieldChange) return;
-      
-      console.log("Approving field change:", {
-        field: fieldName,
-        oldValue: fieldChange.previousValue,
-        newValue: fieldChange.newValue
+      // Apply the single change to the hotel
+      const updateData: Record<string, any> = {
+        [change.fieldName]: change.newValue
+      };
+
+      const { error } = await supabase
+        .from('hotels')
+        .update(updateData)
+        .eq('id', hotelId);
+
+      if (error) {
+        console.error("Error approving single change:", error);
+        throw error;
+      }
+
+      // Remove this specific change from pending_changes
+      const { data: currentHotel, error: fetchError } = await supabase
+        .from('hotels')
+        .select('pending_changes')
+        .eq('id', hotelId)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching current hotel:", fetchError);
+        throw fetchError;
+      }
+
+      const updatedPendingChanges = { ...currentHotel.pending_changes };
+      delete updatedPendingChanges[change.fieldName];
+
+      const { error: updatePendingError } = await supabase
+        .from('hotels')
+        .update({ 
+          pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
+        })
+        .eq('id', hotelId);
+
+      if (updatePendingError) {
+        console.error("Error updating pending changes:", updatePendingError);
+        throw updatePendingError;
+      }
+
+      toast({
+        title: "Change approved",
+        description: `${change.displayName} has been approved and applied.`
       });
+
+      await onRefresh();
+    } catch (error: any) {
+      console.error("Error approving change:", error);
+      toast({
+        title: "Error",
+        description: `Failed to approve ${change.displayName}: ${error.message}`,
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleRejectChange = async (change: HotelChange) => {
+    try {
+      console.log("Rejecting single change:", change.fieldName);
       
-      // First update the field with its new value
+      // Remove this specific change from pending_changes
+      const { data: currentHotel, error: fetchError } = await supabase
+        .from('hotels')
+        .select('pending_changes')
+        .eq('id', hotelId)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching current hotel:", fetchError);
+        throw fetchError;
+      }
+
+      const updatedPendingChanges = { ...currentHotel.pending_changes };
+      delete updatedPendingChanges[change.fieldName];
+
       const { error: updateError } = await supabase
         .from('hotels')
         .update({ 
-          [fieldName]: fieldChange.newValue
+          pending_changes: Object.keys(updatedPendingChanges).length > 0 ? updatedPendingChanges : null 
         })
         .eq('id', hotelId);
 
       if (updateError) {
-        console.error("Error updating field value:", updateError);
+        console.error("Error updating pending changes:", updateError);
         throw updateError;
       }
-      
-      // Then in a separate operation, call the edge function to remove the field from pending_changes
-      // Using functions.invoke to call the Edge function
-      const { error: pendingError } = await supabase.functions.invoke("remove_pending_change_field", {
-        body: {
-          hotel_id: hotelId,
-          field_name: fieldName
-        }
+
+      toast({
+        title: "Change rejected",
+        description: `${change.displayName} change has been rejected.`
       });
 
-      if (pendingError) {
-        console.error("Error removing field from pending_changes:", pendingError);
-        // Even if this fails, the value was updated correctly
-      }
-      
-      toast.success("Field approved", {
-        description: `The change to ${fieldChange.displayName} has been approved.`
-      });
-      
-      onRefresh();
+      await onRefresh();
     } catch (error: any) {
-      console.error("Error approving field:", error);
-      toast.error("Failed to approve field change", {
-        description: error.message || "Unknown error"
+      console.error("Error rejecting change:", error);
+      toast({
+        title: "Error",
+        description: `Failed to reject ${change.displayName}: ${error.message}`,
+        variant: "destructive"
       });
-    } finally {
-      setLoading(prev => ({ ...prev, [fieldName]: false }));
     }
   };
 
-  const handleRejectField = async (fieldName: string) => {
-    try {
-      setLoading(prev => ({ ...prev, [fieldName]: true }));
-      
-      console.log("Rejecting field change:", { field: fieldName });
-      
-      // Use the edge function to remove just this field from pending_changes
-      const { error } = await supabase.functions.invoke("remove_pending_change_field", {
-        body: {
-          hotel_id: hotelId,
-          field_name: fieldName
-        }
-      });
-
-      if (error) {
-        console.error("Error rejecting field with Edge Function:", error);
-        throw error;
-      }
-      
-      toast.success("Change rejected", {
-        description: "The proposed change has been rejected."
-      });
-      
-      onRefresh();
-    } catch (error: any) {
-      console.error("Error rejecting field:", error);
-      toast.error("Failed to reject field change", {
-        description: error.message || "Unknown error"
-      });
-    } finally {
-      setLoading(prev => ({ ...prev, [fieldName]: false }));
-    }
-  };
-
-  // Helper function to format field values for display
-  const formatValue = (value: any, fieldType: string) => {
+  const formatValue = (value: any, type: string) => {
     if (value === null || value === undefined) return "Not set";
     
-    switch(fieldType) {
+    switch (type) {
       case 'boolean':
         return value ? "Yes" : "No";
       case 'array':
-        return Array.isArray(value) ? value.join(", ") : "Empty";
+        if (Array.isArray(value)) {
+          return value.length > 0 ? value.join(", ") : "None";
+        }
+        return "None";
       case 'object':
-        return typeof value === 'object' ? JSON.stringify(value) : value;
+        if (typeof value === 'object') {
+          const entries = Object.entries(value).filter(([_, v]) => v === true);
+          return entries.length > 0 ? entries.map(([k]) => k).join(", ") : "None";
+        }
+        return "None";
+      case 'number':
+        return value.toString();
       default:
-        return String(value);
+        return value.toString();
     }
   };
 
-  return (
-    <Card className="bg-yellow-50/10 border border-yellow-300/30 p-4 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="font-medium text-lg flex items-center">
-            <Badge variant="outline" className="mr-2 bg-yellow-400/20 text-yellow-300 border-yellow-400">
-              Pending
-            </Badge>
-            Property Changes Requiring Review
-          </h3>
-          <p className="text-sm text-gray-300">
-            The hotel owner has submitted the following changes that require your review.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button 
-            onClick={onApproveAll}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            Approve All
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={onRejectAll}
-            className="border-red-400 text-red-400 hover:bg-red-50/10"
-          >
-            Reject All
-          </Button>
-        </div>
-      </div>
+  if (!changes || changes.length === 0) {
+    return null;
+  }
 
-      <div className="space-y-3">
-        {changes.map((change) => (
-          <div 
-            key={change.fieldName} 
-            className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg"
-          >
-            <div className="flex-1">
-              <p className="font-medium">{change.displayName}</p>
-              <div className="flex items-center text-sm mt-1">
-                <span className="text-gray-400">{formatValue(change.previousValue, change.fieldType)}</span>
-                <span className="mx-2 text-gray-500">→</span>
-                <span className="text-yellow-200 font-medium">{formatValue(change.newValue, change.fieldType)}</span>
+  return (
+    <Card className="p-6 bg-amber-950/30 border-amber-800/50">
+      <div className="flex items-center gap-2 mb-4">
+        <AlertTriangle className="w-5 h-5 text-amber-400" />
+        <h3 className="text-lg font-semibold text-amber-200">Pending Changes</h3>
+        <span className="text-sm text-amber-300">({changes.length} changes)</span>
+      </div>
+      
+      <div className="space-y-4 mb-6">
+        {changes.map((change, index) => (
+          <div key={index} className="bg-amber-900/20 rounded-lg p-4 border border-amber-800/30">
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="font-medium text-amber-100">{change.displayName}</h4>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleApproveChange(change)}
+                  className="bg-green-600/20 border-green-500/30 text-green-300 hover:bg-green-600/30"
+                >
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Approve
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleRejectChange(change)}
+                  className="bg-red-600/20 border-red-500/30 text-red-300 hover:bg-red-600/30"
+                >
+                  <XCircle className="w-4 h-4 mr-1" />
+                  Reject
+                </Button>
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => handleApproveField(change.fieldName)}
-                disabled={loading[change.fieldName]}
-                className="bg-green-600/20 hover:bg-green-600/40 text-green-300"
-              >
-                <Check className="w-4 h-4 mr-1" /> Approve
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => handleRejectField(change.fieldName)}
-                disabled={loading[change.fieldName]}
-                className="bg-red-600/20 hover:bg-red-600/40 text-red-300"
-              >
-                <X className="w-4 h-4 mr-1" /> Reject
-              </Button>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-amber-300 mb-1">Current:</p>
+                <p className="text-gray-300 bg-amber-950/20 p-2 rounded">
+                  {formatValue(change.previousValue, change.fieldType)}
+                </p>
+              </div>
+              <div>
+                <p className="text-amber-300 mb-1">Proposed:</p>
+                <p className="text-white bg-amber-800/30 p-2 rounded font-medium">
+                  {formatValue(change.newValue, change.fieldType)}
+                </p>
+              </div>
             </div>
           </div>
         ))}
       </div>
+
+      <div className="flex gap-4 justify-center">
+        <Button
+          onClick={onApproveAll}
+          className="bg-green-600 hover:bg-green-700 text-white"
+        >
+          <CheckCircle className="w-4 h-4 mr-2" />
+          Approve All Changes
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onRejectAll}
+          className="border-red-400 text-red-400 hover:bg-red-50"
+        >
+          <XCircle className="w-4 h-4 mr-2" />
+          Reject All Changes
+        </Button>
+      </div>
     </Card>
   );
-};
+}

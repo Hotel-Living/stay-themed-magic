@@ -256,6 +256,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   priceIncreaseCap={hotel.priceIncreaseCap}
                   availableMonths={hotel.available_months}
                   pricingMatrix={pricingMatrix}
+                  mealPlans={hotel.meal_plans}
                 />
               </div>
             </div>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useCallback } from "react";
 import { useRoomTypes, RoomType } from "./useRoomTypes";
 
 // Define interface for the formData parameter
@@ -25,15 +26,18 @@ export function useRoomTypeSection(
     dialogOpen,
     selectedStayLengths,
     setDialogOpen,
-    handleAddRoomType,
-    handleDeleteRoomType
+    handleAddRoomType: originalHandleAddRoomType,
+    handleDeleteRoomType: originalHandleDeleteRoomType
   } = useRoomTypes([]);
+  
+  // Track if we're in the middle of an update to prevent race conditions
+  const [isUpdating, setIsUpdating] = useState(false);
   
   // Initialize roomTypes from formData if available
   useEffect(() => {
     console.log("useRoomTypeSection effect with formData.roomTypes:", formData.roomTypes);
     
-    if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0) {
+    if (formData.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0 && !isUpdating) {
       console.log("Setting room types from formData:", formData.roomTypes);
       
       // Ensure all required fields are present in each room type
@@ -60,23 +64,72 @@ export function useRoomTypeSection(
       
       setRoomTypes(processedRoomTypes);
     }
-    
-    // Note: We're not using setSelectedStayLengths here because it's not available
-    // in the return value from useRoomTypes. The selectedStayLengths will be updated
-    // internally by useRoomTypes based on formData.stayLengths and localStorage.
-  }, [formData.roomTypes, setRoomTypes]);
+  }, [formData.roomTypes, setRoomTypes, isUpdating]);
 
-  // Update parent form data when roomTypes change
-  useEffect(() => {
-    console.log("Room types changed, updating form data:", roomTypes);
-    if (updateFormData && roomTypes) {
-      updateFormData('roomTypes', roomTypes);
+  // Wrapped handlers to prevent race conditions
+  const handleAddRoomType = useCallback((roomType: RoomType) => {
+    if (isUpdating) {
+      console.log("Already updating, skipping add room type");
+      return;
     }
     
-    // Validate when roomTypes changes
-    const isValid = roomTypes.length > 0;
-    onValidationChange(isValid);
-  }, [roomTypes, updateFormData, onValidationChange]);
+    setIsUpdating(true);
+    console.log("Adding room type:", roomType);
+    
+    try {
+      originalHandleAddRoomType(roomType);
+    } catch (error) {
+      console.error("Error adding room type:", error);
+    } finally {
+      // Reset updating flag after a short delay
+      setTimeout(() => {
+        setIsUpdating(false);
+      }, 100);
+    }
+  }, [originalHandleAddRoomType, isUpdating]);
+
+  const handleDeleteRoomType = useCallback((id: string) => {
+    if (isUpdating) {
+      console.log("Already updating, skipping delete room type");
+      return;
+    }
+    
+    setIsUpdating(true);
+    console.log("Deleting room type:", id);
+    
+    try {
+      originalHandleDeleteRoomType(id);
+    } catch (error) {
+      console.error("Error deleting room type:", error);
+    } finally {
+      // Reset updating flag after a short delay
+      setTimeout(() => {
+        setIsUpdating(false);
+      }, 100);
+    }
+  }, [originalHandleDeleteRoomType, isUpdating]);
+
+  // Update parent form data when roomTypes change, but only if not currently updating
+  useEffect(() => {
+    if (isUpdating) {
+      console.log("Skipping form data update while updating");
+      return;
+    }
+    
+    console.log("Room types changed, updating form data:", roomTypes);
+    if (updateFormData && roomTypes) {
+      // Use a timeout to ensure the update happens after all state changes are complete
+      const timeoutId = setTimeout(() => {
+        updateFormData('roomTypes', roomTypes);
+        
+        // Validate when roomTypes changes
+        const isValid = roomTypes.length > 0;
+        onValidationChange(isValid);
+      }, 50);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [roomTypes, updateFormData, onValidationChange, isUpdating]);
 
   return {
     selectedUnit,

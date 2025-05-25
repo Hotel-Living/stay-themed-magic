@@ -22,6 +22,7 @@ export function useRoomTypeForm({
   const [description, setDescription] = useState('');
   const [roomCount, setRoomCount] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { persistRoomImages, convertBlobUrlsToPermanent, uploading: imageUploading } = useRoomImagePersistence();
   
@@ -68,6 +69,13 @@ export function useRoomTypeForm({
       return;
     }
 
+    if (isSubmitting) {
+      console.log("Already submitting, preventing duplicate submission");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
       let finalImages: string[] = [];
 
@@ -101,6 +109,10 @@ export function useRoomTypeForm({
       };
 
       console.log("Adding/updating room type with data:", roomTypeData);
+      
+      // Add a small delay to ensure all state updates are processed
+      await new Promise(resolve => setTimeout(resolve, 50));
+      
       onAdd(roomTypeData);
       
       // Reset form
@@ -111,6 +123,11 @@ export function useRoomTypeForm({
       
     } catch (error) {
       console.error("Error processing room type:", error);
+    } finally {
+      // Reset submitting flag after a delay to prevent rapid re-submissions
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 200);
     }
   };
 
@@ -122,7 +139,8 @@ export function useRoomTypeForm({
     roomCount,
     roomImages,
     roomImagePreviews,
-    isEditing
+    isEditing,
+    isSubmitting
   };
 
   const setters = {

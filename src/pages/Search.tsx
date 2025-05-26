@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -200,8 +199,8 @@ export default function Search() {
           </div>
           <div className="w-full md:w-3/4">
             <div className="mb-4">
-              <h1 className="text-2xl font-bold">Search Results</h1>
-              <p className="text-muted-foreground">
+              <h1 className="text-2xl font-bold" style={{ color: '#860493' }}>Search Results</h1>
+              <p className="text-muted-foreground" style={{ color: '#860493' }}>
                 Found {hotels?.length || 0} properties matching your criteria
               </p>
             </div>

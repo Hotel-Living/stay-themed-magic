@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -83,18 +82,35 @@ export function HotelBookingSection({
       const roomMap = new Map<string, number>();
       
       Object.entries(rates).forEach(([key, price]) => {
+        console.log("Processing rate key:", key);
         // Extract room type from rate key (e.g., "double-32 days-breakfast" -> "double")
-        // Split by "-" and take the first part as room type
-        const parts = key.split('-');
-        if (parts.length > 0) {
-          const rawRoomType = parts[0].toLowerCase();
+        // Find the first part that looks like a room type
+        const parts = key.toLowerCase().split('-');
+        const potentialRoomTypes = ['single', 'double', 'triple', 'quad', 'suite', 'twin', 'king', 'queen'];
+        
+        let roomType = '';
+        for (const part of parts) {
+          if (potentialRoomTypes.includes(part)) {
+            roomType = part;
+            break;
+          }
+        }
+        
+        // If no standard room type found, use the first part
+        if (!roomType && parts.length > 0) {
+          roomType = parts[0];
+        }
+        
+        if (roomType) {
           // Capitalize the room type properly
-          const roomType = rawRoomType.charAt(0).toUpperCase() + rawRoomType.slice(1);
+          const capitalizedRoomType = roomType.charAt(0).toUpperCase() + roomType.slice(1);
           const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
           
+          console.log("Extracted room type:", capitalizedRoomType, "Price:", numericPrice);
+          
           if (!isNaN(numericPrice)) {
-            if (!roomMap.has(roomType) || roomMap.get(roomType)! > numericPrice) {
-              roomMap.set(roomType, numericPrice);
+            if (!roomMap.has(capitalizedRoomType) || roomMap.get(capitalizedRoomType)! > numericPrice) {
+              roomMap.set(capitalizedRoomType, numericPrice);
             }
           }
         }

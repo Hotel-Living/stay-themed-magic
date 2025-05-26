@@ -1,9 +1,10 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { format, addDays, isSameDay } from "date-fns";
+import { format, addDays } from "date-fns";
+import BookingDropdown from "@/components/hotel-detail/BookingDropdown";
 
 interface HotelBookingSectionProps {
   checkInDate: Date | undefined;
@@ -43,116 +44,15 @@ export function HotelBookingSection({
   pricingMatrix,
   mealPlans
 }: HotelBookingSectionProps) {
-  const [selectedRoomAndPrice, setSelectedRoomAndPrice] = React.useState<string>("");
   const availableDates = availableMonths || [];
 
-  // Get unique room types with their prices from pricing matrix or rates, sorted by price
-  const roomTypesWithPrices = React.useMemo(() => {
-    console.log("=== DROPDOWN LOGIC DEBUG ===");
-    console.log("Processing pricingMatrix:", pricingMatrix);
-    console.log("Available rates:", rates);
-    
-    if (pricingMatrix && pricingMatrix.length > 0) {
-      const roomMap = new Map<string, number>();
-      
-      // Get all room types with their prices from the pricing matrix
-      pricingMatrix.forEach(entry => {
-        if (entry.price > 0) {
-          // Format room type name properly
-          const formattedRoomType = entry.roomType.charAt(0).toUpperCase() + entry.roomType.slice(1).toLowerCase();
-          const roomTypeDisplay = `${formattedRoomType} Room`;
-          
-          // If room type doesn't exist or current price is lower, update it
-          if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > entry.price) {
-            roomMap.set(roomTypeDisplay, entry.price);
-          }
-        }
-      });
-      
-      console.log("Room map from pricing matrix:", Array.from(roomMap.entries()));
-      
-      // Convert to array and sort by price (cheapest first)
-      const roomArray = Array.from(roomMap.entries()).sort((a, b) => a[1] - b[1]);
-      
-      return roomArray.map(([roomType, price]) => ({
-        roomType,
-        price,
-        value: `${roomType} – ${price}`
-      }));
-    }
-    
-    // Fallback: extract from rates if pricing matrix is not available
-    if (rates && Object.keys(rates).length > 0) {
-      console.log("Fallback to rates processing:", rates);
-      const roomMap = new Map<string, number>();
-      
-      Object.entries(rates).forEach(([key, price]) => {
-        console.log("Processing rate key:", key);
-        
-        // Parse rate key format: "double-32 days-breakfast" -> extract "double"
-        const parts = key.toLowerCase().split('-');
-        console.log("Rate key parts:", parts);
-        
-        // Standard room types to look for
-        const potentialRoomTypes = ['single', 'double', 'triple', 'quad', 'suite', 'twin', 'king', 'queen'];
-        
-        let roomType = '';
-        
-        // Find the room type in the first part of the key
-        for (const part of parts) {
-          const cleanPart = part.trim();
-          if (potentialRoomTypes.includes(cleanPart)) {
-            roomType = cleanPart;
-            break;
-          }
-        }
-        
-        console.log("Extracted room type from key:", roomType);
-        
-        if (roomType) {
-          // Format room type properly: "double" -> "Double Room"
-          const formattedRoomType = roomType.charAt(0).toUpperCase() + roomType.slice(1).toLowerCase();
-          const roomTypeDisplay = `${formattedRoomType} Room`;
-          const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-          
-          console.log("Formatted room type:", roomTypeDisplay, "Price:", numericPrice);
-          
-          if (!isNaN(numericPrice)) {
-            if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > numericPrice) {
-              roomMap.set(roomTypeDisplay, numericPrice);
-            }
-          }
-        }
-      });
-      
-      console.log("Room map from rates:", Array.from(roomMap.entries()));
-      
-      const roomArray = Array.from(roomMap.entries()).sort((a, b) => a[1] - b[1]);
-      
-      return roomArray.map(([roomType, price]) => ({
-        roomType,
-        price,
-        value: `${roomType} – ${price}`
-      }));
-    }
-    
-    console.log("No valid data source found");
-    return [];
-  }, [pricingMatrix, rates]);
-
-  console.log("Final roomTypesWithPrices:", roomTypesWithPrices);
-
-  // Initialize with first available room type (cheapest)
+  // Initialize with longest duration if selectedDuration is 0
   React.useEffect(() => {
-    if (roomTypesWithPrices.length > 0 && !selectedRoomAndPrice) {
-      setSelectedRoomAndPrice(roomTypesWithPrices[0].value);
-      console.log("Setting default room selection:", roomTypesWithPrices[0].value);
-    }
     if (stayDurations.length > 0 && selectedDuration === 0) {
       const longestDuration = Math.max(...stayDurations);
       setSelectedDuration(longestDuration);
     }
-  }, [roomTypesWithPrices, stayDurations, selectedRoomAndPrice, selectedDuration, setSelectedDuration]);
+  }, [stayDurations, selectedDuration, setSelectedDuration]);
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableDates || availableDates.length === 0) {
@@ -169,43 +69,6 @@ export function HotelBookingSection({
     const isAvailable = isDateAvailable(date);
     
     return isPreferredDay && isAvailable;
-  };
-
-  // Extract selected room type and price from the combined selection
-  const getSelectedRoomInfo = () => {
-    if (!selectedRoomAndPrice) return { roomType: "", price: 0 };
-    
-    const parts = selectedRoomAndPrice.split(' – ');
-    if (parts.length === 2) {
-      return {
-        roomType: parts[0],
-        price: parseFloat(parts[1])
-      };
-    }
-    return { roomType: "", price: 0 };
-  };
-
-  const calculatePrice = () => {
-    const { price } = getSelectedRoomInfo();
-    
-    if (price === 0) {
-      return 0;
-    }
-
-    let finalPrice = price;
-
-    if (enable_price_increase && checkInDate) {
-      const dayOfMonth = checkInDate.getDate();
-      const increaseFactor = Math.min(dayOfMonth / 100, price_increase_cap || 0.3);
-      finalPrice *= (1 + increaseFactor);
-    }
-
-    return finalPrice;
-  };
-
-  const handleRoomAndPriceChange = (value: string) => {
-    console.log("Room selection changed to:", value);
-    setSelectedRoomAndPrice(value);
   };
 
   const formatMealPlans = () => {
@@ -268,24 +131,14 @@ export function HotelBookingSection({
         <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
-      {/* Room Type with Price Selector */}
+      {/* New BookingDropdown Component */}
       <div>
-        <Select value={selectedRoomAndPrice} onValueChange={handleRoomAndPriceChange}>
-          <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 text-white">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="bg-[#860493] border border-fuchsia-800/30 z-50">
-            {roomTypesWithPrices.map((room) => (
-              <SelectItem 
-                key={room.value} 
-                value={room.value} 
-                className="text-white hover:bg-fuchsia-700/50 focus:bg-fuchsia-700/50 data-[state=checked]:bg-fuchsia-700/50 focus:text-white cursor-pointer"
-              >
-                {room.value}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <BookingDropdown
+          pricingMatrix={pricingMatrix}
+          onSelect={(selection) => {
+            console.log("Selected pricing option:", selection);
+          }}
+        />
       </div>
 
       <Card className="border-none shadow-none bg-transparent">

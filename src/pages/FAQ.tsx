@@ -63,7 +63,7 @@ export default function FAQ() {
           </div>
 
           {/* First Horizontal Accordion Menu */}
-          <div className="mb-32">
+          <div className="mb-48">
             <Tabs value={activeAccordionTab} onValueChange={setActiveAccordionTab} className="w-full">
               <div className="flex justify-center mb-4">
                 <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
@@ -82,7 +82,7 @@ export default function FAQ() {
                 <TabsContent key={option.id} value={option.id} className="mt-4">
                   <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
                     {option.id === "still-renting" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why Rent a Flat When You Can Have Room Service?</p>
                           <p className="text-lg leading-relaxed">Why apply with endless requirements — when you could just check in and feel at home, instantly?</p>
@@ -116,7 +116,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "hotel" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why ignore your most profitable guests — the ones who stay longer, spend more, and ask for less?</p>
                           <p className="text-lg leading-relaxed">Why leave untapped earnings on the table — when they add up to thousands per year?</p>
@@ -208,7 +208,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "society" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         {/* Questions Section */}
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why keep old housing models for big families that don't exist anymore?</p>
@@ -232,7 +232,7 @@ export default function FAQ() {
                         </div>
 
                         {/* Divider */}
-                        <div className="border-t border-[#FFF9B0]/30 my-8"></div>
+                        <div className="border-t border-yellow-300/30 my-8"></div>
 
                         {/* We Statements Section */}
                         <div className="space-y-4">
@@ -334,7 +334,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "commuter" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why lose hours in traffic when you could gain them in a theater?</p>
                           <p className="text-lg leading-relaxed">Why waste money on gas instead of investing in your life?</p>
@@ -385,7 +385,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "online-worker" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why stay stuck in one place — when you could live freely from city to city, on your terms?</p>
                           <p className="text-lg leading-relaxed">Why tie yourself to one address — when the world is full of places waiting to feel like home?</p>
@@ -436,7 +436,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "retired" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why limit your life — when the world is waiting?</p>
                           <p className="text-lg leading-relaxed">Why stay in one place — when living in many keeps you young?</p>
@@ -484,7 +484,7 @@ export default function FAQ() {
                         </div>
                       </div>
                     ) : option.id === "free-soul" ? (
-                      <div className="space-y-8 text-[#FFF9B0]">
+                      <div className="space-y-12 text-yellow-300">
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why stay stuck in one place — when you could live freely from city to city, on your terms?</p>
                           <p className="text-lg leading-relaxed">Why tie yourself to one address — when the world is full of places waiting to feel like home?</p>

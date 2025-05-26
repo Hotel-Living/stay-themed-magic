@@ -89,15 +89,26 @@ export function HotelBookingSection({
     console.log(`Getting price for ${roomType}, ${duration} nights from pricingMatrix:`, pricingMatrix);
     
     if (pricingMatrix && pricingMatrix.length > 0) {
-      // Look for matching room type and duration
+      // Look for exact matching room type and duration
       const matchingEntry = pricingMatrix.find(entry => 
-        entry.roomType === roomType && 
+        entry.roomType.toLowerCase() === roomType.toLowerCase() && 
         entry.stayLength === `${duration} days`
       );
       
       if (matchingEntry && matchingEntry.price > 0) {
         console.log(`Found pricing matrix price for ${roomType}, ${duration} nights:`, matchingEntry.price);
         return matchingEntry.price;
+      }
+      
+      // If no exact match found, try with partial room type matching
+      const partialMatch = pricingMatrix.find(entry => 
+        entry.roomType.toLowerCase().includes(roomType.toLowerCase().split(' ')[0]) && 
+        entry.stayLength === `${duration} days`
+      );
+      
+      if (partialMatch && partialMatch.price > 0) {
+        console.log(`Found partial match pricing for ${roomType}, ${duration} nights:`, partialMatch.price);
+        return partialMatch.price;
       }
     }
 

@@ -285,7 +285,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 
                 {/* Affinities Section */}
                 {affinities && <div className="text-center space-y-1">
-                    <div className="text-sm font-semibold text-purple-900">YOU'LL MEET PEOPLE LOVING</div>
+                    <div className="text-sm font-semibold text-purple-900 px-0 mx-0">YOU'LL MEET PEOPLE LOVING</div>
                     <div className="text-sm text-purple-900">{affinities}</div>
                   </div>}
                 

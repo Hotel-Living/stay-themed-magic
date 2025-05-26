@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 
 export function WhyHotelLivingSection() {
@@ -44,28 +43,29 @@ export function WhyHotelLivingSection() {
 
       {/* First Horizontal Accordion Menu */}
       <div className="mb-24">
-        <Tabs value={activeAccordionTab} onValueChange={handleAccordionTabChange} className="w-full">
+        <div className="w-full">
           <div className="flex justify-center mb-4">
-            <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
               {accordionOptions.map((option) => (
-                <TabsTrigger 
+                <button 
                   key={option.id} 
-                  value={option.id}
+                  onClick={() => handleAccordionTabChange(option.id)}
                   className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                 >
                   {option.label}
-                </TabsTrigger>
+                </button>
               ))}
-            </TabsList>
+            </div>
           </div>
-          {accordionOptions.map((option) => (
-            <TabsContent key={option.id} value={option.id} className="mt-4">
+          
+          {activeAccordionTab && (
+            <div className="mt-4">
               <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
-                <AccordionContentRenderer optionId={option.id} />
+                <AccordionContentRenderer optionId={activeAccordionTab} />
               </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

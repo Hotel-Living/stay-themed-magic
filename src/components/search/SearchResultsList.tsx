@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -62,8 +63,8 @@ const getHotelPricingInfo = (hotel: Hotel) => {
         const stayLengthMatch = pricing.stayLength.match(/(\d+)/);
         if (stayLengthMatch) {
           const stayLength = parseInt(stayLengthMatch[1]);
-          allPriceOptions.push({ price: pricing.price, stayLength });
-          console.log(`Found pricing matrix option for ${hotel.name}: ${pricing.price} for ${stayLength} nights`);
+          allPriceOptions.push({ price: Number(pricing.price), stayLength });
+          console.log(`Found pricing matrix option for ${hotel.name}: ${pricing.price} for ${stayLength} days`);
         }
       }
     }
@@ -105,8 +106,8 @@ const getHotelPricingInfo = (hotel: Hotel) => {
         }
         
         if (stayLength && stayLength > 0) {
-          allPriceOptions.push({ price, stayLength });
-          console.log(`Found rates option for ${hotel.name}: ${price} for ${stayLength} nights (from key: ${key})`);
+          allPriceOptions.push({ price: Number(price), stayLength });
+          console.log(`Found rates option for ${hotel.name}: ${price} for ${stayLength} days (from key: ${key})`);
         }
       }
     }
@@ -144,7 +145,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
             }
             
             if (stayLength && stayLength > 0) {
-              allPriceOptions.push({ price, stayLength });
+              allPriceOptions.push({ price: Number(price), stayLength });
             }
           }
         }
@@ -153,11 +154,11 @@ const getHotelPricingInfo = (hotel: Hotel) => {
       // Also check basePrice and baseRate as fallbacks
       if (room.basePrice && room.basePrice > 0 && hotel.stay_lengths && hotel.stay_lengths.length > 0) {
         const longestStay = Math.max(...hotel.stay_lengths);
-        allPriceOptions.push({ price: room.basePrice, stayLength: longestStay });
+        allPriceOptions.push({ price: Number(room.basePrice), stayLength: longestStay });
       }
       if (room.baseRate && room.baseRate > 0 && hotel.stay_lengths && hotel.stay_lengths.length > 0) {
         const longestStay = Math.max(...hotel.stay_lengths);
-        allPriceOptions.push({ price: room.baseRate, stayLength: longestStay });
+        allPriceOptions.push({ price: Number(room.baseRate), stayLength: longestStay });
       }
     }
   }
@@ -165,11 +166,11 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   // Fallback: use price_per_month if available
   if (allPriceOptions.length === 0 && hotel.price_per_month && hotel.price_per_month > 0) {
     console.log(`Using price_per_month fallback for ${hotel.name}: ${hotel.price_per_month}`);
-    // Assume monthly price corresponds to approximately 30 nights
-    allPriceOptions.push({ price: hotel.price_per_month, stayLength: 30 });
+    // Assume monthly price corresponds to approximately 30 days
+    allPriceOptions.push({ price: Number(hotel.price_per_month), stayLength: 30 });
   }
 
-  // Find the option with the lowest price
+  // Find the option with the lowest price (numeric comparison)
   if (allPriceOptions.length > 0) {
     const cheapestOption = allPriceOptions.reduce((prev, current) => 
       current.price < prev.price ? current : prev
@@ -192,7 +193,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     return { stayText: null, priceText: null };
   }
 
-  const stayText = `${correspondingStayLength} nights`;
+  const stayText = `${correspondingStayLength} days`;
   const priceText = `From ${lowestPrice} p/person`;
 
   return { stayText, priceText };

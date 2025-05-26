@@ -31,6 +31,17 @@ interface Hotel {
     mealPlan: string;
     price: number;
   }>;
+  // Add hotel themes and activities data
+  hotel_themes?: Array<{
+    themes?: {
+      name: string;
+    };
+  }>;
+  hotel_activities?: Array<{
+    activities?: {
+      name: string;
+    };
+  }>;
 }
 
 interface SearchResultsListProps {
@@ -199,6 +210,34 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   return { stayText, priceText };
 };
 
+// Helper function to extract affinities from hotel themes
+const getHotelAffinities = (hotel: Hotel): string => {
+  if (!hotel.hotel_themes || hotel.hotel_themes.length === 0) {
+    return "";
+  }
+  
+  const affinities = hotel.hotel_themes
+    .map(theme => theme.themes?.name)
+    .filter(name => name)
+    .join(" – ");
+    
+  return affinities;
+};
+
+// Helper function to extract activities from hotel activities
+const getHotelActivities = (hotel: Hotel): string => {
+  if (!hotel.hotel_activities || hotel.hotel_activities.length === 0) {
+    return "";
+  }
+  
+  const activities = hotel.hotel_activities
+    .map(activity => activity.activities?.name)
+    .filter(name => name)
+    .join(" – ");
+    
+  return activities;
+};
+
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({ 
   filteredHotels, 
   isLoading, 
@@ -232,6 +271,8 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {filteredHotels.map((hotel, index) => {
         const { stayText, priceText } = getHotelPricingInfo(hotel);
+        const affinities = getHotelAffinities(hotel);
+        const activities = getHotelActivities(hotel);
         
         return (
           <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
@@ -248,8 +289,8 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                   </div>
                 )}
               </div>
-              <div className="p-4">
-                <h3 className="font-semibold mb-2 line-clamp-2 text-purple-900 text-center">{hotel.name}</h3>
+              <div className="p-4 space-y-3">
+                <h3 className="font-semibold mb-2 line-clamp-2 text-purple-900 text-center uppercase">{hotel.name}</h3>
                 <div className="flex justify-between items-start">
                   <span className="text-sm text-purple-900">{hotel.location || "Location unavailable"}</span>
                   <div className="text-right text-sm">
@@ -263,6 +304,22 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                     )}
                   </div>
                 </div>
+                
+                {/* Affinities Section */}
+                {affinities && (
+                  <div className="text-center space-y-1">
+                    <div className="text-sm font-semibold text-purple-900">YOU'LL MEET PEOPLE LOVING</div>
+                    <div className="text-sm text-purple-900">{affinities}</div>
+                  </div>
+                )}
+                
+                {/* Activities Section */}
+                {activities && (
+                  <div className="text-center space-y-1">
+                    <div className="text-sm font-semibold text-purple-900">JOIN THEM FOR</div>
+                    <div className="text-sm text-purple-900 font-bold">{activities}</div>
+                  </div>
+                )}
               </div>
             </Card>
           </Link>

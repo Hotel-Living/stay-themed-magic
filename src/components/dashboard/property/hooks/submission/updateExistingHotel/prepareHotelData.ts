@@ -68,6 +68,6 @@ export const prepareHotelData = (formData: PropertyFormData): Record<string, any
     available_months,
     rates,
     main_image_url: mainImageUrl || null,
-    pricingMatrix: pricingMatrix // Use the correct column name from database
+    pricingmatrix: pricingMatrix // Use the correct lowercase column name from database
   };
 };

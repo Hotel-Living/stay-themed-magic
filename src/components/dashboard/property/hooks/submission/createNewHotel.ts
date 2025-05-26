@@ -84,7 +84,7 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     main_image_url: formData.mainImageUrl || null,
     enable_price_increase: formData.enablePriceIncrease || false,
     price_increase_cap: formData.priceIncreaseCap || 20,
-    pricingMatrix: pricingMatrix // Use the correct column name from database
+    pricingmatrix: pricingMatrix // Use the correct lowercase column name from database
   };
 
   console.log("Inserting hotel with pricing matrix:", pricingMatrix);

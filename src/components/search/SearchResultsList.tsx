@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -19,6 +18,12 @@ interface Hotel {
   }>;
   stay_lengths?: number[];
   rates?: Record<string, number>;
+  pricingmatrix?: Array<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+  }>;
   pricingMatrix?: Array<{
     roomType: string;
     stayLength: string;
@@ -37,6 +42,7 @@ interface SearchResultsListProps {
 const getHotelPricingInfo = (hotel: Hotel) => {
   console.log(`Processing pricing for hotel: ${hotel.name}`, {
     pricingMatrix: hotel.pricingMatrix,
+    pricingmatrix: hotel.pricingmatrix,
     rates: hotel.rates,
     price_per_month: hotel.price_per_month
   });
@@ -45,11 +51,12 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   let correspondingStayLength = null;
   const allPriceOptions: Array<{price: number, stayLength: number}> = [];
 
-  // First priority: use pricingMatrix if available
-  if (hotel.pricingMatrix && hotel.pricingMatrix.length > 0) {
-    console.log(`Found pricingMatrix for ${hotel.name}:`, hotel.pricingMatrix);
+  // First priority: use pricingMatrix (either camelCase or lowercase version)
+  const pricingMatrix = hotel.pricingMatrix || hotel.pricingmatrix;
+  if (pricingMatrix && pricingMatrix.length > 0) {
+    console.log(`Found pricingMatrix for ${hotel.name}:`, pricingMatrix);
     
-    for (const pricing of hotel.pricingMatrix) {
+    for (const pricing of pricingMatrix) {
       if (pricing.price && pricing.price > 0 && pricing.stayLength) {
         // Extract numeric value from stay length
         const stayLengthMatch = pricing.stayLength.match(/(\d+)/);
@@ -68,19 +75,25 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     
     for (const [key, price] of Object.entries(hotel.rates)) {
       if (price && price > 0) {
-        // Handle different key formats:
-        // 1. "RoomType-StayLength-MealPlan" format
-        // 2. Simple stay length format like "8", "16", "24", "32"
         let stayLength = null;
         
+        // Handle different key formats:
+        // 1. "RoomType-StayLength-MealPlan" format like "double-32 days-breakfast"
+        // 2. Simple stay length format like "8", "16", "24", "32"
         if (key.includes('-')) {
-          // Split and get the middle part which should be stay length
+          // Split and check each part for stay length
           const parts = key.split('-');
-          if (parts.length >= 2) {
-            const stayLengthStr = parts[1];
-            const stayLengthMatch = stayLengthStr.match(/(\d+)/);
-            if (stayLengthMatch) {
-              stayLength = parseInt(stayLengthMatch[1]);
+          for (const part of parts) {
+            // Look for patterns like "32 days" or just "32"
+            const daysMatch = part.match(/(\d+)\s*days?/i);
+            const numMatch = part.match(/^(\d+)$/);
+            
+            if (daysMatch) {
+              stayLength = parseInt(daysMatch[1]);
+              break;
+            } else if (numMatch) {
+              stayLength = parseInt(numMatch[1]);
+              break;
             }
           }
         } else {
@@ -93,7 +106,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
         
         if (stayLength && stayLength > 0) {
           allPriceOptions.push({ price, stayLength });
-          console.log(`Found rates option for ${hotel.name}: ${price} for ${stayLength} nights`);
+          console.log(`Found rates option for ${hotel.name}: ${price} for ${stayLength} nights (from key: ${key})`);
         }
       }
     }
@@ -111,11 +124,16 @@ const getHotelPricingInfo = (hotel: Hotel) => {
             
             if (key.includes('-')) {
               const parts = key.split('-');
-              if (parts.length >= 2) {
-                const stayLengthStr = parts[1];
-                const stayLengthMatch = stayLengthStr.match(/(\d+)/);
-                if (stayLengthMatch) {
-                  stayLength = parseInt(stayLengthMatch[1]);
+              for (const part of parts) {
+                const daysMatch = part.match(/(\d+)\s*days?/i);
+                const numMatch = part.match(/^(\d+)$/);
+                
+                if (daysMatch) {
+                  stayLength = parseInt(daysMatch[1]);
+                  break;
+                } else if (numMatch) {
+                  stayLength = parseInt(numMatch[1]);
+                  break;
                 }
               }
             } else {

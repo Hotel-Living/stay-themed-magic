@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -296,7 +294,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 {/* Activities Section */}
                 {activities && <div className="text-center space-y-1">
                     <div className="text-xs font-semibold text-purple-900">JOIN THEM FOR</div>
-                    <div className="text-xs text-purple-900 font-bold">{activities}</div>
+                    <div className="text-xs text-purple-900">{activities}</div>
                   </div>}
               </div>
             </Card>
@@ -304,4 +302,3 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     })}
     </div>;
 };
-

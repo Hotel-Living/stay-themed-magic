@@ -12,7 +12,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeAccordionTab, setActiveAccordionTab] = useState("still-renting");
+  const [activeAccordionTab, setActiveAccordionTab] = useState(""); // Changed to empty string for collapsed state
   const isMobile = useIsMobile();
 
   const accordionOptions = [

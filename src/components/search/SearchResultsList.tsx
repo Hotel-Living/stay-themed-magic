@@ -266,7 +266,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       const affinities = getHotelAffinities(hotel);
       const activities = getHotelActivities(hotel);
       return <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
-            <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[400px]">
+            <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[400px] bg-[#dcd8f7]">
               <div className="aspect-video bg-muted relative overflow-hidden">
                 <img src={hotel.thumbnail} alt={hotel.name} className="w-full h-full object-cover" />
                 {hotel.theme && <div className="absolute bottom-2 left-2 bg-purple-900 text-white text-xs px-2 py-1 rounded-full">

@@ -79,7 +79,7 @@ export default function FAQ() {
                     <TabsTrigger 
                       key={option.id} 
                       value={option.id}
-                      className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} ${activeAccordionTab === option.id ? "bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                      className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                     >
                       {option.label}
                     </TabsTrigger>
@@ -403,9 +403,9 @@ export default function FAQ() {
                         
                         <div className="space-y-4">
                           <p className="text-lg leading-relaxed">Why plan months ahead — when flexibility means staying as long as it feels right?</p>
+                          <p className="text-lg leading-relaxed">Why unpack your suitcase for good — when life feels more alive with motion, meaning, and new people?</p>
                           <p className="text-lg leading-relaxed">Why live surrounded by the same stories — when you could collect new ones every month?</p>
                           <p className="text-lg leading-relaxed">Why keep meeting the same neighbors — when you could connect with creatives, travelers, and thinkers from around the world?</p>
-                          <p className="text-lg leading-relaxed">Why unpack your suitcase for good — when life feels more alive with motion, meaning, and new people?</p>
                         </div>
                         
                         <div className="space-y-4">

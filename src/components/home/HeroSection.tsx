@@ -1,4 +1,3 @@
-
 import { Check } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 export function HeroSection() {
@@ -27,7 +26,7 @@ export function HeroSection() {
           {/* Increased spacing above by 50% on mobile and increased container size by 20% */}
           <div className={`flex justify-center ${isMobile ? "mb-12 mt-9" : "mb-6 mt-3"}`}>
             <div className={`relative ${isMobile ? "w-[85%]" : "w-[22%]"} mx-auto`}>
-              <div className="rounded-lg py-0.5 border-2 border-[#D946EF] bg-[#FFF8A9] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)] px-[11px]">
+              <div className="rounded-lg border-2 border-[#D946EF] bg-[#FFF8A9] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)] px-[11px] my-0 py-0">
                 <p className={`${isMobile ? "text-base" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`} style={{
                 color: "#860493"
               }}>The Revolution Has Come</p>

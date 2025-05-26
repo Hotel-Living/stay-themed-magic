@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -19,6 +18,12 @@ interface Hotel {
   }>;
   stay_lengths?: number[];
   rates?: Record<string, number>;
+  pricingMatrix?: Array<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+  }>;
 }
 
 interface SearchResultsListProps {
@@ -30,6 +35,7 @@ interface SearchResultsListProps {
 // Helper function to get the pricing info from hotel's dashboard pricing section
 const getHotelPricingInfo = (hotel: Hotel) => {
   console.log(`Processing pricing for hotel: ${hotel.name}`, {
+    pricingMatrix: hotel.pricingMatrix,
     room_types: hotel.room_types,
     stay_lengths: hotel.stay_lengths,
     hotel_rates: hotel.rates,
@@ -40,29 +46,41 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   let correspondingStayLength = null;
   const allPriceOptions: Array<{price: number, stayLength: number}> = [];
 
-  // First, try to get prices from hotel-level rates (which come from the dashboard pricing section)
-  if (hotel.rates && Object.keys(hotel.rates).length > 0) {
+  // First priority: use pricingMatrix from the hotel's pricing section
+  if (hotel.pricingMatrix && hotel.pricingMatrix.length > 0) {
+    console.log(`Found pricingMatrix for ${hotel.name}:`, hotel.pricingMatrix);
+    
+    for (const pricing of hotel.pricingMatrix) {
+      if (pricing.price && pricing.price > 0 && pricing.stayLength) {
+        // Extract numeric value from stay length
+        const stayLengthMatch = pricing.stayLength.match(/(\d+)/);
+        if (stayLengthMatch) {
+          const stayLength = parseInt(stayLengthMatch[1]);
+          allPriceOptions.push({ price: pricing.price, stayLength });
+          console.log(`Found pricing matrix option for ${hotel.name}: ${pricing.price} for ${stayLength} nights`);
+        }
+      }
+    }
+  }
+
+  // Second priority: try to get prices from hotel-level rates (only if they're valid)
+  if (allPriceOptions.length === 0 && hotel.rates && typeof hotel.rates === 'object' && hotel.rates._type !== 'undefined') {
     console.log(`Found hotel-level rates for ${hotel.name}:`, hotel.rates);
     
     for (const [key, price] of Object.entries(hotel.rates)) {
       if (price && price > 0) {
         // Parse the key to extract stay length
-        // Key format could be "roomType-stayLength-mealPlan" or just "stayLength"
         const parts = key.split('-');
         let stayLengthStr = '';
         
         if (parts.length === 3) {
-          // Format: "roomType-stayLength-mealPlan"
           stayLengthStr = parts[1];
         } else if (parts.length === 1) {
-          // Format: just "stayLength"
           stayLengthStr = parts[0];
         } else if (parts.length === 2) {
-          // Format: "stayLength-mealPlan"
           stayLengthStr = parts[0];
         }
         
-        // Extract numeric value from stay length (e.g., "32 days" -> 32, "32" -> 32)
         const stayLengthMatch = stayLengthStr.match(/(\d+)/);
         if (stayLengthMatch) {
           const stayLength = parseInt(stayLengthMatch[1]);
@@ -73,7 +91,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     }
   }
 
-  // If no hotel-level rates, try room_types with rates
+  // Third priority: try room_types with rates
   if (allPriceOptions.length === 0 && hotel.room_types && hotel.room_types.length > 0) {
     console.log(`Checking room types for ${hotel.name}`);
     
@@ -136,6 +154,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     });
   } else {
     console.log(`No valid pricing found for ${hotel.name}, all data:`, {
+      pricingMatrix: hotel.pricingMatrix,
       rates: hotel.rates,
       room_types: hotel.room_types,
       stay_lengths: hotel.stay_lengths,

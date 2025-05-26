@@ -18,7 +18,7 @@ export function HeroSection() {
     <div 
       key={index} 
       className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} 
-      style={{ backgroundColor: "#FFF9B8" }}
+      style={{ backgroundColor: "#FFF8A9" }}
     >
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
@@ -39,7 +39,7 @@ export function HeroSection() {
           {/* Increased spacing above by 50% on mobile and increased container size by 20% */}
           <div className={`flex justify-center ${isMobile ? "mb-12 mt-9" : "mb-6 mt-3"}`}>
             <div className={`relative ${isMobile ? "w-[76.35%]" : "w-[16.72%]"} mx-auto`}>
-              <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-[#FFF9B8] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
+              <div className="rounded-lg px-2 py-0.5 border-2 border-[#D946EF] bg-[#FFF8A9] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)]">
                 <p className={`${isMobile ? "text-base" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`}
                    style={{
                      color: "#860493",
@@ -60,9 +60,9 @@ export function HeroSection() {
           </h2>
         </div>
         
-        {/* Changed the container background color to #FFF9B8 */}
+        {/* Changed the container background color to #FFF8A9 */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
-        <div className={`max-w-2xl mx-auto bg-[#FFF9B8] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
+        <div className={`max-w-2xl mx-auto bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
           {/* For mobile: render all slogans in a single column */}
           {isMobile ? (
             <div className="py-2.5 pl-0">

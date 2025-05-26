@@ -47,7 +47,7 @@ export function FilterSidebar({
 
   // Updated meal options - removed "Self Catering", added "Laundry" and "External Laundry Service Available"
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
-  return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
+  return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#8e069b]">
       {/* Reset All Filters Button - Top */}
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-purple-700 bg-[#f6dbfd]">
         Reset All Filters

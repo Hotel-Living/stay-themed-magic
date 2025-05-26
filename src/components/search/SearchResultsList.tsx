@@ -255,7 +255,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       </div>;
   }
   if (filteredHotels.length === 0) {
-    return <div className="border border-fuchsia-400 rounded-lg p-8 text-center bg-[#460F54]/50 backdrop-blur-sm">
+    return <div className="border border-fuchsia-400 rounded-lg p-8 text-center backdrop-blur-sm bg-[#8b449e]/50">
         <h3 className="font-semibold mb-4 text-white text-lg">No results.
 Search Again. Thanks!</h3>
       </div>;

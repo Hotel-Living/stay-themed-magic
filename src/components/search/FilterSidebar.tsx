@@ -49,7 +49,7 @@ export function FilterSidebar({
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#8e069b]">
       {/* Reset All Filters Button - Top */}
-      <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-purple-700 bg-[#f6dbfd]">
+      <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-[#6213ba] bg-[#fcdefd]">
         Reset All Filters
       </Button>
 

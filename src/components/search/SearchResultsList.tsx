@@ -64,7 +64,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   }
 
   // Second priority: try to get prices from hotel-level rates (only if they're valid)
-  if (allPriceOptions.length === 0 && hotel.rates && typeof hotel.rates === 'object' && hotel.rates._type !== 'undefined') {
+  if (allPriceOptions.length === 0 && hotel.rates && typeof hotel.rates === 'object' && Object.keys(hotel.rates).length > 0) {
     console.log(`Found hotel-level rates for ${hotel.name}:`, hotel.rates);
     
     for (const [key, price] of Object.entries(hotel.rates)) {

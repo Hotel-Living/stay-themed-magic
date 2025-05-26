@@ -205,5 +205,7 @@ export const convertHotelToUIFormat = (hotel: any) => {
     property_type: hotel.property_type,
     style: hotel.style,
     room_types: processedRoomTypes,
+    rates: hotel.rates || {},
+    pricingMatrix: hotel.pricingMatrix || hotel.pricingmatrix || []
   };
 };

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -20,9 +19,10 @@ export default function FAQ() {
     { id: "still-renting", label: "STILL RENTING?" },
     { id: "retired", label: "RETIRED?" },
     { id: "online-worker", label: "ONLINE WORKER?" },
-    { id: "digital-nomad", label: "DIGITAL NOMAD?" },
     { id: "commuter", label: "COMMUTER?" },
-    { id: "free-soul", label: "A FREE SOUL?" }
+    { id: "free-soul", label: "A FREE SOUL?" },
+    { id: "hotel", label: "Hotel?" },
+    { id: "society", label: "Society?" }
   ];
 
   return (
@@ -65,7 +65,7 @@ export default function FAQ() {
           <div className="mb-8">
             <Tabs value={activeAccordionTab} onValueChange={setActiveAccordionTab} className="w-full">
               <div className="flex justify-center mb-4">
-                <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-6"}`}>
+                <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
                   {accordionOptions.map((option) => (
                     <TabsTrigger 
                       key={option.id} 

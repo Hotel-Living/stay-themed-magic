@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -46,113 +47,83 @@ export function HotelBookingSection({
   const [selectedRoomAndPrice, setSelectedRoomAndPrice] = React.useState<string>("");
   const availableDates = availableMonths || [];
 
-  // Get unique room types with their prices from pricing matrix or rates, sorted by price
-  const roomTypesWithPrices = React.useMemo(() => {
-    console.log("=== DROPDOWN LOGIC DEBUG ===");
-    console.log("Processing pricingMatrix:", pricingMatrix);
-    console.log("Available rates:", rates);
+  // Build complete tariff options from pricingMatrix
+  const tariffOptions = React.useMemo(() => {
+    console.log("=== TARIFF DROPDOWN REBUILD ===");
+    console.log("Source pricingMatrix:", pricingMatrix);
     
-    if (pricingMatrix && pricingMatrix.length > 0) {
-      const roomMap = new Map<string, number>();
-      
-      // Get all room types with their prices from the pricing matrix
-      pricingMatrix.forEach(entry => {
-        if (entry.price > 0) {
-          // Format room type name properly
-          const formattedRoomType = entry.roomType.charAt(0).toUpperCase() + entry.roomType.slice(1).toLowerCase();
-          const roomTypeDisplay = `${formattedRoomType} Room`;
-          
-          // If room type doesn't exist or current price is lower, update it
-          if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > entry.price) {
-            roomMap.set(roomTypeDisplay, entry.price);
-          }
-        }
-      });
-      
-      console.log("Room map from pricing matrix:", Array.from(roomMap.entries()));
-      
-      // Convert to array and sort by price (cheapest first)
-      const roomArray = Array.from(roomMap.entries()).sort((a, b) => a[1] - b[1]);
-      
-      return roomArray.map(([roomType, price]) => ({
-        roomType,
-        price,
-        value: `${roomType} – ${price}`
-      }));
+    if (!pricingMatrix || !Array.isArray(pricingMatrix) || pricingMatrix.length === 0) {
+      console.log("No pricingMatrix available");
+      return [];
     }
-    
-    // Fallback: extract from rates if pricing matrix is not available
-    if (rates && Object.keys(rates).length > 0) {
-      console.log("Fallback to rates processing:", rates);
-      const roomMap = new Map<string, number>();
-      
-      Object.entries(rates).forEach(([key, price]) => {
-        console.log("Processing rate key:", key);
-        
-        // Parse rate key format: "double-32 days-breakfast" -> extract "double"
-        const parts = key.toLowerCase().split('-');
-        console.log("Rate key parts:", parts);
-        
-        // Standard room types to look for
-        const potentialRoomTypes = ['single', 'double', 'triple', 'quad', 'suite', 'twin', 'king', 'queen'];
-        
-        let roomType = '';
-        
-        // Find the room type in the first part of the key
-        for (const part of parts) {
-          const cleanPart = part.trim();
-          if (potentialRoomTypes.includes(cleanPart)) {
-            roomType = cleanPart;
-            break;
-          }
-        }
-        
-        console.log("Extracted room type from key:", roomType);
-        
-        if (roomType) {
-          // Format room type properly: "double" -> "Double Room"
-          const formattedRoomType = roomType.charAt(0).toUpperCase() + roomType.slice(1).toLowerCase();
-          const roomTypeDisplay = `${formattedRoomType} Room`;
-          const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-          
-          console.log("Formatted room type:", roomTypeDisplay, "Price:", numericPrice);
-          
-          if (!isNaN(numericPrice)) {
-            if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > numericPrice) {
-              roomMap.set(roomTypeDisplay, numericPrice);
-            }
-          }
-        }
-      });
-      
-      console.log("Room map from rates:", Array.from(roomMap.entries()));
-      
-      const roomArray = Array.from(roomMap.entries()).sort((a, b) => a[1] - b[1]);
-      
-      return roomArray.map(([roomType, price]) => ({
-        roomType,
-        price,
-        value: `${roomType} – ${price}`
-      }));
-    }
-    
-    console.log("No valid data source found");
-    return [];
-  }, [pricingMatrix, rates]);
 
-  console.log("Final roomTypesWithPrices:", roomTypesWithPrices);
+    const formatRoomType = (roomType: string): string => {
+      return roomType.charAt(0).toUpperCase() + roomType.slice(1).toLowerCase() + " Room";
+    };
 
-  // Initialize with first available room type (cheapest)
+    const formatDuration = (stayLength: string): string => {
+      // Convert "32 days" to "32 nights"
+      return stayLength.replace(/days?/i, "nights");
+    };
+
+    const formatMealPlan = (mealPlan: string): string => {
+      switch (mealPlan.toLowerCase()) {
+        case 'breakfast-included':
+        case 'breakfast':
+          return 'Breakfast';
+        case 'half-board':
+          return 'Half Board';
+        case 'full-board':
+        case 'fullboard':
+          return 'Full Board';
+        case 'all-inclusive':
+          return 'All Inclusive';
+        default:
+          return mealPlan.split(/[-_]/).map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          ).join(' ');
+      }
+    };
+
+    // Process each entry in pricingMatrix to create complete tariff options
+    const options = pricingMatrix
+      .filter(entry => entry.price > 0) // Only valid prices
+      .map(entry => {
+        const formattedRoomType = formatRoomType(entry.roomType);
+        const formattedDuration = formatDuration(entry.stayLength);
+        const formattedMealPlan = formatMealPlan(entry.mealPlan);
+        
+        // Create the display value: "Double Room – 32 nights – Breakfast – 990"
+        const displayValue = `${formattedRoomType} – ${formattedDuration} – ${formattedMealPlan} – ${entry.price}`;
+        
+        console.log("Created tariff option:", displayValue);
+        
+        return {
+          roomType: formattedRoomType,
+          duration: formattedDuration,
+          mealPlan: formattedMealPlan,
+          price: entry.price,
+          displayValue,
+          originalEntry: entry
+        };
+      })
+      .sort((a, b) => a.price - b.price); // Sort by price, lowest first
+
+    console.log("Final tariff options:", options);
+    return options;
+  }, [pricingMatrix]);
+
+  // Initialize with cheapest option (first in sorted array)
   React.useEffect(() => {
-    if (roomTypesWithPrices.length > 0 && !selectedRoomAndPrice) {
-      setSelectedRoomAndPrice(roomTypesWithPrices[0].value);
-      console.log("Setting default room selection:", roomTypesWithPrices[0].value);
+    if (tariffOptions.length > 0 && !selectedRoomAndPrice) {
+      setSelectedRoomAndPrice(tariffOptions[0].displayValue);
+      console.log("Setting default tariff selection:", tariffOptions[0].displayValue);
     }
     if (stayDurations.length > 0 && selectedDuration === 0) {
       const longestDuration = Math.max(...stayDurations);
       setSelectedDuration(longestDuration);
     }
-  }, [roomTypesWithPrices, stayDurations, selectedRoomAndPrice, selectedDuration, setSelectedDuration]);
+  }, [tariffOptions, stayDurations, selectedRoomAndPrice, selectedDuration, setSelectedDuration]);
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableDates || availableDates.length === 0) {
@@ -171,22 +142,24 @@ export function HotelBookingSection({
     return isPreferredDay && isAvailable;
   };
 
-  // Extract selected room type and price from the combined selection
-  const getSelectedRoomInfo = () => {
-    if (!selectedRoomAndPrice) return { roomType: "", price: 0 };
+  // Extract selected tariff info from the selected display value
+  const getSelectedTariffInfo = () => {
+    if (!selectedRoomAndPrice) return { roomType: "", price: 0, duration: "", mealPlan: "" };
     
-    const parts = selectedRoomAndPrice.split(' – ');
-    if (parts.length === 2) {
+    const selectedOption = tariffOptions.find(option => option.displayValue === selectedRoomAndPrice);
+    if (selectedOption) {
       return {
-        roomType: parts[0],
-        price: parseFloat(parts[1])
+        roomType: selectedOption.roomType,
+        price: selectedOption.price,
+        duration: selectedOption.duration,
+        mealPlan: selectedOption.mealPlan
       };
     }
-    return { roomType: "", price: 0 };
+    return { roomType: "", price: 0, duration: "", mealPlan: "" };
   };
 
   const calculatePrice = () => {
-    const { price } = getSelectedRoomInfo();
+    const { price } = getSelectedTariffInfo();
     
     if (price === 0) {
       return 0;
@@ -203,8 +176,8 @@ export function HotelBookingSection({
     return finalPrice;
   };
 
-  const handleRoomAndPriceChange = (value: string) => {
-    console.log("Room selection changed to:", value);
+  const handleTariffSelection = (value: string) => {
+    console.log("Tariff selection changed to:", value);
     setSelectedRoomAndPrice(value);
   };
 
@@ -268,20 +241,20 @@ export function HotelBookingSection({
         <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
-      {/* Room Type with Price Selector */}
+      {/* Complete Tariff Selector */}
       <div>
-        <Select value={selectedRoomAndPrice} onValueChange={handleRoomAndPriceChange}>
+        <Select value={selectedRoomAndPrice} onValueChange={handleTariffSelection}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 text-white">
-            <SelectValue />
+            <SelectValue placeholder="Select tariff option" />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30 z-50">
-            {roomTypesWithPrices.map((room) => (
+            {tariffOptions.map((option) => (
               <SelectItem 
-                key={room.value} 
-                value={room.value} 
+                key={option.displayValue} 
+                value={option.displayValue} 
                 className="text-white hover:bg-fuchsia-700/50 focus:bg-fuchsia-700/50 data-[state=checked]:bg-fuchsia-700/50 focus:text-white cursor-pointer"
               >
-                {room.value}
+                {option.displayValue}
               </SelectItem>
             ))}
           </SelectContent>

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -122,9 +123,40 @@ export function HotelBookingSection({
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
 
+  // Enhanced booking handler that includes selected option data
+  const handleBookingClick = () => {
+    if (!selectedOption) {
+      alert("Please select a room and pricing option before booking.");
+      return;
+    }
+
+    if (!checkInDate) {
+      alert("Please select a check-in date before booking.");
+      return;
+    }
+
+    // Create booking data with selected option values
+    const bookingData = {
+      roomType: selectedOption.roomType,
+      stayLength: selectedOption.stayLength,
+      mealPlan: selectedOption.mealPlan,
+      price: selectedOption.price,
+      checkInDate: checkInDate,
+      checkOutDate: addDays(checkInDate, parseInt(selectedOption.stayLength))
+    };
+
+    console.log("Booking with selected option:", bookingData);
+    
+    // Call the original booking handler
+    handleBookClick();
+  };
+
   // Calculate checkout date using the longest duration since we removed the duration selector
   const longestDuration = stayDurations.length > 0 ? Math.max(...stayDurations) : selectedDuration;
   const checkoutDate = checkInDate ? addDays(checkInDate, longestDuration) : null;
+
+  // Check if booking is disabled
+  const isBookingDisabled = !selectedOption || !checkInDate;
 
   return (
     <div className="p-6 space-y-6">
@@ -195,7 +227,21 @@ export function HotelBookingSection({
         </div>
       )}
 
-      <Button className="w-full bg-fuchsia-500 hover:bg-fuchsia-700 text-white" onClick={handleBookClick}>
+      {/* Validation message for missing selection */}
+      {isBookingDisabled && (
+        <div className="text-center">
+          <p className="text-yellow-400 text-sm">
+            {!selectedOption && "Please select a room and pricing option"}
+            {!checkInDate && selectedOption && "Please select a check-in date"}
+          </p>
+        </div>
+      )}
+
+      <Button 
+        className={`w-full ${isBookingDisabled ? 'bg-gray-500 cursor-not-allowed' : 'bg-fuchsia-500 hover:bg-fuchsia-700'} text-white`} 
+        onClick={handleBookingClick}
+        disabled={isBookingDisabled}
+      >
         Book Now
       </Button>
     </div>

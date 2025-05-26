@@ -16,7 +16,8 @@ export const prepareHotelData = (formData: PropertyFormData): Record<string, any
     terms, preferredWeekday = "Monday",
     featuresHotel = {}, featuresRoom = {},
     available_months = [], mainImageUrl,
-    price_8, price_16, price_24, price_32
+    price_8, price_16, price_24, price_32,
+    pricingMatrix = []
   } = formData;
 
   // Parse latitude and longitude if they're strings
@@ -66,6 +67,7 @@ export const prepareHotelData = (formData: PropertyFormData): Record<string, any
     features_room: featuresRoom,
     available_months,
     rates,
-    main_image_url: mainImageUrl || null
+    main_image_url: mainImageUrl || null,
+    pricingMatrix: pricingMatrix // Add pricingMatrix to the prepared data
   };
 };

@@ -5,6 +5,10 @@ import { PropertyFormData } from "../usePropertyFormData";
 export const createNewHotel = async (formData: PropertyFormData, userId?: string) => {
   console.log("Creating new hotel with data:", formData);
   
+  if (!userId) {
+    throw new Error("User must be authenticated to create a hotel");
+  }
+
   // Convert the stay lengths from an array of numbers to a PostgreSQL array
   const stayLengths = formData.stayLengths || [];
   
@@ -16,19 +20,16 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
   
   // Get room types data
   const roomTypes = formData.roomTypes || [];
-
-  // Extract hotel and room features - ensure they're actually objects
-  const featuresHotel = formData.featuresHotel || {};
-  const featuresRoom = formData.featuresRoom || {};
-  
-  console.log("Hotel features being submitted:", featuresHotel);
-  console.log("Room features being submitted:", featuresRoom);
   
   // Extract faqs
   const faqs = formData.faqs || [];
   
   // Get the selected weekday
   const preferredWeekday = formData.preferredWeekday || "Monday";
+
+  // Extract hotel and room features - ensure they're actually objects
+  const featuresHotel = formData.featuresHotel || {};
+  const featuresRoom = formData.featuresRoom || {};
   
   // Extract rates for different stay lengths
   const rates = formData.rates || {
@@ -37,8 +38,6 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     "24": formData.price_24,
     "32": formData.price_32
   };
-  
-  console.log("Submitting rates:", rates);
 
   // Parse latitude and longitude if they're strings
   const latitude = formData.latitude ? 
@@ -49,9 +48,9 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
     null;
   
-  console.log(`Location data: lat=${latitude}, lng=${longitude}`);
-  
-  // Prepare the hotel data
+  // Get the pricing matrix from formData
+  const pricingMatrix = formData.pricingMatrix || [];
+
   const hotelData = {
     owner_id: userId,
     name: formData.hotelName,
@@ -62,7 +61,7 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     postal_code: formData.postalCode || null,
     latitude: latitude,
     longitude: longitude,
-    price_per_month: parseInt(formData.category) * 1000, // Placeholder calculation
+    price_per_month: parseInt(formData.category) * 1000,
     category: parseInt(formData.category),
     property_type: formData.propertyType,
     style: formData.style,
@@ -72,8 +71,6 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     contact_name: formData.contactName,
     contact_email: formData.contactEmail,
     contact_phone: formData.contactPhone,
-    status: 'pending',
-    is_featured: false,
     stay_lengths: stayLengths,
     meal_plans: mealPlans,
     room_types: roomTypes,
@@ -83,20 +80,26 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     features_hotel: featuresHotel,
     features_room: featuresRoom,
     available_months: availableMonths,
-    rates: rates, // Add rates to hotel data
-    main_image_url: formData.mainImageUrl || null
+    rates: rates,
+    main_image_url: formData.mainImageUrl || null,
+    enable_price_increase: formData.enablePriceIncrease || false,
+    price_increase_cap: formData.priceIncreaseCap || 20,
+    pricingMatrix: pricingMatrix // Add pricingMatrix to the hotel data
   };
-  
+
+  console.log("Inserting hotel with pricing matrix:", pricingMatrix);
+
   const { data, error } = await supabase
     .from('hotels')
-    .insert(hotelData)
-    .select('id')
+    .insert([hotelData])
+    .select()
     .single();
-  
+
   if (error) {
     console.error("Error creating hotel:", error);
     throw error;
   }
 
+  console.log("Hotel created successfully:", data);
   return data;
 };

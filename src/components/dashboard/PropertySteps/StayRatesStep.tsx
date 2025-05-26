@@ -70,17 +70,25 @@ export default function StayRatesStep({
         entry.mealPlan === mealOption
     );
 
+    const priceValue = Number(value);
+    
     if (existingIndex !== -1) {
-      updatedMatrix[existingIndex].price = Number(value);
-    } else {
+      if (priceValue > 0) {
+        updatedMatrix[existingIndex].price = priceValue;
+      } else {
+        // Remove entry if price is 0 or invalid
+        updatedMatrix.splice(existingIndex, 1);
+      }
+    } else if (priceValue > 0) {
       updatedMatrix.push({
         roomType,
         stayLength,
         mealPlan: mealOption,
-        price: Number(value)
+        price: priceValue
       });
     }
 
+    console.log("Updated pricing matrix:", updatedMatrix);
     updateFormData("pricingMatrix", updatedMatrix);
 
     if (value && !isNaN(Number(value))) {

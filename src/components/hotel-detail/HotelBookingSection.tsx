@@ -1,10 +1,10 @@
 
-
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { format, addDays } from "date-fns";
+import { Check } from "lucide-react";
 import BookingDropdown from "@/components/hotel-detail/BookingDropdown";
 
 interface PricingMatrixItem {
@@ -53,6 +53,15 @@ export function HotelBookingSection({
   mealPlans
 }: HotelBookingSectionProps) {
   const [selectedOption, setSelectedOption] = useState<PricingMatrixItem | null>(null);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [confirmedBookingData, setConfirmedBookingData] = useState<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+    checkInDate: Date;
+    checkOutDate: Date;
+  } | null>(null);
   
   const availableDates = availableMonths || [];
 
@@ -155,6 +164,10 @@ export function HotelBookingSection({
 
     console.log("Booking with selected option:", bookingData);
     
+    // Set confirmation state
+    setBookingConfirmed(true);
+    setConfirmedBookingData(bookingData);
+    
     // Call the original booking handler
     handleBookClick();
   };
@@ -164,7 +177,7 @@ export function HotelBookingSection({
   const checkoutDate = checkInDate ? addDays(checkInDate, longestDuration) : null;
 
   // Check if booking is disabled
-  const isBookingDisabled = !selectedOption || !checkInDate;
+  const isBookingDisabled = !selectedOption || !checkInDate || bookingConfirmed;
 
   return (
     <div className="p-6 space-y-6">
@@ -193,7 +206,7 @@ export function HotelBookingSection({
       </div>
 
       {/* Selected Option Display */}
-      {selectedOption && (
+      {selectedOption && !bookingConfirmed && (
         <div className="mt-4 text-white text-sm">
           Selected: <strong>
             {capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}
@@ -202,22 +215,24 @@ export function HotelBookingSection({
       )}
 
       {/* Calendar component */}
-      <Card className="border-none shadow-none bg-transparent">
-        <Calendar
-          mode="single"
-          selected={checkInDate}
-          onSelect={(date) => {
-            if (date && isDateSelectable(date)) {
-              setCheckInDate(date);
-            }
-          }}
-          disabled={date => !isDateSelectable(date)}
-          className="border rounded-md w-full mx-auto bg-fuchsia-950/30 text-white"
-        />
-      </Card>
+      {!bookingConfirmed && (
+        <Card className="border-none shadow-none bg-transparent">
+          <Calendar
+            mode="single"
+            selected={checkInDate}
+            onSelect={(date) => {
+              if (date && isDateSelectable(date)) {
+                setCheckInDate(date);
+              }
+            }}
+            disabled={date => !isDateSelectable(date)}
+            className="border rounded-md w-full mx-auto bg-fuchsia-950/30 text-white"
+          />
+        </Card>
+      )}
 
       {/* Checkout Date Display */}
-      {checkInDate && checkoutDate && (
+      {checkInDate && checkoutDate && !bookingConfirmed && (
         <div className="text-center space-y-2">
           <div className="text-white/90 text-sm">
             <div>Check-in: {format(checkInDate, "PPP")}</div>
@@ -227,7 +242,7 @@ export function HotelBookingSection({
       )}
 
       {/* Dynamic Pricing Message */}
-      {enable_price_increase && (
+      {enable_price_increase && !bookingConfirmed && (
         <div className="bg-fuchsia-950/30 border border-fuchsia-800/30 rounded-lg p-3">
           <p className="text-white/90 text-sm text-center">
             This property uses dynamic pricing based on demand. Book early to secure the best rates!
@@ -236,7 +251,7 @@ export function HotelBookingSection({
       )}
 
       {/* Booking Summary Display */}
-      {selectedOption && checkInDate && (
+      {selectedOption && checkInDate && !bookingConfirmed && (
         <div className="bg-fuchsia-950/40 border border-fuchsia-700/50 rounded-lg p-4">
           <h4 className="text-white font-semibold text-sm mb-2">You are about to book:</h4>
           <p className="text-white/90 text-sm">
@@ -248,8 +263,24 @@ export function HotelBookingSection({
         </div>
       )}
 
+      {/* Booking Confirmation Message */}
+      {bookingConfirmed && confirmedBookingData && (
+        <div className="bg-green-900/40 border border-green-600/50 rounded-lg p-4">
+          <div className="flex items-center mb-3">
+            <Check className="w-5 h-5 text-green-400 mr-2" />
+            <h4 className="text-white font-semibold text-sm">Your reservation has been confirmed!</h4>
+          </div>
+          <p className="text-white/90 text-sm mb-2">
+            <strong>{capitalize(confirmedBookingData.roomType)} Room – {confirmedBookingData.stayLength} nights – {capitalize(confirmedBookingData.mealPlan)} – {confirmedBookingData.price}</strong>
+          </p>
+          <p className="text-white/80 text-xs">
+            Check-in: {format(confirmedBookingData.checkInDate, "PPP")} | Check-out: {format(confirmedBookingData.checkOutDate, "PPP")}
+          </p>
+        </div>
+      )}
+
       {/* Validation message for missing selection */}
-      {isBookingDisabled && (
+      {isBookingDisabled && !bookingConfirmed && (
         <div className="text-center">
           <p className="text-yellow-400 text-sm">
             {!selectedOption && "Please select a room and pricing option"}
@@ -263,9 +294,8 @@ export function HotelBookingSection({
         onClick={handleBookingClick}
         disabled={isBookingDisabled}
       >
-        Book Now
+        {bookingConfirmed ? 'Booking Confirmed' : 'Book Now'}
       </Button>
     </div>
   );
 }
-

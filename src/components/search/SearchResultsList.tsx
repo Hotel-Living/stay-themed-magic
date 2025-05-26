@@ -35,91 +35,100 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     hotel_rates: hotel.rates
   });
 
-  // Get the longest available stay duration from stay_lengths
-  const longestStay = hotel.stay_lengths && hotel.stay_lengths.length > 0 
-    ? Math.max(...hotel.stay_lengths)
-    : null;
-
-  console.log(`Longest stay for ${hotel.name}:`, longestStay);
-
-  if (!longestStay) {
-    console.log(`No stay lengths available for ${hotel.name}`);
-    return { stayText: null, priceText: null };
-  }
-
   let lowestPrice = null;
+  let correspondingStayLength = null;
+  const allPriceOptions: Array<{price: number, stayLength: number}> = [];
 
-  // First, try to get prices from room_types with rates
-  if (hotel.room_types && hotel.room_types.length > 0) {
-    const doubleRoomPrices = [];
+  // First, try to get prices from hotel-level rates (which come from the dashboard pricing section)
+  if (hotel.rates && Object.keys(hotel.rates).length > 0) {
+    console.log(`Found hotel-level rates for ${hotel.name}:`, hotel.rates);
     
-    for (const room of hotel.room_types) {
-      // Check if this is a double room
-      const isDoubleRoom = room.name && room.name.toLowerCase().includes('double');
-      
-      if (isDoubleRoom && room.rates && Object.keys(room.rates).length > 0) {
-        // Get the price for the longest stay duration
-        const priceForDuration = room.rates[longestStay.toString()];
-        if (priceForDuration && priceForDuration > 0) {
-          doubleRoomPrices.push(priceForDuration);
-          console.log(`Found double room price for ${hotel.name}, ${longestStay} days:`, priceForDuration);
+    for (const [key, price] of Object.entries(hotel.rates)) {
+      if (price && price > 0) {
+        // Parse the key to extract stay length
+        // Key format could be "roomType-stayLength-mealPlan" or just "stayLength"
+        const parts = key.split('-');
+        let stayLengthStr = '';
+        
+        if (parts.length === 3) {
+          // Format: "roomType-stayLength-mealPlan"
+          stayLengthStr = parts[1];
+        } else if (parts.length === 1) {
+          // Format: just "stayLength"
+          stayLengthStr = parts[0];
+        }
+        
+        // Extract numeric value from stay length (e.g., "32 days" -> 32)
+        const stayLengthMatch = stayLengthStr.match(/(\d+)/);
+        if (stayLengthMatch) {
+          const stayLength = parseInt(stayLengthMatch[1]);
+          allPriceOptions.push({ price, stayLength });
+          console.log(`Found price option for ${hotel.name}: ${price} for ${stayLength} nights`);
         }
       }
     }
-
-    // Get the lowest price from double rooms
-    if (doubleRoomPrices.length > 0) {
-      lowestPrice = Math.min(...doubleRoomPrices);
-    }
   }
 
-  // If no price found from room_types, try hotel-level rates
-  if (!lowestPrice && hotel.rates && Object.keys(hotel.rates).length > 0) {
-    const priceForDuration = hotel.rates[longestStay.toString()];
-    if (priceForDuration && priceForDuration > 0) {
-      lowestPrice = priceForDuration;
-      console.log(`Found hotel-level price for ${hotel.name}, ${longestStay} days:`, priceForDuration);
-    }
-  }
-
-  // If still no price found, try to get any available price from any room type
-  if (!lowestPrice && hotel.room_types && hotel.room_types.length > 0) {
-    const allPrices = [];
+  // If no hotel-level rates, try room_types with rates
+  if (allPriceOptions.length === 0 && hotel.room_types && hotel.room_types.length > 0) {
+    console.log(`Checking room types for ${hotel.name}`);
     
     for (const room of hotel.room_types) {
       if (room.rates && Object.keys(room.rates).length > 0) {
-        const priceForDuration = room.rates[longestStay.toString()];
-        if (priceForDuration && priceForDuration > 0) {
-          allPrices.push(priceForDuration);
+        for (const [key, price] of Object.entries(room.rates)) {
+          if (price && price > 0) {
+            const parts = key.split('-');
+            let stayLengthStr = '';
+            
+            if (parts.length === 3) {
+              stayLengthStr = parts[1];
+            } else if (parts.length === 1) {
+              stayLengthStr = parts[0];
+            }
+            
+            const stayLengthMatch = stayLengthStr.match(/(\d+)/);
+            if (stayLengthMatch) {
+              const stayLength = parseInt(stayLengthMatch[1]);
+              allPriceOptions.push({ price, stayLength });
+            }
+          }
         }
       }
       
       // Also check basePrice and baseRate as fallbacks
-      if (room.basePrice && room.basePrice > 0) {
-        allPrices.push(room.basePrice);
+      if (room.basePrice && room.basePrice > 0 && hotel.stay_lengths && hotel.stay_lengths.length > 0) {
+        const longestStay = Math.max(...hotel.stay_lengths);
+        allPriceOptions.push({ price: room.basePrice, stayLength: longestStay });
       }
-      if (room.baseRate && room.baseRate > 0) {
-        allPrices.push(room.baseRate);
+      if (room.baseRate && room.baseRate > 0 && hotel.stay_lengths && hotel.stay_lengths.length > 0) {
+        const longestStay = Math.max(...hotel.stay_lengths);
+        allPriceOptions.push({ price: room.baseRate, stayLength: longestStay });
       }
-    }
-    
-    if (allPrices.length > 0) {
-      lowestPrice = Math.min(...allPrices);
-      console.log(`Found fallback price for ${hotel.name}:`, lowestPrice);
     }
   }
 
-  console.log(`Final pricing for ${hotel.name}:`, {
-    longestStay,
-    lowestPrice
-  });
+  // Find the option with the lowest price
+  if (allPriceOptions.length > 0) {
+    const cheapestOption = allPriceOptions.reduce((prev, current) => 
+      current.price < prev.price ? current : prev
+    );
+    
+    lowestPrice = cheapestOption.price;
+    correspondingStayLength = cheapestOption.stayLength;
+    
+    console.log(`Final pricing for ${hotel.name}:`, {
+      lowestPrice,
+      correspondingStayLength
+    });
+  }
 
-  if (!lowestPrice || lowestPrice <= 0) {
+  if (!lowestPrice || lowestPrice <= 0 || !correspondingStayLength) {
+    console.log(`No valid pricing found for ${hotel.name}`);
     return { stayText: null, priceText: null };
   }
 
-  const stayText = `${longestStay}-night stay`;
-  const priceText = `from ${lowestPrice} p/person`;
+  const stayText = `${correspondingStayLength} nights`;
+  const priceText = `From ${lowestPrice} p/person`;
 
   return { stayText, priceText };
 };

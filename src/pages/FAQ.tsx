@@ -79,7 +79,7 @@ export default function FAQ() {
                     <TabsTrigger 
                       key={option.id} 
                       value={option.id}
-                      className={`px-2 uppercase whitespace-nowrap bg-[#8017B0] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"}`}
+                      className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} ${activeAccordionTab === option.id ? "bg-[#5F1183]" : "bg-[#8017B0]"}`}
                     >
                       {option.label}
                     </TabsTrigger>

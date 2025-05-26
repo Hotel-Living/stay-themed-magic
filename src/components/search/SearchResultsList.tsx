@@ -287,13 +287,13 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                 
                 {/* Affinities Section */}
                 {affinities && <div className="text-center space-y-1">
-                    <div className="text-xs font-semibold text-purple-900 my-0 mx-0 px-[3px] py-0">YOU'LL MEET PEOPLE LOVING</div>
+                    <div className="text-xs font-bold text-purple-900 my-0 mx-0 px-[3px] py-0">YOU'LL MEET PEOPLE LOVING</div>
                     <div className="text-xs text-purple-900 my-0">{affinities}</div>
                   </div>}
                 
                 {/* Activities Section */}
                 {activities && <div className="text-center space-y-1">
-                    <div className="text-xs font-semibold text-purple-900">JOIN THEM FOR</div>
+                    <div className="text-xs font-bold text-purple-900">JOIN THEM FOR</div>
                     <div className="text-xs text-purple-900">{activities}</div>
                   </div>}
               </div>

@@ -44,15 +44,28 @@ export function HotelBookingSection({
   pricingMatrix,
   mealPlans
 }: HotelBookingSectionProps) {
+  const [selectedRoomType, setSelectedRoomType] = React.useState<string>("Double Room");
   const availableDates = availableMonths || [];
 
-  // Initialize selectedDuration to the longest available stay duration if not already set
+  // Get unique room types from pricing matrix
+  const roomTypes = React.useMemo(() => {
+    if (pricingMatrix && pricingMatrix.length > 0) {
+      const types = [...new Set(pricingMatrix.map(item => item.roomType))];
+      return types.length > 0 ? types : ["Double Room", "Single Room"];
+    }
+    return ["Double Room", "Single Room"];
+  }, [pricingMatrix]);
+
+  // Initialize with first available room type and longest duration
   React.useEffect(() => {
+    if (roomTypes.length > 0 && !selectedRoomType) {
+      setSelectedRoomType(roomTypes[0]);
+    }
     if (stayDurations.length > 0 && selectedDuration === 0) {
       const longestDuration = Math.max(...stayDurations);
       setSelectedDuration(longestDuration);
     }
-  }, [stayDurations, selectedDuration, setSelectedDuration]);
+  }, [roomTypes, stayDurations, selectedRoomType, selectedDuration, setSelectedDuration]);
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableDates || availableDates.length === 0) {
@@ -68,35 +81,47 @@ export function HotelBookingSection({
     const isPreferredDay = day === preferredWeekday;
     const isAvailable = isDateAvailable(date);
     
-    // Be more forgiving - allow selection if either condition is met or if no restrictions
     return isPreferredDay && isAvailable;
   };
 
-  // Helper function to get the lowest double room price for a specific duration
-  const getLowestDoubleRoomPrice = (duration: number): number => {
-    console.log(`Getting price for ${duration} nights from rates:`, rates);
+  // Get price for specific room type and duration from pricing matrix
+  const getPriceForRoomAndDuration = (roomType: string, duration: number): number => {
+    console.log(`Getting price for ${roomType}, ${duration} nights from pricingMatrix:`, pricingMatrix);
     
-    // Look for the exact duration in rates
+    if (pricingMatrix && pricingMatrix.length > 0) {
+      // Look for matching room type and duration
+      const matchingEntry = pricingMatrix.find(entry => 
+        entry.roomType === roomType && 
+        entry.stayLength === `${duration} days`
+      );
+      
+      if (matchingEntry && matchingEntry.price > 0) {
+        console.log(`Found pricing matrix price for ${roomType}, ${duration} nights:`, matchingEntry.price);
+        return matchingEntry.price;
+      }
+    }
+
+    // Fallback to rates object
     const priceForDuration = rates[duration.toString()];
     if (priceForDuration && priceForDuration > 0) {
-      console.log(`Found direct price for ${duration} nights:`, priceForDuration);
+      console.log(`Found rates price for ${duration} nights:`, priceForDuration);
       return priceForDuration;
     }
-    
-    // Try to find rates with complex keys like "double-32 days-breakfast"
+
+    // Try to find rates with complex keys
     for (const [key, value] of Object.entries(rates)) {
-      if (key.includes(`${duration}`) && key.toLowerCase().includes('double')) {
-        console.log(`Found complex key price for ${duration} nights:`, key, value);
+      if (key.includes(`${duration}`) && key.toLowerCase().includes(roomType.toLowerCase().split(' ')[0])) {
+        console.log(`Found complex key price for ${roomType}, ${duration} nights:`, key, value);
         return typeof value === 'string' ? parseFloat(value) : value;
       }
     }
     
-    console.log(`No price found for ${duration} nights`);
+    console.log(`No price found for ${roomType}, ${duration} nights`);
     return 0;
   };
 
   const calculatePrice = () => {
-    const basePrice = getLowestDoubleRoomPrice(selectedDuration);
+    const basePrice = getPriceForRoomAndDuration(selectedRoomType, selectedDuration);
     
     if (basePrice === 0) {
       return 0;
@@ -113,28 +138,21 @@ export function HotelBookingSection({
     return finalPrice;
   };
 
+  const handleRoomTypeChange = (value: string) => {
+    setSelectedRoomType(value);
+  };
+
   const handleDurationChange = (value: string) => {
     setSelectedDuration(parseInt(value));
-  };
-
-  const formatDate = (date: Date | undefined) => {
-    return date ? format(date, "PPP") : "";
-  };
-
-  const handleDateSelect = (date: Date | undefined) => {
-    if (date && isDateSelectable(date)) {
-      setCheckInDate(date);
-    }
   };
 
   const formatMealPlans = () => {
     if (!mealPlans || mealPlans.length === 0) return "";
     
-    // Convert meal plan IDs to display names
     const mealPlanDisplayNames = mealPlans.map(plan => {
       switch (plan) {
         case 'breakfast-included':
-          return 'Breakfast Included';
+          return 'Breakfast';
         case 'half-board':
           return 'Half Board';
         case 'full-board':
@@ -147,7 +165,6 @@ export function HotelBookingSection({
         case 'external-laundry':
           return 'External Laundry Service Available';
         default:
-          // Handle any other format by capitalizing words
           return plan.split(/[-_]/).map(word => 
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
           ).join(' ');
@@ -177,18 +194,34 @@ export function HotelBookingSection({
         <p className="text-white/80 mb-2">
           Weekly Check-In/Out Day: {preferredWeekday}
         </p>
-        <p className="text-xl font-semibold text-white">
-          {selectedDuration} nights – {currency === "USD" ? "$" : "€"}{calculatePrice().toFixed(2)}
-        </p>
         
         {/* Display meal plans if available */}
         {mealPlans && mealPlans.length > 0 && (
-          <p className="text-white/90 mt-2 text-sm">
+          <p className="text-white/90 mb-4 text-sm">
             Meals: {formatMealPlans()}
           </p>
         )}
+
+        <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
+      {/* Room Type Selector */}
+      <div>
+        <Select value={selectedRoomType} onValueChange={handleRoomTypeChange}>
+          <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
+            <SelectValue placeholder="Select room type" />
+          </SelectTrigger>
+          <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
+            {roomTypes.map((roomType) => (
+              <SelectItem key={roomType} value={roomType} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
+                {roomType}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Duration Selector with Prices */}
       <div>
         <Select value={selectedDuration.toString()} onValueChange={handleDurationChange}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
@@ -196,7 +229,7 @@ export function HotelBookingSection({
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
             {stayDurations.map((duration) => {
-              const price = getLowestDoubleRoomPrice(duration);
+              const price = getPriceForRoomAndDuration(selectedRoomType, duration);
               return (
                 <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
                   {price > 0 ? `${duration} nights — ${price}` : `${duration} nights`}
@@ -211,7 +244,11 @@ export function HotelBookingSection({
         <Calendar
           mode="single"
           selected={checkInDate}
-          onSelect={handleDateSelect}
+          onSelect={(date) => {
+            if (date && isDateSelectable(date)) {
+              setCheckInDate(date);
+            }
+          }}
           disabled={date => !isDateSelectable(date)}
           className="border rounded-md w-full mx-auto bg-fuchsia-950/30 text-white"
         />

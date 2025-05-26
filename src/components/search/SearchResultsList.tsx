@@ -1,4 +1,5 @@
 
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -230,10 +231,12 @@ const getHotelAffinities = (hotel: Hotel): string => {
 
 // Helper function to extract activities from hotel activities
 const getHotelActivities = (hotel: Hotel): string => {
+  console.log(`Getting activities for ${hotel.name}:`, hotel.hotel_activities);
   if (!hotel.hotel_activities || hotel.hotel_activities.length === 0) {
     return "";
   }
   const activities = hotel.hotel_activities.map(activity => activity.activities?.name).filter(name => name).join(" – ");
+  console.log(`Extracted activities for ${hotel.name}:`, activities);
   return activities;
 };
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({
@@ -265,14 +268,14 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
       const affinities = getHotelAffinities(hotel);
       const activities = getHotelActivities(hotel);
       return <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
-            <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[400px]">
               <div className="aspect-video bg-muted relative overflow-hidden">
                 <img src={hotel.thumbnail} alt={hotel.name} className="w-full h-full object-cover" />
                 {hotel.theme && <div className="absolute bottom-2 left-2 bg-purple-900 text-white text-xs px-2 py-1 rounded-full">
                     {hotel.theme}
                   </div>}
               </div>
-              <div className="p-4 space-y-3">
+              <div className="p-4 space-y-3 flex-1">
                 <h3 className="mb-2 line-clamp-2 text-purple-900 text-center uppercase font-bold">{hotel.name}</h3>
                 <div className="flex justify-between items-start">
                   <span className="text-purple-900 text-base">{hotel.location || "Location unavailable"}</span>
@@ -301,3 +304,4 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
     })}
     </div>;
 };
+

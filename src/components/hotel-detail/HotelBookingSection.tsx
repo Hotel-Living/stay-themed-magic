@@ -48,6 +48,7 @@ export function HotelBookingSection({
 
   // Get unique room types with their prices from pricing matrix or rates, sorted by price
   const roomTypesWithPrices = React.useMemo(() => {
+    console.log("=== DROPDOWN LOGIC DEBUG ===");
     console.log("Processing pricingMatrix:", pricingMatrix);
     console.log("Available rates:", rates);
     
@@ -57,9 +58,13 @@ export function HotelBookingSection({
       // Get all room types with their prices from the pricing matrix
       pricingMatrix.forEach(entry => {
         if (entry.price > 0) {
+          // Format room type name properly
+          const formattedRoomType = entry.roomType.charAt(0).toUpperCase() + entry.roomType.slice(1).toLowerCase();
+          const roomTypeDisplay = `${formattedRoomType} Room`;
+          
           // If room type doesn't exist or current price is lower, update it
-          if (!roomMap.has(entry.roomType) || roomMap.get(entry.roomType)! > entry.price) {
-            roomMap.set(entry.roomType, entry.price);
+          if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > entry.price) {
+            roomMap.set(roomTypeDisplay, entry.price);
           }
         }
       });
@@ -83,34 +88,38 @@ export function HotelBookingSection({
       
       Object.entries(rates).forEach(([key, price]) => {
         console.log("Processing rate key:", key);
-        // Extract room type from rate key (e.g., "double-32 days-breakfast" -> "double")
-        // Find the first part that looks like a room type
+        
+        // Parse rate key format: "double-32 days-breakfast" -> extract "double"
         const parts = key.toLowerCase().split('-');
+        console.log("Rate key parts:", parts);
+        
+        // Standard room types to look for
         const potentialRoomTypes = ['single', 'double', 'triple', 'quad', 'suite', 'twin', 'king', 'queen'];
         
         let roomType = '';
+        
+        // Find the room type in the first part of the key
         for (const part of parts) {
-          if (potentialRoomTypes.includes(part)) {
-            roomType = part;
+          const cleanPart = part.trim();
+          if (potentialRoomTypes.includes(cleanPart)) {
+            roomType = cleanPart;
             break;
           }
         }
         
-        // If no standard room type found, use the first part
-        if (!roomType && parts.length > 0) {
-          roomType = parts[0];
-        }
+        console.log("Extracted room type from key:", roomType);
         
         if (roomType) {
-          // Capitalize the room type properly
-          const capitalizedRoomType = roomType.charAt(0).toUpperCase() + roomType.slice(1);
+          // Format room type properly: "double" -> "Double Room"
+          const formattedRoomType = roomType.charAt(0).toUpperCase() + roomType.slice(1).toLowerCase();
+          const roomTypeDisplay = `${formattedRoomType} Room`;
           const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
           
-          console.log("Extracted room type:", capitalizedRoomType, "Price:", numericPrice);
+          console.log("Formatted room type:", roomTypeDisplay, "Price:", numericPrice);
           
           if (!isNaN(numericPrice)) {
-            if (!roomMap.has(capitalizedRoomType) || roomMap.get(capitalizedRoomType)! > numericPrice) {
-              roomMap.set(capitalizedRoomType, numericPrice);
+            if (!roomMap.has(roomTypeDisplay) || roomMap.get(roomTypeDisplay)! > numericPrice) {
+              roomMap.set(roomTypeDisplay, numericPrice);
             }
           }
         }
@@ -127,6 +136,7 @@ export function HotelBookingSection({
       }));
     }
     
+    console.log("No valid data source found");
     return [];
   }, [pricingMatrix, rates]);
 

@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -135,6 +136,13 @@ export function HotelBookingSection({
       return;
     }
 
+    // Show confirmation dialog with booking summary
+    const confirmMessage = `Do you want to confirm this booking?\n\n${capitalize(selectedOption.roomType)} Room – ${selectedOption.stayLength} nights – ${capitalize(selectedOption.mealPlan)} – ${selectedOption.price}`;
+    
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
     // Create booking data with selected option values
     const bookingData = {
       roomType: selectedOption.roomType,
@@ -227,6 +235,19 @@ export function HotelBookingSection({
         </div>
       )}
 
+      {/* Booking Summary Display */}
+      {selectedOption && checkInDate && (
+        <div className="bg-fuchsia-950/40 border border-fuchsia-700/50 rounded-lg p-4">
+          <h4 className="text-white font-semibold text-sm mb-2">You are about to book:</h4>
+          <p className="text-white/90 text-sm">
+            <strong>{capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}</strong>
+          </p>
+          <p className="text-white/80 text-xs mt-1">
+            Check-in: {format(checkInDate, "PPP")} | Check-out: {format(addDays(checkInDate, parseInt(selectedOption.stayLength)), "PPP")}
+          </p>
+        </div>
+      )}
+
       {/* Validation message for missing selection */}
       {isBookingDisabled && (
         <div className="text-center">
@@ -247,3 +268,4 @@ export function HotelBookingSection({
     </div>
   );
 }
+

@@ -22,8 +22,8 @@ export default function FAQ() {
       
       <main className="flex-1 pt-16 bg-gradient-to-b from-[#570366]/40 to-transparent">
         <div className="container max-w-5xl mx-auto px-4 py-6">
-          <BenefitsHeader />
           <WhyHotelLivingSection />
+          <BenefitsHeader />
           
           {/* Second title - Frequently Asked Questions */}
           <div className="text-center mb-6">

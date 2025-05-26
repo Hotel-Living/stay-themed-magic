@@ -28,7 +28,7 @@ export function Footer() {
               AFFINITY STAYS?
             </Link>
             <Link to="/hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-              Hotels
+              Hotel?
             </Link>
             <Link to="/videos" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
               VIDEOS
@@ -46,7 +46,7 @@ export function Footer() {
           {/* Second Line */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
             <Link to="/hotels" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
-              HOTELS
+              Hotel?
             </Link>
             <Link to="/our-services" className={`text-white hover:text-white/90 ${isMobile ? "text-[0.8em]" : "text-[0.691rem]"} font-bold uppercase`}>
               OUR SERVICES
@@ -83,7 +83,7 @@ export function Footer() {
               Sign In
             </Link>
             <Link to="/hotels" className="text-white hover:text-white/90 bg-[#7A127C] px-6 py-2 font-bold rounded-md uppercase">
-              Hotels
+              Hotel?
             </Link>
           </div>
         </div>

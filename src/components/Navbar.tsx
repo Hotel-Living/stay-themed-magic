@@ -61,7 +61,7 @@ export function Navbar() {
             Affinity Stays?
           </Link>
           <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            Hotels
+            Hotel?
           </Link>
           <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Videos
@@ -124,7 +124,7 @@ export function Navbar() {
             Affinity Stays?
           </Link>
           <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
-            Hotels
+            Hotel?
           </Link>
           <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Videos

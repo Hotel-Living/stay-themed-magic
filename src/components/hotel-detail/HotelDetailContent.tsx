@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -8,6 +9,7 @@ import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
 import { HotelStarfield } from "./HotelStarfield";
+import { buildPricingMatrix } from "@/utils/buildPricingMatrix";
 import { cn } from "@/lib/utils";
 
 export interface HotelDetailContentProps {
@@ -110,6 +112,41 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
     console.log("No rates found, returning empty object");
     return {};
+  })();
+
+  // Build pricing matrix from hotel data
+  const pricingMatrix = (() => {
+    console.log("Building pricing matrix from hotel data:", {
+      roomTypes: hotel.room_types,
+      stayLengths: hotel.stay_lengths,
+      mealPlans: hotel.meal_plans
+    });
+
+    if (!hotel.room_types || !hotel.stay_lengths || !hotel.meal_plans) {
+      console.log("Missing required data for pricing matrix");
+      return [];
+    }
+
+    // Transform meal plans to the required format
+    const formattedMealPlans = hotel.meal_plans.map(plan => ({
+      id: plan.toLowerCase().replace(/\s+/g, '-'),
+      label: plan
+    }));
+
+    // Transform room types to the required format
+    const formattedRoomTypes = hotel.room_types.map(room => ({
+      name: room.name || 'Unknown Room',
+      rates: room.rates || {}
+    }));
+
+    const matrix = buildPricingMatrix({
+      roomTypes: formattedRoomTypes,
+      stayLengths: hotel.stay_lengths,
+      mealPlans: formattedMealPlans
+    });
+
+    console.log("Built pricing matrix:", matrix);
+    return matrix;
   })();
 
   // Format stay lengths for display
@@ -250,6 +287,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   enable_price_increase={hotel.enable_price_increase}
                   price_increase_cap={hotel.price_increase_cap}
                   availableMonths={hotel.available_months}
+                  pricingMatrix={pricingMatrix}
                   mealPlans={hotel.meal_plans}
                 />
               </div>

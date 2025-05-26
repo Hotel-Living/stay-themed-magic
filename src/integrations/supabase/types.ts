@@ -392,6 +392,7 @@ export type Database = {
           price_increase_cap: number | null
           price_per_month: number
           priceincreasecap: number | null
+          pricingmatrix: Json | null
           property_style: string | null
           property_type: string | null
           rates: Json | null
@@ -445,6 +446,7 @@ export type Database = {
           price_increase_cap?: number | null
           price_per_month: number
           priceincreasecap?: number | null
+          pricingmatrix?: Json | null
           property_style?: string | null
           property_type?: string | null
           rates?: Json | null
@@ -498,6 +500,7 @@ export type Database = {
           price_increase_cap?: number | null
           price_per_month?: number
           priceincreasecap?: number | null
+          pricingmatrix?: Json | null
           property_style?: string | null
           property_type?: string | null
           rates?: Json | null

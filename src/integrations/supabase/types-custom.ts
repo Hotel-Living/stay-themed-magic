@@ -1,3 +1,4 @@
+
 export type Profile = {
   id: string;
   first_name: string | null;
@@ -53,6 +54,13 @@ export type Hotel = {
   // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE
   enablePriceIncrease?: boolean;
   priceIncreaseCap?: number;
+  // Add the new pricingMatrix column
+  pricingMatrix?: Array<{
+    roomType: string;
+    stayLength: string;
+    mealPlan: string;
+    price: number;
+  }>;
   hotel_images?: {
     id: string;
     hotel_id: string;

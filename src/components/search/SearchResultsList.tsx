@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -36,9 +37,7 @@ interface SearchResultsListProps {
 const getHotelPricingInfo = (hotel: Hotel) => {
   console.log(`Processing pricing for hotel: ${hotel.name}`, {
     pricingMatrix: hotel.pricingMatrix,
-    room_types: hotel.room_types,
-    stay_lengths: hotel.stay_lengths,
-    hotel_rates: hotel.rates,
+    rates: hotel.rates,
     price_per_month: hotel.price_per_month
   });
 
@@ -46,7 +45,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   let correspondingStayLength = null;
   const allPriceOptions: Array<{price: number, stayLength: number}> = [];
 
-  // First priority: use pricingMatrix from the hotel's pricing section
+  // First priority: use pricingMatrix if available
   if (hotel.pricingMatrix && hotel.pricingMatrix.length > 0) {
     console.log(`Found pricingMatrix for ${hotel.name}:`, hotel.pricingMatrix);
     
@@ -63,29 +62,38 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     }
   }
 
-  // Second priority: try to get prices from hotel-level rates (only if they're valid)
+  // Second priority: use rates if pricingMatrix is empty or not available
   if (allPriceOptions.length === 0 && hotel.rates && typeof hotel.rates === 'object' && Object.keys(hotel.rates).length > 0) {
     console.log(`Found hotel-level rates for ${hotel.name}:`, hotel.rates);
     
     for (const [key, price] of Object.entries(hotel.rates)) {
       if (price && price > 0) {
-        // Parse the key to extract stay length
-        const parts = key.split('-');
-        let stayLengthStr = '';
+        // Handle different key formats:
+        // 1. "RoomType-StayLength-MealPlan" format
+        // 2. Simple stay length format like "8", "16", "24", "32"
+        let stayLength = null;
         
-        if (parts.length === 3) {
-          stayLengthStr = parts[1];
-        } else if (parts.length === 1) {
-          stayLengthStr = parts[0];
-        } else if (parts.length === 2) {
-          stayLengthStr = parts[0];
+        if (key.includes('-')) {
+          // Split and get the middle part which should be stay length
+          const parts = key.split('-');
+          if (parts.length >= 2) {
+            const stayLengthStr = parts[1];
+            const stayLengthMatch = stayLengthStr.match(/(\d+)/);
+            if (stayLengthMatch) {
+              stayLength = parseInt(stayLengthMatch[1]);
+            }
+          }
+        } else {
+          // Direct stay length format
+          const stayLengthMatch = key.match(/(\d+)/);
+          if (stayLengthMatch) {
+            stayLength = parseInt(stayLengthMatch[1]);
+          }
         }
         
-        const stayLengthMatch = stayLengthStr.match(/(\d+)/);
-        if (stayLengthMatch) {
-          const stayLength = parseInt(stayLengthMatch[1]);
+        if (stayLength && stayLength > 0) {
           allPriceOptions.push({ price, stayLength });
-          console.log(`Found price option for ${hotel.name}: ${price} for ${stayLength} nights`);
+          console.log(`Found rates option for ${hotel.name}: ${price} for ${stayLength} nights`);
         }
       }
     }
@@ -99,20 +107,25 @@ const getHotelPricingInfo = (hotel: Hotel) => {
       if (room.rates && Object.keys(room.rates).length > 0) {
         for (const [key, price] of Object.entries(room.rates)) {
           if (price && price > 0) {
-            const parts = key.split('-');
-            let stayLengthStr = '';
+            let stayLength = null;
             
-            if (parts.length === 3) {
-              stayLengthStr = parts[1];
-            } else if (parts.length === 1) {
-              stayLengthStr = parts[0];
-            } else if (parts.length === 2) {
-              stayLengthStr = parts[0];
+            if (key.includes('-')) {
+              const parts = key.split('-');
+              if (parts.length >= 2) {
+                const stayLengthStr = parts[1];
+                const stayLengthMatch = stayLengthStr.match(/(\d+)/);
+                if (stayLengthMatch) {
+                  stayLength = parseInt(stayLengthMatch[1]);
+                }
+              }
+            } else {
+              const stayLengthMatch = key.match(/(\d+)/);
+              if (stayLengthMatch) {
+                stayLength = parseInt(stayLengthMatch[1]);
+              }
             }
             
-            const stayLengthMatch = stayLengthStr.match(/(\d+)/);
-            if (stayLengthMatch) {
-              const stayLength = parseInt(stayLengthMatch[1]);
+            if (stayLength && stayLength > 0) {
               allPriceOptions.push({ price, stayLength });
             }
           }
@@ -153,13 +166,7 @@ const getHotelPricingInfo = (hotel: Hotel) => {
       allOptions: allPriceOptions
     });
   } else {
-    console.log(`No valid pricing found for ${hotel.name}, all data:`, {
-      pricingMatrix: hotel.pricingMatrix,
-      rates: hotel.rates,
-      room_types: hotel.room_types,
-      stay_lengths: hotel.stay_lengths,
-      price_per_month: hotel.price_per_month
-    });
+    console.log(`No valid pricing found for ${hotel.name}`);
   }
 
   if (!lowestPrice || lowestPrice <= 0 || !correspondingStayLength) {

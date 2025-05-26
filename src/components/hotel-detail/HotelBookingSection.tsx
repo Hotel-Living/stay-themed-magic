@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,14 @@ export function HotelBookingSection({
   mealPlans
 }: HotelBookingSectionProps) {
   const availableDates = availableMonths || [];
+
+  // Initialize selectedDuration to the longest available stay duration if not already set
+  React.useEffect(() => {
+    if (stayDurations.length > 0 && selectedDuration === 0) {
+      const longestDuration = Math.max(...stayDurations);
+      setSelectedDuration(longestDuration);
+    }
+  }, [stayDurations, selectedDuration, setSelectedDuration]);
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableDates || availableDates.length === 0) {

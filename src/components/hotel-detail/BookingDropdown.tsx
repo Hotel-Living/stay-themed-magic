@@ -15,19 +15,33 @@ interface BookingDropdownProps {
 }
 
 export default function BookingDropdown({ pricingMatrix = [], onSelect }: BookingDropdownProps) {
+  const formatRoomType = (roomType: string) => {
+    // Capitalize first letter and ensure it says "Room"
+    const formatted = roomType.charAt(0).toUpperCase() + roomType.slice(1);
+    return formatted.includes('Room') ? formatted : `${formatted} Room`;
+  };
+
+  const formatMealPlan = (mealPlan: string) => {
+    // Capitalize first letter
+    return mealPlan.charAt(0).toUpperCase() + mealPlan.slice(1);
+  };
+
   const formatDropdownOption = (item: PricingMatrixItem) => {
-    // Format room type: "double" -> "Double Room"
-    const formattedRoomType = item.roomType.charAt(0).toUpperCase() + item.roomType.slice(1);
-    const roomTypeDisplay = formattedRoomType.includes('Room') ? formattedRoomType : `${formattedRoomType} Room`;
+    const roomTypeDisplay = formatRoomType(item.roomType);
+    const mealPlanDisplay = formatMealPlan(item.mealPlan);
     
-    // Format meal plan: "breakfast" -> "Breakfast"
-    const formattedMealPlan = item.mealPlan.charAt(0).toUpperCase() + item.mealPlan.slice(1);
-    
-    return `${roomTypeDisplay} – ${item.stayLength} nights – ${formattedMealPlan} – ${item.price}`;
+    // Format: [Room Type] – [Meal Plan] – [Number of nights] – [Price]
+    return `${roomTypeDisplay} – ${mealPlanDisplay} – ${item.stayLength} nights – ${item.price}`;
+  };
+
+  const formatDefaultDisplay = (item: PricingMatrixItem) => {
+    const roomTypeDisplay = formatRoomType(item.roomType);
+    // Format for default display: [Room Type] – [Price]
+    return `${roomTypeDisplay} – ${item.price}`;
   };
 
   const handleSelectionChange = (value: string) => {
-    const selectedItem = pricingMatrix.find(item => formatDropdownOption(item) === value);
+    const selectedItem = sortedPricingMatrix.find(item => formatDropdownOption(item) === value);
     if (selectedItem && onSelect) {
       onSelect(selectedItem);
     }
@@ -35,11 +49,25 @@ export default function BookingDropdown({ pricingMatrix = [], onSelect }: Bookin
 
   // Sort pricing matrix by price (cheapest first)
   const sortedPricingMatrix = [...pricingMatrix].sort((a, b) => a.price - b.price);
+  
+  // Get the cheapest option for default display
+  const cheapestOption = sortedPricingMatrix[0];
+  const defaultDisplayValue = cheapestOption ? formatDefaultDisplay(cheapestOption) : "Select room and pricing option";
+
+  if (!pricingMatrix || pricingMatrix.length === 0) {
+    return (
+      <Select disabled>
+        <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 text-white">
+          <SelectValue placeholder="No pricing options available" />
+        </SelectTrigger>
+      </Select>
+    );
+  }
 
   return (
     <Select onValueChange={handleSelectionChange}>
       <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30 text-white">
-        <SelectValue placeholder="Select room and pricing option" />
+        <SelectValue placeholder={defaultDisplayValue} />
       </SelectTrigger>
       <SelectContent className="bg-[#860493] border border-fuchsia-800/30 z-50">
         {sortedPricingMatrix.map((item, index) => {

@@ -25,6 +25,15 @@ export default function FAQ() {
     { id: "society", label: "Society?" }
   ];
 
+  const handleAccordionTabChange = (value: string) => {
+    // If clicking the same tab that's already active, collapse it
+    if (value === activeAccordionTab) {
+      setActiveAccordionTab("");
+    } else {
+      setActiveAccordionTab(value);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col relative">
       <HotelStarfield />
@@ -63,7 +72,7 @@ export default function FAQ() {
 
           {/* First Horizontal Accordion Menu */}
           <div className="mb-96">
-            <Tabs value={activeAccordionTab} onValueChange={setActiveAccordionTab} className="w-full">
+            <Tabs value={activeAccordionTab} onValueChange={handleAccordionTabChange} className="w-full">
               <div className="flex justify-center mb-4">
                 <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
                   {accordionOptions.map((option) => (

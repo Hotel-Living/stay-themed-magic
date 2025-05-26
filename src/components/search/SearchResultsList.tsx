@@ -276,19 +276,19 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
               <div className="p-4 space-y-3 flex-1">
                 <h3 className="mb-2 line-clamp-2 text-purple-900 text-center uppercase font-bold">{hotel.name}</h3>
                 <div className="flex justify-between items-start">
-                  <span className="text-purple-900 text-base">{hotel.location || "Location unavailable"}</span>
+                  <span className="text-purple-900 text-sm">{hotel.location || "Location unavailable"}</span>
                   <div className="text-right text-sm">
                     {stayText && priceText ? <>
                         <div className="text-purple-900">{stayText}</div>
-                        <div className="text-purple-900">{priceText}</div>
+                        <div className="text-purple-900 py-0 my-[23px]">{priceText}</div>
                       </> : <div className="text-purple-900">Price unavailable</div>}
                   </div>
                 </div>
                 
                 {/* Affinities Section */}
                 {affinities && <div className="text-center space-y-1">
-                    <div className="text-xs font-semibold text-purple-900 px-0 mx-0">YOU'LL MEET PEOPLE LOVING</div>
-                    <div className="text-xs text-purple-900">{affinities}</div>
+                    <div className="text-xs font-semibold text-purple-900 my-0 mx-0 px-[3px] py-0">YOU'LL MEET PEOPLE LOVING</div>
+                    <div className="text-xs text-purple-900 my-0">{affinities}</div>
                   </div>}
                 
                 {/* Activities Section */}

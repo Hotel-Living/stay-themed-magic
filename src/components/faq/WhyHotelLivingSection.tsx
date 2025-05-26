@@ -43,7 +43,7 @@ export function WhyHotelLivingSection() {
       </div>
 
       {/* First Horizontal Accordion Menu */}
-      <div className="mb-96">
+      <div className="mb-24">
         <Tabs value={activeAccordionTab} onValueChange={handleAccordionTabChange} className="w-full">
           <div className="flex justify-center mb-4">
             <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>

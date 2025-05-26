@@ -82,7 +82,7 @@ export function HotelBookingSection({
     return [];
   }, [pricingMatrix, stayDurations]);
 
-  // Initialize with first available room type
+  // Initialize with first available room type and longest duration
   React.useEffect(() => {
     if (roomTypesWithPrices.length > 0 && !selectedRoomAndPrice) {
       setSelectedRoomAndPrice(roomTypesWithPrices[0].value);
@@ -146,10 +146,6 @@ export function HotelBookingSection({
     setSelectedRoomAndPrice(value);
   };
 
-  const handleDurationChange = (value: string) => {
-    setSelectedDuration(parseInt(value));
-  };
-
   const formatMealPlans = () => {
     if (!mealPlans || mealPlans.length === 0) return "";
     
@@ -188,8 +184,9 @@ export function HotelBookingSection({
     return `${otherPlans.join(", ")} and ${lastPlan}`;
   };
 
-  // Calculate checkout date
-  const checkoutDate = checkInDate ? addDays(checkInDate, selectedDuration) : null;
+  // Calculate checkout date using the longest duration since we removed the duration selector
+  const longestDuration = stayDurations.length > 0 ? Math.max(...stayDurations) : selectedDuration;
+  const checkoutDate = checkInDate ? addDays(checkInDate, longestDuration) : null;
 
   return (
     <div className="p-6 space-y-6">
@@ -219,22 +216,6 @@ export function HotelBookingSection({
             {roomTypesWithPrices.map((room) => (
               <SelectItem key={room.value} value={room.value} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
                 {room.value}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Duration Selector */}
-      <div>
-        <Select value={selectedDuration.toString()} onValueChange={handleDurationChange}>
-          <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
-            <SelectValue placeholder="Select duration" />
-          </SelectTrigger>
-          <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-            {stayDurations.map((duration) => (
-              <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                {duration} nights
               </SelectItem>
             ))}
           </SelectContent>

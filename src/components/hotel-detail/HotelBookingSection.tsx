@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -43,28 +44,54 @@ export function HotelBookingSection({
   pricingMatrix,
   mealPlans
 }: HotelBookingSectionProps) {
-  const [selectedRoomType, setSelectedRoomType] = React.useState<string>("Double Room");
+  const [selectedRoomAndPrice, setSelectedRoomAndPrice] = React.useState<string>("");
   const availableDates = availableMonths || [];
 
-  // Get unique room types from pricing matrix
-  const roomTypes = React.useMemo(() => {
+  // Get unique room types with their prices from pricing matrix
+  const roomTypesWithPrices = React.useMemo(() => {
     if (pricingMatrix && pricingMatrix.length > 0) {
-      const types = [...new Set(pricingMatrix.map(item => item.roomType))];
-      return types.length > 0 ? types : ["Double Room", "Single Room"];
+      const roomMap = new Map<string, number>();
+      
+      // Get the longest duration available for each room type
+      const longestDuration = Math.max(...stayDurations);
+      const targetDuration = `${longestDuration} days`;
+      
+      // Find the price for each room type at the longest duration
+      pricingMatrix.forEach(entry => {
+        if (entry.stayLength === targetDuration && entry.price > 0) {
+          if (!roomMap.has(entry.roomType) || roomMap.get(entry.roomType)! < entry.price) {
+            roomMap.set(entry.roomType, entry.price);
+          }
+        }
+      });
+      
+      // Convert to array and ensure Double Room comes first
+      const roomArray = Array.from(roomMap.entries());
+      roomArray.sort((a, b) => {
+        if (a[0].toLowerCase().includes('double')) return -1;
+        if (b[0].toLowerCase().includes('double')) return 1;
+        return a[0].localeCompare(b[0]);
+      });
+      
+      return roomArray.map(([roomType, price]) => ({
+        roomType,
+        price,
+        value: `${roomType} – ${price}`
+      }));
     }
-    return ["Double Room", "Single Room"];
-  }, [pricingMatrix]);
+    return [];
+  }, [pricingMatrix, stayDurations]);
 
-  // Initialize with first available room type and longest duration
+  // Initialize with first available room type
   React.useEffect(() => {
-    if (roomTypes.length > 0 && !selectedRoomType) {
-      setSelectedRoomType(roomTypes[0]);
+    if (roomTypesWithPrices.length > 0 && !selectedRoomAndPrice) {
+      setSelectedRoomAndPrice(roomTypesWithPrices[0].value);
     }
     if (stayDurations.length > 0 && selectedDuration === 0) {
       const longestDuration = Math.max(...stayDurations);
       setSelectedDuration(longestDuration);
     }
-  }, [roomTypes, stayDurations, selectedRoomType, selectedDuration, setSelectedDuration]);
+  }, [roomTypesWithPrices, stayDurations, selectedRoomAndPrice, selectedDuration, setSelectedDuration]);
 
   const isDateAvailable = (date: Date): boolean => {
     if (!availableDates || availableDates.length === 0) {
@@ -83,56 +110,28 @@ export function HotelBookingSection({
     return isPreferredDay && isAvailable;
   };
 
-  // Get price for specific room type and duration from pricing matrix
-  const getPriceForRoomAndDuration = (roomType: string, duration: number): number => {
-    console.log(`Getting price for ${roomType}, ${duration} nights from pricingMatrix:`, pricingMatrix);
+  // Extract selected room type and price from the combined selection
+  const getSelectedRoomInfo = () => {
+    if (!selectedRoomAndPrice) return { roomType: "", price: 0 };
     
-    if (pricingMatrix && pricingMatrix.length > 0) {
-      // Look for exact matching room type and duration with strict comparison
-      const matchingEntry = pricingMatrix.find(entry => {
-        const entryRoomType = entry.roomType.trim().toLowerCase();
-        const targetRoomType = roomType.trim().toLowerCase();
-        const entryDuration = entry.stayLength;
-        const targetDuration = `${duration} days`;
-        
-        console.log(`Comparing: "${entryRoomType}" === "${targetRoomType}" && "${entryDuration}" === "${targetDuration}"`);
-        
-        return entryRoomType === targetRoomType && entryDuration === targetDuration;
-      });
-      
-      if (matchingEntry && matchingEntry.price > 0) {
-        console.log(`Found exact pricing matrix price for ${roomType}, ${duration} nights:`, matchingEntry.price);
-        return matchingEntry.price;
-      }
+    const parts = selectedRoomAndPrice.split(' – ');
+    if (parts.length === 2) {
+      return {
+        roomType: parts[0],
+        price: parseFloat(parts[1])
+      };
     }
-
-    // Fallback to rates object only if no pricing matrix match found
-    const priceForDuration = rates[duration.toString()];
-    if (priceForDuration && priceForDuration > 0) {
-      console.log(`Found rates price for ${duration} nights:`, priceForDuration);
-      return priceForDuration;
-    }
-
-    // Try to find rates with complex keys
-    for (const [key, value] of Object.entries(rates)) {
-      if (key.includes(`${duration}`) && key.toLowerCase().includes(roomType.toLowerCase().split(' ')[0])) {
-        console.log(`Found complex key price for ${roomType}, ${duration} nights:`, key, value);
-        return typeof value === 'string' ? parseFloat(value) : value;
-      }
-    }
-    
-    console.log(`No price found for ${roomType}, ${duration} nights`);
-    return 0;
+    return { roomType: "", price: 0 };
   };
 
   const calculatePrice = () => {
-    const basePrice = getPriceForRoomAndDuration(selectedRoomType, selectedDuration);
+    const { price } = getSelectedRoomInfo();
     
-    if (basePrice === 0) {
+    if (price === 0) {
       return 0;
     }
 
-    let finalPrice = basePrice;
+    let finalPrice = price;
 
     if (enable_price_increase && checkInDate) {
       const dayOfMonth = checkInDate.getDate();
@@ -143,8 +142,8 @@ export function HotelBookingSection({
     return finalPrice;
   };
 
-  const handleRoomTypeChange = (value: string) => {
-    setSelectedRoomType(value);
+  const handleRoomAndPriceChange = (value: string) => {
+    setSelectedRoomAndPrice(value);
   };
 
   const handleDurationChange = (value: string) => {
@@ -210,37 +209,34 @@ export function HotelBookingSection({
         <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
-      {/* Room Type Selector */}
+      {/* Room Type with Price Selector */}
       <div>
-        <Select value={selectedRoomType} onValueChange={handleRoomTypeChange}>
+        <Select value={selectedRoomAndPrice} onValueChange={handleRoomAndPriceChange}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
-            <SelectValue placeholder="Select room type" />
+            <SelectValue placeholder="Select room type and price" />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-            {roomTypes.map((roomType) => (
-              <SelectItem key={roomType} value={roomType} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                {roomType}
+            {roomTypesWithPrices.map((room) => (
+              <SelectItem key={room.value} value={room.value} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
+                {room.value}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
-      {/* Duration Selector with Prices */}
+      {/* Duration Selector */}
       <div>
         <Select value={selectedDuration.toString()} onValueChange={handleDurationChange}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
             <SelectValue placeholder="Select duration" />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-            {stayDurations.map((duration) => {
-              const price = getPriceForRoomAndDuration(selectedRoomType, duration);
-              return (
-                <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                  {price > 0 ? `${duration} nights — ${price}` : `${duration} nights`}
-                </SelectItem>
-              );
-            })}
+            {stayDurations.map((duration) => (
+              <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
+                {duration} nights
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

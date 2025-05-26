@@ -1,4 +1,3 @@
-
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -13,7 +12,6 @@ import { ActivityFilter } from "./ActivityFilter";
 import { Theme } from "@/utils/themes";
 import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
 import { Button } from "@/components/ui/button";
-
 interface FilterSidebarProps {
   activeFilters: {
     country: string | null;
@@ -38,7 +36,6 @@ interface FilterSidebarProps {
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
   onResetAllFilters: () => void;
 }
-
 export function FilterSidebar({
   activeFilters,
   handleFilterChange,
@@ -47,17 +44,12 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
-  
+
   // Updated meal options - removed "Self Catering", added "Laundry" and "External Laundry Service Available"
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
-  
   return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#860493]">
       {/* Reset All Filters Button - Top */}
-      <Button 
-        onClick={onResetAllFilters}
-        variant="outline"
-        className="w-full mb-4 bg-white text-purple-700 hover:bg-gray-100"
-      >
+      <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-purple-700 bg-[#f6dbfd]">
         Reset All Filters
       </Button>
 
@@ -69,10 +61,7 @@ export function FilterSidebar({
       
       <ThemeFilter activeTheme={activeFilters.theme} onChange={value => handleFilterChange("theme", value)} />
       
-      <ActivityFilter
-        activeActivities={activeFilters.activities || []}
-        onChange={(value, isChecked) => handleArrayFilterChange("activities", value, isChecked)}
-      />
+      <ActivityFilter activeActivities={activeFilters.activities || []} onChange={(value, isChecked) => handleArrayFilterChange("activities", value, isChecked)} />
       
       <CategoryFilter activeCategory={activeFilters.category} onChange={value => handleFilterChange("category", value)} />
       
@@ -93,11 +82,7 @@ export function FilterSidebar({
       <CheckboxFilter title="ROOM FEATURES" options={roomFeatures} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
 
       {/* Reset All Filters Button - Bottom */}
-      <Button 
-        onClick={onResetAllFilters}
-        variant="outline"
-        className="w-full mt-4 bg-white text-purple-700 hover:bg-gray-100"
-      >
+      <Button onClick={onResetAllFilters} variant="outline" className="w-full mt-4 bg-white text-purple-700 hover:bg-gray-100">
         Reset All Filters
       </Button>
     </div>;

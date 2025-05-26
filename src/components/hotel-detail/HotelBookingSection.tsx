@@ -210,7 +210,7 @@ export function HotelBookingSection({
       <div>
         <Select value={selectedRoomAndPrice} onValueChange={handleRoomAndPriceChange}>
           <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
-            <SelectValue placeholder="Select room type and price" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
             {roomTypesWithPrices.map((room) => (

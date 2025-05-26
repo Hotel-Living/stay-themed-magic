@@ -47,7 +47,7 @@ export default function FAQ() {
             </div>
           </div>
 
-          {/* Duplicate "Frequently Asked Questions" slogan */}
+          {/* First title - WHY HOTEL-LIVING? */}
           <div className="text-center mb-6">
             <div className="flex justify-center">
               <h1 className={`
@@ -56,25 +56,27 @@ export default function FAQ() {
                 tracking-tight leading-tight
                 bg-[#8017B0] py-2 px-8 rounded-lg inline-block
               `}>
-                Frequently Asked Questions
+                WHY HOTEL-LIVING?
               </h1>
             </div>
           </div>
 
-          {/* Horizontal Accordion Menu */}
+          {/* First Horizontal Accordion Menu - copying design from second menu */}
           <div className="mb-8">
             <Tabs value={activeAccordionTab} onValueChange={setActiveAccordionTab} className="w-full">
-              <TabsList className={`grid w-full ${isMobile ? "grid-cols-2 gap-1" : "grid-cols-6"} bg-[#8017B0]/20`}>
-                {accordionOptions.map((option) => (
-                  <TabsTrigger 
-                    key={option.id} 
-                    value={option.id}
-                    className={`${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} font-bold text-white`}
-                  >
-                    {option.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+              <div className="flex justify-center mb-4">
+                <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-6"}`}>
+                  {accordionOptions.map((option) => (
+                    <TabsTrigger 
+                      key={option.id} 
+                      value={option.id}
+                      className={`px-2 uppercase whitespace-nowrap bg-gradient-to-r from-[#996515] to-[#996515] text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"}`}
+                    >
+                      {option.label}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
               {accordionOptions.map((option) => (
                 <TabsContent key={option.id} value={option.id} className="mt-4">
                   <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
@@ -87,6 +89,7 @@ export default function FAQ() {
             </Tabs>
           </div>
           
+          {/* Second title - Frequently Asked Questions */}
           <div className="text-center mb-6">
             <div className="flex justify-center">
               <h1 className={`

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ export function HotelBookingSection({
   const [selectedRoomAndPrice, setSelectedRoomAndPrice] = React.useState<string>("");
   const availableDates = availableMonths || [];
 
-  // Get unique room types with their prices from pricing matrix, sorted by price
+  // Get unique room types with their prices from pricing matrix or rates, sorted by price
   const roomTypesWithPrices = React.useMemo(() => {
     console.log("Processing pricingMatrix:", pricingMatrix);
     console.log("Available rates:", rates);
@@ -77,16 +76,19 @@ export function HotelBookingSection({
       }));
     }
     
-    // Fallback: try to extract from rates if pricing matrix is not available
+    // Fallback: extract from rates if pricing matrix is not available
     if (rates && Object.keys(rates).length > 0) {
       console.log("Fallback to rates processing:", rates);
       const roomMap = new Map<string, number>();
       
       Object.entries(rates).forEach(([key, price]) => {
         // Extract room type from rate key (e.g., "double-32 days-breakfast" -> "double")
+        // Split by "-" and take the first part as room type
         const parts = key.split('-');
         if (parts.length > 0) {
-          const roomType = parts[0].charAt(0).toUpperCase() + parts[0].slice(1) + " Room";
+          const rawRoomType = parts[0].toLowerCase();
+          // Capitalize the room type properly
+          const roomType = rawRoomType.charAt(0).toUpperCase() + rawRoomType.slice(1);
           const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
           
           if (!isNaN(numericPrice)) {
@@ -96,6 +98,8 @@ export function HotelBookingSection({
           }
         }
       });
+      
+      console.log("Room map from rates:", Array.from(roomMap.entries()));
       
       const roomArray = Array.from(roomMap.entries()).sort((a, b) => a[1] - b[1]);
       

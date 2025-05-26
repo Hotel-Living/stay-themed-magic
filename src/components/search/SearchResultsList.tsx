@@ -40,6 +40,8 @@ interface Hotel {
       name: string;
     };
   }>;
+  // Add country field
+  country?: string;
 }
 interface SearchResultsListProps {
   filteredHotels: Hotel[];
@@ -237,6 +239,7 @@ const getHotelActivities = (hotel: Hotel): string => {
   console.log(`Extracted activities for ${hotel.name}:`, activities);
   return activities;
 };
+
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   filteredHotels,
   isLoading,
@@ -276,7 +279,10 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
               <div className="p-4 space-y-3 flex-1">
                 <h3 className="mb-2 line-clamp-2 text-purple-900 text-center uppercase font-bold">{hotel.name}</h3>
                 <div className="flex justify-between items-start">
-                  <span className="text-purple-900 text-sm">{hotel.location || "Location unavailable"}</span>
+                  <div className="text-purple-900 text-sm">
+                    <div>{hotel.location || "Location unavailable"}</div>
+                    {hotel.country && <div className="text-purple-900 text-xs">{hotel.country}</div>}
+                  </div>
                   <div className="text-right text-sm">
                     {stayText && priceText ? <>
                         <div className="text-purple-900">{stayText}</div>

@@ -32,7 +32,8 @@ const getHotelPricingInfo = (hotel: Hotel) => {
   console.log(`Processing pricing for hotel: ${hotel.name}`, {
     room_types: hotel.room_types,
     stay_lengths: hotel.stay_lengths,
-    hotel_rates: hotel.rates
+    hotel_rates: hotel.rates,
+    price_per_month: hotel.price_per_month
   });
 
   let lowestPrice = null;
@@ -56,9 +57,12 @@ const getHotelPricingInfo = (hotel: Hotel) => {
         } else if (parts.length === 1) {
           // Format: just "stayLength"
           stayLengthStr = parts[0];
+        } else if (parts.length === 2) {
+          // Format: "stayLength-mealPlan"
+          stayLengthStr = parts[0];
         }
         
-        // Extract numeric value from stay length (e.g., "32 days" -> 32)
+        // Extract numeric value from stay length (e.g., "32 days" -> 32, "32" -> 32)
         const stayLengthMatch = stayLengthStr.match(/(\d+)/);
         if (stayLengthMatch) {
           const stayLength = parseInt(stayLengthMatch[1]);
@@ -84,6 +88,8 @@ const getHotelPricingInfo = (hotel: Hotel) => {
               stayLengthStr = parts[1];
             } else if (parts.length === 1) {
               stayLengthStr = parts[0];
+            } else if (parts.length === 2) {
+              stayLengthStr = parts[0];
             }
             
             const stayLengthMatch = stayLengthStr.match(/(\d+)/);
@@ -107,6 +113,13 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     }
   }
 
+  // Fallback: use price_per_month if available
+  if (allPriceOptions.length === 0 && hotel.price_per_month && hotel.price_per_month > 0) {
+    console.log(`Using price_per_month fallback for ${hotel.name}: ${hotel.price_per_month}`);
+    // Assume monthly price corresponds to approximately 30 nights
+    allPriceOptions.push({ price: hotel.price_per_month, stayLength: 30 });
+  }
+
   // Find the option with the lowest price
   if (allPriceOptions.length > 0) {
     const cheapestOption = allPriceOptions.reduce((prev, current) => 
@@ -118,7 +131,15 @@ const getHotelPricingInfo = (hotel: Hotel) => {
     
     console.log(`Final pricing for ${hotel.name}:`, {
       lowestPrice,
-      correspondingStayLength
+      correspondingStayLength,
+      allOptions: allPriceOptions
+    });
+  } else {
+    console.log(`No valid pricing found for ${hotel.name}, all data:`, {
+      rates: hotel.rates,
+      room_types: hotel.room_types,
+      stay_lengths: hotel.stay_lengths,
+      price_per_month: hotel.price_per_month
     });
   }
 

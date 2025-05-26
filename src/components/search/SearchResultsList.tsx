@@ -280,7 +280,7 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
                   <div className="text-right text-sm">
                     {stayText && priceText ? <>
                         <div className="text-purple-900">{stayText}</div>
-                        <div className="text-purple-900 py-0 my-[23px]">{priceText}</div>
+                        <div className="text-purple-900 py-0 my-0">{priceText}</div>
                       </> : <div className="text-purple-900">Price unavailable</div>}
                   </div>
                 </div>

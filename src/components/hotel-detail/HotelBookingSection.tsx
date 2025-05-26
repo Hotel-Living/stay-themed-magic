@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -63,35 +64,45 @@ export function HotelBookingSection({
     return isPreferredDay && isAvailable;
   };
 
-  const calculatePrice = () => {
-    // Look for rate with the selected duration
-    let basePrice = rates[selectedDuration.toString()] || 0;
+  // Helper function to get the lowest double room price for a specific duration
+  const getLowestDoubleRoomPrice = (duration: number): number => {
+    console.log(`Getting price for ${duration} nights from rates:`, rates);
     
-    // If no exact match, try to find any rate with similar duration
-    if (basePrice === 0) {
-      // Try to find rates in the format "8", "16", etc.
-      const availableRates = Object.keys(rates);
-      console.log("Available rate keys:", availableRates);
-      console.log("Looking for duration:", selectedDuration);
-      
-      // Find the closest match
-      for (const key of availableRates) {
-        if (key.includes(selectedDuration.toString())) {
-          basePrice = rates[key] || 0;
-          break;
-        }
+    // Look for the exact duration in rates
+    const priceForDuration = rates[duration.toString()];
+    if (priceForDuration && priceForDuration > 0) {
+      console.log(`Found direct price for ${duration} nights:`, priceForDuration);
+      return priceForDuration;
+    }
+    
+    // Try to find rates with complex keys like "double-32 days-breakfast"
+    for (const [key, value] of Object.entries(rates)) {
+      if (key.includes(`${duration}`) && key.toLowerCase().includes('double')) {
+        console.log(`Found complex key price for ${duration} nights:`, key, value);
+        return typeof value === 'string' ? parseFloat(value) : value;
       }
     }
+    
+    console.log(`No price found for ${duration} nights`);
+    return 0;
+  };
 
-    console.log("Base price found:", basePrice, "for duration:", selectedDuration);
-
-    if (enable_price_increase && basePrice > 0) {
-      const dayOfMonth = checkInDate ? checkInDate.getDate() : 1;
-      const increaseFactor = Math.min(dayOfMonth / 100, price_increase_cap || 0.3);
-      basePrice *= (1 + increaseFactor);
+  const calculatePrice = () => {
+    const basePrice = getLowestDoubleRoomPrice(selectedDuration);
+    
+    if (basePrice === 0) {
+      return 0;
     }
 
-    return basePrice;
+    let finalPrice = basePrice;
+
+    if (enable_price_increase && checkInDate) {
+      const dayOfMonth = checkInDate.getDate();
+      const increaseFactor = Math.min(dayOfMonth / 100, price_increase_cap || 0.3);
+      finalPrice *= (1 + increaseFactor);
+    }
+
+    return finalPrice;
   };
 
   const handleDurationChange = (value: string) => {
@@ -176,11 +187,14 @@ export function HotelBookingSection({
             <SelectValue placeholder="Select duration" />
           </SelectTrigger>
           <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-            {stayDurations.map((duration) => (
-              <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                {duration} nights
-              </SelectItem>
-            ))}
+            {stayDurations.map((duration) => {
+              const price = getLowestDoubleRoomPrice(duration);
+              return (
+                <SelectItem key={duration} value={duration.toString()} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
+                  {price > 0 ? `${duration} nights — ${price}` : `${duration} nights`}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       </div>

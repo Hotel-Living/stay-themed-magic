@@ -196,7 +196,7 @@ export default function Search() {
             <FilterSidebar activeFilters={activeFilters} handleFilterChange={handleFilterChange} handleArrayFilterChange={handleArrayFilterChange} onResetAllFilters={handleResetAllFilters} />
           </div>
           <div className="w-full md:w-3/4">
-            <div className="mb-4 p-4 backdrop-blur-sm rounded-lg bg-[#f0d7fc]/70">
+            <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
               <h1 style={{
               color: '#860493'
             }} className="font-bold text-xl text-[#260341]">Search Results</h1>

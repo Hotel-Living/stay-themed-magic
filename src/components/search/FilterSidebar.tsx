@@ -82,7 +82,7 @@ export function FilterSidebar({
       <CheckboxFilter title="ROOM FEATURES" options={roomFeatures} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
 
       {/* Reset All Filters Button - Bottom */}
-      <Button onClick={onResetAllFilters} variant="outline" className="w-full mt-4 bg-white text-purple-700 hover:bg-gray-100">
+      <Button onClick={onResetAllFilters} variant="outline" className="w-full mt-4 text-purple-700 bg-[#fae7fb] rounded-3xl">
         Reset All Filters
       </Button>
     </div>;

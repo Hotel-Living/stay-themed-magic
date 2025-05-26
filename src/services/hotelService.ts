@@ -144,6 +144,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
     console.log("Fetched hotels count:", data?.length || 0);
     if (data && data.length > 0) {
       console.log("First hotel in results:", data[0].name, "Status:", data[0].status);
+      console.log("First hotel activities:", data[0].hotel_activities);
     } else {
       console.log("No hotels found with current filters:", filters);
     }
@@ -193,6 +194,7 @@ export const convertHotelToUIFormat = (hotel: any) => {
           : null,
     hotel_images: hotel.hotel_images || [],
     hotel_themes: hotel.hotel_themes || [],
+    hotel_activities: hotel.hotel_activities || [],
     available_months: hotel.available_months || [],
     theme: hotel.hotel_themes && hotel.hotel_themes.length > 0 && hotel.hotel_themes[0].themes
       ? hotel.hotel_themes[0].themes.name

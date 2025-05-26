@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -89,30 +88,25 @@ export function HotelBookingSection({
     console.log(`Getting price for ${roomType}, ${duration} nights from pricingMatrix:`, pricingMatrix);
     
     if (pricingMatrix && pricingMatrix.length > 0) {
-      // Look for exact matching room type and duration
-      const matchingEntry = pricingMatrix.find(entry => 
-        entry.roomType.toLowerCase() === roomType.toLowerCase() && 
-        entry.stayLength === `${duration} days`
-      );
+      // Look for exact matching room type and duration with strict comparison
+      const matchingEntry = pricingMatrix.find(entry => {
+        const entryRoomType = entry.roomType.trim().toLowerCase();
+        const targetRoomType = roomType.trim().toLowerCase();
+        const entryDuration = entry.stayLength;
+        const targetDuration = `${duration} days`;
+        
+        console.log(`Comparing: "${entryRoomType}" === "${targetRoomType}" && "${entryDuration}" === "${targetDuration}"`);
+        
+        return entryRoomType === targetRoomType && entryDuration === targetDuration;
+      });
       
       if (matchingEntry && matchingEntry.price > 0) {
-        console.log(`Found pricing matrix price for ${roomType}, ${duration} nights:`, matchingEntry.price);
+        console.log(`Found exact pricing matrix price for ${roomType}, ${duration} nights:`, matchingEntry.price);
         return matchingEntry.price;
-      }
-      
-      // If no exact match found, try with partial room type matching
-      const partialMatch = pricingMatrix.find(entry => 
-        entry.roomType.toLowerCase().includes(roomType.toLowerCase().split(' ')[0]) && 
-        entry.stayLength === `${duration} days`
-      );
-      
-      if (partialMatch && partialMatch.price > 0) {
-        console.log(`Found partial match pricing for ${roomType}, ${duration} nights:`, partialMatch.price);
-        return partialMatch.price;
       }
     }
 
-    // Fallback to rates object
+    // Fallback to rates object only if no pricing matrix match found
     const priceForDuration = rates[duration.toString()];
     if (priceForDuration && priceForDuration > 0) {
       console.log(`Found rates price for ${duration} nights:`, priceForDuration);

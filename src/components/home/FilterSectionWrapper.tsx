@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -62,7 +63,7 @@ export function FilterSectionWrapper({
         }}>
             <Button size="sm" onClick={handleSearch} style={{
             backgroundColor: "#996515"
-          }} className="text-white w-full max-w-6xl flex items-center justify-center font-bold border-t-2 border-fuchsia-400/70 bg-[#996515] rounded-none py-0 px-0 mx-0">
+          }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
               <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
             </Button>

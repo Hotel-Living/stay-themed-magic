@@ -1,10 +1,16 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { format, addDays } from "date-fns";
 import BookingDropdown from "@/components/hotel-detail/BookingDropdown";
+
+interface PricingMatrixItem {
+  roomType: string;
+  stayLength: string;
+  mealPlan: string;
+  price: number;
+}
 
 interface HotelBookingSectionProps {
   checkInDate: Date | undefined;
@@ -44,7 +50,14 @@ export function HotelBookingSection({
   pricingMatrix,
   mealPlans
 }: HotelBookingSectionProps) {
+  const [selectedOption, setSelectedOption] = useState<PricingMatrixItem | null>(null);
+  
   const availableDates = availableMonths || [];
+
+  // Helper function to capitalize first letter
+  const capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   // Initialize with longest duration if selectedDuration is 0
   React.useEffect(() => {
@@ -131,16 +144,24 @@ export function HotelBookingSection({
         <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
-      {/* New BookingDropdown Component */}
+      {/* BookingDropdown Component */}
       <div>
         <BookingDropdown
           pricingMatrix={pricingMatrix}
-          onSelect={(selection) => {
-            console.log("Selected pricing option:", selection);
-          }}
+          onSelect={(option) => setSelectedOption(option)}
         />
       </div>
 
+      {/* Selected Option Display */}
+      {selectedOption && (
+        <div className="mt-4 text-white text-sm">
+          Selected: <strong>
+            {capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}
+          </strong>
+        </div>
+      )}
+
+      {/* Calendar component */}
       <Card className="border-none shadow-none bg-transparent">
         <Calendar
           mode="single"

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -66,7 +65,7 @@ export default function FAQ() {
           <div className="mb-48">
             <Tabs value={activeAccordionTab} onValueChange={setActiveAccordionTab} className="w-full">
               <div className="flex justify-center mb-4">
-                <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
+                <TabsList className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
                   {accordionOptions.map((option) => (
                     <TabsTrigger 
                       key={option.id} 

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -117,12 +116,12 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
   // Build pricing matrix from hotel data
   const pricingMatrix = (() => {
     console.log("Building pricing matrix from hotel data:", {
-      roomTypes: hotel.room_types,
+      hotelRates: hotel.rates,
       stayLengths: hotel.stay_lengths,
       mealPlans: hotel.meal_plans
     });
 
-    if (!hotel.room_types || !hotel.stay_lengths || !hotel.meal_plans) {
+    if (!hotel.stay_lengths || !hotel.meal_plans) {
       console.log("Missing required data for pricing matrix");
       return [];
     }
@@ -133,11 +132,47 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
       label: plan
     }));
 
-    // Transform room types to the required format
-    const formattedRoomTypes = hotel.room_types.map(room => ({
-      name: room.name || 'Unknown Room',
-      rates: room.rates || {}
-    }));
+    // Parse hotel-level rates and organize by room type
+    const roomTypesWithRates: { [key: string]: { name: string; rates: Record<string, number> } } = {};
+
+    if (hotel.rates && typeof hotel.rates === 'object') {
+      Object.entries(hotel.rates).forEach(([key, price]) => {
+        // Parse keys like "double-8 days-fullBoard" or "single-16 days-breakfast"
+        const parts = key.split('-');
+        if (parts.length >= 3) {
+          const roomType = parts[0]; // "double", "single", etc.
+          const stayLengthMatch = parts[1].match(/(\d+)/); // Extract number from "8 days"
+          const mealPlan = parts.slice(2).join('-').replace(/\s*days?\s*/i, ''); // "fullBoard", "breakfast", etc.
+          
+          if (stayLengthMatch) {
+            const stayLength = stayLengthMatch[1];
+            const mealPlanFormatted = mealPlan.toLowerCase().replace(/\s+/g, '-');
+            
+            // Initialize room type if not exists
+            if (!roomTypesWithRates[roomType]) {
+              roomTypesWithRates[roomType] = {
+                name: roomType,
+                rates: {}
+              };
+            }
+            
+            // Create rate key in format expected by buildPricingMatrix: "stayLength-mealPlan"
+            const rateKey = `${stayLength}-${mealPlanFormatted}`;
+            roomTypesWithRates[roomType].rates[rateKey] = Number(price);
+            
+            console.log(`Parsed rate: ${roomType} - ${stayLength} days - ${mealPlanFormatted} = ${price}`);
+          }
+        }
+      });
+    }
+
+    // Convert to array format expected by buildPricingMatrix
+    const formattedRoomTypes = Object.values(roomTypesWithRates);
+
+    if (formattedRoomTypes.length === 0) {
+      console.log("No room types found from hotel rates");
+      return [];
+    }
 
     const matrix = buildPricingMatrix({
       roomTypes: formattedRoomTypes,

@@ -33,7 +33,7 @@ const ChartLegendContent = React.lazy(() =>
 );
 
 interface LazyChartProps {
-  children: React.ReactElement | React.ReactElement[];
+  children: React.ReactNode;
   config: any;
   className?: string;
 }

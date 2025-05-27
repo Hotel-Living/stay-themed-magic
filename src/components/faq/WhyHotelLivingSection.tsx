@@ -45,12 +45,12 @@ export function WhyHotelLivingSection() {
       <div className="mb-24">
         <div className="w-full">
           <div className="flex justify-center mb-4">
-            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1" : "grid grid-cols-7"}`}>
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
               {accordionOptions.map((option) => (
                 <button 
                   key={option.id} 
                   onClick={() => handleAccordionTabChange(option.id)}
-                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                 >
                   <span className="mb-1">{option.label}</span>
                   <span className="text-xs">▼</span>

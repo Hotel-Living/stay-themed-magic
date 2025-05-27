@@ -1,11 +1,8 @@
-
 import React from "react";
-
 export function HotelContent() {
-  return (
-    <div className="space-y-8 text-white">
+  return <div className="space-y-8 text-white">
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why ignore your most profitable guests — the ones who stay longer, spend more, and ask for less?</p>
+        <p className="text-lg leading-relaxed font-normal">Why ignore your most profitable guests — the ones who stay longer, spend more, and ask for less?</p>
         <p className="text-lg leading-relaxed">Why leave untapped earnings on the table — when they add up to thousands per year?</p>
         <p className="text-lg leading-relaxed">Why settle for weekends — when your rooms could be booked for the whole month?</p>
         <p className="text-lg leading-relaxed">Why lose thousands every year — when your rooms could be working full-time for you?</p>
@@ -93,6 +90,5 @@ export function HotelContent() {
         <p className="text-lg leading-relaxed">Why make your life depend on seasons — when it could depend on stability?</p>
         <p className="text-lg leading-relaxed">Why aim for full rooms — when you could aim for full lives inside them?</p>
       </div>
-    </div>
-  );
+    </div>;
 }

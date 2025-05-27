@@ -1,5 +1,6 @@
 
 import { FilterItem } from "./FilterItem";
+import { availableCountries } from "../filters/FilterUtils";
 
 interface CountryFilterProps {
   activeCountry: string | null;
@@ -7,25 +8,17 @@ interface CountryFilterProps {
 }
 
 export function CountryFilter({ activeCountry, onChange }: CountryFilterProps) {
-  const countries = [
-    { value: "Spain", label: "Spain 🇪🇸" },
-    { value: "France", label: "France 🇫🇷" },
-    { value: "Italy", label: "Italy 🇮🇹" },
-    { value: "USA", label: "USA 🇺🇸" },
-    { value: "Egypt", label: "Egypt 🇪🇬" },
-    { value: "Turkey", label: "Turkey 🇹🇷" }
-  ];
-
   return (
     <FilterItem title="COUNTRY">
-      {countries.map(country => (
+      {availableCountries.map(country => (
         <label key={country.value} className="flex items-start">
           <input 
             type="radio" 
             name="country"
             checked={activeCountry === country.value}
             onChange={() => {
-              console.log("Country filter changed to:", country.value);
+              console.log("CountryFilter - Country filter changed to:", country.value);
+              console.log("CountryFilter - Active country was:", activeCountry);
               onChange(country.value);
             }}
             className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 

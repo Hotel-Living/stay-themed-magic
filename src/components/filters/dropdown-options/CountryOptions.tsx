@@ -15,7 +15,8 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
         <button
           key={country.value}
           onClick={() => {
-            console.log("Country filter selected:", country.value);
+            console.log("CountryOptions - Country filter selected:", country.value);
+            console.log("CountryOptions - Event type:", type);
             document.dispatchEvent(new CustomEvent('updateFilter', { 
               detail: { key: type, value: country.value } 
             }));

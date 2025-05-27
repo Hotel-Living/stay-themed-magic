@@ -1,26 +1,15 @@
-
 // Countries
 export const availableCountries = [
-  { value: "US", label: "United States" },
-  { value: "UK", label: "United Kingdom" },
-  { value: "CA", label: "Canada" },
-  { value: "AU", label: "Australia" },
-  { value: "DE", label: "Germany" },
-  { value: "FR", label: "France" },
-  { value: "IT", label: "Italy" },
-  { value: "ES", label: "Spain" },
-  { value: "JP", label: "Japan" },
-  { value: "CN", label: "China" },
-  { value: "BR", label: "Brazil" },
-  { value: "MX", label: "Mexico" },
-  { value: "IN", label: "India" },
-  { value: "ZA", label: "South Africa" },
-  { value: "AE", label: "United Arab Emirates" },
-  { value: "SG", label: "Singapore" },
-  { value: "NL", label: "Netherlands" },
-  { value: "SE", label: "Sweden" },
-  { value: "NO", label: "Norway" },
-  { value: "FI", label: "Finland" },
+  { value: "Spain", label: "Spain 🇪🇸" },
+  { value: "France", label: "France 🇫🇷" },
+  { value: "Italy", label: "Italy 🇮🇹" },
+  { value: "USA", label: "USA 🇺🇸" },
+  { value: "Egypt", label: "Egypt 🇪🇬" },
+  { value: "Turkey", label: "Turkey 🇹🇷" },
+  { value: "UK", label: "United Kingdom 🇬🇧" },
+  { value: "Germany", label: "Germany 🇩🇪" },
+  { value: "Portugal", label: "Portugal 🇵🇹" },
+  { value: "Greece", label: "Greece 🇬🇷" },
 ];
 
 // Months

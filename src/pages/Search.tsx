@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -9,6 +8,7 @@ import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 import { useToast } from "@/hooks/use-toast";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export default function Search() {
   const location = useLocation();
@@ -158,6 +158,7 @@ export default function Search() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       <main className="flex-1 container mx-auto px-4 pt-16 pb-10">
         <div className="flex flex-col md:flex-row gap-6">

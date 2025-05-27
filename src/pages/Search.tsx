@@ -10,6 +10,25 @@ import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 import { useToast } from "@/hooks/use-toast";
 
+interface LocalFilterState {
+  country: string | null;
+  month: string | null;
+  theme: Theme | null;
+  priceRange: number | null;
+  propertyType: string | null;
+  propertyStyle: string | null;
+  roomTypes: string[];
+  hotelFeatures: string[];
+  roomFeatures: string[];
+  mealPlans: string[];
+  lengthOfStay: string | null;
+  activities: string[];
+  location: string | null;
+  category: string | null;
+  atmosphere: string | null;
+  stayLengths: number[];
+}
+
 export default function Search() {
   const location = useLocation();
   const {
@@ -21,24 +40,7 @@ export default function Search() {
   } = useHotels();
   const { toast } = useToast();
 
-  const [activeFilters, setActiveFilters] = useState<{
-    country: string | null;
-    month: string | null;
-    theme: Theme | null;
-    priceRange: number | null;
-    propertyType: string | null;
-    propertyStyle: string | null;
-    roomTypes: string[];
-    hotelFeatures: string[];
-    roomFeatures: string[];
-    mealPlans: string[];
-    lengthOfStay: string | null;
-    activities: string[];
-    location: string | null;
-    category: string | null;
-    atmosphere: string | null;
-    stayLengths: number[];
-  }>({
+  const [activeFilters, setActiveFilters] = useState<LocalFilterState>({
     country: null,
     month: null,
     theme: null,
@@ -59,6 +61,7 @@ export default function Search() {
 
   // Parse URL parameters when the page loads
   useEffect(() => {
+    console.log("=== SEARCH PAGE DEBUG: URL Parameters ===");
     console.log("Search page mounted, parsing URL parameters...");
     const searchParams = new URLSearchParams(location.search);
     console.log("URL search params:", Object.fromEntries(searchParams.entries()));
@@ -70,30 +73,37 @@ export default function Search() {
     if (searchParams.has('country')) {
       newFilters.country = searchParams.get('country');
       filtersChanged = true;
+      console.log("Found country filter from URL:", newFilters.country);
     }
     if (searchParams.has('month')) {
       newFilters.month = searchParams.get('month');
       filtersChanged = true;
+      console.log("Found month filter from URL:", newFilters.month);
     }
     if (searchParams.has('price')) {
       newFilters.priceRange = Number(searchParams.get('price'));
       filtersChanged = true;
+      console.log("Found price filter from URL:", newFilters.priceRange);
     }
     if (searchParams.has('location')) {
       newFilters.location = searchParams.get('location');
       filtersChanged = true;
+      console.log("Found location filter from URL:", newFilters.location);
     }
     if (searchParams.has('propertyType')) {
       newFilters.propertyType = searchParams.get('propertyType');
       filtersChanged = true;
+      console.log("Found propertyType filter from URL:", newFilters.propertyType);
     }
     if (searchParams.has('propertyStyle')) {
       newFilters.propertyStyle = searchParams.get('propertyStyle');
       filtersChanged = true;
+      console.log("Found propertyStyle filter from URL:", newFilters.propertyStyle);
     }
     if (searchParams.has('atmosphere')) {
       newFilters.atmosphere = searchParams.get('atmosphere');
       filtersChanged = true;
+      console.log("Found atmosphere filter from URL:", newFilters.atmosphere);
     }
     if (searchParams.has('theme')) {
       const themeId = searchParams.get('theme');
@@ -102,13 +112,15 @@ export default function Search() {
         name: themeId || ''
       } as Theme;
       filtersChanged = true;
+      console.log("Found theme filter from URL:", newFilters.theme);
     }
     
+    console.log("=== SEARCH PAGE DEBUG: Filter Application ===");
     console.log("Parsed filters from URL:", newFilters);
     console.log("Filters changed:", filtersChanged);
     
     if (filtersChanged) {
-      console.log("Applying filters from URL:", newFilters);
+      console.log("Applying filters from URL to component state:", newFilters);
       setActiveFilters(newFilters);
 
       // Create proper FilterState for useHotels hook
@@ -146,6 +158,7 @@ export default function Search() {
 
   // Handle filter changes
   const handleFilterChange = (filterType: string, value: any) => {
+    console.log("=== SEARCH PAGE DEBUG: Filter Change ===");
     console.log("Filter change:", filterType, value);
     
     setActiveFilters(prev => ({
@@ -177,10 +190,11 @@ export default function Search() {
 
   // Handle array filter changes (checkboxes)
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
+    console.log("=== SEARCH PAGE DEBUG: Array Filter Change ===");
     console.log("Array filter change:", filterType, value, isChecked);
     
     setActiveFilters(prev => {
-      const currentValues = prev[filterType as keyof typeof prev] as string[] || [];
+      const currentValues = prev[filterType as keyof LocalFilterState] as string[] || [];
       const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
       return {
         ...prev,
@@ -189,15 +203,11 @@ export default function Search() {
     });
 
     // Update the hook with proper property name
-    const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
+    const currentValues = activeFilters[filterType as keyof LocalFilterState] as string[] || [];
     const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
     
     const filterUpdate: Partial<FilterState> = {};
-    if (filterType === 'meals') {
-      filterUpdate.mealPlans = newValues;
-    } else {
-      filterUpdate[filterType as keyof FilterState] = newValues;
-    }
+    filterUpdate[filterType as keyof FilterState] = newValues;
     
     console.log("Sending array filter update to useHotels:", filterUpdate);
     updateFilters(filterUpdate);
@@ -205,9 +215,10 @@ export default function Search() {
 
   // Reset all filters function
   const handleResetAllFilters = () => {
+    console.log("=== SEARCH PAGE DEBUG: Reset Filters ===");
     console.log("Resetting all filters");
     
-    const resetFilters = {
+    const resetFilters: LocalFilterState = {
       country: null,
       month: null,
       theme: null,
@@ -240,7 +251,7 @@ export default function Search() {
 
   // Add detailed logging for debugging
   useEffect(() => {
-    console.log("=== Search Page Debug Info ===");
+    console.log("=== SEARCH PAGE DEBUG: State Information ===");
     console.log("Hotels array:", hotels);
     console.log("Hotels count:", hotels?.length || 0);
     console.log("Loading state:", loading);

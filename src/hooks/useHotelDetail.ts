@@ -26,56 +26,61 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       
     if (error) throw error;
     
-    console.log("Fetched hotel data:", data);
-    console.log("Dynamic pricing fields from DB:", {
-      enablepriceincrease: data.enablepriceincrease,
-      priceincreasecap: data.priceincreasecap,
-      enable_price_increase: data.enable_price_increase,
-      price_increase_cap: data.price_increase_cap
-    });
+    if (!data) {
+      console.log("No hotel found with ID:", id);
+      return null;
+    }
     
-    // Extract hotel features from features_hotel object
-    const hotelFeatures = data.features_hotel 
+    console.log("Fetched hotel data:", data);
+    
+    // Extract hotel features from features_hotel object - handle null safely
+    const hotelFeatures = data.features_hotel && typeof data.features_hotel === 'object'
       ? Object.entries(data.features_hotel)
           .filter(([_, isSelected]) => isSelected)
           .map(([feature]) => feature)
       : [];
       
-    // Extract room features from features_room object
-    const roomFeatures = data.features_room
+    // Extract room features from features_room object - handle null safely
+    const roomFeatures = data.features_room && typeof data.features_room === 'object'
       ? Object.entries(data.features_room)
           .filter(([_, isSelected]) => isSelected)
           .map(([feature]) => feature)
       : [];
     
-    // Extract themes
-    const themes = data.hotel_themes
-      ? data.hotel_themes.map(themeData => themeData.themes)
+    // Extract themes - handle null safely
+    const themes = data.hotel_themes && Array.isArray(data.hotel_themes)
+      ? data.hotel_themes
+          .filter(themeData => themeData && themeData.themes)
+          .map(themeData => themeData.themes)
       : [];
 
-    // Extract activities
-    const activities = data.hotel_activities
+    // Extract activities - handle null safely
+    const activities = data.hotel_activities && Array.isArray(data.hotel_activities)
       ? data.hotel_activities
-          .map(item => item.activities?.name)
-          .filter(Boolean)
+          .filter(item => item && item.activities && item.activities.name)
+          .map(item => item.activities.name)
       : [];
     
-    // Process room_types to ensure they match the RoomType interface
-    const processedRoomTypes = data.room_types 
+    // Process room_types to ensure they match the RoomType interface - handle null safely
+    const processedRoomTypes = data.room_types && Array.isArray(data.room_types)
       ? data.room_types.map((room: any) => ({
-          id: room.id || `room-${Math.random().toString(36).substr(2, 9)}`,
-          name: room.name || 'Unnamed Room',
-          description: room.description,
-          maxOccupancy: room.maxOccupancy,
-          size: room.size,
-          roomCount: room.roomCount,
-          baseRate: room.baseRate || room.basePrice,
-          basePrice: room.basePrice || room.baseRate,
-          rates: room.rates || {},
-          images: room.images || [],
-          availabilityDates: room.availabilityDates || []
+          id: room?.id || `room-${Math.random().toString(36).substr(2, 9)}`,
+          name: room?.name || 'Unnamed Room',
+          description: room?.description || '',
+          maxOccupancy: room?.maxOccupancy || 1,
+          size: room?.size || 0,
+          roomCount: room?.roomCount || 0,
+          baseRate: room?.baseRate || room?.basePrice || 0,
+          basePrice: room?.basePrice || room?.baseRate || 0,
+          rates: room?.rates || {},
+          images: room?.images || [],
+          availabilityDates: room?.availabilityDates || []
         }))
       : [];
+    
+    // Safely handle dynamic pricing fields with proper fallbacks
+    const enablePriceIncrease = Boolean(data.enablepriceincrease || data.enable_price_increase || false);
+    const priceIncreaseCap = Number(data.priceincreasecap || data.price_increase_cap || 20);
     
     const result = {
       ...data,
@@ -84,19 +89,24 @@ const fetchHotelDetail = async (id: string | undefined): Promise<HotelDetailProp
       activities,
       themes,
       room_types: processedRoomTypes,
-      // Map dynamic pricing fields correctly - prioritize the camelCase versions
-      enablePriceIncrease: data.enablepriceincrease ?? data.enable_price_increase ?? false,
-      priceIncreaseCap: data.priceincreasecap ?? data.price_increase_cap ?? 20,
-      enable_price_increase: data.enable_price_increase ?? data.enablepriceincrease ?? false,
-      price_increase_cap: data.price_increase_cap ?? data.priceincreasecap ?? 20
+      // Ensure these fields are always present with safe defaults
+      enablePriceIncrease,
+      priceIncreaseCap,
+      enable_price_increase: enablePriceIncrease,
+      price_increase_cap: priceIncreaseCap,
+      // Ensure other fields have safe defaults
+      available_months: data.available_months || [],
+      stay_lengths: data.stay_lengths || [],
+      meal_plans: data.meal_plans || [],
+      rates: data.rates || {},
+      hotel_images: data.hotel_images || [],
+      description: data.description || '',
+      atmosphere: data.atmosphere || '',
+      ideal_guests: data.ideal_guests || '',
+      perfect_location: data.perfect_location || ''
     } as HotelDetailProps;
     
-    console.log("Processed hotel data with dynamic pricing:", {
-      enablePriceIncrease: result.enablePriceIncrease,
-      priceIncreaseCap: result.priceIncreaseCap,
-      enable_price_increase: result.enable_price_increase,
-      price_increase_cap: result.price_increase_cap
-    });
+    console.log("Successfully processed hotel data for:", data.name);
     
     return result;
   } catch (error) {

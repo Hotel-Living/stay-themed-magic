@@ -9,12 +9,13 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface AdminDashboardLayoutProps {
   children: ReactNode;
 }
 
-const adminTabs: DashboardTab[] = [
+const baseAdminTabs: DashboardTab[] = [
   {
     id: "pending",
     label: "Pending Hotels",
@@ -54,7 +55,10 @@ const adminTabs: DashboardTab[] = [
     id: "roles",
     label: "User Roles",
     icon: <Users className="w-5 h-5" />
-  },
+  }
+];
+
+const adminOnlyTabs: DashboardTab[] = [
   {
     id: "manage-roles",
     label: "Manage User Roles",
@@ -67,6 +71,10 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+  const isAdmin = useIsAdmin();
+
+  // Combine base tabs with admin-only tabs if user is admin
+  const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
 
   const handleLogout = async () => {
     try {

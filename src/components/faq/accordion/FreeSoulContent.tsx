@@ -54,7 +54,7 @@ export function FreeSoulContent() {
   ];
 
   return (
-    <div className="space-y-18 text-yellow-300">
+    <div className="space-y-8 text-white">
       {questionGroups.map((questions, index) => (
         <QuestionGroup key={index} questions={questions} />
       ))}

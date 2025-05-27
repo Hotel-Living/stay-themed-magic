@@ -50,9 +50,10 @@ export function WhyHotelLivingSection() {
                 <button 
                   key={option.id} 
                   onClick={() => handleAccordionTabChange(option.id)}
-                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg py-0 font-medium ${isMobile ? "text-xs px-2 py-2" : "text-sm px-3 py-2"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-justify rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
                 >
-                  {option.label}
+                  <span className="mb-1">{option.label}</span>
+                  <span className="text-xs">▼</span>
                 </button>
               ))}
             </div>

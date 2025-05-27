@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -68,6 +69,9 @@ export function Navbar() {
           <Link to="/featured-hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             Featured Hotels
           </Link>
+          <Link to="/join-us" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            Join Us
+          </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
             <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
@@ -131,6 +135,9 @@ export function Navbar() {
           </Link>
           <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
             Featured Hotels
+          </Link>
+          <Link to="/join-us" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+            Join Us
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (

@@ -23,6 +23,7 @@ import AffinityStays from "@/pages/AffinityStays";
 import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
 import Search from "@/pages/Search";
+import JoinUs from "@/pages/JoinUs";
 
 const queryClient = createQueryClient();
 
@@ -42,6 +43,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/join-us" element={<JoinUs />} />
               
               {/* Protected Routes */}
               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

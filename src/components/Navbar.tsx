@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -52,7 +51,7 @@ export function Navbar() {
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4 ml-auto">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             FAQ
           </Link>

@@ -22,6 +22,7 @@ import Videos from "@/pages/Videos";
 import AffinityStays from "@/pages/AffinityStays";
 import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
+import Search from "@/pages/Search";
 
 const queryClient = createQueryClient();
 
@@ -36,6 +37,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/hotels/:id" element={<HotelDetail />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/terms" element={<Terms />} />

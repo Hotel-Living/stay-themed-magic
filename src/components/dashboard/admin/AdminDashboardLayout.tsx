@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
@@ -54,6 +54,11 @@ const adminTabs: DashboardTab[] = [
     id: "roles",
     label: "User Roles",
     icon: <Users className="w-5 h-5" />
+  },
+  {
+    id: "manage-roles",
+    label: "Manage User Roles",
+    icon: <UserCog className="w-5 h-5" />
   }
 ];
 
@@ -97,13 +102,15 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                       onClick={() => navigate(tab.id === "pending" ? "/admin" : 
                                           tab.id === "all" ? "/admin/hotels" : 
                                           tab.id === "roles" ? "/admin/roles" :
+                                          tab.id === "manage-roles" ? "/admin-roles" :
                                           `/admin/${tab.id}`)}
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
                         (tab.id === "pending" && location.pathname === "/admin") ||
                         (tab.id === "all" && location.pathname.includes("/admin/hotels")) ||
                         (tab.id === "roles" && location.pathname === "/admin/roles") ||
-                        (tab.id !== "pending" && tab.id !== "all" && tab.id !== "roles" && location.pathname === `/admin/${tab.id}`)
+                        (tab.id === "manage-roles" && location.pathname === "/admin-roles") ||
+                        (tab.id !== "pending" && tab.id !== "all" && tab.id !== "roles" && tab.id !== "manage-roles" && location.pathname === `/admin/${tab.id}`)
                           ? "bg-[#5A1876]/50"
                           : "hover:bg-[#5A1876]/30"
                       )}

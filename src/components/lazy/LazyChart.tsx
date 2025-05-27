@@ -33,7 +33,7 @@ const ChartLegendContent = React.lazy(() =>
 );
 
 interface LazyChartProps {
-  children: React.ReactElement | React.ReactElement[];
+  children: React.ReactNode;
   config: any;
   className?: string;
 }
@@ -52,7 +52,7 @@ export function LazyChartContainer({ children, config, className }: LazyChartPro
   return (
     <Suspense fallback={<ChartLoadingFallback />}>
       <ChartContainer config={config} className={className}>
-        {children}
+        {children as any}
       </ChartContainer>
     </Suspense>
   );

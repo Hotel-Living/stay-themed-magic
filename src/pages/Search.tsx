@@ -66,7 +66,24 @@ export default function Search() {
     const searchParams = new URLSearchParams(location.search);
     console.log("URL search params:", Object.fromEntries(searchParams.entries()));
     
-    const newFilters = { ...activeFilters };
+    const newFilters: LocalFilterState = {
+      country: null,
+      month: null,
+      theme: null,
+      priceRange: null,
+      propertyType: null,
+      propertyStyle: null,
+      roomTypes: [],
+      hotelFeatures: [],
+      roomFeatures: [],
+      mealPlans: [],
+      lengthOfStay: null,
+      activities: [],
+      location: null,
+      category: null,
+      atmosphere: null,
+      stayLengths: []
+    };
     let filtersChanged = false;
 
     // Update filters based on URL parameters
@@ -161,10 +178,11 @@ export default function Search() {
     console.log("=== SEARCH PAGE DEBUG: Filter Change ===");
     console.log("Filter change:", filterType, value);
     
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterType]: value
-    }));
+    setActiveFilters(prev => {
+      const updated: LocalFilterState = { ...prev };
+      (updated as any)[filterType] = value;
+      return updated;
+    });
 
     // Create proper FilterState for the hook
     const filterUpdate: Partial<FilterState> = {};
@@ -181,7 +199,7 @@ export default function Search() {
         filterUpdate.stayLengths = [];
       }
     } else {
-      filterUpdate[filterType as keyof FilterState] = value;
+      (filterUpdate as any)[filterType] = value;
     }
     
     console.log("Sending filter update to useHotels:", filterUpdate);
@@ -194,20 +212,19 @@ export default function Search() {
     console.log("Array filter change:", filterType, value, isChecked);
     
     setActiveFilters(prev => {
-      const currentValues = prev[filterType as keyof LocalFilterState] as string[] || [];
+      const currentValues = (prev as any)[filterType] as string[] || [];
       const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
-      return {
-        ...prev,
-        [filterType]: newValues
-      };
+      const updated: LocalFilterState = { ...prev };
+      (updated as any)[filterType] = newValues;
+      return updated;
     });
 
     // Update the hook with proper property name
-    const currentValues = activeFilters[filterType as keyof LocalFilterState] as string[] || [];
+    const currentValues = (activeFilters as any)[filterType] as string[] || [];
     const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
     
     const filterUpdate: Partial<FilterState> = {};
-    filterUpdate[filterType as keyof FilterState] = newValues;
+    (filterUpdate as any)[filterType] = newValues;
     
     console.log("Sending array filter update to useHotels:", filterUpdate);
     updateFilters(filterUpdate);

@@ -184,6 +184,11 @@ export default function Search() {
               isLoading={loading}
               error={error instanceof Error ? error : error ? new Error(String(error)) : null}
             />
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500 italic">
+                Some listings may be sample properties used to demonstrate the functionality of Hotel Living.
+              </p>
+            </div>
           </div>
         </div>
       </main>

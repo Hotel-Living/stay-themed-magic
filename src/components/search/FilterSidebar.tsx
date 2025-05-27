@@ -1,3 +1,4 @@
+
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -12,6 +13,7 @@ import { ActivityFilter } from "./ActivityFilter";
 import { Theme } from "@/utils/themes";
 import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
 import { Button } from "@/components/ui/button";
+
 interface FilterSidebarProps {
   activeFilters: {
     country: string | null;
@@ -23,7 +25,7 @@ interface FilterSidebarProps {
     roomTypes: string[];
     hotelFeatures: string[];
     roomFeatures: string[];
-    meals: string[];
+    meals: string[]; // Keep as 'meals' for backward compatibility with FilterSidebar
     lengthOfStay: string | null;
     activities: string[];
     location: string | null;
@@ -36,6 +38,7 @@ interface FilterSidebarProps {
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
   onResetAllFilters: () => void;
 }
+
 export function FilterSidebar({
   activeFilters,
   handleFilterChange,
@@ -47,7 +50,15 @@ export function FilterSidebar({
 
   // Updated meal options - removed "Self Catering", added "Laundry" and "External Laundry Service Available"
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
-  return <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#8e069b]">
+
+  // Handle meal filter changes with proper mapping
+  const handleMealFilterChange = (value: string, isChecked: boolean) => {
+    // Use 'meals' for local state but this will be mapped to 'mealPlans' in the parent component
+    handleArrayFilterChange("meals", value, isChecked);
+  };
+
+  return (
+    <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#8e069b]">
       {/* Reset All Filters Button - Top */}
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-[#6213ba] bg-[#fcdefd] rounded-full">
         Reset All Filters
@@ -69,7 +80,12 @@ export function FilterSidebar({
       
       <LocationFilter activeLocation={activeFilters.location} onChange={value => handleFilterChange("location", value)} />
       
-      <CheckboxFilter title="MEALS" options={mealOptions} selectedOptions={activeFilters.meals} onChange={(value, isChecked) => handleArrayFilterChange("meals", value, isChecked)} />
+      <CheckboxFilter 
+        title="MEALS" 
+        options={mealOptions} 
+        selectedOptions={activeFilters.meals || []} 
+        onChange={handleMealFilterChange} 
+      />
       
       <PropertyTypeFilter activePropertyType={activeFilters.propertyType} onChange={value => handleFilterChange("propertyType", value)} />
       
@@ -85,5 +101,6 @@ export function FilterSidebar({
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mt-4 text-purple-700 bg-[#fae7fb] rounded-3xl">
         Reset All Filters
       </Button>
-    </div>;
+    </div>
+  );
 }

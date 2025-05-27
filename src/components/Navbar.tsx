@@ -51,7 +51,7 @@ export function Navbar() {
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4 ml-auto">
+        <div className="hidden md:flex items-center gap-4">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             FAQ
           </Link>

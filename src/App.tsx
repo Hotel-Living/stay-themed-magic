@@ -1,27 +1,30 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "@/lib/query-client";
+import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
-import Home from "./pages/Home";
-import Hotels from "./pages/Hotels";
-import HotelDetail from "./pages/HotelDetail";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import UserDashboard from "./pages/UserDashboard";
-import HotelDashboard from "./pages/HotelDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import HotelRegistration from "./pages/HotelRegistration";
-import HotelEdit from "./pages/HotelEdit";
-import FeaturedHotels from "./pages/FeaturedHotels";
-import Videos from "./pages/Videos";
-import AffinityStays from "./pages/AffinityStays";
-import FAQ from "./pages/FAQ";
+import Home from "@/pages/Index";
+import Hotels from "@/pages/Hotels";
+import HotelDetail from "@/pages/HotelDetail";
+import Login from "@/pages/Login";
+import Signup from "@/pages/SignUp";
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import HotelRegistration from "@/pages/HotelSignUp";
+import HotelEdit from "@/pages/HotelEdit";
+import FeaturedHotels from "@/pages/FeaturedHotels";
+import Videos from "@/pages/Videos";
+import AffinityStays from "@/pages/AffinityStays";
+import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
+
+const queryClient = createQueryClient();
 
 function App() {
   return (

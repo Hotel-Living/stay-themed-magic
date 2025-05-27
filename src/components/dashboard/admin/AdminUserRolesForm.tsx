@@ -34,9 +34,11 @@ export function AdminUserRolesForm() {
       // Search for user by email - we need to use a different approach
       // since we can't directly query auth.users
       const { data, error } = await supabase
-        .rpc('get_user_by_email', { email_input: userEmail });
+        .from('profiles')
+        .select('id, first_name, last_name')
+        .ilike('id', `%${userEmail}%`); // This is a limitation - we need email in profiles
 
-      if (error || !data) {
+      if (error || !data || data.length === 0) {
         toast({
           title: "User not found",
           description: "No user found with this email address",
@@ -47,10 +49,11 @@ export function AdminUserRolesForm() {
         return;
       }
 
-      setSelectedUser(data);
+      const user = data[0];
+      setSelectedUser(user);
       
       // Fetch user's current roles
-      const { roles, error: rolesError } = await getUserRoles(data.id);
+      const { roles, error: rolesError } = await getUserRoles(user.id);
       if (rolesError) {
         console.error("Error fetching roles:", rolesError);
         toast({

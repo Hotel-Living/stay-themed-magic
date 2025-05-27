@@ -27,9 +27,10 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.or(`hotel_themes.theme_id.eq.${filters.theme.id},hotel_themes.themes.name.ilike.%${filters.theme.name}%`);
     }
 
-    // Apply country filter ONLY if it has a value
+    // Apply country filter ONLY if it has a value - Fixed to use exact match
     if (filters.country && filters.country.trim() !== '') {
-      query = query.ilike('country', filters.country);
+      // Use exact match instead of ilike to ensure proper country matching
+      query = query.eq('country', filters.country);
     }
 
     // Apply month filter ONLY if it has a value

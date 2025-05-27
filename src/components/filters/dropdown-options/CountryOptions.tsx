@@ -14,9 +14,12 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
       {availableCountries.map((country) => (
         <button
           key={country.value}
-          onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-            detail: { key: type, value: country.value } 
-          }))}
+          onClick={() => {
+            console.log("Country filter selected:", country.value);
+            document.dispatchEvent(new CustomEvent('updateFilter', { 
+              detail: { key: type, value: country.value } 
+            }));
+          }}
           className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`} 
         >
           {country.label}

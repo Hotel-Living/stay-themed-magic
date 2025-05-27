@@ -56,7 +56,7 @@ export function FilterSectionWrapper({
           country: "COUNTRY?",
           theme: "AFFINITY?",
           priceRange: "PRICE PER MONTH?"
-        }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFF8A9]" />
+        }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
           
           <div className="flex justify-center" style={{
           backgroundColor: "#996515"

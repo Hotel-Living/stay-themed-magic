@@ -26,7 +26,7 @@ export function HeroSection() {
           {/* New 1950s style neon sign slogan - with adjusted spacing: 50% bigger above, 50% smaller below */}
           <div className={`flex justify-center ${isMobile ? "mb-6 mt-14" : "mb-3 mt-5"}`}>
             <div className={`relative ${isMobile ? "w-[85%]" : "w-[26%]"} mx-auto`}>
-              <div className="rounded-lg border-2 border-[#D946EF] bg-[#FFF8A9] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)] px-[11px] my-0 py-0">
+              <div className="rounded-lg border-2 border-[#D946EF] bg-[#FFFFFF] backdrop-blur-sm shadow-[0_0_15px_rgba(217,70,239,0.7)] px-[11px] my-0 py-0">
                 <p className={`${isMobile ? "text-base" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`} style={{
                 color: "#860493"
               }}>The Revolution Has Come</p>

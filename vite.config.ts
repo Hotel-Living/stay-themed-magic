@@ -1,14 +1,30 @@
-
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { visualizer } from "rollup-plugin-visualizer";
+
+// NO importamos visualizer directamente aquí para evitar errores ESM
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  // Load env file based on `mode`
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+  const isCI = process.env.CI === 'true';
+
+  const plugins = [
+    react(),
+    mode === 'development' && componentTagger()
+  ];
+
+  if (!isCI) {
+    const { visualizer } = await import("rollup-plugin-visualizer");
+    plugins.push(visualizer({
+      filename: 'dist/stats.html',
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+      template: 'treemap',
+    }));
+  }
 
   return {
     server: {
@@ -18,17 +34,7 @@ export default defineConfig(({ mode }) => {
         "ca48e511-da23-4c95-9913-59cb1724cacc.lovableproject.com"
       ]
     },
-    plugins: [
-      react(),
-      mode === 'development' && componentTagger(),
-      visualizer({
-        filename: 'dist/stats.html',
-        open: true,
-        gzipSize: true,
-        brotliSize: true,
-        template: 'treemap', // Shows a treemap visualization
-      }),
-    ].filter(Boolean),
+    plugins: plugins.filter(Boolean),
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

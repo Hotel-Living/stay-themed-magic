@@ -3,7 +3,7 @@ import React from "react";
 
 export function OnlineWorkerContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why work from the same desk every day — when your office could be anywhere with WiFi?</p>
         <p className="text-lg leading-relaxed">Why pay for expensive city rent — when you could live in paradise for the same cost?</p>

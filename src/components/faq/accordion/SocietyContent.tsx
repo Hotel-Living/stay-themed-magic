@@ -3,7 +3,7 @@ import React from "react";
 
 export function SocietyContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why accept that housing should consume most of your income — when affordable alternatives exist?</p>
         <p className="text-lg leading-relaxed">Why tolerate urban loneliness — when communities of like-minded people are waiting to connect?</p>

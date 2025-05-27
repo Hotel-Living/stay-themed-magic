@@ -3,7 +3,7 @@ import React from "react";
 
 export function FreeSoulContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why let society dictate where you should live — when your spirit craves freedom to roam?</p>
         <p className="text-lg leading-relaxed">Why follow conventional paths — when adventure calls from every corner of the earth?</p>

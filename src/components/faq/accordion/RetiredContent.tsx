@@ -3,7 +3,7 @@ import React from "react";
 
 export function RetiredContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why stay in the same house for decades — when retirement could mean exploring every corner of the world?</p>
         <p className="text-lg leading-relaxed">Why worry about home maintenance — when you could focus on experiences, not repairs?</p>

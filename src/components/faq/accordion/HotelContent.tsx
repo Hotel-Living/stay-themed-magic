@@ -3,7 +3,7 @@ import React from "react";
 
 export function HotelContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why limit your property to traditional guests — when long-term residents could provide stable income?</p>
         <p className="text-lg leading-relaxed">Why struggle with occupancy gaps — when Hotel Living fills your rooms with committed travelers?</p>

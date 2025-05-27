@@ -3,7 +3,7 @@ import React from "react";
 
 export function StillRentingContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why stay stuck in one place — when you could live freely from city to city, on your terms?</p>
         <p className="text-lg leading-relaxed">Why tie yourself to one address — when the world is full of places waiting to feel like home?</p>

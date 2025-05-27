@@ -3,7 +3,7 @@ import React from "react";
 
 export function CommuterContent() {
   return (
-    <div className="text-white text-center space-y-8">
+    <div className="text-white text-left space-y-8">
       <div className="space-y-2">
         <p className="text-lg leading-relaxed">Why spend hours commuting every day — when you could live minutes from everything that matters?</p>
         <p className="text-lg leading-relaxed">Why waste time in traffic — when that time could be spent on passions, people, and progress?</p>

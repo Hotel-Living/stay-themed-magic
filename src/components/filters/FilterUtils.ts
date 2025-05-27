@@ -1,15 +1,15 @@
-// Countries
+// Countries - Updated to use ISO codes that match the database
 export const availableCountries = [
-  { value: "Spain", label: "Spain 🇪🇸" },
-  { value: "France", label: "France 🇫🇷" },
-  { value: "Italy", label: "Italy 🇮🇹" },
-  { value: "USA", label: "USA 🇺🇸" },
-  { value: "Egypt", label: "Egypt 🇪🇬" },
-  { value: "Turkey", label: "Turkey 🇹🇷" },
-  { value: "UK", label: "United Kingdom 🇬🇧" },
-  { value: "Germany", label: "Germany 🇩🇪" },
-  { value: "Portugal", label: "Portugal 🇵🇹" },
-  { value: "Greece", label: "Greece 🇬🇷" },
+  { value: "ES", label: "Spain 🇪🇸" },
+  { value: "FR", label: "France 🇫🇷" },
+  { value: "IT", label: "Italy 🇮🇹" },
+  { value: "US", label: "USA 🇺🇸" },
+  { value: "EG", label: "Egypt 🇪🇬" },
+  { value: "TR", label: "Turkey 🇹🇷" },
+  { value: "GB", label: "United Kingdom 🇬🇧" },
+  { value: "DE", label: "Germany 🇩🇪" },
+  { value: "PT", label: "Portugal 🇵🇹" },
+  { value: "GR", label: "Greece 🇬🇷" },
 ];
 
 // Months

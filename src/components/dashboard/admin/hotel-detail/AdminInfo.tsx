@@ -8,7 +8,7 @@ import { OwnerSelector } from "./components/OwnerSelector";
 import { StatusSelector } from "./components/StatusSelector";
 import { AdminInfoDetails } from "./components/AdminInfoDetails";
 import { Button } from "@/components/ui/button";
-import { utils, writeFile } from "xlsx";
+import { createWorkbookFromMultipleSheets } from "@/utils/lazyExcel";
 import { formatDate } from "@/components/dashboard/utils/dateUtils";
 
 interface AdminInfoProps {
@@ -25,71 +25,68 @@ export function AdminInfo({ hotel, refetch }: AdminInfoProps) {
                    hotel.hotel_images?.[0]?.image_url || 
                    hotel.main_image_url;
 
-  // Function to export hotel data to Excel
-  const exportToExcel = () => {
-    // Prepare data for export
-    const roomTypesSummary = hotel.room_types?.map(room => ({
-      name: room.name,
-      occupancy: room.maxOccupancy || 0,
-      count: room.roomCount || 0,
-      price: room.basePrice || room.baseRate || 0
-    })) || [];
+  // Function to export hotel data to Excel using dynamic import
+  const exportToExcel = async () => {
+    try {
+      // Prepare data for export
+      const roomTypesSummary = hotel.room_types?.map(room => ({
+        name: room.name,
+        occupancy: room.maxOccupancy || 0,
+        count: room.roomCount || 0,
+        price: room.basePrice || room.baseRate || 0
+      })) || [];
 
-    // Create main hotel data row
-    const hotelData = {
-      "Hotel ID": hotel.id,
-      "Name": hotel.name,
-      "Status": hotel.status || "pending",
-      "Published": hotel.status === 'approved' ? "Yes" : "No",
-      "Owner ID": hotel.owner_id || "No owner",
-      "City": hotel.city,
-      "Country": hotel.country,
-      "Created At": formatDate(hotel.created_at),
-      "Updated At": formatDate(hotel.updated_at),
-      "Total Bookings": totalBookings,
-      "Total Room Types": hotel.room_types?.length || 0,
-      "Description": hotel.description || "No description"
-    };
+      // Create main hotel data row
+      const hotelData = [{
+        "Hotel ID": hotel.id,
+        "Name": hotel.name,
+        "Status": hotel.status || "pending",
+        "Published": hotel.status === 'approved' ? "Yes" : "No",
+        "Owner ID": hotel.owner_id || "No owner",
+        "City": hotel.city,
+        "Country": hotel.country,
+        "Created At": formatDate(hotel.created_at),
+        "Updated At": formatDate(hotel.updated_at),
+        "Total Bookings": totalBookings,
+        "Total Room Types": hotel.room_types?.length || 0,
+        "Description": hotel.description || "No description"
+      }];
 
-    // Create workbook with multiple sheets
-    const wb = utils.book_new();
-    
-    // Main hotel info sheet
-    const mainSheet = utils.json_to_sheet([hotelData]);
-    utils.book_append_sheet(wb, mainSheet, "Hotel Info");
-    
-    // Room types sheet if any exist
-    if (roomTypesSummary.length > 0) {
-      const roomSheet = utils.json_to_sheet(roomTypesSummary);
-      utils.book_append_sheet(wb, roomSheet, "Room Types");
+      // Prepare sheets data
+      const sheets: Record<string, any[]> = {
+        "Hotel Info": hotelData
+      };
+
+      // Add room types sheet if any exist
+      if (roomTypesSummary.length > 0) {
+        sheets["Room Types"] = roomTypesSummary;
+      }
+      
+      // Add themes sheet if any exist
+      if (hotel.hotel_themes?.length > 0) {
+        sheets["Themes"] = hotel.hotel_themes.map(theme => ({
+          "Theme ID": theme.theme_id,
+          "Theme Name": theme.themes?.name || "Unknown"
+        }));
+      }
+      
+      // Add activities sheet if any exist
+      if (hotel.hotel_activities?.length > 0) {
+        sheets["Activities"] = hotel.hotel_activities.map(activity => ({
+          "Activity ID": activity.activity_id,
+          "Activity Name": activity.activities?.name || "Unknown"
+        }));
+      }
+      
+      // Generate filename with hotel name and current date
+      const date = new Date().toISOString().split('T')[0];
+      const filename = `hotel-${hotel.id.substring(0, 8)}-${date}.xlsx`;
+      
+      // Create and download the file using dynamic import
+      await createWorkbookFromMultipleSheets(sheets, filename);
+    } catch (error) {
+      console.error("Export error:", error);
     }
-    
-    // Themes sheet if any exist
-    if (hotel.hotel_themes?.length > 0) {
-      const themes = hotel.hotel_themes.map(theme => ({
-        "Theme ID": theme.theme_id,
-        "Theme Name": theme.themes?.name || "Unknown"
-      }));
-      const themeSheet = utils.json_to_sheet(themes);
-      utils.book_append_sheet(wb, themeSheet, "Themes");
-    }
-    
-    // Activities sheet if any exist
-    if (hotel.hotel_activities?.length > 0) {
-      const activities = hotel.hotel_activities.map(activity => ({
-        "Activity ID": activity.activity_id,
-        "Activity Name": activity.activities?.name || "Unknown"
-      }));
-      const activitySheet = utils.json_to_sheet(activities);
-      utils.book_append_sheet(wb, activitySheet, "Activities");
-    }
-    
-    // Generate filename with hotel name and current date
-    const date = new Date().toISOString().split('T')[0];
-    const filename = `hotel-${hotel.id.substring(0, 8)}-${date}.xlsx`;
-    
-    // Create and download the file
-    writeFile(wb, filename);
   };
 
   return (

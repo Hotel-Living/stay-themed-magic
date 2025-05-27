@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Calculator, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { createExcelFile } from "@/utils/lazyExcel";
 
 export default function CalculatorContent() {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -12,31 +13,38 @@ export default function CalculatorContent() {
     try {
       setIsDownloading(true);
       
-      // Create a simple Excel-like template for demo purposes
-      // In production, this would be retrieved from a proper storage
-      const templateData = new Uint8Array([
-        // Simple Excel file header bytes (this is just a placeholder)
-        80, 75, 3, 4, 20, 0, 8, 0, 8, 0, 
-        // More Excel file content would be here in a real implementation
-      ]);
+      // Create sample calculator data
+      const calculatorData = [
+        {
+          "Property Type": "Hotel Room",
+          "Location": "City Center",
+          "Monthly Rate": 2500,
+          "Occupancy Rate": "85%",
+          "Annual Revenue": 25500,
+          "Profit Margin": "35%"
+        },
+        {
+          "Property Type": "Apartment",
+          "Location": "Suburb",
+          "Monthly Rate": 1800,
+          "Occupancy Rate": "92%",
+          "Annual Revenue": 19872,
+          "Profit Margin": "40%"
+        }
+      ];
       
-      // Create a blob and generate a download link
-      const blob = new Blob([templateData], { 
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      // Use dynamic import for XLSX
+      await createExcelFile(calculatorData, 'hotel-living-calculator.xlsx');
+      
+      toast({
+        description: "The Hotel-Living Calculator has been downloaded successfully."
       });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'hotel-living-calculator.xlsx';
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(link);
-      
-      toast("The Hotel-Living Calculator has been downloaded successfully.");
     } catch (error) {
       console.error("Download error:", error);
-      toast.error("There was a problem downloading the calculator. Please try again.");
+      toast({
+        variant: "destructive",
+        description: "There was a problem downloading the calculator. Please try again."
+      });
     } finally {
       setIsDownloading(false);
     }

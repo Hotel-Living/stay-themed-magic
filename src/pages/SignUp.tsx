@@ -12,6 +12,7 @@ import { TermsCheckbox } from "@/components/auth/TermsCheckbox";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { useToast } from "@/hooks/use-toast";
 import { validatePassword } from "@/utils/passwordValidation";
+import { Starfield } from "@/components/Starfield";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -112,6 +113,7 @@ export default function SignUp() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

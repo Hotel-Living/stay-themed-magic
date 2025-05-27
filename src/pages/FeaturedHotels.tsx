@@ -2,6 +2,8 @@ import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
+import { Starfield } from "@/components/Starfield";
+
 export default function FeaturedHotels() {
   // Sample hotel data for placeholders
   const sampleHotels = [{
@@ -78,6 +80,7 @@ export default function FeaturedHotels() {
     }]
   }];
   return <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

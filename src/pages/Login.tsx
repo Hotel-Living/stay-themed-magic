@@ -6,6 +6,8 @@ import { useAuth } from "@/context/AuthContext";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Starfield } from "@/components/Starfield";
+
 export default function Login() {
   const [activeTab, setActiveTab] = useState("traveler");
   const location = useLocation();
@@ -35,6 +37,7 @@ export default function Login() {
     }
   }, [user, navigate]);
   return <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">

@@ -3,7 +3,7 @@ import React from "react";
 
 export function SocietyContent() {
   return (
-    <div className="space-y-18 text-yellow-300">
+    <div className="space-y-8 text-white">
       {/* Questions Section */}
       <div className="space-y-4">
         <p className="text-lg leading-relaxed">Why keep old housing models for big families that don't exist anymore?</p>
@@ -25,9 +25,6 @@ export function SocietyContent() {
         <p className="text-lg leading-relaxed">Why isolate so many people in almost empty apartments — when they could live among others, cared for and connected?</p>
         <p className="text-lg leading-relaxed">Why keep hotels as dead space — when they could be alive with purpose?</p>
       </div>
-
-      {/* Divider */}
-      <div className="border-t border-yellow-300/30 my-8"></div>
 
       {/* We Statements Section */}
       <div className="space-y-4">

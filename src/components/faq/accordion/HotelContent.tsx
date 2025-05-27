@@ -3,7 +3,7 @@ import React from "react";
 
 export function HotelContent() {
   return (
-    <div className="space-y-18 text-yellow-300">
+    <div className="space-y-8 text-white">
       <div className="space-y-4">
         <p className="text-lg leading-relaxed">Why ignore your most profitable guests — the ones who stay longer, spend more, and ask for less?</p>
         <p className="text-lg leading-relaxed">Why leave untapped earnings on the table — when they add up to thousands per year?</p>

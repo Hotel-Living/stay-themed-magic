@@ -9,7 +9,7 @@ export function HeroSection() {
 
   // Render a single slogan item consistently
   const renderSlogan = (slogan: string, index: number) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{
-    backgroundColor: "#FFF8A9"
+    backgroundColor: "#FFFFFF"
   }}>
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
@@ -44,9 +44,9 @@ export function HeroSection() {
           </h2>
         </div>
         
-        {/* Changed the container background color to #FFF8A9 */}
+        {/* Changed the container background color to #FFFFFF */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
-        <div className={`max-w-2xl mx-auto bg-[#FFF8A9] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
+        <div className={`max-w-2xl mx-auto bg-[#FFFFFF] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
           {/* For mobile: render all slogans in a single column */}
           {isMobile ? <div className="py-2.5 pl-0">
               {slogans.map(renderSlogan)}

@@ -17,7 +17,6 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
 import HotelRegistration from "@/pages/HotelSignUp";
-import HotelEdit from "@/pages/HotelEdit";
 import FeaturedHotels from "@/pages/FeaturedHotels";
 import Videos from "@/pages/Videos";
 import AffinityStays from "@/pages/AffinityStays";
@@ -45,7 +44,6 @@ function App() {
             <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
             <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
             <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
-            <Route path="/hotel-edit/:id" element={<ProtectedRoute><HotelEdit /></ProtectedRoute>} />
             <Route path="/featured-hotels" element={<FeaturedHotels />} />
             <Route path="/videos" element={<Videos />} />
             <Route path="/affinity-stays" element={<AffinityStays />} />

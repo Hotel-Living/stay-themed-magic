@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/auth/AuthContext";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserRoles } from "@/components/dashboard/user/UserRoles";
 
 const ProfileContent = () => {
   const { profile, user, updateProfile } = useAuth();
@@ -81,6 +81,9 @@ const ProfileContent = () => {
               </div>
             </div>
           </div>
+
+          {/* Add User Roles Section */}
+          <UserRoles />
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {isEditing ? (

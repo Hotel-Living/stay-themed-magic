@@ -903,6 +903,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_my_roles: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          role: string
+        }[]
+      }
       has_role: {
         Args: { role_name: string }
         Returns: boolean

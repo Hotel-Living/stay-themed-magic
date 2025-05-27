@@ -20,7 +20,7 @@ export const useAdminAccess = () => {
     try {
       console.log(`Checking admin access for user: ${user.email}`);
       
-      const { data, error } = await supabase.rpc('is_admin', { user_id: user.id });
+      const { data, error } = await supabase.rpc('has_role', { role_name: 'admin' });
       
       console.log('Admin check result:', { data, error });
       

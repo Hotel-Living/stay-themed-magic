@@ -33,7 +33,7 @@ export default function UserDashboard() {
   // Check if user is an admin
   const checkAdminStatus = async () => {
     if (user) {
-      const { data: isAdmin, error } = await supabase.rpc('is_admin', { user_id: user.id });
+      const { data: isAdmin, error } = await supabase.rpc('has_role', { role_name: 'admin' });
       if (!error && isAdmin) {
         console.log("Admin user detected in user dashboard, redirecting to admin dashboard");
         navigate('/admin/hotels');

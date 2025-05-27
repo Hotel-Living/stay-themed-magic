@@ -9,7 +9,7 @@ interface AdminRouteProps {
 }
 
 export const AdminRoute = ({ children }: AdminRouteProps) => {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -21,8 +21,8 @@ export const AdminRoute = ({ children }: AdminRouteProps) => {
       }
 
       try {
-        // Call the is_admin RPC function
-        const { data, error } = await supabase.rpc('is_admin', { user_id: user.id });
+        // Call the has_role function to check for admin role
+        const { data, error } = await supabase.rpc('has_role', { role_name: 'admin' });
         
         if (error) {
           console.error("Error checking admin status:", error);

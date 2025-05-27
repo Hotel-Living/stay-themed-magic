@@ -19,9 +19,7 @@ export default function Search() {
     filters,
     updateFilters
   } = useHotels();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
 
   const [activeFilters, setActiveFilters] = useState<{
     country: string | null;
@@ -33,13 +31,13 @@ export default function Search() {
     roomTypes: string[];
     hotelFeatures: string[];
     roomFeatures: string[];
-    mealPlans: string[]; // Changed from 'meals' to 'mealPlans'
+    mealPlans: string[];
     lengthOfStay: string | null;
     activities: string[];
     location: string | null;
     category: string | null;
     atmosphere: string | null;
-    stayLengths: number[]; // Added missing stayLengths property
+    stayLengths: number[];
   }>({
     country: null,
     month: null,
@@ -50,21 +48,22 @@ export default function Search() {
     roomTypes: [],
     hotelFeatures: [],
     roomFeatures: [],
-    mealPlans: [], // Changed from 'meals' to 'mealPlans'
+    mealPlans: [],
     lengthOfStay: null,
     activities: [],
     location: null,
     category: null,
     atmosphere: null,
-    stayLengths: [] // Added missing stayLengths property
+    stayLengths: []
   });
 
   // Parse URL parameters when the page loads
   useEffect(() => {
+    console.log("Search page mounted, parsing URL parameters...");
     const searchParams = new URLSearchParams(location.search);
-    const newFilters = {
-      ...activeFilters
-    };
+    console.log("URL search params:", Object.fromEntries(searchParams.entries()));
+    
+    const newFilters = { ...activeFilters };
     let filtersChanged = false;
 
     // Update filters based on URL parameters
@@ -97,9 +96,7 @@ export default function Search() {
       filtersChanged = true;
     }
     if (searchParams.has('theme')) {
-      // Handle theme differently since it's an object
       const themeId = searchParams.get('theme');
-      // This would need to be enhanced to fetch the actual theme object
       newFilters.theme = {
         id: themeId || '',
         name: themeId || ''
@@ -107,12 +104,15 @@ export default function Search() {
       filtersChanged = true;
     }
     
+    console.log("Parsed filters from URL:", newFilters);
+    console.log("Filters changed:", filtersChanged);
+    
     if (filtersChanged) {
       console.log("Applying filters from URL:", newFilters);
       setActiveFilters(newFilters);
 
-      // Update the filters in the useHotels hook for real-time filtering with standardized property names
-      updateFilters({
+      // Create proper FilterState for useHotels hook
+      const filterStateForHook: Partial<FilterState> = {
         country: newFilters.country,
         month: newFilters.month,
         theme: newFilters.theme,
@@ -121,9 +121,12 @@ export default function Search() {
         propertyType: newFilters.propertyType,
         propertyStyle: newFilters.propertyStyle,
         atmosphere: newFilters.atmosphere,
-        mealPlans: newFilters.mealPlans, // Use standardized property name
-        stayLengths: newFilters.stayLengths // Use standardized property name
-      });
+        mealPlans: newFilters.mealPlans,
+        stayLengths: newFilters.stayLengths
+      };
+      
+      console.log("Sending filter state to useHotels hook:", filterStateForHook);
+      updateFilters(filterStateForHook);
 
       // Show a toast to inform user about applied filters
       let filterDescription = "Showing results";
@@ -134,10 +137,14 @@ export default function Search() {
         title: "Filters Applied",
         description: filterDescription
       });
+    } else {
+      // No URL filters, but we should still initialize with empty filters to load all hotels
+      console.log("No URL filters found, loading all hotels with empty filters");
+      updateFilters({});
     }
   }, [location.search]);
 
-  // Handle filter changes with standardized property names
+  // Handle filter changes
   const handleFilterChange = (filterType: string, value: any) => {
     console.log("Filter change:", filterType, value);
     
@@ -146,21 +153,29 @@ export default function Search() {
       [filterType]: value
     }));
 
-    // Map local filter names to FilterState property names
-    const filterMapping: Record<string, string> = {
-      'meals': 'mealPlans',
-      'lengthOfStay': 'stayLengths'
-    };
+    // Create proper FilterState for the hook
+    const filterUpdate: Partial<FilterState> = {};
     
-    const mappedFilterType = filterMapping[filterType] || filterType;
-
-    // Real-time filtering: Update the filters in the useHotels hook
-    updateFilters({
-      [mappedFilterType]: value
-    });
+    // Map local filter names to FilterState property names if needed
+    if (filterType === 'lengthOfStay') {
+      // Convert length of stay string to stayLengths array
+      if (value) {
+        const lengthMatch = value.match(/(\d+)/);
+        if (lengthMatch) {
+          filterUpdate.stayLengths = [parseInt(lengthMatch[1])];
+        }
+      } else {
+        filterUpdate.stayLengths = [];
+      }
+    } else {
+      filterUpdate[filterType as keyof FilterState] = value;
+    }
+    
+    console.log("Sending filter update to useHotels:", filterUpdate);
+    updateFilters(filterUpdate);
   };
 
-  // Handle array filter changes (checkboxes) with proper mapping
+  // Handle array filter changes (checkboxes)
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
     console.log("Array filter change:", filterType, value, isChecked);
     
@@ -173,21 +188,22 @@ export default function Search() {
       };
     });
 
-    // Map local filter names to FilterState property names for array filters
-    const filterMapping: Record<string, string> = {
-      'meals': 'mealPlans'
-    };
-    
-    const mappedFilterType = filterMapping[filterType] || filterType;
+    // Update the hook with proper property name
     const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
     const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
     
-    updateFilters({
-      [mappedFilterType]: newValues
-    });
+    const filterUpdate: Partial<FilterState> = {};
+    if (filterType === 'meals') {
+      filterUpdate.mealPlans = newValues;
+    } else {
+      filterUpdate[filterType as keyof FilterState] = newValues;
+    }
+    
+    console.log("Sending array filter update to useHotels:", filterUpdate);
+    updateFilters(filterUpdate);
   };
 
-  // Reset all filters function with standardized property names
+  // Reset all filters function
   const handleResetAllFilters = () => {
     console.log("Resetting all filters");
     
@@ -201,34 +217,20 @@ export default function Search() {
       roomTypes: [],
       hotelFeatures: [],
       roomFeatures: [],
-      mealPlans: [], // Use standardized property name
+      mealPlans: [],
       lengthOfStay: null,
       activities: [],
       location: null,
       category: null,
       atmosphere: null,
-      stayLengths: [] // Use standardized property name
+      stayLengths: []
     };
     
     setActiveFilters(resetFilters);
     
-    // Update useHotels hook with standardized filter state
-    updateFilters({
-      country: null,
-      month: null,
-      theme: null,
-      priceRange: null,
-      propertyType: null,
-      propertyStyle: null,
-      roomTypes: [],
-      hotelFeatures: [],
-      roomFeatures: [],
-      mealPlans: [], // Use standardized property name
-      activities: [],
-      location: null,
-      atmosphere: null,
-      stayLengths: [] // Use standardized property name
-    });
+    // Reset useHotels hook with empty filters to show all hotels
+    console.log("Resetting useHotels filters to show all hotels");
+    updateFilters({});
     
     toast({
       title: "Filters Reset",
@@ -236,14 +238,21 @@ export default function Search() {
     });
   };
 
-  // Add error logging to help debug issues
+  // Add detailed logging for debugging
   useEffect(() => {
+    console.log("=== Search Page Debug Info ===");
+    console.log("Hotels array:", hotels);
+    console.log("Hotels count:", hotels?.length || 0);
+    console.log("Loading state:", loading);
+    console.log("Error state:", error);
+    console.log("Current filters in useHotels:", filters);
+    console.log("Active filters in component:", activeFilters);
+    console.log("===============================");
+    
     if (error) {
       console.error("Search page error:", error);
     }
-    console.log("Hotels loaded:", hotels?.length || 0);
-    console.log("Loading state:", loading);
-  }, [error, hotels, loading]);
+  }, [error, hotels, loading, filters, activeFilters]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -264,12 +273,8 @@ export default function Search() {
           </div>
           <div className="w-full md:w-3/4">
             <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
-              <h1 style={{
-                color: '#860493'
-              }} className="font-bold text-xl text-[#260341]">Search Results</h1>
-              <p className="text-muted-foreground" style={{
-                color: '#860493'
-              }}>
+              <h1 style={{ color: '#860493' }} className="font-bold text-xl text-[#260341]">Search Results</h1>
+              <p className="text-muted-foreground" style={{ color: '#860493' }}>
                 Found {hotels?.length || 0} properties matching your criteria
                 {loading && " (Loading...)"}
                 {error && " (Error loading results)"}

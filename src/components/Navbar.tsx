@@ -46,12 +46,12 @@ export function Navbar() {
   return <header className="shadow-md" style={{ 
       backgroundColor: "#996515",
     }}>
-      <div className="container px-2 sm:px-3 py-2 flex items-center justify-between">
-        <div className="flex-shrink-0">
+      <div className="flex items-center justify-between">
+        <div className="flex-shrink-0 px-2 sm:px-3 py-2">
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             FAQ
           </Link>
@@ -107,7 +107,7 @@ export function Navbar() {
           )}
         </div>
         
-        <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+        <button className="md:hidden flex items-center px-2 sm:px-3 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
           {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
         </button>
       </div>

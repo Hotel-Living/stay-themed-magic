@@ -29,31 +29,33 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <div className="min-h-screen">
-          <Toaster />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/hotels" element={<Hotels />} />
-            <Route path="/hotels/:id" element={<HotelDetail />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            
-            {/* Protected Routes */}
-            <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
-            <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-            <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
-            <Route path="/featured-hotels" element={<FeaturedHotels />} />
-            <Route path="/videos" element={<Videos />} />
-            <Route path="/affinity-stays" element={<AffinityStays />} />
-            <Route path="/faq" element={<FAQ />} />
+        <Router>
+          <div className="min-h-screen">
+            <Toaster />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/hotels" element={<Hotels />} />
+              <Route path="/hotels/:id" element={<HotelDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              
+              {/* Protected Routes */}
+              <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+              <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+              <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+              <Route path="/featured-hotels" element={<FeaturedHotels />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/affinity-stays" element={<AffinityStays />} />
+              <Route path="/faq" element={<FAQ />} />
 
-            {/* Admin Routes */}
-            <Route path="/admin/*" element={<AdminDashboard />} />
-            <Route path="/admin/roles" element={<AdminRoles />} />
-          </Routes>
-        </div>
+              {/* Admin Routes */}
+              <Route path="/admin/*" element={<AdminDashboard />} />
+              <Route path="/admin/roles" element={<AdminRoles />} />
+            </Routes>
+          </div>
+        </Router>
       </AuthProvider>
     </QueryClientProvider>
   );

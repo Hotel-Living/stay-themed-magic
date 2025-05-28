@@ -1,11 +1,10 @@
-
 import React from "react";
 import { QuestionGroup } from "./QuestionGroup";
 
 export function StillRentingContent() {
   const questionGroups = [
     [
-      "Why Rent a Flat When You Can Have Room Service?",
+      "Why rent a flat when you can have room service?",
       "Why apply with endless requirements — when you could just check in and feel at home, instantly?",
       "Why pay a deposit — when you could pay for comfort, connection, and care?",
       "Why lock yourself into a year — when freedom lives in themed weeks with people like you?"

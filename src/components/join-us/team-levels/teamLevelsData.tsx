@@ -1,8 +1,7 @@
 
-import React from "react";
 import { TeamLevel } from "./types";
 
-// Team levels with content
+// Team levels with structured content
 export const teamLevelsData: TeamLevel[] = [
   {
     id: "glow",
@@ -10,72 +9,28 @@ export const teamLevelsData: TeamLevel[] = [
     tier: "TIER 4",
     shortName: "GLOW",
     color: "#FFC83D",
-    content: (
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">LEVEL 4- CORE TEAM MEMBERS (30 PEOPLE)</h3>
-        
-        <p>
-          The Glow team represents the operational and visible foundation of our organization. They are the first point of contact with the public and the ones who clearly and directly convey the essential values of our project.
-        </p>
-        <p>
-          They act as daily ambassadors of our brand, bringing presence, consistency, and dynamism to every action. Their role is key to ensuring a strong connection between the company and its surroundings.
-        </p>
-        <p>
-          Each team of three is carefully selected by a Bridge Leader (Level 3) to form a fundamental unit within the organization.
-        </p>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">A) HOTEL RELATIONS AND COMMERCIAL OPERATIONS DEPARTMENT (18 PEOPLE)</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Onboarding Specialists (12): Hotel relations for both presentation and acquisition.</li>
-              <li>Integration Specialists (6): Contract integration and follow-up.</li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">B) MARKETING AND EXPANSION DEPARTMENT (3 PEOPLE)</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>SEO/SEM Specialists (3): Search engine optimization and marketing campaigns.</li>
-              <li>Content Creators (3): Blog writing, newsletters, and promotional materials.</li>
-              <li>Social Media Managers (3): Managing social profiles and community engagement.</li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">C) TECHNOLOGY AND DEVELOPMENT DEPARTMENT (3 PEOPLE)</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Frontend and Backend Developers (3): Implementation of functional and attractive user interfaces, server logic, and database management.</li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">D) CUSTOMER SERVICE – HOTELS AND USERS (3 PEOPLE)</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Customer Support Representatives (3): Handling user inquiries and issue resolution.</li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">E) LEGAL AND HUMAN RESOURCES DEPARTMENT (3 PEOPLE)</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Human Resources Manager (1): Legal support and regulatory compliance.</li>
-              <li>Human Resources Specialists (2): Talent management and development of internal company culture.</li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3">
-            <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>A working knowledge of English is more than advisable to ensure effective communication across international contexts.</li>
-              <li>Additional languages would be great for regional assignments.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    )
+    content: {
+      description: "The Glow team represents the operational and visible foundation of our organization. They are the first point of contact with the public and the ones who clearly and directly convey the essential values of our project. They act as daily ambassadors of our brand, bringing presence, consistency, and dynamism to every action. Their role is key to ensuring a strong connection between the company and its surroundings. Each team of three is carefully selected by a Bridge Leader (Level 3) to form a fundamental unit within the organization.",
+      responsibilities: [
+        "Hotel relations and commercial operations (18 people): Onboarding Specialists (12) for hotel relations, Integration Specialists (6) for contract integration",
+        "Marketing and expansion (9 people): SEO/SEM Specialists (3), Content Creators (3), Social Media Managers (3)",
+        "Technology and development (3 people): Frontend and Backend Developers for implementation and database management",
+        "Customer service (3 people): Customer Support Representatives for user inquiries and issue resolution",
+        "Legal and HR (3 people): Human Resources Manager (1) for legal support, HR Specialists (2) for talent management"
+      ],
+      qualifications: [
+        "Working knowledge of English for effective international communication",
+        "Additional languages beneficial for regional assignments",
+        "Strong communication and interpersonal skills",
+        "Ability to work effectively in team structures"
+      ],
+      benefits: [
+        "Direct involvement in company operations",
+        "Professional development opportunities",
+        "Team-based working environment",
+        "Clear leadership structure and support"
+      ]
+    }
   },
   {
     id: "bridge",
@@ -83,88 +38,30 @@ export const teamLevelsData: TeamLevel[] = [
     tier: "TIER 3",
     shortName: "BRIDGE",
     color: "#9387F5", 
-    content: (
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">LEVEL 3 – TEAM LEADERS (10 PEOPLE)</h3>
-        
-        <p>
-          Ten essential Team Leaders, each authorized to form and lead a team of three Glow members.
-        </p>
-        
-        <p>
-          These leaders are distributed across the departments of Hotel Relations, Marketing, Technology, Customer Support, and Legal/HR.
-        </p>
-        
-        <p>
-          Ambitious, resourceful, and well-connected professionals ready to take the lead. Tier 3 members are empowered to build and lead their own Tier 4 team — a group of three collaborators they trust and guide.
-        </p>
-        
-        <p>
-          This is not just about joining a project — it's about stepping into a leadership role with real influence and visibility within the company.
-        </p>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            The Bridge Level (Tier 3) members act as the bridge between strategic planning and daily operations. At the Startup Phase, they are responsible for sourcing and organizing hotel data, assigning contact tasks to Tier 4, and ensuring quality and consistency in the outreach process.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LEADERSHIP SCOPE</h4>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Bridge Level members take on a leadership role with real influence — they are empowered to build and lead their own Tier 4 teams, selecting up to three trusted individuals who share their vision, values, or professional interests. This allows them to shape their own working environment and create a strong, reliable unit.</li>
-            <li>As visible representatives of Hotel Living, Bridge Level leaders play a key role in expanding the project's reach and reputation. Their leadership is not only operational, but social — building networks, setting standards, and inspiring others.</li>
-            <li>Alongside team coordination, they remain professionally active within their area of expertise, contributing to the platform's ongoing quality, innovation, and strategic direction.</li>
-            <li>They participate in quality control, progress tracking, and high-level discussions that shape the evolution of Hotel Living.</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
-          <p>
-            These leaders are distributed across the departments of Hotel Relations, Marketing, Technology, Customer Support, and Legal/HR.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">DEPARTMENTS</h4>
-          
-          <div className="space-y-2">
-            <h5 className="text-base font-semibold text-[#FFF9B0]">A) HOTEL RELATIONS AND COMMERCIAL OPERATIONS DEPARTMENT (6 TEAMS – 6 LEADERS)</h5>
-            <p>Leaders of Hotel and User Base Development</p>
-          </div>
-          
-          <div className="space-y-2">
-            <h5 className="text-base font-semibold text-[#FFF9B0]">B) MARKETING AND EXPANSION DEPARTMENT (1 TEAM – 1 LEADER)</h5>
-            <p>Digital Marketing Leader: SEO, SEM strategies, advertising campaigns, and social media.</p>
-          </div>
-          
-          <div className="space-y-2">
-            <h5 className="text-base font-semibold text-[#FFF9B0]">C) TECHNOLOGY AND DEVELOPMENT DEPARTMENT (1 TEAM – 1 LEADER)</h5>
-            <p>Software Development Leader: Maintenance and Frontend/Backend development.</p>
-          </div>
-          
-          <div className="space-y-2">
-            <h5 className="text-base font-semibold text-[#FFF9B0]">D) CUSTOMER SERVICE DEPARTMENT– HOTELS AND USERS (1 TEAM – 1 LEADER)</h5>
-            <p>Customer Support Leader: Customer service and user experience for both hotels and end users.</p>
-          </div>
-          
-          <div className="space-y-2">
-            <h5 className="text-base font-semibold text-[#FFF9B0]">E) LEGAL AND HUMAN RESOURCES DEPARTMENT (1 TEAM – 1 LEADER)</h5>
-            <p>Legal and HR Leader: Legal matters, talent management, and internal company culture.</p>
-          </div>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>A working knowledge of English is more than advisable to ensure effective communication across international contexts.</li>
-            <li>Additional languages would be great for regional assignments.</li>
-          </ul>
-        </div>
-      </div>
-    )
+    content: {
+      description: "Ten essential Team Leaders, each authorized to form and lead a team of three Glow members. These leaders are distributed across the departments of Hotel Relations, Marketing, Technology, Customer Support, and Legal/HR. Ambitious, resourceful, and well-connected professionals ready to take the lead. Tier 3 members are empowered to build and lead their own Tier 4 team — a group of three collaborators they trust and guide. This is not just about joining a project — it's about stepping into a leadership role with real influence and visibility within the company.",
+      responsibilities: [
+        "Hotel Relations and Commercial Operations Department (6 teams – 6 leaders): Leaders of Hotel and User Base Development",
+        "Marketing and Expansion Department (1 team – 1 leader): Digital Marketing Leader for SEO, SEM strategies, advertising campaigns, and social media",
+        "Technology and Development Department (1 team – 1 leader): Software Development Leader for maintenance and Frontend/Backend development",
+        "Customer Service Department (1 team – 1 leader): Customer Support Leader for customer service and user experience",
+        "Legal and Human Resources Department (1 team – 1 leader): Legal and HR Leader for legal matters, talent management, and internal company culture"
+      ],
+      qualifications: [
+        "Leadership experience and team management skills",
+        "Working knowledge of English for international communication",
+        "Additional languages beneficial for regional assignments",
+        "Proven track record in relevant professional area",
+        "Strong networking and relationship-building abilities"
+      ],
+      benefits: [
+        "Leadership role with real influence and visibility",
+        "Authority to build and lead own Tier 4 team",
+        "Participation in high-level strategic discussions",
+        "Direct impact on company evolution and direction",
+        "Professional growth and development opportunities"
+      ]
+    }
   },
   {
     id: "drive",
@@ -172,48 +69,32 @@ export const teamLevelsData: TeamLevel[] = [
     tier: "TIER 2",
     shortName: "DRIVE",
     color: "#FC9F5B", 
-    content: (
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">LEVEL 2 – KEY EXPANSION PARTNERS (5 PEOPLE)</h3>
-        
-        <p>
-          Senior-level professionals with experience in any area of expertise that can meaningfully contribute to the growth of the business.
-        </p>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            These allies also hold relevant influence in strategic environments, and their primary role is to drive the expansion of Hotel Living through their network and direct involvement in high-impact actions.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">CORE RESPONSIBILITIES</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Develop and execute acquisition strategies by country, region, or type of hotel</li>
-            <li>Represent Hotel Living at key meetings or events</li>
-            <li>Monitor results and improve tactics based on data</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">DUAL ROLE — STRATEGIC & OPERATIONAL</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Generate strategic contacts and leads</li>
-            <li>Help design materials and scripts tailored to each region</li>
-            <li>Ensure execution quality throughout the team structure</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">LANGUAGE REQUIREMENTS</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>A working knowledge of English is more than advisable to ensure effective communication across international contexts.</li>
-            <li>Additional languages would be great for regional assignments.</li>
-          </ul>
-        </div>
-      </div>
-    )
+    content: {
+      description: "Senior-level professionals with experience in any area of expertise that can meaningfully contribute to the growth of the business. These allies also hold relevant influence in strategic environments, and their primary role is to drive the expansion of Hotel Living through their network and direct involvement in high-impact actions.",
+      responsibilities: [
+        "Develop and execute acquisition strategies by country, region, or type of hotel",
+        "Represent Hotel Living at key meetings or events",
+        "Monitor results and improve tactics based on data",
+        "Generate strategic contacts and leads",
+        "Help design materials and scripts tailored to each region",
+        "Ensure execution quality throughout the team structure"
+      ],
+      qualifications: [
+        "Senior-level professional experience",
+        "Relevant influence in strategic environments",
+        "Strong network and relationship-building capabilities",
+        "Working knowledge of English for international communication",
+        "Additional languages beneficial for regional assignments",
+        "Proven track record in business development or expansion"
+      ],
+      benefits: [
+        "Strategic role in company expansion",
+        "Direct involvement in high-impact actions",
+        "Access to executive-level decision making",
+        "Opportunity to leverage professional network",
+        "Significant influence on company growth direction"
+      ]
+    }
   },
   {
     id: "summit",
@@ -221,42 +102,30 @@ export const teamLevelsData: TeamLevel[] = [
     tier: "TIER 1",
     shortName: "SUMMIT",
     color: "#8CD867",
-    content: (
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold text-[#FFF9B0]">LEVEL 1 – STRATEGIC AMBASSADORS (5 PEOPLE)</h3>
-        
-        <p>
-          The Summit Level (Tier 1) includes high-value individuals whose involvement creates access, visibility, trust, or massive opportunity — through influence, network, or reputation.
-        </p>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">PURPOSE</h4>
-          <p>
-            Not part of daily operations. Their participation adds prestige, legitimacy, and exponential reach to Hotel Living.
-          </p>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">WHO WE'RE LOOKING FOR:</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Influencers or content creators with massive audiences</li>
-            <li>Public figures, academics, or cultural leaders with strong reputations</li>
-            <li>Connectors capable of opening entire networks with one introduction</li>
-            <li>Executives or former directors of hotel/tourism associations</li>
-            <li>Hotel chain owners or regional operators</li>
-          </ul>
-        </div>
-        
-        <div className="space-y-3">
-          <h4 className="text-lg font-semibold text-[#FFF9B0]">STRATEGIC ROLE</h4>
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Unlock mass onboarding through partnerships</li>
-            <li>Build public confidence in the platform</li>
-            <li>Offer strategic advice and presence when needed</li>
-            <li>Shape perception through their voice, name, or support</li>
-          </ul>
-        </div>
-      </div>
-    )
+    content: {
+      description: "The Summit Level (Tier 1) includes high-value individuals whose involvement creates access, visibility, trust, or massive opportunity — through influence, network, or reputation. Not part of daily operations. Their participation adds prestige, legitimacy, and exponential reach to Hotel Living.",
+      responsibilities: [
+        "Unlock mass onboarding through partnerships",
+        "Build public confidence in the platform",
+        "Offer strategic advice and presence when needed",
+        "Shape perception through their voice, name, or support",
+        "Provide access to high-level networks and opportunities"
+      ],
+      qualifications: [
+        "Influencers or content creators with massive audiences",
+        "Public figures, academics, or cultural leaders with strong reputations",
+        "Connectors capable of opening entire networks with one introduction",
+        "Executives or former directors of hotel/tourism associations",
+        "Hotel chain owners or regional operators",
+        "Significant influence, network, or reputation in relevant industries"
+      ],
+      benefits: [
+        "Strategic advisory role without daily operational involvement",
+        "Prestige and legitimacy association with innovative platform",
+        "Opportunity to shape industry evolution",
+        "Access to exclusive networking and partnership opportunities",
+        "Recognition as key strategic partner in revolutionary concept"
+      ]
+    }
   }
 ];

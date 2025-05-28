@@ -7,5 +7,10 @@ export interface TeamLevel {
   tier: string;
   shortName: string;
   color: string;
-  content: ReactNode;
+  content: {
+    description: string;
+    responsibilities: string[];
+    qualifications: string[];
+    benefits: string[];
+  };
 }

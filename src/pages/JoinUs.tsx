@@ -9,6 +9,7 @@ import { IntellectualPositioningSection } from "@/components/join-us/Intellectua
 import { JoinUsForm } from "@/components/join-us/JoinUsForm";
 import { TeamLevelsAccordion } from "@/components/join-us/TeamLevelsAccordion";
 import { JoinUsFaq } from "@/components/join-us/faq/JoinUsFaq";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Import refactored section components
 import { MarketCreationSection } from "@/components/join-us/sections/MarketCreationSection";
@@ -25,6 +26,8 @@ import { PartnershipsSection } from "@/components/join-us/sections/PartnershipsS
 import { MindBehindSection } from "@/components/join-us/sections/MindBehindSection";
 
 export default function JoinUs() {
+  const isMobile = useIsMobile();
+
   // Add an effect to scroll the open section to the top of the viewport
   useEffect(() => {
     // Listen for section toggle events
@@ -57,6 +60,59 @@ export default function JoinUs() {
         <Container>
           <div className="max-w-4xl mx-auto">
             <JoinUsHeader />
+            
+            {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
+            <div className="flex flex-col items-center gap-8 mb-16 relative">
+              {/* Top box - Enhanced design with blue glow and purple background */}
+              <div className="relative group w-fit">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+                  <div className="space-y-5">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotels need people</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">People need better living</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Society needs an update</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">All need Hotel Living</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Bottom box - Enhanced design with blue glow and purple background */}
+              <div className="relative group w-fit">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+                  <div className="space-y-5">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">5 billion hotel nights need to be full</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">400 million people need better living</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Society keeps repeating the past</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel Living changes that</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             
             <MarketCreationSection />
             <SaasApplicationSection />

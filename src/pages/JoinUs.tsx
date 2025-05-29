@@ -11,7 +11,6 @@ import { JoinUsFaq } from "@/components/join-us/faq/JoinUsFaq";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 // Import refactored section components
-import { MarketCreationSection } from "@/components/join-us/sections/MarketCreationSection";
 import { SaasApplicationSection } from "@/components/join-us/sections/SaasApplicationSection";
 import { ProblemsWeSolveSection } from "@/components/join-us/sections/ProblemsWeSolveSection";
 import { HotelLivingSolutionSection } from "@/components/join-us/sections/HotelLivingSolutionSection";
@@ -154,7 +153,6 @@ export default function JoinUs() {
               </div>
             </div>
             
-            <MarketCreationSection />
             <SaasApplicationSection />
             <ProblemsWeSolveSection />
             <HotelLivingSolutionSection />

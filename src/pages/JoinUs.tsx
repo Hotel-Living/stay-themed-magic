@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -108,6 +107,47 @@ export default function JoinUs() {
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
                       <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel Living changes that</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Third box - Enhanced design with blue glow and purple background */}
+              <div className="relative group w-fit">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+                  <div className="space-y-5">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💼</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">We created a $131B category</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🔗</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">We matched two massive needs</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🧠</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">We built a unique, original model</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🔒</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">A model that can't be cloned — 80% still unknown</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">We own the market, because our model creates it</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💰</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">$12B in annual profits — and an astonishing road ahead</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🎯</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Very few ever get this chance</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">❓</span>
+                      <span className="text-base font-semibold tracking-wide whitespace-nowrap">Are you one of them?</span>
                     </div>
                   </div>
                 </div>

@@ -41,26 +41,26 @@ export function WhyHotelLivingSection() {
         </div>
       </div>
 
-      {/* Two spectacular highlighted boxes with slogans */}
-      <div className={`grid ${isMobile ? "grid-cols-1 gap-6" : "grid-cols-2 gap-8"} mb-16 relative`}>
-        {/* Left box - Enhanced design */}
+      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked */}
+      <div className="flex flex-col gap-8 mb-16 relative">
+        {/* Top box - Enhanced design with blue glow and purple background */}
         <div className="relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-gradient-to-br from-[#1a0933] via-[#2d0f47] to-[#1a0933] backdrop-blur-xl border-2 border-fuchsia-400/50 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
             <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-fuchsia-200 transition-colors duration-200">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
                 <span className="text-base font-semibold tracking-wide">Hotels need people</span>
               </div>
-              <div className="flex items-center text-white group/item hover:text-fuchsia-200 transition-colors duration-200">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">👥</span>
                 <span className="text-base font-semibold tracking-wide">People need better living</span>
               </div>
-              <div className="flex items-center text-white group/item hover:text-fuchsia-200 transition-colors duration-200">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
                 <span className="text-base font-semibold tracking-wide">Society needs an update</span>
               </div>
-              <div className="flex items-center text-white group/item hover:text-fuchsia-200 transition-colors duration-200">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
                 <span className="text-base font-semibold tracking-wide">All need Hotel Living</span>
               </div>
@@ -68,10 +68,10 @@ export function WhyHotelLivingSection() {
           </div>
         </div>
         
-        {/* Right box - Enhanced design */}
+        {/* Bottom box - Enhanced design with blue glow and purple background */}
         <div className="relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-gradient-to-br from-[#1a0933] via-[#2d0f47] to-[#1a0933] backdrop-blur-xl border-2 border-cyan-400/50 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
             <div className="space-y-5">
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>

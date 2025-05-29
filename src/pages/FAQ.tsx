@@ -24,53 +24,6 @@ export default function FAQ() {
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <WhyHotelLivingSection />
           
-          {/* Two highlighted boxes with slogans */}
-          <div className={`grid ${isMobile ? "grid-cols-1 gap-4" : "grid-cols-2 gap-6"} mb-12`}>
-            {/* Left box */}
-            <div className="bg-gradient-to-br from-[#8017B0]/80 to-[#5A0363]/80 backdrop-blur-md border border-fuchsia-500/30 rounded-xl p-6 shadow-lg">
-              <div className="space-y-3">
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">🏨</span>
-                  <span className="text-sm font-medium">Hotels need people</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">👥</span>
-                  <span className="text-sm font-medium">People need better living</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">🌐</span>
-                  <span className="text-sm font-medium">Society needs an update</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">💡</span>
-                  <span className="text-sm font-medium">All need Hotel Living</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Right box */}
-            <div className="bg-gradient-to-br from-[#8017B0]/80 to-[#5A0363]/80 backdrop-blur-md border border-fuchsia-500/30 rounded-xl p-6 shadow-lg">
-              <div className="space-y-3">
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">🛏️</span>
-                  <span className="text-sm font-medium">5 billion hotel nights need to be full</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">👨‍👩‍👧‍👦</span>
-                  <span className="text-sm font-medium">400 million people need better living</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">🔁</span>
-                  <span className="text-sm font-medium">Society keeps repeating the past</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <span className="text-lg mr-3">🚀</span>
-                  <span className="text-sm font-medium">Hotel Living changes that</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
           <BenefitsHeader />
           
           {/* Second title - Frequently Asked Questions */}

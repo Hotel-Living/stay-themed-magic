@@ -1,22 +1,25 @@
 
 import React from "react";
-import { Flame } from "lucide-react";
-import { TextSection } from "@/components/join-us/TextSection";
-
-// Market creation section data
-const marketCreationData = {
-  paragraphs: [
-    "🚀 We didn't just start a business — we created an entirely new global market.",
-    "🌐 A $131 billion opportunity that exists because of our original and fully registered business model.",
-    "🔐 This market wouldn't exist without it — and it belongs 100% to us.",
-    "🌍 Our structure is unique, protected, and legally secured, making replication impossible.",
-    "💰 With $12 billion in estimated annual profits, this is not just a company — it's a fully-owned, global category we built from the ground up.",
-    "✅ We own the model. We own the market."
-  ]
-};
+import { Section } from "../Section";
+import { Zap } from "lucide-react";
 
 export function MarketCreationSection() {
   return (
-    <TextSection icon={Flame} title="WE CREATED A $131 B MARKET" paragraphs={marketCreationData.paragraphs} />
+    <Section icon={Zap} title="🔥 WE ARE A SaaS APPLICATION">
+      <div className="space-y-4">
+        <p className="text-white leading-relaxed">
+          <strong className="text-[#FFF9B0]">Hotel-Living</strong> is a SaaS (Software as a Service) application that creates a new market category by connecting hotels with long-term guests seeking alternative living solutions.
+        </p>
+        <p className="text-white leading-relaxed">
+          We operate as a technology platform that facilitates extended stays, typically ranging from weeks to months, at participating hotels worldwide.
+        </p>
+        <p className="text-white leading-relaxed">
+          Our model transforms traditional short-term hospitality into a sustainable long-term living solution, creating value for both hotels (increased occupancy and revenue) and guests (flexible, service-rich accommodations).
+        </p>
+        <p className="text-white leading-relaxed">
+          By leveraging technology to match supply (empty hotel rooms) with demand (people needing flexible living arrangements), we've established an entirely new market segment worth billions.
+        </p>
+      </div>
+    </Section>
   );
 }

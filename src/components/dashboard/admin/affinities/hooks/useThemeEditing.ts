@@ -17,8 +17,10 @@ export function useThemeEditing(themes: Theme[], setThemes: React.Dispatch<React
     
     // Validate empty name
     if (editingTheme.field === 'name' && !editingTheme.value.trim()) {
-      toast.error("Invalid input", {
-        description: "Affinity name cannot be empty"
+      toast({
+        title: "Invalid input",
+        description: "Affinity name cannot be empty",
+        variant: "destructive"
       });
       return;
     }
@@ -31,8 +33,10 @@ export function useThemeEditing(themes: Theme[], setThemes: React.Dispatch<React
       );
       
       if (isDuplicate) {
-        toast.error("Duplicate name", {
-          description: "An affinity with this name already exists"
+        toast({
+          title: "Duplicate name",
+          description: "An affinity with this name already exists",
+          variant: "destructive"
         });
         return;
       }
@@ -52,10 +56,15 @@ export function useThemeEditing(themes: Theme[], setThemes: React.Dispatch<React
           : theme
       ));
       
-      toast.success("Affinity updated successfully");
+      toast({
+        title: "Success",
+        description: "Affinity updated successfully"
+      });
     } catch (error: any) {
-      toast.error("Failed to update affinity", {
-        description: error.message || "An unexpected error occurred"
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update affinity",
+        variant: "destructive"
       });
     } finally {
       setEditingTheme(null);

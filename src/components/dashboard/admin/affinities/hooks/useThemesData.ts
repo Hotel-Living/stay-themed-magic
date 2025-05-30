@@ -61,10 +61,10 @@ export function useThemesData(searchTerm: string, pagination: PaginationState) {
       const mappedData: Theme[] = (data || []).map(item => ({
         ...item,
         level: item.level as 1 | 2 | 3,
-        children: item.children?.map((child: any) => ({
+        children: Array.isArray(item.children) ? item.children.map((child: any) => ({
           ...child,
           level: child.level as 1 | 2 | 3
-        }))
+        })) : []
       }));
 
       setThemes(mappedData);

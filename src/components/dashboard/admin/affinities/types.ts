@@ -33,8 +33,10 @@ export interface NewTheme {
   sort_order?: number;
 }
 
-export interface EditingTheme extends Theme {
-  isEditing: boolean;
+export interface EditingTheme {
+  id: string;
+  field: string;
+  value: string;
 }
 
 export interface ThemeToDelete {

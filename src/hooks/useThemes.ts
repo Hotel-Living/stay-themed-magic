@@ -7,7 +7,7 @@ import { Theme } from "@/utils/theme-types";
 const fetchThemesFromDB = async (): Promise<Theme[]> => {
   const { data, error } = await supabase
     .from('themes')
-    .select('id, name, description, category')
+    .select('id, name, description, category, level, parent_id, sort_order')
     .order('name');
 
   if (error) {
@@ -20,7 +20,10 @@ const fetchThemesFromDB = async (): Promise<Theme[]> => {
     id: theme.id,
     name: theme.name,
     description: theme.description || "",
-    category: theme.category || "GENERAL"
+    category: theme.category || "GENERAL",
+    level: (theme.level as 1 | 2 | 3) || 1,
+    parent_id: theme.parent_id,
+    sort_order: theme.sort_order
   }));
 };
 

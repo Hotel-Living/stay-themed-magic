@@ -49,7 +49,7 @@ export function ThemesActivities({ hotel }: ThemesActivitiesProps) {
                     {category}
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-4">
-                    {categoryThemes.map((theme) => (
+                    {Array.isArray(categoryThemes) && categoryThemes.map((theme) => (
                       <div key={theme.theme_id} className="p-3 border border-purple-700/30 rounded-lg bg-purple-900/20">
                         <p className="font-medium text-purple-300">
                           {theme.themes?.name || "Unknown Affinity"}

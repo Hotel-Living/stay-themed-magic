@@ -19,6 +19,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
 }) => {
   const { themes, loading, error } = useHierarchicalThemes();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -28,6 +29,16 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
       newExpanded.add(categoryId);
     }
     setExpandedCategories(newExpanded);
+  };
+
+  const toggleSubcategory = (subcategoryId: string) => {
+    const newExpanded = new Set(expandedSubcategories);
+    if (newExpanded.has(subcategoryId)) {
+      newExpanded.delete(subcategoryId);
+    } else {
+      newExpanded.add(subcategoryId);
+    }
+    setExpandedSubcategories(newExpanded);
   };
 
   const handleThemeSelect = (themeId: string) => {
@@ -71,6 +82,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
 
   const renderTheme = (theme: any, depth: number = 0) => {
     const isExpanded = expandedCategories.has(theme.id);
+    const isSubcategoryExpanded = expandedSubcategories.has(theme.id);
     const isSelected = selectedThemes.includes(theme.id);
     const hasChildren = theme.children && theme.children.length > 0;
     const paddingLeft = depth * 16;
@@ -85,14 +97,16 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
           onClick={() => {
             if (hasChildren && theme.level === 1) {
               toggleCategory(theme.id);
+            } else if (hasChildren && theme.level === 2) {
+              toggleSubcategory(theme.id);
             } else if (theme.level === 3) {
               handleThemeSelect(theme.id);
             }
           }}
         >
-          {hasChildren && theme.level === 1 && (
+          {hasChildren && (theme.level === 1 || theme.level === 2) && (
             <div className="mr-2">
-              {isExpanded ? (
+              {(theme.level === 1 ? isExpanded : isSubcategoryExpanded) ? (
                 <ChevronDown className="h-3 w-3" />
               ) : (
                 <ChevronRight className="h-3 w-3" />
@@ -115,8 +129,8 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
           </span>
         </div>
 
-        {hasChildren && (theme.level === 1 ? isExpanded : true) && (
-          <div className="mt-1">
+        {hasChildren && (
+          <div className="mt-1" style={{ display: (theme.level === 1 ? isExpanded : theme.level === 2 ? isSubcategoryExpanded : true) ? 'block' : 'none' }}>
             {theme.children.map((child: any) => renderTheme(child, depth + 1))}
           </div>
         )}

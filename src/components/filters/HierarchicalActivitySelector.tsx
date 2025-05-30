@@ -19,6 +19,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 }) => {
   const { activities, loading, error } = useHierarchicalActivities();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -28,6 +29,16 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
       newExpanded.add(categoryId);
     }
     setExpandedCategories(newExpanded);
+  };
+
+  const toggleSubcategory = (subcategoryId: string) => {
+    const newExpanded = new Set(expandedSubcategories);
+    if (newExpanded.has(subcategoryId)) {
+      newExpanded.delete(subcategoryId);
+    } else {
+      newExpanded.add(subcategoryId);
+    }
+    setExpandedSubcategories(newExpanded);
   };
 
   const handleActivitySelect = (activityId: string) => {
@@ -71,6 +82,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 
   const renderActivity = (activity: any, depth: number = 0) => {
     const isExpanded = expandedCategories.has(activity.id);
+    const isSubcategoryExpanded = expandedSubcategories.has(activity.id);
     const isSelected = selectedActivities.includes(activity.id);
     const hasChildren = activity.children && activity.children.length > 0;
     const paddingLeft = depth * 16;
@@ -85,14 +97,16 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
           onClick={() => {
             if (hasChildren && activity.level === 1) {
               toggleCategory(activity.id);
+            } else if (hasChildren && activity.level === 2) {
+              toggleSubcategory(activity.id);
             } else if (activity.level === 3) {
               handleActivitySelect(activity.id);
             }
           }}
         >
-          {hasChildren && activity.level === 1 && (
+          {hasChildren && (activity.level === 1 || activity.level === 2) && (
             <div className="mr-2">
-              {isExpanded ? (
+              {(activity.level === 1 ? isExpanded : isSubcategoryExpanded) ? (
                 <ChevronDown className="h-3 w-3" />
               ) : (
                 <ChevronRight className="h-3 w-3" />
@@ -115,8 +129,8 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
           </span>
         </div>
 
-        {hasChildren && (activity.level === 1 ? isExpanded : true) && (
-          <div className="mt-1">
+        {hasChildren && (
+          <div className="mt-1" style={{ display: (activity.level === 1 ? isExpanded : activity.level === 2 ? isSubcategoryExpanded : true) ? 'block' : 'none' }}>
             {activity.children.map((child: any) => renderActivity(child, depth + 1))}
           </div>
         )}

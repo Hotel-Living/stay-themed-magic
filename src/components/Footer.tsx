@@ -93,7 +93,7 @@ export function Footer() {
         
         <div className={`text-center text-xs text-white ${isMobile ? "mt-8 mb-6" : ""}`}>
           <p className="mb-2 font-semibold">&copy; 2025 Hotel-Living.com. All rights reserved. This is a Beta version, subject to ongoing updates.</p>
-          <p className="text-white italic text-center text-sm font-light">
+          <p className="text-white text-center text-xs font-semibold">
             Some listings may be sample properties used to demonstrate the functionality of Hotel Living.
           </p>
         </div>

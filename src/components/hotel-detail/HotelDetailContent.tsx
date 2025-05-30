@@ -203,11 +203,11 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   // Get the correct field values, trying multiple possible field names
   const getIdealGuestsText = () => {
-    return hotel.idealGuests || "memorable experiences";
+    return hotel.ideal_guests || "memorable experiences";
   };
 
   const getPerfectLocationText = () => {
-    return hotel.perfectLocation || "exploring the local area and attractions";
+    return hotel.perfect_location || "exploring the local area and attractions";
   };
 
   const getAtmosphereText = () => {

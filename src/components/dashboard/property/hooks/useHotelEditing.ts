@@ -19,6 +19,17 @@ export const useHotelEditing = ({
   useEffect(() => {
     if (editingHotelId && hotelData && !isLoading) {
       console.log("Loading hotel data for editing:", hotelData);
+      console.log("Hotel themes raw data:", hotelData.hotel_themes);
+      console.log("Hotel activities raw data:", (hotelData as any).hotel_activities);
+      
+      // Extract theme IDs correctly - they should be direct theme_id values
+      const themes = hotelData.hotel_themes?.map(ht => ht.theme_id).filter(Boolean) || [];
+      console.log("Extracted theme IDs:", themes);
+      
+      // Extract activity IDs correctly - they should be direct activity_id values  
+      const activities = (hotelData as any).hotel_activities?.map((ha: any) => ha.activity_id).filter(Boolean) || [];
+      console.log("Extracted activity IDs:", activities);
+
       console.log("Dynamic pricing values:", {
         enablePriceIncrease: hotelData.enablePriceIncrease,
         enable_price_increase: hotelData.enable_price_increase,
@@ -63,15 +74,18 @@ export const useHotelEditing = ({
         // Load dynamic pricing values - try both camelCase and snake_case
         enablePriceIncrease: hotelData.enablePriceIncrease ?? hotelData.enable_price_increase ?? false,
         priceIncreaseCap: hotelData.priceIncreaseCap ?? hotelData.price_increase_cap ?? 20,
-        // Extract themes and activities safely
-        themes: hotelData.hotel_themes?.map(ht => ht.themes?.id).filter(Boolean) || [],
-        activities: (hotelData as any).hotel_activities?.map((ha: any) => ha.activities?.name).filter(Boolean) || [],
+        // Use the corrected theme and activity IDs
+        themes: themes,
+        activities: activities,
         hotelImages: hotelData.hotel_images?.map(img => ({
           id: img.id,
           url: img.image_url,
           isMain: img.is_main
         })) || []
       }));
+
+      console.log("Form data themes set to:", themes);
+      console.log("Form data activities set to:", activities);
 
       setCurrentStep(1);
     }

@@ -1,53 +1,34 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from "react";
 
-export function GTranslate() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const initTimeoutRef = useRef<NodeJS.Timeout>();
-
+export const GTranslate = () => {
   useEffect(() => {
-    const initGTranslate = () => {
-      // Clear any existing timeout
-      if (initTimeoutRef.current) {
-        clearTimeout(initTimeoutRef.current);
-      }
+    const script = document.createElement("script");
+    script.src = "https://cdn.gtranslate.net/widgets/latest/globe.js";
+    script.defer = true;
+    document.body.appendChild(script);
 
-      // Check if scripts are loaded and initialize
-      if (window.gtranslateSettings && window.GTranslateFireEvent) {
-        try {
-          // Clear any existing widget content
-          if (wrapperRef.current) {
-            wrapperRef.current.innerHTML = '';
-          }
-          
-          // Fire the widget initialization event
-          window.GTranslateFireEvent('gt_show_widget');
-          console.log('GTranslate widget initialized successfully');
-        } catch (error) {
-          console.error('Error initializing GTranslate widget:', error);
-        }
+    const init = () => {
+      if (window.GTranslateFireEvent) {
+        window.GTranslateFireEvent("gt_show_widget");
       } else {
-        // Retry initialization after a short delay
-        initTimeoutRef.current = setTimeout(initGTranslate, 200);
+        setTimeout(init, 300);
       }
     };
 
-    // Start initialization
-    initGTranslate();
-
-    // Cleanup timeout on unmount
-    return () => {
-      if (initTimeoutRef.current) {
-        clearTimeout(initTimeoutRef.current);
-      }
+    window.gtranslateSettings = {
+      default_language: "en",
+      native_language_names: true,
+      detect_browser_language: true,
+      url_structure: "sub_domain",
+      languages: ["en", "es", "de", "fr", "ru"],
+      globe_color: "#66aaff",
+      wrapper_selector: ".gtranslate_wrapper",
+      flag_size: 16,
     };
+
+    init();
   }, []);
 
-  return (
-    <div 
-      ref={wrapperRef}
-      className="gtranslate_wrapper flex items-center min-w-[40px] h-6"
-      style={{ minHeight: '24px' }}
-    />
-  );
-}
+  return <div className="gtranslate_wrapper" style={{ height: "32px", minWidth: "40px" }} />;
+};

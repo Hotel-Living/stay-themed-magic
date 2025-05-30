@@ -85,15 +85,16 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     const isSubcategoryExpanded = expandedSubcategories.has(activity.id);
     const isSelected = selectedActivities.includes(activity.id);
     const hasChildren = activity.children && activity.children.length > 0;
-    const paddingLeft = depth * 16;
+    // Reduced padding for better alignment - using smaller increments
+    const paddingLeft = depth * 8;
 
     return (
       <div key={activity.id} className="w-full">
         <div 
-          className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer hover:bg-fuchsia-900/20 ${
+          className={`flex items-center py-1.5 px-1 rounded-md cursor-pointer hover:bg-fuchsia-900/20 ${
             isSelected ? 'bg-fuchsia-700/30 text-white' : ''
           }`}
-          style={{ paddingLeft: `${paddingLeft + 8}px` }}
+          style={{ paddingLeft: `${paddingLeft + 4}px` }}
           onClick={() => {
             if (hasChildren && activity.level === 1) {
               toggleCategory(activity.id);
@@ -105,7 +106,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
           }}
         >
           {hasChildren && (activity.level === 1 || activity.level === 2) && (
-            <div className="mr-2">
+            <div className="mr-1.5">
               {(activity.level === 1 ? isExpanded : isSubcategoryExpanded) ? (
                 <ChevronDown className="h-3 w-3" />
               ) : (
@@ -119,7 +120,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
               type={allowMultiple ? "checkbox" : "radio"}
               checked={isSelected}
               onChange={() => handleActivitySelect(activity.id)}
-              className="mr-2 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+              className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
               onClick={(e) => e.stopPropagation()}
             />
           )}

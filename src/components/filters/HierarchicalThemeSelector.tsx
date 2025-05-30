@@ -78,13 +78,13 @@ export function HierarchicalThemeSelector({
     <div className={`space-y-2 ${className}`}>
       {themes.map((category) => (
         <div key={category.id} className="border border-purple-300/20 rounded-lg">
-          {/* Category Level */}
+          {/* Category Level - Match main filter menu font size */}
           <div
             className="flex items-center justify-between p-3 cursor-pointer hover:bg-purple-100/10 rounded-t-lg"
             onClick={() => toggleCategory(category.id)}
           >
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-purple-200 uppercase tracking-wide">
+              <span className="font-medium text-sm text-purple-200 uppercase tracking-wide">
                 {category.name}
               </span>
             </div>
@@ -105,7 +105,7 @@ export function HierarchicalThemeSelector({
                     className="flex items-center justify-between p-3 pl-6 cursor-pointer hover:bg-purple-100/10"
                     onClick={() => toggleSubcategory(subcategory.id)}
                   >
-                    <span className="font-medium text-purple-100">
+                    <span className="font-medium text-sm text-purple-100">
                       {subcategory.name}
                     </span>
                     {expandedSubcategories.has(subcategory.id) ? (

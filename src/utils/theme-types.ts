@@ -22,12 +22,12 @@ export interface HierarchicalTheme {
 
 export interface ThemeCategory extends Theme {
   level: 1;
-  subcategories: ThemeSubcategory[];
+  subcategories?: ThemeSubcategory[];
 }
 
 export interface ThemeSubcategory extends Theme {
   level: 2;
-  items: ThemeItem[];
+  items?: ThemeItem[];
 }
 
 export interface ThemeItem extends Theme {

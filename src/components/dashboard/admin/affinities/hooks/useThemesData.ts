@@ -57,7 +57,17 @@ export function useThemesData(searchTerm: string, pagination: PaginationState) {
         throw error;
       }
 
-      setThemes(data || []);
+      // Map the data to proper Theme type
+      const mappedData: Theme[] = (data || []).map(item => ({
+        ...item,
+        level: item.level as 1 | 2 | 3,
+        children: item.children?.map((child: any) => ({
+          ...child,
+          level: child.level as 1 | 2 | 3
+        }))
+      }));
+
+      setThemes(mappedData);
       return { count: count || 0 };
     } catch (error: any) {
       toast({

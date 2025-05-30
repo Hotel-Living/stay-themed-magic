@@ -14,7 +14,7 @@ export interface Theme {
   children?: Array<{
     id: string;
     name: string;
-    level: number;
+    level: 1 | 2 | 3;
   }>;
 }
 

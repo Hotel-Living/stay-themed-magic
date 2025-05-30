@@ -37,7 +37,7 @@ export function useHierarchicalThemes() {
     }
   };
 
-  const organizeThemesHierarchically = (flatThemes: Theme[]): HierarchicalTheme[] => {
+  const organizeThemesHierarchically = (flatThemes: any[]): HierarchicalTheme[] => {
     const themeMap = new Map<string, HierarchicalTheme>();
     
     // Initialize all themes in the map
@@ -46,7 +46,7 @@ export function useHierarchicalThemes() {
         id: theme.id,
         name: theme.name,
         description: theme.description,
-        level: theme.level,
+        level: theme.level as 1 | 2 | 3,
         sort_order: theme.sort_order,
         children: []
       });

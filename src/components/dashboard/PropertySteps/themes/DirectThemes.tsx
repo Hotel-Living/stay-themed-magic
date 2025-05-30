@@ -41,7 +41,6 @@ const DirectThemes = ({ selectedThemes = [], onThemeSelect, onThemeChange }: Dir
             <ThemeItem
               id={theme.id}
               name={theme.name}
-              isAddOption={theme.isAddOption}
               isSelected={selectedThemes.includes(theme.id)}
               onSelect={(isSelected) => {
                 if (onThemeSelect) {

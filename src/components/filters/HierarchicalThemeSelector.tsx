@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useHierarchicalThemes } from "@/hooks/useHierarchicalThemes";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
@@ -9,17 +9,59 @@ interface HierarchicalThemeSelectorProps {
   onThemeSelect: (themeId: string, isSelected: boolean) => void;
   allowMultiple?: boolean;
   className?: string;
+  searchQuery?: string;
 }
 
 export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps> = ({
   selectedThemes,
   onThemeSelect,
   allowMultiple = true,
-  className = ""
+  className = "",
+  searchQuery = ""
 }) => {
   const { themes, loading, error } = useHierarchicalThemes();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
+
+  // Filter themes based on search query
+  const filteredThemes = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return themes;
+    }
+
+    const lowercaseQuery = searchQuery.toLowerCase();
+    
+    // Function to check if a theme matches the query
+    const themeMatches = (theme: any) => {
+      return theme.name.toLowerCase().includes(lowercaseQuery);
+    };
+
+    // Recursively filter themes while maintaining hierarchy
+    const filterThemeHierarchy = (themeList: any[]): any[] => {
+      return themeList
+        .map(theme => {
+          const hasMatchingChildren = theme.children && theme.children.length > 0;
+          let filteredChildren: any[] = [];
+          
+          if (hasMatchingChildren) {
+            filteredChildren = filterThemeHierarchy(theme.children);
+          }
+          
+          // Include theme if it matches or has matching children
+          if (themeMatches(theme) || filteredChildren.length > 0) {
+            return {
+              ...theme,
+              children: filteredChildren
+            };
+          }
+          
+          return null;
+        })
+        .filter(Boolean);
+    };
+
+    return filterThemeHierarchy(themes);
+  }, [searchQuery, themes]);
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -72,10 +114,10 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     );
   }
 
-  if (!themes || themes.length === 0) {
+  if (!filteredThemes || filteredThemes.length === 0) {
     return (
       <div className="text-gray-500 text-sm p-4">
-        No themes available
+        {searchQuery ? "No themes found matching your search." : "No themes available"}
       </div>
     );
   }
@@ -86,7 +128,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     const isSelected = selectedThemes.includes(theme.id);
     const hasChildren = theme.children && theme.children.length > 0;
     
-    // Fix: Level 1 items should have no left padding to align under filter title
+    // Level 1 items should have no left padding to align under filter title
     // Level 2+ items get appropriate indentation
     const paddingLeft = theme.level === 1 ? 0 : theme.level === 2 ? 12 : 24;
 
@@ -143,7 +185,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
 
   return (
     <div className={`space-y-1 ${className}`}>
-      {themes.map(theme => renderTheme(theme))}
+      {filteredThemes.map(theme => renderTheme(theme))}
     </div>
   );
 };

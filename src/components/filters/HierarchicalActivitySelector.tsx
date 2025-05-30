@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useHierarchicalActivities } from "@/hooks/useHierarchicalActivities";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
@@ -9,17 +9,59 @@ interface HierarchicalActivitySelectorProps {
   onActivitySelect: (activityId: string, isSelected: boolean) => void;
   allowMultiple?: boolean;
   className?: string;
+  searchQuery?: string;
 }
 
 export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelectorProps> = ({
   selectedActivities,
   onActivitySelect,
   allowMultiple = true,
-  className = ""
+  className = "",
+  searchQuery = ""
 }) => {
   const { activities, loading, error } = useHierarchicalActivities();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
+
+  // Filter activities based on search query
+  const filteredActivities = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return activities;
+    }
+
+    const lowercaseQuery = searchQuery.toLowerCase();
+    
+    // Function to check if an activity matches the query
+    const activityMatches = (activity: any) => {
+      return activity.name.toLowerCase().includes(lowercaseQuery);
+    };
+
+    // Recursively filter activities while maintaining hierarchy
+    const filterActivityHierarchy = (activityList: any[]): any[] => {
+      return activityList
+        .map(activity => {
+          const hasMatchingChildren = activity.children && activity.children.length > 0;
+          let filteredChildren: any[] = [];
+          
+          if (hasMatchingChildren) {
+            filteredChildren = filterActivityHierarchy(activity.children);
+          }
+          
+          // Include activity if it matches or has matching children
+          if (activityMatches(activity) || filteredChildren.length > 0) {
+            return {
+              ...activity,
+              children: filteredChildren
+            };
+          }
+          
+          return null;
+        })
+        .filter(Boolean);
+    };
+
+    return filterActivityHierarchy(activities);
+  }, [searchQuery, activities]);
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -72,10 +114,10 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     );
   }
 
-  if (!activities || activities.length === 0) {
+  if (!filteredActivities || filteredActivities.length === 0) {
     return (
       <div className="text-gray-500 text-sm p-4">
-        No activities available
+        {searchQuery ? "No activities found matching your search." : "No activities available"}
       </div>
     );
   }
@@ -86,7 +128,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     const isSelected = selectedActivities.includes(activity.id);
     const hasChildren = activity.children && activity.children.length > 0;
     
-    // Fix: Level 1 items should have no left padding to align under filter title
+    // Level 1 items should have no left padding to align under filter title
     // Level 2+ items get appropriate indentation
     const paddingLeft = activity.level === 1 ? 0 : activity.level === 2 ? 12 : 24;
 
@@ -143,7 +185,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 
   return (
     <div className={`space-y-1 ${className}`}>
-      {activities.map(activity => renderActivity(activity))}
+      {filteredActivities.map(activity => renderActivity(activity))}
     </div>
   );
 };

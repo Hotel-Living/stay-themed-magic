@@ -23,11 +23,14 @@ export interface HierarchicalTheme {
 export interface ThemeCategory extends Theme {
   level: 1;
   subcategories?: ThemeSubcategory[];
+  themes?: Theme[]; // Add support for legacy themes property
 }
 
 export interface ThemeSubcategory extends Theme {
   level: 2;
   items?: ThemeItem[];
+  themes?: Theme[]; // Add support for legacy themes property
+  submenus?: ThemeSubmenu[]; // Add support for legacy submenus property
 }
 
 export interface ThemeItem extends Theme {

@@ -75,23 +75,23 @@ export function HierarchicalThemeSelector({
   }
 
   return (
-    <div className={`space-y-1 ${className}`}>
+    <div className={`space-y-0.5 ${className}`}>
       {themes.map((category) => (
-        <div key={category.id} className="border border-purple-300/20 rounded-lg">
-          {/* Category Level - Match main filter menu font size */}
+        <div key={category.id} className="border border-purple-300/20 rounded-md">
+          {/* Category Level - Compact design */}
           <div
-            className="flex items-center justify-between p-2 cursor-pointer hover:bg-purple-100/10 rounded-t-lg"
+            className="flex items-center justify-between px-2 py-1 cursor-pointer hover:bg-purple-100/10 rounded-t-md"
             onClick={() => toggleCategory(category.id)}
           >
-            <div className="flex items-center space-x-2">
-              <span className="font-medium text-sm text-purple-200 uppercase tracking-wide">
+            <div className="flex items-center space-x-1.5">
+              <span className="font-medium text-xs text-purple-200 uppercase tracking-wide">
                 {category.name}
               </span>
             </div>
             {expandedCategories.has(category.id) ? (
-              <ChevronDown className="w-4 h-4 text-purple-300" />
+              <ChevronDown className="w-3 h-3 text-purple-300" />
             ) : (
-              <ChevronRight className="w-4 h-4 text-purple-300" />
+              <ChevronRight className="w-3 h-3 text-purple-300" />
             )}
           </div>
 
@@ -100,40 +100,40 @@ export function HierarchicalThemeSelector({
             <div className="border-t border-purple-300/20 bg-purple-900/20">
               {category.children.map((subcategory) => (
                 <div key={subcategory.id} className="border-b border-purple-300/10 last:border-b-0">
-                  {/* Subcategory Level */}
+                  {/* Subcategory Level - More compact */}
                   <div
-                    className="flex items-center justify-between p-2 pl-4 cursor-pointer hover:bg-purple-100/10"
+                    className="flex items-center justify-between px-3 py-0.5 cursor-pointer hover:bg-purple-100/10"
                     onClick={() => toggleSubcategory(subcategory.id)}
                   >
-                    <span className="font-medium text-sm text-purple-100">
+                    <span className="font-medium text-xs text-purple-100">
                       {subcategory.name}
                     </span>
                     {expandedSubcategories.has(subcategory.id) ? (
-                      <ChevronDown className="w-3 h-3 text-purple-300" />
+                      <ChevronDown className="w-2.5 h-2.5 text-purple-300" />
                     ) : (
-                      <ChevronRight className="w-3 h-3 text-purple-300" />
+                      <ChevronRight className="w-2.5 h-2.5 text-purple-300" />
                     )}
                   </div>
 
-                  {/* Items Level */}
+                  {/* Items Level - Most compact */}
                   {expandedSubcategories.has(subcategory.id) && (
-                    <div className="bg-purple-900/30 p-1 pl-6">
-                      <div className="grid grid-cols-1 gap-0.5">
+                    <div className="bg-purple-900/30 px-4 py-0.5">
+                      <div className="grid grid-cols-1 gap-0">
                         {subcategory.children.map((item) => {
                           const isSelected = selectedThemes.includes(item.id);
                           return (
                             <label
                               key={item.id}
-                              className="flex items-center space-x-2 p-1.5 rounded cursor-pointer hover:bg-purple-100/10"
+                              className="flex items-center space-x-1.5 py-0.5 rounded cursor-pointer hover:bg-purple-100/10"
                             >
                               <input
                                 type={allowMultiple ? "checkbox" : "radio"}
                                 name={allowMultiple ? undefined : "theme-selection"}
                                 checked={isSelected}
                                 onChange={() => handleThemeSelection(item.id, isSelected)}
-                                className="w-3 h-3 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-0"
+                                className="w-2.5 h-2.5 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-0"
                               />
-                              <span className="text-sm text-purple-100 hover:text-white">
+                              <span className="text-xs text-purple-100 hover:text-white">
                                 {item.name}
                               </span>
                               {item.description && (

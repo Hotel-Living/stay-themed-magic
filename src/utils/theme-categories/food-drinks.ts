@@ -1,11 +1,13 @@
 
-import { ThemeCategory } from '../theme-types';
+import { ThemeCategory_Legacy, LegacyTheme, ThemeSubcategory_Legacy } from '../theme-types';
 
-export const foodAndDrinksCategory: ThemeCategory = {
+export const foodAndDrinksCategory: ThemeCategory_Legacy = {
   category: "FOODS & DRINKS",
   subcategories: [
     {
       name: "Culinary",
+      id: "culinary",
+      level: 2,
       submenus: [
         {
           name: "World Cuisines",
@@ -42,16 +44,18 @@ export const foodAndDrinksCategory: ThemeCategory = {
           ]
         }
       ]
-    },
+    } as ThemeSubcategory_Legacy,
     {
       name: "Drinks",
+      id: "drinks",
+      level: 2,
       themes: [
-        { id: "wine", name: "Wine" },
-        { id: "beer", name: "Beer" },
-        { id: "cocktails", name: "Cocktails" },
-        { id: "spirits", name: "Spirits" },
-        { id: "add-other", name: "Add other", isAddOption: true }
-      ]
-    }
+        { id: "wine", name: "Wine", level: 3 },
+        { id: "beer", name: "Beer", level: 3 },
+        { id: "cocktails", name: "Cocktails", level: 3 },
+        { id: "spirits", name: "Spirits", level: 3 },
+        { id: "add-other", name: "Add other", isAddOption: true, level: 3 }
+      ] as LegacyTheme[]
+    } as ThemeSubcategory_Legacy
   ]
 };

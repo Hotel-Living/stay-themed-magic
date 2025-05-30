@@ -8,9 +8,9 @@ interface CollapsibleThemeOptionsProps {
   updateFilter: (key: string, value: any) => void;
   openCategory: string | null;
   toggleCategory: (category: string) => void;
-  themeQuery?: string; // Add optional search query prop
-  useLargerMobileText?: boolean; // Added this property
-  sortAlphabetically?: boolean; // Added this property
+  themeQuery?: string;
+  useLargerMobileText?: boolean;
+  sortAlphabetically?: boolean;
 }
 
 export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = ({
@@ -18,9 +18,9 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
   updateFilter,
   openCategory,
   toggleCategory,
-  themeQuery = "", // Default to empty string
-  useLargerMobileText = false, // Added default value
-  sortAlphabetically = true // Added default value
+  themeQuery = "",
+  useLargerMobileText = false,
+  sortAlphabetically = true
 }) => {
   // Track open subcategories and submenus
   const [openSubcategories, setOpenSubcategories] = useState<Record<string, boolean>>({});
@@ -59,11 +59,12 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
 
     // Filter subcategory themes and maintain proper structure
     const filterSubcategoryThemes = (subcategory: any) => {
-      const filteredThemes = subcategory.themes 
-        ? subcategory.themes.filter(themeMatches) 
+      // For the new hierarchical structure, we need to check children instead of themes
+      const filteredChildren = subcategory.children 
+        ? subcategory.children.filter(themeMatches) 
         : [];
         
-      // Filter submenus
+      // Filter submenus - this is for legacy compatibility
       const filteredSubmenus = subcategory.submenus 
         ? subcategory.submenus
             .map((submenu: any) => ({
@@ -80,9 +81,9 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
         
       return {
         ...subcategory,
-        themes: filteredThemes,
+        children: filteredChildren,
         submenus: filteredSubmenus,
-        hasMatches: filteredThemes.length > 0 || filteredSubmenus.length > 0
+        hasMatches: filteredChildren.length > 0 || filteredSubmenus.length > 0
       };
     };
 
@@ -92,9 +93,9 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
         // Create a new category object with the same structure
         const newCategory = { ...category };
         
-        // If the category has themes, filter them
-        if (newCategory.themes) {
-          newCategory.themes = newCategory.themes.filter(themeMatches);
+        // For the new hierarchical structure, check children instead of themes
+        if (newCategory.children) {
+          newCategory.children = newCategory.children.filter(themeMatches);
         }
         
         // If the category has subcategories, filter them
@@ -105,12 +106,12 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
         }
         
         // Check if this category has any matches
-        const hasThemeMatches = newCategory.themes && newCategory.themes.length > 0;
+        const hasChildrenMatches = newCategory.children && newCategory.children.length > 0;
         const hasSubcategoryMatches = newCategory.subcategories && newCategory.subcategories.length > 0;
         
         return {
           ...newCategory,
-          hasMatches: hasThemeMatches || hasSubcategoryMatches
+          hasMatches: hasChildrenMatches || hasSubcategoryMatches
         };
       })
       .filter(category => category.hasMatches);
@@ -119,7 +120,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
     
     // If search query is not empty, automatically open matching categories
     if (themeQuery.trim() !== "") {
-      const matchingCategories = filtered.map(category => category.category);
+      const matchingCategories = filtered.map(category => category.name || category.category);
       if (matchingCategories.length === 1) {
         toggleCategory(matchingCategories[0]);
       }
@@ -135,7 +136,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
       ) : (
         filteredCategories.map(category => (
           <ThemeCategory
-            key={category.category}
+            key={category.id || category.category}
             category={category}
             activeTheme={activeTheme}
             updateFilter={updateFilter}
@@ -145,7 +146,7 @@ export const CollapsibleThemeOptions: React.FC<CollapsibleThemeOptionsProps> = (
             toggleSubcategory={toggleSubcategory}
             openSubmenus={openSubmenus}
             toggleSubmenu={toggleSubmenu}
-            useLargerMobileText={useLargerMobileText} // Pass to ThemeCategory
+            useLargerMobileText={useLargerMobileText}
           />
         ))
       )}

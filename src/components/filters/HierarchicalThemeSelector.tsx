@@ -85,8 +85,10 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     const isSubcategoryExpanded = expandedSubcategories.has(theme.id);
     const isSelected = selectedThemes.includes(theme.id);
     const hasChildren = theme.children && theme.children.length > 0;
-    // Reduced padding for better alignment - using smaller increments
-    const paddingLeft = depth * 8;
+    
+    // Level 1 items (main categories) should have minimal padding to align under filter title
+    // Level 2+ items get progressively more padding
+    const paddingLeft = theme.level === 1 ? 0 : (depth - 1) * 12 + 8;
 
     return (
       <div key={theme.id} className="w-full">

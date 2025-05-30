@@ -85,8 +85,10 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     const isSubcategoryExpanded = expandedSubcategories.has(activity.id);
     const isSelected = selectedActivities.includes(activity.id);
     const hasChildren = activity.children && activity.children.length > 0;
-    // Reduced padding for better alignment - using smaller increments
-    const paddingLeft = depth * 8;
+    
+    // Level 1 items (main categories) should have minimal padding to align under filter title
+    // Level 2+ items get progressively more padding
+    const paddingLeft = activity.level === 1 ? 0 : (depth - 1) * 12 + 8;
 
     return (
       <div key={activity.id} className="w-full">

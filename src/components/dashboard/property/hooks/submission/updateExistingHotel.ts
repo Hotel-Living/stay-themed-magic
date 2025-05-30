@@ -237,21 +237,93 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
   console.log("Detected changes:", pendingChanges);
   console.log("Number of changed fields:", Object.keys(pendingChanges).length);
   
-  // Separate hotel table changes from relationship changes
+  // Handle themes and activities changes immediately
+  const changedThemes = pendingChanges.themes;
+  const changedActivities = pendingChanges.activities;
+  
+  if (changedThemes !== undefined) {
+    console.log("Updating hotel themes:", changedThemes);
+    
+    // Delete existing themes
+    const { error: deleteThemesError } = await supabase
+      .from('hotel_themes')
+      .delete()
+      .eq('hotel_id', hotelId);
+    
+    if (deleteThemesError) {
+      console.warn("Error deleting existing themes:", deleteThemesError);
+    }
+    
+    // Insert new themes if any
+    if (changedThemes && changedThemes.length > 0) {
+      const themeRows = changedThemes.map((themeId: string) => ({
+        hotel_id: hotelId,
+        theme_id: themeId
+      }));
+      
+      const { error: insertThemesError } = await supabase
+        .from('hotel_themes')
+        .insert(themeRows);
+      
+      if (insertThemesError) {
+        console.error("Error inserting themes:", insertThemesError);
+        throw insertThemesError;
+      }
+      
+      console.log("Successfully updated themes");
+    }
+  }
+  
+  if (changedActivities !== undefined) {
+    console.log("Updating hotel activities:", changedActivities);
+    
+    // Delete existing activities
+    const { error: deleteActivitiesError } = await supabase
+      .from('hotel_activities')
+      .delete()
+      .eq('hotel_id', hotelId);
+    
+    if (deleteActivitiesError) {
+      console.warn("Error deleting existing activities:", deleteActivitiesError);
+    }
+    
+    // Insert new activities if any
+    if (changedActivities && changedActivities.length > 0) {
+      const activityRows = changedActivities.map((activityId: string) => ({
+        hotel_id: hotelId,
+        activity_id: activityId
+      }));
+      
+      const { error: insertActivitiesError } = await supabase
+        .from('hotel_activities')
+        .insert(activityRows);
+      
+      if (insertActivitiesError) {
+        console.error("Error inserting activities:", insertActivitiesError);
+        throw insertActivitiesError;
+      }
+      
+      console.log("Successfully updated activities");
+    }
+  }
+  
+  // Separate hotel table changes from relationship changes (which we've already handled)
   const { themes, activities, ...hotelTableChanges } = pendingChanges;
   
-  // Store hotel table changes in pending_changes column and update status
-  const { error } = await supabase
-    .from('hotels')
-    .update({
-      pending_changes: hotelTableChanges,
-      status: 'pending'
-    })
-    .eq('id', hotelId);
-  
-  if (error) {
-    console.error("Error updating hotel with pending changes:", error);
-    throw error;
+  // Store hotel table changes in pending_changes column and update status only if there are hotel table changes
+  if (Object.keys(hotelTableChanges).length > 0) {
+    const { error } = await supabase
+      .from('hotels')
+      .update({
+        pending_changes: hotelTableChanges,
+        status: 'pending'
+      })
+      .eq('id', hotelId);
+    
+    if (error) {
+      console.error("Error updating hotel with pending changes:", error);
+      throw error;
+    }
   }
   
   // Send notification to admin about pending changes

@@ -1,11 +1,12 @@
 
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
+import { GTranslate } from "./GTranslate";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,23 +20,6 @@ export function Navbar() {
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Initialize GTranslate after component mounts
-  useEffect(() => {
-    const initGTranslate = () => {
-      if (window.gtranslateSettings && window.GTranslateFireEvent) {
-        window.GTranslateFireEvent('gt_show_widget');
-      }
-    };
-
-    // Try to initialize immediately
-    initGTranslate();
-
-    // Also try after a short delay to ensure scripts are loaded
-    const timer = setTimeout(initGTranslate, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -69,7 +53,7 @@ export function Navbar() {
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2">
+        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2 ml-auto">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             FAQ
           </Link>
@@ -125,7 +109,7 @@ export function Navbar() {
           )}
           
           {/* Language Selector - positioned as last item */}
-          <div className="gtranslate_wrapper flex items-center min-w-[40px]"></div>
+          <GTranslate />
         </div>
 
         {/* Mobile Menu Button */}
@@ -189,7 +173,7 @@ export function Navbar() {
 
           {/* Language Selector in Mobile Menu */}
           <div className="flex justify-end pt-4">
-            <div className="gtranslate_wrapper"></div>
+            <GTranslate />
           </div>
         </nav>
       </div>

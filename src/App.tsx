@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -29,7 +30,6 @@ import OurValues from "@/pages/OurValues";
 import CustomerService from "@/pages/CustomerService";
 import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
-import GTranslateWidget from "@/components/GTranslateWidget";
 
 const queryClient = createQueryClient();
 
@@ -41,7 +41,6 @@ function App() {
           <ScrollToTop />
           <div className="min-h-screen">
             <Toaster />
-            <GTranslateWidget />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />

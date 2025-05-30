@@ -40,8 +40,20 @@ export const useHierarchicalActivities = () => {
           return;
         }
 
+        // Transform the data to match our Activity interface with proper type casting
+        const transformedActivities: Activity[] = (activitiesData || []).map(activity => ({
+          id: activity.id,
+          name: activity.name,
+          description: activity.description || undefined,
+          category: activity.category || undefined,
+          parent_id: activity.parent_id,
+          level: activity.level as 1 | 2 | 3, // Type cast to ensure compatibility
+          sort_order: activity.sort_order || undefined,
+          created_at: activity.created_at,
+        }));
+
         // Organize activities into hierarchy
-        const organizedActivities = organizeActivitiesHierarchically(activitiesData || []);
+        const organizedActivities = organizeActivitiesHierarchically(transformedActivities);
         setActivities(organizedActivities);
         
       } catch (err) {

@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 interface Activity {
   id: string;
   name: string;
-  description?: string;
   category?: string;
   parent_id?: string | null;
   level: 1 | 2 | 3;
@@ -44,7 +43,6 @@ export const useHierarchicalActivities = () => {
         const transformedActivities: Activity[] = (activitiesData || []).map(activity => ({
           id: activity.id,
           name: activity.name,
-          description: activity.description || undefined,
           category: activity.category || undefined,
           parent_id: activity.parent_id,
           level: activity.level as 1 | 2 | 3, // Type cast to ensure compatibility

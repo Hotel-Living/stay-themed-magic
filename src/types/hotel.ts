@@ -125,6 +125,9 @@ export interface HotelDetailProps {
   idealGuests?: string | null;
   atmosphere?: string | null;
   perfectLocation?: string | null;
+  // Add snake_case variants to match database fields
+  ideal_guests?: string | null;
+  perfect_location?: string | null;
   city: string;
   country: string;
   category: number | null;

@@ -24,6 +24,7 @@ import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
 import Search from "@/pages/Search";
 import JoinUs from "@/pages/JoinUs";
+import GTranslateWidget from "@/components/GTranslateWidget";
 
 const queryClient = createQueryClient();
 
@@ -34,6 +35,7 @@ function App() {
         <Router>
           <div className="min-h-screen">
             <Toaster />
+            <GTranslateWidget />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hotels" element={<Hotels />} />

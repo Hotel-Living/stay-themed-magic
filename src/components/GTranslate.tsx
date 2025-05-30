@@ -4,7 +4,7 @@ import { useEffect } from "react";
 export const GTranslate = () => {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://cdn.gtranslate.net/widgets/latest/globe.js";
+    script.src = "https://cdn.gtranslate.net/widgets/latest/dwf.js";
     script.defer = true;
     document.body.appendChild(script);
 
@@ -21,10 +21,11 @@ export const GTranslate = () => {
       native_language_names: true,
       detect_browser_language: true,
       url_structure: "sub_domain",
-      languages: ["en", "es", "de", "fr", "ru"],
-      globe_color: "#66aaff",
+      languages: ["en", "es", "de", "fr", "ru", "ro"],
       wrapper_selector: ".gtranslate_wrapper",
-      flag_size: 16,
+      flag_size: 24,
+      switcher_horizontal_position: "inline",
+      flag_style: "3d",
     };
 
     init();

@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -122,15 +123,14 @@ export function Navbar() {
               Logout
             </button>
           )}
+          
+          {/* Language Selector - positioned as last item */}
+          <div className="gtranslate_wrapper flex items-center min-w-[40px]"></div>
         </div>
 
-        {/* Language Selector and Mobile Menu Button */}
-        <div className="flex items-center gap-2 px-2 sm:px-3 py-2">
-          {/* Language Selector */}
-          <div className="gtranslate_wrapper flex items-center min-w-[40px]"></div>
-          
-          {/* Mobile Menu Button */}
-          <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+        {/* Mobile Menu Button */}
+        <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
+          <button className="flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
             {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
           </button>
         </div>
@@ -140,55 +140,55 @@ export function Navbar() {
           backgroundColor: "#996515",
         }}>
         <nav className="flex flex-col space-y-4">
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             FAQ
           </Link>
           
-          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             Affinity Stays?
           </Link>
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             Hotel?
           </Link>
-          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             Videos
           </Link>
-          <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+          <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             Featured Hotels
           </Link>
           
           {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase flex items-center justify-center gap-1">
+            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
               <User className="w-4 h-4" />
               My Account
             </Link>
           )}
           
           {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
               Hotel Dashboard
             </Link>
           )}
           
           {!isLoggedIn && !isDevelopment && (
             <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
                 Register
               </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
                 Login
               </Link>
             </>
           )}
           
           {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-center text-base uppercase">
+            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
               Logout
             </button>
           )}
 
           {/* Language Selector in Mobile Menu */}
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-end pt-4">
             <div className="gtranslate_wrapper"></div>
           </div>
         </nav>

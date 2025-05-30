@@ -1,8 +1,26 @@
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function GTranslateWidget() {
+  const widgetRef = useRef<HTMLDivElement>(null);
+  const scriptAddedRef = useRef(false);
+
   useEffect(() => {
+    // Prevent multiple script additions
+    if (scriptAddedRef.current) return;
+    
+    // Clean up any existing GTranslate elements
+    const existingWrappers = document.querySelectorAll('.gtranslate_wrapper');
+    existingWrappers.forEach(wrapper => {
+      if (wrapper !== widgetRef.current) {
+        wrapper.remove();
+      }
+    });
+
+    // Remove any existing scripts
+    const existingScripts = document.querySelectorAll('script[src*="gtranslate"]');
+    existingScripts.forEach(script => script.remove());
+
     const settingsScript = document.createElement("script");
     settingsScript.innerHTML = `
       window.gtranslateSettings = {
@@ -30,7 +48,19 @@ export default function GTranslateWidget() {
     widgetScript.defer = true;
     widgetScript.onload = applyTranslation;
     document.body.appendChild(widgetScript);
+    
+    scriptAddedRef.current = true;
+
+    // Cleanup function
+    return () => {
+      const wrappers = document.querySelectorAll('.gtranslate_wrapper');
+      wrappers.forEach(wrapper => {
+        if (wrapper !== widgetRef.current) {
+          wrapper.remove();
+        }
+      });
+    };
   }, []);
 
-  return <div className="gtranslate_wrapper" />;
+  return <div ref={widgetRef} className="gtranslate_wrapper" style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000 }} />;
 }

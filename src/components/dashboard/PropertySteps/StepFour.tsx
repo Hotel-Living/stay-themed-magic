@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
 
 interface StepFourProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -51,58 +52,21 @@ export default function StepFour({
     });
   };
 
-  const activityCategories = {
-    'Sports': [
-      'Tennis', 'Golf', 'Swimming', 'Hiking', 'Cycling', 'Yoga', 'Gym'
-    ],
-    'Arts & Culture': [
-      'Painting Classes', 'Cooking Classes', 'Photography Tours', 
-      'Local Crafts', 'Dance Classes', 'Music Lessons'
-    ],
-    'Wellness': [
-      'Spa Services', 'Meditation', 'Massage', 'Hot Springs'
-    ],
-    'Entertainment': [
-      'Board Games', 'Movie Nights', 'Live Music', 'Wine Tasting'
-    ],
-    'Nature & Adventure': [
-      'Bird Watching', 'Garden Tours', 'Nature Walks', 'Stargazing'
-    ]
-  };
-
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-bold mb-4">ACTIVITIES</h2>
       
       <div className="space-y-6">
-        {/* Activities Section */}
+        {/* Hierarchical Activities Section */}
         <div className="bg-fuchsia-900/10 rounded-lg p-4">
           <h3 className="text-sm font-medium mb-4 uppercase">Select Available Activities</h3>
           
-          {Object.entries(activityCategories).map(([category, activities]) => (
-            <div key={category} className="mb-4">
-              <h4 className="text-sm font-medium mb-2 text-fuchsia-200">{category}</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 ml-2">
-                {activities.map((activity) => (
-                  <div key={activity} className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox"
-                      id={`activity-${activity}`}
-                      checked={selectedActivities.includes(activity)}
-                      onChange={(e) => handleActivityChange(activity, e.target.checked)}
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4"
-                    />
-                    <label 
-                      htmlFor={`activity-${activity}`}
-                      className="text-sm text-white"
-                    >
-                      {activity}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          <HierarchicalActivitySelector
+            selectedActivities={selectedActivities}
+            onActivitySelect={handleActivityChange}
+            allowMultiple={true}
+            className="space-y-1"
+          />
         </div>
 
         {selectedActivities.length === 0 && (

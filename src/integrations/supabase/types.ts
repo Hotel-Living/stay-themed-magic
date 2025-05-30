@@ -14,21 +14,38 @@ export type Database = {
           category: string | null
           created_at: string
           id: string
+          level: number
           name: string
+          parent_id: string | null
+          sort_order: number | null
         }
         Insert: {
           category?: string | null
           created_at?: string
           id?: string
+          level?: number
           name: string
+          parent_id?: string | null
+          sort_order?: number | null
         }
         Update: {
           category?: string | null
           created_at?: string
           id?: string
+          level?: number
           name?: string
+          parent_id?: string | null
+          sort_order?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "activities_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       admin_users: {
         Row: {

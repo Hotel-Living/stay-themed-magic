@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
-import { GTranslate } from "./GTranslate";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -107,9 +106,6 @@ export function Navbar() {
               Logout
             </button>
           )}
-          
-          {/* Language Selector - positioned as last item in desktop only */}
-          <GTranslate />
         </div>
 
         {/* Mobile Menu Button */}
@@ -170,8 +166,6 @@ export function Navbar() {
               Logout
             </button>
           )}
-
-          {/* Remove the duplicate Language Selector from mobile menu */}
         </nav>
       </div>
     </header>;

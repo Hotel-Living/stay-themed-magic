@@ -24,6 +24,11 @@ import FAQ from "@/pages/FAQ";
 import AdminRoles from "@/pages/AdminRoles";
 import Search from "@/pages/Search";
 import JoinUs from "@/pages/JoinUs";
+import OurServices from "@/pages/OurServices";
+import OurValues from "@/pages/OurValues";
+import CustomerService from "@/pages/CustomerService";
+import Contact from "@/pages/Contact";
+import IntellectualProperty from "@/pages/IntellectualProperty";
 import GTranslateWidget from "@/components/GTranslateWidget";
 
 const queryClient = createQueryClient();
@@ -46,6 +51,11 @@ function App() {
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/join-us" element={<JoinUs />} />
+              <Route path="/our-services" element={<OurServices />} />
+              <Route path="/our-values" element={<OurValues />} />
+              <Route path="/customer-service" element={<CustomerService />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/intellectual-property" element={<IntellectualProperty />} />
               
               {/* Protected Routes */}
               <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

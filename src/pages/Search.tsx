@@ -9,6 +9,7 @@ import { FilterState } from "@/components/filters/FilterTypes";
 import { Theme } from "@/utils/themes";
 import { useToast } from "@/hooks/use-toast";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+
 export default function Search() {
   const location = useLocation();
   const {
@@ -185,11 +186,6 @@ export default function Search() {
           </div>
         </div>
       </main>
-      <div className="w-full flex justify-center px-4 pb-8">
-        <p className="text-white italic text-center text-sm font-light">
-          Some listings may be sample properties used to demonstrate the functionality of Hotel Living.
-        </p>
-      </div>
       <Footer />
     </div>;
 }

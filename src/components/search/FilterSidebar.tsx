@@ -64,21 +64,15 @@ export function FilterSidebar({
         Reset All Filters
       </Button>
 
-      <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
-      
-      <LengthOfStayFilter activeLength={activeFilters.lengthOfStay} onChange={value => handleFilterChange("lengthOfStay", value)} />
-      
-      <MonthFilter activeMonth={activeFilters.month} onChange={value => handleFilterChange("month", value)} />
-      
       <ThemeFilter activeTheme={activeFilters.theme} onChange={value => handleFilterChange("theme", value)} />
       
       <ActivityFilter activeActivities={activeFilters.activities || []} onChange={(value, isChecked) => handleArrayFilterChange("activities", value, isChecked)} />
       
-      <CategoryFilter activeCategory={activeFilters.category} onChange={value => handleFilterChange("category", value)} />
+      <LengthOfStayFilter activeLength={activeFilters.lengthOfStay} onChange={value => handleFilterChange("lengthOfStay", value)} />
       
-      <CountryFilter activeCountry={activeFilters.country} onChange={value => handleFilterChange("country", value)} />
+      <PriceRangeFilter activePrice={activeFilters.priceRange} onChange={value => handleFilterChange("priceRange", value)} />
       
-      <LocationFilter activeLocation={activeFilters.location} onChange={value => handleFilterChange("location", value)} />
+      <MonthFilter activeMonth={activeFilters.month} onChange={value => handleFilterChange("month", value)} />
       
       <CheckboxFilter 
         title="MEALS" 
@@ -87,9 +81,15 @@ export function FilterSidebar({
         onChange={handleMealFilterChange} 
       />
       
-      <PropertyTypeFilter activePropertyType={activeFilters.propertyType} onChange={value => handleFilterChange("propertyType", value)} />
-      
       <PropertyStyleFilter activePropertyStyle={activeFilters.propertyStyle} onChange={value => handleFilterChange("propertyStyle", value)} />
+      
+      <CategoryFilter activeCategory={activeFilters.category} onChange={value => handleFilterChange("category", value)} />
+      
+      <CountryFilter activeCountry={activeFilters.country} onChange={value => handleFilterChange("country", value)} />
+      
+      <LocationFilter activeLocation={activeFilters.location} onChange={value => handleFilterChange("location", value)} />
+      
+      <PropertyTypeFilter activePropertyType={activeFilters.propertyType} onChange={value => handleFilterChange("propertyType", value)} />
       
       <CheckboxFilter title="ROOM TYPES" options={roomTypes} selectedOptions={activeFilters.roomTypes} onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)} />
       

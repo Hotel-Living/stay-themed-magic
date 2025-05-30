@@ -19,9 +19,16 @@ export default function GTranslateWidget() {
     `;
     document.body.appendChild(settingsScript);
 
+    const applyTranslation = () => {
+      if (window.gtranslate) {
+        window.gtranslate.translatePageTo(window.gtranslate.getUserLanguage());
+      }
+    };
+
     const widgetScript = document.createElement("script");
     widgetScript.src = "https://cdn.gtranslate.net/widgets/latest/globe.js";
     widgetScript.defer = true;
+    widgetScript.onload = applyTranslation;
     document.body.appendChild(widgetScript);
   }, []);
 

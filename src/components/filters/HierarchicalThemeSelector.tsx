@@ -86,9 +86,9 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     const isSelected = selectedThemes.includes(theme.id);
     const hasChildren = theme.children && theme.children.length > 0;
     
-    // Level 1 items (main categories) should have minimal padding to align under filter title
-    // Level 2+ items get progressively more padding
-    const paddingLeft = theme.level === 1 ? 0 : (depth - 1) * 12 + 8;
+    // Fix: Level 1 items should have no left padding to align under filter title
+    // Level 2+ items get appropriate indentation
+    const paddingLeft = theme.level === 1 ? 0 : theme.level === 2 ? 12 : 24;
 
     return (
       <div key={theme.id} className="w-full">
@@ -96,7 +96,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
           className={`flex items-center py-1.5 px-1 rounded-md cursor-pointer hover:bg-fuchsia-900/20 ${
             isSelected ? 'bg-fuchsia-700/30 text-white' : ''
           }`}
-          style={{ paddingLeft: `${paddingLeft + 4}px` }}
+          style={{ paddingLeft: `${paddingLeft}px` }}
           onClick={() => {
             if (hasChildren && theme.level === 1) {
               toggleCategory(theme.id);

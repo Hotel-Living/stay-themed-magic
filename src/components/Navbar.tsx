@@ -108,7 +108,7 @@ export function Navbar() {
             </button>
           )}
           
-          {/* Language Selector - positioned as last item */}
+          {/* Language Selector - positioned as last item in desktop only */}
           <GTranslate />
         </div>
 
@@ -171,10 +171,7 @@ export function Navbar() {
             </button>
           )}
 
-          {/* Language Selector in Mobile Menu */}
-          <div className="flex justify-end pt-4">
-            <GTranslate />
-          </div>
+          {/* Remove the duplicate Language Selector from mobile menu */}
         </nav>
       </div>
     </header>;

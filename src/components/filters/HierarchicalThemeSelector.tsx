@@ -75,12 +75,12 @@ export function HierarchicalThemeSelector({
   }
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-1 ${className}`}>
       {themes.map((category) => (
         <div key={category.id} className="border border-purple-300/20 rounded-lg">
           {/* Category Level - Match main filter menu font size */}
           <div
-            className="flex items-center justify-between p-3 cursor-pointer hover:bg-purple-100/10 rounded-t-lg"
+            className="flex items-center justify-between p-2 cursor-pointer hover:bg-purple-100/10 rounded-t-lg"
             onClick={() => toggleCategory(category.id)}
           >
             <div className="flex items-center space-x-2">
@@ -102,7 +102,7 @@ export function HierarchicalThemeSelector({
                 <div key={subcategory.id} className="border-b border-purple-300/10 last:border-b-0">
                   {/* Subcategory Level */}
                   <div
-                    className="flex items-center justify-between p-3 pl-6 cursor-pointer hover:bg-purple-100/10"
+                    className="flex items-center justify-between p-2 pl-4 cursor-pointer hover:bg-purple-100/10"
                     onClick={() => toggleSubcategory(subcategory.id)}
                   >
                     <span className="font-medium text-sm text-purple-100">
@@ -117,14 +117,14 @@ export function HierarchicalThemeSelector({
 
                   {/* Items Level */}
                   {expandedSubcategories.has(subcategory.id) && (
-                    <div className="bg-purple-900/30 p-2 pl-8">
-                      <div className="grid grid-cols-1 gap-1">
+                    <div className="bg-purple-900/30 p-1 pl-6">
+                      <div className="grid grid-cols-1 gap-0.5">
                         {subcategory.children.map((item) => {
                           const isSelected = selectedThemes.includes(item.id);
                           return (
                             <label
                               key={item.id}
-                              className="flex items-center space-x-2 p-2 rounded cursor-pointer hover:bg-purple-100/10"
+                              className="flex items-center space-x-2 p-1.5 rounded cursor-pointer hover:bg-purple-100/10"
                             >
                               <input
                                 type={allowMultiple ? "checkbox" : "radio"}

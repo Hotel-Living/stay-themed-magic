@@ -1,10 +1,10 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
@@ -38,6 +38,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <div className="min-h-screen">
             <Toaster />
             <GTranslateWidget />

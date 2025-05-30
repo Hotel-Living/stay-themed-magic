@@ -31,14 +31,21 @@ export function useThemesData(searchTerm: string, pagination: PaginationState) {
       
       if (countError) throw countError;
       
-      // Then fetch the current page of data
+      // Then fetch the current page of data with hierarchical information
       const start = (pagination.currentPage - 1) * pagination.pageSize;
       const end = start + pagination.pageSize - 1;
       
       let query = supabase
         .from('themes')
-        .select('*')
-        .range(start, end);
+        .select(`
+          *,
+          parent:parent_id(name),
+          children:themes!parent_id(id, name, level)
+        `)
+        .range(start, end)
+        .order('level', { ascending: true })
+        .order('sort_order', { ascending: true })
+        .order('name', { ascending: true });
         
       if (searchTerm) {
         query = query.or(`name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%${searchTerm && ',category.ilike.%' + searchTerm + '%'}`);

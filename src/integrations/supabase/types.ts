@@ -752,23 +752,40 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          level: number
           name: string
+          parent_id: string | null
+          sort_order: number | null
         }
         Insert: {
           category?: string | null
           created_at?: string
           description?: string | null
           id?: string
+          level?: number
           name: string
+          parent_id?: string | null
+          sort_order?: number | null
         }
         Update: {
           category?: string | null
           created_at?: string
           description?: string | null
           id?: string
+          level?: number
           name?: string
+          parent_id?: string | null
+          sort_order?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "themes_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "themes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_preferences: {
         Row: {

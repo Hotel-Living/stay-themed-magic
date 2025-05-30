@@ -7,10 +7,14 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
   console.log("Updating hotel with ID:", hotelId);
   console.log("Update data:", formData);
   
-  // First, get the current hotel data to determine what has changed
+  // First, get the current hotel data INCLUDING RELATIONSHIPS to determine what has changed
   const { data: currentHotel, error: fetchError } = await supabase
     .from('hotels')
-    .select('*')
+    .select(`
+      *,
+      hotel_themes (theme_id),
+      hotel_activities (activity_id)
+    `)
     .eq('id', hotelId)
     .single();
   
@@ -19,10 +23,23 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     throw fetchError;
   }
   
+  console.log("🔍 Current hotel data with relationships:", currentHotel);
+  console.log("🔍 Current hotel themes:", currentHotel.hotel_themes);
+  console.log("🔍 Current hotel activities:", currentHotel.hotel_activities);
+  
   // Check if there are already pending changes
   if (currentHotel.pending_changes && Object.keys(currentHotel.pending_changes).length > 0) {
     throw new Error("This hotel already has pending changes awaiting approval. Please wait for admin review before making additional changes.");
   }
+  
+  // Extract current themes and activities for comparison
+  const currentThemes = currentHotel.hotel_themes?.map(ht => ht.theme_id).filter(Boolean) || [];
+  const currentActivities = currentHotel.hotel_activities?.map(ha => ha.activity_id).filter(Boolean) || [];
+  
+  console.log("🎯 Extracted current themes:", currentThemes);
+  console.log("🎯 Extracted current activities:", currentActivities);
+  console.log("🎯 Form data themes:", formData.themes);
+  console.log("🎯 Form data activities:", formData.activities);
   
   // Convert the stay lengths from an array of numbers to a PostgreSQL array
   const stayLengths = formData.stayLengths || [];
@@ -63,7 +80,7 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     (typeof formData.longitude === 'string' ? parseFloat(formData.longitude) : formData.longitude) : 
     null;
   
-  // Prepare the new hotel data - INCLUDING DYNAMIC PRICING SETTINGS WITH CORRECT FIELD NAMES
+  // Prepare the new hotel data - INCLUDING THEMES AND ACTIVITIES FOR COMPARISON
   const updatedData: Record<string, any> = {
     name: formData.hotelName,
     description: formData.description,
@@ -94,18 +111,33 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     available_months: availableMonths,
     rates: rates,
     main_image_url: formData.mainImageUrl || null,
-    // USE CORRECT SNAKE_CASE FIELD NAMES FOR DYNAMIC PRICING
     enable_price_increase: formData.enablePriceIncrease || false,
-    price_increase_cap: formData.priceIncreaseCap || 20
+    price_increase_cap: formData.priceIncreaseCap || 20,
+    // ADD THEMES AND ACTIVITIES FOR COMPARISON
+    themes: formData.themes || [],
+    activities: formData.activities || []
+  };
+  
+  // Add current relationship data to comparison base
+  const currentDataWithRelationships = {
+    ...currentHotel,
+    themes: currentThemes,
+    activities: currentActivities
   };
   
   // Improved comparison logic to detect actual changes
   const pendingChanges: Record<string, any> = {};
   let hasChanges = false;
   
+  console.log("=== STARTING COMPARISON ===");
+  
   for (const [key, newValue] of Object.entries(updatedData)) {
-    // Get the current value from the database
-    const currentValue = currentHotel[key];
+    // Get the current value from the database (including relationship data)
+    const currentValue = currentDataWithRelationships[key];
+    
+    console.log(`\n--- Comparing ${key} ---`);
+    console.log(`Current:`, currentValue);
+    console.log(`New:`, newValue);
     
     // Improved comparison logic for different types of values
     let isChanged = false;
@@ -116,9 +148,10 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
         if (newValue.length === 0 && currentValue.length === 0) {
           // Both arrays are empty, no change
           isChanged = false;
+          console.log(`${key}: Both arrays empty - no change`);
         } else if (newValue.length !== currentValue.length) {
           // Different lengths, definitely changed
-          console.log(`Array length difference for ${key}: new=${newValue.length}, current=${currentValue.length}`);
+          console.log(`${key}: Array length difference - new=${newValue.length}, current=${currentValue.length}`);
           isChanged = true;
         } else if (newValue.length > 0 && typeof newValue[0] === 'object') {
           // For array of objects (like room_types), use a more robust comparison
@@ -126,6 +159,7 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
           const normalizedCurrent = stableStringifyArray(currentValue);
           
           isChanged = normalizedNew !== normalizedCurrent;
+          console.log(`${key}: Object array comparison - changed=${isChanged}`);
           
           // Extra logging to help diagnose the issue with room_types
           if (key === 'room_types' && isChanged) {
@@ -134,7 +168,6 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
             console.log('Current:', normalizedCurrent);
             
             // Additional check to see if they're actually different
-            // Sometimes there are slight differences in representation but not in content
             if (JSON.stringify(sortObjectKeysRecursively(newValue)) === 
                 JSON.stringify(sortObjectKeysRecursively(currentValue))) {
               console.log('After deeper analysis, room_types appear to be the same');
@@ -142,12 +175,13 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
             }
           }
         } else {
-          // Simple array of primitives
+          // Simple array of primitives (like themes and activities)
           // Sort and convert to string for a stable comparison
           const normalizedNew = [...newValue].sort().toString();
           const normalizedCurrent = [...currentValue].sort().toString();
           
           isChanged = normalizedNew !== normalizedCurrent;
+          console.log(`${key}: Primitive array comparison - new="${normalizedNew}", current="${normalizedCurrent}", changed=${isChanged}`);
         }
       } else if (
         typeof newValue === 'object' && 
@@ -160,6 +194,7 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
         const normalizedCurrent = JSON.stringify(sortObjectKeysRecursively(currentValue));
         
         isChanged = normalizedNew !== normalizedCurrent;
+        console.log(`${key}: Object comparison - changed=${isChanged}`);
       } else {
         // Simple value comparison, with special handling for numbers that might be strings
         if (typeof newValue === 'number' && typeof currentValue === 'string') {
@@ -169,6 +204,7 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
         } else {
           isChanged = newValue !== currentValue;
         }
+        console.log(`${key}: Primitive comparison - changed=${isChanged}`);
       }
     } catch (error) {
       console.error(`Error comparing ${key}:`, error);
@@ -177,14 +213,20 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
     }
     
     if (isChanged) {
-      console.log(`Field changed: ${key}`, { 
+      console.log(`✅ CHANGE DETECTED: ${key}`, { 
         old: currentValue, 
         new: newValue 
       });
       pendingChanges[key] = newValue;
       hasChanges = true;
+    } else {
+      console.log(`❌ No change: ${key}`);
     }
   }
+  
+  console.log("=== COMPARISON COMPLETE ===");
+  console.log("Has changes:", hasChanges);
+  console.log("Pending changes:", pendingChanges);
   
   // If there are no changes, let the user know
   if (!hasChanges) {
@@ -195,11 +237,14 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
   console.log("Detected changes:", pendingChanges);
   console.log("Number of changed fields:", Object.keys(pendingChanges).length);
   
-  // Store changes in pending_changes column and update status
+  // Separate hotel table changes from relationship changes
+  const { themes, activities, ...hotelTableChanges } = pendingChanges;
+  
+  // Store hotel table changes in pending_changes column and update status
   const { error } = await supabase
     .from('hotels')
     .update({
-      pending_changes: pendingChanges,
+      pending_changes: hotelTableChanges,
       status: 'pending'
     })
     .eq('id', hotelId);

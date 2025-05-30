@@ -4,6 +4,7 @@ import { PropertyFormData } from "../../usePropertyFormData";
 import { prepareHotelData } from "./prepareHotelData";
 import { detectChanges } from "./detectChanges";
 import { notifyAdmin } from "./notifyAdmin";
+import { fetchCurrentHotelData } from "./fetchCurrentHotelData";
 
 /**
  * Main function to update an existing hotel with all new data
@@ -12,24 +13,15 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
   console.log("Updating hotel with ID:", hotelId);
   console.log("Update data:", formData);
   
-  // First, get the current hotel data to determine what has changed
-  const { data: currentHotel, error: fetchError } = await supabase
-    .from('hotels')
-    .select('*')
-    .eq('id', hotelId)
-    .single();
-  
-  if (fetchError) {
-    console.error("Error fetching current hotel data:", fetchError);
-    throw fetchError;
-  }
+  // Fetch current hotel data including relationship fields
+  const currentHotel = await fetchCurrentHotelData(hotelId);
   
   // Check if there are already pending changes
   if (currentHotel.pending_changes && Object.keys(currentHotel.pending_changes).length > 0) {
     throw new Error("This hotel already has pending changes awaiting approval. Please wait for admin review before making additional changes.");
   }
   
-  // Prepare the updated hotel data from form data
+  // Prepare the updated hotel data from form data (including themes and activities)
   const updatedData = prepareHotelData(formData);
   
   // Detect changes between current and updated data
@@ -44,11 +36,14 @@ export const updateExistingHotel = async (formData: PropertyFormData, hotelId: s
   console.log("Detected changes:", pendingChanges);
   console.log("Number of changed fields:", Object.keys(pendingChanges).length);
   
-  // Store changes in pending_changes column and update status
+  // Separate hotel table changes from relationship changes
+  const { themes, activities, ...hotelTableChanges } = pendingChanges;
+  
+  // Store hotel table changes in pending_changes column and update status
   const { error } = await supabase
     .from('hotels')
     .update({
-      pending_changes: pendingChanges,
+      pending_changes: hotelTableChanges,
       status: 'pending'
     })
     .eq('id', hotelId);

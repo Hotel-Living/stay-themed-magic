@@ -83,7 +83,7 @@ export const compareValues = (newValue: any, currentValue: any, key: string): bo
         // For array of objects (like room_types), use our specialized comparison
         return compareObjectArrays(newValue, currentValue, key);
       } else {
-        // Simple array of primitives
+        // Simple array of primitives (like themes and activities)
         return comparePrimitiveArrays(newValue, currentValue);
       }
     } else if (

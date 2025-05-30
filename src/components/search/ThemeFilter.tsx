@@ -33,7 +33,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   return (
     <FilterItem title="AFFINITY">
       <div 
-        className="bg-fuchsia-950/30 rounded-lg p-4 max-h-96 overflow-y-auto" 
+        className="bg-fuchsia-950/30 rounded-lg max-h-96 overflow-y-auto" 
         onClick={handleContainerClick}
       >
         <HierarchicalThemeSelector

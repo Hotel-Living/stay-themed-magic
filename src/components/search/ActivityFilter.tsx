@@ -19,7 +19,7 @@ export function ActivityFilter({
   return (
     <FilterItem title="ACTIVITIES">
       <div 
-        className="bg-fuchsia-950/30 rounded-lg p-4 max-h-96 overflow-y-auto" 
+        className="bg-fuchsia-950/30 rounded-lg max-h-96 overflow-y-auto" 
         onClick={handleContainerClick}
       >
         <HierarchicalActivitySelector

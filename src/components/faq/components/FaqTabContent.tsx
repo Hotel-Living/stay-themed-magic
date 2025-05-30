@@ -32,7 +32,7 @@ export function FaqTabContent({
             const questionNumber = startIndex + index;
             return (
               <AccordionItem key={index} value={`${category.id}-${index}`} className="overflow-hidden border-none shadow-xl">
-                <AccordionTrigger className="px-6 text-left hover:no-underline bg-[#996515] rounded-t-xl border-l-6 border-[#FFF9B0] hover:bg-[#996515]/80 transition-all duration-300 mx-0 text-lg font-bold py-[5px] my-[13px]">
+                <AccordionTrigger className="px-6 text-left hover:no-underline bg-[#996515] rounded-t-xl border-l-6 border-[#FFF9B0] hover:bg-[#996515]/80 transition-all duration-300 mx-0 text-base font-bold py-[5px] my-[13px]">
                   <div className={`text-[#FFF9B0] font-bold ${textSizeClass}`}>
                     {numbered ? `${questionNumber}. ` : ''}{faq.question}
                   </div>

@@ -1,7 +1,7 @@
 
-import { Theme } from '../theme-types';
+import { LegacyTheme } from '../theme-types';
 
-export const foodPreferences: Theme[] = [
+export const foodPreferences: LegacyTheme[] = [
   { id: "seafood", name: "Seafood", category: "FOODS & DRINKS" },
   { id: "pastries-desserts", name: "Pastries & Desserts", category: "FOODS & DRINKS" },
   { id: "grilled-meats", name: "Grilled Meats", category: "FOODS & DRINKS" },

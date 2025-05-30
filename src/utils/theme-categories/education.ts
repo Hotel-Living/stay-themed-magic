@@ -1,7 +1,7 @@
 
-import { ThemeCategory } from '../theme-types';
+import { ThemeCategory_Legacy, LegacyTheme } from '../theme-types';
 
-export const languagesCategory: ThemeCategory = {
+export const languagesCategory: ThemeCategory_Legacy = {
   category: "LANGUAGES",
   subcategories: [
     {
@@ -14,7 +14,7 @@ export const languagesCategory: ThemeCategory = {
         { id: "chinese-practice", name: "Chinese" },
         { id: "japanese-practice", name: "Japanese" },
         { id: "add-other-practice", name: "Add other", isAddOption: true }
-      ]
+      ] as LegacyTheme[]
     },
     {
       name: "Learning",
@@ -26,7 +26,7 @@ export const languagesCategory: ThemeCategory = {
         { id: "chinese-learning", name: "Chinese" },
         { id: "japanese-learning", name: "Japanese" },
         { id: "add-other-learning", name: "Add other", isAddOption: true }
-      ]
+      ] as LegacyTheme[]
     }
   ]
 };

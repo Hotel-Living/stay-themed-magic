@@ -1,7 +1,7 @@
 
-import { ThemeCategory } from '../theme-types';
+import { ThemeCategory_Legacy, LegacyTheme } from '../theme-types';
 
-export const sportsCategory: ThemeCategory = {
+export const sportsCategory: ThemeCategory_Legacy = {
   category: "SPORTS",
   themes: [
     { id: "golf", name: "Golf" },
@@ -11,10 +11,10 @@ export const sportsCategory: ThemeCategory = {
     { id: "yoga", name: "Yoga" },
     { id: "fitness", name: "Fitness" },
     { id: "add-other", name: "Add other", isAddOption: true }
-  ]
+  ] as LegacyTheme[]
 };
 
-export const danceCategory: ThemeCategory = {
+export const danceCategory: ThemeCategory_Legacy = {
   category: "DANCE",
   themes: [
     { id: "ballroom", name: "Ballroom" },
@@ -22,5 +22,5 @@ export const danceCategory: ThemeCategory = {
     { id: "contemporary", name: "Contemporary" },
     { id: "traditional", name: "Traditional" },
     { id: "add-other", name: "Add other", isAddOption: true }
-  ]
+  ] as LegacyTheme[]
 };

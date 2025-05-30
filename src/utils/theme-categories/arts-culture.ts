@@ -1,7 +1,7 @@
 
-import { ThemeCategory } from '../theme-types';
+import { ThemeCategory_Legacy, LegacyTheme } from '../theme-types';
 
-export const artCategory: ThemeCategory = {
+export const artCategory: ThemeCategory_Legacy = {
   category: "ART",
   themes: [
     { id: "painting", name: "Painting" },
@@ -10,10 +10,10 @@ export const artCategory: ThemeCategory = {
     { id: "architecture", name: "Architecture" },
     { id: "design", name: "Design" },
     { id: "add-other", name: "Add other", isAddOption: true }
-  ]
+  ] as LegacyTheme[]
 };
 
-export const cultureCategory: ThemeCategory = {
+export const cultureCategory: ThemeCategory_Legacy = {
   category: "CULTURE",
   themes: [
     { id: "history", name: "History" },
@@ -21,5 +21,5 @@ export const cultureCategory: ThemeCategory = {
     { id: "local-traditions", name: "Local Traditions" },
     { id: "festivals", name: "Festivals" },
     { id: "add-other", name: "Add other", isAddOption: true }
-  ]
+  ] as LegacyTheme[]
 };

@@ -1,7 +1,7 @@
 
-import { Theme } from '../theme-types';
+import { LegacyTheme } from '../theme-types';
 
-export const cookingExperiences: Theme[] = [
+export const cookingExperiences: LegacyTheme[] = [
   { id: "italian-cooking", name: "Italian Cuisine", category: "FOODS & DRINKS" },
   { id: "french-pastry", name: "French Pastry", category: "FOODS & DRINKS" },
   { id: "sushi-prep", name: "Sushi Preparation", category: "FOODS & DRINKS" },

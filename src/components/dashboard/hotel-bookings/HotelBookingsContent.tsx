@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "../../utils/dateUtils";
+import { formatDate } from "../utils/dateUtils";
 import { ReportGuestDialog } from "./ReportGuestDialog";
 import { GuestBlacklistCheck } from "./GuestBlacklistCheck";
 

@@ -107,10 +107,17 @@ export function Navbar() {
             </button>
           )}
         </div>
-        
-        <button className="md:hidden flex items-center px-2 sm:px-3 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-          {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
-        </button>
+
+        {/* Language Selector and Mobile Menu Button */}
+        <div className="flex items-center gap-2 px-2 sm:px-3 py-2">
+          {/* Language Selector */}
+          <div className="gtranslate_wrapper flex items-center"></div>
+          
+          {/* Mobile Menu Button */}
+          <button className="md:hidden flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+            {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+          </button>
+        </div>
       </div>
       
       <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
@@ -163,6 +170,11 @@ export function Navbar() {
               Logout
             </button>
           )}
+
+          {/* Language Selector in Mobile Menu */}
+          <div className="flex justify-center pt-4">
+            <div className="gtranslate_wrapper"></div>
+          </div>
         </nav>
       </div>
     </header>;

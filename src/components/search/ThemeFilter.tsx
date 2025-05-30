@@ -1,12 +1,11 @@
 
-import { useState } from "react";
 import { FilterItem } from "./FilterItem";
 import { Theme } from "@/utils/themes";
 import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
 
 interface ThemeFilterProps {
   activeTheme: Theme | null;
-  onChange: (value: Theme) => void;
+  onChange: (value: Theme | null) => void;
 }
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
@@ -18,10 +17,11 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
       // Create a minimal theme object for compatibility
       onChange({
         id: themeId,
-        name: themeId // This will be resolved by the search logic
+        name: themeId, // This will be resolved by the search logic
+        level: 3 // Assume it's a selectable item
       } as Theme);
     } else {
-      onChange(null as any);
+      onChange(null);
     }
   };
 

@@ -41,9 +41,9 @@ export const organizeThemesHierarchically = (flatThemes: Theme[]): ThemeCategory
   return rootThemes;
 };
 
-// Dummy arrays for backward compatibility
+// Empty arrays for backward compatibility - these will be populated from database
 export const allThemes: Theme[] = [];
 export const themeCategories: ThemeCategory[] = [];
 
-// Fix the re-export syntax for TypeScript with isolatedModules enabled
+// Re-export types
 export type { Theme, ThemeCategory } from './theme-types';

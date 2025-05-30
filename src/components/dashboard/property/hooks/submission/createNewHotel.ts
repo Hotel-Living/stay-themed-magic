@@ -65,9 +65,9 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     category: parseInt(formData.category),
     property_type: formData.propertyType,
     style: formData.style,
-    ideal_guests: formData.idealGuests,
+    ideal_guests: formData.idealGuests, // Use correct field name
     atmosphere: formData.atmosphere,
-    perfect_location: formData.perfectLocation,
+    perfect_location: formData.perfectLocation, // Use correct field name
     contact_name: formData.contactName,
     contact_email: formData.contactEmail,
     contact_phone: formData.contactPhone,
@@ -87,7 +87,10 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
     pricingmatrix: pricingMatrix // Use the correct lowercase column name from database
   };
 
-  console.log("Inserting hotel with pricing matrix:", pricingMatrix);
+  console.log("Inserting hotel with data:", {
+    idealGuests: hotelData.ideal_guests,
+    perfectLocation: hotelData.perfect_location
+  });
 
   const { data, error } = await supabase
     .from('hotels')

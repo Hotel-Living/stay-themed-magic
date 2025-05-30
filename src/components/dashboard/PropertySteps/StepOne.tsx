@@ -59,6 +59,8 @@ export default function StepOne({
         category: formData.category,
         propertyType: formData.propertyType,
         description: formData.description,
+        idealGuests: formData.idealGuests,
+        perfectLocation: formData.perfectLocation,
         hasHotelImages: Boolean(formData.hotelImages),
         imageCount: formData.hotelImages?.length || 0
       });

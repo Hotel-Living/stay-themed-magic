@@ -1,15 +1,9 @@
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export const GTranslate = () => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const isInitialized = useRef(false);
-
   useEffect(() => {
-    // Prevent multiple initializations
-    if (isInitialized.current) return;
-    
-    // Clear any existing settings first
+    // Clear any existing settings and widgets
     if (window.gtranslateSettings) {
       delete window.gtranslateSettings;
     }
@@ -18,21 +12,20 @@ export const GTranslate = () => {
     const existingScripts = document.querySelectorAll('script[src*="gtranslate"]');
     existingScripts.forEach(script => script.remove());
     
-    // Remove any existing gtranslate widgets
     const existingWidgets = document.querySelectorAll('.gtranslate_wrapper > *');
     existingWidgets.forEach(widget => widget.remove());
     
-    // Set up the configuration
+    // Set up the exact configuration provided by user
     window.gtranslateSettings = {
-      default_language: "en",
-      native_language_names: true,
-      detect_browser_language: true,
-      url_structure: "sub_domain",
-      languages: ["en", "es", "de", "fr", "ru"],
-      globe_color: "#66aaff",
-      wrapper_selector: ".gtranslate_wrapper",
-      flag_size: 16,
-      globe_size: 20,
+      "default_language": "en",
+      "native_language_names": true,
+      "detect_browser_language": true,
+      "url_structure": "sub_domain",
+      "languages": ["en", "es", "fr"],
+      "globe_color": "#66aaff",
+      "wrapper_selector": ".gtranslate_wrapper",
+      "flag_size": 16,
+      "globe_size": 40
     };
 
     // Load the script
@@ -41,27 +34,12 @@ export const GTranslate = () => {
     script.defer = true;
     document.body.appendChild(script);
 
-    const init = () => {
-      if (window.GTranslateFireEvent) {
-        window.GTranslateFireEvent("gt_show_widget");
-        isInitialized.current = true;
-      } else {
-        setTimeout(init, 300);
-      }
-    };
-
-    script.onload = init;
-
     return () => {
       // Cleanup on unmount
       const scripts = document.querySelectorAll('script[src*="gtranslate"]');
       scripts.forEach(s => s.remove());
-      if (wrapperRef.current) {
-        wrapperRef.current.innerHTML = '';
-      }
-      isInitialized.current = false;
     };
   }, []);
 
-  return <div ref={wrapperRef} className="gtranslate_wrapper" style={{ height: "32px", minWidth: "40px" }} />;
+  return <div className="gtranslate_wrapper"></div>;
 };

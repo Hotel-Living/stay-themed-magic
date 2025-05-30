@@ -92,7 +92,7 @@ export function Footer() {
         <Separator className={cn("bg-[#3300B0]/40 my-2")} />
         
         <div className={`text-center text-xs text-white ${isMobile ? "mt-8 mb-6" : ""}`}>
-          <p className="mb-2 font-semibold">&copy; {new Date().getFullYear()} Hotel-Living.com. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
+          <p className="mb-2 font-semibold">&copy; 2025 Hotel-Living.com. All rights reserved. This is a Beta version, subject to ongoing updates. <Link to="/intellectual-property" className="hover:underline">All rights reserved.</Link></p>
         </div>
       </div>
     </footer>;

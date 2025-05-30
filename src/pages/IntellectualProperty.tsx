@@ -1,9 +1,12 @@
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export default function IntellectualProperty() {
   return <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-20 pb-16">

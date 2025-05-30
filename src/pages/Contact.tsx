@@ -3,9 +3,11 @@ import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export default function Contact() {
   return <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-12">

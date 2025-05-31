@@ -30,14 +30,17 @@ export function WhyHotelLivingSection() {
       {/* First title - WHY HOTEL-LIVING? */}
       <div className="text-center mb-8">
         <div className="flex justify-center">
-          <h1 className={`
-            ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-            font-bold mb-4 text-[#eedbf7] glow 
-            tracking-tight leading-tight
-            bg-[#8017B0] py-2 px-8 rounded-lg inline-block
-          `}>
-            WHY HOTEL-LIVING?
-          </h1>
+          <div className="relative group w-fit">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h1 className={`
+              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-[#eedbf7] glow 
+              tracking-tight leading-tight
+              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
+            `}>
+              WHY HOTEL-LIVING?
+            </h1>
+          </div>
         </div>
       </div>
 

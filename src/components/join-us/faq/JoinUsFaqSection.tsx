@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { FaqSection } from "./types";
 import { JoinUsFaqItem } from "./JoinUsFaqItem";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface JoinUsFaqSectionProps {
   section: FaqSection;
@@ -12,6 +13,8 @@ interface JoinUsFaqSectionProps {
 }
 
 export function JoinUsFaqSection({ section, isExpanded, toggleSection }: JoinUsFaqSectionProps) {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="bg-[#730483]/50 rounded-lg overflow-hidden shadow-lg border border-fuchsia-500/30">
       <button 
@@ -20,7 +23,7 @@ export function JoinUsFaqSection({ section, isExpanded, toggleSection }: JoinUsF
       >
         <div className="flex items-center">
           {section.emoji && <span className="text-xl mr-2">{section.emoji}</span>}
-          <h3 className="text-base font-bold text-[#FFF9B0]">{section.title}</h3>
+          <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-bold text-[#FFF9B0]`}>{section.title}</h3>
         </div>
         <ChevronDown 
           className={cn(

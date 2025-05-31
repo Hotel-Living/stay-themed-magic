@@ -116,6 +116,15 @@ export default function BookingsContent() {
   const hasReview = (hotelId: string) => {
     return existingReviews.has(hotelId);
   };
+
+  // Find the next upcoming booking
+  const getNextUpcomingBooking = () => {
+    const now = new Date();
+    const futureBookings = bookings.filter(booking => new Date(booking.check_in) > now);
+    return futureBookings.length > 0 ? futureBookings[0] : null;
+  };
+
+  const nextUpcomingBooking = getNextUpcomingBooking();
   
   if (isLoading) {
     return (
@@ -144,6 +153,7 @@ export default function BookingsContent() {
                 onRateStay={isPastStay(booking.check_out) && !hasReview(booking.hotel_id) ? () => handleRateStay(booking) : undefined}
                 hasReview={hasReview(booking.hotel_id)}
                 isPastStay={isPastStay(booking.check_out)}
+                isNextStay={nextUpcomingBooking?.id === booking.id}
               />
             ))}
           </div>

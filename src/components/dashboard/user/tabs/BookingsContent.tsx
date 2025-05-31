@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Calendar, Loader2, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { EnhancedBookingCard } from "./EnhancedBookingCard";
 import { BookingDetailModal } from "./BookingDetailModal";
 import { ReviewModal } from "./ReviewModal";
+import { StayExtensionBanner } from "./StayExtensionBanner";
 
 export default function BookingsContent() {
   const [bookings, setBookings] = useState([]);
@@ -142,6 +142,9 @@ export default function BookingsContent() {
     <>
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-6">My Reservations</h2>
+        
+        {/* Stay Extension Banner */}
+        <StayExtensionBanner />
         
         {bookings.length > 0 ? (
           <div className="space-y-6">

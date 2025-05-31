@@ -369,6 +369,7 @@ export type Database = {
       hotels: {
         Row: {
           address: string | null
+          allow_stay_extensions: boolean | null
           atmosphere: string | null
           atmosphere_description: string | null
           available_months: string[] | null
@@ -423,6 +424,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          allow_stay_extensions?: boolean | null
           atmosphere?: string | null
           atmosphere_description?: string | null
           available_months?: string[] | null
@@ -477,6 +479,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          allow_stay_extensions?: boolean | null
           atmosphere?: string | null
           atmosphere_description?: string | null
           available_months?: string[] | null
@@ -762,6 +765,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      stay_extensions: {
+        Row: {
+          created_at: string
+          id: string
+          new_booking_id: string
+          new_duration: number
+          new_price: number
+          original_booking_id: string
+          original_duration: number
+          original_price: number
+          price_difference: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          new_booking_id: string
+          new_duration: number
+          new_price: number
+          original_booking_id: string
+          original_duration: number
+          original_price: number
+          price_difference: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          new_booking_id?: string
+          new_duration?: number
+          new_price?: number
+          original_booking_id?: string
+          original_duration?: number
+          original_price?: number
+          price_difference?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       themes: {
         Row: {

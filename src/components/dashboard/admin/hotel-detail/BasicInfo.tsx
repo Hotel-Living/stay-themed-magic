@@ -14,24 +14,53 @@ export const BasicInfo = ({ hotel }: { hotel: any }) => {
     ));
   };
   
+  // Parse complex rate keys to extract stay lengths and prices
+  const parseRatesData = () => {
+    const rates = hotel.rates || {};
+    const parsedRates: Record<string, number> = {};
+    
+    Object.keys(rates).forEach(key => {
+      // Check for simple numeric keys (8, 16, 24, 32)
+      if (/^\d+$/.test(key)) {
+        parsedRates[key] = rates[key];
+      }
+      // Check for complex keys like "8-breakfast-included" or "16-half-board"
+      else if (key.includes('-')) {
+        const parts = key.split('-');
+        const stayLength = parts[0];
+        if (/^\d+$/.test(stayLength)) {
+          // Use the stay length as key, taking the first rate found for that duration
+          if (!parsedRates[stayLength]) {
+            parsedRates[stayLength] = rates[key];
+          }
+        }
+      }
+    });
+    
+    return parsedRates;
+  };
+  
   // Helper function to display rates in the desired format
   const displayRates = () => {
-    const rates = hotel.rates || {};
+    const parsedRates = parseRatesData();
     const stayLengths = ["8", "16", "24", "32"];
-    const availableRates = stayLengths.filter(length => rates[length]);
+    const availableRates = stayLengths.filter(length => parsedRates[length]);
     
     if (availableRates.length === 0) {
       // If no rates defined in the new format, use the old pricePerMonth
       return hotel.price_per_month ? `${formatCurrency(hotel.price_per_month, hotel.currency || "USD")}` : "Not specified";
     }
     
-    return (
-      <>
-        From: {availableRates.map(length => 
-          `${formatCurrency(rates[length], hotel.currency || "USD")} (${length} days)`
-        ).join(" · ")}
-      </>
-    );
+    // Start with the lowest stay length that has a rate
+    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
+    const lowestRate = parsedRates[lowestStayLength];
+    
+    if (availableRates.length === 1) {
+      return `From ${formatCurrency(lowestRate, hotel.currency || "USD")} (${lowestStayLength} days)`;
+    }
+    
+    // Show the starting price with shortest duration
+    return `From ${formatCurrency(lowestRate, hotel.currency || "USD")} (${lowestStayLength} days)`;
   };
 
   return (

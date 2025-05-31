@@ -48,13 +48,13 @@ export function FilterSidebar({
   // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
 
-  // Updated meal options - removed "Self Catering", added "Laundry" and "External Laundry Service Available"
+  // Updated meal options to match exactly with the database
   const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
 
-  // Handle meal filter changes with proper mapping
+  // Handle meal filter changes with proper mapping to mealPlans
   const handleMealFilterChange = (value: string, isChecked: boolean) => {
-    // Use 'meals' for local state but this will be mapped to 'mealPlans' in the parent component
-    handleArrayFilterChange("meals", value, isChecked);
+    // Map to mealPlans for the backend query
+    handleArrayFilterChange("mealPlans", value, isChecked);
   };
 
   return (
@@ -77,7 +77,7 @@ export function FilterSidebar({
       <CheckboxFilter 
         title="MEALS" 
         options={mealOptions} 
-        selectedOptions={activeFilters.meals || []} 
+        selectedOptions={activeFilters.mealPlans || activeFilters.meals || []} 
         onChange={handleMealFilterChange} 
       />
       

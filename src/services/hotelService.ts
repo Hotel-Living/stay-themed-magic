@@ -17,60 +17,66 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
 
     console.log("HotelService - Applying filters:", filters);
 
-    // Apply search term filter ONLY if it has a value
+    // Apply search term filter
     if (filters.searchTerm && filters.searchTerm.trim() !== '') {
       console.log("HotelService - Applying search term filter:", filters.searchTerm);
       query = query.ilike('name', `%${filters.searchTerm}%`);
     }
 
-    // Apply theme filter ONLY if it has a value
-    if (filters.theme && filters.theme.id) {
+    // Apply theme filter - check both theme ID and name
+    if (filters.theme && (filters.theme.id || filters.theme.name)) {
       console.log("HotelService - Applying theme filter:", filters.theme);
-      query = query.or(`hotel_themes.theme_id.eq.${filters.theme.id},hotel_themes.themes.name.ilike.%${filters.theme.name}%`);
+      // Create a subquery to find hotels with matching themes
+      const themeConditions = [];
+      if (filters.theme.id && filters.theme.id.trim() !== '') {
+        themeConditions.push(`hotel_themes.theme_id.eq.${filters.theme.id}`);
+      }
+      if (filters.theme.name && filters.theme.name.trim() !== '') {
+        themeConditions.push(`hotel_themes.themes.name.ilike.%${filters.theme.name}%`);
+      }
+      if (themeConditions.length > 0) {
+        query = query.or(themeConditions.join(','));
+      }
     }
 
-    // Apply country filter ONLY if it has a value
+    // Apply country filter
     if (filters.country && filters.country.trim() !== '') {
       console.log("HotelService - Applying country filter:", filters.country);
-      console.log("HotelService - Country filter type:", typeof filters.country);
-      // Use exact match for country names
       query = query.eq('country', filters.country);
     }
 
-    // Apply month filter ONLY if it has a value
+    // Apply month filter
     if (filters.month && filters.month.trim() !== '') {
       console.log("HotelService - Applying month filter:", filters.month);
       const month = filters.month.toLowerCase();
-      query = query.or(
-        `available_months.cs.{${month}},hotel_availability.availability_month.eq.${month}`
-      );
+      query = query.contains('available_months', [month]);
     }
 
-    // Apply city/location filter ONLY if it has a value
+    // Apply city/location filter
     if (filters.location && filters.location.trim() !== '') {
       console.log("HotelService - Applying location filter:", filters.location);
       query = query.ilike('city', `%${filters.location}%`);
     }
 
-    // Apply property type filter ONLY if it has a value
+    // Apply property type filter
     if (filters.propertyType && filters.propertyType.trim() !== '') {
       console.log("HotelService - Applying property type filter:", filters.propertyType);
       query = query.eq('property_type', filters.propertyType);
     }
 
-    // Apply property style filter ONLY if it has a value
+    // Apply property style filter
     if (filters.propertyStyle && filters.propertyStyle.trim() !== '') {
       console.log("HotelService - Applying property style filter:", filters.propertyStyle);
       query = query.eq('style', filters.propertyStyle);
     }
 
-    // Apply atmosphere filter ONLY if it has a value
+    // Apply atmosphere filter
     if (filters.atmosphere && filters.atmosphere.trim() !== '') {
       console.log("HotelService - Applying atmosphere filter:", filters.atmosphere);
       query = query.ilike('atmosphere', `%${filters.atmosphere}%`);
     }
 
-    // Apply minimum price filter ONLY if it has a value
+    // Apply minimum price filter
     if ((filters.minPrice !== undefined && filters.minPrice > 0) || 
         (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.min !== undefined && filters.priceRange.min > 0)) {
       const minPrice = filters.minPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.min : 0);
@@ -78,7 +84,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.gte('price_per_month', minPrice);
     }
 
-    // Apply maximum price filter ONLY if it has a value
+    // Apply maximum price filter
     if ((filters.maxPrice !== undefined && filters.maxPrice < 1000) || 
         (filters.priceRange && typeof filters.priceRange === 'object' && filters.priceRange.max !== undefined)) {
       const maxPrice = filters.maxPrice || (typeof filters.priceRange === 'object' ? filters.priceRange.max : 1000);
@@ -86,7 +92,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       query = query.lte('price_per_month', maxPrice);
     }
 
-    // Handle numeric priceRange (for dropdown selection) ONLY if it has a value
+    // Handle numeric priceRange (for dropdown selection)
     if (typeof filters.priceRange === 'number' && filters.priceRange > 0) {
       console.log("HotelService - Applying numeric price range filter:", filters.priceRange);
       if (filters.priceRange > 2000) {
@@ -96,7 +102,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply star rating filter ONLY if it has a value and is not empty
+    // Apply star rating filter
     if (filters.stars && filters.stars.length > 0) {
       const numericStars = filters.stars.map(star => parseInt(star)).filter(star => !isNaN(star));
       if (numericStars.length > 0) {
@@ -105,16 +111,21 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply activities filter ONLY if it has a value and is not empty
+    // Apply activities filter - this needs to be handled differently
     if (filters.activities && filters.activities.length > 0) {
       console.log("HotelService - Applying activities filter:", filters.activities);
-      query = query.in('hotel_activities.activities.category', filters.activities);
+      // We need to check if the hotel has any of the selected activities
+      const activityConditions = filters.activities.map(activity => 
+        `hotel_activities.activities.name.ilike.%${activity}%`
+      );
+      if (activityConditions.length > 0) {
+        query = query.or(activityConditions.join(','));
+      }
     }
 
-    // Apply hotel features filter ONLY if it has a value and is not empty
+    // Apply hotel features filter
     if (filters.hotelFeatures && filters.hotelFeatures.length > 0) {
       console.log("HotelService - Applying hotel features filter:", filters.hotelFeatures);
-      // We need a complex OR condition for jsonb fields
       const featureConditions = filters.hotelFeatures.map(feature => 
         `features_hotel->${feature}.eq.true`
       );
@@ -123,10 +134,9 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply room features filter ONLY if it has a value and is not empty
+    // Apply room features filter
     if (filters.roomFeatures && filters.roomFeatures.length > 0) {
       console.log("HotelService - Applying room features filter:", filters.roomFeatures);
-      // We need a complex OR condition for jsonb fields
       const featureConditions = filters.roomFeatures.map(feature => 
         `features_room->${feature}.eq.true`
       );
@@ -135,13 +145,29 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       }
     }
 
-    // Apply meal plans filter ONLY if it has a value and is not empty
+    // Apply meal plans filter - fix the mapping
     if (filters.mealPlans && filters.mealPlans.length > 0) {
       console.log("HotelService - Applying meal plans filter:", filters.mealPlans);
-      query = query.containedBy('meal_plans', filters.mealPlans);
+      // Map UI meal plan names to database values
+      const mealPlanMapping = {
+        'Breakfast Included': 'breakfast-included',
+        'Half Board': 'half-board', 
+        'Full Board': 'full-board',
+        'All Inclusive': 'all-inclusive',
+        'Laundry': 'laundry',
+        'External Laundry Service Available': 'external-laundry'
+      };
+      
+      const mappedMealPlans = filters.mealPlans.map(plan => mealPlanMapping[plan] || plan);
+      const mealConditions = mappedMealPlans.map(plan => 
+        `meal_plans.cs.{${plan}}`
+      );
+      if (mealConditions.length > 0) {
+        query = query.or(mealConditions.join(','));
+      }
     }
 
-    // Apply stay lengths filter ONLY if it has a value and is not empty
+    // Apply stay lengths filter
     if (filters.stayLengths && filters.stayLengths.length > 0) {
       console.log("HotelService - Applying stay lengths filter:", filters.stayLengths);
       const lengthConditions = filters.stayLengths.map(length => 
@@ -159,16 +185,15 @@ export const fetchHotelsWithFilters = async (filters: FilterState) => {
       throw new Error(`Failed to fetch hotels: ${error.message}`);
     }
 
-    // Add debugging to see what's being returned
-    console.log("HotelService - Fetched hotels count:", data?.length || 0);
+    console.log("HotelService - Raw data from Supabase:", data?.length || 0);
     if (data && data.length > 0) {
       console.log("HotelService - First hotel in results:", data[0].name, "Country:", data[0].country, "Status:", data[0].status);
-      console.log("HotelService - All countries in results:", data.map(h => h.country));
+      console.log("HotelService - Sample hotel themes:", data[0].hotel_themes);
+      console.log("HotelService - Sample hotel activities:", data[0].hotel_activities);
     } else {
       console.log("HotelService - No hotels found with current filters:", filters);
     }
 
-    // Ensure we always return an array, even if empty
     return data?.filter(hotel => hotel !== null) || [];
   } catch (err: any) {
     console.error("HotelService - Error in fetchHotelsWithFilters:", err);

@@ -59,6 +59,7 @@ export default function Search() {
     mealPlans: [],
     stayLengths: []
   });
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const newFilters = {
@@ -110,16 +111,23 @@ export default function Search() {
       });
     }
   }, [location.search]);
+
   const handleFilterChange = (filterType: string, value: any) => {
+    console.log("Search page - Filter change:", filterType, value);
+    
     setActiveFilters(prev => ({
       ...prev,
       [filterType]: value
     }));
+    
     updateFilters({
       [filterType]: value
     });
   };
+
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
+    console.log("Search page - Array filter change:", filterType, value, isChecked);
+    
     setActiveFilters(prev => {
       const currentValues = prev[filterType as keyof typeof prev] as string[] || [];
       const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
@@ -128,12 +136,15 @@ export default function Search() {
         [filterType]: newValues
       };
     });
+    
     const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
     const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
+    
     updateFilters({
       [filterType]: newValues
     });
   };
+
   const handleResetAllFilters = () => {
     const resetFilters = {
       country: null,
@@ -161,6 +172,7 @@ export default function Search() {
       description: "All filters have been cleared"
     });
   };
+
   return <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />

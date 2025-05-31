@@ -6,6 +6,9 @@ import { Card } from "@/components/ui/card";
 import { format, addDays } from "date-fns";
 import { Check } from "lucide-react";
 import BookingDropdown from "@/components/hotel-detail/BookingDropdown";
+import { FirstBookingTooltip } from "@/components/booking/FirstBookingTooltip";
+import { FirstBookingWelcomeBanner } from "@/components/booking/FirstBookingWelcomeBanner";
+import { useFirstBookingMode } from "@/hooks/useFirstBookingMode";
 
 interface PricingMatrixItem {
   roomType: string;
@@ -62,6 +65,7 @@ export function HotelBookingSection({
     checkInDate: Date;
     checkOutDate: Date;
   } | null>(null);
+  const { isFirstTimeUser } = useFirstBookingMode();
   
   const availableDates = availableMonths || [];
 
@@ -181,6 +185,11 @@ export function HotelBookingSection({
 
   return (
     <div className="p-6 space-y-6">
+      {/* Show welcome banner after booking for first-time users */}
+      {bookingConfirmed && isFirstTimeUser && (
+        <FirstBookingWelcomeBanner />
+      )}
+
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2 text-white">BOOKING</h2>
         <p className="text-white/80 mb-2">
@@ -197,6 +206,11 @@ export function HotelBookingSection({
         <h3 className="text-lg font-semibold text-white mb-4">TARIFFS PER PERSON</h3>
       </div>
 
+      {/* First booking tooltip for meal plans */}
+      {isFirstTimeUser && mealPlans && mealPlans.length > 0 && !bookingConfirmed && (
+        <FirstBookingTooltip step="meals" />
+      )}
+
       {/* BookingDropdown Component */}
       <div>
         <BookingDropdown
@@ -212,6 +226,11 @@ export function HotelBookingSection({
             {capitalize(selectedOption.roomType)} Room – {selectedOption.stayLength} nights – {capitalize(selectedOption.mealPlan)} – {selectedOption.price}
           </strong>
         </div>
+      )}
+
+      {/* First booking tooltip for dates */}
+      {isFirstTimeUser && !bookingConfirmed && (
+        <FirstBookingTooltip step="dates" />
       )}
 
       {/* Calendar component */}
@@ -248,6 +267,11 @@ export function HotelBookingSection({
             This property uses dynamic pricing based on demand. Book early to secure the best rates!
           </p>
         </div>
+      )}
+
+      {/* First booking tooltip for review */}
+      {isFirstTimeUser && selectedOption && checkInDate && !bookingConfirmed && (
+        <FirstBookingTooltip step="review" />
       )}
 
       {/* Booking Summary Display */}

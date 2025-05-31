@@ -6,7 +6,10 @@ import { format, addDays } from "date-fns";
 import { BookingFormActions } from "./booking/BookingFormActions";
 import { DynamicPricingBar } from "./booking/DynamicPricingBar";
 import { BookingSuccessMessage } from "./booking/BookingSuccessMessage";
+import { FirstBookingTooltip } from "./booking/FirstBookingTooltip";
+import { FirstBookingWelcomeBanner } from "./booking/FirstBookingWelcomeBanner";
 import { useBookingState } from "@/hooks/useBookingState";
+import { useFirstBookingMode } from "@/hooks/useFirstBookingMode";
 import { findBestAvailableRoom } from "@/utils/roomAssignmentLogic";
 import { RoomType } from "@/types/hotel";
 
@@ -39,6 +42,7 @@ export function BookingForm({
     newBooking, setNewBooking,
     nightsSold, totalNights, dynamicPrice, priceIncrease
   } = useBookingState(pricePerMonth, hotelName);
+  const { isFirstTimeUser } = useFirstBookingMode();
   const { toast: useToastRef } = useToast();
 
   const endDate = startDate ? addDays(startDate, duration) : null;
@@ -135,12 +139,23 @@ export function BookingForm({
       <div className="p-6">
         <h3 className="text-xl font-bold mb-4 text-white">Book your stay</h3>
         {booked ? (
-          <BookingSuccessMessage
-            hotelName={hotelName}
-            onReset={() => setBooked(false)}
-          />
+          <div>
+            {/* Show welcome banner for first-time users */}
+            {isFirstTimeUser && (
+              <FirstBookingWelcomeBanner />
+            )}
+            <BookingSuccessMessage
+              hotelName={hotelName}
+              onReset={() => setBooked(false)}
+            />
+          </div>
         ) : (
           <form onSubmit={handleSubmit}>
+            {/* First booking guidance tooltips */}
+            {isFirstTimeUser && !startDate && (
+              <FirstBookingTooltip step="dates" />
+            )}
+            
             <BookingFormActions
               startDate={startDate}
               setStartDate={setStartDate}
@@ -157,6 +172,12 @@ export function BookingForm({
               preferredWeekday={preferredWeekday}
               roomTypes={roomTypes}
             />
+            
+            {/* Show review tooltip for first-time users when ready to book */}
+            {isFirstTimeUser && startDate && endDate && (
+              <FirstBookingTooltip step="review" />
+            )}
+            
             <DynamicPricingBar
               nightsSold={nightsSold}
               totalNights={totalNights}

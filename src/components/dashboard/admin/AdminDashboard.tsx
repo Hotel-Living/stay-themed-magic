@@ -1,8 +1,10 @@
+
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 import PendingHotelsTable from "./PendingHotelsTable";
+import PendingChangesSection from "./PendingChangesSection";
 import { useAdminAccess } from "./hooks/useAdminAccess";
 import { useHotelsData } from "./hooks/useHotelsData";
 import { useHotelActions } from "./hooks/useHotelActions";
@@ -103,6 +105,11 @@ export default function AdminDashboard() {
             {isAllHotelsView ? "All Hotels" : "Pending Hotel Registrations"}
           </h2>
         </div>
+
+        {/* Add the Pending Changes Section for all hotels view */}
+        {isAllHotelsView && (
+          <PendingChangesSection hotels={hotels} />
+        )}
 
         <PendingHotelsTable
           hotels={hotels}

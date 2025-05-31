@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Building, Edit, Trash2, AlertTriangle } from "lucide-react";
 import EmptyState from "../../EmptyState";
@@ -117,6 +116,8 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
                     : "/placeholder.svg"
                 }
                 availableMonths={hotel.available_months || []}
+                rates={hotel.rates || {}}
+                currency={hotel.country && ['Spain', 'France', 'Germany', 'Italy', 'Portugal', 'Netherlands', 'Belgium', 'Austria', 'Ireland', 'Finland', 'Greece', 'Luxembourg', 'Malta', 'Cyprus', 'Slovenia', 'Slovakia', 'Estonia', 'Latvia', 'Lithuania'].includes(hotel.country) ? 'EUR' : 'USD'}
               />
             </div>
             <div className="absolute top-2 right-2 z-10 flex gap-2">

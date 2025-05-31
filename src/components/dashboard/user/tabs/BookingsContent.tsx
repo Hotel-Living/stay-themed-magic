@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Calendar, Loader2, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +9,6 @@ import { BookingDetailModal } from "./BookingDetailModal";
 import { ReviewModal } from "./ReviewModal";
 import { RebookingModal } from "./RebookingModal";
 import { StayExtensionBanner } from "./StayExtensionBanner";
-import { UserMilestones } from "../achievements/UserMilestones";
 
 export default function BookingsContent() {
   const [bookings, setBookings] = useState([]);
@@ -156,9 +156,6 @@ export default function BookingsContent() {
     <>
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-6">My Reservations</h2>
-        
-        {/* Achievement Milestones */}
-        <UserMilestones />
         
         {/* Stay Extension Banner */}
         <StayExtensionBanner />

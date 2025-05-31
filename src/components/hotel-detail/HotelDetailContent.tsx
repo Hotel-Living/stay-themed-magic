@@ -47,6 +47,13 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     if (!text) return '';
     return text.charAt(0).toLowerCase() + text.slice(1);
   };
+
+  const handleBookClick = () => {
+    toast({
+      title: "Feature in development",
+      description: "Online booking will be available soon.",
+    });
+  };
   
   if (isLoading) {
     return <HotelSkeletonLoader />;
@@ -305,6 +312,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   stayDurations={stayDurations}
                   rates={preparedRates}
                   currency={hotel.currency || "USD"}
+                  handleBookClick={handleBookClick}
                   preferredWeekday={checkInWeekday}
                   enable_price_increase={hotel.enable_price_increase}
                   price_increase_cap={hotel.price_increase_cap}

@@ -1,15 +1,15 @@
 
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DashboardContent } from "./DashboardContent";
-import { BookingsContent } from "./BookingsContent";
-import { SavedContent } from "./SavedContent";
-import { HistoryContent } from "./HistoryContent";
-import { PaymentsContent } from "./PaymentsContent";
-import { ProfileContent } from "./ProfileContent";
-import { SettingsContent } from "./SettingsContent";
-import { ExperienceContent } from "./ExperienceContent";
-import { GetThreeNightsContent } from "./GetThreeNightsContent";
+import DashboardContent from "./DashboardContent";
+import BookingsContent from "./BookingsContent";
+import SavedContent from "./SavedContent";
+import HistoryContent from "./HistoryContent";
+import PaymentsContent from "./PaymentsContent";
+import ProfileContent from "./ProfileContent";
+import SettingsContent from "./SettingsContent";
+import ExperienceContent from "./ExperienceContent";
+import GetThreeNightsContent from "./GetThreeNightsContent";
 import { NotificationsContent } from "./NotificationsContent";
 
 export const UserDashboardLayout = () => {

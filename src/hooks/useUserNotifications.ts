@@ -34,7 +34,10 @@ export const useUserNotifications = (hotelId?: string) => {
         .eq('is_active', true);
 
       if (error) throw error;
-      setNotifications(data || []);
+      
+      // Type assertion to ensure the data matches our interface
+      const typedData = (data || []) as UserNotification[];
+      setNotifications(typedData);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     } finally {
@@ -71,7 +74,9 @@ export const useUserNotifications = (hotelId?: string) => {
 
       if (error) throw error;
 
-      setNotifications(prev => [...prev, data]);
+      // Type assertion for the returned data
+      const typedData = data as UserNotification;
+      setNotifications(prev => [...prev, typedData]);
       toast({
         title: "Notification enabled",
         description: `You'll be notified when the ${type === 'availability' ? 'hotel becomes available' : 'price drops'}.`,

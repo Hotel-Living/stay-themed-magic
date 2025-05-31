@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Calendar, Loader2, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { EnhancedBookingCard } from "./EnhancedBookingCard";
 import { BookingDetailModal } from "./BookingDetailModal";
 import { ReviewModal } from "./ReviewModal";
+import { RebookingModal } from "./RebookingModal";
 import { StayExtensionBanner } from "./StayExtensionBanner";
 
 export default function BookingsContent() {
@@ -15,6 +17,8 @@ export default function BookingsContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewBooking, setReviewBooking] = useState(null);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [rebookBooking, setRebookBooking] = useState(null);
+  const [isRebookModalOpen, setIsRebookModalOpen] = useState(false);
   const [existingReviews, setExistingReviews] = useState(new Set());
   const { user } = useAuth();
   const { toast } = useToast();
@@ -109,6 +113,16 @@ export default function BookingsContent() {
     }
   };
 
+  const handleRebookStay = (booking: any) => {
+    setRebookBooking(booking);
+    setIsRebookModalOpen(true);
+  };
+
+  const handleCloseRebookModal = () => {
+    setIsRebookModalOpen(false);
+    setRebookBooking(null);
+  };
+
   const isPastStay = (checkOutDate: string) => {
     return new Date(checkOutDate) < new Date();
   };
@@ -154,6 +168,7 @@ export default function BookingsContent() {
                 booking={booking}
                 onViewDetails={() => handleViewDetails(booking)}
                 onRateStay={isPastStay(booking.check_out) && !hasReview(booking.hotel_id) ? () => handleRateStay(booking) : undefined}
+                onRebookStay={isPastStay(booking.check_out) ? () => handleRebookStay(booking) : undefined}
                 hasReview={hasReview(booking.hotel_id)}
                 isPastStay={isPastStay(booking.check_out)}
                 isNextStay={nextUpcomingBooking?.id === booking.id}
@@ -184,6 +199,12 @@ export default function BookingsContent() {
         isOpen={isReviewModalOpen}
         onClose={handleCloseReviewModal}
         booking={reviewBooking}
+      />
+
+      <RebookingModal
+        isOpen={isRebookModalOpen}
+        onClose={handleCloseRebookModal}
+        booking={rebookBooking}
       />
     </>
   );

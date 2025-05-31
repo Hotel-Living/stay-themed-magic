@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Calendar, MapPin, Clock, CreditCard, Star } from "lucide-react";
+import { Calendar, MapPin, Clock, CreditCard, Star, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatDate } from "../../utils/dateUtils";
@@ -9,6 +9,7 @@ interface EnhancedBookingCardProps {
   booking: any;
   onViewDetails: () => void;
   onRateStay?: () => void;
+  onRebookStay?: () => void;
   hasReview?: boolean;
   isPastStay?: boolean;
   isNextStay?: boolean;
@@ -18,6 +19,7 @@ export const EnhancedBookingCard = ({
   booking, 
   onViewDetails, 
   onRateStay, 
+  onRebookStay,
   hasReview = false, 
   isPastStay = false,
   isNextStay = false
@@ -214,6 +216,18 @@ export const EnhancedBookingCard = ({
                 >
                   <Star className="w-4 h-4 mr-2" />
                   Rate Your Stay
+                </Button>
+              )}
+              
+              {/* Show Rebook button for past stays */}
+              {isPastStay && onRebookStay && (
+                <Button 
+                  onClick={onRebookStay}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                  size="sm"
+                >
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Rebook This Stay
                 </Button>
               )}
               

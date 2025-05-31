@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Calendar, MapPin, Clock, CreditCard } from "lucide-react";
+import { Calendar, MapPin, Clock, CreditCard, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatDate } from "../../utils/dateUtils";
@@ -8,9 +8,18 @@ import { formatDate } from "../../utils/dateUtils";
 interface EnhancedBookingCardProps {
   booking: any;
   onViewDetails: () => void;
+  onRateStay?: () => void;
+  hasReview?: boolean;
+  isPastStay?: boolean;
 }
 
-export const EnhancedBookingCard = ({ booking, onViewDetails }: EnhancedBookingCardProps) => {
+export const EnhancedBookingCard = ({ 
+  booking, 
+  onViewDetails, 
+  onRateStay, 
+  hasReview = false, 
+  isPastStay = false 
+}: EnhancedBookingCardProps) => {
   const calculateDuration = (checkIn: string, checkOut: string) => {
     const start = new Date(checkIn);
     const end = new Date(checkOut);
@@ -109,6 +118,25 @@ export const EnhancedBookingCard = ({ booking, onViewDetails }: EnhancedBookingC
             >
               View Full Details
             </Button>
+            
+            {/* Show Rate Your Stay button for past stays without reviews */}
+            {isPastStay && onRateStay && (
+              <Button 
+                onClick={onRateStay}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                size="sm"
+              >
+                <Star className="w-4 h-4 mr-2" />
+                Rate Your Stay
+              </Button>
+            )}
+            
+            {/* Show review status for past stays with reviews */}
+            {isPastStay && hasReview && (
+              <div className="w-full bg-green-500/20 text-green-300 text-center py-2 px-3 rounded text-sm">
+                ✓ Review submitted
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -9,7 +9,8 @@ import {
   User, 
   Building,
   Gift,
-  Heart
+  Heart,
+  Star
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import UserDashboardLayout from "@/components/dashboard/user/UserDashboardLayout";
@@ -21,6 +22,7 @@ import PaymentsContent from "@/components/dashboard/user/tabs/PaymentsContent";
 import ProfileContent from "@/components/dashboard/user/tabs/ProfileContent";
 import SettingsContent from "@/components/dashboard/user/tabs/SettingsContent";
 import GetThreeNightsContent from "@/components/dashboard/user/tabs/GetThreeNightsContent";
+import ExperienceContent from "@/components/dashboard/user/tabs/ExperienceContent";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +52,7 @@ export default function UserDashboard() {
   
   const tabs: DashboardTab[] = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
+    { id: "experience", label: "My Experience", icon: <Star className="w-5 h-5" /> },
     { id: "bookings", label: "My Bookings", icon: <Calendar className="w-5 h-5" /> },
     { id: "history", label: "Stay History", icon: <History className="w-5 h-5" /> },
     { id: "saved", label: "Saved Hotels", icon: <Heart className="w-5 h-5" /> },
@@ -62,6 +65,7 @@ export default function UserDashboard() {
   const renderContent = () => {
     switch(activeTab) {
       case "dashboard": return <DashboardContent />;
+      case "experience": return <ExperienceContent />;
       case "bookings": return <BookingsContent />;
       case "history": return <HistoryContent />;
       case "saved": return <SavedContent />;

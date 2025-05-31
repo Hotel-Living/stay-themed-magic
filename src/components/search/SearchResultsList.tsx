@@ -2,6 +2,9 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ComparisonCheckbox } from "@/components/comparison/ComparisonCheckbox";
+import { CompareButton } from "@/components/comparison/CompareButton";
+
 interface Hotel {
   id: string;
   name: string;
@@ -43,6 +46,7 @@ interface Hotel {
   // Add country field
   country?: string;
 }
+
 interface SearchResultsListProps {
   filteredHotels: Hotel[];
   isLoading: boolean;
@@ -239,6 +243,7 @@ const getHotelActivities = (hotel: Hotel): string => {
   console.log(`Extracted activities for ${hotel.name}:`, activities);
   return activities;
 };
+
 export const SearchResultsList: React.FC<SearchResultsListProps> = ({
   filteredHotels,
   isLoading,
@@ -260,51 +265,78 @@ export const SearchResultsList: React.FC<SearchResultsListProps> = ({
 Search Again. Thanks!</h3>
       </div>;
   }
-  return <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {filteredHotels.map((hotel, index) => {
-      const {
-        stayText,
-        priceText
-      } = getHotelPricingInfo(hotel);
-      const affinities = getHotelAffinities(hotel);
-      const activities = getHotelActivities(hotel);
-      return <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
-            <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[400px] bg-[#dcd8f7] rounded-3xl">
-              <div className="aspect-video bg-muted relative overflow-hidden">
-                <img src={hotel.thumbnail} alt={hotel.name} className="w-full h-full object-cover" />
-                {hotel.theme && <div className="absolute bottom-2 left-2 bg-purple-900 text-white text-xs px-2 py-1 rounded-full">
-                    {hotel.theme}
-                  </div>}
-              </div>
-              <div className="p-4 space-y-3 flex-1">
-                <h3 className="mb-2 line-clamp-2 text-purple-900 text-center uppercase font-bold">{hotel.name}</h3>
-                <div className="flex justify-between items-start">
-                  <div className="text-purple-900 text-sm">
-                    <div>{hotel.location || "Location unavailable"}</div>
-                    {hotel.country && <div className="text-purple-900 text-xs">{hotel.country}</div>}
-                  </div>
-                  <div className="text-right text-sm">
-                    {stayText && priceText ? <>
-                        <div className="text-purple-900">{stayText}</div>
-                        <div className="text-purple-900 py-0 my-0">{priceText}</div>
-                      </> : <div className="text-purple-900">Price unavailable</div>}
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredHotels.map((hotel, index) => {
+        const {
+          stayText,
+          priceText
+        } = getHotelPricingInfo(hotel);
+        const affinities = getHotelAffinities(hotel);
+        const activities = getHotelActivities(hotel);
+
+        // Prepare hotel data for comparison
+        const hotelForComparison = {
+          id: hotel.id,
+          name: hotel.name,
+          location: hotel.location,
+          city: hotel.location?.split(',')[0]?.trim(),
+          country: hotel.country,
+          price_per_month: hotel.price_per_month,
+          hotel_themes: hotel.hotel_themes,
+          hotel_activities: hotel.hotel_activities,
+          meal_plans: [], // This would need to be added to the hotel data
+          available_months: [], // This would need to be added to the hotel data
+          rates: hotel.rates,
+          thumbnail: hotel.thumbnail
+        };
+
+        return <Link key={hotel.id} to={`/hotel/${hotel.id}`}>
+              <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 min-h-[400px] bg-[#dcd8f7] rounded-3xl relative">
+                <div className="aspect-video bg-muted relative overflow-hidden">
+                  <img src={hotel.thumbnail} alt={hotel.name} className="w-full h-full object-cover" />
+                  {hotel.theme && <div className="absolute bottom-2 left-2 bg-purple-900 text-white text-xs px-2 py-1 rounded-full">
+                      {hotel.theme}
+                    </div>}
+                  {/* Add comparison checkbox */}
+                  <div className="absolute top-2 right-2" onClick={(e) => e.preventDefault()}>
+                    <ComparisonCheckbox hotel={hotelForComparison} />
                   </div>
                 </div>
-                
-                {/* Affinities Section */}
-                {affinities && <div className="text-center space-y-1">
-                    <div className="text-xs font-bold text-purple-900 my-0 mx-0 px-[3px] py-0">YOU'LL MEET PEOPLE LOVING</div>
-                    <div className="text-xs text-purple-900 my-0">{affinities}</div>
-                  </div>}
-                
-                {/* Activities Section */}
-                {activities && <div className="text-center space-y-1">
-                    <div className="text-xs font-bold text-purple-900">JOIN THEM FOR</div>
-                    <div className="text-xs text-purple-900">{activities}</div>
-                  </div>}
-              </div>
-            </Card>
-          </Link>;
-    })}
-    </div>;
+                <div className="p-4 space-y-3 flex-1">
+                  <h3 className="mb-2 line-clamp-2 text-purple-900 text-center uppercase font-bold">{hotel.name}</h3>
+                  <div className="flex justify-between items-start">
+                    <div className="text-purple-900 text-sm">
+                      <div>{hotel.location || "Location unavailable"}</div>
+                      {hotel.country && <div className="text-purple-900 text-xs">{hotel.country}</div>}
+                    </div>
+                    <div className="text-right text-sm">
+                      {stayText && priceText ? <>
+                          <div className="text-purple-900">{stayText}</div>
+                          <div className="text-purple-900 py-0 my-0">{priceText}</div>
+                        </> : <div className="text-purple-900">Price unavailable</div>}
+                    </div>
+                  </div>
+                  
+                  {/* Affinities Section */}
+                  {affinities && <div className="text-center space-y-1">
+                      <div className="text-xs font-bold text-purple-900 my-0 mx-0 px-[3px] py-0">YOU'LL MEET PEOPLE LOVING</div>
+                      <div className="text-xs text-purple-900 my-0">{affinities}</div>
+                    </div>}
+                  
+                  {/* Activities Section */}
+                  {activities && <div className="text-center space-y-1">
+                      <div className="text-xs font-bold text-purple-900">JOIN THEM FOR</div>
+                      <div className="text-xs text-purple-900">{activities}</div>
+                    </div>}
+                </div>
+              </Card>
+            </Link>;
+      })}
+      </div>
+      {/* Add the floating compare button */}
+      <CompareButton />
+    </>
+  );
 };

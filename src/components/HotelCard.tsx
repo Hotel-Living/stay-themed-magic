@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
@@ -6,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/dynamicPricing";
 import { FavoriteButton } from "@/components/ui/FavoriteButton";
 import { useFavorites } from "@/hooks/useFavorites";
+import { ComparisonCheckbox } from "@/components/comparison/ComparisonCheckbox";
 
 interface HotelCardProps {
   id: string;
@@ -20,6 +20,12 @@ interface HotelCardProps {
   rates?: Record<string, number>;
   currency?: string;
   onClick?: () => void;
+  // Add hotel data for comparison
+  hotel_themes?: Array<{ themes?: { name: string } }>;
+  hotel_activities?: Array<{ activities?: { name: string } }>;
+  meal_plans?: string[];
+  location?: string;
+  thumbnail?: string;
 }
 
 export const HotelCard = ({
@@ -34,7 +40,12 @@ export const HotelCard = ({
   availableMonths = [],
   rates = {},
   currency = "USD",
-  onClick
+  onClick,
+  hotel_themes,
+  hotel_activities,
+  meal_plans,
+  location,
+  thumbnail
 }: HotelCardProps) => {
   const { isFavorite, toggleFavorite } = useFavorites();
 
@@ -85,6 +96,22 @@ export const HotelCard = ({
     // Show the starting price with shortest duration
     return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
   };
+
+  // Prepare hotel data for comparison
+  const hotelForComparison = {
+    id,
+    name,
+    location: location || `${city}, ${country}`,
+    city,
+    country,
+    price_per_month: pricePerMonth,
+    hotel_themes,
+    hotel_activities,
+    meal_plans,
+    available_months: availableMonths,
+    rates,
+    thumbnail: thumbnail || image
+  };
   
   return (
     <Card 
@@ -104,12 +131,16 @@ export const HotelCard = ({
             </Badge>
           </div>
         )}
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 right-2 flex items-center gap-2">
           <FavoriteButton
             isFavorite={isFavorite(id)}
             onClick={() => toggleFavorite(id)}
             size="sm"
           />
+        </div>
+        {/* Add comparison checkbox */}
+        <div className="absolute bottom-2 left-2">
+          <ComparisonCheckbox hotel={hotelForComparison} />
         </div>
       </div>
       <CardContent className="p-4 bg-[#5A0080]">

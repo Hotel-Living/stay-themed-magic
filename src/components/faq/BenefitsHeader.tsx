@@ -16,7 +16,7 @@ export function BenefitsHeader() {
       <div className={`space-y-3 max-w-3xl mx-auto flex flex-col items-center ${isMobile ? "mt-12" : ""}`}>
         {benefitsList.map((benefit, index) => (
           <div key={index} className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className={`text-[#8017B0] ${isMobile ? "text-xl" : "text-base"} font-bold`}>{benefit}</p>
+            <p className={`text-[#8017B0] ${isMobile ? "text-base" : "text-base"} font-bold`}>{benefit}</p>
           </div>
         ))}
       </div>

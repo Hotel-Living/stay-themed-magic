@@ -40,6 +40,9 @@ export default function Search() {
     atmosphere: string | null;
     mealPlans: string[];
     stayLengths: number[];
+    fiveAffinityMatches?: boolean;
+    next60DaysOnly?: boolean;
+    bestValueSort?: boolean;
   }>({
     country: null,
     month: null,
@@ -57,7 +60,10 @@ export default function Search() {
     category: null,
     atmosphere: null,
     mealPlans: [],
-    stayLengths: []
+    stayLengths: [],
+    fiveAffinityMatches: false,
+    next60DaysOnly: false,
+    bestValueSort: false
   });
 
   useEffect(() => {
@@ -161,7 +167,10 @@ export default function Search() {
       category: null,
       atmosphere: null,
       mealPlans: [],
-      stayLengths: []
+      stayLengths: [],
+      fiveAffinityMatches: false,
+      next60DaysOnly: false,
+      bestValueSort: false
     };
     
     setActiveFilters(resetFilters);

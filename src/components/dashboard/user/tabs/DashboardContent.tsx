@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -10,11 +9,15 @@ import { RecommendedHotels } from '@/components/dashboard/user/RecommendedHotels
 import { FirstTimeUserBanner } from '@/components/dashboard/user/FirstTimeUserBanner';
 import { useFirstBookingMode } from '@/hooks/useFirstBookingMode';
 import { useSavedHotelsCount } from '@/components/dashboard/hooks/useSavedHotelsCount';
+import { ExpertBadge } from '@/components/dashboard/user/ExpertBadge';
+import { ExpertStats } from '@/components/dashboard/user/ExpertStats';
+import { useExpertMode } from '@/hooks/useExpertMode';
 
 export const DashboardContent = () => {
   const navigate = useNavigate();
   const { isFirstTimeUser, loading: firstTimeLoading } = useFirstBookingMode();
   const { savedHotelsCount, isLoading: savedHotelsLoading } = useSavedHotelsCount();
+  const { isExpert } = useExpertMode();
   const {
     notifications,
     newNotificationsCount,
@@ -71,6 +74,9 @@ export const DashboardContent = () => {
   
   return (
     <div className="space-y-8">
+      {/* Expert Badge */}
+      <ExpertBadge />
+
       {/* First Time User Banner */}
       {!firstTimeLoading && isFirstTimeUser && (
         <FirstTimeUserBanner />
@@ -81,11 +87,19 @@ export const DashboardContent = () => {
         {stats.map((stat, i) => <StatCard key={i} {...stat} />)}
       </div>
 
+      {/* Expert Stats - Only show for expert users */}
+      {isExpert && (
+        <ExpertStats />
+      )}
+
       {/* Welcome Message */}
       <div className="glass-card rounded-2xl p-6 border border-fuchsia-500/20 bg-[#7a0486]">
         <h2 className="text-xl font-semibold mb-2">Welcome to Hotel-Living!</h2>
         <p className="text-foreground/80 mb-4">
-          Discover amazing hotels tailored to your preferences. Update your affinities in your profile to get personalized recommendations.
+          {isExpert 
+            ? "Welcome back, Hotel Living Expert! Discover new destinations and enjoy exclusive features."
+            : "Discover amazing hotels tailored to your preferences. Update your affinities in your profile to get personalized recommendations."
+          }
         </p>
       </div>
 

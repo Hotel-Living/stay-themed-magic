@@ -1,4 +1,3 @@
-
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -13,6 +12,8 @@ import { ActivityFilter } from "./ActivityFilter";
 import { Theme } from "@/utils/themes";
 import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertySteps/features/featuresData";
 import { Button } from "@/components/ui/button";
+import { ExpertFilters } from "./ExpertFilters";
+import { useExpertMode } from "@/hooks/useExpertMode";
 
 interface FilterSidebarProps {
   activeFilters: {
@@ -33,6 +34,9 @@ interface FilterSidebarProps {
     stayLengths?: number[];
     mealPlans?: string[];
     atmosphere?: string | null;
+    fiveAffinityMatches?: boolean;
+    next60DaysOnly?: boolean;
+    bestValueSort?: boolean;
   };
   handleFilterChange: (filterType: string, value: any) => void;
   handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
@@ -45,6 +49,8 @@ export function FilterSidebar({
   handleArrayFilterChange,
   onResetAllFilters
 }: FilterSidebarProps) {
+  const { isExpert } = useExpertMode();
+  
   // Room types
   const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
 
@@ -63,6 +69,18 @@ export function FilterSidebar({
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-[#6213ba] bg-[#fcdefd] rounded-full">
         Reset All Filters
       </Button>
+
+      {/* Expert Filters - Only show for expert users */}
+      {isExpert && (
+        <ExpertFilters 
+          activeFilters={{
+            fiveAffinityMatches: activeFilters.fiveAffinityMatches,
+            next60DaysOnly: activeFilters.next60DaysOnly,
+            bestValueSort: activeFilters.bestValueSort
+          }}
+          onFilterChange={handleFilterChange}
+        />
+      )}
 
       <ThemeFilter activeTheme={activeFilters.theme} onChange={value => handleFilterChange("theme", value)} />
       

@@ -75,11 +75,15 @@ export function WhyHotelLivingSection() {
             <div className="space-y-5">
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">5 billion hotel nights need to be full</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? "5B hotel nights need to be full" : "5 billion hotel nights need to be full"}
+                </span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">400 million people need better living</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? "400M people need better living" : "400 million people need better living"}
+                </span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>

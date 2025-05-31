@@ -59,8 +59,15 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         </div>
       )}
 
+      {/* Basic Information Section - MOVED TO TOP */}
+      <div className="space-y-8">
+        <ImageGallery hotel={hotel} />
+        <BasicInformation hotel={hotel} />
+        <LocationInformation hotel={hotel} />
+      </div>
+
       {/* Property Overview Section */}
-      <Card className="p-6 bg-[#5A0080] mb-8">
+      <Card className="p-6 bg-[#5A0080] mb-8 mt-8">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Property Overview</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
@@ -130,7 +137,7 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         </Card>
       )}
 
-      {/* Detailed Availability Information */}
+      {/* Detailed Availability Information - MOVED AFTER BASIC INFO */}
       <Card className="p-6 bg-[#5A0080] mb-8">
         <h3 className="text-xl font-semibold mb-4 border-b pb-2 border-purple-700">Detailed Availability Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -198,9 +205,6 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
       </Card>
       
       <div className="space-y-8">
-        <ImageGallery hotel={hotel} />
-        <BasicInformation hotel={hotel} />
-        <LocationInformation hotel={hotel} />
         <AccommodationTerms hotel={hotel} />
         <RoomTypesSection hotel={hotel} />
         <FeaturesSection hotel={hotel} />

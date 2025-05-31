@@ -9,6 +9,7 @@ import { TravelSummary } from "../experience/TravelSummary";
 import { TopAffinities } from "../experience/TopAffinities";
 import { VisitedDestinations } from "../experience/VisitedDestinations";
 import { BookingTimeline } from "../experience/BookingTimeline";
+import { UserMilestones } from "../achievements/UserMilestones";
 
 const ExperienceContent = () => {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ const ExperienceContent = () => {
         <p className="text-foreground/80 mb-6">
           Discover your journey with Hotel Living and see how far you've traveled.
         </p>
+
+        {/* User Milestones */}
+        <UserMilestones />
 
         {/* Travel Summary */}
         <TravelSummary />

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowUp, BarChart2, Building, Calendar, Star, Users, Clock, Sparkles, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import { useFirstBookingMode } from '@/hooks/useFirstBookingMode';
 import { useSavedHotelsCount } from '@/components/dashboard/hooks/useSavedHotelsCount';
 import { ExpertBadge } from '@/components/dashboard/user/ExpertBadge';
 import { ExpertStats } from '@/components/dashboard/user/ExpertStats';
+import { AffinityBadges } from '@/components/dashboard/user/AffinityBadges';
 import { useExpertMode } from '@/hooks/useExpertMode';
 
 export const DashboardContent = () => {
@@ -91,6 +93,9 @@ export const DashboardContent = () => {
       {isExpert && (
         <ExpertStats />
       )}
+
+      {/* Affinity Badges Section */}
+      <AffinityBadges />
 
       {/* Welcome Message */}
       <div className="glass-card rounded-2xl p-6 border border-fuchsia-500/20 bg-[#7a0486]">

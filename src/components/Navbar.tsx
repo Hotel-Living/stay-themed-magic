@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Logo } from "@/components/Logo";
 
 interface NavItem {
   href: string;
@@ -54,9 +55,7 @@ export function Navbar() {
   return (
     <div className="bg-background py-4 shadow-sm glass-card">
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link to="/" className="font-bold text-xl text-fuchsia-500">
-          Nomad Stays
-        </Link>
+        <Logo />
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">

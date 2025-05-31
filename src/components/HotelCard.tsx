@@ -65,7 +65,7 @@ export const HotelCard = ({
   
   return (
     <Card 
-      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card"
+      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card bg-[#5A0080]"
       onClick={onClick}
     >
       <div className="aspect-[16/9] overflow-hidden relative">
@@ -82,9 +82,9 @@ export const HotelCard = ({
           </div>
         )}
       </div>
-      <CardContent className="p-4">
+      <CardContent className="p-4 bg-[#5A0080]">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold line-clamp-1">{name}</h3>
+          <h3 className="font-semibold line-clamp-1 text-white">{name}</h3>
           <div className="flex items-center">
             {Array.from({ length: Math.min(stars, 5) }).map((_, i) => (
               <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -92,12 +92,12 @@ export const HotelCard = ({
           </div>
         </div>
         
-        <div className="text-sm text-muted-foreground mb-3">
+        <div className="text-sm text-gray-300 mb-3">
           {city}, {country}
         </div>
         
         <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
-          <div className="text-sm font-medium">
+          <div className="text-sm font-medium text-white">
             {displayRates()}
           </div>
           

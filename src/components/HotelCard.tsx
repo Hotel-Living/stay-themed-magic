@@ -1,9 +1,10 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/dynamicPricing";
+import { FavoriteButton } from "@/components/ui/FavoriteButton";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface HotelCardProps {
   id: string;
@@ -34,6 +35,8 @@ export const HotelCard = ({
   currency = "USD",
   onClick
 }: HotelCardProps) => {
+  const { isFavorite, toggleFavorite } = useFavorites();
+
   // Parse complex rate keys to extract stay lengths and prices
   const parseRatesData = () => {
     const parsedRates: Record<string, number> = {};
@@ -100,6 +103,13 @@ export const HotelCard = ({
             </Badge>
           </div>
         )}
+        <div className="absolute top-2 right-2">
+          <FavoriteButton
+            isFavorite={isFavorite(id)}
+            onClick={() => toggleFavorite(id)}
+            size="sm"
+          />
+        </div>
       </div>
       <CardContent className="p-4 bg-[#5A0080]">
         <div className="flex justify-between items-start mb-2">

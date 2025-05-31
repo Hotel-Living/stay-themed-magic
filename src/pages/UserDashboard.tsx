@@ -8,7 +8,8 @@ import {
   Settings, 
   User, 
   Building,
-  Gift
+  Gift,
+  Heart
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import UserDashboardLayout from "@/components/dashboard/user/UserDashboardLayout";
@@ -51,7 +52,7 @@ export default function UserDashboard() {
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
     { id: "bookings", label: "My Bookings", icon: <Calendar className="w-5 h-5" /> },
     { id: "history", label: "Stay History", icon: <History className="w-5 h-5" /> },
-    { id: "saved", label: "Saved Hotels", icon: <Building className="w-5 h-5" /> },
+    { id: "saved", label: "Saved Hotels", icon: <Heart className="w-5 h-5" /> },
     { id: "payments", label: "Payment Methods", icon: <CreditCard className="w-5 h-5" /> },
     { id: "getThreeNights", label: "Recommend a Hotel", icon: <Gift className="w-5 h-5" /> },
     { id: "profile", label: "Profile", icon: <User className="w-5 h-5" /> },

@@ -14,53 +14,116 @@ export const BasicInfo = ({ hotel }: { hotel: any }) => {
     ));
   };
   
-  // Parse complex rate keys to extract stay lengths and prices
-  const parseRatesData = () => {
+  // Parse all complex rate keys and organize them by room type
+  const parseAllRates = () => {
     const rates = hotel.rates || {};
-    const parsedRates: Record<string, number> = {};
+    const organizedRates: Record<string, Array<{
+      duration: string;
+      mealPlan: string;
+      price: number;
+      originalKey: string;
+    }>> = {};
     
     Object.keys(rates).forEach(key => {
-      // Check for simple numeric keys (8, 16, 24, 32)
-      if (/^\d+$/.test(key)) {
-        parsedRates[key] = rates[key];
-      }
-      // Check for complex keys like "8-breakfast-included" or "16-half-board"
-      else if (key.includes('-')) {
+      // Parse complex keys like "double-32 days-breakfast", "single-16 days-half-board"
+      if (key.includes('-')) {
         const parts = key.split('-');
-        const stayLength = parts[0];
-        if (/^\d+$/.test(stayLength)) {
-          // Use the stay length as key, taking the first rate found for that duration
-          if (!parsedRates[stayLength]) {
-            parsedRates[stayLength] = rates[key];
+        if (parts.length >= 3) {
+          const roomType = parts[0]; // single, double, etc.
+          const duration = parts[1]; // "8 days", "16 days", etc.
+          const mealPlan = parts.slice(2).join('-'); // "breakfast", "half-board", etc.
+          
+          if (!organizedRates[roomType]) {
+            organizedRates[roomType] = [];
           }
+          
+          organizedRates[roomType].push({
+            duration,
+            mealPlan,
+            price: rates[key],
+            originalKey: key
+          });
         }
+      }
+      // Handle simple numeric keys as fallback
+      else if (/^\d+$/.test(key)) {
+        if (!organizedRates['standard']) {
+          organizedRates['standard'] = [];
+        }
+        organizedRates['standard'].push({
+          duration: `${key} days`,
+          mealPlan: 'standard',
+          price: rates[key],
+          originalKey: key
+        });
       }
     });
     
-    return parsedRates;
+    return organizedRates;
   };
   
-  // Helper function to display rates in the desired format
-  const displayRates = () => {
-    const parsedRates = parseRatesData();
-    const stayLengths = ["8", "16", "24", "32"];
-    const availableRates = stayLengths.filter(length => parsedRates[length]);
+  // Format meal plan names for display
+  const formatMealPlan = (mealPlan: string) => {
+    const mealPlanMap: Record<string, string> = {
+      'breakfast': 'Breakfast',
+      'half-board': 'Half Board',
+      'full-board': 'Full Board',
+      'all-inclusive': 'All Inclusive',
+      'standard': 'Standard'
+    };
+    return mealPlanMap[mealPlan] || mealPlan.charAt(0).toUpperCase() + mealPlan.slice(1);
+  };
+  
+  // Format room type names for display
+  const formatRoomType = (roomType: string) => {
+    const roomTypeMap: Record<string, string> = {
+      'single': 'Single Room',
+      'double': 'Double Room',
+      'triple': 'Triple Room',
+      'quad': 'Quad Room',
+      'standard': 'Standard Room'
+    };
+    return roomTypeMap[roomType] || roomType.charAt(0).toUpperCase() + roomType.slice(1) + ' Room';
+  };
+  
+  // Display all rates with complete details
+  const displayAllRates = () => {
+    const organizedRates = parseAllRates();
     
-    if (availableRates.length === 0) {
-      // If no rates defined in the new format, use the old pricePerMonth
-      return hotel.price_per_month ? `${formatCurrency(hotel.price_per_month, hotel.currency || "USD")}` : "Not specified";
+    if (Object.keys(organizedRates).length === 0) {
+      return hotel.price_per_month ? 
+        `${formatCurrency(hotel.price_per_month, hotel.currency || "USD")} (Monthly rate)` : 
+        "Not specified";
     }
     
-    // Start with the lowest stay length that has a rate
-    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
-    const lowestRate = parsedRates[lowestStayLength];
-    
-    if (availableRates.length === 1) {
-      return `From ${formatCurrency(lowestRate, hotel.currency || "USD")} (${lowestStayLength} days)`;
-    }
-    
-    // Show the starting price with shortest duration
-    return `From ${formatCurrency(lowestRate, hotel.currency || "USD")} (${lowestStayLength} days)`;
+    return (
+      <div className="space-y-3">
+        {Object.entries(organizedRates).map(([roomType, rates]) => (
+          <div key={roomType} className="bg-purple-900/30 p-3 rounded-md">
+            <h5 className="font-medium text-fuchsia-200 mb-2">{formatRoomType(roomType)}</h5>
+            <div className="space-y-1">
+              {rates
+                .sort((a, b) => {
+                  // Sort by duration (extract number from "X days")
+                  const aDuration = parseInt(a.duration.split(' ')[0]);
+                  const bDuration = parseInt(b.duration.split(' ')[0]);
+                  return aDuration - bDuration;
+                })
+                .map((rate, index) => (
+                  <div key={index} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-300">
+                      {rate.duration} + {formatMealPlan(rate.mealPlan)}
+                    </span>
+                    <span className="text-white font-medium">
+                      {formatCurrency(rate.price, hotel.currency || "USD")}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -90,9 +153,9 @@ export const BasicInfo = ({ hotel }: { hotel: any }) => {
           <p className="text-white">{hotel.style || "Not specified"}</p>
         </div>
         
-        <div>
-          <h4 className="font-medium text-fuchsia-200">Pricing</h4>
-          <p className="text-white">{displayRates()}</p>
+        <div className="md:col-span-2">
+          <h4 className="font-medium text-fuchsia-200 mb-2">All Pricing Details</h4>
+          {displayAllRates()}
         </div>
         
         <div>

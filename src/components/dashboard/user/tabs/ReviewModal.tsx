@@ -42,7 +42,6 @@ export const ReviewModal = ({ isOpen, onClose, booking }: ReviewModalProps) => {
         .insert({
           hotel_id: booking.hotel_id,
           user_id: user.id,
-          booking_id: booking.id,
           rating,
           comment: comment.trim() || null,
           recommended

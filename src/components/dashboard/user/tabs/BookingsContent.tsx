@@ -49,15 +49,15 @@ export default function BookingsContent() {
 
         // Fetch existing reviews for these bookings
         if (data && data.length > 0) {
-          const bookingIds = data.map(booking => booking.id);
+          const hotelIds = data.map(booking => booking.hotel_id);
           const { data: reviews } = await supabase
             .from('reviews')
-            .select('booking_id')
-            .in('booking_id', bookingIds)
+            .select('hotel_id')
+            .in('hotel_id', hotelIds)
             .eq('user_id', user.id);
           
           if (reviews) {
-            setExistingReviews(new Set(reviews.map(review => review.booking_id)));
+            setExistingReviews(new Set(reviews.map(review => review.hotel_id)));
           }
         }
       } catch (error) {
@@ -95,15 +95,15 @@ export default function BookingsContent() {
     setReviewBooking(null);
     // Refresh existing reviews after submission
     if (user && bookings.length > 0) {
-      const bookingIds = bookings.map(booking => booking.id);
+      const hotelIds = bookings.map(booking => booking.hotel_id);
       supabase
         .from('reviews')
-        .select('booking_id')
-        .in('booking_id', bookingIds)
+        .select('hotel_id')
+        .in('hotel_id', hotelIds)
         .eq('user_id', user.id)
         .then(({ data }) => {
           if (data) {
-            setExistingReviews(new Set(data.map(review => review.booking_id)));
+            setExistingReviews(new Set(data.map(review => review.hotel_id)));
           }
         });
     }
@@ -113,8 +113,8 @@ export default function BookingsContent() {
     return new Date(checkOutDate) < new Date();
   };
 
-  const hasReview = (bookingId: string) => {
-    return existingReviews.has(bookingId);
+  const hasReview = (hotelId: string) => {
+    return existingReviews.has(hotelId);
   };
   
   if (isLoading) {
@@ -141,8 +141,8 @@ export default function BookingsContent() {
                 key={booking.id} 
                 booking={booking}
                 onViewDetails={() => handleViewDetails(booking)}
-                onRateStay={isPastStay(booking.check_out) && !hasReview(booking.id) ? () => handleRateStay(booking) : undefined}
-                hasReview={hasReview(booking.id)}
+                onRateStay={isPastStay(booking.check_out) && !hasReview(booking.hotel_id) ? () => handleRateStay(booking) : undefined}
+                hasReview={hasReview(booking.hotel_id)}
                 isPastStay={isPastStay(booking.check_out)}
               />
             ))}

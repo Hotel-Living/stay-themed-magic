@@ -7,7 +7,6 @@ import { ThemeProvider } from "./components/ui/theme-provider";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
 import UserDashboard from "./pages/UserDashboard";
 import HotelDashboard from "./pages/HotelDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -51,14 +50,6 @@ function App() {
                 <Route path="/affinity-stays" element={<AffinityStaysPage />} />
                 <Route path="/affinity-explorer" element={<AffinityExplorer />} />
                 <Route path="/code-stats" element={<CodeStats />} />
-                <Route 
-                  path="/dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } 
-                />
                 <Route 
                   path="/user-dashboard" 
                   element={

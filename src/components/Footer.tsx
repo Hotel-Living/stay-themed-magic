@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -25,25 +26,29 @@ export function Footer() {
           {/* First Line - Header links */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-4 mx-auto text-center w-full`}>
             {isMobile ? (
-              // Mobile: 2 links per row with left/right alignment
+              // Mobile: one link per row, centered
               <>
-                <div className="flex justify-between w-full mb-3">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/faq" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     FAQ
                   </Link>
+                </div>
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/affinity-stays" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     AFFINITY STAYS?
                   </Link>
                 </div>
-                <div className="flex justify-between w-full mb-3">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     Hotel?
                   </Link>
+                </div>
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/videos" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     VIDEOS
                   </Link>
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center w-full">
                   <Link to="/featured-hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     FEATURED HOTELS
                   </Link>
@@ -79,20 +84,24 @@ export function Footer() {
           {/* Second Line */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-2 mx-auto text-center w-full`}>
             {isMobile ? (
-              // Mobile: 2 links per row with left/right alignment
+              // Mobile: one link per row, centered
               <>
-                <div className="flex justify-between w-full mb-3">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/hotels" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     Hotel?
                   </Link>
+                </div>
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/our-services" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     OUR SERVICES
                   </Link>
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/our-values" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     OUR VALUES
                   </Link>
+                </div>
+                <div className="flex justify-center w-full">
                   <Link to="/customer-service" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     CUSTOMER SERVICE
                   </Link>
@@ -120,20 +129,24 @@ export function Footer() {
           {/* Third Line */}
           <div className={`flex ${isMobile ? "flex-col" : "flex-wrap"} justify-center ${isMobile ? "gap-y-3" : "gap-y-4 gap-x-10"} mb-6 mx-auto text-center w-full`}>
             {isMobile ? (
-              // Mobile: 2 links per row with left/right alignment
+              // Mobile: one link per row, centered
               <>
-                <div className="flex justify-between w-full mb-3">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/contact" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     CONTACT
                   </Link>
+                </div>
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/terms" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     TERMS & CONDITIONS
                   </Link>
                 </div>
-                <div className="flex justify-between w-full">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/privacy" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     PRIVACY & COOKIES
                   </Link>
+                </div>
+                <div className="flex justify-center w-full">
                   <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     INTELLECTUAL PROPERTY
                   </Link>
@@ -184,3 +197,4 @@ export function Footer() {
       </div>
     </footer>;
 }
+

@@ -1,57 +1,42 @@
-
 import React from "react";
-import { Hotel } from "@/integrations/supabase/types-custom";
-
-// Import all required components
-import DashboardContent from "@/components/dashboard/DashboardContent";
-import AddProperty from "@/components/dashboard/AddProperty";
-import CalculatorContent from "@/components/dashboard/Calculator";
-import PropertiesContent from "@/components/dashboard/PropertiesContent";
-import BookingsContent from "@/components/dashboard/BookingsContent";
-import GuestsContent from "@/components/dashboard/GuestsContent";
-import AnalyticsContent from "@/components/dashboard/AnalyticsContent";
-import ReviewsContent from "@/components/dashboard/ReviewsContent";
-import FinancesContent from "@/components/dashboard/FinancesContent";
-import SettingsContent from "@/components/dashboard/SettingsContent";
-import AdvertisingContent from "@/components/dashboard/AdvertisingContent";
+import { DashboardContent } from "@/components/dashboard/DashboardContent";
+import { PropertiesContent } from "@/components/dashboard/PropertiesContent";
+import { BookingsContent } from "@/components/dashboard/BookingsContent";
+import { GuestsContent } from "@/components/dashboard/GuestsContent";
+import { AdminMessagesContent } from "@/components/dashboard/hotel-messages/AdminMessagesContent";
+import { FinancesContent } from "@/components/dashboard/FinancesContent";
+import { ReviewsContent } from "@/components/dashboard/ReviewsContent";
+import { AdvertisingContent } from "@/components/dashboard/AdvertisingContent";
+import { AnalyticsContent } from "@/components/dashboard/AnalyticsContent";
+import { SettingsContent } from "@/components/dashboard/SettingsContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
-  hotel?: Hotel;
-  onEdit?: () => void;
 }
 
-export const TabContentSelector: React.FC<TabContentSelectorProps> = ({ 
-  activeTab, 
-  hotel, 
-  onEdit 
-}) => {
+export default function TabContentSelector({ activeTab }: TabContentSelectorProps) {
   switch (activeTab) {
     case "dashboard":
       return <DashboardContent />;
-    case "calculator":
-      return <CalculatorContent />;
-    case "addProperty":
-      return <AddProperty />;
     case "properties":
-      return <PropertiesContent hotel={hotel} onEdit={onEdit} />;
+      return <PropertiesContent />;
     case "bookings":
       return <BookingsContent />;
     case "guests":
       return <GuestsContent />;
-    case "analytics":
-      return <AnalyticsContent />;
-    case "reviews":
-      return <ReviewsContent />;
+    case "messages":
+      return <AdminMessagesContent />;
     case "finances":
       return <FinancesContent />;
-    case "settings":
-      return <SettingsContent />;
+    case "reviews":
+      return <ReviewsContent />;
     case "advertising":
       return <AdvertisingContent />;
+    case "analytics":
+      return <AnalyticsContent />;
+    case "settings":
+      return <SettingsContent />;
     default:
       return <DashboardContent />;
   }
-};
-
-export default TabContentSelector;
+}

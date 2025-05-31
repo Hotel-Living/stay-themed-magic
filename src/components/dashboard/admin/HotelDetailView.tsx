@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -19,6 +18,7 @@ import { ChangesHighlight } from "./hotel-detail/ChangesHighlight";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { SendMessageDialog } from "./SendMessageDialog";
 
 export default function HotelDetailView() {
   const { id } = useParams<{ id: string }>();
@@ -184,23 +184,31 @@ export default function HotelDetailView() {
           </Button>
           <h2 className="text-2xl font-bold">Hotel Details</h2>
           
-          {hotel && hotel.status === 'pending' && (
-            <div className="flex items-center space-x-2">
-              <Button 
-                onClick={onApprove}
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                Approve
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={onReject}
-                className="border-red-400 text-red-400 hover:bg-red-50"
-              >
-                Reject
-              </Button>
-            </div>
-          )}
+          <div className="flex items-center space-x-2">
+            {hotel && (
+              <SendMessageDialog 
+                hotelId={hotel.id} 
+                hotelName={hotel.name} 
+              />
+            )}
+            {hotel && hotel.status === 'pending' && (
+              <>
+                <Button 
+                  onClick={onApprove}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Approve
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={onReject}
+                  className="border-red-400 text-red-400 hover:bg-red-50"
+                >
+                  Reject
+                </Button>
+              </>
+            )}
+          </div>
         </div>
 
         {loading ? (

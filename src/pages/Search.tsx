@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSidebar } from "@/components/search/FilterSidebar";
+import { MobileFilterToggle } from "@/components/search/MobileFilterToggle";
 import { SearchResultsList } from "@/components/search/SearchResultsList";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
@@ -186,9 +187,18 @@ export default function Search() {
     <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />
-      <main className="flex-1 container mx-auto px-4 pt-16 pb-10">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-1/4">
+      <main className="flex-1 container mx-auto px-2 sm:px-4 pt-16 pb-10">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+          {/* Mobile Filter Toggle */}
+          <MobileFilterToggle
+            activeFilters={activeFilters}
+            handleFilterChange={handleFilterChange}
+            handleArrayFilterChange={handleArrayFilterChange}
+            onResetAllFilters={handleResetAllFilters}
+          />
+
+          {/* Desktop Filter Sidebar */}
+          <div className="hidden md:block w-full md:w-1/4">
             <FilterSidebar 
               activeFilters={activeFilters} 
               handleFilterChange={handleFilterChange} 
@@ -196,12 +206,14 @@ export default function Search() {
               onResetAllFilters={handleResetAllFilters} 
             />
           </div>
+
+          {/* Search Results */}
           <div className="w-full md:w-3/4">
-            <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
-              <h1 className="font-bold text-xl" style={{ color: '#860493' }}>
+            <div className="mb-4 p-3 sm:p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-2xl sm:rounded-3xl">
+              <h1 className="font-bold text-lg sm:text-xl" style={{ color: '#860493' }}>
                 Search Results
               </h1>
-              <p className="text-muted-foreground" style={{ color: '#860493' }}>
+              <p className="text-sm sm:text-base text-muted-foreground" style={{ color: '#860493' }}>
                 Found {hotels?.length || 0} properties matching your criteria
               </p>
             </div>

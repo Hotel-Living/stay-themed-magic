@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
@@ -115,23 +116,24 @@ export const HotelCard = ({
   
   return (
     <Card 
-      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card bg-[#5A0080]"
+      className="overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer glass-card bg-[#5A0080] w-full"
       onClick={onClick}
     >
-      <div className="aspect-[16/9] overflow-hidden relative">
+      <div className="aspect-[16/9] sm:aspect-[16/9] overflow-hidden relative">
         <img 
           src={image || "/placeholder.svg"} 
           alt={name} 
           className="object-cover w-full h-full"
+          loading="lazy"
         />
         {themes.length > 0 && (
           <div className="absolute top-2 left-2">
-            <Badge variant="secondary" className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80">
+            <Badge variant="secondary" className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80 text-xs">
               {themes[0].name}
             </Badge>
           </div>
         )}
-        <div className="absolute top-2 right-2 flex items-center gap-2">
+        <div className="absolute top-2 right-2 flex items-center gap-1 sm:gap-2">
           <FavoriteButton
             isFavorite={isFavorite(id)}
             onClick={() => toggleFavorite(id)}
@@ -143,27 +145,29 @@ export const HotelCard = ({
           <ComparisonCheckbox hotel={hotelForComparison} />
         </div>
       </div>
-      <CardContent className="p-4 bg-[#5A0080]">
+      <CardContent className="p-3 sm:p-4 bg-[#5A0080]">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold line-clamp-1 text-white">{name}</h3>
-          <div className="flex items-center">
+          <h3 className="font-semibold line-clamp-2 text-white text-sm sm:text-base pr-2">{name}</h3>
+          <div className="flex items-center flex-shrink-0">
             {Array.from({ length: Math.min(stars, 5) }).map((_, i) => (
               <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
             ))}
           </div>
         </div>
         
-        <div className="text-sm text-gray-300 mb-3">
+        <div className="text-xs sm:text-sm text-gray-300 mb-3 line-clamp-1">
           {city}, {country}
         </div>
         
-        <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
+        <div className="mt-3 pt-2 border-t border-gray-700/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div className="text-sm font-medium text-white">
             {displayRates()}
           </div>
           
           {availableMonths && availableMonths.length > 0 && (
-            <div className="text-xs text-fuchsia-400">{availableMonths.length} months available</div>
+            <div className="text-xs text-fuchsia-400">
+              {availableMonths.length} months available
+            </div>
           )}
         </div>
       </CardContent>

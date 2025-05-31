@@ -2,7 +2,6 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { LucideIcon, ChevronDown } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 // Create a global event name for section toggling
 const SECTION_TOGGLE_EVENT = 'section-toggle-event';
@@ -23,7 +22,6 @@ export function Section({
   defaultOpen = false 
 }: SectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const isMobile = useIsMobile();
   
   // Listen for events from other sections
   useEffect(() => {
@@ -56,13 +54,13 @@ export function Section({
   };
   
   return (
-    <section className={`mb-8 bg-[#8017B0]/90 ${isMobile ? 'p-8' : 'p-5'} rounded-xl border border-[#3300B0]/30 shadow-lg ${className}`}>
+    <section className={`mb-8 bg-[#8017B0]/90 p-5 rounded-xl border border-[#3300B0]/30 shadow-lg ${className}`}>
       <Collapsible open={isOpen} onOpenChange={toggleSection}>
         <CollapsibleTrigger className="flex items-start w-full text-left">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
               <Icon className="h-5 w-5 text-[#FFF9B0] mr-2" />
-              <h2 className={`${isMobile ? 'text-base' : 'text-lg md:text-xl'} font-bold text-[#FFF9B0]`}>{title}</h2>
+              <h2 className="text-lg md:text-xl font-bold text-[#FFF9B0]">{title}</h2>
             </div>
             <ChevronDown 
               className={`h-4 w-4 text-[#FFF9B0] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 

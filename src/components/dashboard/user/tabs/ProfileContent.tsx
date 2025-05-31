@@ -1,12 +1,14 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/auth/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserRoles } from "@/components/dashboard/user/UserRoles";
+import { MyAffinities } from "@/components/dashboard/user/MyAffinities";
 
 const ProfileContent = () => {
   const { profile, user, updateProfile } = useAuth();
@@ -165,6 +167,9 @@ const ProfileContent = () => {
           </form>
         </CardContent>
       </Card>
+
+      {/* Add My Affinities Section */}
+      <MyAffinities />
     </div>
   );
 };

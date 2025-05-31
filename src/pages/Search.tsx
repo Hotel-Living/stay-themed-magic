@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -19,9 +20,8 @@ export default function Search() {
     filters,
     updateFilters
   } = useHotels();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  
   const [activeFilters, setActiveFilters] = useState<{
     country: string | null;
     month: string | null;
@@ -62,10 +62,9 @@ export default function Search() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const newFilters = {
-      ...activeFilters
-    };
+    const newFilters = { ...activeFilters };
     let filtersChanged = false;
+    
     if (searchParams.has('country')) {
       newFilters.country = searchParams.get('country');
       filtersChanged = true;
@@ -98,13 +97,16 @@ export default function Search() {
       } as Theme;
       filtersChanged = true;
     }
+    
     if (filtersChanged) {
       setActiveFilters(newFilters);
       updateFilters(newFilters);
+      
       let filterDescription = "Showing results";
       if (newFilters.country) filterDescription += ` in ${newFilters.country}`;
       if (newFilters.month) filterDescription += ` for ${newFilters.month}`;
       if (newFilters.theme) filterDescription += ` with theme "${newFilters.theme.name}"`;
+      
       toast({
         title: "Filters Applied",
         description: filterDescription
@@ -115,34 +117,30 @@ export default function Search() {
   const handleFilterChange = (filterType: string, value: any) => {
     console.log("Search page - Filter change:", filterType, value);
     
-    setActiveFilters(prev => ({
-      ...prev,
+    const updatedFilters = {
+      ...activeFilters,
       [filterType]: value
-    }));
+    };
     
-    updateFilters({
-      [filterType]: value
-    });
+    setActiveFilters(updatedFilters);
+    updateFilters({ [filterType]: value });
   };
 
   const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
     console.log("Search page - Array filter change:", filterType, value, isChecked);
     
-    setActiveFilters(prev => {
-      const currentValues = prev[filterType as keyof typeof prev] as string[] || [];
-      const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
-      return {
-        ...prev,
-        [filterType]: newValues
-      };
-    });
-    
     const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
-    const newValues = isChecked ? [...currentValues, value] : currentValues.filter(v => v !== value);
+    const newValues = isChecked 
+      ? [...currentValues, value] 
+      : currentValues.filter(v => v !== value);
     
-    updateFilters({
+    const updatedFilters = {
+      ...activeFilters,
       [filterType]: newValues
-    });
+    };
+    
+    setActiveFilters(updatedFilters);
+    updateFilters({ [filterType]: newValues });
   };
 
   const handleResetAllFilters = () => {
@@ -165,39 +163,48 @@ export default function Search() {
       mealPlans: [],
       stayLengths: []
     };
+    
     setActiveFilters(resetFilters);
     updateFilters(resetFilters);
+    
     toast({
       title: "Filters Reset",
       description: "All filters have been cleared"
     });
   };
 
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <HotelStarfield />
       <Navbar />
       <main className="flex-1 container mx-auto px-4 pt-16 pb-10">
         <div className="flex flex-col md:flex-row gap-6">
           <div className="w-full md:w-1/4">
-            <FilterSidebar activeFilters={activeFilters} handleFilterChange={handleFilterChange} handleArrayFilterChange={handleArrayFilterChange} onResetAllFilters={handleResetAllFilters} />
+            <FilterSidebar 
+              activeFilters={activeFilters} 
+              handleFilterChange={handleFilterChange} 
+              handleArrayFilterChange={handleArrayFilterChange} 
+              onResetAllFilters={handleResetAllFilters} 
+            />
           </div>
           <div className="w-full md:w-3/4">
             <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
-              <h1 className="font-bold text-xl text-[#260341]" style={{
-              color: '#860493'
-            }}>
+              <h1 className="font-bold text-xl" style={{ color: '#860493' }}>
                 Search Results
               </h1>
-              <p className="text-muted-foreground" style={{
-              color: '#860493'
-            }}>
+              <p className="text-muted-foreground" style={{ color: '#860493' }}>
                 Found {hotels?.length || 0} properties matching your criteria
               </p>
             </div>
-            <SearchResultsList filteredHotels={hotels || []} isLoading={loading} error={error instanceof Error ? error : error ? new Error(String(error)) : null} />
+            <SearchResultsList 
+              filteredHotels={hotels || []} 
+              isLoading={loading} 
+              error={error instanceof Error ? error : error ? new Error(String(error)) : null} 
+            />
           </div>
         </div>
       </main>
       <Footer />
-    </div>;
+    </div>
+  );
 }

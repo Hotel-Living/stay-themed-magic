@@ -30,7 +30,7 @@ export const SendMessageDialog = ({ hotelId, hotelName }: SendMessageDialogProps
 
     setIsLoading(true);
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('admin_messages')
         .insert({
           hotel_id: hotelId,

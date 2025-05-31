@@ -40,8 +40,8 @@ export const AdminMessagesContent = () => {
 
         const hotelIds = userHotels.map(hotel => hotel.id);
 
-        // Fetch messages for user's hotels
-        const { data: messagesData, error: messagesError } = await supabase
+        // Fetch messages for user's hotels using type assertion
+        const { data: messagesData, error: messagesError } = await (supabase as any)
           .from('admin_messages')
           .select('*')
           .in('hotel_id', hotelIds)

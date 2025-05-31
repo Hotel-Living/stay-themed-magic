@@ -1,14 +1,15 @@
+
 import React from "react";
 import { DashboardContent } from "@/components/dashboard/DashboardContent";
-import { PropertiesContent } from "@/components/dashboard/PropertiesContent";
+import PropertiesContent from "@/components/dashboard/PropertiesContent";
 import { BookingsContent } from "@/components/dashboard/BookingsContent";
 import { GuestsContent } from "@/components/dashboard/GuestsContent";
 import { AdminMessagesContent } from "@/components/dashboard/hotel-messages/AdminMessagesContent";
 import { FinancesContent } from "@/components/dashboard/FinancesContent";
 import { ReviewsContent } from "@/components/dashboard/ReviewsContent";
-import { AdvertisingContent } from "@/components/dashboard/AdvertisingContent";
+import AdvertisingContent from "@/components/dashboard/AdvertisingContent";
 import { AnalyticsContent } from "@/components/dashboard/AnalyticsContent";
-import { SettingsContent } from "@/components/dashboard/SettingsContent";
+import SettingsContent from "@/components/dashboard/SettingsContent";
 
 interface TabContentSelectorProps {
   activeTab: string;

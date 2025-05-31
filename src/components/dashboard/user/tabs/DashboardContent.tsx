@@ -9,10 +9,12 @@ import { Button } from '@/components/ui/button';
 import { RecommendedHotels } from '@/components/dashboard/user/RecommendedHotels';
 import { FirstTimeUserBanner } from '@/components/dashboard/user/FirstTimeUserBanner';
 import { useFirstBookingMode } from '@/hooks/useFirstBookingMode';
+import { useSavedHotelsCount } from '@/components/dashboard/hooks/useSavedHotelsCount';
 
 export const DashboardContent = () => {
   const navigate = useNavigate();
   const { isFirstTimeUser, loading: firstTimeLoading } = useFirstBookingMode();
+  const { savedHotelsCount, isLoading: savedHotelsLoading } = useSavedHotelsCount();
   const {
     notifications,
     newNotificationsCount,
@@ -27,7 +29,7 @@ export const DashboardContent = () => {
     icon: <Calendar className="w-4 h-4" />
   }, {
     title: 'Saved Hotels',
-    value: '0',
+    value: savedHotelsLoading ? '...' : savedHotelsCount.toString(),
     change: '0%',
     trend: 'neutral',
     icon: <Star className="w-4 h-4" />
@@ -117,7 +119,7 @@ export const DashboardContent = () => {
           
           <div className="text-center py-8 text-foreground/60 bg-[#a54afe]">
             <Star className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>No saved hotels yet</p>
+            <p>{savedHotelsCount > 0 ? `${savedHotelsCount} saved hotels` : 'No saved hotels yet'}</p>
             <p className="text-sm mt-2">Save hotels you like to easily find them later</p>
           </div>
         </div>

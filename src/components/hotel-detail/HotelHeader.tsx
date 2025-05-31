@@ -2,10 +2,11 @@
 import React from "react";
 import { MapPin, Heart } from "lucide-react";
 import { HotelDetailProps } from "@/types/hotel";
+import { FavoriteButton } from "@/components/ui/FavoriteButton";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface HotelHeaderProps {
   hotel: HotelDetailProps;
-  handleAddToFavorites: () => void;
 }
 
 // Helper function to format address with proper capitalization
@@ -25,7 +26,8 @@ const formatCountry = (country: string) => {
   return formatAddress(country);
 };
 
-export function HotelHeader({ hotel, handleAddToFavorites }: HotelHeaderProps) {
+export function HotelHeader({ hotel }: HotelHeaderProps) {
+  const { isFavorite, toggleFavorite } = useFavorites();
   const formattedCity = formatAddress(hotel.city);
   const formattedCountry = formatCountry(hotel.country);
   const formattedAddress = hotel.address ? formatAddress(hotel.address) : null;
@@ -44,12 +46,12 @@ export function HotelHeader({ hotel, handleAddToFavorites }: HotelHeaderProps) {
           <MapPin size={16} /> {addressDisplay}
         </p>
       </div>
-      <button 
-        className="text-sm text-white hover:underline flex items-center gap-1 shrink-0"
-        onClick={handleAddToFavorites}
-      >
-        <Heart size={16} /> Add to Favorites
-      </button>
+      <FavoriteButton
+        isFavorite={isFavorite(hotel.id)}
+        onClick={() => toggleFavorite(hotel.id)}
+        size="lg"
+        className="shrink-0 ml-4"
+      />
     </div>
   );
 }

@@ -163,7 +163,7 @@ export function BookingFormActions({
             <SelectContent>
               {roomTypes.map((roomType) => (
                 <SelectItem key={roomType.id} value={roomType.id}>
-                  {roomType.name} - ${roomType.price_per_night}/night
+                  {roomType.name}{roomType.basePrice ? ` - $${roomType.basePrice}/night` : ''}
                 </SelectItem>
               ))}
             </SelectContent>

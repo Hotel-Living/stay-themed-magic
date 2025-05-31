@@ -15,7 +15,7 @@ interface EligibleBooking {
   hotels: {
     name: string;
     allow_stay_extensions?: boolean;
-    rates?: Record<string, number>;
+    rates?: any; // Changed from Record<string, number> to any to handle Json type
   };
 }
 
@@ -63,7 +63,12 @@ export const useStayExtension = () => {
             return {
               ...booking,
               duration,
-              daysUntilCheckout
+              daysUntilCheckout,
+              hotels: {
+                name: booking.hotels?.name || '',
+                allow_stay_extensions: booking.hotels?.allow_stay_extensions,
+                rates: booking.hotels?.rates
+              }
             };
           }) || [];
 
@@ -88,10 +93,13 @@ export const useStayExtension = () => {
     const currentDuration = booking.duration;
     const rates = booking.hotels?.rates || {};
     
+    // Safely handle the rates object which might be Json type
+    const ratesObj = typeof rates === 'object' && rates !== null ? rates : {};
+    
     const options = standardTiers
       .filter(tier => tier > currentDuration)
       .map(tier => {
-        const newPrice = rates[`${tier}_days`] || rates[tier.toString()] || 0;
+        const newPrice = ratesObj[`${tier}_days`] || ratesObj[tier.toString()] || 0;
         const priceDifference = newPrice - booking.total_price;
         
         return {

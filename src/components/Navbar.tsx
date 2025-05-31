@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -21,13 +22,15 @@ interface NavItem {
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   
   const handleLogout = async () => {
     try {
-      await logout();
+      await signOut();
       setIsMenuOpen(false);
+      navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -73,7 +76,7 @@ export function Navbar() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar_url || ""} alt={user.email || "User Avatar"} />
+                    <AvatarImage src={user.user_metadata?.avatar_url || ""} alt={user.email || "User Avatar"} />
                     <AvatarFallback>{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                   </Avatar>
                 </Button>

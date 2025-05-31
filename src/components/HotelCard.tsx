@@ -41,26 +41,19 @@ export const HotelCard = ({
     
     if (availableRates.length === 0) {
       // If no rates defined in the new format, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "";
+      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "Price on request";
     }
     
     // Start with the lowest stay length that has a rate
     const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
+    const lowestRate = rates[lowestStayLength];
     
     if (availableRates.length === 1) {
-      return `${formatCurrency(rates[lowestStayLength], currency)} (${lowestStayLength} days)`;
+      return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
     }
     
-    return (
-      <div>
-        <div className="text-sm font-semibold">From {formatCurrency(rates[lowestStayLength], currency)}</div>
-        <div className="text-xs">
-          {availableRates.map(length => 
-            `${formatCurrency(rates[length], currency)} (${length} days)`
-          ).join(" · ")}
-        </div>
-      </div>
-    );
+    // Show the starting price with shortest duration
+    return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
   };
   
   return (

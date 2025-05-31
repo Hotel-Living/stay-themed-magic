@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { HotelDetailProps } from "@/types/hotel";
 import { useToast } from "@/hooks/use-toast";
@@ -8,6 +9,7 @@ import { HotelFeaturesInfo } from "./HotelFeaturesInfo";
 import { HotelLocation } from "./HotelLocation";
 import { HotelSkeletonLoader } from "./HotelSkeletonLoader";
 import { HotelStarfield } from "./HotelStarfield";
+import { HotelNotificationButtons } from "./HotelNotificationButtons";
 import { buildPricingMatrix } from "@/utils/buildPricingMatrix";
 import { cn } from "@/lib/utils";
 
@@ -214,6 +216,9 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     return hotel.atmosphere || "welcoming and comfortable";
   };
 
+  // Check if hotel is currently available (simplified logic)
+  const isHotelAvailable = hotel.available_months && hotel.available_months.length > 0;
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Enhanced gradient background with #0000A3 blue */}
@@ -325,6 +330,14 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   pricingMatrix={pricingMatrix}
                   mealPlans={hotel.meal_plans}
                 />
+                
+                {/* Add notification buttons */}
+                <div className="p-4 border-t border-white/10">
+                  <HotelNotificationButtons 
+                    hotelId={hotel.id}
+                    isAvailable={isHotelAvailable}
+                  />
+                </div>
               </div>
             </div>
           </div>

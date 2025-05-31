@@ -7,8 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { EnhancedBookingCard } from "./EnhancedBookingCard";
 import { BookingDetailModal } from "./BookingDetailModal";
 import { ReviewModal } from "./ReviewModal";
-import { RebookingModal } from "./RebookingModal";
-import { StayExtensionBanner } from "./StayExtensionBanner";
 
 export default function BookingsContent() {
   const [bookings, setBookings] = useState([]);
@@ -17,8 +15,6 @@ export default function BookingsContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewBooking, setReviewBooking] = useState(null);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [rebookBooking, setRebookBooking] = useState(null);
-  const [isRebookModalOpen, setIsRebookModalOpen] = useState(false);
   const [existingReviews, setExistingReviews] = useState(new Set());
   const { user } = useAuth();
   const { toast } = useToast();
@@ -113,16 +109,6 @@ export default function BookingsContent() {
     }
   };
 
-  const handleRebookStay = (booking: any) => {
-    setRebookBooking(booking);
-    setIsRebookModalOpen(true);
-  };
-
-  const handleCloseRebookModal = () => {
-    setIsRebookModalOpen(false);
-    setRebookBooking(null);
-  };
-
   const isPastStay = (checkOutDate: string) => {
     return new Date(checkOutDate) < new Date();
   };
@@ -130,15 +116,6 @@ export default function BookingsContent() {
   const hasReview = (hotelId: string) => {
     return existingReviews.has(hotelId);
   };
-
-  // Find the next upcoming booking
-  const getNextUpcomingBooking = () => {
-    const now = new Date();
-    const futureBookings = bookings.filter(booking => new Date(booking.check_in) > now);
-    return futureBookings.length > 0 ? futureBookings[0] : null;
-  };
-
-  const nextUpcomingBooking = getNextUpcomingBooking();
   
   if (isLoading) {
     return (
@@ -157,9 +134,6 @@ export default function BookingsContent() {
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-xl font-bold mb-6">My Reservations</h2>
         
-        {/* Stay Extension Banner */}
-        <StayExtensionBanner />
-        
         {bookings.length > 0 ? (
           <div className="space-y-6">
             {bookings.map((booking) => (
@@ -168,10 +142,8 @@ export default function BookingsContent() {
                 booking={booking}
                 onViewDetails={() => handleViewDetails(booking)}
                 onRateStay={isPastStay(booking.check_out) && !hasReview(booking.hotel_id) ? () => handleRateStay(booking) : undefined}
-                onRebookStay={isPastStay(booking.check_out) ? () => handleRebookStay(booking) : undefined}
                 hasReview={hasReview(booking.hotel_id)}
                 isPastStay={isPastStay(booking.check_out)}
-                isNextStay={nextUpcomingBooking?.id === booking.id}
               />
             ))}
           </div>
@@ -199,12 +171,6 @@ export default function BookingsContent() {
         isOpen={isReviewModalOpen}
         onClose={handleCloseReviewModal}
         booking={reviewBooking}
-      />
-
-      <RebookingModal
-        isOpen={isRebookModalOpen}
-        onClose={handleCloseRebookModal}
-        booking={rebookBooking}
       />
     </>
   );

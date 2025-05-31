@@ -1,21 +1,46 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useRecommendedHotels } from '@/hooks/useRecommendedHotels';
-import { useNavigate } from 'react-router-dom';
-import { ThemeTag } from '@/components/ThemeTag';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { MapPin, Eye, X, Info } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useRecommendedHotels } from '@/hooks/useRecommendedHotels';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const RecommendedHotels: React.FC = () => {
-  const { recommendedHotels, loading } = useRecommendedHotels();
+  const { recommendedHotels, loading, hideHotel } = useRecommendedHotels();
   const navigate = useNavigate();
 
   if (loading) {
     return (
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h2 className="text-xl font-semibold mb-4">Hotels You May Like</h2>
-        <div className="flex items-center justify-center h-32">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-300"></div>
+        <CardHeader className="px-0 pb-4">
+          <CardTitle className="text-xl text-white">Recommended for You</CardTitle>
+        </CardHeader>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <Card key={i} className="overflow-hidden">
+              <div className="aspect-video">
+                <Skeleton className="w-full h-full" />
+              </div>
+              <CardContent className="p-4">
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-3" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-8 flex-1" />
+                  <Skeleton className="h-8 w-8" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     );
@@ -24,9 +49,12 @@ export const RecommendedHotels: React.FC = () => {
   if (recommendedHotels.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h2 className="text-xl font-semibold mb-4">Hotels You May Like</h2>
-        <div className="text-center py-8 text-foreground/60">
-          <p>Add affinities to your profile to see personalized hotel recommendations!</p>
+        <CardHeader className="px-0 pb-4">
+          <CardTitle className="text-xl text-white">Recommended for You</CardTitle>
+        </CardHeader>
+        <div className="text-center py-8 text-white/80">
+          <p>No recommendations available yet.</p>
+          <p className="text-sm mt-2">Update your profile affinities to get personalized suggestions.</p>
         </div>
       </div>
     );
@@ -34,64 +62,89 @@ export const RecommendedHotels: React.FC = () => {
 
   return (
     <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-      <h2 className="text-xl font-semibold mb-4">Hotels You May Like</h2>
+      <CardHeader className="px-0 pb-4">
+        <CardTitle className="text-xl text-white">Recommended for You</CardTitle>
+        <p className="text-white/80 text-sm">You might also like...</p>
+      </CardHeader>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {recommendedHotels.map((hotel) => {
-          const mainImage = hotel.hotel_images?.find(img => img.is_main)?.image_url || 
-                           hotel.hotel_images?.[0]?.image_url || 
-                           hotel.main_image_url;
-
-          return (
-            <div
-              key={hotel.id}
-              onClick={() => navigate(`/hotel/${hotel.id}`)}
-              className="bg-[#9939f9] rounded-lg overflow-hidden cursor-pointer hover:bg-[#a54afe] transition-colors"
-            >
-              <div className="aspect-video relative overflow-hidden">
-                {mainImage ? (
-                  <img
-                    src={mainImage}
-                    alt={hotel.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
-                    <span className="text-white text-sm">No image</span>
-                  </div>
-                )}
-              </div>
-              
-              <div className="p-3">
-                <h3 className="font-semibold text-sm mb-1 truncate">{hotel.name}</h3>
-                <p className="text-xs text-foreground/70 mb-2">
-                  {hotel.city}, {hotel.country}
-                </p>
-                
-                <div className="flex justify-between items-center mb-2">
-                  <Badge variant="secondary" className="text-xs">
-                    ${hotel.price_per_month}/month
-                  </Badge>
-                </div>
-                
-                <div className="flex flex-wrap gap-1">
-                  {hotel.hotel_themes?.slice(0, 2).map((theme, index) => (
-                    <ThemeTag
-                      key={index}
-                      theme={theme.themes}
-                      size="sm"
-                      className="text-xs"
-                    />
-                  ))}
-                  {hotel.hotel_themes?.length > 2 && (
-                    <Badge variant="outline" className="text-xs">
-                      +{hotel.hotel_themes.length - 2} more
-                    </Badge>
-                  )}
-                </div>
-              </div>
+        {recommendedHotels.map((hotel) => (
+          <Card key={hotel.id} className="overflow-hidden bg-white/10 border-white/20 hover:bg-white/15 transition-colors">
+            <div className="aspect-video relative overflow-hidden">
+              <img 
+                src={hotel.main_image_url || hotel.hotel_images?.[0]?.image_url || "/placeholder.svg"} 
+                alt={hotel.name}
+                className="w-full h-full object-cover"
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute top-2 right-2 h-8 w-8 p-0 bg-black/50 hover:bg-black/70 text-white"
+                onClick={() => hideHotel(hotel.id)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
             </div>
-          );
-        })}
+            
+            <CardContent className="p-4">
+              <h3 className="font-semibold text-lg mb-2 line-clamp-1 text-white">
+                {hotel.name}
+              </h3>
+              
+              <div className="flex items-center text-sm text-white/70 mb-3">
+                <MapPin className="w-4 h-4 mr-1" />
+                {hotel.city}, {hotel.country}
+              </div>
+
+              <div className="mb-3">
+                <p className="text-sm font-medium text-white">
+                  From ${hotel.price_per_month}/month
+                </p>
+              </div>
+
+              {hotel.recommendation_reason && (
+                <div className="mb-3 flex items-center gap-2">
+                  <Badge variant="secondary" className="text-xs bg-fuchsia-600/30 text-fuchsia-200 border-fuchsia-400/30">
+                    {hotel.recommendation_reason.length > 30 
+                      ? `${hotel.recommendation_reason.substring(0, 30)}...`
+                      : hotel.recommendation_reason
+                    }
+                  </Badge>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="w-3 h-3 text-white/50" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-xs">{hotel.recommendation_reason}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              )}
+              
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 bg-white/10 border-white/30 text-white hover:bg-white/20"
+                  onClick={() => navigate(`/hotel/${hotel.id}`)}
+                >
+                  <Eye className="w-4 h-4 mr-1" />
+                  View
+                </Button>
+                
+                <Button
+                  size="sm"
+                  className="flex-1 bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+                  onClick={() => navigate(`/hotel/${hotel.id}`)}
+                >
+                  Book Now
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

@@ -16,3 +16,6 @@
 
 /* Background styles */
 @import './background.css';
+
+/* Accessibility mode styles */
+@import './accessibility.css';

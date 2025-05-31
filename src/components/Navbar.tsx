@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
+import { AccessibilityToggle } from "./AccessibilityToggle";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,6 +91,9 @@ export function Navbar() {
             </Link>
           )}
           
+          {/* Accessibility Toggle */}
+          <AccessibilityToggle />
+          
           {!isLoggedIn && !isDevelopment && (
             <>
               <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
@@ -110,6 +114,7 @@ export function Navbar() {
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
+          <AccessibilityToggle />
           <button className="flex items-center" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
             {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
           </button>

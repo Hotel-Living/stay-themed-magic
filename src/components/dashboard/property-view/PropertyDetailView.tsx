@@ -59,7 +59,7 @@ export default function PropertyDetailView({ hotel, onEdit }: PropertyDetailView
         </div>
       )}
 
-      {/* Basic Information Section - MOVED TO TOP */}
+      {/* Basic Information Section - Images, Basic Info, Location */}
       <div className="space-y-8">
         <ImageGallery hotel={hotel} />
         <BasicInformation hotel={hotel} />

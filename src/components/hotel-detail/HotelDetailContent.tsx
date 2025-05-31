@@ -48,20 +48,6 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
     return text.charAt(0).toLowerCase() + text.slice(1);
   };
   
-  const handleAddToFavorites = () => {
-    toast({
-      title: "Feature in development",
-      description: "Adding to favorites will be available soon.",
-    });
-  };
-  
-  const handleBookClick = () => {
-    toast({
-      title: "Feature in development",
-      description: "Online booking will be available soon.",
-    });
-  };
-  
   if (isLoading) {
     return <HotelSkeletonLoader />;
   }
@@ -233,10 +219,7 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
         <div className="max-w-5xl mx-auto">
           {/* Header card */}
           <div className="bg-gradient-to-r from-[#7B1C92] via-[#8B1FA3] to-[#7B1C92] rounded-t-2xl p-6 shadow-2xl border border-white/10">
-            <HotelHeader 
-              hotel={hotel} 
-              handleAddToFavorites={handleAddToFavorites} 
-            />
+            <HotelHeader hotel={hotel} />
             
             {/* Image gallery with enhanced container */}
             <div className="mt-6 rounded-xl overflow-hidden shadow-inner bg-black/20 backdrop-blur-sm border border-white/10">
@@ -322,7 +305,6 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
                   stayDurations={stayDurations}
                   rates={preparedRates}
                   currency={hotel.currency || "USD"}
-                  handleBookClick={handleBookClick}
                   preferredWeekday={checkInWeekday}
                   enable_price_increase={hotel.enable_price_increase}
                   price_increase_cap={hotel.price_increase_cap}

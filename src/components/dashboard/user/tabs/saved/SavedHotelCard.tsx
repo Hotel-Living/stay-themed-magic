@@ -43,11 +43,6 @@ export default function SavedHotelCard({ hotel, onRemove }: SavedHotelCardProps)
                 <MapPin className="w-4 h-4 mr-1" />
                 <span className="text-sm">{hotel.hotels.city}, {hotel.hotels.country}</span>
               </div>
-              {hotel.hotels.description && (
-                <p className="text-sm text-fuchsia-200/80 line-clamp-2 mb-3">
-                  {hotel.hotels.description}
-                </p>
-              )}
               <div className="text-sm font-medium text-white">
                 From ${hotel.hotels.price_per_month} per month
               </div>

@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
-interface SavedHotel {
+export interface SavedHotel {
   id: string;
   hotel_id: string;
   created_at: string;
@@ -36,29 +36,41 @@ export function useSavedHotels() {
       try {
         setIsLoading(true);
         
-        const { data, error } = await supabase
+        // First get the favorites
+        const { data: favoritesData, error: favoritesError } = await supabase
           .from('favorites')
-          .select(`
-            id,
-            hotel_id,
-            created_at,
-            hotels (
-              id,
-              name,
-              city,
-              country,
-              main_image_url,
-              price_per_month,
-              available_months,
-              status
-            )
-          `)
+          .select('id, hotel_id, created_at')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false });
         
-        if (error) throw error;
+        if (favoritesError) throw favoritesError;
         
-        setSavedHotels(data || []);
+        if (!favoritesData || favoritesData.length === 0) {
+          setSavedHotels([]);
+          return;
+        }
+
+        // Then get the hotel details for each favorite
+        const hotelIds = favoritesData.map(fav => fav.hotel_id);
+        const { data: hotelsData, error: hotelsError } = await supabase
+          .from('hotels')
+          .select('id, name, city, country, main_image_url, price_per_month, available_months, status')
+          .in('id', hotelIds);
+        
+        if (hotelsError) throw hotelsError;
+        
+        // Combine the data
+        const combinedData: SavedHotel[] = favoritesData.map(favorite => {
+          const hotel = hotelsData?.find(h => h.id === favorite.hotel_id);
+          return {
+            id: favorite.id,
+            hotel_id: favorite.hotel_id,
+            created_at: favorite.created_at,
+            hotels: hotel || null
+          };
+        });
+        
+        setSavedHotels(combinedData);
       } catch (error) {
         console.error("Error fetching saved hotels:", error);
         toast({

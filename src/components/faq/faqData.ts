@@ -1,21 +1,27 @@
+
 export const faqCategories = [
   {
+    id: "general",
     name: "General",
     slug: "general",
   },
   {
+    id: "hotel-living",
     name: "Hotel Living",
     slug: "hotel-living",
   },
   {
+    id: "for-hoteliers",
     name: "For Hoteliers",
     slug: "for-hoteliers",
   },
   {
+    id: "for-guests",
     name: "For Guests",
     slug: "for-guests",
   },
   {
+    id: "legal",
     name: "Legal",
     slug: "legal",
   },
@@ -112,10 +118,10 @@ export const faqsByCategory = {
 export const benefitsList = [
   "Renewable stays of\n8, 16, 24, or 32 days",
   "Say goodbye to chores:\ngrocery shopping, cooking,\ncleaning, laundry, and more",
-  "Enjoy a constant flow of new places, affinities, and people",
+  "Enjoy a constant flow of\nnew places, affinities, and people",
   "Choose hotels based on your\nfavorite affinities and find\nyour kind of people",
   "Eliminate loneliness and isolation\nfor good",
-  "Expand your social life, activities, and overall quality of living",
+  "Expand your social life, activities,\nand overall quality of living",
   "Take advantage of daily\nservices and amenities",
   "Pay directly at the hotel.\nBook with just 10% down"
 ];

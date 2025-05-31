@@ -1,85 +1,78 @@
 
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { createQueryClient } from "@/lib/query-client";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider } from "./components/ui/theme-provider";
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Register from "./pages/SignUp";
-import UserDashboard from "./pages/UserDashboard";
-import HotelDashboard from "./pages/HotelDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import HotelDetail from "./pages/HotelDetail";
-import Hotels from "./pages/Hotels";
-import HotelSignUp from "./pages/HotelSignUp";
-import FaqPage from "./pages/FAQ";
-import ContactPage from "./pages/Contact";
-import JoinUsPage from "./pages/JoinUs";
-import JoinUsTestPage from "./pages/JoinUsTest";
-import AffinityStaysPage from "./pages/AffinityStays";
-import AffinityExplorer from "./pages/AffinityExplorer";
-import { ScrollToTop } from "./components/ScrollToTop";
-import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-import { AdminRoute } from "./components/auth/AdminRoute";
-import CodeStats from "./pages/CodeStats";
-import "./App.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import Home from "@/pages/Index";
+import Hotels from "@/pages/Hotels";
+import HotelDetail from "@/pages/HotelDetail";
+import Login from "@/pages/Login";
+import Signup from "@/pages/SignUp";
+import UserDashboard from "@/pages/UserDashboard";
+import HotelDashboard from "@/pages/HotelDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import HotelRegistration from "@/pages/HotelSignUp";
+import FeaturedHotels from "@/pages/FeaturedHotels";
+import Videos from "@/pages/Videos";
+import AffinityStays from "@/pages/AffinityStays";
+import FAQ from "@/pages/FAQ";
+import AdminRoles from "@/pages/AdminRoles";
+import Search from "@/pages/Search";
+import JoinUs from "@/pages/JoinUs";
+import OurServices from "@/pages/OurServices";
+import OurValues from "@/pages/OurValues";
+import CustomerService from "@/pages/CustomerService";
+import Contact from "@/pages/Contact";
+import IntellectualProperty from "@/pages/IntellectualProperty";
 
-const queryClient = new QueryClient();
+const queryClient = createQueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <AuthProvider>
         <Router>
-          <AuthProvider>
-            <ScrollToTop />
-            <div className="App">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/search" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/hotel/:id" element={<HotelDetail />} />
-                <Route path="/hotels" element={<Hotels />} />
-                <Route path="/hotel-signup" element={<HotelSignUp />} />
-                <Route path="/faq" element={<FaqPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/join-us" element={<JoinUsPage />} />
-                <Route path="/join-us-test" element={<JoinUsTestPage />} />
-                <Route path="/affinity-stays" element={<AffinityStaysPage />} />
-                <Route path="/affinity-explorer" element={<AffinityExplorer />} />
-                <Route path="/code-stats" element={<CodeStats />} />
-                <Route 
-                  path="/user-dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <UserDashboard />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route 
-                  path="/hotel-dashboard" 
-                  element={
-                    <ProtectedRoute>
-                      <HotelDashboard />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route 
-                  path="/admin/*" 
-                  element={
-                    <AdminRoute>
-                      <AdminDashboard />
-                    </AdminRoute>
-                  } 
-                />
-              </Routes>
-            </div>
+          <ScrollToTop />
+          <div className="min-h-screen">
             <Toaster />
-          </AuthProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/hotels" element={<Hotels />} />
+              <Route path="/hotel/:id" element={<HotelDetail />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/join-us" element={<JoinUs />} />
+              <Route path="/our-services" element={<OurServices />} />
+              <Route path="/our-values" element={<OurValues />} />
+              <Route path="/customer-service" element={<CustomerService />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/intellectual-property" element={<IntellectualProperty />} />
+              
+              {/* Protected Routes */}
+              <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+              <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+              <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+              <Route path="/featured-hotels" element={<FeaturedHotels />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/affinity-stays" element={<AffinityStays />} />
+              <Route path="/faq" element={<FAQ />} />
+
+              {/* Admin Routes */}
+              <Route path="/admin/*" element={<AdminDashboard />} />
+              <Route path="/admin/roles" element={<AdminRoles />} />
+            </Routes>
+          </div>
         </Router>
-      </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

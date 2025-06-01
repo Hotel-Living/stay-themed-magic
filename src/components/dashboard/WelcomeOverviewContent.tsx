@@ -3,8 +3,8 @@ export const WelcomeOverviewContent: React.FC = () => {
   return <div className="space-y-6">
       <div className="glass-card rounded-2xl p-8 text-white border-fuchsia-500/20 bg-[#7a0486]">
         <div className="space-y-6 text-lg leading-relaxed">
-          <p className="text-base">
-            🤝 <strong>Dear Hotel Partner,</strong><br />
+          <p className="text-base my-[9px]">
+            🤝 <strong className="py-[6px] my-[11px]">Dear Hotel Partner,</strong><br />
             At Hotel Living, our vision is simple and powerful:<br />
             Your hotel should be full year-round. Your revenue should grow. And your guests should truly feel at home during the weeks they occupy your currently empty rooms through Hotel Living.
           </p>
@@ -31,7 +31,7 @@ export const WelcomeOverviewContent: React.FC = () => {
             That's where our optimized housekeeping protocol comes in.
           </p>
           
-          <p>
+          <p className="text-base">
             <strong>Let's reduce costs, enrich lives, and boost your hotel's revenue — together.</strong>
           </p>
         </div>

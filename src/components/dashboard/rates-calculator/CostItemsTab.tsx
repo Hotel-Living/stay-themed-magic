@@ -39,7 +39,7 @@ export const CostItemsTab: React.FC = () => {
             key={option.id}
             onClick={() => setActiveOption(option.id)}
             className={`
-              relative cursor-pointer px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300
+              relative cursor-pointer px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300
               ${activeOption === option.id 
                 ? 'bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 text-white shadow-lg transform scale-105' 
                 : 'bg-[#8017B0]/60 text-white/90 hover:bg-[#8017B0]/80 hover:text-white hover:scale-102'

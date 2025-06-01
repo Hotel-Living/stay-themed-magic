@@ -9,7 +9,7 @@ import { Footer } from "@/components/Footer";
 import { getDashboardTabs } from "@/components/hotel-dashboard/TabConfiguration";
 
 export default function HotelDashboard() {
-  const [activeTab, setActiveTab] = useState<string>("rates-calculator");
+  const [activeTab, setActiveTab] = useState<string>("welcome-overview");
   const { profile } = useAuth();
   
   // Get dashboard tabs configuration

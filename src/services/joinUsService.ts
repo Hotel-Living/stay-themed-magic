@@ -2,9 +2,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/integrations/supabase/types";
 
+const SUPABASE_URL = "https://pgdzrvdwgoomjnnegkcn.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZHpydmR3Z29vbWpubmVna2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4Mjk0NzIsImV4cCI6MjA1ODQwNTQ3Mn0.VWcjjovrdsV7czPVaYJ219GzycoeYisMUpPhyHkvRZ0";
+
 const supabase = createClient<Database>(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
 );
 
 export const sendJoinUsSubmission = async (formData: {

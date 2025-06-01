@@ -133,7 +133,7 @@ export default function JoinUs() {
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🧠</span>
-                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>We built a unique, original model</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>By building a unique, original model</span>
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🔒</span>
@@ -141,23 +141,57 @@ export default function JoinUs() {
                         {isMobile ? (
                           <>
                             A model that can't be cloned —<br />
-                            80% still unknown
+                            and 80% still unknown!
                           </>
                         ) : (
-                          "A model that can't be cloned — 80% still unknown"
+                          "A model that can't be cloned — and 80% still unknown!"
                         )}
                       </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🛡️</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>Hotel Living is crisis-proof</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💸</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            The greater the crisis, the stronger<br />
+                            the need to unify living costs.
+                          </>
+                        ) : (
+                          "The greater the crisis, the stronger the need to unify living costs."
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🙅‍♂️</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            Business model benefiting<br />
+                            from any crisis?
+                          </>
+                        ) : (
+                          "Business model benefiting from any crisis?"
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">📈</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Yes. Hotel Living. It does!</span>
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
                         {isMobile ? (
                           <>
-                            We own the market, because<br />
+                            We own the market — because<br />
                             our model creates it
                           </>
                         ) : (
-                          "We own the market, because our model creates it"
+                          "We own the market — because our model creates it"
                         )}
                       </span>
                     </div>
@@ -176,11 +210,20 @@ export default function JoinUs() {
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🎯</span>
-                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Very few ever get this chance</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Very few even get this chance</span>
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">❓</span>
-                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Are you one of them?</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            Are you one of them<br />
+                            who belong?
+                          </>
+                        ) : (
+                          "Are you one of them who belong?"
+                        )}
+                      </span>
                     </div>
                   </div>
                 </div>

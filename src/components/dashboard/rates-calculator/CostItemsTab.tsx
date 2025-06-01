@@ -38,7 +38,40 @@ less disruption, more privacy, and a feeling of truly belonging — not just sta
   {
     id: "meal-plans",
     label: "Meal Plans", 
-    content: "Meal plans configuration will be added here."
+    content: `🍳 The Hotel-Living Meal Model: Simple, Wholesome, Homestyle
+
+Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes —
+Hotel-Living is not about gourmet cuisine or lavish buffets.
+
+In most cases, the Hotel-Living experience is built on comfort, simplicity, and sustainability.
+
+Our guests are not here for extravagance. They are not tourists.
+They are long-stay residents looking for a reliable, healthy, and affordable meal routine — something that feels like real life at home.
+
+That's why our food model is:
+✅ Balanced, homestyle, and easy to prepare
+✅ Designed for moderation and wellness, not indulgence
+✅ Compatible with your hotel's existing kitchen setup and staff
+✅ Low-waste and low-cost — without sacrificing quality or care
+
+Whether offering breakfast only or all-inclusive, Hotel-Living meal plans are built for consistency, comfort, and guest satisfaction — not culinary showmanship.
+
+This model provides:
+🧑‍🍳 Lower operational complexity
+🧾 Predictable costs and portion control
+😊 A relaxed, familiar dining experience that guests truly value
+
+💡 Additional benefits for your kitchen and budget:
+
+Because all bookings are made in advance and fixed-duration, you'll know exactly how many guests are coming — and for how long.
+➡️ Zero food waste becomes a real possibility.
+
+Moreover, for simpler kitchens, there's a proven and cost-effective strategy:
+🔁 Weekly rotating menus — where each weekday has a set meal that can be repeated every week.
+This allows for bulk purchasing, simplified preparation, and further cost reduction.
+
+Hotels save. Guests feel at home.
+And the entire experience becomes scalable, sustainable, and deeply human.`
   }
 ];
 

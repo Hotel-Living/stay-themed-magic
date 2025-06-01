@@ -48,25 +48,29 @@ export function FilterSectionWrapper({
   };
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
-        <div style={{
-        backgroundColor: "#996515"
-      }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
-          <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={{
-          month: "MONTH?",
-          country: "COUNTRY?",
-          theme: "AFFINITY?",
-          priceRange: "PRICE PER MONTH?"
-        }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
-          
-          <div className="flex justify-center" style={{
-          backgroundColor: "#996515"
-        }}>
-            <Button size="sm" onClick={handleSearch} style={{
-            backgroundColor: "#996515"
-          }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
-              <Search className="w-4 h-4 mr-2" />
-              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
-            </Button>
+        <div className="relative rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80">
+          {/* Blue glow effect background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-lg blur-xl opacity-75"></div>
+          {/* Purple background */}
+          <div className="relative bg-[#8017B0] rounded-lg">
+            <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={{
+            month: "MONTH?",
+            country: "COUNTRY?",
+            theme: "AFFINITY?",
+            priceRange: "PRICE PER MONTH?"
+          }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
+            
+            <div className="relative flex justify-center">
+              {/* Blue glow effect background for search button area */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-b-lg blur-xl opacity-75"></div>
+              {/* Purple background for search button area */}
+              <div className="relative bg-[#8017B0] w-full rounded-b-lg">
+                <Button size="sm" onClick={handleSearch} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#8017B0]">
+                  <Search className="w-4 h-4 mr-2" />
+                  <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

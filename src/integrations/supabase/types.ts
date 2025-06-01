@@ -607,6 +607,36 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_logs: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          notification_type: string
+          recipient_email: string
+          status: string
+          submission_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          notification_type: string
+          recipient_email: string
+          status: string
+          submission_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          notification_type?: string
+          recipient_email?: string
+          status?: string
+          submission_id?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number

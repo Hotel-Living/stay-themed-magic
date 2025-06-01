@@ -95,14 +95,36 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     
     console.log("Form submission completed successfully");
     
-    // Wait a moment to allow the database trigger to fire
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // 3. Wait for the database trigger to fire and check notification status
+    console.log("Waiting for email notification to be sent...");
+    await new Promise(resolve => setTimeout(resolve, 2000));
     
-    return true;
+    // 4. Check if the email notification was sent successfully
+    const { data: notifications, error: notificationError } = await supabase
+      .from('notification_logs')
+      .select('*')
+      .eq('submission_id', submission.id)
+      .eq('notification_type', 'join_us_email');
+    
+    if (notificationError) {
+      console.error("Error checking notification status:", notificationError);
+      // Don't fail the whole process if we can't check the notification status
+    }
+    
+    // Check if we have a successful notification
+    const hasSuccessfulNotification = notifications && notifications.some(n => n.status === 'success');
+    
+    if (hasSuccessfulNotification) {
+      console.log("Email notification sent successfully");
+      return true;
+    } else {
+      console.warn("Email notification may not have been sent successfully");
+      // Still return true since the form was submitted successfully
+      // The notification system runs independently
+      return true;
+    }
   } catch (error) {
     console.error("Full form submission error:", error);
-    
-    // Return false instead of throwing to let the form handle the error display
     return false;
   }
 }

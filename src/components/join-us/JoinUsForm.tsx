@@ -1,167 +1,148 @@
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { submitJoinUsForm } from '@/services/joinUsService';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { submitJoinUsForm } from "@/services/joinUsService";
+import { Heart } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+// Updated the schema to ensure all fields are required to match JoinUsSubmission interface
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+});
 
 export function JoinUsForm() {
-  const isMobile = useIsMobile();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
   });
-  const [files, setFiles] = useState<File[]>([]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFiles(Array.from(e.target.files));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-
     try {
-      const success = await submitJoinUsForm(formData, files);
+      console.log("Starting form submission...", values);
+      
+      // Submit the form and wait for actual result
+      const success = await submitJoinUsForm({
+        name: values.name,
+        email: values.email,
+        message: values.message
+      }, []);
+      
+      console.log("Form submission result:", success);
       
       if (success) {
-        toast.success('Your application has been submitted successfully!');
-        setFormData({ name: '', email: '', message: '' });
-        setFiles([]);
-        // Reset file input
-        const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
+        form.reset();
+        // Show success toast with purple background to match portal theme
+        toast.success("Your message has been sent successfully! We'll be in touch soon.", {
+          style: {
+            background: "#8017B0",
+            color: "white",
+            border: "1px solid #6B1A96"
+          }
+        });
       } else {
-        toast.error('Failed to submit application. Please try again.');
+        // Show error toast if submission failed
+        toast.error("Failed to send your message. Please try again.", {
+          style: {
+            background: "#dc2626",
+            color: "white",
+            border: "1px solid #b91c1c"
+          }
+        });
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      toast.error('An error occurred. Please try again.');
+      console.error("Form submission error:", error);
+      // Show error toast for any caught exceptions
+      toast.error("Something went wrong. Please try again later.", {
+        style: {
+          background: "#dc2626",
+          color: "white", 
+          border: "1px solid #b91c1c"
+        }
+      });
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <Card className="bg-gradient-to-br from-purple-900/40 to-indigo-900/40 backdrop-blur-md border-purple-500/30">
-        <CardHeader className="text-center">
-          <CardTitle className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold text-[#FFF9B0]`}>
-            APPLY TO JOIN
-          </CardTitle>
+    <div className="mb-16 bg-[#8017B0]/90 p-6 rounded-xl border border-[#3300B0]/30 shadow-lg">
+      <div className="flex items-center mb-6">
+        <Heart className="h-6 w-6 text-[#FFF9B0] mr-2" />
+        <h2 className="text-xl font-bold text-[#FFF9B0]">APPLY TO JOIN</h2>
+      </div>
+      
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your name" className="bg-white/10 text-white border-[#3300B0]/30" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           
-          {/* Temporary email contact line */}
-          <div className="mt-3">
-            <p className={`
-              ${isMobile ? "text-sm" : "text-base"} 
-              text-white bg-[#8017B0] py-2 px-6 rounded-lg inline-block
-              font-medium tracking-wide
-            `}>
-              You can also email us directly at contact@hotel-living.com
-            </p>
-          </div>
-        </CardHeader>
-        
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-[#FFF9B0] font-medium">
-                Full Name *
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="bg-white/10 border-purple-400/50 text-white placeholder:text-gray-300 focus:border-purple-400"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#FFF9B0] font-medium">
-                Email Address *
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="bg-white/10 border-purple-400/50 text-white placeholder:text-gray-300 focus:border-purple-400"
-                placeholder="Enter your email address"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="message" className="text-[#FFF9B0] font-medium">
-                Message *
-              </Label>
-              <Textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                rows={6}
-                className="bg-white/10 border-purple-400/50 text-white placeholder:text-gray-300 focus:border-purple-400 resize-none"
-                placeholder="Tell us about yourself, your skills, and why you want to join our team..."
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="file-upload" className="text-[#FFF9B0] font-medium">
-                Attach Files (Optional)
-              </Label>
-              <Input
-                id="file-upload"
-                type="file"
-                onChange={handleFileChange}
-                multiple
-                className="bg-white/10 border-purple-400/50 text-white file:bg-purple-600 file:text-white file:border-0 file:rounded-md file:px-3 file:py-1 file:mr-3"
-              />
-              {files.length > 0 && (
-                <div className="text-sm text-gray-300">
-                  {files.length} file(s) selected: {files.map(f => f.name).join(', ')}
-                </div>
-              )}
-            </div>
-
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit Application'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your email" className="bg-white/10 text-white border-[#3300B0]/30" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Message</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Tell us about yourself and how you'd like to contribute" 
+                    className="bg-white/10 text-white border-[#3300B0]/30 min-h-[120px]" 
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <Button 
+            type="submit" 
+            className="bg-[#FFF9B0] text-[#8017B0] hover:bg-yellow-300 mt-2 font-medium"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send Message"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }

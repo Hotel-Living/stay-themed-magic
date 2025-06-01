@@ -28,7 +28,7 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
           name: formData.name, 
           email: formData.email, 
           message: formData.message,
-          recipient_email: formData.recipientEmail || null
+          recipient_email: formData.recipientEmail || "fernando_espineira@yahoo.com"
         }
       ])
       .select()
@@ -94,11 +94,15 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     }
     
     console.log("Form submission completed successfully");
+    
+    // Wait a moment to allow the database trigger to fire
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     return true;
   } catch (error) {
     console.error("Full form submission error:", error);
-    // Use toast directly without passing it as a parameter since handleApiError expects a specific type
-    handleApiError(error, "Failed to submit form. Please try again later.");
+    
+    // Return false instead of throwing to let the form handle the error display
     return false;
   }
 }

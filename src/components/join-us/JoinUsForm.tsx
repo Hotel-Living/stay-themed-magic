@@ -33,17 +33,47 @@ export function JoinUsForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      // Explicitly cast the values to ensure TypeScript knows they match JoinUsSubmission
-      await submitJoinUsForm({
+      console.log("Starting form submission...", values);
+      
+      // Submit the form and wait for actual result
+      const success = await submitJoinUsForm({
         name: values.name,
         email: values.email,
         message: values.message
       }, []);
-      form.reset();
-      toast.success("Your message has been sent. We'll be in touch soon!");
+      
+      console.log("Form submission result:", success);
+      
+      if (success) {
+        form.reset();
+        // Show success toast with purple background to match portal theme
+        toast.success("Your message has been sent successfully! We'll be in touch soon.", {
+          style: {
+            background: "#8017B0",
+            color: "white",
+            border: "1px solid #6B1A96"
+          }
+        });
+      } else {
+        // Show error toast if submission failed
+        toast.error("Failed to send your message. Please try again.", {
+          style: {
+            background: "#dc2626",
+            color: "white",
+            border: "1px solid #b91c1c"
+          }
+        });
+      }
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
       console.error("Form submission error:", error);
+      // Show error toast for any caught exceptions
+      toast.error("Something went wrong. Please try again later.", {
+        style: {
+          background: "#dc2626",
+          color: "white", 
+          border: "1px solid #b91c1c"
+        }
+      });
     } finally {
       setIsSubmitting(false);
     }

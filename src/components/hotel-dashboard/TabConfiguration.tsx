@@ -4,19 +4,24 @@ import { DashboardTab } from "@/types/dashboard";
 
 export const getDashboardTabs = (): DashboardTab[] => [
   {
-    id: "rates-calculator",
-    label: "Rates Calculator", 
-    icon: <Calculator className="w-5 h-5" />
-  },
-  {
     id: "dashboard",
     label: "Dashboard", 
     icon: <BarChart3 className="w-5 h-5" />
   },
   {
+    id: "rates-calculator",
+    label: "Rates Calculator", 
+    icon: <Calculator className="w-5 h-5" />
+  },
+  {
     id: "properties",
     label: "Properties",
     icon: <Building className="w-5 h-5" />
+  },
+  {
+    id: "advertising",
+    label: "Advertising",
+    icon: <BarChart3 className="w-5 h-5" />
   },
   {
     id: "bookings",
@@ -42,11 +47,6 @@ export const getDashboardTabs = (): DashboardTab[] => [
     id: "reviews",
     label: "Reviews",
     icon: <Star className="w-5 h-5" />
-  },
-  {
-    id: "advertising",
-    label: "Advertising",
-    icon: <BarChart3 className="w-5 h-5" />
   },
   {
     id: "analytics",

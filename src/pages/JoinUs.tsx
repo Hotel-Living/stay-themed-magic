@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -148,7 +147,7 @@ export default function JoinUs() {
                         )}
                       </span>
                     </div>
-                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200 mt-8">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🛡️</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>Hotel Living is crisis-proof</span>
                     </div>
@@ -165,7 +164,7 @@ export default function JoinUs() {
                         )}
                       </span>
                     </div>
-                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200 mt-8">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🙅‍♂️</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
                         {isMobile ? (
@@ -182,7 +181,7 @@ export default function JoinUs() {
                       <span className="text-2xl mr-4 filter drop-shadow-lg">📈</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Yes. Hotel Living. It does!</span>
                     </div>
-                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200 mt-8">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
                         {isMobile ? (
@@ -208,7 +207,7 @@ export default function JoinUs() {
                         )}
                       </span>
                     </div>
-                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200 mt-8">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🎯</span>
                       <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Very few even get this chance</span>
                     </div>

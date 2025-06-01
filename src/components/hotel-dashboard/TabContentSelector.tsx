@@ -10,6 +10,7 @@ import { ReviewsContent } from "@/components/dashboard/ReviewsContent";
 import AdvertisingContent from "@/components/dashboard/AdvertisingContent";
 import { AnalyticsContent } from "@/components/dashboard/AnalyticsContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
+import { RatesCalculatorContent } from "@/components/dashboard/RatesCalculatorContent";
 
 interface TabContentSelectorProps {
   activeTab: string;
@@ -17,6 +18,8 @@ interface TabContentSelectorProps {
 
 export default function TabContentSelector({ activeTab }: TabContentSelectorProps) {
   switch (activeTab) {
+    case "rates-calculator":
+      return <RatesCalculatorContent />;
     case "dashboard":
       return <DashboardContent />;
     case "properties":

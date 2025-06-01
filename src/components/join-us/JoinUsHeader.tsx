@@ -11,20 +11,33 @@ export function JoinUsHeader() {
         {/* Added the same glow effect structure as the purple boxes */}
         <div className="relative group w-fit">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <h1 className={`
-            ${isMobile ? "text-2xl" : "text-2xl md:text-3xl"} 
-            font-bold mb-4 text-[#FFF9B0] tracking-tight leading-tight
-            bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
-          `}>
-            {isMobile ? (
-              <>
-                READY TO JOIN<br />
-                THE REVOLUTION?
-              </>
-            ) : (
-              "READY TO JOIN THE REVOLUTION?"
-            )}
-          </h1>
+          <div className="relative">
+            <h1 className={`
+              ${isMobile ? "text-2xl" : "text-2xl md:text-3xl"} 
+              font-bold mb-4 text-[#FFF9B0] tracking-tight leading-tight
+              bg-[#8017B0] py-2 px-8 rounded-lg inline-block
+            `}>
+              {isMobile ? (
+                <>
+                  READY TO JOIN<br />
+                  THE REVOLUTION?
+                </>
+              ) : (
+                "READY TO JOIN THE REVOLUTION?"
+              )}
+            </h1>
+            
+            {/* Temporary email contact line */}
+            <div className="mt-3">
+              <p className={`
+                ${isMobile ? "text-sm" : "text-base"} 
+                text-white bg-[#8017B0] py-2 px-6 rounded-lg inline-block
+                font-medium tracking-wide
+              `}>
+                You can also email us directly at contact@hotel-living.com
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </header>

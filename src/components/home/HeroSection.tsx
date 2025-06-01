@@ -36,29 +36,19 @@ export function HeroSection() {
             </div>
           </div>
           
-          {/* LIVE IN HOTELS with purple background and blue glow effect */}
-          <div className="flex justify-center mb-2">
-            <div className="relative group w-fit">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative bg-[#8017B0] py-2 px-8 rounded-lg">
-                <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-0 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
-                  LIVE IN HOTELS
-                </h1>
-              </div>
-            </div>
-          </div>
+          {/* LIVE IN HOTELS with blue glow effect only */}
+          <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-2 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.4))'
+          }}>
+            LIVE IN HOTELS
+          </h1>
 
-          {/* Boost Your Life! with purple background and blue glow effect */}
-          <div className="flex justify-center mb-6">
-            <div className="relative group w-fit">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative bg-[#8017B0] py-2 px-8 rounded-lg">
-                <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-0 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`}>
-                  Boost Your Life!
-                </h2>
-              </div>
-            </div>
-          </div>
+          {/* Boost Your Life! with blue glow effect only */}
+          <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
+            filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.4))'
+          }}>
+            Boost Your Life!
+          </h2>
         </div>
         
         {/* Changed the container background color to #FFFFFF */}

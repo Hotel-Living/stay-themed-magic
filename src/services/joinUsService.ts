@@ -88,33 +88,11 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     
     console.log("Form submission completed successfully");
     
-    // 3. Try to call the edge function directly as backup (in case trigger fails)
-    try {
-      console.log("Calling edge function directly as backup...");
-      const { error: functionError } = await supabase.functions.invoke('send-join-us-notification', {
-        body: {
-          type: 'INSERT',
-          table: 'join_us_submissions',
-          schema: 'public',
-          record: submission,
-          old_record: null
-        }
-      });
-      
-      if (functionError) {
-        console.warn("Direct function call failed:", functionError);
-      } else {
-        console.log("Direct function call succeeded");
-      }
-    } catch (directCallError) {
-      console.warn("Direct function call error:", directCallError);
-    }
-    
-    // 4. Wait for notification to be processed and check status
+    // 3. Wait for the trigger to fire and the email to be processed
     console.log("Waiting for email notification to be sent...");
-    await new Promise(resolve => setTimeout(resolve, 5000)); // Increased wait time
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // 5. Check if the email notification was sent successfully
+    // 4. Check if the email notification was sent successfully
     const { data: notifications, error: notificationError } = await supabase
       .from('notification_logs')
       .select('*')

@@ -64,13 +64,6 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
         
         console.log("File uploaded successfully:", uploadData);
         
-        // Get file URL
-        const { data: fileUrl } = supabase.storage
-          .from('join-us-uploads')
-          .getPublicUrl(filePath);
-        
-        console.log("File public URL:", fileUrl);
-        
         // Record file metadata in the database
         const { error: fileRecordError } = await supabase
           .from('join_us_files')
@@ -97,7 +90,7 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
     
     // 3. Wait for the database trigger to fire and check notification status
     console.log("Waiting for email notification to be sent...");
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Increased wait time
     
     // 4. Check if the email notification was sent successfully
     const { data: notifications, error: notificationError } = await supabase
@@ -111,6 +104,8 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
       // Don't fail the whole process if we can't check the notification status
     }
     
+    console.log("Notification status check result:", notifications);
+    
     // Check if we have a successful notification
     const hasSuccessfulNotification = notifications && notifications.some(n => n.status === 'success');
     
@@ -119,6 +114,11 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
       return true;
     } else {
       console.warn("Email notification may not have been sent successfully");
+      // For debugging, let's check if there are any error notifications
+      const hasErrorNotification = notifications && notifications.some(n => n.status === 'error');
+      if (hasErrorNotification) {
+        console.error("Email delivery failed:", notifications.find(n => n.status === 'error'));
+      }
       // Still return true since the form was submitted successfully
       // The notification system runs independently
       return true;

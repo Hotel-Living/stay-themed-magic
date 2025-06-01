@@ -22,31 +22,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Helper function to retry a function with exponential backoff
-async function retryWithBackoff<T>(
-  fn: () => Promise<T>,
-  maxRetries = 3,
-  initialDelay = 1000
-): Promise<T> {
-  let retries = 0;
-  
-  while (true) {
-    try {
-      return await fn();
-    } catch (error) {
-      retries++;
-      if (retries > maxRetries) {
-        console.error(`Failed after ${maxRetries} retries:`, error);
-        throw error;
-      }
-      
-      const delay = initialDelay * Math.pow(2, retries - 1);
-      console.log(`Retry ${retries}/${maxRetries} after ${delay}ms`);
-      await new Promise(resolve => setTimeout(resolve, delay));
-    }
-  }
-}
-
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -56,14 +31,10 @@ serve(async (req) => {
   }
   
   try {
-    // Get and validate API key with detailed logging
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-    
     console.log(`[${new Date().toISOString()}] Starting notification process`);
-    console.log("API Key verification check:");
-    console.log("API Key exists:", !!RESEND_API_KEY);
-    console.log("API Key length:", RESEND_API_KEY ? RESEND_API_KEY.length : 0);
-    console.log("API Key prefix:", RESEND_API_KEY ? `${RESEND_API_KEY.substring(0, 2)}...` : "none");
+    
+    // Get and validate API key
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
     if (!RESEND_API_KEY) {
       console.error("Missing RESEND_API_KEY");
@@ -90,28 +61,10 @@ serve(async (req) => {
     // Get submission details
     const submission = payload.record;
     
-    // Validate recipient email - use multiple fallback options for testing
-    // First try the submission's recipient_email, then try multiple providers for testing
-    const recipientEmails = [
-      submission.recipient_email,
-      "grand_soiree@yahoo.com", 
-      "hotellivingtesting@gmail.com", 
-      "hotellivingtesting@outlook.com"
-    ].filter(Boolean) as string[];
+    // Use default recipient email if none provided
+    const recipientEmail = submission.recipient_email || "fernando_espineira@yahoo.com";
     
-    const primaryRecipient = recipientEmails[0];
-    
-    if (!primaryRecipient) {
-      const errorMsg = "No recipient email provided in submission and no default available";
-      console.error(errorMsg);
-      return new Response(
-        JSON.stringify({ error: errorMsg }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-    
-    console.log(`[${new Date().toISOString()}] Primary recipient: ${primaryRecipient}`);
-    console.log(`Testing fallback recipients: ${recipientEmails.slice(1).join(', ')}`);
+    console.log(`[${new Date().toISOString()}] Processing submission for recipient: ${recipientEmail}`);
     
     // Create Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
@@ -136,7 +89,7 @@ serve(async (req) => {
 
     console.log(`[${new Date().toISOString()}] Preparing to send email with files:`, files ? files.length : 0);
 
-    // HTML email content with better formatting for improved deliverability
+    // HTML email content
     const htmlContent = `
       <!DOCTYPE html>
       <html>
@@ -199,89 +152,59 @@ serve(async (req) => {
       </html>
     `;
     
-    // Try sending to the primary recipient first
-    console.log(`[${new Date().toISOString()}] Starting email send to ${primaryRecipient}`);
+    console.log(`[${new Date().toISOString()}] Attempting to send email to: ${recipientEmail}`);
     
-    let emailSent = false;
-    let lastError = null;
+    const emailResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: "Hotel Living <onboarding@resend.dev>",
+        to: recipientEmail,
+        reply_to: submission.email,
+        subject: `New Join Us Application: ${submission.name}`,
+        html: htmlContent,
+      }),
+    });
     
-    // Try sending to each recipient in order until one succeeds
-    for (const recipient of recipientEmails) {
-      try {
-        // Use retry mechanism for better reliability
-        const emailResponse = await retryWithBackoff(async () => {
-          console.log(`[${new Date().toISOString()}] Attempting to send email to: ${recipient}`);
-          
-          const response = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${RESEND_API_KEY}`,
-            },
-            body: JSON.stringify({
-              from: "Hotel Living <onboarding@resend.dev>",
-              to: recipient,
-              reply_to: submission.email,
-              subject: `New Join Us Application: ${submission.name}`,
-              html: htmlContent,
-            }),
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error(`[${new Date().toISOString()}] Resend API error (${response.status}):`, errorData);
-            throw new Error(`Resend API returned ${response.status}: ${JSON.stringify(errorData)}`);
-          }
-          
-          return response.json();
-        }, 3, 1000);
-        
-        console.log(`[${new Date().toISOString()}] Email successfully sent to ${recipient}:`, JSON.stringify(emailResponse));
-        emailSent = true;
-        
-        // Record successful send in database for tracking
-        await supabase
-          .from("notification_logs")
-          .insert([{
-            submission_id: submission.id,
-            notification_type: "join_us_email",
-            recipient_email: recipient,
-            status: "success",
-            details: JSON.stringify(emailResponse)
-          }])
-          .select();
-        
-        break; // Stop trying other recipients if one succeeds
-      } catch (err) {
-        console.error(`[${new Date().toISOString()}] Failed to send to ${recipient}:`, err);
-        lastError = err;
-        
-        // Log the failure
-        try {
-          await supabase
-            .from("notification_logs")
-            .insert([{
-              submission_id: submission.id,
-              notification_type: "join_us_email",
-              recipient_email: recipient,
-              status: "error",
-              details: err instanceof Error ? err.message : String(err)
-            }])
-            .select();
-        } catch (logError) {
-          console.error(`[${new Date().toISOString()}] Failed to log error:`, logError);
-        }
-      }
+    if (!emailResponse.ok) {
+      const errorData = await emailResponse.json();
+      console.error(`[${new Date().toISOString()}] Resend API error (${emailResponse.status}):`, errorData);
+      
+      // Log failure in database
+      await supabase
+        .from("notification_logs")
+        .insert([{
+          submission_id: submission.id,
+          notification_type: "join_us_email",
+          recipient_email: recipientEmail,
+          status: "error",
+          details: JSON.stringify(errorData)
+        }]);
+      
+      throw new Error(`Resend API returned ${emailResponse.status}: ${JSON.stringify(errorData)}`);
     }
     
-    if (emailSent) {
-      return new Response(
-        JSON.stringify({ success: true, message: "Notification sent successfully" }),
-        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    } else {
-      throw new Error(`Failed to send email to any recipient: ${lastError}`);
-    }
+    const emailResult = await emailResponse.json();
+    console.log(`[${new Date().toISOString()}] Email successfully sent:`, JSON.stringify(emailResult));
+    
+    // Record successful send in database
+    await supabase
+      .from("notification_logs")
+      .insert([{
+        submission_id: submission.id,
+        notification_type: "join_us_email",
+        recipient_email: recipientEmail,
+        status: "success",
+        details: JSON.stringify(emailResult)
+      }]);
+    
+    return new Response(
+      JSON.stringify({ success: true, message: "Notification sent successfully" }),
+      { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+    );
   } catch (error) {
     console.error(`[${new Date().toISOString()}] Function error:`, error);
     return new Response(

@@ -118,7 +118,7 @@ export default function JoinUs() {
                 </div>
               </div>
 
-              {/* Third box - Enhanced design with blue glow and purple background - UPDATED CONTENT */}
+              {/* Third box - Enhanced design with blue glow and purple background */}
               <div className="relative group w-fit">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className={`relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all duration-300 ${isMobile ? 'p-6 mx-6' : 'p-8'}`}>
@@ -133,11 +133,54 @@ export default function JoinUs() {
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🧠</span>
-                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>By building a unique, original model</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>We built a unique, original model</span>
                     </div>
                     <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                       <span className="text-2xl mr-4 filter drop-shadow-lg">🔒</span>
-                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>A model that can't be cloned — and 80% still unknown!</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            A model that can't be cloned —<br />
+                            80% still unknown
+                          </>
+                        ) : (
+                          "A model that can't be cloned — 80% still unknown"
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            We own the market, because<br />
+                            our model creates it
+                          </>
+                        ) : (
+                          "We own the market, because our model creates it"
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💰</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide ${isMobile ? '' : 'whitespace-nowrap'}`}>
+                        {isMobile ? (
+                          <>
+                            $12B in annual profits<br />
+                            and an astonishing road ahead
+                          </>
+                        ) : (
+                          "$12B in annual profits — and an astonishing road ahead"
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🎯</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Very few ever get this chance</span>
+                    </div>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">❓</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>Are you one of them?</span>
                     </div>
                   </div>
                 </div>
@@ -166,16 +209,6 @@ export default function JoinUs() {
       </main>
       
       <Footer />
-      
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
-      `}</style>
     </div>
   );
 }

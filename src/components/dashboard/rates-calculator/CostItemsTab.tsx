@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -125,6 +124,17 @@ export const CostItemsTab: React.FC = () => {
       <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
         <h3 className="text-xl font-medium mb-4 text-white">{menuOptions.find(option => option.id === activeOption)?.label}</h3>
         <div className="text-lg whitespace-pre-line">{activeContent}</div>
+        
+        {/* Meal Plan Cost Table Image */}
+        {activeOption === "meal-plans" && (
+          <div className="mt-8 bg-white rounded-lg p-4">
+            <img 
+              src="/lovable-uploads/4fe8fc07-d747-4e00-97c8-345e93e645da.png" 
+              alt="Meal Plan Cost Table"
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

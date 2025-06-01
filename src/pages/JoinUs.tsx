@@ -121,34 +121,23 @@ export default function JoinUs() {
               {/* Third box - Enhanced design with blue glow and purple background - UPDATED CONTENT */}
               <div className="relative group w-fit">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className={`relative bg-white backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all duration-300 ${isMobile ? 'p-6 mx-6' : 'p-8'} animate-fade-in`}>
-                  <div className="space-y-8 text-gray-800 text-center max-w-3xl mx-auto">
-                    {/* Section 1 */}
-                    <div className="space-y-1">
-                      <p className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold`}>💼 We created a $131B category</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'}`}>🔗 We matched two massive needs</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'}`}>🧠 By building a unique, original model</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'} text-purple-700 font-semibold`}>🔒 A model that can't be cloned — and 80% still unknown!</p>
+                <div className={`relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all duration-300 ${isMobile ? 'p-6 mx-6' : 'p-8'}`}>
+                  <div className="space-y-5">
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">💼</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>We created a $131B category</span>
                     </div>
-
-                    {/* Section 2 */}
-                    <div className="space-y-1">
-                      <p className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold`}>🛡️ Hotel Living is crisis-proof</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'}`}>💸 The greater the crisis, the stronger the need to unify living costs.</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'}`}>🙅‍♂️ Business model benefiting from any crisis?</p>
-                      <p className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold text-green-700`}>📈 Yes. Hotel Living. It does!</p>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🔗</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>We matched two massive needs</span>
                     </div>
-
-                    {/* Section 3 */}
-                    <div className="space-y-1">
-                      <p className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold`}>🌐 We own the market — because our model creates it</p>
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'} text-gray-700`}>💰 $12B in annual profits — and an astonishing road ahead</p>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🧠</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>By building a unique, original model</span>
                     </div>
-
-                    {/* Section 4 */}
-                    <div className="space-y-1">
-                      <p className={`${isMobile ? 'text-base' : 'text-xl'} font-semibold`}>🎯 Very few even get this chance</p>
-                      <p className={`${isMobile ? 'text-lg' : 'text-2xl'} font-bold text-indigo-600`}>❓ Are you one of them who belong?</p>
+                    <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                      <span className="text-2xl mr-4 filter drop-shadow-lg">🔒</span>
+                      <span className={`${isMobile ? 'text-xs' : 'text-base'} font-semibold tracking-wide whitespace-nowrap`}>A model that can't be cloned — and 80% still unknown!</span>
                     </div>
                   </div>
                 </div>
@@ -178,7 +167,7 @@ export default function JoinUs() {
       
       <Footer />
       
-      <style jsx>{`
+      <style>{`
         @keyframes fade-in {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }

@@ -32,21 +32,31 @@ export function JoinUsForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
+    
+    // Diagnostic logging
+    console.log("🔄 NEW BUTTON: Starting form submission...", values);
+    console.log("🔄 NEW BUTTON: Payload being sent:", {
+      name: values.name,
+      email: values.email,
+      message: values.message,
+      recipientEmail: "grand_soiree@yahoo.com"
+    });
+    
     try {
-      console.log("Starting form submission...", values);
-      
-      // Submit the form and wait for actual result
+      // Submit the form with the new endpoint
       const success = await submitJoinUsForm({
         name: values.name,
         email: values.email,
-        message: values.message
+        message: values.message,
+        recipientEmail: "grand_soiree@yahoo.com"
       }, []);
       
-      console.log("Form submission result:", success);
+      console.log("✅ NEW BUTTON: Edge function response received:", success);
       
       if (success) {
         form.reset();
-        // Show success toast with purple background to match portal theme
+        console.log("✅ NEW BUTTON: Form submission confirmed successful");
+        // Show success toast only if function confirms delivery
         toast.success("Your message has been sent successfully! We'll be in touch soon.", {
           style: {
             background: "#8017B0",
@@ -55,7 +65,7 @@ export function JoinUsForm() {
           }
         });
       } else {
-        // Show error toast if submission failed
+        console.log("❌ NEW BUTTON: Edge function returned failure");
         toast.error("Failed to send your message. Please try again.", {
           style: {
             background: "#dc2626",
@@ -65,8 +75,12 @@ export function JoinUsForm() {
         });
       }
     } catch (error) {
-      console.error("Form submission error:", error);
-      // Show error toast for any caught exceptions
+      console.error("❌ NEW BUTTON: Exception caught:", error);
+      console.error("❌ NEW BUTTON: Error details:", {
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      
       toast.error("Something went wrong. Please try again later.", {
         style: {
           background: "#dc2626",
@@ -76,6 +90,7 @@ export function JoinUsForm() {
       });
     } finally {
       setIsSubmitting(false);
+      console.log("🔄 NEW BUTTON: Form submission process completed");
     }
   }
 
@@ -135,6 +150,10 @@ export function JoinUsForm() {
               </FormItem>
             )}
           />
+          
+          <p className="text-[#8017B0] text-sm font-medium mb-2">
+            Please, email us directly at contact@hotel-living.com.
+          </p>
           
           <Button 
             type="submit" 

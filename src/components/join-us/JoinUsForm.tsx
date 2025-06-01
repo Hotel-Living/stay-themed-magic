@@ -86,6 +86,8 @@ export function JoinUsForm() {
         <h2 className="text-xl font-bold text-[#FFF9B0]">APPLY TO JOIN</h2>
       </div>
       
+      <p className="text-white mb-6">Please, email us at contact@hotel-living.com.</p>
+      
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField

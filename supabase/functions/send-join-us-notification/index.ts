@@ -29,48 +29,105 @@ serve(async (req) => {
   }
   
   try {
-    console.log(`[${new Date().toISOString()}] Starting notification process`);
+    console.log(`[${new Date().toISOString()}] === STARTING EMAIL NOTIFICATION PROCESS ===`);
+    console.log(`[${new Date().toISOString()}] Request method: ${req.method}`);
+    console.log(`[${new Date().toISOString()}] Request headers:`, Object.fromEntries(req.headers.entries()));
     
-    // Get and validate API key
+    // Check for RESEND_API_KEY first
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    console.log(`[${new Date().toISOString()}] RESEND_API_KEY exists: ${!!RESEND_API_KEY}`);
+    console.log(`[${new Date().toISOString()}] RESEND_API_KEY length: ${RESEND_API_KEY ? RESEND_API_KEY.length : 0}`);
     
     if (!RESEND_API_KEY) {
-      console.error("Missing RESEND_API_KEY");
+      console.error(`[${new Date().toISOString()}] ❌ CRITICAL: Missing RESEND_API_KEY`);
       return new Response(
-        JSON.stringify({ error: "Server configuration error: Missing RESEND_API_KEY" }),
+        JSON.stringify({ 
+          error: "Server configuration error: Missing RESEND_API_KEY",
+          success: false,
+          timestamp: new Date().toISOString()
+        }),
         { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Get payload from request
-    const payload: WebhookPayload = await req.json();
+    // Get and log payload
+    const payloadText = await req.text();
+    console.log(`[${new Date().toISOString()}] Raw payload:`, payloadText);
     
-    console.log(`[${new Date().toISOString()}] Received payload:`, JSON.stringify(payload));
+    let payload: WebhookPayload;
+    try {
+      payload = JSON.parse(payloadText);
+      console.log(`[${new Date().toISOString()}] Parsed payload:`, JSON.stringify(payload, null, 2));
+    } catch (parseError) {
+      console.error(`[${new Date().toISOString()}] ❌ Failed to parse payload:`, parseError);
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid JSON payload",
+          success: false,
+          timestamp: new Date().toISOString()
+        }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+    
+    // Validate payload structure
+    if (!payload.record || !payload.record.id) {
+      console.error(`[${new Date().toISOString()}] ❌ Invalid payload structure:`, payload);
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid payload structure - missing record or record.id",
+          success: false,
+          timestamp: new Date().toISOString()
+        }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
     
     // Only proceed if this is a join_us_submissions insert
     if (payload.table !== "join_us_submissions" || payload.type !== "INSERT") {
-      console.log("Not a join_us_submissions insert event, skipping");
+      console.log(`[${new Date().toISOString()}] ⚠️ Not a join_us_submissions insert event, skipping`);
       return new Response(
-        JSON.stringify({ message: "Not a join_us_submissions insert event" }),
+        JSON.stringify({ 
+          message: "Not a join_us_submissions insert event",
+          success: true,
+          timestamp: new Date().toISOString()
+        }),
         { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
     // Get submission details
     const submission = payload.record;
-    
-    // Use default recipient email if none provided
     const recipientEmail = submission.recipient_email || "fernando_espineira@yahoo.com";
     
-    console.log(`[${new Date().toISOString()}] Processing submission for recipient: ${recipientEmail}`);
+    console.log(`[${new Date().toISOString()}] Processing submission ID: ${submission.id}`);
+    console.log(`[${new Date().toISOString()}] Recipient email: ${recipientEmail}`);
+    console.log(`[${new Date().toISOString()}] Sender: ${submission.name} <${submission.email}>`);
     
     // Create Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") as string;
+    
+    console.log(`[${new Date().toISOString()}] Supabase URL: ${supabaseUrl}`);
+    console.log(`[${new Date().toISOString()}] Service role key exists: ${!!supabaseKey}`);
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error(`[${new Date().toISOString()}] ❌ Missing Supabase configuration`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Missing Supabase configuration",
+          success: false,
+          timestamp: new Date().toISOString()
+        }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseKey);
     
     // Log notification attempt
-    await supabase
+    console.log(`[${new Date().toISOString()}] Logging notification attempt...`);
+    const { error: logError } = await supabase
       .from("notification_logs")
       .insert([{
         submission_id: submission.id,
@@ -80,23 +137,33 @@ serve(async (req) => {
         details: "Starting email send process"
       }]);
     
+    if (logError) {
+      console.error(`[${new Date().toISOString()}] ⚠️ Failed to log notification attempt:`, logError);
+    } else {
+      console.log(`[${new Date().toISOString()}] ✅ Notification attempt logged`);
+    }
+    
     // Get files associated with this submission (if any)
+    console.log(`[${new Date().toISOString()}] Fetching associated files...`);
     const { data: files, error: filesError } = await supabase
       .from("join_us_files")
       .select("*")
       .eq("submission_id", submission.id);
     
     if (filesError) {
-      console.error(`[${new Date().toISOString()}] Error fetching files:`, filesError);
+      console.error(`[${new Date().toISOString()}] ⚠️ Error fetching files:`, filesError);
+    } else {
+      console.log(`[${new Date().toISOString()}] Found ${files ? files.length : 0} files`);
     }
     
     // Format file links (only if files exist)
     const fileLinks = files && files.length > 0 ? files.map(file => {
       const publicUrl = `${supabaseUrl}/storage/v1/object/public/join-us-uploads/${file.file_path}`;
+      console.log(`[${new Date().toISOString()}] File link: ${publicUrl}`);
       return `<p><a href="${publicUrl}" target="_blank">${file.file_name}</a> (${(file.file_size / 1024).toFixed(1)} KB)</p>`;
     }).join("") : "";
 
-    console.log(`[${new Date().toISOString()}] Preparing to send email with files:`, files ? files.length : 0);
+    console.log(`[${new Date().toISOString()}] Preparing email content...`);
 
     // HTML email content
     const htmlContent = `
@@ -161,7 +228,20 @@ serve(async (req) => {
       </html>
     `;
     
-    console.log(`[${new Date().toISOString()}] Attempting to send email to: ${recipientEmail}`);
+    console.log(`[${new Date().toISOString()}] Email content prepared, length: ${htmlContent.length} characters`);
+    console.log(`[${new Date().toISOString()}] Attempting to send email via Resend API...`);
+    console.log(`[${new Date().toISOString()}] To: ${recipientEmail}`);
+    console.log(`[${new Date().toISOString()}] Reply-to: ${submission.email}`);
+    
+    const emailPayload = {
+      from: "Hotel Living <onboarding@resend.dev>",
+      to: recipientEmail,
+      reply_to: submission.email,
+      subject: `New Join Us Application: ${submission.name}`,
+      html: htmlContent,
+    };
+    
+    console.log(`[${new Date().toISOString()}] Email payload:`, JSON.stringify(emailPayload, null, 2));
     
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -169,18 +249,25 @@ serve(async (req) => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
-      body: JSON.stringify({
-        from: "Hotel Living <onboarding@resend.dev>",
-        to: recipientEmail,
-        reply_to: submission.email,
-        subject: `New Join Us Application: ${submission.name}`,
-        html: htmlContent,
-      }),
+      body: JSON.stringify(emailPayload),
     });
     
+    console.log(`[${new Date().toISOString()}] Resend API response status: ${emailResponse.status}`);
+    console.log(`[${new Date().toISOString()}] Resend API response headers:`, Object.fromEntries(emailResponse.headers.entries()));
+    
+    const responseText = await emailResponse.text();
+    console.log(`[${new Date().toISOString()}] Resend API response body:`, responseText);
+    
+    let emailResult;
+    try {
+      emailResult = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error(`[${new Date().toISOString()}] Failed to parse Resend response:`, parseError);
+      emailResult = { raw_response: responseText };
+    }
+    
     if (!emailResponse.ok) {
-      const errorData = await emailResponse.json();
-      console.error(`[${new Date().toISOString()}] Resend API error (${emailResponse.status}):`, errorData);
+      console.error(`[${new Date().toISOString()}] ❌ Resend API error (${emailResponse.status}):`, emailResult);
       
       // Log failure in database
       await supabase
@@ -190,17 +277,24 @@ serve(async (req) => {
           notification_type: "join_us_email",
           recipient_email: recipientEmail,
           status: "error",
-          details: JSON.stringify(errorData)
+          details: `Resend API error (${emailResponse.status}): ${JSON.stringify(emailResult)}`
         }]);
       
-      throw new Error(`Resend API returned ${emailResponse.status}: ${JSON.stringify(errorData)}`);
+      return new Response(
+        JSON.stringify({ 
+          error: `Resend API returned ${emailResponse.status}`,
+          details: emailResult,
+          success: false,
+          timestamp: new Date().toISOString()
+        }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
     }
     
-    const emailResult = await emailResponse.json();
-    console.log(`[${new Date().toISOString()}] Email successfully sent:`, JSON.stringify(emailResult));
+    console.log(`[${new Date().toISOString()}] ✅ Email successfully sent via Resend:`, emailResult);
     
     // Record successful send in database
-    await supabase
+    const { error: successLogError } = await supabase
       .from("notification_logs")
       .insert([{
         submission_id: submission.id,
@@ -210,16 +304,35 @@ serve(async (req) => {
         details: JSON.stringify(emailResult)
       }]);
     
+    if (successLogError) {
+      console.error(`[${new Date().toISOString()}] ⚠️ Failed to log success:`, successLogError);
+    } else {
+      console.log(`[${new Date().toISOString()}] ✅ Success logged to database`);
+    }
+    
+    console.log(`[${new Date().toISOString()}] === EMAIL NOTIFICATION PROCESS COMPLETED SUCCESSFULLY ===`);
+    
     return new Response(
-      JSON.stringify({ success: true, message: "Notification sent successfully", emailResult }),
+      JSON.stringify({ 
+        success: true, 
+        message: "Email notification sent successfully", 
+        emailResult,
+        timestamp: new Date().toISOString()
+      }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
+    
   } catch (error) {
-    console.error(`[${new Date().toISOString()}] Function error:`, error);
+    console.error(`[${new Date().toISOString()}] ❌ CRITICAL FUNCTION ERROR:`, error);
+    console.error(`[${new Date().toISOString()}] Error details:`, {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    });
     
     // Try to log the error if we have the submission ID
     try {
-      const payload = await req.clone().json();
+      const payloadText = await req.clone().text();
+      const payload = JSON.parse(payloadText);
       if (payload?.record?.id) {
         const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
         const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") as string;
@@ -232,15 +345,22 @@ serve(async (req) => {
             notification_type: "join_us_email",
             recipient_email: payload.record.recipient_email || "fernando_espineira@yahoo.com",
             status: "error",
-            details: error instanceof Error ? error.message : String(error)
+            details: `Function error: ${error instanceof Error ? error.message : String(error)}`
           }]);
+        
+        console.log(`[${new Date().toISOString()}] ✅ Error logged to database`);
       }
     } catch (logError) {
-      console.error("Failed to log error:", logError);
+      console.error(`[${new Date().toISOString()}] Failed to log error:`, logError);
     }
     
     return new Response(
-      JSON.stringify({ error: "Internal server error", details: error instanceof Error ? error.message : String(error) }),
+      JSON.stringify({ 
+        error: "Internal server error", 
+        details: error instanceof Error ? error.message : String(error),
+        success: false,
+        timestamp: new Date().toISOString()
+      }),
       { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }

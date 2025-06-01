@@ -45,7 +45,7 @@ serve(async (req) => {
     // Get payload from request
     const payload: WebhookPayload = await req.json();
     
-    console.log(`[${new Date().toISOString()}] Received webhook payload:`, JSON.stringify(payload));
+    console.log(`[${new Date().toISOString()}] Received payload:`, JSON.stringify(payload));
     
     // Only proceed if this is a join_us_submissions insert
     if (payload.table !== "join_us_submissions" || payload.type !== "INSERT") {
@@ -211,11 +211,34 @@ serve(async (req) => {
       }]);
     
     return new Response(
-      JSON.stringify({ success: true, message: "Notification sent successfully" }),
+      JSON.stringify({ success: true, message: "Notification sent successfully", emailResult }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error) {
     console.error(`[${new Date().toISOString()}] Function error:`, error);
+    
+    // Try to log the error if we have the submission ID
+    try {
+      const payload = await req.clone().json();
+      if (payload?.record?.id) {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
+        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") as string;
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
+        await supabase
+          .from("notification_logs")
+          .insert([{
+            submission_id: payload.record.id,
+            notification_type: "join_us_email",
+            recipient_email: payload.record.recipient_email || "fernando_espineira@yahoo.com",
+            status: "error",
+            details: error instanceof Error ? error.message : String(error)
+          }]);
+      }
+    } catch (logError) {
+      console.error("Failed to log error:", logError);
+    }
+    
     return new Response(
       JSON.stringify({ error: "Internal server error", details: error instanceof Error ? error.message : String(error) }),
       { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }

@@ -86,13 +86,27 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
       }));
     }
     
-    console.log("Form submission completed successfully");
+    // 3. Call the edge function directly to send the email notification
+    console.log("Calling edge function directly to send notification...");
     
-    // 3. Wait for the trigger to fire and the email to be processed
-    console.log("Waiting for email notification to be sent...");
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    const { data: functionResponse, error: functionError } = await supabase.functions.invoke('send-join-us-notification', {
+      body: {
+        type: 'INSERT',
+        table: 'join_us_submissions',
+        schema: 'public',
+        record: submission,
+        old_record: null
+      }
+    });
     
-    // 4. Check if the email notification was sent successfully
+    if (functionError) {
+      console.error("Edge function call error:", functionError);
+      throw new Error(`Email sending failed: ${functionError.message}`);
+    }
+    
+    console.log("Edge function called successfully:", functionResponse);
+    
+    // 4. Verify the notification was logged (optional check)
     const { data: notifications, error: notificationError } = await supabase
       .from('notification_logs')
       .select('*')
@@ -100,31 +114,20 @@ export async function submitJoinUsForm(formData: JoinUsSubmission, files: File[]
       .eq('notification_type', 'join_us_email')
       .order('created_at', { ascending: false });
     
-    if (notificationError) {
-      console.error("Error checking notification status:", notificationError);
-      // Don't fail the whole process if we can't check the notification status
-    }
-    
-    console.log("Notification status check result:", notifications);
-    
-    // Check if we have a successful notification
-    const hasSuccessfulNotification = notifications && notifications.some(n => n.status === 'success');
-    
-    if (hasSuccessfulNotification) {
-      console.log("Email notification sent successfully");
-      return true;
-    } else {
-      console.warn("Email notification may not have been sent successfully");
-      // Check if there are any error notifications
-      const hasErrorNotification = notifications && notifications.some(n => n.status === 'error');
-      if (hasErrorNotification) {
-        const errorNotification = notifications.find(n => n.status === 'error');
-        console.error("Email delivery failed:", errorNotification);
+    if (!notificationError && notifications && notifications.length > 0) {
+      const latestNotification = notifications[0];
+      console.log("Notification status:", latestNotification.status);
+      
+      if (latestNotification.status === 'error') {
+        console.warn("Email delivery failed:", latestNotification.details);
+        // Still return true since the form was submitted successfully
+        // The email failure is logged but doesn't fail the whole process
       }
-      // Still return true since the form was submitted successfully
-      // The notification system runs independently
-      return true;
     }
+    
+    console.log("Form submission and email notification completed successfully");
+    return true;
+    
   } catch (error) {
     console.error("Full form submission error:", error);
     return false;

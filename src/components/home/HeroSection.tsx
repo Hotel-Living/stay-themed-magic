@@ -28,10 +28,10 @@ export function HeroSection() {
           {/* New 1950s style neon sign slogan - with adjusted spacing: 50% bigger above, 50% smaller below */}
           <div className={`flex justify-center ${isMobile ? "mb-6 mt-14" : "mb-3 mt-5"}`}>
             <div className={`relative ${isMobile ? "w-[85%]" : "w-[26%]"} mx-auto`}>
-              {/* Blue glow effect background - updated to #85BCFF */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#85BCFF] via-[#85BCFF] to-purple-600 rounded-lg blur-xl opacity-75"></div>
+              {/* Blue glow effect background - updated to #006EF5 */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#006EF5] via-[#006EF5] to-purple-600 rounded-lg blur-xl opacity-75"></div>
               {/* Deep purple background */}
-              <div className="relative rounded-lg border-2 border-[#D946EF] bg-[#8017B0] backdrop-blur-sm shadow-[0_0_15px_rgba(133,188,255,0.7)] px-[11px] my-0 py-0">
+              <div className="relative rounded-lg border-2 border-[#D946EF] bg-[#8017B0] backdrop-blur-sm shadow-[0_0_15px_rgba(0,110,245,0.7)] px-[11px] my-0 py-0">
                 <p className={`${isMobile ? "text-base" : "text-2xs sm:text-xs md:text-sm"} font-bold max-w-full text-center whitespace-nowrap`} style={{
                 color: "#FFF9B0"
               }}>The Revolution Has Come</p>
@@ -39,26 +39,26 @@ export function HeroSection() {
             </div>
           </div>
           
-          {/* LIVE IN HOTELS with blue glow effect only - updated to #85BCFF */}
+          {/* LIVE IN HOTELS with blue glow effect only - updated to #006EF5 */}
           <h1 className={`${isMobile ? "text-[43.2px] leading-[1.1]" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"} font-bold mb-2 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(133, 188, 255, 0.8)) drop-shadow(0 0 20px rgba(133, 188, 255, 0.6)) drop-shadow(0 0 30px rgba(133, 188, 255, 0.4))'
+            filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
           }}>
             LIVE IN HOTELS
           </h1>
 
-          {/* Boost Your Life! with blue glow effect only - updated to #85BCFF */}
+          {/* Boost Your Life! with blue glow effect only - updated to #006EF5 */}
           <h2 className={`${isMobile ? "text-3xl" : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"} font-semibold mb-6 bg-size-200 animate-text bg-gradient-to-r from-[#ffff00] via-[#D4AF37] to-[#ffff00] bg-clip-text text-transparent`} style={{
-            filter: 'drop-shadow(0 0 10px rgba(133, 188, 255, 0.8)) drop-shadow(0 0 20px rgba(133, 188, 255, 0.6)) drop-shadow(0 0 30px rgba(133, 188, 255, 0.4))'
+            filter: 'drop-shadow(0 0 10px rgba(0, 110, 245, 0.8)) drop-shadow(0 0 20px rgba(0, 110, 245, 0.6)) drop-shadow(0 0 30px rgba(0, 110, 245, 0.4))'
           }}>
             Boost Your Life!
           </h2>
         </div>
         
-        {/* Updated slogan container with purple background and blue glow effect - updated to #85BCFF */}
+        {/* Updated slogan container with purple background and blue glow effect - updated to #006EF5 */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
         <div className={`max-w-2xl mx-auto rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} relative`}>
-          {/* Blue glow effect background - updated to #85BCFF */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#85BCFF] via-[#85BCFF] to-purple-600 rounded-lg blur-xl opacity-75"></div>
+          {/* Blue glow effect background - updated to #006EF5 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#006EF5] via-[#006EF5] to-purple-600 rounded-lg blur-xl opacity-75"></div>
           {/* Purple background */}
           <div className="relative bg-[#8017B0] rounded-lg">
             {/* For mobile: render all slogans in a single column */}

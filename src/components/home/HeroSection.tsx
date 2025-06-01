@@ -10,12 +10,12 @@ export function HeroSection() {
 
   // Render a single slogan item consistently
   const renderSlogan = (slogan: string, index: number) => <div key={index} className={`flex items-center ${isMobile ? "gap-2 pl-1 mb-3" : "gap-2"} p-0.5 rounded-lg`} style={{
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "transparent"
   }}>
       <div className="w-5 h-5 rounded-full bg-[#A2169A] flex-shrink-0 flex items-center justify-center">
         <Check className="w-3 h-3 text-white" />
       </div>
-      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#A2169A]`} style={{
+      <p className={`text-left font-bold ${isMobile ? "text-lg whitespace-normal" : "text-sm sm:text-base"} text-[#FFF9B0]`} style={{
       fontFamily: "'Franklin Gothic Medium Condensed', 'Arial Narrow', sans-serif"
     }}>
         {slogan}
@@ -51,22 +51,27 @@ export function HeroSection() {
           </h2>
         </div>
         
-        {/* Changed the container background color to #FFFFFF */}
+        {/* Updated slogan container with purple background and blue glow effect */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
-        <div className={`max-w-2xl mx-auto bg-[#FFFFFF] rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"}`}>
-          {/* For mobile: render all slogans in a single column */}
-          {isMobile ? <div className="py-2.5 pl-0">
-              {slogans.map(renderSlogan)}
-            </div> :
-        // For desktop: maintain the two-column grid layout
-        <div className="grid grid-cols-2 gap-x-4 gap-y-0.125">
-              <div className="space-y-0.125 py-1.5">
-                {slogans.slice(0, 2).map(renderSlogan)}
-              </div>
-              <div className="space-y-0.125 py-1.5">
-                {slogans.slice(2, 4).map(renderSlogan)}
-              </div>
-            </div>}
+        <div className={`max-w-2xl mx-auto rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} relative`}>
+          {/* Blue glow effect background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-lg blur-xl opacity-75"></div>
+          {/* Purple background */}
+          <div className="relative bg-[#8017B0] rounded-lg">
+            {/* For mobile: render all slogans in a single column */}
+            {isMobile ? <div className="py-2.5 pl-0">
+                {slogans.map(renderSlogan)}
+              </div> :
+          // For desktop: maintain the two-column grid layout
+          <div className="grid grid-cols-2 gap-x-4 gap-y-0.125">
+                <div className="space-y-0.125 py-1.5">
+                  {slogans.slice(0, 2).map(renderSlogan)}
+                </div>
+                <div className="space-y-0.125 py-1.5">
+                  {slogans.slice(2, 4).map(renderSlogan)}
+                </div>
+              </div>}
+          </div>
         </div>
       </div>
     </section>;

@@ -1,10 +1,8 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-
 export default function Contact() {
   return <div className="min-h-screen flex flex-col">
       <HotelStarfield />
@@ -21,12 +19,7 @@ export default function Contact() {
             </p>
             <p className="text-slate-50/90 text-base">
               Feel free to reach out to us at{" "}
-              <a 
-                href="mailto:contact@hotel-living.com" 
-                className="text-[#FFF9B0] hover:text-white transition-colors underline"
-              >
-                contact@hotel-living.com
-              </a>
+              <a href="mailto:contact@hotel-living.com" className="text-[#FFF9B0] hover:text-white transition-colors underline">contact@hotel-living.com</a>
               {" "}— we'd love to hear from you.
             </p>
           </div>

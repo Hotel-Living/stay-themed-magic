@@ -105,7 +105,7 @@ export function JoinMovementForm() {
           name: data.fullName,
           email: data.email,
           message: `Tier: ${data.tier}\n\n${data.motivation}`,
-          recipient_email: "contact@hotel-living.com"
+          recipient_email: "grand_soiree@yahoo.com"
         })
         .select()
         .single();

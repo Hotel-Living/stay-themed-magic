@@ -84,30 +84,32 @@ export function JoinMovementForm() {
     try {
       console.log("Submitting form data:", data);
       
-      // Insert the form data into join_requests table (without select to avoid RLS issues)
-      const { error: insertError } = await supabase
-        .from("join_requests")
+      // Insert the form data into join_us_submissions table (which has email notifications)
+      const { data: submission, error: insertError } = await supabase
+        .from("join_us_submissions")
         .insert({
-          full_name: data.fullName,
+          name: data.fullName,
           email: data.email,
-          tier: data.tier,
-          motivation: data.motivation
-        });
+          message: `Tier: ${data.tier}\n\n${data.motivation}`,
+          recipient_email: "contact@hotel-living.com"
+        })
+        .select()
+        .single();
 
       if (insertError) {
         console.error("Database insertion error:", insertError);
         throw new Error(`Failed to submit application: ${insertError.message}`);
       }
 
-      console.log("Form data inserted successfully");
+      console.log("Form data inserted successfully, submission ID:", submission.id);
 
-      // Upload files if any (simplified approach without needing the join request ID)
+      // Upload files if any and link them to the submission
       if (files.length > 0) {
         console.log(`Uploading ${files.length} files`);
         const uploadPromises = files.map(async (file) => {
-          const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name}`;
+          const fileName = `${submission.id}/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name}`;
           const { error: uploadError } = await supabase.storage
-            .from("join-requests-uploads")
+            .from("join-us-uploads")
             .upload(fileName, file);
 
           if (uploadError) {
@@ -115,6 +117,22 @@ export function JoinMovementForm() {
             toast.error(`Failed to upload ${file.name}: ${uploadError.message}`);
             return false;
           }
+
+          // Record the file in the join_us_files table
+          const { error: fileRecordError } = await supabase
+            .from("join_us_files")
+            .insert({
+              submission_id: submission.id,
+              file_name: file.name,
+              file_path: fileName,
+              file_type: file.type,
+              file_size: file.size
+            });
+
+          if (fileRecordError) {
+            console.error("File record error:", fileRecordError);
+          }
+
           return true;
         });
 

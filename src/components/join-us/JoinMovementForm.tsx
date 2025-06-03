@@ -10,6 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Upload, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
@@ -81,24 +82,35 @@ export function JoinMovementForm() {
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     try {
-      // Send email notification with form data and files
-      const emailData = {
-        name: data.fullName,
-        email: data.email,
-        message: `Tier: ${tierOptions.find(t => t.value === data.tier)?.label}\n\nMotivation:\n${data.motivation}`,
-        recipientEmail: "contact@hotel-living.com"
-      };
+      // Insert the form data into join_requests table
+      const { data: joinRequest, error: insertError } = await supabase
+        .from("join_requests")
+        .insert({
+          full_name: data.fullName,
+          email: data.email,
+          tier: data.tier,
+          motivation: data.motivation
+        })
+        .select()
+        .single();
 
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailData),
-      });
+      if (insertError) {
+        throw new Error(`Database error: ${insertError.message}`);
+      }
 
-      if (!response.ok) {
-        throw new Error('Failed to send email');
+      // Upload files if any
+      if (files.length > 0) {
+        for (const file of files) {
+          const fileName = `${joinRequest.id}/${Date.now()}-${file.name}`;
+          const { error: uploadError } = await supabase.storage
+            .from("join-requests-uploads")
+            .upload(fileName, file);
+
+          if (uploadError) {
+            console.error("File upload error:", uploadError);
+            toast.error(`Failed to upload ${file.name}`);
+          }
+        }
       }
 
       form.reset();

@@ -60,11 +60,25 @@ export function JoinMovementForm() {
     
     const validFiles = selectedFiles.filter(file => {
       if (file.size > maxSize) {
-        toast.error(`File ${file.name} is too large. Maximum size is 10MB.`);
+        toast.error(`File ${file.name} is too large. Maximum size is 10MB.`, {
+          style: { 
+            background: '#ef4444', 
+            color: 'white',
+            border: '1px solid #dc2626'
+          },
+          duration: 8000
+        });
         return false;
       }
       if (!allowedTypes.includes(file.type)) {
-        toast.error(`File ${file.name} has an invalid format. Please use PDF, DOC, DOCX, JPG, JPEG, or PNG.`);
+        toast.error(`File ${file.name} has an invalid format. Please use PDF, DOC, DOCX, JPG, JPEG, or PNG.`, {
+          style: { 
+            background: '#ef4444', 
+            color: 'white',
+            border: '1px solid #dc2626'
+          },
+          duration: 8000
+        });
         return false;
       }
       return true;
@@ -114,7 +128,14 @@ export function JoinMovementForm() {
 
           if (uploadError) {
             console.error("File upload error:", uploadError);
-            toast.error(`Failed to upload ${file.name}: ${uploadError.message}`);
+            toast.error(`Failed to upload ${file.name}: ${uploadError.message}`, {
+              style: { 
+                background: '#ef4444', 
+                color: 'white',
+                border: '1px solid #dc2626'
+              },
+              duration: 8000
+            });
             return false;
           }
 
@@ -145,10 +166,24 @@ export function JoinMovementForm() {
       setFiles([]);
       setShowConfirmation(true);
       
-      toast.success("Your application has been sent! We'll get back to you soon.");
+      toast.success("Your application has been sent! We'll get back to you soon.", {
+        style: { 
+          background: '#22c55e', 
+          color: 'white',
+          border: '1px solid #16a34a'
+        },
+        duration: 10000
+      });
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to send your application. Please try again later.");
+      toast.error(error instanceof Error ? error.message : "Failed to send your application. Please try again later.", {
+        style: { 
+          background: '#ef4444', 
+          color: 'white',
+          border: '1px solid #dc2626'
+        },
+        duration: 10000
+      });
     } finally {
       setIsSubmitting(false);
     }

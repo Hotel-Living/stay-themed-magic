@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,7 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { JoinUsHeader } from "@/components/join-us/JoinUsHeader";
 import { IntellectualPositioningSection } from "@/components/join-us/IntellectualPositioningSection";
 import { JoinUsForm } from "@/components/join-us/JoinUsForm";
+import { JoinMovementForm } from "@/components/join-us/JoinMovementForm";
 import { TeamLevelsAccordion } from "@/components/join-us/TeamLevelsAccordion";
 import { JoinUsFaq } from "@/components/join-us/faq/JoinUsFaq";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -273,6 +275,9 @@ export default function JoinUs() {
             <TeamLevelsAccordion />
             <JoinUsFaq />
             <JoinUsForm />
+            
+            {/* Add the new Join Movement Form */}
+            <JoinMovementForm />
           </div>
         </Container>
       </main>

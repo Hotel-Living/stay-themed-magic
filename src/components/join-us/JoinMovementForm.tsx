@@ -82,35 +82,45 @@ export function JoinMovementForm() {
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     try {
-      // Insert the form data into join_requests table
-      const { data: joinRequest, error: insertError } = await supabase
+      console.log("Submitting form data:", data);
+      
+      // Insert the form data into join_requests table (without select to avoid RLS issues)
+      const { error: insertError } = await supabase
         .from("join_requests")
         .insert({
           full_name: data.fullName,
           email: data.email,
           tier: data.tier,
           motivation: data.motivation
-        })
-        .select()
-        .single();
+        });
 
       if (insertError) {
-        throw new Error(`Database error: ${insertError.message}`);
+        console.error("Database insertion error:", insertError);
+        throw new Error(`Failed to submit application: ${insertError.message}`);
       }
 
-      // Upload files if any
+      console.log("Form data inserted successfully");
+
+      // Upload files if any (simplified approach without needing the join request ID)
       if (files.length > 0) {
-        for (const file of files) {
-          const fileName = `${joinRequest.id}/${Date.now()}-${file.name}`;
+        console.log(`Uploading ${files.length} files`);
+        const uploadPromises = files.map(async (file) => {
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name}`;
           const { error: uploadError } = await supabase.storage
             .from("join-requests-uploads")
             .upload(fileName, file);
 
           if (uploadError) {
             console.error("File upload error:", uploadError);
-            toast.error(`Failed to upload ${file.name}`);
+            toast.error(`Failed to upload ${file.name}: ${uploadError.message}`);
+            return false;
           }
-        }
+          return true;
+        });
+
+        const uploadResults = await Promise.all(uploadPromises);
+        const successfulUploads = uploadResults.filter(Boolean).length;
+        console.log(`Successfully uploaded ${successfulUploads} out of ${files.length} files`);
       }
 
       form.reset();
@@ -120,7 +130,7 @@ export function JoinMovementForm() {
       toast.success("Your application has been sent! We'll get back to you soon.");
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Failed to send your application. Please try again later.");
+      toast.error(error instanceof Error ? error.message : "Failed to send your application. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

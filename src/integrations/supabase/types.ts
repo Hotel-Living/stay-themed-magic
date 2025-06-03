@@ -542,6 +542,33 @@ export type Database = {
           },
         ]
       }
+      join_requests: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          motivation: string | null
+          tier: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          motivation?: string | null
+          tier: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          motivation?: string | null
+          tier?: string
+        }
+        Relationships: []
+      }
       join_us_files: {
         Row: {
           created_at: string

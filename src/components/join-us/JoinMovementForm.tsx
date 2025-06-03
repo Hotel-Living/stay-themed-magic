@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { Upload, X } from "lucide-react";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
@@ -40,6 +40,7 @@ const tierOptions = [
 export function JoinMovementForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -51,30 +52,36 @@ export function JoinMovementForm() {
     }
   });
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files || []);
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png', 'image/jpg'];
+    
+    const validFiles = selectedFiles.filter(file => {
+      if (file.size > maxSize) {
+        toast.error(`File ${file.name} is too large. Maximum size is 10MB.`);
+        return false;
+      }
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(`File ${file.name} has an invalid format. Please use PDF, DOC, DOCX, JPG, JPEG, or PNG.`);
+        return false;
+      }
+      return true;
+    });
+
+    setFiles(prev => [...prev, ...validFiles]);
+    // Reset the input value
+    event.target.value = '';
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     try {
-      // Store in Supabase if available
-      try {
-        const { error: dbError } = await supabase
-          .from("join_requests")
-          .insert([
-            {
-              full_name: data.fullName,
-              email: data.email,
-              tier: data.tier,
-              motivation: data.motivation,
-            },
-          ]);
-
-        if (dbError) {
-          console.error("Database insertion failed:", dbError);
-        }
-      } catch (dbError) {
-        console.error("Database not available:", dbError);
-      }
-
-      // Send email notification
+      // Send email notification with form data and files
       const emailData = {
         name: data.fullName,
         email: data.email,
@@ -95,6 +102,7 @@ export function JoinMovementForm() {
       }
 
       form.reset();
+      setFiles([]);
       setShowConfirmation(true);
       
       toast.success("Your application has been sent! We'll get back to you soon.");
@@ -221,6 +229,59 @@ export function JoinMovementForm() {
               </FormItem>
             )}
           />
+
+          {/* File Upload Section */}
+          <div className="space-y-4">
+            <FormLabel className="text-slate-50">Attach Files (Optional)</FormLabel>
+            <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center">
+              <input
+                type="file"
+                multiple
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="cursor-pointer flex flex-col items-center space-y-2"
+              >
+                <Upload className="h-8 w-8 text-white/60" />
+                <span className="text-white/80 text-sm">
+                  Click to upload files or drag and drop
+                </span>
+                <span className="text-white/60 text-xs">
+                  PDF, DOC, DOCX, JPG, JPEG, PNG (Max 10MB each)
+                </span>
+              </label>
+            </div>
+
+            {/* Display uploaded files */}
+            {files.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-slate-50 text-sm font-medium">Uploaded Files:</p>
+                {files.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-white/10 rounded-lg p-3 border border-white/20"
+                  >
+                    <span className="text-white text-sm truncate flex-1">
+                      {file.name}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeFile(index)}
+                      className="text-white/60 hover:text-white hover:bg-white/10 ml-2"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <Button 
             type="submit" 

@@ -6,7 +6,6 @@ import { Container } from "@/components/ui/container";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { JoinUsHeader } from "@/components/join-us/JoinUsHeader";
 import { IntellectualPositioningSection } from "@/components/join-us/IntellectualPositioningSection";
-import { JoinUsForm } from "@/components/join-us/JoinUsForm";
 import { JoinMovementForm } from "@/components/join-us/JoinMovementForm";
 import { TeamLevelsAccordion } from "@/components/join-us/TeamLevelsAccordion";
 import { JoinUsFaq } from "@/components/join-us/faq/JoinUsFaq";
@@ -274,7 +273,6 @@ export default function JoinUs() {
             <IntellectualPositioningSection />
             <TeamLevelsAccordion />
             <JoinUsFaq />
-            <JoinUsForm />
             
             {/* Add the new Join Movement Form */}
             <JoinMovementForm />

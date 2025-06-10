@@ -1,26 +1,26 @@
+
 import React from 'react';
-import { Building, Edit, Trash2, AlertTriangle } from "lucide-react";
-import EmptyState from "../../EmptyState";
-import { HotelCard } from "@/components/HotelCard";
-import { Hotel } from "@/integrations/supabase/types-custom";
-import DeletePropertyDialog from "../../DeletePropertyDialog";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { User } from "@supabase/supabase-js";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { MapPin, Users, Calendar, Edit, Trash2, Eye, Plus } from "lucide-react";
+import { Hotel } from "@/integrations/supabase/types-custom";
+import { DeletePropertyDialog } from "../DeletePropertyDialog";
 
 interface PropertyListViewProps {
-  user: User | null;
-  hotels?: Hotel[];
+  user: any;
+  hotels: any[] | undefined;
   isLoading: boolean;
-  error: Error | null;
+  error: any;
   onViewDetails: (hotel: Hotel) => void;
   onEdit: (hotelId: string) => void;
   onDelete: (hotel: Hotel) => void;
+  onAddNewProperty: () => void;
   deleteDialogOpen: boolean;
   hotelToDelete: Hotel | null;
   onCloseDeleteDialog: () => void;
   onConfirmDelete: () => void;
-  refetch: () => Promise<any>;
+  refetch: () => void;
 }
 
 export const PropertyListView: React.FC<PropertyListViewProps> = ({
@@ -31,130 +31,179 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
   onViewDetails,
   onEdit,
   onDelete,
+  onAddNewProperty,
   deleteDialogOpen,
   hotelToDelete,
   onCloseDeleteDialog,
   onConfirmDelete,
   refetch
 }) => {
-  if (!user) {
-    return (
-      <EmptyState
-        icon={<Building className="w-8 h-8" />}
-        title="No Properties Found"
-        description="You haven't added any properties yet. Add your first property to get started."
-      />
-    );
-  }
-
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Your Properties</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-2xl overflow-hidden">
-              <Skeleton className="h-48 w-full bg-fuchsia-900/30" />
-              <div className="p-4 space-y-2 bg-fuchsia-950/30">
-                <Skeleton className="h-6 w-3/4 bg-fuchsia-900/30" />
-                <Skeleton className="h-4 w-1/2 bg-fuchsia-900/30" />
-                <Skeleton className="h-4 w-2/3 bg-fuchsia-900/30" />
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-white">Loading your properties...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6 bg-red-900/20 border border-red-700/50 rounded-xl">
-        <div className="flex items-center gap-3 mb-3">
-          <AlertTriangle className="h-6 w-6 text-red-400" />
-          <h3 className="text-lg font-semibold text-red-300">Error Loading Properties</h3>
-        </div>
-        <p className="text-white/70 mb-4">There was a problem loading your properties. Please try again later.</p>
-        <Button onClick={() => refetch()} variant="outline" className="bg-red-700/30 hover:bg-red-700/50">
-          Try Again
-        </Button>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-red-400">Error loading properties: {error.message}</div>
       </div>
     );
   }
 
-  if (!hotels || hotels.length === 0) {
-    return (
-      <EmptyState
-        icon={<Building className="w-8 h-8" />}
-        title="No Properties Found"
-        description="You haven't added any properties yet. Add your first property to get started."
-      />
-    );
-  }
+  const getStatusBadgeColor = (status?: string) => {
+    switch (status) {
+      case 'approved':
+        return 'bg-green-600 text-white';
+      case 'pending':
+        return 'bg-yellow-600 text-white';
+      case 'rejected':
+        return 'bg-red-600 text-white';
+      default:
+        return 'bg-gray-600 text-white';
+    }
+  };
 
   return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {hotels.map((hotel) => (
-          <div key={hotel.id} className="relative group">
-            <div onClick={() => onViewDetails(hotel)} className="cursor-pointer">
-              <HotelCard
-                id={hotel.id}
-                name={hotel.name}
-                city={hotel.city}
-                country={hotel.country}
-                stars={hotel.category || 0}
-                pricePerMonth={hotel.price_per_month || 0}
-                themes={(hotel.hotel_themes || []).map((ht) => ht.themes || { id: "", name: "" })}
-                image={
-                  hotel.main_image_url
-                    ? hotel.main_image_url
-                    : hotel.hotel_images && hotel.hotel_images.length > 0
-                    ? hotel.hotel_images[0].image_url
-                    : "/placeholder.svg"
-                }
-                availableMonths={hotel.available_months || []}
-                rates={hotel.rates || {}}
-                currency={hotel.country && ['Spain', 'France', 'Germany', 'Italy', 'Portugal', 'Netherlands', 'Belgium', 'Austria', 'Ireland', 'Finland', 'Greece', 'Luxembourg', 'Malta', 'Cyprus', 'Slovenia', 'Slovakia', 'Estonia', 'Latvia', 'Lithuania'].includes(hotel.country) ? 'EUR' : 'USD'}
-              />
-            </div>
-            <div className="absolute top-2 right-2 z-10 flex gap-2">
-              <button
-                className="bg-fuchsia-600/90 text-white rounded-full p-2 shadow hover:bg-fuchsia-700 transition-opacity opacity-90 group-hover:opacity-100"
-                title="Edit this property"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(hotel.id);
-                }}
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-              <button
-                className="bg-red-500/90 text-white rounded-full p-2 shadow hover:bg-red-600 transition-opacity opacity-90 group-hover:opacity-100"
-                title="Delete this property"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete(hotel);
-                }}
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="space-y-6">
+      {/* Header with Add New Property Button */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-white mb-2">My Properties</h1>
+          <p className="text-white/60">
+            {hotels?.length || 0} {hotels?.length === 1 ? 'property' : 'properties'} registered
+          </p>
+        </div>
+        <Button
+          onClick={onAddNewProperty}
+          className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          Add New Property
+        </Button>
       </div>
 
-      {hotelToDelete && (
-        <DeletePropertyDialog
-          open={deleteDialogOpen}
-          onClose={onCloseDeleteDialog}
-          onConfirm={onConfirmDelete}
-          hotelName={hotelToDelete.name}
-          hotelId={hotelToDelete.id}
-        />
+      {/* Properties Grid */}
+      {!hotels || hotels.length === 0 ? (
+        <Card className="bg-purple-900/20 border-purple-800/30">
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <div className="text-center space-y-4">
+              <div className="text-white/60 text-lg">No properties registered yet</div>
+              <p className="text-white/40 max-w-md">
+                Start by adding your first property to begin receiving bookings and managing your hotel business.
+              </p>
+              <Button
+                onClick={onAddNewProperty}
+                className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2 mt-4"
+              >
+                <Plus className="h-4 w-4" />
+                Add Your First Property
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {hotels.map((hotel) => (
+            <Card key={hotel.id} className="bg-purple-900/20 border-purple-800/30 hover:border-purple-700/50 transition-colors">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <CardTitle className="text-white text-lg">{hotel.name}</CardTitle>
+                    <CardDescription className="text-white/60 flex items-center gap-1 mt-1">
+                      <MapPin className="h-3 w-3" />
+                      {hotel.city}, {hotel.country}
+                    </CardDescription>
+                  </div>
+                  <Badge className={getStatusBadgeColor(hotel.status)}>
+                    {hotel.status || 'pending'}
+                  </Badge>
+                </div>
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                {/* Hotel Image */}
+                {hotel.main_image_url && (
+                  <div className="aspect-video rounded-lg overflow-hidden">
+                    <img 
+                      src={hotel.main_image_url} 
+                      alt={hotel.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
+                {/* Hotel Details */}
+                <div className="space-y-2 text-sm text-white/80">
+                  {hotel.property_type && (
+                    <div className="flex items-center gap-2">
+                      <Users className="h-3 w-3" />
+                      <span>{hotel.property_type}</span>
+                    </div>
+                  )}
+                  
+                  {hotel.available_months && hotel.available_months.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-3 w-3" />
+                      <span>{hotel.available_months.length} months available</span>
+                    </div>
+                  )}
+
+                  {hotel.price_per_month && (
+                    <div className="text-fuchsia-400 font-semibold">
+                      ${hotel.price_per_month.toLocaleString()}/month
+                    </div>
+                  )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onViewDetails(hotel)}
+                    className="flex-1 text-white border-purple-600 hover:bg-purple-800/50"
+                  >
+                    <Eye className="h-3 w-3 mr-1" />
+                    View
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onEdit(hotel.id)}
+                    className="flex-1 text-white border-purple-600 hover:bg-purple-800/50"
+                  >
+                    <Edit className="h-3 w-3 mr-1" />
+                    Edit
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onDelete(hotel)}
+                    className="text-red-400 border-red-600 hover:bg-red-800/50"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       )}
-    </>
+
+      {/* Delete Confirmation Dialog */}
+      <DeletePropertyDialog
+        isOpen={deleteDialogOpen}
+        onClose={onCloseDeleteDialog}
+        onConfirm={onConfirmDelete}
+        hotelName={hotelToDelete?.name || ''}
+        refetch={refetch}
+      />
+    </div>
   );
 };

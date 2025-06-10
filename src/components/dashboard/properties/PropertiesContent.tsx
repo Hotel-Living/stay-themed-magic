@@ -6,6 +6,7 @@ import { Hotel } from "@/integrations/supabase/types-custom";
 import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
 import { PropertyEditView } from "./views/PropertyEditView";
+import AddProperty from "@/components/dashboard/AddProperty";
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -18,6 +19,7 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(propHotel || null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [hotelToDelete, setHotelToDelete] = useState<Hotel | null>(null);
+  const [showAddProperty, setShowAddProperty] = useState(false);
 
   // Use the enhanced hook to get complete hotel data
   const { data: hotels, isLoading, error, refetch } = useMyProperties(user?.id);
@@ -44,19 +46,33 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
     console.log("Selected hotel for details view:", completeHotel);
     setSelectedHotel(completeHotel);
     setEditingHotelId(null);
+    setShowAddProperty(false);
   };
 
   const handleBackToList = () => {
     setSelectedHotel(null);
     setEditingHotelId(null);
+    setShowAddProperty(false);
   };
 
   const handleEdit = () => {
     if (selectedHotel) {
       setEditingHotelId(selectedHotel.id);
+      setShowAddProperty(false);
     } else if (propOnEdit) {
       propOnEdit();
     }
+  };
+
+  const handleAddNewProperty = () => {
+    setShowAddProperty(true);
+    setSelectedHotel(null);
+    setEditingHotelId(null);
+  };
+
+  const handleDoneAddingProperty = () => {
+    setShowAddProperty(false);
+    refetch(); // Refresh the properties list
   };
 
   const handleDelete = (hotel: Hotel) => {
@@ -79,6 +95,14 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
   };
 
   // Rendering logic for different states
+  if (showAddProperty) {
+    return (
+      <AddProperty 
+        onDoneEditing={handleDoneAddingProperty}
+      />
+    );
+  }
+
   if (editingHotelId) {
     return (
       <PropertyEditView 
@@ -107,6 +131,7 @@ export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: Prop
       onViewDetails={handleViewDetails}
       onEdit={setEditingHotelId}
       onDelete={handleDelete}
+      onAddNewProperty={handleAddNewProperty}
       deleteDialogOpen={deleteDialogOpen}
       hotelToDelete={hotelToDelete}
       onCloseDeleteDialog={() => setDeleteDialogOpen(false)}

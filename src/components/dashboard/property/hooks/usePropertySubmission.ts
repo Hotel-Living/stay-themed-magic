@@ -84,8 +84,14 @@ export const usePropertySubmission = ({
         // Update existing hotel
         const result = await updateExistingHotel(formData, editingHotelId);
         hotelId = result.id;
-        noChangesDetected = result.noChangesDetected;
-        changesCount = result.changes;
+        
+        // Handle union type properly
+        if ('noChangesDetected' in result) {
+          noChangesDetected = result.noChangesDetected;
+        }
+        if ('changes' in result) {
+          changesCount = result.changes;
+        }
         
         if (noChangesDetected) {
           toast({

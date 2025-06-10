@@ -32,15 +32,10 @@ serve(async (req: Request) => {
   }
 
   console.log("[" + new Date().toISOString() + "] === STARTING EMAIL NOTIFICATION PROCESS ===");
-  console.log("[" + new Date().toISOString() + "] Request method:", req.method);
-  console.log("[" + new Date().toISOString() + "] Request headers:", Object.fromEntries(req.headers.entries()));
 
   const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
   const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
   const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-  console.log("[" + new Date().toISOString() + "] RESEND_API_KEY exists:", !!RESEND_API_KEY);
-  console.log("[" + new Date().toISOString() + "] RESEND_API_KEY length:", RESEND_API_KEY?.length || 0);
 
   if (!RESEND_API_KEY) {
     console.error("[" + new Date().toISOString() + "] Missing RESEND_API_KEY");
@@ -52,15 +47,10 @@ serve(async (req: Request) => {
 
   try {
     const payload = await req.json();
-    console.log("[" + new Date().toISOString() + "] Raw payload:", JSON.stringify(payload));
+    console.log("[" + new Date().toISOString() + "] Processing payload");
 
     const submission = payload.record as JoinUsSubmission;
-    console.log("[" + new Date().toISOString() + "] Parsed payload:", JSON.stringify(payload, null, 2));
     console.log("[" + new Date().toISOString() + "] Processing submission ID:", submission.id);
-    console.log("[" + new Date().toISOString() + "] Recipient email:", submission.recipient_email);
-    console.log("[" + new Date().toISOString() + "] Sender:", submission.name, "<" + submission.email + ">");
-    console.log("[" + new Date().toISOString() + "] Supabase URL:", SUPABASE_URL);
-    console.log("[" + new Date().toISOString() + "] Service role key exists:", !!SUPABASE_SERVICE_ROLE_KEY);
 
     // Initialize Supabase client with service role key
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
@@ -78,8 +68,6 @@ serve(async (req: Request) => {
 
     if (logError) {
       console.error("[" + new Date().toISOString() + "] Failed to log notification attempt:", logError);
-    } else {
-      console.log("[" + new Date().toISOString() + "] ✅ Notification attempt logged");
     }
 
     // Fetch associated files
@@ -96,8 +84,6 @@ serve(async (req: Request) => {
     console.log("[" + new Date().toISOString() + "] Found", files?.length || 0, "files");
 
     // Prepare email content
-    console.log("[" + new Date().toISOString() + "] Preparing email content...");
-    
     let emailHtml = `
       <!DOCTYPE html>
       <html>
@@ -150,8 +136,7 @@ serve(async (req: Request) => {
         <div class="info-section">
           <p><span class="label">Message:</span></p>
           <p>${submission.message.replace(/\n/g, '<br>')}</p>
-        </div>
-        `;
+        </div>`;
 
     // Prepare attachments
     const attachments = [];
@@ -160,56 +145,53 @@ serve(async (req: Request) => {
       emailHtml += `
         <div class="files-section">
           <h3>Attached Files:</h3>
-          <ul>
-      `;
+          <ul>`;
 
       for (const file of files) {
-        // Download file from Supabase storage
-        console.log("[" + new Date().toISOString() + "] Downloading file:", file.file_path);
+        console.log("[" + new Date().toISOString() + "] Processing file:", file.file_name);
         
-        const { data: fileData, error: downloadError } = await supabase.storage
-          .from('join-us-uploads')
-          .download(file.file_path);
+        try {
+          // Download file from Supabase storage
+          const { data: fileData, error: downloadError } = await supabase.storage
+            .from('join-us-uploads')
+            .download(file.file_path);
 
-        if (downloadError) {
-          console.error("[" + new Date().toISOString() + "] Error downloading file:", downloadError);
-          emailHtml += `<li>${file.file_name} (failed to download)</li>`;
-        } else {
-          console.log("[" + new Date().toISOString() + "] Successfully downloaded file:", file.file_name);
-          
-          // Convert file to base64 for attachment
-          const arrayBuffer = await fileData.arrayBuffer();
-          const base64Content = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-          
-          attachments.push({
-            filename: file.file_name,
-            content: base64Content,
-            type: file.file_type,
-            disposition: "attachment"
-          });
+          if (downloadError) {
+            console.error("[" + new Date().toISOString() + "] Error downloading file:", downloadError);
+            emailHtml += `<li>${file.file_name} (failed to download)</li>`;
+          } else {
+            console.log("[" + new Date().toISOString() + "] Successfully downloaded file:", file.file_name);
+            
+            // Convert file to base64 for attachment
+            const arrayBuffer = await fileData.arrayBuffer();
+            const uint8Array = new Uint8Array(arrayBuffer);
+            const binaryString = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
+            const base64Content = btoa(binaryString);
+            
+            attachments.push({
+              filename: file.file_name,
+              content: base64Content,
+              type: file.file_type,
+              disposition: "attachment"
+            });
 
-          emailHtml += `<li>${file.file_name} (${(file.file_size / 1024).toFixed(1)} KB)</li>`;
+            emailHtml += `<li>${file.file_name} (${(file.file_size / 1024).toFixed(1)} KB)</li>`;
+          }
+        } catch (fileError) {
+          console.error("[" + new Date().toISOString() + "] Error processing file:", file.file_name, fileError);
+          emailHtml += `<li>${file.file_name} (processing error)</li>`;
         }
       }
 
-      emailHtml += `
-          </ul>
-        </div>
-      `;
+      emailHtml += `</ul></div>`;
     }
 
-    emailHtml += `
-      </body>
-      </html>
-    `;
+    emailHtml += `</body></html>`;
 
-    console.log("[" + new Date().toISOString() + "] Email content prepared, length:", emailHtml.length, "characters");
-    console.log("[" + new Date().toISOString() + "] Number of attachments:", attachments.length);
+    console.log("[" + new Date().toISOString() + "] Email content prepared, attachments:", attachments.length);
 
     // Send email via Resend
-    console.log("[" + new Date().toISOString() + "] Attempting to send email via Resend API...");
-    console.log("[" + new Date().toISOString() + "] To:", submission.recipient_email);
-    console.log("[" + new Date().toISOString() + "] Reply-to:", submission.email);
+    console.log("[" + new Date().toISOString() + "] Sending email to:", submission.recipient_email);
 
     const emailPayload = {
       from: "Hotel Living <onboarding@resend.dev>",
@@ -219,11 +201,6 @@ serve(async (req: Request) => {
       html: emailHtml,
       ...(attachments.length > 0 && { attachments })
     };
-
-    console.log("[" + new Date().toISOString() + "] Email payload:", JSON.stringify({
-      ...emailPayload,
-      attachments: attachments.length > 0 ? `${attachments.length} files` : undefined
-    }, null, 2));
 
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -235,20 +212,17 @@ serve(async (req: Request) => {
     });
 
     console.log("[" + new Date().toISOString() + "] Resend API response status:", response.status);
-    console.log("[" + new Date().toISOString() + "] Resend API response headers:", JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
-
-    const responseBody = await response.text();
-    console.log("[" + new Date().toISOString() + "] Resend API response body:", responseBody);
 
     if (!response.ok) {
-      throw new Error(`Resend API error: ${response.status} ${responseBody}`);
+      const errorText = await response.text();
+      throw new Error(`Resend API error: ${response.status} ${errorText}`);
     }
 
-    const emailResult = JSON.parse(responseBody);
-    console.log("[" + new Date().toISOString() + "] ✅ Email successfully sent via Resend:", emailResult);
+    const emailResult = await response.json();
+    console.log("[" + new Date().toISOString() + "] ✅ Email successfully sent:", emailResult);
 
     // Log success
-    const { error: successLogError } = await supabase
+    await supabase
       .from('notification_logs')
       .insert({
         submission_id: submission.id,
@@ -257,12 +231,6 @@ serve(async (req: Request) => {
         status: 'success',
         details: `Email sent with ID: ${emailResult.id}. Attachments: ${attachments.length}`
       });
-
-    if (successLogError) {
-      console.error("[" + new Date().toISOString() + "] Failed to log success:", successLogError);
-    } else {
-      console.log("[" + new Date().toISOString() + "] ✅ Success logged to database");
-    }
 
     console.log("[" + new Date().toISOString() + "] === EMAIL NOTIFICATION PROCESS COMPLETED SUCCESSFULLY ===");
 
@@ -276,19 +244,31 @@ serve(async (req: Request) => {
 
     // Log error to database if possible
     try {
-      const payload = await req.clone().json();
-      const submission = payload.record as JoinUsSubmission;
-      const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+      const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+      const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
       
-      await supabase
-        .from('notification_logs')
-        .insert({
-          submission_id: submission.id,
-          recipient_email: submission.recipient_email || 'unknown',
-          notification_type: 'join_us_submission',
-          status: 'error',
-          details: error instanceof Error ? error.message : String(error)
-        });
+      if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+        const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+        
+        // Get submission ID from request if possible
+        let submissionId = 'unknown';
+        try {
+          const payload = await req.clone().json();
+          submissionId = payload.record?.id || 'unknown';
+        } catch {
+          // Failed to parse request again, use unknown
+        }
+        
+        await supabase
+          .from('notification_logs')
+          .insert({
+            submission_id: submissionId,
+            recipient_email: 'unknown',
+            notification_type: 'join_us_submission',
+            status: 'error',
+            details: error instanceof Error ? error.message : String(error)
+          });
+      }
     } catch (logError) {
       console.error("[" + new Date().toISOString() + "] Failed to log error:", logError);
     }

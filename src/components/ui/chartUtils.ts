@@ -1,5 +1,5 @@
 
-import { ChartConfig } from "./Chart";
+import { ChartConfig } from "./chart";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 export const THEMES = { light: "", dark: ".dark" } as const;

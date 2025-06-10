@@ -2,7 +2,7 @@
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 import { cn } from "@/lib/utils";
-import { ChartConfig } from "./Chart";
+import { ChartConfig } from "./chart";
 import { ChartContext } from "./ChartContext";
 import { ChartStyle } from "./ChartStyle";
 

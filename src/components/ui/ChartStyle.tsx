@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { ChartConfig } from "./Chart";
+import { ChartConfig } from "./chart";
 import { THEMES } from "./chartUtils";
 
 interface ChartStyleProps {

@@ -11,6 +11,9 @@ import { ThemePreferencesCard } from "./ThemePreferencesCard";
 import { LanguagePreferencesCard } from "./LanguagePreferencesCard";
 import { CurrencyPreferencesCard } from "./CurrencyPreferencesCard";
 import { NotificationSettingsCard } from "./NotificationSettingsCard";
+import { UserProfileForm } from "./UserProfileForm";
+import { PasswordChangeForm } from "./PasswordChangeForm";
+import { AdvancedNotificationSettings } from "./AdvancedNotificationSettings";
 
 export default function SettingsContent() {
   const { toast } = useToast();
@@ -117,6 +120,10 @@ export default function SettingsContent() {
   
   return (
     <div className="space-y-8">
+      <UserProfileForm />
+      
+      <PasswordChangeForm />
+      
       <ThemePreferencesCard 
         selectedThemes={selectedThemes}
         setSelectedThemes={setSelectedThemes}
@@ -137,6 +144,11 @@ export default function SettingsContent() {
       />
       
       <NotificationSettingsCard 
+        emailNotifications={emailNotifications}
+        setEmailNotifications={setEmailNotifications}
+      />
+      
+      <AdvancedNotificationSettings 
         emailNotifications={emailNotifications}
         setEmailNotifications={setEmailNotifications}
       />

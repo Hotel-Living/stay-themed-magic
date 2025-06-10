@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Globe } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { 
   Select, 
@@ -10,10 +9,11 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface LanguagePreferencesCardProps {
   language: string;
-  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  setLanguage: (language: string) => void;
 }
 
 export const LanguagePreferencesCard: React.FC<LanguagePreferencesCardProps> = ({
@@ -36,8 +36,9 @@ export const LanguagePreferencesCard: React.FC<LanguagePreferencesCardProps> = (
 
   return (
     <Card>
-      <CardHeader className="bg-[#860493] text-white pb-2 border-b border-fuchsia-800">
+      <CardHeader className="text-white">
         <CardTitle>Language Preferences</CardTitle>
+        <CardDescription className="text-gray-200">Choose your preferred language for the application</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 bg-[#860493]">
         <div>

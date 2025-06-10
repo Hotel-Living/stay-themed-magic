@@ -1,13 +1,12 @@
 
 import React from "react";
-import { Bell } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface NotificationSettingsCardProps {
   emailNotifications: boolean;
-  setEmailNotifications: React.Dispatch<React.SetStateAction<boolean>>;
+  setEmailNotifications: (enabled: boolean) => void;
 }
 
 export const NotificationSettingsCard: React.FC<NotificationSettingsCardProps> = ({
@@ -16,18 +15,21 @@ export const NotificationSettingsCard: React.FC<NotificationSettingsCardProps> =
 }) => {
   return (
     <Card>
-      <CardHeader className="bg-[#5d0083] text-white pb-2 border-b border-fuchsia-800">
-        <CardTitle>Notification Preferences</CardTitle>
+      <CardHeader className="text-white">
+        <CardTitle>Notification Settings</CardTitle>
+        <CardDescription className="text-gray-200">Manage how and when you receive updates</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 bg-[#5d0083]">
+      <CardContent className="space-y-6 bg-[#860493]">
         <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <Label htmlFor="email-notifications" className="text-base text-white">Email Notifications</Label>
-            <p className="text-sm text-gray-300">Receive booking updates and promotional offers via email</p>
+          <div>
+            <Label htmlFor="emailNotifications" className="text-base text-white">Email Notifications</Label>
+            <p className="text-sm text-gray-200">
+              Receive updates about new hotels matching your themes
+            </p>
           </div>
-          <Switch
-            id="email-notifications"
-            checked={emailNotifications}
+          <Switch 
+            id="emailNotifications" 
+            checked={emailNotifications} 
             onCheckedChange={setEmailNotifications}
           />
         </div>

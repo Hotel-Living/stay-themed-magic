@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { Users, Search, Flag, Calendar, DollarSign, Loader2 } from 'lucide-react';
+import { Users, Loader2 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { formatDate } from "./utils/dateUtils";
 import { ReportGuestDialog } from "./hotel-bookings/ReportGuestDialog";
-import { GuestBlacklistCheck } from "./hotel-bookings/GuestBlacklistCheck";
+import { GuestFilters } from "./GuestFilters";
+import { GuestList } from "./GuestList";
+import { GuestTableHeader } from "./GuestTableHeader";
 
 interface GuestData {
   user_id: string;
@@ -216,25 +215,10 @@ export const GuestsContent = () => {
     });
   };
 
-  const getGuestStatusBadge = (guest: GuestData) => {
-    if (guest.has_reports) {
-      return <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded">Flagged</span>;
-    }
-    if (guest.total_stays >= 3) {
-      return <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded">Frequent</span>;
-    }
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    if (new Date(guest.first_visit) > thirtyDaysAgo) {
-      return <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">New</span>;
-    }
-    return null;
-  };
-
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
-        <h2 className="text-xl font-bold mb-6">Guest Management</h2>
+        <GuestTableHeader title="Guest Management" />
         <div className="flex items-center justify-center p-12">
           <Loader2 className="w-6 h-6 animate-spin text-fuchsia-500" />
           <span className="ml-2">Loading guest data...</span>
@@ -245,114 +229,20 @@ export const GuestsContent = () => {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <h2 className="text-xl font-bold mb-6">Guest Management</h2>
+      <GuestTableHeader title="Guest Management" />
       
       {guests.length > 0 ? (
         <>
-          {/* Search and Filter Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Search guests by name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="flex gap-2">
-              {(['all', 'flagged', 'frequent', 'new'] as const).map((status) => (
-                <button
-                  key={status}
-                  onClick={() => setFilterStatus(status)}
-                  className={`px-3 py-2 text-sm rounded capitalize ${
-                    filterStatus === status
-                      ? 'bg-fuchsia-500/30 text-fuchsia-200'
-                      : 'bg-fuchsia-500/10 text-fuchsia-300 hover:bg-fuchsia-500/20'
-                  }`}
-                >
-                  {status}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Guest List */}
-          <div className="space-y-4">
-            {filteredGuests.map((guest) => {
-              const guestName = `${guest.first_name} ${guest.last_name}`.trim() || 'Unknown Guest';
-              const isPastGuest = new Date(guest.last_visit) < new Date();
-              
-              return (
-                <div key={guest.user_id} className="border border-fuchsia-900/20 rounded-lg p-4 bg-fuchsia-500/10">
-                  {/* Guest Alert Check */}
-                  {guest.has_reports && (
-                    <GuestBlacklistCheck guestId={guest.user_id} />
-                  )}
-                  
-                  <div className="flex items-start">
-                    <div className="w-10 h-10 rounded-full bg-fuchsia-500/20 flex-shrink-0 flex items-center justify-center mr-3">
-                      <Users className="w-5 h-5 text-fuchsia-300" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-bold text-lg">{guestName}</h3>
-                        {getGuestStatusBadge(guest)}
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-4">
-                        <div className="bg-fuchsia-950/30 p-3 rounded">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Calendar className="w-4 h-4 text-fuchsia-300" />
-                            <p className="text-xs text-muted-foreground">Total Stays</p>
-                          </div>
-                          <p className="font-medium">{guest.total_stays}</p>
-                        </div>
-                        <div className="bg-fuchsia-950/30 p-3 rounded">
-                          <div className="flex items-center gap-2 mb-1">
-                            <DollarSign className="w-4 h-4 text-fuchsia-300" />
-                            <p className="text-xs text-muted-foreground">Total Spent</p>
-                          </div>
-                          <p className="font-medium">${guest.total_spent}</p>
-                        </div>
-                        <div className="bg-fuchsia-950/30 p-3 rounded">
-                          <p className="text-xs text-muted-foreground">First Visit</p>
-                          <p className="font-medium">{formatDate(guest.first_visit)}</p>
-                        </div>
-                        <div className="bg-fuchsia-950/30 p-3 rounded">
-                          <p className="text-xs text-muted-foreground">Last Visit</p>
-                          <p className="font-medium">{formatDate(guest.last_visit)}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-4 flex gap-2">
-                        <button className="px-3 py-1 bg-fuchsia-500/20 hover:bg-fuchsia-500/30 text-fuchsia-200 text-sm rounded">
-                          View History
-                        </button>
-                        {isPastGuest && (
-                          <Button
-                            onClick={() => handleReportGuest(guest)}
-                            variant="outline"
-                            size="sm"
-                            className="px-3 py-1 text-sm"
-                          >
-                            <Flag className="w-3 h-3 mr-1" />
-                            Report Guest
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {filteredGuests.length === 0 && (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground">No guests found matching your criteria.</p>
-            </div>
-          )}
+          <GuestFilters 
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+          />
+          <GuestList 
+            guests={filteredGuests}
+            onReportGuest={handleReportGuest}
+          />
         </>
       ) : (
         <div className="text-center py-8">

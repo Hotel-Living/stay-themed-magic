@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { useBookingState } from "@/hooks/useBookingState";
 import { useFirstBookingMode } from "@/hooks/useFirstBookingMode";
 
 interface Hotel {
@@ -10,73 +9,67 @@ interface Hotel {
   price_per_month: number;
 }
 
-interface UseBookingLogicProps {
-  hotel: Hotel;
+interface PricingMatrixItem {
+  roomType: string;
+  stayLength: string;
+  mealPlan: string;
+  price: number;
 }
 
-export function useBookingLogic({ hotel }: UseBookingLogicProps) {
-  const [selectedMonth, setSelectedMonth] = useState<string>("");
-  const [selectedDuration, setSelectedDuration] = useState<number>(1);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+interface UseBookingLogicProps {
+  hotel?: Hotel;
+  stayDurations?: number[];
+  selectedDuration?: number;
+  setSelectedDuration?: (duration: number) => void;
+  handleBookClick?: () => void;
+  pricingMatrix?: PricingMatrixItem[];
+}
+
+export function useBookingLogic({
+  hotel,
+  stayDurations = [],
+  selectedDuration = 1,
+  setSelectedDuration,
+  handleBookClick,
+  pricingMatrix = []
+}: UseBookingLogicProps) {
+  const [selectedOption, setSelectedOption] = useState<PricingMatrixItem | null>(null);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [confirmedBookingData, setConfirmedBookingData] = useState<any>(null);
   
-  const { bookingState, updateBookingState } = useBookingState();
-  const { isFirstBooking, markFirstBookingComplete } = useFirstBookingMode();
+  const { isFirstTimeUser } = useFirstBookingMode();
 
-  // Update booking state when hotel or selections change
-  useEffect(() => {
-    if (hotel && selectedMonth) {
-      updateBookingState({
-        hotelId: hotel.id,
-        hotelName: hotel.name,
-        location: hotel.location,
-        month: selectedMonth,
-        duration: selectedDuration,
-        pricePerMonth: hotel.price_per_month,
-        totalPrice: hotel.price_per_month * selectedDuration,
-        dates: selectedDates
-      });
-    }
-  }, [hotel, selectedMonth, selectedDuration, selectedDates, updateBookingState]);
-
-  const handleMonthSelect = (month: string) => {
-    setSelectedMonth(month);
-    setShowCalendar(true);
+  const capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
-  const handleDurationChange = (duration: number) => {
-    setSelectedDuration(duration);
-  };
-
-  const handleDateSelect = (dates: Date[]) => {
-    setSelectedDates(dates);
-  };
-
-  const handleBookingComplete = () => {
-    if (isFirstBooking) {
-      markFirstBookingComplete();
+  const handleBookingClick = (checkInDate?: Date) => {
+    if (!selectedOption || !checkInDate) return;
+    
+    const bookingData = {
+      ...selectedOption,
+      checkInDate,
+      checkOutDate: new Date(checkInDate.getTime() + parseInt(selectedOption.stayLength) * 24 * 60 * 60 * 1000)
+    };
+    
+    setConfirmedBookingData(bookingData);
+    setBookingConfirmed(true);
+    
+    if (handleBookClick) {
+      handleBookClick();
     }
   };
 
-  const canProceedToBooking = Boolean(
-    hotel && 
-    selectedMonth && 
-    selectedDuration > 0 && 
-    selectedDates.length > 0
-  );
+  const isBookingDisabled = !selectedOption;
 
   return {
-    selectedMonth,
-    selectedDuration,
-    showCalendar,
-    selectedDates,
-    bookingState,
-    isFirstBooking,
-    canProceedToBooking,
-    handleMonthSelect,
-    handleDurationChange,
-    handleDateSelect,
-    handleBookingComplete,
-    setShowCalendar
+    selectedOption,
+    setSelectedOption,
+    bookingConfirmed,
+    confirmedBookingData,
+    isFirstTimeUser,
+    capitalize,
+    handleBookingClick,
+    isBookingDisabled
   };
 }

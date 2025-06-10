@@ -1,109 +1,82 @@
 
 import { useState, useEffect } from "react";
-import { addDays } from "date-fns";
+import { useBookingState } from "@/hooks/useBookingState";
 import { useFirstBookingMode } from "@/hooks/useFirstBookingMode";
 
-interface PricingMatrixItem {
-  roomType: string;
-  stayLength: string;
-  mealPlan: string;
-  price: number;
+interface Hotel {
+  id: string;
+  name: string;
+  location: string;
+  price_per_month: number;
 }
 
 interface UseBookingLogicProps {
-  stayDurations: number[];
-  selectedDuration: number;
-  setSelectedDuration: (duration: number) => void;
-  handleBookClick: () => void;
-  pricingMatrix?: Array<{
-    roomType: string;
-    stayLength: string;
-    mealPlan: string;
-    price: number;
-  }>;
+  hotel: Hotel;
 }
 
-export function useBookingLogic({
-  stayDurations,
-  selectedDuration,
-  setSelectedDuration,
-  handleBookClick,
-  pricingMatrix
-}: UseBookingLogicProps) {
-  const [selectedOption, setSelectedOption] = useState<PricingMatrixItem | null>(null);
-  const [bookingConfirmed, setBookingConfirmed] = useState(false);
-  const [confirmedBookingData, setConfirmedBookingData] = useState<{
-    roomType: string;
-    stayLength: string;
-    mealPlan: string;
-    price: number;
-    checkInDate: Date;
-    checkOutDate: Date;
-  } | null>(null);
-  const { isFirstTimeUser } = useFirstBookingMode();
+export function useBookingLogic({ hotel }: UseBookingLogicProps) {
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedDuration, setSelectedDuration] = useState<number>(1);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  
+  const { bookingState, updateBookingState } = useBookingState();
+  const { isFirstBooking, markFirstBookingComplete } = useFirstBookingMode();
 
-  // Initialize with longest duration if selectedDuration is 0
+  // Update booking state when hotel or selections change
   useEffect(() => {
-    if (stayDurations.length > 0 && selectedDuration === 0) {
-      const longestDuration = Math.max(...stayDurations);
-      setSelectedDuration(longestDuration);
+    if (hotel && selectedMonth) {
+      updateBookingState({
+        hotelId: hotel.id,
+        hotelName: hotel.name,
+        location: hotel.location,
+        month: selectedMonth,
+        duration: selectedDuration,
+        pricePerMonth: hotel.price_per_month,
+        totalPrice: hotel.price_per_month * selectedDuration,
+        dates: selectedDates
+      });
     }
-  }, [stayDurations, selectedDuration, setSelectedDuration]);
+  }, [hotel, selectedMonth, selectedDuration, selectedDates, updateBookingState]);
 
-  // Helper function to capitalize first letter
-  const capitalize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  const handleMonthSelect = (month: string) => {
+    setSelectedMonth(month);
+    setShowCalendar(true);
   };
 
-  // Enhanced booking handler that includes selected option data
-  const handleBookingClick = (checkInDate: Date | undefined) => {
-    if (!selectedOption) {
-      alert("Please select a room and pricing option before booking.");
-      return;
-    }
-
-    if (!checkInDate) {
-      alert("Please select a check-in date before booking.");
-      return;
-    }
-
-    // Show confirmation dialog with booking summary
-    const confirmMessage = `Do you want to confirm this booking?\n\n${capitalize(selectedOption.roomType)} Room – ${selectedOption.stayLength} nights – ${capitalize(selectedOption.mealPlan)} – ${selectedOption.price}`;
-    
-    if (!confirm(confirmMessage)) {
-      return;
-    }
-
-    // Create booking data with selected option values
-    const bookingData = {
-      roomType: selectedOption.roomType,
-      stayLength: selectedOption.stayLength,
-      mealPlan: selectedOption.mealPlan,
-      price: selectedOption.price,
-      checkInDate: checkInDate,
-      checkOutDate: addDays(checkInDate, parseInt(selectedOption.stayLength))
-    };
-
-    console.log("Booking with selected option:", bookingData);
-    
-    // Set confirmation state
-    setBookingConfirmed(true);
-    setConfirmedBookingData(bookingData);
-    
-    // Call the original booking handler
-    handleBookClick();
+  const handleDurationChange = (duration: number) => {
+    setSelectedDuration(duration);
   };
 
-  const isBookingDisabled = !selectedOption || bookingConfirmed;
+  const handleDateSelect = (dates: Date[]) => {
+    setSelectedDates(dates);
+  };
+
+  const handleBookingComplete = () => {
+    if (isFirstBooking) {
+      markFirstBookingComplete();
+    }
+  };
+
+  const canProceedToBooking = Boolean(
+    hotel && 
+    selectedMonth && 
+    selectedDuration > 0 && 
+    selectedDates.length > 0
+  );
 
   return {
-    selectedOption,
-    setSelectedOption,
-    bookingConfirmed,
-    confirmedBookingData,
-    isFirstTimeUser,
-    capitalize,
-    handleBookingClick,
-    isBookingDisabled
+    selectedMonth,
+    selectedDuration,
+    showCalendar,
+    selectedDates,
+    bookingState,
+    isFirstBooking,
+    canProceedToBooking,
+    handleMonthSelect,
+    handleDurationChange,
+    handleDateSelect,
+    handleBookingComplete,
+    setShowCalendar
   };
 }

@@ -1,3 +1,14 @@
+// Re-export all types from the organized type files
+export * from './types';
+
+// Re-export all custom types from the split files
+export * from './types/userTypes';
+export * from './types/hotelTypes';
+export * from './types/bookingTypes';
+export * from './types/affinitiesTypes';
+export * from './types/applicationTypes';
+
+// Keep the existing custom types that were already defined here
 export type Profile = {
   id: string;
   first_name: string | null;

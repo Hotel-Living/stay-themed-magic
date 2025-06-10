@@ -35,6 +35,7 @@ import CustomerService from "@/pages/CustomerService";
 import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
 import Compare from "@/pages/Compare";
+import AddPropertyPage from "@/pages/AddPropertyPage";
 
 const queryClient = createQueryClient();
 
@@ -68,6 +69,7 @@ function App() {
                 <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
                 <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
                 <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+                <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
                 <Route path="/featured-hotels" element={<FeaturedHotels />} />
                 <Route path="/videos" element={<Videos />} />
                 <Route path="/affinity-stays" element={<AffinityStays />} />

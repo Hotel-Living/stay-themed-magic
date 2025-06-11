@@ -11,6 +11,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Home from "@/pages/Index";
 import Hotels from "@/pages/Hotels";
 import HotelDetail from "@/pages/HotelDetail";
@@ -41,52 +42,55 @@ const queryClient = createQueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <SonnerToaster />
-          <Router>
-            <ScrollToTop />
-            <div className="min-h-screen">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/hotels" element={<Hotels />} />
-                <Route path="/hotel/:id" element={<HotelDetail />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/join-us" element={<JoinUs />} />
-                <Route path="/our-services" element={<OurServices />} />
-                <Route path="/our-values" element={<OurValues />} />
-                <Route path="/customer-service" element={<CustomerService />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/intellectual-property" element={<IntellectualProperty />} />
-                
-                {/* Protected Routes */}
-                <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
-                <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
-                <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
-                <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
-                <Route path="/featured-hotels" element={<FeaturedHotels />} />
-                <Route path="/videos" element={<Videos />} />
-                <Route path="/affinity-stays" element={<AffinityStays />} />
-                <Route path="/faq" element={<FAQ />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin/*" element={<AdminDashboard />} />
-                <Route path="/admin/roles" element={<AdminRoles />} />
-                
-                {/* Comparison Route */}
-                <Route path="/compare" element={<Compare />} />
-              </Routes>
-            </div>
-          </Router>
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <>
+      <GoogleAnalytics />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <SonnerToaster />
+            <Router>
+              <ScrollToTop />
+              <div className="min-h-screen">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/hotels" element={<Hotels />} />
+                  <Route path="/hotel/:id" element={<HotelDetail />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/join-us" element={<JoinUs />} />
+                  <Route path="/our-services" element={<OurServices />} />
+                  <Route path="/our-values" element={<OurValues />} />
+                  <Route path="/customer-service" element={<CustomerService />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/intellectual-property" element={<IntellectualProperty />} />
+                  
+                  {/* Protected Routes */}
+                  <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+                  <Route path="/hotel-dashboard" element={<ProtectedRoute requireHotelOwner={true}><HotelDashboard /></ProtectedRoute>} />
+                  <Route path="/hotel-registration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+                  <Route path="/add-property" element={<ProtectedRoute requireHotelOwner={true}><AddPropertyPage /></ProtectedRoute>} />
+                  <Route path="/featured-hotels" element={<FeaturedHotels />} />
+                  <Route path="/videos" element={<Videos />} />
+                  <Route path="/affinity-stays" element={<AffinityStays />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  
+                  {/* Admin Routes */}
+                  <Route path="/admin/*" element={<AdminDashboard />} />
+                  <Route path="/admin/roles" element={<AdminRoles />} />
+                  
+                  {/* Comparison Route */}
+                  <Route path="/compare" element={<Compare />} />
+                </Routes>
+              </div>
+            </Router>
+          </TooltipProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

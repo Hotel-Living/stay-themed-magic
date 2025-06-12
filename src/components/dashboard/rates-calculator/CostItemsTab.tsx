@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 interface MenuOption {
   id: string;
@@ -109,7 +110,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Utilities Cost Table Image */}
         {activeOption === "utilities" && <div className="mt-8 bg-white rounded-lg p-4">
-            <img src="/lovable-uploads/61382167-a901-4d85-9f7c-e285ae0d71ba.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
+            <img src="/lovable-uploads/0cbe5a61-e3cd-4c27-979c-ae584834b91a.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
           </div>}
         
         {/* Meal Plan Cost Table Image */}

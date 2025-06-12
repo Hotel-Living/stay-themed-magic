@@ -10,7 +10,7 @@ interface MenuOption {
 const menuOptions: MenuOption[] = [
   {
     id: "utilities",
-    label: "Utilities",
+    label: "LOWER UTILITIES",
     content: `⚙️ The Hotel-Living Utilities Model: Predictable, Responsible, Efficient
 Hotel-Living guests are not transient tourists — they are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
 Because of the longer stays and the more personal relationship they establish with your property, these guests tend to be more mindful of how they use resources.
@@ -31,7 +31,7 @@ Hotel-Living helps your property become a well-run, respectful home — and gues
   },
   {
     id: "cleaning", 
-    label: "Hotel-Living Cleaning Protocol",
+    label: "HOTEL-LIVING CLEANING PROTOCOL",
     content: `🧼 Hotel-Living Cleaning Protocol – Designed for Long-Term Comfort
 
 Hotel Living offers a new standard of hospitality — one that feels more like home.
@@ -53,7 +53,7 @@ less disruption, more privacy, and a feeling of truly belonging — not just sta
   },
   {
     id: "meal-plans",
-    label: "Meal Plans", 
+    label: "MEAL PLANS", 
     content: `🍳 The Hotel-Living Meal Model: Simple, Wholesome, Homestyle
 
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes —

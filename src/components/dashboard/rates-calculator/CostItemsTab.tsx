@@ -7,8 +7,9 @@ interface MenuOption {
 const menuOptions: MenuOption[] = [{
   id: "utilities",
   label: "LOWER UTILITIES",
-  content: `⚙️ The Hotel-Living Utilities Model: Predictable, Responsible, Efficient
-Hotel-Living guests are not transient tourists — they are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
+  content: `THE HOTEL-LIVING UTILITIES MODEL: PREDICTABLE, RESPONSIBLE, EFFICIENT
+
+⚙️ Hotel-Living guests are not transient tourists — they are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
 Because of the longer stays and the more personal relationship they establish with your property, these guests tend to be more mindful of how they use resources.
 
 They feel more like temporary tenants than short-term visitors — and that makes a real difference.

@@ -28,7 +28,9 @@ Hotel-Living helps your property become a well-run, respectful home — and gues
 }, {
   id: "cleaning",
   label: "HOTEL-LIVING CLEANING PROTOCOL",
-  content: `🧼 Hotel-Living Cleaning Protocol – Designed for Long-Term Comfort
+  content: `HOTEL-LIVING CLEANING PROTOCOL – DESIGNED FOR LONG-TERM COMFORT
+
+🧼 Hotel-Living Cleaning Protocol – Designed for Long-Term Comfort
 
 Hotel Living offers a new standard of hospitality — one that feels more like home.
 

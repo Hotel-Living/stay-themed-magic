@@ -53,8 +53,6 @@ less disruption, more privacy, and a feeling of truly belonging — not just sta
   label: "MEAL PLANS",
   content: `**THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE**
 
-🍳 The Hotel-Living Meal Model: Simple, Wholesome, Homestyle
-
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes —
 Hotel-Living is not about gourmet cuisine or lavish buffets.
 

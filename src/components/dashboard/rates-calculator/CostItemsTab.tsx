@@ -216,9 +216,9 @@ export const CostItemsTab: React.FC = () => {
           <div className="text-lg whitespace-pre-line">{activeContent}</div>
         )}
         
-        {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with closer spacing */}
+        {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with much closer spacing */}
         {activeOption === "total-costs" && (
-          <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-col items-center space-y-0.5">
             {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>

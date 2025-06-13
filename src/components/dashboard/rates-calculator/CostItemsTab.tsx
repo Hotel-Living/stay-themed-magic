@@ -117,17 +117,17 @@ export const CostItemsTab: React.FC = () => {
       {/* Content Area */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
         
-        <div className="text-lg whitespace-pre-line">{activeContent}</div>
-        
-        {/* Utilities Cost Table Image */}
-        {activeOption === "utilities" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
+        {/* Utilities Cost Table Image - moved to top */}
+        {activeOption === "utilities" && <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
             <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
           </div>}
         
-        {/* Meal Plan Cost Table Image */}
-        {activeOption === "meal-plans" && <div className="mt-8 bg-white rounded-lg p-4">
+        {/* Meal Plan Cost Table Image - moved to top */}
+        {activeOption === "meal-plans" && <div className="mb-8 bg-white rounded-lg p-4">
             <img src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" alt="Meal Plan Cost Table" className="w-full h-auto rounded-lg" />
           </div>}
+        
+        <div className="text-lg whitespace-pre-line">{activeContent}</div>
         
         {/* Total Costs Table Image */}
         {activeOption === "total-costs" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">

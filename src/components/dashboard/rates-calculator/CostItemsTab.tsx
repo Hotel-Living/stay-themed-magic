@@ -203,7 +203,7 @@ export const CostItemsTab: React.FC = () => {
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
-                src="/lovable-uploads/72031909-1c13-4c08-9093-aa1278759807.png" 
+                src="/lovable-uploads/4c462764-9dec-4277-86ac-2849cabd5013.png" 
                 alt="Meal Plan Cost Table" 
                 className="rounded-lg shadow-lg border border-purple-400/20" 
               />

@@ -7,24 +7,26 @@ interface MenuOption {
 const menuOptions: MenuOption[] = [{
   id: "utilities",
   label: "LOWER UTILITIES",
-  content: `**THE HOTEL-LIVING UTILITIES MODEL: PREDICTABLE, RESPONSIBLE, EFFICIENT**
+  content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
 
-⚙️ Hotel-Living guests are not transient tourists — they are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
+⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
+They are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
+
+🌿 SMARTER GUESTS, SMARTER RESOURCE USE
 Because of the longer stays and the more personal relationship they establish with your property, these guests tend to be more mindful of how they use resources.
-
 They feel more like temporary tenants than short-term visitors — and that makes a real difference.
-
-✅ Utilities consumption is lower and more stable
-✅ Energy-efficient systems (like LED lighting and moderate climate control) become even more effective
-✅ Guests naturally adopt more conservative habits, especially when they feel at home
-
-And there's another key reason:
-💜 Because Hotel-Living offers affordable rates, guests are often aware and respectful of the opportunity they've been given.
+________________________________________
+⚡ UTILITIES CONSUMPTION IS LOWER AND MORE STABLE
+💡 ENERGY-EFFICIENT SYSTEMS (like LED lighting and moderate climate control) become even more effective
+🌱 IF FEELING AT HOME guests naturally adopt more conservative habits
+________________________________________
+💜 A SENSE OF SHARED RESPONSIBILITY
+Because Hotel-Living offers affordable rates, guests are often aware and respectful of the opportunity they've been given.
 They know this model depends on balance, care, and sustainability — and most of them act accordingly.
-
-Thanks to reduced room turnover and simplified housekeeping protocols, utility usage remains consistent and optimized — with fewer spikes in electricity or water demand.
-
-Hotel-Living helps your property become a well-run, respectful home — and guests respond to that with gratitude and responsibility.`
+________________________________________
+🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
+Thanks to reduced room turnover and simplified housekeeping protocols, utility usage remains consistent and optimized, with fewer spikes in electricity or water demand.
+________________________________________`
 }, {
   id: "cleaning",
   label: "HOMESTYLE CLEANING",

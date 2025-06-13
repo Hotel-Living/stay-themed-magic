@@ -12,8 +12,15 @@ export const RatesCalculatorContent: React.FC = () => {
       {/* Header */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0]">
         <h2 className="text-xl font-bold text-center">
-          HOTEL-LIVING STANDARD ECONOMIC MODEL — 3-STAR HOTEL
+          HOTEL-LIVING STANDARD ECONOMIC MODEL
         </h2>
+      </div>
+
+      {/* Informational Text Block */}
+      <div className="text-white/80 text-sm text-center px-4">
+        <p>
+          These figures represent an example of average incremental costs per additional occupied room for a 3-star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.
+        </p>
       </div>
 
       <Tabs defaultValue="costs" className="w-full">

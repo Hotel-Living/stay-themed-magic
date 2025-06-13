@@ -6,7 +6,7 @@ interface MenuOption {
 }
 const menuOptions: MenuOption[] = [{
   id: "utilities",
-  label: "LOWER UTILITIES",
+  label: "UTILITIES",
   content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
 
 ⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
@@ -29,7 +29,7 @@ Thanks to reduced room turnover and simplified housekeeping protocols, utility u
 ________________________________________`
 }, {
   id: "cleaning",
-  label: "HOMESTYLE CLEANING",
+  label: "CLEANING",
   content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
 
 🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
@@ -55,7 +55,7 @@ This model reduces operational costs for hotels while offering guests a resident
 •	A feeling of truly belonging — not just staying.`
 }, {
   id: "meal-plans",
-  label: "MEAL PLANS",
+  label: "MEALS",
   content: `**THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE**
 
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes —
@@ -92,7 +92,7 @@ Hotels save. Guests feel at home.
 And the entire experience becomes scalable, sustainable, and deeply human.`
 }, {
   id: "total-costs",
-  label: "TOTAL COSTS",
+  label: "TOTAL COST",
   content: `**TOTAL COSTS**
 
 Content for Total Costs will be added here.`

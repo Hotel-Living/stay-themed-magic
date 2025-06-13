@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -173,7 +174,7 @@ export const CostItemsTab: React.FC = () => {
         {/* Utilities Cost Table Image - moved to top with scaled size */}
         {activeOption === "utilities" && (
           <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
-            <div className="transform scale-50 origin-top">
+            <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
                 alt="Utilities Cost Breakdown Table" 
@@ -186,7 +187,7 @@ export const CostItemsTab: React.FC = () => {
         {/* Cleaning Cost Table Image - moved to top with scaled size */}
         {activeOption === "cleaning" && (
           <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
-            <div className="transform scale-50 origin-top">
+            <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
                 alt="Cleaning & Laundry Costs Table" 
@@ -199,7 +200,7 @@ export const CostItemsTab: React.FC = () => {
         {/* Meal Plan Cost Table Image - moved to top with scaled size */}
         {activeOption === "meal-plans" && (
           <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-purple-800/60 to-blue-800/60 backdrop-blur-sm border border-purple-400/20 flex justify-center">
-            <div className="transform scale-50 origin-top">
+            <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" 
                 alt="Meal Plan Cost Table" 
@@ -214,7 +215,7 @@ export const CostItemsTab: React.FC = () => {
         {/* Total Costs Table Image with scaled size */}
         {activeOption === "total-costs" && (
           <div className="mt-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
-            <div className="transform scale-50 origin-top">
+            <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 
                 alt="Total Cost Per Full Stay Table" 

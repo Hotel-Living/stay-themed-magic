@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -216,9 +215,9 @@ export const CostItemsTab: React.FC = () => {
           <div className="text-lg whitespace-pre-line">{activeContent}</div>
         )}
         
-        {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with much closer spacing */}
+        {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with negative margins for tight spacing */}
         {activeOption === "total-costs" && (
-          <div className="flex flex-col items-center space-y-0.5">
+          <div className="flex flex-col items-center">
             {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
@@ -230,7 +229,7 @@ export const CostItemsTab: React.FC = () => {
             </div>
             
             {/* 4-STAR Hotel Table */}
-            <div className="transform scale-[0.65] origin-top relative">
+            <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" 
@@ -240,7 +239,7 @@ export const CostItemsTab: React.FC = () => {
             </div>
             
             {/* 5-STAR Hotel Table */}
-            <div className="transform scale-[0.65] origin-top relative">
+            <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" 

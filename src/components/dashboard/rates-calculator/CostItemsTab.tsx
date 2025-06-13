@@ -28,26 +28,29 @@ Hotel-Living helps your property become a well-run, respectful home — and gues
 }, {
   id: "cleaning",
   label: "HOMESTYLE CLEANING",
-  content: `**HOMESTYLE CLEANING – DESIGNED FOR LONG-TERM COMFORT**
+  content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
 
-🧼 Hotel-Living Cleaning Protocol – Designed for Long-Term Comfort
-
-Hotel Living offers a new standard of hospitality — one that feels more like home.
-
+🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
+🏡 ONE THAT FEELS MORE LIKE HOME.
 Unlike traditional hotels with daily housekeeping, our approach mirrors the rhythm of real life.
+
 Just like someone living at home might have light help a few times a week, our guests enjoy thoughtful, discreet care that supports their independence and comfort.
-
-🧽 Full cleaning once a week
+________________________________________
+🧹 FULL CLEANING — ONCE A WEEK
 A complete room cleaning every 7 days ensures hygiene and freshness, with minimal intrusion.
-
-🌀 Light daily refresh (upon request)
-Optional light touch-ups (like waste removal, tidying, and ventilation) are available — respectful of privacy and lifestyle.
-
-🛏️ Linen change every 5 days
+________________________________________
+🔄 LIGHT DAILY REFRESH (UPON REQUEST)
+Optional light touch-ups — 🗑️ waste removal, 🧺 light tidying, 🌬️ ventilation — are available, respectful of privacy and lifestyle.
+________________________________________
+🛏️ LINEN CHANGE — EVERY 5 DAYS
 Sheets and towels are refreshed regularly, matching the comfort standards of home living.
-
+________________________________________
+💼 OPERATIONAL BENEFITS
 This model reduces operational costs for hotels while offering guests a residential experience:
-less disruption, more privacy, and a feeling of truly belonging — not just staying.`
+
+•	Less disruption
+•	More privacy
+•	A feeling of truly belonging — not just staying.`
 }, {
   id: "meal-plans",
   label: "MEAL PLANS",

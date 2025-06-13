@@ -131,7 +131,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Total Costs Table Image */}
         {activeOption === "total-costs" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
-            <img src="/lovable-uploads/6045275a-03ce-46a0-9bbf-5fd8ffa36459.png" alt="Cost Per Additional Occupied Room Table" className="w-full h-auto rounded-lg mx-auto" />
+            <img src="/lovable-uploads/9e5f7815-ed09-4a9d-a73f-ae4e1a5b63d6.png" alt="Cost Per Additional Occupied Room Table" className="w-full h-auto rounded-lg mx-auto" />
           </div>}
       </div>
     </div>;

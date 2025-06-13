@@ -9,8 +9,7 @@ export const RatesCalculatorContent: React.FC = () => {
       <Tabs defaultValue="cost-items" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
           <TabsTrigger value="cost-items" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 text-xl font-bold">HOTEL-LIVING COSTS</TabsTrigger>
-          <TabsTrigger value="default-costs" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-xl">Standard Hotel Model (3-Star)
-        </TabsTrigger>
+          <TabsTrigger value="default-costs" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-xl">STANDARD HOTEL MODEL  (3-STAR)</TabsTrigger>
           <TabsTrigger value="rates-calculator" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 text-xl font-bold">PRICING CALCULATOR</TabsTrigger>
         </TabsList>
         

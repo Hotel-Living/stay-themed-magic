@@ -11,7 +11,7 @@ const menuOptions: MenuOption[] = [{
   content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
 
 ⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
-They are respectful long-stay residents who stay for 8, 16, 24, or 32 days.
+They are respectful long-stay residents who stay for 8, 16, 24, or 32 days. 
 
 🌿 SMARTER GUESTS, SMARTER RESOURCE USE
 Because of the longer stays and the more personal relationship they establish with your property, these guests tend to be more mindful of how they use resources.
@@ -127,6 +127,11 @@ export const CostItemsTab: React.FC = () => {
         {/* Meal Plan Cost Table Image */}
         {activeOption === "meal-plans" && <div className="mt-8 bg-white rounded-lg p-4">
             <img src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" alt="Meal Plan Cost Table" className="w-full h-auto rounded-lg" />
+          </div>}
+        
+        {/* Total Costs Table Image */}
+        {activeOption === "total-costs" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
+            <img src="/lovable-uploads/6045275a-03ce-46a0-9bbf-5fd8ffa36459.png" alt="Cost Per Additional Occupied Room Table" className="w-full h-auto rounded-lg mx-auto" />
           </div>}
       </div>
     </div>;

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 interface MenuOption {
   id: string;
@@ -90,6 +91,12 @@ This allows for bulk purchasing, simplified preparation, and further cost reduct
 
 Hotels save. Guests feel at home.
 And the entire experience becomes scalable, sustainable, and deeply human.`
+}, {
+  id: "total-costs",
+  label: "TOTAL COSTS",
+  content: `**TOTAL COSTS**
+
+Content for Total Costs will be added here.`
 }];
 export const CostItemsTab: React.FC = () => {
   const [activeOption, setActiveOption] = useState<string>("utilities");

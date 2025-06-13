@@ -27,8 +27,8 @@ Thanks to reduced room turnover and simplified housekeeping protocols, utility u
 Hotel-Living helps your property become a well-run, respectful home — and guests respond to that with gratitude and responsibility.`
 }, {
   id: "cleaning",
-  label: "HOTEL-LIVING CLEANING PROTOCOL",
-  content: `**HOTEL-LIVING CLEANING PROTOCOL – DESIGNED FOR LONG-TERM COMFORT**
+  label: "HOMESTYLE CLEANING",
+  content: `**HOMESTYLE CLEANING – DESIGNED FOR LONG-TERM COMFORT**
 
 🧼 Hotel-Living Cleaning Protocol – Designed for Long-Term Comfort
 

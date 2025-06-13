@@ -11,8 +11,8 @@ export const DefaultCostsTab: React.FC = () => {
         {/* Total Estimated Cost Per Room Table */}
         <div className="mt-8 bg-white rounded-lg p-4">
           <img 
-            src="/lovable-uploads/497b9ba7-0b8e-4891-beb5-2de2947149be.png" 
-            alt="Total Estimated Cost Per Room Table"
+            src="/lovable-uploads/3b6d517b-63a3-45e6-9203-f5b821753834.png" 
+            alt="Cost Per Additional Occupied Room Table"
             className="w-full h-auto rounded-lg mx-auto"
           />
         </div>

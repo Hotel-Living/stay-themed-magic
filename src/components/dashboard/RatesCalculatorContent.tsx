@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,8 +12,8 @@ export const RatesCalculatorContent: React.FC = () => {
           <TabsTrigger value="cost-items" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-lg">HOTEL-LIVING COSTS</TabsTrigger>
           <TabsTrigger value="default-costs" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-xl">
             <div className="flex flex-col items-center">
-              <div>STANDARD HOTEL MODEL</div>
-              <div className="text-sm">3-STAR</div>
+              <div className="text-lg">STANDARD HOTEL MODEL</div>
+              <div className="text-lg">3-STAR</div>
             </div>
           </TabsTrigger>
           <TabsTrigger value="rates-calculator" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-lg">PRICING CALCULATOR</TabsTrigger>

@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -133,9 +134,7 @@ ________________________________________
   {
     id: "total-costs",
     label: "TOTAL COST",
-    content: `**TOTAL COSTS**
-
-Content for Total Costs will be added here.`
+    content: ``
   }
 ];
 
@@ -210,11 +209,14 @@ export const CostItemsTab: React.FC = () => {
           </div>
         )}
         
-        <div className="text-lg whitespace-pre-line">{activeContent}</div>
+        {/* Content display only for non-total-costs sections */}
+        {activeOption !== "total-costs" && (
+          <div className="text-lg whitespace-pre-line">{activeContent}</div>
+        )}
         
         {/* Total Costs Table Image with scaled size */}
         {activeOption === "total-costs" && (
-          <div className="mt-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
+          <div className="rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
             <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 

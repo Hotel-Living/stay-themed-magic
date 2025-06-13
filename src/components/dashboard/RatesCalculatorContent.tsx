@@ -32,7 +32,7 @@ export const RatesCalculatorContent: React.FC = () => {
         {/* Soft blue glow background */}
         <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
         <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
-          <p className="font-semibold">
+          <p className="font-bold">
             These figures represent an example of average incremental costs per additional occupied room for a 3-star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.
           </p>
         </div>
@@ -59,7 +59,7 @@ export const RatesCalculatorContent: React.FC = () => {
         
         <TabsContent value="costs-profits">
           <Tabs value={costsSubTab} onValueChange={setCostsSubTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
               <TabsTrigger 
                 value="costs" 
                 className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base"

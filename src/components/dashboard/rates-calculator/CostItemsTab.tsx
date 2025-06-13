@@ -122,7 +122,7 @@ export const CostItemsTab: React.FC = () => {
           </div>}
         
         {/* Meal Plan Cost Table Image - moved to top */}
-        {activeOption === "meal-plans" && <div className="mb-8 bg-white rounded-lg p-4">
+        {activeOption === "meal-plans" && <div className="mb-8 rounded-lg p-4 bg-[#7c27af]">
             <img src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" alt="Meal Plan Cost Table" className="w-1/2 h-auto rounded-lg mx-auto" />
           </div>}
         

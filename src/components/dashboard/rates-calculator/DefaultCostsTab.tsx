@@ -1,3 +1,4 @@
+
 import React from "react";
 export const DefaultCostsTab: React.FC = () => {
   return <div className="space-y-4">
@@ -7,7 +8,7 @@ export const DefaultCostsTab: React.FC = () => {
         
         {/* Total Estimated Cost Per Room Table */}
         <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
-          <img src="/lovable-uploads/3b6d517b-63a3-45e6-9203-f5b821753834.png" alt="Cost Per Additional Occupied Room Table" className="w-full h-auto rounded-lg mx-auto" />
+          <img src="/lovable-uploads/589c396e-8094-48ec-956c-aeb87a21450a.png" alt="Cost Per Additional Occupied Room Table" className="w-full h-auto rounded-lg mx-auto" />
         </div>
       </div>
     </div>;

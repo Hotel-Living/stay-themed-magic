@@ -15,7 +15,7 @@ export const getDashboardTabs = (): DashboardTab[] => [
   },
   {
     id: "rates-calculator",
-    label: "Rates Calculator", 
+    label: "Calculate your Hotel-Living Rates", 
     icon: <Calculator className="w-5 h-5" />
   },
   {

@@ -23,20 +23,13 @@ export const RatesCalculatorContent: React.FC = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="costs" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
+      <Tabs defaultValue="costs-profits" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
           <TabsTrigger 
-            value="costs" 
+            value="costs-profits" 
             className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg"
           >
-            COSTS
-          </TabsTrigger>
-          
-          <TabsTrigger 
-            value="final-profits" 
-            className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg"
-          >
-            FINAL PROFITS
+            COSTS & PROFITS
           </TabsTrigger>
           
           <TabsTrigger 
@@ -47,16 +40,8 @@ export const RatesCalculatorContent: React.FC = () => {
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="costs">
+        <TabsContent value="costs-profits">
           <CostItemsTab />
-        </TabsContent>
-        
-        <TabsContent value="final-profits">
-          <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
-            <div className="text-lg">
-              Final Profits content will be added here.
-            </div>
-          </div>
         </TabsContent>
         
         <TabsContent value="model-rates-calculator">

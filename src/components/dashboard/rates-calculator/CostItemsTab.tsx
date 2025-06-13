@@ -170,9 +170,9 @@ export const CostItemsTab: React.FC = () => {
       {/* Content Area with Updated Background */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
         
-        {/* Utilities Cost Table Image - moved to top with scaled size */}
+        {/* Utilities Cost Table Image - tighter container */}
         {activeOption === "utilities" && (
-          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
+          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
             <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
@@ -183,9 +183,9 @@ export const CostItemsTab: React.FC = () => {
           </div>
         )}
         
-        {/* Cleaning Cost Table Image - moved to top with scaled size */}
+        {/* Cleaning Cost Table Image - tighter container */}
         {activeOption === "cleaning" && (
-          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
+          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
             <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
@@ -196,9 +196,9 @@ export const CostItemsTab: React.FC = () => {
           </div>
         )}
         
-        {/* Meal Plan Cost Table Image - moved to top with scaled size */}
+        {/* Meal Plan Cost Table Image - tighter container */}
         {activeOption === "meal-plans" && (
-          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-purple-800/60 to-blue-800/60 backdrop-blur-sm border border-purple-400/20 flex justify-center">
+          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-purple-800/60 to-blue-800/60 backdrop-blur-sm border border-purple-400/20 flex justify-center w-fit mx-auto">
             <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" 
@@ -214,9 +214,9 @@ export const CostItemsTab: React.FC = () => {
           <div className="text-lg whitespace-pre-line">{activeContent}</div>
         )}
         
-        {/* Total Costs Table Image with scaled size */}
+        {/* Total Costs Table Image - tighter container */}
         {activeOption === "total-costs" && (
-          <div className="rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center">
+          <div className="rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
             <div className="transform scale-[0.65] origin-top">
               <img 
                 src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 

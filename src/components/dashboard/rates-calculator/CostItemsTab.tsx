@@ -1,5 +1,4 @@
 
-
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -170,40 +169,43 @@ export const CostItemsTab: React.FC = () => {
       {/* Content Area with Updated Background */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
         
-        {/* Utilities Cost Table Image - tighter container */}
+        {/* Utilities Cost Table Image with purple glow */}
         {activeOption === "utilities" && (
-          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
-            <div className="transform scale-[0.65] origin-top">
+          <div className="mb-8 flex justify-center">
+            <div className="transform scale-[0.65] origin-top relative">
+              <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
                 alt="Utilities Cost Breakdown Table" 
-                className="rounded-lg" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
               />
             </div>
           </div>
         )}
         
-        {/* Cleaning Cost Table Image - tighter container */}
+        {/* Cleaning Cost Table Image with purple glow */}
         {activeOption === "cleaning" && (
-          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
-            <div className="transform scale-[0.65] origin-top">
+          <div className="mb-8 flex justify-center">
+            <div className="transform scale-[0.65] origin-top relative">
+              <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
                 alt="Cleaning & Laundry Costs Table" 
-                className="rounded-lg" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
               />
             </div>
           </div>
         )}
         
-        {/* Meal Plan Cost Table Image - tighter container */}
+        {/* Meal Plan Cost Table Image with purple glow */}
         {activeOption === "meal-plans" && (
-          <div className="mb-8 rounded-lg p-2 bg-gradient-to-br from-purple-800/60 to-blue-800/60 backdrop-blur-sm border border-purple-400/20 flex justify-center w-fit mx-auto">
-            <div className="transform scale-[0.65] origin-top">
+          <div className="mb-8 flex justify-center">
+            <div className="transform scale-[0.65] origin-top relative">
+              <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" 
                 alt="Meal Plan Cost Table" 
-                className="rounded-lg" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
               />
             </div>
           </div>
@@ -214,14 +216,15 @@ export const CostItemsTab: React.FC = () => {
           <div className="text-lg whitespace-pre-line">{activeContent}</div>
         )}
         
-        {/* Total Costs Table Image - tighter container */}
+        {/* Total Costs Table Image with purple glow */}
         {activeOption === "total-costs" && (
-          <div className="rounded-lg p-2 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20 flex justify-center w-fit mx-auto">
-            <div className="transform scale-[0.65] origin-top">
+          <div className="flex justify-center">
+            <div className="transform scale-[0.65] origin-top relative">
+              <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
                 src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 
                 alt="Total Cost Per Full Stay Table" 
-                className="rounded-lg" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
               />
             </div>
           </div>

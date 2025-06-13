@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 interface MenuOption {
@@ -222,7 +221,7 @@ export const CostItemsTab: React.FC = () => {
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
               <img 
-                src="/lovable-uploads/7e6d8f1a-4d9d-4f8f-bdfe-16d4b838dad3.png" 
+                src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" 
                 alt="Total Cost Per Full Stay Table" 
                 className="rounded-lg shadow-lg border border-purple-400/20" 
               />

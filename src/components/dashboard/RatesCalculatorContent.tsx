@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +8,7 @@ export const RatesCalculatorContent: React.FC = () => {
   return <div className="space-y-6">
       <Tabs defaultValue="cost-items" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
-          <TabsTrigger value="cost-items" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-lg">HOTEL-LIVING COSTS</TabsTrigger>
+          <TabsTrigger value="cost-items" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-lg">HOTEL-LIVING COST MODEL FOR A STANDARD 3-STAR HOTEL</TabsTrigger>
           <TabsTrigger value="default-costs" className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-xl">
             <div className="flex flex-col items-center">
               <div className="text-lg">STANDARD HOTEL MODEL</div>

@@ -36,12 +36,40 @@ export const RatesCalculatorContent: React.FC = () => {
             value="model-rates-calculator" 
             className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg"
           >
-            MODEL & RATES CALCULATOR
+            BUILD YOUR OWN MODEL & RATES
           </TabsTrigger>
         </TabsList>
         
         <TabsContent value="costs-profits">
-          <CostItemsTab />
+          <Tabs defaultValue="costs" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#460F54]/30 backdrop-blur-sm h-12 p-1">
+              <TabsTrigger 
+                value="costs" 
+                className="py-3 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-semibold"
+              >
+                COSTS
+              </TabsTrigger>
+              
+              <TabsTrigger 
+                value="profits" 
+                className="py-3 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-semibold"
+              >
+                PROFITS
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="costs">
+              <CostItemsTab />
+            </TabsContent>
+            
+            <TabsContent value="profits">
+              <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
+                <div className="text-lg">
+                  Profits content will be added here.
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </TabsContent>
         
         <TabsContent value="model-rates-calculator">
@@ -50,10 +78,6 @@ export const RatesCalculatorContent: React.FC = () => {
               Model & Rates Calculator content will be added here.
             </div>
           </div>
-        </TabsContent>
-        
-        <TabsContent value="default-costs">
-          <DefaultCostsTab />
         </TabsContent>
       </Tabs>
     </div>

@@ -146,34 +146,34 @@ export const CostItemsTab: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Horizontal Menu */}
+      {/* Redesigned Horizontal Menu with Hotel-Living Colors */}
       <div className="flex justify-center space-x-3">
         {menuOptions.map(option => (
           <div
             key={option.id}
             onClick={() => setActiveOption(option.id)}
             className={`
-              relative cursor-pointer px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-300 border
+              relative cursor-pointer px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border backdrop-blur-sm
               ${activeOption === option.id 
-                ? 'bg-gradient-to-r from-indigo-500/70 to-purple-500/70 text-white shadow-lg transform scale-105 border-indigo-300/40 backdrop-blur-sm' 
-                : 'bg-gradient-to-r from-slate-700/50 to-slate-600/50 text-white/80 hover:from-slate-600/60 hover:to-slate-500/60 hover:text-white hover:scale-102 border-slate-500/30 backdrop-blur-sm'}
+                ? 'bg-gradient-to-r from-blue-600/80 to-purple-600/80 text-white shadow-lg transform scale-105 border-blue-300/40' 
+                : 'bg-gradient-to-r from-blue-800/40 to-purple-800/40 text-white/80 hover:from-blue-700/60 hover:to-purple-700/60 hover:text-white hover:scale-102 border-blue-500/30'}
             `}
           >
-            {/* Subtle glow effect for active item */}
+            {/* Soft glow effect for active item */}
             {activeOption === option.id && (
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 rounded-md blur-lg opacity-60 -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-lg blur-lg opacity-60 -z-10"></div>
             )}
             {option.label}
           </div>
         ))}
       </div>
 
-      {/* Content Area */}
-      <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
+      {/* Content Area with Updated Background */}
+      <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
         
         {/* Utilities Cost Table Image - moved to top */}
         {activeOption === "utilities" && (
-          <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
+          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20">
             <img 
               src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
               alt="Utilities Cost Breakdown Table" 
@@ -184,7 +184,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Cleaning Cost Table Image - moved to top */}
         {activeOption === "cleaning" && (
-          <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
+          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20">
             <img 
               src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
               alt="Cleaning & Laundry Costs Table" 
@@ -195,7 +195,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Meal Plan Cost Table Image - moved to top */}
         {activeOption === "meal-plans" && (
-          <div className="mb-8 rounded-lg p-4 bg-[#7c27af]">
+          <div className="mb-8 rounded-lg p-4 bg-gradient-to-br from-purple-800/60 to-blue-800/60 backdrop-blur-sm border border-purple-400/20">
             <img 
               src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" 
               alt="Meal Plan Cost Table" 
@@ -208,7 +208,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Total Costs Table Image */}
         {activeOption === "total-costs" && (
-          <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
+          <div className="mt-8 rounded-lg p-4 bg-gradient-to-br from-blue-800/60 to-purple-800/60 backdrop-blur-sm border border-blue-400/20">
             <img 
               src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 
               alt="Total Cost Per Full Stay Table" 

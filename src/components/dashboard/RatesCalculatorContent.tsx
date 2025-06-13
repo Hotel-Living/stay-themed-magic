@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,8 +14,8 @@ export const RatesCalculatorContent: React.FC = () => {
             value="cost-items" 
             className="py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-[#8017B0]/60 hover:text-white transition-all duration-300 font-bold text-lg flex flex-col"
           >
-            <span>HOTEL-LIVING COST MODEL</span>
-            <span className="mt-0.5">FOR A STANDARD 3-STAR HOTEL</span>
+            <span>HOTEL-LIVING EXAMPLE COST</span>
+            <span className="mt-0.5">MODEL FOR A STANDARD 3-STAR HOTEL</span>
           </TabsTrigger>
           
           <TabsTrigger 
@@ -48,4 +46,3 @@ export const RatesCalculatorContent: React.FC = () => {
     </div>
   );
 };
-

@@ -3,7 +3,7 @@ export const DefaultCostsTab: React.FC = () => {
   return <div className="space-y-4">
       <div className="glass-card rounded-lg p-8 text-center text-white/80 border-fuchsia-500/20">
         
-        <p className="font-bold">These figures represent average incremental costs per additional occupied room for a standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.</p>
+        <p className="font-bold">These figures represent average incremental costs per additional occupied room for a 3 - Star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.</p>
         
         {/* Total Estimated Cost Per Room Table */}
         <div className="mt-8 bg-white rounded-lg p-4">

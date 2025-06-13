@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 interface MenuOption {
   id: string;
@@ -57,40 +56,73 @@ This model reduces operational costs for hotels while offering guests a resident
 }, {
   id: "meal-plans",
   label: "MEALS",
-  content: `**THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE**
+  content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
 
-Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes —
-Hotel-Living is not about gourmet cuisine or lavish buffets.
+Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
 
 In most cases, the Hotel-Living experience is built on comfort, simplicity, and sustainability.
 
-Our guests are not here for extravagance. They are not tourists.
-They are long-stay residents looking for a reliable, healthy, and affordable meal routine — something that feels like real life at home.
+Our guests are not here for extravagance.
 
-That's why our food model is:
-✅ Balanced, homestyle, and easy to prepare
-✅ Designed for moderation and wellness, not indulgence
-✅ Compatible with your hotel's existing kitchen setup and staff
-✅ Low-waste and low-cost — without sacrificing quality or care
+They are not tourists. They are long-stay residents looking for a reliable, healthy, and affordable meal routine — something that feels like real life at home.
+________________________________________
+🔧 THAT'S WHY OUR FOOD MODEL IS:
 
-Whether offering breakfast only or all-inclusive, Hotel-Living meal plans are built for consistency, comfort, and guest satisfaction — not culinary showmanship.
+✅ 🥗 Balanced, homestyle, and easy to prepare
 
-This model provides:
+✅ 🍎 Designed for moderation and wellness, not indulgence
+
+✅ 👨‍🍳 Compatible with your hotel's existing kitchen setup and staff
+
+✅ ♻️ Low-waste and low-cost — without sacrificing quality or care
+________________________________________
+🍳 FLEXIBLE MEAL PLANS
+
+Whether offering breakfast only or all-inclusive, Hotel-Living meal plans are built for:
+
+•	🧘 Consistency
+
+•	🏡 Comfort
+
+•	🙂 Guest satisfaction — not culinary showmanship.
+________________________________________
+💼 OPERATIONAL ADVANTAGES:
+
 🧑‍🍳 Lower operational complexity
+
 🧾 Predictable costs and portion control
+
 😊 A relaxed, familiar dining experience that guests truly value
+________________________________________
+📊 BUDGET & PLANNING BENEFITS:
 
-💡 Additional benefits for your kitchen and budget:
+Because all bookings are made in advance and fixed-duration:
 
-Because all bookings are made in advance and fixed-duration, you'll know exactly how many guests are coming — and for how long.
-➡️ Zero food waste becomes a real possibility.
+✅ 📅 You'll know exactly how many guests are coming — and for how long.
 
-Moreover, for simpler kitchens, there's a proven and cost-effective strategy:
-🔁 Weekly rotating menus — where each weekday has a set meal that can be repeated every week.
-This allows for bulk purchasing, simplified preparation, and further cost reduction.
+✅ 🚫 Zero food waste becomes a real possibility.
+________________________________________
+🔁 SIMPLE, EFFICIENT KITCHEN STRATEGY:
 
-Hotels save. Guests feel at home.
-And the entire experience becomes scalable, sustainable, and deeply human.`
+For simpler kitchens, there's a proven, cost-effective strategy:
+
+🔄 WEEKLY ROTATING MENUS
+
+Where each weekday has a set meal that can be repeated every week — allowing:
+
+•	🛒 Bulk purchasing
+
+•	🍳 Simplified preparation
+
+•	💰 Further cost reduction
+________________________________________
+🔑 THE RESULT:
+
+🏨 Hotels save
+
+🏡 Guests feel at home
+
+🌍 And the entire experience becomes scalable, sustainable, and deeply human.`
 }, {
   id: "total-costs",
   label: "TOTAL COST",
@@ -135,4 +167,3 @@ export const CostItemsTab: React.FC = () => {
           </div>}
       </div>
     </div>;
-};

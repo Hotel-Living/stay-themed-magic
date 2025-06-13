@@ -121,7 +121,7 @@ export const CostItemsTab: React.FC = () => {
         
         {/* Utilities Cost Table Image */}
         {activeOption === "utilities" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
-            <img src="/lovable-uploads/0cbe5a61-e3cd-4c27-979c-ae584834b91a.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
+            <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
           </div>}
         
         {/* Meal Plan Cost Table Image */}

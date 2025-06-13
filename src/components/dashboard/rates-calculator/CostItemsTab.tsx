@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 interface MenuOption {
   id: string;
@@ -104,7 +105,7 @@ export const CostItemsTab: React.FC = () => {
       {/* Horizontal Menu */}
       <div className="flex justify-center space-x-4">
         {menuOptions.map(option => <div key={option.id} onClick={() => setActiveOption(option.id)} className={`
-              relative cursor-pointer px-3 py-1.5 rounded-lg font-medium text-xs transition-all duration-300
+              relative cursor-pointer px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-300
               ${activeOption === option.id ? 'bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 text-white shadow-lg transform scale-105' : 'bg-[#8017B0]/60 text-white/90 hover:bg-[#8017B0]/80 hover:text-white hover:scale-102'}
             `}>
             {/* Glow effect for active item */}

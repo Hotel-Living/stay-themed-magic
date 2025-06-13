@@ -1,14 +1,17 @@
 
 import React, { useState } from "react";
+
 interface MenuOption {
   id: string;
   label: string;
   content: string;
 }
-const menuOptions: MenuOption[] = [{
-  id: "utilities",
-  label: "UTILITIES",
-  content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
+
+const menuOptions: MenuOption[] = [
+  {
+    id: "utilities",
+    label: "UTILITIES",
+    content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
 
 ⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
 They are respectful long-stay residents who stay for 8, 16, 24, or 32 days. 
@@ -28,10 +31,11 @@ ________________________________________
 🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
 Thanks to reduced room turnover and simplified housekeeping protocols, utility usage remains consistent and optimized, with fewer spikes in electricity or water demand.
 ________________________________________`
-}, {
-  id: "cleaning",
-  label: "CLEANING",
-  content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
+  },
+  {
+    id: "cleaning",
+    label: "CLEANING",
+    content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
 
 🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
 🏡 ONE THAT FEELS MORE LIKE HOME.
@@ -54,10 +58,11 @@ This model reduces operational costs for hotels while offering guests a resident
 •	Less disruption
 •	More privacy
 •	A feeling of truly belonging — not just staying.`
-}, {
-  id: "meal-plans",
-  label: "MEALS",
-  content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
+  },
+  {
+    id: "meal-plans",
+    label: "MEALS",
+    content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
 
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
 
@@ -124,53 +129,94 @@ ________________________________________
 🏡 Guests feel at home
 
 🌍 And the entire experience becomes scalable, sustainable, and deeply human.`
-}, {
-  id: "total-costs",
-  label: "TOTAL COST",
-  content: `**TOTAL COSTS**
+  },
+  {
+    id: "total-costs",
+    label: "TOTAL COST",
+    content: `**TOTAL COSTS**
 
 Content for Total Costs will be added here.`
-}];
+  }
+];
+
 export const CostItemsTab: React.FC = () => {
   const [activeOption, setActiveOption] = useState<string>("utilities");
+
   const activeContent = menuOptions.find(option => option.id === activeOption)?.content || "";
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       {/* Horizontal Menu */}
-      <div className="flex justify-center space-x-4">
-        {menuOptions.map(option => <div key={option.id} onClick={() => setActiveOption(option.id)} className={`
-              relative cursor-pointer px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-300
-              ${activeOption === option.id ? 'bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 text-white shadow-lg transform scale-105' : 'bg-[#8017B0]/60 text-white/90 hover:bg-[#8017B0]/80 hover:text-white hover:scale-102'}
-            `}>
-            {/* Glow effect for active item */}
-            {activeOption === option.id && <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-lg blur-xl opacity-50 -z-10"></div>}
+      <div className="flex justify-center space-x-3">
+        {menuOptions.map(option => (
+          <div
+            key={option.id}
+            onClick={() => setActiveOption(option.id)}
+            className={`
+              relative cursor-pointer px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-300 border
+              ${activeOption === option.id 
+                ? 'bg-gradient-to-r from-indigo-500/70 to-purple-500/70 text-white shadow-lg transform scale-105 border-indigo-300/40 backdrop-blur-sm' 
+                : 'bg-gradient-to-r from-slate-700/50 to-slate-600/50 text-white/80 hover:from-slate-600/60 hover:to-slate-500/60 hover:text-white hover:scale-102 border-slate-500/30 backdrop-blur-sm'}
+            `}
+          >
+            {/* Subtle glow effect for active item */}
+            {activeOption === option.id && (
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 rounded-md blur-lg opacity-60 -z-10"></div>
+            )}
             {option.label}
-          </div>)}
+          </div>
+        ))}
       </div>
 
       {/* Content Area */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-fuchsia-500/20 bg-[#8017B0]/40">
         
         {/* Utilities Cost Table Image - moved to top */}
-        {activeOption === "utilities" && <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
-            <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="w-full h-auto rounded-lg mx-auto" />
-          </div>}
+        {activeOption === "utilities" && (
+          <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
+            <img 
+              src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
+              alt="Utilities Cost Breakdown Table" 
+              className="w-full h-auto rounded-lg mx-auto" 
+            />
+          </div>
+        )}
         
         {/* Cleaning Cost Table Image - moved to top */}
-        {activeOption === "cleaning" && <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
-            <img src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" alt="Cleaning & Laundry Costs Table" className="w-full h-auto rounded-lg mx-auto" />
-          </div>}
+        {activeOption === "cleaning" && (
+          <div className="mb-8 rounded-lg p-4 bg-[#0807a0]">
+            <img 
+              src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
+              alt="Cleaning & Laundry Costs Table" 
+              className="w-full h-auto rounded-lg mx-auto" 
+            />
+          </div>
+        )}
         
         {/* Meal Plan Cost Table Image - moved to top */}
-        {activeOption === "meal-plans" && <div className="mb-8 rounded-lg p-4 bg-[#7c27af]">
-            <img src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" alt="Meal Plan Cost Table" className="w-3/2 h-auto rounded-lg mx-auto" />
-          </div>}
+        {activeOption === "meal-plans" && (
+          <div className="mb-8 rounded-lg p-4 bg-[#7c27af]">
+            <img 
+              src="/lovable-uploads/5e764b54-7da7-4962-85ff-d5e8c6679f20.png" 
+              alt="Meal Plan Cost Table" 
+              className="w-3/2 h-auto rounded-lg mx-auto" 
+            />
+          </div>
+        )}
         
         <div className="text-lg whitespace-pre-line">{activeContent}</div>
         
         {/* Total Costs Table Image */}
-        {activeOption === "total-costs" && <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
-            <img src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" alt="Total Cost Per Full Stay Table" className="w-full h-auto rounded-lg mx-auto" />
-          </div>}
+        {activeOption === "total-costs" && (
+          <div className="mt-8 rounded-lg p-4 bg-[#0807a0]">
+            <img 
+              src="/lovable-uploads/b2cd1c13-f37b-4ac8-a0e2-2b3d7f567fce.png" 
+              alt="Total Cost Per Full Stay Table" 
+              className="w-full h-auto rounded-lg mx-auto" 
+            />
+          </div>
+        )}
       </div>
-    </div>;
+    </div>
+  );
 };

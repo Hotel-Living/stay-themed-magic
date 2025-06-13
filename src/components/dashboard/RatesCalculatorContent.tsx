@@ -23,7 +23,7 @@ export const RatesCalculatorContent: React.FC = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="costs-profits" className="w-full">
+      <Tabs className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
           <TabsTrigger 
             value="costs-profits" 
@@ -41,18 +41,18 @@ export const RatesCalculatorContent: React.FC = () => {
         </TabsList>
         
         <TabsContent value="costs-profits">
-          <Tabs defaultValue="costs" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#460F54]/30 backdrop-blur-sm h-12 p-1">
+          <Tabs className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-[#2D1B69]/40 to-[#4A148C]/40 backdrop-blur-lg border border-purple-400/20 rounded-xl h-14 p-2 shadow-lg">
               <TabsTrigger 
                 value="costs" 
-                className="py-3 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-semibold"
+                className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/80 data-[state=active]:to-pink-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-purple-300/30 bg-transparent text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300 font-medium text-base"
               >
                 COSTS
               </TabsTrigger>
               
               <TabsTrigger 
                 value="profits" 
-                className="py-3 px-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-semibold"
+                className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/80 data-[state=active]:to-pink-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-purple-300/30 bg-transparent text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300 font-medium text-base"
               >
                 PROFITS
               </TabsTrigger>

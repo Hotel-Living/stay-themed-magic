@@ -5,8 +5,6 @@ import { CostItemsTab } from "./rates-calculator/CostItemsTab";
 import { DefaultCostsTab } from "./rates-calculator/DefaultCostsTab";
 import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
-
 export const RatesCalculatorContent: React.FC = () => {
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
@@ -180,20 +178,160 @@ export const RatesCalculatorContent: React.FC = () => {
             </TabsContent>}
 
           {/* BUILD YOUR OWN MODEL & RATES Section */}
-          {mainTab === "model-rates-calculator" && (
-            <TabsContent value="model-rates-calculator">
+          {mainTab === "model-rates-calculator" && <TabsContent value="model-rates-calculator">
+              {/* General instructional text */}
               <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
                 <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
-                <div className="text-[15px] leading-relaxed font-medium">
+                <div className="text-[15px] leading-relaxed font-medium bg-[#1c065f]">
                   Building your custom model is a crucial step to maximize your revenue opportunities.<br />
                   We strongly recommend that you carefully review the “TIPS & STRATEGIC GUIDELINES” section first.<br />
                   These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br />
                   <b>Once you have studied the guidelines, you may proceed to download and use the Online Calculator located on the right.</b>
                 </div>
               </div>
-              <ModelRatesTabs />
-            </TabsContent>
-          )}
+              {/* --- Model Builder Tabs (fixed, full width) --- */}
+              <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
+                <TabsList className="flex w-full mb-6 gap-1 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl shadow-lg">
+                  <TabsTrigger value="read-this" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    PLEASE READ THIS
+                  </TabsTrigger>
+                  <TabsTrigger value="3star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    3-STAR HOTELS
+                  </TabsTrigger>
+                  <TabsTrigger value="4star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    4-STAR HOTELS
+                  </TabsTrigger>
+                  <TabsTrigger value="5star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    5-STAR HOTELS
+                  </TabsTrigger>
+                  <TabsTrigger value="download" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    DOWNLOAD CALCULATOR
+                  </TabsTrigger>
+                </TabsList>
+                {/* PLEASE READ THIS Tab Content */}
+                <TabsContent value="read-this" className="w-full">
+                  <div className="w-full p-6 bg-[#12002b] rounded-lg">
+                    {/* All 8 points, expanded as plain text sections */}
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        1️⃣ DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Most hotels have certain periods during the year when demand drops significantly, leading to partial or full closures. By adopting a flexible living model, you can keep rooms filled during these low seasons, stabilizing income and improving operational efficiency year-round.
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        2️⃣ NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business’s unique seasonality and potential.
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        3️⃣ BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that “living” guests fill gaps left by transient guests without undermining your regular pricing.
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        4️⃣ USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see “Themes” section).
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., “9 nights per month club”—to optimize for higher volume and guest experience.
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        6️⃣ LEVERAGE BOUTIQUE CONCEPTS FOR SMALL HIGH-END HOTELS
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        If you manage a boutique or luxury hotel, design tailored experiences (wellness, culture, business retreats) with premium rates. These can be highly attractive to remote professionals or guests seeking exclusivity and added value.
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <div className="font-bold text-white text-base mb-2">
+                        7️⃣ APPLY VOLUME LOGIC FOR LARGER HOTELS
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Larger properties can tap into “living at scale” logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-white text-base mb-2">
+                        8️⃣ UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
+                      </div>
+                      <div className="text-white/80 text-[15px]">
+                        Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests “home” status. This increases loyalty and can transform your hotel’s business model in a predictable, positive way.
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="3star" className="w-full">
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                    <p>
+                      [Insert detailed strategic guidelines for 3-star hotels here. Replace with your specific content.]
+                    </p>
+                  </div>
+                </TabsContent>
+                <TabsContent value="4star" className="w-full">
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                    <p>
+                      [Insert detailed strategic guidelines for 4-star hotels here. Replace with your specific content.]
+                    </p>
+                  </div>
+                </TabsContent>
+                <TabsContent value="5star" className="w-full">
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                    <p>
+                      [Insert detailed strategic guidelines for 5-star hotels here. Replace with your specific content.]
+                    </p>
+                  </div>
+                </TabsContent>
+                <TabsContent value="download" className="w-full">
+                  <div className="p-4 bg-[#140030]/70 text-white rounded-lg border-t border-fuchsia-400/15">
+                    <div>
+                      <p className="mb-3">
+                        Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
+                      </p>
+                      <a href="#" className="inline-block px-5 py-2 font-semibold bg-fuchsia-600 hover:bg-fuchsia-700 transition rounded text-white shadow" target="_blank" rel="noopener noreferrer" tabIndex={0}>
+                        Download Excel Calculator
+                      </a>
+                      <p className="mt-2 text-xs text-fuchsia-200 opacity-80">
+                        Contact us if you need a different format or support customizing your template.
+                      </p>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+              {/* Existing content below, if needed, can remain. You may choose to comment it out or leave a simple placeholder: */}
+              {/* <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
+                <div className="text-lg">
+                  Model & Rates Calculator content will be added here.
+                </div>
+               </div> */}
+            </TabsContent>}
         </Tabs>}
     </div>;
 };

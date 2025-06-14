@@ -192,35 +192,55 @@ export const RatesCalculatorContent: React.FC = () => {
               {/* --- Model Builder Tabs (fixed, full width) --- */}
               <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
                 <TabsList className="flex w-full mb-6 gap-1 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl shadow-lg">
-                  <TabsTrigger value="read-this" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
-              fontStretch: "condensed"
-            }}>
-                    PLEASE READ THIS
+                  <TabsTrigger
+                    value="read-this"
+                    className={`flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed ${modelTab === "read-this" ? "bg-[#3C1865] text-white" : "bg-transparent text-white data-[state=active]:bg-[#3C1865] data-[state=active]:text-white"}`}
+                    style={{ fontStretch: "condensed" }}
+                  >
+                    <span>
+                      PLEASE<br />READ THIS
+                    </span>
                   </TabsTrigger>
-                  <TabsTrigger value="3star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
-              fontStretch: "condensed"
-            }}>
-                    3-STAR HOTELS
+                  <TabsTrigger
+                    value="3star"
+                    className={`flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed ${modelTab === "3star" ? "bg-[#3C1865] text-white" : "bg-transparent text-white data-[state=active]:bg-[#3C1865] data-[state=active]:text-white"}`}
+                    style={{ fontStretch: "condensed" }}
+                  >
+                    <span>
+                      3-STAR<br />HOTELS
+                    </span>
                   </TabsTrigger>
-                  <TabsTrigger value="4star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
-              fontStretch: "condensed"
-            }}>
-                    4-STAR HOTELS
+                  <TabsTrigger
+                    value="4star"
+                    className={`flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed ${modelTab === "4star" ? "bg-[#3C1865] text-white" : "bg-transparent text-white data-[state=active]:bg-[#3C1865] data-[state=active]:text-white"}`}
+                    style={{ fontStretch: "condensed" }}
+                  >
+                    <span>
+                      4-STAR<br />HOTELS
+                    </span>
                   </TabsTrigger>
-                  <TabsTrigger value="5star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
-              fontStretch: "condensed"
-            }}>
-                    5-STAR HOTELS
+                  <TabsTrigger
+                    value="5star"
+                    className={`flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed ${modelTab === "5star" ? "bg-[#3C1865] text-white" : "bg-transparent text-white data-[state=active]:bg-[#3C1865] data-[state=active]:text-white"}`}
+                    style={{ fontStretch: "condensed" }}
+                  >
+                    <span>
+                      5-STAR<br />HOTELS
+                    </span>
                   </TabsTrigger>
-                  <TabsTrigger value="download" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
-              fontStretch: "condensed"
-            }}>
-                    DOWNLOAD CALCULATOR
+                  <TabsTrigger
+                    value="download"
+                    className={`flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed ${modelTab === "download" ? "bg-[#3C1865] text-white" : "bg-transparent text-white data-[state=active]:bg-[#3C1865] data-[state=active]:text-white"}`}
+                    style={{ fontStretch: "condensed" }}
+                  >
+                    <span>
+                      DOWNLOAD<br />CALCULATOR
+                    </span>
                   </TabsTrigger>
                 </TabsList>
                 {/* PLEASE READ THIS Tab Content */}
-                <TabsContent value="read-this" className="w-full">
-                  <div className="w-full p-6 bg-[#12002b] rounded-lg">
+                <TabsContent value="read-this" className="w-full bg-[#3C1865] rounded-lg">
+                  <div className="w-full p-6 rounded-lg" style={{ background: "none" }}>
                     {/* All 8 points, expanded as plain text sections */}
                     <div className="mb-4">
                       <div className="font-bold text-white text-base mb-2">
@@ -288,29 +308,29 @@ export const RatesCalculatorContent: React.FC = () => {
                     </div>
                   </div>
                 </TabsContent>
-                <TabsContent value="3star" className="w-full">
-                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                <TabsContent value="3star" className="w-full bg-[#3C1865] rounded-lg">
+                  <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
                     <p>
                       [Insert detailed strategic guidelines for 3-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
-                <TabsContent value="4star" className="w-full">
-                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                <TabsContent value="4star" className="w-full bg-[#3C1865] rounded-lg">
+                  <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
                     <p>
                       [Insert detailed strategic guidelines for 4-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
-                <TabsContent value="5star" className="w-full">
-                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
+                <TabsContent value="5star" className="w-full bg-[#3C1865] rounded-lg">
+                  <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
                     <p>
                       [Insert detailed strategic guidelines for 5-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
-                <TabsContent value="download" className="w-full">
-                  <div className="p-4 bg-[#140030]/70 text-white rounded-lg border-t border-fuchsia-400/15">
+                <TabsContent value="download" className="w-full bg-[#3C1865] rounded-lg">
+                  <div className="p-4 rounded-lg text-white" style={{ background: "none" }}>
                     <div>
                       <p className="mb-3">
                         Access the online calculator and supporting documents for building and testing your custom hotel living rates model.

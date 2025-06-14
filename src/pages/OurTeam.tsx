@@ -1,95 +1,127 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-export default function OurTeam() {
-  // New images (to be placed at the top), then previous images.
-  const teamImages = [
-  // Newly provided images, placed first
+import React from "react";
+
+const newTeamImages = [
   {
-    src: "/lovable-uploads/2fdb7478-8328-48aa-bb85-d1be8b1cb220.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/b5cc4615-9240-464d-a902-1ea6b5b808d4.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/67afbe54-a02e-44eb-b9dc-923a417337b8.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/f9f4d398-5a71-4cea-8295-905307327c2a.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/a75353dd-8ca3-42d4-860b-416162492bcc.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/27ca1d89-3684-44a4-a811-1a491be20854.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/46996385-d996-4c7a-817f-f4f463b462be.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/cf86508c-45fc-4b3e-8b7e-d1d499e35a19.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/7e2b7a11-8f81-4ce9-9547-611b8ff46897.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/5388e470-b276-49e7-9e5b-274b0bfdf16e.png",
-    alt: ""
+    src: "/lovable-uploads/a858c581-5eb3-4786-83bf-5b81cd6eda50.png",
+    name: "Lia Jo",
+    title: "VENDOR RELATIONS MANAGER"
   },
-  // Previous images (already on the page)
   {
-    src: "/lovable-uploads/284baa20-4bf1-447d-80b0-355c3e9cc599.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/5d682bb6-816a-44ff-9cbd-0358a7e58ae8.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/cb83335f-9cd2-447c-915d-d7b3801ade69.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/7960ff42-e998-426e-aff3-b61fde09b911.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/bbd65434-07fe-4a4b-adc5-b8f3b07d4e1d.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/0c46127c-05ae-4160-b563-20539d9e8a81.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/b7517e27-3307-426e-848f-3362ebbc847e.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/9c973faa-9d48-47be-b82d-c91085b6e60e.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/2bb61a65-ca76-4d90-9c29-f1e823c390ce.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/19c91585-7a3a-45b4-9f08-35dd02efc091.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/2da5e23f-3d9b-49b1-bce1-57d5675c4e1b.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/67b3c544-8e11-45a7-b525-123adb52a331.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/d55a2feb-3221-48d9-8df8-7ff47bed6b01.png",
-    alt: ""
-  }, {
-    src: "/lovable-uploads/161e7cc3-af75-442b-abcd-67f353a5c427.png",
-    alt: ""
-  }];
-  return <div className="relative min-h-screen flex flex-col bg-transparent">
+    src: "/lovable-uploads/3ba9edc7-9def-4bb7-9b2f-4390f59fefd7.png",
+    name: "James Peterson",
+    title: "CHIEF FINANCIAL OFFICER"
+  },
+  {
+    src: "/lovable-uploads/37e9be9c-2d94-43d5-baf5-8887c1485d8b.png",
+    name: "James Peterson",
+    title: "GENERAL COUNSEL"
+  },
+  {
+    src: "/lovable-uploads/276b0ea3-57f8-4a32-b918-acec4f7a35b3.png",
+    name: "Isabella Schneider",
+    title: "AI INTEGRATION SPECIALIST"
+  },
+  {
+    src: "/lovable-uploads/bb4b2662-5116-428e-9bf3-e5ed73e133e5.png",
+    name: "Benjamin Hughes",
+    title: "FRONTEND DEVELOPER"
+  },
+  {
+    src: "/lovable-uploads/e4e2e3f2-220f-4fb8-a32c-5755fed0e39a.png",
+    name: "Natalie Foster",
+    title: "CHIEF HUMAN RESOURCES OFFICER"
+  },
+  {
+    src: "/lovable-uploads/0f02fa32-9a3a-45b3-8a03-f1e73db23b18.png",
+    name: "Arjun Mehta",
+    title: "DIRECTOR OF SOFTWARE DEVELOPMENT"
+  },
+  {
+    src: "/lovable-uploads/300d829c-e4ae-4d9b-8469-86a05fb89a8c.png",
+    name: "Ethan Brooks",
+    title: "BUSINESS RELATIONS COORDINATOR"
+  },
+  {
+    src: "/lovable-uploads/7aa63a56-3993-48d0-b72f-047bae98745e.png",
+    name: "Victoria Hayes",
+    title: "AFFILIATES & MEMBERSHIP MANAGER"
+  },
+  {
+    src: "/lovable-uploads/b18b2dd1-3fea-410f-bb62-da6b79e7d7b9.png",
+    name: "Isabella Reed",
+    title: "MEDIA RELATIONS MANAGER"
+  }
+];
+
+// The size as previously specified (40% larger than the original block) 
+// If the old was w-32 (8rem), then 1.4*8rem = 11.2rem; adjust as close as possible while maintaining clear grid.
+// Tailwind: 'w-32' => 'w-[11.2rem]', same for h-[11.2rem]
+// To apply to the frame, text placement, etc.
+
+export default function OurTeam() {
+  return (
+    <div className="relative min-h-screen flex flex-col bg-transparent">
       <HotelStarfield />
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-24 z-10 relative w-full">
         <div className="w-full max-w-5xl mx-auto">
-          <div className="grid grid-cols-4 gap-x-8 gap-y-12">
-            {teamImages.map((img, idx) => {})}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16"
+            style={{
+              // Ensures equal horizontal/vertical spacing for all resolutions
+            }}
+          >
+            {newTeamImages.map((img, idx) => (
+              <div
+                key={img.src}
+                className="flex flex-col items-center"
+              >
+                <div
+                  className="flex items-center justify-center rounded-full shadow-lg bg-white border border-gray-300"
+                  style={{
+                    width: "11.2rem",
+                    height: "11.2rem", // 40% bigger than 8rem (w-32)
+                    padding: "0.3rem",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.name}
+                    style={{
+                      width: "10.4rem",
+                      height: "10.4rem",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                      display: "block",
+                    }}
+                  />
+                </div>
+                <div
+                  className="mt-4 bg-white border border-gray-300 px-4 py-2 text-center"
+                  style={{
+                    width: "100%",
+                    minWidth: "10.5rem",
+                    maxWidth: "13rem",
+                  }}
+                >
+                  <div className="font-normal text-black" style={{ fontSize: "1.07rem", lineHeight: "1.3" }}>
+                    {img.name}
+                  </div>
+                  <div className="font-bold text-black" style={{ fontSize: "1.09rem", lineHeight: "1.3" }}>
+                    {img.title}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </main>
       <Footer />
-    </div>;
+    </div>
+  );
 }

@@ -192,80 +192,35 @@ export const RatesCalculatorContent: React.FC = () => {
               {/* --- Model Builder Tabs (fixed, full width) --- */}
               <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
                 <TabsList className="flex w-full mb-6 gap-1 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl shadow-lg">
-                  {/* PLEASE READ THIS */}
-                  <TabsTrigger
-                    value="read-this"
-                    className={`flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none px-1 md:px-4 py-4 transition-all
-                      ${modelTab === "read-this"
-                        ? "bg-[#8c48db] text-white"
-                        : "bg-transparent text-white"}
-                      `}
-                    style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", minHeight: "54px" }}
-                  >
-                    {"PLEASE\nREAD THIS".split("\n").map((line,i) => (
-                      <span key={i} className="leading-tight">{line}</span>
-                    ))}
+                  <TabsTrigger value="read-this" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    PLEASE READ THIS
                   </TabsTrigger>
-                  {/* 3-STAR HOTELS */}
-                  <TabsTrigger
-                    value="3star"
-                    className={`flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none px-1 md:px-4 py-4 transition-all
-                      ${modelTab === "3star"
-                        ? "bg-[#8c48db] text-white"
-                        : "bg-transparent text-white"}
-                      `}
-                    style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", minHeight: "54px" }}
-                  >
-                    {"3-STAR\nHOTELS".split("\n").map((line,i) => (
-                      <span key={i} className="leading-tight">{line}</span>
-                    ))}
+                  <TabsTrigger value="3star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    3-STAR HOTELS
                   </TabsTrigger>
-                  {/* 4-STAR HOTELS */}
-                  <TabsTrigger
-                    value="4star"
-                    className={`flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none px-1 md:px-4 py-4 transition-all
-                      ${modelTab === "4star"
-                        ? "bg-[#8c48db] text-white"
-                        : "bg-transparent text-white"}
-                      `}
-                    style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", minHeight: "54px" }}
-                  >
-                    {"4-STAR\nHOTELS".split("\n").map((line,i) => (
-                      <span key={i} className="leading-tight">{line}</span>
-                    ))}
+                  <TabsTrigger value="4star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    4-STAR HOTELS
                   </TabsTrigger>
-                  {/* 5-STAR HOTELS */}
-                  <TabsTrigger
-                    value="5star"
-                    className={`flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none px-1 md:px-4 py-4 transition-all
-                      ${modelTab === "5star"
-                        ? "bg-[#8c48db] text-white"
-                        : "bg-transparent text-white"}
-                      `}
-                    style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", minHeight: "54px" }}
-                  >
-                    {"5-STAR\nHOTELS".split("\n").map((line,i) => (
-                      <span key={i} className="leading-tight">{line}</span>
-                    ))}
+                  <TabsTrigger value="5star" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    5-STAR HOTELS
                   </TabsTrigger>
-                  {/* DOWNLOAD CALCULATOR */}
-                  <TabsTrigger
-                    value="download"
-                    className={`flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none px-1 md:px-4 py-4 transition-all
-                      ${modelTab === "download"
-                        ? "bg-[#8c48db] text-white"
-                        : "bg-transparent text-white"}
-                      `}
-                    style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", minHeight: "54px" }}
-                  >
-                    {"DOWNLOAD\nCALCULATOR".split("\n").map((line,i) => (
-                      <span key={i} className="leading-tight">{line}</span>
-                    ))}
+                  <TabsTrigger value="download" className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all" style={{
+              fontStretch: "condensed"
+            }}>
+                    DOWNLOAD CALCULATOR
                   </TabsTrigger>
                 </TabsList>
                 {/* PLEASE READ THIS Tab Content */}
                 <TabsContent value="read-this" className="w-full">
-                  <div className="w-full p-6 rounded-lg" style={{ background: "#8c48db" }}>
+                  <div className="w-full p-6 bg-[#12002b] rounded-lg">
                     {/* All 8 points, expanded as plain text sections */}
                     <div className="mb-4">
                       <div className="font-bold text-white text-base mb-2">
@@ -300,7 +255,7 @@ export const RatesCalculatorContent: React.FC = () => {
                       </div>
                     </div>
                     <div className="mb-4">
-                      <div className="font-bold text-white text-base mb-2">
+                      <div className="font-bold text-white text-base mb-2 bg-[#5d14ac]">
                         5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
                       </div>
                       <div className="text-white/80 text-[15px]">
@@ -334,28 +289,28 @@ export const RatesCalculatorContent: React.FC = () => {
                   </div>
                 </TabsContent>
                 <TabsContent value="3star" className="w-full">
-                  <div className="w-full p-8 rounded-lg" style={{ background: "#8c48db" }}>
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
                     <p>
                       [Insert detailed strategic guidelines for 3-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
                 <TabsContent value="4star" className="w-full">
-                  <div className="w-full p-8 rounded-lg" style={{ background: "#8c48db" }}>
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
                     <p>
                       [Insert detailed strategic guidelines for 4-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
                 <TabsContent value="5star" className="w-full">
-                  <div className="w-full p-8 rounded-lg" style={{ background: "#8c48db" }}>
+                  <div className="w-full p-8 bg-[#12002b] rounded-lg text-white text-lg">
                     <p>
                       [Insert detailed strategic guidelines for 5-star hotels here. Replace with your specific content.]
                     </p>
                   </div>
                 </TabsContent>
                 <TabsContent value="download" className="w-full">
-                  <div className="p-4 text-white rounded-lg border-t border-fuchsia-400/15" style={{ background: "#8c48db" }}>
+                  <div className="p-4 bg-[#140030]/70 text-white rounded-lg border-t border-fuchsia-400/15">
                     <div>
                       <p className="mb-3">
                         Access the online calculator and supporting documents for building and testing your custom hotel living rates model.

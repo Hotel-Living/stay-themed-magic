@@ -138,7 +138,7 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐ ⭐⭐ STRATEGIC TIPS FOR 3-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">⭐⭐⭐ STRATEGIC TIPS FOR 3-STAR HOTELS</span>
             <span className="block mb-4">
               3-star hotels will naturally capture the largest share of the total customer base.
               <br />
@@ -223,7 +223,7 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐ ⭐⭐ STRATEGIC TIPS FOR 4-STAR HOTELS </span>
+            <span className="font-bold text-xl block mb-2">⭐⭐⭐⭐ STRATEGIC TIPS FOR 4-STAR HOTELS</span>
             <span className="block mb-4">
               4-star hotels have a unique position, balancing comfort, reputation, and attractive pricing to appeal to a wide but slightly more selective audience segment.<br />
               To maximize success, they must blend the best of affordability, service, and curated thematic experiences.
@@ -302,7 +302,7 @@ export const ModelRatesTabs: React.FC = () => {
         background: "none"
       }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐⭐ ⭐⭐ STRATEGIC TIPS FOR 5-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">⭐⭐⭐⭐⭐ STRATEGIC TIPS FOR 5-STAR HOTELS</span>
             <span className="block mb-4">
               5-star hotels can attract high-net-worth individuals looking for premium living experiences inside a fully serviced environment.
               <br />

@@ -15,7 +15,13 @@ export const getDashboardTabs = (): DashboardTab[] => [
   },
   {
     id: "rates-calculator",
-    label: "Calculate Your Model, Rates and Profits", 
+    label: (
+      <>
+        Calculate Your Model
+        <br />
+        Rates and Profits
+      </>
+    ), 
     icon: <Calculator className="w-5 h-5" />
   },
   {

@@ -158,7 +158,7 @@ export const RatesCalculatorContent: React.FC = () => {
                           </TabsTrigger>)}
                       </TabsList>
                       <TabsContent value="3-star">
-                        {profitsSubTab === "3-star" && <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm font-bold">
+                        {profitsSubTab === "3-star" && <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm font-extrabold">
                             <img src="/lovable-uploads/d102e7a1-55cd-400e-8ce4-ff11ad9b8a7a.png" alt="3 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" />
                           </div>}
                       </TabsContent>

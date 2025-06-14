@@ -1,4 +1,3 @@
-
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -57,10 +56,13 @@ const newTeamImages = [
   }
 ];
 
-// The size as previously specified (40% larger than the original block) 
-// If the old was w-32 (8rem), then 1.4*8rem = 11.2rem; adjust as close as possible while maintaining clear grid.
-// Tailwind: 'w-32' => 'w-[11.2rem]', same for h-[11.2rem]
-// To apply to the frame, text placement, etc.
+// The extra non-staff images
+const extraImages = [
+  "/lovable-uploads/b18b2dd1-3fea-410f-bb62-da6b79e7d7b9.png",
+  "/lovable-uploads/3ba9edc7-9def-4bb7-9b2f-4390f59fefd7.png",
+  "/lovable-uploads/37e9be9c-2d94-43d5-baf5-8887c1485d8b.png",
+  "/lovable-uploads/276b0ea3-57f8-4a32-b918-acec4f7a35b3.png"
+];
 
 export default function OurTeam() {
   return (
@@ -116,6 +118,28 @@ export default function OurTeam() {
                     {img.title}
                   </div>
                 </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* EXTRA NON-STAFF IMAGES (NO FRAME, NO TEXT, NO ROUNDED MASK) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16 mt-16">
+            {extraImages.map((src, i) => (
+              <div key={src} className="flex flex-col items-center">
+                <img
+                  src={src}
+                  alt=""
+                  className="block"
+                  style={{
+                    // Keep a consistent large size, adjust to match above visually.
+                    width: "11.2rem",
+                    height: "11.2rem",
+                    objectFit: "cover",
+                    borderRadius: 0,
+                    boxShadow: "0 2px 12px 0 rgba(0,0,0,0.06)",
+                    background: "#fff"
+                  }}
+                />
               </div>
             ))}
           </div>

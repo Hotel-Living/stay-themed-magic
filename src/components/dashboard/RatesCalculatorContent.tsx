@@ -260,7 +260,7 @@ export const RatesCalculatorContent: React.FC = () => {
                             1️⃣ GENERAL STRATEGIC TIPS — PLEASE READ (MANDATORY FOR ALL HOTELS)
                           </div>
                           <div className="flex-1 p-0">
-                            <Accordion type="multiple" className="w-full" collapsible>
+                            <Accordion type="multiple" className="w-full">
                               {/* 1 */}
                               <AccordionItem value="close-periods">
                                 <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">

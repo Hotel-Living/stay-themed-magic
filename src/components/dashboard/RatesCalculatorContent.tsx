@@ -251,14 +251,7 @@ export const RatesCalculatorContent: React.FC = () => {
                   </div>
                   {tipsExpanded && (
                     <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
-                      {/* Placeholder content for Tips & Strategic Guidelines submenu */}
-                      <ul className="list-disc ml-6 text-base mt-2 space-y-1">
-                        <li>Analyze your hotel's historical booking trends and guest profiles.</li>
-                        <li>Consider flexible pricing based on occupancy and seasonality.</li>
-                        <li>Review operational costs, services included, and competitors in your segment.</li>
-                        <li>Align your model with your strategic goals and audience expectations.</li>
-                        {/* Add more guidance tips as needed */}
-                      </ul>
+                      {/* Content fully removed as requested */}
                     </div>
                   )}
                 </div>

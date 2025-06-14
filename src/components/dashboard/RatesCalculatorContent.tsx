@@ -9,6 +9,7 @@ import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 export const RatesCalculatorContent: React.FC = () => {
   const [costsSubTab, setCostsSubTab] = useState<string>("");
   const [modelSubTab, setModelSubTab] = useState<string>("");
+  const [profitsSubTab, setProfitsSubTab] = useState<string>("");
 
   const handleMainTabDoubleClick = (tabType: "costs" | "model") => {
     if (tabType === "costs") {
@@ -80,11 +81,135 @@ export const RatesCalculatorContent: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="profits">
-              <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
-                <div className="text-lg">
-                  Profits content will be added here.
-                </div>
-              </div>
+              <Tabs value={profitsSubTab} onValueChange={setProfitsSubTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
+                  <TabsTrigger 
+                    value="3-star" 
+                    className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-sm"
+                  >
+                    3 STAR HOTEL
+                  </TabsTrigger>
+                  
+                  <TabsTrigger 
+                    value="4-star" 
+                    className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-sm"
+                  >
+                    4 STAR HOTEL
+                  </TabsTrigger>
+                  
+                  <TabsTrigger 
+                    value="5-star" 
+                    className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-sm"
+                  >
+                    5 STAR HOTEL
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="3-star">
+                  <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
+                    <div className="w-full">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="mb-4 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              const img = document.getElementById('three-star-image') as HTMLImageElement;
+                              if (img && event.target?.result) {
+                                img.src = event.target.result as string;
+                                img.style.display = 'block';
+                              }
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <img 
+                        id="three-star-image"
+                        className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" 
+                        style={{ display: 'none' }}
+                        alt="3 Star Hotel Profits"
+                      />
+                      <div id="three-star-placeholder" className="w-full h-64 border-2 border-dashed border-blue-400/50 rounded-lg flex items-center justify-center text-white/60">
+                        Upload an image for 3 Star Hotel profits data
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="4-star">
+                  <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
+                    <div className="w-full">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="mb-4 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              const img = document.getElementById('four-star-image') as HTMLImageElement;
+                              if (img && event.target?.result) {
+                                img.src = event.target.result as string;
+                                img.style.display = 'block';
+                              }
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <img 
+                        id="four-star-image"
+                        className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" 
+                        style={{ display: 'none' }}
+                        alt="4 Star Hotel Profits"
+                      />
+                      <div id="four-star-placeholder" className="w-full h-64 border-2 border-dashed border-blue-400/50 rounded-lg flex items-center justify-center text-white/60">
+                        Upload an image for 4 Star Hotel profits data
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="5-star">
+                  <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
+                    <div className="w-full">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="mb-4 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              const img = document.getElementById('five-star-image') as HTMLImageElement;
+                              if (img && event.target?.result) {
+                                img.src = event.target.result as string;
+                                img.style.display = 'block';
+                              }
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <img 
+                        id="five-star-image"
+                        className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" 
+                        style={{ display: 'none' }}
+                        alt="5 Star Hotel Profits"
+                      />
+                      <div id="five-star-placeholder" className="w-full h-64 border-2 border-dashed border-blue-400/50 rounded-lg flex items-center justify-center text-white/60">
+                        Upload an image for 5 Star Hotel profits data
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </TabsContent>
           </Tabs>
         </TabsContent>

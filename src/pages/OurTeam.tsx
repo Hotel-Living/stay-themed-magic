@@ -1,4 +1,3 @@
-
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -113,16 +112,16 @@ export default function OurTeam() {
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-24 z-10 relative w-full">
         <div className="w-full max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-3 gap-x-8 gap-y-12">
             {teamImages.map((img, idx) => (
               <div key={idx} className="flex flex-col items-center">
                 <img
                   src={img.src}
                   alt={img.alt}
-                  // 70% resize, non-rounded, intact aspect ratio
                   className="border-[5px] border-gray-200 shadow-md object-contain"
+                  // Set width to 35% (i.e., 50% smaller than 70%)
                   style={{
-                    width: "70%",
+                    width: "35%",
                     height: "auto",
                     borderRadius: 0,
                   }}

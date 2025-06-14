@@ -18,6 +18,14 @@ export const RatesCalculatorContent: React.FC = () => {
   const [tipsExpanded, setTipsExpanded] = useState(false);
   const [downloadExpanded, setDownloadExpanded] = useState(false);
 
+  // New: Which TIPS submenu (if any) is open
+  const [openTipsSubmenu, setOpenTipsSubmenu] = useState<string | null>(null);
+
+  // Handler to open/close TIPS submenus (only one open at a time in expanded view)
+  const handleTipsSubmenuToggle = (submenuKey: string) => {
+    setOpenTipsSubmenu((prev) => (prev === submenuKey ? null : submenuKey));
+  };
+
   // Single-click to toggle top-level main menu
   const handleHeaderClick = () => {
     setMainMenuExpanded((prev) => {
@@ -240,158 +248,269 @@ export const RatesCalculatorContent: React.FC = () => {
               </div>
 
               {/* Two horizontally aligned submenus */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div
+                className={
+                  openTipsSubmenu
+                    ? "w-full transition-all duration-300"
+                    : "grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 transition-all duration-300"
+                }
+              >
                 {/* TIPS & STRATEGIC GUIDELINES menu (left) */}
-                <div 
-                  className={`rounded-lg cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${tipsExpanded ? "ring-2 ring-fuchsia-400/60" : ""}`}
+                <div
+                  className={`rounded-lg ${
+                    openTipsSubmenu
+                      ? "w-full"
+                      : ""
+                  } cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${
+                    tipsExpanded ? "ring-2 ring-fuchsia-400/60" : ""
+                  }`}
                   onClick={handleTipsClick}
                   aria-expanded={tipsExpanded}
                 >
-                  <div className="p-5 text-xl font-bold text-white text-center tracking-wide">
+                  <div className="p-5 text-xl font-bold text-white text-center tracking-wide bg-blue-500/20 rounded-t-lg">
                     TIPS & STRATEGIC GUIDELINES
                   </div>
                   {tipsExpanded && (
-                    <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
-                      {/* Four submenus horizontally aligned (stacked on mobile) */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        {/* Submenu 1: GENERAL STRATEGIC TIPS — PLEASE READ (MANDATORY FOR ALL HOTELS) */}
-                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
-                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                    <div className="p-0 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
+                      {/* Submenus horizontally (stacked on mobile) */}
+                      <div
+                        className={
+                          openTipsSubmenu
+                            ? "w-full"
+                            : "grid grid-cols-1 md:grid-cols-4 gap-4"
+                        }
+                      >
+                        {/* SUBMENU 1: GENERAL STRATEGIC TIPS */}
+                        <div
+                          className={`bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col ${
+                            openTipsSubmenu === "general"
+                              ? "col-span-full w-full"
+                              : ""
+                          }`}
+                          style={{
+                            cursor: "pointer",
+                            minWidth: 0,
+                            flex: openTipsSubmenu === "general" ? "1" : undefined,
+                          }}
+                        >
+                          <div
+                            className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleTipsSubmenuToggle("general");
+                            }}
+                          >
                             1️⃣ GENERAL STRATEGIC TIPS — PLEASE READ (MANDATORY FOR ALL HOTELS)
                           </div>
-                          <div className="flex-1 p-0">
-                            <Accordion type="multiple" className="w-full">
-                              {/* 1 */}
-                              <AccordionItem value="close-periods">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  1️⃣ DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Most hotels have certain periods during the year when demand drops significantly, leading to partial or full closures. By adopting a flexible living model, you can keep rooms filled during these low seasons, stabilizing income and improving operational efficiency year-round.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 2 */}
-                              <AccordionItem value="nobody-knows">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  2️⃣ NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business’s unique seasonality and potential.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 3 */}
-                              <AccordionItem value="guarantee-full-occupancy">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  3️⃣ BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that “living” guests fill gaps left by transient guests without undermining your regular pricing.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 4 */}
-                              <AccordionItem value="affinities-target">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  4️⃣ USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see “Themes” section).
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 5 */}
-                              <AccordionItem value="adapt-stay-length">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., “9 nights per month club”—to optimize for higher volume and guest experience.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 6 */}
-                              <AccordionItem value="leverage-boutique">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  6️⃣ LEVERAGE BOUTIQUE CONCEPTS FOR SMALL HIGH-END HOTELS
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  If you manage a boutique or luxury hotel, design tailored experiences (wellness, culture, business retreats) with premium rates. These can be highly attractive to remote professionals or guests seeking exclusivity and added value.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 7 */}
-                              <AccordionItem value="volume-logic">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  7️⃣ APPLY VOLUME LOGIC FOR LARGER HOTELS
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Larger properties can tap into “living at scale” logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
-                                </AccordionContent>
-                              </AccordionItem>
-                              {/* 8 */}
-                              <AccordionItem value="power-of-rotation">
-                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
-                                  8️⃣ UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
-                                </AccordionTrigger>
-                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
-                                  Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests “home” status. This increases loyalty and can transform your hotel’s business model in a predictable, positive way.
-                                </AccordionContent>
-                              </AccordionItem>
-                            </Accordion>
-                          </div>
+                          {openTipsSubmenu === "general" && (
+                            <div className="flex-1 w-full p-6 bg-[#12002b] rounded-b-lg">
+                              <Accordion type="multiple" className="w-full">
+                                {/* Accordion Items 1-8 */}
+                                <AccordionItem value="close-periods">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    1️⃣ DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Most hotels have certain periods during the year when demand drops significantly, leading to partial or full closures. By adopting a flexible living model, you can keep rooms filled during these low seasons, stabilizing income and improving operational efficiency year-round.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="nobody-knows">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    2️⃣ NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business’s unique seasonality and potential.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="guarantee-full-occupancy">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    3️⃣ BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that “living” guests fill gaps left by transient guests without undermining your regular pricing.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="affinities-target">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    4️⃣ USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see “Themes” section).
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="adapt-stay-length">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    5️⃣ ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., “9 nights per month club”—to optimize for higher volume and guest experience.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="leverage-boutique">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    6️⃣ LEVERAGE BOUTIQUE CONCEPTS FOR SMALL HIGH-END HOTELS
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    If you manage a boutique or luxury hotel, design tailored experiences (wellness, culture, business retreats) with premium rates. These can be highly attractive to remote professionals or guests seeking exclusivity and added value.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="volume-logic">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    7️⃣ APPLY VOLUME LOGIC FOR LARGER HOTELS
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Larger properties can tap into “living at scale” logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
+                                  </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="power-of-rotation">
+                                  <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                    8️⃣ UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
+                                  </AccordionTrigger>
+                                  <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                    Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests “home” status. This increases loyalty and can transform your hotel’s business model in a predictable, positive way.
+                                  </AccordionContent>
+                                </AccordionItem>
+                              </Accordion>
+                            </div>
+                          )}
                         </div>
 
-                        {/* Submenu 2: 3-STAR HOTELS */}
-                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
-                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                        {/* SUBMENU 2: 3-STAR HOTELS */}
+                        <div
+                          className={`bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col ${
+                            openTipsSubmenu === "3star"
+                              ? "col-span-full w-full"
+                              : ""
+                          }`}
+                          style={{
+                            cursor: "pointer",
+                            minWidth: 0,
+                            flex: openTipsSubmenu === "3star" ? "1" : undefined,
+                          }}
+                        >
+                          <div
+                            className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleTipsSubmenuToggle("3star");
+                            }}
+                          >
                             2️⃣ 3-STAR HOTELS
                           </div>
+                          {openTipsSubmenu === "3star" && (
+                            <div className="flex-1 w-full p-8 bg-[#12002b] rounded-b-lg text-white text-lg">
+                              {/* Placeholder for long/hotel-specific content */}
+                              <p>
+                                [Insert detailed strategic guidelines for 3-star hotels here. Replace with your specific content.]
+                              </p>
+                            </div>
+                          )}
                         </div>
 
-                        {/* Submenu 3: 4-STAR HOTELS */}
-                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
-                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                        {/* SUBMENU 3: 4-STAR HOTELS */}
+                        <div
+                          className={`bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col ${
+                            openTipsSubmenu === "4star"
+                              ? "col-span-full w-full"
+                              : ""
+                          }`}
+                          style={{
+                            cursor: "pointer",
+                            minWidth: 0,
+                            flex: openTipsSubmenu === "4star" ? "1" : undefined,
+                          }}
+                        >
+                          <div
+                            className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleTipsSubmenuToggle("4star");
+                            }}
+                          >
                             3️⃣ 4-STAR HOTELS
                           </div>
+                          {openTipsSubmenu === "4star" && (
+                            <div className="flex-1 w-full p-8 bg-[#12002b] rounded-b-lg text-white text-lg">
+                              {/* Placeholder for 4-star hotel info */}
+                              <p>
+                                [Insert detailed strategic guidelines for 4-star hotels here. Replace with your specific content.]
+                              </p>
+                            </div>
+                          )}
                         </div>
 
-                        {/* Submenu 4: 5-STAR HOTELS */}
-                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
-                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                        {/* SUBMENU 4: 5-STAR HOTELS */}
+                        <div
+                          className={`bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col ${
+                            openTipsSubmenu === "5star"
+                              ? "col-span-full w-full"
+                              : ""
+                          }`}
+                          style={{
+                            cursor: "pointer",
+                            minWidth: 0,
+                            flex: openTipsSubmenu === "5star" ? "1" : undefined,
+                          }}
+                        >
+                          <div
+                            className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleTipsSubmenuToggle("5star");
+                            }}
+                          >
                             4️⃣ 5-STAR HOTELS
                           </div>
+                          {openTipsSubmenu === "5star" && (
+                            <div className="flex-1 w-full p-8 bg-[#12002b] rounded-b-lg text-white text-lg">
+                              {/* Placeholder for 5-star hotel info */}
+                              <p>
+                                [Insert detailed strategic guidelines for 5-star hotels here. Replace with your specific content.]
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
-                
-                {/* DOWNLOAD ONLINE CALCULATOR menu (right) */}
-                <div 
-                  className={`rounded-lg cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${downloadExpanded ? "ring-2 ring-fuchsia-400/60" : ""}`}
-                  onClick={handleDownloadClick}
-                  aria-expanded={downloadExpanded}
-                >
-                  <div className="p-5 text-xl font-bold text-white text-center tracking-wide">
-                    DOWNLOAD ONLINE CALCULATOR
-                  </div>
-                  {downloadExpanded && (
-                    <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
-                      {/* Placeholder content for download section */}
-                      <div>
-                        <p className="mb-3">
-                          Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
-                        </p>
-                        {/* Example: download link, replace URL as required */}
-                        <a 
-                          href="#"
-                          className="inline-block px-5 py-2 font-semibold bg-fuchsia-600 hover:bg-fuchsia-700 transition rounded text-white shadow"
-                          target="_blank" rel="noopener noreferrer"
-                          tabIndex={downloadExpanded ? 0 : -1}
-                        >
-                          Download Excel Calculator
-                        </a>
-                        <p className="mt-2 text-xs text-fuchsia-200 opacity-80">Contact us if you need a different format or support customizing your template.</p>
-                      </div>
+                {/* Only show Download Calculator when no submenu is expanded */}
+                {!openTipsSubmenu && (
+                  <div
+                    className={`rounded-lg cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${
+                      downloadExpanded ? "ring-2 ring-fuchsia-400/60" : ""
+                    }`}
+                    onClick={handleDownloadClick}
+                    aria-expanded={downloadExpanded}
+                  >
+                    <div className="p-5 text-xl font-bold text-white text-center tracking-wide">
+                      DOWNLOAD ONLINE CALCULATOR
                     </div>
-                  )}
-                </div>
+                    {downloadExpanded && (
+                      <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
+                        {/* Placeholder content for download section */}
+                        <div>
+                          <p className="mb-3">
+                            Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
+                          </p>
+                          {/* Example: download link, replace URL as required */}
+                          <a
+                            href="#"
+                            className="inline-block px-5 py-2 font-semibold bg-fuchsia-600 hover:bg-fuchsia-700 transition rounded text-white shadow"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            tabIndex={downloadExpanded ? 0 : -1}
+                          >
+                            Download Excel Calculator
+                          </a>
+                          <p className="mt-2 text-xs text-fuchsia-200 opacity-80">
+                            Contact us if you need a different format or support customizing your template.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Existing content below the two submenus can remain or be further customized; keep as simple placeholder below: */}

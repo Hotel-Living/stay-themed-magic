@@ -4,7 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import React from "react";
 
-// New static gallery: Just the 10 uploaded images (rectangular, pure gallery mode)
+// Pure static gallery: All images as provided, rectangular, no processing, no staff logic
 const staticGalleryImages = [
   "/lovable-uploads/597f8e23-e1a7-4a48-bbbb-bbec8a9b1064.png",
   "/lovable-uploads/20544980-1c7c-41e7-9534-ea05df211f12.png",
@@ -15,7 +15,8 @@ const staticGalleryImages = [
   "/lovable-uploads/d574e8eb-197c-482d-856c-a0da0a795b82.png",
   "/lovable-uploads/80553826-35dd-4cfb-a871-87d1f5cb1afb.png",
   "/lovable-uploads/4964d5e3-1640-468e-9d24-8f11f650b264.png",
-  "/lovable-uploads/a2b6ec59-29e8-4283-91cd-9923fcfb117a.png",
+  "/lovable-uploads/a2b6ec59-29e8-4283-91cd-9923fcfb117a.png"
+  // Add more images below as needed for new batches (exact order)
 ];
 
 export default function OurTeam() {
@@ -25,20 +26,30 @@ export default function OurTeam() {
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-24 z-10 relative w-full">
         <div className="w-full max-w-5xl mx-auto">
-          {/* Static photo gallery: rectangular only, no text, no staff logic */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16">
+          {/* Pure static image gallery: 4 per row, no cropping, no rounding, no text, no staff logic */}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12"
+            style={{ alignItems: "start" }}
+          >
             {staticGalleryImages.map((src) => (
-              <div key={src} className="flex flex-col items-center">
+              <div key={src} className="flex flex-col items-center w-full">
                 <img
                   src={src}
                   alt=""
-                  className="block"
+                  className="block select-none"
                   style={{
-                    width: "11.2rem",
-                    height: "11.2rem",
-                    objectFit: "cover",
-                    borderRadius: 0, // NO rounding/circle.
+                    width: "100%",
+                    maxWidth: "320px", // fits ~4 per row in 1280px
+                    height: "auto",
+                    aspectRatio: "auto",  // Ensures native aspect ratio display
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    objectFit: "unset",   // No resizing/stretching/cropping
+                    background: "none",
+                    margin: 0,
+                    padding: 0,
                   }}
+                  draggable={false}
                 />
               </div>
             ))}

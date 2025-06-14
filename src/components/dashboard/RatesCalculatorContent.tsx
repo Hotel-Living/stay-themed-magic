@@ -251,7 +251,107 @@ export const RatesCalculatorContent: React.FC = () => {
                   </div>
                   {tipsExpanded && (
                     <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
-                      {/* Content fully removed as requested */}
+                      {/* Four submenus horizontally aligned (stacked on mobile) */}
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {/* Submenu 1: GENERAL STRATEGIC TIPS (accordion blocks) */}
+                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
+                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                            GENERAL STRATEGIC TIPS — PLEASE READ (MANDATORY FOR ALL HOTELS)
+                          </div>
+                          <div className="flex-1 p-0">
+                            <Accordion type="multiple" className="w-full" collapsible>
+                              <AccordionItem value="close-periods">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Most hotels have certain periods during the year when demand drops significantly, leading to partial or full closures. By adopting a flexible living model, you can keep rooms filled during these low seasons, stabilizing income and improving operational efficiency year-round.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="nobody-knows">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  NOBODY KNOWS YOUR HOTEL BETTER THAN YOU DO
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Use your in-depth experience to build a living-stay model adapted to your specific reality, cultural context, and clientele. No generic formula beats your understanding of your business’s unique seasonality and potential.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="guarantee-full-occupancy">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  BUILD A MODEL THAT GUARANTEES FULL OCCUPANCY
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  The key to sustained success is stable, predictable revenue and full rooms—even during historically low occupancy months. Structure rates and packages so that “living” guests fill gaps left by transient guests without undermining your regular pricing.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="affinities-target">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  USE AFFINITIES TO DIFFERENTIATE AND TARGET AUDIENCES
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Focus on niche audiences (artists, digital nomads, retirees, etc.) to avoid competing directly with standard hotel offerings and OTAs. Use affinities to build loyal, recurring client groups adapted to your category (see “Themes” section).
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="adapt-stay-length">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  ADAPT LENGTH OF STAY TO HOTEL SIZE AND DYNAMICS
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Smaller hotels may benefit from longer minimum stays (e.g., 1-3 months), reducing turnover cost. Larger hotels can experiment with rotations—e.g., “9 nights per month club”—to optimize for higher volume and guest experience.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="leverage-boutique">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  LEVERAGE BOUTIQUE CONCEPTS FOR SMALL HIGH-END HOTELS
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  If you manage a boutique or luxury hotel, design tailored experiences (wellness, culture, business retreats) with premium rates. These can be highly attractive to remote professionals or guests seeking exclusivity and added value.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="volume-logic">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  APPLY VOLUME LOGIC FOR LARGER HOTELS
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Larger properties can tap into “living at scale” logic—discounts for recurring guests, flexible plans (e.g., alternate weeks), and partnerships with institutions or companies to fill blocks of rooms efficiently.
+                                </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="power-of-rotation">
+                                <AccordionTrigger className="text-base font-semibold text-white px-4 py-2">
+                                  UNDERSTAND THE POWER OF RECURRING STAYS AND CUSTOMER ROTATION
+                                </AccordionTrigger>
+                                <AccordionContent className="bg-fuchsia-800/10 px-4 py-2 rounded-b">
+                                  Monthly, multi-month, or club-style stays (where guests return on set days each month) increase forecastability while giving guests “home” status. This increases loyalty and can transform your hotel’s business model in a predictable, positive way.
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
+                          </div>
+                        </div>
+
+                        {/* Submenu 2: 3-STAR HOTELS */}
+                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
+                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                            3-STAR HOTELS
+                          </div>
+                          {/* No content per instruction */}
+                        </div>
+
+                        {/* Submenu 3: 4-STAR HOTELS */}
+                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
+                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                            4-STAR HOTELS
+                          </div>
+                          {/* No content per instruction */}
+                        </div>
+
+                        {/* Submenu 4: 5-STAR HOTELS */}
+                        <div className="bg-gradient-to-br from-cyan-500/40 to-purple-600/40 rounded-lg p-0 border border-fuchsia-400/15 flex flex-col">
+                          <div className="text-sm font-bold uppercase bg-fuchsia-900/50 text-fuchsia-100 px-4 py-2 rounded-t-lg w-full text-center tracking-tight">
+                            5-STAR HOTELS
+                          </div>
+                          {/* No content per instruction */}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>

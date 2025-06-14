@@ -192,40 +192,55 @@ export const RatesCalculatorContent: React.FC = () => {
               {/* --- Model Builder Tabs (fixed, full width) --- */}
               <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
                 <TabsList className="flex w-full mb-6 gap-1 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl shadow-lg">
+                  {/* PLEASE READ THIS */}
                   <TabsTrigger
                     value="read-this"
-                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
-                    style={{ fontStretch: "condensed" }}
+                    className="flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed", minHeight: "54px" }}
                   >
-                    PLEASE READ THIS
+                    {"PLEASE\nREAD THIS".split("\n").map((line,i) => (
+                      <span key={i} className="leading-tight">{line}</span>
+                    ))}
                   </TabsTrigger>
+                  {/* 3-STAR HOTELS */}
                   <TabsTrigger
                     value="3star"
-                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
-                    style={{ fontStretch: "condensed" }}
+                    className="flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed", minHeight: "54px" }}
                   >
-                    3-STAR HOTELS
+                    {"3-STAR\nHOTELS".split("\n").map((line,i) => (
+                      <span key={i} className="leading-tight">{line}</span>
+                    ))}
                   </TabsTrigger>
+                  {/* 4-STAR HOTELS */}
                   <TabsTrigger
                     value="4star"
-                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
-                    style={{ fontStretch: "condensed" }}
+                    className="flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed", minHeight: "54px" }}
                   >
-                    4-STAR HOTELS
+                    {"4-STAR\nHOTELS".split("\n").map((line,i) => (
+                      <span key={i} className="leading-tight">{line}</span>
+                    ))}
                   </TabsTrigger>
+                  {/* 5-STAR HOTELS */}
                   <TabsTrigger
                     value="5star"
-                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
-                    style={{ fontStretch: "condensed" }}
+                    className="flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed", minHeight: "54px" }}
                   >
-                    5-STAR HOTELS
+                    {"5-STAR\nHOTELS".split("\n").map((line,i) => (
+                      <span key={i} className="leading-tight">{line}</span>
+                    ))}
                   </TabsTrigger>
+                  {/* DOWNLOAD CALCULATOR */}
                   <TabsTrigger
                     value="download"
-                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
-                    style={{ fontStretch: "condensed" }}
+                    className="flex-1 flex flex-col items-center justify-center font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-break-spaces break-words text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed", minHeight: "54px" }}
                   >
-                    DOWNLOAD CALCULATOR
+                    {"DOWNLOAD\nCALCULATOR".split("\n").map((line,i) => (
+                      <span key={i} className="leading-tight">{line}</span>
+                    ))}
                   </TabsTrigger>
                 </TabsList>
                 {/* PLEASE READ THIS Tab Content */}

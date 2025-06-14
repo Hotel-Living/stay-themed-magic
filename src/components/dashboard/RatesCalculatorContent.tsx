@@ -192,19 +192,39 @@ export const RatesCalculatorContent: React.FC = () => {
               {/* --- Model Builder Tabs (fixed, full width) --- */}
               <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
                 <TabsList className="flex w-full mb-6 gap-1 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl shadow-lg">
-                  <TabsTrigger value="read-this" className="flex-1 text-xs md:text-base uppercase tracking-tight rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all font-normal">
+                  <TabsTrigger
+                    value="read-this"
+                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed" }}
+                  >
                     PLEASE READ THIS
                   </TabsTrigger>
-                  <TabsTrigger value="3star" className="flex-1 text-xs uppercase tracking-tight rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all font-normal md:text-base">
+                  <TabsTrigger
+                    value="3star"
+                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed" }}
+                  >
                     3-STAR HOTELS
                   </TabsTrigger>
-                  <TabsTrigger value="4star" className="flex-1 text-xs md:text-base uppercase tracking-tight rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all font-normal">
+                  <TabsTrigger
+                    value="4star"
+                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed" }}
+                  >
                     4-STAR HOTELS
                   </TabsTrigger>
-                  <TabsTrigger value="5star" className="flex-1 text-xs md:text-base uppercase tracking-tight rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all font-normal">
+                  <TabsTrigger
+                    value="5star"
+                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed" }}
+                  >
                     5-STAR HOTELS
                   </TabsTrigger>
-                  <TabsTrigger value="download" className="flex-1 text-xs md:text-base uppercase tracking-tight rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all font-normal">
+                  <TabsTrigger
+                    value="download"
+                    className="flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-nowrap text-center rounded-none data-[state=active]:bg-[#12002b] data-[state=active]:text-fuchsia-100 text-white bg-transparent px-1 md:px-4 py-4 transition-all"
+                    style={{ fontStretch: "condensed" }}
+                  >
                     DOWNLOAD CALCULATOR
                   </TabsTrigger>
                 </TabsList>

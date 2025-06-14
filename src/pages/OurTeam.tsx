@@ -7,7 +7,7 @@ import React from "react";
 // Pure static gallery: All images as provided, rectangular, no processing, no staff logic
 const staticGalleryImages = [
   "/lovable-uploads/597f8e23-e1a7-4a48-bbbb-bbec8a9b1064.png",
-  "/lovable-uploads/20544980-1c7c-41e7-9534-ea05df211f12.png",
+  "/lovable-uploads/e94f3f85-8e07-4fe8-a381-9765b4e29fb8.png", // swapped in new image here
   "/lovable-uploads/e7fc10a7-b8fd-4edf-b629-78a71f0e6118.png",
   "/lovable-uploads/37dd7d26-04cd-40f4-939e-21234807d99f.png",
   "/lovable-uploads/5ba7aee7-2aa5-4628-86b4-255f9d264040.png",

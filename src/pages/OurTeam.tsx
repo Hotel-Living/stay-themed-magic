@@ -15,8 +15,13 @@ const staticGalleryImages = [
   "/lovable-uploads/d574e8eb-197c-482d-856c-a0da0a795b82.png",
   "/lovable-uploads/80553826-35dd-4cfb-a871-87d1f5cb1afb.png",
   "/lovable-uploads/4964d5e3-1640-468e-9d24-8f11f650b264.png",
-  "/lovable-uploads/a2b6ec59-29e8-4283-91cd-9923fcfb117a.png"
-  // Add more images below as needed for new batches (exact order)
+  "/lovable-uploads/a2b6ec59-29e8-4283-91cd-9923fcfb117a.png",
+  // Newly added 4 images at the end:
+  "/lovable-uploads/c8e5f873-69d3-467e-96f5-188fb5a9512a.png",
+  "/lovable-uploads/1eaa6515-a2f7-4161-b3dd-810e797e180a.png",
+  "/lovable-uploads/30eb0762-2378-4805-a041-6f4ac65c980b.png",
+  "/lovable-uploads/edff432e-7a2a-4e72-ab55-2f328e723667.png"
+  // Add any future images below, in exact order
 ];
 
 export default function OurTeam() {

@@ -112,16 +112,16 @@ export default function OurTeam() {
       <Navbar />
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-24 z-10 relative w-full">
         <div className="w-full max-w-5xl mx-auto">
-          <div className="grid grid-cols-3 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-4 gap-x-8 gap-y-12">
             {teamImages.map((img, idx) => (
               <div key={idx} className="flex flex-col items-center">
                 <img
                   src={img.src}
                   alt={img.alt}
                   className="border-[5px] border-gray-200 shadow-md object-contain"
-                  // Set width to 35% (i.e., 50% smaller than 70%)
+                  // Set width to 49% (40% larger than 35%)
                   style={{
-                    width: "35%",
+                    width: "49%",
                     height: "auto",
                     borderRadius: 0,
                   }}

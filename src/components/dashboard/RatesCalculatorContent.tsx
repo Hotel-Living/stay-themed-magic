@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,16 +13,22 @@ export const RatesCalculatorContent: React.FC = () => {
   const [modelExpanded, setModelExpanded] = useState(false);
   const [costsExpanded, setCostsExpanded] = useState(false);
 
+  // New: States for the two submenus in the "BUILD YOUR OWN MODEL & RATES" section
+  const [tipsExpanded, setTipsExpanded] = useState(false);
+  const [downloadExpanded, setDownloadExpanded] = useState(false);
+
   // Single-click to toggle top-level main menu
   const handleHeaderClick = () => {
     setMainMenuExpanded((prev) => {
       if (prev) {
-        // Collapse everything
         setMainTab("");
         setCostsExpanded(false);
         setModelExpanded(false);
         setCostsSubTab("");
         setProfitsSubTab("");
+        // Also collapse submenus in model section if open
+        setTipsExpanded(false);
+        setDownloadExpanded(false);
       }
       return !prev;
     });
@@ -41,6 +46,7 @@ export const RatesCalculatorContent: React.FC = () => {
         setModelExpanded(false);
         setCostsSubTab("");
         setProfitsSubTab("");
+        // Model submenus stay collapsed
       }
       return !prev;
     });
@@ -51,11 +57,17 @@ export const RatesCalculatorContent: React.FC = () => {
     setModelExpanded((prev) => {
       if (prev) {
         setMainTab("");
+        // Also collapse submenus
+        setTipsExpanded(false);
+        setDownloadExpanded(false);
       } else {
         setMainTab("model-rates-calculator");
         setCostsExpanded(false);
         setCostsSubTab("");
         setProfitsSubTab("");
+        // Model submenus start collapsed
+        setTipsExpanded(false);
+        setDownloadExpanded(false);
       }
       return !prev;
     });
@@ -76,7 +88,15 @@ export const RatesCalculatorContent: React.FC = () => {
     setProfitsSubTab((prev) => (prev === star ? "" : star));
   };
 
-  // Always collapsed by default on first render, handled via initial state above
+  // Handlers for new submenus (single click toggles)
+  const handleTipsClick = () => {
+    setTipsExpanded((prev) => !prev);
+    if (!tipsExpanded) setDownloadExpanded(false);
+  };
+  const handleDownloadClick = () => {
+    setDownloadExpanded((prev) => !prev);
+    if (!downloadExpanded) setTipsExpanded(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -207,6 +227,75 @@ export const RatesCalculatorContent: React.FC = () => {
           {/* BUILD YOUR OWN MODEL & RATES Submenu */}
           {modelExpanded && (
             <TabsContent value="model-rates-calculator">
+              {/* New instructional text block */}
+              <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
+                <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
+                <div className="text-[15px] leading-relaxed font-medium">
+                  Building your custom model is a crucial step to maximize your revenue opportunities.<br />
+                  We strongly recommend that you carefully review the “TIPS & STRATEGIC GUIDELINES” section first.<br />
+                  These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br />
+                  <b>Once you have studied the guidelines, you may proceed to download and use the Online Calculator located on the right.</b>
+                </div>
+              </div>
+
+              {/* Two horizontally aligned submenus */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {/* TIPS & STRATEGIC GUIDELINES menu (left) */}
+                <div 
+                  className={`rounded-lg cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${tipsExpanded ? "ring-2 ring-fuchsia-400/60" : ""}`}
+                  onClick={handleTipsClick}
+                  aria-expanded={tipsExpanded}
+                >
+                  <div className="p-5 text-xl font-bold text-white text-center tracking-wide">
+                    TIPS & STRATEGIC GUIDELINES
+                  </div>
+                  {tipsExpanded && (
+                    <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
+                      {/* Placeholder content for Tips & Strategic Guidelines submenu */}
+                      <ul className="list-disc ml-6 text-base mt-2 space-y-1">
+                        <li>Analyze your hotel's historical booking trends and guest profiles.</li>
+                        <li>Consider flexible pricing based on occupancy and seasonality.</li>
+                        <li>Review operational costs, services included, and competitors in your segment.</li>
+                        <li>Align your model with your strategic goals and audience expectations.</li>
+                        {/* Add more guidance tips as needed */}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                
+                {/* DOWNLOAD ONLINE CALCULATOR menu (right) */}
+                <div 
+                  className={`rounded-lg cursor-pointer bg-gradient-to-br from-cyan-400 to-purple-600 shadow-lg ${downloadExpanded ? "ring-2 ring-fuchsia-400/60" : ""}`}
+                  onClick={handleDownloadClick}
+                  aria-expanded={downloadExpanded}
+                >
+                  <div className="p-5 text-xl font-bold text-white text-center tracking-wide">
+                    DOWNLOAD ONLINE CALCULATOR
+                  </div>
+                  {downloadExpanded && (
+                    <div className="p-4 bg-[#140030]/70 text-white rounded-b-lg border-t border-fuchsia-400/15">
+                      {/* Placeholder content for download section */}
+                      <div>
+                        <p className="mb-3">
+                          Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
+                        </p>
+                        {/* Example: download link, replace URL as required */}
+                        <a 
+                          href="#"
+                          className="inline-block px-5 py-2 font-semibold bg-fuchsia-600 hover:bg-fuchsia-700 transition rounded text-white shadow"
+                          target="_blank" rel="noopener noreferrer"
+                          tabIndex={downloadExpanded ? 0 : -1}
+                        >
+                          Download Excel Calculator
+                        </a>
+                        <p className="mt-2 text-xs text-fuchsia-200 opacity-80">Contact us if you need a different format or support customizing your template.</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Existing content below the two submenus can remain or be further customized; keep as simple placeholder below: */}
               <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
                 <div className="text-lg">
                   Model & Rates Calculator content will be added here.

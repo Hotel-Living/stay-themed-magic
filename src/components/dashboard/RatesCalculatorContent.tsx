@@ -7,6 +7,7 @@ import { DefaultCostsTab } from "./rates-calculator/DefaultCostsTab";
 import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 
 export const RatesCalculatorContent: React.FC = () => {
+  const [mainTab, setMainTab] = useState<string>("costs-profits");
   const [costsSubTab, setCostsSubTab] = useState<string>("");
   const [modelSubTab, setModelSubTab] = useState<string>("");
   const [profitsSubTab, setProfitsSubTab] = useState<string>("");
@@ -14,9 +15,14 @@ export const RatesCalculatorContent: React.FC = () => {
   const handleMainTabDoubleClick = (tabType: "costs" | "model") => {
     if (tabType === "costs") {
       setCostsSubTab("");
+      setProfitsSubTab("");
     } else {
       setModelSubTab("");
     }
+  };
+
+  const handleCostsSubTabDoubleClick = () => {
+    setProfitsSubTab("");
   };
 
   return (
@@ -39,7 +45,7 @@ export const RatesCalculatorContent: React.FC = () => {
         </div>
       </div>
 
-      <Tabs className="w-full">
+      <Tabs value={mainTab} onValueChange={setMainTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
           <TabsTrigger 
             value="costs-profits" 
@@ -71,6 +77,7 @@ export const RatesCalculatorContent: React.FC = () => {
               <TabsTrigger 
                 value="profits" 
                 className="py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base"
+                onDoubleClick={handleCostsSubTabDoubleClick}
               >
                 PROFITS
               </TabsTrigger>

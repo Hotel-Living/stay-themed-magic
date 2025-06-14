@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -33,17 +34,6 @@ export const RatesCalculatorContent: React.FC = () => {
         </h2>
       </div>
 
-      {/* Enhanced Informational Text Block - moved here */}
-      <div className="relative text-white/90 text-sm text-center px-4 mb-6">
-        {/* Soft blue glow background */}
-        <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
-        <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
-          <p className="font-bold">
-            These figures represent an example of average incremental costs per additional occupied room for 3-4-5 star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.
-          </p>
-        </div>
-      </div>
-
       <Tabs value={mainTab} onValueChange={setMainTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
           <TabsTrigger 
@@ -64,6 +54,17 @@ export const RatesCalculatorContent: React.FC = () => {
         </TabsList>
         
         <TabsContent value="costs-profits">
+          {/* Enhanced Informational Text Block - moved here */}
+          <div className="relative text-white/90 text-sm text-center px-4 mb-6">
+            {/* Soft blue glow background */}
+            <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
+            <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
+              <p className="font-bold">
+                These figures represent an example of average incremental costs per additional occupied room for 3-4-5 star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.
+              </p>
+            </div>
+          </div>
+
           <Tabs value={costsSubTab} onValueChange={setCostsSubTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
               <TabsTrigger 

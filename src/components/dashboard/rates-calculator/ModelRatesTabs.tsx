@@ -5,92 +5,66 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 const TAB_BG = "bg-[#3C1865]";
 const ACTIVE_TAB_BG = "bg-[#3C1865]";
 const ACTIVE_TEXT = "text-white";
-
-const tabs = [
-  {
-    value: "read-this",
-    label: (
-      <>
+const tabs = [{
+  value: "read-this",
+  label: <>
         PLEASE<br />READ THIS
       </>
-    )
-  },
-  {
-    value: "3star",
-    label: (
-      <>
+}, {
+  value: "3star",
+  label: <>
         3-STAR<br />HOTELS
       </>
-    )
-  },
-  {
-    value: "4star",
-    label: (
-      <>
+}, {
+  value: "4star",
+  label: <>
         4-STAR<br />HOTELS
       </>
-    )
-  },
-  {
-    value: "5star",
-    label: (
-      <>
+}, {
+  value: "5star",
+  label: <>
         5-STAR<br />HOTELS
       </>
-    )
-  },
-  {
-    value: "download",
-    label: (
-      <>
+}, {
+  value: "download",
+  label: <>
         DOWNLOAD<br />CALCULATOR
       </>
-    )
-  }
-];
-
+}];
 export const ModelRatesTabs: React.FC = () => {
   // Move the tab state into this component so refactor does not break layout or logic.
   const [modelTab, setModelTab] = useState<string>("read-this"); // default
 
-  return (
-    <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
+  return <Tabs value={modelTab} onValueChange={setModelTab} className="w-full">
       <TabsList className="flex w-full mb-6 gap-1 rounded-xl shadow-lg bg-transparent">
-        {tabs.map((tab) => (
-          <TabsTrigger
-            key={tab.value}
-            value={tab.value}
-            className={`
+        {tabs.map(tab => <TabsTrigger key={tab.value} value={tab.value} className={`
               flex-1 font-bold text-xs md:text-base uppercase tracking-tight font-sans whitespace-pre-line text-center rounded-none px-1 md:px-4 py-4 transition-all font-condensed
               leading-snug
-              ${modelTab === tab.value
-                ? `${ACTIVE_TAB_BG} ${ACTIVE_TEXT}`
-                : `bg-transparent text-white data-[state=active]:${ACTIVE_TAB_BG} data-[state=active]:${ACTIVE_TEXT}`
-              }
-            `}
-            style={{
-              fontStretch: "condensed",
-              whiteSpace: "pre-line",
-              minHeight: "52px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              lineHeight: 1.15
-            }}
-          >
+              ${modelTab === tab.value ? `${ACTIVE_TAB_BG} ${ACTIVE_TEXT}` : `bg-transparent text-white data-[state=active]:${ACTIVE_TAB_BG} data-[state=active]:${ACTIVE_TEXT}`}
+            `} style={{
+        fontStretch: "condensed",
+        whiteSpace: "pre-line",
+        minHeight: "52px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        lineHeight: 1.15
+      }}>
             <span style={{
-              display: "block",
-              whiteSpace: "pre-line",
-              lineHeight: "1.13",
-              fontSize: "inherit"
-            }}>{tab.label}</span>
-          </TabsTrigger>
-        ))}
+          display: "block",
+          whiteSpace: "pre-line",
+          lineHeight: "1.13",
+          fontSize: "inherit"
+        }}>{tab.label}</span>
+          </TabsTrigger>)}
       </TabsList>
       {/* PLEASE READ THIS Tab Content */}
       <TabsContent value="read-this" className="w-full rounded-lg bg-[#3C1865]">
-        <div className="w-full p-6 rounded-lg" style={{ background: "none", color: "#fff" }}>
+        <div className="w-full p-6 rounded-lg" style={{
+        background: "none",
+        color: "#fff"
+      }}>
           <div className="mb-4">
             <div className="font-bold text-white text-base mb-2">
               1️⃣ DOES YOUR HOTEL HAVE TO CLOSE FOR LONG PERIODS EACH YEAR?
@@ -160,9 +134,11 @@ export const ModelRatesTabs: React.FC = () => {
 
       {/* 3-STAR HOTELS Tab Content */}
       <TabsContent value="3star" className="w-full rounded-lg bg-[#3C1865]">
-        <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
+        <div className="w-full p-8 rounded-lg text-white text-lg" style={{
+        background: "none"
+      }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐ STRATEGIC TIPS FOR 3-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">⭐ ⭐⭐ STRATEGIC TIPS FOR 3-STAR HOTELS</span>
             <span className="block mb-4">
               3-star hotels will naturally capture the largest share of the total customer base.
               <br />
@@ -243,11 +219,13 @@ export const ModelRatesTabs: React.FC = () => {
 
       {/* 4-STAR HOTELS Tab Content */}
       <TabsContent value="4star" className="w-full rounded-lg bg-[#3C1865]">
-        <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
+        <div className="w-full p-8 rounded-lg text-white text-lg" style={{
+        background: "none"
+      }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐ STRATEGIC TIPS FOR 4-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">⭐⭐ ⭐⭐ STRATEGIC TIPS FOR 4-STAR HOTELS </span>
             <span className="block mb-4">
-              4-star hotels have a unique position, balancing comfort, reputation, and attractive pricing to appeal to a wide but slightly more selective audience segment.<br/>
+              4-star hotels have a unique position, balancing comfort, reputation, and attractive pricing to appeal to a wide but slightly more selective audience segment.<br />
               To maximize success, they must blend the best of affordability, service, and curated thematic experiences.
             </span>
           </div>
@@ -320,9 +298,11 @@ export const ModelRatesTabs: React.FC = () => {
 
       {/* 5-STAR HOTELS Tab Content */}
       <TabsContent value="5star" className="w-full rounded-lg bg-[#3C1865]">
-        <div className="w-full p-8 rounded-lg text-white text-lg" style={{ background: "none" }}>
+        <div className="w-full p-8 rounded-lg text-white text-lg" style={{
+        background: "none"
+      }}>
           <div className="mb-4">
-            <span className="font-bold text-xl block mb-2">⭐⭐⭐ STRATEGIC TIPS FOR 5-STAR HOTELS</span>
+            <span className="font-bold text-xl block mb-2">⭐⭐⭐ ⭐⭐ STRATEGIC TIPS FOR 5-STAR HOTELS</span>
             <span className="block mb-4">
               5-star hotels can attract high-net-worth individuals looking for premium living experiences inside a fully serviced environment.
               <br />
@@ -411,7 +391,9 @@ export const ModelRatesTabs: React.FC = () => {
 
       {/* ... keep existing code (download tab and any other content the same) ... */}
       <TabsContent value="download" className="w-full rounded-lg bg-[#3C1865]">
-        <div className="p-4 rounded-lg text-white" style={{ background: "none" }}>
+        <div className="p-4 rounded-lg text-white" style={{
+        background: "none"
+      }}>
           <div>
             <p className="mb-3">
               Access the online calculator and supporting documents for building and testing your custom hotel living rates model.
@@ -425,6 +407,5 @@ export const ModelRatesTabs: React.FC = () => {
           </div>
         </div>
       </TabsContent>
-    </Tabs>
-  );
+    </Tabs>;
 };

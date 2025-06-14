@@ -1,3 +1,4 @@
+
 import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
 
@@ -14,7 +15,7 @@ export const getDashboardTabs = (): DashboardTab[] => [
   },
   {
     id: "rates-calculator",
-    label: "Calculate Your Model & Rates", 
+    label: "Calculate Your Model, Rates and Profits", 
     icon: <Calculator className="w-5 h-5" />
   },
   {

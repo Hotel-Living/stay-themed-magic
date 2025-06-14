@@ -64,6 +64,20 @@ const extraImages = [
   "/lovable-uploads/276b0ea3-57f8-4a32-b918-acec4f7a35b3.png"
 ];
 
+// The new batch of uploaded images to display (update with new batches as they arrive)
+const newBatchImages = [
+  "/lovable-uploads/8a332b21-6c38-4abc-bf39-73e75d358e4c.png",
+  "/lovable-uploads/3bd24d37-b891-4186-8e35-164449c41468.png",
+  "/lovable-uploads/b87ecb07-0348-4093-b57a-54d9c06c7f70.png",
+  "/lovable-uploads/5daa242b-c9d8-4787-b76d-626edb77db9f.png",
+  "/lovable-uploads/a0a67a48-d98a-458f-9ec1-10ae8525f5fc.png",
+  "/lovable-uploads/8da6791f-c276-499c-adfc-a29d72123964.png",
+  "/lovable-uploads/881cd667-9acf-4f27-a558-4ba6f5ada9cf.png",
+  "/lovable-uploads/1b0325a2-ac01-4133-8570-7ee480656465.png",
+  "/lovable-uploads/69f2c3a5-1113-437f-a034-cf592b7ed700.png",
+  "/lovable-uploads/1a0b7471-5b2d-40a7-b2d5-7aac98d77825.png"
+];
+
 export default function OurTeam() {
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent">
@@ -132,6 +146,26 @@ export default function OurTeam() {
                   className="block"
                   style={{
                     // Keep a consistent large size, adjust to match above visually.
+                    width: "11.2rem",
+                    height: "11.2rem",
+                    objectFit: "cover",
+                    borderRadius: 0,
+                    boxShadow: "0 2px 12px 0 rgba(0,0,0,0.06)",
+                    background: "#fff"
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          {/* "Regular photos" section: 4 per row, no rounding, no text, as requested */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16 mt-16">
+            {newBatchImages.map((src) => (
+              <div key={src} className="flex flex-col items-center">
+                <img
+                  src={src}
+                  alt=""
+                  className="block"
+                  style={{
                     width: "11.2rem",
                     height: "11.2rem",
                     objectFit: "cover",

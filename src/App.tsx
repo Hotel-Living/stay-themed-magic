@@ -11,6 +11,7 @@ import { AdminRoute } from "@/components/auth/AdminRoute";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import OurTeam from "@/pages/OurTeam";
 
 // Initialize i18n
 import "./i18n/config";
@@ -70,6 +71,7 @@ function App() {
                   <Route path="/customer-service" element={<CustomerService />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/intellectual-property" element={<IntellectualProperty />} />
+                  <Route path="/our-team" element={<OurTeam />} />
                   
                   {/* Protected Routes */}
                   <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Separator } from "./ui/separator";
@@ -146,9 +144,14 @@ export function Footer() {
                     PRIVACY & COOKIES
                   </Link>
                 </div>
-                <div className="flex justify-center w-full">
+                <div className="flex justify-center w-full mb-3">
                   <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     INTELLECTUAL PROPERTY
+                  </Link>
+                </div>
+                <div className="flex justify-center w-full">
+                  <Link to="/our-team" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
+                    OUR TEAM
                   </Link>
                 </div>
               </>
@@ -166,6 +169,9 @@ export function Footer() {
                 </Link>
                 <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   INTELLECTUAL PROPERTY
+                </Link>
+                <Link to="/our-team" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
+                  OUR TEAM
                 </Link>
               </>
             )}
@@ -197,4 +203,3 @@ export function Footer() {
       </div>
     </footer>;
 }
-

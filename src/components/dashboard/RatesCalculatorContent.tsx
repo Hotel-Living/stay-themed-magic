@@ -182,7 +182,7 @@ export const RatesCalculatorContent: React.FC = () => {
               {/* General instructional text */}
               <div className="mb-6 text-white bg-gradient-to-r from-blue-700/60 to-fuchsia-800/60 rounded-lg p-6 border border-fuchsia-400/15 shadow backdrop-blur-sm">
                 <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
-                <div className="text-[15px] leading-relaxed font-medium bg-[#4d034d]">
+                <div className="text-[15px] leading-relaxed font-medium bg-[#1c065f]">
                   Building your custom model is a crucial step to maximize your revenue opportunities.<br />
                   We strongly recommend that you carefully review the “TIPS & STRATEGIC GUIDELINES” section first.<br />
                   These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br />

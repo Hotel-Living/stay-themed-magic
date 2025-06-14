@@ -119,9 +119,9 @@ export default function OurTeam() {
                   src={img.src}
                   alt={img.alt}
                   className="border-[5px] border-gray-200 shadow-md object-contain"
-                  // Set width to 49% (40% larger than 35%)
+                  // Set width to 68.6% (40% larger than 49%)
                   style={{
-                    width: "49%",
+                    width: "68.6%",
                     height: "auto",
                     borderRadius: 0,
                   }}

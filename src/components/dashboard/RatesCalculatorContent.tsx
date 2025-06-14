@@ -118,7 +118,7 @@ export const RatesCalculatorContent: React.FC = () => {
                 <TabsContent value="4-star">
                   <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
                     <img 
-                      src="/lovable-uploads/1831e617-0b28-4b4a-b586-88d7e8afe4dc.png"
+                      src="/lovable-uploads/c4c66028-2a49-4072-8ecb-b28c54c16452.png"
                       alt="4 Star Hotel Profit Model"
                       className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20"
                     />
@@ -128,7 +128,7 @@ export const RatesCalculatorContent: React.FC = () => {
                 <TabsContent value="5-star">
                   <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
                     <img 
-                      src="/lovable-uploads/c85c99b6-17b5-4910-8ef2-95474dad4b8d.png"
+                      src="/lovable-uploads/e36c9773-e800-452c-bd1e-a77067fc493c.png"
                       alt="5 Star Hotel Profit Model"
                       className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20"
                     />

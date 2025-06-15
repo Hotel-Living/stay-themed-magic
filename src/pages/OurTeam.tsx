@@ -52,6 +52,12 @@ const staffProfiles = [
     name: "Ethan Brooks",
     title: "BUSINESS RELATIONS COORDINATOR",
   },
+  // ADDED STAFF BELOW:
+  {
+    img: "/lovable-uploads/b5f52460-e740-4f04-ab00-bd8714f65cb2.png",
+    name: "PLATFORM RELIABILITY ENGINEER",
+    title: "SRE",
+  },
 ];
 
 export default function OurTeam() {

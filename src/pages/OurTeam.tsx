@@ -52,11 +52,17 @@ const staffProfiles = [
     name: "Ethan Brooks",
     title: "BUSINESS RELATIONS COORDINATOR",
   },
-  // ADDED STAFF BELOW:
+  // UPDATE: Change previous "PLATFORM RELIABILITY ENGINEER" to ETHAN HORNE
   {
     img: "/lovable-uploads/b5f52460-e740-4f04-ab00-bd8714f65cb2.png",
-    name: "PLATFORM RELIABILITY ENGINEER",
-    title: "SRE",
+    name: "ETHAN HORNE",
+    title: "PLATFORM RELIABILITY ENGINEER",
+  },
+  // ADD: ROD EAGLE IT OPERATIONS MANAGER
+  {
+    img: "/lovable-uploads/4f0537ed-5d89-421b-b624-3ac5863ca401.png",
+    name: "ROD EAGLE",
+    title: "IT OPERATIONS MANAGER",
   },
 ];
 

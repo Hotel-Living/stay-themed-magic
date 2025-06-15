@@ -64,6 +64,12 @@ const staffProfiles = [
     name: "ROD EAGLE",
     title: "IT OPERATIONS MANAGER",
   },
+  // ADD: Alfred Slav TECHNICAL SUPPORT
+  {
+    img: "/lovable-uploads/2b1641c8-d051-40d1-be38-ad4b7bb6e807.png",
+    name: "ALFRED SLAV",
+    title: "TECHNICAL SUPPORT",
+  },
 ];
 
 export default function OurTeam() {

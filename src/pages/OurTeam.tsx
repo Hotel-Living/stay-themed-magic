@@ -1,3 +1,4 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -29,6 +30,27 @@ const staffProfiles = [
     img: "/lovable-uploads/bb7c2519-8b68-413a-b5fa-ce850a677d5b.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
+  },
+  // ADDED STAFF BELOW:
+  {
+    img: "/lovable-uploads/4ab0282f-bee9-4ffa-9e44-04b2a97aa425.png",
+    name: "Benjamin Hughes",
+    title: "FRONTEND DEVELOPER",
+  },
+  {
+    img: "/lovable-uploads/0ca6645a-ece0-4075-a1c1-36bf915e4c77.png",
+    name: "Natalie Foster",
+    title: "CHIEF HUMAN RESOURCES OFFICER",
+  },
+  {
+    img: "/lovable-uploads/a072d968-cb17-442c-ad7c-afbae6334eb1.png",
+    name: "Arjun Mehta",
+    title: "DIRECTOR OF SOFTWARE DEVELOPMENT",
+  },
+  {
+    img: "/lovable-uploads/b13a8a21-ab9a-459e-9019-bdb5e2955349.png",
+    name: "Ethan Brooks",
+    title: "BUSINESS RELATIONS COORDINATOR",
   },
 ];
 

@@ -1,4 +1,3 @@
-
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -25,6 +24,11 @@ const staffProfiles = [
     img: "/lovable-uploads/77dc7017-bd00-4ce0-8519-f89a3df68b77.png",
     name: "Isabella Reed",
     title: "MEDIA RELATIONS MANAGER",
+  },
+  {
+    img: "/lovable-uploads/bb7c2519-8b68-413a-b5fa-ce850a677d5b.png",
+    name: "FERNANDO ESPINEIRA",
+    title: "CHIEF OPERATING OFFICER",
   },
 ];
 
@@ -62,4 +66,3 @@ export default function OurTeam() {
     </div>
   );
 }
-

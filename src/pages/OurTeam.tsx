@@ -70,6 +70,12 @@ const staffProfiles = [
     name: "ALFRED SLAV",
     title: "TECHNICAL SUPPORT",
   },
+  // ADD: Alexander Scott CHIEF FINANCIAL OFFICER
+  {
+    img: "/lovable-uploads/91321727-8a4a-4f36-b37c-15ff37fa8ee6.png",
+    name: "ALEXANDER SCOTT",
+    title: "CHIEF FINANCIAL OFFICER",
+  },
 ];
 
 export default function OurTeam() {

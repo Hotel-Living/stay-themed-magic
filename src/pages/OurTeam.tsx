@@ -4,24 +4,28 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import React from "react";
 
-// Staff data extracted from group photo and matched with uploaded individual images
+// Matched staff: names and titles from group images, portrait from individual photos
 const staffProfiles = [
   {
-    img: "/lovable-uploads/5d0b855a-1ebc-4826-9a04-fa2c6e66ae25.png",
-    name: "Joanna Ridge",
-    title: "Chief Strategy Officer",
+    img: "/lovable-uploads/a293f10a-52d7-4aae-9e16-439f780888b6.png",
+    name: "JORGE FERNANDEZ",
+    title: "PUBLIC RELATIONS MANAGER",
   },
   {
-    img: "/lovable-uploads/6c8e1efa-e665-40e5-8e0e-99ea9fc7b89a.png",
-    name: "James Peterson",
-    title: "General Counsel",
+    img: "/lovable-uploads/2302bda3-e1b9-4b42-a669-26c4dbcc9e20.png",
+    name: "MARIA ELENA CASTANEDA",
+    title: "MARKETING EXECUTIVE",
   },
   {
-    img: "/lovable-uploads/d32609d7-2cd1-42a3-8e83-b096f13ace1e.png",
-    name: "Isabella Schneider",
-    title: "AI Integration Specialist",
+    img: "/lovable-uploads/0541e858-fb70-4334-817f-640e38be5c5d.png",
+    name: "Victoria Hayes",
+    title: "AFFILIATES & MEMBERSHIP MANAGER",
   },
-  // Lia Jo will be added once her individual photo is provided
+  {
+    img: "/lovable-uploads/77dc7017-bd00-4ce0-8519-f89a3df68b77.png",
+    name: "Isabella Reed",
+    title: "MEDIA RELATIONS MANAGER",
+  },
 ];
 
 export default function OurTeam() {
@@ -34,7 +38,7 @@ export default function OurTeam() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
             {staffProfiles.map(({ img, name, title }) => (
               <div key={img} className="flex flex-col items-center">
-                {/* Profile image with oval/circle styling */}
+                {/* Profile image with rounded/oval appearance */}
                 <div className="rounded-full shadow-lg border-4 border-white bg-white overflow-hidden flex items-center justify-center aspect-square w-44 h-44">
                   <img
                     src={img}
@@ -58,3 +62,4 @@ export default function OurTeam() {
     </div>
   );
 }
+

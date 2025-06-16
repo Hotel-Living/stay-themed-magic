@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { AffinitiesSection } from "./themes/AffinitiesSection";
+import AffinitiesSection from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 

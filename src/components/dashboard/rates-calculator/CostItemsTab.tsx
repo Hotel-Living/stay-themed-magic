@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -16,25 +15,25 @@ const CostItemsTab: React.FC = () => {
     {
       id: "utilities",
       labelKey: "ratesCalculator.utilities",
-      content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
+      content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
 
-⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
-They are respectful long-stay residents who stay for 8, 16, 24, or 32 days. 
+⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
+Son residentes respetuosos de larga estancia que permanecen 8, 16, 24 o 32 días.
 
-🌿 SMARTER GUESTS, SMARTER RESOURCE USE
-Because of the longer stays and the more personal relationship they establish with your property, these guests tend to be more mindful of how they use resources.
-They feel more like temporary tenants than short-term visitors — and that makes a real difference.
+🌿 HUÉSPEDES MÁS INTELIGENTES, USO DE RECURSOS MÁS INTELIGENTE
+Debido a la mayor duración de las estancias y a la relación más personal que establecen con su propiedad, estos huéspedes tienden a ser más conscientes en el uso de los recursos.
+Se sienten más como inquilinos temporales que como visitantes de corta estancia — y eso marca una verdadera diferencia.
 ________________________________________
-⚡ UTILITIES CONSUMPTION IS LOWER AND MORE STABLE
-💡 ENERGY-EFFICIENT SYSTEMS (like LED lighting and moderate climate control) become even more effective
-🌱 IF FEELING AT HOME guests naturally adopt more conservative habits
+⚡ EL CONSUMO DE SERVICIOS ES MÁS BAJO Y MÁS ESTABLE
+💡 LOS SISTEMAS DE EFICIENCIA ENERGÉTICA (como iluminación LED y control climático moderado) resultan aún más efectivos
+🌱 AL SENTIRSE COMO EN CASA, los huéspedes adoptan naturalmente hábitos más conservadores
 ________________________________________
-💜 A SENSE OF SHARED RESPONSIBILITY
-Because Hotel-Living offers affordable rates, guests are often aware and respectful of the opportunity they've been given.
-They know this model depends on balance, care, and sustainability — and most of them act accordingly.
+💜 UN SENTIDO DE RESPONSABILIDAD COMPARTIDA
+Dado que Hotel-Living ofrece tarifas accesibles, los huéspedes suelen ser conscientes y respetuosos de la oportunidad que se les brinda.
+Saben que este modelo depende del equilibrio, el cuidado y la sostenibilidad — y la mayoría actúa en consecuencia.
 ________________________________________
-🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
-Thanks to reduced room turnover and simplified housekeeping protocols, utility usage remains consistent and optimized, with fewer spikes in electricity or water demand.
+🔄 OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO
+Gracias a la menor rotación de habitaciones y a los protocolos de limpieza simplificados, el uso de servicios permanece constante y optimizado, con menos picos de demanda de electricidad o agua.
 ________________________________________`
     },
     {

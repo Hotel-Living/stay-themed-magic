@@ -1,55 +1,86 @@
 
-import React from "react";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
-import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
+import React, { useState, useEffect } from "react";
+import { ChevronDown, ChevronRight, Info } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AffinitiesSectionProps {
-  openCategory: string | null;
-  setOpenCategory: (category: string | null) => void;
-  openSubmenu: string | null;
-  setOpenSubmenu: (submenu: string | null) => void;
-  onThemeSelect: (themeId: string, isSelected: boolean) => void;
-  selectedThemes: string[];
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
-  onThemeSelect,
-  selectedThemes
+  formData = {},
+  updateFormData = () => {}
 }) => {
+  const { t } = useTranslation();
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
+  const [selectedAffinities, setSelectedAffinities] = useState<string[]>([]);
+
+  const affinityCategories = [
+    { key: 'art', label: t('affinities.art') },
+    { key: 'fans', label: t('affinities.fans') },
+    { key: 'sports', label: t('affinities.sports') },
+    { key: 'foodAndDrinks', label: t('affinities.foodAndDrinks') },
+    { key: 'music', label: t('affinities.music') },
+    { key: 'healthAndWellness', label: t('affinities.healthAndWellness') },
+    { key: 'education', label: t('affinities.education') },
+    { key: 'technology', label: t('affinities.technology') }
+  ];
+
+  useEffect(() => {
+    if (formData.selectedAffinities) {
+      setSelectedAffinities(formData.selectedAffinities);
+    }
+  }, [formData.selectedAffinities]);
+
+  const toggleCategory = (categoryKey: string) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryKey]: !prev[categoryKey]
+    }));
+  };
+
   return (
-    <Collapsible defaultOpen={false} className="w-full">
-      <div className="bg-[#6c0686]">
-        <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-          <label className="block text-xl font-bold text-foreground/90 uppercase">2.1- AFFINITIES</label>
-          <ChevronDown className="h-5 w-5 text-white" />
-        </CollapsibleTrigger>
-      </div>
-      
-      <CollapsibleContent>
-        <p className="text-sm text-foreground/90 mb-4">
-          Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-3">2.1- {t('affinities.title')}</h3>
+        <p className="text-white/80 text-sm mb-4">
+          {t('affinities.description')}
         </p>
         
-        <Link 
-          to="/themes-information" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="inline-flex items-center rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd] my-0 mx-0 px-[11px] py-[2px]"
+        <button
+          type="button"
+          className="flex items-center space-x-2 px-4 py-2 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 mb-6"
         >
-          More Information
-        </Link>
+          <Info className="w-4 h-4" />
+          <span>{t('affinities.moreInformation')}</span>
+        </button>
         
-        <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
-          <HierarchicalThemeSelector
-            selectedThemes={selectedThemes}
-            onThemeSelect={onThemeSelect}
-            allowMultiple={true}
-            className="space-y-2"
-          />
+        <div className="space-y-3">
+          {affinityCategories.map((category) => (
+            <div key={category.key}>
+              <button
+                type="button"
+                onClick={() => toggleCategory(category.key)}
+                className="flex items-center space-x-2 text-white hover:text-white/80 font-medium"
+              >
+                {expandedCategories[category.key] ? (
+                  <ChevronDown className="w-4 h-4" />
+                ) : (
+                  <ChevronRight className="w-4 h-4" />
+                )}
+                <span>{category.label}</span>
+              </button>
+              
+              {expandedCategories[category.key] && (
+                <div className="ml-6 mt-2 space-y-2">
+                  {/* Subcategories would be listed here */}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      </div>
+    </div>
   );
 };

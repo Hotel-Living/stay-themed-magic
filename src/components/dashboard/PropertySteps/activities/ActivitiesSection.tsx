@@ -1,88 +1,177 @@
 
 import React, { useState, useEffect } from "react";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
+import { ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+
+interface Activity {
+  name: string;
+  description: string;
+  duration: string;
+  price: string;
+}
 
 interface ActivitiesSectionProps {
-  selectedActivities: string[];
-  onActivityChange: (activityId: string, isChecked: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
-  selectedActivities,
-  onActivityChange
+  formData = {},
+  updateFormData = () => {}
 }) => {
-  console.log("Selected activities IDs:", selectedActivities);
-  
+  const { t } = useTranslation();
+  const [indoorExpanded, setIndoorExpanded] = useState(false);
+  const [outdoorExpanded, setOutdoorExpanded] = useState(false);
+  const [customActivities, setCustomActivities] = useState<Activity[]>([]);
+  const [newActivity, setNewActivity] = useState<Activity>({
+    name: "",
+    description: "",
+    duration: "",
+    price: ""
+  });
+
+  useEffect(() => {
+    if (formData.customActivities) {
+      setCustomActivities(formData.customActivities);
+    }
+  }, [formData.customActivities]);
+
+  const handleAddActivity = () => {
+    if (newActivity.name && newActivity.description) {
+      const updatedActivities = [...customActivities, newActivity];
+      setCustomActivities(updatedActivities);
+      updateFormData('customActivities', updatedActivities);
+      setNewActivity({ name: "", description: "", duration: "", price: "" });
+    }
+  };
+
   return (
-    <Collapsible defaultOpen={false} className="w-full">
-      <div className="bg-fuchsia-900/10">
-        <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-          <h2 className="text-xl font-bold">2.2- ACTIVITIES</h2>
-          <ChevronDown className="h-5 w-5 text-white" />
-        </CollapsibleTrigger>
-      </div>
-      
-      <CollapsibleContent className="space-y-6">
-        {/* Hierarchical Activities Section */}
-        <div className="bg-fuchsia-900/10 rounded-lg p-4">
-          <h3 className="text-sm font-medium mb-4 uppercase">Select Available Activities</h3>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-3">2.2- {t('activities.title')}</h3>
+        <p className="text-white/80 text-sm mb-4">{t('activities.selectAvailableActivities')}</p>
+        
+        <div className="space-y-4">
+          <div>
+            <button
+              type="button"
+              onClick={() => setIndoorExpanded(!indoorExpanded)}
+              className="flex items-center space-x-2 text-white hover:text-white/80"
+            >
+              {indoorExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+              <span>{t('activities.indoor')}</span>
+            </button>
+            {indoorExpanded && (
+              <div className="ml-6 mt-2 space-y-2">
+                {/* Indoor activities would be listed here */}
+              </div>
+            )}
+          </div>
           
-          <HierarchicalActivitySelector
-            selectedActivities={selectedActivities}
-            onActivitySelect={onActivityChange}
-            allowMultiple={true}
-            className="space-y-1"
-          />
-          
-          {/* Add Custom Activities Section */}
-          <div className="mt-6 border-t border-fuchsia-800/30 pt-4">
-            <h3 className="text-sm font-medium uppercase mb-4">Add Custom Activity</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium leading-none text-white">Activity Name</label>
-                <input 
-                  type="text" 
-                  placeholder="e.g. Local Pottery Workshop" 
-                  className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white" 
-                />
+          <div>
+            <button
+              type="button"
+              onClick={() => setOutdoorExpanded(!outdoorExpanded)}
+              className="flex items-center space-x-2 text-white hover:text-white/80"
+            >
+              {outdoorExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+              <span>{t('activities.outdoor')}</span>
+            </button>
+            {outdoorExpanded && (
+              <div className="ml-6 mt-2 space-y-2">
+                {/* Outdoor activities would be listed here */}
               </div>
-              <div>
-                <label className="text-sm font-medium leading-none text-white">Description</label>
-                <textarea 
-                  placeholder="Describe the activity..." 
-                  className="flex min-h-[80px] w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white" 
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium leading-none text-white">Duration (hours)</label>
-                  <input 
-                    type="number" 
-                    min="0.5" 
-                    step="0.5" 
-                    placeholder="2" 
-                    className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white" 
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium leading-none text-white">Price ($)</label>
-                  <input 
-                    type="number" 
-                    min="0" 
-                    placeholder="25" 
-                    className="flex h-9 w-full rounded-md border border-input bg-fuchsia-950/30 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-white" 
-                  />
-                </div>
-              </div>
-              <button className="w-full py-2 text-sm bg-fuchsia-900/30 hover:bg-fuchsia-900/50 border border-fuchsia-500/30 rounded-lg uppercase">
-                Add Custom Activity
-              </button>
-            </div>
+            )}
           </div>
         </div>
-      </CollapsibleContent>
-    </Collapsible>
+      </div>
+
+      <div>
+        <h4 className="text-md font-medium mb-4">{t('activities.addCustomActivity')}</h4>
+        
+        <div className="space-y-4 bg-white/5 p-4 rounded-lg">
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              {t('activities.activityName')}
+            </label>
+            <input
+              type="text"
+              value={newActivity.name}
+              onChange={(e) => setNewActivity({...newActivity, name: e.target.value})}
+              placeholder={t('activities.activityNamePlaceholder')}
+              className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 text-white placeholder:text-white/60"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              {t('activities.description')}
+            </label>
+            <textarea
+              value={newActivity.description}
+              onChange={(e) => setNewActivity({...newActivity, description: e.target.value})}
+              placeholder={t('activities.descriptionPlaceholder')}
+              rows={3}
+              className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 text-white placeholder:text-white/60"
+            />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                {t('activities.duration')}
+              </label>
+              <input
+                type="number"
+                value={newActivity.duration}
+                onChange={(e) => setNewActivity({...newActivity, duration: e.target.value})}
+                className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                {t('activities.price')}
+              </label>
+              <input
+                type="number"
+                value={newActivity.price}
+                onChange={(e) => setNewActivity({...newActivity, price: e.target.value})}
+                className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 text-white"
+              />
+            </div>
+          </div>
+          
+          <button
+            type="button"
+            onClick={handleAddActivity}
+            className="flex items-center space-x-2 px-4 py-2 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700"
+          >
+            <Plus className="w-4 h-4" />
+            <span>{t('quickActions.addProperty')}</span>
+          </button>
+        </div>
+        
+        {customActivities.length > 0 && (
+          <div className="mt-4">
+            <h5 className="text-sm font-medium text-white mb-2">Actividades Añadidas</h5>
+            <div className="space-y-2">
+              {customActivities.map((activity, index) => (
+                <div key={index} className="bg-white/5 p-3 rounded border border-white/10">
+                  <div className="font-medium text-white">{activity.name}</div>
+                  <div className="text-sm text-white/70">{activity.description}</div>
+                  {activity.duration && (
+                    <div className="text-xs text-white/60">Duración: {activity.duration} horas</div>
+                  )}
+                  {activity.price && (
+                    <div className="text-xs text-white/60">Precio: ${activity.price}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };

@@ -1,72 +1,65 @@
 
-import React, { memo } from "react";
-import { PlusCircle } from "lucide-react";
+import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FeaturesListProps {
   features: string[];
   selectedFeatures: string[];
   onToggle: (feature: string) => void;
-  onAddNewFeature?: () => void;
-  onSelectAll?: () => void;
-  onDeselectAll?: () => void;
+  onSelectAll: () => void;
+  onDeselectAll: () => void;
 }
 
-export const FeaturesList = memo(function FeaturesList({ 
-  features, 
+export const FeaturesList: React.FC<FeaturesListProps> = ({
+  features,
   selectedFeatures,
   onToggle,
-  onAddNewFeature,
   onSelectAll,
   onDeselectAll
-}: FeaturesListProps) {
+}) => {
+  const { t } = useTranslation();
+
+  const getFeatureTranslation = (feature: string) => {
+    const key = `hotelFeatures.${feature}`;
+    const translation = t(key);
+    return translation !== key ? translation : feature;
+  };
+
   return (
     <div className="space-y-4">
-      {/* Select All / Deselect All buttons */}
-      {(onSelectAll || onDeselectAll) && (
-        <div className="flex gap-2 mb-4">
-          {onSelectAll && (
-            <button
-              type="button"
-              onClick={onSelectAll}
-              className="px-3 py-1 text-sm bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700 transition-colors"
-            >
-              Select All
-            </button>
-          )}
-          {onDeselectAll && (
-            <button
-              type="button"
-              onClick={onDeselectAll}
-              className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-            >
-              Deselect All
-            </button>
-          )}
-        </div>
-      )}
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={onSelectAll}
+          className="px-4 py-2 bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700 text-sm"
+        >
+          {t('hotelFeatures.selectAll')}
+        </button>
+        <button
+          type="button"
+          onClick={onDeselectAll}
+          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm"
+        >
+          {t('hotelFeatures.deselectAll')}
+        </button>
+      </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {features.map((feature) => (
-          <label key={feature} className="flex items-start">
-            <input 
-              type="checkbox" 
-              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5"
+          <label
+            key={feature}
+            className="flex items-center space-x-2 p-2 rounded hover:bg-white/10 cursor-pointer"
+          >
+            <input
+              type="checkbox"
               checked={selectedFeatures.includes(feature)}
               onChange={() => onToggle(feature)}
+              className="rounded border-gray-300"
             />
-            <span className="text-sm">{feature}</span>
+            <span className="text-sm text-white">{getFeatureTranslation(feature)}</span>
           </label>
         ))}
-        {onAddNewFeature && (
-          <div 
-            className="flex items-center cursor-pointer"
-            onClick={onAddNewFeature}
-          >
-            <PlusCircle className="w-4 h-4 mr-2 text-fuchsia-400" />
-            <span className="text-sm text-fuchsia-400">Add new feature</span>
-          </div>
-        )}
       </div>
     </div>
   );
-});
+};

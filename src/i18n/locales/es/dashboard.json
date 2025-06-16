@@ -1,4 +1,3 @@
-
 {
   "dashboard": {
     "welcome": "Bienvenido",
@@ -48,7 +47,10 @@
     "custom": "Personalizado",
     "pleaseCompleteFields": "Por favor completa todos los campos requeridos",
     "important": "IMPORTANTE",
-    "clickToSelectLocation": "Haz clic para seleccionar ubicación precisa"
+    "clickToSelectLocation": "Haz clic para seleccionar ubicación precisa",
+    "retry": "Reintentar",
+    "loadingMap": "Cargando mapa...",
+    "mapError": "Ops! Algo salió mal."
   },
   "adminDashboard": {
     "title": "PANEL DE ADMINISTRACIÓN",
@@ -277,6 +279,7 @@
     "32days": "32 días"
   },
   "hotelFeatures": {
+    "title": "CARACTERÍSTICAS DEL HOTEL",
     "freeWifi": "WiFi Gratis",
     "parking": "Aparcamiento",
     "restaurant": "Restaurante",
@@ -309,6 +312,11 @@
     "giftShop": "Tienda de Regalos",
     "library": "Biblioteca",
     "airportShuttle": "Transporte al Aeropuerto",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
+  },
+  "roomFeatures": {
+    "title": "CARACTERÍSTICAS DE LA HABITACIÓN",
     "selectAll": "Seleccionar Todo",
     "deselectAll": "Deseleccionar Todo"
   },
@@ -358,11 +366,6 @@
     "next": "Siguiente",
     "submit": "Enviar"
   },
-  "roomFeatures": {
-    "title": "CARACTERÍSTICAS DE LA HABITACIÓN",
-    "selectAll": "Seleccionar Todo",
-    "deselectAll": "Deseleccionar Todo"
-  },
   "recentReviews": "Reseñas Recientes",
   "allHotels": "Todos los Hoteles",
   "pendingChangesFromHotels": "Cambios Pendientes de Hoteles",
@@ -376,5 +379,35 @@
   "action": "Acción",
   "moreInformation": "Más Información",
   "mapError": "Ops! Algo salió mal.",
-  "loadingMap": "Cargando mapa..."
+  "loadingMap": "Cargando mapa...",
+  "affinities": {
+    "title": "AFINIDADES",
+    "description": "Haz que tu hotel se destaque de la competencia potenciándolo con afinidades grupales para atraer a tus mejores y perfectos huéspedes",
+    "moreInformation": "Más información",
+    "art": "ARTE",
+    "fans": "FANÁTICOS",
+    "sports": "DEPORTES",
+    "foodAndDrinks": "COMIDA Y BEBIDAS", 
+    "music": "MÚSICA",
+    "healthAndWellness": "SALUD Y BIENESTAR",
+    "education": "EDUCACIÓN",
+    "technology": "TECNOLOGÍA"
+  },
+  "activities": {
+    "title": "ACTIVIDADES",
+    "selectAvailableActivities": "SELECCIONA ACTIVIDADES DISPONIBLES",
+    "indoor": "INTERIOR",
+    "outdoor": "EXTERIOR",
+    "addCustomActivity": "AÑADIR ACTIVIDAD PERSONALIZADA",
+    "activityName": "Nombre de la Actividad",
+    "description": "Descripción",
+    "duration": "Duración (horas)",
+    "price": "Precio ($)",
+    "activityNamePlaceholder": "ej. Taller de Cerámica Local",
+    "descriptionPlaceholder": "Describe la actividad..."
+  },
+  "validation": {
+    "pleaseCompleteAllRequiredFields": "Por favor completa todos los campos requeridos",
+    "allFieldsMarkedRequired": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si añades cualquier elemento nuevo, tu envío de propiedad requerirá aprobación del administrador antes de ser publicado."
+  }
 }

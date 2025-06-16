@@ -25,8 +25,9 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
   };
 
   const getTranslatedActivityName = (name: string) => {
-    // Create a mapping for common activity translations
+    // Create a comprehensive mapping for ALL activity translations
     const activityTranslations: { [key: string]: string } = {
+      // Main categories
       "Interior": t('activities.interior'),
       "Art & Creativity": t('activities.artCreativity'),
       "Cinema & Media": t('activities.cinemaMedia'),
@@ -39,6 +40,8 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Music & Stage": t('activities.musicStage'),
       "Tech & Science": t('activities.techScience'),
       "Wellness & Care": t('activities.wellnessCare'),
+      
+      // Art subcategories
       "Art": t('activities.art'),
       "Painting": t('activities.painting'),
       "Sculpture": t('activities.sculpture'),
@@ -52,12 +55,16 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Installation Art": t('activities.installationArt'),
       "Ceramics & Pottery": t('activities.ceramicsPottery'),
       "Art History & Movements": t('activities.artHistoryMovements'),
+      
+      // Fan categories
       "Fanatics": t('activities.fanatics'),
       "Musical Icons": t('activities.musicalIcons'),
       "Movie Legends": t('activities.movieLegends'),
       "Writers & Thinkers": t('activities.writersThinkers'),
       "Artists": t('activities.artists'),
       "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
+      
+      // Sports categories
       "Sports": t('activities.sports'),
       "Martial Arts": t('activities.martialArts'),
       "Team Sports": t('activities.teamSports'),
@@ -69,6 +76,10 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Cycling": t('activities.cycling'),
       "Running & Jogging": t('activities.runningJogging'),
       "Climbing & Bouldering": t('activities.climbingBouldering'),
+      "Martial Arts (karate, judo, taekwondo, etc.)": t('activities.martialArtsKarateJudoTaekwondo'),
+      "Team Sports (soccer, basketball, volleyball, etc.)": t('activities.teamSportsSoccerBasketballVolleyball'),
+      
+      // Music categories
       "Music": t('activities.music'),
       "Classical Music (Mozart, Beethoven, Bach, etc.)": t('activities.classicalMusic'),
       "Jazz & Blues": t('activities.jazzBlues'),
@@ -79,6 +90,8 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Opera & Vocal Arts": t('activities.operaVocalArts'),
       "Instrumental Performance": t('activities.instrumentalPerformance'),
       "Music Appreciation & History": t('activities.musicAppreciationHistory'),
+      
+      // Food & Health categories
       "Food & Drinks": t('activities.foodDrinks'),
       "Health and Wellness": t('activities.healthWellness')
     };

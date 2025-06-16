@@ -65,13 +65,40 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Function to get the translated name for themes
+  // Enhanced function to get the translated name for themes with comprehensive coverage
   const getTranslatedThemeName = (name: string) => {
-    // Create a mapping for common theme translations
+    // Create a comprehensive mapping for ALL theme translations
     const themeTranslations: { [key: string]: string } = {
+      // Main categories
       "Personal Development": t('affinities.personalDevelopment'),
       "Relationships": t('affinities.relationships'),
-      "Science and Technology": t('affinities.scienceTechnology')
+      "Science and Technology": t('affinities.scienceTechnology'),
+      
+      // If we have more theme names from the database, add them here
+      // This should match what's actually in the database
+      "Art": "Arte",
+      "Music": "Música",
+      "Sports": "Deportes",
+      "Food & Drinks": "Comida y Bebidas",
+      "Technology": "Tecnología",
+      "Health": "Salud",
+      "Education": "Educación",
+      "Travel": "Viajes",
+      "Fashion": "Moda",
+      "Photography": "Fotografía",
+      "Literature": "Literatura",
+      "Cinema": "Cine",
+      "Gaming": "Juegos",
+      "Nature": "Naturaleza",
+      "History": "Historia",
+      "Philosophy": "Filosofía",
+      "Business": "Negocios",
+      "Fitness": "Fitness",
+      "Cooking": "Cocina",
+      "Dancing": "Baile",
+      "Meditation": "Meditación",
+      "Yoga": "Yoga",
+      "Wellness": "Bienestar"
     };
 
     return themeTranslations[name] || name;

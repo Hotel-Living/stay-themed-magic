@@ -1,10 +1,14 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelCard } from "@/components/HotelCard";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FeaturedHotels() {
+  const { t, language } = useTranslation();
+
   // Sample hotel data for placeholders
   const sampleHotels = [{
     id: "1",
@@ -79,6 +83,7 @@ export default function FeaturedHotels() {
       name: "Forest"
     }]
   }];
+  
   return <div className="min-h-screen flex flex-col">
       <Starfield />
       <Navbar />
@@ -86,20 +91,23 @@ export default function FeaturedHotels() {
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
           <div className="glass-card rounded-2xl p-6 mb-8 bg-[#6a1d72]">
-            <h2 className="text-2xl font-semibold mb-6 text-fuchsia-100">Featured Hotels</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-fuchsia-100">
+              {language === 'es' ? t('featuredHotelsContent.pageTitle') : 'Featured Hotels'}
+            </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sampleHotels.map(hotel => <HotelCard key={hotel.id} id={hotel.id} name={hotel.name} city={hotel.city} country={hotel.country} stars={hotel.stars} pricePerMonth={hotel.pricePerMonth} themes={hotel.themes} image={hotel.image} />)}
             </div>
             
             <div className="mt-10 p-4 bg-[#5d0478]/70 rounded-lg text-center">
-              <h3 className="text-lg font-medium text-fuchsia-200 mb-2 px-[54px] py-[14px]">Want your hotel
- to be seen first?</h3>
+              <h3 className="text-lg font-medium text-fuchsia-200 mb-2 px-[54px] py-[14px]">
+                {language === 'es' ? t('featuredHotelsContent.wantToBeFirst') : 'Want your hotel to be seen first?'}
+              </h3>
               <p className="text-fuchsia-100 text-lg py-[21px]">
-                We can feature your property right here — no big fees, just smart collaboration.
+                {language === 'es' ? t('featuredHotelsContent.featureDescription') : 'We can feature your property right here — no big fees, just smart collaboration.'}
               </p>
               <p className="text-fuchsia-100 mt-1 text-lg px-[17px] py-[16px]">
-                Log in to your hotel dashboard for more info!
+                {language === 'es' ? t('featuredHotelsContent.loginForInfo') : 'Log in to your hotel dashboard for more info!'}
               </p>
             </div>
           </div>

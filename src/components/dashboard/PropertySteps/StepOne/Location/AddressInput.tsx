@@ -1,48 +1,42 @@
 
-import React from 'react';
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import React from "react";
 
 interface AddressInputProps {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   onBlur: () => void;
-  error: any;
-  touched: any;
   errorMessage?: string;
 }
 
-const AddressInput: React.FC<AddressInputProps> = ({
+export default function AddressInput({
   value,
   onChange,
   onBlur,
-  error,
-  touched,
   errorMessage
-}) => {
-  const hasError = touched && error;
+}: AddressInputProps) {
+  const inputClassName = `w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50 ${
+    errorMessage ? 'border-red-500' : ''
+  }`;
 
   return (
-    <div className="mb-4">
-      <Label htmlFor="address" className={cn("text-white", hasError ? "text-red-500" : "")}>
-        Address {hasError && <span className="text-red-500">*</span>}
-      </Label>
-      <Input
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-white uppercase mb-2">
+        Dirección <span className="text-red-400">*</span>
+      </label>
+      
+      <input
         type="text"
-        id="address"
-        name="address"
+        className={inputClassName}
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         onBlur={onBlur}
-        placeholder="Enter address"
-        className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
+        placeholder="Ingresa la dirección completa"
+        required
       />
-      {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
+      
+      {errorMessage && (
+        <p className="text-red-400 text-sm">{errorMessage}</p>
       )}
     </div>
   );
-};
-
-export default AddressInput;
+}

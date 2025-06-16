@@ -23,7 +23,7 @@ export default function MealPlanSection({
   return (
     <div className="glass-card rounded-xl p-6 space-y-4 bg-[#690695]/40">
       <h3 className="text-lg font-semibold text-white uppercase">
-        3.4- {t('propertySteps.mealPlans')}
+        3.4- {t('dashboard.mealPlans')}
       </h3>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -43,7 +43,7 @@ export default function MealPlanSection({
       </div>
       
       <p className="text-white/60 text-sm mt-4">
-        {t('mealPlans.externalLaundryService')}
+        {t('dashboard.externalLaundryService')}
       </p>
     </div>
   );

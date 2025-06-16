@@ -20,14 +20,13 @@ export default function PicturesStep({
 }: PicturesStepProps) {
   const { t } = useTranslation();
   const {
-    filesToUpload,
+    files,
     uploadedImages,
-    isUploading,
-    uploadProgress,
-    handleFileSelect,
-    handleUpload,
-    clearFiles,
+    uploading,
+    addFiles,
+    removeFile,
     removeUploadedImage,
+    uploadFiles,
     setMainImage
   } = usePropertyImages();
 
@@ -53,37 +52,47 @@ export default function PicturesStep({
     }
   }, [uploadedImages, updateFormData]);
 
+  const handleClearFiles = () => {
+    // Clear all files
+    files.forEach((_, index) => removeFile(index));
+  };
+
   return (
     <div className="glass-card rounded-xl p-6 space-y-6 bg-[#690695]/40">
-      <h3 className="text-lg font-semibold text-white uppercase">{t('hotelImages.title')}</h3>
+      <h3 className="text-lg font-semibold text-white uppercase">{t('dashboard.hotelImagesTitle')}</h3>
       
       <UploadArea 
-        onFileSelect={handleFileSelect}
-        isUploading={isUploading}
+        onFilesSelected={addFiles}
+        disabled={uploading}
       />
       
-      {filesToUpload.length > 0 && (
+      {files.length > 0 && (
         <FilesToUpload 
-          files={filesToUpload}
-          onUpload={handleUpload}
-          onClear={clearFiles}
-          uploadProgress={uploadProgress}
-          isUploading={isUploading}
+          files={files}
+          onUpload={uploadFiles}
+          onRemove={removeFile}
+          isUploading={uploading}
         />
       )}
       
       <UploadedImages 
         images={uploadedImages}
-        onRemove={removeUploadedImage}
-        onSetMain={setMainImage}
+        onRemove={(image) => {
+          const index = uploadedImages.findIndex(img => img.url === image.url);
+          if (index !== -1) removeUploadedImage(index);
+        }}
+        onSetMain={(image) => {
+          const index = uploadedImages.findIndex(img => img.url === image.url);
+          if (index !== -1) setMainImage(index);
+        }}
       />
       
       <p className="text-sm text-white/70">
-        ⭐ {t('hotelImages.selectMainImage')}
+        ⭐ {t('dashboard.selectMainImage')}
       </p>
       
       <p className="text-sm text-white/60">
-        {t('hotelImages.mainImageNote')}
+        {t('dashboard.mainImageNote')}
       </p>
     </div>
   );

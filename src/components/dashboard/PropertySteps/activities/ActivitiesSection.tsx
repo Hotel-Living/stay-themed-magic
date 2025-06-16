@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -9,6 +10,7 @@ interface ActivitiesSectionProps {
   updateFormData?: (field: string, value: any) => void;
   selectedActivities?: string[];
   onActivitySelect?: (activityId: string, isSelected: boolean) => void;
+  onActivityChange?: (activity: string, isChecked: boolean) => void;
   openCategory?: string | null;
   setOpenCategory?: (category: string | null) => void;
   openSubmenu?: string | null;
@@ -20,6 +22,7 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
   updateFormData = () => {},
   selectedActivities = [],
   onActivitySelect = () => {},
+  onActivityChange = () => {},
   openCategory = null,
   setOpenCategory = () => {},
   openSubmenu = null,
@@ -57,6 +60,7 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
 
   const handleActivitySelection = (activityId: string, isSelected: boolean) => {
     onActivitySelect(activityId, isSelected);
+    onActivityChange(activityId, isSelected);
     
     if (isSelected) {
       setSelectedAct(prev => [...prev, activityId]);

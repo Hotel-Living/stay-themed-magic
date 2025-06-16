@@ -13,7 +13,7 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
   selectedActivities,
   onActivityChange
 }) => {
-  const { t } = useTranslation();
+  const { t, isReady } = useTranslation();
   const { activities, loading } = useHierarchicalActivities();
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
@@ -96,10 +96,13 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Health and Wellness": t('activities.healthWellness')
     };
 
-    return activityTranslations[name] || name;
+    const translatedText = activityTranslations[name];
+    console.log(`Activity Translation: "${name}" -> "${translatedText}"`);
+    return translatedText || name;
   };
 
-  if (loading) {
+  // Don't render until i18n is ready to avoid English fallbacks
+  if (loading || !isReady) {
     return <div>{t('common.loading')}</div>;
   }
 

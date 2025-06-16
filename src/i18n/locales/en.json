@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Loading...",
@@ -22,7 +21,15 @@
     "update": "Update",
     "create": "Create",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "days": "days",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
   },
   "buttons": {
     "previous": "Previous",
@@ -302,5 +309,19 @@
     "themes": "Themes",
     "clearAll": "Clear All",
     "apply": "Apply Filters"
+  },
+  "accommodation": {
+    "lengthOfStay": "LENGTH OF STAY",
+    "selectStayDurations": "Select all the stay durations you offer:",
+    "onlyWeekdayForCheckIns": "ONLY WEEKDAY FOR CHECK-INS / OUTS",
+    "selectCheckInDay": "Select the day when guests check in/out:",
+    "availabilityDates": "AVAILABILITY DATES",
+    "selectAvailableDates": "Select available dates for bookings:",
+    "mealPlans": "MEAL PLANS",
+    "selectMealPlans": "Select available meal plans:",
+    "breakfast": "Breakfast",
+    "halfBoard": "Half Board",
+    "fullBoard": "Full Board",
+    "allInclusive": "All Inclusive"
   }
 }

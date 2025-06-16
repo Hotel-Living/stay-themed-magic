@@ -1,55 +1,32 @@
+
 import React from "react";
+import { Calendar } from "@/components/ui/calendar";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AvailabilitySectionProps {
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-  onValidationChange?: (valid: boolean) => void;
+  availableDates: Date[];
+  onDateSelect: (date: Date | undefined) => void;
 }
 
-export default function AvailabilitySection({
-  formData,
-  updateFormData,
-  onValidationChange = () => {}
-}: AvailabilitySectionProps) {
-  const handleMonthSelect = (month: string, isAvailable: boolean) => {
-    let updatedMonths = [...(formData.available_months || [])];
-
-    if (isAvailable) {
-      updatedMonths = updatedMonths.filter((m) => m !== month);
-    } else {
-      updatedMonths = [...updatedMonths, month];
-    }
-
-    updateFormData("available_months", updatedMonths);
-    onValidationChange(updatedMonths.length > 0);
-  };
-
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+export const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
+  availableDates,
+  onDateSelect
+}) => {
+  const { t } = useTranslation();
 
   return (
-    <div>
-      <p className="text-sm text-gray-300 mb-4">Select the months your property is available:</p>
-      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2">
-        {months.map(month => {
-          const isAvailable = formData.available_months?.includes(month);
-          return (
-            <button
-              key={month}
-              onClick={() => handleMonthSelect(month, isAvailable)}
-              className={`px-3 py-2 rounded-full text-sm ${
-                isAvailable
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-fuchsia-900/30 text-gray-300"
-              }`}
-            >
-              {month}
-            </button>
-          );
-        })}
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">3.3- {t('accommodation.availabilityDates')}</h3>
+      <p className="text-white/80 text-sm">{t('accommodation.selectAvailableDates')}</p>
+      
+      <div className="bg-white/5 p-4 rounded-lg">
+        <Calendar
+          mode="multiple"
+          selected={availableDates}
+          onSelect={onDateSelect}
+          className="rounded-md border border-white/10"
+        />
       </div>
     </div>
   );
-}
+};

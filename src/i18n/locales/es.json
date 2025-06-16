@@ -22,7 +22,15 @@
     "create": "Crear",
     "yes": "Sí",
     "no": "No",
-    "noOptionsAvailable": "No hay opciones disponibles para esta categoría"
+    "noOptionsAvailable": "No hay opciones disponibles para esta categoría",
+    "days": "días",
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
   },
   "buttons": {
     "previous": "Anterior",
@@ -559,5 +567,19 @@
     "themes": "Temas",
     "clearAll": "Limpiar Todo",
     "apply": "Aplicar Filtros"
+  },
+  "accommodation": {
+    "lengthOfStay": "DURACIÓN DE LA ESTANCIA",
+    "selectStayDurations": "Selecciona todas las duraciones de estancia que ofreces:",
+    "onlyWeekdayForCheckIns": "SOLO DÍA DE LA SEMANA PARA CHECK-INS / OUTS",
+    "selectCheckInDay": "Selecciona el día cuando los huéspedes hacen check in/out:",
+    "availabilityDates": "FECHAS DE DISPONIBILIDAD",
+    "selectAvailableDates": "Selecciona las fechas disponibles para reservas:",
+    "mealPlans": "PLANES DE COMIDA",
+    "selectMealPlans": "Selecciona los planes de comida disponibles:",
+    "breakfast": "Desayuno",
+    "halfBoard": "Media Pensión",
+    "fullBoard": "Pensión Completa",
+    "allInclusive": "Todo Incluido"
   }
 }

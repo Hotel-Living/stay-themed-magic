@@ -3,48 +3,47 @@ import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface PreferredWeekdaySectionProps {
-  preferredWeekday?: string;
-  selectedWeekday?: string;
+  selectedWeekday: string;
   onWeekdayChange: (weekday: string) => void;
 }
 
-export default function PreferredWeekdaySection({ 
-  preferredWeekday,
-  selectedWeekday, 
-  onWeekdayChange 
-}: PreferredWeekdaySectionProps) {
+export const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
+  selectedWeekday,
+  onWeekdayChange
+}) => {
   const { t } = useTranslation();
+  
   const weekdays = [
-    'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+    { value: "monday", label: t('common.monday') },
+    { value: "tuesday", label: t('common.tuesday') },
+    { value: "wednesday", label: t('common.wednesday') },
+    { value: "thursday", label: t('common.thursday') },
+    { value: "friday", label: t('common.friday') },
+    { value: "saturday", label: t('common.saturday') },
+    { value: "sunday", label: t('common.sunday') }
   ];
 
-  const currentWeekday = selectedWeekday || preferredWeekday || 'monday';
-
   return (
-    <div className="glass-card rounded-xl p-6 space-y-4 bg-[#690695]/40">
-      <h3 className="text-lg font-semibold text-white uppercase">
-        3.2- {t('dashboard.weekdayCheckInOut')}
-      </h3>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">3.2- {t('accommodation.onlyWeekdayForCheckIns')}</h3>
+      <p className="text-white/80 text-sm">{t('accommodation.selectCheckInDay')}</p>
       
-      <p className="text-white/80 mb-4">
-        {t('dashboard.selectWeekdayCheckInOut')}
-      </p>
-      
-      <div className="flex flex-wrap gap-3">
-        {weekdays.map((day) => (
+      <div className="flex flex-wrap gap-2">
+        {weekdays.map((weekday) => (
           <button
-            key={day}
-            onClick={() => onWeekdayChange(day)}
-            className={`px-4 py-2 rounded-lg border-2 transition-all capitalize ${
-              currentWeekday === day
-                ? 'bg-fuchsia-600 border-fuchsia-500 text-white'
-                : 'bg-transparent border-fuchsia-500/50 text-white hover:border-fuchsia-500'
+            key={weekday.value}
+            type="button"
+            onClick={() => onWeekdayChange(weekday.value)}
+            className={`px-4 py-2 rounded-full text-sm transition-colors ${
+              selectedWeekday === weekday.value
+                ? 'bg-fuchsia-600 text-white'
+                : 'bg-white/10 text-white hover:bg-white/20'
             }`}
           >
-            {t(`weekdays.${day}`)}
+            {weekday.label}
           </button>
         ))}
       </div>
     </div>
   );
-}
+};

@@ -1,13 +1,17 @@
+
 import React, { useState } from "react";
+
 interface MenuOption {
   id: string;
   label: string;
   content: string;
 }
-const menuOptions: MenuOption[] = [{
-  id: "utilities",
-  label: "SERVICIOS",
-  content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
+
+const menuOptions: MenuOption[] = [
+  {
+    id: "utilities",
+    label: "SERVICIOS",
+    content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
 
 ⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
 Son residentes respetuosos de larga estancia que permanecen 8, 16, 24 o 32 días.
@@ -27,10 +31,11 @@ ________________________________________
 🔄 OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO
 Gracias a la menor rotación de habitaciones y a los protocolos de limpieza simplificados, el uso de servicios permanece constante y optimizado, con menos picos de demanda de electricidad o agua.
 ________________________________________`
-}, {
-  id: "cleaning",
-  label: "LIMPIEZA",
-  content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
+  },
+  {
+    id: "cleaning",
+    label: "LIMPIEZA",
+    content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
 
 🧼 HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD
 🏡 UNO QUE SE SIENTE MÁS COMO EN CASA.
@@ -53,147 +58,199 @@ Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los
 •	Menos interrupciones
 •	Más privacidad
 •	La sensación de realmente pertenecer — no solo alojarse.`
-}, {
-  id: "meal-plans",
-  label: "COMIDAS",
-  content: `**EL MODELO DE COMIDAS HOTEL-LIVING: SIMPLE, SALUDABLE, ESTILO HOGAR**
+  },
+  {
+    id: "meal-plans",
+    label: "COMIDAS",
+    content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
 
-Excepto en hoteles de lujo, boutique de alta gama o en estancias cortas de 8 días centradas en gastronomía o experiencias culinarias, Hotel-Living no se basa en cocina gourmet ni en buffets lujosos.
+Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
 
-En la mayoría de los casos, la experiencia Hotel-Living se fundamenta en la comodidad, la simplicidad y la sostenibilidad.
+In most cases, the Hotel-Living experience is built on comfort, simplicity, and sustainability.
 
-Nuestros huéspedes no están aquí por el lujo.
+Our guests are not here for extravagance.
 
-No son turistas. Son residentes de larga estancia que buscan una rutina de comidas fiable, saludable y accesible — algo que se asemeje a la vida real en el hogar.
+They are not tourists. They are long-stay residents looking for a reliable, healthy, and affordable meal routine — something that feels like real life at home.
 ________________________________________
-🔧 POR ESO NUESTRO MODELO DE ALIMENTACIÓN ES:
+🔧 THAT'S WHY OUR FOOD MODEL IS:
 
-✅ 🥗 Equilibrado, estilo hogar y fácil de preparar
+✅ 🥗 Balanced, homestyle, and easy to prepare
 
-✅ 🍎 Diseñado para la moderación y el bienestar, no para el exceso
+✅ 🍎 Designed for moderation and wellness, not indulgence
 
-✅ 👨‍🍳 Compatible con la cocina y el personal existentes de su hotel
+✅ 👨‍🍳 Compatible with your hotel's existing kitchen setup and staff
 
-✅ ♻️ Bajo en residuos y en coste — sin sacrificar calidad ni cuidado
+✅ ♻️ Low-waste and low-cost — without sacrificing quality or care
 ________________________________________
-🍳 PLANES DE COMIDAS FLEXIBLES
+🍳 FLEXIBLE MEAL PLANS
 
-Tanto si ofrece solo desayuno como pensión completa, los planes de comidas de Hotel-Living están diseñados para:
+Whether offering breakfast only or all-inclusive, Hotel-Living meal plans are built for:
 
-•	🧘 Consistencia
+•	🧘 Consistency
 
-•	🏡 Comodidad
+•	🏡 Comfort
 
-•	🙂 Satisfacción de los huéspedes — no exhibiciones culinarias.
+•	🙂 Guest satisfaction — not culinary showmanship.
 ________________________________________
-💼 VENTAJAS OPERATIVAS:
+💼 OPERATIONAL ADVANTAGES:
 
-🧑‍🍳 Menor complejidad operativa
+🧑‍🍳 Lower operational complexity
 
-🧾 Costes predecibles y control de porciones
+🧾 Predictable costs and portion control
 
-😊 Una experiencia gastronómica relajada y familiar que sus huéspedes valoran realmente
+😊 A relaxed, familiar dining experience that guests truly value
 ________________________________________
-📊 BENEFICIOS PARA EL PRESUPUESTO Y LA PLANIFICACIÓN:
+📊 BUDGET & PLANNING BENEFITS:
 
-Como todas las reservas se realizan por adelantado y con duración fija:
+Because all bookings are made in advance and fixed-duration:
 
-✅ 📅 Usted sabrá exactamente cuántos huéspedes vendrán — y durante cuánto tiempo.
+✅ 📅 You'll know exactly how many guests are coming — and for how long.
 
-✅ 🚫 El desperdicio de alimentos puede llegar prácticamente a cero.
+✅ 🚫 Zero food waste becomes a real possibility.
 ________________________________________
-🔁 ESTRATEGIA DE COCINA SIMPLE Y EFICIENTE:
+🔁 SIMPLE, EFFICIENT KITCHEN STRATEGY:
 
-Para cocinas sencillas, existe una estrategia comprobada y rentable:
+For simpler kitchens, there's a proven, cost-effective strategy:
 
-🔄 MENÚS SEMANALES ROTATIVOS
+🔄 WEEKLY ROTATING MENUS
 
-Donde cada día de la semana tiene un menú fijo que puede repetirse semanalmente, lo que permite:
+Where each weekday has a set meal that can be repeated every week — allowing:
 
-•	🛒 Compras al por mayor
+•	🛒 Bulk purchasing
 
-•	🍳 Preparación simplificada
+•	🍳 Simplified preparation
 
-•	💰 Reducción adicional de costes
+•	💰 Further cost reduction
 ________________________________________
-🔑 EL RESULTADO:
+🔑 THE RESULT:
 
-🏨 Su hotel ahorra
+🏨 Hotels save
 
-🏡 Sus huéspedes se sienten como en casa
+🏡 Guests feel at home
 
-🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`
-}, {
-  id: "total-costs",
-  label: "COSTE TOTAL",
-  content: ``
-}];
+🌍 And the entire experience becomes scalable, sustainable, and deeply human.`
+  },
+  {
+    id: "total-costs",
+    label: "COSTE TOTAL",
+    content: ``
+  }
+];
+
 export const CostItemsTab: React.FC = () => {
   const [activeOption, setActiveOption] = useState<string>("utilities");
+
   const activeContent = menuOptions.find(option => option.id === activeOption)?.content || "";
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       {/* Redesigned Horizontal Menu with Hotel-Living Colors */}
       <div className="flex justify-center space-x-3">
-        {menuOptions.map(option => <div key={option.id} onClick={() => setActiveOption(option.id)} className={`
+        {menuOptions.map(option => (
+          <div
+            key={option.id}
+            onClick={() => setActiveOption(option.id)}
+            className={`
               relative cursor-pointer px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border backdrop-blur-sm
-              ${activeOption === option.id ? 'bg-gradient-to-r from-blue-600/80 to-purple-600/80 text-white shadow-lg transform scale-105 border-blue-300/40' : 'bg-gradient-to-r from-blue-800/40 to-purple-800/40 text-white/80 hover:from-blue-700/60 hover:to-purple-700/60 hover:text-white hover:scale-102 border-blue-500/30'}
-            `}>
+              ${activeOption === option.id 
+                ? 'bg-gradient-to-r from-blue-600/80 to-purple-600/80 text-white shadow-lg transform scale-105 border-blue-300/40' 
+                : 'bg-gradient-to-r from-blue-800/40 to-purple-800/40 text-white/80 hover:from-blue-700/60 hover:to-purple-700/60 hover:text-white hover:scale-102 border-blue-500/30'}
+            `}
+          >
             {/* Soft glow effect for active item */}
-            {activeOption === option.id && <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-lg blur-lg opacity-60 -z-10"></div>}
+            {activeOption === option.id && (
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-lg blur-lg opacity-60 -z-10"></div>
+            )}
             {option.label}
-          </div>)}
+          </div>
+        ))}
       </div>
 
       {/* Content Area with Updated Background */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
         
         {/* Utilities Cost Table Image with purple glow */}
-        {activeOption === "utilities" && <div className="mb-8 flex justify-center">
+        {activeOption === "utilities" && (
+          <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
+                alt="Utilities Cost Breakdown Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
-          </div>}
+          </div>
+        )}
         
         {/* Cleaning Cost Table Image with purple glow */}
-        {activeOption === "cleaning" && <div className="mb-8 flex justify-center">
+        {activeOption === "cleaning" && (
+          <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" alt="Cleaning & Laundry Costs Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
+                alt="Cleaning & Laundry Costs Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
-          </div>}
+          </div>
+        )}
         
         {/* Meal Plan Cost Table Image with purple glow */}
-        {activeOption === "meal-plans" && <div className="mb-8 flex justify-center">
+        {activeOption === "meal-plans" && (
+          <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/6a458e43-6e8b-4ed0-a804-719a0edfbc9d.png" alt="Meal Plan Cost Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/6a458e43-6e8b-4ed0-a804-719a0edfbc9d.png" 
+                alt="Meal Plan Cost Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
-          </div>}
+          </div>
+        )}
         
         {/* Content display only for non-total-costs sections */}
-        {activeOption !== "total-costs" && <div className="text-lg whitespace-pre-line rounded-sm">{activeContent}</div>}
+        {activeOption !== "total-costs" && (
+          <div className="text-lg whitespace-pre-line">{activeContent}</div>
+        )}
         
         {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with negative margins for tight spacing */}
-        {activeOption === "total-costs" && <div className="flex flex-col items-center">
+        {activeOption === "total-costs" && (
+          <div className="flex flex-col items-center">
             {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" 
+                alt="3-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
             
             {/* 4-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" 
+                alt="4-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
             
             {/* 5-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" alt="5-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" 
+                alt="5-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
-          </div>}
+          </div>
+        )}
       </div>
-    </div>;
+    </div>
+  );
 };

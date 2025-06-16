@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 interface FaqTabsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
-  faqCategories: Array<{ id: string; label: string }>;
+  faqCategories: Array<{ id: string; label?: string; name?: string }>;
   faqsByCategory: Record<string, Array<{ question: string; answer: string }>>;
   numbered?: boolean;
   searchQuery?: string;
@@ -37,7 +37,7 @@ export function FaqTabs({
   const isMobile = useIsMobile();
   const [openItems, setOpenItems] = useState<Record<string, Set<number>>>(
     faqCategories.reduce((acc, category) => {
-      acc[category.id] = new Set();
+      acc[category.id] = new Set<number>();
       return acc;
     }, {} as Record<string, Set<number>>)
   );
@@ -45,7 +45,7 @@ export function FaqTabs({
   const toggleItem = (categoryId: string, index: number) => {
     setOpenItems(prev => {
       const newOpenItems = { ...prev };
-      const categoryOpenItems = new Set(prev[categoryId] || new Set());
+      const categoryOpenItems = new Set(prev[categoryId] || new Set<number>());
       
       if (categoryOpenItems.has(index)) {
         categoryOpenItems.delete(index);
@@ -67,6 +67,10 @@ export function FaqTabs({
     );
   };
 
+  const getCategoryLabel = (category: { id: string; label?: string; name?: string }) => {
+    return category.label || category.name || category.id;
+  };
+
   return (
     <div className={marginBottom}>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -74,7 +78,7 @@ export function FaqTabs({
           <TabsList className={`grid w-full ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} mb-6`}>
             {faqCategories.slice(0, isMobile ? 4 : 8).map((category) => (
               <TabsTrigger key={category.id} value={category.id} className="text-xs">
-                {category.label}
+                {getCategoryLabel(category)}
               </TabsTrigger>
             ))}
           </TabsList>

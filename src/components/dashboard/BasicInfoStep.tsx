@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
 import PicturesStep from "@/components/dashboard/PropertySteps/PicturesStep";
@@ -26,7 +27,6 @@ export default function BasicInfoStep({
     <PicturesStep
       formData={formData}
       updateFormData={updateFormData}
-      onValidationChange={onValidationChange}
     />
   );
 }

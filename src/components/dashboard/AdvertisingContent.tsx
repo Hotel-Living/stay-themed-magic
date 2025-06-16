@@ -1,266 +1,169 @@
 
-import React from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Megaphone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast, toast } from "@/hooks/use-toast";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useTranslation } from '@/hooks/useTranslation';
 
-// Define the form validation schema
-const advertisingFormSchema = z.object({
-  contactName: z.string().min(2, { message: "Contact name must be at least 2 characters." }),
-  contactEmail: z.string().email({ message: "Please enter a valid email address." }),
-  availableMonths: z.array(z.string()).min(2, { message: "Please select at least 2 months." }),
-  termsAccepted: z.literal(true, {
-    errorMap: () => ({ message: "You must accept the terms to continue." }),
-  }),
-});
+const AdvertisingContent = () => {
+  const { t, language } = useTranslation();
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-// Define the form values type
-type AdvertisingFormValues = z.infer<typeof advertisingFormSchema>;
+  const months = [
+    { id: 'january', name: language === 'es' ? t('dashboard.january') : 'January' },
+    { id: 'february', name: language === 'es' ? t('dashboard.february') : 'February' },
+    { id: 'march', name: language === 'es' ? t('dashboard.march') : 'March' },
+    { id: 'april', name: language === 'es' ? t('dashboard.april') : 'April' },
+    { id: 'may', name: language === 'es' ? t('dashboard.may') : 'May' },
+    { id: 'june', name: language === 'es' ? t('dashboard.june') : 'June' },
+    { id: 'july', name: language === 'es' ? t('dashboard.july') : 'July' },
+    { id: 'august', name: language === 'es' ? t('dashboard.august') : 'August' },
+    { id: 'september', name: language === 'es' ? t('dashboard.september') : 'September' },
+    { id: 'october', name: language === 'es' ? t('dashboard.october') : 'October' },
+    { id: 'november', name: language === 'es' ? t('dashboard.november') : 'November' },
+    { id: 'december', name: language === 'es' ? t('dashboard.december') : 'December' }
+  ];
 
-// Available months for selection
-const availableMonths = [
-  "January", "February", "March", "April", "May", "June", 
-  "July", "August", "September", "October", "November", "December"
-];
+  const toggleMonth = (monthId: string) => {
+    setSelectedMonths(prev => 
+      prev.includes(monthId) 
+        ? prev.filter(id => id !== monthId)
+        : [...prev, monthId]
+    );
+  };
 
-export default function AdvertisingContent() {
-  const { toast: useToastRef } = useToast();
-  const { profile, user } = useAuth();
-  
-  // Set up the form
-  const form = useForm<AdvertisingFormValues>({
-    resolver: zodResolver(advertisingFormSchema),
-    defaultValues: {
-      contactName: profile?.first_name ? `${profile.first_name} ${profile.last_name || ""}` : "",
-      contactEmail: user?.email || "",
-      availableMonths: [],
-      termsAccepted: false as any, // Use type assertion to bypass the type check initially
-    },
-  });
-
-  // Form submission handler
-  async function onSubmit(data: AdvertisingFormValues) {
-    if (!user) {
-      toast.error("You must be logged in to submit a promotion request.");
-      return;
-    }
-    
-    try {
-      // Insert the data into the advertising_requests table
-      const { error } = await supabase.from("advertising_requests").insert({
-        user_id: user.id,
-        contact_name: data.contactName,
-        contact_email: data.contactEmail,
-        available_months: data.availableMonths
-      });
-
-      if (error) {
-        console.error("Error submitting promotion request:", error);
-        toast.error("Failed to submit your request. Please try again.", {
-          description: error.message
-        });
-        return;
-      }
-      
-      toast.success("Promotion request submitted!", {
-        description: "We'll review your request and contact you soon."
-      });
-      
-      // Reset form fields except for contact information
-      form.reset({
-        contactName: data.contactName,
-        contactEmail: data.contactEmail,
-        availableMonths: [],
-        termsAccepted: false as any,
-      });
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      toast.error("An unexpected error occurred. Please try again later.");
-    }
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log('Promotion request submitted:', {
+      contactName,
+      contactEmail,
+      selectedMonths,
+      agreedToTerms
+    });
+  };
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <div className="flex items-center gap-3 mb-4">
-          <Megaphone className="w-6 h-6 text-fuchsia-300" />
-          <h2 className="text-2xl font-bold">Advertising Promotion</h2>
-        </div>
-      </div>
-
-      {/* Slogans */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          "Get One Month of Free Advertising on Hotel Living",
-          "Let your hotel be seen — for free.",
-          "Exchange 3 nights. Get 30 days of visibility.",
-          "Guests bring value. And movement."
-        ].map((slogan, index) => (
-          <div 
-            key={index} 
-            className="glass-card rounded-lg p-4 bg-[#5d0478] text-center flex items-center justify-center h-24"
-          >
-            <p className="font-semibold text-fuchsia-100">{slogan}</p>
+      <div className="glass-card rounded-2xl p-8 bg-[#7a0486]">
+        <h2 className="text-2xl font-bold mb-6">
+          {language === 'es' ? t('dashboard.advertisingPromotion') : 'Advertising Promotion'}
+        </h2>
+        
+        <div className="space-y-6">
+          <div className="text-center space-y-4">
+            <h3 className="text-xl font-semibold text-fuchsia-200">
+              {language === 'es' ? t('dashboard.getFreeAdvertising') : 'Get one month of free advertising on Hotel Living'}
+            </h3>
+            <p className="text-lg">
+              {language === 'es' ? t('dashboard.makeHotelVisible') : 'Make your hotel visible — for free.'}
+            </p>
+            <div className="bg-fuchsia-900/30 rounded-lg p-4">
+              <p className="text-lg font-medium">
+                {language === 'es' ? t('dashboard.exchangeThreeNights') : 'Exchange 3 nights. Get 30 days of advertising.'}
+              </p>
+              <p className="text-sm text-fuchsia-300">
+                {language === 'es' ? t('dashboard.customersAddValue') : 'Customers add value and movement.'}
+              </p>
+            </div>
           </div>
-        ))}
-      </div>
 
-      {/* Main Promotion Text */}
-      <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-4 text-fuchsia-100">Our Promotion Offer</h3>
-        
-        <div className="space-y-4 text-fuchsia-100">
-          <p>
-            In exchange for just three nights of free accommodation at your hotel, we offer you one full month of featured advertising on our portal — in the most visible and high-traffic zones.
-          </p>
-          
-          <p>
-            These three nights can be offered in any month of the year, and you don't need to specify exact dates. Simply choosing two or three months of availability is enough.
-          </p>
-          
-          <p>
-            These promotional guests will not only give visibility and activity to your hotel, but potential extra revenue (restaurant, services, reviews) and valuable movement and exposure — far more attractive than having empty rooms.
-          </p>
-        </div>
-      </div>
+          <div className="space-y-4">
+            <h4 className="text-lg font-semibold">
+              {language === 'es' ? t('dashboard.ourPromotionOffer') : 'Our Promotion Offer'}
+            </h4>
+            <p className="text-sm leading-relaxed">
+              {language === 'es' ? t('dashboard.promotionDescription') : 'In exchange for just three nights of free accommodation at your hotel, at the time of year that suits you best, we offer you a full month of featured advertising on our portal — in the most visible and high-traffic areas.'}
+            </p>
+            <p className="text-sm leading-relaxed">
+              {language === 'es' ? t('dashboard.flexibleTiming') : 'These three nights can be offered in any month of the year and you don\'t need to specify exact dates. Simply choose two or three months of availability.'}
+            </p>
+            <p className="text-sm leading-relaxed">
+              {language === 'es' ? t('dashboard.additionalBenefits') : 'These promotional guests will not only give visibility and activity to your hotel, but also potential additional income (restaurant, services, reviews) and valuable movement and exposure — much more attractive than having empty rooms.'}
+            </p>
+          </div>
 
-      {/* Signup Form */}
-      <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-6">Join this Promotion</h3>
-        
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Contact Name */}
-            <FormField
-              control={form.control}
-              name="contactName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contact Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <h4 className="text-lg font-semibold">
+              {language === 'es' ? t('dashboard.participatePromotion') : 'Participate in this Promotion'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="contactName">
+                  {language === 'es' ? t('dashboard.contactName') : 'Contact Name'}
+                </Label>
+                <Input
+                  id="contactName"
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  className="bg-white/10 border-fuchsia-300"
+                />
+              </div>
+              <div>
+                <Label htmlFor="contactEmail">
+                  {language === 'es' ? t('dashboard.contactEmail') : 'Contact Email'}
+                </Label>
+                <Input
+                  id="contactEmail"
+                  type="email"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  className="bg-white/10 border-fuchsia-300"
+                />
+              </div>
+            </div>
 
-            {/* Contact Email */}
-            <FormField
-              control={form.control}
-              name="contactEmail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contact Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="your.email@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Available Months */}
-            <FormField
-              control={form.control}
-              name="availableMonths"
-              render={() => (
-                <FormItem>
-                  <div className="mb-4">
-                    <FormLabel>Available Months for Free Nights</FormLabel>
-                    <FormDescription className="text-fuchsia-300">
-                      Select at least 2 months when you can offer the free nights.
-                    </FormDescription>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {availableMonths.map((month) => (
-                      <FormField
-                        key={month}
-                        control={form.control}
-                        name="availableMonths"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={month}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(month)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, month])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== month
-                                          )
-                                        )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                {month}
-                              </FormLabel>
-                            </FormItem>
-                          )
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Terms Acceptance */}
-            <FormField
-              control={form.control}
-              name="termsAccepted"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
+            <div>
+              <Label className="text-base font-medium">
+                {language === 'es' ? t('dashboard.availableMonths') : 'Available Months for Free Nights'}
+              </Label>
+              <p className="text-sm text-fuchsia-300 mb-4">
+                {language === 'es' ? t('dashboard.selectMonths') : 'Select at least 2 months when you can offer the free nights.'}
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {months.map((month) => (
+                  <div key={month.id} className="flex items-center space-x-2">
                     <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                      id={month.id}
+                      checked={selectedMonths.includes(month.id)}
+                      onCheckedChange={() => toggleMonth(month.id)}
                     />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      I understand and agree to provide 3 free nights in exchange for 1 month of advertising
-                    </FormLabel>
+                    <Label htmlFor={month.id} className="text-sm">
+                      {month.name}
+                    </Label>
                   </div>
-                </FormItem>
-              )}
-            />
+                ))}
+              </div>
+            </div>
 
-            {/* Submit Button */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="terms"
+                checked={agreedToTerms}
+                onCheckedChange={setAgreedToTerms}
+              />
+              <Label htmlFor="terms" className="text-sm">
+                {language === 'es' ? t('dashboard.agreeOffer') : 'I agree and understand to offer 3 free nights in exchange for 1 month of advertising.'}
+              </Label>
+            </div>
+
             <Button 
               type="submit" 
+              disabled={!agreedToTerms || selectedMonths.length < 2}
               className="w-full bg-fuchsia-600 hover:bg-fuchsia-700"
             >
-              <Check className="mr-2 h-4 w-4" /> Submit Promotion Request
+              {language === 'es' ? t('dashboard.submitPromotionRequest') : 'Submit Promotion Request'}
             </Button>
           </form>
-        </Form>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default AdvertisingContent;

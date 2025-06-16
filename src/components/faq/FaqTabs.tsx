@@ -1,30 +1,19 @@
-import React from "react";
-import { Tabs } from "@/components/ui/tabs";
-import { useFaqSearch } from "./hooks/useFaqSearch";
-import { SearchResults } from "./components/SearchResults";
-import { NoResults } from "./components/NoResults";
-import { FaqTabsList } from "./components/FaqTabsList";
-import { FaqTabContent } from "./components/FaqTabContent";
 
-export interface FaqItem {
-  question: string;
-  answer: string;
-}
-export interface FaqCategory {
-  id: string;
-  name: string;
-}
+import React, { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChevronDown } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 interface FaqTabsProps {
   activeTab: string;
-  setActiveTab: (value: string) => void;
-  faqCategories: FaqCategory[];
-  faqsByCategory: Record<string, FaqItem[]>;
+  setActiveTab: (tab: string) => void;
+  faqCategories: Array<{ id: string; label: string }>;
+  faqsByCategory: Record<string, Array<{ question: string; answer: string }>>;
   numbered?: boolean;
   searchQuery?: string;
-  className?: string;
   accentTextColor?: string;
   headerBgColor?: string;
-  contentBgColor?: string;
   marginBottom?: string;
   textSizeClass?: string;
   answerTextSizeClass?: string;
@@ -38,58 +27,94 @@ export function FaqTabs({
   faqsByCategory,
   numbered = false,
   searchQuery = "",
-  className = "",
-  accentTextColor = "#56cc41",
-  headerBgColor = "#6a037c",
-  contentBgColor = "#5A0363",
+  accentTextColor = "#4db74d",
+  headerBgColor = "#71037c",
   marginBottom = "mb-20",
-  textSizeClass = "text-xs md:text-sm",
-  answerTextSizeClass = "text-[0.7rem] md:text-xs",
+  textSizeClass = "text-base md:text-lg",
+  answerTextSizeClass = "text-sm md:text-base",
   hideTabsList = false
 }: FaqTabsProps) {
-  const {
-    getFilteredFaqs,
-    getAllSearchResults,
-    hasSearchResults,
-    categoryStartIndices
-  } = useFaqSearch(searchQuery, faqCategories, faqsByCategory);
+  const isMobile = useIsMobile();
+  const [openItems, setOpenItems] = useState<Record<string, Set<number>>>(
+    faqCategories.reduce((acc, category) => {
+      acc[category.id] = new Set();
+      return acc;
+    }, {} as Record<string, Set<number>>)
+  );
+
+  const toggleItem = (categoryId: string, index: number) => {
+    setOpenItems(prev => {
+      const newOpenItems = { ...prev };
+      const categoryOpenItems = new Set(prev[categoryId] || new Set());
+      
+      if (categoryOpenItems.has(index)) {
+        categoryOpenItems.delete(index);
+      } else {
+        categoryOpenItems.add(index);
+      }
+      
+      newOpenItems[categoryId] = categoryOpenItems;
+      return newOpenItems;
+    });
+  };
+
+  const filterFaqs = (faqs: Array<{ question: string; answer: string }>) => {
+    if (!searchQuery) return faqs;
+    return faqs.filter(
+      faq =>
+        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className={`w-full ${marginBottom} ${className}`}>
-      {!hideTabsList && !searchQuery && (
-        <FaqTabsList faqCategories={faqCategories} />
-      )}
-      
-      {!hasSearchResults && (
-        <NoResults searchQuery={searchQuery} />
-      )}
-      
-      {searchQuery ? (
-        <SearchResults 
-          searchResults={getAllSearchResults}
-          faqCategories={faqCategories}
-          categoryStartIndices={categoryStartIndices}
-          numbered={numbered}
-          textSizeClass={textSizeClass}
-          answerTextSizeClass={answerTextSizeClass}
-        />
-      ) : (
-        faqCategories.map(category => {
-          const filteredFaqs = getFilteredFaqs(category.id);
-          const startIndex = categoryStartIndices[category.id];
-          return (
-            <FaqTabContent
-              key={category.id}
-              category={category}
-              filteredFaqs={filteredFaqs}
-              startIndex={startIndex}
-              numbered={numbered}
-              textSizeClass={textSizeClass}
-              answerTextSizeClass={answerTextSizeClass}
-            />
-          );
-        })
-      )}
-    </Tabs>
+    <div className={marginBottom}>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        {!hideTabsList && (
+          <TabsList className={`grid w-full ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} mb-6`}>
+            {faqCategories.slice(0, isMobile ? 4 : 8).map((category) => (
+              <TabsTrigger key={category.id} value={category.id} className="text-xs">
+                {category.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        )}
+        
+        {faqCategories.map((category) => (
+          <TabsContent key={category.id} value={category.id}>
+            <div className="space-y-4">
+              {filterFaqs(faqsByCategory[category.id] || []).map((faq, index) => (
+                <Collapsible 
+                  key={index}
+                  open={openItems[category.id]?.has(index) || false}
+                  onOpenChange={() => toggleItem(category.id, index)}
+                >
+                  <div className="border border-purple-700/30 rounded-lg bg-purple-900/20">
+                    <CollapsibleTrigger className="w-full p-4 text-left flex items-center justify-between hover:bg-purple-800/20 transition-colors">
+                      <h3 
+                        className={`font-semibold text-[#e3d6e9] ${textSizeClass}`}
+                        style={{ color: accentTextColor }}
+                      >
+                        {numbered ? `${index + 1}. ` : ""}{faq.question}
+                      </h3>
+                      <ChevronDown 
+                        className={`h-4 w-4 text-purple-300 transition-transform ${
+                          openItems[category.id]?.has(index) ? 'rotate-180' : 'rotate-0'
+                        }`} 
+                      />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="px-4 pb-4">
+                      <p className={`text-white leading-relaxed ${answerTextSizeClass}`}>
+                        {faq.answer}
+                      </p>
+                    </CollapsibleContent>
+                  </div>
+                </Collapsible>
+              ))}
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
   );
 }

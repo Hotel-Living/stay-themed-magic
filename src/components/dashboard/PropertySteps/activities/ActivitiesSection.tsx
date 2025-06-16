@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -67,7 +66,29 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
             </button>
             {indoorExpanded && (
               <div className="ml-6 mt-2 space-y-2">
-                {/* Indoor activities would be listed here */}
+                <div className="space-y-1">
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.gym')}</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.spa')}</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.library')}</span>
+                  </label>
+                </div>
               </div>
             )}
           </div>
@@ -83,7 +104,29 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
             </button>
             {outdoorExpanded && (
               <div className="ml-6 mt-2 space-y-2">
-                {/* Outdoor activities would be listed here */}
+                <div className="space-y-1">
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.swimming')}</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.tennis')}</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                    />
+                    <span className="text-sm text-white/80">{t('activities.hiking')}</span>
+                  </label>
+                </div>
               </div>
             )}
           </div>

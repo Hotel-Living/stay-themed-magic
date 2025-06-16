@@ -98,7 +98,26 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
               
               {isExpanded(category.key) && (
                 <div className="ml-6 mt-2 space-y-2">
-                  {/* Subcategories would be listed here */}
+                  <p className="text-white/60 text-sm">
+                    {t('affinities.selectOptionsFor')} {category.label}
+                  </p>
+                  {/* Example subcategory options */}
+                  <div className="space-y-1">
+                    <label className="flex items-center space-x-2">
+                      <input 
+                        type="checkbox" 
+                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                      />
+                      <span className="text-sm text-white/80">Option 1</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input 
+                        type="checkbox" 
+                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                      />
+                      <span className="text-sm text-white/80">Option 2</span>
+                    </label>
+                  </div>
                 </div>
               )}
             </div>

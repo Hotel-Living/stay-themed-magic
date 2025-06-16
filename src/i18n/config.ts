@@ -6,6 +6,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import English translations
 import en from './locales/en.json';
 import enHotels from './locales/en/hotels.json';
+import enAffinity from './locales/en/affinity.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -40,7 +41,8 @@ const es = {
 // Combine English translations
 const enCombined = {
   ...en,
-  ...enHotels
+  ...enHotels,
+  ...enAffinity
 };
 
 const resources = {

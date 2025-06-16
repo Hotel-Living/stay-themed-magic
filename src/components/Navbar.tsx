@@ -178,28 +178,4 @@ export function Navbar() {
         </nav>
       </div>
     </header>;
-
-  const handleLogout = async () => {
-    try {
-      if (isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-      if (!session) {
-        console.log("No active session found, cannot logout properly");
-        toast.error("No session found. Please refresh the page and try again.");
-        return;
-      }
-      console.log("Attempting to sign out from Navbar...");
-      await signOut();
-      setTimeout(() => {
-        if (window.location.pathname !== '/login') {
-          console.log("Forcing redirect to login page");
-          window.location.href = "/login";
-        }
-      }, 500);
-    } catch (error) {
-      console.error("Error during logout:", error);
-      toast.error("Could not complete logout. Please try again.");
-    }
-  };
 }

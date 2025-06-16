@@ -65,8 +65,23 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
+  // Function to get the translated name for themes
+  const getTranslatedThemeName = (name: string) => {
+    // Convert the theme name to a translation key format
+    const key = name.toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/&/g, 'And')
+      .replace(/[^\w]/g, '');
+    
+    // Try to get translation from affinities namespace
+    const translatedName = t(`affinities.${key}`);
+    
+    // If translation key not found, return original name
+    return translatedName.startsWith('affinities.') ? name : translatedName;
+  };
+
   if (loading) {
-    return <div>Loading affinities...</div>;
+    return <div>{t('common.loading')}</div>;
   }
 
   return (
@@ -98,7 +113,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                 ) : (
                   <ChevronRight className="w-4 h-4" />
                 )}
-                <span>{category.name}</span>
+                <span>{getTranslatedThemeName(category.name)}</span>
               </button>
               
               {isExpanded(category.id) && (
@@ -113,12 +128,12 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                             onChange={(e) => handleThemeSelection(theme.id, e.target.checked)}
                             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
                           />
-                          <span className="text-sm text-white/80">{theme.name}</span>
+                          <span className="text-sm text-white/80">{getTranslatedThemeName(theme.name)}</span>
                         </label>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-white/60 text-sm">No options available for this category</p>
+                    <p className="text-white/60 text-sm">{t('common.noOptionsAvailable')}</p>
                   )}
                 </div>
               )}

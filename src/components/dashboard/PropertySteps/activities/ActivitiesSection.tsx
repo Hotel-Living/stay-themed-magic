@@ -61,8 +61,23 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     }
   };
 
+  // Function to get the translated name for activities
+  const getTranslatedActivityName = (name: string) => {
+    // Convert the activity name to a translation key format
+    const key = name.toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/&/g, 'And')
+      .replace(/[^\w]/g, '');
+    
+    // Try to get translation from activities namespace
+    const translatedName = t(`activities.${key}`);
+    
+    // If translation key not found, return original name
+    return translatedName.startsWith('activities.') ? name : translatedName;
+  };
+
   if (loading) {
-    return <div>Loading activities...</div>;
+    return <div>{t('common.loading')}</div>;
   }
 
   return (
@@ -80,7 +95,7 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                 className="flex items-center space-x-2 text-white hover:text-white/80"
               >
                 {expandedCategories[category.id] ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                <span>{category.name}</span>
+                <span>{getTranslatedActivityName(category.name)}</span>
               </button>
               {expandedCategories[category.id] && (
                 <div className="ml-6 mt-2 space-y-2">
@@ -94,12 +109,12 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
                             onChange={(e) => handleActivitySelection(activity.id, e.target.checked)}
                             className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
                           />
-                          <span className="text-sm text-white/80">{activity.name}</span>
+                          <span className="text-sm text-white/80">{getTranslatedActivityName(activity.name)}</span>
                         </label>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-white/60 text-sm">No activities available for this category</p>
+                    <p className="text-white/60 text-sm">{t('common.noOptionsAvailable')}</p>
                   )}
                 </div>
               )}

@@ -16,7 +16,7 @@ const HierarchicalActivitiesDisplay: React.FC<Props> = ({ subcategories, titleKe
 
   return (
     <div className="subcategory-section">
-      <h4>{t(titleKey)}</h4>
+      <h3>{t(titleKey)}</h3>
       <ul>
         {subcategories.map((subcategory) => (
           <li key={subcategory.key}>{t(`activities.${subcategory.key}`)}</li>

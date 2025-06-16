@@ -65,7 +65,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Complete translation mapping for all categories and subcategories
+  // Complete translation mapping using existing activities.* keys
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
       // Main category names - using activities.* keys
@@ -142,15 +142,15 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Artists": t('activities.artists'),
       "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
       
-      // Food & Drinks subcategories - need to add these to en.json
-      "World Cuisines": "World Cuisines", // Will add translation key
-      "Cooking Classes": "Cooking Classes", // Will add translation key
-      "Beverages & Tasting": "Beverages & Tasting", // Will add translation key
-      "Gourmet Experiences": "Gourmet Experiences", // Will add translation key
-      "World Cuisines (Spanish, French, Italian)": "World Cuisines (Spanish, French, Italian)", // Will add translation key
-      "Cooking Classes (Spanish, Italian, French, Japanese, etc.)": "Cooking Classes (Spanish, Italian, French, Japanese, etc.)", // Will add translation key
-      "Wine Tasting": "Wine Tasting", // Will add translation key
-      "Vegan & Vegetarian": "Vegan & Vegetarian", // Will add translation key
+      // Food & Drinks subcategories - using existing keys
+      "World Cuisines": t('activities.worldCuisines'),
+      "Cooking Classes": t('activities.cookingClasses'),
+      "Beverages & Tasting": t('activities.beveragesTasting'),
+      "Gourmet Experiences": t('activities.gourmetExperiences'),
+      "World Cuisines (Spanish, French, Italian)": t('activities.worldCuisinesSpecific'),
+      "Cooking Classes (Spanish, Italian, French, Japanese, etc.)": t('activities.cookingClassesSpecific'),
+      "Wine Tasting": t('activities.wineTasting'),
+      "Vegan & Vegetarian": t('activities.veganVegetarian'),
       
       // Health & Wellness subcategories
       "Cooking & Food": t('activities.cookingFood'),

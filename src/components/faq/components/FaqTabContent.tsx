@@ -27,7 +27,7 @@ export function FaqTabContent({
   return (
     <TabsContent key={category.id} value={category.id} className="customer-text animate-fade-in">
       {filteredFaqs.length > 0 ? (
-        <Accordion type="single" collapsible className={`w-full space-y-3 ${isMobile ? "mt-24" : ""}`}>
+        <Accordion type="multiple" className={`w-full space-y-3 ${isMobile ? "mt-24" : ""}`}>
           {filteredFaqs.map((faq, index) => {
             const questionNumber = startIndex + index;
             return (

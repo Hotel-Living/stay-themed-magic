@@ -67,17 +67,14 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
 
   // Function to get the translated name for themes
   const getTranslatedThemeName = (name: string) => {
-    // Convert the theme name to a translation key format
-    const key = name.toLowerCase()
-      .replace(/\s+/g, '')
-      .replace(/&/g, 'And')
-      .replace(/[^\w]/g, '');
-    
-    // Try to get translation from affinities namespace
-    const translatedName = t(`affinities.${key}`);
-    
-    // If translation key not found, return original name
-    return translatedName.startsWith('affinities.') ? name : translatedName;
+    // Create a mapping for common theme translations
+    const themeTranslations: { [key: string]: string } = {
+      "Personal Development": t('affinities.personalDevelopment'),
+      "Relationships": t('affinities.relationships'),
+      "Science and Technology": t('affinities.scienceTechnology')
+    };
+
+    return themeTranslations[name] || name;
   };
 
   if (loading) {

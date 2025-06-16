@@ -25,13 +25,65 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
   };
 
   const getTranslatedActivityName = (name: string) => {
-    const key = name.toLowerCase()
-      .replace(/\s+/g, '')
-      .replace(/&/g, 'And')
-      .replace(/[^\w]/g, '');
-    
-    const translatedName = t(`activities.${key}`);
-    return translatedName.startsWith('activities.') ? name : translatedName;
+    // Create a mapping for common activity translations
+    const activityTranslations: { [key: string]: string } = {
+      "Interior": t('activities.interior'),
+      "Art & Creativity": t('activities.artCreativity'),
+      "Cinema & Media": t('activities.cinemaMedia'),
+      "Cooking & Food": t('activities.cookingFood'),
+      "Fitness & Movement": t('activities.fitnessMovement'),
+      "Games & Entertainment": t('activities.gamesEntertainment'),
+      "Language Activities": t('activities.languageActivities'),
+      "Learning & Talks": t('activities.learningTalks'),
+      "Mind & Balance": t('activities.mindBalance'),
+      "Music & Stage": t('activities.musicStage'),
+      "Tech & Science": t('activities.techScience'),
+      "Wellness & Care": t('activities.wellnessCare'),
+      "Art": t('activities.art'),
+      "Painting": t('activities.painting'),
+      "Sculpture": t('activities.sculpture'),
+      "Photography": t('activities.photography'),
+      "Cinema & Film Art": t('activities.cinemaFilmArt'),
+      "Street Art & Murals": t('activities.streetArtMurals'),
+      "Illustration & Comics": t('activities.illustrationComics'),
+      "Calligraphy & Typography": t('activities.calligraphyTypography'),
+      "Architecture as Art": t('activities.architectureAsArt'),
+      "Performance Art": t('activities.performanceArt'),
+      "Installation Art": t('activities.installationArt'),
+      "Ceramics & Pottery": t('activities.ceramicsPottery'),
+      "Art History & Movements": t('activities.artHistoryMovements'),
+      "Fanatics": t('activities.fanatics'),
+      "Musical Icons": t('activities.musicalIcons'),
+      "Movie Legends": t('activities.movieLegends'),
+      "Writers & Thinkers": t('activities.writersThinkers'),
+      "Artists": t('activities.artists'),
+      "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
+      "Sports": t('activities.sports'),
+      "Martial Arts": t('activities.martialArts'),
+      "Team Sports": t('activities.teamSports'),
+      "Tennis & Racket Sports": t('activities.tennisRacketSports'),
+      "Winter Sports": t('activities.winterSports'),
+      "Adventure Sports": t('activities.adventureSports'),
+      "Watersports": t('activities.watersports'),
+      "Swimming": t('activities.swimming'),
+      "Cycling": t('activities.cycling'),
+      "Running & Jogging": t('activities.runningJogging'),
+      "Climbing & Bouldering": t('activities.climbingBouldering'),
+      "Music": t('activities.music'),
+      "Classical Music (Mozart, Beethoven, Bach, etc.)": t('activities.classicalMusic'),
+      "Jazz & Blues": t('activities.jazzBlues'),
+      "World Music": t('activities.worldMusic'),
+      "Latin Music": t('activities.latinMusic'),
+      "Contemporary & Pop Music": t('activities.contemporaryPopMusic'),
+      "Folk & Traditional Music": t('activities.folkTraditionalMusic'),
+      "Opera & Vocal Arts": t('activities.operaVocalArts'),
+      "Instrumental Performance": t('activities.instrumentalPerformance'),
+      "Music Appreciation & History": t('activities.musicAppreciationHistory'),
+      "Food & Drinks": t('activities.foodDrinks'),
+      "Health and Wellness": t('activities.healthWellness')
+    };
+
+    return activityTranslations[name] || name;
   };
 
   if (loading) {

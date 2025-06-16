@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import English translations
 import en from './locales/en.json';
+import enHotels from './locales/en/hotels.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -36,9 +37,15 @@ const es = {
   ...esHotels
 };
 
+// Combine English translations
+const enCombined = {
+  ...en,
+  ...enHotels
+};
+
 const resources = {
   en: {
-    translation: en
+    translation: enCombined
   },
   es: {
     translation: es

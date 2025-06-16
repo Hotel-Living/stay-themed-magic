@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 interface UploadAreaProps {
   onFilesSelected: (files: File[]) => void;
   fileInputRef?: RefObject<HTMLInputElement>;
+  disabled?: boolean;
 }
 
-export default function UploadArea({ onFilesSelected, fileInputRef }: UploadAreaProps) {
+export default function UploadArea({ onFilesSelected, fileInputRef, disabled = false }: UploadAreaProps) {
   const [dragOver, setDragOver] = useState(false);
   const { toast: useToastRef } = useToast();
 
@@ -60,16 +61,20 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
     <div 
       className={cn(
         "bg-fuchsia-950/30 p-8 rounded-lg border border-dashed border-fuchsia-800/40 text-center",
-        dragOver && "bg-fuchsia-950/50 border-fuchsia-500/50"
+        dragOver && "bg-fuchsia-950/50 border-fuchsia-500/50",
+        disabled && "opacity-50 cursor-not-allowed"
       )}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleFileDrop}
+      onDragOver={!disabled ? handleDragOver : undefined}
+      onDragLeave={!disabled ? handleDragLeave : undefined}
+      onDrop={!disabled ? handleFileDrop : undefined}
     >
       <Upload className="w-12 h-12 mx-auto mb-4 text-fuchsia-400/50" />
       <p className="text-foreground/90 font-medium mb-1">Drag & drop photos here</p>
       <p className="text-sm text-foreground/60 mb-4">or click to browse from your device</p>
-      <label className="inline-flex items-center px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors cursor-pointer">
+      <label className={cn(
+        "inline-flex items-center px-4 py-2 rounded-lg bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors",
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      )}>
         <Image className="w-4 h-4 mr-2" /> 
         Upload Photos
         <input
@@ -79,6 +84,7 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
           multiple
           onChange={handleFileChange}
           ref={fileInputRef}
+          disabled={disabled}
         />
       </label>
     </div>

@@ -64,10 +64,14 @@ export default function LocationSection({
         <div className={sectionClassName}>
           <CountrySelector
             value={formData.country}
-            onChange={value => handleChange("country", value)}
+            onChange={(e) => handleChange("country", e.target.value)}
+            onValueChange={(value) => handleChange("country", value)}
             onBlur={() => handleBlur("country")}
+            error={errors.country}
+            touched={touchedFields.country}
             hasError={touchedFields.country && !!errors.country}
             errorMessage={errors.country}
+            onCustomClick={() => {}}
           />
         </div>
         
@@ -75,10 +79,14 @@ export default function LocationSection({
           <CitySelector
             country={formData.country}
             value={formData.city}
-            onChange={value => handleChange("city", value)}
+            onChange={(e) => handleChange("city", e.target.value)}
+            onValueChange={(value) => handleChange("city", value)}
             onBlur={() => handleBlur("city")}
+            error={errors.city}
+            touched={touchedFields.city}
             hasError={touchedFields.city && !!errors.city}
             errorMessage={errors.city}
+            onCustomClick={() => {}}
           />
         </div>
       </div>
@@ -86,8 +94,10 @@ export default function LocationSection({
       <div className={sectionClassName}>
         <PostalCodeInput 
           value={formData.postalCode}
-          onChange={value => handleChange("postalCode", value)}
+          onChange={(e) => handleChange("postalCode", e.target.value)}
           onBlur={() => handleBlur("postalCode")}
+          error={errors.postalCode}
+          touched={touchedFields.postalCode}
           hasError={touchedFields.postalCode && !!errors.postalCode}
           errorMessage={errors.postalCode}
         />

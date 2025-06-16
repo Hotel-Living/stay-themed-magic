@@ -1,45 +1,19 @@
 
 import React from "react";
-import { MapProps } from "./types";
-import { useMapLogic } from "./hooks/useMapLogic";
-import { MapCanvas } from "./components/MapCanvas";
-import { LocationControls } from "./components/LocationControls";
 
-const InteractiveMap: React.FC<MapProps> = ({
-  latitude,
-  longitude,
-  address,
-  onLocationSelect
-}) => {
-  const {
-    mapRef,
-    isLoading,
-    error,
-    geocodeError,
-    retryLoading
-  } = useMapLogic({
-    latitude,
-    longitude,
-    address,
-    onLocationSelect
-  });
+interface MapProps {
+  latitude: string;
+  longitude: string;
+  onLocationChange?: (lat: any, lng: any) => void;
+}
 
+export default function InteractiveMap({ latitude, longitude, onLocationChange }: MapProps) {
   return (
-    <div className="mb-4">
-      <LocationControls geocodeError={geocodeError} />
-      
-      <MapCanvas
-        mapRef={mapRef}
-        isLoading={isLoading}
-        error={error}
-        onRetry={retryLoading}
-      />
-      
-      <p className="text-xs text-white/60 mt-1">
-        Click anywhere on the map to set your property's exact location
+    <div className="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center">
+      <p className="text-white">Interactive Map Component</p>
+      <p className="text-sm text-gray-400 ml-2">
+        Lat: {latitude || 'N/A'}, Lng: {longitude || 'N/A'}
       </p>
     </div>
   );
-};
-
-export default InteractiveMap;
+}

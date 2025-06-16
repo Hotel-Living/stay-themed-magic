@@ -15,6 +15,7 @@ interface CountrySelectorProps {
   touched: any;
   errorMessage?: string;
   onCustomClick: () => void;
+  hasError?: boolean;
 }
 
 const CountrySelector: React.FC<CountrySelectorProps> = ({
@@ -25,10 +26,11 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   error,
   touched,
   errorMessage,
-  onCustomClick
+  onCustomClick,
+  hasError
 }) => {
   const countries = Country.getAllCountries();
-  const hasError = touched && error;
+  const finalHasError = hasError || (touched && error);
 
   const handleChange = (newValue: string) => {
     onValueChange(newValue);
@@ -39,15 +41,15 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 
   return (
     <div>
-      <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "text-white")}>
-        Country {hasError && <span className="text-red-500">*</span>}
+      <Label htmlFor="country" className={cn(finalHasError ? "text-red-500" : "text-white")}>
+        Country {finalHasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
         <Select 
           value={value} 
           onValueChange={handleChange}
         >
-          <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
+          <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", finalHasError ? "border-red-500" : "")}>
             <SelectValue placeholder="Select a country" />
           </SelectTrigger>
           <SelectContent className="bg-[#7A0486] border-white">
@@ -86,7 +88,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           Custom
         </Button>
       </div>
-      {hasError && (
+      {finalHasError && (
         <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">{errorMessage || error}</p>
       )}
     </div>

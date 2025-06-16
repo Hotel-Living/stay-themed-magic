@@ -18,6 +18,7 @@ interface CitySelectorProps {
   cities?: string[];
   disabled?: boolean;
   onCustomClick: () => void;
+  hasError?: boolean;
 }
 
 const CitySelector: React.FC<CitySelectorProps> = ({
@@ -30,10 +31,11 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   touched,
   errorMessage,
   disabled = false,
-  onCustomClick
+  onCustomClick,
+  hasError
 }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
-  const hasError = (touched && error) || validationError;
+  const finalHasError = hasError || (touched && error) || validationError;
   const { isLoading, error: mapsError } = useGoogleMaps();
 
   const validateCity = async (cityName: string) => {
@@ -106,8 +108,8 @@ const CitySelector: React.FC<CitySelectorProps> = ({
 
   return (
     <div>
-      <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
-        City {hasError && <span className="text-red-500">*</span>}
+      <Label htmlFor="city" className={cn(finalHasError ? "text-red-500" : "text-white")}>
+        City {finalHasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
         <Input
@@ -119,7 +121,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           placeholder="Enter city name"
           className={cn(
             "bg-[#7A0486] text-white border-white",
-            hasError ? "border-red-500" : "",
+            finalHasError ? "border-red-500" : "",
             "placeholder:text-white/50"
           )}
         />
@@ -133,7 +135,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           Custom
         </Button>
       </div>
-      {hasError && (
+      {finalHasError && (
         <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">
           {validationError || errorMessage || error}
         </p>

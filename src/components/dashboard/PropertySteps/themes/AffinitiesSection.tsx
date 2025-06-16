@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";

@@ -1,3 +1,4 @@
+
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const faqCategories = [
@@ -60,12 +61,16 @@ export const useFaqData = () => {
     },
   ];
 
+  // Get the FAQ questions as an array and ensure proper typing
+  const faqQuestions = t('faq.questions', { returnObjects: true });
+  const questionsArray = Array.isArray(faqQuestions) ? faqQuestions : [];
+
   const translatedFaqsByCategory = {
-    general: t('faq.questions', { returnObjects: true }).slice(0, 3) || [],
-    "hotel-living": t('faq.questions', { returnObjects: true }).slice(3, 6) || [],
-    "for-hoteliers": t('faq.questions', { returnObjects: true }).slice(6, 9) || [],
-    "for-guests": t('faq.questions', { returnObjects: true }).slice(9, 12) || [],
-    legal: t('faq.questions', { returnObjects: true }).slice(12, 15) || [],
+    general: questionsArray.slice(0, 3) || [],
+    "hotel-living": questionsArray.slice(3, 6) || [],
+    "for-hoteliers": questionsArray.slice(6, 9) || [],
+    "for-guests": questionsArray.slice(9, 12) || [],
+    legal: questionsArray.slice(12, 15) || [],
   };
 
   return { translatedCategories, translatedFaqsByCategory };

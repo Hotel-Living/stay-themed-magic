@@ -11,6 +11,8 @@ import { paymentFaqs } from "./hotel-categories/paymentFaqs";
 import { affinitiesFaqs } from "./hotel-categories/affinitiesFaqs";
 import { videoFaqs } from "./hotel-categories/videoFaqs";
 import { seniorsFaqs } from "./hotel-categories/seniorsFaqs";
+import { pasosFaqs } from "./hotel-categories/pasosFaqs";
+import { alquilerFaqs } from "./hotel-categories/alquilerFaqs";
 
 export type { FaqItem, FaqCategory };
 
@@ -24,7 +26,10 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "afinidades", name: "Afinidades" },
   { id: "operativa", name: "Operativa" },
   { id: "integracion", name: "Integración" },
-  { id: "pagos", name: "Pagos y Comisiones" }
+  { id: "marketing", name: "Marketing" },
+  { id: "pagos", name: "Pagos y Comisiones" },
+  { id: "pasos", name: "Primeros Pasos" },
+  { id: "alquiler", name: "vs Alquiler" }
 ];
 
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
@@ -38,5 +43,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   mayores: seniorsFaqs,
   marketing: marketingFaqs,
   pagos: paymentFaqs,
-  afinidades: affinitiesFaqs
+  afinidades: affinitiesFaqs,
+  pasos: pasosFaqs,
+  alquiler: alquilerFaqs
 };

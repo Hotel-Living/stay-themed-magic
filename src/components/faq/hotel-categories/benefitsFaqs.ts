@@ -1,52 +1,53 @@
+
 import { FaqItem } from "../hotel-types";
 
 export const benefitsFaqs: FaqItem[] = [
   {
-    question: "What kind of hotel is best suited for Hotel-Living?",
-    answer: "Any type of hotel can benefit from our program, whether you're a boutique property, a business hotel, a resort, or a city hotel. The key requirements are having availability for longer-term guests, a willingness to build community, and the ability to provide reliable service for extended stays."
+    question: "¿Qué tipo de hotel es adecuado para Hotel-Living?",
+    answer: "Cualquier tipo de hotel puede beneficiarse de nuestro programa, ya sea un hotel boutique, un hotel de negocios, un resort o un hotel urbano.\n\nLos únicos requisitos son: disponer de disponibilidad para estancias prolongadas, voluntad de fomentar la comunidad, y capacidad para ofrecer un servicio fiable en estancias largas."
   },
   {
-    question: "Isn't this just a seasonal opportunity?",
-    answer: "Not at all. Active retirees travel year-round. Many are digital nomads, solo adventurers, or couples looking to change their lifestyle. Hotel Living creates a permanent new demand, not a seasonal spike."
+    question: "¿Es simplemente una oportunidad estacional?",
+    answer: "En absoluto. Los jubilados activos viajan todo el año. Muchos son nómadas digitales, viajeros solitarios o parejas que buscan un cambio de estilo de vida.\n\nHotel-Living genera una demanda permanente, no un simple pico estacional."
   },
   {
-    question: "How does this benefit my hotel financially?",
-    answer: "The Hotel-Living program significantly increases occupancy rates, creates consistent revenue streams through longer bookings, and reduces operational costs associated with frequent guest turnover. Properties typically see improved RevPAR and profit margins, especially during traditionally low seasons."
+    question: "¿Cómo beneficia esto financieramente a su hotel?",
+    answer: "El programa Hotel-Living incrementa notablemente las tasas de ocupación, genera ingresos constantes mediante estancias más largas y reduce los costes operativos derivados de la rotación frecuente de huéspedes.\n\nLas propiedades suelen experimentar mejoras significativas en su RevPAR y márgenes de beneficio, especialmente en temporadas tradicionalmente bajas."
   },
   {
-    question: "Will this require major changes to our property?",
-    answer: "No. Most hotels already have everything needed for the Hotel-Living concept. Minor adjustments might include enhancing WiFi, creating community spaces, or improving in-room amenities for longer stays, but extensive renovations are not required."
+    question: "¿Será necesario realizar cambios importantes en la propiedad?",
+    answer: "No. La mayoría de los hoteles ya disponen de lo necesario para implementar el concepto Hotel-Living.\n\nPueden realizarse pequeños ajustes como mejorar el wifi, crear espacios comunes o adaptar los servicios de habitación, pero no se requieren reformas importantes."
   },
   {
-    question: "How do we balance regular guests with long-term Hotel-Living guests?",
-    answer: "Our platform allows you to designate specific room allocations for Hotel-Living and adjust availability in real-time. This flexibility ensures you can maintain your traditional guest business while growing your long-stay revenue. Many properties start with just 10-20% of inventory for extended stays and scale as demand increases."
+    question: "¿Cómo puede compaginar a sus huéspedes habituales con los de Hotel-Living?",
+    answer: "Nuestra plataforma le permite asignar habitaciones específicas al modelo Hotel-Living y ajustar la disponibilidad en tiempo real.\n\nEsta flexibilidad le permite mantener su clientela tradicional mientras desarrolla las estancias largas.\n\nMuchos hoteles comienzan dedicando sólo el 10%–20% de su inventario a estancias prolongadas, ampliándolo progresivamente según crece la demanda."
   },
   {
-    question: "Can this help reduce our dependency on OTAs?",
-    answer: "Absolutely. Hotel-Living brings you direct bookings through our platform, significantly reducing OTA commissions. Our guests book directly and often return regularly, creating loyal customers who become walking ambassadors for your property."
+    question: "¿Ayuda este modelo a reducir la dependencia de las OTAs?",
+    answer: "Absolutamente. Hotel-Living aporta reservas directas a través de nuestra plataforma, reduciendo sustancialmente las comisiones de las OTAs.\n\nNuestros clientes reservan directamente y tienden a repetir, generando clientela fiel y embajadores de su hotel."
   },
   {
-    question: "Will this program help during off-season periods?",
-    answer: "This is one of the biggest benefits. Hotel-Living specifically targets the periods when you have lower occupancy, helping to fill rooms that would otherwise remain empty. Our pricing model adapts to your seasonal needs, allowing you to maintain higher overall annual occupancy."
+    question: "¿Ayuda en los períodos de baja ocupación?",
+    answer: "Este es uno de los mayores beneficios.\n\nHotel-Living se dirige específicamente a los períodos de baja ocupación, ayudando a llenar habitaciones que de otro modo permanecerían vacías.\n\nNuestro modelo de precios se adapta a la estacionalidad de su hotel, permitiéndole mantener una alta ocupación anual."
   },
   {
-    question: "How does the Hotel-Living partnership protect our brand?",
-    answer: "We position your property as an elevated lifestyle choice—not a budget accommodation option. Our platform attracts quality guests seeking authentic experiences and community, enhancing your brand reputation rather than diluting it."
+    question: "¿Cómo protege la marca el acuerdo con Hotel-Living?",
+    answer: "Posicionamos su propiedad como una opción residencial de alto nivel — no como alojamiento de bajo coste.\n\nNuestra plataforma atrae huéspedes de calidad que buscan experiencias auténticas y comunidad, reforzando su marca y reputación."
   },
   {
-    question: "What support does Hotel-Living provide to partner hotels?",
-    answer: "Partners receive comprehensive support including dedicated account managers, staff training, operational guides, marketing materials, professional photography services, and access to our property management dashboard. We're committed to ensuring your success in the extended-stay market."
+    question: "¿Qué soporte ofrece Hotel-Living a los hoteles asociados?",
+    answer: "Nuestros socios reciben asistencia completa:\n• Gestor de cuentas asignado\n• Formación de personal\n• Manuales operativos\n• Material de marketing\n• Servicios de fotografía profesional\n• Acceso al panel de gestión de propiedades\n\nNuestro objetivo es asegurar su éxito en el mercado de estancias prolongadas."
   },
   {
-    question: "How quickly can we see results after joining?",
-    answer: "Most properties begin receiving bookings within the first month after listing. However, the full impact on occupancy rates typically becomes evident within 3-6 months as your property builds reputation and reviews within the extended-stay community."
+    question: "¿Cuándo comienzan a verse resultados tras unirse?",
+    answer: "La mayoría de los hoteles comienza a recibir reservas en el primer mes tras el alta.\n\nEl impacto completo sobre la ocupación suele verse entre los 3 y 6 meses, a medida que su propiedad gana reputación y opiniones en la comunidad de estancias largas."
   },
   {
-    question: "So, is this a new revenue strategy, not just a new audience?",
-    answer: "Exactly. It's not only about filling rooms—it's about extracting more value from each stay. Longer durations, fewer gaps, stronger loyalty, and higher perceived value = higher revenue per room."
+    question: "¿Es realmente una estrategia de ingresos adicional, no solo un nuevo tipo de público?",
+    answer: "Exactamente.\n\nNo se trata únicamente de llenar habitaciones, sino de extraer un mayor valor por estancia:\n• Duraciones más largas\n• Menos huecos entre reservas\n• Mayor fidelización\n• Mayor percepción de valor\n= Más ingresos por habitación."
   },
   {
-    question: "What are the financial benefits for our hotel?",
-    answer: "Besides the main fact that Hotel-Living fills rooms that might otherwise stay empty, you tap into longer stays, fewer turnovers, and high guest satisfaction. It's a reliable, stable income stream from clients who are grateful, low-maintenance, and likely to return."
+    question: "¿Cuáles son los beneficios financieros para su hotel?",
+    answer: "Además de llenar habitaciones que de otro modo permanecerían vacías, usted obtiene:\n• Estancias más largas\n• Menor rotación\n• Huéspedes más satisfechos\n• Un flujo de ingresos estable, con clientes agradecidos, de bajo mantenimiento y con altas probabilidades de repetir."
   }
 ];

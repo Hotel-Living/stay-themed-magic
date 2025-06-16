@@ -3,27 +3,27 @@ import { FaqItem } from "../hotel-types";
 
 export const integrationFaqs: FaqItem[] = [
   {
-    question: "Can we still use our existing booking channels?",
-    answer: "Absolutely. Hotel-Living works alongside your existing distribution strategy. You maintain full control over inventory allocation, allowing you to balance traditional bookings with extended stays based on your occupancy patterns and business needs."
+    question: "¿Podemos seguir usando nuestros canales de reserva existentes?",
+    answer: "Absolutamente. Hotel-Living trabaja junto a su estrategia de distribución existente. Usted mantiene control total sobre la asignación de inventario, permitiéndole equilibrar reservas tradicionales con estancias prolongadas según sus patrones de ocupación y necesidades de negocio."
   },
   {
-    question: "What's the booking confirmation process like?",
-    answer: "When a guest books through Hotel-Living, you receive an instant notification through email. For standard bookings, confirmation is automatic. All communication with guests happens through our messaging system until check-in."
+    question: "¿Cómo es el proceso de confirmación de reservas?",
+    answer: "Cuando un huésped reserva a través de Hotel-Living, usted recibe una notificación instantánea por correo electrónico. Para reservas estándar, la confirmación es automática. Toda la comunicación con huéspedes ocurre a través de nuestro sistema de mensajería hasta el check-in."
   },
   {
-    question: "How are payments processed for these bookings?",
-    answer: "Guests pay a 10% deposit at booking, with the balance due directly to the hotel at check-in. This model reduces payment processing fees for hotels and minimizes cancellation risks."
+    question: "¿Cómo se procesan los pagos para estas reservas?",
+    answer: "Los huéspedes pagan un depósito del 10% al reservar, con el saldo debido directamente al hotel en el check-in. Este modelo reduce las tarifas de procesamiento de pagos para hoteles y minimiza los riesgos de cancelación."
   },
   {
-    question: "How do we handle special requests from long-term guests?",
-    answer: "All special requests are communicated through our platform's messaging system, creating a documented record. Our pre-arrival questionnaire helps identify common needs before check-in."
+    question: "¿Cómo manejamos solicitudes especiales de huéspedes de larga estancia?",
+    answer: "Todas las solicitudes especiales se comunican a través del sistema de mensajería de nuestra plataforma, creando un registro documentado. Nuestro cuestionario previo a la llegada ayuda a identificar necesidades comunes antes del check-in."
   },
   {
-    question: "What kind of reporting do we receive for Hotel-Living bookings?",
-    answer: "Our comprehensive analytics dashboard provides detailed reports on booking patterns, guest demographics, revenue metrics, and affinity program engagement. You can compare performance across channels, monitor review sentiment, and track repeat booking rates. Custom reports can be scheduled for automatic delivery to key stakeholders."
+    question: "¿Qué tipo de informes recibimos para las reservas de Hotel-Living?",
+    answer: "Nuestro panel de análisis integral proporciona informes detallados sobre patrones de reserva, demografía de huéspedes, métricas de ingresos y participación en programas de afinidades. Puede comparar el rendimiento entre canales, monitorear el sentimiento de reseñas y rastrear tasas de reservas repetidas. Los informes personalizados pueden programarse para entrega automática a las partes interesadas clave."
   },
   {
-    question: "How does this impact our existing revenue management strategy?",
-    answer: "Hotel-Living enhances your revenue management capabilities by creating a reliable baseline of extended-stay bookings that can be factored into your forecasting. Many properties use our platform to strategically fill traditionally low-demand periods, allowing for more aggressive pricing during high-demand periods on conventional channels."
+    question: "¿Cómo afecta esto a nuestra estrategia de gestión de ingresos existente?",
+    answer: "Hotel-Living mejora sus capacidades de gestión de ingresos creando una línea base confiable de reservas de estancia prolongada que puede factorizarse en sus pronósticos. Muchas propiedades usan nuestra plataforma para llenar estratégicamente períodos tradicionalmente de baja demanda, permitiendo precios más agresivos durante períodos de alta demanda en canales convencionales."
   }
 ];

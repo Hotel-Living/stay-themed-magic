@@ -1,52 +1,53 @@
+
 import { FaqItem } from "../hotel-types";
 
 export const affinitiesFaqs: FaqItem[] = [
   {
-    question: "What exactly are hotel affinities?",
-    answer: "Affinities are specialized interest areas that define the focus and community of a hotel. They can range from activities (yoga, cooking, languages) to lifestyles (digital nomad, wellness) or special interests (art, music, literature). Think of them as the hotel's personality and purpose—what makes it special beyond just rooms and services."
+    question: "¿Qué son exactamente las afinidades hoteleras?",
+    answer: "Las afinidades son áreas de interés especializadas que definen el enfoque y la comunidad de un hotel. Pueden abarcar desde actividades (yoga, cocina, idiomas) hasta estilos de vida (nómada digital, bienestar) o intereses especiales (arte, música, literatura).\n\nPiense en ellas como la personalidad y el propósito del hotel — lo que lo hace especial más allá de las habitaciones y servicios."
   },
   {
-    question: "How many affinities should my hotel offer?",
-    answer: "Most successful properties start with one primary affinity that aligns naturally with their location, facilities, or staff expertise. As your program develops, you might add 1-2 complementary affinities. Having too many dilutes your identity and stretches resources, while focusing on a few creates a stronger community and clearer marketing message."
+    question: "¿Cuántas afinidades debería ofrecer mi hotel?",
+    answer: "La mayoría de las propiedades exitosas comienzan con una afinidad principal que se alinee naturalmente con su ubicación, instalaciones o experiencia del personal.\n\nConforme se desarrolle su programa, podría añadir 1-2 afinidades complementarias. Tener demasiadas diluye su identidad y estira los recursos, mientras que enfocarse en unas pocas crea una comunidad más fuerte y un mensaje de marketing más claro."
   },
   {
-    question: "What affinities are most popular with guests?",
-    answer: "While this varies by region and property type, our platform data shows strong performance for wellness, culinary, creative arts, nature/outdoor, and digital nomad affinities. The most successful affinity isn't necessarily the most popular globally, but the one that best matches your property's authentic strengths and local environment."
+    question: "¿Qué afinidades son más populares entre los huéspedes?",
+    answer: "Aunque esto varía según la región y tipo de propiedad, nuestros datos de plataforma muestran un buen rendimiento para bienestar, culinario, artes creativas, naturaleza/aire libre, y afinidades de nómadas digitales.\n\nLa afinidad más exitosa no es necesariamente la más popular globalmente, sino la que mejor coincide con las fortalezas auténticas de su propiedad y el entorno local."
   },
   {
-    question: "What physical space requirements do affinities need?",
-    answer: "Space needs vary by affinity type, but most can be implemented without major renovations. Multi-purpose areas that can be reconfigured for different activities are ideal. The essential elements are a dedicated community space (which could be part of an existing lounge), reliable technology, appropriate storage, and clear scheduling to maximize space utilization. Of course, it's always an option to collaborate with restaurants, halls, or any other related business."
+    question: "¿Qué requisitos de espacio físico necesitan las afinidades?",
+    answer: "Las necesidades de espacio varían según el tipo de afinidad, pero la mayoría pueden implementarse sin renovaciones importantes. Las áreas multiuso que pueden reconfigurarse para diferentes actividades son ideales.\n\nLos elementos esenciales son un espacio comunitario dedicado (que podría ser parte de un salón existente), tecnología confiable, almacenamiento apropiado y programación clara para maximizar el uso del espacio.\n\nPor supuesto, siempre es una opción colaborar con restaurantes, salones o cualquier otro negocio relacionado."
   },
   {
-    question: "Can affinities change seasonally?",
-    answer: "Yes, seasonal variation works well for many properties, especially those in destinations with distinct seasons. For example, a mountain property might emphasize hiking and outdoor activities in summer, then shift to wellness and creative arts in winter. The key is maintaining some continuity in community feeling while adapting specific activities."
+    question: "¿Pueden las afinidades cambiar estacionalmente?",
+    answer: "Sí, la variación estacional funciona bien para muchas propiedades, especialmente aquellas en destinos con estaciones distintas.\n\nPor ejemplo, una propiedad de montaña podría enfatizar senderismo y actividades al aire libre en verano, luego cambiar a bienestar y artes creativas en invierno.\n\nLa clave es mantener cierta continuidad en el sentimiento comunitario mientras se adaptan actividades específicas."
   },
   {
-    question: "What if some regular guests don't want to participate?",
-    answer: "Participation is always optional. While the affinity creates a thematic environment, guests are free to engage as much or as little as they wish. Many hotels provide a mix of scheduled activities and always-available resources, allowing guests to customize their level of participation."
+    question: "¿Qué pasa si algunos huéspedes regulares no quieren participar?",
+    answer: "La participación siempre es opcional. Aunque la afinidad crea un ambiente temático, los huéspedes son libres de participar tanto o tan poco como deseen.\n\nMuchos hoteles proporcionan una mezcla de actividades programadas y recursos siempre disponibles, permitiendo a los huéspedes personalizar su nivel de participación."
   },
   {
-    question: "Why should our hotel consider offering affinity-based stays?",
-    answer: "Because affinities — shared interests and passions — create powerful guest connections. When people stay with others who share their tastes, their experience becomes deeper, warmer, and more memorable. It's not just a room — it's a shared atmosphere."
+    question: "¿Por qué debería nuestro hotel considerar ofrecer estancias basadas en afinidades?",
+    answer: "Porque las afinidades — intereses y pasiones compartidas — crean conexiones poderosas entre huéspedes.\n\nCuando las personas se alojan con otras que comparten sus gustos, su experiencia se vuelve más profunda, cálida y memorable. No es solo una habitación — es un ambiente compartido."
   },
   {
-    question: "How does it benefit us financially?",
-    answer: "Guests who feel a strong sense of belonging often extend their stays and spend more. They dine together, book extra services, and often return. Social interaction drives satisfaction — and satisfaction drives revenue."
+    question: "¿Cómo nos beneficia financieramente?",
+    answer: "Los huéspedes que sienten un fuerte sentido de pertenencia a menudo extienden sus estancias y gastan más. Cenan juntos, reservan servicios extra y a menudo regresan.\n\nLa interacción social impulsa la satisfacción — y la satisfacción impulsa los ingresos."
   },
   {
-    question: "Can we choose which affinities to promote?",
-    answer: "Absolutely. You can attract your ideal guests — whether it's food lovers, music fans, language learners, or creative souls. Especially in smaller hotels, owners can build communities around their own passions and turn their space into something truly personal and powerful."
+    question: "¿Podemos elegir qué afinidades promover?",
+    answer: "Absolutamente. Puede atraer a sus huéspedes ideales — ya sean amantes de la comida, fanáticos de la música, estudiantes de idiomas o almas creativas.\n\nEspecialmente en hoteles más pequeños, los propietarios pueden construir comunidades alrededor de sus propias pasiones y convertir su espacio en algo verdaderamente personal y poderoso."
   },
   {
-    question: "Isn't this too niche or limiting?",
-    answer: "Not at all. There's a massive variety of interests and plenty of guests looking for connection. Plus, it's flexible: you can rotate themes, test new ones, or run multiple at once. There's no one-size-fits-all — you shape your own identity."
+    question: "¿No es esto demasiado específico o limitante?",
+    answer: "En absoluto. Hay una variedad masiva de intereses y muchos huéspedes buscando conexión.\n\nAdemás, es flexible: puede rotar temas, probar nuevos, o ejecutar múltiples a la vez. No hay una solución única — usted forma su propia identidad."
   },
   {
-    question: "What's the bigger vision behind affinities?",
-    answer: "Affinities allow hotels to play a new social role: not just hosting travelers, but creating micro-communities. It's a way to reorganize hospitality — and even society — around shared meaning. In a world full of isolation, that's a rare and valuable gift."
+    question: "¿Cuál es la visión más amplia detrás de las afinidades?",
+    answer: "Las afinidades permiten a los hoteles jugar un nuevo papel social: no solo hospedar viajeros, sino crear micro-comunidades.\n\nEs una forma de reorganizar la hostelería — e incluso la sociedad — alrededor del significado compartido. En un mundo lleno de aislamiento, eso es un regalo raro y valioso."
   },
   {
-    question: "Does it really help fill rooms?",
-    answer: "Yes. People are more likely to stay longer when they find something meaningful. Instead of just a short trip, they might join a 16 or 32-day stay — not just for the place, but for the people they'll meet."
+    question: "¿Realmente ayuda a llenar habitaciones?",
+    answer: "Sí. Las personas son más propensas a quedarse más tiempo cuando encuentran algo significativo.\n\nEn lugar de solo un viaje corto, podrían unirse a una estancia de 16 o 32 días — no solo por el lugar, sino por las personas que conocerán."
   }
 ];

@@ -3,47 +3,35 @@ import { FaqItem } from "../hotel-types";
 
 export const revenueFaqs: FaqItem[] = [
   {
-    question: "How does this impact our RevPAR?",
-    answer: "On our system, the most significant gains come from reducing vacant room nights during shoulder and low seasons, and not only. Most partner properties see RevPAR increases dramatically after fully implementing the Hotel-Living model. While the nightly rate is clearly discounted compared to peak-season short stays, the extended duration and reduced operational costs result in higher overall revenue performance."
+    question: "¿Cómo afecta esto a su RevPAR?",
+    answer: "En nuestro sistema, las principales ganancias provienen de eliminar noches vacías, especialmente durante temporadas intermedias y bajas.\n\nLa mayoría de las propiedades asociadas experimentan aumentos significativos de RevPAR tras implementar completamente el modelo Hotel-Living.\n\nAunque la tarifa nocturna sea algo inferior a la de estancias cortas en temporada alta, la duración prolongada de las estancias y la reducción de costes operativos generan ingresos totales mucho mayores."
   },
   {
-    question: "Will we need to discount our rates significantly?",
-    answer: "We are talking about your empty rooms, which don't just sit there, they lose money, so every unsold night is a loss. But selling them, even at reduced rates, turns losses into gains. If you have a significant number of rooms sitting empty, night after night, the financial damage adds up fast. Filling those rooms — at smart, strategic prices — is the most profitable and logic choice. The extended nature of the bookings, reduced turnover costs, and increased ancillary spending make these stays an extraordinary extra income even at lower rates."
+    question: "¿Será necesario rebajar mucho las tarifas?",
+    answer: "Estamos hablando de habitaciones que ahora mismo permanecen vacías — esas noches no generan absolutamente nada, sino pérdidas.\n\nVenderlas, incluso a tarifas algo reducidas, transforma esas pérdidas en ganancias.\n\nSi mantiene muchas habitaciones vacías cada noche, el daño financiero se acumula rápidamente.\n\nLlenar esas habitaciones —con precios estratégicos e inteligentes— es, con diferencia, la opción más rentable y lógica.\n\nLas reservas prolongadas, los menores costes de rotación y los ingresos complementarios adicionales convierten estas estancias en ingresos extraordinarios, incluso con tarifas algo inferiores."
   },
   {
-    question: "How does the booking commission structure work?",
-    answer: "We want everything to be fair and transparent for your hotel.\nWe charge 10% commission only on the net room rate, meaning before taxes.\nWe never charge commission on taxes that your hotel must report.\nThe guest will see the final total price, but our commission is calculated only on your net rate.\nSimple example:\nYour net rate (before tax): 1,000\n10% commission: 100\nTaxes (e.g., 10%): 100\nTotal price paid by the guest:\n1,000 (your rate) + 100 (our commission) + 100 (taxes) = 1,200\nYou still receive your full 1,000. You declare €100 in taxes. And you pay us 100 in commission.\nSimple, transparent, and fair."
+    question: "¿Cómo funciona la comisión por reservas?",
+    answer: "Nuestra política es siempre transparente y justa:\n• Aplicamos un 10% de comisión exclusivamente sobre el precio neto de la habitación (antes de impuestos).\n• Nunca aplicamos comisión sobre los impuestos que el hotel debe declarar.\n\nEjemplo simple:\n• Tarifa neta (antes de impuestos): 1.000\n• Comisión (10%): 100\n• Impuestos (por ejemplo, 10%): 100\n• Precio total pagado por el huésped: 1.200\n• Usted recibe íntegros sus 1.000.\n• Declara 100 de impuestos.\n• Paga 100 de comisión.\n\nSimple, transparente y justo."
   },
   {
-    question: "What about cancellations and no-shows?",
-    answer: "Extended-stay bookings have significantly lower cancellation and no-show rates than traditional short stays. In our model, we focus on rooms that would otherwise remain empty. That's why even if a guest doesn't show up, the hotel doesn't lose — it can still gain.\nThe guest pays 10% of the total booking amount at the time of reservation. This 10% is divided into two parts: a portion (2%–3%) is transferred to the hotel, as an advance payment or deposit. The remaining amount is our service commission.\nAs a result, the hotel takes no risk and still benefits, even in no-show situations.\nBottom line:\nThe system protects your hotel. Not only does it avoid loss, it ensures a small profit — even when guests don't show up."
+    question: "¿Qué ocurre con cancelaciones o no presentados?",
+    answer: "Las reservas de estancias largas tienen tasas de cancelación y no presentados mucho menores que las reservas de estancias cortas.\n\nEn nuestro modelo, trabajamos sobre habitaciones que normalmente estarían vacías, por lo que incluso si un huésped no se presenta, el hotel no pierde:\n\n• El huésped paga un 10% del total al realizar la reserva.\n• De ese 10%, una parte (normalmente un 2%-3%) se transfiere al hotel como anticipo o indemnización.\n• El resto corresponde a nuestra comisión de servicio.\n\nResultado: El hotel asume prácticamente cero riesgo, y obtiene un pequeño ingreso incluso en caso de no presentarse el huésped."
   },
   {
-    question: "So, what happens if the guest doesn't show up?",
-    answer: "The hotel keeps a 2%–3% as compensation, even if the guest never arrives. This acts as a small no-show indemnity, since the room would likely have remained vacant anyway"
+    question: "Entonces, ¿qué sucede si el huésped finalmente no aparece?",
+    answer: "• El hotel conserva un 2%–3% de la reserva total como compensación.\n• Esto actúa como una pequeña indemnización por no presentación, ya que la habitación igualmente habría permanecido vacía."
   },
   {
-    question: "Can we implement dynamic pricing for extended stays?",
-    answer: "Yes. Our platform allows for fully configurable dynamic pricing.\n\nEach hotel can set a minimum and maximum price variation, based on how many rooms are being booked.\n\nAs reservations increase, the system automatically raise the price of the remaining rooms proportionally within the limits you define.\n\nThis has several benefits:\n\nA) Your hotel earns more per room as availability decreases.\n\nB) Guests are encouraged to book earlier, since prices tend to rise over time.\n\nC) It creates a familiar dynamic pricing experience, similar to what travelers already expect from airlines and other travel platforms.\n\nDynamic pricing not only boosts your revenue — it also aligns with modern customer behavior and expectations."
+    question: "¿Se puede implementar un sistema de precios dinámicos para estancias prolongadas?",
+    answer: "Sí.\n\nNuestra plataforma permite configurar precios dinámicos de forma completa:\n• Usted define los límites mínimo y máximo de variación.\n• Conforme aumentan las reservas, el sistema eleva automáticamente los precios de las habitaciones restantes dentro de esos márgenes.\n\nBeneficios:\nA) Mayor ingreso por habitación conforme se reduce la disponibilidad.\nB) Se incentiva a los clientes a reservar antes, ya que los precios tienden a subir con el tiempo.\nC) Replica el comportamiento habitual de tarifas dinámicas que los viajeros ya esperan en otros sectores como aerolíneas o plataformas online.\n\nEl precio dinámico no solo incrementa sus ingresos, sino que además se adapta al comportamiento moderno del consumidor."
   },
   {
-    question: "Can I change my prices at any time?",
-    answer: "Yes, absolutely. You can manually update your rates whenever you wish — instantly and without restrictions.\nOur platform gives you full control over your pricing strategy, whether you prefer fixed rates, dynamic pricing, or a combination of both."
+    question: "¿Puedo cambiar los precios en cualquier momento?",
+    answer: "Por supuesto.\n\nUsted puede actualizar sus tarifas manualmente cuando lo desee, de forma inmediata y sin restricciones.\n\nNuestra plataforma le ofrece control total sobre su estrategia de precios, ya sea fija o dinámica."
   },
   {
-    question: "Can I offer different rates based on the length of stay?",
-    answer: "Yes, and we highly recommend it. Our platform allows you to apply progressive discounts based on the number of days booked — for example: a slightly lower rate for 16-day stays compared to 8-day stays. Even better rates for 24 or 32-day bookings.\nThis strategy has two major advantages:\n\n- It encourages longer stays, increasing overall occupancy and guest loyalty.\n\n- Longer stays mean lower operational costs (fewer check-ins/outs, cleanings, and turnover work), making them more profitable for your hotel.\nOffering small, well-structured discounts is a smart way to attract long-stay guests and maximize revenue over time."
-  },
-  {
-    question: "How does this affect our ancillary revenue?",
-    answer: "Extended-stay guests typically generate 30-50% more ancillary revenue than short-term guests through increased restaurant usage, bar spending, spa treatments, and activity participation. Our affinity programs create additional revenue opportunities through specialized offerings and partner commissions. Many hotels develop extended-stay-specific packages that bundle high-margin services."
-  },
-  {
-    question: "How does this model perform during high season?",
-    answer: "During traditional high seasons, many properties reduce their extended-stay inventory to maximize short-term booking revenue. However, some find that maintaining a portion of rooms for extended stays creates valuable inventory diversity and protection against short-term market fluctuations. Our revenue optimization tools help you find the ideal balance for your specific market conditions."
-  },
-  {
-    question: "What financial metrics should we track to measure success?",
-    answer: "Beyond the obvious RevPAR impact, important metrics include: cost per occupied room (typically lower for extended stays), departmental profit margins (especially in housekeeping and front desk), average length of stay trends, ancillary revenue per guest, repeat booking rates, and marketing cost per acquisition comparison between channels."
+    question: "¿Puedo ofrecer tarifas distintas según la duración de la estancia?",
+    answer: "Sí, y se lo recomendamos encarecidamente.\n\nNuestra plataforma le permite aplicar descuentos progresivos según el número de días reservados.\n\nPor ejemplo:\n• Tarifas algo más bajas para estancias de 16 días frente a 8 días.\n• Descuentos mayores para estancias de 24 o 32 días.\n\nVentajas clave:\n• Fomenta estancias más largas, aumentando ocupación y fidelidad.\n• Las estancias largas reducen los costes operativos (menos entradas/salidas, limpiezas y rotación), resultando en mayor rentabilidad a largo plazo.\n\nAplicar pequeños descuentos bien estructurados es una estrategia inteligente para atraer huéspedes de larga estancia y maximizar los ingresos totales."
   }
 ];

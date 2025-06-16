@@ -3,31 +3,31 @@ import { FaqItem } from "../hotel-types";
 
 export const rentalFaqs: FaqItem[] = [
   {
-    question: "Why have so many guests switched from hotels to rental apartments over the past years?",
-    answer: "Because we, as an industry, were stuck in an outdated model. While we were giving jobs, paying staff, taxes, and creating community, rental apartments just offered lower prices and simpler platforms — and they took millions of our guests."
+    question: "¿Por qué tantos huéspedes han cambiado de hoteles a apartamentos de alquiler en los últimos años?",
+    answer: "Porque nosotros, como industria, estábamos atascados en un modelo obsoleto. Mientras nosotros dábamos empleos, pagábamos personal, impuestos y creábamos comunidad, los apartamentos de alquiler solo ofrecían precios más bajos y plataformas más simples — y se llevaron millones de nuestros huéspedes."
   },
   {
-    question: "Can we still get those guests back?",
-    answer: "Yes. Many of them miss what only hotels can provide: warmth, service, reliability, peace of mind, category, social reward. Rental apartments leave guests isolated, unassisted, and exposed to risks — from poor cleanliness to neighbor complaints and even safety issues."
+    question: "¿Podemos aún recuperar esos huéspedes?",
+    answer: "Sí. Muchos de ellos extrañan lo que solo los hoteles pueden proporcionar: calidez, servicio, confiabilidad, tranquilidad, categoría, recompensa social. Los apartamentos de alquiler dejan a los huéspedes aislados, sin asistencia y expuestos a riesgos — desde limpieza deficiente hasta quejas de vecinos e incluso problemas de seguridad."
   },
   {
-    question: "What makes our hotels better equipped today to compete?",
-    answer: "Hotel-Living has found our hidden treasure: our empty rooms. Up to 40% of our inventory stays vacant after break-even. That's pure potential profit we've been ignoring for years."
+    question: "¿Qué hace que nuestros hoteles estén mejor equipados hoy para competir?",
+    answer: "Hotel-Living ha encontrado nuestro tesoro escondido: nuestras habitaciones vacías. Hasta el 40% de nuestro inventario permanece vacante después del punto de equilibrio. Eso es potencial de beneficio puro que hemos estado ignorando durante años."
   },
   {
-    question: "How does Hotel Living help us use that treasure?",
-    answer: "By filling those long-empty rooms with longer stays and meaningful experiences — and by giving guests everything rental apartments can't:<ul class=\"list-disc pl-6 mt-2 space-y-1\"><li>Category and class</li><li>Full Security</li><li>Staff presence</li><li>Elegant spaces</li><li>Easy and immediacy</li><li>Convenience</li><li>A real front desk</li><li>Daily cleaning</li><li>Social atmosphere</li><li>Immediate help when needed</li><li>Zero isolation and risk</li></ul>"
+    question: "¿Cómo nos ayuda Hotel-Living a usar ese tesoro?",
+    answer: "Llenando esas habitaciones vacías durante mucho tiempo con estancias más largas y experiencias significativas — y dando a los huéspedes todo lo que los apartamentos de alquiler no pueden:\n\n<ul class=\"list-disc pl-6 mt-2 space-y-1\">\n<li>Categoría y clase</li>\n<li>Seguridad completa</li>\n<li>Presencia de personal</li>\n<li>Espacios elegantes</li>\n<li>Facilidad e inmediatez</li>\n<li>Conveniencia</li>\n<li>Una recepción real</li>\n<li>Limpieza diaria</li>\n<li>Atmósfera social</li>\n<li>Ayuda inmediata cuando se necesita</li>\n<li>Cero aislamiento y riesgo</li>\n</ul>"
   },
   {
-    question: "Are rental apartment guests really missing hotels?",
-    answer: "Yes — they're missing us. They miss the comfort, the care, the human presence. Many are tired of managing keys, handling problems on their own, or feeling unsafe or alone in unfamiliar apartments."
+    question: "¿Realmente extrañan los huéspedes de apartamentos de alquiler a los hoteles?",
+    answer: "Sí — nos extrañan. Extrañan la comodidad, el cuidado, la presencia humana. Muchos están cansados de manejar llaves, lidiar con problemas por su cuenta, o sentirse inseguros o solos en apartamentos desconocidos."
   },
   {
-    question: "Can we compete on price?",
-    answer: "Absolutely. These rooms are already sitting empty — almost any pricing turns them into pure revenue. And the service we provide easily justifies the difference."
+    question: "¿Podemos competir en precio?",
+    answer: "Absolutamente. Estas habitaciones ya están vacías — casi cualquier precio las convierte en ingresos puros. Y el servicio que proporcionamos justifica fácilmente la diferencia."
   },
   {
-    question: "What's the opportunity here?",
-    answer: "A full recovery. We reclaim the space rental apartments have taken from us, and do it by leveraging our strengths: trust, service, community, and the unmatchable hotel experience."
+    question: "¿Cuál es la oportunidad aquí?",
+    answer: "Una recuperación completa. Recuperamos el espacio que los apartamentos de alquiler nos han quitado, y lo hacemos aprovechando nuestras fortalezas: confianza, servicio, comunidad y la experiencia hotelera inigualable."
   }
 ];

@@ -3,15 +3,15 @@ import { FaqItem } from "../hotel-types";
 
 export const paymentFaqs: FaqItem[] = [
   {
-    question: "How are bookings confirmed and processed?",
-    answer: "When a guest books through Hotel-Living, they pay a 10% deposit to secure the reservation. The hotel receives immediate notification and the booking is confirmed in your system. The remaining 90% is paid by the guest directly to the hotel upon arrival, eliminating wait times for payment processing. From the 10% deposit paid by the customer during the booking proccess, you will receive a 2%-3% together with the booking communication."
+    question: "¿Cómo se confirman y procesan las reservas?",
+    answer: "Cuando un huésped reserva a través de Hotel-Living, paga un depósito del 10% para asegurar la reserva. El hotel recibe notificación inmediata y la reserva se confirma en su sistema. El 90% restante es pagado por el huésped directamente al hotel a la llegada, eliminando tiempos de espera para el procesamiento de pagos. Del depósito del 10% pagado por el cliente durante el proceso de reserva, usted recibirá un 2%-3% junto con la comunicación de reserva."
   },
   {
-    question: "What payment methods can guests use?",
-    answer: "Guests can pay their initial deposit using all major credit cards, PayPal, or bank transfer. For the remaining balance paid directly to hotels, properties set their own accepted payment methods, though we recommend offering multiple options to accommodate international guests."
+    question: "¿Qué métodos de pago pueden usar los huéspedes?",
+    answer: "Los huéspedes pueden pagar su depósito inicial usando todas las principales tarjetas de crédito, PayPal o transferencia bancaria. Para el saldo restante pagado directamente a los hoteles, las propiedades establecen sus propios métodos de pago aceptados, aunque recomendamos ofrecer múltiples opciones para acomodar huéspedes internacionales."
   },
   {
-    question: "Are there any additional fees beyond the commission?",
-    answer: "No. Unlike many booking platforms, we don't charge listing fees, photographer fees, onboarding costs, or marketing fees. The commission is our only charge, making the partnership risk-free and directly tied to successful bookings."
+    question: "¿Hay tarifas adicionales más allá de la comisión?",
+    answer: "No. A diferencia de muchas plataformas de reservas, no cobramos tarifas de listado, tarifas de fotógrafo, costos de incorporación o tarifas de marketing. La comisión es nuestro único cargo, haciendo la asociación libre de riesgo y directamente vinculada a reservas exitosas."
   }
 ];

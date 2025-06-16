@@ -11,20 +11,25 @@ import { paymentFaqs } from "./hotel-categories/paymentFaqs";
 import { affinitiesFaqs } from "./hotel-categories/affinitiesFaqs";
 import { videoFaqs } from "./hotel-categories/videoFaqs";
 import { seniorsFaqs } from "./hotel-categories/seniorsFaqs";
+import { stepsFaqs } from "./hotel-categories/stepsFaqs";
+import { rentalFaqs } from "./hotel-categories/rentalFaqs";
 
 export type { FaqItem, FaqCategory };
 
 export const hotelFaqCategories: FaqCategory[] = [
   { id: "video", name: "Video" },
-  { id: "benefits", name: "Benefits" },
-  { id: "models", name: "Models" },
-  { id: "revenue", name: "Revenue" },
-  { id: "guests", name: "Guests" },
-  { id: "seniors", name: "Seniors" },
-  { id: "affinities", name: "Affinities" },
-  { id: "operation", name: "Operation" },
-  { id: "integration", name: "Integration" },
-  { id: "payment", name: "Payment & Commissions" }
+  { id: "benefits", name: "Beneficios" },
+  { id: "models", name: "Modelos" },
+  { id: "revenue", name: "Ingresos" },
+  { id: "guests", name: "Huéspedes" },
+  { id: "seniors", name: "Mayores" },
+  { id: "affinities", name: "Afinidades" },
+  { id: "operation", name: "Operativa" },
+  { id: "integration", name: "Integración" },
+  { id: "marketing", name: "Marketing" },
+  { id: "payment", name: "Pagos y Comisiones" },
+  { id: "steps", name: "Pasos" },
+  { id: "rental", name: "Alquiler" }
 ];
 
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
@@ -38,5 +43,7 @@ export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   seniors: seniorsFaqs,
   marketing: marketingFaqs,
   payment: paymentFaqs,
-  affinities: affinitiesFaqs
+  affinities: affinitiesFaqs,
+  steps: stepsFaqs,
+  rental: rentalFaqs
 };

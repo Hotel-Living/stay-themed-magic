@@ -62,7 +62,11 @@
     "buildOwnModel": "CREA TU PROPIO MODELO Y TARIFAS",
     "costsDisclaimer": "Estas cifras representan un ejemplo de costes incrementales medios por habitación ocupada adicional para hoteles estándar de 3-4-5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse en función de la categoría específica de cada hotel, nivel de servicio, posicionamiento y modelo operativo.",
     "costs": "COSTES",
-    "profits": "BENEFICIOS"
+    "profits": "BENEFICIOS",
+    "utilities": "SERVICIOS",
+    "cleaning": "LIMPIEZA",
+    "meals": "COMIDAS",
+    "totalCost": "COSTE TOTAL"
   },
   "welcomeContent": {
     "dearHotelPartner": "🤝 Estimado Hotel,",

@@ -1,16 +1,22 @@
+
 import React, { useState } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface MenuOption {
   id: string;
-  label: string;
+  labelKey: string;
   content: string;
 }
 
-const menuOptions: MenuOption[] = [
-  {
-    id: "utilities",
-    label: "UTILITIES",
-    content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
+const CostItemsTab: React.FC = () => {
+  const { t } = useTranslation();
+  const [activeOption, setActiveOption] = useState<string>("utilities");
+
+  const menuOptions: MenuOption[] = [
+    {
+      id: "utilities",
+      labelKey: "ratesCalculator.utilities",
+      content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
 
 ⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
 They are respectful long-stay residents who stay for 8, 16, 24, or 32 days. 
@@ -30,11 +36,11 @@ ________________________________________
 🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
 Thanks to reduced room turnover and simplified housekeeping protocols, utility usage remains consistent and optimized, with fewer spikes in electricity or water demand.
 ________________________________________`
-  },
-  {
-    id: "cleaning",
-    label: "CLEANING",
-    content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
+    },
+    {
+      id: "cleaning",
+      labelKey: "ratesCalculator.cleaning",
+      content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
 
 🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
 🏡 ONE THAT FEELS MORE LIKE HOME.
@@ -57,11 +63,11 @@ This model reduces operational costs for hotels while offering guests a resident
 •	Less disruption
 •	More privacy
 •	A feeling of truly belonging — not just staying.`
-  },
-  {
-    id: "meal-plans",
-    label: "MEALS",
-    content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
+    },
+    {
+      id: "meal-plans",
+      labelKey: "ratesCalculator.meals",
+      content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
 
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
 
@@ -128,16 +134,13 @@ ________________________________________
 🏡 Guests feel at home
 
 🌍 And the entire experience becomes scalable, sustainable, and deeply human.`
-  },
-  {
-    id: "total-costs",
-    label: "TOTAL COST",
-    content: ``
-  }
-];
-
-export const CostItemsTab: React.FC = () => {
-  const [activeOption, setActiveOption] = useState<string>("utilities");
+    },
+    {
+      id: "total-costs",
+      labelKey: "ratesCalculator.totalCost",
+      content: ``
+    }
+  ];
 
   const activeContent = menuOptions.find(option => option.id === activeOption)?.content || "";
 
@@ -160,7 +163,7 @@ export const CostItemsTab: React.FC = () => {
             {activeOption === option.id && (
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-lg blur-lg opacity-60 -z-10"></div>
             )}
-            {option.label}
+            {t(option.labelKey)}
           </div>
         ))}
       </div>
@@ -253,3 +256,5 @@ export const CostItemsTab: React.FC = () => {
     </div>
   );
 };
+
+export { CostItemsTab };

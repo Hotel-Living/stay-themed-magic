@@ -65,10 +65,10 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Complete translation mapping using existing activities.* keys
+  // Translation mapping using existing activities.* keys
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
-      // Main category names - using activities.* keys
+      // Main category names
       "Art": t('activities.art'),
       "ART": t('activities.art'),
       "Fanatics": t('activities.fanatics'),
@@ -142,7 +142,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Artists": t('activities.artists'),
       "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
       
-      // Food & Drinks subcategories - using existing keys
+      // Food & Drinks subcategories
       "World Cuisines": t('activities.worldCuisines'),
       "Cooking Classes": t('activities.cookingClasses'),
       "Beverages & Tasting": t('activities.beveragesTasting'),
@@ -157,9 +157,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Wellness & Care": t('activities.wellnessCare')
     };
 
-    const translatedText = affinityTranslations[name];
-    console.log(`Affinity Translation Mapping: "${name}" -> "${translatedText}"`);
-    return translatedText || name;
+    return affinityTranslations[name] || name;
   };
 
   // Don't render until i18n is ready to avoid English fallbacks

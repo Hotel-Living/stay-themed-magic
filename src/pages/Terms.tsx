@@ -24,7 +24,7 @@ export default function Terms() {
             
             <p className="mb-4 px-[20px]">{t('terms.invalidProvision')}</p>
             <ul className="list-disc pl-6 mb-6 space-y-2">
-              {t('terms.invalidPoints', { returnObjects: true }).map((point: string, index: number) => (
+              {(t('terms.invalidPoints', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                 <li key={index} className="px-[5px]">{point}</li>
               ))}
             </ul>
@@ -34,7 +34,7 @@ export default function Terms() {
               <p className="mb-4 px-[16px]">{t('terms.aboutHotelLiving.content1')}</p>
               <p className="mb-4 px-[18px]">{t('terms.aboutHotelLiving.content2')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.aboutHotelLiving.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.aboutHotelLiving.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -50,7 +50,7 @@ export default function Terms() {
               <h3 className="text-xl font-medium mb-4 text-[#f6e7f8]">{t('terms.ourValues.title')}</h3>
               <p className="mb-4">{t('terms.ourValues.content')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.ourValues.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.ourValues.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -69,7 +69,7 @@ export default function Terms() {
               <p className="mb-4">{t('terms.payment.content1')}</p>
               <p className="mb-4">{t('terms.payment.content2')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.payment.paymentPoints', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.payment.paymentPoints', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -95,7 +95,7 @@ export default function Terms() {
               <h3 className="text-xl font-medium mb-4 text-[#eae2eb]">{t('terms.accessibilityRequests.title')}</h3>
               <p className="mb-4">{t('terms.accessibilityRequests.content')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.accessibilityRequests.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.accessibilityRequests.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -107,13 +107,13 @@ export default function Terms() {
               <p className="mb-4">{t('terms.intellectualProperty.content2')}</p>
               <p className="mb-4">{t('terms.intellectualProperty.content3')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.intellectualProperty.monitoringPoints', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.intellectualProperty.monitoringPoints', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
               <p className="mb-4">{t('terms.intellectualProperty.content4')}</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
-                {t('terms.intellectualProperty.uploadPoints', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('terms.intellectualProperty.uploadPoints', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>

@@ -27,7 +27,7 @@ export default function Privacy() {
               <h2 className="text-2xl font-semibold mb-3">{t('privacy.informationWeCollect.title')}</h2>
               <p>{t('privacy.informationWeCollect.content')}</p>
               <ul className="list-disc pl-6 space-y-2">
-                {t('privacy.informationWeCollect.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('privacy.informationWeCollect.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -37,7 +37,7 @@ export default function Privacy() {
               <h2 className="text-2xl font-semibold mb-3">{t('privacy.howWeUseInformation.title')}</h2>
               <p>{t('privacy.howWeUseInformation.content')}</p>
               <ul className="list-disc pl-6 space-y-2">
-                {t('privacy.howWeUseInformation.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('privacy.howWeUseInformation.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -50,7 +50,7 @@ export default function Privacy() {
               <p>{t('privacy.cookiesAndTracking.content3')}</p>
               <p>{t('privacy.cookiesAndTracking.content4')}</p>
               <ul className="list-disc pl-6 space-y-2">
-                {t('privacy.cookiesAndTracking.cookieTypes', { returnObjects: true }).map((type: string, index: number) => (
+                {(t('privacy.cookiesAndTracking.cookieTypes', { returnObjects: true }) as string[]).map((type: string, index: number) => (
                   <li key={index}><strong>{type.split(':')[0]}:</strong> {type.split(':')[1]}</li>
                 ))}
               </ul>
@@ -67,7 +67,7 @@ export default function Privacy() {
               <h2 className="text-2xl font-semibold mb-3">{t('privacy.yourRights.title')}</h2>
               <p>{t('privacy.yourRights.content')}</p>
               <ul className="list-disc pl-6 space-y-2">
-                {t('privacy.yourRights.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('privacy.yourRights.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -84,7 +84,7 @@ export default function Privacy() {
               <h2 className="text-2xl font-semibold mb-3">{t('privacy.contactUs.title')}</h2>
               <p>{t('privacy.contactUs.content')}</p>
               <ul className="list-disc pl-6 space-y-2">
-                {t('privacy.contactUs.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('privacy.contactUs.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>

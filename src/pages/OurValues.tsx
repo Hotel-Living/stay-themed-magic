@@ -50,7 +50,7 @@ export default function OurValues() {
             <section>
               <h2 className="text-2xl font-semibold mb-3 px-[44px] text-center">{t('ourValues.recordings.title')}</h2>
               <ul className="list-disc pl-6 space-y-2">
-                {t('ourValues.recordings.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('ourValues.recordings.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index} className="px-[11px]">{point}</li>
                 ))}
               </ul>
@@ -59,7 +59,7 @@ export default function OurValues() {
             <section>
               <h2 className="text-2xl font-semibold mb-3 px-[35px] text-center">{t('ourValues.privacy.title')}</h2>
               <ul className="list-disc pl-6 space-y-2">
-                {t('ourValues.privacy.points', { returnObjects: true }).map((point: string, index: number) => (
+                {(t('ourValues.privacy.points', { returnObjects: true }) as string[]).map((point: string, index: number) => (
                   <li key={index} className="px-[11px]">{point}</li>
                 ))}
               </ul>

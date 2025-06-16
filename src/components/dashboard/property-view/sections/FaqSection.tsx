@@ -10,16 +10,18 @@ interface FaqSectionProps {
 
 export function FaqSection({ hotel }: FaqSectionProps) {
   const faqs = hotel.faqs || [];
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set());
+  const [openItems, setOpenItems] = useState<Set<number>>(new Set<number>());
   
   const toggleItem = (index: number) => {
-    const newOpenItems = new Set(openItems);
-    if (newOpenItems.has(index)) {
-      newOpenItems.delete(index);
-    } else {
-      newOpenItems.add(index);
-    }
-    setOpenItems(newOpenItems);
+    setOpenItems(prev => {
+      const newOpenItems = new Set(prev);
+      if (newOpenItems.has(index)) {
+        newOpenItems.delete(index);
+      } else {
+        newOpenItems.add(index);
+      }
+      return newOpenItems;
+    });
   };
 
   return (

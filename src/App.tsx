@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,7 +12,6 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DashboardAccess } from "@/components/DashboardAccess";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import OurTeam from "@/pages/OurTeam";
-import FAQHotels from "@/pages/FAQHotels";
 
 // Initialize i18n
 import "./i18n/config";
@@ -74,7 +72,6 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/intellectual-property" element={<IntellectualProperty />} />
                   <Route path="/our-team" element={<OurTeam />} />
-                  <Route path="/faq-hotels" element={<FAQHotels />} />
                   
                   {/* Protected Routes */}
                   <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

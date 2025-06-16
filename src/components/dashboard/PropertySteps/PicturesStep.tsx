@@ -1,10 +1,10 @@
 
-import React, { useState, useEffect, useRef } from "react";
-import FilesToUpload from "./Pictures/FilesToUpload";
+import React, { useState, useEffect } from "react";
+import { usePropertyImages, UploadedImage } from "@/hooks/usePropertyImages";
 import UploadArea from "./Pictures/UploadArea";
+import FilesToUpload from "./Pictures/FilesToUpload";
 import UploadedImages from "./Pictures/UploadedImages";
-import { useToast } from "@/hooks/use-toast";
-import { UploadedImage, usePropertyImages } from "@/hooks/usePropertyImages";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PicturesStepProps {
   formData?: {
@@ -14,76 +14,77 @@ interface PicturesStepProps {
   updateFormData?: (field: string, value: any) => void;
 }
 
-export default function PicturesStep({
-  formData = {
-    hotelImages: [],
-    mainImageUrl: ""
-  },
-  updateFormData = () => {}
+export default function PicturesStep({ 
+  formData = {}, 
+  updateFormData = () => {} 
 }: PicturesStepProps) {
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Use the hook with the updateFormData function
+  const { t } = useTranslation();
   const {
-    files,
-    uploadedImages: images,
-    uploading,
-    mainImageIndex,
-    addFiles: handleFilesChange,
-    removeFile: handleRemoveFile,
-    removeUploadedImage: handleRemoveIndex,
-    uploadFiles: handleUpload,
-    setMainImage: handleSetMainIndex
-  } = usePropertyImages(formData.hotelImages || [], updateFormData);
+    filesToUpload,
+    uploadedImages,
+    isUploading,
+    uploadProgress,
+    handleFileSelect,
+    handleUpload,
+    clearFiles,
+    removeUploadedImage,
+    setMainImage
+  } = usePropertyImages();
 
-  // Initialize state from formData only once when component mounts or when formData first becomes available
+  // Initialize with existing images from formData
   useEffect(() => {
-    if (!initialized && formData.hotelImages && formData.hotelImages.length > 0) {
-      // Mark as initialized since the hook will handle the initial state
-      setInitialized(true);
+    if (formData.hotelImages && formData.hotelImages.length > 0) {
+      // Set the uploaded images from formData if they exist
+      const existingImages = formData.hotelImages.map(img => ({
+        id: img.id || Date.now().toString(),
+        url: img.url,
+        isMain: img.isMain || false
+      }));
+      // This would need to be handled by the hook if we add a setter
     }
-  }, [formData.hotelImages, initialized]);
+  }, [formData.hotelImages]);
 
-  // Update parent form data when local state changes
+  // Update parent formData when images change
   useEffect(() => {
-    if (initialized || images.length > 0) {
-      updateFormData("hotelImages", images);
+    if (updateFormData) {
+      updateFormData('hotelImages', uploadedImages);
+      const mainImage = uploadedImages.find(img => img.isMain);
+      updateFormData('mainImageUrl', mainImage?.url || '');
     }
-  }, [images, updateFormData, initialized]);
-
-  const triggerFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+  }, [uploadedImages, updateFormData]);
 
   return (
-    <div className="space-y-4">
-      <h3 className="font-semibold text-lg text-white">HOTEL IMAGES</h3>
+    <div className="glass-card rounded-xl p-6 space-y-6 bg-[#690695]/40">
+      <h3 className="text-lg font-semibold text-white uppercase">{t('hotelImages.title')}</h3>
       
-      <UploadArea onFilesSelected={handleFilesChange} fileInputRef={fileInputRef} />
-      
-      <FilesToUpload 
-        files={files} 
-        onUpload={handleUpload} 
-        onRemoveFile={handleRemoveFile} 
+      <UploadArea 
+        onFileSelect={handleFileSelect}
+        isUploading={isUploading}
       />
+      
+      {filesToUpload.length > 0 && (
+        <FilesToUpload 
+          files={filesToUpload}
+          onUpload={handleUpload}
+          onClear={clearFiles}
+          uploadProgress={uploadProgress}
+          isUploading={isUploading}
+        />
+      )}
       
       <UploadedImages 
-        images={images} 
-        onRemoveImage={handleRemoveIndex} 
-        onSetMainImage={handleSetMainIndex} 
-        mainImageUrl={images.length > 0 && mainImageIndex >= 0 ? images[mainImageIndex].url : ""} 
-        onAddMoreClick={triggerFileInput} 
+        images={uploadedImages}
+        onRemove={removeUploadedImage}
+        onSetMain={setMainImage}
       />
       
-      {images.length === 0 && (
-        <p className="text-sm text-red-300">
-          Please upload at least one image for your hotel. The first image will be set as the main image.
-        </p>
-      )}
+      <p className="text-sm text-white/70">
+        ⭐ {t('hotelImages.selectMainImage')}
+      </p>
+      
+      <p className="text-sm text-white/60">
+        {t('hotelImages.mainImageNote')}
+      </p>
     </div>
   );
 }

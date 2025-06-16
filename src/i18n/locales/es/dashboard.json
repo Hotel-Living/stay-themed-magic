@@ -95,6 +95,11 @@
     "noticeText": "Toda la información proporcionada será revisada por nuestro equipo antes de la aprobación final."
   },
   "propertySteps": {
+    "generalInformation": "Información General",
+    "hotelProfile": "Perfil del Hotel",
+    "accommodationTerms": "Términos de Alojamiento",
+    "packagesAndPricing": "Paquetes y Precios",
+    "faqsAndTerms": "Preguntas Frecuentes y Términos",
     "basicInfo": "Información Básica",
     "location": "Ubicación",
     "amenities": "Comodidades",
@@ -102,7 +107,35 @@
     "pricing": "Precios",
     "availability": "Disponibilidad",
     "policies": "Políticas",
-    "review": "Revisar"
+    "review": "Revisar",
+    "lengthOfStay": "Duración de la Estancia",
+    "weekdayCheckInOut": "Día de la Semana para Check-in/Check-out",
+    "mealPlans": "Planes de Comida",
+    "roomTypes": "Tipos de Habitación",
+    "hotelFeatures": "Características del Hotel",
+    "roomFeatures": "Características de la Habitación",
+    "affinities": "Afinidades",
+    "activities": "Actividades",
+    "availableMonths": "Meses Disponibles",
+    "defineRoomTypes": "Por favor define los tipos de habitación en el Paso 3 antes de establecer precios.",
+    "addRoomType": "AÑADIR TIPO DE HABITACIÓN",
+    "availableTypesOfRooms": "TIPOS DE HABITACIONES DISPONIBLES",
+    "none": "Ninguno",
+    "selectAllStayDurations": "Selecciona todas las duraciones de estancia que ofreces:",
+    "selectWeekdayCheckInOut": "Selecciona el día cuando los huéspedes hacen check-in/out:",
+    "selectAvailableMonths": "Selecciona los meses en que tu hotel estará disponible:",
+    "enableDynamicPricing": "HABILITAR PRECIO DINÁMICO BASADO EN NOCHES VENDIDAS",
+    "maximumPriceIncrease": "AUMENTO MÁXIMO DE PRECIO",
+    "maximumPriceIncreaseDescription": "Este es el porcentaje máximo que los precios pueden aumentar debido a la demanda.",
+    "howDynamicPricingWorks": "Cómo Funciona el Precio Dinámico",
+    "dynamicPricingFormula": "El precio aumenta en 1% por cada X noches vendidas en un mes, donde X se calcula como:",
+    "dynamicPricingExample": "Por ejemplo, con 30 habitaciones × 30 días = 900 noches totales y un aumento máximo del 20%, el precio aumentaría en 1% por cada 45 noches vendidas.",
+    "frequentlyAskedQuestions": "PREGUNTAS FRECUENTES",
+    "optional": "(OPCIONAL)",
+    "termsAndConditions": "TÉRMINOS Y CONDICIONES",
+    "submitConfirmation": "Al hacer clic en 'Enviar', confirmas que toda la información proporcionada es precisa y tu propiedad cumple con todas las regulaciones locales y requisitos de seguridad.",
+    "important": "IMPORTANTE",
+    "importantNotice": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si añades cualquier elemento nuevo, tu envío de propiedad requerirá aprobación del administrador antes de ser publicado."
   },
   "basicInfo": {
     "hotelName": "Nombre del Hotel",
@@ -121,6 +154,32 @@
     "atmospherePlaceholder": "Describe la atmósfera y el ambiente de tu hotel",
     "perfectLocation": "Nuestra ubicación es perfecta para...",
     "perfectLocationPlaceholder": "Describe qué hace especial tu ubicación"
+  },
+  "hotelImages": {
+    "title": "IMÁGENES DEL HOTEL",
+    "dragDropPhotos": "Arrastra y suelta fotos aquí",
+    "orClickToBrowse": "o haz clic para navegar desde tu dispositivo",
+    "uploadPhotos": "Subir Fotos",
+    "uploadedPhotos": "Fotos Subidas",
+    "selectMainImage": "Selecciona una foto como imagen principal",
+    "mainImageNote": "Por favor sube al menos una imagen para tu hotel. La primera imagen se establecerá como imagen principal."
+  },
+  "location": {
+    "title": "UBICACIÓN",
+    "address": "Dirección",
+    "country": "País",
+    "city": "Ciudad",
+    "postalCode": "Código Postal",
+    "selectCountry": "Selecciona un país",
+    "enterCityName": "Ingresa el nombre de la ciudad",
+    "custom": "Personalizado",
+    "locationOnMap": "Ubicación en el Mapa (Haz clic para seleccionar ubicación precisa)"
+  },
+  "contact": {
+    "title": "INFORMACIÓN DE CONTACTO",
+    "contactName": "Nombre de Contacto",
+    "contactEmail": "Email de Contacto",
+    "contactPhone": "Teléfono de Contacto"
   },
   "propertyTypes": {
     "hotel": "Hotel",
@@ -150,5 +209,58 @@
     "urban": "Urbano",
     "minimalist": "Minimalista",
     "luxury": "Lujo"
+  },
+  "mealPlans": {
+    "breakfastIncluded": "Desayuno Incluido",
+    "halfBoard": "Media Pensión",
+    "fullBoard": "Pensión Completa",
+    "allInclusive": "Todo Incluido",
+    "laundry": "Lavandería",
+    "externalLaundryService": "Servicio de Lavandería Externa Disponible"
+  },
+  "weekdays": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
+  "months": {
+    "january": "Enero",
+    "february": "Febrero",
+    "march": "Marzo",
+    "april": "Abril",
+    "may": "Mayo",
+    "june": "Junio",
+    "july": "Julio",
+    "august": "Agosto",
+    "september": "Septiembre",
+    "october": "Octubre",
+    "november": "Noviembre",
+    "december": "Diciembre"
+  },
+  "stayDurations": {
+    "8days": "8 días",
+    "16days": "16 días",
+    "24days": "24 días",
+    "32days": "32 días"
+  },
+  "hotelFeatures": {
+    "freeWifi": "WiFi Gratis",
+    "parking": "Aparcamiento",
+    "restaurant": "Restaurante",
+    "pool": "Piscina",
+    "spa": "Spa",
+    "gym": "Gimnasio",
+    "reception24": "Recepción 24/7",
+    "roomService": "Servicio de Habitaciones",
+    "bar": "Bar",
+    "lounge": "Salón",
+    "businessCenter": "Centro de Negocios",
+    "conferenceRooms": "Salas de Conferencias",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
   }
 }

@@ -1,8 +1,8 @@
 
 import React from 'react';
-import PreferredWeekdaySection from '../PreferredWeekdaySection';
-import AvailabilitySection from '../AvailabilitySection';
-import StayLengthSection from '../StayLengthSection';
+import { PreferredWeekdaySection } from '../PreferredWeekdaySection';
+import { AvailabilitySection } from '../AvailabilitySection';
+import { StayLengthSection } from '../StayLengthSection';
 import MealPlanSection from '../MealPlanSection';
 import RoomsRatesSection from '../RoomsRatesSection';
 

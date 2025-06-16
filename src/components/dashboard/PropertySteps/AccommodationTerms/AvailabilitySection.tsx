@@ -5,7 +5,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 interface AvailabilitySectionProps {
   availableDates: Date[];
-  onDateSelect: (date: Date | undefined) => void;
+  onDateSelect: (dates: Date[] | undefined) => void;
 }
 
 export const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({

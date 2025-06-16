@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import StayLengthSection from "./AccommodationTerms/StayLengthSection";
+import { StayLengthSection } from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./rooms/MealPlanSection";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 import { buildPricingMatrix } from "@/utils/buildPricingMatrix";

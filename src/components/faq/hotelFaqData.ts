@@ -16,27 +16,27 @@ export type { FaqItem, FaqCategory };
 
 export const hotelFaqCategories: FaqCategory[] = [
   { id: "video", name: "Video" },
-  { id: "benefits", name: "Benefits" },
-  { id: "models", name: "Models" },
-  { id: "revenue", name: "Revenue" },
-  { id: "guests", name: "Guests" },
-  { id: "seniors", name: "Seniors" },
-  { id: "affinities", name: "Affinities" },
-  { id: "operation", name: "Operation" },
-  { id: "integration", name: "Integration" },
-  { id: "payment", name: "Payment & Commissions" }
+  { id: "beneficios", name: "Beneficios" },
+  { id: "modelos", name: "Modelos" },
+  { id: "ingresos", name: "Ingresos" },
+  { id: "huespedes", name: "Huéspedes" },
+  { id: "mayores", name: "Mayores" },
+  { id: "afinidades", name: "Afinidades" },
+  { id: "operativa", name: "Operativa" },
+  { id: "integracion", name: "Integración" },
+  { id: "pagos", name: "Pagos y Comisiones" }
 ];
 
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   video: videoFaqs,
-  benefits: benefitsFaqs,
-  models: modelsFaqs,
-  operation: operationFaqs,
-  integration: integrationFaqs,
-  revenue: revenueFaqs,
-  guests: guestsFaqs,
-  seniors: seniorsFaqs,
+  beneficios: benefitsFaqs,
+  modelos: modelsFaqs,
+  operativa: operationFaqs,
+  integracion: integrationFaqs,
+  ingresos: revenueFaqs,
+  huespedes: guestsFaqs,
+  mayores: seniorsFaqs,
   marketing: marketingFaqs,
-  payment: paymentFaqs,
-  affinities: affinitiesFaqs
+  pagos: paymentFaqs,
+  afinidades: affinitiesFaqs
 };

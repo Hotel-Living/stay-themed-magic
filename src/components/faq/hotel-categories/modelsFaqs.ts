@@ -3,35 +3,35 @@ import { FaqItem } from "../hotel-types";
 
 export const modelsFaqs: FaqItem[] = [
   {
-    question: "If I have empty rooms, does Hotel-Living have clients for me?",
-    answer: "There is a market for everything — and clients for every kind of offer.\n\nThe potential guest base is enormous, with people of all ages, backgrounds, and preferences looking for flexible, comfortable, and affordable alternatives to traditional housing. Whether your hotel is large or small, boutique or standard, there is a way to benefit from the Hotel Living model — and the key is adapting the offer to what works best for your property."
+    question: "Si tengo habitaciones vacías, ¿Hotel-Living tiene clientes para mí?",
+    answer: "Siempre existe mercado. El potencial de clientes es enorme, con personas de todas las edades, orígenes y preferencias que buscan alternativas flexibles, cómodas y accesibles frente a la vivienda tradicional. Independientemente del tamaño de su hotel, existe una vía para beneficiarse del modelo Hotel-Living, adaptando la oferta según lo que mejor encaje en su propiedad."
   },
   {
-    question: "Is there a minimum number of rooms required to join Hotel Living?",
-    answer: "Not at all.\nEven if your hotel has just 3 or 5 available rooms, you can still join the system.\n\nIn such cases, you might not implement thematic programs — but you can still offer 8-day stays, with:\n\nFull board,\n\nHalf board,\n\nOr just the room — depending on your setup.\n\nThe model is flexible, and there's demand for all levels of service, from simple to luxurious."
+    question: "¿Existe un mínimo de habitaciones requerido para incorporarse?",
+    answer: "No. Incluso con 3 o 5 habitaciones disponibles, usted puede incorporarse al sistema. En esos casos, tal vez no implemente programas temáticos, pero sí puede ofrecer estancias de 8 días con: pensión completa, media pensión, o solo alojamiento según su estructura. El modelo es flexible y existe demanda para todos los niveles de servicio, desde opciones sencillas hasta lujosas."
   },
   {
-    question: "Which type of stay durations should my hotel offer — 8, 16, 24 or 32 days?",
-    answer: "It depends on your size, category, and operational capacity.\n\nLarge hotels with enough rooms and structure often benefit from offering the full range: 8, 16, 24, and 32-day stays.\n\nSmaller hotels (e.g., with up to 20 rooms available for Hotel Living) may prefer to focus on 8-day stays, to keep things manageable and guest dynamics smooth.\n\nLonger stays are ideal when you have the space and guest volume to support them comfortably."
+    question: "¿Qué duraciones de estancia debería ofrecer: 8, 16, 24 o 32 días?",
+    answer: "Depende del tamaño, categoría y capacidad operativa de su hotel. Hoteles grandes, con estructura suficiente, suelen ofrecer las cuatro modalidades: 8, 16, 24 y 32 días. Hoteles más pequeños (por ejemplo, hasta 20 habitaciones) a menudo comienzan ofreciendo estancias de 8 días, manteniendo una operativa ágil y fluida. Las estancias largas son ideales cuando dispone del espacio y volumen de huéspedes suficientes."
   },
   {
-    question: "What if my hotel has around 40 to 60 available rooms?",
-    answer: "That's a great mid-size range.\nYou can easily offer 8-day and 16-day stays, and expand to 24 or 32 days as your operations grow and guest demand increases."
+    question: "¿Qué ocurre si el hotel dispone de entre 40 y 60 habitaciones?",
+    answer: "Ese es un rango óptimo intermedio. Puede comenzar fácilmente ofreciendo estancias de 8 y 16 días, y ampliar a 24 o 32 días conforme crezca su operativa y la demanda."
   },
   {
-    question: "What should boutique hotels or high-end properties focus on?",
-    answer: "If you're a small or boutique hotel, your strength is in offering quality and uniqueness.\n\nYou can create 8-day thematic programs such as:\n\nCulinary weeks with guest chefs,\n\nWellness retreats,\n\nLanguage or cultural immersions.\n\nThese themes can repeat weekly, creating consistency and reputation while offering a rotating guest experience."
+    question: "¿Qué enfoque deben tener los hoteles boutique o de alta gama?",
+    answer: "En hoteles boutique, su punto fuerte es la calidad y el carácter único. Puede desarrollar programas temáticos de 8 días como: semanas gastronómicas con chefs invitados, retiros de bienestar, e inmersiones culturales o lingüísticas. Estos programas pueden repetirse semanalmente, creando consistencia, reputación y una experiencia rotativa para los huéspedes."
   },
   {
-    question: "Can I offer different rates based on the length of stay?",
-    answer: "Yes, and we highly recommend it.\nOffering progressive discounts based on stay duration helps you:\n\n- Attract longer bookings (16, 24, or 32 days),\n\n- Lower operational costs per guest\n\n- Increase loyalty and stability.\n\nGuests are naturally drawn to longer, more affordable stays — and your profitability improves."
+    question: "¿Puedo establecer tarifas diferentes según la duración de la estancia?",
+    answer: "Sí, y es altamente recomendable. Ofrecer descuentos progresivos según la duración de la reserva le permite: atraer estancias más largas (16, 24 o 32 días), reducir los costes operativos por huésped, y aumentar la fidelización y estabilidad. Los huéspedes, de forma natural, prefieren estancias más largas y económicas, lo cual maximiza su rentabilidad."
   },
   {
-    question: "Can I start with only one type of stay duration and expand later?",
-    answer: "Absolutely.\nMany hotels begin with 8-day stays to test the model, then gradually add longer options as operations evolve and guest habits form.\n\nYou control the pace and complexity."
+    question: "¿Puedo comenzar con un solo tipo de duración y ampliar después?",
+    answer: "Por supuesto. Muchos hoteles empiezan con estancias de 8 días para probar el modelo y, gradualmente, añaden opciones más largas conforme evoluciona la operativa y se establecen los hábitos de los huéspedes. Usted controla el ritmo de crecimiento."
   },
   {
-    question: "Can I combine different models in the same hotel?",
-    answer: "Yes, and it's often the smartest move.\nFor example:\n\n- Use some rooms for 8-day thematic cycles\n\n- Others for longer stays (ideal for digital nomads or semi-retired guests).\n\nThis approach maximizes occupancy and attracts a broader mix of clients."
+    question: "¿Puedo combinar diferentes modelos en el mismo hotel?",
+    answer: "Sí, y suele ser la opción más inteligente. Por ejemplo: dedique algunas habitaciones a ciclos temáticos de 8 días, y otras habitaciones a estancias largas (perfectas para nómadas digitales o semi jubilados). Esta combinación maximiza la ocupación y atrae a una clientela más variada."
   }
 ];

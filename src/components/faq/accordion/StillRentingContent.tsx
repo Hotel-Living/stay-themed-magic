@@ -1,34 +1,35 @@
+
 import React from "react";
 import { QuestionGroup } from "./QuestionGroup";
 
 export function StillRentingContent() {
   const questionGroups = [
     [
-      "Why rent a flat when you can have room service?",
-      "Why apply with endless requirements — when you could just check in and feel at home, instantly?",
-      "Why pay a deposit — when you could pay for comfort, connection, and care?",
-      "Why lock yourself into a year — when freedom lives in themed weeks with people like you?"
+      "¿Por qué alquilar un piso cuando puedes tener servicio de habitaciones?",
+      "¿Por qué enfrentarte a trámites interminables, cuando puedes hacer el check-in y sentirte en casa al instante?",
+      "¿Por qué pagar depósitos cuando puedes emplear tu dinero en comodidad, conexión y cuidados?",
+      "¿Por qué comprometerte a un contrato anual cuando la libertad está en estancias con afinidades junto a personas afines?"
     ],
     [
-      "Why clean — when someone else takes care of that, so you can enjoy your time with others?",
-      "Why give up comfort — when Hotel Living includes cleaning, smiles, and maybe a dinner invite?",
-      "Why live alone — when you can live connected?",
-      "Why settle for isolation — when your affinities may bring you closer to your tribe?"
+      "¿Por qué limpiar, cuando alguien se encarga de ello y puedes disfrutar tu tiempo con otros?",
+      "¿Por qué renunciar al confort, cuando Hotel Living incluye limpieza, sonrisas y quizás una invitación a cenar?",
+      "¿Por qué vivir solo, cuando puedes vivir conectado?",
+      "¿Por qué resignarte a la soledad, cuando tus afinidades pueden acercarte a tu tribu?"
     ],
     [
-      "Why live under inspection — when you could live with service and be treated like a guest?",
-      "Why be far from life — when hotels bring the world (and people) to your doorstep?",
-      "Why rent — when you could be hosted, welcomed, and even befriended?",
-      "Why carry furniture — when your room is ready, your neighbors are interesting, and dinner is downstairs?"
+      "¿Por qué vivir bajo inspección, cuando puedes tener servicio y ser tratado como huésped?",
+      "¿Por qué estar lejos de la vida, cuando los hoteles te acercan el mundo (y las personas) hasta la puerta?",
+      "¿Por qué alquilar, cuando puedes ser recibido, acogido e incluso hacer nuevos amigos?",
+      "¿Por qué cargar muebles, cuando tu habitación ya está lista, tus vecinos sean interesantes y la cena te espere abajo?"
     ],
     [
-      "Why chase landlords — when Hotel Living welcomes you, feeds you, and introduces you to new friends?",
-      "Why eat alone — when you can share a table with people who get you?",
-      "Why scroll through food delivery apps — when you have a restaurant steps away?",
-      "Why get ten bills a month — when Hotel Living wraps it all into one simple stay?"
+      "¿Por qué perseguir caseros, cuando Hotel Living te da la bienvenida, te alimenta y te presenta nuevos amigos?",
+      "¿Por qué comer solo, cuando puedes compartir mesa con personas que te entienden?",
+      "¿Por qué perder tiempo en apps de comida, cuando tienes un restaurante a unos pasos?",
+      "¿Por qué recibir diez facturas al mes, cuando Hotel Living lo unifica todo en una estancia sencilla?"
     ],
     [
-      "Why rent like it's 1999 — when Hotel Living is the future of staying?"
+      "¿Por qué alquilar como si fuera 1999, cuando Hotel Living es el futuro de la vivienda?"
     ]
   ];
 

@@ -5,43 +5,43 @@ import { QuestionGroup } from "./QuestionGroup";
 export function RetiredContent() {
   const questionGroups = [
     [
-      "Why limit your life — when the world is waiting?",
-      "Why stay in one place — when living in many keeps you young?",
-      "Why shrink your life — when retirement is the time to expand it?",
-      "Why live in one home — when you could live across cities, countries, cultures?"
+      "¿Por qué limitar tu vida, cuando el mundo te está esperando?",
+      "¿Por qué quedarte en un solo lugar, cuando vivir en muchos te mantiene joven?",
+      "¿Por qué reducir tu vida, cuando la jubilación es el momento de ampliarla?",
+      "¿Por qué vivir en un solo hogar, cuando podrías vivir entre ciudades, países y culturas?"
     ],
     [
-      "Why settle for stillness — when movement brings back vitality?",
-      "Why wait to feel alive — when your next journey starts at your door?",
-      "Why choose routine — when you can choose adventure, elegance, surprise?",
-      "Why be surrounded by the past — when you could build a present worth remembering?"
+      "¿Por qué conformarte con la quietud, cuando el movimiento devuelve la vitalidad?",
+      "¿Por qué esperar para sentirte vivo, cuando tu próximo viaje comienza en tu puerta?",
+      "¿Por qué elegir la rutina, cuando puedes elegir aventura, elegancia y sorpresa?",
+      "¿Por qué rodearte del pasado, cuando puedes construir un presente digno de recordar?"
     ],
     [
-      "Why see the same faces — when every trip brings new stories?",
-      "Why cling to comfort zones — when discovery is the true comfort of life?",
-      "Why grow old quietly — when you can age joyfully, boldly, beautifully?",
-      "Why dress down — when Hotel Living gives you reasons to dress up again?"
+      "¿Por qué ver siempre los mismos rostros, cuando cada viaje trae nuevas historias?",
+      "¿Por qué aferrarte a zonas de confort, cuando el verdadero confort de la vida es descubrir?",
+      "¿Por qué envejecer en silencio, cuando puedes hacerlo con alegría, valentía y belleza?",
+      "¿Por qué vestir con desgana, cuando Hotel-Living te da razones para arreglarte de nuevo?"
     ],
     [
-      "Why isolate yourself — when a vibrant life waits just outside your room?",
-      "Why eat alone — when your table can be filled with new friends?",
-      "Why wait for visits — when every hallway holds a friendly face?",
-      "Why be invisible in your own home — when people greet you by name every morning?"
+      "¿Por qué aislarte, cuando una vida vibrante te espera justo fuera de tu habitación?",
+      "¿Por qué comer solo, cuando tu mesa puede llenarse de nuevos amigos?",
+      "¿Por qué esperar visitas, cuando cada pasillo guarda un rostro amigable?",
+      "¿Por qué ser invisible en tu propio hogar, cuando cada mañana alguien te saluda por tu nombre?"
     ],
     [
-      "Why handle repairs, noise, or neighbors — when Hotel Living handles it all for you?",
-      "Why keep a house empty — when you could rent it and fill your life instead?",
-      "Why sleep behind a door — when Hotel Living offers 24/7 care and presence?",
-      "Why risk silence — when help is just a knock away?"
+      "¿Por qué ocuparte de reparaciones, ruidos o vecinos, cuando Hotel-Living lo gestiona todo por ti?",
+      "¿Por qué tener la casa vacía, cuando podrías alquilarla y llenar tu vida en su lugar?",
+      "¿Por qué dormir tras una simple puerta, cuando Hotel-Living te ofrece cuidado y presencia 24/7?",
+      "¿Por qué arriesgarte al silencio, cuando la ayuda está a un solo toque de distancia?"
     ],
     [
-      "Why worry about who's at your door — when hotel security already knows?",
-      "Why stay behind closed doors — when safety, warmth, and care are built into Hotel Living?",
-      "Why face emergencies alone — when trained staff are always nearby?",
-      "Why worry about falls, breaks, or nights alone — when you're never truly alone again?"
+      "¿Por qué preocuparte por quién está en la puerta, cuando la seguridad del hotel ya lo sabe?",
+      "¿Por qué quedarte tras puertas cerradas, cuando la seguridad, el calor y el cuidado están integrados en Hotel-Living?",
+      "¿Por qué afrontar emergencias solo, cuando siempre hay personal preparado cerca?",
+      "¿Por qué temer caídas, accidentes o noches solo, cuando nunca estarás realmente solo de nuevo?"
     ],
     [
-      "Why live in fear — when someone always knows you're there, and cares that you are?"
+      "¿Por qué vivir con miedo, cuando siempre hay alguien que sabe que estás ahí, y se preocupa por ti?"
     ]
   ];
 

@@ -1,94 +1,98 @@
+
 import React from "react";
+
 export function HotelContent() {
-  return <div className="space-y-8 text-white">
+  return (
+    <div className="space-y-8 text-white">
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed font-normal">Why ignore your most profitable guests — the ones who stay longer, spend more, and ask for less?</p>
-        <p className="text-lg leading-relaxed">Why leave untapped earnings on the table — when they add up to thousands per year?</p>
-        <p className="text-lg leading-relaxed">Why settle for weekends — when your rooms could be booked for the whole month?</p>
-        <p className="text-lg leading-relaxed">Why lose thousands every year — when your rooms could be working full-time for you?</p>
+        <p className="text-lg leading-relaxed font-normal">¿Por qué ignorar a sus huéspedes más rentables, los que se quedan más tiempo, gastan más y exigen menos?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar ganancias sin aprovechar, cuando pueden sumar miles cada año?</p>
+        <p className="text-lg leading-relaxed">¿Por qué conformarse con los fines de semana, cuando sus habitaciones podrían estar ocupadas todo el mes?</p>
+        <p className="text-lg leading-relaxed">¿Por qué perder miles cada año, cuando sus habitaciones podrían trabajar a tiempo completo para usted?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why block a daily stream of gold — when it's already knocking at your door?</p>
-        <p className="text-lg leading-relaxed">Why keep rooms empty — when your fixed costs are already paid?</p>
-        <p className="text-lg leading-relaxed">Why accept less — when your hotel is capable of much more?</p>
-        <p className="text-lg leading-relaxed">Why watch money slip away — when you already have the space to earn it?</p>
+        <p className="text-lg leading-relaxed">¿Por qué bloquear un flujo diario de ingresos, cuando ya está llamando a su puerta?</p>
+        <p className="text-lg leading-relaxed">¿Por qué mantener habitaciones vacías, cuando sus costes fijos ya están pagados?</p>
+        <p className="text-lg leading-relaxed">¿Por qué aceptar menos, cuando su hotel es capaz de mucho más?</p>
+        <p className="text-lg leading-relaxed">¿Por qué ver cómo el dinero se escapa, cuando ya tiene el espacio para ganarlo?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why leave your most profitable option off the table — year after year?</p>
-        <p className="text-lg leading-relaxed">Why choose unpredictability — when Hotel Living offers reliable monthly income?</p>
-        <p className="text-lg leading-relaxed">Why avoid your highest-profit formula — when you already own the rooms?</p>
-        <p className="text-lg leading-relaxed">Why close the door to a daily profit that needs no extra effort?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar fuera su opción más rentable, año tras año?</p>
+        <p className="text-lg leading-relaxed">¿Por qué elegir la incertidumbre, cuando Hotel-Living ofrece ingresos mensuales estables?</p>
+        <p className="text-lg leading-relaxed">¿Por qué evitar su fórmula de máxima rentabilidad, cuando ya posee las habitaciones?</p>
+        <p className="text-lg leading-relaxed">¿Por qué cerrar la puerta a un beneficio diario que no requiere esfuerzo adicional?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why walk past easy income — when long stays bring cash and calm together?</p>
-        <p className="text-lg leading-relaxed">Why settle for seasonal peaks — when steady profit is possible all year long?</p>
-        <p className="text-lg leading-relaxed">Why sacrifice your margins — when long stays reduce costs and boost returns?</p>
-        <p className="text-lg leading-relaxed">Why refuse a second revenue line — that runs quietly, every single day?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar pasar ingresos fáciles, cuando las estancias largas combinan dinero y tranquilidad?</p>
+        <p className="text-lg leading-relaxed">¿Por qué conformarse con picos estacionales, cuando puede tener beneficios constantes todo el año?</p>
+        <p className="text-lg leading-relaxed">¿Por qué sacrificar márgenes, cuando las estancias largas reducen costes y aumentan beneficios?</p>
+        <p className="text-lg leading-relaxed">¿Por qué rechazar una segunda línea de ingresos, que fluye silenciosamente cada día?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why overlook what's nearly 100% margin — day after day, month after month?</p>
-        <p className="text-lg leading-relaxed">Why limit yourself to room rates — when every guest can multiply your revenue?</p>
-        <p className="text-lg leading-relaxed">Why leave money on the table — when every square meter can be monetized?</p>
-        <p className="text-lg leading-relaxed">Why rely on last-minute bookings — when predictable income is one decision away?</p>
+        <p className="text-lg leading-relaxed">¿Por qué pasar por alto lo que es casi margen puro, día tras día, mes tras mes?</p>
+        <p className="text-lg leading-relaxed">¿Por qué limitarse solo a tarifas de habitación, cuando cada huésped puede multiplicar sus ingresos?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar dinero sobre la mesa, cuando cada metro cuadrado puede monetizarse?</p>
+        <p className="text-lg leading-relaxed">¿Por qué depender de reservas de última hora, cuando los ingresos predecibles están a un solo paso?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why let profitability depend on chance — when you can make it predictable?</p>
-        <p className="text-lg leading-relaxed">Why let potential walk away — when one decision could change your numbers forever?</p>
-        <p className="text-lg leading-relaxed">Why operate below capacity — when full capacity brings exponential gains?</p>
-        <p className="text-lg leading-relaxed">Why think short-term — when long-stay strategies build long-term profit?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar que la rentabilidad dependa del azar, cuando puede convertirla en algo estable?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar escapar el potencial, cuando una decisión podría cambiar sus cifras para siempre?</p>
+        <p className="text-lg leading-relaxed">¿Por qué operar por debajo de su capacidad, cuando el lleno total multiplica los beneficios?</p>
+        <p className="text-lg leading-relaxed">¿Por qué pensar a corto plazo, cuando las estancias largas construyen ganancias a largo plazo?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why stay in survival mode — when you could thrive?</p>
-        <p className="text-lg leading-relaxed">Why call it "just a room" — when it can become a daily profit engine?</p>
-        <p className="text-lg leading-relaxed">It's not a booking. It's a daily deposit of pure gain.</p>
-        <p className="text-lg leading-relaxed">This isn't passive income. It's golden income. And it's already yours.</p>
+        <p className="text-lg leading-relaxed">¿Por qué sobrevivir, cuando podría prosperar?</p>
+        <p className="text-lg leading-relaxed">¿Por qué llamarlo "solo una habitación", cuando puede convertirse en un motor de ganancias diario?</p>
+        <p className="text-lg leading-relaxed">No es una reserva. Es un depósito diario de beneficio puro.</p>
+        <p className="text-lg leading-relaxed">No es ingreso pasivo. Es ingreso dorado. Y ya es suyo.</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">It's not extra — it's essential. And it's growing quietly each day.</p>
-        <p className="text-lg leading-relaxed">It's not professional to leave profit behind. It's not smart to underuse your own business.</p>
-        <p className="text-lg leading-relaxed">Why suffer the ups and downs of seasons — when you could be full all year?</p>
-        <p className="text-lg leading-relaxed">Why build your life around peaks and valleys — when consistent income is within reach?</p>
+        <p className="text-lg leading-relaxed">No es adicional, es esencial. Y está creciendo silenciosamente cada día.</p>
+        <p className="text-lg leading-relaxed">No es profesional dejar beneficios atrás. No es inteligente infrautilizar su propio negocio.</p>
+        <p className="text-lg leading-relaxed">¿Por qué soportar los altibajos de las temporadas, cuando podría estar lleno todo el año?</p>
+        <p className="text-lg leading-relaxed">¿Por qué vivir de picos y valles, cuando los ingresos constantes están al alcance?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why endure uncertainty — when long-term stays mean secure, recurring revenue?</p>
-        <p className="text-lg leading-relaxed">Why be reactive — when smart planning leads to financial peace?</p>
-        <p className="text-lg leading-relaxed">Why struggle for guests — when one strategic choice could fill your rooms effortlessly?</p>
-        <p className="text-lg leading-relaxed">Why train and fire — when stable bookings mean stable staff?</p>
+        <p className="text-lg leading-relaxed">¿Por qué aceptar la incertidumbre, cuando las estancias largas significan ingresos seguros y recurrentes?</p>
+        <p className="text-lg leading-relaxed">¿Por qué reaccionar, cuando una buena planificación le da paz financiera?</p>
+        <p className="text-lg leading-relaxed">¿Por qué luchar cada día por clientes, cuando una sola decisión puede llenar sus habitaciones sin esfuerzo?</p>
+        <p className="text-lg leading-relaxed">¿Por qué contratar y despedir continuamente, cuando las reservas estables significan personal estable?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why chase guests every day — when one guest could stay for weeks?</p>
-        <p className="text-lg leading-relaxed">Why multiply your workload — when one long stay replaces ten check-ins?</p>
-        <p className="text-lg leading-relaxed">Why accept chaos — when long stays bring calm and clarity?</p>
-        <p className="text-lg leading-relaxed">Why settle for stress — when peace comes with every extended stay?</p>
+        <p className="text-lg leading-relaxed">¿Por qué perseguir huéspedes cada día, cuando uno solo puede quedarse semanas?</p>
+        <p className="text-lg leading-relaxed">¿Por qué multiplicar el trabajo, cuando una estancia larga reemplaza diez check-ins?</p>
+        <p className="text-lg leading-relaxed">¿Por qué aceptar el caos, cuando las estancias largas traen calma y claridad?</p>
+        <p className="text-lg leading-relaxed">¿Por qué aceptar el estrés, cuando la tranquilidad llega con cada estancia prolongada?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why host strangers for a night — when long-stay guests become part of your hotel's rhythm?</p>
-        <p className="text-lg leading-relaxed">Why host short-term noise — when you could welcome long-term value?</p>
-        <p className="text-lg leading-relaxed">Why fill the rooms once — when one good guest fills them again and again?</p>
-        <p className="text-lg leading-relaxed">Why rent rooms — when you could create an ecosystem?</p>
+        <p className="text-lg leading-relaxed">¿Por qué alojar desconocidos por una noche, cuando los huéspedes de larga estancia se integran en el ritmo de su hotel?</p>
+        <p className="text-lg leading-relaxed">¿Por qué alojar ruido de corto plazo, cuando podría recibir valor de largo plazo?</p>
+        <p className="text-lg leading-relaxed">¿Por qué llenar las habitaciones una vez, cuando un buen huésped las llena una y otra vez?</p>
+        <p className="text-lg leading-relaxed">¿Por qué alquilar habitaciones, cuando puede crear un ecosistema?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why let your hotel sleep — when people are ready to live in it?</p>
-        <p className="text-lg leading-relaxed">Why limit your hotel — when it could become something greater?</p>
-        <p className="text-lg leading-relaxed">Why sell silence — when you could sell activity, energy, and engagement?</p>
-        <p className="text-lg leading-relaxed">Why be invisible to society — when you could be a local pillar of community living?</p>
+        <p className="text-lg leading-relaxed">¿Por qué dejar dormir su hotel, cuando hay personas listas para vivir en él?</p>
+        <p className="text-lg leading-relaxed">¿Por qué limitar su hotel, cuando podría transformarse en algo mayor?</p>
+        <p className="text-lg leading-relaxed">¿Por qué vender silencio, cuando puede vender actividad, energía y vida?</p>
+        <p className="text-lg leading-relaxed">¿Por qué ser invisible para la sociedad, cuando puede ser un pilar local de convivencia?</p>
       </div>
       
       <div className="space-y-4">
-        <p className="text-lg leading-relaxed">Why sell nights — when you could sell belonging?</p>
-        <p className="text-lg leading-relaxed">Why make your life depend on seasons — when it could depend on stability?</p>
-        <p className="text-lg leading-relaxed">Why aim for full rooms — when you could aim for full lives inside them?</p>
+        <p className="text-lg leading-relaxed">¿Por qué vender noches, cuando puede vender pertenencia?</p>
+        <p className="text-lg leading-relaxed">¿Por qué depender de las temporadas, cuando podría depender de la estabilidad?</p>
+        <p className="text-lg leading-relaxed">¿Por qué aspirar solo a habitaciones llenas, cuando puede aspirar a vidas llenas dentro de ellas?</p>
       </div>
-    </div>;
+    </div>
+  );
 }

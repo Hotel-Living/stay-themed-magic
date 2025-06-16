@@ -5,46 +5,46 @@ import { QuestionGroup } from "./QuestionGroup";
 export function CommuterContent() {
   const questionGroups = [
     [
-      "Why lose hours in traffic when you could gain them in a theater?",
-      "Why waste money on gas instead of investing in your life?",
-      "Why spend two hours a day on the road when you could live downtown?",
-      "Why live for the commute, not the experience?"
+      "¿Por qué perder horas en el tráfico cuando podrías ganarlas en un teatro?",
+      "¿Por qué gastar dinero en gasolina en lugar de invertirlo en tu vida?",
+      "¿Por qué pasar dos horas al día en la carretera cuando podrías vivir en el centro?",
+      "¿Por qué vivir para el trayecto y no para la experiencia?"
     ],
     [
-      "Why be a second-class citizen in your own city?",
-      "Why always be arriving late when you could already be there?",
-      "Why live among cars when you could live among cafés and bookstores?",
-      "Why settle for traffic when you could choose pleasure?"
+      "¿Por qué ser un ciudadano de segunda en tu propia ciudad?",
+      "¿Por qué llegar siempre tarde cuando podrías estar ya allí?",
+      "¿Por qué vivir entre coches cuando podrías vivir entre cafés y librerías?",
+      "¿Por qué conformarte con el tráfico cuando podrías elegir la distracción?"
     ],
     [
-      "Why let your life depend on the train schedule?",
-      "Why live in the waiting?",
-      "Why flee each night from the place that inspires you by day?",
-      "Why keep going back and forth when you could simply arrive — and stay?"
+      "¿Por qué dejar que tu vida dependa del horario del tren?",
+      "¿Por qué vivir en la espera?",
+      "¿Por qué huir cada noche del lugar que te inspira de día?",
+      "¿Por qué ir y venir cuando podrías simplemente llegar… y quedarte?"
     ],
     [
-      "Why live far from your own plans?",
-      "Why wake up far just to arrive late?",
-      "Why pay for two lives when you only have one?",
-      "Why sleep outside the world when you could live inside it?"
+      "¿Por qué vivir lejos de tus propios planes?",
+      "¿Por qué despertarte lejos solo para llegar tarde?",
+      "¿Por qué pagar por dos vidas cuando solo tienes una?",
+      "¿Por qué dormir fuera del mundo cuando podrías vivir dentro de él?"
     ],
     [
-      "Why distance yourself from culture, art, and life?",
-      "Why live far from where everything happens?",
-      "Why live on the outskirts if you work in the heart?",
-      "Why remain a daily visitor in the city that feeds you?"
+      "¿Por qué alejarte de la cultura, el arte y la vida?",
+      "¿Por qué vivir lejos de donde todo sucede?",
+      "¿Por qué vivir en las afueras si trabajas en el corazón?",
+      "¿Por qué seguir siendo un visitante diario en la ciudad que te alimenta?"
     ],
     [
-      "Why not live where you truly live?",
-      "Why pay rent where you aren't, when you could pay to live where you are?",
-      "Why leave your time on the shoulder of the highway?",
-      "Why live between two worlds when you can have one that has it all?"
+      "¿Por qué no vivir donde realmente vives?",
+      "¿Por qué pagar alquiler donde no estás, cuando podrías pagar para vivir donde sí estás?",
+      "¿Por qué dejar tu tiempo al borde de la autopista?",
+      "¿Por qué vivir entre dos mundos cuando puedes tener uno que lo tiene todo?"
     ],
     [
-      "Why be a daily visitor when you could be a free resident?",
-      "Why stay in motion when you could stay at home?",
-      "Why keep distance between you and your dreams?",
-      "Why accept discomfort when Hotel Living exists?"
+      "¿Por qué ser un visitante diario cuando podrías ser un residente libre?",
+      "¿Por qué seguir moviéndote cuando podrías quedarte en casa?",
+      "¿Por qué mantener distancia entre tú y tus sueños?",
+      "¿Por qué aceptar incomodidades cuando existe Hotel-Living?"
     ]
   ];
 

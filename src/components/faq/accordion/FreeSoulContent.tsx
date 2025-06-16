@@ -5,51 +5,51 @@ import { QuestionGroup } from "./QuestionGroup";
 export function FreeSoulContent() {
   const questionGroups = [
     [
-      "Why stay stuck in one place — when you could live freely from city to city, on your terms?",
-      "Why tie yourself to one address — when the world is full of places waiting to feel like home?",
-      "Why live one fixed life — when every few weeks can bring a whole new chapter?",
-      "Why rent forever in one city — when you could rotate between countries, cultures, and communities?"
+      "¿Por qué quedarte atrapado en un solo lugar, cuando puedes vivir libremente de ciudad en ciudad, bajo tus propias reglas?",
+      "¿Por qué atarte a una única dirección, cuando el mundo está lleno de lugares esperando sentirse como tu hogar?",
+      "¿Por qué vivir una vida fija, cuando cada pocas semanas puede empezar un nuevo capítulo?",
+      "¿Por qué alquilar siempre en la misma ciudad, cuando podrías rotar entre países, culturas y comunidades?"
     ],
     [
-      "Why plan months ahead — when flexibility means staying as long as it feels right?",
-      "Why unpack your suitcase for good — when life feels more alive with motion, meaning, and new people?",
-      "Why live surrounded by the same stories — when you could collect new ones every month?",
-      "Why keep meeting the same neighbors — when you could connect with creatives, travelers, and thinkers from around the world?"
+      "¿Por qué planificar con meses de antelación, cuando la flexibilidad te permite quedarte el tiempo que desees?",
+      "¿Por qué deshacer la maleta definitivamente, cuando la vida es más intensa con movimiento, propósito y nuevas personas?",
+      "¿Por qué vivir rodeado de las mismas historias, cuando podrías coleccionar nuevas cada mes?",
+      "¿Por qué seguir viendo siempre a los mismos vecinos, cuando puedes conectar con creativos, viajeros y pensadores de todo el mundo?"
     ],
     [
-      "Why shrink your life — when retirement is the time to expand it?",
-      "Why grow old quietly — when you can age joyfully, boldly, beautifully?",
-      "Why limit your life — when the world is waiting?",
-      "Why stay in one place — when living in many keeps you young?"
+      "¿Por qué reducir tu vida, cuando la jubilación es el momento de ampliarla?",
+      "¿Por qué envejecer en silencio, cuando puedes hacerlo con alegría, valentía y belleza?",
+      "¿Por qué limitar tu vida, cuando el mundo te está esperando?",
+      "¿Por qué quedarte en un solo lugar, cuando vivir en muchos te mantiene joven?"
     ],
     [
-      "Why live in one home — when you could live across cities, countries, cultures?",
-      "Why settle for stillness — when movement brings back vitality?",
-      "Why wake up invisible — when Hotel Living makes you part of something?",
-      "Why cling to comfort zones — when discovery is the true comfort of life?"
+      "¿Por qué vivir en un solo hogar, cuando podrías vivir entre ciudades, países y culturas?",
+      "¿Por qué conformarte con la quietud, cuando el movimiento devuelve la vitalidad?",
+      "¿Por qué despertar siendo invisible, cuando Hotel-Living te hace parte de algo?",
+      "¿Por qué aferrarte a zonas de confort, cuando el verdadero confort de la vida es descubrir?"
     ],
     [
-      "Why be surrounded by the past — when you could build a present worth remembering?",
-      "Why choose routine — when you can choose adventure, elegance, surprise?",
-      "Why dress down — when Hotel Living gives you reasons to dress up again?",
-      "Why drift from place to place — when you can land in a home for your lifestyle?"
+      "¿Por qué rodearte del pasado, cuando puedes construir un presente digno de recordar?",
+      "¿Por qué elegir la rutina, cuando puedes elegir aventura, elegancia y sorpresa?",
+      "¿Por qué vestir con desgana, cuando Hotel-Living te da razones para arreglarte de nuevo?",
+      "¿Por qué vagar de un lugar a otro, cuando puedes aterrizar en un hogar para tu estilo de vida?"
     ],
     [
-      "Why be far from life — when hotels bring the world (and people) to your doorstep?",
-      "Why rent — when you could be hosted, welcomed, and even befriended?",
-      "Why stay in a hotel full of strangers — when you could live in one where everyone gets you?",
-      "Why settle for isolation — when your affinities may bring you closer to your tribe?"
+      "¿Por qué estar lejos de la vida, cuando los hoteles te acercan el mundo (y las personas) hasta la puerta?",
+      "¿Por qué alquilar, cuando puedes ser recibido, acogido e incluso hacer nuevos amigos?",
+      "¿Por qué alojarte en un hotel lleno de desconocidos, cuando puedes vivir en uno donde todos te entienden?",
+      "¿Por qué conformarte con el aislamiento, cuando tus afinidades pueden acercarte a tu tribu?"
     ],
     [
-      "Why live alone — when every hallway holds a new connection?",
-      "Why wait to feel alive — when your next journey starts at your door?",
-      "Why eat alone — when your table can be filled with new friends?",
-      "Why scroll through delivery apps — when you can share a table and a story?"
+      "¿Por qué vivir solo, cuando cada pasillo guarda una nueva conexión?",
+      "¿Por qué esperar para sentirte vivo, cuando tu próximo viaje comienza en tu puerta?",
+      "¿Por qué comer solo, cuando tu mesa puede llenarse de nuevos amigos?",
+      "¿Por qué perder tiempo en apps de comida, cuando puedes compartir mesa e historias?"
     ],
     [
-      "Why feel like the only one working — when your neighbors are designers, developers, and dreamers too?",
-      "This is not just accommodation — it's a lifestyle for those who live by inspiration, not by obligation.",
-      "This is Hotel Living. Where the world is home. And freedom is the only address."
+      "¿Por qué sentirte el único trabajando, cuando tus vecinos son diseñadores, desarrolladores y soñadores como tú?",
+      "Esto no es solo alojamiento: es un estilo de vida para quienes viven por inspiración, no por obligación.",
+      "Esto es Hotel-Living. Donde el mundo es hogar. Y la libertad es la única dirección."
     ]
   ];
 

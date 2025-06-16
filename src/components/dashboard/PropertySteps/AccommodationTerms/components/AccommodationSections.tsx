@@ -32,7 +32,7 @@ export const AccommodationSections = ({
   return (
     <div className="space-y-6">
       <PreferredWeekdaySection 
-        preferredWeekday={selectedWeekday}
+        selectedWeekday={selectedWeekday}
         onWeekdayChange={handleWeekdayChange}
       />
       
@@ -45,13 +45,11 @@ export const AccommodationSections = ({
       />
       
       <StayLengthSection 
-        isOpen={sectionsState.stayLength}
-        onOpenChange={() => toggleSection('stayLength')}
+        formData={formData}
+        updateFormData={updateFormData}
         onValidationChange={(valid) => {
           if (!valid) onCheckValidation();
         }}
-        formData={formData}
-        updateFormData={updateFormData}
       />
       
       <MealPlanSection 

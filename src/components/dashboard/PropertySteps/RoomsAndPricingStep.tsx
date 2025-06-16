@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { StayLengthSection } from "./AccommodationTerms/StayLengthSection";
 import MealPlanSection from "./rooms/MealPlanSection";
@@ -50,11 +49,9 @@ export default function RoomsAndPricingStep() {
     <div className="space-y-2">
       <div className="space-y-2">
         <StayLengthSection 
-          isOpen={false}
-          onOpenChange={() => {}}
-          onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
           formData={formData}
           updateFormData={updateFormData}
+          onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
         />
         
         <MealPlanSection 

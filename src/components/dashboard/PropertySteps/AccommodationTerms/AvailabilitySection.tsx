@@ -4,15 +4,22 @@ import { Calendar } from "@/components/ui/calendar";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface AvailabilitySectionProps {
-  availableDates: Date[];
-  onDateSelect: (dates: Date[] | undefined) => void;
+  formData: any;
+  updateFormData: (field: string, value: any) => void;
+  onValidationChange: (isValid: boolean) => void;
 }
 
 export const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
-  availableDates,
-  onDateSelect
+  formData,
+  updateFormData,
+  onValidationChange
 }) => {
   const { t } = useTranslation();
+
+  const handleDateSelect = (dates: Date[] | undefined) => {
+    updateFormData('availabilityDates', dates || []);
+    onValidationChange(dates && dates.length > 0);
+  };
 
   return (
     <div className="space-y-4">
@@ -22,8 +29,8 @@ export const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
       <div className="bg-white/5 p-4 rounded-lg">
         <Calendar
           mode="multiple"
-          selected={availableDates}
-          onSelect={onDateSelect}
+          selected={formData.availabilityDates || []}
+          onSelect={handleDateSelect}
           className="rounded-md border border-white/10"
         />
       </div>

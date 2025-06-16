@@ -114,7 +114,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Running & Jogging": t('affinities.runningJogging'),
       "Climbing & Bouldering": t('affinities.climbingBouldering'),
       
-      // Fan categories
+      // Fan categories - these are the ones that were showing in English
       "Fanatics": t('affinities.fanatics'),
       "Musical Icons": t('affinities.musicalIcons'),
       "Movie Legends": t('affinities.movieLegends'),
@@ -129,7 +129,9 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Wellness & Care": t('affinities.wellnessCare')
     };
 
-    return affinityTranslations[name] || name;
+    const translatedText = affinityTranslations[name];
+    console.log(`Translating "${name}" to "${translatedText}"`);
+    return translatedText || name;
   };
 
   if (loading) {

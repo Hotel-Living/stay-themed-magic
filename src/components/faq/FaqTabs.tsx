@@ -71,6 +71,21 @@ export function FaqTabs({
     return category.label || category.name || category.id;
   };
 
+  // Calculate cumulative question numbers across all categories
+  const getCumulativeQuestionNumber = (categoryId: string, localIndex: number) => {
+    let cumulativeNumber = 1;
+    
+    for (const category of faqCategories) {
+      if (category.id === categoryId) {
+        return cumulativeNumber + localIndex;
+      }
+      const categoryFaqs = filterFaqs(faqsByCategory[category.id] || []);
+      cumulativeNumber += categoryFaqs.length;
+    }
+    
+    return cumulativeNumber + localIndex;
+  };
+
   return (
     <div className={marginBottom}>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -87,34 +102,37 @@ export function FaqTabs({
         {faqCategories.map((category) => (
           <TabsContent key={category.id} value={category.id}>
             <div className="space-y-4">
-              {filterFaqs(faqsByCategory[category.id] || []).map((faq, index) => (
-                <Collapsible 
-                  key={index}
-                  open={openItems[category.id]?.has(index) || false}
-                  onOpenChange={() => toggleItem(category.id, index)}
-                >
-                  <div className="border border-purple-700/30 rounded-lg bg-purple-900/20">
-                    <CollapsibleTrigger className="w-full p-4 text-left flex items-center justify-between hover:bg-purple-800/20 transition-colors">
-                      <h3 
-                        className={`font-semibold text-[#e3d6e9] ${textSizeClass}`}
-                        style={{ color: accentTextColor }}
-                      >
-                        {numbered ? `${index + 1}. ` : ""}{faq.question}
-                      </h3>
-                      <ChevronDown 
-                        className={`h-4 w-4 text-purple-300 transition-transform ${
-                          openItems[category.id]?.has(index) ? 'rotate-180' : 'rotate-0'
-                        }`} 
-                      />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-4 pb-4">
-                      <p className={`text-white leading-relaxed ${answerTextSizeClass}`}>
-                        {faq.answer}
-                      </p>
-                    </CollapsibleContent>
-                  </div>
-                </Collapsible>
-              ))}
+              {filterFaqs(faqsByCategory[category.id] || []).map((faq, index) => {
+                const questionNumber = numbered ? getCumulativeQuestionNumber(category.id, index) : null;
+                return (
+                  <Collapsible 
+                    key={index}
+                    open={openItems[category.id]?.has(index) || false}
+                    onOpenChange={() => toggleItem(category.id, index)}
+                  >
+                    <div className="border border-purple-700/30 rounded-lg bg-purple-900/20">
+                      <CollapsibleTrigger className="w-full p-4 text-left flex items-center justify-between hover:bg-purple-800/20 transition-colors">
+                        <h3 
+                          className={`font-semibold text-[#e3d6e9] ${textSizeClass}`}
+                          style={{ color: accentTextColor }}
+                        >
+                          {questionNumber ? `${questionNumber}. ` : ""}{faq.question}
+                        </h3>
+                        <ChevronDown 
+                          className={`h-4 w-4 text-purple-300 transition-transform ${
+                            openItems[category.id]?.has(index) ? 'rotate-180' : 'rotate-0'
+                          }`} 
+                        />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="px-4 pb-4">
+                        <p className={`text-white leading-relaxed ${answerTextSizeClass}`}>
+                          {faq.answer}
+                        </p>
+                      </CollapsibleContent>
+                    </div>
+                  </Collapsible>
+                );
+              })}
             </div>
           </TabsContent>
         ))}

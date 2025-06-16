@@ -3,7 +3,23 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import HierarchicalActivitiesDisplay from '../activities/HierarchicalActivitiesDisplay';
 
-const AffinitiesSection: React.FC = () => {
+interface AffinitiesSectionProps {
+  selectedThemes: string[];
+  onThemeSelect: (themeId: string, isSelected: boolean) => void;
+  openCategory: string | null;
+  setOpenCategory: (category: string | null) => void;
+  openSubmenu: string | null;
+  setOpenSubmenu: (submenu: string | null) => void;
+}
+
+const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({ 
+  selectedThemes,
+  onThemeSelect,
+  openCategory,
+  setOpenCategory,
+  openSubmenu,
+  setOpenSubmenu
+}) => {
   const { t } = useTranslation();
 
   return (

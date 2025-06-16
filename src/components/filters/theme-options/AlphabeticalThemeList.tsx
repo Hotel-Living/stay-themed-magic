@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Theme } from "@/utils/themes";
 import { ThemeButton } from "./ThemeButton";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AlphabeticalThemeListProps {
   activeTheme: Theme | null;
@@ -14,12 +15,27 @@ export function AlphabeticalThemeList({
   onChange, 
   themeQuery 
 }: AlphabeticalThemeListProps) {
-  // These are the affinity categories displayed alphabetically
+  const { t } = useTranslation();
+  
+  // These are the affinity categories with their translation keys
   const affinityCategories = [
-    "Art", "Business", "Culture", "Education", "Entertainment", 
-    "Food and Drinks", "Health and Wellness", "History", "Hobbies", 
-    "Languages", "Lifestyle", "Nature", "Personal Development", 
-    "Relationships", "Science and Technology", "Social Impact", "Sports"
+    { key: "art", translationKey: "filters.affinities.art" },
+    { key: "business", translationKey: "filters.affinities.business" },
+    { key: "culture", translationKey: "filters.affinities.culture" },
+    { key: "education", translationKey: "filters.affinities.education" },
+    { key: "entertainment", translationKey: "filters.affinities.entertainment" },
+    { key: "foodAndDrinks", translationKey: "filters.affinities.foodAndDrinks" },
+    { key: "healthAndWellness", translationKey: "filters.affinities.healthAndWellness" },
+    { key: "history", translationKey: "filters.affinities.history" },
+    { key: "hobbies", translationKey: "filters.affinities.hobbies" },
+    { key: "languages", translationKey: "filters.affinities.languages" },
+    { key: "lifestyle", translationKey: "filters.affinities.lifestyle" },
+    { key: "nature", translationKey: "filters.affinities.nature" },
+    { key: "personalDevelopment", translationKey: "filters.affinities.personalDevelopment" },
+    { key: "relationships", translationKey: "filters.affinities.relationships" },
+    { key: "scienceAndTechnology", translationKey: "filters.affinities.scienceAndTechnology" },
+    { key: "socialImpact", translationKey: "filters.affinities.socialImpact" },
+    { key: "sports", translationKey: "filters.affinities.sports" }
   ];
   
   // Filter affinities based on search query
@@ -33,17 +49,17 @@ export function AlphabeticalThemeList({
     
     const query = themeQuery.toLowerCase();
     const filtered = affinityCategories.filter(
-      affinity => affinity.toLowerCase().includes(query)
+      affinity => t(affinity.translationKey).toLowerCase().includes(query)
     );
     
     setFilteredAffinities(filtered);
-  }, [themeQuery]);
+  }, [themeQuery, t]);
   
   // Handle theme selection
-  const handleThemeClick = (affinity: string) => {
+  const handleThemeClick = (affinity: typeof affinityCategories[0]) => {
     onChange({ 
-      id: affinity.toLowerCase(), 
-      name: affinity,
+      id: affinity.key.toLowerCase(), 
+      name: t(affinity.translationKey),
       category: "GENERAL",
       level: 1
     });
@@ -61,14 +77,14 @@ export function AlphabeticalThemeList({
     <div className="grid grid-cols-1 gap-1 mt-2">
       {filteredAffinities.map(affinity => (
         <ThemeButton
-          key={affinity}
+          key={affinity.key}
           theme={{ 
-            id: affinity.toLowerCase(), 
-            name: affinity, 
+            id: affinity.key.toLowerCase(), 
+            name: t(affinity.translationKey), 
             category: "GENERAL",
             level: 1
           }}
-          isActive={activeTheme?.name === affinity}
+          isActive={activeTheme?.name === t(affinity.translationKey)}
           onClick={() => handleThemeClick(affinity)}
         />
       ))}

@@ -46,6 +46,25 @@
       "germany": "Germany 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Greece 🇬🇷"
+    },
+    "affinities": {
+      "art": "Art",
+      "business": "Business",
+      "culture": "Culture",
+      "education": "Education",
+      "entertainment": "Entertainment",
+      "foodAndDrinks": "Food and Drinks",
+      "healthAndWellness": "Health and Wellness",
+      "history": "History",
+      "hobbies": "Hobbies",
+      "languages": "Languages",
+      "lifestyle": "Lifestyle",
+      "nature": "Nature",
+      "personalDevelopment": "Personal Development",
+      "relationships": "Relationships",
+      "scienceAndTechnology": "Science and Technology",
+      "socialImpact": "Social Impact",
+      "sports": "Sports"
     }
   }
 }

@@ -20,19 +20,28 @@ export const FeaturesList: React.FC<FeaturesListProps> = ({
   onDeselectAll,
   featureType = 'hotel'
 }) => {
-  const { t } = useTranslation();
+  const { t, isReady } = useTranslation();
 
   const getFeatureTranslation = (feature: string) => {
+    // Use the correct mapping utility to get the proper translation key
     const key = featureType === 'hotel' 
       ? mapHotelFeatureToKey(feature)
       : mapRoomFeatureToKey(feature);
     
     const translation = t(key);
+    console.log(`Feature Translation: "${feature}" -> key: "${key}" -> translation: "${translation}"`);
+    
+    // Only return the translation if it's different from the key (meaning translation exists)
     return translation !== key ? translation : feature;
   };
 
   const selectAllKey = featureType === 'hotel' ? 'hotelFeatures.selectAll' : 'roomFeatures.selectAll';
   const deselectAllKey = featureType === 'hotel' ? 'hotelFeatures.deselectAll' : 'roomFeatures.deselectAll';
+
+  // Don't render until i18n is ready
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="space-y-4">

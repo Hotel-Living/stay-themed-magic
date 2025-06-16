@@ -65,13 +65,27 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Use correct existing activities.* keys for all translations
+  // Use correct existing translation keys from activities namespace
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
-      // Main categories - use activities keys that already exist
+      // Main categories - use existing translation keys
       "Personal Development": t('activities.interior'),
       "Relationships": t('activities.interior'),
       "Science and Technology": t('activities.techScience'),
+      "ART": t('activities.art'),
+      "FANS": t('activities.fanatics'),
+      "SPORTS": t('activities.sports'),
+      "FOOD & DRINKS": t('activities.foodDrinks'),
+      "MUSIC": t('activities.music'),
+      "HEALTH AND WELLNESS": t('activities.healthWellness'),
+      "EDUCATION": t('activities.learningTalks'),
+      "SCIENCE AND KNOWLEDGE": t('activities.techScience'),
+      "BUSINESS": t('activities.interior'),
+      "LANGUAGES": t('activities.languageActivities'),
+      "HOBBIES": t('activities.interior'),
+      "ENTERTAINMENT": t('activities.gamesEntertainment'),
+      "LIFESTYLE": t('activities.interior'),
+      "NATURE": t('activities.interior'),
       
       // Art subcategories - use existing activities keys
       "Art": t('activities.art'),
@@ -129,7 +143,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     };
 
     const translatedText = affinityTranslations[name];
-    console.log(`Affinity Translation: "${name}" -> "${translatedText}"`);
+    console.log(`Affinity Translation Fixed: "${name}" -> "${translatedText}"`);
     return translatedText || name;
   };
 

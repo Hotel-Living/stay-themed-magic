@@ -2,19 +2,21 @@
 import React, { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function WhyHotelLivingSection() {
   const [activeAccordionTab, setActiveAccordionTab] = useState("");
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   const accordionOptions = [
-    { id: "still-renting", label: "STILL RENTING?" },
-    { id: "retired", label: "RETIRED?" },
-    { id: "online-worker", label: "ONLINE WORKER?" },
-    { id: "commuter", label: "COMMUTER?" },
-    { id: "free-soul", label: "A FREE SOUL?" },
-    { id: "hotel", label: "Hotel?" },
-    { id: "society", label: "Society?" }
+    { id: "still-renting", label: t('faq.intro.stillRenting') },
+    { id: "retired", label: t('faq.intro.retired') },
+    { id: "online-worker", label: t('faq.intro.onlineWorker') },
+    { id: "commuter", label: t('faq.intro.commuter') },
+    { id: "free-soul", label: t('faq.intro.freeSoul') },
+    { id: "hotel", label: t('faq.intro.hotel') },
+    { id: "society", label: t('faq.intro.society') }
   ];
 
   const handleAccordionTabChange = (value: string) => {
@@ -38,7 +40,7 @@ export function WhyHotelLivingSection() {
               tracking-tight leading-tight
               bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
             `}>
-              WHY HOTEL-LIVING?
+              {t('faq.intro.whyHotelLivingTitle')}
             </h1>
           </div>
         </div>
@@ -53,19 +55,19 @@ export function WhyHotelLivingSection() {
             <div className="space-y-5">
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotels need people</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.hotelsNeedPeople')}</span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">People need better living</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.peopleNeedBetterLiving')}</span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Society needs an update</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.societyNeedsUpdate')}</span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">All need Hotel Living</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.allNeedHotelLiving')}</span>
               </div>
             </div>
           </div>
@@ -79,22 +81,22 @@ export function WhyHotelLivingSection() {
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
                 <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? "5B hotel nights need to be full" : "5 billion hotel nights need to be full"}
+                  {isMobile ? t('faq.intro.hotelNightsToBeFilled').replace('5.000 millones', '5B') : t('faq.intro.hotelNightsToBeFilled')}
                 </span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
                 <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? "400M people need better living" : "400 million people need better living"}
+                  {isMobile ? t('faq.intro.peopleNeedingBetterLiving').replace('400 millones', '400M') : t('faq.intro.peopleNeedingBetterLiving')}
                 </span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Society keeps repeating the past</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.societyRepeatsPast')}</span>
               </div>
               <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
                 <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel Living changes that</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">{t('faq.intro.hotelLivingChangesThat')}</span>
               </div>
             </div>
           </div>

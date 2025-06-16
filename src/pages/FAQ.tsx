@@ -9,11 +9,13 @@ import { faqCategories, faqsByCategory } from "@/components/faq/faqData";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { BenefitsHeader } from "@/components/faq/BenefitsHeader";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -35,14 +37,14 @@ export default function FAQ() {
                 tracking-tight leading-tight
                 bg-[#8017B0] py-2 px-8 rounded-lg inline-block
               `}>
-                Frequently Asked Questions
+                {t('faq.title')}
               </h1>
             </div>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
-              Find answers to common questions
+              {t('faq.subtitle')}
             </p>
             
-            <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder="Search all FAQs..." />
+            <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder={t('faq.search')} />
           </div>
 
           <FaqTabs 

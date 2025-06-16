@@ -16,6 +16,8 @@ import esDashboard from './locales/es/dashboard.json';
 import esFaq from './locales/es/faq.json';
 import esContent from './locales/es/content.json';
 import esMisc from './locales/es/misc.json';
+import esHome from './locales/es/home.json';
+import esFooter from './locales/es/footer.json';
 
 // Combine Spanish translations
 const es = {
@@ -27,7 +29,9 @@ const es = {
   ...esDashboard,
   ...esFaq,
   ...esContent,
-  ...esMisc
+  ...esMisc,
+  ...esHome,
+  ...esFooter
 };
 
 const resources = {

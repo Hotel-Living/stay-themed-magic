@@ -1,0 +1,27 @@
+
+{
+  "footer": {
+    "links": {
+      "faq": "FAQ",
+      "affinityStays": "ESTANCIAS POR AFINIDADES",
+      "hotel": "Hotel?",
+      "videos": "VIDEOS",
+      "featuredHotels": "HOTELES DESTACADOS",
+      "ourServices": "NUESTROS SERVICIOS",
+      "ourValues": "NUESTROS VALORES",
+      "customerService": "ATENCIÓN AL CLIENTE",
+      "contact": "CONTACTO",
+      "terms": "TÉRMINOS Y CONDICIONES",
+      "privacy": "PRIVACIDAD Y COOKIES",
+      "intellectualProperty": "PROPIEDAD INTELECTUAL",
+      "ourTeam": "NUESTRO EQUIPO"
+    },
+    "buttons": {
+      "register": "Registrar",
+      "signIn": "Iniciar Sesión",
+      "hotel": "Hotel?"
+    },
+    "copyright": "© 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
+    "disclaimer": "Algunas propiedades pueden ser ejemplos utilizados para demostrar la funcionalidad de Hotel Living."
+  }
+}

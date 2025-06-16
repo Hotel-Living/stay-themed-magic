@@ -1,0 +1,19 @@
+
+{
+  "home": {
+    "heroSection": {
+      "revolutionHasCome": "La Revolución Ha Llegado",
+      "liveInHotels": "VIVE EN HOTELES",
+      "boostYourLife": "¡Potencia Tu Vida!",
+      "slogans": {
+        "getRidOfChores": "¡Libérate de las tareas domésticas!",
+        "selectHotelsByThemes": "¡Selecciona hoteles según tus temas favoritos!",
+        "boostSocialLife": "¡Potencia tu vida social!",
+        "meetLikeMinded": "¡Conoce y disfruta con personas afines!"
+      }
+    },
+    "filters": {
+      "search": "Buscar"
+    }
+  }
+}

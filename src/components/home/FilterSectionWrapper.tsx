@@ -6,19 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '@/hooks/useTranslation';
+
 interface FilterSectionWrapperProps {
   onFilterChange: (filters: FilterState) => void;
   availableThemes?: string[];
 }
+
 export function FilterSectionWrapper({
   onFilterChange,
   availableThemes = ["Art", "Business", "Culture", "Education", "Entertainment", "Food and Drinks", "Health and Wellness", "History", "Hobbies", "Languages", "Lifestyle", "Nature", "Personal Development", "Relationships", "Science and Technology", "Social Impact", "Sports"]
 }: FilterSectionWrapperProps) {
-  const {
-    data: themes
-  } = useThemes();
+  const { data: themes } = useThemes();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     country: null,
     month: null,
@@ -28,6 +31,7 @@ export function FilterSectionWrapper({
     location: null,
     propertyType: null
   });
+
   const handleFilterChange = (newFilters: FilterState) => {
     setActiveFilters(prev => ({
       ...prev,
@@ -35,6 +39,7 @@ export function FilterSectionWrapper({
     }));
     onFilterChange(newFilters);
   };
+
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (activeFilters.country) params.append("country", activeFilters.country);
@@ -43,9 +48,11 @@ export function FilterSectionWrapper({
     if (typeof activeFilters.priceRange === 'number') params.append("price", activeFilters.priceRange.toString());
     if (activeFilters.location) params.append("location", activeFilters.location);
     if (activeFilters.propertyType) params.append("propertyType", activeFilters.propertyType);
+    
     console.log("Search with filters:", activeFilters);
     navigate(`/search?${params.toString()}`);
   };
+
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div style={{
@@ -65,7 +72,7 @@ export function FilterSectionWrapper({
             backgroundColor: "#996515"
           }} className="text-white w-full max-w-6xl flex items-center justify-center py-0.5 font-bold border-t-2 border-fuchsia-400/70 bg-[#996515]">
               <Search className="w-4 h-4 mr-2" />
-              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>Search</span>
+              <span className={`${isMobile ? "text-lg" : "text-base"} text-white`}>{t('home.filters.search')}</span>
             </Button>
           </div>
         </div>

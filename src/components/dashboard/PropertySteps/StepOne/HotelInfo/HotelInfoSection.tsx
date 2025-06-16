@@ -3,6 +3,8 @@ import HotelNameInput from "./HotelNameInput";
 import CategorySelector from "./CategorySelector";
 import PropertyTypeSelector from "./PropertyTypeSelector";
 import DescriptionInput from "./DescriptionInput";
+import { useTranslation } from "@/hooks/useTranslation";
+
 interface HotelInfoSectionProps {
   formData: {
     hotelName: string;
@@ -37,6 +39,7 @@ interface HotelInfoSectionProps {
   handleChange: (field: string, value: string) => void;
   handleBlur: (field: string) => void;
 }
+
 export default function HotelInfoSection({
   formData,
   errors,
@@ -44,6 +47,7 @@ export default function HotelInfoSection({
   handleChange,
   handleBlur
 }: HotelInfoSectionProps) {
+  const { t } = useTranslation();
   const inputClassName = "w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50";
   const labelClassName = "block text-sm font-medium text-white uppercase mb-2";
   const sectionClassName = "mb-6"; // Consistent vertical spacing between sections
@@ -66,17 +70,17 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            STYLE OF PROPERTY
+            {t('basicInfo.style')}
           </label>
           <select required className={inputClassName} value={formData.style || ''} onChange={e => handleChange('style', e.target.value)} onBlur={() => handleBlur('style')}>
-            <option value="">Select property style</option>
-            <option value="classic">Classic</option>
-            <option value="classic-elegant">Classic Elegant</option>
-            <option value="modern">Modern</option>
-            <option value="fusion">Fusion</option>
-            <option value="urban">Urban</option>
-            <option value="minimalist">Minimalist</option>
-            <option value="luxury">Luxury</option>
+            <option value="">{t('basicInfo.stylePlaceholder')}</option>
+            <option value="classic">{t('styles.classic')}</option>
+            <option value="classic-elegant">{t('styles.classicElegant')}</option>
+            <option value="modern">{t('styles.modern')}</option>
+            <option value="fusion">{t('styles.fusion')}</option>
+            <option value="urban">{t('styles.urban')}</option>
+            <option value="minimalist">{t('styles.minimalist')}</option>
+            <option value="luxury">{t('styles.luxury')}</option>
           </select>
         </div>
         
@@ -86,23 +90,23 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            It's ideal for guests who enjoy…
+            {t('basicInfo.idealGuests')}
           </label>
-          <textarea placeholder="Describe your ideal guests and their interests" className={inputClassName + " min-h-[80px]"} value={formData.idealGuests || ''} onChange={e => handleChange('idealGuests', e.target.value)} onBlur={() => handleBlur('idealGuests')} />
+          <textarea placeholder={t('basicInfo.idealGuestsPlaceholder')} className={inputClassName + " min-h-[80px]"} value={formData.idealGuests || ''} onChange={e => handleChange('idealGuests', e.target.value)} onBlur={() => handleBlur('idealGuests')} />
         </div>
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            The vibe is…
+            {t('basicInfo.atmosphere')}
           </label>
-          <textarea placeholder="Describe the atmosphere and ambiance of your hotel" className={inputClassName + " min-h-[80px]"} value={formData.atmosphere || ''} onChange={e => handleChange('atmosphere', e.target.value)} onBlur={() => handleBlur('atmosphere')} />
+          <textarea placeholder={t('basicInfo.atmospherePlaceholder')} className={inputClassName + " min-h-[80px]"} value={formData.atmosphere || ''} onChange={e => handleChange('atmosphere', e.target.value)} onBlur={() => handleBlur('atmosphere')} />
         </div>
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            Our location is perfect for...
+            {t('basicInfo.perfectLocation')}
           </label>
-          <textarea placeholder="Describe what makes your location special" className={inputClassName + " min-h-[80px]"} value={formData.perfectLocation || ''} onChange={e => handleChange('perfectLocation', e.target.value)} onBlur={() => handleBlur('perfectLocation')} />
+          <textarea placeholder={t('basicInfo.perfectLocationPlaceholder')} className={inputClassName + " min-h-[80px]"} value={formData.perfectLocation || ''} onChange={e => handleChange('perfectLocation', e.target.value)} onBlur={() => handleBlur('perfectLocation')} />
         </div>
       </div>
     </div>;

@@ -47,6 +47,34 @@
     "adminDashboard": "Admin Dashboard",
     "logout": "Logout"
   },
+  "hotels": {
+    "slogans": {
+      "mainTitle": "LEAVE US YOUR EMPTY ROOMS, WE WILL TURN THEM INTO GOLD",
+      "alwaysFull": "Your hotel, always full. All year round",
+      "fullOccupancy": "100% occupancy, every day",
+      "multiplyProfits": "Multiply your profits spectacularly",
+      "longerStays": "Longer and more profitable stays",
+      "fixedDay": "A single fixed day for check-ins and check-outs",
+      "recoverClients": "Rental apartments? Let's recover our own clients",
+      "reducedCosts": "Great reduction in operational costs",
+      "staffStability": "Staff stability throughout the year"
+    },
+    "features": {
+      "whyJoin": "Why join Hotel-Living?",
+      "fullOccupancy": {
+        "title": "100% Occupancy",
+        "description": "Fill your empty rooms with long-stay guests year-round"
+      },
+      "higherRevenue": {
+        "title": "Higher Revenue",
+        "description": "Higher average daily rates with reduced operational costs"
+      },
+      "globalNetwork": {
+        "title": "Global Network",
+        "description": "Access to international guests seeking themed experiences"
+      }
+    }
+  },
   "home": {
     "heroSection": {
       "revolutionHasCome": "The Revolution Has Come",

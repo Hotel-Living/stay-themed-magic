@@ -1,3 +1,4 @@
+import { useTranslation } from "@/hooks/useTranslation";
 
 export const faqCategories = [
   {
@@ -27,6 +28,50 @@ export const faqCategories = [
   },
 ];
 
+// Use the translation data from the JSON files
+export const useFaqData = () => {
+  const { t } = useTranslation();
+  
+  const translatedCategories = [
+    {
+      id: "general",
+      name: t('faq.categories.general'),
+      slug: "general",
+    },
+    {
+      id: "hotel-living", 
+      name: t('faq.categories.hotelLiving'),
+      slug: "hotel-living",
+    },
+    {
+      id: "for-hoteliers",
+      name: t('faq.categories.hoteliers'),
+      slug: "for-hoteliers",
+    },
+    {
+      id: "for-guests",
+      name: t('faq.categories.guests'),
+      slug: "for-guests",
+    },
+    {
+      id: "legal",
+      name: t('faq.categories.legal'),
+      slug: "legal",
+    },
+  ];
+
+  const translatedFaqsByCategory = {
+    general: t('faq.questions', { returnObjects: true }).slice(0, 3) || [],
+    "hotel-living": t('faq.questions', { returnObjects: true }).slice(3, 6) || [],
+    "for-hoteliers": t('faq.questions', { returnObjects: true }).slice(6, 9) || [],
+    "for-guests": t('faq.questions', { returnObjects: true }).slice(9, 12) || [],
+    legal: t('faq.questions', { returnObjects: true }).slice(12, 15) || [],
+  };
+
+  return { translatedCategories, translatedFaqsByCategory };
+};
+
+// Keep original exports for backward compatibility
 export const faqsByCategory = {
   general: [
     {

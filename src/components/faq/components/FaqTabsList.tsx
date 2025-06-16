@@ -2,12 +2,15 @@
 import React from "react";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaqCategory } from "../types";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FaqTabsListProps {
   faqCategories: FaqCategory[];
 }
 
 export function FaqTabsList({ faqCategories }: FaqTabsListProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex justify-center mb-4">
       <TabsList className="flex flex-wrap justify-center gap-1 p-1 bg-[#996515]/50 rounded-xl border border-fuchsia-500/30 backdrop-blur-md">

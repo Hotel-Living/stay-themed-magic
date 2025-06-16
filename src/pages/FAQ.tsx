@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
-import { faqCategories, faqsByCategory } from "@/components/faq/faqData";
+import { useFaqData } from "@/components/faq/faqData";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { BenefitsHeader } from "@/components/faq/BenefitsHeader";
 import { WhyHotelLivingSection } from "@/components/faq/WhyHotelLivingSection";
@@ -16,6 +16,7 @@ export default function FAQ() {
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const { translatedCategories, translatedFaqsByCategory } = useFaqData();
 
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -50,8 +51,8 @@ export default function FAQ() {
           <FaqTabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
-            faqCategories={faqCategories} 
-            faqsByCategory={faqsByCategory} 
+            faqCategories={translatedCategories} 
+            faqsByCategory={translatedFaqsByCategory} 
             numbered={true} 
             searchQuery={searchQuery} 
             textSizeClass="text-base md:text-lg" 

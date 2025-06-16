@@ -4,52 +4,52 @@ import { ComparisonItem } from './types';
 export const comparisonItems: ComparisonItem[] = [
   {
     id: 1,
-    traditional: "Constant check-ins/outs",
-    hotelLiving: "Fixed entry/exit days = Smoother operations"
+    traditional: "Entradas/salidas constantes",
+    hotelLiving: "Días fijos de entrada/salida = Operaciones más fluidas"
   },
   {
     id: 2,
-    traditional: "More cleaning, laundry, turnover",
-    hotelLiving: "Fewer cleanings, fewer transitions"
+    traditional: "Más limpieza, lavandería, rotación",
+    hotelLiving: "Menos limpiezas, menos transiciones"
   },
   {
     id: 3,
-    traditional: "Higher front desk workload",
-    hotelLiving: "Leaner, more efficient front desk"
+    traditional: "Mayor carga de trabajo en recepción",
+    hotelLiving: "Recepción más eficiente y optimizada"
   },
   {
     id: 4,
-    traditional: "Unpredictable occupancy",
-    hotelLiving: "Longer stays = Higher occupancy"
+    traditional: "Ocupación impredecible",
+    hotelLiving: "Estancias más largas = Mayor ocupación"
   },
   {
     id: 5,
-    traditional: "Bookings' gaps = Empty nights = Lost profits",
-    hotelLiving: "Zero empty nights = Maximum profit"
+    traditional: "Huecos entre reservas = Noches vacías = Beneficios perdidos",
+    hotelLiving: "Cero noches vacías = Máximo beneficio"
   },
   {
     id: 6,
-    traditional: "Low and high seasons. Staff comes and goes",
-    hotelLiving: "High season year-round. Stable staff"
+    traditional: "Temporadas altas y bajas. El personal va y viene",
+    hotelLiving: "Temporada alta todo el año. Personal estable"
   },
   {
     id: 7,
-    traditional: "Unmotivated, no trainable, unproffesional staff",
-    hotelLiving: "Motivated, trainable, proffesional staff"
+    traditional: "Personal desmotivado, no entrenable, no profesional",
+    hotelLiving: "Personal motivado, entrenable, profesional"
   },
   {
     id: 8,
-    traditional: "Guests come and go. No connection, no loyalty",
-    hotelLiving: "Guests feel at home and return"
+    traditional: "Los huéspedes van y vienen. Sin conexión, sin lealtad",
+    hotelLiving: "Los huéspedes se sienten como en casa y regresan"
   },
   {
     id: 9,
-    traditional: "Cold, isolated bookings. One after another",
-    hotelLiving: "Not just bookings: communities"
+    traditional: "Reservas frías, aisladas. Una tras otra",
+    hotelLiving: "No solo reservas: comunidades"
   },
   {
     id: 10,
-    traditional: "Rentals Apartments win with lower prices",
-    hotelLiving: "Elegance. Humanity. Services. Hotels win"
+    traditional: "Los apartamentos de alquiler ganan con precios más bajos",
+    hotelLiving: "Elegancia. Humanidad. Servicios. Los hoteles ganan"
   }
 ];

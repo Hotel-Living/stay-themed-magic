@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import {
@@ -13,6 +14,8 @@ interface StayLengthSectionProps {
   onValidationChange: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  title?: string;
+  showHeader?: boolean;
 }
 
 export default function StayLengthSection({ 
@@ -20,7 +23,9 @@ export default function StayLengthSection({
   onOpenChange = () => {},
   onValidationChange,
   formData = {},
-  updateFormData = () => {}
+  updateFormData = () => {},
+  title = "LENGTH OF STAY",
+  showHeader = true
 }: StayLengthSectionProps) {
   // Initialize from form data if available, otherwise empty array
   const initialStayLengths = formData.stayLengths || [];

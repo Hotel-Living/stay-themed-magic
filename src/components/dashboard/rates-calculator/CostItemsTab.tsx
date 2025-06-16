@@ -10,7 +10,7 @@ interface MenuOption {
 const menuOptions: MenuOption[] = [
   {
     id: "utilities",
-    label: "Servicios",
+    label: "SERVICIOS",
     content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
 
 ⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
@@ -34,7 +34,7 @@ ________________________________________`
   },
   {
     id: "cleaning",
-    label: "CLEANING",
+    label: "LIMPIEZA",
     content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
 
 🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
@@ -61,7 +61,7 @@ This model reduces operational costs for hotels while offering guests a resident
   },
   {
     id: "meal-plans",
-    label: "MEALS",
+    label: "COMIDAS",
     content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
 
 Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
@@ -132,7 +132,7 @@ ________________________________________
   },
   {
     id: "total-costs",
-    label: "TOTAL COST",
+    label: "COSTE TOTAL",
     content: ``
   }
 ];

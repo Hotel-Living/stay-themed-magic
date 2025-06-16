@@ -1,44 +1,29 @@
 
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AddressInputProps {
   value: string;
   onChange: (value: string) => void;
-  onBlur: () => void;
-  errorMessage?: string;
-  hasError?: boolean;
+  error?: string;
 }
 
-export default function AddressInput({
-  value,
-  onChange,
-  onBlur,
-  errorMessage,
-  hasError
-}: AddressInputProps) {
-  const inputClassName = `w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50 ${
-    hasError ? 'border-red-500' : ''
-  }`;
+export default function AddressInput({ value, onChange, error }: AddressInputProps) {
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-white uppercase mb-2">
-        Dirección <span className="text-red-400">*</span>
+      <label className="block text-sm font-medium text-foreground/90 uppercase">
+        {t('dashboard.address')} *
       </label>
-      
       <input
         type="text"
-        className={inputClassName}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onBlur={onBlur}
-        placeholder="Ingresa la dirección completa"
-        required
+        placeholder={t('dashboard.enterFullAddress')}
+        className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
       />
-      
-      {hasError && errorMessage && (
-        <p className="text-red-400 text-sm">{errorMessage}</p>
-      )}
+      {error && <p className="text-red-400 text-xs">{error}</p>}
     </div>
   );
 }

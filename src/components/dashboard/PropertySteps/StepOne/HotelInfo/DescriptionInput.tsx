@@ -1,35 +1,29 @@
 
 import React from "react";
-import FormField from "../FormField";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface DescriptionInputProps {
   value: string;
   onChange: (value: string) => void;
-  onBlur: () => void;
-  hasError: boolean;
-  errorMessage?: string;
+  error?: string;
 }
 
-const DescriptionInput: React.FC<DescriptionInputProps> = ({
-  value,
-  onChange,
-  onBlur,
-  hasError,
-  errorMessage
-}) => {
-  return (
-    <FormField
-      id="description"
-      label="Description"
-      type="textarea"
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={hasError ? errorMessage : ""}
-      required
-      placeholder="Enter a detailed description of your hotel"
-    />
-  );
-};
+export default function DescriptionInput({ value, onChange, error }: DescriptionInputProps) {
+  const { t } = useTranslation();
 
-export default DescriptionInput;
+  return (
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-foreground/90 uppercase">
+        {t('basicInfo.description')} *
+      </label>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={t('basicInfo.enterDetailedDescription')}
+        rows={4}
+        className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 resize-vertical"
+      />
+      {error && <p className="text-red-400 text-xs">{error}</p>}
+    </div>
+  );
+}

@@ -1,49 +1,45 @@
 
 import React from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyTypeSelectorProps {
   value: string;
   onChange: (value: string) => void;
-  onBlur: () => void;
-  hasError: boolean;
-  errorMessage?: string;
+  error?: string;
 }
 
-const PropertyTypeSelector: React.FC<PropertyTypeSelectorProps> = ({
-  value,
-  onChange,
-  onBlur,
-  hasError,
-  errorMessage
-}) => {
+export default function PropertyTypeSelector({ value, onChange, error }: PropertyTypeSelectorProps) {
+  const { t } = useTranslation();
+
+  const propertyTypes = [
+    { value: 'hotel', label: t('propertyTypes.hotel') },
+    { value: 'resort', label: t('propertyTypes.resort') },
+    { value: 'aparthotel', label: t('propertyTypes.aparthotel') },
+    { value: 'guesthouse', label: t('propertyTypes.guesthouse') },
+    { value: 'hostel', label: t('propertyTypes.hostel') },
+    { value: 'villa', label: t('propertyTypes.villa') },
+    { value: 'apartment', label: t('propertyTypes.apartment') },
+    { value: 'house', label: t('propertyTypes.house') }
+  ];
+
   return (
-    <div>
-      <Label htmlFor="propertyType" className="text-white">
-        Type of Property <span className="text-red-500">*</span>
-      </Label>
-      <Select
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-foreground/90 uppercase">
+        {t('basicInfo.propertyType')} *
+      </label>
+      <select
         value={value}
-        onValueChange={onChange}
-        onOpenChange={onBlur}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
       >
-        <SelectTrigger id="propertyType" className="text-white bg-[#7A0486] border-white">
-          <SelectValue placeholder="Select property type" />
-        </SelectTrigger>
-        <SelectContent className="bg-[#7A0486] border-white">
-          <SelectItem value="Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Hotel</SelectItem>
-          <SelectItem value="Resort" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Resort</SelectItem>
-          <SelectItem value="Boutique Hotel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Boutique Hotel</SelectItem>
-          <SelectItem value="Motel" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Motel</SelectItem>
-          <SelectItem value="Inn" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">Inn</SelectItem>
-        </SelectContent>
-      </Select>
-      {hasError && (
-        <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
-      )}
+        <option value="">{t('basicInfo.selectPropertyType')}</option>
+        {propertyTypes.map(type => (
+          <option key={type.value} value={type.value}>
+            {type.label}
+          </option>
+        ))}
+      </select>
+      {error && <p className="text-red-400 text-xs">{error}</p>}
     </div>
   );
-};
-
-export default PropertyTypeSelector;
+}

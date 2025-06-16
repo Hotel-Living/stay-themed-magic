@@ -47,7 +47,8 @@
     "enterCityName": "Ingresa el nombre de la ciudad",
     "custom": "Personalizado",
     "pleaseCompleteFields": "Por favor completa todos los campos requeridos",
-    "important": "IMPORTANTE"
+    "important": "IMPORTANTE",
+    "clickToSelectLocation": "Haz clic para seleccionar ubicación precisa"
   },
   "adminDashboard": {
     "title": "PANEL DE ADMINISTRACIÓN",
@@ -174,7 +175,12 @@
     "atmosphere": "El ambiente es...",
     "atmospherePlaceholder": "Describe la atmósfera y el ambiente de tu hotel",
     "perfectLocation": "Nuestra ubicación es perfecta para...",
-    "perfectLocationPlaceholder": "Describe qué hace especial tu ubicación"
+    "perfectLocationPlaceholder": "Describe qué hace especial tu ubicación",
+    "enterHotelName": "Ingresa el nombre del hotel",
+    "selectHotelCategory": "Selecciona categoría del hotel",
+    "selectPropertyType": "Selecciona tipo de propiedad",
+    "selectPropertyStyle": "Selecciona el estilo de la propiedad",
+    "enterDetailedDescription": "Ingresa una descripción detallada de tu hotel"
   },
   "hotelImages": {
     "title": "IMÁGENES DEL HOTEL",
@@ -194,7 +200,9 @@
     "selectCountry": "Selecciona un país",
     "enterCityName": "Ingresa el nombre de la ciudad",
     "custom": "Personalizado",
-    "locationOnMap": "Ubicación en el Mapa (Haz clic para seleccionar ubicación precisa)"
+    "locationOnMap": "Ubicación en el Mapa (Haz clic para seleccionar ubicación precisa)",
+    "selectACountry": "Selecciona un país",
+    "enterCityName": "Ingresa el nombre de la ciudad"
   },
   "contact": {
     "title": "INFORMACIÓN DE CONTACTO",
@@ -330,6 +338,31 @@
     "title": "¡Bienvenido a Hotel-Living!",
     "subtitle": "Gracias por registrarte como socio hotelero. Para comenzar, añade tu primera propiedad usando la opción \"Añadir Propiedad\" a continuación."
   },
+  "steps": {
+    "step1": "1. INFORMACIÓN GENERAL",
+    "step2": "2. PERFIL DEL HOTEL", 
+    "step3": "3. TÉRMINOS DE ALOJAMIENTO",
+    "step4": "4. PAQUETES Y PRECIOS",
+    "step5": "5. PREGUNTAS FRECUENTES Y TÉRMINOS",
+    "stepOf": "Paso {current} de {total}"
+  },
+  "forms": {
+    "pleaseDefineRoomTypes": "Por favor define los tipos de habitación en el Paso 3 antes de establecer precios.",
+    "frequentlyAskedQuestions": "PREGUNTAS FRECUENTES",
+    "optional": "(OPCIONAL)",
+    "termsAndConditions": "TÉRMINOS Y CONDICIONES",
+    "submitConfirmation": "Al hacer clic en \"Enviar\", confirmas que toda la información proporcionada es precisa y tu propiedad cumple con todas las regulaciones locales y requisitos de seguridad."
+  },
+  "buttons": {
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "submit": "Enviar"
+  },
+  "roomFeatures": {
+    "title": "CARACTERÍSTICAS DE LA HABITACIÓN",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
+  },
   "recentReviews": "Reseñas Recientes",
   "allHotels": "Todos los Hoteles",
   "pendingChangesFromHotels": "Cambios Pendientes de Hoteles",
@@ -341,5 +374,7 @@
   "propertyType": "Tipo de Propiedad",
   "status": "Estado",
   "action": "Acción",
-  "moreInformation": "Más Información"
+  "moreInformation": "Más Información",
+  "mapError": "Ops! Algo salió mal.",
+  "loadingMap": "Cargando mapa..."
 }

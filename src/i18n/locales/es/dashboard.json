@@ -1,0 +1,24 @@
+
+{
+  "dashboard": {
+    "welcome": "Bienvenido",
+    "overview": "Resumen",
+    "bookings": "Reservas",
+    "properties": "Propiedades",
+    "guests": "Huéspedes",
+    "reviews": "Reseñas",
+    "analytics": "Analíticas",
+    "finances": "Finanzas",
+    "ratesCalculator": "Calculadora de tarifas",
+    "addProperty": "Añadir propiedad",
+    "myBookings": "Mis reservas",
+    "myProperties": "Mis propiedades",
+    "earnings": "Ganancias",
+    "calendar": "Calendario",
+    "messages": "Mensajes",
+    "notifications": "Notificaciones",
+    "accountSettings": "Configuración de la cuenta",
+    "support": "Soporte",
+    "adminPanel": "Panel de administración"
+  }
+}

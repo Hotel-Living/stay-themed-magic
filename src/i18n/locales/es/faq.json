@@ -1,0 +1,27 @@
+
+{
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "search": "Buscar en FAQ...",
+    "noResults": "No se encontraron FAQ",
+    "categories": {
+      "general": "General",
+      "booking": "Reservas",
+      "payment": "Pagos",
+      "stay": "Durante tu estancia",
+      "themes": "Afinidades",
+      "lifestyle": "Nómadas digitales",
+      "senior": "SENIOR",
+      "community": "Comunidad",
+      "practical": "Detalles prácticos"
+    },
+    "faqTitle": "Preguntas frecuentes",
+    "faqBooking": "Reservas",
+    "faqPayment": "Pagos",
+    "faqThemes": "Temáticas",
+    "faqCancellation": "Cancelaciones",
+    "faqAccount": "Sobre la cuenta",
+    "faqTechnical": "Técnicas",
+    "faqOther": "Otras preguntas"
+  }
+}

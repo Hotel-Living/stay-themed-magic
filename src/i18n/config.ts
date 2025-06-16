@@ -3,9 +3,32 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Import translation files
+// Import English translations
 import en from './locales/en.json';
-import es from './locales/es.json';
+
+// Import Spanish translation modules
+import esCommon from './locales/es/common.json';
+import esNavigation from './locales/es/navigation.json';
+import esAffinity from './locales/es/affinity.json';
+import esAuth from './locales/es/auth.json';
+import esBooking from './locales/es/booking.json';
+import esDashboard from './locales/es/dashboard.json';
+import esFaq from './locales/es/faq.json';
+import esContent from './locales/es/content.json';
+import esMisc from './locales/es/misc.json';
+
+// Combine Spanish translations
+const es = {
+  ...esCommon,
+  ...esNavigation,
+  ...esAffinity,
+  ...esAuth,
+  ...esBooking,
+  ...esDashboard,
+  ...esFaq,
+  ...esContent,
+  ...esMisc
+};
 
 const resources = {
   en: {

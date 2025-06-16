@@ -1,0 +1,28 @@
+
+{
+  "booking": {
+    "title": "Reserva tu estancia",
+    "checkIn": "Entrada",
+    "checkOut": "Salida",
+    "guests": "Huéspedes",
+    "rooms": "Habitaciones",
+    "dates": "Fechas",
+    "duration": "Duración",
+    "total": "Total",
+    "bookNow": "Reservar ahora",
+    "availability": "Disponibilidad",
+    "selectDates": "Seleccionar fechas",
+    "summary": "Resumen de reserva",
+    "bookYourStay": "Reserva tu estancia",
+    "adults": "Adultos",
+    "children": "Niños",
+    "totalPrice": "Precio total",
+    "confirmBooking": "Confirmar reserva",
+    "bookingConfirmed": "Reserva confirmada",
+    "bookingFailed": "Error en la reserva",
+    "reservationNumber": "Número de reserva",
+    "viewBooking": "Ver reserva",
+    "cancelBooking": "Cancelar reserva",
+    "bookingDetails": "Detalles de la reserva"
+  }
+}

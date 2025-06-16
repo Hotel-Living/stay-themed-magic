@@ -1,0 +1,36 @@
+
+{
+  "footerContent": {
+    "faq": "FAQ",
+    "affinityStays": "Estancias por afinidades",
+    "hotel": "Hotel",
+    "videos": "Videos",
+    "featuredHotels": "Hoteles destacados",
+    "ourServices": "Nuestros servicios",
+    "ourValues": "Nuestros valores",
+    "customerService": "Atención al cliente",
+    "contact": "Contacto",
+    "termsAndConditions": "Términos y condiciones",
+    "privacyAndCookies": "Privacidad y cookies",
+    "intellectualProperty": "Propiedad intelectual",
+    "ourTeam": "Nuestro equipo",
+    "register": "Registrar",
+    "signIn": "Iniciar sesión",
+    "copyright": "© 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
+    "sampleListingsDisclaimer": "Algunos listados pueden ser propiedades de muestra utilizadas para demostrar el funcionamiento de Hotel-Living."
+  },
+  "indexContent": {
+    "revolutionTitle": "La revolución ha llegado",
+    "liveInHotels": "Vive en hoteles",
+    "boostYourLife": "¡Impulsa tu vida!",
+    "noHouseholdChores": "Adiós, tareas del hogar",
+    "selectThemes": "Busca hoteles según tus intereses",
+    "boostSocialLife": "¡Impulsa tu vida social!",
+    "meetPeople": "Conoce y disfruta con personas afines",
+    "country": "País",
+    "month": "Mes",
+    "affinity": "Afinidad",
+    "pricePerMonth": "Precio por mes",
+    "search": "Buscar"
+  }
+}

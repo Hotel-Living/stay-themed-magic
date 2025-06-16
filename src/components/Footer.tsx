@@ -146,14 +146,9 @@ export function Footer() {
                     {t('footer.links.privacy')}
                   </Link>
                 </div>
-                <div className="flex justify-center w-full mb-3">
+                <div className="flex justify-center w-full">
                   <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
                     {t('footer.links.intellectualProperty')}
-                  </Link>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Link to="/our-team" className="text-white hover:text-white/90 text-[0.8em] font-bold uppercase">
-                    {t('footer.links.ourTeam')}
                   </Link>
                 </div>
               </>
@@ -171,9 +166,6 @@ export function Footer() {
                 </Link>
                 <Link to="/intellectual-property" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
                   {t('footer.links.intellectualProperty')}
-                </Link>
-                <Link to="/our-team" className="text-white hover:text-white/90 text-[0.691rem] font-bold uppercase">
-                  {t('footer.links.ourTeam')}
                 </Link>
               </>
             )}

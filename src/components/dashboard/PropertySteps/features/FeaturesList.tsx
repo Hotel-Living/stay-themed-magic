@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { mapHotelFeatureToKey, mapRoomFeatureToKey } from "@/utils/featureKeyMapping";
 
 interface FeaturesListProps {
   features: string[];
@@ -8,6 +9,7 @@ interface FeaturesListProps {
   onToggle: (feature: string) => void;
   onSelectAll: () => void;
   onDeselectAll: () => void;
+  featureType?: 'hotel' | 'room';
 }
 
 export const FeaturesList: React.FC<FeaturesListProps> = ({
@@ -15,15 +17,22 @@ export const FeaturesList: React.FC<FeaturesListProps> = ({
   selectedFeatures,
   onToggle,
   onSelectAll,
-  onDeselectAll
+  onDeselectAll,
+  featureType = 'hotel'
 }) => {
   const { t } = useTranslation();
 
   const getFeatureTranslation = (feature: string) => {
-    const key = `hotelFeatures.${feature}`;
+    const key = featureType === 'hotel' 
+      ? mapHotelFeatureToKey(feature)
+      : mapRoomFeatureToKey(feature);
+    
     const translation = t(key);
     return translation !== key ? translation : feature;
   };
+
+  const selectAllKey = featureType === 'hotel' ? 'hotelFeatures.selectAll' : 'roomFeatures.selectAll';
+  const deselectAllKey = featureType === 'hotel' ? 'hotelFeatures.deselectAll' : 'roomFeatures.deselectAll';
 
   return (
     <div className="space-y-4">
@@ -33,14 +42,14 @@ export const FeaturesList: React.FC<FeaturesListProps> = ({
           onClick={onSelectAll}
           className="px-4 py-2 bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700 text-sm"
         >
-          {t('hotelFeatures.selectAll')}
+          {t(selectAllKey)}
         </button>
         <button
           type="button"
           onClick={onDeselectAll}
           className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm"
         >
-          {t('hotelFeatures.deselectAll')}
+          {t(deselectAllKey)}
         </button>
       </div>
       

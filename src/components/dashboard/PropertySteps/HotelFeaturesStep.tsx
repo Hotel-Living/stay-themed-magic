@@ -151,6 +151,7 @@ export default function HotelFeaturesStep({
           onToggle={handleHotelFeatureToggle}
           onSelectAll={handleHotelSelectAll}
           onDeselectAll={handleHotelDeselectAll}
+          featureType="hotel"
         />
       </div>
       
@@ -162,6 +163,7 @@ export default function HotelFeaturesStep({
           onToggle={handleRoomFeatureToggle}
           onSelectAll={handleRoomSelectAll}
           onDeselectAll={handleRoomDeselectAll}
+          featureType="room"
         />
       </div>
     </div>

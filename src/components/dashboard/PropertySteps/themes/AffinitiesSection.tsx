@@ -65,30 +65,40 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Use correct existing translation keys from activities namespace
+  // Use the exact same keys from activities namespace that already exist and work
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
-      // Main categories - use existing translation keys
-      "Personal Development": t('activities.interior'),
-      "Relationships": t('activities.interior'),
-      "Science and Technology": t('activities.techScience'),
+      // Main category names - map to existing activities keys
+      "Art": t('activities.art'),
       "ART": t('activities.art'),
+      "Fanatics": t('activities.fanatics'),
       "FANS": t('activities.fanatics'),
+      "Sports": t('activities.sports'), 
       "SPORTS": t('activities.sports'),
+      "Food & Drinks": t('activities.foodDrinks'),
       "FOOD & DRINKS": t('activities.foodDrinks'),
+      "Music": t('activities.music'),
       "MUSIC": t('activities.music'),
+      "Health and Wellness": t('activities.healthWellness'),
       "HEALTH AND WELLNESS": t('activities.healthWellness'),
+      "Learning & Talks": t('activities.learningTalks'),
       "EDUCATION": t('activities.learningTalks'),
+      "Tech & Science": t('activities.techScience'),
       "SCIENCE AND KNOWLEDGE": t('activities.techScience'),
-      "BUSINESS": t('activities.interior'),
+      "Science and Technology": t('activities.techScience'),
+      "Language Activities": t('activities.languageActivities'),
       "LANGUAGES": t('activities.languageActivities'),
+      "Interior": t('activities.interior'),
       "HOBBIES": t('activities.interior'),
-      "ENTERTAINMENT": t('activities.gamesEntertainment'),
+      "BUSINESS": t('activities.interior'),
       "LIFESTYLE": t('activities.interior'),
       "NATURE": t('activities.interior'),
+      "Personal Development": t('activities.interior'),
+      "Relationships": t('activities.interior'),
+      "Games & Entertainment": t('activities.gamesEntertainment'),
+      "ENTERTAINMENT": t('activities.gamesEntertainment'),
       
-      // Art subcategories - use existing activities keys
-      "Art": t('activities.art'),
+      // Art subcategories
       "Painting": t('activities.painting'),
       "Sculpture": t('activities.sculpture'),
       "Photography": t('activities.photography'),
@@ -102,8 +112,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Ceramics & Pottery": t('activities.ceramicsPottery'),
       "Art History & Movements": t('activities.artHistoryMovements'),
       
-      // Music related - use existing activities keys
-      "Music": t('activities.music'),
+      // Music subcategories
       "Classical Music": t('activities.classicalMusic'),
       "Jazz & Blues": t('activities.jazzBlues'),
       "World Music": t('activities.worldMusic'),
@@ -114,8 +123,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Instrumental Performance": t('activities.instrumentalPerformance'),
       "Music Appreciation & History": t('activities.musicAppreciationHistory'),
       
-      // Sports related - use existing activities keys
-      "Sports": t('activities.sports'),
+      // Sports subcategories
       "Martial Arts": t('activities.martialArts'),
       "Team Sports": t('activities.teamSports'),
       "Tennis & Racket Sports": t('activities.tennisRacketSports'),
@@ -127,23 +135,20 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Running & Jogging": t('activities.runningJogging'),
       "Climbing & Bouldering": t('activities.climbingBouldering'),
       
-      // Fan categories - use existing activities keys
-      "Fanatics": t('activities.fanatics'),
+      // Fan subcategories
       "Musical Icons": t('activities.musicalIcons'),
       "Movie Legends": t('activities.movieLegends'),
       "Writers & Thinkers": t('activities.writersThinkers'),
       "Artists": t('activities.artists'),
       "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
       
-      // Food & Health categories - use existing activities keys
-      "Food & Drinks": t('activities.foodDrinks'),
-      "Health and Wellness": t('activities.healthWellness'),
+      // Food & Health subcategories
       "Cooking & Food": t('activities.cookingFood'),
       "Wellness & Care": t('activities.wellnessCare')
     };
 
     const translatedText = affinityTranslations[name];
-    console.log(`Affinity Translation Fixed: "${name}" -> "${translatedText}"`);
+    console.log(`Affinity Translation Mapping: "${name}" -> "${translatedText}"`);
     return translatedText || name;
   };
 

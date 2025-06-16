@@ -25,9 +25,9 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
   };
 
   const getTranslatedActivityName = (name: string) => {
-    // Use correct existing activities.* translation keys
+    // Complete mapping using the exact translation keys that exist in the JSON
     const activityTranslations: { [key: string]: string } = {
-      // Main categories
+      // Main categories - exact matches to existing keys
       "Interior": t('activities.interior'),
       "Indoor": t('activities.interior'),
       "Outdoor": t('activities.interior'),
@@ -43,7 +43,7 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
       "Tech & Science": t('activities.techScience'),
       "Wellness & Care": t('activities.wellnessCare'),
       
-      // Art subcategories - exact key mapping
+      // Art subcategories
       "Art": t('activities.art'),
       "Painting": t('activities.painting'),
       "Sculpture": t('activities.sculpture'),
@@ -99,7 +99,7 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
     };
 
     const translatedText = activityTranslations[name];
-    console.log(`Activity Translation Fixed: "${name}" -> "${translatedText}"`);
+    console.log(`Activity Translation Mapping: "${name}" -> "${translatedText}"`);
     return translatedText || name;
   };
 

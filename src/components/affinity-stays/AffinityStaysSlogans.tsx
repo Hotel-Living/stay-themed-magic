@@ -1,5 +1,9 @@
 
+import { useTranslation } from "@/hooks/useTranslation";
+
 export function AffinityStaysSlogans() {
+  const { t } = useTranslation();
+  
   return <>
       {/* Main header and quote section */}
       <div className="space-y-4 mb-8">
@@ -18,28 +22,27 @@ export function AffinityStaysSlogans() {
         {/* Quote section - text made 10% smaller */}
         <div className="max-w-2xl mx-auto text-center mb-8">
           <p className="text-white italic text-lg font-semibold py-0">
-            "When you surround yourself with like-minded people who share<br />
-            a passionate commitment around a common purpose, anything is possible"
+            "{t('affinity.howardSchultzQuote')}"
           </p>
-          <p className="text-right text-white mt-2 mr-12 text-base font-bold">Howard Schultz</p>
+          <p className="text-right text-white mt-2 mr-12 text-base font-bold">{t('affinity.howardSchultzAuthor')}</p>
         </div>
         
         {/* Slogans - updated to match FAQ page styling */}
         <div className="space-y-5 py-4 mt-12 mb-8 max-w-3xl mx-auto flex flex-col items-center">
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className="text-[#8017B0] text-xl font-bold">Not just a stay. A shared world</p>
+            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.notJustStay')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className="text-[#8017B0] text-xl font-bold">Meet. Share. Belong</p>
+            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.meetShareBelong')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className="text-[#8017B0] text-xl font-bold">Stay with those who get you</p>
+            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.stayWithThoseWhoGetYou')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className="text-[#8017B0] text-xl font-bold">Tired of random? Choose your people</p>
+            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.tiredOfRandom')}</p>
           </div>
           <div className="bg-[#FFC700] py-2 px-4 text-center my-[12px] rounded-xl">
-            <p className="text-[#8017B0] text-xl font-bold">Stay, and connect through what you love</p>
+            <p className="text-[#8017B0] text-xl font-bold">{t('affinity.slogans.stayAndConnect')}</p>
           </div>
         </div>
       </div>

@@ -1,5 +1,8 @@
 
 import React from "react";
+import { useMapLogic } from "./hooks/useMapLogic";
+import { MapCanvas } from "./components/MapCanvas";
+import { LocationControls } from "./components/LocationControls";
 
 interface MapProps {
   latitude: string;
@@ -12,21 +15,32 @@ interface MapProps {
 export default function InteractiveMap({ 
   latitude, 
   longitude, 
-  address,
+  address = "",
   onLocationChange,
-  onLocationSelect 
+  onLocationSelect = () => {}
 }: MapProps) {
+  const {
+    mapRef,
+    isLoading,
+    error,
+    geocodeError,
+    retryLoading
+  } = useMapLogic({
+    latitude,
+    longitude,
+    address,
+    onLocationSelect
+  });
+
   return (
-    <div className="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center">
-      <p className="text-white">Interactive Map Component</p>
-      <p className="text-sm text-gray-400 ml-2">
-        Lat: {latitude || 'N/A'}, Lng: {longitude || 'N/A'}
-      </p>
-      {address && (
-        <p className="text-sm text-gray-400 ml-2">
-          Address: {address}
-        </p>
-      )}
+    <div className="w-full">
+      <LocationControls geocodeError={geocodeError} />
+      <MapCanvas
+        mapRef={mapRef}
+        isLoading={isLoading}
+        error={error}
+        onRetry={retryLoading}
+      />
     </div>
   );
 }

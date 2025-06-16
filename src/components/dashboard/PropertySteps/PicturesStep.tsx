@@ -71,7 +71,7 @@ export default function PicturesStep({
           files={files}
           onUpload={uploadFiles}
           onRemove={removeFile}
-          isUploading={uploading}
+          uploading={uploading}
         />
       )}
       

@@ -1,50 +1,133 @@
-
-import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import React, { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface MealPlanSectionProps {
-  selectedMealPlans: string[];
-  onMealPlanToggle: (plan: string) => void;
+  isOpen?: boolean;
+  onOpenChange?: () => void;
+  onValidationChange: (isValid: boolean) => void;
+  title?: string;
+  showHeader?: boolean;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
 export default function MealPlanSection({ 
-  selectedMealPlans, 
-  onMealPlanToggle 
+  isOpen = false,
+  onOpenChange = () => {},
+  onValidationChange,
+  title = "MEALS",
+  showHeader = true,
+  formData = {},
+  updateFormData = () => {}
 }: MealPlanSectionProps) {
-  const { t } = useTranslation();
+  // Updated meal plans to match the public filter options exactly
   const mealPlans = [
-    'breakfastIncluded',
-    'halfBoard', 
-    'fullBoard',
-    'allInclusive',
-    'laundry'
+    "Breakfast Included", 
+    "Half Board", 
+    "Full Board", 
+    "All Inclusive", 
+    "Laundry", 
+    "External Laundry Service Available"
   ];
+  
+  // Initialize from formData if available
+  const initialMealPlan = formData.mealPlans && formData.mealPlans.length > 0 
+    ? formData.mealPlans[0] 
+    : "";
+    
+  const [selectedMealPlan, setSelectedMealPlan] = useState(initialMealPlan);
+  const [mealPlanValid, setMealPlanValid] = useState(initialMealPlan !== "");
+  const [touched, setTouched] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
+
+  // Initialize from form data when component mounts or form data changes
+  useEffect(() => {
+    if (formData.mealPlans && formData.mealPlans.length > 0) {
+      const mealPlan = formData.mealPlans[0];
+      setSelectedMealPlan(mealPlan);
+      setMealPlanValid(true);
+      onValidationChange(true);
+    }
+  }, [formData]);
+
+  const handleMealPlanChange = (plan: string) => {
+    setSelectedMealPlan(plan);
+    setMealPlanValid(true);
+    setTouched(true);
+    
+    // Update parent form data
+    if (updateFormData) {
+      updateFormData('mealPlans', [plan]);
+    }
+    
+    onValidationChange(true);
+  };
+
+  // This useEffect will run when selectedMealPlan changes
+  useEffect(() => {
+    if (selectedMealPlan) {
+      setMealPlanValid(true);
+      onValidationChange(true);
+    } else {
+      setMealPlanValid(false);
+      onValidationChange(false);
+    }
+  }, [selectedMealPlan, onValidationChange]);
+
+  const handleOpenStateChange = (open: boolean) => {
+    setTouched(true);
+    if (!open && touched && !mealPlanValid) {
+      setShowErrors(true);
+    }
+  };
+
+  const mealPlanContent = (
+    <div className="mt-2">
+      <div>
+        <Select 
+          value={selectedMealPlan}
+          onValueChange={handleMealPlanChange} 
+          onOpenChange={handleOpenStateChange}
+        >
+          <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
+            <SelectValue placeholder="Select a meal plan" />
+          </SelectTrigger>
+          <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
+            {mealPlans.map((plan) => (
+              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
+                {plan}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {touched && !mealPlanValid && showErrors && (
+          <p className="text-white text-xs mt-1">Please select a meal plan</p>
+        )}
+      </div>
+    </div>
+  );
+
+  if (!showHeader) {
+    return mealPlanContent;
+  }
 
   return (
-    <div className="glass-card rounded-xl p-6 space-y-4 bg-[#690695]/40">
-      <h3 className="text-lg font-semibold text-white uppercase">
-        3.4- {t('dashboard.mealPlans')}
-      </h3>
-      
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {mealPlans.map((plan) => (
-          <button
-            key={plan}
-            onClick={() => onMealPlanToggle(plan)}
-            className={`px-4 py-3 rounded-lg border-2 transition-all text-sm ${
-              selectedMealPlans.includes(plan)
-                ? 'bg-fuchsia-600 border-fuchsia-500 text-white'
-                : 'bg-transparent border-fuchsia-500/50 text-white hover:border-fuchsia-500'
-            }`}
-          >
-            {t(`mealPlans.${plan}`)}
-          </button>
-        ))}
-      </div>
-      
-      <p className="text-white/60 text-sm mt-4">
-        {t('dashboard.externalLaundryService')}
-      </p>
-    </div>
+    <Collapsible className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10" defaultOpen={false}>
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
+        <label className="text-base font-medium text-white uppercase">
+          {title}
+        </label>
+        <ChevronDown className="h-4 w-4 text-white" />
+      </CollapsibleTrigger>
+      <CollapsibleContent className="p-3">
+        {mealPlanContent}
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

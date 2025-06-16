@@ -4,6 +4,7 @@ import { FilterItem } from "./FilterItem";
 import { Theme } from "@/utils/themes";
 import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
 import { Search } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ThemeFilterProps {
   activeTheme: Theme | null;
@@ -11,6 +12,7 @@ interface ThemeFilterProps {
 }
 
 export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const selectedThemes = activeTheme ? [activeTheme.id] : [];
   
@@ -45,7 +47,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
   };
 
   return (
-    <FilterItem title="AFFINITY">
+    <FilterItem title={t('filters.affinity')}>
       <div 
         className="bg-fuchsia-950/30 rounded-lg max-h-96 overflow-y-auto" 
         onClick={handleContainerClick}
@@ -56,7 +58,7 @@ export function ThemeFilter({ activeTheme, onChange }: ThemeFilterProps) {
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-fuchsia-300" />
             <input
               type="text"
-              placeholder="Search"
+              placeholder={t('common.search')}
               value={searchQuery}
               onChange={handleSearchChange}
               onClick={handleSearchClick}

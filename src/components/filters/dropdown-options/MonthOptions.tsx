@@ -2,6 +2,7 @@
 import React from "react";
 import { FilterState } from "../FilterTypes";
 import { months } from "../FilterUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface MonthOptionsProps {
   type: keyof FilterState;
@@ -9,22 +10,19 @@ interface MonthOptionsProps {
 }
 
 export const MonthOptions: React.FC<MonthOptionsProps> = ({ type, fontSize }) => {
-  // Ensure months are properly capitalized
-  const normalizedMonths = months.map(month => 
-    month.charAt(0).toUpperCase() + month.slice(1).toLowerCase()
-  );
+  const { t } = useTranslation();
   
   return (
     <div className="grid grid-cols-2">
-      {normalizedMonths.map((month) => (
+      {months.map((month) => (
         <button
-          key={month}
+          key={month.value}
           onClick={() => document.dispatchEvent(new CustomEvent('updateFilter', { 
-            detail: { key: type, value: month } 
+            detail: { key: type, value: month.value } 
           }))}
           className={`text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors capitalize hover:bg-[#460F54]`}
         >
-          {month}
+          {t(month.translationKey)}
         </button>
       ))}
     </div>

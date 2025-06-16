@@ -7,6 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './locales/en.json';
 import enHotels from './locales/en/hotels.json';
 import enAffinity from './locales/en/affinity.json';
+import enFilters from './locales/en/filters.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -21,6 +22,7 @@ import esMisc from './locales/es/misc.json';
 import esHome from './locales/es/home.json';
 import esFooter from './locales/es/footer.json';
 import esHotels from './locales/es/hotels.json';
+import esFilters from './locales/es/filters.json';
 
 // Combine Spanish translations
 const es = {
@@ -35,14 +37,16 @@ const es = {
   ...esMisc,
   ...esHome,
   ...esFooter,
-  ...esHotels
+  ...esHotels,
+  ...esFilters
 };
 
 // Combine English translations
 const enCombined = {
   ...en,
   ...enHotels,
-  ...enAffinity
+  ...enAffinity,
+  ...enFilters
 };
 
 const resources = {

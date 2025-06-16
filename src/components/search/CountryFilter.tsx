@@ -1,6 +1,7 @@
 
 import { FilterItem } from "./FilterItem";
 import { availableCountries } from "../filters/FilterUtils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CountryFilterProps {
   activeCountry: string | null;
@@ -8,8 +9,10 @@ interface CountryFilterProps {
 }
 
 export function CountryFilter({ activeCountry, onChange }: CountryFilterProps) {
+  const { t } = useTranslation();
+  
   return (
-    <FilterItem title="COUNTRY">
+    <FilterItem title={t('filters.country').toUpperCase()}>
       {availableCountries.map(country => (
         <label key={country.value} className="flex items-start">
           <input 
@@ -23,7 +26,7 @@ export function CountryFilter({ activeCountry, onChange }: CountryFilterProps) {
             }}
             className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm">{country.label}</span>
+          <span className="text-sm">{t(country.translationKey)}</span>
         </label>
       ))}
     </FilterItem>

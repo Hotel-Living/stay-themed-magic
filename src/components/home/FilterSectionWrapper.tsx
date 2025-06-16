@@ -59,10 +59,10 @@ export function FilterSectionWrapper({
         backgroundColor: "#996515"
       }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
           <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={{
-          month: "MONTH?",
-          country: "COUNTRY?",
-          theme: "AFFINITY?",
-          priceRange: "PRICE PER MONTH?"
+          month: t('filters.month').toUpperCase() + "?",
+          country: t('filters.country').toUpperCase() + "?",
+          theme: t('filters.affinity').toUpperCase() + "?",
+          priceRange: t('filters.pricePerMonth') + "?"
         }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
           
           <div className="flex justify-center" style={{

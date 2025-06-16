@@ -1,0 +1,51 @@
+
+{
+  "filters": {
+    "all": "Todos",
+    "country": "País",
+    "city": "Ciudad",
+    "price": "Precio",
+    "stars": "Estrellas",
+    "property": "Tipo de Propiedad",
+    "amenities": "Comodidades",
+    "themes": "Temas",
+    "clearAll": "Limpiar Todo",
+    "apply": "Aplicar Filtros",
+    "pricePerMonth": "PRECIO POR MES",
+    "affinity": "AFINIDAD",
+    "month": "MES",
+    "country": "PAÍS",
+    "priceRanges": {
+      "upTo1000": "Hasta 1.000 $",
+      "1000to1500": "1.000 $ a 1.500 $",
+      "1500to2000": "1.500 $ a 2.000 $",
+      "moreThan2000": "Más de 2.000 $"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "countries": {
+      "spain": "España 🇪🇸",
+      "france": "Francia 🇫🇷",
+      "italy": "Italia 🇮🇹",
+      "usa": "Estados Unidos 🇺🇸",
+      "egypt": "Egipto 🇪🇬",
+      "turkey": "Turquía 🇹🇷",
+      "unitedKingdom": "Reino Unido 🇬🇧",
+      "germany": "Alemania 🇩🇪",
+      "portugal": "Portugal 🇵🇹",
+      "greece": "Grecia 🇬🇷"
+    }
+  }
+}

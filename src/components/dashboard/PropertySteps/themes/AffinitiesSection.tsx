@@ -6,15 +6,27 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface AffinitiesSectionProps {
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  selectedThemes?: string[];
+  onThemeSelect?: (themeId: string, isSelected: boolean) => void;
+  openCategory?: string | null;
+  setOpenCategory?: (category: string | null) => void;
+  openSubmenu?: string | null;
+  setOpenSubmenu?: (submenu: string | null) => void;
 }
 
 export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   formData = {},
-  updateFormData = () => {}
+  updateFormData = () => {},
+  selectedThemes = [],
+  onThemeSelect = () => {},
+  openCategory = null,
+  setOpenCategory = () => {},
+  openSubmenu = null,
+  setOpenSubmenu = () => {}
 }) => {
   const { t } = useTranslation();
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
-  const [selectedAffinities, setSelectedAffinities] = useState<string[]>([]);
+  const [selectedAffinities, setSelectedAffinities] = useState<string[]>(selectedThemes);
 
   const affinityCategories = [
     { key: 'art', label: t('affinities.art') },
@@ -33,11 +45,23 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   }, [formData.selectedAffinities]);
 
+  useEffect(() => {
+    setSelectedAffinities(selectedThemes);
+  }, [selectedThemes]);
+
   const toggleCategory = (categoryKey: string) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryKey]: !prev[categoryKey]
-    }));
+    if (setOpenCategory) {
+      setOpenCategory(openCategory === categoryKey ? null : categoryKey);
+    } else {
+      setExpandedCategories(prev => ({
+        ...prev,
+        [categoryKey]: !prev[categoryKey]
+      }));
+    }
+  };
+
+  const isExpanded = (categoryKey: string) => {
+    return openCategory ? openCategory === categoryKey : expandedCategories[categoryKey];
   };
 
   return (
@@ -64,7 +88,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                 onClick={() => toggleCategory(category.key)}
                 className="flex items-center space-x-2 text-white hover:text-white/80 font-medium"
               >
-                {expandedCategories[category.key] ? (
+                {isExpanded(category.key) ? (
                   <ChevronDown className="w-4 h-4" />
                 ) : (
                   <ChevronRight className="w-4 h-4" />
@@ -72,7 +96,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
                 <span>{category.label}</span>
               </button>
               
-              {expandedCategories[category.key] && (
+              {isExpanded(category.key) && (
                 <div className="ml-6 mt-2 space-y-2">
                   {/* Subcategories would be listed here */}
                 </div>

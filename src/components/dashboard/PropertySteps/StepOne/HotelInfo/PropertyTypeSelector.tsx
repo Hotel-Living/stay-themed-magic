@@ -5,11 +5,23 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface PropertyTypeSelectorProps {
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
+  hasError?: boolean;
+  errorMessage?: string;
   error?: string;
 }
 
-export default function PropertyTypeSelector({ value, onChange, error }: PropertyTypeSelectorProps) {
+export default function PropertyTypeSelector({ 
+  value, 
+  onChange, 
+  onBlur,
+  hasError,
+  errorMessage,
+  error 
+}: PropertyTypeSelectorProps) {
   const { t } = useTranslation();
+
+  const finalError = errorMessage || error;
 
   const propertyTypes = [
     { value: 'hotel', label: t('propertyTypes.hotel') },
@@ -30,6 +42,7 @@ export default function PropertyTypeSelector({ value, onChange, error }: Propert
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
       >
         <option value="">{t('basicInfo.selectPropertyType')}</option>
@@ -39,7 +52,7 @@ export default function PropertyTypeSelector({ value, onChange, error }: Propert
           </option>
         ))}
       </select>
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
     </div>
   );
 }

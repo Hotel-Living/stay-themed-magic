@@ -64,8 +64,7 @@ export default function LocationSection({
         <div className={sectionClassName}>
           <CountrySelector
             value={formData.country}
-            onChange={(e) => handleChange("country", e.target.value)}
-            onValueChange={(value) => handleChange("country", value)}
+            onChange={(value) => handleChange("country", value)}
             onBlur={() => handleBlur("country")}
             error={errors.country}
             touched={touchedFields.country}
@@ -79,8 +78,7 @@ export default function LocationSection({
           <CitySelector
             country={formData.country}
             value={formData.city}
-            onChange={(e) => handleChange("city", e.target.value)}
-            onValueChange={(value) => handleChange("city", value)}
+            onChange={(value) => handleChange("city", value)}
             onBlur={() => handleBlur("city")}
             error={errors.city}
             touched={touchedFields.city}
@@ -94,7 +92,7 @@ export default function LocationSection({
       <div className={sectionClassName}>
         <PostalCodeInput 
           value={formData.postalCode}
-          onChange={(e) => handleChange("postalCode", e.target.value)}
+          onChange={(value) => handleChange("postalCode", value)}
           onBlur={() => handleBlur("postalCode")}
           error={errors.postalCode}
           touched={touchedFields.postalCode}

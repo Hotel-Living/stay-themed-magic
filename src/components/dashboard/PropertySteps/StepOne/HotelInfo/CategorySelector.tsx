@@ -5,11 +5,23 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface CategorySelectorProps {
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
+  hasError?: boolean;
+  errorMessage?: string;
   error?: string;
 }
 
-export default function CategorySelector({ value, onChange, error }: CategorySelectorProps) {
+export default function CategorySelector({ 
+  value, 
+  onChange, 
+  onBlur,
+  hasError,
+  errorMessage,
+  error 
+}: CategorySelectorProps) {
   const { t } = useTranslation();
+
+  const finalError = errorMessage || error;
 
   const categories = [
     { value: 'luxury', label: t('categories.luxury') },
@@ -30,6 +42,7 @@ export default function CategorySelector({ value, onChange, error }: CategorySel
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
       >
         <option value="">{t('basicInfo.selectHotelCategory')}</option>
@@ -39,7 +52,7 @@ export default function CategorySelector({ value, onChange, error }: CategorySel
           </option>
         ))}
       </select>
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
     </div>
   );
 }

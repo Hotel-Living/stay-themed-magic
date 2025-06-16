@@ -5,11 +5,23 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface DescriptionInputProps {
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
+  hasError?: boolean;
+  errorMessage?: string;
   error?: string;
 }
 
-export default function DescriptionInput({ value, onChange, error }: DescriptionInputProps) {
+export default function DescriptionInput({ 
+  value, 
+  onChange, 
+  onBlur,
+  hasError,
+  errorMessage,
+  error 
+}: DescriptionInputProps) {
   const { t } = useTranslation();
+
+  const finalError = errorMessage || error;
 
   return (
     <div className="space-y-2">
@@ -19,11 +31,12 @@ export default function DescriptionInput({ value, onChange, error }: Description
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         placeholder={t('basicInfo.enterDetailedDescription')}
         rows={4}
         className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500 resize-vertical"
       />
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
     </div>
   );
 }

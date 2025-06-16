@@ -65,10 +65,10 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Fixed translation mapping - now correctly using activities.* keys that exist
+  // Complete translation mapping for all categories and subcategories
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
-      // Main category names - corrected to use activities.* keys
+      // Main category names - using activities.* keys
       "Art": t('activities.art'),
       "ART": t('activities.art'),
       "Fanatics": t('activities.fanatics'),
@@ -142,7 +142,17 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
       "Artists": t('activities.artists'),
       "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
       
-      // Food & Health subcategories
+      // Food & Drinks subcategories - need to add these to en.json
+      "World Cuisines": "World Cuisines", // Will add translation key
+      "Cooking Classes": "Cooking Classes", // Will add translation key
+      "Beverages & Tasting": "Beverages & Tasting", // Will add translation key
+      "Gourmet Experiences": "Gourmet Experiences", // Will add translation key
+      "World Cuisines (Spanish, French, Italian)": "World Cuisines (Spanish, French, Italian)", // Will add translation key
+      "Cooking Classes (Spanish, Italian, French, Japanese, etc.)": "Cooking Classes (Spanish, Italian, French, Japanese, etc.)", // Will add translation key
+      "Wine Tasting": "Wine Tasting", // Will add translation key
+      "Vegan & Vegetarian": "Vegan & Vegetarian", // Will add translation key
+      
+      // Health & Wellness subcategories
       "Cooking & Food": t('activities.cookingFood'),
       "Wellness & Care": t('activities.wellnessCare')
     };

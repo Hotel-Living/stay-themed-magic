@@ -3,7 +3,8 @@
   "common": {
     "loading": "Loading...",
     "days": "days",
-    "noOptionsAvailable": "No options available"
+    "noOptionsAvailable": "No options available",
+    "search": "Search"
   },
   "accommodation": {
     "lengthOfStay": "Length of Stay",
@@ -72,7 +73,15 @@
     "instrumentalPerformance": "Instrumental Performance",
     "musicAppreciationHistory": "Music Appreciation & History",
     "foodDrinks": "Food & Drinks",
-    "healthWellness": "Health and Wellness"
+    "healthWellness": "Health and Wellness",
+    "worldCuisines": "World Cuisines",
+    "cookingClasses": "Cooking Classes",
+    "beveragesTasting": "Beverages & Tasting",
+    "gourmetExperiences": "Gourmet Experiences",
+    "worldCuisinesSpecific": "World Cuisines (Spanish, French, Italian)",
+    "cookingClassesSpecific": "Cooking Classes (Spanish, Italian, French, Japanese, etc.)",
+    "wineTasting": "Wine Tasting",
+    "veganVegetarian": "Vegan & Vegetarian"
   },
   "affinities": {
     "title": "Affinities",

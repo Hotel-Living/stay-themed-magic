@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -12,25 +13,25 @@ import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelF
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
   <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
     <h3 className={`text-[#f9d3f6] ${isMobile ? "text-lg" : "text-base"} font-semibold mb-3 text-center`}>
-      Ready to join Hotel-Living?
+      ¿Listo para unirse a Hotel-Living?
     </h3>
     <div className="flex flex-col sm:flex-row gap-3 justify-center">
       <Link to="/hotel-signup" className={`bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
         <Building className="mr-2 h-4 w-4" />
-        Register Your Hotel
+        Registra tu Hotel
       </Link>
       <Link to="/login?tab=hotel" className={`bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
         <Mail className="mr-2 h-4 w-4" />
-        Partner Login
+        Acceso Socio
       </Link>
     </div>
   </div>
 );
 
 const orderedCategoryIds = [
-  "video", "benefits", "models", "revenue", "guests", "seniors", 
-  "affinities", "operation", "integration", "marketing", "payment", 
-  "steps", "rental"
+  "video", "beneficios", "modelos", "ingresos", "huespedes", "mayores", 
+  "afinidades", "operativa", "integracion", "marketing", "pagos", 
+  "pasos", "alquiler"
 ];
 
 export default function FAQHotels() {
@@ -81,16 +82,16 @@ export default function FAQHotels() {
               font-bold mb-2 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}>
-              Hotel Partner FAQ
+              FAQ Socios Hoteleros
             </h1>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
-              Find answers to common questions about joining Hotel-Living as a property partner
+              Encuentra respuestas a preguntas comunes sobre unirse a Hotel-Living como socio hotelero
             </p>
             
             <FaqSearch 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              placeholder="Search partner FAQs..."
+              placeholder="Buscar FAQ socios..."
             />
           </div>
           

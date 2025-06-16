@@ -28,6 +28,7 @@ export const PropertiesContent = () => {
         isLoading={false}
         error={null}
         onEdit={() => {}}
+        onView={() => {}}
         onDelete={() => {}}
         showActions={true}
         emptyMessage=""

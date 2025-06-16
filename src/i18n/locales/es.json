@@ -73,6 +73,72 @@
         "title": "Red Global",
         "description": "Acceso a huéspedes internacionales que buscan experiencias temáticas"
       }
+    },
+    "accordion": {
+      "benefits": {
+        "title": "Los beneficios",
+        "fullOccupancy": {
+          "title": "100% de ocupación todo el año",
+          "point1": "Las tasas de ocupación pueden alcanzar el 100% durante todo el año",
+          "point2": "Cero habitaciones vacías significa máximo beneficio",
+          "point3": "Ocupación completa incluso durante períodos tradicionalmente lentos",
+          "point4": "Flujo de ingresos constante sin mínimos estacionales"
+        },
+        "lowerCosts": {
+          "title": "Menores costes operativos",
+          "point1": "Solo un día laborable para todas las entradas/salidas. Cero huecos entre estancias",
+          "point2": "Tasas de rotación reducidas significan menores costes de limpieza",
+          "point3": "Estancias extendidas (8, 16, 24 y 32 días) reducen gastos operativos",
+          "point4": "Procesos de check-in/out simplificados ahorran tiempo del personal"
+        },
+        "staffStability": {
+          "title": "Mayor estabilidad del personal",
+          "point1": "Ocupación constante = empleo durante todo el año",
+          "point2": "Menor rotación de personal reduce costes de contratación y formación",
+          "point3": "Mayor satisfacción de empleados con horarios estables"
+        },
+        "additionalRevenue": {
+          "title": "Ingresos añadidos de actividades temáticas",
+          "point1": "Nuevas fuentes de ingresos a través de eventos especializados",
+          "point2": "Oportunidades de merchandising vinculadas a temas del hotel",
+          "point3": "Ofertas de servicios extendidos generan mayor gasto"
+        }
+      },
+      "comparison": {
+        "title": "Comparemos sistemas",
+        "traditional": "MODELO TRADICIONAL",
+        "hotelLiving": "MODELO HOTEL LIVING"
+      },
+      "dontJustFill": {
+        "title": "No solo llenamos habitaciones"
+      },
+      "profitMissing": {
+        "title": "¿Cuántos beneficios estamos perdiendo?"
+      },
+      "specializedHotels": {
+        "title": "¿Qué son los hoteles por afinidades?"
+      },
+      "technology": {
+        "title": "Nuestra tecnología hace lo que otros no pueden"
+      },
+      "marketing": {
+        "title": "Marketing dirigido que nadie más puede igualar"
+      },
+      "themedHotels": {
+        "title": "Hoteles por afinidades = Redes Sociales Perfectas"
+      },
+      "theyNeed": {
+        "title": "Ellos necesitan su hotel"
+      },
+      "affinitiesRevolution": {
+        "title": "Las afinidades son la nueva revolución social"
+      },
+      "seamlessIntegration": {
+        "title": "Somos integración perfecta"
+      },
+      "stepsToJoin": {
+        "title": "Pasos para unirse a Hotel-Living"
+      }
     }
   },
   "home": {

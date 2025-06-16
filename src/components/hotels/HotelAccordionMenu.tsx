@@ -5,18 +5,22 @@ import { ComparisonTable } from "./accordion/ComparisonTable";
 import { comparisonItems } from "./accordion/comparisonData";
 import { BenefitsSection, ProfitSection, DontJustFillRoomsSection, AffinitiesRevolutionSection, TheyNeedHotelSection, SeamlessIntegrationSection, StepsToJoinSection } from "./accordion/sections";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelAccordionMenu() {
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const { t } = useTranslation();
+  
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);
   };
+  
   return <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         <AccordionItem value="the-benefits" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              1-   Los beneficios
+              1-   {t('hotels.accordion.benefits.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -27,7 +31,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="compare-systems" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              2-   Comparemos sistemas
+              2-   {t('hotels.accordion.comparison.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -38,7 +42,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="we-dont-just-fill-rooms" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              3-   No solo llenamos habitaciones
+              3-   {t('hotels.accordion.dontJustFill.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -49,7 +53,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="how-much-profit-missing" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              4-   ¿Cuántos beneficios estamos perdiendo?
+              4-   {t('hotels.accordion.profitMissing.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -60,7 +64,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="specialized-hotels" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              5-   ¿Qué son los hoteles por afinidades?
+              5-   {t('hotels.accordion.specializedHotels.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -91,7 +95,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="our-technology" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              6-   Nuestra tecnología hace lo que otros no pueden
+              6-   {t('hotels.accordion.technology.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -107,7 +111,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="targeted-marketing" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              7-   Marketing dirigido que nadie más puede igualar
+              7-   {t('hotels.accordion.marketing.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -123,7 +127,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="themed-hotels" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              8-   Hoteles por afinidades = Redes Sociales Perfectas
+              8-   {t('hotels.accordion.themedHotels.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -139,7 +143,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="they-need-hotel" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              9-   Ellos necesitan su hotel
+              9-   {t('hotels.accordion.theyNeed.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -150,7 +154,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="themes-revolution" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              10-   Las afinidades son la nueva revolución social
+              10-   {t('hotels.accordion.affinitiesRevolution.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -161,7 +165,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="seamless-integration" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              11-   Somos integración perfecta
+              11-   {t('hotels.accordion.seamlessIntegration.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -172,7 +176,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="steps-to-join" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              12-   Pasos para unirse a Hotel-Living
+              12-   {t('hotels.accordion.stepsToJoin.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">

@@ -67,38 +67,66 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
 
   // Enhanced function to get the translated name for themes with comprehensive coverage
   const getTranslatedThemeName = (name: string) => {
-    // Create a comprehensive mapping for ALL theme translations
+    // Create a comprehensive mapping for ALL theme translations using proper translation keys
     const themeTranslations: { [key: string]: string } = {
       // Main categories
       "Personal Development": t('affinities.personalDevelopment'),
       "Relationships": t('affinities.relationships'),
       "Science and Technology": t('affinities.scienceTechnology'),
       
-      // If we have more theme names from the database, add them here
-      // This should match what's actually in the database
-      "Art": "Arte",
-      "Music": "Música",
-      "Sports": "Deportes",
-      "Food & Drinks": "Comida y Bebidas",
-      "Technology": "Tecnología",
-      "Health": "Salud",
-      "Education": "Educación",
-      "Travel": "Viajes",
-      "Fashion": "Moda",
-      "Photography": "Fotografía",
-      "Literature": "Literatura",
-      "Cinema": "Cine",
-      "Gaming": "Juegos",
-      "Nature": "Naturaleza",
-      "History": "Historia",
-      "Philosophy": "Filosofía",
-      "Business": "Negocios",
-      "Fitness": "Fitness",
-      "Cooking": "Cocina",
-      "Dancing": "Baile",
-      "Meditation": "Meditación",
-      "Yoga": "Yoga",
-      "Wellness": "Bienestar"
+      // Art subcategories - using existing activity translations since they're already comprehensive
+      "Art": t('activities.art'),
+      "Painting": t('activities.painting'),
+      "Sculpture": t('activities.sculpture'),
+      "Photography": t('activities.photography'),
+      "Cinema & Film Art": t('activities.cinemaFilmArt'),
+      "Street Art & Murals": t('activities.streetArtMurals'),
+      "Illustration & Comics": t('activities.illustrationComics'),
+      "Calligraphy & Typography": t('activities.calligraphyTypography'),
+      "Architecture as Art": t('activities.architectureAsArt'),
+      "Performance Art": t('activities.performanceArt'),
+      "Installation Art": t('activities.installationArt'),
+      "Ceramics & Pottery": t('activities.ceramicsPottery'),
+      "Art History & Movements": t('activities.artHistoryMovements'),
+      
+      // Music related
+      "Music": t('activities.music'),
+      "Classical Music": t('activities.classicalMusic'),
+      "Jazz & Blues": t('activities.jazzBlues'),
+      "World Music": t('activities.worldMusic'),
+      "Latin Music": t('activities.latinMusic'),
+      "Contemporary & Pop Music": t('activities.contemporaryPopMusic'),
+      "Folk & Traditional Music": t('activities.folkTraditionalMusic'),
+      "Opera & Vocal Arts": t('activities.operaVocalArts'),
+      "Instrumental Performance": t('activities.instrumentalPerformance'),
+      "Music Appreciation & History": t('activities.musicAppreciationHistory'),
+      
+      // Sports related
+      "Sports": t('activities.sports'),
+      "Martial Arts": t('activities.martialArts'),
+      "Team Sports": t('activities.teamSports'),
+      "Tennis & Racket Sports": t('activities.tennisRacketSports'),
+      "Winter Sports": t('activities.winterSports'),
+      "Adventure Sports": t('activities.adventureSports'),
+      "Watersports": t('activities.watersports'),
+      "Swimming": t('activities.swimming'),
+      "Cycling": t('activities.cycling'),
+      "Running & Jogging": t('activities.runningJogging'),
+      "Climbing & Bouldering": t('activities.climbingBouldering'),
+      
+      // Fan categories
+      "Fanatics": t('activities.fanatics'),
+      "Musical Icons": t('activities.musicalIcons'),
+      "Movie Legends": t('activities.movieLegends'),
+      "Writers & Thinkers": t('activities.writersThinkers'),
+      "Artists": t('activities.artists'),
+      "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
+      
+      // Food & Health categories
+      "Food & Drinks": t('activities.foodDrinks'),
+      "Health and Wellness": t('activities.healthWellness'),
+      "Cooking & Food": t('activities.cookingFood'),
+      "Wellness & Care": t('activities.wellnessCare')
     };
 
     return themeTranslations[name] || name;

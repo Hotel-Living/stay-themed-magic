@@ -1,133 +1,130 @@
+
 import React, { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from "@/components/ui/collapsible";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface MealPlanSectionProps {
   isOpen?: boolean;
   onOpenChange?: () => void;
-  onValidationChange: (isValid: boolean) => void;
-  title?: string;
-  showHeader?: boolean;
+  onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
 
-export default function MealPlanSection({ 
+export default function MealPlanSection({
   isOpen = false,
   onOpenChange = () => {},
-  onValidationChange,
-  title = "MEALS",
-  showHeader = true,
+  onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
 }: MealPlanSectionProps) {
-  // Updated meal plans to match the public filter options exactly
-  const mealPlans = [
-    "Breakfast Included", 
-    "Half Board", 
-    "Full Board", 
-    "All Inclusive", 
-    "Laundry", 
-    "External Laundry Service Available"
-  ];
+  const [openState, setOpenState] = useState(isOpen);
+  const [selectedPlans, setSelectedPlans] = useState<string[]>(
+    formData.mealPlans?.length ? formData.mealPlans : []
+  );
+  const { toast } = useToast();
   
-  // Initialize from formData if available
-  const initialMealPlan = formData.mealPlans && formData.mealPlans.length > 0 
-    ? formData.mealPlans[0] 
-    : "";
-    
-  const [selectedMealPlan, setSelectedMealPlan] = useState(initialMealPlan);
-  const [mealPlanValid, setMealPlanValid] = useState(initialMealPlan !== "");
-  const [touched, setTouched] = useState(false);
-  const [showErrors, setShowErrors] = useState(false);
+  // Updated meal plan options to match the public filter exactly
+  const mealPlanOptions = [
+    { id: "breakfast-included", label: "Breakfast Included" },
+    { id: "half-board", label: "Half Board" },
+    { id: "full-board", label: "Full Board" },
+    { id: "all-inclusive", label: "All Inclusive" },
+    { id: "laundry", label: "Laundry" },
+    { id: "external-laundry", label: "External Laundry Service Available" }
+  ];
 
-  // Initialize from form data when component mounts or form data changes
+  // Update local state when formData changes
   useEffect(() => {
     if (formData.mealPlans && formData.mealPlans.length > 0) {
-      const mealPlan = formData.mealPlans[0];
-      setSelectedMealPlan(mealPlan);
-      setMealPlanValid(true);
-      onValidationChange(true);
+      console.log("MealPlanSection: Received meal plans:", formData.mealPlans);
+      setSelectedPlans(formData.mealPlans);
     }
-  }, [formData]);
+  }, [formData.mealPlans]);
 
-  const handleMealPlanChange = (plan: string) => {
-    setSelectedMealPlan(plan);
-    setMealPlanValid(true);
-    setTouched(true);
+  // Handle validation and update parent form data when selected meal plans change
+  useEffect(() => {
+    const isValid = selectedPlans.length > 0;
+    onValidationChange(isValid);
     
     // Update parent form data
-    if (updateFormData) {
-      updateFormData('mealPlans', [plan]);
-    }
-    
-    onValidationChange(true);
+    updateFormData("mealPlans", selectedPlans);
+  }, [selectedPlans, onValidationChange, updateFormData]);
+
+  const handleToggle = () => {
+    setOpenState(!openState);
+    onOpenChange();
   };
-
-  // This useEffect will run when selectedMealPlan changes
-  useEffect(() => {
-    if (selectedMealPlan) {
-      setMealPlanValid(true);
-      onValidationChange(true);
-    } else {
-      setMealPlanValid(false);
-      onValidationChange(false);
-    }
-  }, [selectedMealPlan, onValidationChange]);
-
-  const handleOpenStateChange = (open: boolean) => {
-    setTouched(true);
-    if (!open && touched && !mealPlanValid) {
-      setShowErrors(true);
-    }
+  
+  const toggleMealPlan = (planId: string) => {
+    setSelectedPlans(prev => {
+      const isSelected = prev.includes(planId);
+      
+      if (isSelected) {
+        // Don't allow removing the last option
+        if (prev.length <= 1) {
+          toast({
+            title: "Error",
+            description: "Cannot remove all options - You must select at least one meal plan.",
+            variant: "destructive"
+          });
+          return prev;
+        }
+        
+        return prev.filter(item => item !== planId);
+      } else {
+        return [...prev, planId];
+      }
+    });
   };
-
-  const mealPlanContent = (
-    <div className="mt-2">
-      <div>
-        <Select 
-          value={selectedMealPlan}
-          onValueChange={handleMealPlanChange} 
-          onOpenChange={handleOpenStateChange}
-        >
-          <SelectTrigger className="w-full bg-fuchsia-950/30 border border-fuchsia-800/30">
-            <SelectValue placeholder="Select a meal plan" />
-          </SelectTrigger>
-          <SelectContent className="bg-[#860493] border border-fuchsia-800/30">
-            {mealPlans.map((plan) => (
-              <SelectItem key={plan} value={plan} className="text-white hover:bg-[#860493] focus:bg-[#860493] data-[state=checked]:bg-[#860493] focus:text-white">
-                {plan}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {touched && !mealPlanValid && showErrors && (
-          <p className="text-white text-xs mt-1">Please select a meal plan</p>
-        )}
-      </div>
-    </div>
-  );
-
-  if (!showHeader) {
-    return mealPlanContent;
-  }
 
   return (
-    <Collapsible className="w-full border border-fuchsia-800/30 rounded-lg overflow-hidden bg-fuchsia-900/10" defaultOpen={false}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 text-left bg-fuchsia-900/20">
-        <label className="text-base font-medium text-white uppercase">
-          {title}
-        </label>
-        <ChevronDown className="h-4 w-4 text-white" />
-      </CollapsibleTrigger>
-      <CollapsibleContent className="p-3">
-        {mealPlanContent}
-      </CollapsibleContent>
-    </Collapsible>
+    <div className="border border-purple-500/30 rounded-lg overflow-hidden">
+      <button 
+        className="w-full p-4 flex items-center justify-between bg-[#430453] hover:bg-[#4f0564] transition"
+        onClick={handleToggle}
+      >
+        <span className="text-lg font-medium">Meals</span>
+        {openState ? <ChevronUp /> : <ChevronDown />}
+      </button>
+      
+      {openState && (
+        <div className="p-4 bg-[#350442] space-y-4">
+          <p className="text-sm text-gray-300">
+            Select which meal plans your hotel offers to guests.
+          </p>
+          
+          <div className="p-4 rounded-md bg-[#420451]">
+            <h3 className="text-sm font-bold mb-4 uppercase">AVAILABLE MEAL PLANS</h3>
+            
+            <div className="grid grid-cols-1 gap-3">
+              {mealPlanOptions.map(plan => (
+                <div 
+                  key={plan.id}
+                  className="flex items-center space-x-2"
+                >
+                  <input
+                    type="checkbox"
+                    id={`meal-plan-${plan.id}`}
+                    checked={selectedPlans.includes(plan.id)}
+                    onChange={() => toggleMealPlan(plan.id)}
+                    className="w-5 h-5 accent-fuchsia-500"
+                  />
+                  <label htmlFor={`meal-plan-${plan.id}`} className="text-white">
+                    {plan.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {selectedPlans.length === 0 && (
+            <div className="p-3 bg-red-900/30 text-red-200 rounded-md">
+              Please select at least one meal plan option.
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

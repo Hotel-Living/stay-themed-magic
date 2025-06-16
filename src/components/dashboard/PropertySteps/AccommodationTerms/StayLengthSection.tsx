@@ -1,68 +1,116 @@
-
-import React from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { useTranslation } from "@/hooks/useTranslation";
+import React, { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface StayLengthSectionProps {
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-  onValidationChange: (isValid: boolean) => void;
+  isOpen?: boolean;
+  onOpenChange?: () => void;
+  onValidationChange?: (isValid: boolean) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
-export const StayLengthSection: React.FC<StayLengthSectionProps> = ({
-  formData,
-  updateFormData,
-  onValidationChange
-}) => {
-  const { t } = useTranslation();
+export default function StayLengthSection({
+  isOpen = false,
+  onOpenChange = () => {},
+  onValidationChange = () => {},
+  formData = {},
+  updateFormData = () => {}
+}: StayLengthSectionProps) {
+  const [openState, setOpenState] = useState(isOpen);
+  const [selectedLengths, setSelectedLengths] = useState<number[]>(
+    formData.stayLengths?.length ? formData.stayLengths : []
+  );
+  const { toast } = useToast();
   
-  const durations = [
-    { value: "8", label: `8 ${t('common.days')}` },
-    { value: "16", label: `16 ${t('common.days')}` },
-    { value: "24", label: `24 ${t('common.days')}` },
-    { value: "32", label: `32 ${t('common.days')}` }
-  ];
+  const stayLengthOptions = [8, 16, 24, 32];
 
-  const selectedDurations = formData.stayLengths || [];
-
-  const handleDurationChange = (duration: string, checked: boolean) => {
-    let newDurations;
-    if (checked) {
-      newDurations = [...selectedDurations, parseInt(duration)];
-    } else {
-      newDurations = selectedDurations.filter((d: number) => d !== parseInt(duration));
+  // Update local state when formData changes
+  useEffect(() => {
+    if (formData.stayLengths && formData.stayLengths.length > 0) {
+      setSelectedLengths(formData.stayLengths);
     }
+  }, [formData.stayLengths]);
+
+  // Handle validation and update parent form data when selected stay lengths change
+  useEffect(() => {
+    const isValid = selectedLengths.length > 0;
+    onValidationChange(isValid);
     
-    updateFormData('stayLengths', newDurations);
-    onValidationChange(newDurations.length > 0);
+    // Update parent form data
+    updateFormData("stayLengths", selectedLengths);
+  }, [selectedLengths, onValidationChange, updateFormData]);
+
+  const handleToggle = () => {
+    setOpenState(!openState);
+    onOpenChange();
+  };
+  
+  const toggleStayLength = (length: number) => {
+    setSelectedLengths(prev => {
+      const isSelected = prev.includes(length);
+      
+      if (isSelected) {
+        // Don't allow removing the last option
+        if (prev.length <= 1) {
+          toast.error("You must select at least one stay length.");
+          return prev;
+        }
+        
+        return prev.filter(item => item !== length);
+      } else {
+        return [...prev, length];
+      }
+    });
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">3.1- {t('accommodation.lengthOfStay')}</h3>
-      <p className="text-white/80 text-sm">{t('accommodation.selectStayDurations')}</p>
+    <div className="border border-purple-500/30 rounded-lg overflow-hidden">
+      <button 
+        className="w-full p-4 flex items-center justify-between bg-[#430453] hover:bg-[#4f0564] transition"
+        onClick={handleToggle}
+      >
+        <span className="text-lg font-medium">Stay Lengths</span>
+        {openState ? <ChevronUp /> : <ChevronDown />}
+      </button>
       
-      <div className="flex flex-wrap gap-4">
-        {durations.map((duration) => (
-          <div key={duration.value} className="flex items-center space-x-2">
-            <Checkbox
-              id={`duration-${duration.value}`}
-              checked={selectedDurations.includes(parseInt(duration.value))}
-              onCheckedChange={(checked) => 
-                handleDurationChange(duration.value, checked as boolean)
-              }
-              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-            />
-            <Label 
-              htmlFor={`duration-${duration.value}`}
-              className="text-white cursor-pointer"
-            >
-              {duration.label}
-            </Label>
+      {openState && (
+        <div className="p-4 bg-[#350442] space-y-4">
+          <p className="text-sm text-gray-300">
+            Select the available stay lengths for your hotel.
+          </p>
+          
+          <div className="p-4 rounded-md bg-[#420451]">
+            <h3 className="text-sm font-bold mb-4 uppercase">AVAILABLE STAY LENGTHS (NIGHTS)</h3>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {stayLengthOptions.map(length => (
+                <div 
+                  key={length}
+                  className="flex items-center space-x-2"
+                >
+                  <input
+                    type="checkbox"
+                    id={`stay-length-${length}`}
+                    checked={selectedLengths.includes(length)}
+                    onChange={() => toggleStayLength(length)}
+                    className="w-5 h-5 accent-fuchsia-500"
+                  />
+                  <label htmlFor={`stay-length-${length}`} className="text-white">
+                    {length}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+          
+          {selectedLengths.length === 0 && (
+            <div className="p-3 bg-red-900/30 text-red-200 rounded-md">
+              Please select at least one stay length option.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
-};
+}

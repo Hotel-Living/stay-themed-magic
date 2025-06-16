@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { useMyProperties } from "@/hooks/useMyProperties";
@@ -6,7 +7,6 @@ import { PropertyListView } from "./views/PropertyListView";
 import { PropertyDetailView } from "./views/PropertyDetailView";
 import { PropertyEditView } from "./views/PropertyEditView";
 import AddProperty from "@/components/dashboard/AddProperty";
-import { useTranslation } from 'react-i18next';
 
 interface PropertiesContentProps {
   hotel?: Hotel;
@@ -15,7 +15,6 @@ interface PropertiesContentProps {
 
 export const PropertiesContent = ({ hotel: propHotel, onEdit: propOnEdit }: PropertiesContentProps = {}) => {
   const { user } = useAuth();
-  const { t } = useTranslation();
   const [editingHotelId, setEditingHotelId] = useState<string | null>(null);
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(propHotel || null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

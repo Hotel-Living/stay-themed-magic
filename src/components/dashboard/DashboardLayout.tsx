@@ -8,7 +8,6 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -31,7 +30,6 @@ export default function DashboardLayout({
   } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -54,7 +52,7 @@ export default function DashboardLayout({
       console.log("Logout button clicked, checking session...");
       
       // Force redirect without checking session status
-      toast(t('dashboard.logOut'));
+      toast("Redirecting to login page...");
       
       // Call signOut but don't wait for it to complete
       signOut().catch(error => {
@@ -88,7 +86,7 @@ export default function DashboardLayout({
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">{t('dashboard.hotelManagement')}</h1>
+          <h1 className="text-3xl font-bold mb-8">HOTEL MANAGEMENT</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}
@@ -106,7 +104,7 @@ export default function DashboardLayout({
                   
                   <button onClick={handleLogout} className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors">
                     <LogOut className="w-5 h-5" />
-                    {t('dashboard.logOut')}
+                    Log Out
                   </button>
                 </nav>
               </div>
@@ -116,13 +114,13 @@ export default function DashboardLayout({
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
                   </div>
-                  <h3 className="font-bold">{t('dashboard.needHelp')}</h3>
+                  <h3 className="font-bold">Need Help?</h3>
                 </div>
                 <p className="text-sm text-foreground/80 mb-4">
-                  {t('dashboard.supportAvailable')}
+                  Our support team is available 24/7 to assist you with any questions.
                 </p>
                 <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-slate-50 bg-[#770477]">
-                  {t('dashboard.contactSupport')}
+                  Contact Support
                 </button>
               </div>
             </aside>

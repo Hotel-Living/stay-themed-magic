@@ -1,49 +1,74 @@
 
 import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { toast } from "sonner";
 
 interface PreferredWeekdaySectionProps {
-  selectedWeekday: string;
-  onWeekdayChange: (weekday: string) => void;
+  preferredWeekday?: string;
+  onWeekdayChange?: (weekday: string) => void;
+  weekdays?: string[];
 }
 
-export const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
-  selectedWeekday,
-  onWeekdayChange
-}) => {
-  const { t } = useTranslation();
+export default function PreferredWeekdaySection({
+  preferredWeekday = "Monday",
+  onWeekdayChange = () => {},
+  weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+}: PreferredWeekdaySectionProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
   
-  const weekdays = [
-    { value: "monday", label: t('common.monday') },
-    { value: "tuesday", label: t('common.tuesday') },
-    { value: "wednesday", label: t('common.wednesday') },
-    { value: "thursday", label: t('common.thursday') },
-    { value: "friday", label: t('common.friday') },
-    { value: "saturday", label: t('common.saturday') },
-    { value: "sunday", label: t('common.sunday') }
-  ];
+  React.useEffect(() => {
+    console.log("PreferredWeekdaySection - Current weekday:", preferredWeekday);
+  }, [preferredWeekday]);
+
+  // Dispatch an event when the component mounts or preferredWeekday changes 
+  // to sync with other components
+  React.useEffect(() => {
+    if (preferredWeekday) {
+      console.log("Dispatching preferredWeekdayUpdated event:", preferredWeekday);
+      const event = new CustomEvent('preferredWeekdayUpdated', { detail: preferredWeekday });
+      window.dispatchEvent(event);
+    }
+  }, [preferredWeekday]);
+
+  const handleWeekdayChange = (day: string) => {
+    onWeekdayChange(day);
+    toast.success(`Preferred check-in/out day updated to ${day}`);
+  };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">3.2- {t('accommodation.onlyWeekdayForCheckIns')}</h3>
-      <p className="text-white/80 text-sm">{t('accommodation.selectCheckInDay')}</p>
-      
-      <div className="flex flex-wrap gap-2">
-        {weekdays.map((weekday) => (
-          <button
-            key={weekday.value}
-            type="button"
-            onClick={() => onWeekdayChange(weekday.value)}
-            className={`px-4 py-2 rounded-full text-sm transition-colors ${
-              selectedWeekday === weekday.value
-                ? 'bg-fuchsia-600 text-white'
-                : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            {weekday.label}
-          </button>
-        ))}
-      </div>
-    </div>
+    <Collapsible 
+      className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      defaultOpen={false}
+    >
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
+        <h2 className="font-medium text-base text-white">
+          Preferred Weekday for all Check-in / outs: <span className="font-bold">{preferredWeekday}</span>
+        </h2>
+        {isOpen ? 
+          <ChevronUp className="h-5 w-5 text-white" /> : 
+          <ChevronDown className="h-5 w-5 text-white" />
+        }
+      </CollapsibleTrigger>
+      <CollapsibleContent className="p-4">
+        <div className="grid grid-cols-7 gap-2">
+          {weekdays.map(day => (
+            <label key={day} className="flex flex-col items-center">
+              <input 
+                type="radio" 
+                name="preferred-weekday" 
+                className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
+                value={day}
+                checked={preferredWeekday === day}
+                onChange={() => handleWeekdayChange(day)}
+              />
+              <span className="text-xs text-center text-white">{day}</span>
+            </label>
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
-};
+}

@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { PreferredWeekdaySection } from '../PreferredWeekdaySection';
-import { AvailabilitySection } from '../AvailabilitySection';
-import { StayLengthSection } from '../StayLengthSection';
+import PreferredWeekdaySection from '../PreferredWeekdaySection';
+import AvailabilitySection from '../AvailabilitySection';
+import StayLengthSection from '../StayLengthSection';
 import MealPlanSection from '../MealPlanSection';
 import RoomsRatesSection from '../RoomsRatesSection';
 
@@ -32,7 +32,7 @@ export const AccommodationSections = ({
   return (
     <div className="space-y-6">
       <PreferredWeekdaySection 
-        selectedWeekday={selectedWeekday}
+        preferredWeekday={selectedWeekday}
         onWeekdayChange={handleWeekdayChange}
       />
       
@@ -45,11 +45,13 @@ export const AccommodationSections = ({
       />
       
       <StayLengthSection 
-        formData={formData}
-        updateFormData={updateFormData}
+        isOpen={sectionsState.stayLength}
+        onOpenChange={() => toggleSection('stayLength')}
         onValidationChange={(valid) => {
           if (!valid) onCheckValidation();
         }}
+        formData={formData}
+        updateFormData={updateFormData}
       />
       
       <MealPlanSection 

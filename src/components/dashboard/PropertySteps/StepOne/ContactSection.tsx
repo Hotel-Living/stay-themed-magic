@@ -1,24 +1,16 @@
 
 import React from "react";
 import FormField from "./FormField";
-import { useTranslation } from "@/hooks/useTranslation";
+import CollapsibleSection from "./CollapsibleSection";
 
 interface ContactSectionProps {
   formData: {
     contactName: string;
-    contactEmail: string;
-    contactPhone: string;
+    contactEmail: string; // Changed from email to contactEmail
+    contactPhone: string; // Changed from phone to contactPhone
   };
-  errors: {
-    contactName?: string;
-    contactEmail?: string;
-    contactPhone?: string;
-  };
-  touchedFields: {
-    contactName: boolean;
-    contactEmail: boolean;
-    contactPhone: boolean;
-  };
+  errors: Record<string, string>;
+  touchedFields: Record<string, boolean>;
   handleChange: (field: string, value: string) => void;
   handleBlur: (field: string) => void;
 }
@@ -30,45 +22,45 @@ export default function ContactSection({
   handleChange,
   handleBlur
 }: ContactSectionProps) {
-  const { t } = useTranslation();
+  // Function to check if we should show error for a field
+  const shouldShowError = (field: string) => {
+    return touchedFields[field] && errors[field];
+  };
 
   return (
-    <div className="glass-card rounded-xl p-6 space-y-6 bg-[#690695]/40">
-      <h3 className="text-lg font-semibold text-white uppercase">{t('contact.title')}</h3>
-      
-      <div className="grid gap-4">
+    <CollapsibleSection title="CONTACT INFORMATION">
+      <div className="space-y-2">
         <FormField
-          label={t('contact.contactName')}
+          id="contact-name"
+          label="Contact Name"
           value={formData.contactName}
-          onChange={value => handleChange("contactName", value)}
+          onChange={(value) => handleChange("contactName", value)}
           onBlur={() => handleBlur("contactName")}
-          hasError={touchedFields.contactName && !!errors.contactName}
-          errorMessage={errors.contactName}
-          required
+          error={shouldShowError("contactName") ? errors.contactName : ""}
+          required={true}
         />
         
         <FormField
-          label={t('contact.contactEmail')}
+          id="contact-email"
+          label="Email"
           type="email"
           value={formData.contactEmail}
-          onChange={value => handleChange("contactEmail", value)}
+          onChange={(value) => handleChange("contactEmail", value)}
           onBlur={() => handleBlur("contactEmail")}
-          hasError={touchedFields.contactEmail && !!errors.contactEmail}
-          errorMessage={errors.contactEmail}
-          required
+          error={shouldShowError("contactEmail") ? errors.contactEmail : ""}
+          required={true}
         />
         
         <FormField
-          label={t('contact.contactPhone')}
-          type="tel"
+          id="contact-phone"
+          label="Phone"
           value={formData.contactPhone}
-          onChange={value => handleChange("contactPhone", value)}
+          onChange={(value) => handleChange("contactPhone", value)}
           onBlur={() => handleBlur("contactPhone")}
-          hasError={touchedFields.contactPhone && !!errors.contactPhone}
-          errorMessage={errors.contactPhone}
-          required
+          error={shouldShowError("contactPhone") ? errors.contactPhone : ""}
+          required={true}
         />
       </div>
-    </div>
+    </CollapsibleSection>
   );
 }

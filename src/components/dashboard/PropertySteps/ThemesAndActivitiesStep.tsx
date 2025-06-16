@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
-import AffinitiesSection from "./themes/AffinitiesSection";
+import { AffinitiesSection } from "./themes/AffinitiesSection";
 
 interface ThemesAndActivitiesStepProps {
   onValidationChange?: (isValid: boolean) => void;

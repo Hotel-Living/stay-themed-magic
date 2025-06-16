@@ -1,11 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { StayLengthSection } from "./StayLengthSection";
+import StayLengthSection from "./StayLengthSection";
 import MealPlanSection from "./MealPlanSection";
 import RoomsRatesSection from "./RoomsRatesSection";
-import { PreferredWeekdaySection } from "./PreferredWeekdaySection";
+import PreferredWeekdaySection from "./PreferredWeekdaySection";
 import ValidationMessages from "./ValidationMessages";
-import { AvailabilitySection } from "./AvailabilitySection";
 import { weekdays } from "@/utils/constants";
 import { saveSelectedStayLengths } from "@/utils/stayLengthsContext";
 
@@ -156,16 +156,18 @@ const AccommodationTermsStep = ({
       
       <div className="space-y-6">
         <PreferredWeekdaySection 
-          selectedWeekday={selectedWeekday}
+          preferredWeekday={selectedWeekday}
           onWeekdayChange={handleWeekdayChange}
         />
         
         <StayLengthSection 
-          formData={formData}
-          updateFormData={updateFormData}
+          isOpen={sectionsState.stayLength}
+          onOpenChange={() => toggleSection('stayLength')}
           onValidationChange={(valid) => {
             if (!valid) checkValidation();
           }}
+          formData={formData}
+          updateFormData={updateFormData}
         />
         
         <MealPlanSection 

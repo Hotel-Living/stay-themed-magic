@@ -15,7 +15,6 @@ import enContact from './locales/en/contact.json';
 import enTerms from './locales/en/terms.json';
 import enPrivacy from './locales/en/privacy.json';
 import enIntellectualProperty from './locales/en/intellectualProperty.json';
-import enDashboard from './locales/en/dashboard.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -75,8 +74,7 @@ const enCombined = {
   ...enContact,
   ...enTerms,
   ...enPrivacy,
-  ...enIntellectualProperty,
-  ...enDashboard
+  ...enIntellectualProperty
 };
 
 const resources = {

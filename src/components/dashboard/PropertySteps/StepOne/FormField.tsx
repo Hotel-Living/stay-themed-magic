@@ -1,74 +1,64 @@
 
 import React from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface FormFieldProps {
+  id: string;
   label: string;
-  type?: "text" | "email" | "textarea" | "tel";
+  type?: "text" | "email" | "textarea";
   value: string;
   onChange: (value: string) => void;
   onBlur: () => void;
-  errorMessage?: string;
+  error?: string;
   required?: boolean;
   placeholder?: string;
-  id?: string;
-  error?: string;
-  hasError?: boolean;
 }
 
 export default function FormField({
+  id,
   label,
   type = "text",
   value,
   onChange,
   onBlur,
-  errorMessage,
-  required = false,
-  placeholder,
-  id,
   error,
-  hasError
+  required = false,
+  placeholder
 }: FormFieldProps) {
-  const finalError = errorMessage || error;
-  const hasErrorState = hasError || !!finalError;
+  const shouldShowError = error ? true : false;
+  const baseClasses = `text-white bg-[#7A0486] border-white ${shouldShowError ? "border-red-500" : ""}`;
   
-  const inputClassName = `w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50 ${
-    hasErrorState ? 'border-red-500' : ''
-  }`;
-
-  const labelClassName = "block text-sm font-medium text-white uppercase mb-2";
-
   return (
-    <div className="space-y-2">
-      <label className={labelClassName} htmlFor={id}>
-        {label} {required && <span className="text-red-400">*</span>}
-      </label>
+    <div>
+      <Label htmlFor={id} className="text-white">
+        {label} {required && <span className="text-red-500">*</span>}
+      </Label>
       
       {type === "textarea" ? (
-        <textarea
+        <Textarea
           id={id}
-          className={inputClassName + " min-h-[80px]"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
+          rows={3}
           placeholder={placeholder}
-          required={required}
+          className={baseClasses}
         />
       ) : (
-        <input
+        <Input
           id={id}
           type={type}
-          className={inputClassName}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
           placeholder={placeholder}
-          required={required}
+          className={baseClasses}
         />
       )}
       
-      {finalError && (
-        <p className="text-red-400 text-sm">{finalError}</p>
-      )}
+      {shouldShowError && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }

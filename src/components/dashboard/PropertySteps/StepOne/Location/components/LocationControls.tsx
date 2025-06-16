@@ -1,24 +1,27 @@
 
-import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import React from 'react';
+import { Label } from "@/components/ui/label";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 interface LocationControlsProps {
-  geocodeError?: string | null;
+  geocodeError: string | null;
 }
 
-export const LocationControls: React.FC<LocationControlsProps> = ({ geocodeError }) => {
-  const { t } = useTranslation();
-
+export const LocationControls: React.FC<LocationControlsProps> = ({
+  geocodeError
+}) => {
   return (
-    <div className="mb-4">
-      <label className="block text-sm font-medium text-foreground/90 uppercase mb-2">
-        {t('dashboard.locationOnMap')} ({t('dashboard.clickToSelectLocation')})
-      </label>
+    <>
+      <Label className="block text-sm font-medium text-white mb-1">
+        Location on Map (Click to select precise location)
+      </Label>
+      
       {geocodeError && (
-        <div className="text-red-400 text-sm mb-2">
-          {geocodeError}
-        </div>
+        <Alert variant="destructive" className="mb-3 bg-red-900/20 border-red-800">
+          <AlertTitle>Geocoding Error</AlertTitle>
+          <AlertDescription>{geocodeError}</AlertDescription>
+        </Alert>
       )}
-    </div>
+    </>
   );
 };

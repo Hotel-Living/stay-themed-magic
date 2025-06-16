@@ -1,21 +1,17 @@
+
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
-import { useTranslation } from "@/hooks/useTranslation";
-
 interface HotelFeaturesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
-
 export default function HotelFeaturesStep({
   onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
 }: HotelFeaturesStepProps) {
-  const { t } = useTranslation();
-  
   // Local state for features selection
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
@@ -141,31 +137,27 @@ export default function HotelFeaturesStep({
     return Object.entries(featuresRecord).filter(([_, isSelected]) => isSelected).map(([feature, _]) => feature);
   };
   
-  return (
-    <div className="space-y-6" onBlur={handleSectionBlur}>
+  return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
-        <h3 className="text-lg font-semibold mb-3">2.3- {t('hotelFeatures.title')}</h3>
+        <h3 className="text-lg font-semibold mb-3">2.3- HOTEL FEATURES</h3>
         <FeaturesList 
           features={hotelFeatures} 
           selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} 
           onToggle={handleHotelFeatureToggle}
           onSelectAll={handleHotelSelectAll}
           onDeselectAll={handleHotelDeselectAll}
-          featureType="hotel"
         />
       </div>
       
       <div>
-        <h3 className="text-lg font-semibold mb-3">2.4- {t('roomFeatures.title')}</h3>
+        <h3 className="text-lg font-semibold mb-3">2.4- ROOM FEATURES</h3>
         <FeaturesList 
           features={roomFeatures} 
           selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} 
           onToggle={handleRoomFeatureToggle}
           onSelectAll={handleRoomSelectAll}
           onDeselectAll={handleRoomDeselectAll}
-          featureType="room"
         />
       </div>
-    </div>
-  );
+    </div>;
 }

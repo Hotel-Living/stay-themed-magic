@@ -1,104 +1,55 @@
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import HierarchicalActivitiesDisplay from '../activities/HierarchicalActivitiesDisplay';
+import React from "react";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
 
 interface AffinitiesSectionProps {
-  selectedThemes: string[];
-  onThemeSelect: (themeId: string, isSelected: boolean) => void;
   openCategory: string | null;
   setOpenCategory: (category: string | null) => void;
   openSubmenu: string | null;
   setOpenSubmenu: (submenu: string | null) => void;
+  onThemeSelect: (themeId: string, isSelected: boolean) => void;
+  selectedThemes: string[];
 }
 
-const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({ 
-  selectedThemes,
+export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   onThemeSelect,
-  openCategory,
-  setOpenCategory,
-  openSubmenu,
-  setOpenSubmenu
+  selectedThemes
 }) => {
-  const { t } = useTranslation();
-
   return (
-    <div className="affinities-section">
-      <h2>2.1 - {t('affinities.title')}</h2>
-      <p>{t('affinities.description')}</p>
-
-      <HierarchicalActivitiesDisplay
-        titleKey="activities.art"
-        subcategories={[
-          { key: 'painting' },
-          { key: 'sculpture' },
-          { key: 'photography' },
-          { key: 'cinemaFilmArt' },
-          { key: 'streetArtMurals' },
-          { key: 'illustrationComics' },
-          { key: 'calligraphyTypography' },
-          { key: 'architectureAsArt' },
-          { key: 'performanceArt' },
-          { key: 'installationArt' },
-          { key: 'ceramicsPottery' },
-          { key: 'artHistoryMovements' },
-        ]}
-      />
-
-      <HierarchicalActivitiesDisplay
-        titleKey="activities.music"
-        subcategories={[
-          { key: 'classicalMusic' },
-          { key: 'jazzBlues' },
-          { key: 'worldMusic' },
-          { key: 'latinMusic' },
-          { key: 'contemporaryPopMusic' },
-          { key: 'folkTraditionalMusic' },
-          { key: 'operaVocalArts' },
-          { key: 'instrumentalPerformance' },
-          { key: 'musicAppreciationHistory' },
-        ]}
-      />
-
-      <HierarchicalActivitiesDisplay
-        titleKey="activities.foodDrinks"
-        subcategories={[
-          { key: 'worldCuisines' },
-          { key: 'cookingClasses' },
-          { key: 'beveragesTasting' },
-        ]}
-      />
-
-      <HierarchicalActivitiesDisplay
-        titleKey="activities.fanatics"
-        subcategories={[
-          { key: 'musicalIcons' },
-          { key: 'movieLegends' },
-          { key: 'writersThinkers' },
-          { key: 'artists' },
-          { key: 'spiritualHistoricFigures' },
-        ]}
-      />
-
-      <HierarchicalActivitiesDisplay
-        titleKey="activities.sports"
-        subcategories={[
-          { key: 'martialArts' },
-          { key: 'teamSports' },
-          { key: 'tennisRacketSports' },
-          { key: 'winterSports' },
-          { key: 'adventureSports' },
-          { key: 'watersports' },
-          { key: 'swimming' },
-          { key: 'cycling' },
-          { key: 'runningJogging' },
-          { key: 'climbingBouldering' },
-          { key: 'martialArtsKarateJudoTaekwondo' },
-          { key: 'teamSportsSoccerBasketballVolleyball' },
-        ]}
-      />
-    </div>
+    <Collapsible defaultOpen={false} className="w-full">
+      <div className="bg-[#6c0686]">
+        <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
+          <label className="block text-xl font-bold text-foreground/90 uppercase">2.1- AFFINITIES</label>
+          <ChevronDown className="h-5 w-5 text-white" />
+        </CollapsibleTrigger>
+      </div>
+      
+      <CollapsibleContent>
+        <p className="text-sm text-foreground/90 mb-4">
+          Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
+        </p>
+        
+        <Link 
+          to="/themes-information" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="inline-flex items-center rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd] my-0 mx-0 px-[11px] py-[2px]"
+        >
+          More Information
+        </Link>
+        
+        <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">
+          <HierarchicalThemeSelector
+            selectedThemes={selectedThemes}
+            onThemeSelect={onThemeSelect}
+            allowMultiple={true}
+            className="space-y-2"
+          />
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
-
-export default AffinitiesSection;

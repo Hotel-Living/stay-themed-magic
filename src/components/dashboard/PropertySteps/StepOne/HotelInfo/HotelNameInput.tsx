@@ -1,42 +1,34 @@
 
 import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import FormField from "../FormField";
 
 interface HotelNameInputProps {
   value: string;
   onChange: (value: string) => void;
-  onBlur?: () => void;
-  hasError?: boolean;
+  onBlur: () => void;
+  hasError: boolean;
   errorMessage?: string;
-  error?: string;
 }
 
-export default function HotelNameInput({ 
-  value, 
-  onChange, 
+const HotelNameInput: React.FC<HotelNameInputProps> = ({
+  value,
+  onChange,
   onBlur,
   hasError,
-  errorMessage,
-  error 
-}: HotelNameInputProps) {
-  const { t } = useTranslation();
-
-  const finalError = errorMessage || error;
-
+  errorMessage
+}) => {
   return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-foreground/90 uppercase">
-        {t('basicInfo.hotelName')} *
-      </label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onBlur={onBlur}
-        placeholder={t('basicInfo.enterHotelName')}
-        className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
-      />
-      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
-    </div>
+    <FormField
+      id="hotelName"
+      label="Hotel Name"
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={hasError ? errorMessage : ""}
+      required
+      placeholder="Enter hotel name"
+    />
   );
-}
+};
+
+export default HotelNameInput;

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyFormNavigationProps {
   currentStep: number;
@@ -17,38 +16,31 @@ export default function PropertyFormNavigation({
   onNext,
   onSubmit
 }: PropertyFormNavigationProps) {
-  const { t } = useTranslation();
-  
   return (
-    <div className="flex justify-between mt-6 pt-4 border-t border-white/20">
-      <button
-        type="button"
-        onClick={onPrevious}
+    <div className="flex items-center justify-between mb-3">
+      <button 
+        onClick={onPrevious} 
+        className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+          currentStep === 1 ? "invisible" : "bg-fuchsia-950/80 hover:bg-fuchsia-900/80 text-fuchsia-100"
+        }`} 
         disabled={currentStep === 1}
-        className={`px-6 py-2 rounded-lg transition-colors ${
-          currentStep === 1
-            ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-            : 'bg-gray-700 text-white hover:bg-gray-600'
-        }`}
       >
-        {t('buttons.previous')}
+        Previous
       </button>
       
-      {currentStep < totalSteps ? (
-        <button
-          type="button"
-          onClick={onNext}
-          className="px-6 py-2 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 transition-colors"
+      {currentStep === totalSteps ? (
+        <button 
+          onClick={onSubmit} 
+          className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
         >
-          {t('buttons.next')}
+          Submit
         </button>
       ) : (
-        <button
-          type="button"
-          onClick={onSubmit}
-          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+        <button 
+          onClick={onNext} 
+          className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
         >
-          {t('buttons.submit')}
+          Next
         </button>
       )}
     </div>

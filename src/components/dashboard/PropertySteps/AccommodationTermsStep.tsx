@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -5,7 +6,7 @@ import { validateAccommodationTerms, formatMonths } from "./AccommodationTerms/u
 import { useAvailabilityDates } from "./AccommodationTerms/hooks/useAvailabilityDates";
 import { weekdays } from "@/utils/constants";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
-import { AvailabilitySection } from "./AccommodationTerms/AvailabilitySection";
+import AvailabilitySection from "./AccommodationTerms/AvailabilitySection";
 
 export interface AccommodationTermsStepProps {
   formData: any;

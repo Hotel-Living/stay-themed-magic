@@ -1,43 +1,48 @@
 
 import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 interface PostalCodeInputProps {
   value: string;
-  onChange: (value: string) => void;
-  onBlur?: () => void;
-  hasError?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+  error: any;
+  touched: any;
   errorMessage?: string;
-  error?: string;
-  touched?: boolean;
 }
 
-export default function PostalCodeInput({ 
-  value, 
-  onChange, 
+const PostalCodeInput: React.FC<PostalCodeInputProps> = ({
+  value,
+  onChange,
   onBlur,
-  hasError,
-  errorMessage,
   error,
-  touched 
-}: PostalCodeInputProps) {
-  const { t } = useTranslation();
-
-  const finalError = errorMessage || error;
+  touched,
+  errorMessage
+}) => {
+  const hasError = touched && error;
 
   return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-foreground/90 uppercase">
-        {t('dashboard.postalCode')}
-      </label>
-      <input
+    <div className="mb-4">
+      <Label htmlFor="postalCode" className={cn("text-white", hasError ? "text-red-500" : "")}>
+        Postal Code {hasError && <span className="text-red-500">*</span>}
+      </Label>
+      <Input
         type="text"
+        id="postalCode"
+        name="postalCode"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
         onBlur={onBlur}
-        className="w-full px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
+        placeholder="Enter postal code"
+        className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
       />
-      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
+      {hasError && (
+        <p className="text-red-500 text-sm mt-1">{errorMessage || error}</p>
+      )}
     </div>
   );
-}
+};
+
+export default PostalCodeInput;

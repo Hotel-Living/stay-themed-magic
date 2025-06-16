@@ -1,57 +1,145 @@
 
-import React from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import React, { useEffect, useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useGoogleMaps } from "./hooks/useGoogleMaps";
 
 interface CitySelectorProps {
   value: string;
-  onChange: (value: string) => void;
   country: string;
-  onBlur?: () => void;
-  hasError?: boolean;
+  onChange: (e: any) => void;
+  onValueChange: (value: string) => void;
+  onBlur: () => void;
+  error: any;
+  touched: any;
   errorMessage?: string;
-  error?: string;
-  touched?: boolean;
-  onCustomClick?: () => void;
+  cities?: string[];
+  disabled?: boolean;
+  onCustomClick: () => void;
 }
 
-export default function CitySelector({ 
-  value, 
-  onChange, 
-  country, 
+const CitySelector: React.FC<CitySelectorProps> = ({
+  value,
+  country,
+  onChange,
+  onValueChange,
   onBlur,
-  hasError,
-  errorMessage,
   error,
   touched,
-  onCustomClick 
-}: CitySelectorProps) {
-  const { t } = useTranslation();
+  errorMessage,
+  disabled = false,
+  onCustomClick
+}) => {
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const hasError = (touched && error) || validationError;
+  const { isLoading, error: mapsError } = useGoogleMaps();
 
-  const finalError = errorMessage || error;
+  const validateCity = async (cityName: string) => {
+    if (!cityName) return;
+    
+    // Check if Google Maps API is loaded
+    if (isLoading) {
+      console.log("Google Maps API is still loading, validation delayed");
+      return false;
+    }
+    
+    if (mapsError) {
+      console.error("Google Maps API failed to load:", mapsError);
+      setValidationError("Unable to validate city due to Maps API error");
+      return false;
+    }
+
+    try {
+      // Check if the global google object exists
+      if (typeof window.google === 'undefined' || !window.google.maps) {
+        console.error('Google Maps API not loaded');
+        return false;
+      }
+
+      const geocoder = new window.google.maps.Geocoder();
+      const response = await geocoder.geocode({
+        address: `${cityName}, ${country}`,
+        componentRestrictions: {
+          country: country
+        }
+      });
+
+      if (response.results.length > 0) {
+        // Check if result is a city
+        const isCity = response.results[0].types.some(type => 
+          ['locality', 'administrative_area_level_1', 'administrative_area_level_2'].includes(type)
+        );
+
+        if (!isCity) {
+          setValidationError("The location entered is not a city. Please enter a valid city name.");
+          return false;
+        }
+
+        setValidationError(null);
+        return true;
+      } else {
+        setValidationError("The city entered was not recognized. Please enter a valid city.");
+        return false;
+      }
+    } catch (err) {
+      console.error('Error validating city:', err);
+      setValidationError("Could not validate the city. Please try again.");
+      return false;
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onValueChange(newValue);
+    onChange({ target: { value: newValue } });
+    setValidationError(null);
+  };
+
+  const handleBlur = async () => {
+    if (value) {
+      await validateCity(value);
+    }
+    onBlur();
+  };
 
   return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-foreground/90 uppercase">
-        {t('location.city')} *
-      </label>
-      <div className="flex gap-2">
-        <input
-          type="text"
+    <div>
+      <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
+        City {hasError && <span className="text-red-500">*</span>}
+      </Label>
+      <div className="flex items-center space-x-2">
+        <Input
+          id="city"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={onBlur}
-          placeholder={t('location.enterCityName')}
-          className="flex-1 px-3 py-2 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          disabled={disabled || !country}
+          placeholder="Enter city name"
+          className={cn(
+            "bg-[#7A0486] text-white border-white",
+            hasError ? "border-red-500" : "",
+            "placeholder:text-white/50"
+          )}
         />
-        <button
-          type="button"
+        <Button 
+          variant="secondary" 
+          size="sm" 
           onClick={onCustomClick}
-          className="px-4 py-2 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 transition-colors"
+          disabled={disabled || !country}
+          className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          {t('location.custom')}
-        </button>
+          Custom
+        </Button>
       </div>
-      {finalError && <p className="text-red-400 text-xs">{finalError}</p>}
+      {hasError && (
+        <p className="text-red-500 text-sm mt-1 bg-[#1A1F2C] px-3 py-1 rounded">
+          {validationError || errorMessage || error}
+        </p>
+      )}
     </div>
   );
-}
+};
+
+export default CitySelector;

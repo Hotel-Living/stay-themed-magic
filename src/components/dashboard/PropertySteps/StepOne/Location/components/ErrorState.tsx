@@ -1,28 +1,43 @@
 
-import React from "react";
-import { AlertCircle } from "lucide-react";
-import { useTranslation } from "@/hooks/useTranslation";
+import React from 'react';
+import { AlertTriangle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface ErrorStateProps {
-  onRetry: () => void;
-  error?: string;
+  error: string;
+  onRetry?: () => void;
 }
 
-export const ErrorState: React.FC<ErrorStateProps> = ({ onRetry, error }) => {
-  const { t } = useTranslation();
-
+export const ErrorState: React.FC<ErrorStateProps> = ({ error, onRetry }) => {
   return (
-    <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
-      <div className="text-center">
-        <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-        <p className="text-gray-600 mb-4">{error || t('mapError')}</p>
-        <button 
-          onClick={onRetry}
-          className="px-4 py-2 bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700"
-        >
-          {t('dashboard.retry')}
-        </button>
+    <div className="flex flex-col items-center justify-center h-full w-full p-4 text-center">
+      <AlertTriangle className="h-12 w-12 text-red-500 mb-3" />
+      <h3 className="text-lg font-semibold text-red-400 mb-2">Google Maps Error</h3>
+      <p className="text-sm text-white/70">{error}</p>
+      <p className="mt-3 text-xs text-white/50">
+        Please check that your Google Maps API key is correctly configured and has the appropriate domain restrictions.
+      </p>
+      
+      <div className="mt-4 p-3 bg-yellow-900/30 rounded-md border border-yellow-700/50 max-w-md">
+        <p className="text-xs text-yellow-300">
+          <strong>Tip:</strong> Ensure your API key allows these domains:
+        </p>
+        <ul className="text-xs text-yellow-200 list-disc pl-5 mt-1">
+          <li>localhost</li>
+          <li>*.lovable.app</li>
+          <li>Your custom domains</li>
+        </ul>
       </div>
+      
+      {onRetry && (
+        <Button 
+          onClick={onRetry} 
+          variant="outline" 
+          className="mt-4 bg-purple-700/40 hover:bg-purple-700/60 border-purple-500"
+        >
+          Retry Loading Map
+        </Button>
+      )}
     </div>
   );
 };

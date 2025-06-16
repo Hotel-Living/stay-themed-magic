@@ -5,10 +5,8 @@ import { Footer } from "@/components/Footer";
 import AddProperty from "@/components/dashboard/AddProperty";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { getDashboardTabs } from "@/components/hotel-dashboard/TabConfiguration";
-import { useTranslation } from "@/hooks/useTranslation";
 
 export default function AddPropertyPage() {
-  const { t } = useTranslation();
   // Get dashboard tabs configuration
   const tabs = getDashboardTabs();
 
@@ -23,7 +21,7 @@ export default function AddPropertyPage() {
           setActiveTab={() => {}}
         >
           <div className="container max-w-6xl mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8">{t('dashboard.propertyManagement')}</h1>
+            <h1 className="text-3xl font-bold mb-8">PROPERTY MANAGEMENT</h1>
             
             <div className="lg:col-span-3">
               <AddProperty />

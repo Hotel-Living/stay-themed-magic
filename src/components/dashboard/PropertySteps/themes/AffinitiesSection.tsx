@@ -65,10 +65,10 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Use the exact same keys from activities namespace that already exist and work
+  // Fixed translation mapping - now correctly using activities.* keys that exist
   const getTranslatedThemeName = (name: string) => {
     const affinityTranslations: { [key: string]: string } = {
-      // Main category names - map to existing activities keys
+      // Main category names - corrected to use activities.* keys
       "Art": t('activities.art'),
       "ART": t('activities.art'),
       "Fanatics": t('activities.fanatics'),

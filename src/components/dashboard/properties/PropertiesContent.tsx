@@ -22,7 +22,18 @@ export const PropertiesContent = () => {
         </button>
       </div>
       
-      <PropertyListView />
+      <PropertyListView 
+        user={null}
+        hotels={[]}
+        isLoading={false}
+        error={null}
+        onEdit={() => {}}
+        onView={() => {}}
+        onDelete={() => {}}
+        showActions={true}
+        emptyMessage=""
+        onRefresh={() => {}}
+      />
     </div>
   );
 };

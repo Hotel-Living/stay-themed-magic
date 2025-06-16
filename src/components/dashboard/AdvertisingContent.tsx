@@ -131,7 +131,13 @@ const AdvertisingContent = () => {
                     <Checkbox
                       id={month.id}
                       checked={selectedMonths.includes(month.id)}
-                      onCheckedChange={() => toggleMonth(month.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedMonths(prev => [...prev, month.id]);
+                        } else {
+                          setSelectedMonths(prev => prev.filter(id => id !== month.id));
+                        }
+                      }}
                     />
                     <Label htmlFor={month.id} className="text-sm">
                       {month.name}
@@ -145,7 +151,7 @@ const AdvertisingContent = () => {
               <Checkbox
                 id="terms"
                 checked={agreedToTerms}
-                onCheckedChange={setAgreedToTerms}
+                onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
               />
               <Label htmlFor="terms" className="text-sm">
                 {language === 'es' ? t('dashboard.agreeOffer') : 'I agree and understand to offer 3 free nights in exchange for 1 month of advertising.'}

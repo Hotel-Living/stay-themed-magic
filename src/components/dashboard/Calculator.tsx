@@ -1,87 +1,69 @@
 
-import { useState } from "react";
-import { Calculator, Download, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { createExcelFile } from "@/utils/lazyExcel";
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
-export default function CalculatorContent() {
-  const [isDownloading, setIsDownloading] = useState(false);
-  const { toast } = useToast();
+const Calculator = () => {
+  const [nights, setNights] = useState<number>(8);
+  const [occupancy, setOccupancy] = useState<number>(75);
+  const [price, setPrice] = useState<number>(85);
   
-  const handleDownloadExcel = async () => {
-    try {
-      setIsDownloading(true);
-      
-      // Create sample calculator data
-      const calculatorData = [
-        {
-          "Property Type": "Hotel Room",
-          "Location": "City Center",
-          "Monthly Rate": 2500,
-          "Occupancy Rate": "85%",
-          "Annual Revenue": 25500,
-          "Profit Margin": "35%"
-        },
-        {
-          "Property Type": "Apartment",
-          "Location": "Suburb",
-          "Monthly Rate": 1800,
-          "Occupancy Rate": "92%",
-          "Annual Revenue": 19872,
-          "Profit Margin": "40%"
-        }
-      ];
-      
-      // Use dynamic import for XLSX
-      await createExcelFile(calculatorData, 'hotel-living-calculator.xlsx');
-      
-      toast({
-        description: "The Hotel-Living Calculator has been downloaded successfully."
-      });
-    } catch (error) {
-      console.error("Download error:", error);
-      toast({
-        variant: "destructive",
-        description: "There was a problem downloading the calculator. Please try again."
-      });
-    } finally {
-      setIsDownloading(false);
-    }
+  const calculateRevenue = () => {
+    return nights * occupancy * price;
   };
-  
+
   return (
-    <div className="glass-card rounded-2xl p-6 bg-[#430254]">
-      <h2 className="text-xl font-bold mb-6">Hotel-Living Calculator</h2>
-      <p className="text-foreground/80 mb-4">Calculate potential revenue and occupancy for your properties.</p>
-      
-      <div className="text-center py-12 text-muted-foreground">
-        <Calculator className="w-12 h-12 mx-auto mb-4 opacity-50" />
-        <p className="mb-6">Our advanced calculator tool helps you project earnings based on local market data.</p>
+    <Card className="glass-card bg-[#5d0478] border-purple-400/20">
+      <CardHeader>
+        <CardTitle className="text-white text-center">Revenue Calculator</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-fuchsia-200 mb-2">
+              Nights per Stay
+            </label>
+            <Input
+              type="number"
+              value={nights}
+              onChange={(e) => setNights(Number(e.target.value))}
+              className="bg-white/10 border-fuchsia-300 text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-fuchsia-200 mb-2">
+              Occupancy Rate (%)
+            </label>
+            <Input
+              type="number"
+              value={occupancy}
+              onChange={(e) => setOccupancy(Number(e.target.value))}
+              className="bg-white/10 border-fuchsia-300 text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-fuchsia-200 mb-2">
+              Price per Night ($)
+            </label>
+            <Input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              className="bg-white/10 border-fuchsia-300 text-white"
+            />
+          </div>
+        </div>
         
-        <Button 
-          onClick={handleDownloadExcel} 
-          className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2 mx-auto"
-          disabled={isDownloading}
-        >
-          {isDownloading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Downloading...
-            </>
-          ) : (
-            <>
-              <Download className="w-4 h-4" />
-              Download Excel Calculator
-            </>
-          )}
-        </Button>
-        
-        <p className="text-xs mt-8 text-foreground/60">
-          © {new Date().getFullYear()} Hotel-Living Calculator. All rights reserved.
-          This calculator is registered and protected by copyright laws.
-        </p>
-      </div>
-    </div>
+        <div className="text-center pt-4">
+          <div className="bg-fuchsia-900/30 rounded-lg p-4">
+            <p className="text-sm text-fuchsia-300 mb-2">Estimated Revenue</p>
+            <p className="text-2xl font-bold text-white">${calculateRevenue().toLocaleString()}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
-}
+};
+
+export default Calculator;

@@ -145,7 +145,7 @@ const AdvertisingContent = () => {
               <Checkbox
                 id="terms"
                 checked={agreedToTerms}
-                onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
+                onCheckedChange={setAgreedToTerms}
               />
               <Label htmlFor="terms" className="text-sm">
                 {language === 'es' ? t('dashboard.agreeOffer') : 'I agree and understand to offer 3 free nights in exchange for 1 month of advertising.'}

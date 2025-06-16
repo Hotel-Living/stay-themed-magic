@@ -65,71 +65,71 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     }
   };
 
-  // Enhanced function to get the translated name for themes with comprehensive coverage
+  // Enhanced function to get the translated name for themes using proper affinity keys
   const getTranslatedThemeName = (name: string) => {
-    // Create a comprehensive mapping for ALL theme translations using proper translation keys
-    const themeTranslations: { [key: string]: string } = {
+    // Create a comprehensive mapping for affinity translations using proper affinity keys
+    const affinityTranslations: { [key: string]: string } = {
       // Main categories
       "Personal Development": t('affinities.personalDevelopment'),
       "Relationships": t('affinities.relationships'),
       "Science and Technology": t('affinities.scienceTechnology'),
       
-      // Art subcategories - using existing activity translations since they're already comprehensive
-      "Art": t('activities.art'),
-      "Painting": t('activities.painting'),
-      "Sculpture": t('activities.sculpture'),
-      "Photography": t('activities.photography'),
-      "Cinema & Film Art": t('activities.cinemaFilmArt'),
-      "Street Art & Murals": t('activities.streetArtMurals'),
-      "Illustration & Comics": t('activities.illustrationComics'),
-      "Calligraphy & Typography": t('activities.calligraphyTypography'),
-      "Architecture as Art": t('activities.architectureAsArt'),
-      "Performance Art": t('activities.performanceArt'),
-      "Installation Art": t('activities.installationArt'),
-      "Ceramics & Pottery": t('activities.ceramicsPottery'),
-      "Art History & Movements": t('activities.artHistoryMovements'),
+      // Art subcategories - use affinity keys, not activity keys
+      "Art": t('affinities.art'),
+      "Painting": t('affinities.painting'),
+      "Sculpture": t('affinities.sculpture'),
+      "Photography": t('affinities.photography'),
+      "Cinema & Film Art": t('affinities.cinemaFilmArt'),
+      "Street Art & Murals": t('affinities.streetArtMurals'),
+      "Illustration & Comics": t('affinities.illustrationComics'),
+      "Calligraphy & Typography": t('affinities.calligraphyTypography'),
+      "Architecture as Art": t('affinities.architectureAsArt'),
+      "Performance Art": t('affinities.performanceArt'),
+      "Installation Art": t('affinities.installationArt'),
+      "Ceramics & Pottery": t('affinities.ceramicsPottery'),
+      "Art History & Movements": t('affinities.artHistoryMovements'),
       
       // Music related
-      "Music": t('activities.music'),
-      "Classical Music": t('activities.classicalMusic'),
-      "Jazz & Blues": t('activities.jazzBlues'),
-      "World Music": t('activities.worldMusic'),
-      "Latin Music": t('activities.latinMusic'),
-      "Contemporary & Pop Music": t('activities.contemporaryPopMusic'),
-      "Folk & Traditional Music": t('activities.folkTraditionalMusic'),
-      "Opera & Vocal Arts": t('activities.operaVocalArts'),
-      "Instrumental Performance": t('activities.instrumentalPerformance'),
-      "Music Appreciation & History": t('activities.musicAppreciationHistory'),
+      "Music": t('affinities.music'),
+      "Classical Music": t('affinities.classicalMusic'),
+      "Jazz & Blues": t('affinities.jazzBlues'),
+      "World Music": t('affinities.worldMusic'),
+      "Latin Music": t('affinities.latinMusic'),
+      "Contemporary & Pop Music": t('affinities.contemporaryPopMusic'),
+      "Folk & Traditional Music": t('affinities.folkTraditionalMusic'),
+      "Opera & Vocal Arts": t('affinities.operaVocalArts'),
+      "Instrumental Performance": t('affinities.instrumentalPerformance'),
+      "Music Appreciation & History": t('affinities.musicAppreciationHistory'),
       
       // Sports related
-      "Sports": t('activities.sports'),
-      "Martial Arts": t('activities.martialArts'),
-      "Team Sports": t('activities.teamSports'),
-      "Tennis & Racket Sports": t('activities.tennisRacketSports'),
-      "Winter Sports": t('activities.winterSports'),
-      "Adventure Sports": t('activities.adventureSports'),
-      "Watersports": t('activities.watersports'),
-      "Swimming": t('activities.swimming'),
-      "Cycling": t('activities.cycling'),
-      "Running & Jogging": t('activities.runningJogging'),
-      "Climbing & Bouldering": t('activities.climbingBouldering'),
+      "Sports": t('affinities.sports'),
+      "Martial Arts": t('affinities.martialArts'),
+      "Team Sports": t('affinities.teamSports'),
+      "Tennis & Racket Sports": t('affinities.tennisRacketSports'),
+      "Winter Sports": t('affinities.winterSports'),
+      "Adventure Sports": t('affinities.adventureSports'),
+      "Watersports": t('affinities.watersports'),
+      "Swimming": t('affinities.swimming'),
+      "Cycling": t('affinities.cycling'),
+      "Running & Jogging": t('affinities.runningJogging'),
+      "Climbing & Bouldering": t('affinities.climbingBouldering'),
       
       // Fan categories
-      "Fanatics": t('activities.fanatics'),
-      "Musical Icons": t('activities.musicalIcons'),
-      "Movie Legends": t('activities.movieLegends'),
-      "Writers & Thinkers": t('activities.writersThinkers'),
-      "Artists": t('activities.artists'),
-      "Spiritual or Historic Figures": t('activities.spiritualHistoricFigures'),
+      "Fanatics": t('affinities.fanatics'),
+      "Musical Icons": t('affinities.musicalIcons'),
+      "Movie Legends": t('affinities.movieLegends'),
+      "Writers & Thinkers": t('affinities.writersThinkers'),
+      "Artists": t('affinities.artists'),
+      "Spiritual or Historic Figures": t('affinities.spiritualHistoricFigures'),
       
       // Food & Health categories
-      "Food & Drinks": t('activities.foodDrinks'),
-      "Health and Wellness": t('activities.healthWellness'),
-      "Cooking & Food": t('activities.cookingFood'),
-      "Wellness & Care": t('activities.wellnessCare')
+      "Food & Drinks": t('affinities.foodDrinks'),
+      "Health and Wellness": t('affinities.healthWellness'),
+      "Cooking & Food": t('affinities.cookingFood'),
+      "Wellness & Care": t('affinities.wellnessCare')
     };
 
-    return themeTranslations[name] || name;
+    return affinityTranslations[name] || name;
   };
 
   if (loading) {

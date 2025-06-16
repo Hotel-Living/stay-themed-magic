@@ -25,7 +25,7 @@ export const HierarchicalActivitiesDisplay: React.FC<HierarchicalActivitiesDispl
   };
 
   const getTranslatedActivityName = (name: string) => {
-    // Create a comprehensive mapping for ALL activity translations
+    // Create a comprehensive mapping for ALL activity translations using proper activity keys
     const activityTranslations: { [key: string]: string } = {
       // Main categories
       "Interior": t('activities.interior'),

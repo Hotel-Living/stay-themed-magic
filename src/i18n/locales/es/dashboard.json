@@ -56,6 +56,12 @@
     "noBookings": "Aún no hay reservas",
     "noBookingsMessage": "Las reservas aparecerán aquí cuando los huéspedes realicen sus reservas."
   },
+  "ratesCalculator": {
+    "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",
+    "costsAndProfits": "COSTES Y BENEFICIOS",
+    "buildOwnModel": "CREA TU PROPIO MODELO Y TARIFAS",
+    "costsDisclaimer": "Estas cifras representan un ejemplo de costes incrementales medios por habitación ocupada adicional para hoteles estándar de 3-4-5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse en función de la categoría específica de cada hotel, nivel de servicio, posicionamiento y modelo operativo."
+  },
   "welcomeContent": {
     "dearHotelPartner": "🤝 Estimado Hotel,",
     "giveUsRooms": "👉 Entréganos tus habitaciones vacías… y las convertiremos en oro.",

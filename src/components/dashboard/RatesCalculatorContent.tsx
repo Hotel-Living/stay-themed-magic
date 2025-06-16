@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -6,8 +7,10 @@ import { DefaultCostsTab } from "./rates-calculator/DefaultCostsTab";
 import { RatesCalculatorTab } from "./rates-calculator/RatesCalculatorTab";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { ModelRatesTabs } from "./rates-calculator/ModelRatesTabs";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export const RatesCalculatorContent: React.FC = () => {
+  const { t } = useTranslation();
   const [mainMenuExpanded, setMainMenuExpanded] = useState(false);
   const [mainTab, setMainTab] = useState<string>("");
   const [costsSubTab, setCostsSubTab] = useState<string>("");
@@ -114,17 +117,17 @@ export const RatesCalculatorContent: React.FC = () => {
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
         <h2 className="text-xl font-bold text-center">
-          HOTEL-LIVING STANDARD ECONOMIC MODEL
+          {t('ratesCalculator.standardEconomicModel')}
         </h2>
       </div>
 
       {mainMenuExpanded && <Tabs value={mainTab} onValueChange={() => {}} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
             <TabsTrigger value="costs-profits" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${costsExpanded ? "border border-white/40" : ""}`} onClick={handleCostsMainTabClick} aria-pressed={costsExpanded}>
-              COSTS & PROFITS
+              {t('ratesCalculator.costsAndProfits')}
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              BUILD YOUR OWN MODEL & RATES
+              {t('ratesCalculator.buildOwnModel')}
             </TabsTrigger>
           </TabsList>
 
@@ -134,7 +137,7 @@ export const RatesCalculatorContent: React.FC = () => {
                 <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
                 <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
                   <p className="font-bold">
-                    These figures represent an example of average incremental costs per additional occupied room for 3-4-5 star standard hotel model in Western markets. Actual costs may vary and should be adjusted based on each hotel's specific category, level of service, positioning, and operational model.
+                    {t('ratesCalculator.costsDisclaimer')}
                   </p>
                 </div>
               </div>
@@ -186,7 +189,7 @@ export const RatesCalculatorContent: React.FC = () => {
                 <h3 className="font-extrabold text-base uppercase mb-2 tracking-wider text-fuchsia-200">BEFORE STARTING: PLEASE READ CAREFULLY</h3>
                 <div className="text-[15px] leading-relaxed font-medium">
                   Building your custom model is a crucial step to maximize your revenue opportunities.<br />
-                  We strongly recommend that you carefully review the “TIPS & STRATEGIC GUIDELINES” section first.<br />
+                  We strongly recommend that you carefully review the "TIPS & STRATEGIC GUIDELINES" section first.<br />
                   These recommendations will help you design a model fully adapted to your hotel's category, capacity, and audience profile.<br />
                   <b>Once you have studied the guidelines, you may proceed to download and use the Online Calculator located on the right.</b>
                 </div>

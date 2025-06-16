@@ -1,0 +1,11 @@
+
+{
+  "contact": {
+    "title": "Contact Us",
+    "welcomeMessage": {
+      "listening": "We're here to listen.",
+      "feelFree": "Feel free to reach out to us at",
+      "loveToHear": "— we'd love to hear from you."
+    }
+  }
+}

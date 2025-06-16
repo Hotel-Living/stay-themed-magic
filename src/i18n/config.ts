@@ -9,6 +9,12 @@ import enHotels from './locales/en/hotels.json';
 import enAffinity from './locales/en/affinity.json';
 import enFilters from './locales/en/filters.json';
 import enOurServices from './locales/en/ourServices.json';
+import enOurValues from './locales/en/ourValues.json';
+import enCustomerService from './locales/en/customerService.json';
+import enContact from './locales/en/contact.json';
+import enTerms from './locales/en/terms.json';
+import enPrivacy from './locales/en/privacy.json';
+import enIntellectualProperty from './locales/en/intellectualProperty.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -25,6 +31,12 @@ import esFooter from './locales/es/footer.json';
 import esHotels from './locales/es/hotels.json';
 import esFilters from './locales/es/filters.json';
 import esOurServices from './locales/es/ourServices.json';
+import esOurValues from './locales/es/ourValues.json';
+import esCustomerService from './locales/es/customerService.json';
+import esContact from './locales/es/contact.json';
+import esTerms from './locales/es/terms.json';
+import esPrivacy from './locales/es/privacy.json';
+import esIntellectualProperty from './locales/es/intellectualProperty.json';
 
 // Combine Spanish translations
 const es = {
@@ -41,7 +53,13 @@ const es = {
   ...esFooter,
   ...esHotels,
   ...esFilters,
-  ...esOurServices
+  ...esOurServices,
+  ...esOurValues,
+  ...esCustomerService,
+  ...esContact,
+  ...esTerms,
+  ...esPrivacy,
+  ...esIntellectualProperty
 };
 
 // Combine English translations
@@ -50,7 +68,13 @@ const enCombined = {
   ...enHotels,
   ...enAffinity,
   ...enFilters,
-  ...enOurServices
+  ...enOurServices,
+  ...enOurValues,
+  ...enCustomerService,
+  ...enContact,
+  ...enTerms,
+  ...enPrivacy,
+  ...enIntellectualProperty
 };
 
 const resources = {

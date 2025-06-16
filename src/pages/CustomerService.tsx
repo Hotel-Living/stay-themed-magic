@@ -9,8 +9,10 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function CustomerService() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,7 +40,7 @@ export default function CustomerService() {
       const mailtoLink = `mailto:grand_soiree@yahoo.com?subject=Customer Service Inquiry from ${formData.name}&body=Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0ACountry: ${formData.country}%0D%0ACity: ${formData.city}%0D%0A%0D%0A${formData.message}`;
       window.open(mailtoLink, "_blank");
       
-      toast.success("Thank you for your message! We'll get back to you soon.");
+      toast.success(t('customerService.success'));
       setIsSubmitting(false);
       setFormData({
         name: "",
@@ -59,16 +61,16 @@ export default function CustomerService() {
         <div className="container max-w-4xl mx-auto py-10">
           {isMobile ? (
             <div className="bg-[#4b0456] p-6 rounded-lg mb-8">
-              <h1 className="text-3xl font-bold mb-6 text-white">Customer Service</h1>
+              <h1 className="text-3xl font-bold mb-6 text-white">{t('customerService.title')}</h1>
               <div className="prose prose-invert max-w-none">
-                <p className="text-white">Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
+                <p className="text-white">{t('customerService.description')}</p>
               </div>
             </div>
           ) : (
             <>
-              <h1 className="text-3xl font-bold mb-6">Customer Service</h1>
+              <h1 className="text-3xl font-bold mb-6">{t('customerService.title')}</h1>
               <div className="prose prose-invert max-w-none mb-8">
-                <p>Please fill out the form below to contact our customer service team. We'll get back to you as soon as possible.</p>
+                <p>{t('customerService.description')}</p>
               </div>
             </>
           )}
@@ -76,7 +78,7 @@ export default function CustomerService() {
           <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto glass-card p-6 rounded-lg" style={{ backgroundColor: "#110375" }}>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{t('customerService.form.name')}</Label>
                 <Input 
                   id="name" 
                   name="name" 
@@ -89,7 +91,7 @@ export default function CustomerService() {
               </div>
               
               <div>
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">{t('customerService.form.email')}</Label>
                 <Input 
                   id="email" 
                   name="email" 
@@ -104,7 +106,7 @@ export default function CustomerService() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="country">Country</Label>
+                  <Label htmlFor="country">{t('customerService.form.country')}</Label>
                   <Input 
                     id="country" 
                     name="country" 
@@ -117,7 +119,7 @@ export default function CustomerService() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="city">{t('customerService.form.city')}</Label>
                   <Input 
                     id="city" 
                     name="city" 
@@ -131,7 +133,7 @@ export default function CustomerService() {
               </div>
               
               <div>
-                <Label htmlFor="message">Your Message</Label>
+                <Label htmlFor="message">{t('customerService.form.message')}</Label>
                 <Textarea 
                   id="message" 
                   name="message" 
@@ -149,7 +151,7 @@ export default function CustomerService() {
               className="w-full" 
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? t('customerService.form.sending') : t('customerService.form.send')}
             </Button>
           </form>
         </div>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Info } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useHierarchicalThemes } from "@/hooks/useHierarchicalThemes";
 
 interface AffinitiesSectionProps {
   formData?: any;
@@ -25,19 +26,9 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   setOpenSubmenu = () => {}
 }) => {
   const { t } = useTranslation();
+  const { themes, loading } = useHierarchicalThemes();
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
   const [selectedAffinities, setSelectedAffinities] = useState<string[]>(selectedThemes);
-
-  const affinityCategories = [
-    { key: 'art', label: t('affinities.art') },
-    { key: 'fans', label: t('affinities.fans') },
-    { key: 'sports', label: t('affinities.sports') },
-    { key: 'foodAndDrinks', label: t('affinities.foodAndDrinks') },
-    { key: 'music', label: t('affinities.music') },
-    { key: 'healthAndWellness', label: t('affinities.healthAndWellness') },
-    { key: 'education', label: t('affinities.education') },
-    { key: 'technology', label: t('affinities.technology') }
-  ];
 
   useEffect(() => {
     if (formData.selectedAffinities) {
@@ -49,20 +40,34 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
     setSelectedAffinities(selectedThemes);
   }, [selectedThemes]);
 
-  const toggleCategory = (categoryKey: string) => {
+  const toggleCategory = (categoryId: string) => {
     if (setOpenCategory) {
-      setOpenCategory(openCategory === categoryKey ? null : categoryKey);
+      setOpenCategory(openCategory === categoryId ? null : categoryId);
     } else {
       setExpandedCategories(prev => ({
         ...prev,
-        [categoryKey]: !prev[categoryKey]
+        [categoryId]: !prev[categoryId]
       }));
     }
   };
 
-  const isExpanded = (categoryKey: string) => {
-    return openCategory ? openCategory === categoryKey : expandedCategories[categoryKey];
+  const isExpanded = (categoryId: string) => {
+    return openCategory ? openCategory === categoryId : expandedCategories[categoryId];
   };
+
+  const handleThemeSelection = (themeId: string, isSelected: boolean) => {
+    onThemeSelect(themeId, isSelected);
+    
+    if (isSelected) {
+      setSelectedAffinities(prev => [...prev, themeId]);
+    } else {
+      setSelectedAffinities(prev => prev.filter(id => id !== themeId));
+    }
+  };
+
+  if (loading) {
+    return <div>Loading affinities...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -81,43 +86,40 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
         </button>
         
         <div className="space-y-3">
-          {affinityCategories.map((category) => (
-            <div key={category.key}>
+          {themes.map((category) => (
+            <div key={category.id}>
               <button
                 type="button"
-                onClick={() => toggleCategory(category.key)}
+                onClick={() => toggleCategory(category.id)}
                 className="flex items-center space-x-2 text-white hover:text-white/80 font-medium"
               >
-                {isExpanded(category.key) ? (
+                {isExpanded(category.id) ? (
                   <ChevronDown className="w-4 h-4" />
                 ) : (
                   <ChevronRight className="w-4 h-4" />
                 )}
-                <span>{category.label}</span>
+                <span>{category.name}</span>
               </button>
               
-              {isExpanded(category.key) && (
+              {isExpanded(category.id) && (
                 <div className="ml-6 mt-2 space-y-2">
-                  <p className="text-white/60 text-sm">
-                    {t('affinities.selectOptionsFor')} {category.label}
-                  </p>
-                  {/* Example subcategory options */}
-                  <div className="space-y-1">
-                    <label className="flex items-center space-x-2">
-                      <input 
-                        type="checkbox" 
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                      />
-                      <span className="text-sm text-white/80">Option 1</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input 
-                        type="checkbox" 
-                        className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                      />
-                      <span className="text-sm text-white/80">Option 2</span>
-                    </label>
-                  </div>
+                  {category.children && category.children.length > 0 ? (
+                    <div className="space-y-1">
+                      {category.children.map((theme) => (
+                        <label key={theme.id} className="flex items-center space-x-2">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedAffinities.includes(theme.id)}
+                            onChange={(e) => handleThemeSelection(theme.id, e.target.checked)}
+                            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                          />
+                          <span className="text-sm text-white/80">{theme.name}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-white/60 text-sm">No options available for this category</p>
+                  )}
                 </div>
               )}
             </div>

@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useHierarchicalActivities } from "@/hooks/useHierarchicalActivities";
 
 interface Activity {
   name: string;
@@ -23,8 +25,8 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
   onActivityChange = () => {}
 }) => {
   const { t } = useTranslation();
-  const [indoorExpanded, setIndoorExpanded] = useState(false);
-  const [outdoorExpanded, setOutdoorExpanded] = useState(false);
+  const { activities, loading } = useHierarchicalActivities();
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
   const [customActivities, setCustomActivities] = useState<Activity[]>([]);
   const [newActivity, setNewActivity] = useState<Activity>({
     name: "",
@@ -39,6 +41,17 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     }
   }, [formData.customActivities]);
 
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryId]: !prev[categoryId]
+    }));
+  };
+
+  const handleActivitySelection = (activityId: string, isSelected: boolean) => {
+    onActivityChange(activityId, isSelected);
+  };
+
   const handleAddActivity = () => {
     if (newActivity.name && newActivity.description) {
       const updatedActivities = [...customActivities, newActivity];
@@ -48,6 +61,10 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
     }
   };
 
+  if (loading) {
+    return <div>Loading activities...</div>;
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -55,81 +72,39 @@ export const ActivitiesSection: React.FC<ActivitiesSectionProps> = ({
         <p className="text-white/80 text-sm mb-4">{t('activities.selectAvailableActivities')}</p>
         
         <div className="space-y-4">
-          <div>
-            <button
-              type="button"
-              onClick={() => setIndoorExpanded(!indoorExpanded)}
-              className="flex items-center space-x-2 text-white hover:text-white/80"
-            >
-              {indoorExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-              <span>{t('activities.indoor')}</span>
-            </button>
-            {indoorExpanded && (
-              <div className="ml-6 mt-2 space-y-2">
-                <div className="space-y-1">
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.gym')}</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.spa')}</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.library')}</span>
-                  </label>
+          {activities.map((category) => (
+            <div key={category.id}>
+              <button
+                type="button"
+                onClick={() => toggleCategory(category.id)}
+                className="flex items-center space-x-2 text-white hover:text-white/80"
+              >
+                {expandedCategories[category.id] ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                <span>{category.name}</span>
+              </button>
+              {expandedCategories[category.id] && (
+                <div className="ml-6 mt-2 space-y-2">
+                  {category.children && category.children.length > 0 ? (
+                    <div className="space-y-1">
+                      {category.children.map((activity) => (
+                        <label key={activity.id} className="flex items-center space-x-2">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedActivities.includes(activity.id)}
+                            onChange={(e) => handleActivitySelection(activity.id, e.target.checked)}
+                            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
+                          />
+                          <span className="text-sm text-white/80">{activity.name}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-white/60 text-sm">No activities available for this category</p>
+                  )}
                 </div>
-              </div>
-            )}
-          </div>
-          
-          <div>
-            <button
-              type="button"
-              onClick={() => setOutdoorExpanded(!outdoorExpanded)}
-              className="flex items-center space-x-2 text-white hover:text-white/80"
-            >
-              {outdoorExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-              <span>{t('activities.outdoor')}</span>
-            </button>
-            {outdoorExpanded && (
-              <div className="ml-6 mt-2 space-y-2">
-                <div className="space-y-1">
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.swimming')}</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.tennis')}</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50"
-                    />
-                    <span className="text-sm text-white/80">{t('activities.hiking')}</span>
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 

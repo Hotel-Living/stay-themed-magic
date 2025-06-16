@@ -35,29 +35,29 @@ ________________________________________`
   {
     id: "cleaning",
     label: "LIMPIEZA",
-    content: `**HOMESTYLE CLEANING – LONG-TERM COMFORT**
+    content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
 
-🧼 HOTEL LIVING MEANS A NEW STANDARD OF HOSPITALITY
-🏡 ONE THAT FEELS MORE LIKE HOME.
-Unlike traditional hotels with daily housekeeping, our approach mirrors the rhythm of real life.
+🧼 HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD
+🏡 UNO QUE SE SIENTE MÁS COMO EN CASA.
+A diferencia de los hoteles tradicionales con limpieza diaria, nuestro enfoque refleja el ritmo de la vida real.
 
-Just like someone living at home might have light help a few times a week, our guests enjoy thoughtful, discreet care that supports their independence and comfort.
+Así como alguien que vive en casa podría recibir ayuda ligera algunas veces por semana, nuestros huéspedes disfrutan de un cuidado atento y discreto que respeta su independencia y comodidad.
 ________________________________________
-🧹 FULL CLEANING — ONCE A WEEK
-A complete room cleaning every 7 days ensures hygiene and freshness, with minimal intrusion.
+🧹 LIMPIEZA COMPLETA — UNA VEZ POR SEMANA
+Una limpieza completa de la habitación cada 7 días garantiza higiene y frescura, con una mínima intrusión.
 ________________________________________
-🔄 LIGHT DAILY REFRESH (UPON REQUEST)
-Optional light touch-ups — 🗑️ waste removal, 🧺 light tidying, 🌬️ ventilation — are available, respectful of privacy and lifestyle.
+🔄 REFRESCO LIGERO DIARIO (A PETICIÓN)
+Pequeños retoques opcionales — 🗑️ retirada de basura, 🧺 orden ligero, 🌬️ ventilación — están disponibles, respetando la privacidad y el estilo de vida.
 ________________________________________
-🛏️ LINEN CHANGE — EVERY 5 DAYS
-Sheets and towels are refreshed regularly, matching the comfort standards of home living.
+🛏️ CAMBIO DE ROPA DE CAMA — CADA 5 DÍAS
+Las sábanas y toallas se renuevan regularmente, siguiendo los estándares de comodidad del hogar.
 ________________________________________
-💼 OPERATIONAL BENEFITS
-This model reduces operational costs for hotels while offering guests a residential experience:
+💼 BENEFICIOS OPERATIVOS
+Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los huéspedes una experiencia residencial:
 
-•	Less disruption
-•	More privacy
-•	A feeling of truly belonging — not just staying.`
+•	Menos interrupciones
+•	Más privacidad
+•	La sensación de realmente pertenecer — no solo alojarse.`
   },
   {
     id: "meal-plans",

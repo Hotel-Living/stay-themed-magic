@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
 import { useThemes } from '@/hooks/useThemes';
@@ -20,7 +19,7 @@ export function FilterSectionWrapper({
   const { data: themes } = useThemes();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     country: null,
@@ -53,17 +52,29 @@ export function FilterSectionWrapper({
     navigate(`/search?${params.toString()}`);
   };
 
+  const getPlaceholders = () => {
+    if (language === 'es') {
+      return {
+        month: "¿" + t('filters.month').toUpperCase() + "?",
+        country: "¿" + t('filters.country').toUpperCase() + "?",
+        theme: "¿" + t('filters.affinity').toUpperCase() + "?",
+        priceRange: "¿" + t('filters.pricePerMonth') + "?"
+      };
+    }
+    return {
+      month: t('filters.month').toUpperCase() + "?",
+      country: t('filters.country').toUpperCase() + "?",
+      theme: t('filters.affinity').toUpperCase() + "?",
+      priceRange: t('filters.pricePerMonth') + "?"
+    };
+  };
+
   return <section className="py-0 px-2 mb-20 mt-4 w-full">
       <div className="container max-w-3xl mx-auto">
         <div style={{
         backgroundColor: "#996515"
       }} className="rounded-lg p-1 shadow-lg border-3 border-fuchsia-400/80 bg-[#ffc30b]">
-          <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={{
-          month: t('filters.month').toUpperCase() + "?",
-          country: t('filters.country').toUpperCase() + "?",
-          theme: t('filters.affinity').toUpperCase() + "?",
-          priceRange: t('filters.pricePerMonth') + "?"
-        }} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
+          <FilterSection onFilterChange={handleFilterChange} showSearchButton={false} placeholders={getPlaceholders()} useCollapsibleThemes={false} expandedLayout={true} compactSpacing={true} useBoldLabels={true} usePurpleFilterBackground={true} availableThemes={themes ? themes.map(theme => theme.name) : availableThemes} verticalLayout={isMobile} useLargerMobileText={isMobile} textColor="white" labelTextSize="text-xs" filterBgColor="bg-[#FFFFFF]" />
           
           <div className="flex justify-center" style={{
           backgroundColor: "#996515"

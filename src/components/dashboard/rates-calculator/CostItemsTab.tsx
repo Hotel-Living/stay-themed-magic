@@ -62,73 +62,73 @@ Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los
   {
     id: "meal-plans",
     label: "COMIDAS",
-    content: `🍽 THE HOTEL-LIVING MEAL MODEL: SIMPLE, WHOLESOME, HOMESTYLE
+    content: `**EL MODELO DE COMIDAS HOTEL-LIVING: SIMPLE, SALUDABLE, ESTILO HOGAR**
 
-Except for luxury or high-end boutique hotels — or in the case of short 8-day experiential stays centered on fine dining or culinary themes — Hotel-Living is not about gourmet cuisine or lavish buffets.
+Excepto en hoteles de lujo, boutique de alta gama o en estancias cortas de 8 días centradas en gastronomía o experiencias culinarias, Hotel-Living no se basa en cocina gourmet ni en buffets lujosos.
 
-In most cases, the Hotel-Living experience is built on comfort, simplicity, and sustainability.
+En la mayoría de los casos, la experiencia Hotel-Living se fundamenta en la comodidad, la simplicidad y la sostenibilidad.
 
-Our guests are not here for extravagance.
+Nuestros huéspedes no están aquí por el lujo.
 
-They are not tourists. They are long-stay residents looking for a reliable, healthy, and affordable meal routine — something that feels like real life at home.
+No son turistas. Son residentes de larga estancia que buscan una rutina de comidas fiable, saludable y accesible — algo que se asemeje a la vida real en el hogar.
 ________________________________________
-🔧 THAT'S WHY OUR FOOD MODEL IS:
+🔧 POR ESO NUESTRO MODELO DE ALIMENTACIÓN ES:
 
-✅ 🥗 Balanced, homestyle, and easy to prepare
+✅ 🥗 Equilibrado, estilo hogar y fácil de preparar
 
-✅ 🍎 Designed for moderation and wellness, not indulgence
+✅ 🍎 Diseñado para la moderación y el bienestar, no para el exceso
 
-✅ 👨‍🍳 Compatible with your hotel's existing kitchen setup and staff
+✅ 👨‍🍳 Compatible con la cocina y el personal existentes de su hotel
 
-✅ ♻️ Low-waste and low-cost — without sacrificing quality or care
+✅ ♻️ Bajo en residuos y en coste — sin sacrificar calidad ni cuidado
 ________________________________________
-🍳 FLEXIBLE MEAL PLANS
+🍳 PLANES DE COMIDAS FLEXIBLES
 
-Whether offering breakfast only or all-inclusive, Hotel-Living meal plans are built for:
+Tanto si ofrece solo desayuno como pensión completa, los planes de comidas de Hotel-Living están diseñados para:
 
-•	🧘 Consistency
+•	🧘 Consistencia
 
-•	🏡 Comfort
+•	🏡 Comodidad
 
-•	🙂 Guest satisfaction — not culinary showmanship.
+•	🙂 Satisfacción de los huéspedes — no exhibiciones culinarias.
 ________________________________________
-💼 OPERATIONAL ADVANTAGES:
+💼 VENTAJAS OPERATIVAS:
 
-🧑‍🍳 Lower operational complexity
+🧑‍🍳 Menor complejidad operativa
 
-🧾 Predictable costs and portion control
+🧾 Costes predecibles y control de porciones
 
-😊 A relaxed, familiar dining experience that guests truly value
+😊 Una experiencia gastronómica relajada y familiar que sus huéspedes valoran realmente
 ________________________________________
-📊 BUDGET & PLANNING BENEFITS:
+📊 BENEFICIOS PARA EL PRESUPUESTO Y LA PLANIFICACIÓN:
 
-Because all bookings are made in advance and fixed-duration:
+Como todas las reservas se realizan por adelantado y con duración fija:
 
-✅ 📅 You'll know exactly how many guests are coming — and for how long.
+✅ 📅 Usted sabrá exactamente cuántos huéspedes vendrán — y durante cuánto tiempo.
 
-✅ 🚫 Zero food waste becomes a real possibility.
+✅ 🚫 El desperdicio de alimentos puede llegar prácticamente a cero.
 ________________________________________
-🔁 SIMPLE, EFFICIENT KITCHEN STRATEGY:
+🔁 ESTRATEGIA DE COCINA SIMPLE Y EFICIENTE:
 
-For simpler kitchens, there's a proven, cost-effective strategy:
+Para cocinas sencillas, existe una estrategia comprobada y rentable:
 
-🔄 WEEKLY ROTATING MENUS
+🔄 MENÚS SEMANALES ROTATIVOS
 
-Where each weekday has a set meal that can be repeated every week — allowing:
+Donde cada día de la semana tiene un menú fijo que puede repetirse semanalmente, lo que permite:
 
-•	🛒 Bulk purchasing
+•	🛒 Compras al por mayor
 
-•	🍳 Simplified preparation
+•	🍳 Preparación simplificada
 
-•	💰 Further cost reduction
+•	💰 Reducción adicional de costes
 ________________________________________
-🔑 THE RESULT:
+🔑 EL RESULTADO:
 
-🏨 Hotels save
+🏨 Su hotel ahorra
 
-🏡 Guests feel at home
+🏡 Sus huéspedes se sienten como en casa
 
-🌍 And the entire experience becomes scalable, sustainable, and deeply human.`
+🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`
   },
   {
     id: "total-costs",

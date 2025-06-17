@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import AdminDashboardLayout from "../AdminDashboardLayout";
-import { SearchBar } from "./SearchBar";
 import { useAffinities } from "./hooks/useAffinities";
 import { AffinityHeader } from "./AffinityHeader";
 import { AffinityContent } from "./AffinityContent";
@@ -40,13 +39,9 @@ export default function AffinitiesPanel() {
     <AdminDashboardLayout>
       <div className="space-y-6">
         <AffinityHeader 
-          openNewThemeDialog={() => setNewThemeDialogOpen(true)} 
-        />
-
-        <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          placeholder="Search affinities by name, category or description..."
+          openNewThemeDialog={() => setNewThemeDialogOpen(true)} 
         />
 
         <div className="rounded-xl p-6 bg-[#7a0486]">

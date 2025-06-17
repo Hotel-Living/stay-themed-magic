@@ -6,11 +6,13 @@ import { ExportThemesButton } from "./ExportThemesButton";
 interface AffinityHeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  openNewThemeDialog: () => void;
 }
 
 export const AffinityHeader: React.FC<AffinityHeaderProps> = ({
   searchTerm,
-  setSearchTerm
+  setSearchTerm,
+  openNewThemeDialog
 }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

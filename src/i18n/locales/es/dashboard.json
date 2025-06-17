@@ -80,7 +80,10 @@
     "checkinOutPolicy": "Política de Check-in/out",
     "progressivePriceIncrease": "Incremento progresivo del precio a medida que se reservan las habitaciones",
     "enableAutoPriceIncrease": "Activar Incremento Automático de Precio",
-    "percentTotalIncrease": "% de Incremento Total"
+    "percentTotalIncrease": "% de Incremento Total",
+    "currencySettings": "Configuración de Moneda",
+    "currencySettingsDescription": "Seleccione su moneda preferida para las tarifas",
+    "preferredCurrency": "Moneda Preferida"
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

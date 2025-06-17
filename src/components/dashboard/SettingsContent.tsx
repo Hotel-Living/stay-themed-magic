@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -94,13 +95,13 @@ export default function SettingsContent() {
         <TabsContent value="currency">
           <Card>
             <CardHeader className="bg-[#7a0486] border border-white">
-              <CardTitle>Currency Settings</CardTitle>
-              <CardDescription>Select your preferred currency for rates</CardDescription>
+              <CardTitle>{t('dashboard.currencySettings')}</CardTitle>
+              <CardDescription>{t('dashboard.currencySettingsDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="bg-[#860493] border-x border-b border-white">
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="currency" className="block text-base mb-2">Preferred Currency</Label>
+                  <Label htmlFor="currency" className="block text-base mb-2">{t('dashboard.preferredCurrency')}</Label>
                   <Select value={currency} onValueChange={setCurrency}>
                     <SelectTrigger className="w-full bg-[#9b87f5] text-white h-12 border-white">
                       <SelectValue placeholder="Select currency" />

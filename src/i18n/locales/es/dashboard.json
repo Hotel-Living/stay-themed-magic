@@ -1,4 +1,3 @@
-
 {
   "dashboard": {
     "welcome": "Bienvenido",
@@ -61,7 +60,10 @@
     "rejected": "Rechazado",
     "guestManagement": "Gestión de Huéspedes",
     "noGuestData": "Aún no hay datos de huéspedes",
-    "noGuestDataMessage": "La información de los huéspedes aparecerá aquí una vez que usted reciba reservas."
+    "noGuestDataMessage": "La información de los huéspedes aparecerá aquí una vez que usted reciba reservas.",
+    "messagesFromAdmin": "Mensajes del Administrador",
+    "noMessagesYet": "Aún no hay mensajes",
+    "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma."
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

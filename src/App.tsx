@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -41,6 +42,7 @@ import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
 import Compare from "@/pages/Compare";
 import AddPropertyPage from "@/pages/AddPropertyPage";
+import PanelFernando from "@/pages/PanelFernando";
 
 const queryClient = createQueryClient();
 
@@ -86,6 +88,9 @@ function App() {
                   {/* Admin Routes - NO FORCED REDIRECTS */}
                   <Route path="/admin/*" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
                   <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
+                  
+                  {/* Panel Fernando - New Admin Panel */}
+                  <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
                   
                   {/* Comparison Route */}
                   <Route path="/compare" element={<Compare />} />

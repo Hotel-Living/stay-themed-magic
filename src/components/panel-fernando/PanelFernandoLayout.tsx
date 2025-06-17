@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, Calendar, CreditCard, BarChart3, MessageCircle, Megaphone } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -21,14 +21,14 @@ const fernandoTabs = [
     path: "/panel-fernando/hotels"
   },
   {
-    id: "bookings",
+    id: "bookings", 
     label: "Bookings",
-    icon: <Calendar className="w-5 h-5" />,
+    icon: <ClipboardList className="w-5 h-5" />,
     path: "/panel-fernando/bookings"
   },
   {
     id: "payments",
-    label: "Payments",
+    label: "Payments", 
     icon: <CreditCard className="w-5 h-5" />,
     path: "/panel-fernando/payments"
   },
@@ -46,7 +46,7 @@ const fernandoTabs = [
   },
   {
     id: "advertising",
-    label: "Advertising Requests",
+    label: "Advertising",
     icon: <Megaphone className="w-5 h-5" />,
     path: "/panel-fernando/advertising"
   }
@@ -80,7 +80,21 @@ export default function PanelFernandoLayout({ children }: PanelFernandoLayoutPro
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-white">PANEL FERNANDO</h1>
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-white">PANEL FERNANDO</h1>
+              <p className="text-white/60">Advanced Admin Control Panel</p>
+            </div>
+            
+            {/* Back to Admin Button */}
+            <button
+              onClick={() => navigate('/admin')}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="font-semibold">Back to Admin</span>
+            </button>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside className="lg:col-span-1">
@@ -121,13 +135,13 @@ export default function PanelFernandoLayout({ children }: PanelFernandoLayoutPro
                   <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
                   </div>
-                  <h3 className="font-bold text-white">Need Help?</h3>
+                  <h3 className="font-bold text-white">Panel Fernando</h3>
                 </div>
                 <p className="text-sm text-white/80 mb-4">
-                  Contact support if you need assistance with admin functions.
+                  Advanced administrative tools and comprehensive platform management.
                 </p>
                 <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-[#5A1876] hover:bg-[#6B1F8A]">
-                  Contact Support
+                  Documentation
                 </button>
               </div>
             </aside>

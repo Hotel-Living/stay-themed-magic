@@ -7,6 +7,7 @@ import ValidationMessage from "./StepOne/ValidationMessage";
 import useFormValidation from "./StepOne/useFormValidation";
 import PicturesStep from "./PicturesStep";
 import { UploadedImage } from "@/hooks/usePropertyImages";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FormData {
   hotelName: string;
@@ -43,6 +44,8 @@ export default function StepOne({
   updateFormData = () => {},
   showHeading = true
 }: StepOneProps) {
+  const { t } = useTranslation();
+  
   const {
     formData: localFormData,
     errors,
@@ -96,7 +99,7 @@ export default function StepOne({
 
   return (
     <div className="space-y-4 max-w-[80%]">
-      {showHeading && <h2 className="text-xl font-bold mb-2 text-white">1. GENERAL INFORMATION</h2>}
+      {showHeading && <h2 className="text-xl font-bold mb-2 text-white">{t('dashboard.generalInformation')}</h2>}
       
       <div className="grid gap-3">
         <HotelInfoSection 

@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PostalCodeInputProps {
   value: string;
@@ -21,12 +22,13 @@ const PostalCodeInput: React.FC<PostalCodeInputProps> = ({
   touched,
   errorMessage
 }) => {
+  const { t } = useTranslation();
   const hasError = touched && error;
 
   return (
     <div className="mb-4">
       <Label htmlFor="postalCode" className={cn("text-white", hasError ? "text-red-500" : "")}>
-        Postal Code {hasError && <span className="text-red-500">*</span>}
+        {t('dashboard.postalCode')} {hasError && <span className="text-red-500">*</span>}
       </Label>
       <Input
         type="text"
@@ -35,7 +37,7 @@ const PostalCodeInput: React.FC<PostalCodeInputProps> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        placeholder="Enter postal code"
+        placeholder={t('dashboard.enterPostalCode')}
         className={cn("text-white bg-[#7A0486] border-white", hasError ? "border-red-500" : "")}
       />
       {hasError && (

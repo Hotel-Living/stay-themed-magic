@@ -5,6 +5,7 @@ import UploadArea from "./Pictures/UploadArea";
 import UploadedImages from "./Pictures/UploadedImages";
 import { useToast } from "@/hooks/use-toast";
 import { UploadedImage, usePropertyImages } from "@/hooks/usePropertyImages";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PicturesStepProps {
   formData?: {
@@ -21,6 +22,7 @@ export default function PicturesStep({
   },
   updateFormData = () => {}
 }: PicturesStepProps) {
+  const { t } = useTranslation();
   const [initialized, setInitialized] = useState<boolean>(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -61,7 +63,7 @@ export default function PicturesStep({
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold text-lg text-white">HOTEL IMAGES</h3>
+      <h3 className="font-semibold text-lg text-white">{t('dashboard.hotelImages')}</h3>
       
       <UploadArea onFilesSelected={handleFilesChange} fileInputRef={fileInputRef} />
       
@@ -81,7 +83,7 @@ export default function PicturesStep({
       
       {images.length === 0 && (
         <p className="text-sm text-red-300">
-          Please upload at least one image for your hotel. The first image will be set as the main image.
+          {t('dashboard.uploadAtLeastOneImage')}
         </p>
       )}
     </div>

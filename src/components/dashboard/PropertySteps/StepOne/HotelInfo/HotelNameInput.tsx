@@ -1,6 +1,7 @@
 
 import React from "react";
 import FormField from "../FormField";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface HotelNameInputProps {
   value: string;
@@ -17,16 +18,18 @@ const HotelNameInput: React.FC<HotelNameInputProps> = ({
   hasError,
   errorMessage
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <FormField
       id="hotelName"
-      label="Hotel Name"
+      label={t('dashboard.hotelName')}
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={hasError ? errorMessage : ""}
       required
-      placeholder="Enter hotel name"
+      placeholder={t('dashboard.hotelNamePlaceholder')}
     />
   );
 };

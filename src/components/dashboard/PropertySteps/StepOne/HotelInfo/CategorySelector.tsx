@@ -2,6 +2,7 @@
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CategorySelectorProps {
   value: string;
@@ -18,10 +19,12 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
   hasError,
   errorMessage
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div>
       <Label htmlFor="category" className="text-white">
-        Category <span className="text-red-500">*</span>
+        {t('dashboard.category')} <span className="text-red-500">*</span>
       </Label>
       <Select
         value={value}
@@ -29,7 +32,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         onOpenChange={onBlur}
       >
         <SelectTrigger id="category" className="text-white bg-[#7A0486] border-white">
-          <SelectValue placeholder="Select hotel category" />
+          <SelectValue placeholder={t('dashboard.selectHotelCategory')} />
         </SelectTrigger>
         <SelectContent className="bg-[#7A0486] border-white">
           <SelectItem value="1" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">1 Star</SelectItem>

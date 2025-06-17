@@ -1,69 +1,66 @@
 
 import React from "react";
-import { PlusCircle, Star, Trash2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface UploadedImage {
-  url: string;
-  isMain: boolean;
-  id?: string;
-  name?: string;
-}
+import { Button } from "@/components/ui/button";
+import { UploadedImage } from "@/hooks/usePropertyImages";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface UploadedImagesProps {
   images: UploadedImage[];
-  onSetMainImage: (index: number) => void;
   onRemoveImage: (index: number) => void;
-  onAddMoreClick?: () => void;
-  mainImageUrl?: string;
-  onRemove?: (imageToRemove: UploadedImage) => void; 
-  onSetMain?: (image: UploadedImage) => void;
+  onSetMainImage: (index: number) => void;
+  mainImageUrl: string;
+  onAddMoreClick: () => void;
 }
 
-export default function UploadedImages({
-  images,
-  onSetMainImage,
-  onRemoveImage,
-  onAddMoreClick = () => {},
+export default function UploadedImages({ 
+  images, 
+  onRemoveImage, 
+  onSetMainImage, 
   mainImageUrl,
-  onRemove,
-  onSetMain
+  onAddMoreClick 
 }: UploadedImagesProps) {
-  return <div className="mt-6">
-      <label className="block text-sm font-medium text-foreground/90 mb-3">
-        Uploaded Photos ({images.length})
-      </label>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {images.map((image, index) => <div key={index} className="relative bg-fuchsia-950/50 rounded-lg aspect-[4/3] overflow-hidden group">
-            <img src={image.url} alt={`Uploaded image ${index}`} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <button className={cn("p-1.5 rounded-full transition-colors mr-2", image.isMain ? "bg-amber-400/60 hover:bg-amber-400/80" : "bg-white/10 hover:bg-white/20")} 
-                onClick={() => {
-                  onSetMainImage(index);
-                  if (onSetMain) onSetMain(image);
-                }} 
-                aria-label={image.isMain ? "Main image" : "Set as main image"}>
-                <Star className={cn("w-4 h-4", image.isMain ? "fill-amber-400 text-amber-400" : "text-white")} />
-              </button>
-              <button onClick={() => {
-                onRemoveImage(index);
-                if (onRemove) onRemove(image);
-              }} className="p-1.5 rounded-full bg-red-500/30 hover:bg-red-500/50 transition-colors" aria-label="Remove image">
-                <Trash2 className="w-4 h-4 text-white" />
-              </button>
-            </div>
-            {image.isMain && <div className="absolute top-2 left-2 bg-amber-400/80 text-amber-900 text-xs font-medium py-0.5 px-2 rounded-full">
-                Main Photo
-              </div>}
-          </div>)}
-        <div onClick={onAddMoreClick} className="flex items-center justify-center rounded-lg aspect-[4/3] border border-dashed border-fuchsia-800/40 cursor-pointer transition-colors bg-[#5A1876]/15 hover:bg-[#5A1876]/25">
-          <button className="p-2 rounded-full bg-fuchsia-500/20 hover:bg-fuchsia-500/30 transition-colors">
-            <PlusCircle className="w-6 h-6 text-fuchsia-300" />
-          </button>
-        </div>
+  const { t } = useTranslation();
+  
+  if (images.length === 0) return null;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h4 className="text-white font-medium">{t('dashboard.uploadedPhotos')} ({images.length})</h4>
+        <Button onClick={onAddMoreClick} variant="outline" size="sm">
+          Add More
+        </Button>
       </div>
-      <div className="mt-2 text-xs text-foreground/50">
-        <span className="text-fuchsia-300">★</span> Select a photo as the main image
+      
+      <p className="text-white/70 text-sm">{t('dashboard.selectMainImage')}</p>
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {images.map((image, index) => (
+          <div key={image.id} className="relative group">
+            <img
+              src={image.url}
+              alt={`Hotel image ${index + 1}`}
+              className={`w-full h-32 object-cover rounded-lg cursor-pointer transition-all ${
+                image.url === mainImageUrl ? 'ring-2 ring-yellow-400' : ''
+              }`}
+              onClick={() => onSetMainImage(index)}
+            />
+            
+            {image.url === mainImageUrl && (
+              <div className="absolute top-2 left-2 bg-yellow-400 text-black px-2 py-1 rounded text-xs font-bold">
+                MAIN
+              </div>
+            )}
+            
+            <button
+              onClick={() => onRemoveImage(index)}
+              className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              ×
+            </button>
+          </div>
+        ))}
       </div>
-    </div>;
+    </div>
+  );
 }

@@ -4,6 +4,7 @@ import { MapProps } from "./types";
 import { useMapLogic } from "./hooks/useMapLogic";
 import { MapCanvas } from "./components/MapCanvas";
 import { LocationControls } from "./components/LocationControls";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const InteractiveMap: React.FC<MapProps> = ({
   latitude,
@@ -11,6 +12,8 @@ const InteractiveMap: React.FC<MapProps> = ({
   address,
   onLocationSelect
 }) => {
+  const { t } = useTranslation();
+  
   const {
     mapRef,
     isLoading,
@@ -36,7 +39,7 @@ const InteractiveMap: React.FC<MapProps> = ({
       />
       
       <p className="text-xs text-white/60 mt-1">
-        Click anywhere on the map to set your property's exact location
+        {t('dashboard.clickAnywhereOnMap')}
       </p>
     </div>
   );

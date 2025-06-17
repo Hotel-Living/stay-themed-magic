@@ -2,6 +2,7 @@
 import React from "react";
 import FormField from "./FormField";
 import CollapsibleSection from "./CollapsibleSection";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ContactSectionProps {
   formData: {
@@ -22,17 +23,19 @@ export default function ContactSection({
   handleChange,
   handleBlur
 }: ContactSectionProps) {
+  const { t } = useTranslation();
+  
   // Function to check if we should show error for a field
   const shouldShowError = (field: string) => {
     return touchedFields[field] && errors[field];
   };
 
   return (
-    <CollapsibleSection title="CONTACT INFORMATION">
+    <CollapsibleSection title={t('dashboard.contactInformation')}>
       <div className="space-y-2">
         <FormField
           id="contact-name"
-          label="Contact Name"
+          label={t('dashboard.contactName')}
           value={formData.contactName}
           onChange={(value) => handleChange("contactName", value)}
           onBlur={() => handleBlur("contactName")}
@@ -42,7 +45,7 @@ export default function ContactSection({
         
         <FormField
           id="contact-email"
-          label="Email"
+          label={t('dashboard.email')}
           type="email"
           value={formData.contactEmail}
           onChange={(value) => handleChange("contactEmail", value)}
@@ -53,7 +56,7 @@ export default function ContactSection({
         
         <FormField
           id="contact-phone"
-          label="Phone"
+          label={t('dashboard.phone')}
           value={formData.contactPhone}
           onChange={(value) => handleChange("contactPhone", value)}
           onBlur={() => handleBlur("contactPhone")}

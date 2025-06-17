@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useGoogleMaps } from "./hooks/useGoogleMaps";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CitySelectorProps {
   value: string;
@@ -32,6 +33,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   disabled = false,
   onCustomClick
 }) => {
+  const { t } = useTranslation();
   const [validationError, setValidationError] = useState<string | null>(null);
   const hasError = (touched && error) || validationError;
   const { isLoading, error: mapsError } = useGoogleMaps();
@@ -107,7 +109,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
   return (
     <div>
       <Label htmlFor="city" className={cn(hasError ? "text-red-500" : "text-white")}>
-        City {hasError && <span className="text-red-500">*</span>}
+        {t('dashboard.city')} {hasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
         <Input
@@ -116,7 +118,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           disabled={disabled || !country}
-          placeholder="Enter city name"
+          placeholder={t('dashboard.enterCityName')}
           className={cn(
             "bg-[#7A0486] text-white border-white",
             hasError ? "border-red-500" : "",
@@ -130,7 +132,7 @@ const CitySelector: React.FC<CitySelectorProps> = ({
           disabled={disabled || !country}
           className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          Custom
+          {t('dashboard.custom')}
         </Button>
       </div>
       {hasError && (

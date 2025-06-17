@@ -1,15 +1,16 @@
 
 import React from "react";
-import { AlertCircle } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ImportantNotice() {
+  const { t } = useTranslation();
+  
   return (
-    <div className="border border-amber-500/30 p-3 rounded-lg mb-6 flex items-start bg-[#04198b]/[0.97]">
-      <AlertCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
-      <div>
-        <p className="text-sm font-medium uppercase text-white">IMPORTANT</p>
-        <p className="text-xs text-white">All fields marked as required must be completed before proceeding. If you add any new items, your property submission will require administrator approval before being published.</p>
-      </div>
+    <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 mt-6">
+      <h3 className="text-red-300 font-bold mb-2">{t('dashboard.important')}</h3>
+      <p className="text-red-300 text-sm">
+        {t('dashboard.importantNote')}
+      </p>
     </div>
   );
 }

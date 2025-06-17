@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface StepNavigationProps {
   currentStep: number;
@@ -20,6 +21,8 @@ export default function StepNavigation({
   showPrevious,
   isNextDisabled = false
 }: StepNavigationProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex items-center justify-between mt-8">
       {showPrevious ? (
@@ -48,7 +51,7 @@ export default function StepNavigation({
           onClick={onNext} 
           className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
         >
-          Next
+          {t('dashboard.next')}
         </button>
       )}
     </div>

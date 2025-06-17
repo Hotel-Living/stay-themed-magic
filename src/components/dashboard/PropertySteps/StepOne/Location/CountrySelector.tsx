@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Country } from 'country-state-city';
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CountrySelectorProps {
   value: string;
@@ -27,6 +28,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   errorMessage,
   onCustomClick
 }) => {
+  const { t } = useTranslation();
   const countries = Country.getAllCountries();
   const hasError = touched && error;
 
@@ -40,7 +42,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   return (
     <div>
       <Label htmlFor="country" className={cn(hasError ? "text-red-500" : "text-white")}>
-        Country {hasError && <span className="text-red-500">*</span>}
+        {t('dashboard.country')} {hasError && <span className="text-red-500">*</span>}
       </Label>
       <div className="flex items-center space-x-2">
         <Select 
@@ -48,7 +50,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           onValueChange={handleChange}
         >
           <SelectTrigger className={cn("bg-[#7A0486] text-white border-white", hasError ? "border-red-500" : "")}>
-            <SelectValue placeholder="Select a country" />
+            <SelectValue placeholder={t('dashboard.selectCountry')} />
           </SelectTrigger>
           <SelectContent className="bg-[#7A0486] border-white">
             <input
@@ -83,7 +85,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           onClick={onCustomClick}
           className="bg-[#1A1F2C] hover:bg-[#2A2F3C] text-white"
         >
-          Custom
+          {t('dashboard.custom')}
         </Button>
       </div>
       {hasError && (

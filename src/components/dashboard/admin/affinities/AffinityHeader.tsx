@@ -1,19 +1,28 @@
 
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { SearchBar } from "./SearchBar";
+import { ExportThemesButton } from "./ExportThemesButton";
 
 interface AffinityHeaderProps {
-  openNewThemeDialog: () => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
-export const AffinityHeader: React.FC<AffinityHeaderProps> = ({ openNewThemeDialog }) => {
+export const AffinityHeader: React.FC<AffinityHeaderProps> = ({
+  searchTerm,
+  setSearchTerm
+}) => {
   return (
-    <div className="flex justify-between items-center">
-      <h2 className="text-2xl font-bold">Affinities Management</h2>
-      <Button onClick={openNewThemeDialog}>
-        <Plus className="h-4 w-4 mr-2" /> Add New Affinity
-      </Button>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div>
+        <h1 className="text-2xl font-bold text-white mb-2">Affinities Management</h1>
+        <p className="text-white/70">Manage hotel themes and affinities</p>
+      </div>
+      
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <ExportThemesButton />
+      </div>
     </div>
   );
 };

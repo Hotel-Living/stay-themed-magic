@@ -12,7 +12,7 @@
     "ratesCalculator": "Calculadora de tarifas",
     "addProperty": "Añadir propiedad",
     "myBookings": "Mis reservas",
-    "myProperties": "Mis propiedades",
+    "myProperties": "Mis Propiedades",
     "earnings": "Ganancias",
     "calendar": "Calendario",
     "messages": "Mensajes",
@@ -54,7 +54,11 @@
     "noReviewsMessage": "Las opiniones aparecerán aquí cuando los huéspedes valoren tus propiedades.",
     "recentBookings": "Reservas Recientes",
     "noBookings": "Aún no hay reservas",
-    "noBookingsMessage": "Las reservas aparecerán aquí cuando los huéspedes realicen sus reservas."
+    "noBookingsMessage": "Las reservas aparecerán aquí cuando los huéspedes realicen sus reservas.",
+    "addNewProperty": "Añadir una Propiedad",
+    "approved": "Aprobado",
+    "pending": "Pendiente",
+    "rejected": "Rechazado"
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

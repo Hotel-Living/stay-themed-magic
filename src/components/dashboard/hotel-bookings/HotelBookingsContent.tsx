@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Calendar, Loader2, Flag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "../utils/dateUtils";
 import { ReportGuestDialog } from "./ReportGuestDialog";
 import { GuestBlacklistCheck } from "./GuestBlacklistCheck";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface Booking {
   id: string;
@@ -39,6 +39,7 @@ export default function HotelBookingsContent() {
   });
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -140,7 +141,7 @@ export default function HotelBookingsContent() {
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
-        <h2 className="text-xl font-bold mb-6">Hotel Bookings</h2>
+        <h2 className="text-xl font-bold mb-6">{t('dashboard.bookings')}</h2>
         <div className="flex items-center justify-center p-12">
           <Loader2 className="w-6 h-6 animate-spin text-fuchsia-500" />
           <span className="ml-2">Loading your bookings...</span>
@@ -151,7 +152,7 @@ export default function HotelBookingsContent() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <h2 className="text-xl font-bold mb-6">Hotel Bookings</h2>
+      <h2 className="text-xl font-bold mb-6">{t('dashboard.bookings')}</h2>
       
       {bookings.length > 0 ? (
         <div className="space-y-4">
@@ -220,8 +221,8 @@ export default function HotelBookingsContent() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-fuchsia-950/30 flex items-center justify-center">
             <Calendar className="w-8 h-8 text-fuchsia-400" />
           </div>
-          <h3 className="text-lg font-bold mb-2">No bookings yet</h3>
-          <p className="text-muted-foreground mb-6">You don't have any bookings at the moment.</p>
+          <h3 className="text-lg font-bold mb-2">{t('dashboard.noBookings')}</h3>
+          <p className="text-muted-foreground mb-6">{t('dashboard.noBookingsMessage')}</p>
         </div>
       )}
 

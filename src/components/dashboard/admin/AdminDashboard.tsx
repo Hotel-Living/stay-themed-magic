@@ -1,10 +1,10 @@
+
 import React, { useState } from 'react';
-import AdminHotelsPanel from './hotels/AdminHotelsPanel';
-import AdminUsersPanel from './users/AdminUsersPanel';
-import AdminBookingsPanel from './bookings/AdminBookingsPanel';
-import AdminPaymentsPanel from './payments/AdminPaymentsPanel';
+import AdminUsersPanel from './AdminUsersPanel';
+import AdminBookingsPanel from './AdminBookingsPanel';
+import AdminPaymentsPanel from './AdminPaymentsPanel';
 import AffinitiesPanel from './affinities/AffinitiesPanel';
-import AdminFiltersPanel from './filters/AdminFiltersPanel';
+import AdminFiltersPanel from './AdminFiltersPanel';
 import ActivitiesPanel from "./activities/ActivitiesPanel";
 
 export default function AdminDashboard() {
@@ -15,7 +15,7 @@ export default function AdminDashboard() {
       case 'overview':
         return <div className="text-white">Admin Overview Content</div>;
       case 'hotels':
-        return <AdminHotelsPanel />;
+        return <div className="text-white">Hotels management will be available soon</div>;
       case 'users':
         return <AdminUsersPanel />;
       case 'bookings':

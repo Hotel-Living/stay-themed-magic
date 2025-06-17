@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { useHierarchicalThemes } from "@/hooks/useHierarchicalThemes";
+import { useHierarchicalThemesWithTranslations } from "@/hooks/useHierarchicalThemesWithTranslations";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface HierarchicalThemeSelectorProps {
@@ -20,7 +20,7 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
   className = "",
   searchQuery = ""
 }) => {
-  const { themes, loading, error } = useHierarchicalThemes();
+  const { themes, loading, error } = useHierarchicalThemesWithTranslations();
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
 
   console.log("HierarchicalThemeSelector - themes:", themes);
@@ -83,61 +83,74 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
   return (
     <div className={className}>
       {filteredThemes.map((category) => (
-        <div key={category.id} className="mb-4">
-          <Collapsible 
+        <div key={category.id} className="mb-2">
+          <Collapsible
             open={openCategories.has(category.id)}
             onOpenChange={() => toggleCategory(category.id)}
           >
-            <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-fuchsia-900/30 rounded-lg hover:bg-fuchsia-800/40 transition-colors">
-              <span className="text-white font-medium text-left">{category.name}</span>
+            <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-left bg-fuchsia-800/30 rounded-lg hover:bg-fuchsia-700/30 transition-colors">
+              <span className="font-medium text-fuchsia-200">{category.name}</span>
               {openCategories.has(category.id) ? (
-                <ChevronDown className="h-4 w-4 text-white" />
+                <ChevronDown className="h-4 w-4 text-fuchsia-300" />
               ) : (
-                <ChevronRight className="h-4 w-4 text-white" />
+                <ChevronRight className="h-4 w-4 text-fuchsia-300" />
               )}
             </CollapsibleTrigger>
             
-            <CollapsibleContent className="mt-2 ml-4 space-y-2">
-              {category.children?.map((subcategory) => (
-                <div key={subcategory.id} className="space-y-2">
-                  {subcategory.children && subcategory.children.length > 0 ? (
-                    // Subcategory with items
-                    <div>
-                      <h4 className="text-fuchsia-300 font-medium text-sm mb-2 ml-2">
-                        {subcategory.name}
-                      </h4>
-                      <div className="ml-4 space-y-1">
-                        {subcategory.children.map((item) => (
-                          <label 
-                            key={item.id} 
-                            className="flex items-center space-x-2 text-white/90 hover:text-white cursor-pointer p-1 rounded hover:bg-fuchsia-800/20"
-                          >
+            <CollapsibleContent className="mt-2 ml-4 space-y-1">
+              {category.children && category.children.length > 0 ? (
+                category.children.map((subcategory) => (
+                  <div key={subcategory.id} className="mb-2">
+                    <Collapsible
+                      open={openCategories.has(subcategory.id)}
+                      onOpenChange={() => toggleCategory(subcategory.id)}
+                    >
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-left bg-fuchsia-900/20 rounded-md hover:bg-fuchsia-800/20 transition-colors">
+                        <span className="text-sm text-fuchsia-300">{subcategory.name}</span>
+                        {openCategories.has(subcategory.id) ? (
+                          <ChevronDown className="h-3 w-3 text-fuchsia-400" />
+                        ) : (
+                          <ChevronRight className="h-3 w-3 text-fuchsia-400" />
+                        )}
+                      </CollapsibleTrigger>
+                      
+                      <CollapsibleContent className="mt-1 ml-3 space-y-1">
+                        {subcategory.children && subcategory.children.map((item) => (
+                          <div key={item.id} className="flex items-center space-x-2 p-1">
                             <Checkbox
+                              id={item.id}
                               checked={selectedThemes.includes(item.id)}
                               onCheckedChange={() => handleThemeSelect(item.id)}
-                              className="data-[state=checked]:bg-fuchsia-600 data-[state=checked]:border-fuchsia-600"
+                              className="border-fuchsia-500 data-[state=checked]:bg-fuchsia-600"
                             />
-                            <span className="text-sm">{item.name}</span>
-                          </label>
+                            <label
+                              htmlFor={item.id}
+                              className="text-sm text-white cursor-pointer hover:text-fuchsia-200"
+                            >
+                              {item.name}
+                            </label>
+                          </div>
                         ))}
-                      </div>
-                    </div>
-                  ) : (
-                    // Direct item under category
-                    <label 
-                      key={subcategory.id} 
-                      className="flex items-center space-x-2 text-white/90 hover:text-white cursor-pointer p-1 rounded hover:bg-fuchsia-800/20"
-                    >
-                      <Checkbox
-                        checked={selectedThemes.includes(subcategory.id)}
-                        onCheckedChange={() => handleThemeSelect(subcategory.id)}
-                        className="data-[state=checked]:bg-fuchsia-600 data-[state=checked]:border-fuchsia-600"
-                      />
-                      <span className="text-sm">{subcategory.name}</span>
-                    </label>
-                  )}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center space-x-2 p-1">
+                  <Checkbox
+                    id={category.id}
+                    checked={selectedThemes.includes(category.id)}
+                    onCheckedChange={() => handleThemeSelect(category.id)}
+                    className="border-fuchsia-500 data-[state=checked]:bg-fuchsia-600"
+                  />
+                  <label
+                    htmlFor={category.id}
+                    className="text-sm text-white cursor-pointer hover:text-fuchsia-200"
+                  >
+                    {category.name}
+                  </label>
                 </div>
-              ))}
+              )}
             </CollapsibleContent>
           </Collapsible>
         </div>

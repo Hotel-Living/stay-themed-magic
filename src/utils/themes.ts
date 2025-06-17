@@ -1,13 +1,11 @@
 
 import { Theme, ThemeCategory } from './theme-types';
-import { useThemes } from '@/hooks/useThemes';
-import { useHierarchicalThemes } from '@/hooks/useHierarchicalThemes';
+import { useThemesWithTranslations } from '@/hooks/useThemesWithTranslations';
+import { useHierarchicalThemesWithTranslations } from '@/hooks/useHierarchicalThemesWithTranslations';
 
-// Re-export the useThemes hook for backward compatibility
-export { useThemes };
-
-// Export the hierarchical themes hook
-export { useHierarchicalThemes };
+// Re-export the new hooks that include translations
+export { useThemesWithTranslations as useThemes };
+export { useHierarchicalThemesWithTranslations as useHierarchicalThemes };
 
 // Function to organize flat themes into hierarchical structure
 export const organizeThemesHierarchically = (flatThemes: Theme[]): ThemeCategory[] => {

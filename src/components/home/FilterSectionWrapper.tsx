@@ -1,6 +1,7 @@
+
 import { useState } from 'react';
 import { FilterSection, FilterState } from '@/components/filters';
-import { useThemes } from '@/hooks/useThemes';
+import { useThemesWithTranslations } from '@/hooks/useThemesWithTranslations';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,7 +17,7 @@ export function FilterSectionWrapper({
   onFilterChange,
   availableThemes = ["Art", "Business", "Culture", "Education", "Entertainment", "Food and Drinks", "Health and Wellness", "History", "Hobbies", "Languages", "Lifestyle", "Nature", "Personal Development", "Relationships", "Science and Technology", "Social Impact", "Sports"]
 }: FilterSectionWrapperProps) {
-  const { data: themes } = useThemes();
+  const { data: themes } = useThemesWithTranslations();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { t, language } = useTranslation();

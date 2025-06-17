@@ -1,4 +1,5 @@
-import { GeneralInformationStep1 } from "./GeneralInformationStep1";
+
+import { StepOne } from "./StepOne";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
 import { AccommodationTermsStep } from "./AccommodationTerms/AccommodationTermsStep";
 import PackagesBuilderStep from "./PackagesBuilderStep";
@@ -8,7 +9,7 @@ export const stepsConfig = [
   {
     id: 1,
     title: "GENERAL INFORMATION",
-    component: GeneralInformationStep1,
+    component: StepOne,
     description: "Basic details about the hotel (name, address, category, description)."
   },
   {

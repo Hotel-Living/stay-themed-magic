@@ -1,6 +1,6 @@
 
 import React from "react";
-import { GeneralInformationStep1 } from "./GeneralInformationStep1";
+import StepOne from "./StepOne";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
 import { AccommodationTermsStep } from "./AccommodationTerms/AccommodationTermsStep";
 import PackagesBuilderStep from "./PackagesBuilderStep";
@@ -22,10 +22,11 @@ const StepContent: React.FC<StepContentProps> = ({
   switch (currentStep) {
     case 1:
       return (
-        <GeneralInformationStep1
+        <StepOne
           formData={formData}
           updateFormData={updateFormData}
           onValidationChange={onValidationChange}
+          showHeading={false}
         />
       );
     case 2:

@@ -46,14 +46,16 @@ Deno.serve(async (req) => {
 
     console.log('User authenticated:', user.email)
 
-    // Check if user is admin using the has_role function
-    const { data: isAdmin, error: adminError } = await supabaseClient
-      .rpc('has_role', { role_name: 'admin' })
+    // Check user roles directly
+    const { data: userRoles, error: rolesError } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
 
-    if (adminError) {
-      console.error('Admin check error:', adminError)
+    if (rolesError) {
+      console.error('Error fetching user roles:', rolesError)
       return new Response(
-        JSON.stringify({ error: 'Error checking admin status' }),
+        JSON.stringify({ error: 'Error checking user roles' }),
         { 
           status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -61,8 +63,12 @@ Deno.serve(async (req) => {
       )
     }
 
+    console.log('User roles found:', userRoles)
+    
+    const isAdmin = userRoles?.some(role => role.role === 'admin') || false
+
     if (!isAdmin) {
-      console.error('User is not admin:', user.email)
+      console.error('User is not admin:', user.email, 'Roles:', userRoles)
       return new Response(
         JSON.stringify({ error: 'Unauthorized: Admin access required' }),
         { 

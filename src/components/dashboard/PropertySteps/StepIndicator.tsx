@@ -11,10 +11,21 @@ interface StepIndicatorProps {
 export default function StepIndicator({ currentStep, totalSteps, stepTitle }: StepIndicatorProps) {
   const { t } = useTranslation();
   
+  // Translate step titles to Spanish
+  const getSpanishTitle = (title: string) => {
+    const translations = {
+      "ACCOMMODATION TERMS": "CONDICIONES DE LA ESTANCIA",
+      "GENERAL INFORMATION": "INFORMACIÓN GENERAL",
+      "PACKAGES BUILDER": "CONSTRUCTOR DE PAQUETES",
+      "FINAL TERMS": "TÉRMINOS FINALES"
+    };
+    return translations[title] || title;
+  };
+  
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
-        <h1 className="text-2xl font-bold text-white">{stepTitle}</h1>
+        <h1 className="text-2xl font-bold text-white">{getSpanishTitle(stepTitle)}</h1>
         <span className="text-white/70">Paso {currentStep} de {totalSteps}</span>
       </div>
       

@@ -15,7 +15,7 @@ export default function StepIndicator({ currentStep, totalSteps, stepTitle }: St
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-bold text-white">{stepTitle}</h1>
-        <span className="text-white/70">{t('dashboard.step2Of5')}</span>
+        <span className="text-white/70">Paso {currentStep} de {totalSteps}</span>
       </div>
       
       <div className="w-full bg-white/20 rounded-full h-2">

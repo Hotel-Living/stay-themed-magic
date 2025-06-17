@@ -14,16 +14,42 @@ export const useStepManagement = () => {
   });
 
   const validateStep = (step: number, isValid: boolean) => {
+    console.log(`Step ${step} validation:`, isValid);
     setStepValidation(prev => ({
       ...prev,
       [step]: isValid
     }));
   };
 
+  const goToStep = (step: number) => {
+    if (step >= 1 && step <= TOTAL_STEPS) {
+      console.log(`Navigating to step ${step}`);
+      setCurrentStep(step);
+    }
+  };
+
+  const nextStep = () => {
+    if (currentStep < TOTAL_STEPS) {
+      const next = currentStep + 1;
+      console.log(`Moving to next step: ${next}`);
+      setCurrentStep(next);
+    }
+  };
+
+  const previousStep = () => {
+    if (currentStep > 1) {
+      const prev = currentStep - 1;
+      console.log(`Moving to previous step: ${prev}`);
+      setCurrentStep(prev);
+    }
+  };
+
   return {
     currentStep,
-    setCurrentStep,
+    setCurrentStep: goToStep,
     stepValidation,
-    validateStep
+    validateStep,
+    nextStep,
+    previousStep
   };
 };

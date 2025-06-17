@@ -55,6 +55,12 @@ export default function PicturesStep({
     }
   }, [images, updateFormData, initialized]);
 
+  // Convert FileList to File[] array
+  const handleFilesSelected = (fileList: FileList) => {
+    const filesArray = Array.from(fileList);
+    handleFilesChange(filesArray);
+  };
+
   const triggerFileInput = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -65,7 +71,7 @@ export default function PicturesStep({
     <div className="space-y-4">
       <h3 className="font-semibold text-lg text-white">{t('dashboard.hotelImages')}</h3>
       
-      <UploadArea onFilesSelected={handleFilesChange} fileInputRef={fileInputRef} />
+      <UploadArea onFilesSelected={handleFilesSelected} fileInputRef={fileInputRef} />
       
       <FilesToUpload 
         files={files} 

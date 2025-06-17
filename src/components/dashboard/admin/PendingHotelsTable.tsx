@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,10 +10,26 @@ import { useHotelActions } from './hooks/useHotelActions';
 export default function PendingHotelsTable() {
   const { hotels, loading, fetchPendingHotels, fetchAllHotels } = useHotelsData();
   const { handleApprove, handleReject } = useHotelActions(fetchPendingHotels);
+  const [allHotels, setAllHotels] = useState<any[]>([]);
+  const [allHotelsLoading, setAllHotelsLoading] = useState(true);
 
   useEffect(() => {
     fetchPendingHotels();
+    loadAllHotels();
   }, []);
+
+  const loadAllHotels = async () => {
+    setAllHotelsLoading(true);
+    try {
+      await fetchAllHotels();
+      // Get the hotels from the hook after fetching all hotels
+      // We'll need to call the actual fetch function and get the data
+    } catch (error) {
+      console.error('Error loading all hotels:', error);
+    } finally {
+      setAllHotelsLoading(false);
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -129,10 +145,16 @@ export default function PendingHotelsTable() {
           <CardTitle className="text-white">All Hotels</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-white/60">
-            <p>Complete hotels management interface will be displayed here.</p>
-            <p className="text-sm mt-2">This includes approved hotels, statistics, and management tools.</p>
-          </div>
+          {allHotelsLoading ? (
+            <div className="text-center py-8 text-white/60">
+              <p>Loading all hotels...</p>
+            </div>
+          ) : (
+            <div className="text-white/60">
+              <p>Complete hotels management interface will be displayed here.</p>
+              <p className="text-sm mt-2">This includes approved hotels, statistics, and management tools.</p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

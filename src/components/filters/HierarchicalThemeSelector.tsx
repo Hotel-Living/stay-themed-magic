@@ -23,12 +23,20 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
   const { themes, loading, error } = useHierarchicalThemes();
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
 
+  console.log("HierarchicalThemeSelector - themes:", themes);
+  console.log("HierarchicalThemeSelector - loading:", loading);
+  console.log("HierarchicalThemeSelector - error:", error);
+
   if (loading) {
     return <div className="text-white">Cargando afinidades...</div>;
   }
 
   if (error) {
     return <div className="text-red-400">Error: {error}</div>;
+  }
+
+  if (!themes || themes.length === 0) {
+    return <div className="text-yellow-400">No se encontraron afinidades disponibles</div>;
   }
 
   const toggleCategory = (categoryId: string) => {
@@ -46,9 +54,11 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     onThemeSelect(themeId, !isSelected);
   };
 
-  // Filter themes based on search query
+  // Filter themes based on search query - only filter if search query exists
   const filterThemes = (themeList: any[]) => {
-    if (!searchQuery) return themeList;
+    if (!searchQuery || searchQuery.trim() === "") {
+      return themeList; // Return all themes if no search query
+    }
     
     return themeList.filter(theme => {
       // Check if theme name matches
@@ -66,6 +76,9 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
   };
 
   const filteredThemes = filterThemes(themes);
+
+  console.log("HierarchicalThemeSelector - filteredThemes:", filteredThemes);
+  console.log("HierarchicalThemeSelector - searchQuery:", searchQuery);
 
   return (
     <div className={className}>

@@ -2,6 +2,7 @@
 import React from "react";
 import DashboardCard from "../../DashboardCard";
 import { Calendar, CalendarCheck, Building } from "lucide-react";
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface DashboardStatsProps {
   bookingsCount: number;
@@ -16,6 +17,8 @@ export default function DashboardStats({
   savedHotelsCount,
   isLoading
 }: DashboardStatsProps) {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -29,19 +32,19 @@ export default function DashboardStats({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <DashboardCard 
-        title="Upcoming Stay" 
+        title={t('dashboard.upcomingStays')} 
         value={bookingsCount.toString()} 
         icon={<Calendar className="w-6 h-6" />} 
         color="fuchsia" 
       />
       <DashboardCard 
-        title="Completed Stays" 
+        title={t('dashboard.completedStays')} 
         value={completedStaysCount.toString()} 
         icon={<CalendarCheck className="w-6 h-6" />} 
         color="cyan" 
       />
       <DashboardCard 
-        title="Saved Hotels" 
+        title={t('dashboard.savedHotels')} 
         value={savedHotelsCount.toString()} 
         icon={<Building className="w-6 h-6" />} 
         color="amber" 

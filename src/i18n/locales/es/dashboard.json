@@ -70,7 +70,14 @@
     "analyticsTitle": "Análisis",
     "upcomingStays": "Estancias Próximas",
     "completedStays": "Estancias Completadas",
-    "savedHotels": "Hoteles Guardados"
+    "savedHotels": "Hoteles Guardados",
+    "hotelSettings": "Configuración del Hotel",
+    "saveAllSettings": "Guardar Todas las Configuraciones",
+    "checkinOut": "Check-in/out",
+    "autoPriceIncrease": "Incremento Automático de Precio",
+    "currency": "Moneda",
+    "policies": "Políticas",
+    "checkinOutPolicy": "Política de Check-in/out"
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

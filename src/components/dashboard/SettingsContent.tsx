@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,11 +11,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import CheckInOutSection from './PropertySteps/rooms/CheckInOutSection';
 import MealPlanSection from './PropertySteps/rooms/MealPlanSection';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function SettingsContent() {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const { t } = useTranslation();
+  
   const [currency, setCurrency] = useState('USD');
   const [enableAutoPrice, setEnableAutoPrice] = useState(false);
   const [priceIncreasePercent, setPriceIncreasePercent] = useState('20');
@@ -33,26 +33,26 @@ export default function SettingsContent() {
   
   return <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">Hotel Settings</h2>
+        <h2 className="text-xl font-bold">{t('dashboard.hotelSettings')}</h2>
         <Button onClick={handleSaveSettings} className="flex items-center gap-2 bg-[#9b87f5] hover:bg-[#7E69AB]">
           <Save className="h-4 w-4" />
-          Save All Settings
+          {t('dashboard.saveAllSettings')}
         </Button>
       </div>
       
       <Tabs defaultValue="checkin" className="w-full">
         <TabsList className="mb-6 bg-[#7a0486] border border-white">
-          <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">Check-in/out</TabsTrigger>
-          <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">Automatic Increase of Price</TabsTrigger>
-          <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">Currency</TabsTrigger>
-          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">Notifications</TabsTrigger>
-          <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">Policies</TabsTrigger>
+          <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">{t('dashboard.checkinOut')}</TabsTrigger>
+          <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">{t('dashboard.autoPriceIncrease')}</TabsTrigger>
+          <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">{t('dashboard.currency')}</TabsTrigger>
+          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">{t('dashboard.notifications')}</TabsTrigger>
+          <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">{t('dashboard.policies')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="checkin">
           <Card>
             <CardHeader className="bg-[#7a0486] border border-white">
-              <CardTitle>Check-in/out Policy</CardTitle>
+              <CardTitle>{t('dashboard.checkinOutPolicy')}</CardTitle>
               
             </CardHeader>
             <CardContent className="bg-[#860493] border-x border-b border-white">

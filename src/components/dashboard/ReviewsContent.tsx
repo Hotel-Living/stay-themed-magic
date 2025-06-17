@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +7,7 @@ import EmptyState from './EmptyState';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import ReviewItem from './ReviewItem';
+import { useTranslation } from '@/hooks/useTranslation';
 
 type Review = {
   id: string;
@@ -35,6 +35,7 @@ export const ReviewsContent = () => {
   const [submitting, setSubmitting] = useState<Record<string, boolean>>({});
   const { user, profile } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   // Fetch reviews for hotels owned by the current user
   useEffect(() => {
@@ -159,8 +160,8 @@ export const ReviewsContent = () => {
     return (
       <EmptyState 
         icon={<MessageSquare className="w-8 h-8" />}
-        title="No Reviews Yet"
-        description="Reviews from your guests will appear here once they leave feedback on your properties."
+        title={t('dashboard.noReviews')}
+        description={t('dashboard.noReviewsMessage')}
       />
     );
   }

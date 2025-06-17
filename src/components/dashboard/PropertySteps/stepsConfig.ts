@@ -8,27 +8,27 @@ import { FinalTermsStep } from "./FinalTermsStep";
 export const stepsConfig = [
   {
     id: 1,
-    title: "General Information",
+    title: "INFORMACIÓN GENERAL",
     component: GeneralInformationStep1,
     description: "Basic details about the hotel (name, address, category, description)."
   },
   {
     id: 2,
-    title: "Hotel Profile",
+    title: "PERFIL DEL HOTEL",
     component: GeneralInformationStep2,
     description: "Affinities, activities, hotel features, and room type structure.",
     requiredFields: ["affinities", "activities", "roomTypes"]
   },
   {
     id: 3,
-    title: "Accommodation Terms",
+    title: "CONDICIONES DE LA ESTANCIA",
     component: AccommodationTermsStep,
     description: "Stay durations, check-in rules, availability calendar, meals, and rooms.",
     requiredFields: ["stayDurations", "checkinDay", "mealPlans", "roomTypes", "available_months"]
   },
   {
     id: 4,
-    title: "Packages & Pricing",
+    title: "PAQUETES Y TARIFAS",
     component: PackagesBuilderStep,
     description: "Define exact prices for each room × duration × meal plan combination.",
     validate: (formData: any) => {
@@ -46,7 +46,7 @@ export const stepsConfig = [
   },
   {
     id: 5,
-    title: "FAQs & Terms",
+    title: "PREGUNTAS FRECUENTES Y CONDICIONES",
     component: FinalTermsStep,
     description: "Hotel rules, cancellation policy, and optional FAQs.",
     requiredFields: ["termsAccepted"]

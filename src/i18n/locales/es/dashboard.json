@@ -58,7 +58,10 @@
     "addNewProperty": "Añadir una Propiedad",
     "approved": "Aprobado",
     "pending": "Pendiente",
-    "rejected": "Rechazado"
+    "rejected": "Rechazado",
+    "guestManagement": "Gestión de Huéspedes",
+    "noGuestData": "Aún no hay datos de huéspedes",
+    "noGuestDataMessage": "La información de los huéspedes aparecerá aquí una vez que usted reciba reservas."
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

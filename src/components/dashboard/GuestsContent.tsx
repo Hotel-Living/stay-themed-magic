@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Users, Loader2 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +7,7 @@ import { ReportGuestDialog } from "./hotel-bookings/ReportGuestDialog";
 import { GuestFilters } from "./GuestFilters";
 import { GuestList } from "./GuestList";
 import { GuestTableHeader } from "./GuestTableHeader";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface GuestData {
   user_id: string;
@@ -39,6 +39,7 @@ export const GuestsContent = () => {
   });
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchGuestData = async () => {
@@ -218,7 +219,7 @@ export const GuestsContent = () => {
   if (isLoading) {
     return (
       <div className="glass-card rounded-2xl p-6">
-        <GuestTableHeader title="Guest Management" />
+        <GuestTableHeader title={t('dashboard.guestManagement')} />
         <div className="flex items-center justify-center p-12">
           <Loader2 className="w-6 h-6 animate-spin text-fuchsia-500" />
           <span className="ml-2">Loading guest data...</span>
@@ -229,7 +230,7 @@ export const GuestsContent = () => {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <GuestTableHeader title="Guest Management" />
+      <GuestTableHeader title={t('dashboard.guestManagement')} />
       
       {guests.length > 0 ? (
         <>
@@ -249,8 +250,8 @@ export const GuestsContent = () => {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-fuchsia-950/30 flex items-center justify-center">
             <Users className="w-8 h-8 text-fuchsia-400" />
           </div>
-          <h3 className="text-lg font-bold mb-2">No Guest Data Yet</h3>
-          <p className="text-muted-foreground mb-6">Guest information will appear here once you receive bookings.</p>
+          <h3 className="text-lg font-bold mb-2">{t('dashboard.noGuestData')}</h3>
+          <p className="text-muted-foreground mb-6">{t('dashboard.noGuestDataMessage')}</p>
         </div>
       )}
 

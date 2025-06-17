@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -64,17 +65,17 @@ export default function SettingsContent() {
         <TabsContent value="auto-price">
           <Card>
             <CardHeader className="bg-[#7a0486] border border-white">
-              <CardTitle>Progressive price increase as each room is booked out</CardTitle>
+              <CardTitle>{t('dashboard.progressivePriceIncrease')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 bg-[#860493] border-x border-b border-white">
               <div className="flex items-center justify-between">
-                <Label htmlFor="auto-price-increase">Enable Auto Price Increase</Label>
+                <Label htmlFor="auto-price-increase">{t('dashboard.enableAutoPriceIncrease')}</Label>
                 <Switch id="auto-price-increase" checked={enableAutoPrice} onCheckedChange={setEnableAutoPrice} />
               </div>
               
               {enableAutoPrice && <div className="space-y-6">
                   <div>
-                    <Label className="block text-base mb-2">% of Total Increase</Label>
+                    <Label className="block text-base mb-2">{t('dashboard.percentTotalIncrease')}</Label>
                     <div className="flex items-center">
                       <Input type="number" value={priceIncreasePercent} onChange={e => setPriceIncreasePercent(e.target.value)} min="1" max="100" className="bg-[#A67CAB] text-black w-36 mr-2 h-12 border-white" />
                       <span className="text-2xl">%</span>

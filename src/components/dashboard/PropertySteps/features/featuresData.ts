@@ -1,22 +1,22 @@
 
 export const hotelFeatures = [
-  "Free WiFi", "Parking", "Restaurant", "Pool", "Spa", "Gym", 
-  "24/7 Reception", "Room Service", "Bar", "Lounge", 
-  "Business Center", "Conference Rooms", "Laundry Service",
-  "Concierge", "Airport Shuttle", "Pet Friendly",
-  "Beach Access", "Mountain View", "Garden", "Terrace",
-  "Fitness Center", "Sauna", "Hot Tub", "Steam Room",
-  "Tennis Court", "Golf Course", "Kids Club", "Playground",
-  "Babysitting Service", "Currency Exchange", "Gift Shop", "Library"
+  "WiFi Gratis", "Estacionamiento", "Restaurante", "Piscina", "Spa", "Gimnasio", 
+  "Recepción 24/7", "Servicio de Habitaciones", "Bar", "Salón", 
+  "Centro de Negocios", "Salas de Conferencias", "Servicio de Lavandería",
+  "Conserjería", "Traslado al Aeropuerto", "Acepta Mascotas",
+  "Acceso a la Playa", "Vista a la Montaña", "Jardín", "Terraza",
+  "Centro de Fitness", "Sauna", "Jacuzzi", "Baño de Vapor",
+  "Cancha de Tenis", "Campo de Golf", "Club Infantil", "Parque Infantil",
+  "Servicio de Cuidado de Niños", "Cambio de Moneda", "Tienda de Regalos", "Biblioteca"
 ];
 
 export const roomFeatures = [
-  "Air Conditioning", "Private Bathroom", "TV", "Safe", "Mini Bar", 
-  "Coffee Machine", "Kettle", "Hairdryer", "Iron", "Work Desk",
-  "Balcony", "Sea View", "Mountain View", "City View", "Bathtub",
-  "Walk-in Shower", "King Bed", "Queen Bed", "Twin Beds", "Sofa Bed",
-  "High-speed Internet", "Blackout Curtains", "Soundproof", "Room Service",
-  "Pillow Menu", "Turndown Service", "Alarm Clock", "Phone",
-  "Interconnecting Rooms", "Crib Available", "Rollaway Beds",
-  "Hypoallergenic Bedding", "Robes & Slippers", "Premium Toiletries"
+  "Aire Acondicionado", "Baño Privado", "Televisor", "Caja Fuerte", "Mini Bar", 
+  "Máquina de Café", "Hervidor de Agua", "Secador de Pelo", "Plancha", "Escritorio",
+  "Balcón", "Vista al Mar", "Vista a la Montaña", "Vista a la Ciudad", "Bañera",
+  "Ducha a Ras de Suelo", "Cama King", "Cama Queen", "Camas Twin", "Sofá Cama",
+  "Internet de Alta Velocidad", "Cortinas Opacas", "Insonorizado", "Servicio de Habitaciones",
+  "Menú de Almohadas", "Servicio de Apertura de Cama", "Despertador", "Teléfono",
+  "Habitaciones Comunicadas", "Cuna Disponible", "Camas Supletorias",
+  "Ropa de Cama Hipoalergénica", "Batas y Zapatillas", "Productos de Aseo Premium"
 ];

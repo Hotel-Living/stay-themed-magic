@@ -1,6 +1,7 @@
 
 import React, { memo } from "react";
 import { PlusCircle } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FeaturesListProps {
   features: string[];
@@ -19,6 +20,8 @@ export const FeaturesList = memo(function FeaturesList({
   onSelectAll,
   onDeselectAll
 }: FeaturesListProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="space-y-4">
       {/* Select All / Deselect All buttons */}
@@ -30,7 +33,7 @@ export const FeaturesList = memo(function FeaturesList({
               onClick={onSelectAll}
               className="px-3 py-1 text-sm bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700 transition-colors"
             >
-              Select All
+              {t('dashboard.selectAll')}
             </button>
           )}
           {onDeselectAll && (
@@ -39,7 +42,7 @@ export const FeaturesList = memo(function FeaturesList({
               onClick={onDeselectAll}
               className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
             >
-              Deselect All
+              {t('dashboard.deselectAll')}
             </button>
           )}
         </div>

@@ -107,7 +107,10 @@
     "adultsOnly": "Solo adultos",
     "childrenWithRestrictions": "Con restricciones de edad",
     "generalInformation": "INFORMACIÓN GENERAL",
+    "hotelProfile": "PERFIL DEL HOTEL",
     "step1Of5": "Paso 1 de 5",
+    "step2Of5": "Paso 2 de 5",
+    "previous": "Anterior",
     "next": "Siguiente",
     "hotelName": "Nombre del Hotel",
     "hotelNamePlaceholder": "Ingrese el nombre del hotel",
@@ -155,7 +158,13 @@
     "phone": "Teléfono",
     "completeAllRequiredFields": "Por favor, complete todos los campos obligatorios",
     "important": "IMPORTANTE",
-    "importantNote": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
+    "importantNote": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada.",
+    "affinities": "2.1- AFINIDADES",
+    "activities": "2.2- ACTIVIDADES",
+    "hotelFeatures": "2.3- SERVICIOS DEL HOTEL",
+    "roomFeatures": "2.4- SERVICIOS DE LAS HABITACIONES",
+    "selectAll": "Seleccionar Todo",
+    "deselectAll": "Deseleccionar Todo"
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

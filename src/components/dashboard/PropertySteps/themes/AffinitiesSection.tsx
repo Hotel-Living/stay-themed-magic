@@ -4,6 +4,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/component
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AffinitiesSectionProps {
   openCategory: string | null;
@@ -18,11 +19,13 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   onThemeSelect,
   selectedThemes
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <Collapsible defaultOpen={false} className="w-full">
       <div className="bg-[#6c0686]">
         <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-          <label className="block text-xl font-bold text-foreground/90 uppercase">2.1- AFFINITIES</label>
+          <label className="block text-xl font-bold text-foreground/90 uppercase">{t('dashboard.affinities')}</label>
           <ChevronDown className="h-5 w-5 text-white" />
         </CollapsibleTrigger>
       </div>

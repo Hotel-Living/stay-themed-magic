@@ -1,130 +1,114 @@
-
-import { useEffect, useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useLocation, useNavigate } from "react-router-dom";
-import AdminDashboardLayout from "./AdminDashboardLayout";
-import PendingHotelsTable from "./PendingHotelsTable";
-import PendingChangesSection from "./PendingChangesSection";
-import { useAdminAccess } from "./hooks/useAdminAccess";
-import { useHotelsData } from "./hooks/useHotelsData";
-import { useHotelActions } from "./hooks/useHotelActions";
-import RejectDialog from "./RejectDialog";
-import { Hotel } from "@/integrations/supabase/types-custom";
+import React, { useState } from 'react';
+import AdminHotelsPanel from './hotels/AdminHotelsPanel';
+import AdminUsersPanel from './users/AdminUsersPanel';
+import AdminBookingsPanel from './bookings/AdminBookingsPanel';
+import AdminPaymentsPanel from './payments/AdminPaymentsPanel';
+import AffinitiesPanel from './affinities/AffinitiesPanel';
+import AdminFiltersPanel from './filters/AdminFiltersPanel';
+import ActivitiesPanel from "./activities/ActivitiesPanel";
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const path = location.pathname;
-  
-  const isAllHotelsView = path.includes('/admin/all') || path.includes('/admin/hotels');
-  
-  const { checkAdminAccess } = useAdminAccess();
-  const {
-    hotels,
-    loading,
-    fetchAllHotels,
-    fetchPendingHotels
-  } = useHotelsData();
+  const [activeTab, setActiveTab] = useState('overview');
 
-  const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
-  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
-
-  const refreshData = async () => {
-    if (isAllHotelsView) {
-      return fetchAllHotels();
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'overview':
+        return <div className="text-white">Admin Overview Content</div>;
+      case 'hotels':
+        return <AdminHotelsPanel />;
+      case 'users':
+        return <AdminUsersPanel />;
+      case 'bookings':
+        return <AdminBookingsPanel />;
+      case 'payments':
+        return <AdminPaymentsPanel />;
+      case 'affinities':
+        return <AffinitiesPanel />;
+      case 'activities':
+        return <ActivitiesPanel />;
+      case 'filters':
+        return <AdminFiltersPanel />;
+      default:
+        return <div className="text-white">Select a tab from the sidebar</div>;
     }
-    return fetchPendingHotels();
   };
-
-  const {
-    handleApprove,
-    handleReject,
-    handleDelete
-  } = useHotelActions(refreshData);
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    
-    const init = async () => {
-      const isAdmin = await checkAdminAccess();
-      if (isAdmin) {
-        if (isAllHotelsView) {
-          await fetchAllHotels();
-        } else {
-          await fetchPendingHotels();
-        }
-      }
-    };
-
-    init();
-  }, [user, path]);
-
-  const onApprove = (hotel: Hotel) => {
-    handleApprove(hotel.id);
-  };
-
-  const onReject = (hotel: Hotel) => {
-    setSelectedHotel(hotel);
-    setRejectionDialogOpen(true);
-  };
-
-  const onDelete = (hotel: Hotel) => {
-    handleDelete(hotel.id);
-  };
-
-  const handleConfirmReject = (reason: string) => {
-    if (selectedHotel) {
-      handleReject(selectedHotel.id, reason);
-    }
-    setRejectionDialogOpen(false);
-    setSelectedHotel(null);
-  };
-
-  const handleCloseRejectDialog = () => {
-    setRejectionDialogOpen(false);
-    setSelectedHotel(null);
-  };
-
-  if (loading) {
-    return (
-      <AdminDashboardLayout>
-        <div className="p-4">Loading...</div>
-      </AdminDashboardLayout>
-    );
-  }
 
   return (
-    <AdminDashboardLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">
-            {isAllHotelsView ? "All Hotels" : "Pending Hotel Registrations"}
-          </h2>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-fuchsia-900">
+      <div className="flex">
+        <div className="w-64 bg-purple-800/30 min-h-screen p-4">
+          <h2 className="text-xl font-bold text-white mb-6">Admin Panel</h2>
+          <nav className="space-y-2">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'overview' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('hotels')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'hotels' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Hotels
+            </button>
+            <button
+              onClick={() => setActiveTab('users')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'users' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Users
+            </button>
+            <button
+              onClick={() => setActiveTab('bookings')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'bookings' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Bookings
+            </button>
+            <button
+              onClick={() => setActiveTab('payments')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'payments' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Payments
+            </button>
+            <button
+              onClick={() => setActiveTab('affinities')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'affinities' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Affinities
+            </button>
+            <button
+              onClick={() => setActiveTab('activities')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'activities' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Activities
+            </button>
+            <button
+              onClick={() => setActiveTab('filters')}
+              className={`w-full text-left p-3 rounded-lg transition-colors ${
+                activeTab === 'filters' ? 'bg-purple-600 text-white' : 'text-purple-200 hover:bg-purple-700/50'
+              }`}
+            >
+              Filters
+            </button>
+          </nav>
         </div>
-
-        {/* Add the Pending Changes Section for all hotels view */}
-        {isAllHotelsView && (
-          <PendingChangesSection hotels={hotels} />
-        )}
-
-        <PendingHotelsTable
-          hotels={hotels}
-          onApprove={onApprove}
-          onReject={onReject}
-          onDelete={onDelete}
-          isAllHotelsView={isAllHotelsView}
-        />
-
-        <RejectDialog 
-          open={rejectionDialogOpen}
-          onClose={handleCloseRejectDialog}
-          onConfirm={handleConfirmReject}
-        />
+        <div className="flex-1 p-6">
+          {renderContent()}
+        </div>
       </div>
-    </AdminDashboardLayout>
+    </div>
   );
 }

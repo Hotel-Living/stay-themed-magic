@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.export-themes]
 verify_jwt = false
+
+[functions.export-activities]
+verify_jwt = false

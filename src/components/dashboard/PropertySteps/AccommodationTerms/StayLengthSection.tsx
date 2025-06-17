@@ -7,10 +7,12 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface StayLengthSectionProps {
   isOpen: boolean;
   onToggle: (isOpen: boolean) => void;
+  onOpenChange?: () => void;
   selectedLengths: number[];
   onLengthToggle: (field: string, value: any) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const StayLengthSection: React.FC<StayLengthSectionProps> = ({

@@ -1,7 +1,6 @@
-
 import { GeneralInformationStep1 } from "./GeneralInformationStep1";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
-import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
+import { AccommodationTermsStep } from "./AccommodationTerms/AccommodationTermsStep";
 import PackagesBuilderStep from "./PackagesBuilderStep";
 import { FinalTermsStep } from "./FinalTermsStep";
 

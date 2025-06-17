@@ -7,14 +7,26 @@ import { MessageCircle, Reply, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+interface AdminMessage {
+  id: string;
+  user_id?: string;
+  hotel_id?: string;
+  subject?: string;
+  message: string;
+  status?: string;
+  created_at: string;
+  hotel_name?: string;
+  user_name?: string;
+}
+
 export default function FernandoCommunications() {
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<AdminMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   const fetchCommunications = async () => {
     try {
-      // Fetch admin messages without trying to join profiles (relationship doesn't exist)
+      // Fetch admin messages
       const { data: messagesData, error } = await supabase
         .from('admin_messages')
         .select('*')
@@ -48,7 +60,7 @@ export default function FernandoCommunications() {
       }
 
       // Combine messages with hotel and profile data
-      const enrichedMessages = messages.map(message => {
+      const enrichedMessages: AdminMessage[] = messages.map(message => {
         const hotel = hotelsData.find(h => h.id === message.hotel_id);
         const profile = profilesData.find(p => p.id === message.user_id);
         return {

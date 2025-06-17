@@ -47,6 +47,47 @@ export type Database = {
           },
         ]
       }
+      admin_messages: {
+        Row: {
+          created_at: string
+          hotel_id: string | null
+          id: string
+          message: string
+          status: string | null
+          subject: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          hotel_id?: string | null
+          id?: string
+          message: string
+          status?: string | null
+          subject?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          hotel_id?: string | null
+          id?: string
+          message?: string
+          status?: string | null
+          subject?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_messages_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_users: {
         Row: {
           created_at: string

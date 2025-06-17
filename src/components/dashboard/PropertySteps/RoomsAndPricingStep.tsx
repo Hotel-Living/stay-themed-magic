@@ -32,6 +32,12 @@ export default function RoomsAndPricingStep() {
     }));
   };
 
+  const handleStayLengthToggle = (field: string, value: any) => {
+    if (field === 'selectedLengths') {
+      updateFormData('stayLengths', value);
+    }
+  };
+
   // Build pricing matrix whenever the form data changes
   useEffect(() => {
     if (formData.roomTypes.length > 0 && formData.stayLengths.length > 0 && formData.mealPlans.length > 0) {
@@ -51,7 +57,10 @@ export default function RoomsAndPricingStep() {
       <div className="space-y-2">
         <StayLengthSection 
           isOpen={false}
+          onToggle={() => {}}
           onOpenChange={() => {}}
+          selectedLengths={formData.stayLengths}
+          onLengthToggle={handleStayLengthToggle}
           onValidationChange={(isValid) => handleValidationChange('stayLengths', isValid)}
           formData={formData}
           updateFormData={updateFormData}

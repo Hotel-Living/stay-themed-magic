@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ChevronUp, ChevronDown, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import FaqItemForm from "./FaqItemForm";
-import FaqItemComponent from "./FaqItem";
+import { Button } from "@/components/ui/button";
 import { FaqItem } from "./types";
+import FaqItemComponent from "./FaqItem";
+import FaqItemForm from "./FaqItemForm";
 
 interface FaqSectionProps {
   faqItems: FaqItem[];
@@ -25,67 +25,63 @@ export default function FaqSection({
   const [newFaqAnswer, setNewFaqAnswer] = useState("");
 
   const addFaqItem = () => {
-    if (newFaqQuestion && newFaqAnswer) {
-      setFaqItems([...faqItems, {
-        question: newFaqQuestion,
-        answer: newFaqAnswer
-      }]);
+    if (newFaqQuestion.trim() && newFaqAnswer.trim()) {
+      const newItem: FaqItem = {
+        id: Date.now(),
+        question: newFaqQuestion.trim(),
+        answer: newFaqAnswer.trim(),
+        isEditing: false
+      };
+      setFaqItems(prev => [...prev, newItem]);
       setNewFaqQuestion("");
       setNewFaqAnswer("");
       setIsAddingFaq(false);
     }
   };
 
+  const updateFaqItem = (index: number, field: keyof FaqItem, value: string) => {
+    setFaqItems(prev => prev.map((item, i) => 
+      i === index ? { ...item, [field]: value } : item
+    ));
+  };
+
   const removeFaqItem = (index: number) => {
-    const updatedFaqs = [...faqItems];
-    updatedFaqs.splice(index, 1);
-    setFaqItems(updatedFaqs);
+    setFaqItems(prev => prev.filter((_, i) => i !== index));
   };
 
   const startEditingFaq = (index: number) => {
-    const updatedFaqs = [...faqItems];
-    updatedFaqs[index] = { ...updatedFaqs[index], isEditing: true };
-    setFaqItems(updatedFaqs);
-  };
-
-  const updateFaqItem = (index: number, field: keyof FaqItem, value: string) => {
-    const updatedFaqs = [...faqItems];
-    updatedFaqs[index] = { 
-      ...updatedFaqs[index], 
-      [field]: value 
-    };
-    setFaqItems(updatedFaqs);
+    setFaqItems(prev => prev.map((item, i) => 
+      i === index ? { ...item, isEditing: true } : item
+    ));
   };
 
   const saveFaqItem = (index: number) => {
-    const updatedFaqs = [...faqItems];
-    updatedFaqs[index] = { 
-      ...updatedFaqs[index], 
-      isEditing: false 
-    };
-    setFaqItems(updatedFaqs);
+    setFaqItems(prev => prev.map((item, i) => 
+      i === index ? { ...item, isEditing: false } : item
+    ));
   };
 
   return (
     <div>
       <Collapsible className="w-full" open={isOpenFaq} onOpenChange={setIsOpenFaq}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <h3 className="text-xl font-bold uppercase text-white">FREQUENTLY ASKED QUESTIONS <span className="text-sm font-normal italic text-fuchsia-300">(optional)</span></h3>
+          <div>
+            <h3 className="text-xl font-bold uppercase text-white">PREGUNTAS FRECUENTES (opcional)</h3>
+            <p className="text-sm text-fuchsia-300/70 mt-1">
+              Puede añadir preguntas frecuentes para ayudar a los huéspedes a entender mejor su propiedad.
+            </p>
+            <p className="text-xs text-fuchsia-300/50">
+              Esta sección es opcional para la publicación de la propiedad.
+            </p>
+          </div>
           {isOpenFaq ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
         </CollapsibleTrigger>
         
         <CollapsibleContent>
-          <div className="space-y-4">
-            {faqItems.length === 0 && (
-              <p className="text-sm text-fuchsia-300/80 italic mb-2">
-                You can add frequently asked questions to help guests understand your property better.
-                This section is optional for property submission.
-              </p>
-            )}
-            
+          <div className="space-y-4 mt-4">
             {faqItems.map((item, index) => (
-              <div key={index} className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30">
-                <FaqItemComponent 
+              <div key={item.id} className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30">
+                <FaqItemComponent
                   item={item}
                   index={index}
                   updateFaqItem={updateFaqItem}
@@ -96,8 +92,8 @@ export default function FaqSection({
               </div>
             ))}
             
-            {isAddingFaq ? (
-              <FaqItemForm 
+            {isAddingFaq && (
+              <FaqItemForm
                 newFaqQuestion={newFaqQuestion}
                 setNewFaqQuestion={setNewFaqQuestion}
                 newFaqAnswer={newFaqAnswer}
@@ -105,13 +101,15 @@ export default function FaqSection({
                 addFaqItem={addFaqItem}
                 onCancel={() => setIsAddingFaq(false)}
               />
-            ) : (
+            )}
+            
+            {!isAddingFaq && (
               <Button 
                 onClick={() => setIsAddingFaq(true)} 
-                className="flex items-center bg-fuchsia-700 hover:bg-fuchsia-800 text-white"
+                className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
               >
-                <Plus className="w-4 h-4 mr-2" />
-                <span>Add New FAQ</span>
+                <Plus className="h-4 w-4 mr-2" />
+                Añadir Nueva Pregunta Frecuente
               </Button>
             )}
           </div>

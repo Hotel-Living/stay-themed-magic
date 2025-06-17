@@ -28,7 +28,7 @@ export default function FaqItemComponent({
     return (
       <div className="space-y-3">
         <div>
-          <Label htmlFor={`faq-question-${index}`} className="block mb-1 text-white">Question</Label>
+          <Label htmlFor={`faq-question-${index}`} className="block mb-1 text-white">Pregunta</Label>
           <Input 
             id={`faq-question-${index}`}
             value={item.question}
@@ -37,7 +37,7 @@ export default function FaqItemComponent({
           />
         </div>
         <div>
-          <Label htmlFor={`faq-answer-${index}`} className="block mb-1 text-white">Answer</Label>
+          <Label htmlFor={`faq-answer-${index}`} className="block mb-1 text-white">Respuesta</Label>
           <Textarea 
             id={`faq-answer-${index}`}
             value={item.answer}
@@ -49,7 +49,7 @@ export default function FaqItemComponent({
         <div className="flex justify-end">
           <Button onClick={() => saveFaqItem(index)} className="bg-green-600 hover:bg-green-700 text-white">
             <Save className="h-4 w-4 mr-2" />
-            Save
+            Guardar
           </Button>
         </div>
       </div>

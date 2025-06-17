@@ -22,24 +22,24 @@ export default function TermsSection({
     <div>
       <Collapsible className="w-full" open={isOpenTerms} onOpenChange={setIsOpenTerms}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left mb-2">
-          <h3 className="text-xl font-bold uppercase text-white">TERMS & CONDITIONS</h3>
+          <h3 className="text-xl font-bold uppercase text-white">TÉRMINOS Y CONDICIONES</h3>
           {isOpenTerms ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
         </CollapsibleTrigger>
         
         <CollapsibleContent>
           <div>
             <Label htmlFor="terms" className="block text-sm font-medium text-foreground/90 mb-1 uppercase text-white">
-              TERMS & CONDITIONS TEXT
+              TEXTO DE TÉRMINOS Y CONDICIONES
             </Label>
             <Textarea 
               id="terms"
-              placeholder="Enter terms and conditions" 
+              placeholder="Ingrese términos y condiciones" 
               value={termsAndConditions} 
               onChange={e => setTermsAndConditions(e.target.value)} 
               className="w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 h-72 resize-none bg-[#810586] text-white" 
             />
             <p className="text-xs text-fuchsia-300/70 mt-2">
-              This pre-configured template covers standard hotel policies. Feel free to modify it to match your specific requirements.
+              Esta plantilla preconfigurada cubre las políticas estándar del hotel. Siéntase libre de modificarla para que coincida con sus requisitos específicos.
             </p>
           </div>
         </CollapsibleContent>

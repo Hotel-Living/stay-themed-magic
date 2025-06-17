@@ -15,9 +15,13 @@ export default function StepIndicator({ currentStep, totalSteps, stepTitle }: St
   const getSpanishTitle = (title: string) => {
     const translations = {
       "ACCOMMODATION TERMS": "CONDICIONES DE LA ESTANCIA",
+      "Accommodation Terms": "CONDICIONES DE LA ESTANCIA",
       "GENERAL INFORMATION": "INFORMACIÓN GENERAL",
+      "General Information": "INFORMACIÓN GENERAL",
       "PACKAGES BUILDER": "CONSTRUCTOR DE PAQUETES",
-      "FINAL TERMS": "TÉRMINOS FINALES"
+      "Packages Builder": "CONSTRUCTOR DE PAQUETES",
+      "FINAL TERMS": "TÉRMINOS FINALES",
+      "Final Terms": "TÉRMINOS FINALES"
     };
     return translations[title] || title;
   };

@@ -4,7 +4,6 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/component
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { HierarchicalThemeSelector } from "@/components/filters/HierarchicalThemeSelector";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface AffinitiesSectionProps {
   openCategory: string | null;
@@ -19,20 +18,18 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
   onThemeSelect,
   selectedThemes
 }) => {
-  const { t } = useTranslation();
-  
   return (
     <Collapsible defaultOpen={false} className="w-full">
       <div className="bg-[#6c0686]">
         <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
-          <label className="block text-xl font-bold text-foreground/90 uppercase">{t('dashboard.affinities')}</label>
+          <label className="block text-xl font-bold text-foreground/90 uppercase">2.1- AFINIDADES</label>
           <ChevronDown className="h-5 w-5 text-white" />
         </CollapsibleTrigger>
       </div>
       
       <CollapsibleContent>
         <p className="text-sm text-foreground/90 mb-4">
-          Make your hotel stand out from the competition boosting it with group affinities to attract your best and perfect guests
+          Haga que su hotel se destaque de la competencia potenciándolo con afinidades grupales para atraer a sus mejores y perfectos huéspedes
         </p>
         
         <Link 
@@ -41,7 +38,7 @@ export const AffinitiesSection: React.FC<AffinitiesSectionProps> = ({
           rel="noopener noreferrer" 
           className="inline-flex items-center rounded-lg text-white text-sm font-medium transition-colors mb-4 bg-[#e108fd]/80 hover:bg-[#e108fd] my-0 mx-0 px-[11px] py-[2px]"
         >
-          More Information
+          Más Información
         </Link>
         
         <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20 max-h-96 overflow-y-auto">

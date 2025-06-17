@@ -4,7 +4,6 @@ import HotelNameInput from "./HotelNameInput";
 import CategorySelector from "./CategorySelector";
 import PropertyTypeSelector from "./PropertyTypeSelector";
 import DescriptionInput from "./DescriptionInput";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface HotelInfoSectionProps {
   formData: {
@@ -48,11 +47,9 @@ export default function HotelInfoSection({
   handleChange,
   handleBlur
 }: HotelInfoSectionProps) {
-  const { t } = useTranslation();
-  
   const inputClassName = "w-full p-2.5 rounded-lg border border-fuchsia-800/30 focus:border-fuchsia-500/50 focus:ring-1 focus:ring-fuchsia-500/30 bg-[#aa07da] text-white placeholder:text-white/50";
   const labelClassName = "block text-sm font-medium text-white uppercase mb-2";
-  const sectionClassName = "mb-6"; // Consistent vertical spacing between sections
+  const sectionClassName = "mb-6";
 
   return (
     <div className="glass-card rounded-xl p-6 space-y-6 bg-[#690695]/40">
@@ -89,7 +86,7 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            {t('dashboard.styleOfProperty')}
+            Estilo de la Propiedad
           </label>
           <select 
             required 
@@ -98,14 +95,14 @@ export default function HotelInfoSection({
             onChange={e => handleChange('style', e.target.value)} 
             onBlur={() => handleBlur('style')}
           >
-            <option value="">{t('dashboard.selectPropertyStyle')}</option>
-            <option value="classic">Classic</option>
-            <option value="classic-elegant">Classic Elegant</option>
-            <option value="modern">Modern</option>
-            <option value="fusion">Fusion</option>
-            <option value="urban">Urban</option>
-            <option value="minimalist">Minimalist</option>
-            <option value="luxury">Luxury</option>
+            <option value="">Seleccione el estilo de la propiedad</option>
+            <option value="classic">Clásico</option>
+            <option value="classic-elegant">Clásico Elegante</option>
+            <option value="modern">Moderno</option>
+            <option value="fusion">Fusión</option>
+            <option value="urban">Urbano</option>
+            <option value="minimalist">Minimalista</option>
+            <option value="luxury">Lujo</option>
           </select>
         </div>
         
@@ -121,10 +118,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            {t('dashboard.idealGuestsEnjoy')}
+            Es ideal para huéspedes que disfrutan de…
           </label>
           <textarea 
-            placeholder={t('dashboard.idealGuestsPlaceholder')} 
+            placeholder="Describa a sus huéspedes ideales y sus intereses" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.idealGuests || ''} 
             onChange={e => handleChange('idealGuests', e.target.value)} 
@@ -134,10 +131,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            {t('dashboard.atmosphereIs')}
+            El ambiente es…
           </label>
           <textarea 
-            placeholder={t('dashboard.atmospherePlaceholder')} 
+            placeholder="Describa la atmósfera y el ambiente de su hotel" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.atmosphere || ''} 
             onChange={e => handleChange('atmosphere', e.target.value)} 
@@ -147,10 +144,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            {t('dashboard.locationPerfectFor')}
+            Nuestra ubicación es perfecta para...
           </label>
           <textarea 
-            placeholder={t('dashboard.locationPlaceholder')} 
+            placeholder="Describa qué hace especial su ubicación" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.perfectLocation || ''} 
             onChange={e => handleChange('perfectLocation', e.target.value)} 

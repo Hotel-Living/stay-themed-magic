@@ -25,7 +25,7 @@ export default function PropertyFormNavigation({
         }`} 
         disabled={currentStep === 1}
       >
-        Previous
+        Anterior
       </button>
       
       {currentStep === totalSteps ? (
@@ -40,7 +40,7 @@ export default function PropertyFormNavigation({
           onClick={onNext} 
           className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
         >
-          Next
+          Siguiente
         </button>
       )}
     </div>

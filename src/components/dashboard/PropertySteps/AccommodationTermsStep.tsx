@@ -25,6 +25,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
   const [showErrors, setShowErrors] = useState(false);
   const [availabilityValid, setAvailabilityValid] = useState(false);
+  const [availabilityOpen, setAvailabilityOpen] = useState(false);
 
   // Initialize availabilityDates from formData if present
   useEffect(() => {
@@ -133,6 +134,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
         <h3 className="font-medium mb-3">3.3— FECHAS DE DISPONIBILIDAD</h3>
         
         <AvailabilitySection 
+          isOpen={availabilityOpen}
+          onToggle={setAvailabilityOpen}
           formData={formData} 
           updateFormData={updateFormData} 
           onValidationChange={setAvailabilityValid} 

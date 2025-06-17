@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog, MessageCircle, Megaphone } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog, MessageCircle, Megaphone, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
@@ -103,7 +103,18 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">ADMIN DASHBOARD</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold text-white">ADMIN DASHBOARD</h1>
+            
+            {/* Panel Fernando Button */}
+            <button
+              onClick={() => navigate('/panel-fernando')}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <span className="font-semibold">Panel Fernando</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside className="lg:col-span-1">

@@ -3,13 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Eye } from "lucide-react";
+import { Eye, Check, X, Building } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 export default function FernandoHotels() {
   const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    approved: 0,
+    rejected: 0
+  });
   const { toast } = useToast();
 
   const fetchHotels = async () => {
@@ -18,15 +24,22 @@ export default function FernandoHotels() {
         .from('hotels')
         .select(`
           *,
-          profiles:owner_id(
-            first_name,
-            last_name
-          )
+          profiles(first_name, last_name)
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setHotels(data || []);
+      
+      const hotelsData = data || [];
+      setHotels(hotelsData);
+
+      // Calculate stats
+      setStats({
+        total: hotelsData.length,
+        pending: hotelsData.filter(h => h.status === 'pending').length,
+        approved: hotelsData.filter(h => h.status === 'approved').length,
+        rejected: hotelsData.filter(h => h.status === 'rejected').length
+      });
     } catch (error) {
       console.error('Error fetching hotels:', error);
       toast({
@@ -36,30 +49,6 @@ export default function FernandoHotels() {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const updateHotelStatus = async (hotelId: string, status: string) => {
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .update({ status })
-        .eq('id', hotelId);
-
-      if (error) throw error;
-      
-      toast({
-        description: `Hotel ${status} successfully`
-      });
-      
-      fetchHotels();
-    } catch (error) {
-      console.error('Error updating hotel status:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update hotel status",
-        variant: "destructive"
-      });
     }
   };
 
@@ -83,10 +72,6 @@ export default function FernandoHotels() {
     );
   };
 
-  const pendingHotels = hotels.filter(hotel => hotel.status === 'pending');
-  const approvedHotels = hotels.filter(hotel => hotel.status === 'approved');
-  const rejectedHotels = hotels.filter(hotel => hotel.status === 'rejected');
-
   if (loading) {
     return (
       <Card className="bg-purple-900/20 border-purple-800/30">
@@ -102,81 +87,65 @@ export default function FernandoHotels() {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-white">Hotels Management</h2>
-          <p className="text-white/60">Manage all hotel submissions and status</p>
+          <p className="text-white/60">View and manage all hotels on the platform</p>
         </div>
       </div>
 
-      {/* Pending Hotels */}
-      {pendingHotels.length > 0 && (
+      {/* Hotel Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="bg-purple-900/20 border-purple-800/30">
-          <CardHeader>
-            <CardTitle className="text-white">Pending Hotels ({pendingHotels.length})</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {pendingHotels.map((hotel) => (
-                <div key={hotel.id} className="flex items-center justify-between p-4 bg-purple-800/20 rounded-lg border border-purple-700/30">
-                  <div className="flex-1">
-                    <h3 className="text-white font-semibold">{hotel.name}</h3>
-                    <p className="text-white/60 text-sm">{hotel.city}, {hotel.country}</p>
-                    <p className="text-white/40 text-xs">
-                      Submitted by {hotel.profiles?.first_name} {hotel.profiles?.last_name} on {new Date(hotel.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center gap-3">
-                    {getStatusBadge(hotel.status)}
-                    
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-white border-purple-600 hover:bg-purple-800/50"
-                      >
-                        <Eye className="h-3 w-3 mr-1" />
-                        View
-                      </Button>
-                      
-                      <Button
-                        size="sm"
-                        className="bg-green-600 hover:bg-green-700 text-white"
-                        onClick={() => updateHotelStatus(hotel.id, 'approved')}
-                      >
-                        <Check className="h-3 w-3 mr-1" />
-                        Approve
-                      </Button>
-                      
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        className="bg-red-600 hover:bg-red-700"
-                        onClick={() => updateHotelStatus(hotel.id, 'rejected')}
-                      >
-                        <X className="h-3 w-3 mr-1" />
-                        Reject
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          <CardContent className="p-4">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white">Total Hotels</h3>
+              <p className="text-2xl font-bold text-blue-400">{stats.total}</p>
             </div>
           </CardContent>
         </Card>
-      )}
+        
+        <Card className="bg-purple-900/20 border-purple-800/30">
+          <CardContent className="p-4">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white">Pending</h3>
+              <p className="text-2xl font-bold text-yellow-400">{stats.pending}</p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-purple-900/20 border-purple-800/30">
+          <CardContent className="p-4">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white">Approved</h3>
+              <p className="text-2xl font-bold text-green-400">{stats.approved}</p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-purple-900/20 border-purple-800/30">
+          <CardContent className="p-4">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white">Rejected</h3>
+              <p className="text-2xl font-bold text-red-400">{stats.rejected}</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-      {/* Approved Hotels */}
+      {/* Hotels List */}
       <Card className="bg-purple-900/20 border-purple-800/30">
         <CardHeader>
-          <CardTitle className="text-white">Approved Hotels ({approvedHotels.length})</CardTitle>
+          <CardTitle className="text-white flex items-center gap-2">
+            <Building className="w-5 h-5" />
+            All Hotels ({hotels.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          {approvedHotels.length === 0 ? (
+          {hotels.length === 0 ? (
             <div className="text-center py-8 text-white/60">
-              <p>No approved hotels found.</p>
+              <p>No hotels found.</p>
             </div>
           ) : (
             <div className="space-y-4">
-              {approvedHotels.map((hotel) => (
+              {hotels.map((hotel) => (
                 <div key={hotel.id} className="flex items-center justify-between p-4 bg-purple-800/20 rounded-lg border border-purple-700/30">
                   <div className="flex-1">
                     <h3 className="text-white font-semibold">{hotel.name}</h3>
@@ -184,19 +153,31 @@ export default function FernandoHotels() {
                     <p className="text-white/40 text-xs">
                       Owner: {hotel.profiles?.first_name} {hotel.profiles?.last_name}
                     </p>
+                    <p className="text-white/40 text-xs">
+                      Created: {new Date(hotel.created_at).toLocaleDateString()}
+                    </p>
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    {getStatusBadge(hotel.status)}
-                    
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-white border-purple-600 hover:bg-purple-800/50"
-                    >
+                    <Button size="sm" variant="outline" className="text-white border-purple-600">
                       <Eye className="h-3 w-3 mr-1" />
-                      View
+                      View Details
                     </Button>
+                    
+                    {hotel.status === 'pending' && (
+                      <>
+                        <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+                          <Check className="h-3 w-3 mr-1" />
+                          Approve
+                        </Button>
+                        <Button size="sm" variant="destructive" className="bg-red-600 hover:bg-red-700">
+                          <X className="h-3 w-3 mr-1" />
+                          Reject
+                        </Button>
+                      </>
+                    )}
+                    
+                    {getStatusBadge(hotel.status)}
                   </div>
                 </div>
               ))}
@@ -204,43 +185,6 @@ export default function FernandoHotels() {
           )}
         </CardContent>
       </Card>
-
-      {/* Rejected Hotels */}
-      {rejectedHotels.length > 0 && (
-        <Card className="bg-purple-900/20 border-purple-800/30">
-          <CardHeader>
-            <CardTitle className="text-white">Rejected Hotels ({rejectedHotels.length})</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {rejectedHotels.map((hotel) => (
-                <div key={hotel.id} className="flex items-center justify-between p-4 bg-purple-800/20 rounded-lg border border-purple-700/30">
-                  <div className="flex-1">
-                    <h3 className="text-white font-semibold">{hotel.name}</h3>
-                    <p className="text-white/60 text-sm">{hotel.city}, {hotel.country}</p>
-                    <p className="text-white/40 text-xs">
-                      Rejected on {new Date(hotel.updated_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center gap-3">
-                    {getStatusBadge(hotel.status)}
-                    
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-white border-purple-600 hover:bg-purple-800/50"
-                    >
-                      <Eye className="h-3 w-3 mr-1" />
-                      View
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 }

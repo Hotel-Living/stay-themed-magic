@@ -83,11 +83,6 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">CONDICIONES DE LA ESTANCIA</h2>
-        <p className="text-gray-300">Configure los términos y condiciones de la estancia en su propiedad</p>
-      </div>
-
       {/* Duration Section */}
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">3.1— DURACIÓN DE LA ESTANCIA</h3>

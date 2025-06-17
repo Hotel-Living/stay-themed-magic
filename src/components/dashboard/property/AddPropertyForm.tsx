@@ -2,7 +2,7 @@
 import React from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
-import ImportantNotice from "../PropertySteps/ImportantNotice";
+import { ImportantNotice } from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import PropertyFormNavigation from "./components/PropertyFormNavigation";

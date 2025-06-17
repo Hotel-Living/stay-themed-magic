@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { PropertyFormData } from "../property/hooks/usePropertyFormData";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
@@ -20,8 +21,8 @@ export default function StayRatesStep({
   const mealOptions = formData.mealPlans || [];
 
   const [rates, setRates] = useState<Record<string, string | number>>({});
-  const [enablePriceIncrease, setEnablePriceIncrease] = useState(formData.enableDynamicPricing || false);
-  const [priceIncreaseCap, setPriceIncreaseCap] = useState(formData.dynamicPricingCap || 20);
+  const [enablePriceIncrease, setEnablePriceIncrease] = useState(formData.enablePriceIncrease || false);
+  const [priceIncreaseCap, setPriceIncreaseCap] = useState(formData.priceIncreaseCap || 20);
   const [ratesFilled, setRatesFilled] = useState(false);
 
   useEffect(() => {
@@ -37,8 +38,8 @@ export default function StayRatesStep({
     }
 
     // Load dynamic pricing settings from formData
-    setEnablePriceIncrease(formData.enableDynamicPricing || false);
-    setPriceIncreaseCap(formData.dynamicPricingCap || 20);
+    setEnablePriceIncrease(formData.enablePriceIncrease || false);
+    setPriceIncreaseCap(formData.priceIncreaseCap || 20);
   }, [formData]);
 
   useEffect(() => {
@@ -55,8 +56,8 @@ export default function StayRatesStep({
     updateFormData('pricingMatrix', pricingMatrix);
 
     // Update formData with dynamic pricing settings
-    updateFormData('enableDynamicPricing', enablePriceIncrease);
-    updateFormData('dynamicPricingCap', priceIncreaseCap);
+    updateFormData('enablePriceIncrease', enablePriceIncrease);
+    updateFormData('priceIncreaseCap', priceIncreaseCap);
 
     // Validate if at least one rate is filled
     setRatesFilled(Object.keys(rates).length > 0);

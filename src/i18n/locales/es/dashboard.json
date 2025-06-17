@@ -1,4 +1,3 @@
-
 {
   "dashboard": {
     "welcome": "Bienvenido",
@@ -83,7 +82,14 @@
     "percentTotalIncrease": "% de Incremento Total",
     "currencySettings": "Configuración de Moneda",
     "currencySettingsDescription": "Seleccione su moneda preferida para las tarifas",
-    "preferredCurrency": "Moneda Preferida"
+    "preferredCurrency": "Moneda Preferida",
+    "notificationPreferences": "Preferencias de Notificación",
+    "notificationPreferencesDescription": "Gestione cómo y cuándo desea recibir notificaciones",
+    "emailNotifications": "Notificaciones por Email",
+    "notificationTypes": "Tipos de Notificación",
+    "newBookingConfirmations": "Confirmaciones de Nuevas Reservas",
+    "reviewAlerts": "Alertas de Opiniones",
+    "paymentNotifications": "Notificaciones de Pagos"
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

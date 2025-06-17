@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Settings, Save, Clock, CreditCard, Shield, Bell, Globe, HelpCircle, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -47,7 +45,7 @@ export default function SettingsContent() {
           <TabsTrigger value="checkin" className="bg-[#7a0486] text-slate-50">{t('dashboard.checkinOut')}</TabsTrigger>
           <TabsTrigger value="auto-price" className="bg-[#a609b6] text-slate-50">{t('dashboard.autoPriceIncrease')}</TabsTrigger>
           <TabsTrigger value="currency" className="bg-[#aa10ba] text-slate-50">{t('dashboard.currency')}</TabsTrigger>
-          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">{t('dashboard.notifications')}</TabsTrigger>
+          <TabsTrigger value="notifications" className="bg-[#ac11bc] text-slate-50">{t('dashboard.notificationPreferences')}</TabsTrigger>
           <TabsTrigger value="policies" className="bg-[#ad13bd] text-slate-50">{t('dashboard.policies')}</TabsTrigger>
         </TabsList>
         
@@ -119,24 +117,24 @@ export default function SettingsContent() {
         <TabsContent value="notifications">
           <Card>
             <CardHeader className="bg-[#7a0486] border border-white">
-              <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>Manage how and when you receive notifications</CardDescription>
+              <CardTitle>{t('dashboard.notificationPreferences')}</CardTitle>
+              <CardDescription>{t('dashboard.notificationPreferencesDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 bg-[#860493] border-x border-b border-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-base">Email Notifications</Label>
+                  <Label className="text-base">{t('dashboard.emailNotifications')}</Label>
                   
                 </div>
                 <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
               </div>
               
               <div className="space-y-4 pt-4 border-t border-white">
-                <h4 className="font-medium">Notification Types</h4>
+                <h4 className="font-medium">{t('dashboard.notificationTypes')}</h4>
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-sm">New Booking Confirmations</Label>
+                    <Label className="text-sm">{t('dashboard.newBookingConfirmations')}</Label>
                     
                   </div>
                   <Switch checked={bookingConfirmations} onCheckedChange={setBookingConfirmations} disabled={!emailNotifications} />
@@ -144,7 +142,7 @@ export default function SettingsContent() {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-sm">Review Alerts</Label>
+                    <Label className="text-sm">{t('dashboard.reviewAlerts')}</Label>
                     
                   </div>
                   <Switch checked={reviewAlerts} onCheckedChange={setReviewAlerts} disabled={!emailNotifications} />
@@ -152,7 +150,7 @@ export default function SettingsContent() {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label className="text-sm">Payment Notifications</Label>
+                    <Label className="text-sm">{t('dashboard.paymentNotifications')}</Label>
                     
                   </div>
                   <Switch checked={paymentNotifications} onCheckedChange={setPaymentNotifications} disabled={!emailNotifications} />

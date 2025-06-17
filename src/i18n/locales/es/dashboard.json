@@ -1,3 +1,4 @@
+
 {
   "dashboard": {
     "welcome": "Bienvenido",
@@ -63,7 +64,9 @@
     "noGuestDataMessage": "La información de los huéspedes aparecerá aquí una vez que usted reciba reservas.",
     "messagesFromAdmin": "Mensajes del Administrador",
     "noMessagesYet": "Aún no hay mensajes",
-    "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma."
+    "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",
+    "financialOverview": "Resumen Financiero",
+    "financialDataMessage": "Sus datos financieros e historial de transacciones aparecerán aquí una vez que tenga reservas."
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

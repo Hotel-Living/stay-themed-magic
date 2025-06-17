@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, Check, X, Building } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function FernandoHotels() {
   const [hotels, setHotels] = useState<any[]>([]);
@@ -17,28 +18,49 @@ export default function FernandoHotels() {
     rejected: 0
   });
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const fetchHotels = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch hotels without trying to join profiles (relationship doesn't exist)
+      const { data: hotelsData, error } = await supabase
         .from('hotels')
-        .select(`
-          *,
-          profiles(first_name, last_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       
-      const hotelsData = data || [];
-      setHotels(hotelsData);
+      const hotels = hotelsData || [];
+      
+      // Fetch owner profiles separately
+      const ownerIds = [...new Set(hotels.map(h => h.owner_id).filter(Boolean))];
+      let profilesData = [];
+      
+      if (ownerIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name')
+          .in('id', ownerIds);
+        profilesData = profiles || [];
+      }
+
+      // Combine hotels with profile data
+      const enrichedHotels = hotels.map(hotel => {
+        const profile = profilesData.find(p => p.id === hotel.owner_id);
+        return {
+          ...hotel,
+          owner_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown' : 'Unknown'
+        };
+      });
+
+      setHotels(enrichedHotels);
 
       // Calculate stats
       setStats({
-        total: hotelsData.length,
-        pending: hotelsData.filter(h => h.status === 'pending').length,
-        approved: hotelsData.filter(h => h.status === 'approved').length,
-        rejected: hotelsData.filter(h => h.status === 'rejected').length
+        total: enrichedHotels.length,
+        pending: enrichedHotels.filter(h => h.status === 'pending').length,
+        approved: enrichedHotels.filter(h => h.status === 'approved').length,
+        rejected: enrichedHotels.filter(h => h.status === 'rejected').length
       });
     } catch (error) {
       console.error('Error fetching hotels:', error);
@@ -55,6 +77,11 @@ export default function FernandoHotels() {
   useEffect(() => {
     fetchHotels();
   }, []);
+
+  const handleViewHotel = (hotelId: string) => {
+    // Navigate to the hotel's public page
+    navigate(`/hotel/${hotelId}`);
+  };
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -151,7 +178,7 @@ export default function FernandoHotels() {
                     <h3 className="text-white font-semibold">{hotel.name}</h3>
                     <p className="text-white/60 text-sm">{hotel.city}, {hotel.country}</p>
                     <p className="text-white/40 text-xs">
-                      Owner: {hotel.profiles?.first_name} {hotel.profiles?.last_name}
+                      Owner: {hotel.owner_name}
                     </p>
                     <p className="text-white/40 text-xs">
                       Created: {new Date(hotel.created_at).toLocaleDateString()}
@@ -159,7 +186,12 @@ export default function FernandoHotels() {
                   </div>
                   
                   <div className="flex items-center gap-3">
-                    <Button size="sm" variant="outline" className="text-white border-purple-600">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-white border-purple-600"
+                      onClick={() => handleViewHotel(hotel.id)}
+                    >
                       <Eye className="h-3 w-3 mr-1" />
                       View Details
                     </Button>

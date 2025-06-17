@@ -17,27 +17,44 @@ export default function FernandoPayments() {
 
   const fetchPayments = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch payments without trying to join profiles (relationship doesn't exist)
+      const { data: paymentsData, error: paymentsError } = await supabase
         .from('payments')
         .select(`
           *,
-          hotels(name),
-          profiles(first_name, last_name)
+          hotels(name)
         `)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (paymentsError) throw paymentsError;
       
-      const paymentsData = data || [];
-      setPayments(paymentsData);
+      const payments = paymentsData || [];
+      
+      // Fetch user profiles separately to get user names
+      const userIds = [...new Set(payments.map(p => p.user_id).filter(Boolean))];
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name')
+        .in('id', userIds);
+
+      // Combine payments with profile data
+      const enrichedPayments = payments.map(payment => {
+        const profile = profilesData?.find(p => p.id === payment.user_id);
+        return {
+          ...payment,
+          user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown' : 'Unknown'
+        };
+      });
+
+      setPayments(enrichedPayments);
 
       // Calculate stats
-      const totalRevenue = paymentsData
+      const totalRevenue = enrichedPayments
         .filter(p => p.status === 'completed')
         .reduce((sum, p) => sum + Number(p.amount), 0);
       
-      const completedPayments = paymentsData.filter(p => p.status === 'completed').length;
-      const pendingPayments = paymentsData.filter(p => p.status === 'pending').length;
+      const completedPayments = enrichedPayments.filter(p => p.status === 'completed').length;
+      const pendingPayments = enrichedPayments.filter(p => p.status === 'pending').length;
 
       setStats({
         totalRevenue,
@@ -146,7 +163,7 @@ export default function FernandoPayments() {
                       Hotel: {payment.hotels?.name || 'N/A'}
                     </p>
                     <p className="text-white/40 text-xs">
-                      Customer: {payment.profiles?.first_name} {payment.profiles?.last_name}
+                      Customer: {payment.user_name}
                     </p>
                     <p className="text-white/40 text-xs">
                       Method: {payment.method} | {new Date(payment.created_at).toLocaleDateString()}

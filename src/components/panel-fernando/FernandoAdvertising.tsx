@@ -14,16 +14,38 @@ export default function FernandoAdvertising() {
 
   const fetchAdvertisingRequests = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch advertising requests without trying to join profiles (relationship doesn't exist)
+      const { data: requestsData, error } = await supabase
         .from('advertising_requests')
-        .select(`
-          *,
-          profiles(first_name, last_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setRequests(data || []);
+      
+      const requests = requestsData || [];
+      
+      // Fetch user profiles separately if user_id exists
+      const userIds = [...new Set(requests.map(r => r.user_id).filter(Boolean))];
+      let profilesData = [];
+      
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name')
+          .in('id', userIds);
+        profilesData = profiles || [];
+      }
+
+      // Combine requests with profile data
+      const enrichedRequests = requests.map(request => {
+        const profile = profilesData.find(p => p.id === request.user_id);
+        return {
+          ...request,
+          user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown' : null
+        };
+      });
+
+      setRequests(enrichedRequests);
     } catch (error) {
       console.error('Error fetching advertising requests:', error);
       toast({
@@ -82,6 +104,9 @@ export default function FernandoAdvertising() {
                     <div className="flex-1">
                       <h4 className="text-white font-semibold">{request.contact_name}</h4>
                       <p className="text-white/60 text-sm">{request.contact_email}</p>
+                      {request.user_name && (
+                        <p className="text-white/40 text-xs">User: {request.user_name}</p>
+                      )}
                       
                       {request.available_months && request.available_months.length > 0 && (
                         <div className="mt-2">

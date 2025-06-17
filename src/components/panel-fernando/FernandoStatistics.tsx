@@ -34,14 +34,7 @@ export default function FernandoStatistics() {
       
       if (bookingsError) throw bookingsError;
 
-      // Fetch payments for revenue
-      const { data: payments, error: paymentsError } = await supabase
-        .from('payments')
-        .select('amount, status');
-      
-      if (paymentsError) throw paymentsError;
-
-      // Fetch users count
+      // Fetch users count directly from profiles
       const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
         .select('id');
@@ -53,8 +46,6 @@ export default function FernandoStatistics() {
       const pendingHotels = hotels?.filter(h => h.status === 'pending').length || 0;
       const approvedHotels = hotels?.filter(h => h.status === 'approved').length || 0;
       const totalBookings = bookings?.length || 0;
-      const totalRevenue = payments?.filter(p => p.status === 'completed')
-        .reduce((sum, p) => sum + Number(p.amount), 0) || 0;
       const totalUsers = profiles?.length || 0;
       
       // Recent bookings (last 30 days)
@@ -63,6 +54,9 @@ export default function FernandoStatistics() {
       const recentBookings = bookings?.filter(b => 
         new Date(b.created_at) > thirtyDaysAgo
       ).length || 0;
+
+      // Calculate revenue from bookings instead of payments to avoid policy issues
+      const totalRevenue = bookings?.reduce((sum, b) => sum + Number(b.total_price || 0), 0) || 0;
 
       setStats({
         totalHotels,

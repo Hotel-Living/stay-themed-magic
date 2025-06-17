@@ -2,7 +2,6 @@
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface CategorySelectorProps {
   value: string;
@@ -19,12 +18,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
   hasError,
   errorMessage
 }) => {
-  const { t } = useTranslation();
-  
   return (
     <div>
       <Label htmlFor="category" className="text-white">
-        {t('dashboard.category')} <span className="text-red-500">*</span>
+        Categoría <span className="text-red-500">*</span>
       </Label>
       <Select
         value={value}
@@ -32,14 +29,14 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         onOpenChange={onBlur}
       >
         <SelectTrigger id="category" className="text-white bg-[#7A0486] border-white">
-          <SelectValue placeholder={t('dashboard.selectHotelCategory')} />
+          <SelectValue placeholder="Seleccione la categoría del hotel" />
         </SelectTrigger>
         <SelectContent className="bg-[#7A0486] border-white">
-          <SelectItem value="1" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">1 Star</SelectItem>
-          <SelectItem value="2" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">2 Stars</SelectItem>
-          <SelectItem value="3" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">3 Stars</SelectItem>
-          <SelectItem value="4" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">4 Stars</SelectItem>
-          <SelectItem value="5" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">5 Stars</SelectItem>
+          <SelectItem value="1" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">1 Estrella</SelectItem>
+          <SelectItem value="2" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">2 Estrellas</SelectItem>
+          <SelectItem value="3" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">3 Estrellas</SelectItem>
+          <SelectItem value="4" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">4 Estrellas</SelectItem>
+          <SelectItem value="5" className="text-white hover:bg-[#8A0499] focus:bg-[#8A0499] focus:text-white">5 Estrellas</SelectItem>
         </SelectContent>
       </Select>
       {hasError && (

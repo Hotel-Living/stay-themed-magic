@@ -1,7 +1,6 @@
 
 import React from "react";
 import FormField from "../FormField";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface DescriptionInputProps {
   value: string;
@@ -18,19 +17,17 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
   hasError,
   errorMessage
 }) => {
-  const { t } = useTranslation();
-  
   return (
     <FormField
       id="description"
-      label={t('dashboard.description')}
+      label="Descripción del Hotel"
       type="textarea"
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={hasError ? errorMessage : ""}
       required
-      placeholder={t('dashboard.hotelDescription')}
+      placeholder="Ingrese una descripción detallada de su hotel"
     />
   );
 };

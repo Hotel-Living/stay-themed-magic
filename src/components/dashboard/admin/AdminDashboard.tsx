@@ -7,9 +7,7 @@ import AffinitiesPanel from './affinities/AffinitiesPanel';
 import AdminFiltersPanel from './AdminFiltersPanel';
 import ActivitiesPanel from "./activities/ActivitiesPanel";
 import PendingHotelsTable from './PendingHotelsTable';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Building, Users, Calendar, CreditCard, BarChart3 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "react-router-dom";
 
 export default function AdminDashboard() {
@@ -24,12 +22,11 @@ export default function AdminDashboard() {
     if (path.includes('/affinities')) return 'affinities';
     if (path.includes('/activities')) return 'activities';
     if (path.includes('/filters')) return 'filters';
-    if (path.includes('/hotels')) return 'hotels';
     if (path.includes('/settings')) return 'settings';
-    return 'hotels'; // Default to hotels instead of overview
+    return 'hotels'; // Default to hotels for /admin/hotels and /admin
   };
 
-  const [activeTab, setActiveTab] = useState(getActiveTabFromPath());
+  const [activeTab] = useState(getActiveTabFromPath());
 
   const renderContent = () => {
     switch (activeTab) {
@@ -39,14 +36,6 @@ export default function AdminDashboard() {
         return <AdminUsersPanel />;
       case 'bookings':
         return <AdminBookingsPanel />;
-      case 'payments':
-        return <AdminPaymentsPanel />;
-      case 'affinities':
-        return <AffinitiesPanel />;
-      case 'activities':
-        return <ActivitiesPanel />;
-      case 'filters':
-        return <AdminFiltersPanel />;
       case 'analytics':
         return (
           <div className="space-y-6">
@@ -63,6 +52,12 @@ export default function AdminDashboard() {
             </Card>
           </div>
         );
+      case 'affinities':
+        return <AffinitiesPanel />;
+      case 'activities':
+        return <ActivitiesPanel />;
+      case 'filters':
+        return <AdminFiltersPanel />;
       case 'settings':
         return (
           <div className="space-y-6">

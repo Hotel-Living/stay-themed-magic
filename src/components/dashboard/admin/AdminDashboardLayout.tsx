@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog, MessageCircle, Megaphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
@@ -17,14 +17,9 @@ interface AdminDashboardLayoutProps {
 
 const baseAdminTabs: DashboardTab[] = [
   {
-    id: "pending",
-    label: "Pending Hotels",
-    icon: <Building className="w-5 h-5" />
-  },
-  {
-    id: "all",
+    id: "hotels",
     label: "All Hotels",
-    icon: <ClipboardList className="w-5 h-5" />
+    icon: <Building className="w-5 h-5" />
   },
   {
     id: "users",
@@ -40,6 +35,16 @@ const baseAdminTabs: DashboardTab[] = [
     id: "payments",
     label: "Payments",
     icon: <CreditCard className="w-5 h-5" />
+  },
+  {
+    id: "communications",
+    label: "Hotel Communications",
+    icon: <MessageCircle className="w-5 h-5" />
+  },
+  {
+    id: "advertising",
+    label: "Advertising",
+    icon: <Megaphone className="w-5 h-5" />
   },
   {
     id: "affinities",
@@ -107,18 +112,16 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
                   {adminTabs.map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => navigate(tab.id === "pending" ? "/admin" : 
-                                          tab.id === "all" ? "/admin/hotels" : 
+                      onClick={() => navigate(tab.id === "hotels" ? "/admin/hotels" : 
                                           tab.id === "roles" ? "/admin/roles" :
                                           tab.id === "manage-roles" ? "/admin-roles" :
                                           `/admin/${tab.id}`)}
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
-                        (tab.id === "pending" && location.pathname === "/admin") ||
-                        (tab.id === "all" && location.pathname.includes("/admin/hotels")) ||
+                        (tab.id === "hotels" && location.pathname.includes("/admin/hotels")) ||
                         (tab.id === "roles" && location.pathname === "/admin/roles") ||
                         (tab.id === "manage-roles" && location.pathname === "/admin-roles") ||
-                        (tab.id !== "pending" && tab.id !== "all" && tab.id !== "roles" && tab.id !== "manage-roles" && location.pathname === `/admin/${tab.id}`)
+                        (tab.id !== "hotels" && tab.id !== "roles" && tab.id !== "manage-roles" && location.pathname === `/admin/${tab.id}`)
                           ? "bg-[#5A1876]/50"
                           : "hover:bg-[#5A1876]/30"
                       )}

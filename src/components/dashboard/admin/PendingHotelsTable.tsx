@@ -6,24 +6,26 @@ import { Badge } from "@/components/ui/badge";
 import { Check, X, Eye } from "lucide-react";
 import { useHotelsData } from './hooks/useHotelsData';
 import { useHotelActions } from './hooks/useHotelActions';
+import { useNavigate } from 'react-router-dom';
 
 export default function PendingHotelsTable() {
   const { hotels, loading, fetchPendingHotels, fetchAllHotels } = useHotelsData();
   const { handleApprove, handleReject } = useHotelActions(fetchPendingHotels);
   const [allHotels, setAllHotels] = useState<any[]>([]);
   const [allHotelsLoading, setAllHotelsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPendingHotels();
     loadAllHotels();
   }, []);
 
   const loadAllHotels = async () => {
     setAllHotelsLoading(true);
     try {
-      await fetchAllHotels();
-      // Get the hotels from the hook after fetching all hotels
-      // We'll need to call the actual fetch function and get the data
+      const { data, error } = await fetchAllHotels();
+      if (!error && data) {
+        setAllHotels(data);
+      }
     } catch (error) {
       console.error('Error loading all hotels:', error);
     } finally {
@@ -48,7 +50,11 @@ export default function PendingHotelsTable() {
     );
   };
 
-  if (loading) {
+  const handleViewHotel = (hotelId: string) => {
+    navigate(`/admin/hotel/${hotelId}`);
+  };
+
+  if (loading || allHotelsLoading) {
     return (
       <div className="space-y-6">
         <div className="flex justify-between items-center">
@@ -75,16 +81,13 @@ export default function PendingHotelsTable() {
         </div>
       </div>
 
-      <Card className="bg-purple-900/20 border-purple-800/30">
-        <CardHeader>
-          <CardTitle className="text-white">Pending Hotel Submissions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {hotels.length === 0 ? (
-            <div className="text-center py-8 text-white/60">
-              <p>No pending hotel submissions at this time.</p>
-            </div>
-          ) : (
+      {/* Pending Hotels Section - Only show if there are pending hotels */}
+      {hotels.length > 0 && (
+        <Card className="bg-purple-900/20 border-purple-800/30">
+          <CardHeader>
+            <CardTitle className="text-white">Pending Hotel Submissions</CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-4">
               {hotels.map((hotel) => (
                 <div key={hotel.id} className="flex items-center justify-between p-4 bg-purple-800/20 rounded-lg border border-purple-700/30">
@@ -104,6 +107,7 @@ export default function PendingHotelsTable() {
                         size="sm"
                         variant="outline"
                         className="text-white border-purple-600 hover:bg-purple-800/50"
+                        onClick={() => handleViewHotel(hotel.id)}
                       >
                         <Eye className="h-3 w-3 mr-1" />
                         View
@@ -136,23 +140,47 @@ export default function PendingHotelsTable() {
                 </div>
               ))}
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
+      {/* All Hotels Section */}
       <Card className="bg-purple-900/20 border-purple-800/30">
         <CardHeader>
-          <CardTitle className="text-white">All Hotels</CardTitle>
+          <CardTitle className="text-white">All Hotels ({allHotels.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          {allHotelsLoading ? (
+          {allHotels.length === 0 ? (
             <div className="text-center py-8 text-white/60">
-              <p>Loading all hotels...</p>
+              <p>No hotels found in the database.</p>
             </div>
           ) : (
-            <div className="text-white/60">
-              <p>Complete hotels management interface will be displayed here.</p>
-              <p className="text-sm mt-2">This includes approved hotels, statistics, and management tools.</p>
+            <div className="space-y-4">
+              {allHotels.map((hotel) => (
+                <div key={hotel.id} className="flex items-center justify-between p-4 bg-purple-800/20 rounded-lg border border-purple-700/30">
+                  <div className="flex-1">
+                    <h3 className="text-white font-semibold">{hotel.name}</h3>
+                    <p className="text-white/60 text-sm">{hotel.city}, {hotel.country}</p>
+                    <p className="text-white/40 text-xs">
+                      Created on {new Date(hotel.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    {getStatusBadge(hotel.status)}
+                    
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-white border-purple-600 hover:bg-purple-800/50"
+                      onClick={() => handleViewHotel(hotel.id)}
+                    >
+                      <Eye className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </CardContent>

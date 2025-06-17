@@ -12,6 +12,12 @@ export default function AdminAllRoutes() {
         <Route path="/hotels" element={<AdminDashboard />} />
         <Route path="/users" element={<AdminDashboard />} />
         <Route path="/bookings" element={<AdminDashboard />} />
+        <Route path="/payments" element={<AdminDashboard />} />
+        <Route path="/communications" element={<AdminDashboard />} />
+        <Route path="/advertising" element={<AdminDashboard />} />
+        <Route path="/affinities" element={<AdminDashboard />} />
+        <Route path="/filters" element={<AdminDashboard />} />
+        <Route path="/roles" element={<AdminDashboard />} />
         <Route path="/analytics" element={<AdminDashboard />} />
         <Route path="/settings" element={<AdminDashboard />} />
         <Route path="*" element={<Navigate to="/admin/hotels" replace />} />

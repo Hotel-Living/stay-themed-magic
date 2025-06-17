@@ -2,6 +2,7 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { format, addMonths } from "date-fns";
+import { es } from "date-fns/locale";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import AvailabilityDateSection from "../rooms/roomTypes/AvailabilityDateSection";
@@ -82,6 +83,7 @@ export default function AvailabilitySection({
   return (
     <div className="grid grid-cols-1 gap-4">
       <div>
+        <p className="text-sm text-gray-300 mb-4">Seleccione meses completos o fechas específicas de check-in (solo los lunes):</p>
         <div className="bg-fuchsia-950/50 border border-white/10 rounded-lg p-4 text-white">
           {/* Pass all required props to AvailabilityDateSection */}
           <AvailabilityDateSection 

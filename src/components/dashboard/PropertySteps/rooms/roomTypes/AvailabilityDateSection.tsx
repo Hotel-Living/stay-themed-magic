@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { format, addMonths, parseISO, addDays, isBefore, isAfter, isSameDay } from "date-fns";
+import { es } from "date-fns/locale";
 import CustomCalendarSingleWeekday from "./CustomCalendarSingleWeekday";
 import { weekdayMap, getAvailableDatesForMonth } from "./availabilityDateUtils";
 
@@ -32,7 +33,7 @@ export default function AvailabilityDateSection({
     length: 12
   }, (_, i) => {
     const date = addMonths(currentDate, i);
-    return format(date, "MMMM yyyy");
+    return format(date, "MMMM yyyy", { locale: es });
   });
 
   const toggleMonth = (month: string) => {
@@ -88,7 +89,25 @@ export default function AvailabilityDateSection({
   };
 
   const handleMonthSelection = (month: string) => {
-    const monthDate = new Date(month + " 01");
+    // Convert Spanish month back to Date for processing
+    const monthDate = new Date(month.replace(/^(\w+)\s(\d+)$/, (match, monthName, year) => {
+      const monthMap = {
+        'enero': 'January',
+        'febrero': 'February', 
+        'marzo': 'March',
+        'abril': 'April',
+        'mayo': 'May',
+        'junio': 'June',
+        'julio': 'July',
+        'agosto': 'August',
+        'septiembre': 'September',
+        'octubre': 'October',
+        'noviembre': 'November',
+        'diciembre': 'December'
+      };
+      return `${monthMap[monthName.toLowerCase()]} ${year}`;
+    }) + " 01");
+    
     const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
     
@@ -133,7 +152,25 @@ export default function AvailabilityDateSection({
   };
 
   const isMonthSelected = (month: string) => {
-    const monthDate = new Date(month + " 01");
+    // Convert Spanish month back to Date for processing
+    const monthDate = new Date(month.replace(/^(\w+)\s(\d+)$/, (match, monthName, year) => {
+      const monthMap = {
+        'enero': 'January',
+        'febrero': 'February', 
+        'marzo': 'March',
+        'abril': 'April',
+        'mayo': 'May',
+        'junio': 'June',
+        'julio': 'July',
+        'agosto': 'August',
+        'septiembre': 'September',
+        'octubre': 'October',
+        'noviembre': 'November',
+        'diciembre': 'December'
+      };
+      return `${monthMap[monthName.toLowerCase()]} ${year}`;
+    }) + " 01");
+    
     const dayNum = weekdayMap[effectiveWeekday];
     const availableDates = getAvailableDatesForMonth(monthDate, dayNum).map(d => format(d, "yyyy-MM-dd"));
     const cleanDates = cleanSelectedDates(selectedDates);
@@ -149,9 +186,6 @@ export default function AvailabilityDateSection({
     <div className="grid grid-cols-4 items-start gap-4">
       <div className="col-span-3 grid grid-cols-2 gap-4">
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
-          <p className="text-sm mb-3">
-            Select full months or specific check-in dates ({effectiveWeekday}s only)
-          </p>
           <div className="space-y-2">
             {months.map((month, idx) => {
               const monthDate = addMonths(currentDate, idx);
@@ -193,11 +227,11 @@ export default function AvailabilityDateSection({
         <div className="bg-fuchsia-950/50 border border-white rounded-lg p-4 text-white">
           {displayDates.length > 0 ? (
             <>
-              <h4 className="text-sm font-medium mb-2">Selected Availability:</h4>
+              <h4 className="text-sm font-medium mb-2">Disponibilidad Seleccionada:</h4>
               <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
                 {displayDates.map(date => (
                   <div key={date} className="bg-fuchsia-800/40 text-white text-xs px-2 py-1 rounded flex items-center">
-                    {format(parseISO(date), "MMM dd, yyyy")}
+                    {format(parseISO(date), "MMM dd, yyyy", { locale: es })}
                     <Button 
                       variant="ghost" 
                       size="sm" 
@@ -216,7 +250,7 @@ export default function AvailabilityDateSection({
               </div>
             </>
           ) : (
-            <p className="text-sm text-center italic text-fuchsia-300">No dates selected yet</p>
+            <p className="text-sm text-center italic text-fuchsia-300">Aún no se han seleccionado fechas</p>
           )}
         </div>
       </div>

@@ -32,7 +32,7 @@ export function StayRatesTableSection({
     return (
       <div className="bg-fuchsia-950/30 p-4 rounded-lg border border-fuchsia-800/30">
         <p className="text-yellow-300">
-          Please define room types, stay lengths, and meal plans in Step 3 before setting rates.
+          Por favor, defina los tipos de habitación, duraciones de estancia y planes de comidas en el Paso 3 antes de establecer tarifas.
         </p>
       </div>
     );
@@ -40,19 +40,19 @@ export function StayRatesTableSection({
   
   return (
     <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-      <h3 className="font-medium mb-2 uppercase text-base">IMPORTANT NOTICE</h3>
+      <h3 className="font-medium mb-2 uppercase text-base">AVISO IMPORTANTE</h3>
       <p className="text-xs text-foreground/80">
-        All rates are set <span className="font-bold">PER PERSON</span>. Rates will be displayed to customers accordingly.
+        Todas las tarifas se establecen <span className="font-bold">POR PERSONA</span>. Las tarifas se mostrarán a los clientes en consecuencia.
       </p>
 
       {enablePriceIncrease && (
         <div className="mt-3 pt-3 border-t border-fuchsia-800/30">
           <h3 className="font-medium mb-2 uppercase flex items-center text-base">
             <Info className="w-4 h-4 mr-1 text-fuchsia-400" />
-            DYNAMIC PRICING ENABLED
+            PRECIOS DINÁMICOS ACTIVADOS
           </h3>
           <p className="text-xs text-foreground/80">
-            These are base rates. Actual prices will dynamically increase up to +{priceIncreaseCap}% based on demand.
+            Estas son tarifas base. Los precios reales aumentarán dinámicamente hasta +{priceIncreaseCap}% basado en la demanda.
           </p>
         </div>
       )}
@@ -62,10 +62,10 @@ export function StayRatesTableSection({
           <table className="w-full min-w-[640px] border-collapse">
             <thead className="bg-fuchsia-900/30">
               <tr>
-                <th className="p-2 text-left text-xs font-medium uppercase">ROOM TYPE</th>
-                <th className="p-2 text-left text-xs font-medium uppercase">STAY LENGTH</th>
-                <th className="p-2 text-left text-xs font-medium uppercase">MEAL PLAN</th>
-                <th className="p-2 text-left text-xs font-medium uppercase">PRICE PER PERSON</th>
+                <th className="p-2 text-left text-xs font-medium uppercase">TIPO DE HABITACIÓN</th>
+                <th className="p-2 text-left text-xs font-medium uppercase">DURACIÓN DE ESTANCIA</th>
+                <th className="p-2 text-left text-xs font-medium uppercase">PLAN DE COMIDAS</th>
+                <th className="p-2 text-left text-xs font-medium uppercase">PRECIO POR PERSONA</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-fuchsia-800/20">
@@ -98,7 +98,7 @@ export function StayRatesTableSection({
             </tbody>
           </table>
         </div>
-        {!ratesFilled && <p className="text-red-400 text-xs mt-1">Please enter at least one rate</p>}
+        {!ratesFilled && <p className="text-red-400 text-xs mt-1">Por favor ingrese al menos una tarifa</p>}
       </div>
     </div>
   );

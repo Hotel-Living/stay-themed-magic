@@ -1,34 +1,35 @@
 
 import React from "react";
-import { CheckCircle, AlertCircle } from "lucide-react";
 
 interface ValidationMessagesProps {
-  error: string;
-  showErrors: boolean;
-  isValid: boolean;
+  validationState?: any;
+  formData?: any;
+  error?: string;
+  showErrors?: boolean;
+  isValid?: boolean;
 }
 
-export default function ValidationMessages({
+const ValidationMessages: React.FC<ValidationMessagesProps> = ({
+  validationState,
+  formData,
   error,
   showErrors,
   isValid
-}: ValidationMessagesProps) {
+}) => {
+  // Use validationState if provided, otherwise use individual props
+  const errorToShow = validationState?.error || error;
+  const shouldShowErrors = validationState?.showValidationErrors || showErrors;
+  const validationStatus = validationState?.isValid || isValid;
+
+  if (!shouldShowErrors || !errorToShow) {
+    return null;
+  }
+
   return (
-    <>
-      {/* Validation Messages - Only shown when errors exist and showErrors is true */}
-      {error && showErrors && (
-        <div className="p-3 rounded-md text-white flex items-center gap-2 bg-[#540ea9]/20">
-          <AlertCircle className="h-5 w-5" />
-          <span>{error}</span>
-        </div>
-      )}
-      
-      {isValid && (
-        <div className="p-3 rounded-md bg-green-500/20 text-green-200 flex items-center gap-2">
-          <CheckCircle className="h-5 w-5" />
-          <span>All required information has been provided</span>
-        </div>
-      )}
-    </>
+    <div className="mt-4 p-4 bg-red-900/20 border border-red-500/30 rounded-lg">
+      <p className="text-red-300">{errorToShow}</p>
+    </div>
   );
-}
+};
+
+export default ValidationMessages;

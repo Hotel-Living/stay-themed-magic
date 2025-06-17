@@ -1,77 +1,68 @@
 
 import React from "react";
-import StepOne from "./StepOne";
 import { GeneralInformationStep1 } from "./GeneralInformationStep1";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
-import { AccommodationTermsStep } from "./AccommodationTermsStep";
-import { PackagesBuilderStep } from "./PackagesBuilderStep";
+import AccommodationTermsStep from "./AccommodationTerms/AccommodationTermsStep";
+import PackagesBuilderStep from "./PackagesBuilderStep";
 import { FinalTermsStep } from "./FinalTermsStep";
-import PriceTable from "./PriceTable";
-import StayRatesStep from "./StayRatesStep";
-import PicturesStep from "./PicturesStep";
 
 interface StepContentProps {
   currentStep: number;
-  renderPriceTable?: (roomType: string, mealTypes: string[], stayDurations: number[]) => React.ReactNode;
-  onValidationChange?: (isValid: boolean) => void;
-  formData?: any;
-  updateFormData?: (field: string, value: any) => void;
+  onValidationChange: (isValid: boolean) => void;
+  formData: any;
+  updateFormData: (field: string, value: any) => void;
 }
 
-export default function StepContent({ 
-  currentStep, 
-  renderPriceTable, 
-  onValidationChange = () => {},
-  formData = {},
-  updateFormData = () => {}
-}: StepContentProps) {
-  const defaultRenderPriceTable = (roomType: string, mealTypes: string[], stayDurations: number[]) => (
-    <PriceTable 
-      roomType={roomType} 
-      mealTypes={mealTypes} 
-      stayDurations={stayDurations} 
-    />
-  );
-
-  const tableFn = renderPriceTable || defaultRenderPriceTable;
-
-  return (
-    <div className="mb-4">
-      {currentStep === 1 && 
-        <GeneralInformationStep1 
-          onValidationChange={onValidationChange} 
+const StepContent: React.FC<StepContentProps> = ({
+  currentStep,
+  onValidationChange,
+  formData,
+  updateFormData
+}) => {
+  switch (currentStep) {
+    case 1:
+      return (
+        <GeneralInformationStep1
           formData={formData}
           updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
         />
-      }
-      {currentStep === 2 && 
+      );
+    case 2:
+      return (
         <GeneralInformationStep2
-          onValidationChange={onValidationChange}
           formData={formData}
           updateFormData={updateFormData}
-        />
-      }
-      {currentStep === 3 && 
-        <AccommodationTermsStep 
           onValidationChange={onValidationChange}
+        />
+      );
+    case 3:
+      return (
+        <AccommodationTermsStep
           formData={formData}
           updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
         />
-      }
-      {currentStep === 4 && 
+      );
+    case 4:
+      return (
         <PackagesBuilderStep
-          onValidationChange={onValidationChange}
           formData={formData}
           updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
         />
-      }
-      {currentStep === 5 && 
+      );
+    case 5:
+      return (
         <FinalTermsStep
-          onValidationChange={onValidationChange}
           formData={formData}
           updateFormData={updateFormData}
+          onValidationChange={onValidationChange}
         />
-      }
-    </div>
-  );
-}
+      );
+    default:
+      return <div>Step not found</div>;
+  }
+};
+
+export default StepContent;

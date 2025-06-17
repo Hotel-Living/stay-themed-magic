@@ -35,16 +35,19 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
   // Updated meal plan options to match the public filter exactly
   const mealPlanOptions = [
-    { id: "breakfast-included", label: "Breakfast Included" },
-    { id: "half-board", label: "Half Board" },
-    { id: "full-board", label: "Full Board" },
-    { id: "all-inclusive", label: "All Inclusive" },
-    { id: "laundry", label: "Laundry" },
-    { id: "external-laundry", label: "External Laundry Service Available" }
+    { id: "breakfast-included", label: "Desayuno Incluido" },
+    { id: "half-board", label: "Media Pensión" },
+    { id: "full-board", label: "Pensión Completa" },
+    { id: "all-inclusive", label: "Todo Incluido" },
+    { id: "laundry", label: "Lavandería" },
+    { id: "external-laundry", label: "Servicio Externo de Lavandería Disponible" }
   ];
 
   // Duration options in days
   const durationOptions = [8, 16, 24, 32];
+
+  // Spanish weekday translations
+  const spanishWeekdays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
   useEffect(() => {
     // Update parent form with local state values
@@ -82,8 +85,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     <div className="space-y-6">
       {/* Duration Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.1- LENGTH OF STAY</h3>
-        <p className="text-sm text-gray-300 mb-4">Select all the stay durations you offer:</p>
+        <h3 className="font-medium mb-3">3.1— DURACIÓN DE LA ESTANCIA</h3>
+        <p className="text-sm text-gray-300 mb-4">Seleccione todas las duraciones de estancia que ofrece:</p>
         <div className="flex flex-wrap gap-3">
           {durationOptions.map(duration => (
             <button
@@ -95,21 +98,21 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
                   : "bg-fuchsia-900/30 text-gray-300"
               }`}
             >
-              {duration} days
+              {duration} días
             </button>
           ))}
         </div>
         {showErrors && stayDurations.length === 0 && (
-          <p className="text-red-400 text-sm mt-2">Please select at least one stay duration</p>
+          <p className="text-red-400 text-sm mt-2">Por favor seleccione al menos una duración de estancia</p>
         )}
       </Card>
 
       {/* Check-in Day Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.2- ONLY WEEKDAY FOR CHECK-INS / OUTS</h3>
-        <p className="text-sm text-gray-300 mb-4">Select the day when guests check in/out:</p>
+        <h3 className="font-medium mb-3">3.2— ÚNICO DÍA DE CHECK-IN / CHECK-OUT</h3>
+        <p className="text-sm text-gray-300 mb-4">Seleccione el día en que los huéspedes hacen check-in y check-out:</p>
         <div className="flex flex-wrap gap-3">
-          {weekdays.map(day => (
+          {weekdays.map((day, index) => (
             <button
               key={day}
               onClick={() => setCheckinDay(day)}
@@ -119,7 +122,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
                   : "bg-fuchsia-900/30 text-gray-300"
               }`}
             >
-              {day}
+              {spanishWeekdays[index]}
             </button>
           ))}
         </div>
@@ -127,7 +130,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Available Months Section - Using full calendar functionality */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.3- AVAILABILITY DATES</h3>
+        <h3 className="font-medium mb-3">3.3— FECHAS DE DISPONIBILIDAD</h3>
         
         <AvailabilitySection 
           formData={formData} 
@@ -135,13 +138,13 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
           onValidationChange={setAvailabilityValid} 
         />
         {showErrors && (!formData.available_months || formData.available_months.length === 0) && (
-          <p className="text-red-400 text-sm mt-2">Please select at least one month</p>
+          <p className="text-red-400 text-sm mt-2">Por favor seleccione al menos un mes</p>
         )}
       </Card>
 
       {/* Meal Plans Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.4- MEAL PLANS</h3>
+        <h3 className="font-medium mb-3">3.4— PLANES DE COMIDAS</h3>
         
         <div className="flex flex-wrap gap-3">
           {mealPlanOptions.map(plan => (
@@ -159,14 +162,14 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
           ))}
         </div>
         {showErrors && mealPlans.length === 0 && (
-          <p className="text-red-400 text-sm mt-2">Please select at least one meal plan</p>
+          <p className="text-red-400 text-sm mt-2">Por favor seleccione al menos un plan de comidas</p>
         )}
       </Card>
 
       {/* Room Types Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.5- ROOM TYPES</h3>
-        <p className="text-sm text-gray-300 mb-4">Define your room types with photos and availability:</p>
+        <h3 className="font-medium mb-3">3.5— TIPOS DE HABITACIÓN</h3>
+        <p className="text-sm text-gray-300 mb-4">Defina sus tipos de habitación con fotos y disponibilidad:</p>
         <RoomTypeSection 
           onValidationChange={handleRoomTypesValidation} 
           formData={formData} 
@@ -175,7 +178,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
           showHeader={false} 
         />
         {showErrors && (!formData.roomTypes || formData.roomTypes.length === 0) && (
-          <p className="text-red-400 text-sm mt-2">Please add at least one room type</p>
+          <p className="text-red-400 text-sm mt-2">Por favor añada al menos un tipo de habitación</p>
         )}
       </Card>
 

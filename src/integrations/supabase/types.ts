@@ -865,6 +865,41 @@ export type Database = {
         }
         Relationships: []
       }
+      theme_translations: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          locale: string
+          name: string
+          theme_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          locale: string
+          name: string
+          theme_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          locale?: string
+          name?: string
+          theme_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "theme_translations_theme_id_fkey"
+            columns: ["theme_id"]
+            isOneToOne: false
+            referencedRelation: "themes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       themes: {
         Row: {
           category: string | null

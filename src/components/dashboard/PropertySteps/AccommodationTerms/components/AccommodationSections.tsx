@@ -7,8 +7,6 @@ import MealPlanSection from '../MealPlanSection';
 import RoomsRatesSection from '../RoomsRatesSection';
 
 interface AccommodationSectionsProps {
-  selectedWeekday: string;
-  handleWeekdayChange: (weekday: string) => void;
   formData: any;
   updateFormData: (field: string, value: any) => void;
   sectionsState: {
@@ -16,39 +14,47 @@ interface AccommodationSectionsProps {
     mealPlan: boolean;
     roomRates: boolean;
   };
-  toggleSection: (section: string) => void;
-  onCheckValidation: () => void;
+  validationState: any;
+  weekdayState: any;
+  stayLengthState: any;
+  updateSectionState: (section: string) => void;
+  updateWeekdayState: (weekday: string) => void;
+  updateStayLengthState: (lengths: number[]) => void;
+  onValidationChange: (isValid: boolean) => void;
 }
 
 export const AccommodationSections = ({
-  selectedWeekday,
-  handleWeekdayChange,
   formData,
   updateFormData,
   sectionsState,
-  toggleSection,
-  onCheckValidation
+  validationState,
+  weekdayState,
+  stayLengthState,
+  updateSectionState,
+  updateWeekdayState,
+  updateStayLengthState,
+  onValidationChange
 }: AccommodationSectionsProps) => {
   return (
     <div className="space-y-6">
       <PreferredWeekdaySection 
-        preferredWeekday={selectedWeekday}
-        onWeekdayChange={handleWeekdayChange}
+        preferredWeekday={weekdayState.selectedWeekday}
+        onWeekdayChange={updateWeekdayState}
       />
       
       <AvailabilitySection 
         formData={formData}
         updateFormData={updateFormData}
         onValidationChange={(valid) => {
-          if (!valid) onCheckValidation();
+          if (!valid) onValidationChange(false);
         }}
       />
       
       <StayLengthSection 
         isOpen={sectionsState.stayLength}
-        onOpenChange={() => toggleSection('stayLength')}
+        onOpenChange={() => updateSectionState('stayLength')}
         onValidationChange={(valid) => {
-          if (!valid) onCheckValidation();
+          if (!valid) onValidationChange(false);
         }}
         formData={formData}
         updateFormData={updateFormData}
@@ -56,9 +62,9 @@ export const AccommodationSections = ({
       
       <MealPlanSection 
         isOpen={sectionsState.mealPlan}
-        onOpenChange={() => toggleSection('mealPlan')}
+        onOpenChange={() => updateSectionState('mealPlan')}
         onValidationChange={(valid) => {
-          if (!valid) onCheckValidation();
+          if (!valid) onValidationChange(false);
         }}
         formData={formData}
         updateFormData={updateFormData}
@@ -66,13 +72,13 @@ export const AccommodationSections = ({
       
       <RoomsRatesSection
         isOpen={sectionsState.roomRates}
-        onOpenChange={() => toggleSection('roomRates')}
+        onOpenChange={() => updateSectionState('roomRates')}
         onValidationChange={(valid) => {
-          if (!valid) onCheckValidation();
+          if (!valid) onValidationChange(false);
         }}
         formData={{
           ...formData,
-          preferredWeekday: selectedWeekday
+          preferredWeekday: weekdayState.selectedWeekday
         }}
         updateFormData={updateFormData}
       />

@@ -6,17 +6,11 @@ import { useAccommodationOptions } from "./useAccommodationOptions";
 import { useSectionsState } from "./useSectionsState";
 import { useValidationState } from "./useValidationState";
 
-interface UseAccommodationTermsProps {
-  formData: any;
-  updateFormData: (field: string, value: any) => void;
-  onValidationChange: (isValid: boolean) => void;
-}
-
-export const useAccommodationTerms = ({
-  formData,
-  updateFormData,
-  onValidationChange
-}: UseAccommodationTermsProps) => {
+export const useAccommodationTerms = (
+  formData: any,
+  updateFormData: (field: string, value: any) => void,
+  onValidationChange: (isValid: boolean) => void
+) => {
   const { selectedWeekday, handleWeekdayChange } = useWeekdayState({ 
     formData, 
     updateFormData 
@@ -62,22 +56,26 @@ export const useAccommodationTerms = ({
   }, [formData]);
 
   return {
-    selectedWeekday,
-    selectedStayLengths,
-    selectedMealPlans,
-    roomTypes,
-    error,
-    setError,
-    showValidationErrors,
-    setShowValidationErrors,
-    hasInteracted,
-    setHasInteracted,
     sectionsState,
-    handleWeekdayChange,
-    handleStayLengthChange,
-    handleMealPlanChange,
-    handleRoomTypesChange,
-    toggleSection,
-    isValid
+    validationState: {
+      error,
+      setError,
+      showValidationErrors,
+      setShowValidationErrors,
+      hasInteracted,
+      setHasInteracted,
+      isValid
+    },
+    weekdayState: {
+      selectedWeekday,
+      handleWeekdayChange
+    },
+    stayLengthState: {
+      selectedStayLengths,
+      handleStayLengthChange
+    },
+    updateSectionState: toggleSection,
+    updateWeekdayState: handleWeekdayChange,
+    updateStayLengthState: handleStayLengthChange
   };
 };

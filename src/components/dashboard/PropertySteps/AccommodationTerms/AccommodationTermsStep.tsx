@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useAccommodationTerms } from "./hooks/useAccommodationTerms";
-import AccommodationSections from "./components/AccommodationSections";
+import { AccommodationSections } from "./components/AccommodationSections";
 
 interface AccommodationTermsStepProps {
   formData?: any;

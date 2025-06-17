@@ -46,15 +46,11 @@ Deno.serve(async (req) => {
 
     console.log('User authenticated:', user.email)
 
-    // Check if user is admin - using direct table lookup since has_role might not be available
-    const { data: adminCheck, error: adminError } = await supabaseClient
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
-      .single()
+    // Check if user is admin using the has_role function
+    const { data: isAdmin, error: adminError } = await supabaseClient
+      .rpc('has_role', { role_name: 'admin' })
 
-    if (adminError && adminError.code !== 'PGRST116') {
+    if (adminError) {
       console.error('Admin check error:', adminError)
       return new Response(
         JSON.stringify({ error: 'Error checking admin status' }),
@@ -65,7 +61,7 @@ Deno.serve(async (req) => {
       )
     }
 
-    if (!adminCheck) {
+    if (!isAdmin) {
       console.error('User is not admin:', user.email)
       return new Response(
         JSON.stringify({ error: 'Unauthorized: Admin access required' }),

@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Define the form validation schema
 const advertisingFormSchema = z.object({
@@ -33,15 +34,26 @@ const advertisingFormSchema = z.object({
 // Define the form values type
 type AdvertisingFormValues = z.infer<typeof advertisingFormSchema>;
 
-// Available months for selection
-const availableMonths = [
-  "January", "February", "March", "April", "May", "June", 
-  "July", "August", "September", "October", "November", "December"
-];
-
 export default function AdvertisingContent() {
   const { toast: useToastRef } = useToast();
   const { profile, user } = useAuth();
+  const { t } = useTranslation();
+  
+  // Available months for selection
+  const availableMonths = [
+    { key: "january", label: t('advertising.january') },
+    { key: "february", label: t('advertising.february') },
+    { key: "march", label: t('advertising.march') },
+    { key: "april", label: t('advertising.april') },
+    { key: "may", label: t('advertising.may') },
+    { key: "june", label: t('advertising.june') },
+    { key: "july", label: t('advertising.july') },
+    { key: "august", label: t('advertising.august') },
+    { key: "september", label: t('advertising.september') },
+    { key: "october", label: t('advertising.october') },
+    { key: "november", label: t('advertising.november') },
+    { key: "december", label: t('advertising.december') }
+  ];
   
   // Set up the form
   const form = useForm<AdvertisingFormValues>({
@@ -101,17 +113,17 @@ export default function AdvertisingContent() {
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
         <div className="flex items-center gap-3 mb-4">
           <Megaphone className="w-6 h-6 text-fuchsia-300" />
-          <h2 className="text-2xl font-bold">Advertising Promotion</h2>
+          <h2 className="text-2xl font-bold">{t('advertising.title')}</h2>
         </div>
       </div>
 
       {/* Slogans */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          "Get One Month of Free Advertising on Hotel Living",
-          "Let your hotel be seen — for free.",
-          "Exchange 3 nights. Get 30 days of visibility.",
-          "Guests bring value. And movement."
+          t('advertising.headerSlogan1'),
+          t('advertising.headerSlogan2'),
+          t('advertising.headerSlogan3'),
+          t('advertising.headerSlogan4')
         ].map((slogan, index) => (
           <div 
             key={index} 
@@ -124,26 +136,18 @@ export default function AdvertisingContent() {
 
       {/* Main Promotion Text */}
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-4 text-fuchsia-100">Our Promotion Offer</h3>
+        <h3 className="text-xl font-semibold mb-4 text-fuchsia-100">{t('advertising.promotionOfferTitle')}</h3>
         
         <div className="space-y-4 text-fuchsia-100">
-          <p>
-            In exchange for just three nights of free accommodation at your hotel, we offer you one full month of featured advertising on our portal — in the most visible and high-traffic zones.
-          </p>
-          
-          <p>
-            These three nights can be offered in any month of the year, and you don't need to specify exact dates. Simply choosing two or three months of availability is enough.
-          </p>
-          
-          <p>
-            These promotional guests will not only give visibility and activity to your hotel, but potential extra revenue (restaurant, services, reviews) and valuable movement and exposure — far more attractive than having empty rooms.
-          </p>
+          <p>{t('advertising.promotionOfferText1')}</p>
+          <p>{t('advertising.promotionOfferText2')}</p>
+          <p>{t('advertising.promotionOfferText3')}</p>
         </div>
       </div>
 
       {/* Signup Form */}
       <div className="glass-card rounded-2xl p-6 bg-[#7a0486]">
-        <h3 className="text-xl font-semibold mb-6">Join this Promotion</h3>
+        <h3 className="text-xl font-semibold mb-6">{t('advertising.joinPromotionTitle')}</h3>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -153,9 +157,9 @@ export default function AdvertisingContent() {
               name="contactName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Name</FormLabel>
+                  <FormLabel>{t('advertising.contactName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input placeholder={t('advertising.contactNamePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,9 +172,9 @@ export default function AdvertisingContent() {
               name="contactEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Email</FormLabel>
+                  <FormLabel>{t('advertising.contactEmail')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="your.email@example.com" {...field} />
+                    <Input placeholder={t('advertising.contactEmailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -184,40 +188,40 @@ export default function AdvertisingContent() {
               render={() => (
                 <FormItem>
                   <div className="mb-4">
-                    <FormLabel>Available Months for Free Nights</FormLabel>
+                    <FormLabel>{t('advertising.availableMonthsTitle')}</FormLabel>
                     <FormDescription className="text-fuchsia-300">
-                      Select at least 2 months when you can offer the free nights.
+                      {t('advertising.availableMonthsDescription')}
                     </FormDescription>
                   </div>
                   
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {availableMonths.map((month) => (
                       <FormField
-                        key={month}
+                        key={month.key}
                         control={form.control}
                         name="availableMonths"
                         render={({ field }) => {
                           return (
                             <FormItem
-                              key={month}
+                              key={month.key}
                               className="flex flex-row items-start space-x-3 space-y-0"
                             >
                               <FormControl>
                                 <Checkbox
-                                  checked={field.value?.includes(month)}
+                                  checked={field.value?.includes(month.key)}
                                   onCheckedChange={(checked) => {
                                     return checked
-                                      ? field.onChange([...field.value, month])
+                                      ? field.onChange([...field.value, month.key])
                                       : field.onChange(
                                           field.value?.filter(
-                                            (value) => value !== month
+                                            (value) => value !== month.key
                                           )
                                         )
                                   }}
                                 />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                {month}
+                                {month.label}
                               </FormLabel>
                             </FormItem>
                           )
@@ -244,7 +248,7 @@ export default function AdvertisingContent() {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      I understand and agree to provide 3 free nights in exchange for 1 month of advertising
+                      {t('advertising.termsAcceptance')}
                     </FormLabel>
                   </div>
                 </FormItem>
@@ -256,7 +260,7 @@ export default function AdvertisingContent() {
               type="submit" 
               className="w-full bg-fuchsia-600 hover:bg-fuchsia-700"
             >
-              <Check className="mr-2 h-4 w-4" /> Submit Promotion Request
+              <Check className="mr-2 h-4 w-4" /> {t('advertising.submitButton')}
             </Button>
           </form>
         </Form>

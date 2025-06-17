@@ -20,13 +20,13 @@ const HotelNameInput: React.FC<HotelNameInputProps> = ({
   return (
     <FormField
       id="hotelName"
-      label="Nombre del Hotel"
+      label="Hotel Name"
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={hasError ? errorMessage : ""}
       required
-      placeholder="Ingrese el nombre del hotel"
+      placeholder="Enter hotel name"
     />
   );
 };

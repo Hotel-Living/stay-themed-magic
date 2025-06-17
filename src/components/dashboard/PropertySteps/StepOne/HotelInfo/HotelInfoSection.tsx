@@ -86,7 +86,7 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            Estilo de la Propiedad
+            Property Style
           </label>
           <select 
             required 
@@ -95,14 +95,14 @@ export default function HotelInfoSection({
             onChange={e => handleChange('style', e.target.value)} 
             onBlur={() => handleBlur('style')}
           >
-            <option value="">Seleccione el estilo de la propiedad</option>
-            <option value="classic">Clásico</option>
-            <option value="classic-elegant">Clásico Elegante</option>
-            <option value="modern">Moderno</option>
-            <option value="fusion">Fusión</option>
-            <option value="urban">Urbano</option>
-            <option value="minimalist">Minimalista</option>
-            <option value="luxury">Lujo</option>
+            <option value="">Select property style</option>
+            <option value="classic">Classic</option>
+            <option value="classic-elegant">Classic Elegant</option>
+            <option value="modern">Modern</option>
+            <option value="fusion">Fusion</option>
+            <option value="urban">Urban</option>
+            <option value="minimalist">Minimalist</option>
+            <option value="luxury">Luxury</option>
           </select>
         </div>
         
@@ -118,10 +118,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            Es ideal para huéspedes que disfrutan de…
+            Ideal for guests who enjoy...
           </label>
           <textarea 
-            placeholder="Describa a sus huéspedes ideales y sus intereses" 
+            placeholder="Describe your ideal guests and their interests" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.idealGuests || ''} 
             onChange={e => handleChange('idealGuests', e.target.value)} 
@@ -131,10 +131,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            El ambiente es…
+            The atmosphere is...
           </label>
           <textarea 
-            placeholder="Describa la atmósfera y el ambiente de su hotel" 
+            placeholder="Describe the atmosphere and ambiance of your hotel" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.atmosphere || ''} 
             onChange={e => handleChange('atmosphere', e.target.value)} 
@@ -144,10 +144,10 @@ export default function HotelInfoSection({
 
         <div className={sectionClassName}>
           <label className={labelClassName}>
-            Nuestra ubicación es perfecta para...
+            Our location is perfect for...
           </label>
           <textarea 
-            placeholder="Describa qué hace especial su ubicación" 
+            placeholder="Describe what makes your location special" 
             className={inputClassName + " min-h-[80px]"} 
             value={formData.perfectLocation || ''} 
             onChange={e => handleChange('perfectLocation', e.target.value)} 

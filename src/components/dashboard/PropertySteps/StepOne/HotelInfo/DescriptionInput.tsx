@@ -20,14 +20,14 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
   return (
     <FormField
       id="description"
-      label="Descripción del Hotel"
+      label="Hotel Description"
       type="textarea"
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={hasError ? errorMessage : ""}
       required
-      placeholder="Ingrese una descripción detallada de su hotel"
+      placeholder="Enter a detailed description of your hotel"
     />
   );
 };

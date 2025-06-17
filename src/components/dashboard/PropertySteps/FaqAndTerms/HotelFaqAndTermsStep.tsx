@@ -51,7 +51,7 @@ export default function HotelFaqAndTermsStep({
       
       <div className="mt-4 p-4 bg-purple-900/30 border border-purple-500/30 rounded-lg">
         <p className="text-sm text-white">
-          Al hacer clic en "Enviar", usted confirma que toda la información proporcionada es exacta y que su propiedad cumple con todas las normativas locales y requisitos de seguridad.
+          By clicking "Submit", you confirm that all information provided is accurate and that your property complies with all local regulations and safety requirements.
         </p>
       </div>
     </div>

@@ -10,13 +10,15 @@ interface HierarchicalThemeSelectorProps {
   onThemeSelect: (themeId: string, isSelected: boolean) => void;
   allowMultiple?: boolean;
   className?: string;
+  searchQuery?: string;
 }
 
 export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps> = ({
   selectedThemes,
   onThemeSelect,
   allowMultiple = true,
-  className = ""
+  className = "",
+  searchQuery = ""
 }) => {
   const { themes, loading, error } = useHierarchicalThemes();
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
@@ -44,9 +46,30 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
     onThemeSelect(themeId, !isSelected);
   };
 
+  // Filter themes based on search query
+  const filterThemes = (themeList: any[]) => {
+    if (!searchQuery) return themeList;
+    
+    return themeList.filter(theme => {
+      // Check if theme name matches
+      if (theme.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return true;
+      }
+      
+      // Check if any children match
+      if (theme.children && theme.children.length > 0) {
+        return filterThemes(theme.children).length > 0;
+      }
+      
+      return false;
+    });
+  };
+
+  const filteredThemes = filterThemes(themes);
+
   return (
     <div className={className}>
-      {themes.map((category) => (
+      {filteredThemes.map((category) => (
         <div key={category.id} className="mb-4">
           <Collapsible 
             open={openCategories.has(category.id)}

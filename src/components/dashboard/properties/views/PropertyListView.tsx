@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Users, Calendar, Edit, Trash2, Eye, Plus } from "lucide-react";
 import { Hotel } from "@/integrations/supabase/types-custom";
 import { DeletePropertyDialog } from "../DeletePropertyDialog";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyListViewProps {
   user: any;
@@ -38,6 +39,8 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
   onConfirmDelete,
   refetch
 }) => {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -67,12 +70,25 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
     }
   };
 
+  const getStatusText = (status?: string) => {
+    switch (status) {
+      case 'approved':
+        return t('dashboard.approved');
+      case 'pending':
+        return t('dashboard.pending');
+      case 'rejected':
+        return t('dashboard.rejected');
+      default:
+        return t('dashboard.pending');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header with Add New Property Button */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-2">My Properties</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">{t('dashboard.myProperties')}</h1>
           <p className="text-white/60">
             {hotels?.length || 0} {hotels?.length === 1 ? 'property' : 'properties'} registered
           </p>
@@ -82,7 +98,7 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
           className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
-          Add New Property
+          {t('dashboard.addNewProperty')}
         </Button>
       </div>
 
@@ -100,7 +116,7 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
                 className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white flex items-center gap-2 mt-4"
               >
                 <Plus className="h-4 w-4" />
-                Add Your First Property
+                {t('dashboard.addNewProperty')}
               </Button>
             </div>
           </CardContent>
@@ -119,7 +135,7 @@ export const PropertyListView: React.FC<PropertyListViewProps> = ({
                     </CardDescription>
                   </div>
                   <Badge className={getStatusBadgeColor(hotel.status)}>
-                    {hotel.status || 'pending'}
+                    {getStatusText(hotel.status)}
                   </Badge>
                 </div>
               </CardHeader>

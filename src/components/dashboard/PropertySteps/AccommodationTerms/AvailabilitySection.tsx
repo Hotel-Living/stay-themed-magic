@@ -1,8 +1,6 @@
 
 import React from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useAvailabilityDates } from "./hooks/useAvailabilityDates";
-import { useTranslation } from "@/hooks/useTranslation";
+import AvailabilityDateSection from "../rooms/roomTypes/AvailabilityDateSection";
 
 interface AvailabilitySectionProps {
   isOpen: boolean;
@@ -13,60 +11,33 @@ interface AvailabilitySectionProps {
 }
 
 const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
-  isOpen,
-  onToggle,
   formData,
-  updateFormData
+  updateFormData,
+  onValidationChange
 }) => {
-  const { t } = useTranslation();
-  const { availableMonths, toggleMonth } = useAvailabilityDates(formData, updateFormData);
-
-  const months = [
-    { value: "june-2025", label: "June 2025" },
-    { value: "july-2025", label: "July 2025" },
-    { value: "august-2025", label: "August 2025" },
-    { value: "september-2025", label: "September 2025" },
-    { value: "october-2025", label: "October 2025" }
-  ];
+  const handleAvailabilityChange = (dates: string[]) => {
+    if (updateFormData) {
+      updateFormData('availabilityDates', dates);
+    }
+    
+    // Validate - at least one date should be selected
+    if (onValidationChange) {
+      onValidationChange(dates.length > 0);
+    }
+  };
 
   return (
-    <Accordion type="single" collapsible value={isOpen ? "availability" : ""} onValueChange={(value) => onToggle(!!value)}>
-      <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
-        <AccordionTrigger className="px-4 py-3">
-          <h3 className="text-lg capitalize">3.3— AVAILABILITY DATES</h3>
-        </AccordionTrigger>
-        <AccordionContent className="px-4 pb-4">
-          <div className="space-y-4">
-            <p className="text-gray-300">Select complete months or specific check-in dates (Mondays only):</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                {months.map((month) => (
-                  <div key={month.value} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id={month.value}
-                      checked={availableMonths.includes(month.value)}
-                      onChange={() => toggleMonth(month.value)}
-                      className="w-4 h-4"
-                    />
-                    <label htmlFor={month.value} className="text-white">
-                      {month.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="bg-fuchsia-950/30 p-4 rounded-lg">
-                <p className="text-sm text-gray-300 italic">
-                  {availableMonths.length === 0 ? "No dates selected yet" : "Dates will be configured"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="space-y-4">
+      <p className="text-sm text-gray-300 mb-4">
+        Seleccione fechas específicas de check-in (solo los lunes) o meses completos:
+      </p>
+      
+      <AvailabilityDateSection
+        preferredWeekday={formData?.preferredWeekday || "Monday"}
+        onAvailabilityChange={handleAvailabilityChange}
+        selectedDates={formData?.availabilityDates || []}
+      />
+    </div>
   );
 };
 

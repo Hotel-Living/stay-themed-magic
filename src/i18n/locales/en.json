@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Loading...",
@@ -158,6 +157,8 @@
     "finances": "Finances",
     "ratesCalculator": "Rates Calculator",
     "addProperty": "Add Property",
+    "addNewProperty": "+ Add New Property",
+    "approved": "Approved",
     "myBookings": "My bookings",
     "myProperties": "My properties",
     "earnings": "Earnings",

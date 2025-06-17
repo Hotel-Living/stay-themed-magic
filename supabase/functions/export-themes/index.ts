@@ -20,21 +20,53 @@ Deno.serve(async (req) => {
     // Verify admin access
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
-      throw new Error('No authorization header')
+      console.error('No authorization header provided')
+      return new Response(
+        JSON.stringify({ error: 'No authorization header' }),
+        { 
+          status: 401, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
     }
 
     const token = authHeader.replace('Bearer ', '')
     const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token)
     
     if (authError || !user) {
-      throw new Error('Authentication failed')
+      console.error('Authentication failed:', authError)
+      return new Response(
+        JSON.stringify({ error: 'Authentication failed' }),
+        { 
+          status: 401, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
     }
 
-    // Check if user is admin
-    const { data: adminCheck, error: adminError } = await supabaseClient
-      .rpc('has_role', { role_name: 'admin' })
+    console.log('User authenticated:', user.email)
 
-    if (adminError || !adminCheck) {
+    // Check if user is admin - using direct table lookup since has_role might not be available
+    const { data: adminCheck, error: adminError } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin')
+      .single()
+
+    if (adminError && adminError.code !== 'PGRST116') {
+      console.error('Admin check error:', adminError)
+      return new Response(
+        JSON.stringify({ error: 'Error checking admin status' }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    if (!adminCheck) {
+      console.error('User is not admin:', user.email)
       return new Response(
         JSON.stringify({ error: 'Unauthorized: Admin access required' }),
         { 
@@ -43,6 +75,8 @@ Deno.serve(async (req) => {
         }
       )
     }
+
+    console.log('Admin access verified for:', user.email)
 
     // Export all themes with complete structure
     const { data: themes, error: themesError } = await supabaseClient
@@ -63,7 +97,13 @@ Deno.serve(async (req) => {
 
     if (themesError) {
       console.error('Error fetching themes:', themesError)
-      throw themesError
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch themes' }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
     }
 
     console.log(`Successfully exported ${themes?.length || 0} themes`)
@@ -96,7 +136,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error('Export themes error:', error)
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error.message || 'Internal server error' }),
       { 
         status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

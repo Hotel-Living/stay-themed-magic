@@ -1,74 +1,72 @@
 
 import React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { toast } from "sonner";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PreferredWeekdaySectionProps {
-  preferredWeekday?: string;
-  onWeekdayChange?: (weekday: string) => void;
-  weekdays?: string[];
+  isOpen: boolean;
+  onToggle: (isOpen: boolean) => void;
+  selectedDay: string;
+  onDaySelect: (field: string, value: any) => void;
+  formData?: any;
+  updateFormData?: (field: string, value: any) => void;
 }
 
-export default function PreferredWeekdaySection({
-  preferredWeekday = "Monday",
-  onWeekdayChange = () => {},
-  weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-}: PreferredWeekdaySectionProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
+const PreferredWeekdaySection: React.FC<PreferredWeekdaySectionProps> = ({
+  isOpen,
+  onToggle,
+  selectedDay,
+  onDaySelect,
+  formData,
+  updateFormData
+}) => {
+  const { t } = useTranslation();
   
-  React.useEffect(() => {
-    console.log("PreferredWeekdaySection - Current weekday:", preferredWeekday);
-  }, [preferredWeekday]);
+  const weekdays = [
+    { value: "monday", label: "Monday" },
+    { value: "tuesday", label: "Tuesday" },
+    { value: "wednesday", label: "Wednesday" },
+    { value: "thursday", label: "Thursday" },
+    { value: "friday", label: "Friday" },
+    { value: "saturday", label: "Saturday" },
+    { value: "sunday", label: "Sunday" }
+  ];
 
-  // Dispatch an event when the component mounts or preferredWeekday changes 
-  // to sync with other components
-  React.useEffect(() => {
-    if (preferredWeekday) {
-      console.log("Dispatching preferredWeekdayUpdated event:", preferredWeekday);
-      const event = new CustomEvent('preferredWeekdayUpdated', { detail: preferredWeekday });
-      window.dispatchEvent(event);
+  const handleDaySelect = (dayValue: string) => {
+    onDaySelect('selectedDay', dayValue);
+    if (updateFormData) {
+      updateFormData('checkinDay', dayValue);
     }
-  }, [preferredWeekday]);
-
-  const handleWeekdayChange = (day: string) => {
-    onWeekdayChange(day);
-    toast.success(`Preferred check-in/out day updated to ${day}`);
   };
 
   return (
-    <Collapsible 
-      className="w-full border border-white rounded-lg overflow-hidden bg-fuchsia-900/10"
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      defaultOpen={false}
-    >
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-[4px] text-left bg-fuchsia-900/20 border-b border-white">
-        <h2 className="font-medium text-base text-white">
-          Preferred Weekday for all Check-in / outs: <span className="font-bold">{preferredWeekday}</span>
-        </h2>
-        {isOpen ? 
-          <ChevronUp className="h-5 w-5 text-white" /> : 
-          <ChevronDown className="h-5 w-5 text-white" />
-        }
-      </CollapsibleTrigger>
-      <CollapsibleContent className="p-4">
-        <div className="grid grid-cols-7 gap-2">
-          {weekdays.map(day => (
-            <label key={day} className="flex flex-col items-center">
-              <input 
-                type="radio" 
-                name="preferred-weekday" 
-                className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mb-1"
-                value={day}
-                checked={preferredWeekday === day}
-                onChange={() => handleWeekdayChange(day)}
-              />
-              <span className="text-xs text-center text-white">{day}</span>
-            </label>
-          ))}
-        </div>
-      </CollapsibleContent>
-    </Collapsible>
+    <Accordion type="single" collapsible value={isOpen ? "weekday" : ""} onValueChange={(value) => onToggle(!!value)}>
+      <AccordionItem value="weekday" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
+        <AccordionTrigger className="px-4 py-3">
+          <h3 className="text-lg capitalize">3.2— CHECK-IN DAY / CHECK-OUT</h3>
+        </AccordionTrigger>
+        <AccordionContent className="px-4 pb-4">
+          <div className="space-y-4">
+            <p className="text-gray-300">Select the day when guests check-in and check-out:</p>
+            
+            <div className="grid grid-cols-2 md:grid-cols-7 gap-2">
+              {weekdays.map((day) => (
+                <Button
+                  key={day.value}
+                  variant={selectedDay === day.value ? "default" : "outline"}
+                  onClick={() => handleDaySelect(day.value)}
+                  className="h-12"
+                >
+                  {day.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
-}
+};
+
+export default PreferredWeekdaySection;

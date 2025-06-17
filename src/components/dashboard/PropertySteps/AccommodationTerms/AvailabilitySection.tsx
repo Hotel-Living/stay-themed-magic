@@ -1,98 +1,72 @@
 
 import React from "react";
-import { Label } from "@/components/ui/label";
-import { format, addMonths } from "date-fns";
-import { es } from "date-fns/locale";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import AvailabilityDateSection from "../rooms/roomTypes/AvailabilityDateSection";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useAvailabilityDates } from "./hooks/useAvailabilityDates";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AvailabilitySectionProps {
+  isOpen: boolean;
+  onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
-  onValidationChange?: (isValid: boolean) => void;
 }
 
-export default function AvailabilitySection({
+const AvailabilitySection: React.FC<AvailabilitySectionProps> = ({
+  isOpen,
+  onToggle,
   formData,
-  updateFormData,
-  onValidationChange
-}: AvailabilitySectionProps) {
-  // Get the preferred weekday from formData, default to Monday if not set
-  const preferredWeekday = formData?.preferredWeekday || "Monday";
+  updateFormData
+}) => {
+  const { t } = useTranslation();
+  const { availableMonths, toggleMonth } = useAvailabilityDates(formData, updateFormData);
 
-  // Handle availability changes
-  const handleAvailabilityChange = (dates: string[]) => {
-    console.log("AvailabilitySection - handling availability change:", dates);
-    
-    if (updateFormData) {
-      updateFormData('availableDates', dates);
-
-      // Also update the available_months field for backward compatibility
-      const months = dates.map(date => {
-        try {
-          const monthName = format(new Date(date), 'MMMM').toLowerCase();
-          return monthName;
-        } catch (e) {
-          return '';
-        }
-      }).filter(Boolean);
-
-      // Remove duplicates
-      const uniqueMonths = [...new Set(months)];
-      updateFormData('available_months', uniqueMonths);
-      
-      console.log("AvailabilitySection - updated available_months:", uniqueMonths);
-    }
-  };
-
-  // Notify parent component about validation state
-  React.useEffect(() => {
-    const hasSelectedDates = (formData?.availableDates?.length > 0) || (formData?.available_months?.length > 0);
-    if (onValidationChange) {
-      onValidationChange(hasSelectedDates);
-    }
-  }, [formData?.availableDates, formData?.available_months, onValidationChange]);
-
-  // Initialize selected dates from saved data
-  const initialSelectedDates = React.useMemo(() => {
-    const dates = [];
-    
-    // Add dates from availableDates if present
-    if (formData?.availableDates && Array.isArray(formData.availableDates)) {
-      dates.push(...formData.availableDates);
-    }
-    
-    // Add dates from available_months if present (for backward compatibility)
-    if (formData?.available_months && Array.isArray(formData.available_months)) {
-      formData.available_months.forEach(month => {
-        if (month) {
-          // Create a representative date for the month
-          const currentYear = new Date().getFullYear();
-          const monthIndex = new Date(`${month} 1, ${currentYear}`).getMonth();
-          const firstDay = new Date(currentYear, monthIndex, 1);
-          dates.push(format(firstDay, 'yyyy-MM-dd'));
-        }
-      });
-    }
-    
-    console.log("AvailabilitySection - initialized selected dates:", dates);
-    return dates;
-  }, [formData?.availableDates, formData?.available_months]);
+  const months = [
+    { value: "june-2025", label: "June 2025" },
+    { value: "july-2025", label: "July 2025" },
+    { value: "august-2025", label: "August 2025" },
+    { value: "september-2025", label: "September 2025" },
+    { value: "october-2025", label: "October 2025" }
+  ];
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <div>
-        <p className="text-sm text-gray-300 mb-4">Seleccione meses completos o fechas específicas de check-in (solo los lunes):</p>
-        <div className="bg-fuchsia-950/50 border border-white/10 rounded-lg p-4 text-white">
-          {/* Pass all required props to AvailabilityDateSection */}
-          <AvailabilityDateSection 
-            preferredWeekday={preferredWeekday} 
-            onAvailabilityChange={handleAvailabilityChange} 
-            selectedDates={initialSelectedDates}
-          />
-        </div>
-      </div>
-    </div>
+    <Accordion type="single" collapsible value={isOpen ? "availability" : ""} onValueChange={(value) => onToggle(!!value)}>
+      <AccordionItem value="availability" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
+        <AccordionTrigger className="px-4 py-3">
+          <h3 className="text-lg capitalize">3.3— AVAILABILITY DATES</h3>
+        </AccordionTrigger>
+        <AccordionContent className="px-4 pb-4">
+          <div className="space-y-4">
+            <p className="text-gray-300">Select complete months or specific check-in dates (Mondays only):</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                {months.map((month) => (
+                  <div key={month.value} className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id={month.value}
+                      checked={availableMonths.includes(month.value)}
+                      onChange={() => toggleMonth(month.value)}
+                      className="w-4 h-4"
+                    />
+                    <label htmlFor={month.value} className="text-white">
+                      {month.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="bg-fuchsia-950/30 p-4 rounded-lg">
+                <p className="text-sm text-gray-300 italic">
+                  {availableMonths.length === 0 ? "No dates selected yet" : "Dates will be configured"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
-}
+};
+
+export default AvailabilitySection;

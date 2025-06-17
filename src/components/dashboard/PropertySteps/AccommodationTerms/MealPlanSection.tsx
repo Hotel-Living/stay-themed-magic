@@ -1,130 +1,79 @@
 
-import React, { useState, useEffect } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import React from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface MealPlanSectionProps {
-  isOpen?: boolean;
-  onOpenChange?: () => void;
-  onValidationChange?: (isValid: boolean) => void;
+  isOpen: boolean;
+  onToggle: (isOpen: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
 
-export default function MealPlanSection({
-  isOpen = false,
-  onOpenChange = () => {},
-  onValidationChange = () => {},
-  formData = {},
-  updateFormData = () => {}
-}: MealPlanSectionProps) {
-  const [openState, setOpenState] = useState(isOpen);
-  const [selectedPlans, setSelectedPlans] = useState<string[]>(
-    formData.mealPlans?.length ? formData.mealPlans : []
-  );
-  const { toast } = useToast();
+const MealPlanSection: React.FC<MealPlanSectionProps> = ({
+  isOpen,
+  onToggle,
+  formData,
+  updateFormData
+}) => {
+  const { t } = useTranslation();
   
-  // Updated meal plan options to match the public filter exactly
-  const mealPlanOptions = [
-    { id: "breakfast-included", label: "Breakfast Included" },
-    { id: "half-board", label: "Half Board" },
-    { id: "full-board", label: "Full Board" },
-    { id: "all-inclusive", label: "All Inclusive" },
-    { id: "laundry", label: "Laundry" },
-    { id: "external-laundry", label: "External Laundry Service Available" }
+  const mealPlans = [
+    { value: "breakfast", label: "Breakfast Included" },
+    { value: "half-board", label: "Half Board" },
+    { value: "full-board", label: "Full Board" },
+    { value: "all-inclusive", label: "All Inclusive" }
   ];
 
-  // Update local state when formData changes
-  useEffect(() => {
-    if (formData.mealPlans && formData.mealPlans.length > 0) {
-      console.log("MealPlanSection: Received meal plans:", formData.mealPlans);
-      setSelectedPlans(formData.mealPlans);
-    }
-  }, [formData.mealPlans]);
-
-  // Handle validation and update parent form data when selected meal plans change
-  useEffect(() => {
-    const isValid = selectedPlans.length > 0;
-    onValidationChange(isValid);
+  const handleMealPlanToggle = (planValue: string) => {
+    const currentPlans = formData?.mealPlans || [];
+    const newPlans = currentPlans.includes(planValue)
+      ? currentPlans.filter((plan: string) => plan !== planValue)
+      : [...currentPlans, planValue];
     
-    // Update parent form data
-    updateFormData("mealPlans", selectedPlans);
-  }, [selectedPlans, onValidationChange, updateFormData]);
-
-  const handleToggle = () => {
-    setOpenState(!openState);
-    onOpenChange();
-  };
-  
-  const toggleMealPlan = (planId: string) => {
-    setSelectedPlans(prev => {
-      const isSelected = prev.includes(planId);
-      
-      if (isSelected) {
-        // Don't allow removing the last option
-        if (prev.length <= 1) {
-          toast({
-            title: "Error",
-            description: "Cannot remove all options - You must select at least one meal plan.",
-            variant: "destructive"
-          });
-          return prev;
-        }
-        
-        return prev.filter(item => item !== planId);
-      } else {
-        return [...prev, planId];
-      }
-    });
+    if (updateFormData) {
+      updateFormData('mealPlans', newPlans);
+    }
   };
 
   return (
-    <div className="border border-purple-500/30 rounded-lg overflow-hidden">
-      <button 
-        className="w-full p-4 flex items-center justify-between bg-[#430453] hover:bg-[#4f0564] transition"
-        onClick={handleToggle}
-      >
-        <span className="text-lg font-medium">Meals</span>
-        {openState ? <ChevronUp /> : <ChevronDown />}
-      </button>
-      
-      {openState && (
-        <div className="p-4 bg-[#350442] space-y-4">
-          <p className="text-sm text-gray-300">
-            Select which meal plans your hotel offers to guests.
-          </p>
-          
-          <div className="p-4 rounded-md bg-[#420451]">
-            <h3 className="text-sm font-bold mb-4 uppercase">AVAILABLE MEAL PLANS</h3>
-            
-            <div className="grid grid-cols-1 gap-3">
-              {mealPlanOptions.map(plan => (
-                <div 
-                  key={plan.id}
-                  className="flex items-center space-x-2"
-                >
-                  <input
-                    type="checkbox"
-                    id={`meal-plan-${plan.id}`}
-                    checked={selectedPlans.includes(plan.id)}
-                    onChange={() => toggleMealPlan(plan.id)}
-                    className="w-5 h-5 accent-fuchsia-500"
-                  />
-                  <label htmlFor={`meal-plan-${plan.id}`} className="text-white">
-                    {plan.label}
-                  </label>
+    <Accordion type="single" collapsible value={isOpen ? "meal-plans" : ""} onValueChange={(value) => onToggle(!!value)}>
+      <AccordionItem value="meal-plans" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
+        <AccordionTrigger className="px-4 py-3">
+          <h3 className="text-lg capitalize">3.4— MEAL PLANS</h3>
+        </AccordionTrigger>
+        <AccordionContent className="px-4 pb-4">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {mealPlans.map((plan) => (
+                <div key={plan.value} className="text-center">
+                  <div 
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      formData?.mealPlans?.includes(plan.value)
+                        ? 'border-fuchsia-500 bg-fuchsia-500/20'
+                        : 'border-fuchsia-800/30 hover:border-fuchsia-500/50'
+                    }`}
+                    onClick={() => handleMealPlanToggle(plan.value)}
+                  >
+                    <h4 className="font-medium text-white">{plan.label}</h4>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-          
-          {selectedPlans.length === 0 && (
-            <div className="p-3 bg-red-900/30 text-red-200 rounded-md">
-              Please select at least one meal plan option.
+            
+            <div className="bg-fuchsia-950/30 p-4 rounded-lg">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h5 className="font-medium text-white mb-2">Laundry</h5>
+                  <p className="text-sm text-gray-300">External Laundry Service Available</p>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
-      )}
-    </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
-}
+};
+
+export default MealPlanSection;

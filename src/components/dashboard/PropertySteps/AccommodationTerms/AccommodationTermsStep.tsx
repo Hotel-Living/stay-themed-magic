@@ -2,6 +2,7 @@
 import React from "react";
 import { useAccommodationTerms } from "./hooks/useAccommodationTerms";
 import { AccommodationSections } from "./components/AccommodationSections";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AccommodationTermsStepProps {
   formData?: any;
@@ -14,6 +15,8 @@ export default function AccommodationTermsStep({
   updateFormData,
   onValidationChange
 }: AccommodationTermsStepProps) {
+  const { t } = useTranslation();
+  
   const {
     sectionsState,
     validationState,
@@ -27,8 +30,8 @@ export default function AccommodationTermsStep({
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">CONDICIONES DE LA ESTANCIA</h2>
-        <p className="text-gray-300">Configure los términos y condiciones de la estancia en su propiedad</p>
+        <h2 className="text-2xl font-bold text-white mb-2">ACCOMMODATION TERMS</h2>
+        <p className="text-gray-300">Configure the terms and conditions for stays at your property</p>
       </div>
       
       <AccommodationSections

@@ -4,33 +4,33 @@ import React from "react";
 export function TheyNeedHotelSection() {
   return (
     <div className="space-y-6 text-left py-6">
-      <p className="text-base font-semibold py-0">BECAUSE 40% OF THE WESTERN POPULATION:</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives alone or as a couple</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is either early retired or retired</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is an online worker</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is a student living away from home</p>
-      <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Lives too far from work</p>
+      <p className="text-base font-semibold py-0">PORQUE EL 40% DE LA POBLACIÓN OCCIDENTAL:</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Vive sola o en pareja</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Está pre-jubilada o jubilada</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Es trabajadora online</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Es estudiante que vive lejos de casa</p>
+      <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Vive demasiado lejos del trabajo</p>
       
-      <p className="text-base font-semibold mt-14 py-[9px]">AND MOST OF THEM:</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Would like to be free from household chores</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Is too lonely</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Has no family ties</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Wishes to expand their social life</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Wishes to meet people with similar tastes and mindsets</p>
-      <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Needs the complete security of living in a hotel, especially in the case of older or single individuals</p>
+      <p className="text-base font-semibold mt-14 py-[9px]">Y LA MAYORÍA DE ELLOS:</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Quisieran liberarse de las tareas domésticas</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Se sienten demasiado solos</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> No tienen vínculos familiares</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Desean ampliar su vida social</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Desean conocer personas con gustos y mentalidades similares</p>
+      <p className="text-base flex items-start pl-4 mb-6"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Necesitan la seguridad completa de vivir en un hotel, especialmente en el caso de personas mayores o solteras</p>
       
-      <p className="text-base font-semibold mt-14 py-[17px]">BECAUSE HUMANITY'S DREAM IS TO LIVE IN A HOTEL</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> With everything taken care of</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> On an endless vacation</p>
-      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> So, why do we have 40% of empty rooms every year?</p>
-      <p className="text-base flex items-start pl-4 mt-2">Because we have been stuck in an outdated model for far too long. We are the dream solution for 40% of the Western population.</p>
+      <p className="text-base font-semibold mt-14 py-[17px]">PORQUE EL SUEÑO DE LA HUMANIDAD ES VIVIR EN UN HOTEL</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Con todo resuelto</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> En unas vacaciones sin fin</p>
+      <p className="text-base flex items-start pl-4"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Entonces, ¿por qué tenemos un 40% de habitaciones vacías cada año?</p>
+      <p className="text-base flex items-start pl-4 mt-2">Porque llevamos demasiado tiempo atrapados en un modelo anticuado. Somos la solución soñada para el 40% de la población occidental.</p>
       
-      <p className="text-base mt-14 font-semibold uppercase py-[7px]">THEY NEED YOUR HOTEL BECAUSE:</p>
-      <p className="text-base flex items-start mt-1 my-[10px]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Because people want to socialize. Make friends</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They want to stay longer in your hotel</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They want you to take care of their household chores</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> They urgently need your empty rooms and services</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Just help them: give them both</p>
+      <p className="text-base mt-14 font-semibold uppercase py-[7px]">ELLOS NECESITAN SU HOTEL PORQUE:</p>
+      <p className="text-base flex items-start mt-1 my-[10px]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Porque las personas quieren socializar. Hacer amigos</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Quieren quedarse más tiempo en su hotel</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Quieren que usted se ocupe de sus tareas domésticas</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Necesitan urgentemente sus habitaciones vacías y sus servicios</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Solo ayúdelos: deles ambas cosas</p>
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { PasswordField } from "@/components/auth/PasswordField";
@@ -16,21 +15,47 @@ export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isValidLink, setIsValidLink] = useState(true);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [hasValidSession, setHasValidSession] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verify we have the hash fragment that indicates a valid reset link
-    const hash = window.location.hash;
-    if (!hash || !hash.includes('type=recovery')) {
-      setIsValidLink(false);
-      toast({
-        title: "Invalid Link",
-        description: "This password reset link is invalid or expired",
-        variant: "destructive",
-      });
-    }
+    const checkSession = async () => {
+      try {
+        console.log("Checking for active session...");
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        console.log("Session check result:", { 
+          hasSession: !!session, 
+          error: error?.message,
+          sessionType: session?.access_token ? "valid" : "none"
+        });
+        
+        if (error) {
+          console.error("Session error:", error);
+          setHasValidSession(false);
+        } else if (session) {
+          console.log("Valid session found - user can reset password");
+          setHasValidSession(true);
+        } else {
+          console.log("No active session - invalid reset link");
+          setHasValidSession(false);
+          toast({
+            title: "Invalid Reset Link",
+            description: "This password reset link is invalid or has expired. Please request a new one.",
+            variant: "destructive",
+          });
+        }
+      } catch (err) {
+        console.error("Error checking session:", err);
+        setHasValidSession(false);
+      } finally {
+        setIsCheckingSession(false);
+      }
+    };
+
+    checkSession();
   }, [toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,6 +90,7 @@ export default function ResetPassword() {
     
     try {
       setIsLoading(true);
+      console.log("Attempting to update password...");
       
       // Update the password using Supabase
       const { error } = await supabase.auth.updateUser({ password });
@@ -73,6 +99,7 @@ export default function ResetPassword() {
         throw error;
       }
       
+      console.log("Password updated successfully");
       toast({
         title: "Success",
         description: "Your password has been reset successfully",
@@ -114,7 +141,14 @@ export default function ResetPassword() {
               }
             ]}
           >
-            {!isValidLink ? (
+            {isCheckingSession ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+                <p className="text-sm text-muted-foreground">
+                  Verifying reset link...
+                </p>
+              </div>
+            ) : !hasValidSession ? (
               <div className="text-center py-4">
                 <p className="text-sm text-muted-foreground mb-4">
                   This password reset link is invalid or has expired.

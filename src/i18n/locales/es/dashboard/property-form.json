@@ -3,8 +3,13 @@
   "dashboard": {
     "generalInformation": "INFORMACIÓN GENERAL",
     "hotelProfile": "PERFIL DEL HOTEL",
+    "accommodationTerms": "CONDICIONES DE ALOJAMIENTO",
+    "packagesAndRates": "PAQUETES Y TARIFAS",
     "step1Of5": "Paso 1 de 5",
     "step2Of5": "Paso 2 de 5",
+    "step3Of5": "Paso 3 de 5",
+    "step4Of5": "Paso 4 de 5",
+    "step5Of5": "Paso 5 de 5",
     "previous": "Anterior",
     "next": "Siguiente",
     "hotelName": "Nombre del Hotel",
@@ -24,6 +29,7 @@
     "atmospherePlaceholder": "Describa el ambiente y la atmósfera de su hotel",
     "locationPerfectFor": "NUESTRA UBICACIÓN ES PERFECTA PARA…",
     "locationPlaceholder": "Describa qué hace especial a su ubicación",
+    "defineRoomTypesStayDurations": "Por favor, defina los tipos de habitación, duraciones de estancia y regímenes de comidas en el Paso 3 antes de establecer precios.",
     "propertyStyles": {
       "classic": "Clásico",
       "classicElegant": "Clásico elegante",

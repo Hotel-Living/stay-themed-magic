@@ -59,7 +59,7 @@ import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
 import esDashboardWelcomeContent from './locales/es/dashboard/welcome-content.json';
 import esDashboardFaqTerms from './locales/es/dashboard/faq-terms.json';
 
-// Combine Spanish translations
+// Combine Spanish translations - ensure all dashboard modules are properly merged
 const es = {
   ...esCommon,
   ...esNavigation,

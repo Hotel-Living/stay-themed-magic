@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -56,6 +55,7 @@ import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
 import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
 import esDashboardWelcomeContent from './locales/es/dashboard/welcome-content.json';
+import esDashboardFaqTerms from './locales/es/dashboard/faq-terms.json';
 
 // Combine Spanish translations
 const es = {
@@ -94,7 +94,8 @@ const es = {
   ...esDashboardSettings,
   ...esDashboardRatesCalculator,
   ...esDashboardAdvertising,
-  ...esDashboardWelcomeContent
+  ...esDashboardWelcomeContent,
+  'dashboard-faq-terms': esDashboardFaqTerms
 };
 
 // Combine English translations

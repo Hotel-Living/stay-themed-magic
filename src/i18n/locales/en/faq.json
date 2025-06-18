@@ -113,6 +113,22 @@
           "Why receive ten bills each month, when Hotel-Living combines it all into one simple stay?",
           "Why rent like it's 1999, when Hotel-Living is the future of living?"
         ]
+      },
+      "retired": {
+        "title": "RETIRED?",
+        "subtitle": "Why retire into isolation, when you can retire into connection?",
+        "points": [
+          "Hotel-Living offers comfort, daily care, and the chance to meet people your age with similar interests.",
+          "No need to sign long-term contracts, furnish apartments, or hire cleaning staff.",
+          "Everything is already included. You just arrive and enjoy.",
+          "You'll be surrounded by friendly guests, with spaces designed to encourage social interaction.",
+          "Join others for meals, enjoy a coffee together, or participate in affinity-based stays (Italian cooking, music, gardening, literature...).",
+          "You can stay 8, 16, 24, or 32 days. Then take a break, travel, return, or change hotel.",
+          "No commitments. Just freedom, comfort, and peace of mind.",
+          "Whether you're active or just want quiet, Hotel-Living adapts to your pace.",
+          "And you'll never feel alone.",
+          "It's not just retirement — it's re-living, with meaning, companionship, and smiles."
+        ]
       }
     }
   }

@@ -121,13 +121,14 @@
     "styleOfProperty": "ESTILO DE LA PROPIEDAD",
     "selectPropertyStyle": "Seleccione el estilo de la propiedad",
     "description": "Descripción",
-    "hotelDescription": "Ingrese una descripción detallada de su hotel",
-    "idealGuestsEnjoy": "Es ideal para huéspedes que disfrutan de…",
+    "hotelDescription": "DESCRIPCIÓN DEL HOTEL",
+    "hotelDescriptionPlaceholder": "Introduzca una descripción detallada de su hotel",
+    "idealGuestsEnjoy": "IDEAL PARA HUÉSPEDES QUE DISFRUTAN DE…",
     "idealGuestsPlaceholder": "Describa a sus huéspedes ideales y sus intereses",
-    "atmosphereIs": "El ambiente es…",
-    "atmospherePlaceholder": "Describa la atmósfera y el ambiente de su hotel",
-    "locationPerfectFor": "Nuestra ubicación es perfecta para...",
-    "locationPlaceholder": "Describa qué hace especial su ubicación",
+    "atmosphereIs": "EL AMBIENTE ES…",
+    "atmospherePlaceholder": "Describa el ambiente y la atmósfera de su hotel",
+    "locationPerfectFor": "NUESTRA UBICACIÓN ES PERFECTA PARA…",
+    "locationPlaceholder": "Describa qué hace especial a su ubicación",
     "hotelImages": "IMÁGENES DEL HOTEL",
     "dragDropPhotos": "Arrastre y suelte las fotos aquí",
     "orClickToBrowse": "o haga clic para buscar desde su dispositivo",
@@ -164,7 +165,16 @@
     "hotelFeatures": "2.3- SERVICIOS DEL HOTEL",
     "roomFeatures": "2.4- SERVICIOS DE LAS HABITACIONES",
     "selectAll": "Seleccionar Todo",
-    "deselectAll": "Deseleccionar Todo"
+    "deselectAll": "Deseleccionar Todo",
+    "propertyStyles": {
+      "classic": "Clásico",
+      "classicElegant": "Clásico elegante",
+      "modern": "Moderno",
+      "fusion": "Fusión",
+      "urban": "Urbano",
+      "minimalist": "Minimalista",
+      "luxury": "Lujo"
+    }
   },
   "ratesCalculator": {
     "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",

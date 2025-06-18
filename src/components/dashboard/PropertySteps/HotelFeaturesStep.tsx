@@ -1,20 +1,23 @@
+
 import React, { useEffect, useState, useCallback, useRef } from "react";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 import { useTranslation } from "@/hooks/useTranslation";
+
 interface HotelFeaturesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
+
 export default function HotelFeaturesStep({
   onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
 }: HotelFeaturesStepProps) {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
 
   // Local state for features selection
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
@@ -75,6 +78,7 @@ export default function HotelFeaturesStep({
     }, 2000);
     return () => clearInterval(saveInterval);
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
+
   const handleHotelFeatureToggle = useCallback((featureId: string) => {
     setSelectedHotelFeatures(prev => {
       isDirtyRef.current = true;
@@ -84,6 +88,7 @@ export default function HotelFeaturesStep({
       };
     });
   }, []);
+
   const handleRoomFeatureToggle = useCallback((featureId: string) => {
     setSelectedRoomFeatures(prev => {
       isDirtyRef.current = true;
@@ -103,6 +108,7 @@ export default function HotelFeaturesStep({
     setSelectedHotelFeatures(allSelected);
     isDirtyRef.current = true;
   }, []);
+
   const handleHotelDeselectAll = useCallback(() => {
     setSelectedHotelFeatures({});
     isDirtyRef.current = true;
@@ -117,6 +123,7 @@ export default function HotelFeaturesStep({
     setSelectedRoomFeatures(allSelected);
     isDirtyRef.current = true;
   }, []);
+
   const handleRoomDeselectAll = useCallback(() => {
     setSelectedRoomFeatures({});
     isDirtyRef.current = true;
@@ -136,15 +143,52 @@ export default function HotelFeaturesStep({
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
     return Object.entries(featuresRecord).filter(([_, isSelected]) => isSelected).map(([feature, _]) => feature);
   };
-  return <div className="space-y-6" onBlur={handleSectionBlur}>
-      <div>
-        <h3 className="mb-3 text-xl font-bold px-[9px]">{t('dashboard.hotelFeatures')}</h3>
-        <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} onSelectAll={handleHotelSelectAll} onDeselectAll={handleHotelDeselectAll} />
-      </div>
+
+  return (
+    <div className="space-y-6" onBlur={handleSectionBlur}>
+      {/* Hotel Features Section */}
+      <Collapsible defaultOpen={false} className="w-full">
+        <div className="bg-[#6c0686]">
+          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
+            <label className="block text-xl font-bold text-foreground/90 uppercase">{t('dashboard.hotelFeatures')}</label>
+            <ChevronDown className="h-5 w-5 text-white" />
+          </CollapsibleTrigger>
+        </div>
+        
+        <CollapsibleContent>
+          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20">
+            <FeaturesList 
+              features={hotelFeatures} 
+              selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} 
+              onToggle={handleHotelFeatureToggle} 
+              onSelectAll={handleHotelSelectAll} 
+              onDeselectAll={handleHotelDeselectAll} 
+            />
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
       
-      <div>
-        <h3 className="mb-3 text-xl font-bold py-[11px] my-[20px]">{t('dashboard.roomFeatures')}</h3>
-        <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} onSelectAll={handleRoomSelectAll} onDeselectAll={handleRoomDeselectAll} />
-      </div>
-    </div>;
+      {/* Room Features Section */}
+      <Collapsible defaultOpen={false} className="w-full">
+        <div className="bg-[#6c0686]">
+          <CollapsibleTrigger className="flex items-center justify-between w-full p-2">
+            <label className="block text-xl font-bold text-foreground/90 uppercase">{t('dashboard.roomFeatures')}</label>
+            <ChevronDown className="h-5 w-5 text-white" />
+          </CollapsibleTrigger>
+        </div>
+        
+        <CollapsibleContent>
+          <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/20">
+            <FeaturesList 
+              features={roomFeatures} 
+              selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} 
+              onToggle={handleRoomFeatureToggle} 
+              onSelectAll={handleRoomSelectAll} 
+              onDeselectAll={handleRoomDeselectAll} 
+            />
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
+  );
 }

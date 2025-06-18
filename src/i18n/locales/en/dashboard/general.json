@@ -35,6 +35,26 @@
     "contactSupport": "Contact Support",
     "accommodationTerms": "ACCOMMODATION TERMS",
     "packagesAndRates": "PACKAGES AND RATES",
-    "generalInformation": "GENERAL INFORMATION"
+    "generalInformation": "GENERAL INFORMATION",
+    "totalBookings": "Total Bookings",
+    "revenue": "Revenue",
+    "avgRating": "Average Rating",
+    "welcomeToHotelLiving": "Welcome to Hotel-Living!",
+    "welcomeMessage": "Start by adding your first property to begin receiving bookings. Our platform connects you with travelers looking for unique accommodations.",
+    "quickActions": "Quick Actions",
+    "addPropertyAction": "Add Property",
+    "addPropertyDescription": "List a new property on our platform",
+    "viewBookings": "View Bookings",
+    "viewBookingsDescription": "Check your recent reservations",
+    "viewAnalytics": "View Analytics",
+    "viewAnalyticsDescription": "See your performance metrics",
+    "manageReviews": "Manage Reviews",
+    "manageReviewsDescription": "Respond to guest feedback",
+    "recentReviews": "Recent Reviews",
+    "noReviews": "No reviews yet",
+    "noReviewsMessage": "Reviews from guests will appear here once you start receiving bookings.",
+    "recentBookings": "Recent Bookings",
+    "noBookings": "No bookings yet",
+    "noBookingsMessage": "Your upcoming reservations will be displayed here."
   }
 }

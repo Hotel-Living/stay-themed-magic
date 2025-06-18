@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { BarChart3, Building, Calendar, CreditCard, MessageCircle, Settings, Star, Users, Calculator, Heart, FileText } from "lucide-react";
 import { DashboardTab } from "@/types/dashboard";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Import refactored components
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -12,78 +13,79 @@ import { Footer } from "@/components/Footer";
 export default function HotelDashboard() {
   const [activeTab, setActiveTab] = useState<string>("welcome-overview");
   const { profile } = useAuth();
+  const { t } = useTranslation();
   
-  // Create dashboard tabs configuration with direct Spanish text
+  // Create dashboard tabs configuration using translations
   const tabs: DashboardTab[] = [
     {
       id: "welcome-overview",
-      label: "Bienvenida y Presentación",
+      label: t('dashboard.welcomeOverview'),
       icon: <Heart className="w-5 h-5" />
     },
     {
       id: "dashboard",
-      label: "Panel de Control",
+      label: t('dashboard.dashboard'),
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "rates-calculator",
       label: (
         <>
-          Calcula tu Modelo
+          {t('dashboard.calculateModel')}
           <br />
-          Tarifas y Beneficios
+          {t('dashboard.ratesAndProfits')}
         </>
       ),
       icon: <Calculator className="w-5 h-5" />
     },
     {
       id: "properties",
-      label: "Propiedades",
+      label: t('dashboard.properties'),
       icon: <Building className="w-5 h-5" />
     },
     {
       id: "advertising",
-      label: "Publicidad",
+      label: t('dashboard.advertising'),
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "bookings",
-      label: "Reservas",
+      label: t('dashboard.bookings'),
       icon: <Calendar className="w-5 h-5" />
     },
     {
       id: "guests",
-      label: "Huéspedes",
+      label: t('dashboard.guests'),
       icon: <Users className="w-5 h-5" />
     },
     {
       id: "messages",
-      label: "Mensajes del Administrador",
+      label: t('dashboard.adminMessages'),
       icon: <MessageCircle className="w-5 h-5" />
     },
     {
       id: "finances",
-      label: "Finanzas",
+      label: t('dashboard.finances'),
       icon: <CreditCard className="w-5 h-5" />
     },
     {
       id: "reviews",
-      label: "Reseñas",
+      label: t('dashboard.reviews'),
       icon: <Star className="w-5 h-5" />
     },
     {
       id: "analytics",
-      label: "Analíticas",
+      label: t('dashboard.analytics'),
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "settings",
-      label: "Configuración",
+      label: t('dashboard.settings'),
       icon: <Settings className="w-5 h-5" />
     },
     {
       id: "terms-conditions",
-      label: "Términos y Condiciones",
+      label: "Terms & Conditions",
       icon: <FileText className="w-5 h-5" />
     }
   ];

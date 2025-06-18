@@ -138,7 +138,7 @@ export default function HotelFeaturesStep({
   };
   return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
-        <h3 className="mb-3 text-xl font-bold">{t('dashboard.hotelFeatures')}</h3>
+        <h3 className="mb-3 text-xl font-bold px-[9px]">{t('dashboard.hotelFeatures')}</h3>
         <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} onSelectAll={handleHotelSelectAll} onDeselectAll={handleHotelDeselectAll} />
       </div>
       

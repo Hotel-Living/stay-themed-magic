@@ -23,15 +23,14 @@ export function FinalTermsStep({
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">FAQ AND TERMS</h2>
-        <p className="text-gray-300">Final terms and conditions for your property</p>
+        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.faqAndTerms')}</h2>
+        <p className="text-gray-300">{t('dashboard.finalTermsAndConditions')}</p>
       </div>
 
       <div className="bg-fuchsia-900/10 rounded-lg p-6">
-        <h3 className="text-lg font-medium mb-4 uppercase text-white">IMPORTANT</h3>
+        <h3 className="text-lg font-medium mb-4 uppercase text-white">{t('dashboard.important')}</h3>
         <p className="text-gray-300 mb-4">
-          All fields marked as required must be completed before continuing. If you add new elements, 
-          your property publication will require administrator approval before being published.
+          {t('dashboard.importantStep4')}
         </p>
         
         <div className="flex items-start space-x-3">
@@ -43,7 +42,7 @@ export function FinalTermsStep({
             className="w-5 h-5 mt-1"
           />
           <label htmlFor="terms-accepted" className="text-white">
-            I accept the terms and conditions and confirm that all information provided is accurate.
+            {t('dashboard.acceptTermsAndConditions')}
           </label>
         </div>
       </div>

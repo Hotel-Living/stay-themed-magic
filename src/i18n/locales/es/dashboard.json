@@ -203,6 +203,9 @@
     "howDynamicPricingWorks": "Cómo funciona el precio dinámico",
     "priceIncreaseDescription": "El precio aumenta un 1% por cada X noches vendidas en un mes, donde X se calcula como:",
     "priceIncreaseExample": "Por ejemplo, con 30 habitaciones × 30 días = 900 noches totales y un aumento máximo del {percent}%, el precio aumentaría un 1% por cada {nights} noches vendidas.",
+    "faqAndTerms": "TÉRMINOS Y CONDICIONES",
+    "finalTermsAndConditions": "Términos y condiciones finales para su propiedad",
+    "acceptTermsAndConditions": "Acepto los términos y condiciones y confirmo que toda la información proporcionada es correcta",
     "propertyStyles": {
       "classic": "Clásico",
       "classicElegant": "Clásico elegante",

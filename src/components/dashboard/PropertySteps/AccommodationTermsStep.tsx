@@ -7,6 +7,7 @@ import { useAvailabilityDates } from "./AccommodationTerms/hooks/useAvailability
 import { weekdays } from "@/utils/constants";
 import RoomTypeSection from "./rooms/roomTypes/RoomTypeSection";
 import AvailabilitySection from "./AccommodationTerms/AvailabilitySection";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export interface AccommodationTermsStepProps {
   formData: any;
@@ -20,6 +21,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
   onValidationChange = () => {}
 }) => {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [stayDurations, setStayDurations] = useState<number[]>(formData.stayLengths || []);
   const [checkinDay, setCheckinDay] = useState<string>(formData.preferredWeekday || "Monday");
   const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
@@ -36,19 +38,27 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
   // Updated meal plan options to match the public filter exactly
   const mealPlanOptions = [
-    { id: "breakfast-included", label: "Desayuno Incluido" },
-    { id: "half-board", label: "Media Pensión" },
-    { id: "full-board", label: "Pensión Completa" },
-    { id: "all-inclusive", label: "Todo Incluido" },
-    { id: "laundry", label: "Lavandería" },
-    { id: "external-laundry", label: "Servicio Externo de Lavandería Disponible" }
+    { id: "breakfast-included", label: t('dashboard.breakfastIncluded') },
+    { id: "half-board", label: t('dashboard.halfBoard') },
+    { id: "full-board", label: t('dashboard.fullBoard') },
+    { id: "all-inclusive", label: t('dashboard.allInclusive') },
+    { id: "laundry", label: t('dashboard.laundry') },
+    { id: "external-laundry", label: t('dashboard.externalLaundryService') }
   ];
 
   // Duration options in days
   const durationOptions = [8, 16, 24, 32];
 
   // Spanish weekday translations
-  const spanishWeekdays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+  const spanishWeekdays = [
+    t('dashboard.monday'),
+    t('dashboard.tuesday'),
+    t('dashboard.wednesday'),
+    t('dashboard.thursday'),
+    t('dashboard.friday'),
+    t('dashboard.saturday'),
+    t('dashboard.sunday')
+  ];
 
   useEffect(() => {
     // Update parent form with local state values
@@ -86,8 +96,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
     <div className="space-y-6">
       {/* Duration Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.1— DURACIÓN DE LA ESTANCIA</h3>
-        <p className="text-sm text-gray-300 mb-4">Seleccione todas las duraciones de estancia que ofrece:</p>
+        <h3 className="font-medium mb-3">3.1— {t('dashboard.stayDuration')}</h3>
+        <p className="text-sm text-gray-300 mb-4">{t('dashboard.selectStayDurations')}</p>
         <div className="flex flex-wrap gap-3">
           {durationOptions.map(duration => (
             <button
@@ -99,7 +109,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
                   : "bg-fuchsia-900/30 text-gray-300"
               }`}
             >
-              {duration} días
+              {duration} {t('dashboard.days')}
             </button>
           ))}
         </div>
@@ -110,8 +120,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Check-in Day Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.2— ÚNICO DÍA DE CHECK-IN / CHECK-OUT</h3>
-        <p className="text-sm text-gray-300 mb-4">Seleccione el día en que los huéspedes hacen check-in y check-out:</p>
+        <h3 className="font-medium mb-3">3.2— {t('dashboard.singleCheckinCheckout')}</h3>
+        <p className="text-sm text-gray-300 mb-4">{t('dashboard.selectCheckinDay')}</p>
         <div className="flex flex-wrap gap-3">
           {weekdays.map((day, index) => (
             <button
@@ -131,7 +141,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Available Months Section - Using full calendar functionality */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.3— FECHAS DE DISPONIBILIDAD</h3>
+        <h3 className="font-medium mb-3">3.3— {t('dashboard.availabilityDates')}</h3>
         
         <AvailabilitySection 
           isOpen={availabilityOpen}
@@ -147,7 +157,7 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Meal Plans Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.4— PLANES DE COMIDAS</h3>
+        <h3 className="font-medium mb-3">3.4— {t('dashboard.mealPlans')}</h3>
         
         <div className="flex flex-wrap gap-3">
           {mealPlanOptions.map(plan => (
@@ -171,8 +181,8 @@ export const AccommodationTermsStep: React.FC<AccommodationTermsStepProps> = ({
 
       {/* Room Types Section */}
       <Card className="p-4 bg-fuchsia-950/30">
-        <h3 className="font-medium mb-3">3.5— TIPOS DE HABITACIÓN</h3>
-        <p className="text-sm text-gray-300 mb-4">Defina sus tipos de habitación con fotos y disponibilidad:</p>
+        <h3 className="font-medium mb-3">3.5— {t('dashboard.roomTypes')}</h3>
+        <p className="text-sm text-gray-300 mb-4">{t('dashboard.defineRoomTypes')}</p>
         <RoomTypeSection 
           onValidationChange={handleRoomTypesValidation} 
           formData={formData} 

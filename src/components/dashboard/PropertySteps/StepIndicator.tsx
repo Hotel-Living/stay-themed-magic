@@ -16,6 +16,9 @@ export default function StepIndicator({ currentStep, totalSteps, stepTitle }: St
     if (title === "HOTEL PROFILE") {
       return t('dashboard.hotelProfile');
     }
+    if (title === "ACCOMMODATION TERMS") {
+      return t('dashboard.accommodationTerms');
+    }
     return title;
   };
   

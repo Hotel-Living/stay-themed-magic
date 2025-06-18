@@ -23,7 +23,6 @@ import esNavigation from './locales/es/navigation.json';
 import esAffinity from './locales/es/affinity.json';
 import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
-import esDashboard from './locales/es/dashboard.json';
 import esFaq from './locales/es/faq.json';
 import esContent from './locales/es/content.json';
 import esMisc from './locales/es/misc.json';
@@ -39,6 +38,25 @@ import esTerms from './locales/es/terms.json';
 import esPrivacy from './locales/es/privacy.json';
 import esIntellectualProperty from './locales/es/intellectualProperty.json';
 
+// Import Spanish dashboard modules
+import esDashboardGeneral from './locales/es/dashboard/general.json';
+import esDashboardStats from './locales/es/dashboard/stats.json';
+import esDashboardWelcome from './locales/es/dashboard/welcome.json';
+import esDashboardContent from './locales/es/dashboard/content.json';
+import esDashboardPropertyForm from './locales/es/dashboard/property-form.json';
+import esDashboardImages from './locales/es/dashboard/images.json';
+import esDashboardLocation from './locales/es/dashboard/location.json';
+import esDashboardContact from './locales/es/dashboard/contact.json';
+import esDashboardFeatures from './locales/es/dashboard/features.json';
+import esDashboardAccommodation from './locales/es/dashboard/accommodation.json';
+import esDashboardPricing from './locales/es/dashboard/pricing.json';
+import esDashboardTerms from './locales/es/dashboard/terms.json';
+import esDashboardCommon from './locales/es/dashboard/common.json';
+import esDashboardSettings from './locales/es/dashboard/settings.json';
+import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
+import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
+import esDashboardWelcomeContent from './locales/es/dashboard/welcome-content.json';
+
 // Combine Spanish translations
 const es = {
   ...esCommon,
@@ -46,7 +64,6 @@ const es = {
   ...esAffinity,
   ...esAuth,
   ...esBooking,
-  ...esDashboard,
   ...esFaq,
   ...esContent,
   ...esMisc,
@@ -60,7 +77,24 @@ const es = {
   ...esContact,
   ...esTerms,
   ...esPrivacy,
-  ...esIntellectualProperty
+  ...esIntellectualProperty,
+  ...esDashboardGeneral,
+  ...esDashboardStats,
+  ...esDashboardWelcome,
+  ...esDashboardContent,
+  ...esDashboardPropertyForm,
+  ...esDashboardImages,
+  ...esDashboardLocation,
+  ...esDashboardContact,
+  ...esDashboardFeatures,
+  ...esDashboardAccommodation,
+  ...esDashboardPricing,
+  ...esDashboardTerms,
+  ...esDashboardCommon,
+  ...esDashboardSettings,
+  ...esDashboardRatesCalculator,
+  ...esDashboardAdvertising,
+  ...esDashboardWelcomeContent
 };
 
 // Combine English translations

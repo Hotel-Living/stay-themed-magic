@@ -1,0 +1,37 @@
+
+{
+  "dashboard": {
+    "generalInformation": "INFORMACIÓN GENERAL",
+    "hotelProfile": "PERFIL DEL HOTEL",
+    "step1Of5": "Paso 1 de 5",
+    "step2Of5": "Paso 2 de 5",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "hotelName": "Nombre del Hotel",
+    "hotelNamePlaceholder": "Ingrese el nombre del hotel",
+    "category": "Categoría",
+    "selectHotelCategory": "Seleccione la categoría del hotel",
+    "propertyType": "Tipo de Propiedad",
+    "selectPropertyType": "Seleccione el tipo de propiedad",
+    "styleOfProperty": "ESTILO DE LA PROPIEDAD",
+    "selectPropertyStyle": "Seleccione el estilo de la propiedad",
+    "description": "Descripción",
+    "hotelDescription": "DESCRIPCIÓN DEL HOTEL",
+    "hotelDescriptionPlaceholder": "Introduzca una descripción detallada de su hotel",
+    "idealGuestsEnjoy": "IDEAL PARA HUÉSPEDES QUE DISFRUTAN DE…",
+    "idealGuestsPlaceholder": "Describa a sus huéspedes ideales y sus intereses",
+    "atmosphereIs": "EL AMBIENTE ES…",
+    "atmospherePlaceholder": "Describa el ambiente y la atmósfera de su hotel",
+    "locationPerfectFor": "NUESTRA UBICACIÓN ES PERFECTA PARA…",
+    "locationPlaceholder": "Describa qué hace especial a su ubicación",
+    "propertyStyles": {
+      "classic": "Clásico",
+      "classicElegant": "Clásico elegante",
+      "modern": "Moderno",
+      "fusion": "Fusión",
+      "urban": "Urbano",
+      "minimalist": "Minimalista",
+      "luxury": "Lujo"
+    }
+  }
+}

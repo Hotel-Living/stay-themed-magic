@@ -1,0 +1,38 @@
+
+{
+  "dashboard": {
+    "welcome": "Bienvenido",
+    "overview": "Resumen",
+    "bookings": "Reservas",
+    "properties": "Propiedades",
+    "guests": "Huéspedes",
+    "reviews": "Reseñas",
+    "analytics": "Analíticas",
+    "finances": "Finanzas",
+    "ratesCalculator": "Calculadora de tarifas",
+    "addProperty": "Añadir propiedad",
+    "myBookings": "Mis reservas",
+    "myProperties": "Mis Propiedades",
+    "earnings": "Ganancias",
+    "calendar": "Calendario",
+    "messages": "Mensajes",
+    "notifications": "Notificaciones",
+    "accountSettings": "Configuración de la cuenta",
+    "support": "Soporte",
+    "adminPanel": "Panel de administración",
+    "hotelManagement": "GESTIÓN DEL HOTEL",
+    "hotelPanel": "PANEL DEL HOTEL",
+    "welcomeOverview": "Bienvenida y Presentación",
+    "dashboard": "Dashboard",
+    "calculateModel": "Calcula tu Modelo",
+    "ratesAndProfits": "Tarifas y Beneficios",
+    "advertising": "Publicidad",
+    "adminMessages": "Mensajes del Administrador",
+    "analytics": "Análisis",
+    "settings": "Configuración",
+    "logOut": "Cerrar Sesión",
+    "needHelp": "¿Necesitas ayuda?",
+    "supportDescription": "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier consulta.",
+    "contactSupport": "Contactar Soporte"
+  }
+}

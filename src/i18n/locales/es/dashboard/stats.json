@@ -1,0 +1,12 @@
+
+{
+  "dashboard": {
+    "totalBookings": "Reservas Totales",
+    "revenue": "Ingresos",
+    "avgRating": "Valoración Media",
+    "guests": "Huéspedes",
+    "upcomingStays": "Estancias Próximas",
+    "completedStays": "Estancias Completadas",
+    "savedHotels": "Hoteles Guardados"
+  }
+}

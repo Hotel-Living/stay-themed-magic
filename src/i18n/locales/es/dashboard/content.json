@@ -1,0 +1,24 @@
+
+{
+  "dashboard": {
+    "recentReviews": "Opiniones Recientes",
+    "noReviews": "Aún no hay opiniones",
+    "noReviewsMessage": "Las opiniones de sus huéspedes aparecerán aquí una vez que dejen sus comentarios sobre sus propiedades.",
+    "recentBookings": "Reservas Recientes",
+    "noBookings": "Aún no hay reservas",
+    "noBookingsMessage": "Las reservas aparecerán aquí cuando los huéspedes realicen sus reservas.",
+    "addNewProperty": "Añadir una Propiedad",
+    "approved": "Aprobado",
+    "pending": "Pendiente",
+    "rejected": "Rechazado",
+    "guestManagement": "Gestión de Huéspedes",
+    "noGuestData": "Aún no hay datos de huéspedes",
+    "noGuestDataMessage": "La información de los huéspedes aparecerá aquí una vez que usted reciba reservas.",
+    "messagesFromAdmin": "Mensajes del Administrador",
+    "noMessagesYet": "Aún no hay mensajes",
+    "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",
+    "financialOverview": "Resumen Financiero",
+    "financialDataMessage": "Sus datos financieros e historial de transacciones aparecerán aquí una vez que tenga reservas.",
+    "analyticsTitle": "Análisis"
+  }
+}

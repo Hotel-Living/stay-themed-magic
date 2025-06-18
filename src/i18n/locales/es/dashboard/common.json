@@ -1,0 +1,8 @@
+
+{
+  "dashboard": {
+    "important": "IMPORTANTE",
+    "importantNote": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada.",
+    "importantStep4": "Todos los campos obligatorios deben completarse antes de continuar. Si añade nuevos elementos, su propiedad necesitará aprobación administrativa antes de publicarse."
+  }
+}

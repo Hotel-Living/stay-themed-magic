@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Card } from "@/components/ui/card";
@@ -7,20 +6,22 @@ import { validateAccommodationTerms } from "./utils/validation";
 import { weekdays } from "@/utils/constants";
 import RoomTypeSection from "../rooms/roomTypes/RoomTypeSection";
 import AvailabilitySection from "./AvailabilitySection";
-
 interface AccommodationTermsStepProps {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   onValidationChange?: (isValid: boolean) => void;
 }
-
 export function AccommodationTermsStep({
   formData,
   updateFormData,
   onValidationChange = () => {}
 }: AccommodationTermsStepProps) {
-  const { t } = useTranslation();
-  const { toast } = useToast();
+  const {
+    t
+  } = useTranslation();
+  const {
+    toast
+  } = useToast();
   const [stayDurations, setStayDurations] = useState<number[]>(formData.stayLengths || []);
   const [checkinDay, setCheckinDay] = useState<string>(formData.preferredWeekday || "Monday");
   const [mealPlans, setMealPlans] = useState<string[]>(formData.mealPlans || []);
@@ -36,29 +37,31 @@ export function AccommodationTermsStep({
   }, [formData, updateFormData]);
 
   // Updated meal plan options to match the public filter exactly
-  const mealPlanOptions = [
-    { id: "breakfast-included", label: t('dashboard.breakfastIncluded') },
-    { id: "half-board", label: t('dashboard.halfBoard') },
-    { id: "full-board", label: t('dashboard.fullBoard') },
-    { id: "all-inclusive", label: t('dashboard.allInclusive') },
-    { id: "laundry", label: t('dashboard.laundry') },
-    { id: "external-laundry", label: t('dashboard.externalLaundryService') }
-  ];
+  const mealPlanOptions = [{
+    id: "breakfast-included",
+    label: t('dashboard.breakfastIncluded')
+  }, {
+    id: "half-board",
+    label: t('dashboard.halfBoard')
+  }, {
+    id: "full-board",
+    label: t('dashboard.fullBoard')
+  }, {
+    id: "all-inclusive",
+    label: t('dashboard.allInclusive')
+  }, {
+    id: "laundry",
+    label: t('dashboard.laundry')
+  }, {
+    id: "external-laundry",
+    label: t('dashboard.externalLaundryService')
+  }];
 
   // Duration options in days
   const durationOptions = [8, 16, 24, 32];
 
   // Spanish weekday translations
-  const spanishWeekdays = [
-    t('dashboard.monday'),
-    t('dashboard.tuesday'),
-    t('dashboard.wednesday'),
-    t('dashboard.thursday'),
-    t('dashboard.friday'),
-    t('dashboard.saturday'),
-    t('dashboard.sunday')
-  ];
-
+  const spanishWeekdays = [t('dashboard.monday'), t('dashboard.tuesday'), t('dashboard.wednesday'), t('dashboard.thursday'), t('dashboard.friday'), t('dashboard.saturday'), t('dashboard.sunday')];
   useEffect(() => {
     // Update parent form with local state values
     updateFormData("stayLengths", stayDurations);
@@ -69,33 +72,20 @@ export function AccommodationTermsStep({
     const isValid = validateAccommodationTerms(stayDurations, mealPlans, formData.roomTypes || [], formData.available_months);
     onValidationChange(isValid && availabilityValid);
   }, [stayDurations, checkinDay, mealPlans, formData.available_months, formData.roomTypes, updateFormData, onValidationChange, availabilityValid]);
-
   const toggleDuration = (duration: number) => {
-    setStayDurations(prev => 
-      prev.includes(duration) 
-        ? prev.filter(d => d !== duration) 
-        : [...prev, duration]
-    );
+    setStayDurations(prev => prev.includes(duration) ? prev.filter(d => d !== duration) : [...prev, duration]);
   };
-
   const toggleMealPlan = (planId: string) => {
-    setMealPlans(prev => 
-      prev.includes(planId) 
-        ? prev.filter(p => p !== planId) 
-        : [...prev, planId]
-    );
+    setMealPlans(prev => prev.includes(planId) ? prev.filter(p => p !== planId) : [...prev, planId]);
   };
-
   const handleRoomTypesValidation = (isValid: boolean) => {
     // This will be called from the RoomTypeSection component
     onValidationChange(isValid && stayDurations.length > 0 && mealPlans.length > 0 && availabilityValid);
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.accommodationTerms')}</h2>
-        <p className="text-gray-300">{t('dashboard.defineStayConditions')}</p>
+        
+        
       </div>
 
       {/* Duration Section */}
@@ -103,23 +93,11 @@ export function AccommodationTermsStep({
         <h3 className="font-medium mb-3">3.1— {t('dashboard.stayDuration')}</h3>
         <p className="text-sm text-gray-300 mb-4">{t('dashboard.selectStayDurations')}</p>
         <div className="flex flex-wrap gap-3">
-          {durationOptions.map(duration => (
-            <button
-              key={duration}
-              onClick={() => toggleDuration(duration)}
-              className={`px-4 py-2 rounded-full text-sm ${
-                stayDurations.includes(duration)
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-fuchsia-900/30 text-gray-300"
-              }`}
-            >
+          {durationOptions.map(duration => <button key={duration} onClick={() => toggleDuration(duration)} className={`px-4 py-2 rounded-full text-sm ${stayDurations.includes(duration) ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
               {duration} {t('dashboard.days')}
-            </button>
-          ))}
+            </button>)}
         </div>
-        {showErrors && stayDurations.length === 0 && (
-          <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneDuration')}</p>
-        )}
+        {showErrors && stayDurations.length === 0 && <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneDuration')}</p>}
       </Card>
 
       {/* Check-in Day Section */}
@@ -127,19 +105,9 @@ export function AccommodationTermsStep({
         <h3 className="font-medium mb-3">3.2— {t('dashboard.singleCheckinCheckout')}</h3>
         <p className="text-sm text-gray-300 mb-4">{t('dashboard.selectCheckinDay')}</p>
         <div className="flex flex-wrap gap-3">
-          {weekdays.map((day, index) => (
-            <button
-              key={day}
-              onClick={() => setCheckinDay(day)}
-              className={`px-4 py-2 rounded-full text-sm ${
-                checkinDay === day
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-fuchsia-900/30 text-gray-300"
-              }`}
-            >
+          {weekdays.map((day, index) => <button key={day} onClick={() => setCheckinDay(day)} className={`px-4 py-2 rounded-full text-sm ${checkinDay === day ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
               {spanishWeekdays[index]}
-            </button>
-          ))}
+            </button>)}
         </div>
       </Card>
 
@@ -147,16 +115,8 @@ export function AccommodationTermsStep({
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">3.3— {t('dashboard.availabilityDates')}</h3>
         
-        <AvailabilitySection 
-          isOpen={availabilityOpen}
-          onToggle={setAvailabilityOpen}
-          formData={formData} 
-          updateFormData={updateFormData} 
-          onValidationChange={setAvailabilityValid} 
-        />
-        {showErrors && (!formData.available_months || formData.available_months.length === 0) && (
-          <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneMonth')}</p>
-        )}
+        <AvailabilitySection isOpen={availabilityOpen} onToggle={setAvailabilityOpen} formData={formData} updateFormData={updateFormData} onValidationChange={setAvailabilityValid} />
+        {showErrors && (!formData.available_months || formData.available_months.length === 0) && <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneMonth')}</p>}
       </Card>
 
       {/* Meal Plans Section */}
@@ -164,40 +124,19 @@ export function AccommodationTermsStep({
         <h3 className="font-medium mb-3">3.4— {t('dashboard.mealPlans')}</h3>
         
         <div className="flex flex-wrap gap-3">
-          {mealPlanOptions.map(plan => (
-            <button
-              key={plan.id}
-              onClick={() => toggleMealPlan(plan.id)}
-              className={`px-4 py-2 rounded-full text-sm ${
-                mealPlans.includes(plan.id)
-                  ? "bg-fuchsia-600 text-white"
-                  : "bg-fuchsia-900/30 text-gray-300"
-              }`}
-            >
+          {mealPlanOptions.map(plan => <button key={plan.id} onClick={() => toggleMealPlan(plan.id)} className={`px-4 py-2 rounded-full text-sm ${mealPlans.includes(plan.id) ? "bg-fuchsia-600 text-white" : "bg-fuchsia-900/30 text-gray-300"}`}>
               {plan.label}
-            </button>
-          ))}
+            </button>)}
         </div>
-        {showErrors && mealPlans.length === 0 && (
-          <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneMealPlan')}</p>
-        )}
+        {showErrors && mealPlans.length === 0 && <p className="text-red-400 text-sm mt-2">{t('dashboard.selectAtLeastOneMealPlan')}</p>}
       </Card>
 
       {/* Room Types Section */}
       <Card className="p-4 bg-fuchsia-950/30">
         <h3 className="font-medium mb-3">3.5— {t('dashboard.roomTypes')}</h3>
         <p className="text-sm text-gray-300 mb-4">{t('dashboard.defineRoomTypes')}</p>
-        <RoomTypeSection 
-          onValidationChange={handleRoomTypesValidation} 
-          formData={formData} 
-          updateFormData={updateFormData} 
-          fullWidth={true} 
-          showHeader={false} 
-        />
-        {showErrors && (!formData.roomTypes || formData.roomTypes.length === 0) && (
-          <p className="text-red-400 text-sm mt-2">{t('dashboard.addAtLeastOneRoomType')}</p>
-        )}
+        <RoomTypeSection onValidationChange={handleRoomTypesValidation} formData={formData} updateFormData={updateFormData} fullWidth={true} showHeader={false} />
+        {showErrors && (!formData.roomTypes || formData.roomTypes.length === 0) && <p className="text-red-400 text-sm mt-2">{t('dashboard.addAtLeastOneRoomType')}</p>}
       </Card>
-    </div>
-  );
+    </div>;
 }

@@ -9,7 +9,7 @@ interface StepIndicatorProps {
 }
 
 export default function StepIndicator({ currentStep, totalSteps, stepTitle }: StepIndicatorProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   // Translate specific section titles
   const getTranslatedTitle = (title: string) => {
@@ -19,14 +19,22 @@ export default function StepIndicator({ currentStep, totalSteps, stepTitle }: St
     if (title === "ACCOMMODATION TERMS") {
       return t('dashboard.accommodationTerms');
     }
+    if (title === "FAQ & TÉRMINOS Y CONDICIONES") {
+      return t('dashboard-faq-terms.title');
+    }
     return title;
+  };
+  
+  // Get step label based on language
+  const getStepLabel = () => {
+    return i18n.language === 'es' ? `Paso ${currentStep} de ${totalSteps}` : `Step ${currentStep} of ${totalSteps}`;
   };
   
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-bold text-white">{getTranslatedTitle(stepTitle)}</h1>
-        <span className="text-white/70">Paso {currentStep} de {totalSteps}</span>
+        <span className="text-white/70">{getStepLabel()}</span>
       </div>
       
       <div className="w-full bg-white/20 rounded-full h-2">

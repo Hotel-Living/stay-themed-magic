@@ -1,5 +1,4 @@
 
-
 import StepOne from "./StepOne";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
 import { AccommodationTermsStep } from "./AccommodationTerms/AccommodationTermsStep";
@@ -53,4 +52,3 @@ export const stepsConfig = [
     requiredFields: ["termsAccepted"]
   }
 ];
-

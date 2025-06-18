@@ -17,6 +17,7 @@ import enPrivacy from './locales/en/privacy.json';
 import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enAuth from './locales/en/auth.json';
 import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.json';
+import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -118,7 +119,8 @@ const enCombined = {
   ...enPrivacy,
   ...enIntellectualProperty,
   ...enAuth,
-  welcomeContent: enDashboardWelcomeContent.welcomeContent
+  welcomeContent: enDashboardWelcomeContent.welcomeContent,
+  "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"]
 };
 
 const resources = {

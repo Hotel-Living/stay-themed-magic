@@ -1,13 +1,12 @@
 
 {
   "dashboard-faq-terms": {
-    "title": "FAQ & TERMS AND CONDITIONS",
-    "frequentlyAskedQuestions": "PREGUNTAS FRECUENTES",
+    "title": "FAQ & Términos y Condiciones",
+    "frequentlyAskedQuestions": "Preguntas Frecuentes",
     "questionPlaceholder": "Escriba su pregunta aquí...",
     "answerPlaceholder": "Escriba la respuesta aquí...",
-    "addQuestion": "AÑADIR PREGUNTA",
-    "hotelLivingTerms": "TÉRMINOS DE HOTEL-LIVING",
-    "hotelLivingTermsSubtitle": "Términos y condiciones para propietarios de hoteles",
-    "termsContent": "Al registrar su propiedad en Hotel-Living, usted acepta:\n\n1. Proporcionar información precisa y actualizada sobre su establecimiento\n2. Mantener los estándares de calidad acordados\n3. Respetar las políticas de cancelación establecidas\n4. Cumplir con las normativas locales de hospedaje\n5. Permitir el acceso a inspecciones de calidad cuando sea necesario\n\nEn caso de incumplimiento, Hotel-Living se reserva el derecho de suspender o cancelar la asociación con el establecimiento.\n\nPara más información, contacte con nuestro servicio de atención al cliente."
+    "addQuestion": "Agregar Pregunta",
+    "hotelLivingTerms": "Términos y Condiciones de Hotel-Living",
+    "termsContent": "Aquí van los términos y condiciones específicos del hotel..."
   }
 }

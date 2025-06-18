@@ -31,7 +31,7 @@ export default function DashboardLayout({
   } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
 
   // For development purposes - allow access to the dashboard without authentication
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -89,7 +89,7 @@ export default function DashboardLayout({
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8">
-            {language === 'es' ? t('dashboard.hotelManagement') : 'HOTEL MANAGEMENT'}
+            {t('dashboard.hotelManagement')}
           </h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -108,7 +108,7 @@ export default function DashboardLayout({
                   
                   <button onClick={handleLogout} className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-[#5A1876]/10 transition-colors">
                     <LogOut className="w-5 h-5" />
-                    {language === 'es' ? t('dashboard.logOut') : 'Log Out'}
+                    {t('dashboard.logOut')}
                   </button>
                 </nav>
               </div>
@@ -119,14 +119,14 @@ export default function DashboardLayout({
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
                   </div>
                   <h3 className="font-bold">
-                    {language === 'es' ? t('dashboard.needHelp') : 'Need Help?'}
+                    {t('dashboard.needHelp')}
                   </h3>
                 </div>
                 <p className="text-sm text-foreground/80 mb-4">
-                  {language === 'es' ? t('dashboard.supportDescription') : 'Our support team is available 24/7 to assist you with any questions.'}
+                  {t('dashboard.supportDescription')}
                 </p>
                 <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-slate-50 bg-[#770477]">
-                  {language === 'es' ? t('dashboard.contactSupport') : 'Contact Support'}
+                  {t('dashboard.contactSupport')}
                 </button>
               </div>
             </aside>

@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -15,6 +16,7 @@ import enTerms from './locales/en/terms.json';
 import enPrivacy from './locales/en/privacy.json';
 import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enAuth from './locales/en/auth.json';
+import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -111,7 +113,8 @@ const enCombined = {
   ...enTerms,
   ...enPrivacy,
   ...enIntellectualProperty,
-  ...enAuth
+  ...enAuth,
+  ...enDashboardWelcomeContent
 };
 
 const resources = {

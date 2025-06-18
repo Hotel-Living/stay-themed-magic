@@ -18,8 +18,8 @@ export default function StepFive({
   formData = {},
   updateFormData = () => {}
 }: StepFiveProps) {
-  const { t } = useTranslation();
-  
+  const { t } = useTranslation("dashboard-faq-terms");
+
   // Check if room types, meal plans, and stay lengths all exist and have valid values
   const hasValidRoomTypes = formData?.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
   const hasValidMealPlans = formData?.mealPlans && Array.isArray(formData.mealPlans) && formData.mealPlans.length > 0;
@@ -30,7 +30,7 @@ export default function StepFive({
   
   return (
     <div className="space-y-8">
-      <h2 className="text-xl font-bold mb-4">{t('dashboard.faqAndTerms')}</h2>
+      <h2 className="text-xl font-bold mb-4">{t("title")}</h2>
       
       {/* Only render price tables if all required data exists */}
       {shouldRenderPriceTables ? (
@@ -50,7 +50,7 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full mb-6">
         <AccordionItem value="faq" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">{t('dashboard.frequentlyAskedQuestions')}</h3>
+            <h3 className="text-lg capitalize">{t("frequentlyAskedQuestions")}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
@@ -85,7 +85,7 @@ export default function StepFive({
               {/* Add new FAQ */}
               <div className="pt-4 border-t border-fuchsia-800/20">
                 <button className="w-full py-2 bg-fuchsia-700/50 hover:bg-fuchsia-700/70 rounded-lg text-white">
-                  {t('dashboard.addQuestion')}
+                  {t("addQuestion")}
                 </button>
               </div>
             </div>
@@ -96,14 +96,14 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="terms" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">{t('dashboard.hotelLivingTerms')}</h3>
+            <h3 className="text-lg capitalize">{t("hotelLivingTerms")}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               {/* Pre-configured Terms */}
               <div className="space-y-2">
                 <Textarea 
-                  defaultValue={t('dashboard.termsContent')}
+                  defaultValue={t("termsContent")}
                   className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-80 text-white"
                 />
               </div>

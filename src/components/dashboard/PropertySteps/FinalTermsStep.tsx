@@ -106,7 +106,7 @@ export function FinalTermsStep({
         <div className="space-y-4">
           <div className="bg-blue-900/20 rounded-lg p-4 border border-blue-500/30">
             <p className="text-sm text-blue-200">
-              🔗 <strong>Nota:</strong> El texto legal completo de los términos y condiciones estará visible en una pestaña dedicada titulada "Términos y Condiciones" dentro del panel del hotel.
+              🔗 <strong>Note:</strong> The full legal text of the Terms and Conditions is available in a dedicated tab titled "Terms and Conditions" within the hotel dashboard.
             </p>
           </div>
           
@@ -119,7 +119,7 @@ export function FinalTermsStep({
               className="w-5 h-5 mt-1" 
             />
             <label htmlFor="terms-accepted" className="text-white">
-              ✅ Acepto los términos y condiciones y confirmo que toda la información proporcionada es correcta.
+              ✅ I accept the Terms and Conditions and confirm that all information provided is accurate and complete.
             </label>
           </div>
         </div>

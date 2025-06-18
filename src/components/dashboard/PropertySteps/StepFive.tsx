@@ -50,7 +50,7 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full mb-6">
         <AccordionItem value="faq" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">{t('dashboard-faq-terms.frequentlyAskedQuestions')}</h3>
+            <h3 className="text-lg capitalize">{t('dashboard.frequentlyAskedQuestions')}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
@@ -85,7 +85,7 @@ export default function StepFive({
               {/* Add new FAQ */}
               <div className="pt-4 border-t border-fuchsia-800/20">
                 <button className="w-full py-2 bg-fuchsia-700/50 hover:bg-fuchsia-700/70 rounded-lg text-white">
-                  {t('dashboard-faq-terms.addQuestion')}
+                  {t('dashboard.addQuestion')}
                 </button>
               </div>
             </div>
@@ -96,14 +96,14 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="terms" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">{t('dashboard-faq-terms.hotelLivingTerms')}</h3>
+            <h3 className="text-lg capitalize">{t('dashboard.hotelLivingTerms')}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               {/* Pre-configured Terms */}
               <div className="space-y-2">
                 <Textarea 
-                  defaultValue={t('dashboard-faq-terms.termsContent')}
+                  defaultValue={t('dashboard.termsContent')}
                   className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-80 text-white"
                 />
               </div>

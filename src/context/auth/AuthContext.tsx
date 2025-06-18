@@ -14,7 +14,7 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   signUp: (email: string, password: string, userData?: Partial<Profile>) => Promise<AuthResult>;
-  signIn: (email: string, password: string) => Promise<AuthResult>;
+  signIn: (email: string, password: string, isHotelLogin?: boolean) => Promise<AuthResult>;
   signOut: () => Promise<void>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
 }

@@ -20,7 +20,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     
     console.log(`${isHotelLogin ? "Hotel" : "Traveler"} login attempt with:`, email);
     try {
-      const result = await signIn(email, password);
+      const result = await signIn(email, password, isHotelLogin);
       if (result.error) {
         toast.error("Error al iniciar sesión", {
           description: result.error

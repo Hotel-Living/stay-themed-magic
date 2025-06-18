@@ -19,14 +19,12 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
   const [authError, setAuthError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const signIn = async (email: string, password: string): Promise<SignInResult> => {
+  const signIn = async (email: string, password: string, isHotelLogin: boolean = false): Promise<SignInResult> => {
     try {
       setIsLoading(true);
       setAuthError(null);
       
-      // Determine login type from the current URL
-      const isHotelLogin = window.location.pathname.includes('hotel-login');
-      console.log(`Login attempt from: ${window.location.pathname}, isHotelLogin: ${isHotelLogin}`);
+      console.log(`Login attempt - isHotelLogin: ${isHotelLogin}, email: ${email}`);
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -52,11 +50,10 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
           const metadata = data.user.user_metadata || {};
           
           // Create profile with is_hotel_owner flag based on login context or metadata
-          const isHotelOwner = isHotelLogin || metadata.is_hotel_owner === true;
           profileData = await updateUserProfile(data.user, {
             first_name: metadata.first_name || null,
             last_name: metadata.last_name || null,
-            is_hotel_owner: isHotelOwner,
+            is_hotel_owner: isHotelLogin || metadata.is_hotel_owner === true,
           });
         } else {
           // If logging in through hotel login but not marked as hotel owner,
@@ -75,7 +72,7 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         // Handle redirection based on login type and user role
         if (isHotelLogin) {
           if (profileData?.is_hotel_owner === true) {
-            // Hotel owner logged in through hotel login page
+            // Hotel owner logged in through hotel login tab
             console.log("Hotel owner login confirmed, redirecting to hotel dashboard");
             window.location.href = '/hotel-dashboard';
           } else {

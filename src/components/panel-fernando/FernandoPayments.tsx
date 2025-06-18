@@ -17,7 +17,7 @@ export default function FernandoPayments() {
 
   const fetchPayments = async () => {
     try {
-      // Fetch payments without trying to join profiles (relationship doesn't exist)
+      // Fetch payments directly without joining profiles initially
       const { data: paymentsData, error: paymentsError } = await supabase
         .from('payments')
         .select(`
@@ -32,14 +32,19 @@ export default function FernandoPayments() {
       
       // Fetch user profiles separately to get user names
       const userIds = [...new Set(payments.map(p => p.user_id).filter(Boolean))];
-      const { data: profilesData } = await supabase
-        .from('profiles')
-        .select('id, first_name, last_name')
-        .in('id', userIds);
+      let profilesData = [];
+      
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name')
+          .in('id', userIds);
+        profilesData = profiles || [];
+      }
 
       // Combine payments with profile data
       const enrichedPayments = payments.map(payment => {
-        const profile = profilesData?.find(p => p.id === payment.user_id);
+        const profile = profilesData.find(p => p.id === payment.user_id);
         return {
           ...payment,
           user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown' : 'Unknown'

@@ -4,15 +4,15 @@ import React from "react";
 export function SeamlessIntegrationSection() {
   return (
     <div className="space-y-6 text-left py-6">
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> You don't have to choose between systems.</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Combine both models as you wish</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Start with just a few rooms, then scale as needed</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Switch more rooms to our system whenever it makes sense</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Our platform blends effortlessly with your current operations</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Zero disruption to your daily operations</p>
-      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> We adapt to you, not the other way around</p>
-      <p className="text-base font-semibold mt-4">This is flexibility. This is profit</p>
-      <p className="text-base font-semibold">This is Seamless Integration</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> No tiene que elegir entre sistemas</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Combine ambos modelos como desee</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Comience con solo unas pocas habitaciones y amplíe según sea necesario</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Cambie más habitaciones a nuestro sistema cuando tenga sentido</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Nuestra plataforma se integra sin esfuerzo con sus operaciones actuales</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Cero interrupciones en sus operaciones diarias</p>
+      <p className="text-base flex items-start"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Nos adaptamos a usted, no al revés</p>
+      <p className="text-base font-semibold mt-4">Esto es flexibilidad. Esto es rentabilidad</p>
+      <p className="text-base font-semibold">Esto es Integración Perfecta</p>
     </div>
   );
 }

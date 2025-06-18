@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,22 +26,18 @@ export default function FernandoPayments() {
         throw new Error('No authenticated user found');
       }
       
-      // Check if user has admin role using user_roles table instead of admin_users
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', user.id)
-        .eq('role', 'admin')
-        .single();
+      // Use the has_role function to check admin status
+      const { data: hasAdminRole, error: roleError } = await supabase
+        .rpc('has_role', { role_name: 'admin' });
       
-      console.log('Admin role check result:', roleData, roleError);
+      console.log('Admin role check result:', hasAdminRole, roleError);
       
-      if (roleError && roleError.code !== 'PGRST116') {
+      if (roleError) {
         console.error('Role check error:', roleError);
         throw new Error('Failed to verify admin status');
       }
       
-      if (!roleData) {
+      if (!hasAdminRole) {
         throw new Error('Access denied: Admin privileges required');
       }
 

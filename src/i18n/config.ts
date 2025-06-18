@@ -97,9 +97,10 @@ const es = {
     ...esDashboardCommon.dashboard,
     ...esDashboardSettings.dashboard,
     ...esDashboardRatesCalculator.ratesCalculator,
-    ...esDashboardAdvertising.advertising,
-    ...esDashboardFaqTerms["dashboard-faq-terms"]
+    ...esDashboardAdvertising.advertising
   },
+  // Preserve dashboard-faq-terms as a separate namespace
+  "dashboard-faq-terms": esDashboardFaqTerms["dashboard-faq-terms"],
   welcomeContent: esDashboardWelcomeContent.welcomeContent
 };
 

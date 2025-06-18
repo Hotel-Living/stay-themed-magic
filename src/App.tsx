@@ -43,6 +43,7 @@ import IntellectualProperty from "@/pages/IntellectualProperty";
 import Compare from "@/pages/Compare";
 import AddPropertyPage from "@/pages/AddPropertyPage";
 import PanelFernando from "@/pages/PanelFernando";
+import ForgotPassword from "@/pages/ForgotPassword";
 
 const queryClient = createQueryClient();
 
@@ -65,6 +66,7 @@ function App() {
                   <Route path="/search" element={<Search />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/join-us" element={<JoinUs />} />

@@ -89,6 +89,22 @@
         "question": "¿Qué sucede si tengo un problema durante mi estancia?",
         "answer": "Si surge algún problema durante tu estancia, contacta con la recepción del hotel o con nuestro equipo de atención al cliente. Estamos disponibles 24/7 para ayudarte."
       }
-    ]
+    ],
+    "accordionContent": {
+      "stillRenting": {
+        "title": "¿SIGUES ALQUILANDO?",
+        "subtitle": "Haz las cuentas y compara",
+        "points": [
+          "¿Por qué alquilar un piso cuando puedes tener servicio de habitaciones?",
+          "¿Por qué enfrentarte a trámites interminables, cuando puedes hacer el check-in y sentirte en casa al instante?",
+          "¿Por qué pagar depósitos cuando puedes emplear tu dinero en comodidad, conexión y cuidados?",
+          "¿Por qué comprometerte a un contrato anual cuando la libertad está en estancias con afinidades junto a personas afines?",
+          "¿Por qué limpiar, cuando alguien se encarga de ello y puedes disfrutar tu tiempo con otros?",
+          "¿Por qué renunciar al confort, cuando Hotel Living incluye limpieza, sonrisas y quizás una invitación a cenar?",
+          "¿Por qué vivir solo, cuando puedes vivir conectado?",
+          "¿Por qué resignarte a la soledad, cuando tus afinidades pueden acercarte a tu tribu?"
+        ]
+      }
+    }
   }
 }

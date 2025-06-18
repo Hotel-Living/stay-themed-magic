@@ -1,22 +1,21 @@
-
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { FeaturesList } from "./features/FeaturesList";
 import { hotelFeatures, roomFeatures } from "./features/featuresData";
 import { useTranslation } from "@/hooks/useTranslation";
-
 interface HotelFeaturesStepProps {
   onValidationChange?: (isValid: boolean) => void;
   formData?: any;
   updateFormData?: (field: string, value: any) => void;
 }
-
 export default function HotelFeaturesStep({
   onValidationChange = () => {},
   formData = {},
   updateFormData = () => {}
 }: HotelFeaturesStepProps) {
-  const { t } = useTranslation();
-  
+  const {
+    t
+  } = useTranslation();
+
   // Local state for features selection
   const [selectedHotelFeatures, setSelectedHotelFeatures] = useState<Record<string, boolean>>({});
   const [selectedRoomFeatures, setSelectedRoomFeatures] = useState<Record<string, boolean>>({});
@@ -76,7 +75,6 @@ export default function HotelFeaturesStep({
     }, 2000);
     return () => clearInterval(saveInterval);
   }, [selectedHotelFeatures, selectedRoomFeatures, updateFormData]);
-  
   const handleHotelFeatureToggle = useCallback((featureId: string) => {
     setSelectedHotelFeatures(prev => {
       isDirtyRef.current = true;
@@ -86,7 +84,6 @@ export default function HotelFeaturesStep({
       };
     });
   }, []);
-  
   const handleRoomFeatureToggle = useCallback((featureId: string) => {
     setSelectedRoomFeatures(prev => {
       isDirtyRef.current = true;
@@ -106,7 +103,6 @@ export default function HotelFeaturesStep({
     setSelectedHotelFeatures(allSelected);
     isDirtyRef.current = true;
   }, []);
-
   const handleHotelDeselectAll = useCallback(() => {
     setSelectedHotelFeatures({});
     isDirtyRef.current = true;
@@ -121,7 +117,6 @@ export default function HotelFeaturesStep({
     setSelectedRoomFeatures(allSelected);
     isDirtyRef.current = true;
   }, []);
-
   const handleRoomDeselectAll = useCallback(() => {
     setSelectedRoomFeatures({});
     isDirtyRef.current = true;
@@ -141,30 +136,15 @@ export default function HotelFeaturesStep({
   const getSelectedFeaturesArray = (featuresRecord: Record<string, boolean>): string[] => {
     return Object.entries(featuresRecord).filter(([_, isSelected]) => isSelected).map(([feature, _]) => feature);
   };
-  
-  return (
-    <div className="space-y-6" onBlur={handleSectionBlur}>
+  return <div className="space-y-6" onBlur={handleSectionBlur}>
       <div>
-        <h3 className="text-lg font-semibold mb-3">{t('dashboard.hotelFeatures')}</h3>
-        <FeaturesList 
-          features={hotelFeatures} 
-          selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} 
-          onToggle={handleHotelFeatureToggle}
-          onSelectAll={handleHotelSelectAll}
-          onDeselectAll={handleHotelDeselectAll}
-        />
+        <h3 className="mb-3 text-xl font-bold">{t('dashboard.hotelFeatures')}</h3>
+        <FeaturesList features={hotelFeatures} selectedFeatures={getSelectedFeaturesArray(selectedHotelFeatures)} onToggle={handleHotelFeatureToggle} onSelectAll={handleHotelSelectAll} onDeselectAll={handleHotelDeselectAll} />
       </div>
       
       <div>
         <h3 className="text-lg font-semibold mb-3">{t('dashboard.roomFeatures')}</h3>
-        <FeaturesList 
-          features={roomFeatures} 
-          selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} 
-          onToggle={handleRoomFeatureToggle}
-          onSelectAll={handleRoomSelectAll}
-          onDeselectAll={handleRoomDeselectAll}
-        />
+        <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} onSelectAll={handleRoomSelectAll} onDeselectAll={handleRoomDeselectAll} />
       </div>
-    </div>
-  );
+    </div>;
 }

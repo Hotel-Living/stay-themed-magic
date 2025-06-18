@@ -4,22 +4,24 @@ import { AffinitiesSection } from "./themes/AffinitiesSection";
 import { ActivitiesSection } from "./activities/ActivitiesSection";
 import HotelFeaturesStep from "./HotelFeaturesStep";
 import { useTranslation } from "@/hooks/useTranslation";
-
 export interface GeneralInformationStep2Props {
   formData: any;
   updateFormData: (field: string, value: any) => void;
   onValidationChange?: (isValid: boolean) => void;
 }
-
 export function GeneralInformationStep2({
   formData,
   updateFormData,
   onValidationChange = () => {}
 }: GeneralInformationStep2Props) {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
@@ -42,7 +44,6 @@ export function GeneralInformationStep2({
     const isValid = selectedThemes.length > 0 && selectedActivities.length > 0 && formData.roomTypes && formData.roomTypes.length > 0;
     onValidationChange(isValid);
   }, [selectedThemes, selectedActivities, formData.roomTypes, updateFormData, onValidationChange]);
-  
   const handleThemeSelect = (themeId: string, isSelected: boolean) => {
     if (isSelected) {
       setSelectedThemes(prev => [...prev, themeId]);
@@ -50,39 +51,21 @@ export function GeneralInformationStep2({
       setSelectedThemes(prev => prev.filter(id => id !== themeId));
     }
   };
-  
   const handleActivityChange = (activity: string, isChecked: boolean) => {
     setSelectedActivities(prev => isChecked ? [...prev, activity] : prev.filter(a => a !== activity));
   };
-  
-  return (
-    <div className="space-y-6 max-w-[80%]">
+  return <div className="space-y-6 max-w-[80%]">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.hotelProfile')}</h2>
-        <p className="text-gray-300">Define your hotel's character and features</p>
+        
+        
       </div>
 
       <div className="space-y-8">
-        <AffinitiesSection 
-          selectedThemes={selectedThemes} 
-          onThemeSelect={handleThemeSelect} 
-          openCategory={openCategory} 
-          setOpenCategory={setOpenCategory} 
-          openSubmenu={openSubmenu} 
-          setOpenSubmenu={setOpenSubmenu} 
-        />
+        <AffinitiesSection selectedThemes={selectedThemes} onThemeSelect={handleThemeSelect} openCategory={openCategory} setOpenCategory={setOpenCategory} openSubmenu={openSubmenu} setOpenSubmenu={setOpenSubmenu} />
         
-        <ActivitiesSection 
-          selectedActivities={selectedActivities} 
-          onActivityChange={handleActivityChange} 
-        />
+        <ActivitiesSection selectedActivities={selectedActivities} onActivityChange={handleActivityChange} />
         
-        <HotelFeaturesStep 
-          onValidationChange={onValidationChange} 
-          formData={formData} 
-          updateFormData={updateFormData} 
-        />
+        <HotelFeaturesStep onValidationChange={onValidationChange} formData={formData} updateFormData={updateFormData} />
       </div>
-    </div>
-  );
+    </div>;
 }

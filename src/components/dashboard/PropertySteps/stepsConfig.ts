@@ -9,7 +9,7 @@ import { FinalTermsStep } from "./FinalTermsStep";
 export const stepsConfig = [
   {
     id: 1,
-    title: "GENERAL INFORMATION",
+    title: "INFORMACIÓN GENERAL",
     component: StepOne,
     description: "Basic details about the hotel (name, address, category, description)."
   },
@@ -29,7 +29,7 @@ export const stepsConfig = [
   },
   {
     id: 4,
-    title: "PACKAGES AND RATES",
+    title: "PAQUETES Y PRECIOS",
     component: PackagesBuilderStep,
     description: "Define exact prices for each room × duration × meal plan combination.",
     validate: (formData: any) => {
@@ -47,7 +47,7 @@ export const stepsConfig = [
   },
   {
     id: 5,
-    title: "FAQ & TERMS AND CONDITIONS",
+    title: "FAQ & TÉRMINOS Y CONDICIONES",
     component: FinalTermsStep,
     description: "Hotel rules, cancellation policy, and optional FAQs.",
     requiredFields: ["termsAccepted"]

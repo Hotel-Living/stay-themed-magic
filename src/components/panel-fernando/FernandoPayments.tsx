@@ -27,18 +27,22 @@ export default function FernandoPayments() {
         throw new Error('No authenticated user found');
       }
       
-      // Check if user is admin using the is_admin function
-      const { data: isAdminResult, error: adminError } = await supabase
-        .rpc('is_admin', { user_id: user.id });
+      // Check if user has admin role using user_roles table instead of admin_users
+      const { data: roleData, error: roleError } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .single();
       
-      console.log('Admin check result:', isAdminResult, adminError);
+      console.log('Admin role check result:', roleData, roleError);
       
-      if (adminError) {
-        console.error('Admin check error:', adminError);
+      if (roleError && roleError.code !== 'PGRST116') {
+        console.error('Role check error:', roleError);
         throw new Error('Failed to verify admin status');
       }
       
-      if (!isAdminResult) {
+      if (!roleData) {
         throw new Error('Access denied: Admin privileges required');
       }
 

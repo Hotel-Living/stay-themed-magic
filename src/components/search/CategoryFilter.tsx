@@ -1,6 +1,7 @@
 
 import { FilterItem } from "./FilterItem";
 import { Star } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CategoryFilterProps {
   activeCategory: string | null;
@@ -8,16 +9,18 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ activeCategory, onChange }: CategoryFilterProps) {
+  const { t } = useTranslation();
+
   const categories = [
-    { value: "1", label: "1 Star" },
-    { value: "2", label: "2 Stars" },
-    { value: "3", label: "3 Stars" },
-    { value: "4", label: "4 Stars" },
-    { value: "5", label: "5 Stars" }
+    { value: "1", label: t('filters.categories.1star') },
+    { value: "2", label: t('filters.categories.2stars') },
+    { value: "3", label: t('filters.categories.3stars') },
+    { value: "4", label: t('filters.categories.4stars') },
+    { value: "5", label: t('filters.categories.5stars') }
   ];
 
   return (
-    <FilterItem title="CATEGORY">
+    <FilterItem title={t('filters.category').toUpperCase()}>
       {categories.map(category => (
         <label key={category.value} className="flex items-start">
           <input 

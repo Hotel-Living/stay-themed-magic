@@ -1,3 +1,4 @@
+
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 import { MonthFilter } from "./MonthFilter";
@@ -14,6 +15,7 @@ import { hotelFeatures, roomFeatures } from "@/components/dashboard/PropertyStep
 import { Button } from "@/components/ui/button";
 import { ExpertFilters } from "./ExpertFilters";
 import { useExpertMode } from "@/hooks/useExpertMode";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FilterSidebarProps {
   activeFilters: {
@@ -50,12 +52,27 @@ export function FilterSidebar({
   onResetAllFilters
 }: FilterSidebarProps) {
   const { isExpert } = useExpertMode();
+  const { t } = useTranslation();
   
-  // Room types
-  const roomTypes = ["Single", "Double", "Suite", "Studio", "Penthouse", "Family Room"];
+  // Room types with translations
+  const getRoomTypes = () => [
+    { value: "Single", label: t('filters.roomTypes.single') },
+    { value: "Double", label: t('filters.roomTypes.double') },
+    { value: "Suite", label: t('filters.roomTypes.suite') },
+    { value: "Studio", label: t('filters.roomTypes.studio') },
+    { value: "Penthouse", label: t('filters.roomTypes.penthouse') },
+    { value: "Family Room", label: t('filters.roomTypes.familyRoom') }
+  ];
 
   // Updated meal options to match exactly with the database
-  const mealOptions = ["Breakfast Included", "Half Board", "Full Board", "All Inclusive", "Laundry", "External Laundry Service Available"];
+  const getMealOptions = () => [
+    { value: "Breakfast Included", label: t('filters.mealPlans.breakfastIncluded') },
+    { value: "Half Board", label: t('filters.mealPlans.halfBoard') },
+    { value: "Full Board", label: t('filters.mealPlans.fullBoard') },
+    { value: "All Inclusive", label: t('filters.mealPlans.allInclusive') },
+    { value: "Laundry", label: t('filters.mealPlans.laundry') },
+    { value: "External Laundry Service Available", label: t('filters.mealPlans.externalLaundryService') }
+  ];
 
   // Handle meal filter changes with proper mapping to mealPlans
   const handleMealFilterChange = (value: string, isChecked: boolean) => {
@@ -67,7 +84,7 @@ export function FilterSidebar({
     <div className="glass-card rounded-xl p-4 space-y-3 py-[14px] px-[14px] bg-[#8e069b]">
       {/* Reset All Filters Button - Top */}
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mb-4 text-[#6213ba] bg-[#fcdefd] rounded-full">
-        Reset All Filters
+        {t('filters.resetAllFilters')}
       </Button>
 
       {/* Expert Filters - Only show for expert users */}
@@ -93,8 +110,8 @@ export function FilterSidebar({
       <MonthFilter activeMonth={activeFilters.month} onChange={value => handleFilterChange("month", value)} />
       
       <CheckboxFilter 
-        title="MEALS" 
-        options={mealOptions} 
+        title={t('filters.meals').toUpperCase()} 
+        options={getMealOptions()} 
         selectedOptions={activeFilters.mealPlans || activeFilters.meals || []} 
         onChange={handleMealFilterChange} 
       />
@@ -109,15 +126,30 @@ export function FilterSidebar({
       
       <PropertyTypeFilter activePropertyType={activeFilters.propertyType} onChange={value => handleFilterChange("propertyType", value)} />
       
-      <CheckboxFilter title="ROOM TYPES" options={roomTypes} selectedOptions={activeFilters.roomTypes} onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)} />
+      <CheckboxFilter 
+        title={t('filters.roomTypes').toUpperCase()} 
+        options={getRoomTypes()} 
+        selectedOptions={activeFilters.roomTypes} 
+        onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)} 
+      />
       
-      <CheckboxFilter title="HOTEL FEATURES" options={hotelFeatures} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)} />
+      <CheckboxFilter 
+        title={t('filters.hotelFeatures').toUpperCase()} 
+        options={hotelFeatures.map(feature => ({ value: feature, label: feature }))} 
+        selectedOptions={activeFilters.hotelFeatures} 
+        onChange={(value, isChecked) => handleArrayFilterChange("hotelFeatures", value, isChecked)} 
+      />
       
-      <CheckboxFilter title="ROOM FEATURES" options={roomFeatures} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} />
+      <CheckboxFilter 
+        title={t('filters.roomFeatures').toUpperCase()} 
+        options={roomFeatures.map(feature => ({ value: feature, label: feature }))} 
+        selectedOptions={activeFilters.roomFeatures} 
+        onChange={(value, isChecked) => handleArrayFilterChange("roomFeatures", value, isChecked)} 
+      />
 
       {/* Reset All Filters Button - Bottom */}
       <Button onClick={onResetAllFilters} variant="outline" className="w-full mt-4 text-purple-700 bg-[#fae7fb] rounded-3xl">
-        Reset All Filters
+        {t('filters.resetAllFilters')}
       </Button>
     </div>
   );

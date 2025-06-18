@@ -15,6 +15,16 @@
     "affinity": "AFINIDAD",
     "month": "MES",
     "country": "PAÍS",
+    "roomFeatures": "Características de la habitación",
+    "hotelFeatures": "Características del hotel",
+    "roomTypes": "Tipos de habitación",
+    "typeOfProperty": "Tipo de propiedad",
+    "location": "Ubicación",
+    "category": "Categoría",
+    "styleOfProperty": "Estilo de la propiedad",
+    "meals": "Régimen de comidas",
+    "lengthOfStay": "Duración de la estancia",
+    "resetAllFilters": "Restablecer todos los filtros",
     "priceRanges": {
       "upTo1000": "Hasta 1.000 $",
       "1000to1500": "1.000 $ a 1.500 $",
@@ -46,6 +56,51 @@
       "germany": "Alemania 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grecia 🇬🇷"
+    },
+    "roomTypes": {
+      "single": "Individual",
+      "double": "Doble",
+      "suite": "Suite",
+      "studio": "Estudio",
+      "penthouse": "Ático",
+      "familyRoom": "Habitación familiar"
+    },
+    "propertyTypes": {
+      "hotel": "Hotel",
+      "resort": "Resort",
+      "boutiqueHotel": "Hotel boutique",
+      "motel": "Motel",
+      "inn": "Posada"
+    },
+    "propertyStyles": {
+      "classic": "Clásico",
+      "classicElegant": "Clásico elegante",
+      "modern": "Moderno",
+      "fusion": "Fusión",
+      "urban": "Urbano",
+      "minimalist": "Minimalista",
+      "luxury": "Lujo"
+    },
+    "categories": {
+      "1star": "1 estrella",
+      "2stars": "2 estrellas",
+      "3stars": "3 estrellas",
+      "4stars": "4 estrellas",
+      "5stars": "5 estrellas"
+    },
+    "mealPlans": {
+      "breakfastIncluded": "Desayuno incluido",
+      "halfBoard": "Media pensión",
+      "fullBoard": "Pensión completa",
+      "allInclusive": "Todo incluido",
+      "laundry": "Lavandería",
+      "externalLaundryService": "Servicio de lavandería externo disponible"
+    },
+    "stayLengths": {
+      "8days": "8 días",
+      "16days": "16 días",
+      "24days": "24 días",
+      "32days": "32 días"
     },
     "affinities": {
       "art": "Arte",

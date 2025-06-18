@@ -20,7 +20,7 @@ export default function StepOne({
 }: StepOneProps) {
   const { t } = useTranslation();
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({
+  const [touchedFields, setTouchedFields] = useState({
     hotelName: false,
     category: false,
     propertyType: false,
@@ -34,21 +34,21 @@ export default function StepOne({
   const validateField = (field: string, value: any): string => {
     switch (field) {
       case 'hotelName':
-        return !value || value.trim().length === 0 ? 'Hotel name is required' : '';
+        return !value || value.trim().length === 0 ? t('dashboard.hotelNameRequired') : '';
       case 'category':
-        return !value ? 'Category is required' : '';
+        return !value ? t('dashboard.categoryRequired') : '';
       case 'propertyType':
-        return !value ? 'Property type is required' : '';
+        return !value ? t('dashboard.propertyTypeRequired') : '';
       case 'style':
-        return !value ? 'Property style is required' : '';
+        return !value ? t('dashboard.propertyStyleRequired') : '';
       case 'description':
-        return !value || value.trim().length === 0 ? 'Description is required' : '';
+        return !value || value.trim().length === 0 ? t('dashboard.descriptionRequired') : '';
       case 'country':
-        return !value ? 'Country is required' : '';
+        return !value ? t('dashboard.countryRequired') : '';
       case 'city':
-        return !value || value.trim().length === 0 ? 'City is required' : '';
+        return !value || value.trim().length === 0 ? t('dashboard.cityRequired') : '';
       case 'address':
-        return !value || value.trim().length === 0 ? 'Address is required' : '';
+        return !value || value.trim().length === 0 ? t('dashboard.addressRequired') : '';
       default:
         return '';
     }
@@ -57,7 +57,7 @@ export default function StepOne({
   const handleChange = (field: string, value: string) => {
     updateFormData(field, value);
     
-    if (touchedFields[field]) {
+    if (touchedFields[field as keyof typeof touchedFields]) {
       const error = validateField(field, value);
       setErrors(prev => ({ ...prev, [field]: error }));
     }
@@ -88,7 +88,7 @@ export default function StepOne({
       {showHeading && (
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.generalInformation')}</h2>
-          <p className="text-gray-300">Basic details about your property</p>
+          <p className="text-gray-300">{t('dashboard.basicDetailsAboutProperty')}</p>
         </div>
       )}
 

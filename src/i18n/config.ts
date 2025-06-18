@@ -98,7 +98,7 @@ const es = {
     ...esDashboardSettings.dashboard,
     ...esDashboardRatesCalculator.ratesCalculator,
     ...esDashboardAdvertising.advertising,
-    ...esDashboardFaqTerms.dashboard
+    ...esDashboardFaqTerms["dashboard-faq-terms"]
   },
   welcomeContent: esDashboardWelcomeContent.welcomeContent
 };

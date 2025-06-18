@@ -19,6 +19,7 @@ import enAuth from './locales/en/auth.json';
 import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.json';
 import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
+import enDashboardGeneral from './locales/en/dashboard/general.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -121,6 +122,7 @@ const enCombined = {
   ...enIntellectualProperty,
   ...enAuth,
   ...enDashboardCommon,
+  ...enDashboardGeneral,
   welcomeContent: enDashboardWelcomeContent.welcomeContent,
   "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"]
 };

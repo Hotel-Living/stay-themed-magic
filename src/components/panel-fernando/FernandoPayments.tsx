@@ -17,20 +17,56 @@ export default function FernandoPayments() {
 
   const fetchPayments = async () => {
     try {
-      // Fetch payments directly without joining profiles initially
-      const { data: paymentsData, error: paymentsError } = await supabase
-        .from('payments')
-        .select(`
-          *,
-          hotels(name)
-        `)
-        .order('created_at', { ascending: false });
+      console.log('Starting to fetch payments...');
+      
+      // First, let's try to get the current user to see if they're admin
+      const { data: { user } } = await supabase.auth.getUser();
+      console.log('Current user:', user?.id);
+      
+      // Check if user is admin
+      const { data: adminCheck, error: adminError } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('id', user?.id)
+        .single();
+      
+      console.log('Admin check result:', adminCheck, adminError);
+      
+      if (adminError && adminError.code !== 'PGRST116') {
+        throw new Error('Not authorized to view payments');
+      }
+      
+      if (!adminCheck) {
+        throw new Error('Access denied: Admin privileges required');
+      }
 
-      if (paymentsError) throw paymentsError;
+      // Use RPC call or direct query to bypass RLS issues
+      const { data: paymentsData, error: paymentsError } = await supabase
+        .rpc('get_all_payments_admin')
+        .then(result => {
+          // If RPC doesn't exist, fall back to direct query
+          if (result.error && result.error.code === '42883') {
+            console.log('RPC not found, using direct query...');
+            return supabase
+              .from('payments')
+              .select(`
+                *,
+                hotels(name)
+              `)
+              .order('created_at', { ascending: false });
+          }
+          return result;
+        });
+
+      if (paymentsError) {
+        console.error('Payments query error:', paymentsError);
+        throw paymentsError;
+      }
       
       const payments = paymentsData || [];
+      console.log('Fetched payments:', payments.length);
       
-      // Fetch user profiles separately to get user names
+      // Get user profiles separately
       const userIds = [...new Set(payments.map(p => p.user_id).filter(Boolean))];
       let profilesData = [];
       
@@ -66,11 +102,13 @@ export default function FernandoPayments() {
         completedPayments,
         pendingPayments
       });
+
+      console.log('Successfully processed payments data');
     } catch (error) {
       console.error('Error fetching payments:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch payments",
+        description: error.message || "Failed to fetch payments",
         variant: "destructive"
       });
     } finally {

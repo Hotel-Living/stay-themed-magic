@@ -36,7 +36,31 @@
     "accommodationTerms": "CONDICIONES DE ALOJAMIENTO",
     "packagesAndRates": "PAQUETES Y TARIFAS",
     "generalInformation": "INFORMACIÓN GENERAL",
-    "hotelProfile": "PERFIL DEL HOTEL",
+    "hotelProfile": {
+      "title": "Perfil del Hotel",
+      "subtitle": "Define el carácter y los servicios de tu hotel",
+      "section": {
+        "affinities": "Afinidades",
+        "activities": "Actividades",
+        "features": "Características del Hotel"
+      },
+      "selectAll": "Seleccionar Todo",
+      "deselectAll": "Deseleccionar Todo",
+      "features": {
+        "wifi": "WiFi Gratis",
+        "pool": "Piscina",
+        "reception": "Recepción 24/7",
+        "lounge": "Salón",
+        "parking": "Estacionamiento",
+        "spa": "Spa",
+        "roomService": "Servicio de Habitaciones",
+        "businessCenter": "Centro de Negocios",
+        "restaurant": "Restaurante",
+        "gym": "Gimnasio",
+        "bar": "Bar",
+        "conferenceRooms": "Salas de Conferencias"
+      }
+    },
     "messagesFromAdmin": "Mensajes del Administrador",
     "noMessagesYet": "Aún no hay mensajes",
     "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",

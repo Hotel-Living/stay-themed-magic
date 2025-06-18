@@ -3,6 +3,7 @@ import React from "react";
 import HotelFaqAndTermsStep from "./FaqAndTerms/HotelFaqAndTermsStep";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface StepFiveProps {
   onValidationChange?: (isValid: boolean) => void;
@@ -17,6 +18,8 @@ export default function StepFive({
   formData = {},
   updateFormData = () => {}
 }: StepFiveProps) {
+  const { t } = useTranslation();
+  
   // Check if room types, meal plans, and stay lengths all exist and have valid values
   const hasValidRoomTypes = formData?.roomTypes && Array.isArray(formData.roomTypes) && formData.roomTypes.length > 0;
   const hasValidMealPlans = formData?.mealPlans && Array.isArray(formData.mealPlans) && formData.mealPlans.length > 0;
@@ -27,7 +30,7 @@ export default function StepFive({
   
   return (
     <div className="space-y-8">
-      <h2 className="text-xl font-bold mb-4">FAQ & TERMS AND CONDITIONS</h2>
+      <h2 className="text-xl font-bold mb-4">{t('dashboard.faqAndTerms')}</h2>
       
       {/* Only render price tables if all required data exists */}
       {shouldRenderPriceTables ? (
@@ -47,7 +50,7 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full mb-6">
         <AccordionItem value="faq" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">Frequently Asked Questions</h3>
+            <h3 className="text-lg capitalize">{t('dashboard-faq-terms.frequentlyAskedQuestions')}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
@@ -82,7 +85,7 @@ export default function StepFive({
               {/* Add new FAQ */}
               <div className="pt-4 border-t border-fuchsia-800/20">
                 <button className="w-full py-2 bg-fuchsia-700/50 hover:bg-fuchsia-700/70 rounded-lg text-white">
-                  + Add New FAQ
+                  {t('dashboard-faq-terms.addQuestion')}
                 </button>
               </div>
             </div>
@@ -93,32 +96,14 @@ export default function StepFive({
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="terms" className="border rounded-xl overflow-hidden bg-fuchsia-900/10">
           <AccordionTrigger className="px-4 py-3">
-            <h3 className="text-lg capitalize">Terms and Conditions</h3>
+            <h3 className="text-lg capitalize">{t('dashboard-faq-terms.hotelLivingTerms')}</h3>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               {/* Pre-configured Terms */}
               <div className="space-y-2">
                 <Textarea 
-                  defaultValue="1. RESERVATIONS: All reservations must be guaranteed with a valid credit card at the time of booking.
-
-2. CANCELLATION POLICY: Cancellations must be made at least 48 hours prior to arrival to avoid a penalty of one night's room charge.
-
-3. PAYMENT: Full payment is due upon check-in. We accept major credit cards and cash.
-
-4. DAMAGE POLICY: Guests will be held responsible for any damage to the property or its contents during their stay.
-
-5. PETS: Pets are not allowed unless specified as a pet-friendly accommodation.
-
-6. SMOKING: This is a non-smoking property. A cleaning fee of $250 will be charged for smoking in non-designated areas.
-
-7. QUIET HOURS: Quiet hours are from 10:00 PM to 8:00 AM. Please be respectful of other guests.
-
-8. LIABILITY: The property is not responsible for any loss or damage to personal belongings.
-
-9. AGE REQUIREMENT: Guests must be at least 18 years of age to check-in.
-
-10. ADDITIONAL GUESTS: Only registered guests are allowed in the rooms. Additional guests must be registered at the front desk."
+                  defaultValue={t('dashboard-faq-terms.termsContent')}
                   className="bg-fuchsia-950/30 border border-fuchsia-800/30 h-80 text-white"
                 />
               </div>

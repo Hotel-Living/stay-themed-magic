@@ -14,22 +14,57 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     e.preventDefault();
     
     if (!email || !password) {
-      toast.error("Please fill in all fields");
+      toast({
+        title: "Campos requeridos",
+        description: "Por favor, completa el email y la contraseña",
+        variant: "destructive"
+      });
       return;
     }
     
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Email inválido",
+        description: "Por favor, introduce un email válido",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    console.log(`=== LOGIN FORM SUBMISSION ===`);
     console.log(`${isHotelLogin ? "Hotel" : "Traveler"} login attempt with:`, email);
+    console.log("Form data:", { email, passwordLength: password.length, isHotelLogin });
+    
     try {
+      toast({
+        title: "Iniciando sesión...",
+        description: "Por favor, espera un momento"
+      });
+      
       const result = await signIn(email, password, isHotelLogin);
+      
+      console.log("Login result:", result);
+      
       if (result.error) {
-        toast.error("Error al iniciar sesión", {
-          description: result.error
+        console.error("Login failed with error:", result.error);
+        toast({
+          title: "Error al iniciar sesión",
+          description: result.error,
+          variant: "destructive"
         });
+      } else {
+        console.log("Login successful!");
+        // Success message will be shown by the signIn function
       }
     } catch (error: any) {
+      console.error("=== LOGIN FORM ERROR ===");
       console.error("Login error:", error);
-      toast.error("Error al iniciar sesión", {
-        description: error.message || "An unexpected error occurred"
+      toast({
+        title: "Error al iniciar sesión",
+        description: error.message || "Error inesperado. Por favor, inténtalo de nuevo.",
+        variant: "destructive"
       });
     }
   };

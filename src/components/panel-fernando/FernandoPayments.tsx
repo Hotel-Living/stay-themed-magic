@@ -23,40 +23,33 @@ export default function FernandoPayments() {
       const { data: { user } } = await supabase.auth.getUser();
       console.log('Current user:', user?.id);
       
-      // Check if user is admin
-      const { data: adminCheck, error: adminError } = await supabase
-        .from('admin_users')
-        .select('id')
-        .eq('id', user?.id)
-        .single();
-      
-      console.log('Admin check result:', adminCheck, adminError);
-      
-      if (adminError && adminError.code !== 'PGRST116') {
-        throw new Error('Not authorized to view payments');
+      if (!user) {
+        throw new Error('No authenticated user found');
       }
       
-      if (!adminCheck) {
+      // Check if user is admin using the is_admin function
+      const { data: isAdminResult, error: adminError } = await supabase
+        .rpc('is_admin', { user_id: user.id });
+      
+      console.log('Admin check result:', isAdminResult, adminError);
+      
+      if (adminError) {
+        console.error('Admin check error:', adminError);
+        throw new Error('Failed to verify admin status');
+      }
+      
+      if (!isAdminResult) {
         throw new Error('Access denied: Admin privileges required');
       }
 
-      // Use RPC call or direct query to bypass RLS issues
+      // Now fetch payments directly since we've verified admin status
       const { data: paymentsData, error: paymentsError } = await supabase
-        .rpc('get_all_payments_admin')
-        .then(result => {
-          // If RPC doesn't exist, fall back to direct query
-          if (result.error && result.error.code === '42883') {
-            console.log('RPC not found, using direct query...');
-            return supabase
-              .from('payments')
-              .select(`
-                *,
-                hotels(name)
-              `)
-              .order('created_at', { ascending: false });
-          }
-          return result;
-        });
+        .from('payments')
+        .select(`
+          *,
+          hotels(name)
+        `)
+        .order('created_at', { ascending: false });
 
       if (paymentsError) {
         console.error('Payments query error:', paymentsError);

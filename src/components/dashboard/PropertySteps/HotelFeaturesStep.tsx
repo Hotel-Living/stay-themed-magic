@@ -143,7 +143,7 @@ export default function HotelFeaturesStep({
       </div>
       
       <div>
-        <h3 className="mb-3 text-xl font-bold">{t('dashboard.roomFeatures')}</h3>
+        <h3 className="mb-3 text-xl font-bold py-[11px] my-[20px]">{t('dashboard.roomFeatures')}</h3>
         <FeaturesList features={roomFeatures} selectedFeatures={getSelectedFeaturesArray(selectedRoomFeatures)} onToggle={handleRoomFeatureToggle} onSelectAll={handleRoomSelectAll} onDeselectAll={handleRoomDeselectAll} />
       </div>
     </div>;

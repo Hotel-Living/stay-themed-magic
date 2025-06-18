@@ -15,72 +15,72 @@ export default function HotelDashboard() {
   const { profile } = useAuth();
   const { t } = useTranslation();
   
-  // Create dashboard tabs configuration inside the component where useTranslation works
+  // Create dashboard tabs configuration with correct Spanish translation keys
   const tabs: DashboardTab[] = [
     {
       id: "welcome-overview",
-      label: t('dashboard.welcomeOverview'),
+      label: "Bienvenida y Presentación",
       icon: <Heart className="w-5 h-5" />
     },
     {
       id: "dashboard",
-      label: t('dashboard.dashboard'),
+      label: t('dashboard.dashboard') || "Dashboard",
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "rates-calculator",
       label: (
         <>
-          {t('dashboard.calculateModel')}
+          Calcula tu Modelo
           <br />
-          {t('dashboard.ratesAndProfits')}
+          Tarifas y Beneficios
         </>
       ),
       icon: <Calculator className="w-5 h-5" />
     },
     {
       id: "properties",
-      label: t('dashboard.properties'),
+      label: t('dashboard.properties') || "Propiedades",
       icon: <Building className="w-5 h-5" />
     },
     {
       id: "advertising",
-      label: t('dashboard.advertising'),
+      label: t('dashboard.advertising') || "Publicidad",
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "bookings",
-      label: t('dashboard.bookings'),
+      label: t('dashboard.bookings') || "Reservas",
       icon: <Calendar className="w-5 h-5" />
     },
     {
       id: "guests",
-      label: t('dashboard.guests'),
+      label: t('dashboard.guests') || "Huéspedes",
       icon: <Users className="w-5 h-5" />
     },
     {
       id: "messages",
-      label: t('dashboard.adminMessages'),
+      label: "Mensajes del Administrador",
       icon: <MessageCircle className="w-5 h-5" />
     },
     {
       id: "finances",
-      label: t('dashboard.finances'),
+      label: t('dashboard.finances') || "Finanzas",
       icon: <CreditCard className="w-5 h-5" />
     },
     {
       id: "reviews",
-      label: t('dashboard.reviews'),
+      label: t('dashboard.reviews') || "Reseñas",
       icon: <Star className="w-5 h-5" />
     },
     {
       id: "analytics",
-      label: t('dashboard.analytics'),
+      label: t('dashboard.analytics') || "Analíticas",
       icon: <BarChart3 className="w-5 h-5" />
     },
     {
       id: "settings",
-      label: t('dashboard.settings'),
+      label: t('dashboard.settings') || "Configuración",
       icon: <Settings className="w-5 h-5" />
     }
   ];

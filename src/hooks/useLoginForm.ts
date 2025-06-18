@@ -13,10 +13,18 @@ export function useLoginForm(isHotelLogin: boolean = false) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log(`=== LOGIN FORM SUBMISSION STARTED ===`);
+    console.log(`Login type: ${isHotelLogin ? "Hotel" : "Traveler"}`);
+    console.log(`Email: ${email}`);
+    console.log(`Password length: ${password.length}`);
+    console.log(`Form timestamp: ${new Date().toISOString()}`);
+    
     if (!email || !password) {
+      const errorMsg = "Por favor, completa el email y la contraseña";
+      console.log(`Validation error: ${errorMsg}`);
       toast({
         title: "Campos requeridos",
-        description: "Por favor, completa el email y la contraseña",
+        description: errorMsg,
         variant: "destructive"
       });
       return;
@@ -25,6 +33,8 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      const errorMsg = "Email format is invalid";
+      console.log(`Email validation error: ${errorMsg}`);
       toast({
         title: "Email inválido",
         description: "Por favor, introduce un email válido",
@@ -33,9 +43,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
       return;
     }
     
-    console.log(`=== LOGIN FORM SUBMISSION ===`);
-    console.log(`${isHotelLogin ? "Hotel" : "Traveler"} login attempt with:`, email);
-    console.log("Form data:", { email, passwordLength: password.length, isHotelLogin });
+    console.log("Form validation passed, calling signIn...");
     
     try {
       toast({
@@ -45,28 +53,31 @@ export function useLoginForm(isHotelLogin: boolean = false) {
       
       const result = await signIn(email, password, isHotelLogin);
       
-      console.log("Login result:", result);
+      console.log(`=== LOGIN FORM RESULT ===`);
+      console.log(`Success: ${result.success}`);
+      console.log(`Error: ${result.error}`);
       
       if (result.error) {
-        console.error("Login failed with error:", result.error);
+        console.error("Login failed, showing error toast");
         toast({
           title: "Error al iniciar sesión",
           description: result.error,
           variant: "destructive"
         });
       } else {
-        console.log("Login successful!");
-        // Success message will be shown by the signIn function
+        console.log("Login successful, success toast should be shown by signIn function");
       }
     } catch (error: any) {
-      console.error("=== LOGIN FORM ERROR ===");
-      console.error("Login error:", error);
+      console.error("=== LOGIN FORM EXCEPTION ===");
+      console.error("Caught exception:", error);
       toast({
         title: "Error al iniciar sesión",
         description: error.message || "Error inesperado. Por favor, inténtalo de nuevo.",
         variant: "destructive"
       });
     }
+    
+    console.log(`=== LOGIN FORM SUBMISSION COMPLETED ===`);
   };
 
   return {

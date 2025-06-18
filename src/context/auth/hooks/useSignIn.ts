@@ -24,144 +24,160 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       setIsLoading(true);
       setAuthError(null);
       
-      console.log(`=== AUTHENTICATION DEBUG ===`);
-      console.log(`Login attempt - isHotelLogin: ${isHotelLogin}, email: ${email}`);
-      console.log(`Current URL: ${window.location.href}`);
-      console.log(`Environment: ${window.location.hostname}`);
+      console.log(`=== COMPREHENSIVE AUTHENTICATION DEBUG ===`);
+      console.log(`Login attempt details:`);
+      console.log(`- Email: ${email}`);
+      console.log(`- Password length: ${password.length}`);
+      console.log(`- Is hotel login: ${isHotelLogin}`);
+      console.log(`- Current URL: ${window.location.href}`);
+      console.log(`- User agent: ${navigator.userAgent}`);
+      console.log(`- Storage available: ${typeof window.localStorage !== 'undefined'}`);
 
-      // First, try to sign out any existing session to start fresh
-      await supabase.auth.signOut();
-      console.log("Previous session cleared");
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Check current session before attempting login
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      console.log(`Current session check:`, { 
+        hasSession: !!sessionData.session, 
+        error: sessionError,
+        user: sessionData.session?.user?.email 
       });
 
-      console.log("Supabase auth response:", { data: !!data, error });
+      // Clear any existing session
+      console.log("Clearing existing session...");
+      const { error: signOutError } = await supabase.auth.signOut();
+      if (signOutError) {
+        console.warn("Sign out error (non-critical):", signOutError);
+      }
+
+      // Add delay to ensure session is cleared
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      console.log("Attempting authentication with Supabase...");
+      const startTime = Date.now();
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: password,
+      });
+
+      const authTime = Date.now() - startTime;
+      console.log(`Authentication response received in ${authTime}ms`);
+      console.log("Auth response:", { 
+        hasData: !!data, 
+        hasUser: !!data?.user,
+        hasSession: !!data?.session,
+        error: error?.message,
+        errorCode: error?.name
+      });
 
       if (error) {
-        console.error("=== AUTHENTICATION ERROR ===");
-        console.error("Error code:", error.message);
-        console.error("Full error:", error);
+        console.error("=== DETAILED AUTHENTICATION ERROR ===");
+        console.error("Error details:", {
+          message: error.message,
+          name: error.name,
+          status: (error as any).status,
+          code: (error as any).code,
+          stack: error.stack
+        });
         
         setAuthError(error.message);
         
-        // Provide more specific error messages
+        // Provide specific error messages
         let userFriendlyError = error.message;
-        if (error.message.includes("Invalid login credentials")) {
-          userFriendlyError = "Email o contraseña incorrectos. Por favor, verifica tus datos.";
+        if (error.message.toLowerCase().includes("invalid login credentials")) {
+          userFriendlyError = "Credenciales inválidas. Verifica tu email y contraseña.";
+          
+          // Additional debugging for invalid credentials
+          console.log("=== INVALID CREDENTIALS DEBUG ===");
+          console.log(`Email format valid: ${/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}`);
+          console.log(`Password not empty: ${password.length > 0}`);
+          console.log("Checking if user exists in auth.users table...");
+          
         } else if (error.message.includes("Email not confirmed")) {
-          userFriendlyError = "Por favor, confirma tu email antes de iniciar sesión.";
+          userFriendlyError = "Confirma tu email antes de iniciar sesión.";
         } else if (error.message.includes("Too many requests")) {
-          userFriendlyError = "Demasiados intentos. Por favor, espera unos minutos.";
+          userFriendlyError = "Demasiados intentos. Espera unos minutos.";
         }
         
         return { success: false, error: userFriendlyError };
       }
 
-      if (data?.user) {
-        console.log("=== USER AUTHENTICATED ===");
-        console.log("User ID:", data.user.id);
-        console.log("User email:", data.user.email);
-        console.log("User metadata:", data.user.user_metadata);
+      if (data?.user && data?.session) {
+        console.log("=== AUTHENTICATION SUCCESSFUL ===");
+        console.log("User details:", {
+          id: data.user.id,
+          email: data.user.email,
+          emailConfirmed: data.user.email_confirmed_at,
+          lastSignIn: data.user.last_sign_in_at,
+          createdAt: data.user.created_at
+        });
         
-        // Fetch or create profile data
+        console.log("Session details:", {
+          accessToken: data.session.access_token ? "Present" : "Missing",
+          refreshToken: data.session.refresh_token ? "Present" : "Missing",
+          expiresAt: data.session.expires_at,
+          tokenType: data.session.token_type
+        });
+        
+        // Fetch or create profile
+        console.log("Fetching user profile...");
         let profileData = await fetchProfile(data.user.id);
-        console.log("Profile data fetched:", profileData);
+        console.log("Profile fetch result:", profileData);
         
         if (!profileData) {
-          console.log("=== CREATING PROFILE ===");
-          
-          // Create profile with metadata from current user session
+          console.log("Creating new profile...");
           const metadata = data.user.user_metadata || {};
           
-          // Create profile with is_hotel_owner flag based on login context or metadata
           profileData = await updateUserProfile(data.user, {
             first_name: metadata.first_name || null,
             last_name: metadata.last_name || null,
             is_hotel_owner: isHotelLogin || metadata.is_hotel_owner === true,
           });
           console.log("Profile created:", profileData);
-        } else {
-          // If logging in through hotel login but not marked as hotel owner,
-          // update the profile to mark as hotel owner
-          if (isHotelLogin && !profileData.is_hotel_owner) {
-            console.log("=== UPDATING PROFILE TO HOTEL OWNER ===");
-            profileData = await updateUserProfile(data.user, {
-              is_hotel_owner: true
-            });
-            console.log("Profile updated to hotel owner:", profileData);
-          }
+        } else if (isHotelLogin && !profileData.is_hotel_owner) {
+          console.log("Updating profile to hotel owner...");
+          profileData = await updateUserProfile(data.user, {
+            is_hotel_owner: true
+          });
         }
         
         setProfile(profileData);
-        console.log("Profile set in context:", profileData);
         
-        // Handle redirection based on login type and user role
+        // Handle redirection
         console.log("=== HANDLING REDIRECTION ===");
-        console.log("isHotelLogin:", isHotelLogin);
-        console.log("profileData.is_hotel_owner:", profileData?.is_hotel_owner);
+        const redirectUrl = isHotelLogin ? '/hotel-dashboard' : 
+                           profileData?.is_hotel_owner ? '/hotel-dashboard' : '/user-dashboard';
         
-        if (isHotelLogin) {
-          if (profileData?.is_hotel_owner === true) {
-            console.log("✅ Hotel owner login confirmed, redirecting to hotel dashboard");
-            toast({
-              title: "Bienvenido",
-              description: "Acceso de socio hotelero confirmado"
-            });
-            // Use a small delay to ensure state updates are processed
-            setTimeout(() => {
-              window.location.href = '/hotel-dashboard';
-            }, 100);
-          } else {
-            console.error("❌ Non-hotel owner tried to log in through hotel login");
-            toast({
-              title: "Acceso denegado",
-              description: "Esta cuenta no está registrada como propietario de hotel",
-              variant: "destructive"
-            });
-            // Sign out the user since they're not a hotel owner
-            await supabase.auth.signOut();
-            return { success: false, error: "Esta cuenta no está registrada como propietario de hotel" };
-          }
-        } else {
-          // Regular traveler login
-          if (profileData?.is_hotel_owner === true) {
-            console.log("✅ Hotel owner detected on traveler login, redirecting to hotel dashboard");
-            toast({
-              title: "Bienvenido",
-              description: "Redirigiendo al panel de hotel"
-            });
-            setTimeout(() => {
-              window.location.href = '/hotel-dashboard';
-            }, 100);
-          } else {
-            console.log("✅ Traveler login confirmed, redirecting to user dashboard");
-            toast({
-              title: "Bienvenido",
-              description: "Sesión iniciada correctamente"
-            });
-            setTimeout(() => {
-              window.location.href = '/user-dashboard';
-            }, 100);
-          }
-        }
+        console.log(`Redirecting to: ${redirectUrl}`);
+        
+        toast({
+          title: "Bienvenido",
+          description: "Sesión iniciada correctamente"
+        });
+        
+        // Use setTimeout to ensure state updates complete
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 200);
         
         return { success: true, error: null };
       }
       
-      console.error("❌ Authentication failed - no user data");
-      return { success: false, error: "Error de autenticación" };
+      console.error("❌ No user data received from authentication");
+      return { success: false, error: "Error de autenticación - sin datos de usuario" };
+      
     } catch (err: any) {
       console.error("=== SIGN-IN EXCEPTION ===");
-      console.error("Exception:", err);
-      console.error("Stack:", err.stack);
+      console.error("Exception details:", {
+        message: err.message,
+        name: err.name,
+        stack: err.stack,
+        toString: err.toString()
+      });
       
       setAuthError("Error inesperado durante el inicio de sesión");
       return { 
         success: false, 
-        error: err.message || "Ha ocurrido un error inesperado" 
+        error: err.message || "Error inesperado durante la autenticación" 
       };
     } finally {
       setIsLoading(false);

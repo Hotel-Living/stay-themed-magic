@@ -1,13 +1,13 @@
 
 {
   "ratesCalculator": {
-    "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR HOTEL-LIVING",
+    "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR DE HOTEL-LIVING",
     "costsAndProfits": "COSTES Y BENEFICIOS",
     "buildOwnModel": "CREA TU PROPIO MODELO Y TARIFAS",
-    "costsDisclaimer": "Estas cifras representan un ejemplo de costes incrementales medios por habitación ocupada adicional para hoteles estándar de 3-4-5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse en función de la categoría específica de cada hotel, nivel de servicio, posicionamiento y modelo operativo.",
+    "costsDisclaimer": "Estas cifras representan un ejemplo de costes incrementales medios por habitación ocupada adicional en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse según la categoría, nivel de servicio, posicionamiento y modelo operativo de cada hotel.",
     "costs": "COSTES",
     "profits": "BENEFICIOS",
-    "utilities": "SERVICIOS",
+    "utilities": "SUMINISTROS",
     "cleaning": "LIMPIEZA",
     "meals": "COMIDAS",
     "totalCost": "COSTE TOTAL"

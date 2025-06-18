@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -117,17 +116,17 @@ export const RatesCalculatorContent: React.FC = () => {
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
         <h2 className="text-xl font-bold text-center">
-          {t('ratesCalculator.standardEconomicModel')}
+          {t('dashboard.standardEconomicModel')}
         </h2>
       </div>
 
       {mainMenuExpanded && <Tabs value={mainTab} onValueChange={() => {}} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
             <TabsTrigger value="costs-profits" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${costsExpanded ? "border border-white/40" : ""}`} onClick={handleCostsMainTabClick} aria-pressed={costsExpanded}>
-              {t('ratesCalculator.costsAndProfits')}
+              {t('dashboard.costsAndProfits')}
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              {t('ratesCalculator.buildOwnModel')}
+              {t('dashboard.buildOwnModel')}
             </TabsTrigger>
           </TabsList>
 
@@ -137,17 +136,17 @@ export const RatesCalculatorContent: React.FC = () => {
                 <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
                 <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
                   <p className="font-bold">
-                    {t('ratesCalculator.costsDisclaimer')}
+                    {t('dashboard.costsDisclaimer')}
                   </p>
                 </div>
               </div>
               <Tabs value={costsSubTab} onValueChange={() => {}} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
                   <TabsTrigger value="costs" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "costs" ? "border border-white/40" : ""}`} onClick={handleCostsSubTabClick} aria-pressed={costsSubTab === "costs"}>
-                    {t('ratesCalculator.costs')}
+                    {t('dashboard.costs')}
                   </TabsTrigger>
                   <TabsTrigger value="profits" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "profits" ? "border border-white/40" : ""}`} onClick={handleProfitsSubTabClick} aria-pressed={costsSubTab === "profits"}>
-                    {t('ratesCalculator.profits')}
+                    {t('dashboard.profits')}
                   </TabsTrigger>
                 </TabsList>
                 {/* COSTS TAB CONTENT */}

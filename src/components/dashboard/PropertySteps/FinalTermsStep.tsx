@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ export function FinalTermsStep({
   updateFormData,
   onValidationChange = () => {}
 }: FinalTermsStepProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("dashboard-faq-terms");
   const [faqItems, setFaqItems] = useState<FaqItem[]>(formData?.faqs || []);
 
   useEffect(() => {
@@ -56,13 +57,12 @@ export function FinalTermsStep({
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.faqAndTerms')}</h2>
-        <p className="text-gray-300">{t('dashboard.finalTermsAndConditions')}</p>
+        <h2 className="text-2xl font-bold text-white mb-2">{t('title')}</h2>
       </div>
 
       {/* FAQ Section */}
       <div className="bg-fuchsia-900/10 rounded-lg p-6">
-        <h3 className="text-lg font-medium mb-4 uppercase text-white">{t('dashboard-faq-terms.frequentlyAskedQuestions')}</h3>
+        <h3 className="text-lg font-medium mb-4 uppercase text-white">{t('frequentlyAskedQuestions')}</h3>
         
         <div className="space-y-4">
           {faqItems.map((item) => (
@@ -70,13 +70,13 @@ export function FinalTermsStep({
               <div className="flex justify-between items-start">
                 <div className="flex-1 space-y-3">
                   <Input
-                    placeholder={t('dashboard-faq-terms.questionPlaceholder')}
+                    placeholder={t('questionPlaceholder')}
                     value={item.question}
                     onChange={(e) => updateFaqItem(item.id, 'question', e.target.value)}
                     className="bg-fuchsia-950/50 border-fuchsia-500/30 text-white"
                   />
                   <Textarea
-                    placeholder={t('dashboard-faq-terms.answerPlaceholder')}
+                    placeholder={t('answerPlaceholder')}
                     value={item.answer}
                     onChange={(e) => updateFaqItem(item.id, 'answer', e.target.value)}
                     className="bg-fuchsia-950/50 border-fuchsia-500/30 text-white h-20"
@@ -99,28 +99,28 @@ export function FinalTermsStep({
             variant="outline"
             className="w-full border-fuchsia-500/50 text-fuchsia-300 hover:bg-fuchsia-500/10"
           >
-            {t('dashboard-faq-terms.addQuestion')}
+            {t('addQuestion')}
           </Button>
         </div>
       </div>
 
       {/* Terms and Conditions Section */}
       <div className="bg-fuchsia-900/10 rounded-lg p-6">
-        <h3 className="text-lg font-medium mb-2 uppercase text-white">{t('dashboard-faq-terms.hotelLivingTerms')}</h3>
-        <p className="text-sm text-gray-300 mb-4">{t('dashboard-faq-terms.hotelLivingTermsSubtitle')}</p>
+        <h3 className="text-lg font-medium mb-2 uppercase text-white">{t('hotelLivingTerms')}</h3>
+        <p className="text-sm text-gray-300 mb-4">{t('hotelLivingTermsSubtitle')}</p>
         
         <div className="bg-fuchsia-950/30 rounded-lg p-4">
           <div className="text-sm text-gray-200 whitespace-pre-line">
-            {t('dashboard-faq-terms.termsContent')}
+            {t('termsContent')}
           </div>
         </div>
       </div>
 
-      {/* Existing Important Notice and Acceptance Checkbox */}
+      {/* Important Notice and Acceptance Checkbox */}
       <div className="bg-fuchsia-900/10 rounded-lg p-6">
-        <h3 className="text-lg font-medium mb-4 uppercase text-white">{t('dashboard.important')}</h3>
+        <h3 className="text-lg font-medium mb-4 uppercase text-white">IMPORTANTE</h3>
         <p className="text-gray-300 mb-4">
-          {t('dashboard.importantStep4')}
+          Es importante revisar y aceptar los términos y condiciones antes de continuar con el registro de su propiedad.
         </p>
         
         <div className="flex items-start space-x-3">
@@ -132,7 +132,7 @@ export function FinalTermsStep({
             className="w-5 h-5 mt-1"
           />
           <label htmlFor="terms-accepted" className="text-white">
-            {t('dashboard.acceptTermsAndConditions')}
+            Acepto los términos y condiciones
           </label>
         </div>
       </div>

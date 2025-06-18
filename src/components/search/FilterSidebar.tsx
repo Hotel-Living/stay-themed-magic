@@ -127,7 +127,7 @@ export function FilterSidebar({
       <PropertyTypeFilter activePropertyType={activeFilters.propertyType} onChange={value => handleFilterChange("propertyType", value)} />
       
       <CheckboxFilter 
-        title={t('filters.roomTypes').toUpperCase()} 
+        title={t('filters.roomTypes.title') || 'TIPOS DE HABITACIÓN'} 
         options={getRoomTypes()} 
         selectedOptions={activeFilters.roomTypes} 
         onChange={(value, isChecked) => handleArrayFilterChange("roomTypes", value, isChecked)} 

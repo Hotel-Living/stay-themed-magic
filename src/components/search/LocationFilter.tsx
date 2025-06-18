@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { FilterItem } from "./FilterItem";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface LocationFilterProps {
   activeLocation: string | null;
@@ -11,6 +12,7 @@ interface LocationFilterProps {
 export function LocationFilter({ activeLocation, onChange }: LocationFilterProps) {
   const [cities, setCities] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Fetch unique cities from the hotels table
   useEffect(() => {
@@ -42,7 +44,7 @@ export function LocationFilter({ activeLocation, onChange }: LocationFilterProps
   }, []);
 
   return (
-    <FilterItem title="LOCATION">
+    <FilterItem title={t('filters.location').toUpperCase()}>
       {isLoading ? (
         <div className="text-sm text-fuchsia-300/70 italic">Loading cities...</div>
       ) : cities.length === 0 ? (

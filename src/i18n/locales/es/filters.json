@@ -17,7 +17,15 @@
     "country": "PAÍS",
     "roomFeatures": "Características de la habitación",
     "hotelFeatures": "Características del hotel",
-    "roomTypes": "Tipos de habitación",
+    "roomTypes": {
+      "title": "Tipos de habitación",
+      "single": "Individual",
+      "double": "Doble",
+      "suite": "Suite",
+      "studio": "Estudio",
+      "penthouse": "Ático",
+      "familyRoom": "Habitación familiar"
+    },
     "typeOfProperty": "Tipo de propiedad",
     "location": "Ubicación",
     "category": "Categoría",
@@ -56,14 +64,6 @@
       "germany": "Alemania 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grecia 🇬🇷"
-    },
-    "roomTypes": {
-      "single": "Individual",
-      "double": "Doble",
-      "suite": "Suite",
-      "studio": "Estudio",
-      "penthouse": "Ático",
-      "familyRoom": "Habitación familiar"
     },
     "propertyTypes": {
       "hotel": "Hotel",

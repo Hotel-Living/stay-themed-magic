@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -7,14 +8,14 @@ import { AuthCard } from "@/components/auth/AuthCard";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState("traveler");
   const location = useLocation();
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Handle tab selection from URL parameter
   useEffect(() => {
@@ -36,7 +37,9 @@ export default function Login() {
       navigate('/user-dashboard');
     }
   }, [user, navigate]);
-  return <div className="min-h-screen flex flex-col">
+
+  return (
+    <div className="min-h-screen flex flex-col">
       <Starfield />
       <Navbar />
       
@@ -53,21 +56,29 @@ export default function Login() {
             </TabsList>
             
             <TabsContent value="traveler">
-              <AuthCard title="Traveler Login" subtitle="Sign in to your Hotel-Living account" footerLinks={[{
-              text: "Don't have an account yet?",
-              linkText: "Create a traveler account",
-              linkUrl: "/signup"
-            }]}>
+              <AuthCard 
+                title={t('auth.travelerLogin')} 
+                subtitle={t('auth.signInToAccount')} 
+                footerLinks={[{
+                  text: t('auth.dontHaveAccount'),
+                  linkText: t('auth.createTravelerAccountLink'),
+                  linkUrl: "/signup"
+                }]}
+              >
                 <LoginForm isHotelLogin={false} />
               </AuthCard>
             </TabsContent>
             
             <TabsContent value="hotel">
-              <AuthCard title="Hotel Partner Login" subtitle="Sign in to your Hotel-Living partner account" footerLinks={[{
-              text: "Don't have a hotel partner account?",
-              linkText: "Register as a Hotel Partner",
-              linkUrl: "/hotel-signup"
-            }]}>
+              <AuthCard 
+                title={t('auth.hotelPartnerLogin')} 
+                subtitle={t('auth.signInToPartnerAccount')} 
+                footerLinks={[{
+                  text: t('auth.dontHavePartnerAccount'),
+                  linkText: t('auth.registerAsHotelPartner'),
+                  linkUrl: "/hotel-signup"
+                }]}
+              >
                 <LoginForm isHotelLogin={true} />
               </AuthCard>
             </TabsContent>
@@ -76,5 +87,6 @@ export default function Login() {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

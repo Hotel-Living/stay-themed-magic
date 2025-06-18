@@ -13,6 +13,7 @@ import { SubmitButton } from "@/components/auth/SubmitButton";
 import { useToast } from "@/hooks/use-toast";
 import { validatePassword } from "@/utils/passwordValidation";
 import { Starfield } from "@/components/Starfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -24,6 +25,7 @@ export default function SignUp() {
   const { signUp, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,17 +121,17 @@ export default function SignUp() {
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
           <AuthCard 
-            title="Create Traveler Account" 
-            subtitle="Join Hotel-Living and discover themed stays"
+            title={t('auth.createTravelerAccount')} 
+            subtitle={t('auth.joinHotelLiving')}
             footerLinks={[
               {
-                text: "Already have an account?",
-                linkText: "Sign in",
+                text: t('auth.alreadyHaveAccount'),
+                linkText: t('auth.signIn'),
                 linkUrl: "/login"
               },
               {
-                text: "Are you a hotel owner?",
-                linkText: "Register as a Hotel Partner",
+                text: t('auth.areHotelOwner'),
+                linkText: t('auth.registerHotelPartner'),
                 linkUrl: "/hotel-signup"
               }
             ]}
@@ -137,30 +139,30 @@ export default function SignUp() {
             <form onSubmit={handleSubmit} className="space-y-3">
               <InputField
                 id="name"
-                label="Full Name"
+                label={t('auth.fullName')}
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your full name"
+                placeholder={t('auth.enterFullName')}
                 Icon={User}
               />
               
               <InputField
                 id="email"
-                label="Email"
+                label={t('auth.email')}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t('auth.enterEmail')}
                 Icon={Mail}
               />
               
               <PasswordField
                 id="password"
-                label="Password"
+                label={t('auth.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create a password"
+                placeholder={t('auth.createPassword')}
                 showPassword={showPassword}
                 toggleShowPassword={toggleShowPassword}
                 showValidation
@@ -168,10 +170,10 @@ export default function SignUp() {
               
               <PasswordField
                 id="confirmPassword"
-                label="Confirm Password"
+                label={t('auth.confirmPassword')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your password"
+                placeholder={t('auth.confirmYourPassword')}
                 showPassword={showPassword}
                 toggleShowPassword={toggleShowPassword}
                 showValidation
@@ -183,11 +185,11 @@ export default function SignUp() {
                 onChange={() => setAcceptTerms(!acceptTerms)}
                 label={
                   <>
-                    I agree to the{" "}
+                    {t('auth.agreeTerms').split('Terms and Conditions')[0]}
                     <Link to="/terms" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                       Terms and Conditions
-                    </Link>{" "}
-                    and{" "}
+                    </Link>
+                    {t('auth.agreeTerms').split('Privacy Policy')[0].split('Terms and Conditions')[1]}
                     <Link to="/privacy" className="text-fuchsia-400 hover:text-fuchsia-300 transition">
                       Privacy Policy
                     </Link>
@@ -198,7 +200,7 @@ export default function SignUp() {
               <SubmitButton
                 isLoading={isLoading}
                 loadingText="Creating account..."
-                text="Create Traveler Account"
+                text={t('auth.createTravelerAccount')}
               />
             </form>
           </AuthCard>

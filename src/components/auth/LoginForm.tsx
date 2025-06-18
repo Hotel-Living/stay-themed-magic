@@ -6,6 +6,7 @@ import { SubmitButton } from "./SubmitButton";
 import { RememberMeCheckbox } from "./RememberMeCheckbox";
 import { ForgotPasswordLink } from "./ForgotPasswordLink";
 import { Mail } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface LoginFormProps {
   isHotelLogin?: boolean;
@@ -23,22 +24,24 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
     handleSubmit
   } = useLoginForm(isHotelLogin);
 
+  const { t } = useTranslation();
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <InputField
         id={isHotelLogin ? "hotel-email" : "email"}
-        label={isHotelLogin ? "Business Email" : "Email"}
+        label={isHotelLogin ? t('auth.businessEmail') : t('auth.email')}
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder={isHotelLogin ? "Enter your business email" : "Enter your email"}
+        placeholder={isHotelLogin ? t('auth.enterEmail') : t('auth.enterEmail')}
         Icon={Mail}
         inputClassName="text-white placeholder:text-white/60"
       />
       
       <PasswordField
         id={isHotelLogin ? "hotel-password" : "password"}
-        label="Password"
+        label={t('auth.password')}
         value={password}
         onChange={e => setPassword(e.target.value)}
         placeholder="Enter your password"
@@ -55,7 +58,7 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
       <SubmitButton
         isLoading={isLoading}
         loadingText="Signing in..."
-        text={`Sign In as ${isHotelLogin ? "Hotel Partner" : "Traveler"}`}
+        text={isHotelLogin ? t('auth.signInAsHotelPartner') : t('auth.signInAsTraveler')}
       />
     </form>
   );

@@ -1,9 +1,13 @@
 
+import { useTranslation } from "@/hooks/useTranslation";
+
 interface RememberMeCheckboxProps {
   isHotelLogin?: boolean;
 }
 
 export function RememberMeCheckbox({ isHotelLogin = false }: RememberMeCheckboxProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex items-center">
       <input
@@ -15,7 +19,7 @@ export function RememberMeCheckbox({ isHotelLogin = false }: RememberMeCheckboxP
         htmlFor={isHotelLogin ? "hotel-remember" : "remember"} 
         className="ml-2 text-xs text-muted-foreground"
       >
-        Remember me
+        {t('auth.rememberMe')}
       </label>
     </div>
   );

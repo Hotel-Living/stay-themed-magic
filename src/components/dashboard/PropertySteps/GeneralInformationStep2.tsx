@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AffinitiesSection } from "./themes/AffinitiesSection";
@@ -20,9 +19,7 @@ export function GeneralInformationStep2({
   const { t } = useTranslation();
   const [selectedThemes, setSelectedThemes] = useState<string[]>(formData.themes || []);
   const [selectedActivities, setSelectedActivities] = useState<string[]>(formData.activities || []);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
@@ -60,6 +57,11 @@ export function GeneralInformationStep2({
   
   return (
     <div className="space-y-6 max-w-[80%]">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.hotelProfile')}</h2>
+        <p className="text-gray-300">Define your hotel's character and features</p>
+      </div>
+
       <div className="space-y-8">
         <AffinitiesSection 
           selectedThemes={selectedThemes} 

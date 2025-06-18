@@ -40,7 +40,10 @@ export default function PackagesBuilderStep({
   if (!formData?.roomTypes || !formData?.mealPlans || !formData?.stayLengths) {
     return (
       <div className="space-y-6">
-        <h2 className="text-xl font-bold mb-4 text-white">{t('dashboard.packagesAndRates')}</h2>
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.packagesAndRates')}</h2>
+          <p className="text-gray-300">Set your pricing structure</p>
+        </div>
         <div className="bg-yellow-900/30 p-4 rounded-lg border border-yellow-500/30">
           <p className="text-yellow-300">
             {t('dashboard.defineRoomTypesStayDurations')}
@@ -52,7 +55,10 @@ export default function PackagesBuilderStep({
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold mb-4 text-white">{t('dashboard.packagesAndRates')}</h2>
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.packagesAndRates')}</h2>
+        <p className="text-gray-300">Set your pricing structure</p>
+      </div>
       
       <div className="bg-purple-900/30 border border-purple-500/30 rounded-lg p-4 mb-6">
         <p className="text-yellow-300 mb-4">

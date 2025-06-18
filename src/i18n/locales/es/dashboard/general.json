@@ -40,6 +40,24 @@
     "messagesFromAdmin": "Mensajes del Administrador",
     "noMessagesYet": "Aún no hay mensajes",
     "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",
-    "analyticsTitle": "Análisis"
+    "analyticsTitle": "Análisis",
+    "standardEconomicModel": "MODELO ECONÓMICO ESTÁNDAR DE HOTEL-LIVING",
+    "costsAndProfits": "COSTES Y BENEFICIOS",
+    "buildOwnModel": "CREA TU PROPIO MODELO Y TARIFAS",
+    "costsDisclaimer": "Estas cifras representan un ejemplo de costes incrementales medios por habitación ocupada adicional en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse según la categoría, nivel de servicio, posicionamiento y modelo operativo de cada hotel.",
+    "costs": "COSTES",
+    "profits": "BENEFICIOS",
+    "defineRoomTypesStayDurations": "Por favor, defina los tipos de habitación, duraciones de estancia y regímenes de comidas en el Paso 3 antes de establecer precios.",
+    "enableDynamicPricing": "ACTIVAR PRECIO DINÁMICO BASADO EN NOCHES VENDIDAS",
+    "maximumPriceIncrease": "AUMENTO MÁXIMO DEL PRECIO",
+    "maxPriceIncreaseDescription": "Este es el porcentaje máximo que los precios pueden aumentar debido a la demanda.",
+    "howDynamicPricingWorks": "Cómo funciona el precio dinámico",
+    "priceIncreaseDescription": "El precio aumenta un 1% por cada X noches vendidas en un mes, donde X se calcula como:",
+    "priceIncreaseExample": "Por ejemplo, con 30 habitaciones × 30 días = 900 noches totales y un aumento máximo del {percent}%, el precio aumentaría un 1% por cada {nights} noches vendidas.",
+    "important": "IMPORTANTE",
+    "importantStep4": "La configuración de precios es crucial para maximizar sus ingresos. Le recomendamos revisar cuidadosamente las tarifas antes de continuar.",
+    "faqAndTerms": "PREGUNTAS FRECUENTES Y TÉRMINOS",
+    "finalTermsAndConditions": "Establezca preguntas frecuentes y confirme los términos",
+    "acceptTermsAndConditions": "Acepto los términos y condiciones de Hotel-Living"
   }
 }

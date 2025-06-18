@@ -1,12 +1,12 @@
 
 {
-  "dashboard": {
+  "dashboard-faq-terms": {
     "frequentlyAskedQuestions": "PREGUNTAS FRECUENTES",
-    "addQuestion": "+ Añadir Pregunta",
-    "questionPlaceholder": "Ingrese su pregunta",
-    "answerPlaceholder": "Ingrese la respuesta",
-    "hotelLivingTerms": "TÉRMINOS Y CONDICIONES",
-    "hotelLivingTermsSubtitle": "(entre el hotel y Hotel-Living)",
-    "termsContent": "Al registrarse en Hotel-Living y publicar una propiedad en la plataforma, el hotel acepta lo siguiente:\n\nDisponibilidad de Habitaciones: El hotel confirma que todas las habitaciones listadas están disponibles para las fechas indicadas y no se superponen con reservas existentes.\n\nTarifas y Estancias: El hotel es libre de establecer precios para estancias fijas de 8, 16, 24 o 32 días. Hotel-Living no aplica tarifas ocultas pero puede aplicar una comisión por reserva confirmada.\n\nConcepto de Afinidad: El hotel puede definir afinidades temáticas para visibilidad. Estas son descriptivas y no requieren actividades organizadas a menos que se ofrezcan explícitamente.\n\nPolíticas y Precisión: El hotel establece sus propias políticas de cancelación y modificación y garantiza que todo el contenido publicado es veraz y actualizado.\n\nRevisión de la Plataforma: Todas las nuevas listas o actualizadas pueden ser revisadas por el equipo de Hotel-Living antes de la publicación.\n\nCumplimiento Legal: El hotel asume toda la responsabilidad de cumplir con todas las regulaciones de hospitalidad locales y requisitos legales."
+    "questionPlaceholder": "Escriba su pregunta aquí...",
+    "answerPlaceholder": "Escriba la respuesta aquí...",
+    "addQuestion": "AÑADIR PREGUNTA",
+    "hotelLivingTerms": "TÉRMINOS DE HOTEL-LIVING",
+    "hotelLivingTermsSubtitle": "Términos y condiciones para propietarios de hoteles",
+    "termsContent": "Al registrar su propiedad en Hotel-Living, usted acepta:\n\n1. Proporcionar información precisa y actualizada sobre su establecimiento\n2. Mantener los estándares de calidad acordados\n3. Respetar las políticas de cancelación establecidas\n4. Cumplir con las normativas locales de hospedaje\n5. Permitir el acceso a inspecciones de calidad cuando sea necesario\n\nEn caso de incumplimiento, Hotel-Living se reserva el derecho de suspender o cancelar la asociación con el establecimiento.\n\nPara más información, contacte con nuestro servicio de atención al cliente."
   }
 }

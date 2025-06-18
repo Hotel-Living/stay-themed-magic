@@ -16,6 +16,7 @@ import enTerms from './locales/en/terms.json';
 import enPrivacy from './locales/en/privacy.json';
 import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enAuth from './locales/en/auth.json';
+import enFaq from './locales/en/faq.json';
 import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.json';
 import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
@@ -121,6 +122,7 @@ const enCombined = {
   ...enPrivacy,
   ...enIntellectualProperty,
   ...enAuth,
+  ...enFaq,
   ...enDashboardCommon,
   ...enDashboardGeneral,
   welcomeContent: enDashboardWelcomeContent.welcomeContent,

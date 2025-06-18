@@ -1,0 +1,110 @@
+
+{
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to the most common questions",
+    "search": "Search all FAQs...",
+    "benefitsTitle": "Dive into a New World of Benefits",
+    "benefits": {
+      "renewableStays": "Renewable stays of 8, 16, 24, or 32 days",
+      "noHouseholdChores": "Say goodbye to tedious household chores: shopping, cooking, cleaning, laundry, and more",
+      "constantFlow": "Enjoy a constant flow of new places, affinities, and people",
+      "chooseByAffinities": "Choose hotels based on your favorite affinities and find your people",
+      "eliminateLoneliness": "Eliminate loneliness and isolation forever",
+      "expandSocialLife": "Expand your social life, activities, and overall quality of life",
+      "dailyServices": "Take advantage of daily services and amenities",
+      "payDirectly": "Pay directly at the hotel. Book with just 10% down"
+    },
+    "intro": {
+      "whyHotelLivingTitle": "Why Hotel-Living?",
+      "hotelsNeedPeople": "Hotels need people",
+      "peopleNeedBetterLiving": "People need a better way to live",
+      "societyNeedsUpdate": "Society needs an update",
+      "allNeedHotelLiving": "Everyone needs Hotel-Living",
+      "hotelNightsToBeFilled": "5 billion hotel nights can't stay empty",
+      "peopleNeedingBetterLiving": "400 million people need a better way to live",
+      "societyRepeatsPast": "Society keeps repeating the past",
+      "hotelLivingChangesThat": "Hotel-Living updates everything",
+      "stillRenting": "STILL RENTING?",
+      "retired": "RETIRED?",
+      "onlineWorker": "ONLINE WORKER?",
+      "commuter": "FAR FROM WORK?",
+      "freeSoul": "FREE SOUL?",
+      "hotel": "HOTEL?",
+      "society": "SOCIETY?"
+    },
+    "categories": {
+      "general": "General",
+      "hotelLiving": "Hotel Living",
+      "hoteliers": "For Hoteliers",
+      "guests": "For Guests",
+      "legal": "Legal"
+    },
+    "questions": [
+      {
+        "question": "What is Hotel Living?",
+        "answer": "Hotel Living is a new category of residential living that combines the best of hotels and apartments. It offers flexible contracts, all-inclusive services, and a vibrant community."
+      },
+      {
+        "question": "How does Hotel Living work?",
+        "answer": "Hotel Living partners with hotels to offer extended stays in their rooms and suites. Guests can book stays of 8, 16, 24, and 32 days, renewable if desired, and enjoy all hotel services like cleaning, room service, and concierge."
+      },
+      {
+        "question": "What are the benefits of Hotel Living?",
+        "answer": "Hotel Living offers multiple benefits over traditional apartments: flexible contracts, all-inclusive services, and an active community. It's also often a more economical option than renting an apartment in many cities."
+      },
+      {
+        "question": "What types of hotels are available in Hotel Living?",
+        "answer": "Hotel Living works with a wide variety of hotels, from budget options to luxury resorts. You can find hotels both in city centers and suburban areas."
+      },
+      {
+        "question": "How do I book a stay in Hotel Living?",
+        "answer": "You can book a stay in Hotel Living by visiting our website or app. Just search for hotels in your desired destination and dates, and select the room or suite you want to book."
+      },
+      {
+        "question": "What is Hotel Living's cancellation policy?",
+        "answer": "Hotel Living's cancellation policy varies by hotel. Check the specific details on the corresponding hotel page."
+      },
+      {
+        "question": "How can I partner with Hotel Living?",
+        "answer": "If you're a hotelier and want to partner with Hotel Living, visit our website or app and complete the contact form. We'll get in touch to discuss options."
+      },
+      {
+        "question": "What are the benefits of partnering with Hotel Living?",
+        "answer": "Partnering with Hotel Living can help you increase occupancy, generate new revenue, and reach a broader audience."
+      },
+      {
+        "question": "How much does the Hotel Living service cost?",
+        "answer": "The cost is 10% of the net total booking, before local taxes, already included in the final rate."
+      },
+      {
+        "question": "What does my Hotel Living stay include?",
+        "answer": "Your stay includes room or suite, all hotel services, and access to the Hotel Living community. Some hotels also offer meal services and much more."
+      },
+      {
+        "question": "How do I pay for my Hotel Living booking?",
+        "answer": "You can pay for your stay with credit card, debit card, or bank transfer. We also offer financing options."
+      },
+      {
+        "question": "What happens if I have a problem during my stay?",
+        "answer": "If any problem arises during your stay, contact the hotel reception or our customer service team. We're available 24/7 to help you."
+      }
+    ],
+    "accordionContent": {
+      "stillRenting": {
+        "title": "STILL RENTING?",
+        "subtitle": "Do the math and compare",
+        "points": [
+          "Living in a hotel is cheaper than renting, with no hidden costs.",
+          "No deposits. No contracts. No debt.",
+          "Book for 8, 16, 24, or 32 days. No overpaying.",
+          "Need to travel? Cancel or switch cities. You're free.",
+          "Wi-Fi, cleaning, hot water, heating... all included.",
+          "Share spaces if you want. Or keep your privacy.",
+          "An affinity-based community awaits you.",
+          "Your lifestyle deserves something better."
+        ]
+      }
+    }
+  }
+}

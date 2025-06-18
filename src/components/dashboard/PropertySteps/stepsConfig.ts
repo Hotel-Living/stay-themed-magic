@@ -1,4 +1,5 @@
 
+
 import StepOne from "./StepOne";
 import { GeneralInformationStep2 } from "./GeneralInformationStep2";
 import { AccommodationTermsStep } from "./AccommodationTerms/AccommodationTermsStep";
@@ -46,9 +47,10 @@ export const stepsConfig = [
   },
   {
     id: 5,
-    title: "FAQ AND TERMS",
+    title: "FAQ & TERMS AND CONDITIONS",
     component: FinalTermsStep,
     description: "Hotel rules, cancellation policy, and optional FAQs.",
     requiredFields: ["termsAccepted"]
   }
 ];
+

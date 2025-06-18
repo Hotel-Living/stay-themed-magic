@@ -1,4 +1,5 @@
 
+
 export const TOTAL_STEPS = 5;
 
 export const STEP_TITLES = [
@@ -6,5 +7,6 @@ export const STEP_TITLES = [
   "HOTEL PROFILE", 
   "ACCOMMODATION TERMS",
   "PACKAGES AND RATES",
-  "FAQ AND TERMS"
+  "FAQ & TERMS AND CONDITIONS"
 ];
+

@@ -31,7 +31,7 @@ export default function StepNavigation({
           onClick={onPrevious} 
           className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors text-fuchsia-100 bg-[#f749f7]"
         >
-          Anterior
+          {t('dashboard.navigation.previous')}
         </button>
       ) : (
         <div></div> // Empty div to maintain flex layout
@@ -43,7 +43,7 @@ export default function StepNavigation({
           onClick={onSubmit} 
           className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
         >
-          Submit Property
+          {t('dashboard.navigation.submit')}
         </button>
       ) : (
         <button 
@@ -51,7 +51,7 @@ export default function StepNavigation({
           onClick={onNext} 
           className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
         >
-          Siguiente
+          {t('dashboard.navigation.next')}
         </button>
       )}
     </div>

@@ -18,6 +18,7 @@ import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enAuth from './locales/en/auth.json';
 import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.json';
 import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
+import enDashboardCommon from './locales/en/dashboard/common.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -53,7 +54,7 @@ import esDashboardFeatures from './locales/es/dashboard/features.json';
 import esDashboardAccommodation from './locales/es/dashboard/accommodation.json';
 import esDashboardPricing from './locales/es/dashboard/pricing.json';
 import esDashboardTerms from './locales/es/dashboard/terms.json';
-import esDashboardCommon from './locales/es/dashboard/common.json';
+import esDashboardCommonEs from './locales/es/dashboard/common.json';
 import esDashboardSettings from './locales/es/dashboard/settings.json';
 import esDashboardRatesCalculator from './locales/es/dashboard/rates-calculator.json';
 import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
@@ -95,7 +96,7 @@ const es = {
     ...esDashboardAccommodation.dashboard,
     ...esDashboardPricing.dashboard,
     ...esDashboardTerms.dashboard,
-    ...esDashboardCommon.dashboard,
+    ...esDashboardCommonEs.dashboard,
     ...esDashboardSettings.dashboard,
     ...esDashboardRatesCalculator.ratesCalculator,
     ...esDashboardAdvertising.advertising
@@ -119,6 +120,7 @@ const enCombined = {
   ...enPrivacy,
   ...enIntellectualProperty,
   ...enAuth,
+  ...enDashboardCommon,
   welcomeContent: enDashboardWelcomeContent.welcomeContent,
   "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"]
 };

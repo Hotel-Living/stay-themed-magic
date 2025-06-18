@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PropertyFormNavigationProps {
   currentStep: number;
@@ -16,6 +17,8 @@ export default function PropertyFormNavigation({
   onNext,
   onSubmit
 }: PropertyFormNavigationProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex items-center justify-between mb-3">
       <button 
@@ -25,7 +28,7 @@ export default function PropertyFormNavigation({
         }`} 
         disabled={currentStep === 1}
       >
-        Anterior
+        {t('dashboard.navigation.previous')}
       </button>
       
       {currentStep === totalSteps ? (
@@ -33,14 +36,14 @@ export default function PropertyFormNavigation({
           onClick={onSubmit} 
           className="rounded-lg px-4 py-1.5 text-white text-sm font-medium transition-colors bg-[#a209ad]/80"
         >
-          Enviar
+          {t('dashboard.navigation.submit')}
         </button>
       ) : (
         <button 
           onClick={onNext} 
           className="rounded-lg px-4 py-1.5 bg-fuchsia-600/80 hover:bg-fuchsia-600 text-white text-sm font-medium transition-colors"
         >
-          Siguiente
+          {t('dashboard.navigation.next')}
         </button>
       )}
     </div>

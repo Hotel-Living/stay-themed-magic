@@ -1,8 +1,16 @@
 
 {
   "dashboard": {
-    "important": "IMPORTANTE",
-    "importantNote": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada.",
-    "importantStep4": "Todos los campos obligatorios deben completarse antes de continuar. Si añade nuevos elementos, su propiedad necesitará aprobación administrativa antes de publicarse."
+    "importantNotice": {
+      "title": "IMPORTANTE",
+      "description": "Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
+    },
+    "navigation": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "submit": "Enviar"
+    },
+    "hotelProfile": "Perfil del Hotel",
+    "accommodationTerms": "Términos de Alojamiento"
   }
 }

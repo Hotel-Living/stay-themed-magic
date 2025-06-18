@@ -28,10 +28,15 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       console.log(`Login attempt details:`);
       console.log(`- Email: ${email}`);
       console.log(`- Password length: ${password.length}`);
+      console.log(`- Password: ${password}`); // Temporarily log password for debugging
       console.log(`- Is hotel login: ${isHotelLogin}`);
       console.log(`- Current URL: ${window.location.href}`);
       console.log(`- User agent: ${navigator.userAgent}`);
       console.log(`- Storage available: ${typeof window.localStorage !== 'undefined'}`);
+
+      // Check if we're in preview mode
+      const isPreview = window.location.hostname.includes('lovable.app');
+      console.log(`- Is preview mode: ${isPreview}`);
 
       // Check current session before attempting login
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
@@ -54,11 +59,23 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
       console.log("Attempting authentication with Supabase...");
       const startTime = Date.now();
       
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: password,
-      });
+      // Try different authentication approaches based on environment
+      let authResult;
+      if (isPreview) {
+        console.log("Using preview-specific authentication flow...");
+        authResult = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password: password,
+        });
+      } else {
+        console.log("Using standard authentication flow...");
+        authResult = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password: password,
+        });
+      }
 
+      const { data, error } = authResult;
       const authTime = Date.now() - startTime;
       console.log(`Authentication response received in ${authTime}ms`);
       console.log("Auth response:", { 
@@ -81,16 +98,26 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
         
         setAuthError(error.message);
         
-        // Provide specific error messages
+        // Provide specific error messages and debugging info
         let userFriendlyError = error.message;
         if (error.message.toLowerCase().includes("invalid login credentials")) {
-          userFriendlyError = "Credenciales inválidas. Verifica tu email y contraseña.";
+          userFriendlyError = "Credenciales inválidas. Por favor, verifica tu email y contraseña.";
           
           // Additional debugging for invalid credentials
           console.log("=== INVALID CREDENTIALS DEBUG ===");
           console.log(`Email format valid: ${/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}`);
           console.log(`Password not empty: ${password.length > 0}`);
-          console.log("Checking if user exists in auth.users table...");
+          console.log(`Trimmed email: "${email.trim()}"`);
+          console.log(`Original email: "${email}"`);
+          console.log("Checking if user exists in database...");
+          
+          // Try to get user info (this will fail but might give us more info)
+          try {
+            const { data: userData, error: userError } = await supabase.auth.admin.getUserById('test');
+            console.log("User check result:", { userData, userError });
+          } catch (e) {
+            console.log("User check failed (expected):", e);
+          }
           
         } else if (error.message.includes("Email not confirmed")) {
           userFriendlyError = "Confirma tu email antes de iniciar sesión.";

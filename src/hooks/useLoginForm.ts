@@ -16,8 +16,11 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     console.log(`=== LOGIN FORM SUBMISSION STARTED ===`);
     console.log(`Login type: ${isHotelLogin ? "Hotel" : "Traveler"}`);
     console.log(`Email: ${email}`);
+    console.log(`Password: ${password}`); // Temporarily log password for debugging
     console.log(`Password length: ${password.length}`);
     console.log(`Form timestamp: ${new Date().toISOString()}`);
+    console.log(`Current URL: ${window.location.href}`);
+    console.log(`Is preview: ${window.location.hostname.includes('lovable.app')}`);
     
     if (!email || !password) {
       const errorMsg = "Por favor, completa el email y la contraseña";
@@ -44,6 +47,8 @@ export function useLoginForm(isHotelLogin: boolean = false) {
     }
     
     console.log("Form validation passed, calling signIn...");
+    console.log(`Email being sent: "${email}"`);
+    console.log(`Password being sent: "${password}"`);
     
     try {
       toast({
@@ -51,7 +56,7 @@ export function useLoginForm(isHotelLogin: boolean = false) {
         description: "Por favor, espera un momento"
       });
       
-      const result = await signIn(email, password, isHotelLogin);
+      const result = await signIn(email.trim(), password, isHotelLogin);
       
       console.log(`=== LOGIN FORM RESULT ===`);
       console.log(`Success: ${result.success}`);

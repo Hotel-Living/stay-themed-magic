@@ -83,7 +83,7 @@ export default function HotelDashboard() {
     },
     {
       id: "terms-conditions",
-      label: "Terms and Conditions",
+      label: "Términos y Condiciones",
       icon: <FileText className="w-5 h-5" />
     }
   ];

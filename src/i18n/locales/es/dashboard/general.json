@@ -32,6 +32,14 @@
     "logOut": "Cerrar Sesión",
     "needHelp": "¿Necesitas ayuda?",
     "supportDescription": "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier consulta.",
-    "contactSupport": "Contactar Soporte"
+    "contactSupport": "Contactar Soporte",
+    "accommodationTerms": "CONDICIONES DE ALOJAMIENTO",
+    "packagesAndRates": "PAQUETES Y TARIFAS",
+    "generalInformation": "INFORMACIÓN GENERAL",
+    "hotelProfile": "PERFIL DEL HOTEL",
+    "messagesFromAdmin": "Mensajes del Administrador",
+    "noMessagesYet": "Aún no hay mensajes",
+    "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",
+    "analyticsTitle": "Análisis"
   }
 }

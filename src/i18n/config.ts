@@ -80,24 +80,27 @@ const es = {
   ...esTerms,
   ...esPrivacy,
   ...esIntellectualProperty,
-  ...esDashboardGeneral,
-  ...esDashboardStats,
-  ...esDashboardWelcome,
-  ...esDashboardContent,
-  ...esDashboardPropertyForm,
-  ...esDashboardImages,
-  ...esDashboardLocation,
-  ...esDashboardContact,
-  ...esDashboardFeatures,
-  ...esDashboardAccommodation,
-  ...esDashboardPricing,
-  ...esDashboardTerms,
-  ...esDashboardCommon,
-  ...esDashboardSettings,
-  ...esDashboardRatesCalculator,
-  ...esDashboardAdvertising,
-  ...esDashboardWelcomeContent,
-  'dashboard-faq-terms': esDashboardFaqTerms
+  // All dashboard translations merged directly into the main translation object
+  dashboard: {
+    ...esDashboardGeneral.dashboard,
+    ...esDashboardStats.dashboard,
+    ...esDashboardWelcome.dashboard,
+    ...esDashboardContent.dashboard,
+    ...esDashboardPropertyForm.dashboard,
+    ...esDashboardImages.dashboard,
+    ...esDashboardLocation.dashboard,
+    ...esDashboardContact.dashboard,
+    ...esDashboardFeatures.dashboard,
+    ...esDashboardAccommodation.dashboard,
+    ...esDashboardPricing.dashboard,
+    ...esDashboardTerms.dashboard,
+    ...esDashboardCommon.dashboard,
+    ...esDashboardSettings.dashboard,
+    ...esDashboardRatesCalculator.ratesCalculator,
+    ...esDashboardAdvertising.advertising,
+    ...esDashboardFaqTerms.dashboard
+  },
+  welcomeContent: esDashboardWelcomeContent.welcomeContent
 };
 
 // Combine English translations
@@ -114,7 +117,7 @@ const enCombined = {
   ...enPrivacy,
   ...enIntellectualProperty,
   ...enAuth,
-  ...enDashboardWelcomeContent
+  welcomeContent: enDashboardWelcomeContent.welcomeContent
 };
 
 const resources = {

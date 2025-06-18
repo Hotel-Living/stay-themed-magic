@@ -19,6 +19,17 @@
     "noMessagesMessage": "Todavía no ha recibido mensajes del administrador de la plataforma.",
     "financialOverview": "Resumen Financiero",
     "financialDataMessage": "Sus datos financieros e historial de transacciones aparecerán aquí una vez que tenga reservas.",
-    "analyticsTitle": "Análisis"
+    "analyticsTitle": "Análisis",
+    "welcomeToHotelLiving": "¡Bienvenido a Hotel-Living!",
+    "welcomeMessage": "Gracias por registrarte como socio hotelero. Para comenzar, añade tu primera propiedad usando la opción \"Añadir Propiedad\" abajo.",
+    "quickActions": "Acciones Rápidas",
+    "addPropertyAction": "Añadir Propiedad",
+    "addPropertyDescription": "Registrar un nuevo hotel o apartamento.",
+    "viewBookings": "Ver Reservas",
+    "viewBookingsDescription": "Gestionar reservas futuras y pasadas.",
+    "viewAnalytics": "Ver Análisis",
+    "viewAnalyticsDescription": "Consultar métricas detalladas de rendimiento.",
+    "manageReviews": "Gestionar Opiniones",
+    "manageReviewsDescription": "Responder a los comentarios de los huéspedes."
   }
 }

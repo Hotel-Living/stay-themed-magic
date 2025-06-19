@@ -123,10 +123,12 @@ const enCombined = {
   ...enIntellectualProperty,
   ...enAuth,
   ...enFaq,
-  ...enDashboardCommon,
-  ...enDashboardGeneral,
-  welcomeContent: enDashboardWelcomeContent.welcomeContent,
-  "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"]
+  dashboard: {
+    ...enDashboardCommon.dashboard,
+    ...enDashboardGeneral.dashboard
+  },
+  "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
+  welcomeContent: enDashboardWelcomeContent.welcomeContent
 };
 
 const resources = {

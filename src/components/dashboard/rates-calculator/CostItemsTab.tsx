@@ -20,29 +20,7 @@ const CostItemsTab: React.FC = () => {
     {
       id: "cleaning",
       labelKey: "ratesCalculator.cleaning",
-      content: `**HOME-STYLE CLEANING – LONG-TERM COMFORT**
-
-🧼 HOTEL-LIVING MEANS A NEW STANDARD OF HOSPITALITY  
-🏡 ONE THAT FEELS MORE LIKE HOME.  
-Unlike traditional hotels with daily cleaning, our approach reflects the pace of real life.
-
-Just like someone living at home might receive light help a few times a week, our guests enjoy discreet, respectful care that values their independence and comfort.  
-________________________________________  
-🧹 FULL CLEANING — ONCE A WEEK  
-A complete room cleaning every 7 days ensures hygiene and freshness, with minimal intrusion.  
-________________________________________  
-🔄 LIGHT DAILY REFRESH (ON REQUEST)  
-Optional touch-ups — 🗑️ trash removal, 🧺 light tidying, 🌬️ ventilation — are available, respecting guest privacy and routine.  
-________________________________________  
-🛏️ BED LINEN CHANGE — EVERY 5 DAYS  
-Sheets and towels are refreshed regularly, following the comfort standards of a home.  
-________________________________________  
-💼 OPERATIONAL BENEFITS  
-This model lowers operational costs for hotels while offering guests a residential experience:
-
-• Fewer interruptions  
-• More privacy  
-• A feeling of truly belonging — not just staying.  `
+      content: `LIMPIEZA`
     },
     {
       id: "meal-plans",

@@ -58,136 +58,211 @@
         }
       },
       "comparison": {
-        "title": "Comparemos sistemas",
-        "traditional": "MODELO TRADICIONAL",
-        "hotelLiving": "MODELO HOTEL LIVING",
-        "items": [
+        "title": "2 – Comparamos modelos",
+        "traditionalModel": [
+          "Entradas/salidas constantes",
+          "Más limpieza, lavandería, rotación",
+          "Mayor carga de trabajo en recepción",
+          "Ocupación impredecible",
+          "Huecos entre reservas = Noches vacías = Beneficio perdido",
+          "Temporadas altas y bajas. El personal entra y sale",
+          "Personal desmotivado, sin formación, sin profesionalidad",
+          "Los huéspedes van y vienen. Sin conexión, sin fidelidad",
+          "Reservas frías, aisladas. Una tras otra",
+          "Los apartamentos ganan por precio más bajo"
+        ],
+        "hotelLivingModel": [
+          "Entradas/salidas fijas = Operación fluida",
+          "Menos limpieza, menos rotación",
+          "Recepción más eficiente y optimizada",
+          "Estancias largas = Más ocupación",
+          "Cero noches vacías = Máximo beneficio",
+          "Alta ocupación todo el año. Personal estable",
+          "Personal motivado, capacitado, profesional",
+          "Huéspedes se sienten en casa y repiten",
+          "No solo reservas: comunidades",
+          "Elegancia. Humanidad. Servicios. Ganan los hoteles"
+        ]
+      },
+      "fillRooms": {
+        "title": "3 – No llenamos habitaciones",
+        "lines": [
+          "Personas agrupadas por afinidades",
+          "Cero azar. 100% conexiones",
+          "Hoteles para pertenecer, no solo para alojarse",
+          "Estamos transformando la sociedad"
+        ]
+      },
+      "profitMissing": {
+        "title": "4 – ¿Cuántos beneficios estamos perdiendo?",
+        "section1": {
+          "title": "4.1 – HOTELES OCCIDENTALES. ¿CUÁNTOS BENEFICIOS PERDEMOS CADA AÑO?",
+          "points": [
+            "En conjunto, se pierden unos $75.000 millones cada año",
+            "No se venden: son ganancias puras, antes de impuestos",
+            "Nuestra tasa media anual de ocupación es del 60%",
+            "Eso solo nos permite cubrir costes y tener pocos ingresos",
+            "Pero no capturamos el verdadero beneficio: el 40% restante de habitaciones vacías. Nuestra ganancia pura"
+          ]
+        },
+        "section2": {
+          "title": "4.2 – ¿Y CUÁNTOS BENEFICIOS PIERDE SU HOTEL CADA AÑO?",
+          "points": [
+            "Solo cinco habitaciones vacías al día = unos $55.000 perdidos anualmente",
+            "20 habitaciones vacías al día = unos $220.000 de ganancia pura",
+            "Un hotel de 200 habitaciones cerrado de octubre a mayo pierde $1 millón y además acumula $420.000 en pérdidas",
+            "¿Y uno de 500 habitaciones? Más de $3 millones de ganancia perdida cada año. Y las pérdidas… mejor ni mirarlas"
+          ]
+        },
+        "section3": {
+          "title": "4.3 – SÍ. LA GRAN MAYORÍA DE HOTELES PIERDEN SU VERDADERO POTENCIAL DE BENEFICIO",
+          "points": [
+            "Las habitaciones vacías son nuestro oro sin explotar",
+            "Pocos alcanzamos el 100% de ocupación todo el año",
+            "No importa si somos de 3 o 5 estrellas: todos perdemos dinero",
+            "Las habitaciones de ganancia pura no se venden",
+            "Estamos renunciando a nuestro lugar legítimo en la sociedad"
+          ]
+        }
+      },
+      "affinityHotels": {
+        "title": "5 – ¿Qué son los hoteles por afinidades?",
+        "example1": {
+          "title": "EJEMPLO 1",
+          "points": [
+            "Imagine un hotel enfocado en deportes – ciclismo, golf, tenis, etc.",
+            "Las personas interesadas en ese deporte reservan juntas",
+            "Se forma una comunidad alrededor de intereses comunes",
+            "Sin huecos entre estancias. Sin pérdidas"
+          ]
+        },
+        "example2": {
+          "title": "EJEMPLO 2",
+          "points": [
+            "Considere un hotel temático sobre cocina",
+            "Chefs, clases de cocina, maridajes de vinos, etc.",
+            "Tarifas premium por experiencias especializadas",
+            "Ocupación completa con estancias promedio más largas"
+          ]
+        },
+        "example3": {
+          "title": "EJEMPLO 3",
+          "points": [
+            "Hoteles de inmersión lingüística",
+            "Huéspedes de nivel similar de idioma agrupados juntos",
+            "El personal habla el idioma objetivo",
+            "Experiencia lingüística completa"
+          ]
+        },
+        "conclusion": "Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y predecibles."
+      },
+      "technology": {
+        "title": "6 – Nuestra tecnología hace lo que otras no pueden",
+        "lines": [
+          "Conecta personas con intereses compartidos",
+          "Coordina entradas y salidas para cero huecos",
+          "Optimiza estancias para máxima rentabilidad",
+          "Una plataforma. Múltiples fuentes de ingresos"
+        ]
+      },
+      "marketing": {
+        "title": "7 – Marketing segmentado como nunca antes",
+        "lines": [
+          "Segmentación de precisión por interés y afinidad",
+          "Marketing a comunidades motivadas, no viajeros aleatorios",
+          "Alcance global con targeting hiper-específico",
+          "Tasas de conversión más altas. Costes de adquisición más bajos"
+        ]
+      },
+      "socialNetworks": {
+        "title": "8 – Hoteles por afinidades = redes sociales perfectas",
+        "lines": [
+          "Los intereses compartidos crean conexiones instantáneas",
+          "La psicología grupal impulsa estancias más largas y visitas de retorno",
+          "Las actividades temáticas aumentan el compromiso y la lealtad",
+          "La pertenencia comunitaria se vuelve adictiva"
+        ]
+      },
+      "theyNeed": {
+        "title": "9 – Ellos necesitan su hotel",
+        "intro": "PORQUE EL 40% DE LA POBLACIÓN OCCIDENTAL:",
+        "population": [
+          "Vive sola o en pareja",
+          "Está prejubilada o jubilada",
+          "Trabaja online",
+          "Es estudiante viviendo lejos de casa",
+          "Vive demasiado lejos del trabajo"
+        ],
+        "andMost": [
+          "Quieren liberarse de las tareas domésticas",
+          "Se sienten demasiado solos",
+          "No tienen vínculos familiares",
+          "Desean ampliar su vida social",
+          "Quieren conocer gente con gustos y mentalidades similares",
+          "Necesitan la seguridad completa de la vida hotelera, especialmente mayores o personas solas"
+        ],
+        "dream": "PORQUE EL SUEÑO DE LA HUMANIDAD ES VIVIR EN UN HOTEL",
+        "dreamDetail": "Con todo cuidado\nEn vacaciones eternas",
+        "question": "Entonces, ¿por qué tenemos el 40% de habitaciones vacías cada año?",
+        "solutionIntro": "ELLOS NECESITAN SU HOTEL PORQUE:",
+        "solutionPoints": [
+          "La gente quiere socializar. Hacer amigos",
+          "Quieren quedarse más tiempo en su hotel",
+          "Quieren que usted se encargue de sus tareas",
+          "Necesitan urgentemente sus habitaciones vacías y sus servicios",
+          "Solo ayúdeles: deles ambas cosas"
+        ]
+      },
+      "socialRevolution": {
+        "title": "10 – Las afinidades son la nueva revolución social",
+        "lines": [
+          "Los huéspedes no solo quieren habitaciones: quieren significado",
+          "Los intereses conectan más rápido que los descuentos",
+          "Las estancias temáticas construyen lealtad",
+          "Los extraños se convierten en comunidades",
+          "No solo llenas habitaciones: creas pertenencia",
+          "Atrae a los huéspedes correctos, no solo a cualquier huésped",
+          "Tu afinidad es tu imán",
+          "Los hoteles con alma son los que ganan el futuro"
+        ]
+      },
+      "integration": {
+        "title": "11 – Somos integración perfecta",
+        "lines": [
+          "No tienes que elegir entre sistemas",
+          "Combina ambos modelos como desees",
+          "Empieza con solo unas pocas habitaciones y escala según necesites",
+          "Cambia más habitaciones a nuestro modelo cuando tenga sentido",
+          "Nuestra plataforma se integra perfectamente con tus operaciones actuales",
+          "Cero interrupción en tu trabajo diario",
+          "Nos adaptamos a ti, no al revés",
+          "Esto es flexibilidad. Esto es rentabilidad.",
+          "Esto es Integración Perfecta"
+        ]
+      },
+      "stepsToJoin": {
+        "title": "12 – Pasos para unirse a Hotel-Living",
+        "steps": [
           {
-            "id": 1,
-            "traditional": "Entradas/salidas constantes",
-            "hotelLiving": "Días fijos de entrada/salida = Operaciones más fluidas"
+            "step": "1. IDENTIFIQUE SUS HABITACIONES DISPONIBLES",
+            "details": "Evalúe cuántas habitaciones en su hotel permanecen vacías durante al menos 8 días consecutivos (7 noches) en ciertos momentos del año.\nNo necesita convertir toda la propiedad: puede reservar parte de su inventario para reservas tradicionales, y liberar otras habitaciones para huéspedes de Hotel Living. Esto le permite aumentar la ocupación y rentabilidad sin interrumpir su operación regular."
           },
           {
-            "id": 2,
-            "traditional": "Más limpieza, lavandería, rotación",
-            "hotelLiving": "Menos limpiezas, menos transiciones"
+            "step": "2. DEFINA UN CONCEPTO BASADO EN AFINIDADES",
+            "details": "Piense en una \"afinidad\" que pueda atraer a su huésped ideal, basándose en la ubicación de su hotel, clientela típica, o incluso sus propios intereses como propietario.\nLas posibilidades son infinitas, como:\n- Naturaleza y senderismo (para ubicaciones montañosas)\n- Deportes acuáticos o bienestar en la playa (para áreas costeras)\n- Cata de vinos, pintura, bienestar, trabajo remoto, danza, ciencia, cultura, teatro, o cualquier otro tema, hobby o estilo de vida\n\nNOTA: La afinidad no excluye a otros huéspedes. Solo le ayuda a posicionar mejor su hotel en el mercado y permite a los huéspedes autoseleccionarse basándose en su ambiente ideal."
           },
           {
-            "id": 3,
-            "traditional": "Mayor carga de trabajo en recepción",
-            "hotelLiving": "Recepción más eficiente y optimizada"
+            "step": "3. REGÍSTRESE Y USE LA CALCULADORA ONLINE",
+            "details": "Una vez registrado, tendrá acceso a nuestra calculadora de Hotel Living, una herramienta poderosa para probar modelos de estancia (8, 16, 24 o 32 noches).\nPodrá establecer precios, ejecutar simulaciones financieras, y ajustar su oferta basándose en proyecciones de ocupación e ingresos.\n\nEl objetivo es claro: llene sus habitaciones, no las deje vacías.\n\nPOR EJEMPLO:\nSi tiene 30 habitaciones disponibles y establece precios demasiado altos, podría llenar solo 15, y las otras 15 permanecerán vacías, no generando ingresos pero aún incurriendo en costes. Además, su hotel se verá desierto.\nPero si baja los precios solo un poco, podría llenar las 30, generando mayores ingresos totales, más vida en su hotel, y nuevas oportunidades.\n\nEs el mismo principio que usan las aerolíneas: prefieren vender el último asiento por $5 que dejarlo vacío.\nCADA ESPACIO VACÍO ES INGRESO PERDIDO."
           },
           {
-            "id": 4,
-            "traditional": "Ocupación impredecible",
-            "hotelLiving": "Estancias más largas = Mayor ocupación"
-          },
-          {
-            "id": 5,
-            "traditional": "Huecos entre reservas = Noches vacías = Beneficios perdidos",
-            "hotelLiving": "Cero noches vacías = Máximo beneficio"
-          },
-          {
-            "id": 6,
-            "traditional": "Temporadas altas y bajas. El personal va y viene",
-            "hotelLiving": "Temporada alta todo el año. Personal estable"
-          },
-          {
-            "id": 7,
-            "traditional": "Personal desmotivado, no entrenable, no profesional",
-            "hotelLiving": "Personal motivado, entrenable, profesional"
-          },
-          {
-            "id": 8,
-            "traditional": "Los huéspedes van y vienen. Sin conexión, sin lealtad",
-            "hotelLiving": "Los huéspedes se sienten como en casa y regresan"
-          },
-          {
-            "id": 9,
-            "traditional": "Reservas frías, aisladas. Una tras otra",
-            "hotelLiving": "No solo reservas: comunidades"
-          },
-          {
-            "id": 10,
-            "traditional": "Los apartamentos de alquiler ganan con precios más bajos",
-            "hotelLiving": "Elegancia. Humanidad. Servicios. Los hoteles ganan"
+            "step": "4. AÑADA SU HOTEL EN SU PANEL DE CONTROL",
+            "details": "Una vez que haya definido su tema y modelo de precios, acceda a su panel de control y complete los pasos para \"Añadir nueva propiedad\".\nDesde allí, podrá gestionar disponibilidad, visibilidad, y reservas de larga estancia."
           }
         ]
       },
       "dontJustFill": {
         "title": "No solo llenamos habitaciones"
-      },
-      "profitMissing": {
-        "title": "¿Cuántos beneficios estamos perdiendo?",
-        "section1": {
-          "title": "HOTELES OCCIDENTALES. ¿CUÁNTOS BENEFICIOS PERDEMOS CADA AÑO?",
-          "point1": "Colectivamente, se pierden unos 75.000 millones de dólares cada año",
-          "point2": "No se vende: es beneficio puro, antes de impuestos",
-          "point3": "Nuestra tasa de ocupación anual promedio es del 60%",
-          "point4": "Eso solo nos permite cubrir costes y tener pocos ingresos",
-          "point5": "Pero no capturamos el verdadero beneficio: el 40% restante de habitaciones vacías. Nuestra ganancia pura"
-        },
-        "section2": {
-          "title": "¿Y CUÁNTOS BENEFICIOS PIERDE SU HOTEL CADA AÑO?",
-          "point1": "Solo cinco habitaciones vacías por día = aproximadamente $55,000 perdidos anualmente",
-          "point2": "20 habitaciones vacías por día = aproximadamente $220,000 en beneficio puro",
-          "point3": "Un hotel de 200 habitaciones cerrado de octubre a mayo pierde $1 millón y también acumula $420,000 en pérdidas",
-          "point4": "¿Y uno con 500 habitaciones? Más de $3 millones en beneficios perdidos cada año. Y las pérdidas... mejor no mirarlas"
-        },
-        "section3": {
-          "title": "SÍ. LA GRAN MAYORÍA DE HOTELES PIERDEN SU VERDADERO POTENCIAL DE BENEFICIO",
-          "point1": "Las habitaciones vacías son nuestro oro sin explotar",
-          "point2": "Pocos de nosotros logramos 100% de ocupación todo el año",
-          "point3": "No importa si somos de 3 o 5 estrellas: todos perdemos dinero",
-          "point4": "Las habitaciones de beneficio puro no se venden",
-          "point5": "Estamos renunciando a nuestro lugar legítimo en la sociedad"
-        }
-      },
-      "specializedHotels": {
-        "title": "¿Qué son los hoteles por afinidades?",
-        "example1": {
-          "title": "EJEMPLO 1",
-          "point1": "Imagine un hotel enfocado en deportes - ciclismo, golf, tenis, etc.",
-          "point2": "Las personas interesadas en ese deporte reservan juntas",
-          "point3": "Se forma una comunidad alrededor de intereses comunes",
-          "point4": "Sin huecos entre estancias. Sin pérdidas"
-        },
-        "example2": {
-          "title": "EJEMPLO 2",
-          "point1": "Considere un hotel temático sobre cocina",
-          "point2": "Chefs, clases de cocina, maridajes de vinos, etc.",
-          "point3": "Tarifas premium por experiencias especializadas",
-          "point4": "Ocupación completa con estancias promedio más largas"
-        },
-        "example3": {
-          "title": "EJEMPLO 3",
-          "point1": "Hoteles de inmersión lingüística",
-          "point2": "Huéspedes de nivel similar de idioma agrupados juntos",
-          "point3": "El personal habla el idioma objetivo",
-          "point4": "Experiencia lingüística completa"
-        },
-        "conclusion": "Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y predecibles"
-      },
-      "technology": {
-        "title": "Nuestra tecnología hace lo que otros no pueden",
-        "point1": "Conecta personas con intereses compartidos",
-        "point2": "Coordina entradas y salidas para cero huecos",
-        "point3": "Optimiza estancias para máxima rentabilidad",
-        "point4": "Una plataforma. Múltiples fuentes de ingresos"
-      },
-      "marketing": {
-        "title": "Marketing dirigido que nadie más puede igualar",
-        "point1": "Segmentación de precisión por interés y afinidad",
-        "point2": "Marketing a comunidades motivadas, no viajeros aleatorios",
-        "point3": "Alcance global con targeting hiper-específico",
-        "point4": "Tasas de conversión más altas. Costes de adquisición más bajos"
-      },
-      "themedHotels": {
-        "title": "Hoteles por afinidades = Redes Sociales Perfectas",
-        "point1": "Los intereses compartidos crean conexiones instantáneas",
-        "point2": "La psicología grupal impulsa estancias más largas y visitas de retorno",
-        "point3": "Las actividades temáticas aumentan el compromiso y la lealtad",
-        "point4": "La pertenencia comunitaria se vuelve adictiva"
       },
       "theyNeed": {
         "title": "Ellos necesitan su hotel"
@@ -197,9 +272,6 @@
       },
       "seamlessIntegration": {
         "title": "Somos integración perfecta"
-      },
-      "stepsToJoin": {
-        "title": "Pasos para unirse a Hotel-Living"
       }
     }
   }

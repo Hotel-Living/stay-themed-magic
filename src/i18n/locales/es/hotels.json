@@ -118,19 +118,76 @@
         "title": "No solo llenamos habitaciones"
       },
       "profitMissing": {
-        "title": "¿Cuántos beneficios estamos perdiendo?"
+        "title": "¿Cuántos beneficios estamos perdiendo?",
+        "section1": {
+          "title": "HOTELES OCCIDENTALES. ¿CUÁNTOS BENEFICIOS PERDEMOS CADA AÑO?",
+          "point1": "Colectivamente, se pierden unos 75.000 millones de dólares cada año",
+          "point2": "No se vende: es beneficio puro, antes de impuestos",
+          "point3": "Nuestra tasa de ocupación anual promedio es del 60%",
+          "point4": "Eso solo nos permite cubrir costes y tener pocos ingresos",
+          "point5": "Pero no capturamos el verdadero beneficio: el 40% restante de habitaciones vacías. Nuestra ganancia pura"
+        },
+        "section2": {
+          "title": "¿Y CUÁNTOS BENEFICIOS PIERDE SU HOTEL CADA AÑO?",
+          "point1": "Solo cinco habitaciones vacías por día = aproximadamente $55,000 perdidos anualmente",
+          "point2": "20 habitaciones vacías por día = aproximadamente $220,000 en beneficio puro",
+          "point3": "Un hotel de 200 habitaciones cerrado de octubre a mayo pierde $1 millón y también acumula $420,000 en pérdidas",
+          "point4": "¿Y uno con 500 habitaciones? Más de $3 millones en beneficios perdidos cada año. Y las pérdidas... mejor no mirarlas"
+        },
+        "section3": {
+          "title": "SÍ. LA GRAN MAYORÍA DE HOTELES PIERDEN SU VERDADERO POTENCIAL DE BENEFICIO",
+          "point1": "Las habitaciones vacías son nuestro oro sin explotar",
+          "point2": "Pocos de nosotros logramos 100% de ocupación todo el año",
+          "point3": "No importa si somos de 3 o 5 estrellas: todos perdemos dinero",
+          "point4": "Las habitaciones de beneficio puro no se venden",
+          "point5": "Estamos renunciando a nuestro lugar legítimo en la sociedad"
+        }
       },
       "specializedHotels": {
-        "title": "¿Qué son los hoteles por afinidades?"
+        "title": "¿Qué son los hoteles por afinidades?",
+        "example1": {
+          "title": "EJEMPLO 1",
+          "point1": "Imagine un hotel enfocado en deportes - ciclismo, golf, tenis, etc.",
+          "point2": "Las personas interesadas en ese deporte reservan juntas",
+          "point3": "Se forma una comunidad alrededor de intereses comunes",
+          "point4": "Sin huecos entre estancias. Sin pérdidas"
+        },
+        "example2": {
+          "title": "EJEMPLO 2",
+          "point1": "Considere un hotel temático sobre cocina",
+          "point2": "Chefs, clases de cocina, maridajes de vinos, etc.",
+          "point3": "Tarifas premium por experiencias especializadas",
+          "point4": "Ocupación completa con estancias promedio más largas"
+        },
+        "example3": {
+          "title": "EJEMPLO 3",
+          "point1": "Hoteles de inmersión lingüística",
+          "point2": "Huéspedes de nivel similar de idioma agrupados juntos",
+          "point3": "El personal habla el idioma objetivo",
+          "point4": "Experiencia lingüística completa"
+        },
+        "conclusion": "Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y predecibles"
       },
       "technology": {
-        "title": "Nuestra tecnología hace lo que otros no pueden"
+        "title": "Nuestra tecnología hace lo que otros no pueden",
+        "point1": "Conecta personas con intereses compartidos",
+        "point2": "Coordina entradas y salidas para cero huecos",
+        "point3": "Optimiza estancias para máxima rentabilidad",
+        "point4": "Una plataforma. Múltiples fuentes de ingresos"
       },
       "marketing": {
-        "title": "Marketing dirigido que nadie más puede igualar"
+        "title": "Marketing dirigido que nadie más puede igualar",
+        "point1": "Segmentación de precisión por interés y afinidad",
+        "point2": "Marketing a comunidades motivadas, no viajeros aleatorios",
+        "point3": "Alcance global con targeting hiper-específico",
+        "point4": "Tasas de conversión más altas. Costes de adquisición más bajos"
       },
       "themedHotels": {
-        "title": "Hoteles por afinidades = Redes Sociales Perfectas"
+        "title": "Hoteles por afinidades = Redes Sociales Perfectas",
+        "point1": "Los intereses compartidos crean conexiones instantáneas",
+        "point2": "La psicología grupal impulsa estancias más largas y visitas de retorno",
+        "point3": "Las actividades temáticas aumentan el compromiso y la lealtad",
+        "point4": "La pertenencia comunitaria se vuelve adictiva"
       },
       "theyNeed": {
         "title": "Ellos necesitan su hotel"

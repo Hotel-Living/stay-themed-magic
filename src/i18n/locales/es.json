@@ -1,4 +1,3 @@
-
 {
   "common": {
     "loading": "Cargando...",
@@ -207,5 +206,22 @@
     "themes": "Temas",
     "clearAll": "Limpiar Todo",
     "apply": "Aplicar Filtros"
+  },
+  "hotels": {
+    "faqCategories": {
+      "benefits": "BENEFICIOS",
+      "models": "MODELOS",
+      "revenue": "INGRESOS",
+      "guests": "HUÉSPEDES",
+      "seniors": "MAYORES",
+      "affinities": "AFINIDADES",
+      "operation": "OPERACIONES",
+      "integration": "INTEGRACIÓN",
+      "marketing": "MARKETING",
+      "payment": "PAGOS Y COMISIONES"
+    },
+    "readyToJoin": "¿Listo para unirte a Hotel-Living?",
+    "registerHotel": "Registrar hotel",
+    "partnerLogin": "Acceso para socios hoteleros"
   }
 }

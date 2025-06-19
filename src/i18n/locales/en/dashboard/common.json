@@ -1,9 +1,8 @@
-
 {
   "dashboard": {
     "importantNotice": {
       "title": "IMPORTANT",
-      "description": "All required fields must be completed"
+      "description": "All required fields marked as mandatory must be completed before continuing. If you add new items, your property will require admin approval before it can be published."
     },
     "navigation": {
       "previous": "Back",
@@ -12,18 +11,11 @@
     },
     "hotelProfile": "Hotel Profile",
     "accommodationTerms": "Accommodation Terms",
-    "standardEconomicModel": "Standard Economic Model",
-    "costsAndProfits": "Costs and Profits",
-    "buildOwnModel": "Build Your Own Model",
-    "costsDisclaimer": "Disclaimer: Estimated Values",
-    "costs": "Costs",
-    "profits": "Profits"
-  },
-  "ratesCalculator": {
-    "utilities": "UTILITIES",
-    "cleaning": "CLEANING",
-    "meals": "MEALS", 
-    "totalCost": "TOTAL COST",
-    "disclaimer": "These figures represent an example of average incremental costs per additional occupied room in 3, 4, and 5-star hotels in Western markets. Actual costs may vary and should be adjusted based on the category, service level, positioning, and operational model of each hotel."
+    "ratesCalculator": {
+      "utilities": "Utilities",
+      "cleaning": "Cleaning",
+      "meals": "Meals",
+      "totalCost": "Total Cost"
+    }
   }
 }

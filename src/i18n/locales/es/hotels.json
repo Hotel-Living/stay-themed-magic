@@ -218,10 +218,6 @@
       },
       "technology": {
         "title": "6 – Nuestra tecnología hace lo que otras no pueden",
-        "point1": "Conecta personas con intereses compartidos",
-        "point2": "Coordina entradas y salidas para cero huecos",
-        "point3": "Optimiza estancias para máxima rentabilidad",
-        "point4": "Una plataforma. Múltiples fuentes de ingresos",
         "lines": [
           "Conecta personas con intereses compartidos",
           "Coordina entradas y salidas para cero huecos",
@@ -231,10 +227,6 @@
       },
       "marketing": {
         "title": "7 – Marketing dirigido que nadie más puede igualar",
-        "point1": "Segmentación precisa por interés y afinidad",
-        "point2": "Marketing a comunidades motivadas, no viajeros aleatorios",
-        "point3": "Alcance global con targeting híper-específico",
-        "point4": "Tasas de conversión más altas. Costes de adquisición más bajos",
         "lines": [
           "Segmentación precisa por interés y afinidad",
           "Marketing a comunidades motivadas, no viajeros aleatorios",
@@ -243,11 +235,7 @@
         ]
       },
       "themedHotels": {
-        "title": "8 – Hoteles por afinidades = Redes Sociales Perfectas",
-        "point1": "Los intereses compartidos crean conexiones instantáneas",
-        "point2": "La psicología grupal impulsa estancias más largas y visitas de retorno",
-        "point3": "Las actividades temáticas aumentan el compromiso y la lealtad",
-        "point4": "La pertenencia comunitaria se vuelve adictiva"
+        "title": "8 – Hoteles por afinidades = Redes Sociales Perfectas"
       },
       "socialNetworks": {
         "title": "8 – Hoteles por afinidades = Redes Sociales Perfectas",
@@ -277,7 +265,7 @@
           "Necesitan la seguridad completa de vivir en un hotel, especialmente en el caso de personas mayores o solteras"
         ],
         "dream": "PORQUE EL SUEÑO DE LA HUMANIDAD ES VIVIR EN UN HOTEL",
-        "dreamDetail": "Con todo resuelto\nEn unas vacaciones sin fin",
+        "dreamDetail": "Con todo resuelto\\nEn unas vacaciones sin fin",
         "question": "Entonces, ¿por qué tenemos un 40% de habitaciones vacías cada año?",
         "solutionIntro": "ELLOS NECESITAN SU HOTEL PORQUE:",
         "solutionPoints": [
@@ -326,19 +314,19 @@
         "steps": [
           {
             "step": "1. IDENTIFIQUE SUS HABITACIONES DISPONIBLES",
-            "details": "Evalúe cuántas habitaciones de su hotel están vacías al menos durante 8 días consecutivos (7 noches) en ciertos momentos del año.\nNo es necesario convertir toda la propiedad — puede reservar parte de su inventario para reservas tradicionales, y liberar otras habitaciones para los huéspedes de Hotel Living. Esto le permite aumentar la ocupación y rentabilidad sin interrumpir su operación habitual."
+            "details": "Evalúe cuántas habitaciones de su hotel están vacías al menos durante 8 días consecutivos (7 noches) en ciertos momentos del año.\\nNo es necesario convertir toda la propiedad — puede reservar parte de su inventario para reservas tradicionales, y liberar otras habitaciones para los huéspedes de Hotel Living. Esto le permite aumentar la ocupación y rentabilidad sin interrumpir su operación habitual."
           },
           {
             "step": "2. DEFINA UN CONCEPTO BASADO EN AFINIDADES",
-            "details": "Piense en una \"afinidad\" que pueda atraer a su tipo ideal de huésped, según la ubicación de su hotel, su clientela habitual o incluso sus propias preferencias como propietario.\nLas posibilidades son infinitas, como por ejemplo:\n- Naturaleza y senderismo (para ubicaciones de montaña)\n- Deportes acuáticos o bienestar en la playa (para ubicaciones costeras)\n- Cata de vinos, pintura, bienestar, trabajo remoto, danza, ciencias, cultura, teatro, o cualquier otro tema, afición o estilo de vida\n\nNOTA: la afinidad no excluye a otros tipos de huéspedes. Solo le ayuda a posicionar mejor su hotel en el mercado y a que los huéspedes se autoseleccionen según su entorno ideal."
+            "details": "Piense en una \\\"afinidad\\\" que pueda atraer a su tipo ideal de huésped, según la ubicación de su hotel, su clientela habitual o incluso sus propias preferencias como propietario.\\nLas posibilidades son infinitas, como por ejemplo:\\n- Naturaleza y senderismo (para ubicaciones de montaña)\\n- Deportes acuáticos o bienestar en la playa (para ubicaciones costeras)\\n- Cata de vinos, pintura, bienestar, trabajo remoto, danza, ciencias, cultura, teatro, o cualquier otro tema, afición o estilo de vida\\n\\nNOTA: la afinidad no excluye a otros tipos de huéspedes. Solo le ayuda a posicionar mejor su hotel en el mercado y a que los huéspedes se autoseleccionen según su entorno ideal."
           },
           {
             "step": "3. REGÍSTRESE Y USE LA CALCULADORA EN LÍNEA",
-            "details": "Una vez registrado, tendrá acceso a nuestra calculadora Hotel Living, una herramienta poderosa para probar modelos de estancia (8, 16, 24 o 32 noches).\nPodrá subir precios, hacer simulaciones financieras y ajustar su oferta según ocupación y previsiones de ingresos.\n\nEl objetivo es claro: llene sus habitaciones — no las deje vacías.\n\nPOR EJEMPLO:\nSi tiene 30 habitaciones disponibles y pone precios muy altos, puede que solo llene 15 — y las otras 15 queden vacías, sin generar ingresos, pero sí costes. Además, su hotel parecerá vacío.\nPero si baja un poco los precios, puede llenar las 30 — generando más ingresos totales, más vida en su hotel y nuevas oportunidades.\n\nEs el mismo principio que usan las aerolíneas: prefieren vender el último asiento por $5 que dejarlo vacío.\nTODO ESPACIO VACÍO ES INGRESO PERDIDO."
+            "details": "Una vez registrado, tendrá acceso a nuestra calculadora Hotel Living, una herramienta poderosa para probar modelos de estancia (8, 16, 24 o 32 noches).\\nPodrá subir precios, hacer simulaciones financieras y ajustar su oferta según ocupación y previsiones de ingresos.\\n\\nEl objetivo es claro: llene sus habitaciones — no las deje vacías.\\n\\nPOR EJEMPLO:\\nSi tiene 30 habitaciones disponibles y pone precios muy altos, puede que solo llene 15 — y las otras 15 queden vacías, sin generar ingresos, pero sí costes. Además, su hotel parecerá vacío.\\nPero si baja un poco los precios, puede llenar las 30 — generando más ingresos totales, más vida en su hotel y nuevas oportunidades.\\n\\nEs el mismo principio que usan las aerolíneas: prefieren vender el último asiento por $5 que dejarlo vacío.\\nTODO ESPACIO VACÍO ES INGRESO PERDIDO."
           },
           {
             "step": "4. AÑADA SU HOTEL EN SU PANEL",
-            "details": "Una vez que haya definido su temática y modelo de precios, acceda a su panel y complete los pasos para \"Agregar nueva propiedad\".\nDesde allí podrá gestionar disponibilidad, visibilidad y reservas de larga estancia."
+            "details": "Una vez que haya definido su temática y modelo de precios, acceda a su panel y complete los pasos para \\\"Agregar nueva propiedad\\\".\\nDesde allí podrá gestionar disponibilidad, visibilidad y reservas de larga estancia."
           }
         ]
       }

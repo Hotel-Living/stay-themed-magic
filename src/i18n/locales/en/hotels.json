@@ -218,10 +218,6 @@
       },
       "technology": {
         "title": "6 – Our technology does what others cannot",
-        "point1": "Connects people with shared interests",
-        "point2": "Coordinates check-ins and check-outs for zero gaps",
-        "point3": "Optimizes stays for maximum profitability",
-        "point4": "One platform. Multiple revenue streams",
         "lines": [
           "Connects people with shared interests",
           "Coordinates check-ins and check-outs for zero gaps",
@@ -231,10 +227,6 @@
       },
       "marketing": {
         "title": "7 – Targeted marketing that no one else can match",
-        "point1": "Precision segmentation by interest and affinity",
-        "point2": "Marketing to motivated communities, not random travelers",
-        "point3": "Global reach with hyper-specific targeting",
-        "point4": "Higher conversion rates. Lower acquisition costs",
         "lines": [
           "Precision segmentation by interest and affinity",
           "Marketing to motivated communities, not random travelers",
@@ -243,11 +235,7 @@
         ]
       },
       "themedHotels": {
-        "title": "8 – Affinity hotels = Perfect Social Networks",
-        "point1": "Shared interests create instant connections",
-        "point2": "Group psychology drives longer stays and return visits",
-        "point3": "Themed activities increase engagement and loyalty",
-        "point4": "Community belonging becomes addictive"
+        "title": "8 – Affinity hotels = Perfect Social Networks"
       },
       "socialNetworks": {
         "title": "8 – Affinity hotels = Perfect Social Networks",
@@ -277,7 +265,7 @@
           "Need the full safety of hotel living, especially older or single individuals"
         ],
         "dream": "BECAUSE THE DREAM OF HUMANITY IS TO LIVE IN A HOTEL",
-        "dreamDetail": "With everything taken care of\nOn an endless vacation",
+        "dreamDetail": "With everything taken care of\\nOn an endless vacation",
         "question": "So why do we have 40% of rooms empty every year?",
         "solutionIntro": "THEY NEED YOUR HOTEL BECAUSE:",
         "solutionPoints": [
@@ -326,19 +314,19 @@
         "steps": [
           {
             "step": "1. IDENTIFY YOUR AVAILABLE ROOMS",
-            "details": "Assess how many rooms in your hotel remain empty for at least 8 consecutive days (7 nights) at certain times of the year.\nYou don't need to convert the entire property — you can reserve part of your inventory for traditional bookings, and release other rooms for Hotel Living guests. This allows you to increase occupancy and profitability without disrupting your regular operation."
+            "details": "Assess how many rooms in your hotel remain empty for at least 8 consecutive days (7 nights) at certain times of the year.\\nYou don't need to convert the entire property — you can reserve part of your inventory for traditional bookings, and release other rooms for Hotel Living guests. This allows you to increase occupancy and profitability without disrupting your regular operation."
           },
           {
             "step": "2. DEFINE A CONCEPT BASED ON AFFINITIES",
-            "details": "Think of an "affinity" that might attract your ideal guest, based on your hotel's location, typical clientele, or even your own interests as the owner.\nThe possibilities are endless, such as:\n- Nature and hiking (for mountain locations)\n- Water sports or wellness at the beach (for coastal areas)\n- Wine tasting, painting, wellness, remote work, dance, science, culture, theatre, or any other theme, hobby or lifestyle\n\nNOTE: Affinity does not exclude other guests. It just helps you position your hotel better in the market and allows guests to self-select based on their ideal environment."
+            "details": "Think of an \\\"affinity\\\" that might attract your ideal guest, based on your hotel's location, typical clientele, or even your own interests as the owner.\\nThe possibilities are endless, such as:\\n- Nature and hiking (for mountain locations)\\n- Water sports or wellness at the beach (for coastal areas)\\n- Wine tasting, painting, wellness, remote work, dance, science, culture, theatre, or any other theme, hobby or lifestyle\\n\\nNOTE: Affinity does not exclude other guests. It just helps you position your hotel better in the market and allows guests to self-select based on their ideal environment."
           },
           {
             "step": "3. REGISTER AND USE THE ONLINE CALCULATOR",
-            "details": "Once registered, you'll gain access to our Hotel Living calculator, a powerful tool to test stay models (8, 16, 24 or 32 nights).\nYou'll be able to set prices, run financial simulations, and adjust your offer based on occupancy and revenue projections.\n\nThe goal is clear: fill your rooms — don't leave them empty.\n\nFOR EXAMPLE:\nIf you have 30 rooms available and set prices too high, you might only fill 15 — and the other 15 will remain empty, generating no revenue but still incurring costs. On top of that, your hotel will look deserted.\nBut if you lower prices just a bit, you could fill all 30 — generating higher total revenue, more life in your hotel, and new opportunities.\n\nIt's the same principle airlines use: they prefer to sell the last seat for $5 than to leave it empty.\nEVERY EMPTY SPACE IS LOST INCOME."
+            "details": "Once registered, you'll gain access to our Hotel Living calculator, a powerful tool to test stay models (8, 16, 24 or 32 nights).\\nYou'll be able to set prices, run financial simulations, and adjust your offer based on occupancy and revenue projections.\\n\\nThe goal is clear: fill your rooms — don't leave them empty.\\n\\nFOR EXAMPLE:\\nIf you have 30 rooms available and set prices too high, you might only fill 15 — and the other 15 will remain empty, generating no revenue but still incurring costs. On top of that, your hotel will look deserted.\\nBut if you lower prices just a bit, you could fill all 30 — generating higher total revenue, more life in your hotel, and new opportunities.\\n\\nIt's the same principle airlines use: they prefer to sell the last seat for $5 than to leave it empty.\\nEVERY EMPTY SPACE IS LOST INCOME."
           },
           {
             "step": "4. ADD YOUR HOTEL IN YOUR DASHBOARD",
-            "details": "Once you've defined your theme and pricing model, access your dashboard and complete the steps to "Add new property".\nFrom there, you'll be able to manage availability, visibility, and long-stay bookings."
+            "details": "Once you've defined your theme and pricing model, access your dashboard and complete the steps to \\\"Add new property\\\".\\nFrom there, you'll be able to manage availability, visibility, and long-stay bookings."
           }
         ]
       }

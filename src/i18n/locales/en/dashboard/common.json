@@ -1,16 +1,22 @@
-
-{
+📄{
   "dashboard": {
     "importantNotice": {
       "title": "IMPORTANT",
-      "description": "All required fields must be completed before continuing. If you add new elements, your property listing will require administrator approval before it can be published."
+      "description": "All required fields must be completed"
     },
     "navigation": {
       "previous": "Back",
-      "next": "Next", 
+      "next": "Next",
       "submit": "Submit"
     },
     "hotelProfile": "Hotel Profile",
-    "accommodationTerms": "Accommodation Terms"
+    "accommodationTerms": "Accommodation Terms",
+    "standardEconomicModel": "Standard Economic Model",
+    "costsAndProfits": "Costs and Profits",
+    "buildOwnModel": "Build Your Own Model",
+    "costsDisclaimer": "Disclaimer: Estimated Values",
+    "costs": "Costs",
+    "profits": "Profits"
   }
 }
+

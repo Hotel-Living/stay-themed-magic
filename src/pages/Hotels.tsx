@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
 import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
-import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelFaqData";
+import { hotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
@@ -13,33 +13,40 @@ import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { HotelCards } from "@/components/hotels/HotelCards";
 import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const orderedCategoryIds = [
   "benefits", "models", "revenue", "guests", "seniors", 
   "affinities", "operation", "integration", "marketing", "payment"
 ];
 
-const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
-  <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
-    <h3 className={`text-[#f9d3f6] ${isMobile ? "text-lg" : "text-base"} font-semibold mb-3 text-center`}>
-      ¿Listo para unirse a Hotel-Living?
-    </h3>
-    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-      <Link to="/hotel-signup" className={`bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
-        <Building className="mr-2 h-4 w-4" />
-        Registre su hotel
-      </Link>
-      <Link to="/login?tab=hotel" className={`bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
-        <Mail className="mr-2 h-4 w-4" />
-        Acceso para socios
-      </Link>
+const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
+      <h3 className={`text-[#f9d3f6] ${isMobile ? "text-lg" : "text-base"} font-semibold mb-3 text-center`}>
+        {t('hotels.readyToJoin')}
+      </h3>
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <Link to="/hotel-signup" className={`bg-[#981DA1] hover:bg-[#460F54] text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
+          <Building className="mr-2 h-4 w-4" />
+          {t('hotels.registerHotel')}
+        </Link>
+        <Link to="/login?tab=hotel" className={`bg-fuchsia-700 hover:bg-fuchsia-800 text-white font-bold py-1.5 px-4 rounded-lg transition-colors flex items-center justify-center ${isMobile ? "text-base" : "text-sm"}`}>
+          <Mail className="mr-2 h-4 w-4" />
+          {t('hotels.partnerLogin')}
+        </Link>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function Hotels() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
+  const hotelFaqsByCategory = useHotelFaqsByCategory();
   
   const orderedFaqCategories = React.useMemo(() => 
     orderedCategoryIds.map(id => 
@@ -62,7 +69,7 @@ export default function Hotels() {
           
           <div className="w-full max-w-4xl mt-10">
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">Preguntas Frecuentes</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">{t('faq.title')}</h2>
               
               <FaqTabs 
                 activeTab={activeTab} 

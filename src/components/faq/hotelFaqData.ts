@@ -1,18 +1,32 @@
-
 import { FaqItem, FaqCategory } from "./hotel-types";
-import { benefitsFaqs } from "./hotel-categories/benefitsFaqs";
-import { modelsFaqs } from "./hotel-categories/modelsFaqs";
-import { operationFaqs } from "./hotel-categories/operationFaqs";
-import { integrationFaqs } from "./hotel-categories/integrationFaqs";
-import { revenueFaqs } from "./hotel-categories/revenueFaqs";
-import { guestsFaqs } from "./hotel-categories/guestsFaqs";
-import { marketingFaqs } from "./hotel-categories/marketingFaqs";
-import { paymentFaqs } from "./hotel-categories/paymentFaqs";
-import { affinitiesFaqs } from "./hotel-categories/affinitiesFaqs";
+import { useTranslation } from "@/hooks/useTranslation";
+
+// Spanish imports
+import { benefitsFaqs as benefitsFaqsEs } from "./hotel-categories/benefitsFaqs";
+import { modelsFaqs as modelsFaqsEs } from "./hotel-categories/modelsFaqs";
+import { operationFaqs as operationFaqsEs } from "./hotel-categories/operationFaqs";
+import { integrationFaqs as integrationFaqsEs } from "./hotel-categories/integrationFaqs";
+import { revenueFaqs as revenueFaqsEs } from "./hotel-categories/revenueFaqs";
+import { guestsFaqs as guestsFaqsEs } from "./hotel-categories/guestsFaqs";
+import { marketingFaqs as marketingFaqsEs } from "./hotel-categories/marketingFaqs";
+import { paymentFaqs as paymentFaqsEs } from "./hotel-categories/paymentFaqs";
+import { affinitiesFaqs as affinitiesFaqsEs } from "./hotel-categories/affinitiesFaqs";
 import { videoFaqs } from "./hotel-categories/videoFaqs";
-import { seniorsFaqs } from "./hotel-categories/seniorsFaqs";
+import { seniorsFaqs as seniorsFaqsEs } from "./hotel-categories/seniorsFaqs";
 import { stepsFaqs } from "./hotel-categories/stepsFaqs";
 import { rentalFaqs } from "./hotel-categories/rentalFaqs";
+
+// English imports
+import { benefitsFaqs as benefitsFaqsEn } from "./hotel-categories/en/benefitsFaqs";
+import { modelsFaqs as modelsFaqsEn } from "./hotel-categories/en/modelsFaqs";
+import { operationFaqs as operationFaqsEn } from "./hotel-categories/en/operationFaqs";
+import { integrationFaqs as integrationFaqsEn } from "./hotel-categories/en/integrationFaqs";
+import { revenueFaqs as revenueFaqsEn } from "./hotel-categories/en/revenueFaqs";
+import { guestsFaqs as guestsFaqsEn } from "./hotel-categories/en/guestsFaqs";
+import { marketingFaqs as marketingFaqsEn } from "./hotel-categories/en/marketingFaqs";
+import { paymentFaqs as paymentFaqsEn } from "./hotel-categories/en/paymentFaqs";
+import { affinitiesFaqs as affinitiesFaqsEn } from "./hotel-categories/en/affinitiesFaqs";
+import { seniorsFaqs as seniorsFaqsEn } from "./hotel-categories/en/seniorsFaqs";
 
 export type { FaqItem, FaqCategory };
 
@@ -32,18 +46,42 @@ export const hotelFaqCategories: FaqCategory[] = [
   { id: "rental", name: "Alquiler" }
 ];
 
+export const useHotelFaqsByCategory = () => {
+  const { language } = useTranslation();
+  const isEnglish = language === 'en';
+
+  const hotelFaqsByCategory: Record<string, FaqItem[]> = {
+    video: videoFaqs,
+    benefits: isEnglish ? benefitsFaqsEn : benefitsFaqsEs,
+    models: isEnglish ? modelsFaqsEn : modelsFaqsEs,
+    operation: isEnglish ? operationFaqsEn : operationFaqsEs,
+    integration: isEnglish ? integrationFaqsEn : integrationFaqsEs,
+    revenue: isEnglish ? revenueFaqsEn : revenueFaqsEs,
+    guests: isEnglish ? guestsFaqsEn : guestsFaqsEs,
+    seniors: isEnglish ? seniorsFaqsEn : seniorsFaqsEs,
+    marketing: isEnglish ? marketingFaqsEn : marketingFaqsEs,
+    payment: isEnglish ? paymentFaqsEn : paymentFaqsEs,
+    affinities: isEnglish ? affinitiesFaqsEn : affinitiesFaqsEs,
+    steps: stepsFaqs,
+    rental: rentalFaqs
+  };
+
+  return hotelFaqsByCategory;
+};
+
+// Keep the old export for backward compatibility
 export const hotelFaqsByCategory: Record<string, FaqItem[]> = {
   video: videoFaqs,
-  benefits: benefitsFaqs,
-  models: modelsFaqs,
-  operation: operationFaqs,
-  integration: integrationFaqs,
-  revenue: revenueFaqs,
-  guests: guestsFaqs,
-  seniors: seniorsFaqs,
-  marketing: marketingFaqs,
-  payment: paymentFaqs,
-  affinities: affinitiesFaqs,
+  benefits: benefitsFaqsEs,
+  models: modelsFaqsEs,
+  operation: operationFaqsEs,
+  integration: integrationFaqsEs,
+  revenue: revenueFaqsEs,
+  guests: guestsFaqsEs,
+  seniors: seniorsFaqsEs,
+  marketing: marketingFaqsEs,
+  payment: paymentFaqsEs,
+  affinities: affinitiesFaqsEs,
   steps: stepsFaqs,
   rental: rentalFaqs
 };

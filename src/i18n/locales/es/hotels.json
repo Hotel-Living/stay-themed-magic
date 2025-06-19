@@ -124,13 +124,25 @@
         "title": "¿Qué son los hoteles por afinidades?"
       },
       "technology": {
-        "title": "Nuestra tecnología hace lo que otros no pueden"
+        "title": "Nuestra tecnología hace lo que otras no pueden",
+        "point1": "Conecta personas con intereses compartidos",
+        "point2": "Coordina entradas y salidas para cero huecos",
+        "point3": "Optimiza estancias para máxima rentabilidad",
+        "point4": "Una plataforma. Múltiples fuentes de ingresos"
       },
       "marketing": {
-        "title": "Marketing dirigido que nadie más puede igualar"
+        "title": "Marketing dirigido que nadie más puede igualar",
+        "point1": "Segmentación precisa por interés y afinidad",
+        "point2": "Marketing a comunidades motivadas, no viajeros aleatorios",
+        "point3": "Alcance global con targeting híper-específico",
+        "point4": "Tasas de conversión más altas. Costes de adquisición más bajos"
       },
       "themedHotels": {
-        "title": "Hoteles por afinidades = Redes Sociales Perfectas"
+        "title": "Hoteles por afinidades = Redes Sociales Perfectas",
+        "point1": "Los intereses compartidos crean conexiones instantáneas",
+        "point2": "La psicología grupal impulsa estancias más largas y visitas de retorno",
+        "point3": "Las actividades temáticas aumentan el compromiso y la lealtad",
+        "point4": "La pertenencia comunitaria se vuelve adictiva"
       },
       "theyNeed": {
         "title": "Ellos necesitan su hotel"

@@ -14,42 +14,42 @@ export function HotelSlogans() {
         
         <div className="space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl mx-0 px-0 py-[13px] my-[17px]">
           <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.alwaysFull')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.fullOccupancy')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.multiplyProfits')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.longerStays')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.fixedDay')}
             </span>
           </p>
           <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-lg">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.recoverClients')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.reducedCosts')}
             </span>
           </p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">
-            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded inline-block">
+            <span className="bg-yellow-300 text-[#8017B0] px-2 py-1 rounded">
               {t('hotels.slogans.staffStability')}
             </span>
           </p>

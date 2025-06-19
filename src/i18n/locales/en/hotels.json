@@ -124,13 +124,25 @@
         "title": "What are affinity hotels?"
       },
       "technology": {
-        "title": "Our technology does what others cannot"
+        "title": "Our technology does what others cannot",
+        "point1": "Connects people with shared interests",
+        "point2": "Coordinates check-ins and check-outs for zero gaps",
+        "point3": "Optimizes stays for maximum profitability",
+        "point4": "One platform. Multiple revenue streams"
       },
       "marketing": {
-        "title": "Targeted marketing that no one else can match"
+        "title": "Targeted marketing that no one else can match",
+        "point1": "Precision segmentation by interest and affinity",
+        "point2": "Marketing to motivated communities, not random travelers",
+        "point3": "Global reach with hyper-specific targeting",
+        "point4": "Higher conversion rates. Lower acquisition costs"
       },
       "themedHotels": {
-        "title": "Affinity hotels = Perfect Social Networks"
+        "title": "Affinity hotels = Perfect Social Networks",
+        "point1": "Shared interests create instant connections",
+        "point2": "Group psychology drives longer stays and return visits",
+        "point3": "Themed activities increase engagement and loyalty",
+        "point4": "Community belonging becomes addictive"
       },
       "theyNeed": {
         "title": "They need your hotel"

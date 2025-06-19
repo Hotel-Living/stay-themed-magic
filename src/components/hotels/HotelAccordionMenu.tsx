@@ -1,7 +1,7 @@
+
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
-import { comparisonItems } from "./accordion/comparisonData";
 import { BenefitsSection, ProfitSection, DontJustFillRoomsSection, AffinitiesRevolutionSection, TheyNeedHotelSection, SeamlessIntegrationSection, StepsToJoinSection } from "./accordion/sections";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -99,10 +99,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Conecta personas con intereses compartidos</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Coordina llegadas y salidas para cero huecos</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Optimiza estancias para máxima rentabilidad</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Una plataforma. Múltiples fuentes de ingresos</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point1')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point2')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point3')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point4')}</p>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -115,10 +115,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Segmentación de precisión por interés y afinidad</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Marketing a comunidades motivadas, no viajeros aleatorios</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Alcance global con enfoque hiper-específico</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Tasas de conversión más altas. Costes de adquisición más bajos</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point1')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point2')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point3')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point4')}</p>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -131,10 +131,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Los intereses compartidos crean conexiones instantáneas</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> La psicología grupal impulsa estancias más largas y retornos</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> Las actividades temáticas aumentan el compromiso y la lealtad</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> La pertenencia comunitaria se vuelve adictiva</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point1')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point2')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point3')}</p>
+              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point4')}</p>
             </div>
           </AccordionContent>
         </AccordionItem>

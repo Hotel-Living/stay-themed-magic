@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
-import { BenefitsSection, ProfitSection, DontJustFillRoomsSection, AffinitiesRevolutionSection, TheyNeedHotelSection, SeamlessIntegrationSection, StepsToJoinSection } from "./accordion/sections";
-import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
+import { BenefitsSection } from "./accordion/sections";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelAccordionMenu() {
@@ -14,12 +13,13 @@ export function HotelAccordionMenu() {
     setOpenItem(openItem === value ? null : value);
   };
   
-  return <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0">
+  return (
+    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0">
       <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
         <AccordionItem value="the-benefits" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              1-   {t('hotels.accordion.benefits.title')}
+              1 - {t('hotels.accordion.benefits.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -30,7 +30,7 @@ export function HotelAccordionMenu() {
         <AccordionItem value="compare-systems" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              2-   {t('hotels.accordion.comparison.title')}
+              {t('hotels.accordion.comparison.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
@@ -41,52 +41,80 @@ export function HotelAccordionMenu() {
         <AccordionItem value="we-dont-just-fill-rooms" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              3-   {t('hotels.accordion.dontJustFill.title')}
+              {t('hotels.accordion.dontJustFill.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <DontJustFillRoomsSection />
+            <div className="space-y-6 text-left py-6">
+              {t('hotels.accordion.fillRooms.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
         
         <AccordionItem value="how-much-profit-missing" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              4-   {t('hotels.accordion.profitMissing.title')}
+              {t('hotels.accordion.profitMissing.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <ProfitSection />
+            <div className="space-y-6 text-left py-6">
+              <p className="text-base font-semibold py-0">{t('hotels.accordion.profitMissing.section1.title')}</p>
+              {t('hotels.accordion.profitMissing.section1.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {point}
+                </p>
+              ))}
+              
+              <p className="text-base font-semibold mt-14 py-[9px]">{t('hotels.accordion.profitMissing.section2.title')}</p>
+              {t('hotels.accordion.profitMissing.section2.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {point}
+                </p>
+              ))}
+              
+              <p className="text-base font-semibold mt-14 py-[17px]">{t('hotels.accordion.profitMissing.section3.title')}</p>
+              {t('hotels.accordion.profitMissing.section3.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {point}
+                </p>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
         
         <AccordionItem value="specialized-hotels" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              5-   {t('hotels.accordion.specializedHotels.title')}
+              {t('hotels.accordion.specializedHotels.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-3 text-left py-4">
-              <p className="text-lg text-[#FFF9B0]">EJEMPLO 1</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Imagina un hotel enfocado en deportes - ciclismo, golf, tenis, etc.</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Las personas interesadas en ese deporte reservan juntas</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Se forma una comunidad en torno a intereses comunes</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Sin huecos entre estancias. Sin pérdidas</p>
+              <p className="text-lg text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example1.title')}</p>
+              {t('hotels.accordion.affinityHotels.example1.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
+              ))}
               
-              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 2</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Considera un hotel temático de cocina</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Chefs, clases de cocina, maridajes de vinos, etc.</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Tarifas premium por experiencias especializadas</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Ocupación completa con estancias promedio más largas</p>
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example2.title')}</p>
+              {t('hotels.accordion.affinityHotels.example2.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
+              ))}
               
-              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 3</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Hoteles de inmersión lingüística</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Huéspedes de nivel de idioma similar agrupados juntos</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- El personal habla el idioma objetivo</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Experiencia lingüística completa</p>
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example3.title')}</p>
+              {t('hotels.accordion.affinityHotels.example3.points', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
+              ))}
               
-              <p className="text-base italic mt-4 text-[#FFF9B0]">Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y predecibles</p>
+              <p className="text-base italic mt-4 text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.conclusion')}</p>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -94,15 +122,17 @@ export function HotelAccordionMenu() {
         <AccordionItem value="our-technology" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              6-   {t('hotels.accordion.technology.title')}
+              {t('hotels.accordion.technology.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point1')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point2')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point3')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.technology.point4')}</p>
+              {t('hotels.accordion.technology.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -110,15 +140,17 @@ export function HotelAccordionMenu() {
         <AccordionItem value="targeted-marketing" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              7-   {t('hotels.accordion.marketing.title')}
+              {t('hotels.accordion.marketing.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point1')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point2')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point3')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.marketing.point4')}</p>
+              {t('hotels.accordion.marketing.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -126,15 +158,17 @@ export function HotelAccordionMenu() {
         <AccordionItem value="themed-hotels" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              8-   {t('hotels.accordion.themedHotels.title')}
+              {t('hotels.accordion.themedHotels.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point1')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point2')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point3')}</p>
-              <p className="text-base flex items-start text-[#FFF9B0]"><span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span> {t('hotels.accordion.themedHotels.point4')}</p>
+              {t('hotels.accordion.socialNetworks.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -142,46 +176,99 @@ export function HotelAccordionMenu() {
         <AccordionItem value="they-need-hotel" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              9-   {t('hotels.accordion.theyNeed.title')}
+              {t('hotels.accordion.theyNeed.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <TheyNeedHotelSection />
+            <div className="space-y-6 text-left py-6">
+              <p className="text-base font-semibold text-[#FFF9B0]">{t('hotels.accordion.theyNeed.intro')}</p>
+              {t('hotels.accordion.theyNeed.population', { returnObjects: true }).map((item: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {item}
+                </p>
+              ))}
+              
+              <p className="text-base font-semibold mt-6 text-[#FFF9B0]">AND MOST OF THEM:</p>
+              {t('hotels.accordion.theyNeed.andMost', { returnObjects: true }).map((item: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {item}
+                </p>
+              ))}
+              
+              <div className="mt-8 text-center">
+                <p className="text-lg font-bold text-[#FFF9B0]">{t('hotels.accordion.theyNeed.dream')}</p>
+                <p className="text-base italic text-[#FFF9B0] whitespace-pre-line">{t('hotels.accordion.theyNeed.dreamDetail')}</p>
+              </div>
+              
+              <p className="text-base font-semibold text-center text-[#FFF9B0] mt-6">{t('hotels.accordion.theyNeed.question')}</p>
+              
+              <p className="text-base font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.theyNeed.solutionIntro')}</p>
+              {t('hotels.accordion.theyNeed.solutionPoints', { returnObjects: true }).map((point: string, index: number) => (
+                <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {point}
+                </p>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
         
         <AccordionItem value="themes-revolution" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              10-   {t('hotels.accordion.affinitiesRevolution.title')}
+              {t('hotels.accordion.affinitiesRevolution.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <AffinitiesRevolutionSection />
+            <div className="space-y-4 text-left py-6">
+              {t('hotels.accordion.socialRevolution.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
         
         <AccordionItem value="seamless-integration" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              11-   {t('hotels.accordion.seamlessIntegration.title')}
+              {t('hotels.accordion.seamlessIntegration.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <SeamlessIntegrationSection />
+            <div className="space-y-6 text-left py-6">
+              {t('hotels.accordion.integration.lines', { returnObjects: true }).map((line: string, index: number) => (
+                <p key={index} className="text-base flex items-start text-[#FFF9B0]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                  {line}
+                </p>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
         
         <AccordionItem value="steps-to-join" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              12-   {t('hotels.accordion.stepsToJoin.title')}
+              {t('hotels.accordion.stepsToJoin.title')}
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <StepsToJoinSection />
+            <div className="space-y-8 text-left py-6">
+              {t('hotels.accordion.stepsToJoin.steps', { returnObjects: true }).map((step: any, index: number) => (
+                <div key={index} className="space-y-3">
+                  <p className="text-base font-semibold text-[#FFF9B0]">{step.step}</p>
+                  <p className="text-base text-[#FFF9B0] pl-4 whitespace-pre-line">{step.details}</p>
+                </div>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>;
+    </div>
+  );
 }

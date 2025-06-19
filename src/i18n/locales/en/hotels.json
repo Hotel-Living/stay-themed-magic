@@ -61,6 +61,30 @@
         "title": "2 – Let's compare systems",
         "traditional": "TRADITIONAL MODEL",
         "hotelLiving": "HOTEL LIVING MODEL",
+        "traditionalModel": [
+          "Constant check-ins and check-outs",
+          "More cleaning, laundry, and turnover",
+          "Heavier workload at reception",
+          "Unpredictable occupancy",
+          "Gaps between bookings = Empty nights = Lost revenue",
+          "High and low seasons. Staff comes and goes",
+          "Unmotivated staff, untrainable, unprofessional",
+          "Guests come and go. No connection, no loyalty",
+          "Cold, isolated bookings. One after another",
+          "Rental apartments win with lower prices"
+        ],
+        "hotelLivingModel": [
+          "Fixed check-in/check-out days = Smoother operations",
+          "Less cleaning, fewer transitions",
+          "More efficient and optimized reception",
+          "Longer stays = Higher occupancy",
+          "Zero empty nights = Maximum profit",
+          "High season all year round. Stable staff",
+          "Motivated, trainable, professional staff",
+          "Guests feel at home and return",
+          "Not just bookings: communities",
+          "Elegance. Humanity. Services. Hotels win"
+        ],
         "items": [
           {
             "id": 1,
@@ -117,25 +141,106 @@
       "dontJustFill": {
         "title": "3 – We don't just fill rooms"
       },
+      "fillRooms": {
+        "title": "3 – We don't just fill rooms",
+        "lines": [
+          "People grouped by affinities",
+          "Zero randomness. 100% connections",
+          "Hotels for belonging, not just for staying",
+          "We are transforming society"
+        ]
+      },
       "profitMissing": {
-        "title": "4 – How much profit are we missing?"
+        "title": "4 – How much profit are we missing?",
+        "section1": {
+          "title": "4.1 – WESTERN HOTELS. HOW MUCH PROFIT DO WE LOSE EACH YEAR?",
+          "points": [
+            "Together, we lose around $75 billion every year",
+            "These rooms are not sold: they are pure pre-tax profits",
+            "Our average annual occupancy rate is just 60%",
+            "That only lets us cover costs and generate low revenue",
+            "But we're missing the real margin: the remaining 40% of empty rooms — our pure gain"
+          ]
+        },
+        "section2": {
+          "title": "4.2 – AND HOW MUCH PROFIT DOES YOUR HOTEL LOSE EVERY YEAR?",
+          "points": [
+            "Just five empty rooms per day = around $55,000 lost yearly",
+            "20 empty rooms per day = about $220,000 in pure profit",
+            "A 200-room hotel closed from October to May loses $1 million and piles up $420,000 in additional losses",
+            "And a 500-room hotel? Over $3 million in lost annual profit. And the losses... better not even look"
+          ]
+        },
+        "section3": {
+          "title": "4.3 – YES. THE VAST MAJORITY OF HOTELS LOSE THEIR TRUE PROFIT POTENTIAL",
+          "points": [
+            "Empty rooms are our untapped gold",
+            "Few of us reach 100% occupancy year-round",
+            "It doesn't matter if we're 3-star or 5-star: we're all losing money",
+            "The pure-profit rooms go unsold",
+            "We are giving up our rightful place in society"
+          ]
+        }
       },
       "specializedHotels": {
         "title": "5 – What are affinity hotels?"
+      },
+      "affinityHotels": {
+        "title": "5 – What are affinity hotels?",
+        "example1": {
+          "title": "EXAMPLE 1",
+          "points": [
+            "Imagine a hotel focused on sports – cycling, golf, tennis, etc.",
+            "People interested in that sport book together",
+            "A community forms around shared interests",
+            "No gaps between stays. No losses"
+          ]
+        },
+        "example2": {
+          "title": "EXAMPLE 2",
+          "points": [
+            "Consider a cooking-themed hotel",
+            "Chefs, cooking classes, wine pairings, etc.",
+            "Premium rates for specialized experiences",
+            "Full occupancy with longer average stays"
+          ]
+        },
+        "example3": {
+          "title": "EXAMPLE 3",
+          "points": [
+            "Language immersion hotels",
+            "Guests with similar language levels grouped together",
+            "Staff speaks the target language",
+            "A full language experience"
+          ]
+        },
+        "conclusion": "These specialized hotels create powerful community experiences while maintaining stable and predictable revenue."
       },
       "technology": {
         "title": "6 – Our technology does what others cannot",
         "point1": "Connects people with shared interests",
         "point2": "Coordinates check-ins and check-outs for zero gaps",
         "point3": "Optimizes stays for maximum profitability",
-        "point4": "One platform. Multiple revenue streams"
+        "point4": "One platform. Multiple revenue streams",
+        "lines": [
+          "Connects people with shared interests",
+          "Coordinates check-ins and check-outs for zero gaps",
+          "Optimizes stays for maximum profitability",
+          "One platform. Multiple revenue streams"
+        ]
       },
       "marketing": {
         "title": "7 – Targeted marketing that no one else can match",
         "point1": "Precision segmentation by interest and affinity",
         "point2": "Marketing to motivated communities, not random travelers",
         "point3": "Global reach with hyper-specific targeting",
-        "point4": "Higher conversion rates. Lower acquisition costs"
+        "point4": "Higher conversion rates. Lower acquisition costs",
+        "lines": [
+          "Precision segmentation by interest and affinity",
+          "Marketing to motivated communities, not random travelers",
+          "Global reach with hyper-specific targeting",
+          "Higher conversion rates. Lower acquisition costs"
+        ]
       },
       "themedHotels": {
         "title": "8 – Affinity hotels = Perfect Social Networks",
@@ -144,17 +249,98 @@
         "point3": "Themed activities increase engagement and loyalty",
         "point4": "Community belonging becomes addictive"
       },
+      "socialNetworks": {
+        "title": "8 – Affinity hotels = Perfect Social Networks",
+        "lines": [
+          "Shared interests create instant connections",
+          "Group psychology drives longer stays and return visits",
+          "Themed activities increase engagement and loyalty",
+          "Community belonging becomes addictive"
+        ]
+      },
       "theyNeed": {
-        "title": "9 – They need your hotel"
+        "title": "9 – They need your hotel",
+        "intro": "BECAUSE 40% OF THE WESTERN POPULATION:",
+        "population": [
+          "Lives alone or as a couple",
+          "Is pre-retired or retired",
+          "Works online",
+          "Is a student living away from home",
+          "Lives too far from work"
+        ],
+        "andMost": [
+          "Want to be free from domestic chores",
+          "Feel too lonely",
+          "Have no family ties",
+          "Wish to expand their social lives",
+          "Want to meet people with similar tastes and mindsets",
+          "Need the full safety of hotel living, especially older or single individuals"
+        ],
+        "dream": "BECAUSE THE DREAM OF HUMANITY IS TO LIVE IN A HOTEL",
+        "dreamDetail": "With everything taken care of\nOn an endless vacation",
+        "question": "So why do we have 40% of rooms empty every year?",
+        "solutionIntro": "THEY NEED YOUR HOTEL BECAUSE:",
+        "solutionPoints": [
+          "People want to socialize. Make friends",
+          "They want to stay longer in your hotel",
+          "They want you to take care of their chores",
+          "They urgently need your empty rooms and your services",
+          "Just help them: give them both"
+        ]
       },
       "affinitiesRevolution": {
         "title": "10 – Affinities are the new social revolution"
       },
+      "socialRevolution": {
+        "title": "10 – Affinities are the new social revolution",
+        "lines": [
+          "Guests don't just want rooms: they want meaning",
+          "Interests connect faster than discounts",
+          "Themed stays build loyalty",
+          "Strangers become communities",
+          "You don't just fill rooms: you create belonging",
+          "Attract the right guests, not just any guests",
+          "Your affinity is your magnet",
+          "Hotels with soul are the ones winning the future"
+        ]
+      },
       "seamlessIntegration": {
         "title": "11 – We are perfect integration"
       },
+      "integration": {
+        "title": "11 – We are perfect integration",
+        "lines": [
+          "You don't have to choose between systems",
+          "Combine both models as you wish",
+          "Start with just a few rooms and scale up as needed",
+          "Switch more rooms to our model when it makes sense",
+          "Our platform integrates seamlessly with your current operations",
+          "Zero disruption to your daily work",
+          "We adapt to you — not the other way around",
+          "This is flexibility. This is profitability.",
+          "This is Perfect Integration"
+        ]
+      },
       "stepsToJoin": {
-        "title": "12 – Steps to join Hotel-Living"
+        "title": "12 – Steps to join Hotel-Living",
+        "steps": [
+          {
+            "step": "1. IDENTIFY YOUR AVAILABLE ROOMS",
+            "details": "Assess how many rooms in your hotel remain empty for at least 8 consecutive days (7 nights) at certain times of the year.\nYou don't need to convert the entire property — you can reserve part of your inventory for traditional bookings, and release other rooms for Hotel Living guests. This allows you to increase occupancy and profitability without disrupting your regular operation."
+          },
+          {
+            "step": "2. DEFINE A CONCEPT BASED ON AFFINITIES",
+            "details": "Think of an "affinity" that might attract your ideal guest, based on your hotel's location, typical clientele, or even your own interests as the owner.\nThe possibilities are endless, such as:\n- Nature and hiking (for mountain locations)\n- Water sports or wellness at the beach (for coastal areas)\n- Wine tasting, painting, wellness, remote work, dance, science, culture, theatre, or any other theme, hobby or lifestyle\n\nNOTE: Affinity does not exclude other guests. It just helps you position your hotel better in the market and allows guests to self-select based on their ideal environment."
+          },
+          {
+            "step": "3. REGISTER AND USE THE ONLINE CALCULATOR",
+            "details": "Once registered, you'll gain access to our Hotel Living calculator, a powerful tool to test stay models (8, 16, 24 or 32 nights).\nYou'll be able to set prices, run financial simulations, and adjust your offer based on occupancy and revenue projections.\n\nThe goal is clear: fill your rooms — don't leave them empty.\n\nFOR EXAMPLE:\nIf you have 30 rooms available and set prices too high, you might only fill 15 — and the other 15 will remain empty, generating no revenue but still incurring costs. On top of that, your hotel will look deserted.\nBut if you lower prices just a bit, you could fill all 30 — generating higher total revenue, more life in your hotel, and new opportunities.\n\nIt's the same principle airlines use: they prefer to sell the last seat for $5 than to leave it empty.\nEVERY EMPTY SPACE IS LOST INCOME."
+          },
+          {
+            "step": "4. ADD YOUR HOTEL IN YOUR DASHBOARD",
+            "details": "Once you've defined your theme and pricing model, access your dashboard and complete the steps to "Add new property".\nFrom there, you'll be able to manage availability, visibility, and long-stay bookings."
+          }
+        ]
       }
     }
   }

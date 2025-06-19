@@ -46,7 +46,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-6 text-left py-6">
-              {t('hotels.accordion.fillRooms.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.fillRooms.lines', { returnObjects: true })) 
+                ? t('hotels.accordion.fillRooms.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -65,7 +68,10 @@ export function HotelAccordionMenu() {
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-6 text-left py-6">
               <p className="text-base font-semibold py-0">{t('hotels.accordion.profitMissing.section1.title')}</p>
-              {t('hotels.accordion.profitMissing.section1.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.profitMissing.section1.points', { returnObjects: true }))
+                ? t('hotels.accordion.profitMissing.section1.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {point}
@@ -73,7 +79,10 @@ export function HotelAccordionMenu() {
               ))}
               
               <p className="text-base font-semibold mt-14 py-[9px]">{t('hotels.accordion.profitMissing.section2.title')}</p>
-              {t('hotels.accordion.profitMissing.section2.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.profitMissing.section2.points', { returnObjects: true }))
+                ? t('hotels.accordion.profitMissing.section2.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {point}
@@ -81,7 +90,10 @@ export function HotelAccordionMenu() {
               ))}
               
               <p className="text-base font-semibold mt-14 py-[17px]">{t('hotels.accordion.profitMissing.section3.title')}</p>
-              {t('hotels.accordion.profitMissing.section3.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.profitMissing.section3.points', { returnObjects: true }))
+                ? t('hotels.accordion.profitMissing.section3.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {point}
@@ -100,17 +112,26 @@ export function HotelAccordionMenu() {
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-3 text-left py-4">
               <p className="text-lg text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example1.title')}</p>
-              {t('hotels.accordion.affinityHotels.example1.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.affinityHotels.example1.points', { returnObjects: true }))
+                ? t('hotels.accordion.affinityHotels.example1.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
               ))}
               
               <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example2.title')}</p>
-              {t('hotels.accordion.affinityHotels.example2.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.affinityHotels.example2.points', { returnObjects: true }))
+                ? t('hotels.accordion.affinityHotels.example2.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
               ))}
               
               <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.affinityHotels.example3.title')}</p>
-              {t('hotels.accordion.affinityHotels.example3.points', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.affinityHotels.example3.points', { returnObjects: true }))
+                ? t('hotels.accordion.affinityHotels.example3.points', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">- {point}</p>
               ))}
               
@@ -127,7 +148,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              {t('hotels.accordion.technology.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.technology.lines', { returnObjects: true }))
+                ? t('hotels.accordion.technology.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -145,7 +169,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              {t('hotels.accordion.marketing.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.marketing.lines', { returnObjects: true }))
+                ? t('hotels.accordion.marketing.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -163,7 +190,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
-              {t('hotels.accordion.socialNetworks.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.socialNetworks.lines', { returnObjects: true }))
+                ? t('hotels.accordion.socialNetworks.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -182,7 +212,10 @@ export function HotelAccordionMenu() {
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-6 text-left py-6">
               <p className="text-base font-semibold text-[#FFF9B0]">{t('hotels.accordion.theyNeed.intro')}</p>
-              {t('hotels.accordion.theyNeed.population', { returnObjects: true }).map((item: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.theyNeed.population', { returnObjects: true }))
+                ? t('hotels.accordion.theyNeed.population', { returnObjects: true }) as string[]
+                : []
+              ).map((item: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {item}
@@ -190,7 +223,10 @@ export function HotelAccordionMenu() {
               ))}
               
               <p className="text-base font-semibold mt-6 text-[#FFF9B0]">AND MOST OF THEM:</p>
-              {t('hotels.accordion.theyNeed.andMost', { returnObjects: true }).map((item: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.theyNeed.andMost', { returnObjects: true }))
+                ? t('hotels.accordion.theyNeed.andMost', { returnObjects: true }) as string[]
+                : []
+              ).map((item: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {item}
@@ -205,7 +241,10 @@ export function HotelAccordionMenu() {
               <p className="text-base font-semibold text-center text-[#FFF9B0] mt-6">{t('hotels.accordion.theyNeed.question')}</p>
               
               <p className="text-base font-semibold mt-6 text-[#FFF9B0]">{t('hotels.accordion.theyNeed.solutionIntro')}</p>
-              {t('hotels.accordion.theyNeed.solutionPoints', { returnObjects: true }).map((point: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.theyNeed.solutionPoints', { returnObjects: true }))
+                ? t('hotels.accordion.theyNeed.solutionPoints', { returnObjects: true }) as string[]
+                : []
+              ).map((point: string, index: number) => (
                 <p key={index} className="text-base flex items-start pl-4 text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {point}
@@ -223,7 +262,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-6">
-              {t('hotels.accordion.socialRevolution.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.socialRevolution.lines', { returnObjects: true }))
+                ? t('hotels.accordion.socialRevolution.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -241,7 +283,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-6 text-left py-6">
-              {t('hotels.accordion.integration.lines', { returnObjects: true }).map((line: string, index: number) => (
+              {(Array.isArray(t('hotels.accordion.integration.lines', { returnObjects: true }))
+                ? t('hotels.accordion.integration.lines', { returnObjects: true }) as string[]
+                : []
+              ).map((line: string, index: number) => (
                 <p key={index} className="text-base flex items-start text-[#FFF9B0]">
                   <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
                   {line}
@@ -259,7 +304,10 @@ export function HotelAccordionMenu() {
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-8 text-left py-6">
-              {t('hotels.accordion.stepsToJoin.steps', { returnObjects: true }).map((step: any, index: number) => (
+              {(Array.isArray(t('hotels.accordion.stepsToJoin.steps', { returnObjects: true }))
+                ? t('hotels.accordion.stepsToJoin.steps', { returnObjects: true }) as any[]
+                : []
+              ).map((step: any, index: number) => (
                 <div key={index} className="space-y-3">
                   <p className="text-base font-semibold text-[#FFF9B0]">{step.step}</p>
                   <p className="text-base text-[#FFF9B0] pl-4 whitespace-pre-line">{step.details}</p>

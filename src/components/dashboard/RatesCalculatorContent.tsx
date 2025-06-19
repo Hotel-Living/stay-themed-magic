@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -113,6 +112,7 @@ export const RatesCalculatorContent: React.FC = () => {
     setDownloadExpanded(prev => !prev);
     if (!downloadExpanded) setTipsExpanded(false);
   };
+
   return <div className="space-y-6">
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
@@ -127,7 +127,7 @@ export const RatesCalculatorContent: React.FC = () => {
               COSTS & PROFITS
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              {t('dashboard.buildOwnModel')}
+              BUILD YOUR OWN MODEL
             </TabsTrigger>
           </TabsList>
 

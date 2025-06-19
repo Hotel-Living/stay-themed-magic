@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -15,17 +14,17 @@ const CostItemsTab: React.FC = () => {
   const menuOptions: MenuOption[] = [
     {
       id: "utilities",
-      labelKey: "dashboard.ratesCalculator.utilities",
+      labelKey: "ratesCalculator.utilities",
       content: `SUMINISTROS`
     },
     {
       id: "cleaning",
-      labelKey: "dashboard.ratesCalculator.cleaning",
+      labelKey: "ratesCalculator.cleaning",
       content: `LIMPIEZA`
     },
     {
       id: "meal-plans",
-      labelKey: "dashboard.ratesCalculator.meals",
+      labelKey: "ratesCalculator.meals",
       content: `**THE HOTEL-LIVING MEAL MODEL: SIMPLE, HEALTHY, HOME-STYLE**
 
 Except in luxury, high-end boutique hotels or in 8-day stays focused on gastronomy or culinary experiences, Hotel-Living is not about gourmet cuisine or luxurious buffets.
@@ -83,7 +82,7 @@ ________________________________________
     },
     {
       id: "total-costs",
-      labelKey: "dashboard.ratesCalculator.totalCost",
+      labelKey: "ratesCalculator.totalCost",
       content: ``
     }
   ];

@@ -15,26 +15,7 @@ const CostItemsTab: React.FC = () => {
     {
       id: "utilities",
       labelKey: "ratesCalculator.utilities",
-      content: `**PREDICTABILITY – RESPONSIBILITY – EFFICIENCY**
-
-⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS  
-They are respectful long-term residents who stay for 8, 16, 24, or 32 days.
-
-🌿 SMARTER GUESTS, SMARTER RESOURCE USAGE  
-Thanks to longer stays and a more personal relationship with the property, these guests tend to be more mindful about resource usage.  
-They feel more like temporary tenants than short-stay visitors — and that makes a real difference.  
-________________________________________  
-⚡ SERVICE USAGE IS LOWER AND MORE STABLE  
-💡 ENERGY-EFFICIENT SYSTEMS (such as LED lighting and moderated climate control) become even more effective  
-🌱 WHEN FEELING AT HOME, guests naturally adopt more sustainable habits  
-________________________________________  
-💜 A SENSE OF SHARED RESPONSIBILITY  
-Because Hotel-Living offers accessible rates, guests are usually aware and respectful of the opportunity.  
-They know this model depends on balance, care, and sustainability — and most act accordingly.  
-________________________________________  
-🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION  
-Thanks to lower room turnover and simplified cleaning protocols, the use of utilities remains steady and optimized, with fewer electricity or water usage spikes.  
-________________________________________`
+      content: `SUMINISTROS`
     },
     {
       id: "cleaning",
@@ -72,14 +53,14 @@ Except in luxury, high-end boutique hotels or in 8-day stays focused on gastrono
 
 In most cases, the Hotel-Living experience is based on comfort, simplicity, and sustainability.
 
-Our guests aren’t here for luxury.  
+Our guests aren't here for luxury.  
 They are long-term residents seeking a reliable, healthy, and affordable meal routine — something that resembles real home life.  
 ________________________________________  
 🔧 THAT'S WHY OUR MEAL MODEL IS:
 
 ✅ 🥗 Balanced, home-style, and easy to prepare  
 ✅ 🍎 Designed for moderation and well-being, not excess  
-✅ 👨‍🍳 Compatible with your hotel’s existing kitchen and staff  
+✅ 👨‍🍳 Compatible with your hotel's existing kitchen and staff  
 ✅ ♻️ Low in waste and cost — without sacrificing quality or care  
 ________________________________________  
 🍳 FLEXIBLE MEAL PLANS
@@ -100,12 +81,12 @@ ________________________________________
 
 As all bookings are made in advance and for fixed durations:
 
-✅ 📅 You’ll know exactly how many guests are coming — and for how long.  
+✅ 📅 You'll know exactly how many guests are coming — and for how long.  
 ✅ 🚫 Food waste can be brought down to nearly zero.  
 ________________________________________  
 🔁 SIMPLE, EFFICIENT KITCHEN STRATEGY:
 
-For simple kitchens, there’s a proven, cost-effective strategy:
+For simple kitchens, there's a proven, cost-effective strategy:
 
 🔄 ROTATING WEEKLY MENUS
 

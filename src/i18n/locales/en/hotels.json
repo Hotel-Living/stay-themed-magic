@@ -60,7 +60,59 @@
       "comparison": {
         "title": "Let's compare systems",
         "traditional": "TRADITIONAL MODEL",
-        "hotelLiving": "HOTEL LIVING MODEL"
+        "hotelLiving": "HOTEL LIVING MODEL",
+        "items": [
+          {
+            "id": 1,
+            "traditional": "Constant check-ins and check-outs",
+            "hotelLiving": "Fixed check-in/check-out days = Smoother operations"
+          },
+          {
+            "id": 2,
+            "traditional": "More cleaning, laundry, and turnover",
+            "hotelLiving": "Less cleaning, fewer transitions"
+          },
+          {
+            "id": 3,
+            "traditional": "Heavier workload at reception",
+            "hotelLiving": "More efficient and optimized reception"
+          },
+          {
+            "id": 4,
+            "traditional": "Unpredictable occupancy",
+            "hotelLiving": "Longer stays = Higher occupancy"
+          },
+          {
+            "id": 5,
+            "traditional": "Gaps between bookings = Empty nights = Lost revenue",
+            "hotelLiving": "Zero empty nights = Maximum profit"
+          },
+          {
+            "id": 6,
+            "traditional": "High and low seasons. Staff comes and goes",
+            "hotelLiving": "High season all year round. Stable staff"
+          },
+          {
+            "id": 7,
+            "traditional": "Unmotivated staff, untrainable, unprofessional",
+            "hotelLiving": "Motivated, trainable, professional staff"
+          },
+          {
+            "id": 8,
+            "traditional": "Guests come and go. No connection, no loyalty",
+            "hotelLiving": "Guests feel at home and return"
+          },
+          {
+            "id": 9,
+            "traditional": "Cold, isolated bookings. One after another",
+            "hotelLiving": "Not just bookings: communities"
+          },
+          {
+            "id": 10,
+            "traditional": "Rental apartments win with lower prices",
+            "hotelLiving": "Elegance. Humanity. Services. Hotels win"
+          }
+        ]
       },
       "dontJustFill": {
         "title": "We don't just fill rooms"

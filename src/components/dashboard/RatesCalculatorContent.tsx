@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -147,7 +148,7 @@ export const RatesCalculatorContent: React.FC = () => {
                     COSTS
                   </TabsTrigger>
                   <TabsTrigger value="profits" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "profits" ? "border border-white/40" : ""}`} onClick={handleProfitsSubTabClick} aria-pressed={costsSubTab === "profits"}>
-                    {t('dashboard.profits')}
+                    PROFITS
                   </TabsTrigger>
                 </TabsList>
                 {/* COSTS TAB CONTENT */}

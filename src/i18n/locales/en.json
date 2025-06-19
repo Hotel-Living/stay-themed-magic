@@ -372,6 +372,9 @@
       "integration": "INTEGRATION",
       "marketing": "MARKETING",
       "payment": "PAYMENTS & COMMISSIONS"
-    }
+    },
+    "readyToJoin": "Ready to join the revolution?",
+    "registerHotel": "Register Hotel",
+    "partnerLogin": "Partner Login"
   }
 }

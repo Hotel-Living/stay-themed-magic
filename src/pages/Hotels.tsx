@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
 import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
-import { hotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
+import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
@@ -46,13 +46,14 @@ export default function Hotels() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const hotelFaqCategories = useHotelFaqCategories();
   const hotelFaqsByCategory = useHotelFaqsByCategory();
   
   const orderedFaqCategories = React.useMemo(() => 
     orderedCategoryIds.map(id => 
       hotelFaqCategories.find(cat => cat.id === id)
     ).filter(Boolean) as typeof hotelFaqCategories,
-  []);
+  [hotelFaqCategories]);
   
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">

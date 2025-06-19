@@ -1,3 +1,4 @@
+
 {
   "common": {
     "loading": "Loading...",
@@ -358,5 +359,19 @@
     "affinity": "Affinity",
     "clearAll": "Clear All",
     "apply": "Apply Filters"
+  },
+  "hotels": {
+    "faqCategories": {
+      "benefits": "BENEFITS",
+      "models": "MODELS",
+      "revenue": "REVENUE",
+      "guests": "GUESTS",
+      "seniors": "SENIORS",
+      "affinities": "AFFINITIES",
+      "operation": "OPERATIONS",
+      "integration": "INTEGRATION",
+      "marketing": "MARKETING",
+      "payment": "PAYMENTS & COMMISSIONS"
+    }
   }
 }

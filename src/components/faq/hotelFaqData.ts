@@ -30,6 +30,26 @@ import { seniorsFaqs as seniorsFaqsEn } from "./hotel-categories/en/seniorsFaqs"
 
 export type { FaqItem, FaqCategory };
 
+export const useHotelFaqCategories = () => {
+  const { t } = useTranslation();
+  
+  return [
+    { id: "video", name: "Video" },
+    { id: "benefits", name: t('hotels.faqCategories.benefits') },
+    { id: "models", name: t('hotels.faqCategories.models') },
+    { id: "revenue", name: t('hotels.faqCategories.revenue') },
+    { id: "guests", name: t('hotels.faqCategories.guests') },
+    { id: "seniors", name: t('hotels.faqCategories.seniors') },
+    { id: "affinities", name: t('hotels.faqCategories.affinities') },
+    { id: "operation", name: t('hotels.faqCategories.operation') },
+    { id: "integration", name: t('hotels.faqCategories.integration') },
+    { id: "marketing", name: t('hotels.faqCategories.marketing') },
+    { id: "payment", name: t('hotels.faqCategories.payment') },
+    { id: "steps", name: "Pasos" },
+    { id: "rental", name: "Alquiler" }
+  ];
+};
+
 export const hotelFaqCategories: FaqCategory[] = [
   { id: "video", name: "Video" },
   { id: "benefits", name: "Beneficios" },

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
@@ -35,7 +34,7 @@ export function HotelAccordionMenu() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <ComparisonTable items={comparisonItems} />
+            <ComparisonTable />
           </AccordionContent>
         </AccordionItem>
         

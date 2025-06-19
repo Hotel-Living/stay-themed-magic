@@ -118,55 +118,10 @@
         "title": "We don't just fill rooms"
       },
       "profitMissing": {
-        "title": "How much profit are we missing?",
-        "section1": {
-          "title": "WESTERN HOTELS. HOW MUCH PROFIT DO WE LOSE EACH YEAR?",
-          "point1": "Collectively, about $75 billion is lost each year",
-          "point2": "It's not sold: it's pure profit, before taxes",
-          "point3": "Our average annual occupancy rate is 60%",
-          "point4": "That only allows us to cover costs and have little income",
-          "point5": "But we don't capture the real profit: the remaining 40% of empty rooms. Our pure gain"
-        },
-        "section2": {
-          "title": "AND HOW MUCH PROFIT DOES YOUR HOTEL LOSE EACH YEAR?",
-          "point1": "Just five empty rooms per day = about $55,000 lost annually",
-          "point2": "20 empty rooms per day = about $220,000 in pure profit",
-          "point3": "A 200-room hotel closed from October to May loses $1 million and also accumulates $420,000 in losses",
-          "point4": "And one with 500 rooms? More than $3 million in lost profit each year. And the losses... better not look at them"
-        },
-        "section3": {
-          "title": "YES. THE VAST MAJORITY OF HOTELS LOSE THEIR TRUE PROFIT POTENTIAL",
-          "point1": "Empty rooms are our untapped gold",
-          "point2": "Few of us achieve 100% occupancy all year round",
-          "point3": "It doesn't matter if we're 3 or 5 stars: we all lose money",
-          "point4": "Pure profit rooms don't sell",
-          "point5": "We are giving up our rightful place in society"
-        }
+        "title": "How much profit are we missing?"
       },
       "specializedHotels": {
-        "title": "What are affinity hotels?",
-        "example1": {
-          "title": "EXAMPLE 1",
-          "point1": "Imagine a hotel focused on sports - cycling, golf, tennis, etc.",
-          "point2": "People interested in that sport book together",
-          "point3": "Community forms around common interests",
-          "point4": "No gaps between stays. No losses"
-        },
-        "example2": {
-          "title": "EXAMPLE 2",
-          "point1": "Consider a hotel themed around cooking",
-          "point2": "Chefs, cooking classes, wine pairings, etc.",
-          "point3": "Premium rates for specialized experiences",
-          "point4": "Full occupancy with longer average stays"
-        },
-        "example3": {
-          "title": "EXAMPLE 3",
-          "point1": "Language immersion hotels",
-          "point2": "Similar language level guests grouped together",
-          "point3": "Staff speaks target language",
-          "point4": "Complete linguistic experience"
-        },
-        "conclusion": "These specialized hotels create powerful communal experiences while maintaining steady, predictable revenue"
+        "title": "What are affinity hotels?"
       },
       "technology": {
         "title": "Our technology does what others cannot",

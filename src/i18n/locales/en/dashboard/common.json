@@ -1,3 +1,4 @@
+
 {
   "dashboard": {
     "importantNotice": {
@@ -17,5 +18,12 @@
     "costsDisclaimer": "Disclaimer: Estimated Values",
     "costs": "Costs",
     "profits": "Profits"
+  },
+  "ratesCalculator": {
+    "utilities": "UTILITIES",
+    "cleaning": "CLEANING",
+    "meals": "MEALS", 
+    "totalCost": "TOTAL COST",
+    "disclaimer": "These figures represent an example of average incremental costs per additional occupied room in 3, 4, and 5-star hotels in Western markets. Actual costs may vary and should be adjusted based on the category, service level, positioning, and operational model of each hotel."
   }
 }

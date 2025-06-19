@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -130,13 +131,13 @@ export const RatesCalculatorContent: React.FC = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* COSTS & PROFITS Section (untouched) */}
+          {/* COSTS & PROFITS Section */}
           {mainTab === "costs-profits" && <TabsContent value="costs-profits">
               <div className="relative text-white/90 text-sm text-center px-4 mb-6">
                 <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-xl opacity-60"></div>
                 <div className="relative bg-gradient-to-br from-blue-900/30 to-purple-900/30 backdrop-blur-sm border border-blue-400/20 rounded-lg p-4">
                   <p className="font-bold">
-                    {t('dashboard.costsDisclaimer')}
+                    {t('ratesCalculator.disclaimer')}
                   </p>
                 </div>
               </div>

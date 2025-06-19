@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -127,6 +126,7 @@ const enCombined = {
     ...enDashboardCommon.dashboard,
     ...enDashboardGeneral.dashboard
   },
+  ratesCalculator: enDashboardCommon.ratesCalculator,
   "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
   welcomeContent: enDashboardWelcomeContent.welcomeContent
 };

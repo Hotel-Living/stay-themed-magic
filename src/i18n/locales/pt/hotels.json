@@ -30,6 +30,32 @@
       "studio": "Estúdio",
       "penthouse": "Cobertura",
       "familyRoom": "Quarto Familiar"
+    },
+    "slogans": {
+      "mainTitle": "DEIXE-NOS SEUS QUARTOS VAZIOS, NÓS OS TRANSFORMAREMOS EM OURO",
+      "alwaysFull": "Seu hotel, sempre cheio. O ano todo",
+      "fullOccupancy": "100% de ocupação, todos os dias",
+      "multiplyProfits": "Multiplique seus lucros espetacularmente",
+      "longerStays": "Estadias mais longas, clientes mais satisfeitos",
+      "fixedDay": "Dia fixo de entrada/saída toda semana",
+      "recoverClients": "Recupere clientes perdidos para Airbnb",
+      "reducedCosts": "Custos reduzidos, eficiência máxima",
+      "staffStability": "Estabilidade da equipe, serviço superior"
+    },
+    "features": {
+      "whyJoin": "Por que se juntar ao Hotel-Living?",
+      "fullOccupancy": {
+        "title": "Ocupação Total",
+        "description": "Garanta 100% de ocupação durante todo o ano com nosso modelo de estadias longas"
+      },
+      "higherRevenue": {
+        "title": "Maior Receita",
+        "description": "Multiplique seus lucros com estadias mensais e custos operacionais reduzidos"
+      },
+      "globalNetwork": {
+        "title": "Rede Global",
+        "description": "Conecte-se a uma rede mundial de hotéis temáticos e atraia hóspedes internacionais"
+      }
     }
   }
 }

@@ -1,4 +1,3 @@
-
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -27,7 +26,7 @@ const staffProfiles = [
     title: "MEDIA RELATIONS MANAGER",
   },
   {
-    img: "/lovable-uploads/2233261d-2199-4fe5-80cb-8fb57da3478a.png",
+    img: "/lovable-uploads/9c8d38f3-65c8-4b55-851a-e723c4a4189e.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
   },

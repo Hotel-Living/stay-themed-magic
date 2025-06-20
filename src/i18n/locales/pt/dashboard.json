@@ -20,12 +20,6 @@
     "costs": "CUSTOS",
     "profits": "LUCROS",
     "selectAll": "Selecionar Todos",
-    "deselectAll": "Desmarcar Todos",
-    "ratesCalculator": {
-      "utilities": "UTILITÁRIOS",
-      "cleaning": "LIMPEZA", 
-      "meals": "REFEIÇÕES",
-      "laundry": "LAVANDERIA"
-    }
+    "deselectAll": "Desmarcar Todos"
   }
 }

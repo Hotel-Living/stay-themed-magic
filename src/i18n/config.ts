@@ -219,9 +219,9 @@ const resources = {
         ...ptDashboardPricing.dashboard,
         ...ptDashboardTerms.dashboard,
         ...ptDashboardCommon.dashboard,
-        ...ptDashboardSettings.dashboard
+        ...ptDashboardSettings.dashboard,
+        ratesCalculator: ptDashboardRatesCalculator.ratesCalculator
       },
-      ratesCalculator: ptDashboardRatesCalculator.ratesCalculator,
       advertising: ptDashboardAdvertising.advertising,
       "dashboard-faq-terms": ptDashboardFaqTerms["dashboard-faq-terms"],
       welcomeContent: ptDashboardWelcomeContent.welcomeContent

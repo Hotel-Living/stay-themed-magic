@@ -1,7 +1,7 @@
 
 import { FaqItem } from "../hotel-types";
 
-export const operationsFaqs: FaqItem[] = [
+export const operationFaqs: FaqItem[] = [
   {
     question: "Como o Hotel-Living se integra com nossas operações atuais?",
     answer: "O Hotel-Living se integra perfeitamente sem perturbar as operações diárias. Você pode manter reservas tradicionais enquanto destina quartos específicos ao nosso sistema de estadias prolongadas."

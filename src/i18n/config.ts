@@ -4,7 +4,6 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import English translations
-import en from './locales/en.json';
 import enHotels from './locales/en/hotels.json';
 import enAffinity from './locales/en/affinity.json';
 import enFilters from './locales/en/filters.json';
@@ -63,81 +62,159 @@ import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
 import esDashboardWelcomeContent from './locales/es/dashboard/welcome-content.json';
 import esDashboardFaqTerms from './locales/es/dashboard/faq-terms.json';
 
-// Combine Spanish translations - ensure all dashboard modules are properly merged
-const es = {
-  ...esCommon,
-  ...esNavigation,
-  ...esAffinity,
-  ...esAuth,
-  ...esBooking,
-  ...esFaq,
-  ...esContent,
-  ...esMisc,
-  ...esHome,
-  ...esFooter,
-  ...esHotels,
-  ...esFilters,
-  ...esOurServices,
-  ...esOurValues,
-  ...esCustomerService,
-  ...esContact,
-  ...esTerms,
-  ...esPrivacy,
-  ...esIntellectualProperty,
-  // All dashboard translations merged directly into the main translation object
-  dashboard: {
-    ...esDashboardGeneral.dashboard,
-    ...esDashboardStats.dashboard,
-    ...esDashboardWelcome.dashboard,
-    ...esDashboardContent.dashboard,
-    ...esDashboardPropertyForm.dashboard,
-    ...esDashboardImages.dashboard,
-    ...esDashboardLocation.dashboard,
-    ...esDashboardContact.dashboard,
-    ...esDashboardFeatures.dashboard,
-    ...esDashboardAccommodation.dashboard,
-    ...esDashboardPricing.dashboard,
-    ...esDashboardTerms.dashboard,
-    ...esDashboardCommonEs.dashboard,
-    ...esDashboardSettings.dashboard,
-    ratesCalculator: esDashboardRatesCalculator.ratesCalculator,
-    ...esDashboardAdvertising.advertising
-  },
-  // Preserve dashboard-faq-terms as a separate namespace
-  "dashboard-faq-terms": esDashboardFaqTerms["dashboard-faq-terms"],
-  welcomeContent: esDashboardWelcomeContent.welcomeContent
-};
-
-// Combine English translations
-const enCombined = {
-  ...en,
-  ...enHotels,
-  ...enAffinity,
-  ...enFilters,
-  ...enOurServices,
-  ...enOurValues,
-  ...enCustomerService,
-  ...enContact,
-  ...enTerms,
-  ...enPrivacy,
-  ...enIntellectualProperty,
-  ...enAuth,
-  ...enFaq,
-  dashboard: {
-    ...enDashboardCommon.dashboard,
-    ...enDashboardGeneral.dashboard
-  },
-  ratesCalculator: enDashboardCommon.ratesCalculator,
-  "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
-  welcomeContent: enDashboardWelcomeContent.welcomeContent
-};
-
 const resources = {
   en: {
-    translation: enCombined
+    translation: {
+      common: {
+        loading: "Loading...",
+        error: "Error",
+        submit: "Submit",
+        cancel: "Cancel",
+        save: "Save",
+        edit: "Edit",
+        delete: "Delete",
+        confirm: "Confirm",
+        back: "Back",
+        next: "Next",
+        previous: "Previous",
+        close: "Close",
+        search: "Search",
+        filter: "Filter",
+        sort: "Sort",
+        view: "View",
+        add: "Add",
+        remove: "Remove",
+        update: "Update",
+        create: "Create",
+        yes: "Yes",
+        no: "No"
+      },
+      navigation: {
+        home: "Home",
+        hotels: "Hotels",
+        dashboard: "Dashboard",
+        login: "Sign In",
+        signup: "Sign Up",
+        logout: "Sign Out",
+        profile: "Profile",
+        settings: "Settings",
+        faq: "FAQ",
+        contact: "Contact",
+        about: "About"
+      },
+      mainNavigationContent: {
+        faq: "FAQ",
+        affinityStays: "AFFINITY STAYS",
+        hotel: "Hotel?",
+        videos: "VIDEOS",
+        featuredHotels: "FEATURED HOTELS",
+        hotelDashboard: "Hotel Dashboard",
+        adminDashboard: "Admin Dashboard",
+        logout: "Sign Out"
+      },
+      home: {
+        heroSection: {
+          revolutionHasCome: "The Revolution Has Come",
+          liveInHotels: "LIVE IN HOTELS",
+          boostYourLife: "Boost Your Life!",
+          slogans: {
+            getRidOfChores: "Get rid of household chores!",
+            selectHotelsByThemes: "Select hotels by your favorite themes!",
+            boostSocialLife: "Boost your social life!",
+            meetLikeMinded: "Meet and enjoy with like-minded people!"
+          }
+        },
+        filters: {
+          search: "Search"
+        }
+      },
+      footer: {
+        links: {
+          faq: "FAQ",
+          affinityStays: "AFFINITY STAYS",
+          hotel: "Hotel?",
+          videos: "VIDEOS",
+          featuredHotels: "FEATURED HOTELS",
+          ourServices: "OUR SERVICES",
+          ourValues: "OUR VALUES",
+          customerService: "CUSTOMER SERVICE",
+          contact: "CONTACT",
+          terms: "TERMS & CONDITIONS",
+          privacy: "PRIVACY & COOKIES",
+          intellectualProperty: "INTELLECTUAL PROPERTY",
+          ourTeam: "OUR TEAM"
+        },
+        buttons: {
+          register: "Sign Up",
+          signIn: "Sign In",
+          hotel: "Hotel?"
+        },
+        copyright: "© 2025 Hotel-Living.com. All rights reserved. This is a Beta version, subject to continuous updates.",
+        disclaimer: "Some properties may be examples used to demonstrate Hotel Living functionality."
+      },
+      ...enHotels,
+      ...enAffinity,
+      ...enFilters,
+      ...enOurServices,
+      ...enOurValues,
+      ...enCustomerService,
+      ...enContact,
+      ...enTerms,
+      ...enPrivacy,
+      ...enIntellectualProperty,
+      ...enAuth,
+      ...enFaq,
+      dashboard: {
+        ...enDashboardCommon.dashboard,
+        ...enDashboardGeneral.dashboard
+      },
+      ratesCalculator: enDashboardCommon.ratesCalculator,
+      "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
+      welcomeContent: enDashboardWelcomeContent.welcomeContent
+    }
   },
   es: {
-    translation: es
+    translation: {
+      ...esCommon,
+      ...esNavigation,
+      ...esAffinity,
+      ...esAuth,
+      ...esBooking,
+      ...esFaq,
+      ...esContent,
+      ...esMisc,
+      ...esHome,
+      ...esFooter,
+      ...esHotels,
+      ...esFilters,
+      ...esOurServices,
+      ...esOurValues,
+      ...esCustomerService,
+      ...esContact,
+      ...esTerms,
+      ...esPrivacy,
+      ...esIntellectualProperty,
+      dashboard: {
+        ...esDashboardGeneral.dashboard,
+        ...esDashboardStats.dashboard,
+        ...esDashboardWelcome.dashboard,
+        ...esDashboardContent.dashboard,
+        ...esDashboardPropertyForm.dashboard,
+        ...esDashboardImages.dashboard,
+        ...esDashboardLocation.dashboard,
+        ...esDashboardContact.dashboard,
+        ...esDashboardFeatures.dashboard,
+        ...esDashboardAccommodation.dashboard,
+        ...esDashboardPricing.dashboard,
+        ...esDashboardTerms.dashboard,
+        ...esDashboardCommonEs.dashboard,
+        ...esDashboardSettings.dashboard,
+        ratesCalculator: esDashboardRatesCalculator.ratesCalculator,
+        ...esDashboardAdvertising.advertising
+      },
+      "dashboard-faq-terms": esDashboardFaqTerms["dashboard-faq-terms"],
+      welcomeContent: esDashboardWelcomeContent.welcomeContent
+    }
   }
 };
 

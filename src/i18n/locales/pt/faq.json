@@ -3,28 +3,76 @@
   "faq": {
     "title": "Perguntas Frequentes",
     "subtitle": "Encontre respostas para as perguntas mais comuns sobre o Hotel-Living",
-    "questions": {
-      "whatIsHotelLiving": {
+    "search": "Buscar FAQs...",
+    "categories": {
+      "general": "Geral",
+      "hotelLiving": "Hotel Living",
+      "hoteliers": "Para Hoteleiros", 
+      "guests": "Para Hóspedes",
+      "legal": "Legal"
+    },
+    "questions": [
+      {
         "question": "O que é o Hotel-Living?",
         "answer": "Hotel-Living é uma plataforma inovadora que conecta viajantes com hotéis temáticos para estadias de longa duração. Oferecemos experiências únicas baseadas em afinidades e interesses específicos."
       },
-      "howItWorks": {
+      {
         "question": "Como funciona?",
         "answer": "Você escolhe seu destino, seleciona suas afinidades preferidas, e nós conectamos você com hotéis que oferecem experiências temáticas alinhadas com seus interesses para estadias prolongadas."
       },
-      "pricing": {
+      {
         "question": "Como funciona o preço?",
         "answer": "Nossos preços são baseados em estadias mensais, oferecendo tarifas mais vantajosas para permanências prolongadas. Os valores variam conforme o destino, tipo de acomodação e serviços inclusos."
       },
-      "booking": {
+      {
+        "question": "Que tipos de hotéis estão disponíveis?",
+        "answer": "Oferecemos uma ampla variedade de hotéis temáticos, desde hotéis boutique com foco em arte e cultura até estabelecimentos voltados para bem-estar, tecnologia, gastronomia e muito mais."
+      },
+      {
+        "question": "Qual a duração mínima de estadia?",
+        "answer": "As estadias mínimas variam por hotel, mas geralmente começam a partir de uma semana, com descontos progressivos para estadias mais longas de um mês ou mais."
+      },
+      {
+        "question": "Posso cancelar minha reserva?",
+        "answer": "Sim, oferecemos políticas de cancelamento flexíveis que variam conforme o hotel e tipo de tarifa escolhida. Consulte os termos específicos durante o processo de reserva."
+      },
+      {
+        "question": "Como posso me tornar um hotel parceiro?",
+        "answer": "Se você possui ou gerencia um hotel e está interessado em se juntar à nossa rede, entre em contato através da nossa página de contato com informações sobre sua propriedade."
+      },
+      {
+        "question": "Que amenidades estão incluídas?",
+        "answer": "As amenidades variam por hotel, mas geralmente incluem serviços de limpeza, Wi-Fi, acesso às instalações do hotel como academia, piscina e áreas comuns."
+      },
+      {
+        "question": "Posso trazer animais de estimação?",
+        "answer": "As políticas para animais de estimação variam por hotel. Verifique as informações específicas de cada propriedade ou entre em contato conosco para confirmar."
+      },
+      {
         "question": "Como faço uma reserva?",
         "answer": "Você pode fazer sua reserva diretamente através da nossa plataforma. Selecione suas datas, escolha o hotel temático que mais combina com você e complete o processo de reserva online."
       },
-      "cancellation": {
+      {
+        "question": "Há suporte ao cliente disponível?",
+        "answer": "Sim, oferecemos suporte ao cliente 24/7 através de chat, e-mail e telefone para ajudar com qualquer dúvida ou problema durante sua estadia."
+      },
+      {
         "question": "Qual é a política de cancelamento?",
         "answer": "Nossa política de cancelamento varia conforme o hotel e tipo de tarifa escolhida. Geralmente oferecemos cancelamento gratuito até 48 horas antes da chegada."
+      },
+      {
+        "question": "Os preços incluem impostos?",
+        "answer": "Os preços exibidos podem ou não incluir impostos e taxas, dependendo da localização. Todos os custos adicionais serão claramente indicados antes da confirmação da reserva."
+      },
+      {
+        "question": "Posso estender minha estadia?",
+        "answer": "Sim, extensões de estadia estão sujeitas à disponibilidade. Entre em contato conosco ou com o hotel diretamente para verificar opções de extensão."
+      },
+      {
+        "question": "Como funcionam os temas dos hotéis?",
+        "answer": "Cada hotel em nossa rede é organizado em torno de temas específicos como arte, tecnologia, bem-estar, gastronomia, etc. Isso permite que você se conecte com pessoas que compartilham seus interesses."
       }
-    },
+    ],
     "contactUs": "Entre em Contato",
     "stillHaveQuestions": "Ainda tem perguntas?",
     "getInTouch": "Entre em contato conosco"

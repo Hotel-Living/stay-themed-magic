@@ -1,9 +1,10 @@
+
 {
   "dashboard": {
-    "contactInformation": "[traduzido] INFORMACIÓN DE CONTACTO",
-    "contactName": "[traduzido] Nombre de Contacto",
-    "email": "[traduzido] Email",
-    "phone": "[traduzido] Teléfono",
-    "completeAllRequiredFields": "[traduzido] Por favor, complete todos los campos obligatorios"
+    "contactInformation": "INFORMAÇÕES DE CONTATO",
+    "contactName": "Nome de Contato",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "completeAllRequiredFields": "Por favor, complete todos os campos obrigatórios"
   }
 }

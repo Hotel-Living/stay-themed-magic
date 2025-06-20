@@ -1,7 +1,8 @@
+
 {
   "dashboard": {
-    "faqAndTerms": "[traduzido] TÉRMINOS Y CONDICIONES",
-    "finalTermsAndConditions": "[traduzido] Términos y condiciones finales para su propiedad",
-    "acceptTermsAndConditions": "[traduzido] Acepto los términos y condiciones y confirmo que toda la información proporcionada es correcta"
+    "faqAndTerms": "TERMOS E CONDIÇÕES",
+    "finalTermsAndConditions": "Termos e condições finais para sua propriedade",
+    "acceptTermsAndConditions": "Aceito os termos e condições e confirmo que todas as informações fornecidas estão corretas"
   }
 }

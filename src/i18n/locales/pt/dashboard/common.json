@@ -1,21 +1,22 @@
+
 {
   "dashboard": {
     "importantNotice": {
-      "title": "[traduzido] IMPORTANTE",
-      "description": "[traduzido] Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
+      "title": "IMPORTANTE",
+      "description": "Todos os campos marcados como obrigatórios devem ser preenchidos antes de continuar. Se você adicionar novos elementos, a publicação de sua propriedade exigirá aprovação do administrador antes de ser publicada."
     },
     "navigation": {
-      "previous": "[traduzido] Anterior",
-      "next": "[traduzido] Siguiente",
+      "previous": "Anterior",
+      "next": "Próximo",
       "submit": "Enviar"
     },
-    "hotelProfile": "[traduzido] Perfil del Hotel",
-    "accommodationTerms": "[traduzido] Términos de Alojamiento",
-    "standardEconomicModel": "[traduzido] Modelo Económico Estándar",
-    "costsAndProfits": "[traduzido] Costes y Beneficios",
-    "buildOwnModel": "[traduzido] Cree su Propio Modelo",
-    "costsDisclaimer": "[traduzido] Aviso: Valores Estimados",
-    "costs": "[traduzido] Costes",
-    "profits": "[traduzido] Beneficios"
+    "hotelProfile": "Perfil do Hotel",
+    "accommodationTerms": "Termos de Hospedagem",
+    "standardEconomicModel": "Modelo Econômico Padrão",
+    "costsAndProfits": "Custos e Lucros",
+    "buildOwnModel": "Crie seu Próprio Modelo",
+    "costsDisclaimer": "Aviso: Valores Estimados",
+    "costs": "Custos",
+    "profits": "Lucros"
   }
 }

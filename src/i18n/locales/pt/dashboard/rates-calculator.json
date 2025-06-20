@@ -1,9 +1,10 @@
+
 {
   "ratesCalculator": {
-    "utilities": "[traduzido] SERVICIOS",
-    "cleaning": "[traduzido] LIMPIEZA",
-    "meals": "[traduzido] COMIDAS",
-    "totalCost": "[traduzido] COSTE TOTAL",
-    "disclaimer": "[traduzido] Estas cifras representan un ejemplo de los costes incrementales medios por habitación ocupada adicional en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse en función de la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel."
+    "utilities": "SERVIÇOS PÚBLICOS",
+    "cleaning": "LIMPEZA",
+    "meals": "REFEIÇÕES",
+    "totalCost": "CUSTO TOTAL",
+    "disclaimer": "Esses valores representam um exemplo dos custos incrementais médios por quarto ocupado adicional em hotéis de 3, 4 e 5 estrelas em mercados ocidentais. Os custos reais podem variar e devem ser ajustados conforme a categoria, nível de serviço, localização e modelo operacional de cada hotel."
   }
 }

@@ -1,11 +1,12 @@
+
 {
   "dashboard": {
-    "totalBookings": "[traduzido] Reservas Totales",
-    "revenue": "[traduzido] Ingresos",
-    "avgRating": "[traduzido] Valoración Media",
-    "guests": "[traduzido] Huéspedes",
-    "upcomingStays": "[traduzido] Estancias Próximas",
-    "completedStays": "[traduzido] Estancias Completadas",
-    "savedHotels": "[traduzido] Hoteles Guardados"
+    "totalBookings": "Total de Reservas",
+    "revenue": "Receita",
+    "avgRating": "Avaliação Média",
+    "guests": "Hóspedes",
+    "upcomingStays": "Estadias Futuras",
+    "completedStays": "Estadias Concluídas",
+    "savedHotels": "Hotéis Salvos"
   }
 }

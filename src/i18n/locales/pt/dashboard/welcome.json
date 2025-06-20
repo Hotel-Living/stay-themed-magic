@@ -1,15 +1,16 @@
+
 {
   "dashboard": {
-    "welcomeToHotelLiving": "[traduzido] ¡Bienvenido a Hotel-Living!",
-    "welcomeMessage": "[traduzido] Gracias por registrarte como socio hotelero. Para comenzar, añade tu primera propiedad usando la opción \"Añadir Propiedad\" abajo.",
-    "quickActions": "[traduzido] Acciones Rápidas",
-    "addPropertyAction": "[traduzido] Añadir Propiedad",
-    "addPropertyDescription": "[traduzido] Registrar un nuevo hotel o apartamento.",
-    "viewBookings": "[traduzido] Ver Reservas",
-    "viewBookingsDescription": "[traduzido] Gestionar reservas futuras y pasadas.",
-    "viewAnalytics": "[traduzido] Ver Análisis",
-    "viewAnalyticsDescription": "[traduzido] Consultar métricas detalladas de rendimiento.",
-    "manageReviews": "[traduzido] Gestionar Opiniones",
-    "manageReviewsDescription": "[traduzido] Responder a los comentarios de los huéspedes."
+    "welcomeToHotelLiving": "Bem-vindo ao Hotel-Living!",
+    "welcomeMessage": "Obrigado por se registrar como parceiro hoteleiro. Para começar, adicione sua primeira propriedade usando a opção \"Adicionar Propriedade\" abaixo.",
+    "quickActions": "Ações Rápidas",
+    "addPropertyAction": "Adicionar Propriedade",
+    "addPropertyDescription": "Registre um novo hotel ou apartamento.",
+    "viewBookings": "Ver Reservas",
+    "viewBookingsDescription": "Gerencie reservas futuras e passadas.",
+    "viewAnalytics": "Ver Análises",
+    "viewAnalyticsDescription": "Consulte métricas detalhadas de desempenho.",
+    "manageReviews": "Gerenciar Avaliações",
+    "manageReviewsDescription": "Responda aos comentários dos hóspedes."
   }
 }

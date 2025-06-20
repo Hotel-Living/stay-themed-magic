@@ -1,11 +1,12 @@
+
 {
   "dashboard-faq-terms": {
-    "title": "[traduzido] FAQ & Términos y Condiciones",
-    "frequentlyAskedQuestions": "[traduzido] Preguntas Frecuentes",
-    "questionPlaceholder": "[traduzido] Escriba su pregunta aquí...",
-    "answerPlaceholder": "[traduzido] Escriba la respuesta aquí...",
-    "addQuestion": "[traduzido] Agregar Pregunta",
-    "hotelLivingTerms": "[traduzido] Términos y Condiciones de Hotel-Living",
-    "termsContent": "[traduzido] Aquí van los términos y condiciones específicos del hotel..."
+    "title": "FAQ e Termos e Condições",
+    "frequentlyAskedQuestions": "Perguntas Frequentes",
+    "questionPlaceholder": "Digite sua pergunta aqui...",
+    "answerPlaceholder": "Digite a resposta aqui...",
+    "addQuestion": "Adicionar Pergunta",
+    "hotelLivingTerms": "Termos e Condições do Hotel-Living",
+    "termsContent": "Aqui vão os termos e condições específicos do hotel..."
   }
 }

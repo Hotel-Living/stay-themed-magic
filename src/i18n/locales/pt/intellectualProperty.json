@@ -1,23 +1,24 @@
+
 {
   "intellectualProperty": {
-    "title": "[traduzido] Derechos de Propiedad Intelectual",
-    "content1": "[traduzido] Hotel-Living.com y todo su contenido, características y funcionalidad (incluyendo pero no limitado a toda la información, software, texto, pantallas, imágenes, video y audio, y el diseño, selección y organización de los mismos) son propiedad de Hotel-Living.com, sus licenciantes u otros proveedores de dicho material y están protegidos por copyright internacional, marca comercial, patente, secreto comercial y otras leyes de derechos de propiedad intelectual o propietarios.",
-    "content2": "[traduzido] Este sitio, así como su innovador sistema de reservas, están registrados y protegidos internacionalmente tanto como Modelos de Utilidad como por Copyright. Cualquier reproducción o copia del sistema será perseguida legalmente. Los interesados en franquicias nacionales pueden contactarnos.",
+    "title": "Direitos de Propriedade Intelectual",
+    "content1": "O Hotel-Living.com e todo seu conteúdo, características e funcionalidade (incluindo, mas não limitado a todas as informações, software, texto, displays, imagens, vídeo e áudio, e o design, seleção e arranjo dos mesmos) são propriedade do Hotel-Living.com, seus licenciadores ou outros provedores de tal material e são protegidos por leis internacionais de direitos autorais, marca registrada, patente, segredo comercial e outras leis de propriedade intelectual ou proprietárias.",
+    "content2": "Este site, bem como seu sistema inovador de reservas, estão registrados e protegidos internacionalmente tanto como Modelos de Utilidade quanto por Direitos Autorais. Qualquer reprodução ou cópia do sistema será perseguida legalmente. Interessados em franquias nacionais podem nos contatar.",
     "trademarks": {
-      "title": "[traduzido] Marcas Comerciales",
-      "content": "[traduzido] El nombre Hotel-Living, logotipo y todos los nombres, logotipos, nombres de productos y servicios, diseños y eslóganes relacionados son marcas comerciales de Hotel-Living.com o sus afiliados o licenciantes. No debe usar dichas marcas sin el permiso previo por escrito de Hotel-Living.com."
+      "title": "Marcas Registradas",
+      "content": "O nome Hotel-Living, logotipo e todos os nomes, logotipos, nomes de produtos e serviços, designs e slogans relacionados são marcas registradas do Hotel-Living.com ou seus afiliados ou licenciadores. Você não deve usar tais marcas sem a permissão prévia por escrito do Hotel-Living.com."
     },
     "copyright": {
-      "title": "[traduzido] Aviso de Copyright",
-      "content": "[traduzido] © {year} Hotel-Living.com. Todos los derechos reservados. Ninguna parte de este sitio web puede ser reproducida, distribuida o transmitida de ninguna forma o por ningún medio, incluyendo fotocopiado, grabación u otros métodos electrónicos o mecánicos, sin el permiso previo por escrito del propietario."
+      "title": "Aviso de Direitos Autorais",
+      "content": "© {year} Hotel-Living.com. Todos os direitos reservados. Nenhuma parte deste site pode ser reproduzida, distribuída ou transmitida de qualquer forma ou por qualquer meio, incluindo fotocópia, gravação ou outros métodos eletrônicos ou mecânicos, sem a permissão prévia por escrito do proprietário."
     },
     "patent": {
-      "title": "[traduzido] Información de Patentes",
-      "content": "[traduzido] Varios aspectos de la plataforma Hotel-Living.com y el sistema de reservas están protegidos por patente o tienen patente pendiente. El uso, reproducción o distribución no autorizados de estas tecnologías está estrictamente prohibido."
+      "title": "Informações de Patente",
+      "content": "Vários aspectos da plataforma Hotel-Living.com e do sistema de reservas são protegidos por patente ou têm patente pendente. O uso, reprodução ou distribuição não autorizados dessas tecnologias é estritamente proibido."
     },
     "contact": {
-      "title": "[traduzido] Información de Contacto",
-      "content": "[traduzido] Para consultas sobre derechos de propiedad intelectual, permisos u oportunidades de franquicia, por favor no dude en contactarnos completando el formulario que encontrará en {contactLink}"
+      "title": "Informações de Contato",
+      "content": "Para consultas sobre direitos de propriedade intelectual, permissões ou oportunidades de franquia, por favor, não hesite em nos contatar preenchendo o formulário que você encontrará em {contactLink}"
     }
   }
 }

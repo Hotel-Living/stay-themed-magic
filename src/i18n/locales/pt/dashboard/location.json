@@ -1,21 +1,22 @@
+
 {
   "dashboard": {
-    "location": "[traduzido] UBICACIÓN",
-    "address": "[traduzido] Dirección",
-    "enterAddress": "[traduzido] Ingrese la dirección",
-    "country": "[traduzido] País",
-    "selectCountry": "[traduzido] Seleccione un país",
-    "custom": "[traduzido] Personalizado",
-    "city": "[traduzido] Ciudad",
-    "enterCityName": "[traduzido] Ingrese el nombre de la ciudad",
-    "postalCode": "[traduzido] Código Postal",
-    "enterPostalCode": "[traduzido] Ingrese el código postal",
-    "locationOnMap": "[traduzido] Ubicación en el Mapa",
-    "clickToSelectLocation": "[traduzido] Haga clic para seleccionar la ubicación exacta",
-    "clickAnywhereOnMap": "[traduzido] Haga clic en cualquier lugar del mapa para establecer la ubicación exacta de su propiedad",
-    "latitude": "[traduzido] Latitud",
-    "latitudePlaceholder": "[traduzido] Ingrese la latitud (por ejemplo, 41.8902)",
-    "longitude": "[traduzido] Longitud",
-    "longitudePlaceholder": "[traduzido] Ingrese la longitud (por ejemplo, 12.4922)"
+    "location": "LOCALIZAÇÃO",
+    "address": "Endereço",
+    "enterAddress": "Digite o endereço",
+    "country": "País",
+    "selectCountry": "Selecione um país",
+    "custom": "Personalizado",
+    "city": "Cidade",
+    "enterCityName": "Digite o nome da cidade",
+    "postalCode": "Código Postal",
+    "enterPostalCode": "Digite o código postal",
+    "locationOnMap": "Localização no Mapa",
+    "clickToSelectLocation": "Clique para selecionar a localização exata",
+    "clickAnywhereOnMap": "Clique em qualquer lugar no mapa para definir a localização exata de sua propriedade",
+    "latitude": "Latitude",
+    "latitudePlaceholder": "Digite a latitude (ex: 41.8902)",
+    "longitude": "Longitude",
+    "longitudePlaceholder": "Digite a longitude (ex: 12.4922)"
   }
 }

@@ -13,6 +13,9 @@ import enCommon from './locales/en/common.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
 import enRates from './locales/en/dashboard/rates-calculator.json';
 import enHome from './locales/en/home.json';
+import enFaq from './locales/en/faq.json';
+import enAffinity from './locales/en/affinity.json';
+import enHotels from './locales/en/hotels.json';
 
 i18n
   .use(initReactI18next)
@@ -32,12 +35,15 @@ i18n
           ...enDashboardCommon,
           ...enRates
         },
-        home: enHome
+        home: enHome,
+        faq: enFaq,
+        affinity: enAffinity,
+        hotels: enHotels
       }
     },
     lng: 'es', // Idioma por defecto
     fallbackLng: 'en',
-    ns: ['common', 'dashboard', 'home'],
+    ns: ['common', 'dashboard', 'home', 'faq', 'affinity', 'hotels'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false

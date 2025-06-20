@@ -1,181 +1,131 @@
-
-import { Link } from "react-router-dom";
-import { Menu, X, User } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, User, Building } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { useToast, toast } from "@/hooks/use-toast";
-import { Logo } from "./Logo";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {
-    user,
-    profile,
-    signOut,
-    session
-  } = useAuth();
-  const { toast: useToastRef } = useToast();
-  const { t } = useTranslation();
-  const isLoggedIn = !!user && !!session;
-  const isHotelOwner = profile?.is_hotel_owner === true;
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const location = useLocation();
+  const { t } = useTranslation('common');
 
-  const handleLogout = async () => {
-    try {
-      if (isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-      if (!session) {
-        console.log("No active session found, cannot logout properly");
-        toast.error("No session found. Please refresh the page and try again.");
-        return;
-      }
-      console.log("Attempting to sign out from Navbar...");
-      await signOut();
-      setTimeout(() => {
-        if (window.location.pathname !== '/login') {
-          console.log("Forcing redirect to login page");
-          window.location.href = "/login";
-        }
-      }, 500);
-    } catch (error) {
-      console.error("Error during logout:", error);
-      toast.error("Could not complete logout. Please try again.");
-    }
-  };
+  const navigation = [
+    { name: t('mainNavigation.content.faq'), href: "/faq" },
+    { name: t('mainNavigation.content.affinityStays'), href: "/affinity-stays" },
+    { name: t('mainNavigation.content.hotels'), href: "/hotels" },
+    { name: t('mainNavigation.content.videos'), href: "/videos" },
+  ];
 
-  return <header className="shadow-md" style={{ 
-      backgroundColor: "#996515",
-    }}>
-      <div className="flex items-center justify-between">
-        <div className="flex-shrink-0 px-2 sm:px-3 py-2">
-          <Logo />
-        </div>
-        
-        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2 ml-auto">
-          <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            {t('mainNavigationContent.faq')}
-          </Link>
-          
-          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            {t('mainNavigationContent.affinityStays')}
-          </Link>
-          <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            {t('mainNavigationContent.hotel')}
-          </Link>
-          <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            {t('mainNavigationContent.videos')}
-          </Link>
-          <Link to="/featured-hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-            {t('mainNavigationContent.featuredHotels')}
-          </Link>
-          
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
-              <User className="w-3 h-3" />
-              My Account
-            </Link>
-          )}
-          
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
-          
-          {/* Admin Dashboard link - will check admin role dynamically */}
-          {isLoggedIn && (
-            <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.adminDashboard')}
-            </Link>
-          )}
-          
-          {!isLoggedIn && !isDevelopment && (
-            <>
-              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-                {t('navigation.signup')}
-              </Link>
-              <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-                {t('navigation.login')}
-              </Link>
-            </>
-          )}
-          
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
-              {t('mainNavigationContent.logout')}
-            </button>
-          )}
-          
-          {/* Language Switcher */}
-          <div className="border-l border-white/20 pl-4 ml-2">
-            <LanguageSwitcher />
-          </div>
-        </div>
+  return (
+    <nav className="bg-gradient-to-r from-[#4B0082] via-[#9400D3] to-[#4B0082] text-white py-4 relative z-20">
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <Link to="/" className="text-2xl font-bold">
+          Hotel-Living
+        </Link>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
-          <LanguageSwitcher />
-          <button className="flex items-center ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-            {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
-          </button>
+        <div className="lg:hidden">
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-6">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              to={item.href}
+              className={`hover:text-gray-200 transition-colors duration-200 ${
+                location.pathname === item.href ? "text-yellow-300" : ""
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+          {user ? (
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/dashboard"
+                className="hover:text-gray-200 transition-colors duration-200"
+              >
+                <User className="h-5 w-5 inline-block mr-1" />
+                Dashboard
+              </Link>
+              <Button variant="outline" size="sm" onClick={() => signOut()}>
+                Sign Out
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-yellow-400 hover:bg-yellow-500 text-purple-900 font-bold py-2 px-4 rounded"
+              >
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
-          backgroundColor: "#996515",
-        }}>
-        <nav className="flex flex-col space-y-4">
-          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.faq')}
-          </Link>
-          
-          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.affinityStays')}
-          </Link>
-          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.hotel')}
-          </Link>
-          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.videos')}
-          </Link>
-          <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-            {t('mainNavigationContent.featuredHotels')}
-          </Link>
-          
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
-              <User className="w-4 h-4" />
-              My Account
-            </Link>
-          )}
-          
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-              {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
-          
-          {!isLoggedIn && !isDevelopment && (
-            <>
-              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('navigation.signup')}
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-purple-800 py-4">
+          <div className="container mx-auto px-4 flex flex-col space-y-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="block py-2 px-4 hover:bg-purple-700 rounded transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
               </Link>
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-                {t('navigation.login')}
-              </Link>
-            </>
-          )}
-          
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
-              {t('mainNavigationContent.logout')}
-            </button>
-          )}
-        </nav>
-      </div>
-    </header>;
+            ))}
+            {user ? (
+              <div className="flex flex-col space-y-4">
+                <Link
+                  to="/dashboard"
+                  className="block py-2 px-4 hover:bg-purple-700 rounded transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <User className="h-5 w-5 inline-block mr-1" />
+                  Dashboard
+                </Link>
+                <Button variant="outline" size="sm" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col space-y-4">
+                <Link
+                  to="/login"
+                  className="block py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block py-2 px-4 bg-yellow-400 hover:bg-yellow-500 text-purple-900 font-bold rounded"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
 }

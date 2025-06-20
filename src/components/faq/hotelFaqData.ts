@@ -29,26 +29,39 @@ import { paymentFaqs as paymentFaqsEn } from "./hotel-categories/en/paymentFaqs"
 import { affinitiesFaqs as affinitiesFaqsEn } from "./hotel-categories/en/affinitiesFaqs";
 import { seniorsFaqs as seniorsFaqsEn } from "./hotel-categories/en/seniorsFaqs";
 
+// Romanian imports
+import { benefitsFaqs as benefitsFaqsRo } from "./hotel-categories/ro/benefitsFaqs";
+import { modelsFaqs as modelsFaqsRo } from "./hotel-categories/ro/modelsFaqs";
+import { operationFaqs as operationFaqsRo } from "./hotel-categories/ro/operationFaqs";
+import { integrationFaqs as integrationFaqsRo } from "./hotel-categories/ro/integrationFaqs";
+import { revenueFaqs as revenueFaqsRo } from "./hotel-categories/ro/revenueFaqs";
+import { guestsFaqs as guestsFaqsRo } from "./hotel-categories/ro/guestsFaqs";
+import { marketingFaqs as marketingFaqsRo } from "./hotel-categories/ro/marketingFaqs";
+import { paymentFaqs as paymentFaqsRo } from "./hotel-categories/ro/paymentFaqs";
+import { affinitiesFaqs as affinitiesFaqsRo } from "./hotel-categories/ro/affinitiesFaqs";
+import { seniorsFaqs as seniorsFaqsRo } from "./hotel-categories/ro/seniorsFaqs";
+
 export type { FaqItem, FaqCategory };
 
 export const useHotelFaqCategories = () => {
-  const { t, language } = useTranslation();
+  const { language } = useTranslation();
   const isEnglish = language === 'en';
+  const isRomanian = language === 'ro';
   
   return [
     { id: "video", name: "Video" },
-    { id: "benefits", name: isEnglish ? "BENEFITS" : "Beneficios" },
-    { id: "models", name: isEnglish ? "MODELS" : "Modelos" },
-    { id: "revenue", name: isEnglish ? "REVENUE" : "Ingresos" },
-    { id: "guests", name: isEnglish ? "GUESTS" : "Huéspedes" },
-    { id: "seniors", name: isEnglish ? "SENIORS" : "Mayores" },
-    { id: "affinities", name: isEnglish ? "AFFINITIES" : "Afinidades" },
-    { id: "operation", name: isEnglish ? "OPERATIONS" : "Operativa" },
-    { id: "integration", name: isEnglish ? "INTEGRATION" : "Integración" },
-    { id: "marketing", name: isEnglish ? "MARKETING" : "Marketing" },
-    { id: "payment", name: isEnglish ? "PAYMENTS & COMMISSIONS" : "Pagos y Comisiones" },
-    { id: "steps", name: "Pasos" },
-    { id: "rental", name: "Alquiler" }
+    { id: "benefits", name: isEnglish ? "BENEFITS" : isRomanian ? "BENEFICII" : "Beneficios" },
+    { id: "models", name: isEnglish ? "MODELS" : isRomanian ? "MODELE" : "Modelos" },
+    { id: "revenue", name: isEnglish ? "REVENUE" : isRomanian ? "VENITURI" : "Ingresos" },
+    { id: "guests", name: isEnglish ? "GUESTS" : isRomanian ? "OASPEȚI" : "Huéspedes" },
+    { id: "seniors", name: isEnglish ? "SENIORS" : isRomanian ? "SENIORI" : "Mayores" },
+    { id: "affinities", name: isEnglish ? "AFFINITIES" : isRomanian ? "AFINITĂȚI" : "Afinidades" },
+    { id: "operation", name: isEnglish ? "OPERATIONS" : isRomanian ? "OPERAȚIUNI" : "Operativa" },
+    { id: "integration", name: isEnglish ? "INTEGRATION" : isRomanian ? "INTEGRARE" : "Integración" },
+    { id: "marketing", name: isEnglish ? "MARKETING" : isRomanian ? "MARKETING" : "Marketing" },
+    { id: "payment", name: isEnglish ? "PAYMENTS & COMMISSIONS" : isRomanian ? "PLĂȚI ȘI COMISIOANE" : "Pagos y Comisiones" },
+    { id: "steps", name: isEnglish ? "STEPS" : isRomanian ? "PAȘI" : "Pasos" },
+    { id: "rental", name: isEnglish ? "RENTAL" : isRomanian ? "ÎNCHIRIERE" : "Alquiler" }
   ];
 };
 
@@ -71,19 +84,20 @@ export const hotelFaqCategories: FaqCategory[] = [
 export const useHotelFaqsByCategory = () => {
   const { language } = useTranslation();
   const isEnglish = language === 'en';
+  const isRomanian = language === 'ro';
 
   const hotelFaqsByCategory: Record<string, FaqItem[]> = {
     video: videoFaqs,
-    benefits: isEnglish ? benefitsFaqsEn : benefitsFaqsEs,
-    models: isEnglish ? modelsFaqsEn : modelsFaqsEs,
-    operation: isEnglish ? operationFaqsEn : operationFaqsEs,
-    integration: isEnglish ? integrationFaqsEn : integrationFaqsEs,
-    revenue: isEnglish ? revenueFaqsEn : revenueFaqsEs,
-    guests: isEnglish ? guestsFaqsEn : guestsFaqsEs,
-    seniors: isEnglish ? seniorsFaqsEn : seniorsFaqsEs,
-    marketing: isEnglish ? marketingFaqsEn : marketingFaqsEs,
-    payment: isEnglish ? paymentFaqsEn : paymentFaqsEs,
-    affinities: isEnglish ? affinitiesFaqsEn : affinitiesFaqsEs,
+    benefits: isEnglish ? benefitsFaqsEn : isRomanian ? benefitsFaqsRo : benefitsFaqsEs,
+    models: isEnglish ? modelsFaqsEn : isRomanian ? modelsFaqsRo : modelsFaqsEs,
+    operation: isEnglish ? operationFaqsEn : isRomanian ? operationFaqsRo : operationFaqsEs,
+    integration: isEnglish ? integrationFaqsEn : isRomanian ? integrationFaqsRo : integrationFaqsEs,
+    revenue: isEnglish ? revenueFaqsEn : isRomanian ? revenueFaqsRo : revenueFaqsEs,
+    guests: isEnglish ? guestsFaqsEn : isRomanian ? guestsFaqsRo :guestsFaqsEs,
+    seniors: isEnglish ? seniorsFaqsEn : isRomanian ? seniorsFaqsRo : seniorsFaqsEs,
+    marketing: isEnglish ? marketingFaqsEn : isRomanian ? marketingFaqsRo : marketingFaqsEs,
+    payment: isEnglish ? paymentFaqsEn : isRomanian ? paymentFaqsRo : paymentFaqsEs,
+    affinities: isEnglish ? affinitiesFaqsEn : isRomanian ? affinitiesFaqsRo : affinitiesFaqsEs,
     steps: stepsFaqs,
     rental: rentalFaqs
   };

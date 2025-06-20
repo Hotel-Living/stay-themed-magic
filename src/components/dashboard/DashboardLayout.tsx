@@ -1,3 +1,4 @@
+
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -125,7 +126,7 @@ export default function DashboardLayout({
                   {t('dashboard.supportDescription')}
                 </p>
                 <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-slate-50 bg-[#770477]">
-                  CONTACT SUPPORT
+                  {t('dashboard.contactSupport')}
                 </button>
               </div>
             </aside>

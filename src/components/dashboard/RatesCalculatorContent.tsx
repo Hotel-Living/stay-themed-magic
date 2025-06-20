@@ -113,22 +113,21 @@ export const RatesCalculatorContent: React.FC = () => {
     setDownloadExpanded(prev => !prev);
     if (!downloadExpanded) setTipsExpanded(false);
   };
-
   return <div className="space-y-6">
       {/* Header MENU */}
       <div className="glass-card rounded-lg p-6 text-white border-fuchsia-500/20 bg-[#0807a0] cursor-pointer" onClick={handleHeaderClick}>
         <h2 className="text-xl font-bold text-center">
-          STANDARD ECONOMIC MODEL
+          {t('dashboard.standardEconomicModel')}
         </h2>
       </div>
 
       {mainMenuExpanded && <Tabs value={mainTab} onValueChange={() => {}} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#460F54]/30 backdrop-blur-sm h-16 p-2">
             <TabsTrigger value="costs-profits" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${costsExpanded ? "border border-white/40" : ""}`} onClick={handleCostsMainTabClick} aria-pressed={costsExpanded}>
-              COSTS & PROFITS
+              {t('dashboard.costsAndProfits')}
             </TabsTrigger>
             <TabsTrigger value="model-rates-calculator" className={`py-4 px-6 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-[#8017B0] text-white hover:bg-[#8017B0]/80 transition-all duration-300 font-bold text-lg cursor-pointer ${modelExpanded ? "border border-white/40" : ""}`} onClick={handleModelTabClick} aria-pressed={modelExpanded}>
-              BUILD YOUR OWN MODEL
+              {t('dashboard.buildOwnModel')}
             </TabsTrigger>
           </TabsList>
 
@@ -145,10 +144,10 @@ export const RatesCalculatorContent: React.FC = () => {
               <Tabs value={costsSubTab} onValueChange={() => {}} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#5A0080] backdrop-blur-lg border border-blue-400/20 rounded-xl h-14 p-2 shadow-lg">
                   <TabsTrigger value="costs" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "costs" ? "border border-white/40" : ""}`} onClick={handleCostsSubTabClick} aria-pressed={costsSubTab === "costs"}>
-                    COSTS
+                    {t('dashboard.costs')}
                   </TabsTrigger>
                   <TabsTrigger value="profits" className={`py-3 px-4 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/80 data-[state=active]:to-purple-500/80 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:border data-[state=active]:border-blue-300/30 bg-transparent text-white/70 hover:text-white hover:bg-blue-500/20 transition-all duration-300 font-medium text-base cursor-pointer ${costsSubTab === "profits" ? "border border-white/40" : ""}`} onClick={handleProfitsSubTabClick} aria-pressed={costsSubTab === "profits"}>
-                    PROFITS
+                    {t('dashboard.profits')}
                   </TabsTrigger>
                 </TabsList>
                 {/* COSTS TAB CONTENT */}
@@ -175,7 +174,7 @@ export const RatesCalculatorContent: React.FC = () => {
                       </TabsContent>
                       <TabsContent value="5-star">
                         {profitsSubTab === "5-star" && <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
-                            <img src="/lovable-uploads/e36c9773-e800-452c-bd1e-a77067fc693c.png" alt="5 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" />
+                            <img src="/lovable-uploads/e36c9773-e800-452c-bd1e-a77067fc493c.png" alt="5 Star Hotel Profit Model" className="w-full h-auto rounded-lg shadow-lg border border-purple-400/20" />
                           </div>}
                       </TabsContent>
                     </Tabs>

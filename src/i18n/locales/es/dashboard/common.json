@@ -1,3 +1,4 @@
+
 {
   "dashboard": {
     "importantNotice": {
@@ -10,12 +11,6 @@
       "submit": "Enviar"
     },
     "hotelProfile": "Perfil del Hotel",
-    "accommodationTerms": "Términos de Alojamiento",
-    "ratesCalculator": {
-      "utilities": "Servicios",
-      "cleaning": "Limpieza",
-      "meals": "Comidas",
-      "totalCost": "Coste Total"
-    }
+    "accommodationTerms": "Términos de Alojamiento"
   }
 }

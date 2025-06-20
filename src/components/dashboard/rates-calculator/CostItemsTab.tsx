@@ -15,108 +15,124 @@ const CostItemsTab: React.FC = () => {
     {
       id: "utilities",
       labelKey: "ratesCalculator.utilities",
-      content: `PREDICTABILITY – RESPONSIBILITY – EFFICIENCY
+      content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
 
-⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
-They are respectful long-term residents who stay for 8, 16, 24, or 32 days.
+⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
+Son residentes respetuosos de larga estancia que permanecen 8, 16, 24 o 32 días.
 
-🌿 SMARTER GUESTS, SMARTER RESOURCE USAGE
-Thanks to longer stays and a more personal relationship with the property, these guests tend to be more mindful about resource consumption. They feel more like temporary tenants than short-stay visitors — and that makes a real difference.
-
-⚡ SERVICE USAGE IS LOWER AND MORE STABLE
-💡 ENERGY-EFFICIENT SYSTEMS (such as LED lighting and moderate climate control) become even more effective
-🌱 WHEN FEELING AT HOME, guests naturally adopt more conservative habits
-
-💜 A SENSE OF SHARED RESPONSIBILITY
-Because Hotel-Living offers accessible rates, guests are usually aware and respectful of the opportunity. They understand this model relies on balance, care, and sustainability — and most of them act accordingly.
-
-🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
-Thanks to lower room turnover and simplified cleaning protocols, utility use remains steady and optimized, with fewer peaks in electricity or water demand.`
+🌿 HUÉSPEDES MÁS INTELIGENTES, USO DE RECURSOS MÁS INTELIGENTE
+Debido a la mayor duración de las estancias y a la relación más personal que establecen con su propiedad, estos huéspedes tienden a ser más conscientes en el uso de los recursos.
+Se sienten más como inquilinos temporales que como visitantes de corta estancia — y eso marca una verdadera diferencia.
+________________________________________
+⚡ EL CONSUMO DE SERVICIOS ES MÁS BAJO Y MÁS ESTABLE
+💡 LOS SISTEMAS DE EFICIENCIA ENERGÉTICA (como iluminación LED y control climático moderado) resultan aún más efectivos
+🌱 AL SENTIRSE COMO EN CASA, los huéspedes adoptan naturalmente hábitos más conservadores
+________________________________________
+💜 UN SENTIDO DE RESPONSABILIDAD COMPARTIDA
+Dado que Hotel-Living ofrece tarifas accesibles, los huéspedes suelen ser conscientes y respetuosos de la oportunidad que se les brinda.
+Saben que este modelo depende del equilibrio, el cuidado y la sostenibilidad — y la mayoría actúa en consecuencia.
+________________________________________
+🔄 OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO
+Gracias a la menor rotación de habitaciones y a los protocolos de limpieza simplificados, el uso de servicios permanece constante y optimizado, con menos picos de demanda de electricidad o agua.
+________________________________________`
     },
     {
       id: "cleaning",
       labelKey: "ratesCalculator.cleaning",
-      content: `HOMESTYLE CLEANING – LONG-TERM COMFORT
+      content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
 
-🧼 HOTEL-LIVING MEANS A NEW STANDARD OF HOSPITALITY
-🏡 ONE THAT FEELS MORE LIKE HOME.
-Unlike traditional hotels with daily cleaning, our approach follows the pace of real life.
+🧼 HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD
+🏡 UNO QUE SE SIENTE MÁS COMO EN CASA.
+A diferencia de los hoteles tradicionales con limpieza diaria, nuestro enfoque refleja el ritmo de la vida real.
 
-Just as someone living at home might receive light help a few times a week, our guests enjoy attentive, discreet care that respects their independence and comfort.
+Así como alguien que vive en casa podría recibir ayuda ligera algunas veces por semana, nuestros huéspedes disfrutan de un cuidado atento y discreto que respeta su independencia y comodidad.
+________________________________________
+🧹 LIMPIEZA COMPLETA — UNA VEZ POR SEMANA
+Una limpieza completa de la habitación cada 7 días garantiza higiene y frescura, con una mínima intrusión.
+________________________________________
+🔄 REFRESCO LIGERO DIARIO (A PETICIÓN)
+Pequeños retoques opcionales — 🗑️ retirada de basura, 🧺 orden ligero, 🌬️ ventilación — están disponibles, respetando la privacidad y el estilo de vida.
+________________________________________
+🛏️ CAMBIO DE ROPA DE CAMA — CADA 5 DÍAS
+Las sábanas y toallas se renuevan regularmente, siguiendo los estándares de comodidad del hogar.
+________________________________________
+💼 BENEFICIOS OPERATIVOS
+Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los huéspedes una experiencia residencial:
 
-🧹 FULL CLEANING — ONCE A WEEK
-A thorough cleaning of the room every 7 days ensures hygiene and freshness, with minimal intrusion.
-
-🔄 LIGHT DAILY REFRESH (ON REQUEST)
-Optional touch-ups — 🗑️ trash removal, 🧺 light tidying, 🌬️ ventilation — are available, respecting guests' privacy and lifestyle.
-
-🛏️ BED LINEN CHANGE — EVERY 5 DAYS
-Sheets and towels are refreshed regularly, following homestyle comfort standards.
-
-💼 OPERATIONAL BENEFITS
-This model reduces operational costs for hotels while offering guests a residential experience:
-
-• Fewer interruptions
-• More privacy
-• The feeling of truly belonging — not just staying.`
+•	Menos interrupciones
+•	Más privacidad
+•	La sensación de realmente pertenecer — no solo alojarse.`
     },
     {
       id: "meal-plans",
       labelKey: "ratesCalculator.meals",
-      content: `**THE HOTEL-LIVING MEAL MODEL: SIMPLE, HEALTHY, HOME-STYLE**
+      content: `EL MODELO DE COMIDAS HOTEL-LIVING: SIMPLE, SALUDABLE, ESTILO HOGAR
 
-Except in luxury, high-end boutique hotels or in 8-day stays focused on gastronomy or culinary experiences, Hotel-Living is not about gourmet cuisine or luxurious buffets.
+Excepto en hoteles de lujo, boutique de alta gama o en estancias cortas de 8 días centradas en gastronomía o experiencias culinarias, Hotel-Living no se basa en cocina gourmet ni en buffets lujosos.
 
-In most cases, the Hotel-Living experience is based on comfort, simplicity, and sustainability.
+En la mayoría de los casos, la experiencia Hotel-Living se fundamenta en la comodidad, la simplicidad y la sostenibilidad.
 
-Our guests aren't here for luxury.  
-They are long-term residents seeking a reliable, healthy, and affordable meal routine — something that resembles real home life.  
-________________________________________  
-🔧 THAT'S WHY OUR MEAL MODEL IS:
+Nuestros huéspedes no están aquí por el lujo.
 
-✅ 🥗 Balanced, home-style, and easy to prepare  
-✅ 🍎 Designed for moderation and well-being, not excess  
-✅ 👨‍🍳 Compatible with your hotel's existing kitchen and staff  
-✅ ♻️ Low in waste and cost — without sacrificing quality or care  
-________________________________________  
-🍳 FLEXIBLE MEAL PLANS
+No son turistas. Son residentes de larga estancia que buscan una rutina de comidas fiable, saludable y accesible — algo que se asemeje a la vida real en el hogar.
+________________________________________
+🔧 POR ESO NUESTRO MODELO DE ALIMENTACIÓN ES:
 
-Whether offering only breakfast or full board, Hotel-Living meal plans are designed for:
+✅ 🥗 Equilibrado, estilo hogar y fácil de preparar
 
-• 🧘 Consistency  
-• 🏡 Comfort  
-• 🙂 Guest satisfaction — not culinary spectacle.  
-________________________________________  
-💼 OPERATIONAL ADVANTAGES:
+✅ 🍎 Diseñado para la moderación y el bienestar, no para el exceso
 
-🧑‍🍳 Lower operational complexity  
-🧾 Predictable costs and portion control  
-😊 A relaxed, homey dining experience your guests truly value  
-________________________________________  
-📊 BUDGET AND PLANNING BENEFITS:
+✅ 👨‍🍳 Compatible con la cocina y el personal existentes de su hotel
 
-As all bookings are made in advance and for fixed durations:
+✅ ♻️ Bajo en residuos y en coste — sin sacrificar calidad ni cuidado
+________________________________________
+🍳 PLANES DE COMIDAS FLEXIBLES
 
-✅ 📅 You'll know exactly how many guests are coming — and for how long.  
-✅ 🚫 Food waste can be brought down to nearly zero.  
-________________________________________  
-🔁 SIMPLE, EFFICIENT KITCHEN STRATEGY:
+Tanto si ofrece solo desayuno como pensión completa, los planes de comidas de Hotel-Living están diseñados para:
 
-For simple kitchens, there's a proven, cost-effective strategy:
+•	🧘 Consistencia
 
-🔄 ROTATING WEEKLY MENUS
+•	🏡 Comodidad
 
-Where each day of the week has a fixed menu that repeats weekly, allowing:
+•	🙂 Satisfacción de los huéspedes — no exhibiciones culinarias.
+________________________________________
+💼 VENTAJAS OPERATIVAS:
 
-• 🛒 Bulk purchasing  
-• 🍳 Simplified prep  
-• 💰 Further cost reduction  
-________________________________________  
-🔑 THE RESULT:
+🧑‍🍳 Menor complejidad operativa
 
-🏨 Your hotel saves  
-🏡 Your guests feel at home  
-🌍 And the whole experience becomes scalable, sustainable, and deeply human.`
+🧾 Costes predecibles y control de porciones
+
+😊 Una experiencia gastronómica relajada y familiar que sus huéspedes valoran realmente
+________________________________________
+📊 BENEFICIOS PARA EL PRESUPUESTO Y LA PLANIFICACIÓN:
+
+Como todas las reservas se realizan por adelantado y con duración fija:
+
+✅ 📅 Usted sabrá exactamente cuántos huéspedes vendrán — y durante cuánto tiempo.
+
+✅ 🚫 El desperdicio de alimentos puede llegar prácticamente a cero.
+________________________________________
+🔁 ESTRATEGIA DE COCINA SIMPLE Y EFICIENTE:
+
+Para cocinas sencillas, existe una estrategia comprobada y rentable:
+
+🔄 MENÚS SEMANALES ROTATIVOS
+
+Donde cada día de la semana tiene un menú fijo que puede repetirse semanalmente, lo que permite:
+
+•	🛒 Compras al por mayor
+
+•	🍳 Preparación simplificada
+
+•	💰 Reducción adicional de costes
+________________________________________
+🔑 EL RESULTADO:
+
+🏨 Su hotel ahorra
+
+🏡 Sus huéspedes se sienten como en casa
+
+🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`
     },
     {
       id: "total-costs",
@@ -129,19 +145,20 @@ ________________________________________
 
   return (
     <div className="space-y-6">
+      {/* Redesigned Horizontal Menu with Hotel-Living Colors */}
       <div className="flex justify-center space-x-3">
         {menuOptions.map(option => (
           <div
             key={option.id}
             onClick={() => setActiveOption(option.id)}
-            className={
-              `relative cursor-pointer px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border backdrop-blur-sm
+            className={`
+              relative cursor-pointer px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border backdrop-blur-sm
               ${activeOption === option.id 
                 ? 'bg-gradient-to-r from-blue-600/80 to-purple-600/80 text-white shadow-lg transform scale-105 border-blue-300/40' 
                 : 'bg-gradient-to-r from-blue-800/40 to-purple-800/40 text-white/80 hover:from-blue-700/60 hover:to-purple-700/60 hover:text-white hover:scale-102 border-blue-500/30'}
-              `
-            }
+            `}
           >
+            {/* Soft glow effect for active item */}
             {activeOption === option.id && (
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-lg blur-lg opacity-60 -z-10"></div>
             )}
@@ -150,51 +167,87 @@ ________________________________________
         ))}
       </div>
 
+      {/* Content Area with Updated Background */}
       <div className="glass-card rounded-lg p-8 text-white/80 border-blue-500/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm">
+        
+        {/* Utilities Cost Table Image with purple glow */}
         {activeOption === "utilities" && (
           <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" alt="Utilities Cost Breakdown Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/deb45c8f-8210-452d-90f0-f949c675fa76.png" 
+                alt="Utilities Cost Breakdown Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
           </div>
         )}
-
+        
+        {/* Cleaning Cost Table Image with purple glow */}
         {activeOption === "cleaning" && (
           <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" alt="Cleaning & Laundry Costs Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/f41a8e9d-034a-40b2-9a49-73fa5727f76d.png" 
+                alt="Cleaning & Laundry Costs Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
           </div>
         )}
-
+        
+        {/* Meal Plan Cost Table Image with purple glow */}
         {activeOption === "meal-plans" && (
           <div className="mb-8 flex justify-center">
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/6a458e43-6e8b-4ed0-a804-719a0edfbc9d.png" alt="Meal Plan Cost Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/6a458e43-6e8b-4ed0-a804-719a0edfbc9d.png" 
+                alt="Meal Plan Cost Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
           </div>
         )}
-
+        
+        {/* Content display only for non-total-costs sections */}
         {activeOption !== "total-costs" && (
           <div className="text-lg whitespace-pre-line">{activeContent}</div>
         )}
-
+        
+        {/* Total Costs Tables Images with purple glow - 3 images vertically arranged with negative margins for tight spacing */}
         {activeOption === "total-costs" && (
           <div className="flex flex-col items-center">
+            {/* 3-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" alt="3-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/a4d6ce0f-a7ff-4efb-9829-5c03bf5785d8.png" 
+                alt="3-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
+            
+            {/* 4-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" alt="4-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/92000e0e-b70a-4664-8fcf-2fc75d33d6f9.png" 
+                alt="4-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
+            
+            {/* 5-STAR Hotel Table */}
             <div className="transform scale-[0.65] origin-top relative -mt-16">
               <div className="absolute inset-0 bg-purple-500/30 rounded-lg blur-xl opacity-60 -z-10"></div>
-              <img src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" alt="5-Star Hotel Total Cost Per Full Stay Table" className="rounded-lg shadow-lg border border-purple-400/20" />
+              <img 
+                src="/lovable-uploads/d7e96b77-c634-4ec1-a9b9-80f95f4b8ee0.png" 
+                alt="5-Star Hotel Total Cost Per Full Stay Table" 
+                className="rounded-lg shadow-lg border border-purple-400/20" 
+              />
             </div>
           </div>
         )}

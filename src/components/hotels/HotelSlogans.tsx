@@ -18,7 +18,7 @@ export function HotelSlogans() {
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">{t('hotels.slogans.multiplyProfits')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">{t('hotels.slogans.longerStays')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">{t('hotels.slogans.fixedDay')}</p>
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-lg">{t('hotels.slogans.recoverClients')}</p>
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl">{t('hotels.slogans.recoverClients')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">{t('hotels.slogans.reducedCosts')}</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">{t('hotels.slogans.staffStability')}</p>
         </div>

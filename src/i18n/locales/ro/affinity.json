@@ -1,0 +1,26 @@
+
+{
+  "affinity": {
+    "title": "Sejururi prin afinitate",
+    "description": "Găsește hoteluri care se potrivesc intereselor și pasiunilor tale",
+    "categories": {
+      "art": "Artă",
+      "business": "Afaceri",
+      "culture": "Cultură",
+      "education": "Educație",
+      "entertainment": "Divertisment",
+      "foodAndDrinks": "Mâncare și băuturi",
+      "healthAndWellness": "Sănătate și wellness",
+      "history": "Istorie",
+      "hobbies": "Hobby-uri",
+      "languages": "Limbi",
+      "lifestyle": "Stil de viață",
+      "nature": "Natură",
+      "personalDevelopment": "Dezvoltare personală",
+      "relationships": "Relații",
+      "scienceAndTechnology": "Știință și tehnologie",
+      "socialImpact": "Impact social",
+      "sports": "Sport"
+    }
+  }
+}

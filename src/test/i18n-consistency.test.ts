@@ -5,22 +5,27 @@ import { describe, it, expect } from 'vitest';
 import enDashboardGeneral from '../i18n/locales/en/dashboard/general.json';
 import esDashboardGeneral from '../i18n/locales/es/dashboard/general.json';
 import ptDashboardGeneral from '../i18n/locales/pt/dashboard/general.json';
+import roDashboardGeneral from '../i18n/locales/ro/dashboard/general.json';
 
 import enDashboardRatesCalculator from '../i18n/locales/en/dashboard/rates-calculator.json';
 import esDashboardRatesCalculator from '../i18n/locales/es/dashboard/rates-calculator.json';
 import ptDashboardRatesCalculator from '../i18n/locales/pt/dashboard/rates-calculator.json';
+import roDashboardRatesCalculator from '../i18n/locales/ro/dashboard/rates-calculator.json';
 
 import enDashboardCommon from '../i18n/locales/en/dashboard/common.json';
 import esDashboardCommon from '../i18n/locales/es/dashboard/common.json';
 import ptDashboardCommon from '../i18n/locales/pt/dashboard/common.json';
+import roDashboardCommon from '../i18n/locales/ro/dashboard/common.json';
 
 import enDashboardWelcomeContent from '../i18n/locales/en/dashboard/welcome-content.json';
 import esDashboardWelcomeContent from '../i18n/locales/es/dashboard/welcome-content.json';
 import ptDashboardWelcomeContent from '../i18n/locales/pt/dashboard/welcome-content.json';
+import roDashboardWelcomeContent from '../i18n/locales/ro/dashboard/welcome-content.json';
 
 import enDashboardFaqTerms from '../i18n/locales/en/dashboard/faq-terms.json';
 import esDashboardFaqTerms from '../i18n/locales/es/dashboard/faq-terms.json';
 import ptDashboardFaqTerms from '../i18n/locales/pt/dashboard/faq-terms.json';
+import roDashboardFaqTerms from '../i18n/locales/ro/dashboard/faq-terms.json';
 
 /**
  * Recursively flattens a nested object into dot-notation keys
@@ -67,9 +72,11 @@ describe('i18n Translation Consistency Tests', () => {
       const enKeys = extractKeys(enDashboardGeneral);
       const esKeys = extractKeys(esDashboardGeneral);
       const ptKeys = extractKeys(ptDashboardGeneral);
+      const roKeys = extractKeys(roDashboardGeneral);
 
       expect(enKeys).toEqual(esKeys);
       expect(esKeys).toEqual(ptKeys);
+      expect(ptKeys).toEqual(roKeys);
       expect(enKeys.length).toBeGreaterThan(0);
     });
 
@@ -77,8 +84,9 @@ describe('i18n Translation Consistency Tests', () => {
       const enHardcoded = checkForHardcodedKeys(enDashboardGeneral, 'EN');
       const esHardcoded = checkForHardcodedKeys(esDashboardGeneral, 'ES');
       const ptHardcoded = checkForHardcodedKeys(ptDashboardGeneral, 'PT');
+      const roHardcoded = checkForHardcodedKeys(roDashboardGeneral, 'RO');
 
-      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded];
+      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded, ...roHardcoded];
       expect(allHardcoded).toEqual([]);
     });
   });
@@ -88,9 +96,11 @@ describe('i18n Translation Consistency Tests', () => {
       const enKeys = extractKeys(enDashboardRatesCalculator);
       const esKeys = extractKeys(esDashboardRatesCalculator);
       const ptKeys = extractKeys(ptDashboardRatesCalculator);
+      const roKeys = extractKeys(roDashboardRatesCalculator);
 
       expect(enKeys).toEqual(esKeys);
       expect(esKeys).toEqual(ptKeys);
+      expect(ptKeys).toEqual(roKeys);
       expect(enKeys.length).toBeGreaterThan(0);
     });
 
@@ -98,8 +108,9 @@ describe('i18n Translation Consistency Tests', () => {
       const enHardcoded = checkForHardcodedKeys(enDashboardRatesCalculator, 'EN');
       const esHardcoded = checkForHardcodedKeys(esDashboardRatesCalculator, 'ES');
       const ptHardcoded = checkForHardcodedKeys(ptDashboardRatesCalculator, 'PT');
+      const roHardcoded = checkForHardcodedKeys(roDashboardRatesCalculator, 'RO');
 
-      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded];
+      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded, ...roHardcoded];
       expect(allHardcoded).toEqual([]);
     });
 
@@ -124,9 +135,11 @@ describe('i18n Translation Consistency Tests', () => {
       const enKeys = extractKeys(enDashboardCommon);
       const esKeys = extractKeys(esDashboardCommon);
       const ptKeys = extractKeys(ptDashboardCommon);
+      const roKeys = extractKeys(roDashboardCommon);
 
       expect(enKeys).toEqual(esKeys);
       expect(esKeys).toEqual(ptKeys);
+      expect(ptKeys).toEqual(roKeys);
       expect(enKeys.length).toBeGreaterThan(0);
     });
 
@@ -134,8 +147,9 @@ describe('i18n Translation Consistency Tests', () => {
       const enHardcoded = checkForHardcodedKeys(enDashboardCommon, 'EN');
       const esHardcoded = checkForHardcodedKeys(esDashboardCommon, 'ES');
       const ptHardcoded = checkForHardcodedKeys(ptDashboardCommon, 'PT');
+      const roHardcoded = checkForHardcodedKeys(roDashboardCommon, 'RO');
 
-      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded];
+      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded, ...roHardcoded];
       expect(allHardcoded).toEqual([]);
     });
   });
@@ -145,9 +159,11 @@ describe('i18n Translation Consistency Tests', () => {
       const enKeys = extractKeys(enDashboardWelcomeContent);
       const esKeys = extractKeys(esDashboardWelcomeContent);
       const ptKeys = extractKeys(ptDashboardWelcomeContent);
+      const roKeys = extractKeys(roDashboardWelcomeContent);
 
       expect(enKeys).toEqual(esKeys);
       expect(esKeys).toEqual(ptKeys);
+      expect(ptKeys).toEqual(roKeys);
       expect(enKeys.length).toBeGreaterThan(0);
     });
 
@@ -155,8 +171,9 @@ describe('i18n Translation Consistency Tests', () => {
       const enHardcoded = checkForHardcodedKeys(enDashboardWelcomeContent, 'EN');
       const esHardcoded = checkForHardcodedKeys(esDashboardWelcomeContent, 'ES');
       const ptHardcoded = checkForHardcodedKeys(ptDashboardWelcomeContent, 'PT');
+      const roHardcoded = checkForHardcodedKeys(roDashboardWelcomeContent, 'RO');
 
-      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded];
+      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded, ...roHardcoded];
       expect(allHardcoded).toEqual([]);
     });
   });
@@ -166,9 +183,11 @@ describe('i18n Translation Consistency Tests', () => {
       const enKeys = extractKeys(enDashboardFaqTerms);
       const esKeys = extractKeys(esDashboardFaqTerms);
       const ptKeys = extractKeys(ptDashboardFaqTerms);
+      const roKeys = extractKeys(roDashboardFaqTerms);
 
       expect(enKeys).toEqual(esKeys);
       expect(esKeys).toEqual(ptKeys);
+      expect(ptKeys).toEqual(roKeys);
       expect(enKeys.length).toBeGreaterThan(0);
     });
 
@@ -176,29 +195,33 @@ describe('i18n Translation Consistency Tests', () => {
       const enHardcoded = checkForHardcodedKeys(enDashboardFaqTerms, 'EN');
       const esHardcoded = checkForHardcodedKeys(esDashboardFaqTerms, 'ES');
       const ptHardcoded = checkForHardcodedKeys(ptDashboardFaqTerms, 'PT');
+      const roHardcoded = checkForHardcodedKeys(roDashboardFaqTerms, 'RO');
 
-      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded];
+      const allHardcoded = [...enHardcoded, ...esHardcoded, ...ptHardcoded, ...roHardcoded];
       expect(allHardcoded).toEqual([]);
     });
   });
 
   describe('Overall translation file integrity', () => {
     it('should have all translation files properly structured', () => {
-      // Test that all files export the expected structure
+      // Test that all files export the expected structure including Romanian
       expect(enDashboardGeneral.dashboard).toBeDefined();
       expect(esDashboardGeneral.dashboard).toBeDefined();
       expect(ptDashboardGeneral.dashboard).toBeDefined();
+      expect(roDashboardGeneral.dashboard).toBeDefined();
 
       expect(enDashboardRatesCalculator.ratesCalculator).toBeDefined();
       expect(esDashboardRatesCalculator.ratesCalculator).toBeDefined();
       expect(ptDashboardRatesCalculator.ratesCalculator).toBeDefined();
+      expect(roDashboardRatesCalculator.ratesCalculator).toBeDefined();
 
       expect(enDashboardCommon.dashboard).toBeDefined();
       expect(esDashboardCommon.dashboard).toBeDefined();
       expect(ptDashboardCommon.dashboard).toBeDefined();
+      expect(roDashboardCommon.dashboard).toBeDefined();
     });
 
-    it('should not have empty translation values', () => {
+    it('should not have empty translation values', ()=> {
       const checkEmptyValues = (obj: any, language: string): string[] => {
         const flattened = flattenTranslationObject(obj);
         const emptyKeys: string[] = [];
@@ -216,9 +239,11 @@ describe('i18n Translation Consistency Tests', () => {
         ...checkEmptyValues(enDashboardGeneral, 'EN-General'),
         ...checkEmptyValues(esDashboardGeneral, 'ES-General'),
         ...checkEmptyValues(ptDashboardGeneral, 'PT-General'),
+        ...checkEmptyValues(roDashboardGeneral, 'RO-General'),
         ...checkEmptyValues(enDashboardRatesCalculator, 'EN-RatesCalc'),
         ...checkEmptyValues(esDashboardRatesCalculator, 'ES-RatesCalc'),
-        ...checkEmptyValues(ptDashboardRatesCalculator, 'PT-RatesCalc')
+        ...checkEmptyValues(ptDashboardRatesCalculator, 'PT-RatesCalc'),
+        ...checkEmptyValues(roDashboardRatesCalculator, 'RO-RatesCalc')
       ];
 
       expect(allEmptyKeys).toEqual([]);

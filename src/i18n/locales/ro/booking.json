@@ -1,0 +1,20 @@
+
+{
+  "booking": {
+    "title": "Rezervă-ți sejurul",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Oaspeți",
+    "rooms": "Camere",
+    "adults": "Adulți",
+    "children": "Copii",
+    "bookNow": "Rezervă acum",
+    "totalPrice": "Preț total",
+    "pricePerNight": "pe noapte",
+    "selectDates": "Selectează datele",
+    "selectGuests": "Selectează oaspeții",
+    "availability": "Disponibilitate",
+    "noAvailability": "Fără disponibilitate pentru datele selectate",
+    "modifySearch": "Modifică căutarea"
+  }
+}

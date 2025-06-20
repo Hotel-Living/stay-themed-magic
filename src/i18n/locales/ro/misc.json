@@ -1,0 +1,15 @@
+
+{
+  "misc": {
+    "comingSoon": "În curând",
+    "underConstruction": "În construcție",
+    "pageNotFound": "Pagina nu a fost găsită",
+    "serverError": "Eroare de server",
+    "tryAgain": "Încearcă din nou",
+    "goHome": "Mergi acasă",
+    "learnMore": "Află mai multe",
+    "readMore": "Citește mai mult",
+    "showLess": "Arată mai puțin",
+    "viewAll": "Vezi toate"
+  }
+}

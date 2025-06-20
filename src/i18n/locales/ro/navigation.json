@@ -1,0 +1,34 @@
+
+{
+  "navigation": {
+    "home": "Acasă",
+    "hotels": "Hoteluri",
+    "dashboard": "Tablou de bord",
+    "login": "Conectare",
+    "logout": "Deconectare",
+    "signup": "Înregistrare",
+    "profile": "Profil",
+    "settings": "Setări",
+    "bookings": "Rezervări",
+    "admin": "Admin",
+    "language": "Limbă",
+    "help": "Ajutor",
+    "faq": "Întrebări frecvente",
+    "contact": "Contact",
+    "videos": "Videoclipuri",
+    "featuredHotels": "Hoteluri recomandate",
+    "affinityStays": "Sejururi prin afinitate",
+    "register": "Înregistrare",
+    "aboutUs": "Despre noi"
+  },
+  "mainNavigationContent": {
+    "faq": "Întrebări frecvente",
+    "affinityStays": "SEJURURI PRIN AFINITATE",
+    "hotel": "Hotel?",
+    "videos": "VIDEOCLIPURI",
+    "featuredHotels": "HOTELURI RECOMANDATE",
+    "hotelDashboard": "Tablou de bord hotel",
+    "adminDashboard": "Tablou de bord admin",
+    "logout": "Deconectare"
+  }
+}

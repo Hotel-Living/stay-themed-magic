@@ -1,0 +1,25 @@
+
+{
+  "faq": {
+    "title": "Întrebări frecvente",
+    "searchPlaceholder": "Caută în întrebările frecvente...",
+    "noResults": "Nu s-au găsit rezultate",
+    "categories": {
+      "general": "General",
+      "booking": "Rezervări",
+      "payments": "Plăți",
+      "cancellation": "Anulări",
+      "support": "Suport"
+    },
+    "questions": {
+      "whatIsHotelLiving": {
+        "question": "Ce este Hotel-Living?",
+        "answer": "Hotel-Living este o platformă care conectează călătorii cu hoteluri tematice pentru sejururi de lungă durată."
+      },
+      "howToBook": {
+        "question": "Cum fac o rezervare?",
+        "answer": "Puteți face o rezervare selectând hotelul dorit și urmând pașii de rezervare."
+      }
+    }
+  }
+}

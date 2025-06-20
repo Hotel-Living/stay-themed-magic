@@ -1,0 +1,70 @@
+
+{
+  "filters": {
+    "all": "Toate",
+    "country": "Țară",
+    "city": "Oraș",
+    "price": "Preț",
+    "stars": "Stele",
+    "property": "Tip proprietate",
+    "amenities": "Facilități",
+    "themes": "Teme",
+    "clearAll": "Șterge toate",
+    "apply": "Aplică filtrele",
+    "pricePerMonth": "PREȚ PE LUNĂ",
+    "affinity": "AFINITATE",
+    "month": "LUNĂ",
+    "country": "ȚARĂ",
+    "priceRanges": {
+      "upTo1000": "Până la 1.000 $",
+      "1000to1500": "1.000 $ - 1.500 $",
+      "1500to2000": "1.500 $ - 2.000 $",
+      "moreThan2000": "Peste 2.000 $"
+    },
+    "months": {
+      "january": "Ianuarie",
+      "february": "Februarie",
+      "march": "Martie",
+      "april": "Aprilie",
+      "may": "Mai",
+      "june": "Iunie",
+      "july": "Iulie",
+      "august": "August",
+      "september": "Septembrie",
+      "october": "Octombrie",
+      "november": "Noiembrie",
+      "december": "Decembrie"
+    },
+    "countries": {
+      "spain": "Spania 🇪🇸",
+      "france": "Franța 🇫🇷",
+      "italy": "Italia 🇮🇹",
+      "usa": "SUA 🇺🇸",
+      "egypt": "Egipt 🇪🇬",
+      "turkey": "Turcia 🇹🇷",
+      "unitedKingdom": "Regatul Unit 🇬🇧",
+      "germany": "Germania 🇩🇪",
+      "portugal": "Portugalia 🇵🇹",
+      "greece": "Grecia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Artă",
+      "business": "Afaceri",
+      "culture": "Cultură",
+      "education": "Educație",
+      "entertainment": "Divertisment",
+      "foodAndDrinks": "Mâncare și băuturi",
+      "healthAndWellness": "Sănătate și wellness",
+      "history": "Istorie",
+      "hobbies": "Hobby-uri",
+      "languages": "Limbi",
+      "lifestyle": "Stil de viață",
+      "nature": "Natură",
+      "personalDevelopment": "Dezvoltare personală",
+      "relationships": "Relații",
+      "scienceAndTechnology": "Știință și tehnologie",
+      "socialImpact": "Impact social",
+      "sports": "Sport"
+    }
+  }
+}

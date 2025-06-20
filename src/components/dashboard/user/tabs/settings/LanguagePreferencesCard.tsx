@@ -31,6 +31,7 @@ export const LanguagePreferencesCard: React.FC<LanguagePreferencesCardProps> = (
     { value: "de", label: "Deutsch" },
     { value: "it", label: "Italiano" },
     { value: "pt", label: "Português" },
+    { value: "ro", label: "Română" },
     { value: "zh", label: "中文" },
     { value: "ja", label: "日本語" },
     { value: "ko", label: "한국어" },

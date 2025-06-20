@@ -1,0 +1,19 @@
+
+{
+  "home": {
+    "heroSection": {
+      "revolutionHasCome": "Revoluția a sosit",
+      "liveInHotels": "LOCUIEȘTE ÎN HOTELURI",
+      "boostYourLife": "Îmbunătățește-ți viața!",
+      "slogans": {
+        "getRidOfChores": "Scapă de treburile casnice!",
+        "selectHotelsByThemes": "Selectează hoteluri după temele tale preferate!",
+        "boostSocialLife": "Îmbunătățește-ți viața socială!",
+        "meetLikeMinded": "Întâlnește și bucură-te alături de oameni cu aceleași interese!"
+      }
+    },
+    "filters": {
+      "search": "Caută"
+    }
+  }
+}

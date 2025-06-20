@@ -1,0 +1,27 @@
+
+{
+  "footer": {
+    "links": {
+      "faq": "Întrebări frecvente",
+      "affinityStays": "SEJURURI PRIN AFINITATE",
+      "hotel": "Hotel?",
+      "videos": "VIDEOCLIPURI",
+      "featuredHotels": "HOTELURI RECOMANDATE",
+      "ourServices": "SERVICIILE NOASTRE",
+      "ourValues": "VALORILE NOASTRE",
+      "customerService": "SERVICIU CLIENȚI",
+      "contact": "CONTACT",
+      "terms": "TERMENI ȘI CONDIȚII",
+      "privacy": "CONFIDENȚIALITATE ȘI COOKIES",
+      "intellectualProperty": "PROPRIETATE INTELECTUALĂ",
+      "ourTeam": "ECHIPA NOASTRĂ"
+    },
+    "buttons": {
+      "register": "Înregistrare",
+      "signIn": "Conectare",
+      "hotel": "Hotel?"
+    },
+    "copyright": "© 2025 Hotel-Living.com. Toate drepturile rezervate. Aceasta este o versiune Beta, supusă actualizărilor continue.",
+    "disclaimer": "Unele proprietăți pot fi exemple folosite pentru a demonstra funcționalitatea Hotel Living."
+  }
+}

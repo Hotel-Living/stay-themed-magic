@@ -1,0 +1,20 @@
+
+{
+  "hotels": {
+    "title": "Hoteluri",
+    "searchPlaceholder": "Caută hoteluri...",
+    "noResults": "Nu s-au găsit rezultate",
+    "loading": "Se încarcă hotelurile...",
+    "error": "Eroare la încărcarea hotelurilor",
+    "tryAgain": "Încearcă din nou",
+    "viewDetails": "Vezi detalii",
+    "bookNow": "Rezervă acum",
+    "from": "de la",
+    "perNight": "pe noapte",
+    "stars": "stele",
+    "amenities": "Facilități",
+    "location": "Locație",
+    "reviews": "Recenzii",
+    "rating": "Evaluare"
+  }
+}

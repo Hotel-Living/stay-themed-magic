@@ -1,0 +1,27 @@
+
+{
+  "ratesCalculator": {
+    "utilities": "UTILITĂȚI",
+    "cleaning": "CURĂȚENIE",
+    "meals": "MESE",
+    "totalCost": "COST TOTAL",
+    "disclaimer": "Aceste cifre reprezintă un exemplu al costurilor incrementale medii pe cameră ocupată suplimentar în hoteluri de 3, 4 și 5 stele din piețele occidentale. Costurile reale pot varia și ar trebui ajustate în funcție de categoria, nivelul de serviciu, locația și modelul operațional al fiecărui hotel.",
+    "mealsModelTitle": "MODELUL DE MESE HOTEL-LIVING: SIMPLU, SĂNĂTOS, STIL CASNIC",
+    "mealsModelDescription1": "Cu excepția hotelurilor de lux, boutique-urilor de top sau sejururilor scurte de 8 zile axate pe gastronomie sau experiențe culinare, Hotel-Living nu se bazează pe gătit gourmet sau buffet-uri luxoase.",
+    "mealsModelDescription2": "În majoritatea cazurilor, experiența Hotel-Living se bazează pe confort, simplitate și sustenabilitate.",
+    "mealsModelDescription3": "Oaspeții noștri nu sunt aici pentru lux.",
+    "mealsModelDescription4": "Nu sunt turiști. Sunt rezidenți pentru sejururi lungi care caută o rutină de mese sigură, sănătoasă și accesibilă — ceva care seamănă cu viața reală de acasă.",
+    "cleaningModelTitle": "CURĂȚENIE STIL CASNIC – CONFORT PE TERMEN LUNG",
+    "cleaningHotelLivingStandard": "HOTEL-LIVING ÎNSEAMNĂ UN NOU STANDARD DE OSPITALITATE",
+    "cleaningFeelsLikeHome": "UNUL CARE SE SIMTE MAI MULT CA ACASĂ.",
+    "cleaningDescription1": "Spre deosebire de hotelurile tradiționale cu curățenie zilnică, abordarea noastră reflectă ritmul vieții reale.",
+    "cleaningDescription2": "La fel cum cineva care locuiește acasă ar putea primi ajutor ușor de câteva ori pe săptămână, oaspeții noștri se bucură de îngrijire atentă și discretă care le respectă independența și confortul.",
+    "cleaningCompleteTitle": "CURĂȚENIE COMPLETĂ — O DATĂ PE SĂPTĂMÂNĂ",
+    "utilitiesTitle": "PREDICTIBILITATE – RESPONSABILITATE – EFICIENȚĂ",
+    "utilitiesGuestsNotTransients": "OASPEȚII HOTEL-LIVING NU SUNT TURIȘTI TRANZITORI",
+    "utilitiesDescription1": "Sunt rezidenți respectuoși pentru sejururi lungi care rămân 8, 16, 24 sau 32 de zile.",
+    "utilitiesSmartGuestsTitle": "OASPEȚI MAI DEȘTEPȚI, UTILIZARE MAI DEȘTEAPTĂ A RESURSELOR",
+    "utilitiesDescription2": "Datorită duratei mai lungi a sejururilor și relației mai personale pe care o stabilesc cu proprietatea dvs., acești oaspeți tind să fie mai conștienți în utilizarea resurselor.",
+    "utilitiesDescription3": "Se simt mai mult ca chiriași temporari decât ca vizitatori pentru sejururi scurte — și asta face toată diferența."
+  }
+}

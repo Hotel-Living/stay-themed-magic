@@ -1,0 +1,29 @@
+
+{
+  "dashboard": {
+    "importantNotice": {
+      "title": "IMPORTANT",
+      "description": "Toate câmpurile obligatorii trebuie completate"
+    },
+    "navigation": {
+      "previous": "Înapoi",
+      "next": "Următorul",
+      "submit": "Trimite"
+    },
+    "hotelProfile": "Profil hotel",
+    "accommodationTerms": "Termeni de cazare",
+    "standardEconomicModel": "Model economic standard",
+    "costsAndProfits": "Costuri și profituri",
+    "buildOwnModel": "Construiește propriul model",
+    "costsDisclaimer": "Notă: Valori estimate",
+    "costs": "Costuri",
+    "profits": "Profituri"
+  },
+  "ratesCalculator": {
+    "utilities": "UTILITĂȚI",
+    "cleaning": "CURĂȚENIE",
+    "meals": "MESE",
+    "totalCost": "COST TOTAL",
+    "disclaimer": "Aceste cifre reprezintă un exemplu al costurilor incrementale medii pe cameră ocupată suplimentar în hoteluri de 3, 4 și 5 stele din piețele occidentale. Costurile reale pot varia și ar trebui ajustate pe baza categoriei, nivelului de serviciu, poziționării și modelului operațional al fiecărui hotel."
+  }
+}

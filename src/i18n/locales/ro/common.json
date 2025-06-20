@@ -1,0 +1,27 @@
+
+{
+  "common": {
+    "loading": "Se încarcă...",
+    "error": "Eroare",
+    "submit": "Trimite",
+    "cancel": "Anulează",
+    "save": "Salvează",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "confirm": "Confirmă",
+    "back": "Înapoi",
+    "next": "Următorul",
+    "previous": "Anterior",
+    "close": "Închide",
+    "search": "Caută",
+    "filter": "Filtrează",
+    "sort": "Sortează",
+    "view": "Vizualizează",
+    "add": "Adaugă",
+    "remove": "Elimină",
+    "update": "Actualizează",
+    "create": "Creează",
+    "yes": "Da",
+    "no": "Nu"
+  }
+}

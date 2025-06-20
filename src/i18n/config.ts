@@ -110,6 +110,34 @@ import ptDashboardAdvertising from './locales/pt/dashboard/advertising.json';
 import ptDashboardWelcomeContent from './locales/pt/dashboard/welcome-content.json';
 import ptDashboardFaqTerms from './locales/pt/dashboard/faq-terms.json';
 
+// Import Romanian translation modules
+import roCommon from './locales/ro/common.json';
+import roNavigation from './locales/ro/navigation.json';
+import roAffinity from './locales/ro/affinity.json';
+import roAuth from './locales/ro/auth.json';
+import roBooking from './locales/ro/booking.json';
+import roFaq from './locales/ro/faq.json';
+import roContent from './locales/ro/content.json';
+import roMisc from './locales/ro/misc.json';
+import roHome from './locales/ro/home.json';
+import roFooter from './locales/ro/footer.json';
+import roHotels from './locales/ro/hotels.json';
+import roFilters from './locales/ro/filters.json';
+import roOurServices from './locales/ro/ourServices.json';
+import roOurValues from './locales/ro/ourValues.json';
+import roCustomerService from './locales/ro/customerService.json';
+import roContact from './locales/ro/contact.json';
+import roTerms from './locales/ro/terms.json';
+import roPrivacy from './locales/ro/privacy.json';
+import roIntellectualProperty from './locales/ro/intellectualProperty.json';
+
+// Import Romanian dashboard modules
+import roDashboardGeneral from './locales/ro/dashboard/general.json';
+import roDashboardCommon from './locales/ro/dashboard/common.json';
+import roDashboardRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
+import roDashboardWelcomeContent from './locales/ro/dashboard/welcome-content.json';
+import roDashboardFaqTerms from './locales/ro/dashboard/faq-terms.json';
+
 const resources = {
   en: {
     translation: {
@@ -225,6 +253,36 @@ const resources = {
       advertising: ptDashboardAdvertising.advertising,
       "dashboard-faq-terms": ptDashboardFaqTerms["dashboard-faq-terms"],
       welcomeContent: ptDashboardWelcomeContent.welcomeContent
+    }
+  },
+  ro: {
+    translation: {
+      ...roCommon,
+      ...roNavigation,
+      ...roAffinity,
+      ...roAuth,
+      ...roBooking,
+      ...roFaq,
+      ...roContent,
+      ...roMisc,
+      ...roHome,
+      ...roFooter,
+      ...roHotels,
+      ...roFilters,
+      ...roOurServices,
+      ...roOurValues,
+      ...roCustomerService,
+      ...roContact,
+      ...roTerms,
+      ...roPrivacy,
+      ...roIntellectualProperty,
+      dashboard: {
+        ...roDashboardGeneral.dashboard,
+        ...roDashboardCommon.dashboard,
+        ratesCalculator: roDashboardRatesCalculator.ratesCalculator
+      },
+      "dashboard-faq-terms": roDashboardFaqTerms["dashboard-faq-terms"],
+      welcomeContent: roDashboardWelcomeContent.welcomeContent
     }
   }
 };

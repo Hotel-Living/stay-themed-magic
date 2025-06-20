@@ -1,10 +1,10 @@
 {
   "contact": {
-    "title": "[PT] Contáctanos",
+    "title": "[traduzido] Contáctanos",
     "welcomeMessage": {
-      "listening": "[PT] Estamos aquí para escuchar.",
-      "feelFree": "[PT] No dude en contactarnos a",
-      "loveToHear": "[PT] — nos encantaría saber de usted."
+      "listening": "[traduzido] Estamos aquí para escuchar.",
+      "feelFree": "[traduzido] No dude en contactarnos a",
+      "loveToHear": "[traduzido] — nos encantaría saber de usted."
     }
   }
 }

@@ -1,11 +1,11 @@
 {
   "dashboard": {
-    "totalBookings": "[PT] Reservas Totales",
-    "revenue": "[PT] Ingresos",
-    "avgRating": "[PT] Valoración Media",
-    "guests": "[PT] Huéspedes",
-    "upcomingStays": "[PT] Estancias Próximas",
-    "completedStays": "[PT] Estancias Completadas",
-    "savedHotels": "[PT] Hoteles Guardados"
+    "totalBookings": "[traduzido] Reservas Totales",
+    "revenue": "[traduzido] Ingresos",
+    "avgRating": "[traduzido] Valoración Media",
+    "guests": "[traduzido] Huéspedes",
+    "upcomingStays": "[traduzido] Estancias Próximas",
+    "completedStays": "[traduzido] Estancias Completadas",
+    "savedHotels": "[traduzido] Hoteles Guardados"
   }
 }

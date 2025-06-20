@@ -1,18 +1,18 @@
 {
   "home": {
     "heroSection": {
-      "revolutionHasCome": "[PT] La Revolución Ha Llegado",
-      "liveInHotels": "[PT] VIVE EN HOTELES",
-      "boostYourLife": "[PT] ¡Potencia Tu Vida!",
+      "revolutionHasCome": "A Revolução Chegou",
+      "liveInHotels": "[traduzido] VIVE EN HOTELES",
+      "boostYourLife": "[traduzido] ¡Potencia Tu Vida!",
       "slogans": {
-        "getRidOfChores": "[PT] ¡Libérate de las tareas domésticas!",
-        "selectHotelsByThemes": "[PT] ¡Selecciona hoteles según tus temas favoritos!",
-        "boostSocialLife": "[PT] ¡Potencia tu vida social!",
-        "meetLikeMinded": "[PT] ¡Conoce y disfruta con personas afines!"
+        "getRidOfChores": "[traduzido] ¡Libérate de las tareas domésticas!",
+        "selectHotelsByThemes": "[traduzido] ¡Selecciona hoteles según tus temas favoritos!",
+        "boostSocialLife": "[traduzido] ¡Potencia tu vida social!",
+        "meetLikeMinded": "[traduzido] ¡Conoce y disfruta con personas afines!"
       }
     },
     "filters": {
-      "search": "[PT] Buscar"
+      "search": "[traduzido] Buscar"
     }
   }
 }

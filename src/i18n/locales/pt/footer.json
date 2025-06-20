@@ -1,26 +1,26 @@
 {
   "footer": {
     "links": {
-      "faq": "[PT] FAQ",
-      "affinityStays": "[PT] ESTANCIAS POR AFINIDADES",
-      "hotel": "[PT] Hotel?",
-      "videos": "[PT] VIDEOS",
-      "featuredHotels": "[PT] HOTELES DESTACADOS",
-      "ourServices": "[PT] NUESTROS SERVICIOS",
-      "ourValues": "[PT] NUESTROS VALORES",
-      "customerService": "[PT] ATENCIÓN AL CLIENTE",
-      "contact": "[PT] CONTACTO",
-      "terms": "[PT] TÉRMINOS Y CONDICIONES",
-      "privacy": "[PT] PRIVACIDAD Y COOKIES",
-      "intellectualProperty": "[PT] PROPIEDAD INTELECTUAL",
-      "ourTeam": "[PT] NUESTRO EQUIPO"
+      "faq": "[traduzido] FAQ",
+      "affinityStays": "[traduzido] ESTANCIAS POR AFINIDADES",
+      "hotel": "[traduzido] Hotel?",
+      "videos": "[traduzido] VIDEOS",
+      "featuredHotels": "[traduzido] HOTELES DESTACADOS",
+      "ourServices": "[traduzido] NUESTROS SERVICIOS",
+      "ourValues": "[traduzido] NUESTROS VALORES",
+      "customerService": "[traduzido] ATENCIÓN AL CLIENTE",
+      "contact": "[traduzido] CONTACTO",
+      "terms": "[traduzido] TÉRMINOS Y CONDICIONES",
+      "privacy": "[traduzido] PRIVACIDAD Y COOKIES",
+      "intellectualProperty": "[traduzido] PROPIEDAD INTELECTUAL",
+      "ourTeam": "[traduzido] NUESTRO EQUIPO"
     },
     "buttons": {
-      "register": "[PT] Registrar",
-      "signIn": "[PT] Iniciar Sesión",
-      "hotel": "[PT] Hotel?"
+      "register": "[traduzido] Registrar",
+      "signIn": "[traduzido] Iniciar Sesión",
+      "hotel": "[traduzido] Hotel?"
     },
-    "copyright": "[PT] © 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
-    "disclaimer": "[PT] Algunas propiedades pueden ser ejemplos utilizados para demostrar la funcionalidad de Hotel Living."
+    "copyright": "[traduzido] © 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
+    "disclaimer": "[traduzido] Algunas propiedades pueden ser ejemplos utilizados para demostrar la funcionalidad de Hotel Living."
   }
 }

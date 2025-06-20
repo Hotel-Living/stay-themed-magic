@@ -1,77 +1,77 @@
 {
   "privacy": {
-    "title": "[PT] Privacidad y Cookies",
+    "title": "[traduzido] Privacidad y Cookies",
     "introduction": {
-      "title": "[PT] Introducción",
-      "content1": "[PT] Estamos comprometidos a proteger su privacidad y garantizar la seguridad de sus datos. Esta Política de Privacidad y Cookies describe cómo recopilamos, usamos y protegemos su información.",
-      "content2": "[PT] En Hotel-Living.com, respetamos su privacidad y estamos comprometidos a protegerla a través de nuestro cumplimiento con esta política."
+      "title": "[traduzido] Introducción",
+      "content1": "[traduzido] Estamos comprometidos a proteger su privacidad y garantizar la seguridad de sus datos. Esta Política de Privacidad y Cookies describe cómo recopilamos, usamos y protegemos su información.",
+      "content2": "[traduzido] En Hotel-Living.com, respetamos su privacidad y estamos comprometidos a protegerla a través de nuestro cumplimiento con esta política."
     },
     "informationWeCollect": {
-      "title": "[PT] Información que Recopilamos",
-      "content": "[PT] Recopilamos varios tipos de información de y sobre los usuarios de nuestro sitio web, incluyendo:",
+      "title": "[traduzido] Información que Recopilamos",
+      "content": "[traduzido] Recopilamos varios tipos de información de y sobre los usuarios de nuestro sitio web, incluyendo:",
       "points": [
-        "[PT] Información personal como nombre, dirección de correo electrónico, dirección postal, número de teléfono e información de pago cuando se registra, hace una reserva o nos contacta.",
-        "[PT] Información sobre su conexión a internet, el equipo que usa para acceder a nuestro sitio web y detalles de uso.",
-        "[PT] Información recopilada a través de cookies y otras tecnologías de seguimiento."
+        "[traduzido] Información personal como nombre, dirección de correo electrónico, dirección postal, número de teléfono e información de pago cuando se registra, hace una reserva o nos contacta.",
+        "[traduzido] Información sobre su conexión a internet, el equipo que usa para acceder a nuestro sitio web y detalles de uso.",
+        "[traduzido] Información recopilada a través de cookies y otras tecnologías de seguimiento."
       ]
     },
     "howWeUseInformation": {
-      "title": "[PT] Cómo Usamos Su Información",
-      "content": "[PT] Usamos la información que recopilamos sobre usted o que nos proporciona para:",
+      "title": "[traduzido] Cómo Usamos Su Información",
+      "content": "[traduzido] Usamos la información que recopilamos sobre usted o que nos proporciona para:",
       "points": [
-        "[PT] Presentar nuestro sitio web y su contenido a usted.",
-        "[PT] Proporcionarle información, productos o servicios que solicite de nosotros.",
-        "[PT] Cumplir cualquier otro propósito para el cual la proporcione.",
-        "[PT] Cumplir nuestras obligaciones y hacer cumplir nuestros derechos derivados de cualquier contrato celebrado entre usted y nosotros.",
-        "[PT] Notificarle sobre cambios en nuestro sitio web o cualquier producto o servicio que ofrezcamos o proporcionemos.",
-        "[PT] Mejorar nuestro sitio web y servicio al cliente.",
-        "[PT] De cualquier otra manera que podamos describir cuando proporcione la información.",
-        "[PT] Para cualquier otro propósito con su consentimiento."
+        "[traduzido] Presentar nuestro sitio web y su contenido a usted.",
+        "[traduzido] Proporcionarle información, productos o servicios que solicite de nosotros.",
+        "[traduzido] Cumplir cualquier otro propósito para el cual la proporcione.",
+        "[traduzido] Cumplir nuestras obligaciones y hacer cumplir nuestros derechos derivados de cualquier contrato celebrado entre usted y nosotros.",
+        "[traduzido] Notificarle sobre cambios en nuestro sitio web o cualquier producto o servicio que ofrezcamos o proporcionemos.",
+        "[traduzido] Mejorar nuestro sitio web y servicio al cliente.",
+        "[traduzido] De cualquier otra manera que podamos describir cuando proporcione la información.",
+        "[traduzido] Para cualquier otro propósito con su consentimiento."
       ]
     },
     "cookiesAndTracking": {
-      "title": "[PT] Cookies y Tecnologías de Seguimiento",
-      "content1": "[PT] Usamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro sitio web y mantener cierta información.",
-      "content2": "[PT] Las cookies son archivos con una pequeña cantidad de datos que pueden incluir un identificador único anónimo. Las cookies se envían a su navegador desde un sitio web y se almacenan en su dispositivo.",
-      "content3": "[PT] Puede instruir a su navegador para que rechace todas las cookies o para que indique cuándo se está enviando una cookie. Sin embargo, si no acepta cookies, es posible que no pueda usar algunas partes de nuestro sitio web.",
-      "content4": "[PT] Tipos de cookies que usamos:",
+      "title": "[traduzido] Cookies y Tecnologías de Seguimiento",
+      "content1": "[traduzido] Usamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro sitio web y mantener cierta información.",
+      "content2": "[traduzido] Las cookies son archivos con una pequeña cantidad de datos que pueden incluir un identificador único anónimo. Las cookies se envían a su navegador desde un sitio web y se almacenan en su dispositivo.",
+      "content3": "[traduzido] Puede instruir a su navegador para que rechace todas las cookies o para que indique cuándo se está enviando una cookie. Sin embargo, si no acepta cookies, es posible que no pueda usar algunas partes de nuestro sitio web.",
+      "content4": "[traduzido] Tipos de cookies que usamos:",
       "cookieTypes": [
-        "[PT] Cookies Esenciales: Requeridas para el funcionamiento de nuestro sitio web.",
-        "[PT] Cookies Analíticas/de Rendimiento: Nos permiten reconocer y contar el número de visitantes y ver cómo los visitantes se mueven por nuestro sitio web.",
-        "[PT] Cookies de Funcionalidad: Se usan para reconocerlo cuando regresa a nuestro sitio web.",
-        "[PT] Cookies de Segmentación: Registran su visita a nuestro sitio web, las páginas que ha visitado y los enlaces que ha seguido."
+        "[traduzido] Cookies Esenciales: Requeridas para el funcionamiento de nuestro sitio web.",
+        "[traduzido] Cookies Analíticas/de Rendimiento: Nos permiten reconocer y contar el número de visitantes y ver cómo los visitantes se mueven por nuestro sitio web.",
+        "[traduzido] Cookies de Funcionalidad: Se usan para reconocerlo cuando regresa a nuestro sitio web.",
+        "[traduzido] Cookies de Segmentación: Registran su visita a nuestro sitio web, las páginas que ha visitado y los enlaces que ha seguido."
       ]
     },
     "dataSecurity": {
-      "title": "[PT] Seguridad de Datos",
-      "content1": "[PT] Hemos implementado medidas diseñadas para proteger su información personal de pérdida accidental y de acceso, uso, alteración y divulgación no autorizados.",
-      "content2": "[PT] La seguridad de su información también depende de usted. Donde le hemos dado (o donde ha elegido) una contraseña para acceder a ciertas partes de nuestro sitio web, usted es responsable de mantener esta contraseña confidencial.",
-      "content3": "[PT] Desafortunadamente, la transmisión de información a través de internet no es completamente segura. Aunque hacemos nuestro mejor esfuerzo para proteger su información personal, no podemos garantizar la seguridad de su información personal transmitida a nuestro sitio web."
+      "title": "[traduzido] Seguridad de Datos",
+      "content1": "[traduzido] Hemos implementado medidas diseñadas para proteger su información personal de pérdida accidental y de acceso, uso, alteración y divulgación no autorizados.",
+      "content2": "[traduzido] La seguridad de su información también depende de usted. Donde le hemos dado (o donde ha elegido) una contraseña para acceder a ciertas partes de nuestro sitio web, usted es responsable de mantener esta contraseña confidencial.",
+      "content3": "[traduzido] Desafortunadamente, la transmisión de información a través de internet no es completamente segura. Aunque hacemos nuestro mejor esfuerzo para proteger su información personal, no podemos garantizar la seguridad de su información personal transmitida a nuestro sitio web."
     },
     "yourRights": {
-      "title": "[PT] Sus Derechos",
-      "content": "[PT] Dependiendo de su ubicación, puede tener ciertos derechos con respecto a su información personal, tales como:",
+      "title": "[traduzido] Sus Derechos",
+      "content": "[traduzido] Dependiendo de su ubicación, puede tener ciertos derechos con respecto a su información personal, tales como:",
       "points": [
-        "[PT] El derecho a acceder a su información personal.",
-        "[PT] El derecho a rectificar información personal inexacta.",
-        "[PT] El derecho a solicitar la eliminación de su información personal.",
-        "[PT] El derecho a restringir el procesamiento de su información personal.",
-        "[PT] El derecho a la portabilidad de datos.",
-        "[PT] El derecho a objetar el procesamiento de su información personal."
+        "[traduzido] El derecho a acceder a su información personal.",
+        "[traduzido] El derecho a rectificar información personal inexacta.",
+        "[traduzido] El derecho a solicitar la eliminación de su información personal.",
+        "[traduzido] El derecho a restringir el procesamiento de su información personal.",
+        "[traduzido] El derecho a la portabilidad de datos.",
+        "[traduzido] El derecho a objetar el procesamiento de su información personal."
       ],
-      "contact": "[PT] Para ejercer cualquiera de estos derechos, por favor contáctenos usando la información proporcionada a continuación."
+      "contact": "[traduzido] Para ejercer cualquiera de estos derechos, por favor contáctenos usando la información proporcionada a continuación."
     },
     "policyChanges": {
-      "title": "[PT] Cambios a Nuestra Política de Privacidad",
-      "content1": "[PT] Podemos actualizar nuestra Política de Privacidad de vez en cuando. Le notificaremos de cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de \"Última Actualización\" en la parte superior de esta Política de Privacidad.",
-      "content2": "[PT] Se le aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página."
+      "title": "[traduzido] Cambios a Nuestra Política de Privacidad",
+      "content1": "[traduzido] Podemos actualizar nuestra Política de Privacidad de vez en cuando. Le notificaremos de cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de \"Última Actualización\" en la parte superior de esta Política de Privacidad.",
+      "content2": "[traduzido] Se le aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página."
     },
     "contactUs": {
-      "title": "[PT] Contáctenos",
-      "content": "[PT] Si tiene alguna pregunta sobre esta Política de Privacidad, por favor contáctenos:",
+      "title": "[traduzido] Contáctenos",
+      "content": "[traduzido] Si tiene alguna pregunta sobre esta Política de Privacidad, por favor contáctenos:",
       "points": [
-        "[PT] Por correo electrónico: privacy@hotel-living.com",
-        "[PT] Visitando la página de contacto en nuestro sitio web"
+        "[traduzido] Por correo electrónico: privacy@hotel-living.com",
+        "[traduzido] Visitando la página de contacto en nuestro sitio web"
       ]
     }
   }

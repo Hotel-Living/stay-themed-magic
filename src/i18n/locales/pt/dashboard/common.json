@@ -1,21 +1,21 @@
 {
   "dashboard": {
     "importantNotice": {
-      "title": "[PT] IMPORTANTE",
-      "description": "[PT] Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
+      "title": "[traduzido] IMPORTANTE",
+      "description": "[traduzido] Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
     },
     "navigation": {
-      "previous": "[PT] Anterior",
-      "next": "[PT] Siguiente",
-      "submit": "[PT] Enviar"
+      "previous": "[traduzido] Anterior",
+      "next": "[traduzido] Siguiente",
+      "submit": "Enviar"
     },
-    "hotelProfile": "[PT] Perfil del Hotel",
-    "accommodationTerms": "[PT] Términos de Alojamiento",
-    "standardEconomicModel": "[PT] Modelo Económico Estándar",
-    "costsAndProfits": "[PT] Costes y Beneficios",
-    "buildOwnModel": "[PT] Cree su Propio Modelo",
-    "costsDisclaimer": "[PT] Aviso: Valores Estimados",
-    "costs": "[PT] Costes",
-    "profits": "[PT] Beneficios"
+    "hotelProfile": "[traduzido] Perfil del Hotel",
+    "accommodationTerms": "[traduzido] Términos de Alojamiento",
+    "standardEconomicModel": "[traduzido] Modelo Económico Estándar",
+    "costsAndProfits": "[traduzido] Costes y Beneficios",
+    "buildOwnModel": "[traduzido] Cree su Propio Modelo",
+    "costsDisclaimer": "[traduzido] Aviso: Valores Estimados",
+    "costs": "[traduzido] Costes",
+    "profits": "[traduzido] Beneficios"
   }
 }

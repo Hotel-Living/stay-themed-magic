@@ -1,11 +1,11 @@
 {
   "dashboard": {
-    "hotelImages": "[PT] IMÁGENES DEL HOTEL",
-    "dragDropPhotos": "[PT] Arrastre y suelte las fotos aquí",
-    "orClickToBrowse": "[PT] o haga clic para buscar desde su dispositivo",
-    "uploadPhotos": "[PT] Subir Fotos",
-    "uploadedPhotos": "[PT] Fotos Subidas",
-    "selectMainImage": "[PT] ★ Seleccione una foto como imagen principal",
-    "uploadAtLeastOneImage": "[PT] Por favor, cargue al menos una imagen para su hotel. La primera imagen se establecerá como imagen principal."
+    "hotelImages": "[traduzido] IMÁGENES DEL HOTEL",
+    "dragDropPhotos": "[traduzido] Arrastre y suelte las fotos aquí",
+    "orClickToBrowse": "[traduzido] o haga clic para buscar desde su dispositivo",
+    "uploadPhotos": "[traduzido] Subir Fotos",
+    "uploadedPhotos": "[traduzido] Fotos Subidas",
+    "selectMainImage": "[traduzido] ★ Seleccione una foto como imagen principal",
+    "uploadAtLeastOneImage": "[traduzido] Por favor, cargue al menos una imagen para su hotel. La primera imagen se establecerá como imagen principal."
   }
 }

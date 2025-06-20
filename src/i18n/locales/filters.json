@@ -1,0 +1,123 @@
+{
+  "filters": {
+    "all": "[PT] Todos",
+    "country": "[PT] PAÍS",
+    "city": "[PT] Ciudad",
+    "price": "[PT] Precio",
+    "stars": "[PT] Estrellas",
+    "property": "[PT] Tipo de Propiedad",
+    "amenities": "[PT] Comodidades",
+    "themes": "[PT] Temas",
+    "clearAll": "[PT] Limpiar Todo",
+    "apply": "[PT] Aplicar Filtros",
+    "pricePerMonth": "[PT] PRECIO POR MES",
+    "affinity": "[PT] AFINIDAD",
+    "month": "[PT] MES",
+    "roomFeatures": "[PT] Características de la habitación",
+    "hotelFeatures": "[PT] Características del hotel",
+    "roomTypes": {
+      "title": "[PT] Tipos de habitación",
+      "single": "[PT] Individual",
+      "double": "[PT] Doble",
+      "suite": "[PT] Suite",
+      "studio": "[PT] Estudio",
+      "penthouse": "[PT] Ático",
+      "familyRoom": "[PT] Habitación familiar"
+    },
+    "typeOfProperty": "[PT] Tipo de propiedad",
+    "location": "[PT] Ubicación",
+    "category": "[PT] Categoría",
+    "styleOfProperty": "[PT] Estilo de la propiedad",
+    "meals": "[PT] Régimen de comidas",
+    "lengthOfStay": "[PT] Duración de la estancia",
+    "resetAllFilters": "[PT] Restablecer todos los filtros",
+    "priceRanges": {
+      "upTo1000": "[PT] Hasta 1.000 $",
+      "1000to1500": "[PT] 1.000 $ a 1.500 $",
+      "1500to2000": "[PT] 1.500 $ a 2.000 $",
+      "moreThan2000": "[PT] Más de 2.000 $"
+    },
+    "months": {
+      "january": "[PT] Enero",
+      "february": "[PT] Febrero",
+      "march": "[PT] Marzo",
+      "april": "[PT] Abril",
+      "may": "[PT] Mayo",
+      "june": "[PT] Junio",
+      "july": "[PT] Julio",
+      "august": "[PT] Agosto",
+      "september": "[PT] Septiembre",
+      "october": "[PT] Octubre",
+      "november": "[PT] Noviembre",
+      "december": "[PT] Diciembre"
+    },
+    "countries": {
+      "spain": "[PT] España 🇪🇸",
+      "france": "[PT] Francia 🇫🇷",
+      "italy": "[PT] Italia 🇮🇹",
+      "usa": "[PT] Estados Unidos 🇺🇸",
+      "egypt": "[PT] Egipto 🇪🇬",
+      "turkey": "[PT] Turquía 🇹🇷",
+      "unitedKingdom": "[PT] Reino Unido 🇬🇧",
+      "germany": "[PT] Alemania 🇩🇪",
+      "portugal": "[PT] Portugal 🇵🇹",
+      "greece": "[PT] Grecia 🇬🇷"
+    },
+    "propertyTypes": {
+      "hotel": "[PT] Hotel",
+      "resort": "[PT] Resort",
+      "boutiqueHotel": "[PT] Hotel boutique",
+      "motel": "[PT] Motel",
+      "inn": "[PT] Posada"
+    },
+    "propertyStyles": {
+      "classic": "[PT] Clásico",
+      "classicElegant": "[PT] Clásico elegante",
+      "modern": "[PT] Moderno",
+      "fusion": "[PT] Fusión",
+      "urban": "[PT] Urbano",
+      "minimalist": "[PT] Minimalista",
+      "luxury": "[PT] Lujo"
+    },
+    "categories": {
+      "1star": "[PT] 1 estrella",
+      "2stars": "[PT] 2 estrellas",
+      "3stars": "[PT] 3 estrellas",
+      "4stars": "[PT] 4 estrellas",
+      "5stars": "[PT] 5 estrellas"
+    },
+    "mealPlans": {
+      "breakfastIncluded": "[PT] Desayuno incluido",
+      "halfBoard": "[PT] Media pensión",
+      "fullBoard": "[PT] Pensión completa",
+      "allInclusive": "[PT] Todo incluido",
+      "laundry": "[PT] Lavandería",
+      "externalLaundryService": "[PT] Servicio de lavandería externo disponible"
+    },
+    "stayLengths": {
+      "8days": "[PT] 8 días",
+      "16days": "[PT] 16 días",
+      "24days": "[PT] 24 días",
+      "32days": "[PT] 32 días"
+    },
+    "affinities": {
+      "art": "[PT] Arte",
+      "business": "[PT] Negocios",
+      "culture": "[PT] Cultura",
+      "education": "[PT] Educación",
+      "entertainment": "[PT] Entretenimiento",
+      "foodAndDrinks": "[PT] Comida y Bebidas",
+      "healthAndWellness": "[PT] Salud y Bienestar",
+      "history": "[PT] Historia",
+      "hobbies": "[PT] Aficiones",
+      "languages": "[PT] Idiomas",
+      "lifestyle": "[PT] Estilo de Vida",
+      "nature": "[PT] Naturaleza",
+      "personalDevelopment": "[PT] Desarrollo Personal",
+      "relationships": "[PT] Relaciones",
+      "scienceAndTechnology": "[PT] Ciencia y Tecnología",
+      "socialImpact": "[PT] Impacto Social",
+      "sports": "[PT] Deportes"
+    }
+  }
+}

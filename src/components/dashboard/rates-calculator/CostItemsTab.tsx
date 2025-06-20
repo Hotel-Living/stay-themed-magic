@@ -5,7 +5,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 interface MenuOption {
   id: string;
   labelKey: string;
-  content: string;
+  contentKey?: string;
 }
 
 const CostItemsTab: React.FC = () => {
@@ -16,14 +16,35 @@ const CostItemsTab: React.FC = () => {
     {
       id: "utilities",
       labelKey: "dashboard.ratesCalculator.utilities",
-      content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
+      contentKey: "utilities"
+    },
+    {
+      id: "cleaning",
+      labelKey: "dashboard.ratesCalculator.cleaning", 
+      contentKey: "cleaning"
+    },
+    {
+      id: "meal-plans",
+      labelKey: "dashboard.ratesCalculator.meals",
+      contentKey: "meals"
+    },
+    {
+      id: "total-costs",
+      labelKey: "dashboard.ratesCalculator.totalCost"
+    }
+  ];
 
-⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
-Son residentes respetuosos de larga estancia que permanecen 8, 16, 24 o 32 días.
+  const getContentForOption = (optionId: string): string => {
+    switch (optionId) {
+      case "utilities":
+        return `**${t('dashboard.ratesCalculator.utilitiesTitle')}**
 
-🌿 HUÉSPEDES MÁS INTELIGENTES, USO DE RECURSOS MÁS INTELIGENTE
-Debido a la mayor duración de las estancias y a la relación más personal que establecen con su propiedad, estos huéspedes tienden a ser más conscientes en el uso de los recursos.
-Se sienten más como inquilinos temporales que como visitantes de corta estancia — y eso marca una verdadera diferencia.
+⚙️ ${t('dashboard.ratesCalculator.utilitiesGuestsNotTransients')}
+${t('dashboard.ratesCalculator.utilitiesDescription1')}
+
+🌿 ${t('dashboard.ratesCalculator.utilitiesSmartGuestsTitle')}
+${t('dashboard.ratesCalculator.utilitiesDescription2')}
+${t('dashboard.ratesCalculator.utilitiesDescription3')}
 ________________________________________
 ⚡ EL CONSUMO DE SERVICIOS ES MÁS BAJO Y MÁS ESTABLE
 💡 LOS SISTEMAS DE EFICIENCIA ENERGÉTICA (como iluminación LED y control climático moderado) resultan aún más efectivos
@@ -35,21 +56,19 @@ Saben que este modelo depende del equilibrio, el cuidado y la sostenibilidad —
 ________________________________________
 🔄 OPERACIONES OPTIMIZADAS = CONSUMO OPTIMIZADO
 Gracias a la menor rotación de habitaciones y a los protocolos de limpieza simplificados, el uso de servicios permanece constante y optimizado, con menos picos de demanda de electricidad o agua.
-________________________________________`
-    },
-    {
-      id: "cleaning",
-      labelKey: "dashboard.ratesCalculator.cleaning",
-      content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
+________________________________________`;
 
-🧼 HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD
-🏡 UNO QUE SE SIENTE MÁS COMO EN CASA.
-A diferencia de los hoteles tradicionales con limpieza diaria, nuestro enfoque refleja el ritmo de la vida real.
+      case "cleaning":
+        return `**${t('dashboard.ratesCalculator.cleaningModelTitle')}**
 
-Así como alguien que vive en casa podría recibir ayuda ligera algunas veces por semana, nuestros huéspedes disfrutan de un cuidado atento y discreto que respeta su independencia y comodidad.
+🧼 ${t('dashboard.ratesCalculator.cleaningHotelLivingStandard')}
+🏡 ${t('dashboard.ratesCalculator.cleaningFeelsLikeHome')}
+${t('dashboard.ratesCalculator.cleaningDescription1')}
+
+${t('dashboard.ratesCalculator.cleaningDescription2')}
 ________________________________________
-🧹 LIMPIEZA COMPLETA — UNA VEZ POR SEMANA
-Una limpieza completa de la habitación cada 7 días garantiza higiene y frescura, con una mínima intrusión.
+🧹 ${t('dashboard.ratesCalculator.cleaningCompleteTitle')}
+Uma limpeza completa de la habitación cada 7 días garantiza higiene e frescura, com uma mínima intrusão.
 ________________________________________
 🔄 REFRESCO LIGERO DIARIO (A PETICIÓN)
 Pequeños retoques opcionales — 🗑️ retirada de basura, 🧺 orden ligero, 🌬️ ventilación — están disponibles, respetando la privacidad y el estilo de vida.
@@ -62,20 +81,18 @@ Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los
 
 •	Menos interrupciones
 •	Más privacidad
-•	La sensación de realmente pertenecer — no solo alojarse.`
-    },
-    {
-      id: "meal-plans",
-      labelKey: "dashboard.ratesCalculator.meals",
-      content: `EL MODELO DE COMIDAS HOTEL-LIVING: SIMPLE, SALUDABLE, ESTILO HOGAR
+•	La sensación de realmente pertenecer — no solo alojarse.`;
 
-Excepto en hoteles de lujo, boutique de alta gama o en estancias cortas de 8 días centradas en gastronomía o experiencias culinarias, Hotel-Living no se basa en cocina gourmet ni en buffets lujosos.
+      case "meal-plans":
+        return `${t('dashboard.ratesCalculator.mealsModelTitle')}
 
-En la mayoría de los casos, la experiencia Hotel-Living se fundamenta en la comodidad, la simplicidad y la sostenibilidad.
+${t('dashboard.ratesCalculator.mealsModelDescription1')}
 
-Nuestros huéspedes no están aquí por el lujo.
+${t('dashboard.ratesCalculator.mealsModelDescription2')}
 
-No son turistas. Son residentes de larga estancia que buscan una rutina de comidas fiable, saludable y accesible — algo que se asemeje a la vida real en el hogar.
+${t('dashboard.ratesCalculator.mealsModelDescription3')}
+
+${t('dashboard.ratesCalculator.mealsModelDescription4')}
 ________________________________________
 🔧 POR ESO NUESTRO MODELO DE ALIMENTACIÓN ES:
 
@@ -133,16 +150,14 @@ ________________________________________
 
 🏡 Sus huéspedes se sienten como en casa
 
-🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`
-    },
-    {
-      id: "total-costs",
-      labelKey: "dashboard.ratesCalculator.totalCost",
-      content: ``
-    }
-  ];
+🌍 Y toda la experiencia se vuelve escalable, sostenible y profundamente humana.`;
 
-  const activeContent = menuOptions.find(option => option.id === activeOption)?.content || "";
+      default:
+        return "";
+    }
+  };
+
+  const activeContent = getContentForOption(activeOption);
 
   return (
     <div className="space-y-6">

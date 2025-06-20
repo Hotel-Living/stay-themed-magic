@@ -1,0 +1,15 @@
+{
+  "dashboard": {
+    "welcomeToHotelLiving": "[PT] ¡Bienvenido a Hotel-Living!",
+    "welcomeMessage": "[PT] Gracias por registrarte como socio hotelero. Para comenzar, añade tu primera propiedad usando la opción \"Añadir Propiedad\" abajo.",
+    "quickActions": "[PT] Acciones Rápidas",
+    "addPropertyAction": "[PT] Añadir Propiedad",
+    "addPropertyDescription": "[PT] Registrar un nuevo hotel o apartamento.",
+    "viewBookings": "[PT] Ver Reservas",
+    "viewBookingsDescription": "[PT] Gestionar reservas futuras y pasadas.",
+    "viewAnalytics": "[PT] Ver Análisis",
+    "viewAnalyticsDescription": "[PT] Consultar métricas detalladas de rendimiento.",
+    "manageReviews": "[PT] Gestionar Opiniones",
+    "manageReviewsDescription": "[PT] Responder a los comentarios de los huéspedes."
+  }
+}

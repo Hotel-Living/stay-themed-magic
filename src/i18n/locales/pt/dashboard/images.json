@@ -1,0 +1,11 @@
+{
+  "dashboard": {
+    "hotelImages": "[PT] IMÁGENES DEL HOTEL",
+    "dragDropPhotos": "[PT] Arrastre y suelte las fotos aquí",
+    "orClickToBrowse": "[PT] o haga clic para buscar desde su dispositivo",
+    "uploadPhotos": "[PT] Subir Fotos",
+    "uploadedPhotos": "[PT] Fotos Subidas",
+    "selectMainImage": "[PT] ★ Seleccione una foto como imagen principal",
+    "uploadAtLeastOneImage": "[PT] Por favor, cargue al menos una imagen para su hotel. La primera imagen se establecerá como imagen principal."
+  }
+}

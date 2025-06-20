@@ -1,0 +1,21 @@
+{
+  "dashboard": {
+    "importantNotice": {
+      "title": "[PT] IMPORTANTE",
+      "description": "[PT] Todos los campos marcados como obligatorios deben completarse antes de continuar. Si usted añade nuevos elementos, la publicación de su propiedad requerirá la aprobación del administrador antes de ser publicada."
+    },
+    "navigation": {
+      "previous": "[PT] Anterior",
+      "next": "[PT] Siguiente",
+      "submit": "[PT] Enviar"
+    },
+    "hotelProfile": "[PT] Perfil del Hotel",
+    "accommodationTerms": "[PT] Términos de Alojamiento",
+    "standardEconomicModel": "[PT] Modelo Económico Estándar",
+    "costsAndProfits": "[PT] Costes y Beneficios",
+    "buildOwnModel": "[PT] Cree su Propio Modelo",
+    "costsDisclaimer": "[PT] Aviso: Valores Estimados",
+    "costs": "[PT] Costes",
+    "profits": "[PT] Beneficios"
+  }
+}

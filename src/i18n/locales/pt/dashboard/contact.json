@@ -1,0 +1,9 @@
+{
+  "dashboard": {
+    "contactInformation": "[PT] INFORMACIÓN DE CONTACTO",
+    "contactName": "[PT] Nombre de Contacto",
+    "email": "[PT] Email",
+    "phone": "[PT] Teléfono",
+    "completeAllRequiredFields": "[PT] Por favor, complete todos los campos obligatorios"
+  }
+}

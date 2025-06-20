@@ -1,0 +1,21 @@
+{
+  "dashboard": {
+    "location": "[PT] UBICACIÓN",
+    "address": "[PT] Dirección",
+    "enterAddress": "[PT] Ingrese la dirección",
+    "country": "[PT] País",
+    "selectCountry": "[PT] Seleccione un país",
+    "custom": "[PT] Personalizado",
+    "city": "[PT] Ciudad",
+    "enterCityName": "[PT] Ingrese el nombre de la ciudad",
+    "postalCode": "[PT] Código Postal",
+    "enterPostalCode": "[PT] Ingrese el código postal",
+    "locationOnMap": "[PT] Ubicación en el Mapa",
+    "clickToSelectLocation": "[PT] Haga clic para seleccionar la ubicación exacta",
+    "clickAnywhereOnMap": "[PT] Haga clic en cualquier lugar del mapa para establecer la ubicación exacta de su propiedad",
+    "latitude": "[PT] Latitud",
+    "latitudePlaceholder": "[PT] Ingrese la latitud (por ejemplo, 41.8902)",
+    "longitude": "[PT] Longitud",
+    "longitudePlaceholder": "[PT] Ingrese la longitud (por ejemplo, 12.4922)"
+  }
+}

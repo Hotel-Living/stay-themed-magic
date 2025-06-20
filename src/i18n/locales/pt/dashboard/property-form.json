@@ -1,0 +1,42 @@
+{
+  "dashboard": {
+    "generalInformation": "[PT] INFORMACIÓN GENERAL",
+    "hotelProfile": "[PT] PERFIL DEL HOTEL",
+    "accommodationTerms": "[PT] CONDICIONES DE ALOJAMIENTO",
+    "packagesAndRates": "[PT] PAQUETES Y TARIFAS",
+    "step1Of5": "[PT] Paso 1 de 5",
+    "step2Of5": "[PT] Paso 2 de 5",
+    "step3Of5": "[PT] Paso 3 de 5",
+    "step4Of5": "[PT] Paso 4 de 5",
+    "step5Of5": "[PT] Paso 5 de 5",
+    "previous": "[PT] Anterior",
+    "next": "[PT] Siguiente",
+    "hotelName": "[PT] Nombre del Hotel",
+    "hotelNamePlaceholder": "[PT] Ingrese el nombre del hotel",
+    "category": "[PT] Categoría",
+    "selectHotelCategory": "[PT] Seleccione la categoría del hotel",
+    "propertyType": "[PT] Tipo de Propiedad",
+    "selectPropertyType": "[PT] Seleccione el tipo de propiedad",
+    "styleOfProperty": "[PT] ESTILO DE LA PROPIEDAD",
+    "selectPropertyStyle": "[PT] Seleccione el estilo de la propiedad",
+    "description": "[PT] Descripción",
+    "hotelDescription": "[PT] DESCRIPCIÓN DEL HOTEL",
+    "hotelDescriptionPlaceholder": "[PT] Introduzca una descripción detallada de su hotel",
+    "idealGuestsEnjoy": "[PT] IDEAL PARA HUÉSPEDES QUE DISFRUTAN DE…",
+    "idealGuestsPlaceholder": "[PT] Describa a sus huéspedes ideales y sus intereses",
+    "atmosphereIs": "[PT] EL AMBIENTE ES…",
+    "atmospherePlaceholder": "[PT] Describa el ambiente y la atmósfera de su hotel",
+    "locationPerfectFor": "[PT] NUESTRA UBICACIÓN ES PERFECTA PARA…",
+    "locationPlaceholder": "[PT] Describa qué hace especial a su ubicación",
+    "defineRoomTypesStayDurations": "[PT] Por favor, defina los tipos de habitación, duraciones de estancia y regímenes de comidas en el Paso 3 antes de establecer precios.",
+    "propertyStyles": {
+      "classic": "[PT] Clásico",
+      "classicElegant": "[PT] Clásico elegante",
+      "modern": "[PT] Moderno",
+      "fusion": "[PT] Fusión",
+      "urban": "[PT] Urbano",
+      "minimalist": "[PT] Minimalista",
+      "luxury": "[PT] Lujo"
+    }
+  }
+}

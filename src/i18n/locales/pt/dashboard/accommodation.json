@@ -1,0 +1,30 @@
+{
+  "dashboard": {
+    "accommodationTerms": "[PT] CONDICIONES DE ALOJAMIENTO",
+    "stayDuration": "[PT] DURACIÓN DE LA ESTANCIA",
+    "selectStayDurations": "[PT] Seleccione todas las duraciones de estancia que ofrece:",
+    "days": "[PT] días",
+    "singleCheckinCheckout": "[PT] DÍA ÚNICO DE ENTRADA / SALIDA",
+    "selectCheckinDay": "[PT] Seleccione el día en que los huéspedes entran y salen:",
+    "availabilityDates": "[PT] FECHAS DISPONIBLES",
+    "mealPlans": "[PT] RÉGIMEN DE COMIDAS",
+    "roomTypes": "[PT] TIPOS DE HABITACIÓN",
+    "defineRoomTypes": "[PT] Defina sus tipos de habitación con fotos y disponibilidad:",
+    "availableRoomTypes": "[PT] TIPOS DE HABITACIÓN DISPONIBLES",
+    "none": "[PT] Ninguno",
+    "addRoomType": "[PT] AÑADIR TIPO DE HABITACIÓN",
+    "breakfastIncluded": "[PT] Desayuno incluido",
+    "halfBoard": "[PT] Media pensión",
+    "fullBoard": "[PT] Pensión completa",
+    "allInclusive": "[PT] Todo incluido",
+    "laundry": "[PT] Lavandería",
+    "externalLaundryService": "[PT] Servicio de lavandería externo disponible",
+    "monday": "[PT] Lunes",
+    "tuesday": "[PT] Martes",
+    "wednesday": "[PT] Miércoles",
+    "thursday": "[PT] Jueves",
+    "friday": "[PT] Viernes",
+    "saturday": "[PT] Sábado",
+    "sunday": "[PT] Domingo"
+  }
+}

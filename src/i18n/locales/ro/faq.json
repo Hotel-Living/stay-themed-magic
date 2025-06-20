@@ -9,10 +9,10 @@
     "benefitsTitle": "EXPERIMENTEAZĂ BENEFICIILE HOTEL-LIVING",
     "categories": {
       "general": "General",
-      "booking": "Rezervări",
-      "payments": "Plăți",
-      "cancellation": "Anulări",
-      "support": "Suport"
+      "hotelLiving": "Hotel Living",
+      "forHoteliers": "Pentru Hotelierii",
+      "forGuests": "Pentru Oaspeți",
+      "legal": "Legal"
     },
     "benefits": {
       "renewableStays": "Sejururi reînnoibile de 8, 16, 24 sau 32 de zile",
@@ -281,11 +281,43 @@
     "questions": {
       "whatIsHotelLiving": {
         "question": "Ce este Hotel-Living?",
-        "answer": "Hotel-Living este o platformă care conectează călătorii cu hoteluri tematice pentru sejururi de lungă durată."
+        "answer": "Hotel-Living este o platformă care conectează călătorii cu hoteluri tematice pentru sejururi de lungă durată. Oferim experiențe de locuire unicate în hoteluri specializate pe diverse afinități și interese, permițând oaspeților să trăiască într-un mediu care reflectă pasiunile lor pentru perioade extinse de 8, 16, 24 sau 32 de zile."
       },
       "howToBook": {
         "question": "Cum fac o rezervare?",
-        "answer": "Puteți face o rezervare selectând hotelul dorit și urmând pașii de rezervare."
+        "answer": "Pentru a face o rezervare, navighează prin hotelurile disponibile pe platforma noastră, selectează hotelul care corespunde afinităților tale, alege durata sejurului (8, 16, 24 sau 32 de zile) și urmează pașii de rezervare. Poți filtra hotelurile după teme, locație și preț pentru a găsi opțiunea perfectă."
+      },
+      "whatAreAffinityHotels": {
+        "question": "Ce sunt hotelurile de afinitate?",
+        "answer": "Hotelurile de afinitate sunt proprietăți specializate care se concentrează pe teme sau interese specifice, cum ar fi sport, cultură, wellness, gastronomie, artă sau tehnologie. Aceste hoteluri creează comunități de oaspeți cu interese comune, oferind experiențe și activități personalizate care se aliniază cu pasiunile lor."
+      },
+      "stayDurations": {
+        "question": "Ce durate de sejur sunt disponibile?",
+        "answer": "Oferim sejururi flexibile de 8, 16, 24 sau 32 de zile. Aceste perioade extinse îți permit să te integrezi cu adevărat în comunitatea hotelului, să te bucuri pe deplin de facilitățile oferite și să construiești relații semnificative cu alți oaspeți care îți împărtășesc interesele."
+      },
+      "pricingStructure": {
+        "question": "Cum funcționează structura de prețuri?",
+        "answer": "Prețurile noastre includ cazarea, majoritatea meselor, facilitățile hotelului și activitățile tematice. Costul variază în funcție de hotel, durată și sezon. Oferim prețuri transparente fără taxe ascunse, iar sejururile mai lungi beneficiază adesea de reduceri progresive."
+      },
+      "whatIsIncluded": {
+        "question": "Ce este inclus în sejur?",
+        "answer": "Sejurul tău include cazarea într-o cameră mobilată complet, serviciul zilnic de curățenie, internet de mare viteză, acces la toate facilitățile hotelului, activitățile tematice, majoritatea meselor (în funcție de planul ales) și suportul unei comunități de oaspeți cu interese similare."
+      },
+      "bookingProcess": {
+        "question": "Care este procesul de rezervare?",
+        "answer": "Procesul de rezervare este simplu: 1) Explorează hotelurile noastre tematice, 2) Selectează hotelul și durata dorită, 3) Completează informațiile de rezervare, 4) Efectuează plata securizată, 5) Primești confirmarea și instrucțiunile de check-in. Echipa noastră te va ghida prin fiecare pas."
+      },
+      "cancellationPolicy": {
+        "question": "Care este politica de anulare?",
+        "answer": "Politica noastră de anulare variază în funcție de hotelul selectat și timpul rămas până la check-in. În general, oferim anulare gratuită cu 14 zile înainte de sosire pentru rezervări standard. Pentru rezervări de ultimă oră sau oferte speciale, se pot aplica condiții diferite."
+      },
+      "communityAspect": {
+        "question": "Cum funcționează aspectul comunitar?",
+        "answer": "Fiecare hotel de afinitate creează o comunitate naturală de oaspeți cu interese comune. Organizăm activități regulate, sesiuni de networking și evenimente tematice care încurajează interacțiunea. Mulți oaspeți formează prietenii durabile și rețele profesionale prin aceste experiențe comune."
+      },
+      "safetyMeasures": {
+        "question": "Ce măsuri de siguranță aveți?",
+        "answer": "Siguranța oaspeților noștri este prioritatea noastră. Toți partenerii hotelieri respectă standardele internaționale de siguranță și igienă. Implementăm protocoluri stricte de verificare a oaspeților, avem personal disponibil 24/7 și menținem un sistem de raportare pentru orice probleme sau neînțelegeri."
       }
     }
   }

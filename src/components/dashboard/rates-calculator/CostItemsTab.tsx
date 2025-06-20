@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -15,7 +16,23 @@ const CostItemsTab: React.FC = () => {
     {
       id: "utilities",
       labelKey: "ratesCalculator.utilities",
-      content: `SUMINISTROS`
+      content: `PREDICTABILITY – RESPONSIBILITY – EFFICIENCY
+
+⚙️ HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS
+They are respectful long-term residents who stay for 8, 16, 24, or 32 days.
+
+🌿 SMARTER GUESTS, SMARTER RESOURCE USAGE
+Thanks to longer stays and a more personal relationship with the property, these guests tend to be more mindful about resource consumption. They feel more like temporary tenants than short-stay visitors — and that makes a real difference.
+
+⚡ SERVICE USAGE IS LOWER AND MORE STABLE
+💡 ENERGY-EFFICIENT SYSTEMS (such as LED lighting and moderate climate control) become even more effective
+🌱 WHEN FEELING AT HOME, guests naturally adopt more conservative habits
+
+💜 A SENSE OF SHARED RESPONSIBILITY
+Because Hotel-Living offers accessible rates, guests are usually aware and respectful of the opportunity. They understand this model relies on balance, care, and sustainability — and most of them act accordingly.
+
+🔄 OPTIMIZED OPERATIONS = OPTIMIZED CONSUMPTION
+Thanks to lower room turnover and simplified cleaning protocols, utility use remains steady and optimized, with fewer peaks in electricity or water demand.`
     },
     {
       id: "cleaning",

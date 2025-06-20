@@ -1,29 +1,19 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { QuestionGroup } from "./QuestionGroup";
+import { CommuterContentEN } from "./CommuterContent.en";
+import { CommuterContentES } from "./CommuterContent.es";
+import { CommuterContentPT } from "./CommuterContent.pt";
+import { CommuterContentRO } from "./CommuterContent.ro";
 
 export function CommuterContent() {
-  const { t } = useTranslation();
+  const { language } = useTranslation();
   
-  const points = t('faq.accordionContent.commuter.points', { returnObjects: true }) as string[];
-
-  // Group the questions into arrays for consistent formatting with other sections
-  const questionGroups = [
-    points.slice(0, 4),   // First 4 questions
-    points.slice(4, 8),   // Next 4 questions  
-    points.slice(8, 12),  // Next 4 questions
-    points.slice(12, 16), // Next 4 questions
-    points.slice(16, 20), // Next 4 questions
-    points.slice(20, 24), // Next 4 questions
-    points.slice(24)      // Remaining questions
-  ].filter(group => group.length > 0); // Remove empty groups
-
-  return (
-    <div className="space-y-8 text-white">
-      {questionGroups.map((questions, index) => (
-        <QuestionGroup key={index} questions={questions} />
-      ))}
-    </div>
-  );
+  if (language === 'en') return <CommuterContentEN />;
+  if (language === 'es') return <CommuterContentES />;
+  if (language === 'pt') return <CommuterContentPT />;
+  if (language === 'ro') return <CommuterContentRO />;
+  
+  // Default fallback to English
+  return <CommuterContentEN />;
 }

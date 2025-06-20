@@ -68,10 +68,12 @@ import ptNavigation from './locales/pt/navigation.json';
 import ptAffinity from './locales/pt/affinity.json';
 import ptAuth from './locales/pt/auth.json';
 import ptBooking from './locales/pt/booking.json';
+import ptFaq from './locales/pt/faq.json';
 import ptContent from './locales/pt/content.json';
 import ptMisc from './locales/pt/misc.json';
 import ptHome from './locales/pt/home.json';
 import ptFooter from './locales/pt/footer.json';
+import ptHotels from './locales/pt/hotels.json';
 import ptFilters from './locales/pt/filters.json';
 import ptOurServices from './locales/pt/ourServices.json';
 import ptOurValues from './locales/pt/ourValues.json';
@@ -262,10 +264,12 @@ const resources = {
       ...ptAffinity,
       ...ptAuth,
       ...ptBooking,
+      ...ptFaq,
       ...ptContent,
       ...ptMisc,
       ...ptHome,
       ...ptFooter,
+      ...ptHotels,
       ...ptFilters,
       ...ptOurServices,
       ...ptOurValues,

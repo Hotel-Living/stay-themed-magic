@@ -62,6 +62,46 @@ import esDashboardAdvertising from './locales/es/dashboard/advertising.json';
 import esDashboardWelcomeContent from './locales/es/dashboard/welcome-content.json';
 import esDashboardFaqTerms from './locales/es/dashboard/faq-terms.json';
 
+// Import Portuguese translation modules
+import ptCommon from './locales/pt/common.json';
+import ptNavigation from './locales/pt/navigation.json';
+import ptAffinity from './locales/pt/affinity.json';
+import ptAuth from './locales/pt/auth.json';
+import ptBooking from './locales/pt/booking.json';
+import ptContent from './locales/pt/content.json';
+import ptMisc from './locales/pt/misc.json';
+import ptHome from './locales/pt/home.json';
+import ptFooter from './locales/pt/footer.json';
+import ptHotels from './locales/pt/hotels.json';
+import ptFilters from './locales/pt/filters.json';
+import ptOurServices from './locales/pt/ourServices.json';
+import ptOurValues from './locales/pt/ourValues.json';
+import ptCustomerService from './locales/pt/customerService.json';
+import ptContact from './locales/pt/contact.json';
+import ptTerms from './locales/pt/terms.json';
+import ptPrivacy from './locales/pt/privacy.json';
+import ptIntellectualProperty from './locales/pt/intellectualProperty.json';
+
+// Import Portuguese dashboard modules
+import ptDashboardGeneral from './locales/pt/dashboard/general.json';
+import ptDashboardStats from './locales/pt/dashboard/stats.json';
+import ptDashboardWelcome from './locales/pt/dashboard/welcome.json';
+import ptDashboardContent from './locales/pt/dashboard/content.json';
+import ptDashboardPropertyForm from './locales/pt/dashboard/property-form.json';
+import ptDashboardImages from './locales/pt/dashboard/images.json';
+import ptDashboardLocation from './locales/pt/dashboard/location.json';
+import ptDashboardContact from './locales/pt/dashboard/contact.json';
+import ptDashboardFeatures from './locales/pt/dashboard/features.json';
+import ptDashboardAccommodation from './locales/pt/dashboard/accommodation.json';
+import ptDashboardPricing from './locales/pt/dashboard/pricing.json';
+import ptDashboardTerms from './locales/pt/dashboard/terms.json';
+import ptDashboardCommon from './locales/pt/dashboard/common.json';
+import ptDashboardSettings from './locales/pt/dashboard/settings.json';
+import ptDashboardRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
+import ptDashboardAdvertising from './locales/pt/dashboard/advertising.json';
+import ptDashboardWelcomeContent from './locales/pt/dashboard/welcome-content.json';
+import ptDashboardFaqTerms from './locales/pt/dashboard/faq-terms.json';
+
 const resources = {
   en: {
     translation: {
@@ -214,6 +254,48 @@ const resources = {
       },
       "dashboard-faq-terms": esDashboardFaqTerms["dashboard-faq-terms"],
       welcomeContent: esDashboardWelcomeContent.welcomeContent
+    }
+  },
+  pt: {
+    translation: {
+      ...ptCommon,
+      ...ptNavigation,
+      ...ptAffinity,
+      ...ptAuth,
+      ...ptBooking,
+      ...ptContent,
+      ...ptMisc,
+      ...ptHome,
+      ...ptFooter,
+      ...ptHotels,
+      ...ptFilters,
+      ...ptOurServices,
+      ...ptOurValues,
+      ...ptCustomerService,
+      ...ptContact,
+      ...ptTerms,
+      ...ptPrivacy,
+      ...ptIntellectualProperty,
+      dashboard: {
+        ...ptDashboardGeneral.dashboard,
+        ...ptDashboardStats.dashboard,
+        ...ptDashboardWelcome.dashboard,
+        ...ptDashboardContent.dashboard,
+        ...ptDashboardPropertyForm.dashboard,
+        ...ptDashboardImages.dashboard,
+        ...ptDashboardLocation.dashboard,
+        ...ptDashboardContact.dashboard,
+        ...ptDashboardFeatures.dashboard,
+        ...ptDashboardAccommodation.dashboard,
+        ...ptDashboardPricing.dashboard,
+        ...ptDashboardTerms.dashboard,
+        ...ptDashboardCommon.dashboard,
+        ...ptDashboardSettings.dashboard
+      },
+      ratesCalculator: ptDashboardRatesCalculator.ratesCalculator,
+      advertising: ptDashboardAdvertising.advertising,
+      "dashboard-faq-terms": ptDashboardFaqTerms["dashboard-faq-terms"],
+      welcomeContent: ptDashboardWelcomeContent.welcomeContent
     }
   }
 };

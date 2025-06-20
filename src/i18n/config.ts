@@ -81,6 +81,7 @@ import ptContact from './locales/pt/contact.json';
 import ptTerms from './locales/pt/terms.json';
 import ptPrivacy from './locales/pt/privacy.json';
 import ptIntellectualProperty from './locales/pt/intellectualProperty.json';
+import ptFaq from './locales/pt/faq.json';
 
 // Import Portuguese dashboard modules
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
@@ -276,6 +277,7 @@ const resources = {
       ...ptTerms,
       ...ptPrivacy,
       ...ptIntellectualProperty,
+      ...ptFaq,
       dashboard: {
         ...ptDashboardGeneral.dashboard,
         ...ptDashboardStats.dashboard,
@@ -306,7 +308,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    debug: false,
+    debug: true,
     
     interpolation: {
       escapeValue: false, // React already escapes values

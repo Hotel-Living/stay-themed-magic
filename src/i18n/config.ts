@@ -72,7 +72,6 @@ import ptContent from './locales/pt/content.json';
 import ptMisc from './locales/pt/misc.json';
 import ptHome from './locales/pt/home.json';
 import ptFooter from './locales/pt/footer.json';
-import ptHotels from './locales/pt/hotels.json';
 import ptFilters from './locales/pt/filters.json';
 import ptOurServices from './locales/pt/ourServices.json';
 import ptOurValues from './locales/pt/ourValues.json';
@@ -81,7 +80,6 @@ import ptContact from './locales/pt/contact.json';
 import ptTerms from './locales/pt/terms.json';
 import ptPrivacy from './locales/pt/privacy.json';
 import ptIntellectualProperty from './locales/pt/intellectualProperty.json';
-import ptFaq from './locales/pt/faq.json';
 
 // Import Portuguese dashboard modules
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
@@ -268,7 +266,6 @@ const resources = {
       ...ptMisc,
       ...ptHome,
       ...ptFooter,
-      ...ptHotels,
       ...ptFilters,
       ...ptOurServices,
       ...ptOurValues,
@@ -277,7 +274,6 @@ const resources = {
       ...ptTerms,
       ...ptPrivacy,
       ...ptIntellectualProperty,
-      ...ptFaq,
       dashboard: {
         ...ptDashboardGeneral.dashboard,
         ...ptDashboardStats.dashboard,

@@ -1,3 +1,4 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -17,12 +18,12 @@ const staffProfiles = [
   },
   {
     img: "/lovable-uploads/0541e858-fb70-4334-817f-640e38be5c5d.png",
-    name: "Victoria Hayes",
+    name: "VICTORIA HAYES",
     title: "AFFILIATES & MEMBERSHIP MANAGER",
   },
   {
     img: "/lovable-uploads/77dc7017-bd00-4ce0-8519-f89a3df68b77.png",
-    name: "Isabella Reed",
+    name: "ISABELLA REED",
     title: "MEDIA RELATIONS MANAGER",
   },
   {
@@ -33,22 +34,22 @@ const staffProfiles = [
   // ADDED STAFF BELOW:
   {
     img: "/lovable-uploads/4ab0282f-bee9-4ffa-9e44-04b2a97aa425.png",
-    name: "Benjamin Hughes",
+    name: "BENJAMIN HUGHES",
     title: "FRONTEND DEVELOPER",
   },
   {
     img: "/lovable-uploads/0ca6645a-ece0-4075-a1c1-36bf915e4c77.png",
-    name: "Natalie Foster",
+    name: "NATALIE FOSTER",
     title: "CHIEF HUMAN RESOURCES OFFICER",
   },
   {
     img: "/lovable-uploads/a072d968-cb17-442c-ad7c-afbae6334eb1.png",
-    name: "Arjun Mehta",
+    name: "ARJUN MEHTA",
     title: "DIRECTOR OF SOFTWARE DEVELOPMENT",
   },
   {
     img: "/lovable-uploads/b13a8a21-ab9a-459e-9019-bdb5e2955349.png",
-    name: "Ethan Brooks",
+    name: "ETHAN BROOKS",
     title: "BUSINESS RELATIONS COORDINATOR",
   },
   // UPDATE: Change previous "PLATFORM RELIABILITY ENGINEER" to ETHAN HORNE

@@ -1,0 +1,21 @@
+
+{
+  "heroSection": {
+    "liveInHotels": "Live in Hotels",
+    "boostYourLife": "Boost Your Life",
+    "revolutionHasCome": "The Revolution Has Come",
+    "slogans": {
+      "getRidOfChores": "Get Rid of Chores",
+      "boostSocialLife": "Boost Your Social Life",
+      "selectHotelsByThemes": "Select Hotels by Themes",
+      "meetLikeMinded": "Meet Like-Minded People"
+    }
+  },
+  "filters": {
+    "country": "Country?",
+    "month": "Month?",
+    "affinity": "Affinity?",
+    "pricePerMonth": "Price per Month?",
+    "search": "Search"
+  }
+}

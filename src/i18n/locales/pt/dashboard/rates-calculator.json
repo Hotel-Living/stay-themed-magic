@@ -6,6 +6,25 @@
     "meals": "REFEIÇÕES",
     "laundry": "LAVANDERIA",
     "totalCost": "CUSTO TOTAL",
-    "disclaimer": "Esses valores representam um exemplo dos custos incrementais médios por quarto ocupado adicional em hotéis de 3, 4 e 5 estrelas em mercados ocidentais. Os custos reais podem variar e devem ser ajustados conforme a categoria, nível de serviço, localização e modelo operacional de cada hotel."
+    "disclaimer": "Esses valores representam um exemplo dos custos incrementais médios por quarto ocupado adicional em hotéis de 3, 4 e 5 estrelas em mercados ocidentais. Os custos reais podem variar e devem ser ajustados conforme a categoria, nível de serviço, localização e modelo operacional de cada hotel.",
+    "mealsModelTitle": "O MODELO DE COMIDAS HOTEL-LIVING: SIMPLES, SAUDÁVEL, ESTILO HOGAR",
+    "mealsModelDescription1": "Exceto em hotéis de luxo, boutique de alta gama ou em estadias curtas de 8 dias centradas em gastronomia ou experiências culinárias, Hotel-Living não se baseia em cozinha gourmet nem em buffets luxuosos.",
+    "mealsModelDescription2": "Na maioria dos casos, a experiência Hotel-Living se baseia na comodidade, simplicidade e sustentabilidade.",
+    "mealsModelDescription3": "Nossos hóspedes não estão aqui pelo luxo.",
+    "mealsModelDescription4": "Não são turistas. São residentes de longa estadia que buscam uma rotina de comidas confiável, saudável e acessível — algo que se assemelha à vida real no lar.",
+    "cleaningModelTitle": "LIMPEZA ESTILO HOGAR – COMODIDADE A LONGO PRAZO",
+    "cleaningHotelLivingStandard": "HOTEL-LIVING SIGNIFICA UM NOVO PADRÃO DE HOSPITALIDADE",
+    "cleaningFeelsLikeHome": "UM QUE SE SENTE MAIS COMO EM CASA.",
+    "cleaningDescription1": "À diferença dos hotéis tradicionais com limpeza diária, nosso enfoque reflete o ritmo da vida real.",
+    "cleaningDescription2": "Assim como alguém que vive em casa poderia receber ajuda ligeira algumas vezes por semana, nossos hóspedes desfrutam de um cuidado atento e discreto que respeita sua independência e comodidade.",
+    "cleaningCompleteTitle": "LIMPEZA COMPLETA — UMA VEZ POR SEMANA",
+    "utilitiesTitle": "PREVISIBILIDADE – RESPONSABILIDADE – EFICIÊNCIA",
+    "utilitiesGuestsNotTransients": "OS HÓSPEDES DE HOTEL-LIVING NÃO SÃO TURISTAS TRANSITÓRIOS",
+    "utilitiesDescription1": "São residentes respeitosos de longa estância que permanecem 8, 16, 24 ou 32 dias.",
+    "utilitiesSmartGuestsTitle": "HÓSPEDES MAIS INTELIGENTES, USO DE RECURSOS MAIS INTELIGENTE",
+    "utilitiesDescription2": "Devido à maior duração das estâncias e à relação mais pessoal que estabelecem com sua propriedade, estes hóspedes tendem a ser mais conscientes no uso dos recursos.",
+    "utilitiesDescription3": "Se sentem mais como inquilinos temporais que como visitantes de curta estância — e isso marca a diferença.",
+    "laundryTitle": "LAVANDERIA",
+    "laundryDescription": "Serviço de lavanderia adaptado às necessidades de estadias prolongadas."
   }
 }

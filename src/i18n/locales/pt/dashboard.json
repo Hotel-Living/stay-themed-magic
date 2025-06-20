@@ -1,0 +1,31 @@
+
+{
+  "dashboard": {
+    "welcomeOverview": "Visão Geral de Boas-vindas",
+    "dashboard": "Painel",
+    "calculateModel": "CALCULAR MODELO",
+    "ratesAndProfits": "TARIFAS E LUCROS",
+    "properties": "Propriedades",
+    "advertising": "Publicidade",
+    "bookings": "Reservas",
+    "guests": "Hóspedes",
+    "adminMessages": "Mensagens Admin",
+    "finances": "Finanças",
+    "reviews": "Avaliações",
+    "analytics": "Análises",
+    "settings": "Configurações",
+    "standardEconomicModel": "MODELO ECONÔMICO PADRÃO",
+    "costsAndProfits": "CUSTOS E LUCROS",
+    "buildOwnModel": "CONSTRUA SEU PRÓPRIO MODELO E TARIFAS",
+    "costs": "CUSTOS",
+    "profits": "LUCROS",
+    "selectAll": "Selecionar Todos",
+    "deselectAll": "Desmarcar Todos",
+    "ratesCalculator": {
+      "utilities": "UTILITÁRIOS",
+      "cleaning": "LIMPEZA", 
+      "meals": "REFEIÇÕES",
+      "laundry": "LAVANDERIA"
+    }
+  }
+}

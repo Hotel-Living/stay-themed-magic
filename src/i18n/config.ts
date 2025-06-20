@@ -4,6 +4,13 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import English translations
+import enCommon from './locales/en/common.json';
+import enNavigation from './locales/en/navigation.json';
+import enHome from './locales/en/home.json';
+import enFooter from './locales/en/footer.json';
+import enBooking from './locales/en/booking.json';
+import enContent from './locales/en/content.json';
+import enMisc from './locales/en/misc.json';
 import enHotels from './locales/en/hotels.json';
 import enAffinity from './locales/en/affinity.json';
 import enFilters from './locales/en/filters.json';
@@ -106,93 +113,13 @@ import ptDashboardFaqTerms from './locales/pt/dashboard/faq-terms.json';
 const resources = {
   en: {
     translation: {
-      common: {
-        loading: "Loading...",
-        error: "Error",
-        submit: "Submit",
-        cancel: "Cancel",
-        save: "Save",
-        edit: "Edit",
-        delete: "Delete",
-        confirm: "Confirm",
-        back: "Back",
-        next: "Next",
-        previous: "Previous",
-        close: "Close",
-        search: "Search",
-        filter: "Filter",
-        sort: "Sort",
-        view: "View",
-        add: "Add",
-        remove: "Remove",
-        update: "Update",
-        create: "Create",
-        yes: "Yes",
-        no: "No"
-      },
-      navigation: {
-        home: "Home",
-        hotels: "Hotels",
-        dashboard: "Dashboard",
-        login: "Sign In",
-        signup: "Sign Up",
-        logout: "Sign Out",
-        profile: "Profile",
-        settings: "Settings",
-        faq: "FAQ",
-        contact: "Contact",
-        about: "About"
-      },
-      mainNavigationContent: {
-        faq: "FAQ",
-        affinityStays: "AFFINITY STAYS",
-        hotel: "Hotel?",
-        videos: "VIDEOS",
-        featuredHotels: "FEATURED HOTELS",
-        hotelDashboard: "Hotel Dashboard",
-        adminDashboard: "Admin Dashboard",
-        logout: "Sign Out"
-      },
-      home: {
-        heroSection: {
-          revolutionHasCome: "The Revolution Has Come",
-          liveInHotels: "LIVE IN HOTELS",
-          boostYourLife: "Boost Your Life!",
-          slogans: {
-            getRidOfChores: "Get rid of household chores!",
-            selectHotelsByThemes: "Select hotels by your favorite themes!",
-            boostSocialLife: "Boost your social life!",
-            meetLikeMinded: "Meet and enjoy with like-minded people!"
-          }
-        },
-        filters: {
-          search: "Search"
-        }
-      },
-      footer: {
-        links: {
-          faq: "FAQ",
-          affinityStays: "AFFINITY STAYS",
-          hotel: "Hotel?",
-          videos: "VIDEOS",
-          featuredHotels: "FEATURED HOTELS",
-          ourServices: "OUR SERVICES",
-          ourValues: "OUR VALUES",
-          customerService: "CUSTOMER SERVICE",
-          contact: "CONTACT",
-          terms: "TERMS & CONDITIONS",
-          privacy: "PRIVACY & COOKIES",
-          intellectualProperty: "INTELLECTUAL PROPERTY",
-          ourTeam: "OUR TEAM"
-        },
-        buttons: {
-          register: "Sign Up",
-          signIn: "Sign In",
-          hotel: "Hotel?"
-        },
-        copyright: "© 2025 Hotel-Living.com. All rights reserved. This is a Beta version, subject to continuous updates.",
-        disclaimer: "Some properties may be examples used to demonstrate Hotel Living functionality."
-      },
+      ...enCommon,
+      ...enNavigation,
+      ...enHome,
+      ...enFooter,
+      ...enBooking,
+      ...enContent,
+      ...enMisc,
       ...enHotels,
       ...enAffinity,
       ...enFilters,

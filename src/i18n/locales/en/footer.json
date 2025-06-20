@@ -1,0 +1,27 @@
+
+{
+  "footer": {
+    "links": {
+      "faq": "FAQ",
+      "affinityStays": "AFFINITY STAYS",
+      "hotel": "Hotel?",
+      "videos": "VIDEOS",
+      "featuredHotels": "FEATURED HOTELS",
+      "ourServices": "OUR SERVICES",
+      "ourValues": "OUR VALUES",
+      "customerService": "CUSTOMER SERVICE",
+      "contact": "CONTACT",
+      "terms": "TERMS & CONDITIONS",
+      "privacy": "PRIVACY & COOKIES",
+      "intellectualProperty": "INTELLECTUAL PROPERTY",
+      "ourTeam": "OUR TEAM"
+    },
+    "buttons": {
+      "register": "Sign Up",
+      "signIn": "Sign In",
+      "hotel": "Hotel?"
+    },
+    "copyright": "© 2025 Hotel-Living.com. All rights reserved. This is a Beta version, subject to continuous updates.",
+    "disclaimer": "Some properties may be examples used to demonstrate Hotel Living functionality."
+  }
+}

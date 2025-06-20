@@ -1,0 +1,34 @@
+
+{
+  "navigation": {
+    "home": "Home",
+    "hotels": "Hotels",
+    "dashboard": "Dashboard",
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "signup": "Sign Up",
+    "profile": "Profile",
+    "settings": "Settings",
+    "bookings": "Bookings",
+    "admin": "Admin",
+    "language": "Language",
+    "help": "Help",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "videos": "Videos",
+    "featuredHotels": "Featured Hotels",
+    "affinityStays": "Affinity Stays",
+    "register": "Register",
+    "aboutUs": "About Us"
+  },
+  "mainNavigationContent": {
+    "faq": "FAQ",
+    "affinityStays": "AFFINITY STAYS",
+    "hotel": "Hotel?",
+    "videos": "VIDEOS",
+    "featuredHotels": "FEATURED HOTELS",
+    "hotelDashboard": "Hotel Dashboard",
+    "adminDashboard": "Admin Dashboard",
+    "logout": "Sign Out"
+  }
+}

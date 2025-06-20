@@ -20,6 +20,6 @@ export const benefitsFaqs: FaqItem[] = [
   },
   {
     question: "Ce support de marketing oferă Hotel-Living?",
-    answer: "Oferim promovare gratuită pe platforma noastră, prezentare în categorii tematice relevante, access la o bază de date de oaspeți interesați de șederi lungi, și suport pentru dezvoltarea de pachete experiențiale unice."
+    answer: "Oferim promovare gratuită pe platforma noastră, prezentare în categorii tematice relevante, acces la o bază de date de oaspeți interesați de șederi lungi, și suport pentru dezvoltarea de pachete experiențiale unice."
   }
 ];

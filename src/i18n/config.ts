@@ -100,10 +100,10 @@ const es = {
     ...esDashboardTerms.dashboard,
     ...esDashboardCommonEs.dashboard,
     ...esDashboardSettings.dashboard,
-    ...esDashboardAdvertising.advertising
+    ...esDashboardAdvertising.advertising,
+    // Merge rates calculator translations into the dashboard namespace
+    ratesCalculator: esDashboardRatesCalculator
   },
-  // Merge rates calculator translations into the dashboard namespace
-  ratesCalculator: esDashboardRatesCalculator,
   // Preserve dashboard-faq-terms as a separate namespace
   "dashboard-faq-terms": esDashboardFaqTerms["dashboard-faq-terms"],
   welcomeContent: esDashboardWelcomeContent.welcomeContent
@@ -126,9 +126,10 @@ const enCombined = {
   ...enFaq,
   dashboard: {
     ...enDashboardCommon.dashboard,
-    ...enDashboardGeneral.dashboard
+    ...enDashboardGeneral.dashboard,
+    // Create matching structure for English rates calculator
+    ratesCalculator: enDashboardCommon.ratesCalculator
   },
-  ratesCalculator: enDashboardCommon.ratesCalculator,
   "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
   welcomeContent: enDashboardWelcomeContent.welcomeContent
 };

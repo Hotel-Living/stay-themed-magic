@@ -3,23 +3,35 @@ import { FaqItem } from "../hotel-types";
 
 export const modelsFaqs: FaqItem[] = [
   {
-    question: "Ce modele de colaborare oferă Hotel-Living?",
-    answer: "Oferim trei modele principale: Parteneriat Standard (comision pe rezervări), Model de Garanție (ocupare garantată cu tarif fix), și Parteneriat Premium (colaborare exclusivă cu beneficii suplimentare și support dedicat)."
+    question: "Dacă am camere goale, Hotel-Living are clienți pentru mine?",
+    answer: "Există întotdeauna piață.\n\nPotențialul clienților este imens, cu persoane de toate vârstele, originile și preferințele care caută alternative flexibile, confortabile și accesibile față de locuirea tradițională.\n\nIndiferent de mărimea hotelului dumneavoastră, există o cale de a beneficia de modelul Hotel-Living, adaptând oferta în funcție de ceea ce se potrivește cel mai bine proprietății dumneavoastră."
   },
   {
-    question: "Cum funcționează modelul de garanție de ocupare?",
-    answer: "În modelul de garanție, Hotel-Living garantează ocuparea unui număr minim de camere pentru perioade specifice, oferind hotelului siguranța veniturilor și predictibilitate în planificarea operațională și financiară."
+    question: "Există un minim de camere necesar pentru încorporare?",
+    answer: "Nu.\n\nChiar și cu 3 sau 5 camere disponibile, vă puteți înscrie în sistem.\n\nÎn aceste cazuri, poate că nu implementați programe tematice, dar puteți oferi șederi de 8 zile cu:\n• Pensiune completă\n• Demipensiune\n• Doar cazare\n\nÎn funcție de structura dumneavoastră.\n\nModelul este flexibil și există cerere pentru toate nivelurile de serviciu, de la opțiuni simple până la luxoase."
   },
   {
-    question: "Ce înseamnă parteneriatul exclusiv?",
-    answer: "Parteneriatul exclusiv înseamnă că hotelul devine singura opțiune Hotel-Living într-o anumită zonă geografică sau categorie tematică, beneficiind de promovare prioritară și acces exclusiv la segmente specifice de oaspeți."
+    question: "Ce durate de ședere ar trebui să ofer: 8, 16, 24 sau 32 de zile?",
+    answer: "Depinde de mărimea, categoria și capacitatea operațională a hotelului dumneavoastră:\n\n• Hotelurile mari, cu structură suficientă, oferă de obicei toate cele patru modalități: 8, 16, 24 și 32 de zile.\n\n• Hotelurile mai mici (de exemplu, până la 20 de camere) încep adesea oferind șederi de 8 zile, menținând o operativă agilă și fluidă.\n\n• Șederile lungi sunt ideale când aveți spațiul și volumul de oaspeți suficient."
   },
   {
-    question: "Pot combina modelul Hotel-Living cu rezervările tradiționale?",
-    answer: "Absolut! Hotel-Living este conceput să completeze activitatea existentă. Puteți aloca un număr specific de camere pentru programul nostru, menținând în același timp rezervările directe și prin alte canale."
+    question: "Ce se întâmplă dacă hotelul are între 40 și 60 de camere?",
+    answer: "Acesta este un interval optim intermediar.\n\nPuteți începe ușor oferind șederi de 8 și 16 zile, și extinde la 24 sau 32 de zile pe măsură ce crește operativa și cererea dumneavoastră."
   },
   {
-    question: "Cum se adaptează modelele la diferite tipuri de proprietăți?",
-    answer: "Modelele noastre sunt flexibile și se adaptează la: hoteluri boutique, proprietăți de resort, hoteluri urbane, pensiuni, și proprietăți specializate. Fiecare tip de proprietate poate găsi modelul optim pentru nevoile sale specifice."
+    question: "Ce abordare ar trebui să aibă hotelurile boutique sau de înaltă gamă?",
+    answer: "În hotelurile boutique, punctul forte este calitatea și caracterul unic.\n\nPuteți dezvolta programe tematice de 8 zile precum:\n• Săptămâni gastronomice cu chef-uri invitate\n• Retrageri de wellness\n• Imersiuni culturale sau lingvistice\n\nAceste programe se pot repeta săptămânal, creând consistență, reputație și o experiență rotativă pentru oaspeți."
+  },
+  {
+    question: "Pot stabili tarife diferite în funcție de durata șederii?",
+    answer: "Da, și este foarte recomandat.\n\nOferirea de reduceri progresive în funcție de durata rezervării vă permite să:\n• Atrageți șederi mai lungi (16, 24 sau 32 de zile)\n• Reduceți costurile operaționale pe oaspete\n• Creșteți fidelizarea și stabilitatea\n\nOaspeții, în mod natural, preferă șederi mai lungi și economice, ceea ce vă maximizează rentabilitatea."
+  },
+  {
+    question: "Pot începe cu un singur tip de durată și extinde mai târziu?",
+    answer: "Desigur.\n\nMulte hoteluri încep cu șederi de 8 zile pentru a testa modelul și, treptat, adaugă opțiuni mai lungi pe măsură ce evoluează operativa și se stabilesc obiceiurile oaspeților.\n\nControlați ritmul de creștere."
+  },
+  {
+    question: "Pot combina modele diferite în același hotel?",
+    answer: "Da, și de obicei este opțiunea cea mai inteligentă.\n\nDe exemplu:\n• Dedicați unele camere ciclurilor tematice de 8 zile\n• Alte camere pentru șederi lungi (perfecte pentru nomazi digitali sau semi-pensionari)\n\nAceastă combinație maximizează ocuparea și atrage o clientelă mai variată."
   }
 ];

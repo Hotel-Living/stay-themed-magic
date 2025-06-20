@@ -3,23 +3,43 @@ import { FaqItem } from "../hotel-types";
 
 export const operationFaqs: FaqItem[] = [
   {
-    question: "Cum se schimbă operațiunile zilnice cu Hotel-Living?",
-    answer: "Operațiunile se simplifică prin: check-in/check-out-uri mai rare (la 8-32 zile), curățenie mai puțin frecventă dar mai profundă, rutine stabilite cu oaspeții pe termen lung, și focus pe servicii comunitare și experiențiale."
+    question: "Cum se integrează Hotel-Living cu operațiunile noastre actuale?",
+    answer: "Hotel-Living se integrează perfect fără a perturba operațiunile zilnice. Puteți menține rezervările tradiționale în timp ce destinați camere specifice sistemului nostru de șederi prelungite."
   },
   {
-    question: "Ce schimbări sunt necesare la recepție?",
-    answer: "Recepția se adaptează la: proceduri pentru șederi lungi, gestionarea cererilor comunitare, coordonarea activităților tematice, și rol de concierge pentru integrarea oaspeților în comunitatea locală."
+    question: "Trebuie să schimbăm sistemul nostru de management hotelier?",
+    answer: "Nu este necesar. Hotel-Living se adaptează la majoritatea sistemelor PMS existente, facilitând tranziția fără complicații tehnice."
   },
   {
-    question: "Cum se modifică serviciile de curățenie?",
-    answer: "Curățenia se reorganizează: curățenie profundă săptămânală în loc de zilnică, servicii de spălătorie integrate, întreținere preventivă mai intensă, și atenție la confortul pe termen lung al oaspeților."
+    question: "Cum gestionăm check-in-ul și check-out-ul cu Hotel-Living?",
+    answer: "Simplificăm procesul cu zile fixe de intrare și ieșire, reducând sarcina operațională și optimizând eficiența personalului."
   },
   {
-    question: "Ce instrucțiuni primește personalul?",
-    answer: "Personalul primește training pentru: servicii pe termen lung, facilitarea interacțiunilor sociale, gestionarea comunităților tematice, rezolvarea conflictelor între oaspeți, și crearea de experiențe memorabile."
+    question: "Ce formare necesită personalul nostru?",
+    answer: "Oferim formare completă pentru ca echipa dumneavoastră să înțeleagă modelul șederilor prelungite și să poată oferi cel mai bun serviciu oaspeților Hotel-Living."
   },
   {
-    question: "Cum gestionăm mâncarea pentru șederi lungi?",
-    answer: "Opțiunile de masă includ: acces la bucătărie comună, planuri de masă flexibile, colaborări cu restaurante locale, organizarea de cine comunitare, și adaptarea la preferințele dietetice ale oaspeților."
+    question: "Cum afectează aceasta oaspeții noștri tradiționali?",
+    answer: "Nu afectează negativ. De fapt, poate îmbunătăți experiența generală prin crearea unei atmosfere mai vibrante și ocupate în hotel."
+  },
+  {
+    question: "Putem menține tarifele corporative și contractele existente?",
+    answer: "Absolut. Hotel-Living completează afacerile existente fără a interfera cu acordurile corporative sau contractele stabilite."
+  },
+  {
+    question: "Cum se gestionează plângerile sau problemele cu oaspeții Hotel-Living?",
+    answer: "Avem protocoale stabilite și o echipă de suport dedicată care lucrează alături de personalul dumneavoastră pentru a rezolva orice situație care poate apărea."
+  },
+  {
+    question: "Ce se întâmplă dacă vrem să anulăm parteneriatul nostru?",
+    answer: "Oferim flexibilitate totală. Puteți ajusta participarea sau termina parteneriatul cu o notificare prealabilă rezonabilă, fără penalizări excesive."
+  },
+  {
+    question: "Ce suport oferă Hotel-Living hotelurilor partenere?",
+    answer: "Partenerii noștri primesc asistență completă ale cărei servicii unice se vor incrementa cu sisteme și servicii noi și inovatoare, deja înregistrate. Obiectivul nostru este să vă asigurăm succesul pe piața șederilor prelungite."
+  },
+  {
+    question: "Cum garantați calitatea oaspeților?",
+    answer: "Implementăm un proces de verificare riguros pentru toți oaspeții, asigurându-ne că îndeplinesc standardele de comportament și solvabilitate adecvate pentru șederi prelungite."
   }
 ];

@@ -3,23 +3,51 @@ import { FaqItem } from "../hotel-types";
 
 export const benefitsFaqs: FaqItem[] = [
   {
-    question: "Care sunt principalele beneficii ale Hotel-Living pentru hoteluri?",
-    answer: "Hotel-Living oferă hotelurilor: ocupare garantată pe perioade lungi (8-32 zile), venituri stabile și predictibile, reducerea costurilor de marketing, acces la o comunitate de oaspeți fideli, și posibilitatea de a diferenția oferta prin experiențe tematice unice."
+    question: "Ce tip de hotel este potrivit pentru Hotel-Living?",
+    answer: "Orice tip de hotel se poate bucura de programul nostru, fie că este un hotel boutique, un hotel de afaceri, un resort sau un hotel urban.\n\nSingurele cerințe sunt: disponibilitate pentru șederi prelungite, dorința de a promova comunitatea și capacitatea de a oferi un serviciu fiabil pentru șederi lungi."
   },
   {
-    question: "Cum poate Hotel-Living să îmbunătățească rata de ocupare?",
-    answer: "Prin sistemul nostru de rezervări pe termen lung, hotelurile pot atinge rate de ocupare de până la 100% în perioadele de sezon scăzut, transformând camerele neocupate în venituri constante prin șederi de 8, 16, 24 sau 32 de zile consecutive."
+    question: "Este doar o oportunitate sezonieră?",
+    answer: "Absolut deloc. Pensionarii activi călătoresc tot anul. Mulți sunt nomazi digitali, călători singuri sau cupluri care caută o schimbare de stil de viață.\n\nHotel-Living generează o cerere permanentă, nu doar un vârf sezonier."
   },
   {
-    question: "Ce avantaje financiare oferă parteneriatul cu Hotel-Living?",
-    answer: "Parteneriatul oferă: venituri garantate pe perioade lungi, reducerea costurilor de achiziție a clienților, prețuri premium pentru experiențe tematice, și un flux de numerar mai predictibil care îmbunătățește planificarea financiară."
+    question: "Cum beneficiază financiar hotelul dumneavoastră?",
+    answer: "Programul Hotel-Living crește semnificativ ratele de ocupare, generează venituri constante prin șederi mai lungi și reduce costurile operaționale derivate din rotația frecventă a oaspeților.\n\nProprietățile experimentează de obicei îmbunătățiri semnificative în RevPAR și marjele de profit, în special în sezoanele tradițional slabe."
   },
   {
-    question: "Cum funcționează modelul de comunitate tematică?",
-    answer: "Hotelurile pot să-și specializeze oferta pe teme specifice (wellness, tehnologie, artă, sport, etc.), atrăgând oaspeți cu interese comune care formează comunități naturale. Acest lucru creează o experiență mai bogată și loialitate crescută."
+    question: "Vor fi necesare schimbări majore la proprietate?",
+    answer: "Nu. Majoritatea hotelurilor au deja ceea ce este necesar pentru implementarea conceptului Hotel-Living.\n\nSe pot face mici ajustări precum îmbunătățirea wifi-ului, crearea de spații comune sau adaptarea serviciilor de cameră, dar nu sunt necesare renovări majore."
   },
   {
-    question: "Ce support de marketing oferă Hotel-Living?",
-    answer: "Oferim promovare gratuită pe platforma noastră, prezentare în categorii tematice relevante, acces la o bază de date de oaspeți interesați de șederi lungi, și suport pentru dezvoltarea de pachete experiențiale unice."
+    question: "Cum poate compatibiliza oaspeții obișnuiți cu cei de la Hotel-Living?",
+    answer: "Platforma noastră vă permite să alocați camere specifice modelului Hotel-Living și să ajustați disponibilitatea în timp real.\n\nAceastă flexibilitate vă permite să vă mențineți clientela tradițională în timp ce dezvoltați șederile lungi.\n\nMulte hoteluri încep prin dedicarea doar 10%-20% din inventarul lor pentru șederi prelungite, extinzându-l progresiv pe măsură ce crește cererea."
+  },
+  {
+    question: "Ajută acest model să reducă dependența de OTA-uri?",
+    answer: "Absolut. Hotel-Living aduce rezervări directe prin platforma noastră, reducând substanțial comisioanele OTA-urilor.\n\nClienții noștri rezervă direct și tind să repete, generând clientelă fidelă și ambasadori ai hotelului dumneavoastră."
+  },
+  {
+    question: "Ajută în perioadele de ocupare scăzută?",
+    answer: "Acesta este unul dintre cele mai mari beneficii.\n\nHotel-Living se adresează în mod specific perioadelor de ocupare scăzută, ajutând să umple camerele care altfel ar rămâne goale.\n\nModelul nostru de prețuri se adaptează la sezonalitatea hotelului dumneavoastră, permițându-vă să mențineți o ocupare anuală ridicată."
+  },
+  {
+    question: "Cum protejează marca acordul cu Hotel-Living?",
+    answer: "Poziționăm proprietatea dumneavoastră ca o opțiune rezidențială de înaltă calitate — nu ca cazare ieftină.\n\nPlatforma noastră atrage oaspeți de calitate care caută experiențe autentice și comunitate, consolidând marca și reputația dumneavoastră."
+  },
+  {
+    question: "Ce suport oferă Hotel-Living hotelurilor partenere?",
+    answer: "Partenerii noștri primesc asistență completă:\n• Manager de cont dedicat\n• Formare pentru personal\n• Manuale operaționale\n• Materiale de marketing\n• Servicii de fotografie profesională\n• Acces la panoul de gestionare a proprietăților\n\nObjectivul nostru este să vă asigurăm succesul pe piața șederilor prelungite."
+  },
+  {
+    question: "Când încep să se vadă rezultatele după alăturare?",
+    answer: "Majoritatea hotelurilor încep să primească rezervări în prima lună după înregistrare.\n\nImpactul complet asupra ocupării se vede de obicei între 3 și 6 luni, pe măsură ce proprietatea dumneavoastră câștigă reputație și recenzii în comunitatea șederilor lungi."
+  },
+  {
+    question: "Este cu adevărat o strategie de venituri suplimentare, nu doar un nou tip de public?",
+    answer: "Exact.\n\nNu se referă doar la umplerea camerelor, ci la extragerea unei valori mai mari pe ședere:\n• Durată mai lungă\n• Mai puține goluri între rezervări\n• Fidelizare mai mare\n• Percepție mai mare a valorii\n= Mai multe venituri pe cameră."
+  },
+  {
+    question: "Care sunt beneficiile financiare pentru hotelul dumneavoastră?",
+    answer: "Pe lângă umplerea camerelor care altfel ar rămâne goale, obțineți:\n• Șederi mai lungi\n• Rotație mai mică\n• Oaspeți mai mulțumiți\n• Un flux stabil de venituri, cu clienți recunoscători, cu întreținere redusă și cu probabilități mari de a repeta."
   }
 ];

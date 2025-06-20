@@ -3,23 +3,27 @@ import { FaqItem } from "../hotel-types";
 
 export const integrationFaqs: FaqItem[] = [
   {
-    question: "Cum se integrează Hotel-Living cu sistemele existente?",
-    answer: "Integrarea se face prin API-uri cu sistemele de management hotelier existente (PMS), sincronizarea inventarului de camere, integrarea cu sistemele de facturare, și conectarea cu platformele de plăți utilizate de hotel."
+    question: "Putem continua să folosim canalele noastre existente de rezervare?",
+    answer: "Absolut. Hotel-Living lucrează alături de strategia dumneavoastră de distribuție existentă. Mențineți controlul total asupra alocării inventarului, permițându-vă să echilibrați rezervările tradiționale cu șederile prelungite în funcție de tiparele de ocupare și nevoile de afaceri."
   },
   {
-    question: "Ce sisteme tehnice sunt necesare?",
-    answer: "Sunt necesare: internet de înaltă viteză în toate camerele, sistem de management integrat pentru rezervări lungi, acces la aplicația Hotel-Living pentru personal, și infrastructură IT pentru suportul comunității."
+    question: "Cum este procesul de confirmare a rezervărilor?",
+    answer: "Când un oaspete rezervă prin Hotel-Living, primiți o notificare instantanee prin email. Pentru rezervările standard, confirmarea este automată. Toată comunicarea cu oaspeții se întâmplă prin sistemul nostru de mesagerie până la check-in."
   },
   {
-    question: "Cât timp durează procesul de integrare?",
-    answer: "Integrarea tehnică durează 2-4 săptămâni, incluzând: configurarea sistemelor, training pentru personal, testarea proceselor, perioada de probă cu oaspeți test, și optimizarea procedurilor operaționale."
+    question: "Cum se procesează plățile pentru aceste rezervări?",
+    answer: "Oaspeții plătesc un depozit de 10% la rezervare, cu soldul datorat direct hotelului la check-in. Acest model reduce taxele de procesare a plăților pentru hoteluri și minimizează riscurile de anulare."
   },
   {
-    question: "Ce suport tehnic oferim în timpul integrării?",
-    answer: "Oferim: asistență tehnică dedicată, training complet pentru personal, documentație detaliată, suport 24/7 în primele săptămâni, și monitorizarea performanței pentru optimizări continue."
+    question: "Cum gestionăm solicitările speciale ale oaspeților de lungă durată?",
+    answer: "Toate solicitările speciale se comunică prin sistemul de mesagerie al platformei noastre, creând o înregistrare documentată. Chestionarul nostru de dinaintea sosirii ajută la identificarea nevoilor comune înainte de check-in."
   },
   {
-    question: "Cum se sincronizează disponibilitatea camerelor?",
-    answer: "Sincronizarea se face în timp real prin API-uri sigure, cu actualizări automate ale inventarului, gestionarea priorităților între canale, și prevenirea suprapunerii rezervărilor prin sisteme inteligente."
+    question: "Ce tip de rapoarte primim pentru rezervările Hotel-Living?",
+    answer: "Panoul nostru de analiză integral oferă rapoarte detaliate despre tiparele de rezervare, demografia oaspeților, metricile de venituri și participarea la programele de afinități. Puteți compara performanța între canale, monitoriza sentimentul recenziilor și urmări ratele rezervărilor repetate. Rapoartele personalizate pot fi programate pentru livrare automată către părțile interesate cheie."
+  },
+  {
+    question: "Cum afectează aceasta strategia noastră existentă de management al veniturilor?",
+    answer: "Hotel-Living îmbunătățește capacitățile dumneavoastră de management al veniturilor prin crearea unei baze de încredere de rezervări de lungă durată care poate fi factorizată în prognoze. Multe proprietăți folosesc platforma noastră pentru a umple strategic perioadele tradițional de cerere scăzută, permițând prețuri mai agresive în perioadele de cerere mare pe canalele convenționale."
   }
 ];

@@ -3,23 +3,15 @@ import { FaqItem } from "../hotel-types";
 
 export const marketingFaqs: FaqItem[] = [
   {
-    question: "Ce strategie de marketing utilizează Hotel-Living?",
-    answer: "Strategia noastră include: marketing digital țintit pe comunități tematice, colaborări cu influenceri în nișe specifice, prezența la evenimente de specialitate, SEO optimizat pentru căutări de șederi lungi, și marketing direct către profesioniștii mobili."
+    question: "Cum promovează Hotel-Living proprietatea mea?",
+    answer: "Promovăm proprietățile partenere prin multiple canale: platforma noastră globală, campanii digitale țintite către comunitățile de afinități, parteneriate cu organizații bazate pe interese, marketing de conținut și rețele sociale. Proprietatea dumneavoastră câștigă expunere către audiențe interesate specific de afinitățile pe care le oferă."
   },
   {
-    question: "Cum promovăm hotelul partener pe platformă?",
-    answer: "Promovarea include: prezentare premium în categoriile relevante, fotografii profesionale și video-uri, descrieri optimizate pentru căutări, promovare în newsletters către audiența țintă, și prezența în campaniile tematice sezoniere."
+    question: "Pot folosi parteneriatul Hotel-Living în propriul marketing?",
+    answer: "Absolut! Încurajăm partenerii să evidențieze afilierea cu Hotel-Living în propriile materiale de marketing. Oferim resurse de marcă, șabloane de conținut și ghiduri de marketing pentru a vă ajuta să valorificați eficient parteneriatul."
   },
   {
-    question: "Ce materiale de marketing primește hotelul?",
-    answer: "Oferim: kit de imagini și logo-uri pentru promovare, templates pentru social media, materiale printate pentru hotel, prezentare PowerPoint pentru partnership-uri locale, și ghiduri pentru personalul de vânzări."
-  },
-  {
-    question: "Cum măsurăm eficiența campaniilor de marketing?",
-    answer: "Măsurăm prin: rata de conversie a vizitatorilor în rezervări, costul de achiziție per client, satisfacția oaspeților măsurată prin review-uri, rata de revenire, și impactul asupra veniturilor totale ale hotelului."
-  },
-  {
-    question: "Pot hotelurile să facă marketing independent pentru Hotel-Living?",
-    answer: "Da, încurajăm marketing-ul independent prin: utilizarea materialelor noastre, promovarea în rețelele locale, participarea la evenimente de business, colaborări cu companii pentru relocări, și dezvoltarea de parteneriate strategice locale."
+    question: "Cum ajută afinitățile cu marketingul țintit?",
+    answer: "Afinitățile permit un marketing de precizie pe care hotelurile tradiționale nu îl pot egala. În loc să promovăm către călători generali, vă conectăm direct cu comunități și indivizi care caută activ exact experiențele pe care le oferă proprietatea dumneavoastră. Această abordare țintită rezultă în rate de conversie mai mari și costuri mai mici de achiziție a clienților."
   }
 ];

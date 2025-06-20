@@ -56,6 +56,56 @@
         "title": "Rede Global",
         "description": "Conecte-se a uma rede mundial de hotéis temáticos e atraia hóspedes internacionais"
       }
+    },
+    "accordion": {
+      "benefits": {
+        "title": "1 - Os benefícios",
+        "content": "100% DE OCUPAÇÃO TODO O ANO\n• As taxas de ocupação podem alcançar 100% durante todo o ano\n• Zero quartos vazios significa máximo lucro\n• Ocupação completa mesmo durante períodos tradicionalmente lentos\n• Fluxo de receita constante sem mínimos sazonais\n\nMENORES CUSTOS OPERACIONAIS\n• Apenas um dia útil para todas as entradas/saídas. Zero lacunas entre estadias\n• Taxas de rotatividade reduzidas significam menores custos de limpeza\n• Estadias estendidas (8, 16, 24 e 32 dias) reduzem gastos operacionais\n• Processos de check-in/out simplificados economizam tempo da equipe\n\nMAIOR ESTABILIDADE DA EQUIPE\n• Ocupação constante = emprego durante todo o ano\n• Menor rotatividade de pessoal reduz custos de contratação e treinamento\n• Maior satisfação dos funcionários com horários estáveis\n\nRECEITAS ADICIONAIS DE ATIVIDADES TEMÁTICAS\n• Novas fontes de receita através de eventos especializados\n• Oportunidades de merchandising vinculadas a temas do hotel\n• Ofertas de serviços estendidos geram maior gasto"
+      },
+      "comparison": {
+        "title": "2 - Comparemos sistemas",
+        "content": "MODELO TRADICIONAL vs MODELO HOTEL LIVING\n\nMODELO TRADICIONAL:\n• Entradas/saídas constantes\n• Mais limpeza, lavanderia, rotatividade\n• Maior carga de trabalho na recepção\n• Ocupação imprevisível\n• Lacunas entre reservas = Noites vazias = Lucro perdido\n• Temporadas altas e baixas. A equipe entra e sai\n• Pessoal desmotivado, sem treinamento, sem profissionalismo\n• Os hóspedes vão e vêm. Sem conexão, sem lealdade\n• Reservas frias, isoladas. Uma após a outra\n• Os apartamentos ganham por preço mais baixo\n\nMODELO HOTEL LIVING:\n• Entradas/saídas fixas = Operação fluida\n• Menos limpeza, menos rotatividade\n• Recepção mais eficiente e otimizada\n• Estadias longas = Mais ocupação\n• Zero noites vazias = Máximo lucro\n• Alta ocupação todo o ano. Pessoal estável\n• Pessoal motivado, capacitado, profissional\n• Hóspedes se sentem em casa e repetem\n• Não apenas reservas: comunidades\n• Elegância. Humanidade. Serviços. Os hotéis ganham"
+      },
+      "fillRooms": {
+        "title": "3 - Não apenas enchemos quartos",
+        "content": "• Pessoas agrupadas por afinidades\n• Zero acaso. 100% conexões\n• Hotéis para pertencer, não apenas para se hospedar\n• Estamos transformando a sociedade"
+      },
+      "profitMissing": {
+        "title": "4 - Quanto lucro estamos perdendo?",
+        "content": "4.1 - HOTÉIS OCIDENTAIS. QUANTO LUCRO PERDEMOS A CADA ANO?\n• Em conjunto, cada ano se perdem $110.000 milhões\n• Não são \"vendas\": são ganhos puros, antes de impostos\n• A taxa real ocidental de ocupação média é de 50% anual\n• Isso só nos permite cobrir custos e ter poucos ingressos\n• Mas o verdadeiro lucro se perde: os quartos de lucro quase 100% não se vendem\n\n4.2 - E QUANTO LUCRO SEU HOTEL PERDE A CADA ANO?\n• Cinco quartos vazios em média cada dia do ano? = Cerca de $55.000 perdidos\n• 20 quartos vazios por dia = cerca de $220.000 de ganho puro\n• Um hotel de 200 quartos fechado de outubro a maio perde $1 milhão e ainda acumula $420.000 em perdas\n• E um de 500 quartos? Mais de $3 milhões de ganho perdido cada ano. E as perdas... melhor nem olhar\n\n4.3 - SIM. A GRANDE MAIORIA DOS HOTÉIS PERDE SEU VERDADEIRO POTENCIAL DE LUCRO\n• Os quartos vazios são nosso ouro inexplorado\n• Poucos alcançamos 100% de ocupação todo o ano\n• Não importa se somos de 3 ou 5 estrelas: todos perdemos dinheiro\n• Os quartos de lucro quase 100% não se vendem\n• Estamos renunciando ao nosso lugar legítimo na sociedade"
+      },
+      "affinityHotels": {
+        "title": "5 - O que são os hotéis por afinidades?",
+        "content": "EXEMPLO 1\n• Imagine um hotel focado em esportes - ciclismo, golfe, tênis, etc.\n• As pessoas interessadas nesse esporte reservam juntas\n• Forma-se uma comunidade em torno de interesses comuns\n• Sem lacunas entre estadias. Sem perdas\n\nEXEMPLO 2\n• Considere um hotel temático de culinária\n• Chefs, aulas de culinária, harmonização de vinhos, etc.\n• Tarifas premium por experiências especializadas\n• Ocupação completa com estadias médias mais longas\n\nEXEMPLO 3\n• Hotéis de imersão linguística\n• Hóspedes de nível de idioma similar agrupados juntos\n• A equipe fala o idioma objetivo\n• Experiência linguística completa\n\nEstes hotéis especializados criam experiências comunitárias poderosas enquanto mantêm receitas estáveis e previsíveis."
+      },
+      "technology": {
+        "title": "6 - Nossa tecnologia faz o que outras não podem",
+        "content": "• Conecta pessoas com interesses compartilhados\n• Coordena entradas e saídas para zero lacunas\n• Otimiza estadias para máxima rentabilidade\n• Uma plataforma. Múltiplas fontes de receita"
+      },
+      "marketing": {
+        "title": "7 - Marketing direcionado que ninguém mais pode igualar",
+        "content": "• Segmentação precisa por interesse e afinidade\n• Marketing para comunidades motivadas, não viajantes aleatórios\n• Alcance global com targeting híper-específico\n• Taxas de conversão mais altas. Custos de aquisição mais baixos"
+      },
+      "socialNetworks": {
+        "title": "8 - Hotéis por afinidades = Redes Sociais Perfeitas",
+        "content": "• Os interesses compartilhados criam conexões instantâneas\n• A psicologia grupal impulsiona estadias mais longas e visitas de retorno\n• As atividades temáticas aumentam o engajamento e a lealdade\n• A pertença comunitária se torna viciante"
+      },
+      "theyNeed": {
+        "title": "9 - Eles precisam do seu hotel",
+        "content": "PORQUE 40% DA POPULAÇÃO OCIDENTAL:\n• Vive sozinha ou em casal\n• Está pré-aposentada ou aposentada\n• É trabalhadora online\n• É estudante que vive longe de casa\n• Vive muito longe do trabalho\n\nE A MAIORIA:\n• Gostaria de se libertar das tarefas domésticas\n• Se sente muito sozinha\n• Não tem vínculos familiares\n• Deseja ampliar sua vida social\n• Deseja conhecer pessoas com gostos e mentalidades similares\n• Precisa da segurança completa de viver em um hotel, especialmente no caso de pessoas idosas ou solteiras\n\nPORQUE O SONHO DA HUMANIDADE É VIVER EM UM HOTEL\nCom tudo resolvido\nEm umas férias sem fim\n\nEntão, por que temos 40% de quartos vazios a cada ano?\n\nELES PRECISAM DO SEU HOTEL PORQUE:\n• Porque as pessoas querem socializar. Fazer amigos\n• Querem ficar mais tempo no seu hotel\n• Querem que você se ocupe de suas tarefas domésticas\n• Precisam urgentemente dos seus quartos vazios e seus serviços\n• Apenas os ajude: dê a eles ambas as coisas"
+      },
+      "socialRevolution": {
+        "title": "10 - As afinidades são a nova revolução social",
+        "content": "• Os clientes já não querem apenas quartos: querem dar sentido às suas vidas\n• Os interesses conectam mais rápido que os descontos\n• As estadias temáticas geram lealdade\n• Os desconhecidos se convertem em comunidades\n• Não apenas enche quartos: gera pertencimento\n• Atrai os hóspedes adequados, não qualquer um\n• Sua afinidade é seu ímã\n• Os hotéis com alma são os que ganham o futuro"
+      },
+      "integration": {
+        "title": "11 - Somos integração perfeita",
+        "content": "• Não tem que escolher entre sistemas\n• Combine ambos os modelos como desejar\n• Comece com apenas alguns quartos e amplie conforme necessário\n• Mude mais quartos para nosso sistema quando fizer sentido\n• Nossa plataforma se integra sem esforço com suas operações atuais\n• Zero interrupções em suas operações diárias\n• Nos adaptamos a você, não o contrário\n• Isto é flexibilidade. Isto é rentabilidade.\n• Isto é Integração Perfeita"
+      },
+      "stepsToJoin": {
+        "title": "12 - Passos para se juntar ao Hotel-Living",
+        "content": "1. IDENTIFIQUE SEUS QUARTOS DISPONÍVEIS\nAvalie quantos quartos do seu hotel estão vazios pelo menos durante 8 dias consecutivos (7 noites) em certos momentos do ano.\nNão é necessário converter toda a propriedade — pode reservar parte do seu inventário para reservas tradicionais, e liberar outros quartos para os hóspedes do Hotel Living. Isto permite aumentar a ocupação e rentabilidade sem interromper sua operação habitual.\n\n2. DEFINA UM CONCEITO BASEADO EM AFINIDADES\nPense em uma \"afinidade\" que possa atrair seu tipo ideal de hóspede, segundo a localização do seu hotel, sua clientela habitual ou mesmo suas próprias preferências como proprietário.\nAs possibilidades são infinitas, como por exemplo:\n- Natureza e trilhas (para localizações de montanha)\n- Esportes aquáticos ou bem-estar na praia (para localizações costeiras)\n- Degustação de vinhos, pintura, bem-estar, trabalho remoto, dança, ciências, cultura, teatro, ou qualquer outro tema, hobby ou estilo de vida\n\nNOTA: a afinidade não exclui outros tipos de hóspedes. Apenas ajuda a posicionar melhor seu hotel no mercado e que os hóspedes se autosselecionem segundo seu ambiente ideal.\n\n3. REGISTRE-SE E USE A CALCULADORA ONLINE\nUma vez registrado, terá acesso à nossa calculadora Hotel Living, uma ferramenta poderosa para testar modelos de estadia (8, 16, 24 ou 32 noites).\nPoderá subir preços, fazer simulações financeiras e ajustar sua oferta segundo ocupação e previsões de receitas.\n\nO objetivo é claro: encha seus quartos — não os deixe vazios.\n\nPOR EXEMPLO:\nSe tem 30 quartos disponíveis e coloca preços muito altos, pode que só encha 15 — e os outros 15 ficam vazios, sem gerar receitas, mas sim custos. Além disso, seu hotel parecerá vazio.\nMas se baixa um pouco os preços, pode encher os 30 — gerando mais receitas totais, mais vida no seu hotel e novas oportunidades.\n\nÉ o mesmo princípio que usam as companhias aéreas: preferem vender o último assento por $5 que deixá-lo vazio.\nTODO ESPAÇO VAZIO É RECEITA PERDIDA.\n\n4. ADICIONE SEU HOTEL NO SEU PAINEL\nUma vez que tenha definido sua temática e modelo de preços, acesse seu painel e complete os passos para \"Adicionar nova propriedade\".\nDe lá poderá gerenciar disponibilidade, visibilidade e reservas de longa estadia."
+      }
     }
   }
 }

@@ -17,12 +17,5 @@
     "costsDisclaimer": "Aviso: Valores Estimados",
     "costs": "Costes",
     "profits": "Beneficios"
-  },
-  "ratesCalculator": {
-    "utilities": "SERVICIOS",
-    "cleaning": "LIMPIEZA",
-    "meals": "COMIDAS",
-    "totalCost": "COSTE TOTAL",
-    "disclaimer": "Estas cifras representan un ejemplo de los costes incrementales medios por habitación ocupada adicional en hoteles de 3, 4 y 5 estrellas en mercados occidentales. Los costes reales pueden variar y deben ajustarse en función de la categoría, nivel de servicio, ubicación y modelo operativo de cada hotel."
   }
 }

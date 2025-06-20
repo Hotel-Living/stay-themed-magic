@@ -3,6 +3,73 @@
   "affinity": {
     "title": "Estadias por Afinidade",
     "description": "Conecte-se com pessoas que compartilham seus interesses e paixões. Nossos hotéis temáticos oferecem experiências únicas baseadas em afinidades específicas.",
+    "howardSchultzQuote": "Terceiros lugares... têm uma posição única no tecido social de uma comunidade... São locais onde você pode ser você mesmo entre uma miscelânea de pessoas felizes, conversadoras e acessíveis.",
+    "howardSchultzAuthor": "- Howard Schultz",
+    "slogans": {
+      "notJustStay": "Não é apenas ficar, é pertencer!",
+      "meetShareBelong": "Conheça, compartilhe, pertença!",
+      "stayWithThoseWhoGetYou": "Fique com quem te entende!",
+      "tiredOfRandom": "Cansado de conexões aleatórias?",
+      "stayAndConnect": "Fique e conecte-se!"
+    },
+    "faq": {
+      "whatAreAffinityHotels": {
+        "question": "O que são Hotéis por Afinidade?",
+        "answer": "Hotéis por Afinidade são espaços únicos onde pessoas que compartilham interesses, paixões ou estilos de vida similares se hospedam juntas. Ao contrário dos hotéis tradicionais, estes são organizados em torno de temas específicos como arte, tecnologia, esportes, bem-estar, ou qualquer outro interesse que conecte pessoas."
+      },
+      "tiredOfTravelingAlone": {
+        "question": "Cansado de viajar sozinho ou ficar em hotéis onde você não conhece ninguém?",
+        "answer": "Nos Hotéis por Afinidade, você sempre encontrará pessoas que compartilham seus interesses! Seja você apaixonado por fotografia, culinária, tecnologia ou qualquer outro hobby, haverá outros hóspedes com quem você pode conectar naturalmente."
+      },
+      "whatExactlyIsAffinityHotel": {
+        "question": "O que exatamente é um Hotel por Afinidade?",
+        "answer": "É um hotel temático onde todos os hóspedes compartilham pelo menos um interesse em comum. Por exemplo, um 'Hotel de Fotografia' hospedará principalmente fotógrafos e entusiastas, um 'Hotel de Yoga' atrairá praticantes de yoga, e assim por diante. Isso cria uma atmosfera natural de camaradagem e oportunidades de networking."
+      },
+      "willIMakeFriends": {
+        "question": "Vou fazer amigos?",
+        "answer": "Embora não possamos garantir amizades, a experiência mostra que quando pessoas com interesses similares se encontram em um ambiente relaxado e acolhedor, conexões naturais tendem a surgir. Muitos hóspedes relatam ter feito conexões duradouras durante suas estadias."
+      },
+      "doesHotelOrganizeActivities": {
+        "question": "O hotel organiza atividades relacionadas ao tema?",
+        "answer": "Sim! A maioria dos nossos Hotéis por Afinidade oferece atividades, workshops, ou eventos relacionados ao tema. Por exemplo, um hotel de culinária pode oferecer aulas de culinária, enquanto um hotel de fitness pode ter sessões de treino em grupo."
+      },
+      "isThereAlwaysGroupLeader": {
+        "question": "Sempre há um líder de grupo ou organizador?",
+        "answer": "Não necessariamente. Alguns hotéis têm coordenadores de atividades, mas muitas vezes as conexões e atividades surgem organicamente entre os hóspedes. A beleza dos Hotéis por Afinidade é que eles criam o ambiente perfeito para interações naturais."
+      },
+      "isHotelDecoratedAroundTheme": {
+        "question": "O hotel é decorado em torno do tema?",
+        "answer": "Muitos de nossos hotéis incorporam elementos temáticos em sua decoração e amenidades. Por exemplo, um hotel de arte pode apresentar obras de artistas locais, ou um hotel de música pode ter instrumentos disponíveis para os hóspedes usarem."
+      },
+      "howLongAreStays": {
+        "question": "Qual é a duração típica das estadias?",
+        "answer": "As estadias podem variar de fins de semana curtos a várias semanas, dependendo do tema e das suas preferências. Estadias mais longas muitas vezes permitem conexões mais profundas e participação em mais atividades."
+      },
+      "canITryDifferentAffinities": {
+        "question": "Posso experimentar diferentes afinidades?",
+        "answer": "Absolutamente! Encorajamos você a explorar diferentes temas e descobrir novos interesses. Você pode ter uma paixão principal, mas também estar curioso sobre outras áreas - nossos hotéis são perfeitos para essa exploração."
+      },
+      "whatIfJustWantToRelax": {
+        "question": "E se eu só quiser relaxar e não participar de atividades?",
+        "answer": "Não há pressão para participar! Você pode simplesmente desfrutar da atmosfera e talvez conversar casualmente com outros hóspedes que compartilham seus interesses. A participação em atividades é sempre opcional."
+      },
+      "isThisForSoloTravelers": {
+        "question": "Isso é apenas para viajantes solo?",
+        "answer": "Não! Embora os Hotéis por Afinidade sejam ótimos para viajantes solo, casais e grupos também são bem-vindos. Na verdade, muitos casais acham divertido conhecer outros casais com interesses similares."
+      },
+      "whatIfDontFindTheme": {
+        "question": "E se eu não encontrar um tema que me interesse?",
+        "answer": "Estamos constantemente expandindo nossa seleção de temas baseados na demanda dos hóspedes. Se você tem uma paixão específica que não vemos listada, entre em contato conosco - podemos estar trabalhando nisso ou considerar adicioná-la!"
+      },
+      "areAffinityThemesAvailable": {
+        "question": "Os temas de afinidade estão disponíveis o ano todo?",
+        "answer": "A disponibilidade varia por localização e demanda. Alguns temas populares podem estar disponíveis regularmente, enquanto outros podem ser oferecidos sazonalmente ou durante eventos especiais. Recomendamos reservar com antecedência para o tema desejado."
+      },
+      "canIConnectWithoutTheme": {
+        "question": "Posso me conectar com pessoas mesmo sem um tema específico?",
+        "answer": "Claro! Embora os temas ajudem a facilitar conexões, a hospitalidade calorosa e o ambiente acolhedor de nossos hotéis criam oportunidades naturais para conhecer pessoas, independentemente de interesses específicos compartilhados."
+      }
+    },
     "categories": {
       "art": "Arte",
       "business": "Negócios",

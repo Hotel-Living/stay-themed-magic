@@ -1,49 +1,50 @@
+
 {
   "footerContent": {
-    "faq": "[traduzido] FAQ",
-    "affinityStays": "[traduzido] Estancias por afinidades",
-    "hotel": "[traduzido] Hotel",
-    "videos": "[traduzido] Videos",
-    "featuredHotels": "[traduzido] Hoteles destacados",
-    "ourServices": "[traduzido] Nuestros servicios",
-    "ourValues": "[traduzido] Nuestros valores",
-    "customerService": "[traduzido] Atención al cliente",
+    "faq": "FAQ",
+    "affinityStays": "Estadias por afinidades",
+    "hotel": "Hotel",
+    "videos": "Vídeos",
+    "featuredHotels": "Hotéis em destaque",
+    "ourServices": "Nossos serviços",
+    "ourValues": "Nossos valores",
+    "customerService": "Atendimento ao cliente",
     "contact": "Contato",
-    "termsAndConditions": "[traduzido] Términos y condiciones",
-    "privacyAndCookies": "[traduzido] Privacidad y cookies",
-    "intellectualProperty": "[traduzido] Propiedad intelectual",
-    "ourTeam": "[traduzido] Nuestro equipo",
-    "register": "[traduzido] Registrar",
+    "termsAndConditions": "Termos e condições",
+    "privacyAndCookies": "Privacidade e cookies",
+    "intellectualProperty": "Propriedade intelectual",
+    "ourTeam": "Nossa equipe",
+    "register": "Cadastrar",
     "signIn": "Entrar",
-    "copyright": "[traduzido] © 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
-    "sampleListingsDisclaimer": "[traduzido] Algunos listados pueden ser propiedades de muestra utilizadas para demostrar el funcionamiento de Hotel-Living."
+    "copyright": "© 2025 Hotel-Living.com. Todos os direitos reservados. Esta é uma versão Beta, sujeita a atualizações contínuas.",
+    "sampleListingsDisclaimer": "Algumas propriedades podem ser exemplos utilizados para demonstrar o funcionamento do Hotel-Living."
   },
   "indexContent": {
-    "revolutionTitle": "[traduzido] La revolución ha llegado",
-    "liveInHotels": "[traduzido] Vive en hoteles",
-    "boostYourLife": "[traduzido] ¡Impulsa tu vida!",
-    "noHouseholdChores": "[traduzido] Adiós, tareas del hogar",
-    "selectThemes": "[traduzido] Busca hoteles según tus intereses",
-    "boostSocialLife": "[traduzido] ¡Impulsa tu vida social!",
-    "meetPeople": "[traduzido] Conoce y disfruta con personas afines",
-    "country": "[traduzido] País",
-    "month": "[traduzido] Mes",
-    "affinity": "[traduzido] Afinidad",
-    "pricePerMonth": "[traduzido] Precio por mes",
-    "search": "[traduzido] Buscar"
+    "revolutionTitle": "A revolução chegou",
+    "liveInHotels": "Viva em hotéis",
+    "boostYourLife": "Potencialize sua vida!",
+    "noHouseholdChores": "Tchau, tarefas domésticas",
+    "selectThemes": "Busque hotéis pelos seus interesses",
+    "boostSocialLife": "Potencialize sua vida social!",
+    "meetPeople": "Conheça e curta com pessoas afins",
+    "country": "País",
+    "month": "Mês",
+    "affinity": "Afinidade",
+    "pricePerMonth": "Preço por mês",
+    "search": "Buscar"
   },
   "videosContent": {
-    "featuredTitle": "[traduzido] Destacado: Experiencia en Hoteles Temáticos",
-    "featuredDescription": "[traduzido] Descubre la magia de nuestros hoteles temáticos y experimenta una nueva forma de hospedarte.",
-    "comingSoonOwnerStories": "[traduzido] Próximamente: Historias de Propietarios de Hoteles",
-    "availableJune": "[traduzido] Disponible en junio de 2025",
-    "comingSoonGuestExperiences": "[traduzido] Próximamente: Experiencias de los Huéspedes",
-    "availableJuly": "[traduzido] Disponible en julio de 2025"
+    "featuredTitle": "Destaque: Experiência em Hotéis Temáticos",
+    "featuredDescription": "Descubra a magia dos nossos hotéis temáticos e experimente uma nova forma de se hospedar.",
+    "comingSoonOwnerStories": "Em breve: Histórias de Proprietários de Hotéis",
+    "availableJune": "Disponível em junho de 2025",
+    "comingSoonGuestExperiences": "Em breve: Experiências dos Hóspedes",
+    "availableJuly": "Disponível em julho de 2025"
   },
   "featuredHotelsContent": {
-    "pageTitle": "[traduzido] Hoteles Destacados",
-    "wantToBeFirst": "[traduzido] ¿Quieres que tu hotel aparezca en primer lugar?",
-    "featureDescription": "[traduzido] Podemos destacar tu propiedad aquí mismo — sin grandes tarifas, solo con una colaboración inteligente.",
-    "loginForInfo": "[traduzido] Inicia sesión en el panel de tu hotel para más información."
+    "pageTitle": "Hotéis em Destaque",
+    "wantToBeFirst": "Quer que seu hotel apareça em primeiro lugar?",
+    "featureDescription": "Podemos destacar sua propriedade bem aqui — sem grandes taxas, apenas com uma colaboração inteligente.",
+    "loginForInfo": "Entre no painel do seu hotel para mais informações."
   }
 }

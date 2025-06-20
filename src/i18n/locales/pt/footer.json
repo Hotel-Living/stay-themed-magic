@@ -1,26 +1,27 @@
+
 {
   "footer": {
     "links": {
-      "faq": "[traduzido] FAQ",
-      "affinityStays": "[traduzido] ESTANCIAS POR AFINIDADES",
-      "hotel": "[traduzido] Hotel?",
-      "videos": "[traduzido] VIDEOS",
-      "featuredHotels": "[traduzido] HOTELES DESTACADOS",
-      "ourServices": "[traduzido] NUESTROS SERVICIOS",
-      "ourValues": "[traduzido] NUESTROS VALORES",
-      "customerService": "[traduzido] ATENCIÓN AL CLIENTE",
-      "contact": "[traduzido] CONTACTO",
-      "terms": "[traduzido] TÉRMINOS Y CONDICIONES",
-      "privacy": "[traduzido] PRIVACIDAD Y COOKIES",
-      "intellectualProperty": "[traduzido] PROPIEDAD INTELECTUAL",
-      "ourTeam": "[traduzido] NUESTRO EQUIPO"
+      "faq": "FAQ",
+      "affinityStays": "ESTADIAS POR AFINIDADES",
+      "hotel": "Hotel?",
+      "videos": "VÍDEOS",
+      "featuredHotels": "HOTÉIS EM DESTAQUE",
+      "ourServices": "NOSSOS SERVIÇOS",
+      "ourValues": "NOSSOS VALORES",
+      "customerService": "ATENDIMENTO AO CLIENTE",
+      "contact": "CONTATO",
+      "terms": "TERMOS E CONDIÇÕES",
+      "privacy": "PRIVACIDADE E COOKIES",
+      "intellectualProperty": "PROPRIEDADE INTELECTUAL",
+      "ourTeam": "NOSSA EQUIPE"
     },
     "buttons": {
-      "register": "[traduzido] Registrar",
-      "signIn": "[traduzido] Iniciar Sesión",
-      "hotel": "[traduzido] Hotel?"
+      "register": "Cadastrar",
+      "signIn": "Entrar",
+      "hotel": "Hotel?"
     },
-    "copyright": "[traduzido] © 2025 Hotel-Living.com. Todos los derechos reservados. Esta es una versión Beta, sujeta a actualizaciones continuas.",
-    "disclaimer": "[traduzido] Algunas propiedades pueden ser ejemplos utilizados para demostrar la funcionalidad de Hotel Living."
+    "copyright": "© 2025 Hotel-Living.com. Todos os direitos reservados. Esta é uma versão Beta, sujeita a atualizações contínuas.",
+    "disclaimer": "Algumas propriedades podem ser exemplos utilizados para demonstrar a funcionalidade do Hotel Living."
   }
 }

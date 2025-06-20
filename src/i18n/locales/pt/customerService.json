@@ -1,16 +1,17 @@
+
 {
   "customerService": {
-    "title": "[traduzido] Atención al Cliente",
-    "description": "[traduzido] Por favor, complete el formulario a continuación para contactar a nuestro equipo de atención al cliente. Nos pondremos en contacto con usted lo antes posible.",
+    "title": "Atendimento ao Cliente",
+    "description": "Por favor, preencha o formulário abaixo para entrar em contato com nossa equipe de atendimento ao cliente. Entraremos em contato com você o mais breve possível.",
     "form": {
-      "name": "[traduzido] Nombre",
-      "email": "[traduzido] Dirección de Correo Electrónico",
-      "country": "[traduzido] País",
-      "city": "[traduzido] Ciudad",
-      "message": "[traduzido] Su Mensaje",
-      "sending": "[traduzido] Enviando...",
-      "send": "[traduzido] Enviar Mensaje"
+      "name": "Nome",
+      "email": "Endereço de E-mail",
+      "country": "País",
+      "city": "Cidade",
+      "message": "Sua Mensagem",
+      "sending": "Enviando...",
+      "send": "Enviar Mensagem"
     },
-    "success": "[traduzido] ¡Gracias por su mensaje! Nos pondremos en contacto con usted pronto."
+    "success": "Obrigado pela sua mensagem! Entraremos em contato em breve."
   }
 }

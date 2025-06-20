@@ -33,20 +33,18 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="bg-white border border-gray-200 shadow-lg z-50"
+        className="bg-purple-900 border border-purple-700 shadow-lg z-50"
       >
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
-            className={`flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 ${
-              i18n.language === language.code ? 'bg-gray-50' : ''
-            }`}
+            className="flex items-center gap-3 px-4 py-2 cursor-pointer bg-purple-900 text-white hover:bg-purple-800 focus:bg-purple-800"
           >
             <span className="text-lg">{language.flag}</span>
             <span className="text-sm font-medium">{language.name}</span>
             {i18n.language === language.code && (
-              <span className="ml-auto text-xs text-blue-600">✓</span>
+              <span className="ml-auto text-xs text-white">✓</span>
             )}
           </DropdownMenuItem>
         ))}

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -14,7 +15,7 @@ const CostItemsTab: React.FC = () => {
   const menuOptions: MenuOption[] = [
     {
       id: "utilities",
-      labelKey: "ratesCalculator.utilities",
+      labelKey: "dashboard.ratesCalculator.utilities",
       content: `**PREVISIBILIDAD – RESPONSABILIDAD – EFICIENCIA**
 
 ⚙️ LOS HUÉSPEDES DE HOTEL-LIVING NO SON TURISTAS TRANSITORIOS
@@ -38,7 +39,7 @@ ________________________________________`
     },
     {
       id: "cleaning",
-      labelKey: "ratesCalculator.cleaning",
+      labelKey: "dashboard.ratesCalculator.cleaning",
       content: `**LIMPIEZA ESTILO HOGAR – COMODIDAD A LARGO PLAZO**
 
 🧼 HOTEL-LIVING SIGNIFICA UN NUEVO ESTÁNDAR DE HOSPITALIDAD
@@ -65,7 +66,7 @@ Este modelo reduce los costes operativos para los hoteles, mientras ofrece a los
     },
     {
       id: "meal-plans",
-      labelKey: "ratesCalculator.meals",
+      labelKey: "dashboard.ratesCalculator.meals",
       content: `EL MODELO DE COMIDAS HOTEL-LIVING: SIMPLE, SALUDABLE, ESTILO HOGAR
 
 Excepto en hoteles de lujo, boutique de alta gama o en estancias cortas de 8 días centradas en gastronomía o experiencias culinarias, Hotel-Living no se basa en cocina gourmet ni en buffets lujosos.
@@ -136,7 +137,7 @@ ________________________________________
     },
     {
       id: "total-costs",
-      labelKey: "ratesCalculator.totalCost",
+      labelKey: "dashboard.ratesCalculator.totalCost",
       content: ``
     }
   ];

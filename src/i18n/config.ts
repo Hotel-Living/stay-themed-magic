@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -99,7 +100,7 @@ const es = {
     ...esDashboardTerms.dashboard,
     ...esDashboardCommonEs.dashboard,
     ...esDashboardSettings.dashboard,
-    ...esDashboardRatesCalculator.ratesCalculator,
+    ratesCalculator: esDashboardRatesCalculator.ratesCalculator,
     ...esDashboardAdvertising.advertising
   },
   // Preserve dashboard-faq-terms as a separate namespace

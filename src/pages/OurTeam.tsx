@@ -26,7 +26,7 @@ const staffProfiles = [
     title: "MEDIA RELATIONS MANAGER",
   },
   {
-    img: "/lovable-uploads/909f2c33-d251-46b7-b5c6-cbe0fbe519fc.png",
+    img: "/lovable-uploads/2233261d-2199-4fe5-80cb-8fb57da3478a.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
   },

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -37,7 +36,29 @@ Thanks to lower room turnover and simplified cleaning protocols, utility use rem
     {
       id: "cleaning",
       labelKey: "ratesCalculator.cleaning",
-      content: `LIMPIEZA`
+      content: `HOMESTYLE CLEANING – LONG-TERM COMFORT
+
+🧼 HOTEL-LIVING MEANS A NEW STANDARD OF HOSPITALITY
+🏡 ONE THAT FEELS MORE LIKE HOME.
+Unlike traditional hotels with daily cleaning, our approach follows the pace of real life.
+
+Just as someone living at home might receive light help a few times a week, our guests enjoy attentive, discreet care that respects their independence and comfort.
+
+🧹 FULL CLEANING — ONCE A WEEK
+A thorough cleaning of the room every 7 days ensures hygiene and freshness, with minimal intrusion.
+
+🔄 LIGHT DAILY REFRESH (ON REQUEST)
+Optional touch-ups — 🗑️ trash removal, 🧺 light tidying, 🌬️ ventilation — are available, respecting guests' privacy and lifestyle.
+
+🛏️ BED LINEN CHANGE — EVERY 5 DAYS
+Sheets and towels are refreshed regularly, following homestyle comfort standards.
+
+💼 OPERATIONAL BENEFITS
+This model reduces operational costs for hotels while offering guests a residential experience:
+
+• Fewer interruptions
+• More privacy
+• The feeling of truly belonging — not just staying.`
     },
     {
       id: "meal-plans",

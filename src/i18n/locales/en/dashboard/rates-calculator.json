@@ -1,0 +1,27 @@
+
+{
+  "ratesCalculator": {
+    "utilities": "UTILITIES",
+    "cleaning": "CLEANING",
+    "meals": "MEALS",
+    "totalCost": "TOTAL COST",
+    "disclaimer": "These figures represent an example of the average incremental costs per additional occupied room in 3, 4 and 5-star hotels in Western markets. Actual costs may vary and should be adjusted according to each hotel's category, service level, location and operating model.",
+    "mealsModelTitle": "THE HOTEL-LIVING MEALS MODEL: SIMPLE, HEALTHY, HOME-STYLE",
+    "mealsModelDescription1": "Except in luxury hotels, high-end boutiques or short 8-day stays focused on gastronomy or culinary experiences, Hotel-Living is not based on gourmet cooking or luxurious buffets.",
+    "mealsModelDescription2": "In most cases, the Hotel-Living experience is based on comfort, simplicity and sustainability.",
+    "mealsModelDescription3": "Our guests are not here for luxury.",
+    "mealsModelDescription4": "They are not tourists. They are long-stay residents looking for a reliable, healthy and affordable meal routine — something that resembles real life at home.",
+    "cleaningModelTitle": "HOME-STYLE CLEANING – LONG-TERM COMFORT",
+    "cleaningHotelLivingStandard": "HOTEL-LIVING MEANS A NEW HOSPITALITY STANDARD",
+    "cleaningFeelsLikeHome": "ONE THAT FEELS MORE LIKE HOME.",
+    "cleaningDescription1": "Unlike traditional hotels with daily cleaning, our approach reflects the pace of real life.",
+    "cleaningDescription2": "Just like someone living at home might receive light help a few times a week, our guests enjoy attentive and discreet care that respects their independence and comfort.",
+    "cleaningCompleteTitle": "COMPLETE CLEANING — ONCE A WEEK",
+    "utilitiesTitle": "PREDICTABILITY – RESPONSIBILITY – EFFICIENCY",
+    "utilitiesGuestsNotTransients": "HOTEL-LIVING GUESTS ARE NOT TRANSIENT TOURISTS",
+    "utilitiesDescription1": "They are respectful long-stay residents who remain for 8, 16, 24 or 32 days.",
+    "utilitiesSmartGuestsTitle": "SMARTER GUESTS, SMARTER RESOURCE USE",
+    "utilitiesDescription2": "Due to the longer duration of stays and the more personal relationship they establish with your property, these guests tend to be more conscious in their use of resources.",
+    "utilitiesDescription3": "They feel more like temporary tenants than short-stay visitors — and that makes all the difference."
+  }
+}

@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -27,6 +26,7 @@ import enDashboardWelcomeContent from './locales/en/dashboard/welcome-content.js
 import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
 import enDashboardGeneral from './locales/en/dashboard/general.json';
+import enDashboardRatesCalculator from './locales/en/dashboard/rates-calculator.json';
 
 // Import Spanish translation modules
 import esCommon from './locales/es/common.json';
@@ -134,9 +134,9 @@ const resources = {
       ...enFaq,
       dashboard: {
         ...enDashboardCommon.dashboard,
-        ...enDashboardGeneral.dashboard
+        ...enDashboardGeneral.dashboard,
+        ratesCalculator: enDashboardRatesCalculator.ratesCalculator
       },
-      ratesCalculator: enDashboardCommon.ratesCalculator,
       "dashboard-faq-terms": enDashboardFaqTerms["dashboard-faq-terms"],
       welcomeContent: enDashboardWelcomeContent.welcomeContent
     }

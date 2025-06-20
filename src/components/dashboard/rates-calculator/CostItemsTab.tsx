@@ -252,6 +252,13 @@ ________________________________________
             </div>
           </div>
         )}
+        
+        {/* Add disclaimer at the bottom */}
+        <div className="mt-8 pt-4 border-t border-purple-500/30">
+          <p className="text-sm text-white/60 italic text-center">
+            {t("dashboard.ratesCalculator.disclaimer")}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 
 import React from "react";
+import { Accordion } from "@/components/ui/accordion";
 import { CollapsibleMenuItem } from "./accordion/CollapsibleMenuItem";
 import { ProfitSection } from "./accordion/sections/ProfitSection";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
 
 export const HotelAccordionMenuES: React.FC = () => {
   return (
-    <div className="space-y-3">
+    <Accordion type="single" collapsible className="w-full space-y-3">
       <CollapsibleMenuItem title="1 - Introducción: Hotel-Living presenta una Revolución Hotelera">
         <div className="space-y-4 text-left py-6">
           <p className="text-base">
@@ -79,6 +80,6 @@ export const HotelAccordionMenuES: React.FC = () => {
       </CollapsibleMenuItem>
 
       <SpecialMenuItems startingNumber={5} />
-    </div>
+    </Accordion>
   );
 };

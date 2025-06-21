@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { UploadedImage } from "@/hooks/usePropertyImages";
+import { validateRequiredField, validateEmail, validateCoordinate, validateImages } from "@/utils/validators";
 
 interface FormData {
   hotelName: string;
@@ -72,60 +72,6 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     hotelImages: false,
     mainImageUrl: false
   });
-  
-  // Helper validation functions
-  const validateRequiredField = (value: string, fieldName: string): string | undefined => {
-    if (!value) {
-      switch (fieldName) {
-        case 'hotelName':
-          return "Hotel name is required";
-        case 'category':
-          return "Category is required";
-        case 'propertyType':
-          return "Property type is required";
-        case 'description':
-          return "Description is required";
-        default:
-          return undefined;
-      }
-    }
-    return undefined;
-  };
-
-  const validateEmail = (email: string): string | undefined => {
-    if (email && !/\S+@\S+\.\S+/.test(email)) {
-      return "Invalid email format";
-    }
-    return undefined;
-  };
-
-  const validateCoordinate = (coordinate: string, type: 'latitude' | 'longitude'): string | undefined => {
-    if (!coordinate) return undefined;
-    
-    if (isNaN(Number(coordinate))) {
-      return type === 'latitude' ? "Latitude must be a valid number" : "Longitude must be a valid number";
-    }
-    
-    const value = Number(coordinate);
-    if (type === 'latitude') {
-      if (value < -90 || value > 90) {
-        return "Latitude must be between -90 and 90";
-      }
-    } else {
-      if (value < -180 || value > 180) {
-        return "Longitude must be between -180 and 180";
-      }
-    }
-    
-    return undefined;
-  };
-
-  const validateImages = (images: UploadedImage[]): string | undefined => {
-    if (!images || images.length === 0) {
-      return "At least one hotel image is required";
-    }
-    return undefined;
-  };
   
   const validateForm = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};

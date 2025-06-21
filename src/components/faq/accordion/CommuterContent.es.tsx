@@ -5,46 +5,46 @@ import { QuestionGroup } from "./QuestionGroup";
 export function CommuterContentES() {
   const questionGroups = [
     [
-      "¿Cómo puede beneficiar el hotel-living a mi desplazamiento diario?",
-      "¿Cuáles son los ahorros de costos comparado con la vivienda tradicional?",
-      "¿Puedo quedarme en hoteles cerca de mi lugar de trabajo?",
-      "¿Qué tan flexibles son los arreglos de reserva?"
+      "¿Por qué perder horas en el tráfico cuando podrías ganarlas en un teatro?",
+      "¿Por qué gastar dinero en gasolina en lugar de invertirlo en tu vida?",
+      "¿Por qué pasar dos horas al día en la carretera cuando podrías vivir en el centro?",
+      "¿Por qué vivir para el trayecto y no para la experiencia?"
     ],
     [
-      "¿Qué comodidades están típicamente incluidas?",
-      "¿Cómo funciona el hotel-living para viajeros de negocios?",
-      "¿Puedo obtener tarifas corporativas para estadías prolongadas?",
-      "¿Qué pasa con el estacionamiento y transporte?"
+      "¿Por qué ser un ciudadano de segunda en tu propia ciudad?",
+      "¿Por qué llegar siempre tarde cuando podrías estar ya allí?",
+      "¿Por qué vivir entre coches cuando podrías vivir entre cafés y librerías?",
+      "¿Por qué conformarte con el tráfico cuando podrías elegir la distracción?"
     ],
     [
-      "¿Cómo manejo el correo y los paquetes?",
-      "¿Qué pasa con los servicios de lavandería y limpieza?",
-      "¿Puedo trabajar desde mi habitación de hotel?",
-      "¿Qué tan estable es el wifi para trabajo remoto?"
+      "¿Por qué dejar que tu vida dependa del horario del tren?",
+      "¿Por qué vivir en la espera?",
+      "¿Por qué huir cada noche del lugar que te inspira de día?",
+      "¿Por qué ir y venir cuando podrías simplemente llegar… y quedarte?"
     ],
     [
-      "¿Qué pasa durante las temporadas altas de viaje?",
-      "¿Puedo reservar múltiples ubicaciones para diferentes proyectos?",
-      "¿Cómo funciona la facturación para estadías prolongadas?",
-      "¿Qué programas de lealtad están disponibles?"
+      "¿Por qué vivir lejos de tus propios planes?",
+      "¿Por qué despertarte lejos solo para llegar tarde?",
+      "¿Por qué pagar por dos vidas cuando solo tienes una?",
+      "¿Por qué dormir fuera del mundo cuando podrías vivir dentro de él?"
     ],
     [
-      "¿Cómo mantengo el equilibrio trabajo-vida?",
-      "¿Qué pasa con las instalaciones de gimnasio y fitness?",
-      "¿Puedo organizar reuniones de negocios en el hotel?",
-      "¿Cómo me relaciono con otros profesionales del hotel-living?"
+      "¿Por qué alejarte de la cultura, el arte y la vida?",
+      "¿Por qué vivir lejos de donde todo sucede?",
+      "¿Por qué vivir en las afueras si trabajas en el corazón?",
+      "¿Por qué seguir siendo un visitante diario en la ciudad que te alimenta?"
     ],
     [
-      "¿Cuáles son las implicaciones fiscales?",
-      "¿Cómo establezco residencia para propósitos legales?",
-      "¿Puedo usar hotel-living para asignaciones temporales?",
-      "¿Qué documentación necesito para reportes de gastos?"
+      "¿Por qué no vivir donde realmente vives?",
+      "¿Por qué pagar alquiler donde no estás, cuando podrías pagar para vivir donde sí estás?",
+      "¿Por qué dejar tu tiempo al borde de la autopista?",
+      "¿Por qué vivir entre dos mundos cuando puedes tener uno que lo tiene todo?"
     ],
     [
-      "¿Cómo manejo las emergencias mientras vivo en hoteles?",
-      "¿Qué pasa con el cuidado de la salud y seguros?",
-      "¿Puedo traer invitados a mi habitación de hotel?",
-      "¿Cómo mantengo las relaciones profesionales?"
+      "¿Por qué ser un visitante diario cuando podrías ser un residente libre?",
+      "¿Por qué seguir moviéndote cuando podrías quedarte en casa?",
+      "¿Por qué mantener distancia entre tú y tus sueños?",
+      "¿Por qué aceptar incomodidades cuando existe Hotel-Living?"
     ]
   ];
 

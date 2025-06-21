@@ -1,7 +1,10 @@
 
-import { FilterItem } from "./FilterItem";
-import { months } from "../filters/FilterUtils";
+import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { MonthFilterEN } from "./MonthFilter.en";
+import { MonthFilterES } from "./MonthFilter.es";
+import { MonthFilterPT } from "./MonthFilter.pt";
+import { MonthFilterRO } from "./MonthFilter.ro";
 
 interface MonthFilterProps {
   activeMonth: string | null;
@@ -9,24 +12,13 @@ interface MonthFilterProps {
 }
 
 export function MonthFilter({ activeMonth, onChange }: MonthFilterProps) {
-  const { t } = useTranslation();
-
-  return (
-    <FilterItem title={t('filters.month').toUpperCase()}>
-      <div className="grid grid-cols-2 gap-2">
-        {months.map((month) => (
-          <label key={month.value} className="flex items-start">
-            <input 
-              type="radio" 
-              name="month"
-              checked={activeMonth === month.value}
-              onChange={() => onChange(month.value)}
-              className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-            />
-            <span className="text-sm">{t(month.translationKey)}</span>
-          </label>
-        ))}
-      </div>
-    </FilterItem>
-  );
+  const { language } = useTranslation();
+  
+  if (language === 'en') return <MonthFilterEN activeMonth={activeMonth} onChange={onChange} />;
+  if (language === 'es') return <MonthFilterES activeMonth={activeMonth} onChange={onChange} />;
+  if (language === 'pt') return <MonthFilterPT activeMonth={activeMonth} onChange={onChange} />;
+  if (language === 'ro') return <MonthFilterRO activeMonth={activeMonth} onChange={onChange} />;
+  
+  // Default fallback to English
+  return <MonthFilterEN activeMonth={activeMonth} onChange={onChange} />;
 }

@@ -1,6 +1,10 @@
 
-import { FilterItem } from "./FilterItem";
+import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { PropertyTypeFilterEN } from "./PropertyTypeFilter.en";
+import { PropertyTypeFilterES } from "./PropertyTypeFilter.es";
+import { PropertyTypeFilterPT } from "./PropertyTypeFilter.pt";
+import { PropertyTypeFilterRO } from "./PropertyTypeFilter.ro";
 
 interface PropertyTypeFilterProps {
   activePropertyType: string | null;
@@ -8,30 +12,13 @@ interface PropertyTypeFilterProps {
 }
 
 export function PropertyTypeFilter({ activePropertyType, onChange }: PropertyTypeFilterProps) {
-  const { t } = useTranslation();
-
-  const propertyTypes = [
-    { value: "Hotel", label: t('filters.propertyTypes.hotel') },
-    { value: "Resort", label: t('filters.propertyTypes.resort') },
-    { value: "Boutique Hotel", label: t('filters.propertyTypes.boutiqueHotel') },
-    { value: "Motel", label: t('filters.propertyTypes.motel') },
-    { value: "Inn", label: t('filters.propertyTypes.inn') }
-  ];
-
-  return (
-    <FilterItem title={t('filters.typeOfProperty').toUpperCase()}>
-      {propertyTypes.map(type => (
-        <label key={type.value} className="flex items-start">
-          <input 
-            type="radio" 
-            name="propertyType"
-            checked={activePropertyType === type.value}
-            onChange={() => onChange(type.value)}
-            className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-          />
-          <span className="text-sm">{type.label}</span>
-        </label>
-      ))}
-    </FilterItem>
-  );
+  const { language } = useTranslation();
+  
+  if (language === 'en') return <PropertyTypeFilterEN activePropertyType={activePropertyType} onChange={onChange} />;
+  if (language === 'es') return <PropertyTypeFilterES activePropertyType={activePropertyType} onChange={onChange} />;
+  if (language === 'pt') return <PropertyTypeFilterPT activePropertyType={activePropertyType} onChange={onChange} />;
+  if (language === 'ro') return <PropertyTypeFilterRO activePropertyType={activePropertyType} onChange={onChange} />;
+  
+  // Default fallback to English
+  return <PropertyTypeFilterEN activePropertyType={activePropertyType} onChange={onChange} />;
 }

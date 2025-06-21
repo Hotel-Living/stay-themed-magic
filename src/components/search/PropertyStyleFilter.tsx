@@ -1,6 +1,10 @@
 
-import { FilterItem } from "./FilterItem";
+import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { PropertyStyleFilterEN } from "./PropertyStyleFilter.en";
+import { PropertyStyleFilterES } from "./PropertyStyleFilter.es";
+import { PropertyStyleFilterPT } from "./PropertyStyleFilter.pt";
+import { PropertyStyleFilterRO } from "./PropertyStyleFilter.ro";
 
 interface PropertyStyleFilterProps {
   activePropertyStyle: string | null;
@@ -8,32 +12,13 @@ interface PropertyStyleFilterProps {
 }
 
 export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyStyleFilterProps) {
-  const { t } = useTranslation();
-
-  const propertyStyles = [
-    { value: "Classic", label: t('filters.propertyStyles.classic') },
-    { value: "Classic Elegant", label: t('filters.propertyStyles.classicElegant') },
-    { value: "Modern", label: t('filters.propertyStyles.modern') },
-    { value: "Fusion", label: t('filters.propertyStyles.fusion') },
-    { value: "Urban", label: t('filters.propertyStyles.urban') },
-    { value: "Minimalist", label: t('filters.propertyStyles.minimalist') },
-    { value: "Luxury", label: t('filters.propertyStyles.luxury') }
-  ];
-
-  return (
-    <FilterItem title={t('filters.styleOfProperty').toUpperCase()}>
-      {propertyStyles.map(style => (
-        <label key={style.value} className="flex items-start">
-          <input 
-            type="radio" 
-            name="propertyStyle"
-            checked={activePropertyStyle === style.value}
-            onChange={() => onChange(style.value)}
-            className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-          />
-          <span className="text-sm">{style.label}</span>
-        </label>
-      ))}
-    </FilterItem>
-  );
+  const { language } = useTranslation();
+  
+  if (language === 'en') return <PropertyStyleFilterEN activePropertyStyle={activePropertyStyle} onChange={onChange} />;
+  if (language === 'es') return <PropertyStyleFilterES activePropertyStyle={activePropertyStyle} onChange={onChange} />;
+  if (language === 'pt') return <PropertyStyleFilterPT activePropertyStyle={activePropertyStyle} onChange={onChange} />;
+  if (language === 'ro') return <PropertyStyleFilterRO activePropertyStyle={activePropertyStyle} onChange={onChange} />;
+  
+  // Default fallback to English
+  return <PropertyStyleFilterEN activePropertyStyle={activePropertyStyle} onChange={onChange} />;
 }

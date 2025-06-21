@@ -1,8 +1,10 @@
 
-import { useState, useEffect } from "react";
-import { FilterItem } from "./FilterItem";
-import { supabase } from "@/integrations/supabase/client";
+import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { LocationFilterEN } from "./LocationFilter.en";
+import { LocationFilterES } from "./LocationFilter.es";
+import { LocationFilterPT } from "./LocationFilter.pt";
+import { LocationFilterRO } from "./LocationFilter.ro";
 
 interface LocationFilterProps {
   activeLocation: string | null;
@@ -10,59 +12,13 @@ interface LocationFilterProps {
 }
 
 export function LocationFilter({ activeLocation, onChange }: LocationFilterProps) {
-  const [cities, setCities] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { t } = useTranslation();
-
-  // Fetch unique cities from the hotels table
-  useEffect(() => {
-    async function fetchCities() {
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('hotels')
-          .select('city')
-          .order('city');
-        
-        if (error) {
-          console.error('Error fetching cities:', error);
-          setCities([]);
-        } else {
-          // Extract unique cities
-          const uniqueCities = [...new Set(data.map(hotel => hotel.city))];
-          setCities(uniqueCities);
-        }
-      } catch (err) {
-        console.error('Unexpected error fetching cities:', err);
-        setCities([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCities();
-  }, []);
-
-  return (
-    <FilterItem title={t('filters.location').toUpperCase()}>
-      {isLoading ? (
-        <div className="text-sm text-fuchsia-300/70 italic">Loading cities...</div>
-      ) : cities.length === 0 ? (
-        <div className="text-sm text-fuchsia-300/70 italic">None</div>
-      ) : (
-        cities.map(city => (
-          <label key={city} className="flex items-start">
-            <input 
-              type="radio" 
-              name="location"
-              checked={activeLocation === city}
-              onChange={() => onChange(city)}
-              className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-            />
-            <span className="text-sm">{city}</span>
-          </label>
-        ))
-      )}
-    </FilterItem>
-  );
+  const { language } = useTranslation();
+  
+  if (language === 'en') return <LocationFilterEN activeLocation={activeLocation} onChange={onChange} />;
+  if (language === 'es') return <LocationFilterES activeLocation={activeLocation} onChange={onChange} />;
+  if (language === 'pt') return <LocationFilterPT activeLocation={activeLocation} onChange={onChange} />;
+  if (language === 'ro') return <LocationFilterRO activeLocation={activeLocation} onChange={onChange} />;
+  
+  // Default fallback to English
+  return <LocationFilterEN activeLocation={activeLocation} onChange={onChange} />;
 }

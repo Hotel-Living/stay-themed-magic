@@ -1,229 +1,162 @@
-import React from "react";
+import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ComparisonTable } from "./accordion/ComparisonTable";
+import { BenefitsSection } from "./accordion/sections";
+import { ProfitSection } from "./accordion/sections/ProfitSection";
 
 export function HotelAccordionMenuES() {
+  const [openItem, setOpenItem] = useState<string | null>(null);
+  
+  const handleItemToggle = (value: string) => {
+    setOpenItem(openItem === value ? null : value);
+  };
+  
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <Accordion type="single" collapsible className="w-full space-y-4">
-        <AccordionItem value="hotel-living" className="overflow-hidden border-none shadow-xl">
+    <div className="pt-4 border-t border-yellow-300/30 bg-[#460F54]/30 rounded-lg p-6 shadow-lg backdrop-blur-sm mb-2 px-0 py-[15px] my-0">
+      <Accordion type="single" collapsible className="w-full space-y-3" value={openItem || ""} onValueChange={setOpenItem}>
+        <AccordionItem value="the-benefits" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              1 – Hotel-Living = Apartamentos + Comunidad
+              1 - Los Beneficios
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Más espacio que una habitación de hotel tradicional
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Cocina totalmente equipada
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios de limpieza y mantenimiento incluidos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad incorporada
-              </p>
-            </div>
+            <BenefitsSection />
           </AccordionContent>
         </AccordionItem>
-
-        <AccordionItem value="benefits-of-hotel-living" className="overflow-hidden border-none shadow-xl">
+        
+        <AccordionItem value="compare-systems" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              2 – Beneficios para los huéspedes
+              2 - Comparar Sistemas
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Flexibilidad de estadías prolongadas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comodidad y confort del hogar
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Oportunidades de socialización y networking
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Experiencias enriquecedoras y personalizadas
-              </p>
-            </div>
+            <ComparisonTable />
           </AccordionContent>
         </AccordionItem>
-
-        <AccordionItem value="benefits-for-hotels" className="overflow-hidden border-none shadow-xl">
+        
+        <AccordionItem value="we-dont-just-fill-rooms" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              3 – Beneficios para los hoteles
+              3 - No solo llenamos habitaciones
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
+            <div className="space-y-6 text-left py-6">
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor ocupación y rentabilidad
+                Personas agrupadas por afinidades
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Diversificación de ingresos
+                Cero azar. 100% conexiones
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Reducción de costos operativos
+                Hoteles para pertenecer, no solo para alojarse
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Marketing y promoción diferenciados
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="hotel-living-vs-traditional-hotels" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              4 – Hotel-Living vs Hoteles tradicionales
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Estancias más largas vs estancias cortas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor enfoque en la comunidad vs enfoque individual
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios personalizados vs servicios estandarizados
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Experiencias únicas vs experiencias genéricas
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="hotel-living-vs-apartments" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              5 – Hotel-Living vs Apartamentos
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios y comodidades incluidos vs servicios adicionales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor flexibilidad de contrato vs contratos a largo plazo
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad y eventos organizados vs vida independiente
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Menos responsabilidades vs más responsabilidades
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="hotel-living-vs-coliving" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              6 – Hotel-Living vs Co-living
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor privacidad vs espacios compartidos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios de hotel vs servicios básicos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad más amplia vs comunidad enfocada
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor flexibilidad vs normas de convivencia
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="hotel-living-revenue-models" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              7 – Modelos de ingresos de Hotel-Living
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Suscripciones mensuales o trimestrales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Tarifas por noche para estancias cortas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Venta de servicios adicionales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Programas de fidelización y recompensas
+                Estamos transformando la sociedad
               </p>
             </div>
           </AccordionContent>
         </AccordionItem>
         
-        <AccordionItem value="affinity-hotels-social-networks" className="overflow-hidden border-none shadow-xl">
+        <AccordionItem value="how-much-profit-missing" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              8 – Hoteles por afinidades = Redes Sociales Perfectas
+              4 - ¿Cuánto beneficio estás perdiendo?
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <ProfitSection />
+          </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="specialized-hotels" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              5 - ¿Qué son los hoteles por afinidades?
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-3 text-left py-4">
+              <p className="text-lg font-semibold text-[#FFF9B0]">EJEMPLO 1</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Imagina un hotel enfocado en deportes - ciclismo, golf, tenis, etc.</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Las personas interesadas en ese deporte reservan juntas</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Se forma una comunidad en torno a intereses comunes</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Sin huecos entre estancias. Sin pérdidas</p>
+              
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 2</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Considera un hotel temático de cocina</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Chefs, clases de cocina, maridajes de vinos, etc.</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Tarifas premium por experiencias especializadas</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Ocupación completa con estancias promedio más largas</p>
+              
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 3</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Hoteles de inmersión lingüística</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Huéspedes de nivel de idioma similar agrupados juntos</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- El personal habla el idioma objetivo</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Experiencia lingüística completa</p>
+              
+              <p className="text-base italic mt-4 text-[#FFF9B0]">Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y previsibles.</p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="our-technology" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              6 – Inigualable segmentación hotelera
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Los intereses compartidos crean conexiones instantáneas
+                Segmentación precisa por interés y afinidad
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                La psicología grupal impulsa estancias más largas y visitas de retorno
+                Marketing a comunidades motivadas, no viajeros aleatorios
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Las actividades temáticas aumentan el compromiso y la lealtad
+                Alcance global con targeting híper-específico
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                La pertenencia comunitaria se vuelve adictiva
+                Tasas de conversión más altas. Costes de adquisición más bajos
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        
+        <AccordionItem value="our-technology-capabilities" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              7 – Nuestra tecnología hace lo que otras no pueden
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-4 text-left py-4">
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Conecta personas con intereses compartidos
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Coordina entradas y salidas para cero huecos
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Optimiza estancias para máxima rentabilidad
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Una plataforma. Múltiples fuentes de ingresos
               </p>
             </div>
           </AccordionContent>

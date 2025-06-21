@@ -4,7 +4,7 @@ import { CollapsibleMenuItem } from "./accordion/CollapsibleMenuItem";
 import { ProfitSection } from "./accordion/sections/ProfitSection";
 import { SpecialMenuItems } from "./accordion/sections/SpecialMenuItems";
 
-export const HotelAccordionMenu: React.FC = () => {
+export const HotelAccordionMenuES: React.FC = () => {
   return (
     <div className="space-y-3">
       <CollapsibleMenuItem title="1 - Introducción: Hotel-Living presenta una Revolución Hotelera">

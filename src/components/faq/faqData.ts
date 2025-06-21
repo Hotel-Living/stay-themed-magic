@@ -1,16 +1,16 @@
 
 import { FaqItem, FaqCategory } from "./types";
 import { faqCategories } from "./faqCategories";
-import { generalFaqs } from "./categories/generalFaqs";
-import { bookingFaqs } from "./categories/bookingFaqs";
-import { stayFaqs } from "./categories/stayFaqs";
-import { paymentFaqs } from "./categories/paymentFaqs";
-import { themesFaqs } from "./categories/themesFaqs";
-import { lifestyleFaqs } from "./categories/lifestyleFaqs";
-import { seniorFaqs } from "./categories/seniorFaqs";
-import { communityFaqs } from "./categories/communityFaqs";
-import { practicalFaqs } from "./categories/practicalFaqs";
-import { commuterFaqs } from "./categories/es/commuterFaqs";
+import { generalFaqs } from "./faqData/generalFaqs";
+import { bookingFaqs } from "./faqData/bookingFaqs";
+import { stayFaqs } from "./faqData/stayFaqs";
+import { paymentFaqs } from "./faqData/paymentFaqs";
+import { themesFaqs } from "./faqData/themesFaqs";
+import { lifestyleFaqs } from "./faqData/lifestyleFaqs";
+import { seniorFaqs } from "./faqData/seniorFaqs";
+import { communityFaqs } from "./faqData/communityFaqs";
+import { practicalFaqs } from "./faqData/practicalFaqs";
+import { commuterFaqs } from "./faqData/commuterFaqs";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const useFaqData = () => {

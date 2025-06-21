@@ -5,82 +5,81 @@ import { QuestionGroup } from "./QuestionGroup";
 export function HotelContentES() {
   const questionGroups = [
     [
-      "¿Cómo puede mi hotel unirse a la red Hotel-Living?",
-      "¿Cuáles son los requisitos para hoteles participantes?",
-      "¿Cómo funciona el modelo de reparto de ingresos?",
-      "¿Qué entrenamiento necesita el personal para huéspedes de larga estancia?"
+      "¿Por qué ignorar a sus huéspedes más rentables, los que se quedan más tiempo, gastan más y exigen menos?",
+      "¿Por qué dejar ganancias sin aprovechar, cuando pueden sumar miles cada año?",
+      "¿Por qué conformarse con los fines de semana, cuando sus habitaciones podrían estar ocupadas todo el mes?",
+      "¿Por qué perder miles cada año, cuando sus habitaciones podrían trabajar a tiempo completo para usted?"
     ],
     [
-      "¿Cómo manejamos los precios de estadía prolongada?",
-      "¿Qué comodidades debemos proporcionar para huéspedes de hotel-living?",
-      "¿Cómo gestionamos el inventario para reservas de largo plazo?",
-      "¿Qué protocolos de limpieza se necesitan?"
+      "¿Por qué bloquear un flujo diario de ingresos, cuando ya está llamando a su puerta?",
+      "¿Por qué mantener habitaciones vacías, cuando sus costes fijos ya están pagados?",
+      "¿Por qué aceptar menos, cuando su hotel es capaz de mucho más?",
+      "¿Por qué ver cómo el dinero se escapa, cuando ya tiene el espacio para ganarlo?"
     ],
     [
-      "¿Cómo evaluamos a potenciales huéspedes de largo plazo?",
-      "¿Qué contratos de arrendamiento se requieren?",
-      "¿Cómo manejamos quejas y problemas de huéspedes?",
-      "¿Qué procedimientos de emergencia deben estar establecidos?"
+      "¿Por qué dejar fuera su opción más rentable, año tras año?",
+      "¿Por qué elegir la incertidumbre, cuando Hotel-Living ofrece ingresos mensuales estables?",
+      "¿Por qué evitar su fórmula de máxima rentabilidad, cuando ya posee las habitaciones?",
+      "¿Por qué cerrar la puerta a un beneficio diario que no requiere esfuerzo adicional?"
     ],
     [
-      "¿Cómo comercializamos al demográfico de hotel-living?",
-      "¿Qué asociaciones pueden ayudar a atraer huéspedes?",
-      "¿Cómo optimizamos nuestra presencia en línea?",
-      "¿Qué estrategias promocionales funcionan mejor?"
+      "¿Por qué dejar pasar ingresos fáciles, cuando las estancias largas combinan dinero y tranquilidad?",
+      "¿Por qué conformarse con picos estacionales, cuando puede tener beneficios constantes todo el año?",
+      "¿Por qué sacrificar márgenes, cuando las estancias largas reducen costes y aumentan beneficios?",
+      "¿Por qué rechazar una segunda línea de ingresos, que fluye silenciosamente cada día?"
     ],
     [
-      "¿Cómo manejamos el procesamiento de pagos para estadías prolongadas?",
-      "¿Qué consideraciones de seguro hay?",
-      "¿Cómo gestionamos el flujo de efectivo con reservas más largas?",
-      "¿Qué implicaciones fiscales debemos conocer?"
+      "¿Por qué pasar por alto lo que es casi margen puro, día tras día, mes tras mes?",
+      "¿Por qué limitarse solo a tarifas de habitación, cuando cada huésped puede multiplicar sus ingresos?",
+      "¿Por qué dejar dinero sobre la mesa, cuando cada metro cuadrado puede monetizarse?",
+      "¿Por qué depender de reservas de última hora, cuando los ingresos predecibles están a un solo paso?"
     ],
     [
-      "¿Cómo mantenemos la calidad del servicio para huéspedes de largo plazo?",
-      "¿Qué ajustes de horarios de personal se necesitan?",
-      "¿Cómo manejamos el mantenimiento y reparaciones?",
-      "¿Qué comodidades de huéspedes requieren reabastecimiento regular?"
+      "¿Por qué dejar que la rentabilidad dependa del azar, cuando puede convertirla en algo estable?",
+      "¿Por qué dejar escapar el potencial, cuando una decisión podría cambiar sus cifras para siempre?",
+      "¿Por qué operar por debajo de su capacidad, cuando el lleno total multiplica los beneficios?",
+      "¿Por qué pensar a corto plazo, cuando las estancias largas construyen ganancias a largo plazo?"
     ],
     [
-      "¿Cómo creamos comunidad entre huéspedes de hotel-living?",
-      "¿Qué espacios sociales y actividades debemos proporcionar?",
-      "¿Cómo manejamos los conflictos entre huéspedes?",
-      "¿Qué consideraciones de privacidad son importantes?"
+      "¿Por qué sobrevivir, cuando podría prosperar?",
+      "¿Por qué llamarlo \"solo una habitación\", cuando puede convertirse en un motor de ganancias diario?",
+      "No es una reserva. Es un depósito diario de beneficio puro.",
+      "No es ingreso pasivo. Es ingreso dorado. Y ya es suyo."
     ],
     [
-      "¿Cómo rastreamos y analizamos métricas de rendimiento?",
-      "¿Qué herramientas de reporte están disponibles?",
-      "¿Cómo medimos la satisfacción del huésped?",
-      "¿Qué indicadores clave de rendimiento importan más?"
+      "No es adicional, es esencial. Y está creciendo silenciosamente cada día.",
+      "No es profesional dejar beneficios atrás. No es inteligente infrautilizar su propio negocio.",
+      "¿Por qué soportar los altibajos de las temporadas, cuando podría estar lleno todo el año?",
+      "¿Por qué vivir de picos y valles, cuando los ingresos constantes están al alcance?"
     ],
     [
-      "¿Cómo manejamos las fluctuaciones estacionales de demanda?",
-      "¿Qué estrategias ayudan a mantener ocupación durante todo el año?",
-      "¿Cómo ponemos precios competitivos en diferentes mercados?",
-      "¿Qué factores de ubicación afectan el éxito?"
+      "¿Por qué aceptar la incertidumbre, cuando las estancias largas significan ingresos seguros y recurrentes?",
+      "¿Por qué reaccionar, cuando una buena planificación le da paz financiera?",
+      "¿Por qué luchar cada día por clientes, cuando una sola decisión puede llenar sus habitaciones sin esfuerzo?",
+      "¿Por qué contratar y despedir continuamente, cuando las reservas estables significan personal estable?"
     ],
     [
-      "¿Qué integraciones tecnológicas se necesitan?",
-      "¿Cómo gestionamos los sistemas de reserva eficientemente?",
-      "¿Qué aplicaciones móviles o plataformas debemos usar?",
-      "¿Cómo aseguramos la seguridad y privacidad de datos?"
+      "¿Por qué perseguir huéspedes cada día, cuando uno solo puede quedarse semanas?",
+      "¿Por qué multiplicar el trabajo, cuando una estancia larga reemplaza diez check-ins?",
+      "¿Por qué aceptar el caos, cuando las estancias largas traen calma y claridad?",
+      "¿Por qué aceptar el estrés, cuando la tranquilidad llega con cada estancia prolongada?"
     ],
     [
-      "¿Cómo manejamos huéspedes internacionales y regulaciones?",
-      "¿Qué requisitos de visa y legales aplican?",
-      "¿Cómo gestionamos problemas de cambio de moneda?",
-      "¿Qué consideraciones culturales son importantes?"
+      "¿Por qué alojar desconocidos por una noche, cuando los huéspedes de larga estancia se integran en el ritmo de su hotel?",
+      "¿Por qué alojar ruido de corto plazo, cuando podría recibir valor de largo plazo?",
+      "¿Por qué llenar las habitaciones una vez, cuando un buen huésped las llena una y otra vez?",
+      "¿Por qué alquilar habitaciones, cuando puede crear un ecosistema?"
     ],
     [
-      "¿Cómo escalamos nuestras operaciones de hotel-living?",
-      "¿Qué oportunidades de expansión existen?",
-      "¿Cómo replicamos el éxito a través de propiedades?",
-      "¿Qué requisitos de inversión debemos planificar?"
+      "¿Por qué dejar dormir su hotel, cuando hay personas listas para vivir en él?",
+      "¿Por qué limitar su hotel, cuando podría transformarse en algo mayor?",
+      "¿Por qué vender silencio, cuando puede vender actividad, energía y vida?",
+      "¿Por qué ser invisible para la sociedad, cuando puede ser un pilar local de convivencia?"
     ],
     [
-      "¿Cómo aseguramos la retención y lealtad del huésped?",
-      "¿Qué programas de recompensas funcionan para estadías prolongadas?",
-      "¿Cómo manejamos las referencias y reseñas de huéspedes?",
-      "¿Qué estrategias de comunicación construyen relaciones?"
+      "¿Por qué vender noches, cuando puede vender pertenencia?",
+      "¿Por qué depender de las temporadas, cuando podría depender de la estabilidad?",
+      "¿Por qué aspirar solo a habitaciones llenas, cuando puede aspirar a vidas llenas dentro de ellas?"
     ]
   ];
 

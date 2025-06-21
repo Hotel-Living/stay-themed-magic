@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
@@ -46,11 +45,19 @@ export function HotelAccordionMenuES() {
             <div className="space-y-6 text-left py-6">
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Generamos máximos ingresos por habitación
+                Personas agrupadas por afinidades
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Optimizamos las tasas de ocupación todo el año
+                Cero azar. 100% conexiones
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Hoteles para pertenecer, no solo para alojarse
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Estamos transformando la sociedad
               </p>
             </div>
           </AccordionContent>

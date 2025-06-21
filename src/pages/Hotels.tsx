@@ -1,9 +1,9 @@
+
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
-import { HotelNewAccordionMenuES } from "@/components/hotels/HotelNewAccordionMenu.es";
-import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
+import { HotelNewAccordionMenu } from "@/components/hotels/HotelNewAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -59,11 +59,7 @@ export default function Hotels() {
           <HotelSlogans />
           
           {/* New accordion menu */}
-          <HotelNewAccordionMenuES />
-          
-          <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60 z-20">
-            <HotelAccordionMenu />
-          </div>
+          <HotelNewAccordionMenu />
           
           <div className="w-full max-w-4xl mt-10">
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10">

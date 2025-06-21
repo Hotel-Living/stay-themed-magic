@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
+import { HotelNewAccordionMenuES } from "@/components/hotels/HotelNewAccordionMenu.es";
 import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
@@ -13,7 +14,9 @@ import { HotelCards } from "@/components/hotels/HotelCards";
 import { HotelFeatures } from "@/components/hotels/HotelFeatures";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { useTranslation } from "@/hooks/useTranslation";
+
 const orderedCategoryIds = ["benefits", "models", "revenue", "guests", "seniors", "affinities", "operation", "integration", "marketing", "payment"];
+
 const HotelSignupButtons = ({
   isMobile
 }: {
@@ -30,6 +33,7 @@ const HotelSignupButtons = ({
       </div>
     </div>;
 };
+
 export default function Hotels() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
@@ -38,14 +42,24 @@ export default function Hotels() {
   } = useTranslation();
   const hotelFaqCategories = useHotelFaqCategories();
   const hotelFaqsByCategory = useHotelFaqsByCategory();
-  const orderedFaqCategories = React.useMemo(() => orderedCategoryIds.map(id => hotelFaqCategories.find(cat => cat.id === id)).filter(Boolean) as typeof hotelFaqCategories, [hotelFaqCategories]);
-  return <div className="min-h-screen flex flex-col relative overflow-hidden">
+  
+  const orderedFaqCategories = React.useMemo(() => 
+    orderedCategoryIds.map(id => 
+      hotelFaqCategories.find(cat => cat.id === id)
+    ).filter(Boolean) as typeof hotelFaqCategories,
+  [hotelFaqCategories]);
+
+  return (
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
       <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-8 relative z-10">
         <div className="container mx-auto px-4 py-3 flex flex-col items-center">
           <HotelSlogans />
+          
+          {/* New accordion menu */}
+          <HotelNewAccordionMenuES />
           
           <div className="max-w-4xl w-full backdrop-blur-sm rounded-xl border border-fuchsia-400/20 p-4 md:p-6 bg-gradient-to-b from-[#460F54]/40 to-[#300A38]/60 z-20">
             <HotelAccordionMenu />
@@ -55,7 +69,20 @@ export default function Hotels() {
             <div className="glass-card rounded-lg overflow-hidden border-none p-4 mb-10">
               <h2 className="text-2xl md:text-3xl font-bold text-center text-[#f9d3f6] mb-6">{t('faq.title')}</h2>
               
-              <FaqTabs activeTab={activeTab} setActiveTab={setActiveTab} faqCategories={orderedFaqCategories} faqsByCategory={hotelFaqsByCategory} numbered={true} searchQuery="" accentTextColor="#4db74d" headerBgColor="#71037c" marginBottom="" textSizeClass="text-base md:text-lg" answerTextSizeClass="text-sm md:text-base" hideTabsList={false} />
+              <FaqTabs 
+                activeTab={activeTab} 
+                setActiveTab={setActiveTab} 
+                faqCategories={orderedFaqCategories}
+                faqsByCategory={hotelFaqsByCategory}
+                numbered={true}
+                searchQuery=""
+                accentTextColor="#4db74d"
+                headerBgColor="#71037c"
+                marginBottom=""
+                textSizeClass="text-base md:text-lg"
+                answerTextSizeClass="text-sm md:text-base"
+                hideTabsList={false}
+              />
               
               <HotelSignupButtons isMobile={isMobile} />
             </div>
@@ -72,5 +99,6 @@ export default function Hotels() {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

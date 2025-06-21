@@ -1,3 +1,4 @@
+
 import { FaqItem, FaqCategory } from "./types";
 import { faqCategories } from "./faqCategories";
 import { generalFaqs } from "./categories/generalFaqs";
@@ -9,6 +10,7 @@ import { lifestyleFaqs } from "./categories/lifestyleFaqs";
 import { seniorFaqs } from "./categories/seniorFaqs";
 import { communityFaqs } from "./categories/communityFaqs";
 import { practicalFaqs } from "./categories/practicalFaqs";
+import { commuterFaqs } from "./categories/es/commuterFaqs";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const useFaqData = () => {
@@ -24,7 +26,8 @@ export const useFaqData = () => {
       { id: "lifestyle", name: "Digital Nomads" },
       { id: "senior", name: "SENIOR" },
       { id: "community", name: "Community" },
-      { id: "practical", name: "Practical Details" }
+      { id: "practical", name: "Practical Details" },
+      { id: "commuter", name: "Commuter" }
     ];
 
     if (language === 'es') {
@@ -37,7 +40,8 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "Nómadas Digitales" },
         { id: "senior", name: "Mayores" },
         { id: "community", name: "Comunidad" },
-        { id: "practical", name: "Detalles Prácticos" }
+        { id: "practical", name: "Detalles Prácticos" },
+        { id: "commuter", name: "¿Lejos del trabajo?" }
       ];
     }
 
@@ -51,7 +55,8 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "Nômades Digitais" },
         { id: "senior", name: "Idosos" },
         { id: "community", name: "Comunidade" },
-        { id: "practical", name: "Detalhes Práticos" }
+        { id: "practical", name: "Detalhes Práticos" },
+        { id: "commuter", name: "Viajante Diário" }
       ];
     }
 
@@ -65,7 +70,8 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "Nomazi Digitali" },
         { id: "senior", name: "Seniori" },
         { id: "community", name: "Comunitate" },
-        { id: "practical", name: "Detalii Practice" }
+        { id: "practical", name: "Detalii Practice" },
+        { id: "commuter", name: "Navetist" }
       ];
     }
 
@@ -82,7 +88,8 @@ export const useFaqData = () => {
       lifestyle: lifestyleFaqs,
       senior: seniorFaqs,
       community: communityFaqs,
-      practical: practicalFaqs
+      practical: practicalFaqs,
+      commuter: commuterFaqs
     };
   };
 

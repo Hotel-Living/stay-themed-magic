@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BenefitsSection } from "./accordion/sections/BenefitsSection";
@@ -39,7 +40,12 @@ export function HotelAccordionMenuES() {
           3 - No solo llenamos habitaciones
         </AccordionTrigger>
         <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-          <TheyNeedHotelSection />
+          <div className="space-y-6 text-left py-6">
+            <p className="text-xl text-[#FFF9B0] font-bold">• Personas agrupadas por afinidades</p>
+            <p className="text-xl text-[#FFF9B0] font-bold">• Cero azar. 100% conexiones</p>
+            <p className="text-xl text-[#FFF9B0] font-bold">• Hoteles para pertenecer, no solo para alojarse</p>
+            <p className="text-xl text-[#FFF9B0] font-bold">• Estamos transformando la sociedad</p>
+          </div>
         </AccordionContent>
       </AccordionItem>
 
@@ -49,11 +55,44 @@ export function HotelAccordionMenuES() {
           4 - ¿Cuánto beneficio estás perdiendo?
         </AccordionTrigger>
         <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-          <ProfitSection />
+          <div className="space-y-8 text-left py-6">
+            {/* Section 4.1 */}
+            <div className="space-y-4">
+              <p className="text-lg font-bold text-[#FFF9B0]">4.1 - Solo el 30% de ocupación anual</p>
+              <div className="space-y-2 pl-4">
+                <p className="text-base text-[#FFF9B0]">• Los hoteles tradicionales solo alcanzan el 30% de ocupación anual</p>
+                <p className="text-base text-[#FFF9B0]">• Esto significa que el 70% del tiempo están perdiendo dinero</p>
+                <p className="text-base text-[#FFF9B0]">• Con nosotros: 100% de ocupación todo el año</p>
+                <p className="text-base text-[#FFF9B0]">• Eliminamos completamente la estacionalidad</p>
+              </div>
+            </div>
+
+            {/* Section 4.2 */}
+            <div className="space-y-4">
+              <p className="text-lg font-bold text-[#FFF9B0]">4.2 - Millones perdidos por apartamentos</p>
+              <div className="space-y-2 pl-4">
+                <p className="text-base text-[#FFF9B0]">• Los apartamentos capturan el 70% del mercado de estancias largas</p>
+                <p className="text-base text-[#FFF9B0]">• Esos clientes deberían estar en hoteles</p>
+                <p className="text-base text-[#FFF9B0]">• Representan millones en ingresos perdidos</p>
+                <p className="text-base text-[#FFF9B0]">• Nosotros los recuperamos para ti</p>
+              </div>
+            </div>
+
+            {/* Section 4.3 */}
+            <div className="space-y-4">
+              <p className="text-lg font-bold text-[#FFF9B0]">4.3 - Costes operativos disparados</p>
+              <div className="space-y-2 pl-4">
+                <p className="text-base text-[#FFF9B0]">• Personal contratado y despedido constantemente</p>
+                <p className="text-base text-[#FFF9B0]">• Costes de formación repetidos</p>
+                <p className="text-base text-[#FFF9B0]">• Ineficiencias por falta de experiencia del equipo</p>
+                <p className="text-base text-[#FFF9B0]">• Con ocupación constante: equipo estable y eficiente</p>
+              </div>
+            </div>
+          </div>
         </AccordionContent>
       </AccordionItem>
 
-      {/* Section 5 - Updated content */}
+      {/* Section 5 */}
       <AccordionItem value="specialized" className="border-none mb-4">
         <AccordionTrigger className="hover:no-underline text-left text-xl font-bold text-[#FFF9B0] hover:text-white transition-colors duration-200 px-6 py-4 bg-gradient-to-r from-[#8B1FA9] to-[#A855F7] rounded-t-xl border-l-6 border-[#FFF9B0]/50">
           5 - ¿Qué son los hoteles por afinidades?
@@ -129,7 +168,7 @@ export function HotelAccordionMenuES() {
           10 - Menú de Servicios Especiales
         </AccordionTrigger>
         <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-          <SpecialMenuItems />
+          <SpecialMenuItems startingNumber={5} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

@@ -98,7 +98,7 @@ export const HotelAccordionMenuES = () => {
           9 – Ofertas especiales de lanzamiento
         </AccordionTrigger>
         <AccordionContent className="text-white space-y-4 pt-4 pb-2">
-          <SpecialMenuItems />
+          <SpecialMenuItems startingNumber={5} />
         </AccordionContent>
       </AccordionItem>
 

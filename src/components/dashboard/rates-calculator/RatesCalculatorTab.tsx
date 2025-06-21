@@ -1,9 +1,18 @@
+
 import React from "react";
+import { RatesCalculatorCard } from "./components/RatesCalculatorCard";
+import { RatesCalculatorHeader } from "./components/RatesCalculatorHeader";
+import { RATES_CALCULATOR_CONFIG } from "./constants/calculatorConstants";
+
 export const RatesCalculatorTab: React.FC = () => {
-  return <div className="space-y-4">
-      <div className="glass-card rounded-lg p-8 text-center text-white/80 border-fuchsia-500/20 bg-[#860793]">
-        <h3 className="text-lg font-medium mb-2 text-white">Rates Calculator</h3>
-        <p>Rates calculator functionality will be added here.</p>
-      </div>
-    </div>;
+  return (
+    <div className={RATES_CALCULATOR_CONFIG.cardSpacing}>
+      <RatesCalculatorCard>
+        <RatesCalculatorHeader
+          title={RATES_CALCULATOR_CONFIG.defaultTitle}
+          description={RATES_CALCULATOR_CONFIG.defaultDescription}
+        />
+      </RatesCalculatorCard>
+    </div>
+  );
 };

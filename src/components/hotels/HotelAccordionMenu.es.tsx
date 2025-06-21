@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
@@ -78,18 +79,30 @@ export function HotelAccordionMenuES() {
         <AccordionItem value="specialized-hotels" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              5 - Hoteles Especializados
+              5 - ¿Qué son los hoteles por afinidades?
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-3 text-left py-4">
-              <p className="text-lg text-[#FFF9B0]">Hoteles Pet-Friendly</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Bienvenidas las mascotas</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Amenidades especiales para mascotas</p>
+              <p className="text-lg font-semibold text-[#FFF9B0]">EJEMPLO 1</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Imagina un hotel enfocado en deportes - ciclismo, golf, tenis, etc.</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Las personas interesadas en ese deporte reservan juntas</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Se forma una comunidad en torno a intereses comunes</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Sin huecos entre estancias. Sin pérdidas</p>
               
-              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">Hoteles de Bienestar</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Instalaciones de spa y fitness</p>
-              <p className="text-base flex items-start pl-4 text-[#FFF9B0]">- Opciones de comida saludable</p>
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 2</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Considera un hotel temático de cocina</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Chefs, clases de cocina, maridajes de vinos, etc.</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Tarifas premium por experiencias especializadas</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Ocupación completa con estancias promedio más largas</p>
+              
+              <p className="text-lg font-semibold mt-6 text-[#FFF9B0]">EJEMPLO 3</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Hoteles de inmersión lingüística</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Huéspedes de nivel de idioma similar agrupados juntos</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- El personal habla el idioma objetivo</p>
+              <p className="text-base flex items-start text-[#FFF9B0]">- Experiencia lingüística completa</p>
+              
+              <p className="text-base italic mt-4 text-[#FFF9B0]">Estos hoteles especializados crean experiencias comunitarias poderosas mientras mantienen ingresos estables y previsibles.</p>
             </div>
           </AccordionContent>
         </AccordionItem>

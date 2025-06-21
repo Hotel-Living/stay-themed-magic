@@ -1,234 +1,154 @@
+
 import React from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
+import { AccordionMenuItem } from "./accordion/AccordionMenuItem";
+import { MenuItemText } from "./accordion/MenuItemText";
 
 export function HotelAccordionMenuES() {
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <Accordion type="single" collapsible className="w-full space-y-4">
-        <AccordionItem value="hotel-living" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              1 – Hotel-Living = Apartamentos + Comunidad
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Más espacio que una habitación de hotel tradicional
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Cocina totalmente equipada
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios de limpieza y mantenimiento incluidos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad incorporada
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+    <Accordion type="single" collapsible className="w-full space-y-2">
+      <AccordionMenuItem
+        value="item-1"
+        title="1 – ¿Por qué los hoteles necesitan Hotel-Living?"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "Los hoteles independientes enfrentan una competencia feroz de las grandes cadenas y plataformas de reservas.",
+          "Necesitan diferenciarse, atraer huéspedes de calidad y maximizar sus ingresos.",
+          "Hotel-Living ofrece una solución innovadora que transforma hoteles tradicionales en destinos temáticos únicos.",
+          "Conectamos hoteles con viajeros que buscan experiencias específicas y auténticas."
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="benefits-of-hotel-living" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              2 – Beneficios para los huéspedes
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Flexibilidad de estadías prolongadas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comodidad y confort del hogar
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Oportunidades de socialización y networking
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Experiencias enriquecedoras y personalizadas
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+      <AccordionMenuItem
+        value="item-2"
+        title="2 – Beneficios únicos para hoteles socios"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "• Acceso a un mercado de nicho de viajeros con intereses específicos",
+          "• Aumento significativo en la duración promedio de las estancias",
+          "• Reducción de la estacionalidad através de segmentación temática",
+          "• Mayor lealtad del cliente y reservas repetidas",
+          "• Diferenciación clara de la competencia tradicional",
+          "• Incremento en ingresos auxiliares através de experiencias temáticas"
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="benefits-for-hotels" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              3 – Beneficios para los hoteles
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor ocupación y rentabilidad
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Diversificación de ingresos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Reducción de costos operativos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Marketing y promoción diferenciados
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+      <AccordionMenuItem
+        value="item-3"
+        title="3 – Cómo funciona nuestro modelo de negocio"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "Comisión competitiva: Solo cobramos cuando generas reservas exitosas",
+          "Sin costos ocultos: No hay tarifas de membresía o gastos iniciales",
+          "Marketing incluido: Promocionamos tu hotel en nuestros canales especializados",
+          "Soporte completo: Te acompañamos en todo el proceso de integración y más allá"
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="hotel-living-vs-traditional-hotels" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              4 – Hotel-Living vs Hoteles tradicionales
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Estancias más largas vs estancias cortas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor enfoque en la comunidad vs enfoque individual
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios personalizados vs servicios estandarizados
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Experiencias únicas vs experiencias genéricas
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+      <AccordionMenuItem
+        value="item-4"
+        title="4 – ¿Cuánto beneficio estás perdiendo?"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "Los hoteles socios de Hotel-Living experimentan:",
+          "• 40% más de duración promedio en las estancias",
+          "• 65% más de reservas repetidas",
+          "• 30% menos de dependencia de temporadas altas",
+          "• 50% más de ingresos por servicios adicionales",
+          "",
+          "¿Cuánto dinero estás dejando sobre la mesa cada mes al no formar parte de nuestra red?"
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="hotel-living-vs-apartments" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              5 – Hotel-Living vs Apartamentos
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios y comodidades incluidos vs servicios adicionales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor flexibilidad de contrato vs contratos a largo plazo
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad y eventos organizados vs vida independiente
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Menos responsabilidades vs más responsabilidades
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+      <AccordionMenuItem
+        value="item-5"
+        title="5 – ¿Qué son los hoteles por afinidades?"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "Son establecimientos que se especializan en atender a viajeros con intereses específicos:",
+          "• Hoteles para nómadas digitales con espacios de coworking",
+          "• Retiros para jubilados activos con programas de bienestar",
+          "• Espacios para artistas con talleres y estudios",
+          "• Destinos para amantes de la naturaleza con actividades eco-turísticas",
+          "• Y muchas más afinidades que conectan personas con intereses similares"
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="hotel-living-vs-coliving" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              6 – Hotel-Living vs Co-living
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor privacidad vs espacios compartidos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Servicios de hotel vs servicios básicos
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Comunidad más amplia vs comunidad enfocada
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Mayor flexibilidad vs normas de convivencia
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+      <AccordionMenuItem
+        value="item-6"
+        title="6 – Inigualable segmentación hotelera"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "• Identificamos y conectamos nichos de mercado específicos con hoteles ideales.",
+          "• Creamos experiencias personalizadas que ninguna plataforma generalista puede igualar.",
+          "• Desarrollamos comunidades temáticas que generan lealtad y recomendaciones orgánicas.",
+          "• Optimizamos la ocupación através de segmentación psicológica avanzada."
+        ]} />
+      </AccordionMenuItem>
 
-        <AccordionItem value="hotel-living-revenue-models" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              7 – Modelos de ingresos de Hotel-Living
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Suscripciones mensuales o trimestrales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Tarifas por noche para estancias cortas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Venta de servicios adicionales
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Programas de fidelización y recompensas
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="affinity-hotels-social-networks" className="overflow-hidden border-none shadow-xl">
-          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
-            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              8 – Hoteles por afinidades = Redes Sociales Perfectas
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-4 text-left py-4">
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Los intereses compartidos crean conexiones instantáneas
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                La psicología grupal impulsa estancias más largas y visitas de retorno
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Las actividades temáticas aumentan el compromiso y la lealtad
-              </p>
-              <p className="text-base flex items-start text-[#FFF9B0]">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                La pertenencia comunitaria se vuelve adictiva
-              </p>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
+      <AccordionMenuItem
+        value="item-7"
+        title="7 – Nuestra tecnología hace lo que otras no pueden"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "• Conecta personas con intereses compartidos",
+          "• Coordina entradas y salidas para cero huecos",
+          "• Optimiza estancias para máxima rentabilidad",
+          "• Una plataforma. Múltiples fuentes de ingresos"
+        ]} />
+      </AccordionMenuItem>
+
+      <AccordionMenuItem
+        value="item-8"
+        title="8 – Hoteles por afinidades = Redes Sociales Perfectas"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "• Los intereses compartidos crean conexiones instantáneas",
+          "• La psicología grupal impulsa estancias más largas y visitas de retorno",
+          "• Las actividades temáticas aumentan el compromiso y la lealtad",
+          "• La pertenencia comunitaria se vuelve adictiva"
+        ]} />
+      </AccordionMenuItem>
+
+      <AccordionMenuItem
+        value="item-9"
+        title="9 – Proceso de registro simplificado"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "Unirse a Hotel-Living es rápido y sencillo:",
+          "1. Completa nuestro formulario de registro online",
+          "2. Nuestro equipo revisa tu solicitud en 48 horas",
+          "3. Te ayudamos a configurar tu perfil y afinidades",
+          "4. Comenzamos a promocionar tu hotel inmediatamente",
+          "",
+          "¡En menos de una semana puedes estar recibiendo tus primeras reservas temáticas!"
+        ]} />
+      </AccordionMenuItem>
+
+      <AccordionMenuItem
+        value="item-10"
+        title="10 – Únete hoy y transforma tu hotel"
+        titleClassName="text-xl md:text-2xl font-bold text-white hover:text-[#FEF7CD] transition-colors duration-300"
+      >
+        <MenuItemText items={[
+          "No esperes más para formar parte de la revolución hotelera:",
+          "• Sin riesgos: Solo pagas cuando generas ingresos",
+          "• Soporte completo: Te acompañamos en cada paso",
+          "• Resultados rápidos: Primeras reservas en semanas",
+          "• Crecimiento sostenible: Construye una base de clientes leales",
+          "",
+          "Regístrate ahora y descubre cómo Hotel-Living puede transformar tu negocio hotelero."
+        ]} />
+      </AccordionMenuItem>
+    </Accordion>
   );
 }

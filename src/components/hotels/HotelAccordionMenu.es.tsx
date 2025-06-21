@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
 import { BenefitsSection } from "./accordion/sections";
+import { ProfitSection } from "./accordion/sections/ProfitSection";
 
 export function HotelAccordionMenuES() {
   const [openItem, setOpenItem] = useState<string | null>(null);
@@ -70,17 +71,7 @@ export function HotelAccordionMenuES() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
-            <div className="space-y-6 text-left py-6">
-              <p className="text-base font-semibold py-0">La mayoría de hoteles pierden dinero en:</p>
-              <p className="text-base flex items-start pl-4">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Habitaciones vacías durante temporada baja
-              </p>
-              <p className="text-base flex items-start pl-4">
-                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Altos costos de rotación de personal
-              </p>
-            </div>
+            <ProfitSection />
           </AccordionContent>
         </AccordionItem>
         

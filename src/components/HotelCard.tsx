@@ -1,11 +1,12 @@
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/utils/dynamicPricing";
-import { FavoriteButton } from "@/components/ui/FavoriteButton";
 import { useFavorites } from "@/hooks/useFavorites";
 import { ComparisonCheckbox } from "@/components/comparison/ComparisonCheckbox";
+import { HotelCardBadges } from "./HotelCard/components/HotelCardBadges";
+import { HotelCardStars } from "./HotelCard/components/HotelCardStars";
+import { HotelCardFooter } from "./HotelCard/components/HotelCardFooter";
 
 interface HotelCardProps {
   id: string;
@@ -49,54 +50,6 @@ export const HotelCard = ({
 }: HotelCardProps) => {
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Parse complex rate keys to extract stay lengths and prices
-  const parseRatesData = () => {
-    const parsedRates: Record<string, number> = {};
-    
-    Object.keys(rates).forEach(key => {
-      // Check for simple numeric keys (8, 16, 24, 32)
-      if (/^\d+$/.test(key)) {
-        parsedRates[key] = rates[key];
-      }
-      // Check for complex keys like "8-breakfast-included" or "16-half-board"
-      else if (key.includes('-')) {
-        const parts = key.split('-');
-        const stayLength = parts[0];
-        if (/^\d+$/.test(stayLength)) {
-          // Use the stay length as key, taking the first rate found for that duration
-          if (!parsedRates[stayLength]) {
-            parsedRates[stayLength] = rates[key];
-          }
-        }
-      }
-    });
-    
-    return parsedRates;
-  };
-
-  // Helper function to display rates in the desired format
-  const displayRates = () => {
-    const parsedRates = parseRatesData();
-    const stayLengths = ["8", "16", "24", "32"];
-    const availableRates = stayLengths.filter(length => parsedRates[length]);
-    
-    if (availableRates.length === 0) {
-      // If no rates defined in the new format, use the old pricePerMonth
-      return pricePerMonth ? `From ${formatCurrency(pricePerMonth, currency)}` : "Price on request";
-    }
-    
-    // Start with the lowest stay length that has a rate
-    const lowestStayLength = availableRates.sort((a, b) => Number(a) - Number(b))[0];
-    const lowestRate = parsedRates[lowestStayLength];
-    
-    if (availableRates.length === 1) {
-      return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
-    }
-    
-    // Show the starting price with shortest duration
-    return `From ${formatCurrency(lowestRate, currency)} (${lowestStayLength} days)`;
-  };
-
   // Prepare hotel data for comparison
   const hotelForComparison = {
     id,
@@ -124,20 +77,11 @@ export const HotelCard = ({
           alt={name} 
           className="object-cover w-full h-full"
         />
-        {themes.length > 0 && (
-          <div className="absolute top-2 left-2">
-            <Badge variant="secondary" className="bg-white/70 backdrop-blur-sm text-purple-900 hover:bg-white/80">
-              {themes[0].name}
-            </Badge>
-          </div>
-        )}
-        <div className="absolute top-2 right-2 flex items-center gap-2">
-          <FavoriteButton
-            isFavorite={isFavorite(id)}
-            onClick={() => toggleFavorite(id)}
-            size="sm"
-          />
-        </div>
+        <HotelCardBadges 
+          themes={themes}
+          isFavorite={isFavorite(id)}
+          onToggleFavorite={() => toggleFavorite(id)}
+        />
         {/* Add comparison checkbox */}
         <div className="absolute bottom-2 left-2">
           <ComparisonCheckbox hotel={hotelForComparison} />
@@ -146,26 +90,19 @@ export const HotelCard = ({
       <CardContent className="p-4 bg-[#5A0080]">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold line-clamp-1 text-white">{name}</h3>
-          <div className="flex items-center">
-            {Array.from({ length: Math.min(stars, 5) }).map((_, i) => (
-              <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-            ))}
-          </div>
+          <HotelCardStars stars={stars} />
         </div>
         
         <div className="text-sm text-gray-300 mb-3">
           {city}, {country}
         </div>
         
-        <div className="mt-3 pt-2 border-t border-gray-700/20 flex justify-between items-center">
-          <div className="text-sm font-medium text-white">
-            {displayRates()}
-          </div>
-          
-          {availableMonths && availableMonths.length > 0 && (
-            <div className="text-xs text-fuchsia-400">{availableMonths.length} months available</div>
-          )}
-        </div>
+        <HotelCardFooter 
+          rates={rates}
+          pricePerMonth={pricePerMonth}
+          currency={currency}
+          availableMonths={availableMonths}
+        />
       </CardContent>
     </Card>
   );

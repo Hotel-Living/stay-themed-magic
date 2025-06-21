@@ -73,47 +73,85 @@ const useFormValidation = (onValidationChange: (isValid: boolean) => void) => {
     mainImageUrl: false
   });
   
+  // Helper validation functions
+  const validateRequiredField = (value: string, fieldName: string): string | undefined => {
+    if (!value) {
+      switch (fieldName) {
+        case 'hotelName':
+          return "Hotel name is required";
+        case 'category':
+          return "Category is required";
+        case 'propertyType':
+          return "Property type is required";
+        case 'description':
+          return "Description is required";
+        default:
+          return undefined;
+      }
+    }
+    return undefined;
+  };
+
+  const validateEmail = (email: string): string | undefined => {
+    if (email && !/\S+@\S+\.\S+/.test(email)) {
+      return "Invalid email format";
+    }
+    return undefined;
+  };
+
+  const validateCoordinate = (coordinate: string, type: 'latitude' | 'longitude'): string | undefined => {
+    if (!coordinate) return undefined;
+    
+    if (isNaN(Number(coordinate))) {
+      return type === 'latitude' ? "Latitude must be a valid number" : "Longitude must be a valid number";
+    }
+    
+    const value = Number(coordinate);
+    if (type === 'latitude') {
+      if (value < -90 || value > 90) {
+        return "Latitude must be between -90 and 90";
+      }
+    } else {
+      if (value < -180 || value > 180) {
+        return "Longitude must be between -180 and 180";
+      }
+    }
+    
+    return undefined;
+  };
+
+  const validateImages = (images: UploadedImage[]): string | undefined => {
+    if (!images || images.length === 0) {
+      return "At least one hotel image is required";
+    }
+    return undefined;
+  };
+  
   const validateForm = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
     
-    // Required fields validation
-    if (!formData.hotelName) newErrors.hotelName = "Hotel name is required";
-    if (!formData.category) newErrors.category = "Category is required";
-    if (!formData.propertyType) newErrors.propertyType = "Property type is required";
-    if (!formData.description) newErrors.description = "Description is required";
-    if (!formData.hotelImages || formData.hotelImages.length === 0) {
-      newErrors.hotelImages = "At least one hotel image is required";
-    }
+    // Validate required fields
+    newErrors.hotelName = validateRequiredField(formData.hotelName, 'hotelName');
+    newErrors.category = validateRequiredField(formData.category, 'category');
+    newErrors.propertyType = validateRequiredField(formData.propertyType, 'propertyType');
+    newErrors.description = validateRequiredField(formData.description, 'description');
     
-    // Email validation
-    if (formData.contactEmail && !/\S+@\S+\.\S+/.test(formData.contactEmail)) {
-      newErrors.contactEmail = "Invalid email format";
-    }
+    // Validate email
+    newErrors.contactEmail = validateEmail(formData.contactEmail);
     
-    // Validate latitude and longitude if provided
-    if (formData.latitude && isNaN(Number(formData.latitude))) {
-      newErrors.latitude = "Latitude must be a valid number";
-    }
+    // Validate coordinates
+    newErrors.latitude = validateCoordinate(formData.latitude, 'latitude');
+    newErrors.longitude = validateCoordinate(formData.longitude, 'longitude');
     
-    if (formData.longitude && isNaN(Number(formData.longitude))) {
-      newErrors.longitude = "Longitude must be a valid number";
-    }
+    // Validate images
+    newErrors.hotelImages = validateImages(formData.hotelImages);
     
-    // Check latitude range
-    if (formData.latitude && !isNaN(Number(formData.latitude))) {
-      const lat = Number(formData.latitude);
-      if (lat < -90 || lat > 90) {
-        newErrors.latitude = "Latitude must be between -90 and 90";
+    // Remove undefined errors
+    Object.keys(newErrors).forEach(key => {
+      if (newErrors[key as keyof FormData] === undefined) {
+        delete newErrors[key as keyof FormData];
       }
-    }
-    
-    // Check longitude range
-    if (formData.longitude && !isNaN(Number(formData.longitude))) {
-      const lng = Number(formData.longitude);
-      if (lng < -180 || lng > 180) {
-        newErrors.longitude = "Longitude must be between -180 and 180";
-      }
-    }
+    });
     
     setErrors(newErrors);
     

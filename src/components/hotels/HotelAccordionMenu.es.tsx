@@ -133,6 +133,34 @@ export function HotelAccordionMenuES() {
             </div>
           </AccordionContent>
         </AccordionItem>
+        
+        <AccordionItem value="our-technology-capabilities" className="overflow-hidden border-none shadow-xl">
+          <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
+            <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
+              7 – Nuestra tecnología hace lo que otras no pueden
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
+            <div className="space-y-4 text-left py-4">
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Conecta personas con intereses compartidos
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Coordina entradas y salidas para cero huecos
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Optimiza estancias para máxima rentabilidad
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Una plataforma. Múltiples fuentes de ingresos
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </div>
   );

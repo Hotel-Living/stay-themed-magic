@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
@@ -110,18 +109,26 @@ export function HotelAccordionMenuES() {
         <AccordionItem value="our-technology" className="overflow-hidden border-none shadow-xl">
           <AccordionTrigger className="px-6 py-4 text-left hover:no-underline bg-gradient-to-r from-[#730483] to-[#570366] rounded-t-xl border-l-6 border-[#FFF9B0] hover:from-[#8A0499] hover:to-[#660377] transition-all duration-300">
             <div className="text-[#FFF9B0] font-bold text-base md:text-lg">
-              6 - Nuestra Tecnología
+              6 – Inigualable segmentación hotelera
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-6 py-4 bg-[#560365]/90 backdrop-blur-md rounded-b-xl border-l-6 border-[#FFF9B0]/50">
             <div className="space-y-4 text-left py-4">
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Sistema de reservas avanzado
+                Segmentación precisa por interés y afinidad
               </p>
               <p className="text-base flex items-start text-[#FFF9B0]">
                 <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
-                Actualizaciones de disponibilidad en tiempo real
+                Marketing a comunidades motivadas, no viajeros aleatorios
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Alcance global con targeting híper-específico
+              </p>
+              <p className="text-base flex items-start text-[#FFF9B0]">
+                <span className="inline-block w-2 h-2 rounded-full bg-fuchsia-400 mr-2 mt-1.5"></span>
+                Tasas de conversión más altas. Costes de adquisición más bajos
               </p>
             </div>
           </AccordionContent>

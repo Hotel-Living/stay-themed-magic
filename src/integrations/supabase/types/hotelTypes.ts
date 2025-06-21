@@ -37,10 +37,13 @@ export type Hotel = {
   preferredWeekday?: string | null;
   rates?: Record<string, number>;
   pending_changes?: Record<string, any>;
+  // USE CORRECT SNAKE_CASE FIELD NAMES FOR DYNAMIC PRICING
   enable_price_increase?: boolean;
   price_increase_cap?: number;
+  // ADD THE NEW CAMELCASE COLUMNS FROM THE DATABASE
   enablePriceIncrease?: boolean;
   priceIncreaseCap?: number;
+  // Add the new pricingMatrix column
   pricingMatrix?: Array<{
     roomType: string;
     stayLength: string;

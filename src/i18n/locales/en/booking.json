@@ -1,17 +1,17 @@
 
 {
   "booking": {
-    "title": "Book your stay",
+    "title": "Book Your Stay",
     "checkIn": "Check-in",
     "checkOut": "Check-out",
     "guests": "Guests",
     "rooms": "Rooms",
     "adults": "Adults",
     "children": "Children",
-    "bookNow": "Book now",
-    "totalPrice": "Total price",
+    "bookNow": "Book Now",
+    "totalPrice": "Total Price",
     "pricePerNight": "per night",
-    "selectDates": "Select dates",
+    "selectDates": "Select your dates",
     "selectGuests": "Select guests",
     "availability": "Availability",
     "noAvailability": "No availability for selected dates",

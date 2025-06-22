@@ -1,7 +1,6 @@
 
-import './i18n/config' // Initialize i18n before the app starts
 import { createRoot } from 'react-dom/client'
-import AppWrapper from './AppWrapper.tsx'
+import App from './App.tsx'
 import './styles/index.css'
 import { supabase } from '@/integrations/supabase/client';
 
@@ -27,4 +26,4 @@ console.log('Application starting...', {
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
-createRoot(rootElement).render(<AppWrapper />);
+createRoot(rootElement).render(<App />);

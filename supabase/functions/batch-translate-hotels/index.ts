@@ -18,12 +18,6 @@ interface BatchTranslationRequest {
   languages?: ('es' | 'pt' | 'ro')[];
 }
 
-interface TranslationTask {
-  hotel: any;
-  language: string;
-  hotelName: string;
-}
-
 const getHotelsNeedingTranslation = async (languages: string[]) => {
   // Get all hotels
   const { data: hotels, error: hotelsError } = await supabase
@@ -88,25 +82,15 @@ const translateSingleHotel = async (hotel: any, targetLanguage: string) => {
   }
 };
 
-// Sequential delay function
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { batchSize = 5, languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
+    const { batchSize = 20, languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
 
-    console.log(`Starting sequential batch translation for languages: ${languages.join(', ')}`);
-    console.log(`Max batch size: ${batchSize}`);
-
-    // Check if OpenAI API key is configured
-    const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
-    if (!openAIApiKey) {
-      throw new Error('OpenAI API key is not configured. Please contact the administrator.');
-    }
+    console.log(`Starting batch translation process for languages: ${languages.join(', ')}`);
 
     // Get hotels that need translation
     const hotelsToTranslate = await getHotelsNeedingTranslation(languages);
@@ -119,9 +103,7 @@ serve(async (req) => {
           success: true,
           message: 'No hotels need translation',
           processed: 0,
-          errors: 0,
-          total: 0,
-          hasMore: false
+          total: 0
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -129,12 +111,16 @@ serve(async (req) => {
       );
     }
 
-    // Create sequential translation queue - flatten all hotel-language combinations
-    const translationQueue: TranslationTask[] = [];
-    
+    let processed = 0;
+    let errors = 0;
+    const results = [];
+
+    // Process hotels in batches
     const hotelsToProcess = hotelsToTranslate.slice(0, batchSize);
-    
+
     for (const hotel of hotelsToProcess) {
+      const hotelResults = [];
+      
       for (const language of languages) {
         // Check if this specific hotel-language combination needs translation
         const { data: existingTranslation } = await supabase
@@ -146,59 +132,36 @@ serve(async (req) => {
           .maybeSingle();
 
         if (!existingTranslation) {
-          translationQueue.push({
-            hotel,
-            language,
-            hotelName: hotel.name
-          });
+          console.log(`Translating hotel ${hotel.name} to ${language}`);
+          const result = await translateSingleHotel(hotel, language);
+          hotelResults.push({ language, ...result });
+          
+          if (!result.success) {
+            errors++;
+          }
+          
+          // Add small delay between translations to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
         }
       }
-    }
 
-    console.log(`Created translation queue with ${translationQueue.length} tasks`);
-
-    let processed = 0;
-    let errors = 0;
-    const results = [];
-
-    // Process translations sequentially with fixed 3-second delays
-    for (let i = 0; i < translationQueue.length; i++) {
-      const task = translationQueue[i];
-      
-      console.log(`Processing ${i + 1}/${translationQueue.length}: Translating hotel "${task.hotelName}" to ${task.language}`);
-      
-      const result = await translateSingleHotel(task.hotel, task.language);
-      
-      results.push({
-        hotelId: task.hotel.id,
-        hotelName: task.hotelName,
-        language: task.language,
-        success: result.success,
-        error: result.success ? null : result.error
-      });
-
-      if (result.success) {
-        console.log(`✓ Successfully translated hotel "${task.hotelName}" to ${task.language}`);
-      } else {
-        console.error(`✗ Failed to translate hotel "${task.hotelName}" to ${task.language}: ${result.error}`);
-        errors++;
+      if (hotelResults.length > 0) {
+        results.push({
+          hotelId: hotel.id,
+          hotelName: hotel.name,
+          translations: hotelResults
+        });
       }
 
       processed++;
-      
-      // Add 3-second delay between each translation (except after the last one)
-      if (i < translationQueue.length - 1) {
-        console.log(`Waiting 3 seconds before next translation...`);
-        await delay(3000);
-      }
     }
 
-    console.log(`Sequential batch translation completed. Processed: ${processed}, Errors: ${errors}`);
+    console.log(`Batch translation completed. Processed: ${processed}, Errors: ${errors}`);
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Sequential batch translation completed`,
+        message: `Batch translation completed`,
         processed,
         errors,
         total: hotelsToTranslate.length,
@@ -211,7 +174,7 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Sequential batch translation error:', error);
+    console.error('Batch translation error:', error);
 
     return new Response(
       JSON.stringify({

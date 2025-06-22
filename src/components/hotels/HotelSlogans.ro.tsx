@@ -10,14 +10,13 @@ export function HotelSlogansRO() {
         </h1>
         
         <div className="space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl mx-0 px-0 py-[13px] my-[17px]">
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl">Mereu Plin</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px]">Ocupare Completă</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">Multiplicarea Profiturilor</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">Șederi Mai Lungi</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Zi Fixă</p>
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl">Recuperarea Clienților</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Costuri Reduse</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px]">Stabilitatea Personalului</p>
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl px-8">În fiecare zi. Tot anul</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px] px-8">Multiplicarea profiturilor</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-8">Reducerea costurilor</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] px-8">Șederi mai lungi și profitabile</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-8">Recuperarea clienților Airbnb</p>
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl px-8">Stabilitate absolută a personalului</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-8">O zi fixă săptămânală pentru sosiri și plecări</p>
         </div>
       </div>
     </>;

@@ -7,89 +7,107 @@ export const WelcomeOverviewContentRO: React.FC = () => {
       <div className="glass-card rounded-2xl p-8 text-white border-fuchsia-500/20 bg-[#7a0486]">
         <div className="space-y-6 text-lg leading-relaxed">
           <p className="my-[9px] text-lg">
-            Dragă Partener Hotelier,<br />
-            Dă-ne camere și îți vom da un hotel plin.
+            👋 Stimat Partener Hotelier,
           </p>
           
           <p className="text-lg">
-            Imaginează-ți hotelul tău mereu plin.<br />
-            Nu mai sunt nopți goale.<br />
-            Nu mai sunt sezoane imprevizibile.<br />
-            Nu mai sunt reduceri de ultimă oră.<br />
-            Ocupare completă.
+            🏨 Dă-ne camerele tale goale.<br />
+            🏚️ Instalațiile tale cam lipsite de viață.<br />
+            🌟 Și îți vom da un hotel vibrant plin în fiecare zi a anului.
           </p>
           
           <p className="text-lg">
-            Dar asta nu e tot.<br />
-            Cu Hotel Living:<br />
-            Mai puține curățenii.<br />
-            Mai puțină spălătorie.<br />
-            Mai puține tranziții.<br />
-            Sarcini de lucru previzibile.<br />
-            Personal stabil.<br />
-            Reducerea costurilor.
+            💡 Da. Imaginează-ți hotelul tău mereu plin.<br />
+            ❌ Nu mai sunt nopți goale.<br />
+            📅 Nu mai sunt sezoane imprevizibile.<br />
+            ⚡ Nu mai sunt reduceri de ultimă oră.<br />
+            ✅ Ocupare completă.
           </p>
           
           <p className="text-lg">
-            Elimină haosul.<br />
-            Adu liniștea.
+            🛎️ Dar asta nu e tot. Cu Hotel Living:<br />
+            🚪 Mai puține intrări și ieșiri constante<br />
+            🧹 Mai puține curățenii.<br />
+            🧺 Mai puțină spălătorie.<br />
+            🎲 Mai puține surprize imprevizibile.<br />
+            👥 Optimizare mai mare a personalului.
           </p>
           
           <p className="text-lg">
-            Cine sunt oaspeții noștri?<br />
-            Profesioniști.<br />
-            Lucrători la distanță.<br />
-            Pensionari activi.<br />
-            Oameni care vor confort.<br />
-            Nu șederi scurte.
+            👔 Și da, personal stabil tot anul.
           </p>
           
           <p className="text-lg">
-            Rămân pentru că aparțin.
+            🕊️ Este vorba despre eliminarea haosului.<br />
+            🌊 De aducerea calmului.<br />
+            💸 De reducerea costurilor.<br />
+            🏠 De a fi mereu plin.
           </p>
           
           <p className="text-lg">
-            Construind comunități.<br />
-            Interese comune.<br />
-            Activități tematice.<br />
-            Legături sociale.<br />
-            Loialitate pe termen lung.
+            🙋‍♂️ Cine sunt oaspeții noștri?<br />
+            👫 Aproape jumătate din populație singură sau în cupluri<br />
+            💡 Care dorește să trăiască mai bine.<br />
+            ✔️ Cu toate serviciile, funcțiile de bază rezolvate.<br />
+            📄 Fără facturi multiple. Fără singurătate.<br />
+            🔒 Cu securitatea proprie fiecărui hotel.<br />
+            🤝 Cu atenția și serviciile proprii fiecărui hotel.
           </p>
           
           <p className="text-lg">
-            Hoteluri de afinitate.<br />
-            Oaspeții rămân mai mult.
+            🍽️ Poate cu mesele și spălătoria rezolvate.
           </p>
           
           <p className="text-lg">
-            În timp ce închirierile de vacanță<br />
-            Aduc clienții înapoi.
+            🎭 Mulți, în hoteluri care adună oameni cu propriile lor interese.<br />
+            🏠 Mulți, sătui de dificultățile închirierii.
           </p>
           
           <p className="text-lg">
-            Sistem simplu.<br />
-            O singură zi de check-in.<br />
-            Operațiune lină.<br />
-            Sezon înalt tot anul.<br />
-            Profitabilitate maximă.
+            👴 Sunt milioane de pensionari activi.<br />
+            👨‍💻 De oameni sătui să închirieze.<br />
+            🌐 Milioane de lucrători la distanță.<br />
+            👥 Populație de tot felul care vrea confort.
           </p>
           
           <p className="text-lg">
-            Nu doar alt model.<br />
-            Viitorul managementului.
+            🌱 O viață mai bună. Nu șederi rapide.
           </p>
           
           <p className="text-lg">
-            Mai puțin stres.<br />
-            Mai multe venituri.<br />
-            Echipe stabile.<br />
-            Oaspeți fericiți.<br />
-            Hoteluri câștigătoare.
+            👫 Mulți, construind comunități.<br />
+            🤝 Cu interese comune.<br />
+            💬 Dornici de legături sociale.
+          </p>
+          
+          <p className="text-lg">
+            🕒 Sunt clienți pe termen mediu și lung. De mai mare loialitate.<br />
+            ✅ Clienți aleși care rămân mai mult timp.<br />
+            🏨 Pentru hoteluri care doresc să-și selecteze propriii clienți.
+          </p>
+          
+          <p className="text-lg">
+            📈 Să recuperăm clienții care au plecat la apartamente.<br />
+            👥 Să recâștigăm milioane și milioane de clienți.
+          </p>
+          
+          <p className="text-lg">
+            🛡️ Hotel-Living a creat sistemul.
+          </p>
+          
+          <p className="text-lg">
+            ⛔ Zero camere mereu goale atâtea luni în fiecare an.<br />
+            🔥 Sezon înalt constant. Tot anul.
+          </p>
+          
+          <p className="text-lg">
+            📅 O singură zi săptămânală de intrări și ieșiri.<br />
+            🧹 Zero goluri între șederi. Zero curățenii constante.<br />
+            💰 Rentabilitate maximă. Mai puțin stres.
           </p>
           
           <p className="text-base">
-            <strong className="rounded-full">Umple camerele.<br />
-            Preia controlul.</strong>
+            <strong className="rounded-full">🎯 Umplerea camerelor înseamnă preluarea controlului.</strong>
           </p>
         </div>
       </div>

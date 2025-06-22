@@ -7,89 +7,107 @@ export const WelcomeOverviewContentEN: React.FC = () => {
       <div className="glass-card rounded-2xl p-8 text-white border-fuchsia-500/20 bg-[#7a0486]">
         <div className="space-y-6 text-lg leading-relaxed">
           <p className="my-[9px] text-lg">
-            Dear Hotel Partner,<br />
-            Give us rooms and we'll give you a full hotel.
+            👋 Dear Hotel Partner,
           </p>
           
           <p className="text-lg">
-            Imagine your hotel always full.<br />
-            No more empty nights.<br />
-            No more unpredictable seasons.<br />
-            No more last-minute discounts.<br />
-            Full occupancy.
+            🏨 Give us your empty rooms.<br />
+            🏚️ Your facilities somewhat lacking in life.<br />
+            🌟 And we'll give you a vibrant hotel full every day of the year.
           </p>
           
           <p className="text-lg">
-            But that's not all.<br />
-            With Hotel Living:<br />
-            Fewer cleanings.<br />
-            Less laundry.<br />
-            Fewer transitions.<br />
-            Predictable workloads.<br />
-            Stable staff.<br />
-            Reduce costs.
+            💡 Yes. Imagine your hotel always full.<br />
+            ❌ No more empty nights.<br />
+            📅 No more unpredictable seasons.<br />
+            ⚡ No more last-minute discounts.<br />
+            ✅ Complete occupancy.
           </p>
           
           <p className="text-lg">
-            Eliminate chaos.<br />
-            Bring calm.
+            🛎️ But that's not all. With Hotel Living:<br />
+            🚪 Fewer constant check-ins and check-outs<br />
+            🧹 Less cleaning.<br />
+            🧺 Less laundry.<br />
+            🎲 Fewer unpredictable surprises.<br />
+            👥 Greater staff optimization.
           </p>
           
           <p className="text-lg">
-            Who are our guests?<br />
-            Professionals.<br />
-            Remote workers.<br />
-            Active retirees.<br />
-            People who want comfort.<br />
-            Not quick stays.
+            👔 And yes, stable staff year-round.
           </p>
           
           <p className="text-lg">
-            They stay because they belong.
+            🕊️ It's about eliminating chaos.<br />
+            🌊 Bringing calm.<br />
+            💸 Reducing costs.<br />
+            🏠 Being always full.
           </p>
           
           <p className="text-lg">
-            Building communities.<br />
-            Shared interests.<br />
-            Themed activities.<br />
-            Social bonds.<br />
-            Long-term loyalty.
+            🙋‍♂️ Who are our guests?<br />
+            👫 Nearly half the population alone or in couples<br />
+            💡 Who want to live better.<br />
+            ✔️ With all services, basic functions resolved.<br />
+            📄 Without multiple bills. Without loneliness.<br />
+            🔒 With the security inherent in every hotel.<br />
+            🤝 With the attention and services inherent in every hotel.
           </p>
           
           <p className="text-lg">
-            Affinity hotels.<br />
-            Guests stay longer.
+            🍽️ Perhaps with meals and laundry resolved.
           </p>
           
           <p className="text-lg">
-            While vacation rentals<br />
-            Bring customers back.
+            🎭 Many, in hotels that bring together people with their own interests.<br />
+            🏠 Many, tired of rental difficulties.
           </p>
           
           <p className="text-lg">
-            Simple system.<br />
-            Single check-in day.<br />
-            Smooth operation.<br />
-            High season all year.<br />
-            Maximum profitability.
+            👴 They are millions of active retirees.<br />
+            👨‍💻 People tired of renting.<br />
+            🌐 Millions of remote workers.<br />
+            👥 Population of all kinds who want comfort.
           </p>
           
           <p className="text-lg">
-            Not just another model.<br />
-            Future of management.
+            🌱 A better life. Not quick stays.
           </p>
           
           <p className="text-lg">
-            Less stress.<br />
-            More revenue.<br />
-            Stable teams.<br />
-            Happy guests.<br />
-            Hotels winning.
+            👫 Many, building communities.<br />
+            🤝 With shared interests.<br />
+            💬 Eager for social bonds.
+          </p>
+          
+          <p className="text-lg">
+            🕒 They are medium and long-term clients. Of greater loyalty.<br />
+            ✅ Chosen clients who stay longer.<br />
+            🏨 For hotels that want to select their own clients.
+          </p>
+          
+          <p className="text-lg">
+            📈 Let's recover the clients who went to apartments.<br />
+            👥 Let's reclaim millions and millions of clients.
+          </p>
+          
+          <p className="text-lg">
+            🛡️ Hotel-Living has created the system.
+          </p>
+          
+          <p className="text-lg">
+            ⛔ Zero rooms always empty so many months each year.<br />
+            🔥 Constant high season. The entire year.
+          </p>
+          
+          <p className="text-lg">
+            📅 A single weekly day of check-ins and check-outs.<br />
+            🧹 Zero gaps between stays. Zero constant cleaning.<br />
+            💰 Maximum profitability. Less stress.
           </p>
           
           <p className="text-base">
-            <strong className="rounded-full">Fill rooms.<br />
-            Take control.</strong>
+            <strong className="rounded-full">🎯 Filling rooms is taking control.</strong>
           </p>
         </div>
       </div>

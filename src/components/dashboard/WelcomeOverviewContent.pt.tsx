@@ -7,89 +7,107 @@ export const WelcomeOverviewContentPT: React.FC = () => {
       <div className="glass-card rounded-2xl p-8 text-white border-fuchsia-500/20 bg-[#7a0486]">
         <div className="space-y-6 text-lg leading-relaxed">
           <p className="my-[9px] text-lg">
-            Caro Parceiro Hoteleiro,<br />
-            Nos dê quartos e daremos a você um hotel cheio.
+            👋 Estimado Parceiro Hoteleiro,
           </p>
           
           <p className="text-lg">
-            Imagine seu hotel sempre cheio.<br />
-            Não mais noites vazias.<br />
-            Não mais temporadas imprevisíveis.<br />
-            Não mais descontos de última hora.<br />
-            Ocupação completa.
+            🏨 Nos dê seus quartos vazios.<br />
+            🏚️ Suas instalações um pouco sem vida.<br />
+            🌟 E lhe daremos um hotel vibrante cheio todos os dias do ano.
           </p>
           
           <p className="text-lg">
-            Mas isso não é tudo.<br />
-            Com Hotel Living:<br />
-            Menos limpezas.<br />
-            Menos lavanderia.<br />
-            Menos transições.<br />
-            Cargas de trabalho previsíveis.<br />
-            Equipe estável.<br />
-            Reduzir custos.
+            💡 Sim. Imagine seu hotel sempre cheio.<br />
+            ❌ Não mais noites vazias.<br />
+            📅 Não mais temporadas imprevisíveis.<br />
+            ⚡ Não mais descontos de última hora.<br />
+            ✅ Ocupação completa.
           </p>
           
           <p className="text-lg">
-            Eliminar o caos.<br />
-            Trazer calma.
+            🛎️ Mas isso não é tudo. Com Hotel Living:<br />
+            🚪 Menos entradas e saídas constantes<br />
+            🧹 Menos limpezas.<br />
+            🧺 Menos lavanderia.<br />
+            🎲 Menos surpresas imprevisíveis.<br />
+            👥 Maior otimização de pessoal.
           </p>
           
           <p className="text-lg">
-            Quem são nossos hóspedes?<br />
-            Profissionais.<br />
-            Trabalhadores remotos.<br />
-            Aposentados ativos.<br />
-            Pessoas que querem conforto.<br />
-            Não estadias rápidas.
+            👔 E sim, pessoal estável o ano todo.
           </p>
           
           <p className="text-lg">
-            Eles ficam porque pertencem.
+            🕊️ Trata-se de eliminar o caos.<br />
+            🌊 De trazer calma.<br />
+            💸 De reduzir custos.<br />
+            🏠 De estar sempre cheio.
           </p>
           
           <p className="text-lg">
-            Construindo comunidades.<br />
-            Interesses compartilhados.<br />
-            Atividades temáticas.<br />
-            Laços sociais.<br />
-            Lealdade a longo prazo.
+            🙋‍♂️ Quem são nossos hóspedes?<br />
+            👫 Quase metade da população sozinha ou em casais<br />
+            💡 Que deseja viver melhor.<br />
+            ✔️ Com todos os serviços, funções básicas resolvidas.<br />
+            📄 Sem múltiplas contas. Sem solidão.<br />
+            🔒 Com a segurança própria de todo hotel.<br />
+            🤝 Com as atenções e serviços próprios de todo hotel.
           </p>
           
           <p className="text-lg">
-            Hotéis de afinidade.<br />
-            Hóspedes ficam mais tempo.
+            🍽️ Talvez com as refeições e a lavanderia resolvidas.
           </p>
           
           <p className="text-lg">
-            Enquanto aluguéis de temporada<br />
-            Trazem clientes de volta.
+            🎭 Muitos, em hotéis que congregam pessoas com seus próprios interesses.<br />
+            🏠 Muitos, fartos das dificuldades de alugar.
           </p>
           
           <p className="text-lg">
-            Sistema simples.<br />
-            Dia único de check-in.<br />
-            Operação suave.<br />
-            Alta temporada o ano todo.<br />
-            Máxima rentabilidade.
+            👴 São milhões de aposentados ativos.<br />
+            👨‍💻 De pessoas fartas de alugar.<br />
+            🌐 Milhões de trabalhadores remotos.<br />
+            👥 População de todo tipo que quer comodidade.
           </p>
           
           <p className="text-lg">
-            Não apenas outro modelo.<br />
-            Futuro da gestão.
+            🌱 Uma vida melhor. Não estadias rápidas.
           </p>
           
           <p className="text-lg">
-            Menos estresse.<br />
-            Mais receita.<br />
-            Equipes estáveis.<br />
-            Hóspedes felizes.<br />
-            Hotéis vencendo.
+            👫 Muitos, construindo comunidades.<br />
+            🤝 Com interesses compartilhados.<br />
+            💬 Desejosos de vínculos sociais.
+          </p>
+          
+          <p className="text-lg">
+            🕒 São clientes de médio e longo prazo. De maior lealdade.<br />
+            ✅ Clientes escolhidos que ficam mais tempo.<br />
+            🏨 Para hotéis que desejam selecionar seus próprios clientes.
+          </p>
+          
+          <p className="text-lg">
+            📈 Recuperemos os clientes que foram para apartamentos.<br />
+            👥 Reconquistemos milhões e milhões de clientes.
+          </p>
+          
+          <p className="text-lg">
+            🛡️ Hotel-Living criou o sistema.
+          </p>
+          
+          <p className="text-lg">
+            ⛔ Zero quartos sempre vazios tantos meses cada ano.<br />
+            🔥 Temporada alta constante. O ano inteiro.
+          </p>
+          
+          <p className="text-lg">
+            📅 Um único dia semanal de entradas e saídas.<br />
+            🧹 Zero lacunas entre estadias. Zero limpezas constantes.<br />
+            💰 Máxima rentabilidade. Menos estresse.
           </p>
           
           <p className="text-base">
-            <strong className="rounded-full">Preencher quartos.<br />
-            Assumir controle.</strong>
+            <strong className="rounded-full">🎯 Encher quartos é assumir o controle.</strong>
           </p>
         </div>
       </div>

@@ -9,7 +9,6 @@ import { lifestyleFaqs } from "./faqData/lifestyleFaqs";
 import { seniorFaqs } from "./faqData/seniorFaqs";
 import { communityFaqs } from "./faqData/communityFaqs";
 import { practicalFaqs } from "./faqData/practicalFaqs";
-import { commuterFaqs } from "./faqData/commuterFaqs";
 
 // Benefits list for travelers
 export const benefitsTravelersList = [
@@ -31,8 +30,7 @@ export const faqTravelersCategories: FaqCategory[] = [
   { id: "lifestyle", name: "Digital Nomads?" },
   { id: "senior", name: "SENIOR?" },
   { id: "community", name: "Community?" },
-  { id: "practical", name: "Practical Details?" },
-  { id: "commuter", name: "Far from work?" }
+  { id: "practical", name: "Practical Details?" }
 ];
 
 // FAQ content organized by category for travelers
@@ -45,6 +43,5 @@ export const faqTravelersByCategory: Record<string, FaqItem[]> = {
   lifestyle: lifestyleFaqs,
   senior: seniorFaqs,
   community: communityFaqs,
-  practical: practicalFaqs,
-  commuter: commuterFaqs
+  practical: practicalFaqs
 };

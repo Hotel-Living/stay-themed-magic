@@ -44,9 +44,7 @@ export const seniorFaqs: FaqItem[] = [
   },
   {
     question: "Mas posso ter acesso a um médico ou algum tipo de suporte médico se ficar numa propriedade Hotel-Living?",
-    answer: "Sim, muitas propriedades Hotel Living oferecem suporte médico leve como um conforto adicional. Alguns hotéis organizam visitas semanais ou até diárias de um médico local, enqu
-
-to outros fornecem acesso de emergência em caso de qualquer preocupação. Não é uma instalação médica, mas te dá paz de espírito — sabendo que há um profissional por perto se você precisar fazer uma pergunta ou fazer um check-up rápido."
+    answer: "Sim, muitas propriedades Hotel Living oferecem suporte médico leve como um conforto adicional. Alguns hotéis organizam visitas semanais ou até diárias de um médico local, enquanto outros fornecem acesso de emergência em caso de qualquer preocupação. Não é uma instalação médica, mas te dá paz de espírito — sabendo que há um profissional por perto se você precisar fazer uma pergunta ou fazer um check-up rápido."
   },
   {
     question: "Por que eu escolheria um hotel em vez de uma residência de aposentadoria adequada?",

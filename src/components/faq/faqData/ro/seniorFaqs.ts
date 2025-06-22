@@ -24,9 +24,7 @@ export const seniorFaqs: FaqItem[] = [
   },
   {
     question: "Este aceasta doar pentru oameni bogați?",
-    answer: "Deloc. Hotel Living a fost creat pentru a fi accesibil. Ideea este să transforme camerele care altfel ar rămâne goale în opțiuni de ședere lungă pentru oam
-
-ni ca tine. De aceea prețurile sunt atât de rezonabile — adesea similare cu ceea ce ai plăti doar să trăiești pe cont propriu."
+    answer: "Deloc. Hotel Living a fost creat pentru a fi accesibil. Ideea este să transforme camerele care altfel ar rămâne goale în opțiuni de ședere lungă pentru oameni ca tine. De aceea prețurile sunt atât de rezonabile — adesea similare cu ceea ce ai plăti doar să trăiești pe cont propriu."
   },
   {
     question: "Poate Hotel Living să înlocuiască cu adevărat opțiunile tradiționale de viață pentru seniori?",

@@ -28,9 +28,7 @@ export const generalFaqs: FaqItem[] = [
   },
   {
     question: "Pot să stau în hoteluri la prețuri excelente?",
-    answer: "Absolut! Oferim prețuri competitive pentru șederi extinse care sunt deseori comparabile cu ceea ce ai plăti pentru locuințe tradiționale sau, desigur, apartamente închiri
-
-, dar cu toate beneficiile suplimentare ale vieții hoteliere și fără niciun inconvenient."
+    answer: "Absolut! Oferim prețuri competitive pentru șederi extinse care sunt deseori comparabile cu ceea ce ai plăti pentru locuințe tradiționale sau, desigur, apartamente închiriate, dar cu toate beneficiile suplimentare ale vieții hoteliere și fără niciun inconvenient."
   },
   {
     question: "Cum pot să mă bucur de locuri noi, afinități și oameni în mod continuu?",

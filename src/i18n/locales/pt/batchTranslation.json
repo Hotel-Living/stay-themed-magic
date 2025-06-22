@@ -1,0 +1,30 @@
+
+{
+  "batchTranslation": {
+    "title": "Execução de Tradução em Lote",
+    "description": "Traduzindo todos os hotéis existentes para espanhol, português e romeno",
+    "stats": {
+      "totalHotels": "Total de Hotéis",
+      "translated": "Traduzidos",
+      "pending": "Pendentes"
+    },
+    "progress": {
+      "title": "Progresso da Tradução",
+      "overallCompletion": "Conclusão Geral",
+      "processing": "Processando traduções...",
+      "completed": "Tradução em lote concluída"
+    },
+    "results": {
+      "title": "Últimos Resultados do Lote",
+      "processed": "Processados:",
+      "errors": "Erros:",
+      "totalFound": "Total Encontrados:",
+      "moreAvailable": "Mais hotéis disponíveis para tradução"
+    },
+    "buttons": {
+      "runAgain": "Executar Tradução Novamente",
+      "goBack": "Voltar ao Hotel",
+      "processing": "Processando..."
+    }
+  }
+}

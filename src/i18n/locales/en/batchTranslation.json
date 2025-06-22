@@ -1,0 +1,30 @@
+
+{
+  "batchTranslation": {
+    "title": "Batch Translation Execution",
+    "description": "Translating all existing hotels to Spanish, Portuguese, and Romanian",
+    "stats": {
+      "totalHotels": "Total Hotels",
+      "translated": "Translated",
+      "pending": "Pending"
+    },
+    "progress": {
+      "title": "Translation Progress",
+      "overallCompletion": "Overall Completion",
+      "processing": "Processing translations...",
+      "completed": "Batch translation completed"
+    },
+    "results": {
+      "title": "Latest Batch Results",
+      "processed": "Processed:",
+      "errors": "Errors:",
+      "totalFound": "Total Found:",
+      "moreAvailable": "More hotels available for translation"
+    },
+    "buttons": {
+      "runAgain": "Run Translation Again",
+      "goBack": "Go Back to Hotel",
+      "processing": "Processing..."
+    }
+  }
+}

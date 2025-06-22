@@ -407,6 +407,59 @@ export type Database = {
           },
         ]
       }
+      hotel_translations: {
+        Row: {
+          auto_generated: boolean
+          created_at: string
+          hotel_id: string
+          id: string
+          language_code: string
+          translated_atmosphere: string | null
+          translated_description: string | null
+          translated_ideal_guests: string | null
+          translated_name: string | null
+          translated_perfect_location: string | null
+          translation_status: string
+          updated_at: string
+        }
+        Insert: {
+          auto_generated?: boolean
+          created_at?: string
+          hotel_id: string
+          id?: string
+          language_code: string
+          translated_atmosphere?: string | null
+          translated_description?: string | null
+          translated_ideal_guests?: string | null
+          translated_name?: string | null
+          translated_perfect_location?: string | null
+          translation_status?: string
+          updated_at?: string
+        }
+        Update: {
+          auto_generated?: boolean
+          created_at?: string
+          hotel_id?: string
+          id?: string
+          language_code?: string
+          translated_atmosphere?: string | null
+          translated_description?: string | null
+          translated_ideal_guests?: string | null
+          translated_name?: string | null
+          translated_perfect_location?: string | null
+          translation_status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hotel_translations_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hotels: {
         Row: {
           address: string | null

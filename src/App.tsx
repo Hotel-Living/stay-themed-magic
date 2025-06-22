@@ -10,6 +10,7 @@ import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ExecuteBatchTranslation from "@/pages/ExecuteBatchTranslation";
+import Search from "@/pages/Search";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/execute-batch-translation" element={<ExecuteBatchTranslation />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
           <Toaster />
         </Router>

@@ -1,8 +1,8 @@
 
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './styles/index.css'
 import './i18n/config' // Initialize i18n before the app starts
+import { createRoot } from 'react-dom/client'
+import AppWrapper from './AppWrapper.tsx'
+import './styles/index.css'
 import { supabase } from '@/integrations/supabase/client';
 
 // Enable enhanced realtime for reviews table
@@ -27,4 +27,4 @@ console.log('Application starting...', {
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
-createRoot(rootElement).render(<App />);
+createRoot(rootElement).render(<AppWrapper />);

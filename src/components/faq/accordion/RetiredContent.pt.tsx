@@ -5,22 +5,43 @@ import { QuestionGroup } from "./QuestionGroup";
 export function RetiredContentPT() {
   const questionGroups = [
     [
-      "Como o hotel-living pode beneficiar aposentados com renda fixa?",
-      "Quais são as vantagens sociais do hotel-living para aposentados?",
-      "Como mantenho a cobertura de saúde enquanto vivo em hotéis?",
-      "Posso obter descontos para idosos em estadias prolongadas?"
+      "Por que limitar sua vida quando o mundo está esperando por você?",
+      "Por que ficar em um só lugar quando viver em muitos te mantém jovem?",
+      "Por que reduzir sua vida quando a aposentadoria é o momento de ampliá-la?",
+      "Por que viver em apenas uma casa quando você poderia viver entre cidades, países e culturas?"
     ],
     [
-      "E quanto às considerações do Medicare e seguros?",
-      "Como lido com medicamentos prescritos enquanto viajo?",
-      "Posso manter relacionamentos com meus médicos atuais?",
-      "Que serviços médicos de emergência estão disponíveis?"
+      "Por que se contentar com a quietude quando o movimento traz de volta a vitalidade?",
+      "Por que esperar para se sentir vivo quando sua próxima viagem começa na sua porta?",
+      "Por que escolher a rotina quando você pode escolher aventura, elegância e surpresa?",
+      "Por que se cercar do passado quando você pode construir um presente digno de se lembrar?"
     ],
     [
-      "Como me mantenho conectado com família e netos?",
-      "Que atividades sociais estão disponíveis para idosos?",
-      "Posso encontrar comunidades apropriadas para minha idade em hotéis?",
-      "Como combato a solidão e isolamento?"
+      "Por que ver sempre os mesmos rostos quando cada viagem traz novas histórias?",
+      "Por que se apegar às zonas de conforto quando o verdadeiro conforto da vida é descobrir?",
+      "Por que envelhecer em silêncio quando você pode fazer isso com alegria, coragem e beleza?",
+      "Por que se vestir descuidadamente quando Hotel-Living te dá razões para se arrumar novamente?"
+    ],
+    [
+      "Por que se isolar quando uma vida vibrante te espera bem do lado de fora do seu quarto?",
+      "Por que comer sozinho quando sua mesa pode ser preenchida com novos amigos?",
+      "Por que esperar por visitas quando cada corredor guarda um rosto amigável?",
+      "Por que ser invisível na sua própria casa quando toda manhã alguém te cumprimenta pelo nome?"
+    ],
+    [
+      "Por que lidar com reparos, ruído ou vizinhos quando Hotel-Living gerencia tudo para você?",
+      "Por que ter a casa vazia quando você poderia alugá-la e preencher sua vida em vez disso?",
+      "Por que dormir atrás de uma porta simples quando Hotel-Living te oferece cuidado e presença 24/7?",
+      "Por que arriscar o silêncio quando a ajuda está a apenas um toque de distância?"
+    ],
+    [
+      "Por que se preocupar com quem está na porta quando a segurança do hotel já sabe?",
+      "Por que ficar atrás de portas fechadas quando segurança, calor e cuidado estão integrados no Hotel-Living?",
+      "Por que enfrentar emergências sozinho quando sempre há equipe preparada por perto?",
+      "Por que temer quedas, acidentes ou noites solitárias quando você nunca mais estará verdadeiramente sozinho?"
+    ],
+    [
+      "Por que viver com medo quando sempre há alguém que sabe que você está lá e se importa com você?"
     ]
   ];
 

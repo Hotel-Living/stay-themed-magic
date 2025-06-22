@@ -5,14 +5,14 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelDetailContent } from "@/components/hotel-detail/HotelDetailContent";
 import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
-import { useHotelDetail } from "@/hooks/useHotelDetail";
+import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTranslations";
 import { useToast } from "@/hooks/use-toast";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   
-  const { data: hotel, isLoading, error } = useHotelDetail(id);
+  const { data: hotel, isLoading, error, hasTranslation } = useHotelDetailWithTranslations(id);
   
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -28,7 +28,10 @@
       "seasonalRates": "Seasonal Rates",
       "peakSeason": "Peak Season",
       "lowSeason": "Low Season",
-      "standardSeason": "Standard Season"
+      "standardSeason": "Standard Season",
+      "selectStayDurations": "Select Stay Durations",
+      "singleCheckinCheckout": "Single Check-in/Check-out",
+      "selectCheckinDay": "Select Check-in Day"
     }
   }
 }

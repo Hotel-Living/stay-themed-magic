@@ -2,7 +2,7 @@
 {
   "filters": {
     "all": "Todos",
-    "country": "PAÍS",
+    "country": "País",
     "city": "Cidade",
     "price": "Preço",
     "stars": "Estrelas",
@@ -14,29 +14,12 @@
     "pricePerMonth": "PREÇO POR MÊS",
     "affinity": "AFINIDADE",
     "month": "MÊS",
-    "roomFeatures": "Características do quarto",
-    "hotelFeatures": "Características do hotel",
-    "roomTypes": {
-      "title": "Tipos de quarto",
-      "single": "Individual",
-      "double": "Duplo",
-      "suite": "Suíte",
-      "studio": "Estúdio",
-      "penthouse": "Cobertura",
-      "familyRoom": "Quarto familiar"
-    },
-    "typeOfProperty": "Tipo de propriedade",
-    "location": "Localização",
-    "category": "Categoria",
-    "styleOfProperty": "Estilo da propriedade",
-    "meals": "Regime de refeições",
-    "lengthOfStay": "Duração da estadia",
-    "resetAllFilters": "Redefinir todos os filtros",
+    "country": "PAÍS",
     "priceRanges": {
-      "upTo1000": "Até R$ 1.000",
-      "1000to1500": "R$ 1.000 a R$ 1.500",
-      "1500to2000": "R$ 1.500 a R$ 2.000",
-      "moreThan2000": "Mais de R$ 2.000"
+      "upTo1000": "Até 1.000 €",
+      "1000to1500": "1.000 € a 1.500 €",
+      "1500to2000": "1.500 € a 2.000 €",
+      "moreThan2000": "Mais de 2.000 €"
     },
     "months": {
       "january": "Janeiro",
@@ -63,62 +46,6 @@
       "germany": "Alemanha 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grécia 🇬🇷"
-    },
-    "propertyTypes": {
-      "hotel": "Hotel",
-      "resort": "Resort",
-      "boutiqueHotel": "Hotel boutique",
-      "motel": "Motel",
-      "inn": "Pousada"
-    },
-    "propertyStyles": {
-      "classic": "Clássico",
-      "classicElegant": "Clássico elegante",
-      "modern": "Moderno",
-      "fusion": "Fusão",
-      "urban": "Urbano",
-      "minimalist": "Minimalista",
-      "luxury": "Luxo"
-    },
-    "categories": {
-      "1star": "1 estrela",
-      "2stars": "2 estrelas",
-      "3stars": "3 estrelas",
-      "4stars": "4 estrelas",
-      "5stars": "5 estrelas"
-    },
-    "mealPlans": {
-      "breakfastIncluded": "Café da manhã incluído",
-      "halfBoard": "Meia pensão",
-      "fullBoard": "Pensão completa",
-      "allInclusive": "Tudo incluído",
-      "laundry": "Lavanderia",
-      "externalLaundryService": "Serviço de lavanderia externo disponível"
-    },
-    "stayLengths": {
-      "8days": "8 dias",
-      "16days": "16 dias",
-      "24days": "24 dias",
-      "32days": "32 dias"
-    },
-    "affinities": {
-      "art": "Arte",
-      "business": "Negócios",
-      "culture": "Cultura",
-      "education": "Educação",
-      "entertainment": "Entretenimento",
-      "foodAndDrinks": "Gastronomia e Bebidas",
-      "healthAndWellness": "Saúde e Bem-estar",
-      "history": "História",
-      "hobbies": "Hobbies",
-      "languages": "Idiomas",
-      "lifestyle": "Estilo de Vida",
-      "nature": "Natureza",
-      "personalDevelopment": "Desenvolvimento Pessoal",
-      "relationships": "Relacionamentos",
-      "scienceAndTechnology": "Ciência e Tecnologia",
-      "socialImpact": "Impacto Social",
-      "sports": "Esportes"
     }
   }
 }

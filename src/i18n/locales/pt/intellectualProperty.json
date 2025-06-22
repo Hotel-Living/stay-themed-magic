@@ -2,23 +2,7 @@
 {
   "intellectualProperty": {
     "title": "Direitos de Propriedade Intelectual",
-    "content1": "O Hotel-Living.com e todo seu conteúdo, características e funcionalidade (incluindo, mas não limitado a todas as informações, software, texto, displays, imagens, vídeo e áudio, e o design, seleção e arranjo dos mesmos) são propriedade do Hotel-Living.com, seus licenciadores ou outros provedores de tal material e são protegidos por leis internacionais de direitos autorais, marca registrada, patente, segredo comercial e outras leis de propriedade intelectual ou proprietárias.",
-    "content2": "Este site, bem como seu sistema inovador de reservas, estão registrados e protegidos internacionalmente tanto como Modelos de Utilidade quanto por Direitos Autorais. Qualquer reprodução ou cópia do sistema será perseguida legalmente. Interessados em franquias nacionais podem nos contatar.",
-    "trademarks": {
-      "title": "Marcas Registradas",
-      "content": "O nome Hotel-Living, logotipo e todos os nomes, logotipos, nomes de produtos e serviços, designs e slogans relacionados são marcas registradas do Hotel-Living.com ou seus afiliados ou licenciadores. Você não deve usar tais marcas sem a permissão prévia por escrito do Hotel-Living.com."
-    },
-    "copyright": {
-      "title": "Aviso de Direitos Autorais",
-      "content": "© {year} Hotel-Living.com. Todos os direitos reservados. Nenhuma parte deste site pode ser reproduzida, distribuída ou transmitida de qualquer forma ou por qualquer meio, incluindo fotocópia, gravação ou outros métodos eletrônicos ou mecânicos, sem a permissão prévia por escrito do proprietário."
-    },
-    "patent": {
-      "title": "Informações de Patente",
-      "content": "Vários aspectos da plataforma Hotel-Living.com e do sistema de reservas são protegidos por patente ou têm patente pendente. O uso, reprodução ou distribuição não autorizados dessas tecnologias é estritamente proibido."
-    },
-    "contact": {
-      "title": "Informações de Contato",
-      "content": "Para consultas sobre direitos de propriedade intelectual, permissões ou oportunidades de franquia, por favor, não hesite em nos contatar preenchendo o formulário que você encontrará em {contactLink}"
-    }
+    "content1": "Hotel-Living.com e todo o seu conteúdo, características e funcionalidade estão protegidos pelas leis internacionais de direitos de autor, marcas comerciais, patentes e outros direitos de propriedade intelectual.",
+    "content2": "Este site, bem como o seu inovador sistema de reservas, estão registados e prot egidos internacionalmente tanto como Modelos de Utilidade como por Direitos de Autor."
   }
 }

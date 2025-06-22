@@ -1,12 +1,11 @@
 
 {
   "privacy": {
-    "title": "Politica de confidențialitate și cookies",
-    "content": "Politica noastră de confidențialitate și cookies va fi afișată aici.",
-    "lastUpdated": "Ultima actualizare:",
-    "dataCollection": "Colectarea datelor",
-    "dataUsage": "Utilizarea datelor",
-    "cookies": "Cookies",
-    "rights": "Drepturile dvs."
+    "title": "Confidențialitate și Cookie-uri",
+    "introduction": {
+      "title": "Introducere",
+      "content1": "Suntem angajați să îți protejăm confidențialitatea și să asigurăm securitatea datelor tale.",
+      "content2": "La Hotel-Living.com, respectăm confidențialitatea ta și suntem angajați să o protejăm."
+    }
   }
 }

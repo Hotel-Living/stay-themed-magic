@@ -1,44 +1,14 @@
 
 {
   "ourValues": {
-    "title": "Valorile și standardele noastre",
+    "title": "Valorile și Standardele Noastre",
     "respect": {
       "title": "Respect",
-      "content": "Cerem respect în interacțiunile dintre angajații, clienții și partenerii noștri. Nu acceptăm nicio formă de hărțuire, discriminare, manipulare, violență fizică sau orice alt comportament abuziv sau amenințător."
+      "content": "Cerem respect în interacțiunile dintre angajații, clienții și partenerii noștri."
     },
     "community": {
       "title": "Comunitate",
-      "content": "Când stați la o cazare sau folosiți alte servicii Hotel-Living.com, vă rugăm să aveți în vedere comunitatea locală. Încercați să limitați sau să minimizați zgomotul care ar putea deranja cartierul, respectați legile și tradițiile locale și fiți atenți la impactul vostru asupra mediului."
-    },
-    "integrity": {
-      "title": "Integritate",
-      "content": "La Hotel-Living.com, ne așteptăm ca partenerii și clienții noștri să interacționeze prin platforma noastră cu onestitate și profesionalism, să nu se prezinte fals și să respecte acordurile la care ajung."
-    },
-    "compliance": {
-      "title": "Respectarea legii",
-      "content": "Hotel-Living.com nu tolerează furtul, vandalismul, activitățile criminale sau extorcarea. Orice tip de activitate ilegală sau periculoasă poate duce la blocarea contului sau a cazării."
-    },
-    "safety": {
-      "title": "Siguranța fizică",
-      "content": "La Hotel-Living.com, siguranța fizică a clienților, partenerilor și angajaților noștri este prioritatea noastră. Prin urmare, vă rugăm să nu participați sau să promovați activități care pot cauza rău altora sau să fie considerate cruzime față de animale."
-    },
-    "personalInfo": {
-      "title": "Informații personale",
-      "content": "Hotel-Living.com nu permite partenerilor sau afiliații săi să folosească datele personale ale terților în moduri care încalcă acordul nostru sau legea aplicabilă."
-    },
-    "recordings": {
-      "title": "Înregistrări audio și video",
-      "points": [
-        "Când oferiți servicii pentru Hotel-Living.com sau folosiți serviciile sale, fiți atenți la spațiul personal, intimitatea și bunurile altora. Dacă stați la un hotel sau la casa cuiva, respectați cazarea și regulile casei.",
-        "Dacă o cazare instalează camere, acestea trebuie plasate doar în zonele comune, poziționate unde pot fi văzute, iar clienții trebuie informați înainte de sejur."
-      ]
-    },
-    "privacy": {
-      "title": "Confidențialitate",
-      "points": [
-        "La Hotel-Living.com, ne angajăm să oferim cea mai bună experiență posibilă celor care folosesc serviciile noastre de călătorie. Aceasta înseamnă că luăm foarte în serios confidențialitatea și ne angajăm să o protejăm și să o păzim în conformitate cu Politica noastră de confidențialitate și cookies și legea aplicabilă.",
-        "Securitatea datelor dvs. este importantă pentru noi. De aceea, la Hotel-Living.com, protejăm datele dvs. personale și informațiile cardului de credit în conformitate cu legea aplicabilă, inclusiv GDPR și Standardele de securitate a datelor din industria cardurilor de plată (PCI DSS)."
-      ]
+      "content": "Când te cazezi la o unitate de cazare sau folosești alte servicii Hotel-Living.com, te rugăm să iei în considerare comunitatea locală."
     }
   }
 }

@@ -1,26 +1,19 @@
 
 {
   "affinity": {
-    "title": "Sejururi prin afinitate",
-    "description": "Găsește hoteluri care se potrivesc intereselor și pasiunilor tale",
-    "categories": {
-      "art": "Artă",
-      "business": "Afaceri",
-      "culture": "Cultură",
-      "education": "Educație",
-      "entertainment": "Divertisment",
-      "foodAndDrinks": "Mâncare și băuturi",
-      "healthAndWellness": "Sănătate și wellness",
-      "history": "Istorie",
-      "hobbies": "Hobby-uri",
-      "languages": "Limbi",
-      "lifestyle": "Stil de viață",
-      "nature": "Natură",
-      "personalDevelopment": "Dezvoltare personală",
-      "relationships": "Relații",
-      "scienceAndTechnology": "Știință și tehnologie",
-      "socialImpact": "Impact social",
-      "sports": "Sport"
+    "affinityStaysTitle": "Șederi tematice de grup",
+    "affinityDescription": "Alege hoteluri bazate pe interesele și preferințele tale pentru a împărtăși experiențe unice cu persoane cu aceleași interese.",
+    "exploreThemes": "Explorează teme și interese",
+    "joinAffinityGroups": "Alătură-te grupurilor tematice",
+    "createAffinityExperience": "Creează experiență tematică",
+    "howardSchultzQuote": "Când te înconjori de oameni care împărtășesc un angajament pasionat în jurul unui scop comun, totul este posibil",
+    "howardSchultzAuthor": "Howard Schultz",
+    "slogans": {
+      "notJustStay": "Nu este doar o ședere. Este o lume comună",
+      "meetShareBelong": "Întâlnește. Împărtășește. Aparține",
+      "stayWithThoseWhoGetYou": "Stai cu cei care te înțeleg",
+      "tiredOfRandom": "Obosit de întâmplător? Alege-ți oamenii",
+      "stayAndConnect": "Stai și conectează-te prin ceea ce iubești"
     }
   }
 }

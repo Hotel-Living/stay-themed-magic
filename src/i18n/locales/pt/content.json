@@ -1,50 +1,11 @@
 
 {
-  "footerContent": {
-    "faq": "FAQ",
-    "affinityStays": "Estadias por afinidades",
-    "hotel": "Hotel",
-    "videos": "Vídeos",
-    "featuredHotels": "Hotéis em destaque",
-    "ourServices": "Nossos serviços",
-    "ourValues": "Nossos valores",
-    "customerService": "Atendimento ao cliente",
-    "contact": "Contato",
-    "termsAndConditions": "Termos e condições",
-    "privacyAndCookies": "Privacidade e cookies",
-    "intellectualProperty": "Propriedade intelectual",
-    "ourTeam": "Nossa equipe",
-    "register": "Cadastrar",
-    "signIn": "Entrar",
-    "copyright": "© 2025 Hotel-Living.com. Todos os direitos reservados. Esta é uma versão Beta, sujeita a atualizações contínuas.",
-    "sampleListingsDisclaimer": "Algumas propriedades podem ser exemplos utilizados para demonstrar o funcionamento do Hotel-Living."
-  },
-  "indexContent": {
-    "revolutionTitle": "A revolução chegou",
-    "liveInHotels": "Viva em hotéis",
-    "boostYourLife": "Potencialize sua vida!",
-    "noHouseholdChores": "Tchau, tarefas domésticas",
-    "selectThemes": "Busque hotéis pelos seus interesses",
-    "boostSocialLife": "Potencialize sua vida social!",
-    "meetPeople": "Conheça e curta com pessoas afins",
-    "country": "País",
-    "month": "Mês",
-    "affinity": "Afinidade",
-    "pricePerMonth": "Preço por mês",
-    "search": "Buscar"
-  },
-  "videosContent": {
-    "featuredTitle": "Destaque: Experiência em Hotéis Temáticos",
-    "featuredDescription": "Descubra a magia dos nossos hotéis temáticos e experimente uma nova forma de se hospedar.",
-    "comingSoonOwnerStories": "Em breve: Histórias de Proprietários de Hotéis",
-    "availableJune": "Disponível em junho de 2025",
-    "comingSoonGuestExperiences": "Em breve: Experiências dos Hóspedes",
-    "availableJuly": "Disponível em julho de 2025"
-  },
-  "featuredHotelsContent": {
-    "pageTitle": "Hotéis em Destaque",
-    "wantToBeFirst": "Quer que seu hotel apareça em primeiro lugar?",
-    "featureDescription": "Podemos destacar sua propriedade bem aqui — sem grandes taxas, apenas com uma colaboração inteligente.",
-    "loginForInfo": "Entre no painel do seu hotel para mais informações."
+  "content": {
+    "welcomeMessage": "Bem-vindo ao Hotel-Living",
+    "exploreHotels": "Explora a nossa seleção curada de hotéis temáticos",
+    "bookYourStay": "Reserva a tua estadia perfeita hoje",
+    "discoverExperiences": "Descobre experiências únicas",
+    "whyChooseUs": "Porquê escolher Hotel-Living?",
+    "ourMission": "A nossa missão é revolucionar a forma como as pessoas vivem e viajam"
   }
 }

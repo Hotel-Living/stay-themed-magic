@@ -1,11 +1,11 @@
 
 {
   "contact": {
-    "title": "Entre em Contato",
+    "title": "Contacta-nos",
     "welcomeMessage": {
       "listening": "Estamos aqui para ouvir.",
-      "feelFree": "Sinta-se à vontade para nos contatar em",
-      "loveToHear": "— adoraríamos ouvir você."
+      "feelFree": "Não hesites em contactar-nos em",
+      "loveToHear": "— adoraríamos ouvir de ti."
     }
   }
 }

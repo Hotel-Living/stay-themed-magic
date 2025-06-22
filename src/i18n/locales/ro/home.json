@@ -3,17 +3,17 @@
   "home": {
     "heroSection": {
       "revolutionHasCome": "Revoluția a sosit",
-      "liveInHotels": "LOCUIEȘTE ÎN HOTELURI",
-      "boostYourLife": "Îmbunătățește-ți viața!",
+      "liveInHotels": "TRĂIEȘTE ÎN HOTELURI",
+      "boostYourLife": "Îți impulsionează viața!",
       "slogans": {
         "getRidOfChores": "Scapă de treburile casnice!",
         "selectHotelsByThemes": "Selectează hoteluri după temele tale preferate!",
-        "boostSocialLife": "Îmbunătățește-ți viața socială!",
-        "meetLikeMinded": "Întâlnește și bucură-te alături de oameni cu aceleași interese!"
+        "boostSocialLife": "Îți impulsionează viața socială!",
+        "meetLikeMinded": "Întâlnește și bucură-te cu persoane cu aceleași interese!"
       }
     },
     "filters": {
-      "search": "Caută"
+      "search": "Căutare"
     }
   }
 }

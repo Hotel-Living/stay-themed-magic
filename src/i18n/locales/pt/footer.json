@@ -5,23 +5,23 @@
       "faq": "FAQ",
       "affinityStays": "ESTADIAS POR AFINIDADES",
       "hotel": "Hotel?",
-      "videos": "VÍDEOS",
+      "videos": "VIDEOS",
       "featuredHotels": "HOTÉIS EM DESTAQUE",
-      "ourServices": "NOSSOS SERVIÇOS",
-      "ourValues": "NOSSOS VALORES",
+      "ourServices": "OS NOSSOS SERVIÇOS",
+      "ourValues": "OS NOSSOS VALORES",
       "customerService": "ATENDIMENTO AO CLIENTE",
-      "contact": "CONTATO",
+      "contact": "CONTACTO",
       "terms": "TERMOS E CONDIÇÕES",
       "privacy": "PRIVACIDADE E COOKIES",
       "intellectualProperty": "PROPRIEDADE INTELECTUAL",
-      "ourTeam": "NOSSA EQUIPE"
+      "ourTeam": "A NOSSA EQUIPA"
     },
     "buttons": {
-      "register": "Cadastrar",
-      "signIn": "Entrar",
+      "register": "Registar",
+      "signIn": "Iniciar Sessão",
       "hotel": "Hotel?"
     },
     "copyright": "© 2025 Hotel-Living.com. Todos os direitos reservados. Esta é uma versão Beta, sujeita a atualizações contínuas.",
-    "disclaimer": "Algumas propriedades podem ser exemplos utilizados para demonstrar a funcionalidade do Hotel Living."
+    "disclaimer": "Algumas propriedades podem ser exemplos usados para demonstrar a funcionalidade do Hotel Living."
   }
 }

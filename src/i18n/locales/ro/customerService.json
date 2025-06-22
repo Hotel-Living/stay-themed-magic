@@ -1,17 +1,17 @@
 
 {
   "customerService": {
-    "title": "Serviciu clienți",
-    "description": "Vă rugăm să completați formularul de mai jos pentru a contacta echipa noastră de serviciu clienți. Vă vom răspunde cât mai curând posibil.",
+    "title": "Serviciul pentru Clienți",
+    "description": "Te rugăm să completezi formularul de mai jos pentru a contacta echipa noastră de serviciu pentru clienți. Te vom contacta cât mai curând posibil.",
     "form": {
       "name": "Nume",
-      "email": "Adresa de email",
-      "country": "Țara",
-      "city": "Orașul",
-      "message": "Mesajul dvs.",
+      "email": "Adresa de Email",
+      "country": "Țară",
+      "city": "Oraș",
+      "message": "Mesajul Tău",
       "sending": "Se trimite...",
-      "send": "Trimite mesajul"
+      "send": "Trimite Mesajul"
     },
-    "success": "Mulțumim pentru mesajul dvs.! Vă vom contacta în curând."
+    "success": "Mulțumim pentru mesajul tău! Te vom contacta în curând."
   }
 }

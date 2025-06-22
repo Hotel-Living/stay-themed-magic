@@ -1,24 +1,8 @@
 
 {
   "intellectualProperty": {
-    "title": "Drepturi de proprietate intelectuală",
-    "content1": "Hotel-Living.com și întregul său conținut, caracteristici și funcționalitate (inclusiv, dar fără a se limita la toate informațiile, software-ul, textul, afișajele, imaginile, video și audio, și designul, selecția și aranjarea acestora) sunt deținute de Hotel-Living.com, licențiatorii săi sau alți furnizori de astfel de materiale și sunt protejate de legi internaționale de drepturi de autor, mărci comerciale, brevete, secrete comerciale și alte drepturi de proprietate intelectuală sau proprietăți.",
-    "content2": "Acest site, precum și sistemul său inovator de rezervări, sunt înregistrate și protejate internațional atât ca modele de utilitate, cât și prin drepturi de autor. Orice reproducere sau copiere a sistemului va fi urmărită legal. Cei interesați de francize naționale ne pot contacta.",
-    "trademarks": {
-      "title": "Mărci comerciale",
-      "content": "Numele Hotel-Living, logo-ul și toate numele, logo-urile, numele de produse și servicii, designurile și sloganurile conexe sunt mărci comerciale ale Hotel-Living.com sau ale afiliaților sau licențiatorilor săi. Nu trebuie să folosiți astfel de mărci fără permisiunea scrisă prealabilă a Hotel-Living.com."
-    },
-    "copyright": {
-      "title": "Notificare de drepturi de autor",
-      "content": "© {year} Hotel-Living.com. Toate drepturile rezervate. Nicio parte a acestui site web nu poate fi reprodusă, distribuită sau transmisă în nicio formă sau prin orice mijloace, inclusiv fotocopieri, înregistrări sau alte metode electronice sau mecanice, fără permisiunea scrisă prealabilă a proprietarului."
-    },
-    "patent": {
-      "title": "Informații despre brevete",
-      "content": "Diverse aspecte ale platformei Hotel-Living.com și sistemului de rezervări sunt protejate prin brevete sau în curs de brevetare. Folosirea, reproducerea sau distribuirea neautorizată a acestor tehnologii este strict interzisă."
-    },
-    "contact": {
-      "title": "Informații de contact",
-      "content": "Pentru întrebări privind drepturile de proprietate intelectuală, permisiuni sau oportunități de francize, vă rugăm să nu ezitați să ne contactați completând formularul pe care îl veți găsi în {contactLink}"
-    }
+    "title": "Drepturi de Proprietate Intelectuală",
+    "content1": "Hotel-Living.com și tot conținutul, caracteristicile și funcționalitatea acestuia sunt protejate de legile internaționale privind drepturile de autor, mărcile comerciale, brevetele și alte drepturi de proprietate intelectuală.",
+    "content2": "Acest site, precum și sistemul său inovator de rezervări, sunt înregistrate și protejate internațional atât ca Modele de Utilitate, cât și prin Drepturi de Autor."
   }
 }

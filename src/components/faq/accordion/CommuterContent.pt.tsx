@@ -5,46 +5,22 @@ import { QuestionGroup } from "./QuestionGroup";
 export function CommuterContentPT() {
   const questionGroups = [
     [
-      "Como o hotel-living pode beneficiar meu deslocamento diário?",
-      "Quais são as economias de custos comparadas à habitação tradicional?",
-      "Posso ficar em hotéis perto do meu local de trabalho?",
-      "Quão flexíveis são os arranjos de reserva?"
+      "Por que perder horas no trânsito quando você pode ficar perto do seu local de trabalho?",
+      "Por que pagar gasolina, estacionamento e transporte público quando você pode ir andando para o trabalho?",
+      "Por que se estressar com trânsito e atrasos quando seu escritório fica a poucos minutos?",
+      "Por que começar o dia cansado quando você pode acordar descansado e pronto?"
     ],
     [
-      "Que comodidades estão tipicamente incluídas?",
-      "Como funciona o hotel-living para viajantes de negócios?",
-      "Posso obter tarifas corporativas para estadias prolongadas?",
-      "E quanto ao estacionamento e transporte?"
+      "Por que alugar longe do trabalha quando hotéis podem te colocar no coração do distrito comercial?",
+      "Por que sacrificar o equilíbrio trabalho-vida quando proximidade te dá mais tempo para você?",
+      "Por que depender de transporte não confiável quando você pode eliminar completamente o deslocamento?",
+      "Por que chegar ao trabalho estressado quando você pode começar o dia calmo e focado?"
     ],
     [
-      "Como lido com correspondência e pacotes?",
-      "E quanto aos serviços de lavanderia e limpeza?",
-      "Posso trabalhar do meu quarto de hotel?",
-      "Quão estável é o wifi para trabalho remoto?"
-    ],
-    [
-      "O que acontece durante as temporadas altas de viagem?",
-      "Posso reservar múltiplas localizações para diferentes projetos?",
-      "Como funciona a cobrança para estadias prolongadas?",
-      "Que programas de fidelidade estão disponíveis?"
-    ],
-    [
-      "Como mantenho o equilíbrio trabalho-vida?",
-      "E quanto às instalações de academia e fitness?",
-      "Posso realizar reuniões de negócios no hotel?",
-      "Como me relaciono com outros profissionais do hotel-living?"
-    ],
-    [
-      "Quais são as implicações fiscais?",
-      "Como estabeleço residência para fins legais?",
-      "Posso usar hotel-living para tarefas temporárias?",
-      "Que documentação preciso para relatórios de despesas?"
-    ],
-    [
-      "Como lido com emergências enquanto vivo em hotéis?",
-      "E quanto aos cuidados de saúde e seguro?",
-      "Posso trazer convidados para meu quarto de hotel?",
-      "Como mantenho relacionamentos profissionais?"
+      "Por que pagar por múltiplos serviços quando Hotel-Living inclui tudo que você precisa?",
+      "Por que se isolar em um apartamento distante quando hotéis te conectam ao pulso da cidade?",
+      "Por que desperdiçar horas produtivas viajando quando você poderia estar trabalhando, relaxando ou socializando?",
+      "Por que escolher a vida exaustiva de quem se desloca quando Hotel-Living oferece conveniência e conforto?"
     ]
   ];
 

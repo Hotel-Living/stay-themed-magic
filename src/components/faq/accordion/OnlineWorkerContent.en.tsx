@@ -5,46 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function OnlineWorkerContentEN() {
   const questionGroups = [
     [
-      "How reliable is hotel internet for remote work?",
-      "Can I set up a productive workspace in hotel rooms?",
-      "What about video call quality and noise levels?",
-      "How do I handle different time zones while hotel-living?"
+      "Why work from a cramped apartment when hotels offer spacious, well-lit rooms?",
+      "Why struggle with poor internet when hotels guarantee high-speed connectivity for your business?",
+      "Why isolate yourself at home when hotel common areas connect you with other professionals?",
+      "Why pay for a coworking space when your hotel room becomes your personalized office?"
     ],
     [
-      "What equipment should I bring for remote work?",
-      "How do I maintain work-life balance in small spaces?",
-      "Can I print documents and handle business needs?",
-      "What backup internet options are available?"
+      "Why eat the same lunch every day when hotels offer variety and room service?",
+      "Why deal with household distractions when hotels provide the perfect work environment?",
+      "Why limit yourself to one city when Hotel-Living lets you work from anywhere?",
+      "Why worry about office maintenance when hotels handle everything for you?"
     ],
     [
-      "How do I handle client meetings and professional calls?",
-      "What about shipping and receiving work materials?",
-      "Can I claim tax deductions for hotel-living workspace?",
-      "How do I maintain professional relationships remotely?"
+      "Why miss networking opportunities when hotels are full of interesting people?",
+      "Why pay for gym memberships when hotels include fitness facilities?",
+      "Why spend on cleaning services when hotels provide daily housekeeping?",
+      "Why stress about utilities and bills when Hotel-Living includes everything?"
     ],
     [
-      "What cybersecurity considerations should I have?",
-      "How do I protect sensitive work data on hotel networks?",
-      "Can I use hotel business centers effectively?",
-      "What about accessing company VPNs and secure systems?"
-    ],
-    [
-      "How do I manage multiple monitor setups?",
-      "What ergonomic solutions work in hotel rooms?",
-      "Can I install necessary software and applications?",
-      "How do I handle software licensing across locations?"
-    ],
-    [
-      "What about collaboration with distributed teams?",
-      "How do I participate in company culture remotely?",
-      "Can I attend conferences and networking events?",
-      "How do I handle performance reviews and career growth?"
-    ],
-    [
-      "What contingency plans should I have for tech failures?",
-      "How do I backup important work data regularly?",
-      "What mobile hotspot options work best?",
-      "How do I handle power outages and connectivity issues?"
+      "Why work in silence when you can work surrounded by life and energy?",
+      "Why separate work and lifestyle when Hotel-Living integrates both seamlessly?",
+      "Why settle for a home office when you can have a luxury workspace?",
+      "Why live like it's still the old way of working when Hotel-Living is the future of remote work?"
     ]
   ];
 

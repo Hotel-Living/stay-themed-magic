@@ -5,82 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function HotelContentEN() {
   const questionGroups = [
     [
-      "How can my hotel join the Hotel-Living network?",
-      "What are the requirements for participating hotels?",
-      "How does the revenue sharing model work?",
-      "What training do staff need for long-term guests?"
+      "Why limit your revenue to traditional short stays when long-term guests offer stability?",
+      "Why deal with constant turnover when Hotel-Living guests become loyal, long-term residents?",
+      "Why depend on seasonal tourism when you can have year-round occupancy?",
+      "Why compete only for vacation travelers when you can capture the growing digital nomad market?"
     ],
     [
-      "How do we handle extended stay pricing?",
-      "What amenities should we provide for hotel-living guests?",
-      "How do we manage inventory for long-term bookings?",
-      "What housekeeping protocols are needed?"
+      "Why leave rooms empty during low season when Hotel-Living fills them consistently?",
+      "Why stress about daily housekeeping when long-term guests require less frequent service?",
+      "Why handle constant check-ins and check-outs when you can have stable, settled guests?",
+      "Why miss the opportunity to be part of the future of hospitality?"
     ],
     [
-      "How do we screen potential long-term guests?",
-      "What lease agreements or contracts are required?",
-      "How do we handle guest complaints and issues?",
-      "What emergency procedures should be in place?"
+      "Why operate with high operational costs when long-term stays are more profitable?",
+      "Why limit your hotel's potential when Hotel-Living can transform your business model?",
+      "Why compete in the saturated short-stay market when you can pioneer the long-stay revolution?",
+      "Why watch other hotels struggle when you can lead the way in hospitality innovation?"
     ],
     [
-      "How do we market to the hotel-living demographic?",
-      "What partnerships can help attract guests?",
-      "How do we optimize our online presence?",
-      "What promotional strategies work best?"
-    ],
-    [
-      "How do we handle payment processing for extended stays?",
-      "What insurance considerations are there?",
-      "How do we manage cash flow with longer bookings?",
-      "What tax implications should we be aware of?"
-    ],
-    [
-      "How do we maintain service quality for long-term guests?",
-      "What staff scheduling adjustments are needed?",
-      "How do we handle maintenance and repairs?",
-      "What guest amenities require regular restocking?"
-    ],
-    [
-      "How do we create community among hotel-living guests?",
-      "What social spaces and activities should we provide?",
-      "How do we handle conflicts between guests?",
-      "What privacy considerations are important?"
-    ],
-    [
-      "How do we track and analyze performance metrics?",
-      "What reporting tools are available?",
-      "How do we measure guest satisfaction?",
-      "What key performance indicators matter most?"
-    ],
-    [
-      "How do we handle seasonal demand fluctuations?",
-      "What strategies help maintain year-round occupancy?",
-      "How do we price competitively in different markets?",
-      "What location factors affect success?"
-    ],
-    [
-      "What technology integrations are needed?",
-      "How do we manage booking systems efficiently?",
-      "What mobile apps or platforms should we use?",
-      "How do we ensure data security and privacy?"
-    ],
-    [
-      "How do we handle international guests and regulations?",
-      "What visa and legal requirements apply?",
-      "How do we manage currency exchange issues?",
-      "What cultural considerations are important?"
-    ],
-    [
-      "How do we scale our hotel-living operations?",
-      "What expansion opportunities exist?",
-      "How do we replicate success across properties?",
-      "What investment requirements should we plan for?"
-    ],
-    [
-      "How do we ensure guest retention and loyalty?",
-      "What rewards programs work for extended stays?",
-      "How do we handle guest referrals and reviews?",
-      "What communication strategies build relationships?"
+      "Why settle for being just another hotel when you can become a lifestyle destination?",
+      "Why miss the chance to build lasting relationships with guests who become community members?",
+      "Why remain stuck in the old hospitality model when Hotel-Living represents the future?",
+      "Why wait for change when you can be the change that transforms the industry?"
     ]
   ];
 

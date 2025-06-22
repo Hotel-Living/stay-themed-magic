@@ -5,52 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function FreeSoulContentRO() {
   const questionGroups = [
     [
-      "Cum susține hotel-living un stil de viață nomad?",
-      "Ce locații sunt disponibile la nivel mondial?",
-      "Pot rezerva călătorii spontane și șederi prelungite?",
-      "Cum îmi gestionez bunurile în timp ce călătoresc?"
+      "De ce să te legi de un loc când lumea te cheamă să explorezi?",
+      "De ce să acumulezi lucruri când experiențele sunt cele care îmbogățesc cu adevărat sufletul?",
+      "De ce să urmezi căi convenționale când inima ta caută aventură și libertate?",
+      "De ce să te mulțumești cu ordinarul când Hotel-Living îți oferă experiențe extraordinare în fiecare zi?"
     ],
     [
-      "Care sunt considerațiile legale și de viză?",
-      "Cum gestionez banca și finanțele internațional?",
-      "Pot să-mi mențin cariera profesională fiind nomad?",
-      "Cum stau cu acoperirea sănătății în străinătate?"
+      "De ce să te limitezi la o cultură când poți trăi printre multe?",
+      "De ce să rămâi în zona ta de confort când creșterea se întâmplă în afara ei?",
+      "De ce să îți amâni visele când Hotel-Living le face accesibile astăzi?",
+      "De ce să trăiești cu regrete când poți trăi cu scop și pasiune?"
     ],
     [
-      "Cum construiesc comunitate fiind nomad digital?",
-      "Ce oportunități de networking sunt disponibile?",
-      "Pot să mă conectez cu alți nomazi din hotel-living?",
-      "Cum combat izolarea și singurătatea?"
+      "De ce să cari greutatea posesiunilor când libertatea înseamnă să călătorești ușor?",
+      "De ce să construiești ziduri când poți construi poduri către experiențe noi?",
+      "De ce să alegi predictibilitatea când surpriza și minunea te așteaptă?",
+      "De ce să trăiești o viață mică când Hotel-Living deschide posibilități infinite?"
     ],
     [
-      "Ce cerințe tehnologice am nevoie?",
-      "Cât de fiabilă este conectivitatea la internet?",
-      "Pot să-mi configurez un spațiu de lucru productiv?",
-      "Cum stau cu gestionarea fusului orar pentru muncă?"
-    ],
-    [
-      "Cum gestionez variațiile sezoniere de preț?",
-      "Ce recompense de loialitate pot câștiga?",
-      "Sunt reduceri de grup pentru comunitățile nomade?",
-      "Cum fac buget pentru hotel-living pe termen lung?"
-    ],
-    [
-      "Cum stau cu barierele de limbă în diferite țări?",
-      "Cum mă adaptez la diferite norme culturale?",
-      "Pot obține recomandări și îndrumări locale?",
-      "Ce considerații de siguranță ar trebui să țin minte?"
-    ],
-    [
-      "Cum mențin relațiile personale?",
-      "Cum stau cu întâlnirile și conexiunile romantice?",
-      "Pot aduce oaspeți sau însoțitori de călătorie?",
-      "Cum gestionez vizitele familiei și obligațiile?"
-    ],
-    [
-      "Care sunt impacturile asupra mediului ale hotel-living?",
-      "Cum pot călători mai sustenabil?",
-      "Sunt opțiuni de hoteluri eco-prietenoase?",
-      "Ce programe de compensare a carbonului sunt disponibile?"
+      "De ce să îmbătrânești cu plictiseală când fiecare zi poate fi o aventură nouă?",
+      "De ce să te conformezi așteptărilor când spiritul tău tânjește după autenticitate?",
+      "De ce să trăiești pentru alții când este timpul să trăiești pentru tine?",
+      "De ce să aștepți 'într-o zi' când Hotel-Living face din fiecare zi ziua perfectă pentru a începe să trăiești pe deplin?"
     ]
   ];
 

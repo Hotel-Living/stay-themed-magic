@@ -5,52 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function FreeSoulContentPT() {
   const questionGroups = [
     [
-      "Como o hotel-living apoia um estilo de vida nômade?",
-      "Que localizações estão disponíveis mundialmente?",
-      "Posso reservar viagens espontâneas e estadias prolongadas?",
-      "Como gerencio meus pertences enquanto viajo?"
+      "Por que se amarrar a um lugar quando o mundo está te chamando para explorar?",
+      "Por que acumular coisas quando experiências são o que realmente enriquece a alma?",
+      "Por que seguir caminhos convencionais quando seu coração busca aventura e liberdade?",
+      "Por que se contentar com o ordinário quando Hotel-Living te oferece experiências extraordinárias todos os dias?"
     ],
     [
-      "Quais são as considerações legais e de visto?",
-      "Como lido com bancos e finanças internacionalmente?",
-      "Posso manter minha carreira profissional sendo nômade?",
-      "E quanto à cobertura de saúde no exterior?"
+      "Por que se limitar a uma cultura quando você pode viver entre muitas?",
+      "Por que ficar na sua zona de conforto quando crescimento acontece fora dela?",
+      "Por que adiar seus sonhos quando Hotel-Living os torna acessíveis hoje?",
+      "Por que viver com arrependimentos quando você pode viver com propósito e paixão?"
     ],
     [
-      "Como construo comunidade sendo nômade digital?",
-      "Que oportunidades de networking estão disponíveis?",
-      "Posso me conectar com outros nômades do hotel-living?",
-      "Como combato o isolamento e a solidão?"
+      "Por que carregar o peso das posses quando liberdade significa viajar leve?",
+      "Por que construir muros quando você pode construir pontes para novas experiências?",
+      "Por que escolher previsibilidade quando surpresa e maravilha te esperam?",
+      "Por que viver uma vida pequena quando Hotel-Living abre possibilidades infinitas?"
     ],
     [
-      "Que requisitos tecnológicos preciso?",
-      "Quão confiável é a conectividade com a internet?",
-      "Posso configurar um espaço de trabalho produtivo?",
-      "E quanto ao gerenciamento de fuso horário para trabalho?"
-    ],
-    [
-      "Como lido com variações sazonais de preços?",
-      "Que recompensas de fidelidade posso ganhar?",
-      "Há descontos em grupo para comunidades nômades?",
-      "Como faço orçamento para hotel-living a longo prazo?"
-    ],
-    [
-      "E quanto às barreiras linguísticas em diferentes países?",
-      "Como me adapto a diferentes normas culturais?",
-      "Posso obter recomendações e orientação local?",
-      "Que considerações de segurança devo ter em mente?"
-    ],
-    [
-      "Como mantenho relacionamentos pessoais?",
-      "E quanto a encontros e conexões românticas?",
-      "Posso trazer convidados ou companheiros de viagem?",
-      "Como lido com visitas familiares e obrigações?"
-    ],
-    [
-      "Quais são os impactos ambientais do hotel-living?",
-      "Como posso viajar de forma mais sustentável?",
-      "Há opções de hotéis ecológicos?",
-      "Que programas de compensação de carbono estão disponíveis?"
+      "Por que envelhecer com tédio quando cada dia pode ser uma nova aventura?",
+      "Por que se conformar às expectativas quando seu espírito anseia por autenticidade?",
+      "Por que viver para os outros quando é hora de viver para você mesmo?",
+      "Por que esperar por 'algum dia' quando Hotel-Living faz de cada dia o dia perfeito para começar a viver plenamente?"
     ]
   ];
 

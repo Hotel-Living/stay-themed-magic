@@ -5,52 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function FreeSoulContentEN() {
   const questionGroups = [
     [
-      "How does hotel-living support a nomadic lifestyle?",
-      "What locations are available worldwide?",
-      "Can I book spontaneous trips and extended stays?",
-      "How do I manage my belongings while traveling?"
+      "Why tie yourself to one place when the world is calling you to explore?",
+      "Why accumulate things when experiences are what truly enrich the soul?",
+      "Why follow conventional paths when your heart seeks adventure and freedom?",
+      "Why settle for the ordinary when Hotel-Living offers you extraordinary experiences every day?"
     ],
     [
-      "What are the visa and legal considerations?",
-      "How do I handle banking and finances internationally?",
-      "Can I maintain my professional career while nomadic?",
-      "What about healthcare coverage abroad?"
+      "Why limit yourself to one culture when you can live among many?",
+      "Why stay in your comfort zone when growth happens outside of it?",
+      "Why postpone your dreams when Hotel-Living makes them accessible today?",
+      "Why live with regrets when you can live with purpose and passion?"
     ],
     [
-      "How do I build community as a digital nomad?",
-      "What networking opportunities are available?",
-      "Can I connect with other hotel-living nomads?",
-      "How do I combat isolation and loneliness?"
+      "Why carry the weight of possessions when freedom means traveling light?",
+      "Why build walls when you can build bridges to new experiences?",
+      "Why choose predictability when surprise and wonder await you?",
+      "Why live a small life when Hotel-Living opens up infinite possibilities?"
     ],
     [
-      "What technology requirements do I need?",
-      "How reliable is internet connectivity?",
-      "Can I set up a productive workspace?",
-      "What about time zone management for work?"
-    ],
-    [
-      "How do I handle seasonal pricing variations?",
-      "What loyalty rewards can I earn?",
-      "Are there group discounts for nomad communities?",
-      "How do I budget for long-term hotel-living?"
-    ],
-    [
-      "What about language barriers in different countries?",
-      "How do I adapt to different cultural norms?",
-      "Can I get local recommendations and guidance?",
-      "What safety considerations should I keep in mind?"
-    ],
-    [
-      "How do I maintain personal relationships?",
-      "What about dating and romantic connections?",
-      "Can I bring guests or travel companions?",
-      "How do I handle family visits and obligations?"
-    ],
-    [
-      "What are the environmental impacts of hotel-living?",
-      "How can I travel more sustainably?",
-      "Are there eco-friendly hotel options?",
-      "What carbon offset programs are available?"
+      "Why age with boredom when every day can be a new adventure?",
+      "Why conform to expectations when your spirit craves authenticity?",
+      "Why live for others when it's time to live for yourself?",
+      "Why wait for 'someday' when Hotel-Living makes every day the perfect day to start living fully?"
     ]
   ];
 

@@ -5,88 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function SocietyContentPT() {
   const questionGroups = [
     [
-      "Como o hotel-living impacta as comunidades locais?",
-      "Quais são os benefícios econômicos para cidades e regiões?",
-      "Como isso afeta os mercados imobiliários tradicionais?",
-      "Que impactos ambientais o hotel-living tem?"
+      "Por que manter a crise habitacional quando Hotel-Living oferece uma solução imediata?",
+      "Por que aceitar o isolamento urbano quando hotéis podem reconstruir conexões comunitárias?",
+      "Por que perpetuar o fardo da propriedade imobiliária quando viver flexível é mais sustentável?",
+      "Por que resistir à mudança quando Hotel-Living pode revitalizar nossas cidades e economias?"
     ],
     [
-      "Como os hotéis se adaptam a residentes de longo prazo?",
-      "Que mudanças são necessárias nas regulamentações de hospitalidade?",
-      "Como isso cria novas oportunidades de emprego?",
-      "Que melhorias de infraestrutura são necessárias?"
+      "Por que permitir prédios vazios quando eles poderiam abrigar comunidades produtivas e conectadas?",
+      "Por que aceitar que jovens não conseguem pagar moradia quando Hotel-Living a torna acessível?",
+      "Por que manter leis de zoneamento ultrapassadas quando modelos de vida flexível servem melhor à sociedade?",
+      "Por que ignorar os benefícios ambientais de recursos compartilhados e vida eficiente?"
     ],
     [
-      "Como o hotel-living muda o desenvolvimento urbano?",
-      "Quais são as implicações fiscais para municípios?",
-      "Como isso afeta os sistemas de transporte público?",
-      "Que novos serviços emergem do hotel-living?"
+      "Por que separar idosos das gerações mais jovens quando vida intergeracional enriquece todos?",
+      "Por que aceitar solidão como normal quando Hotel-Living cria redes sociais naturais?",
+      "Por que manter infraestrutura cara para casas unifamiliares quando vida eficiente faz mais sentido?",
+      "Por que resistir à evolução para comunidades mais conectadas e sustentáveis?"
     ],
     [
-      "Como as comunidades integram residentes de hotel-living?",
-      "Quais são as implicações sociais deste estilo de vida?",
-      "Como isso afeta bairros tradicionais?",
-      "Que novos modelos de negócio emergem?"
-    ],
-    [
-      "Como o hotel-living impacta sistemas de saúde?",
-      "Que mudanças são necessárias nos sistemas educacionais?",
-      "Como isso afeta votação e participação cívica?",
-      "Que estruturas legais precisam de atualização?"
-    ],
-    [
-      "Como isso muda as indústrias de varejo e serviços?",
-      "Que impacto tem nos sistemas alimentares locais?",
-      "Como os serviços de emergência se adaptam?",
-      "Que novos modelos de seguro são necessários?"
-    ],
-    [
-      "Como o hotel-living afeta a preservação cultural?",
-      "Que impacto tem nas tradições locais?",
-      "Como as comunidades religiosas se adaptam?",
-      "Que mudanças ocorrem em organizações comunitárias?"
-    ],
-    [
-      "Como isso afeta relacionamentos intergeracionais?",
-      "Que impacto tem nas estruturas familiares?",
-      "Como os sistemas educacionais precisam evoluir?",
-      "Que novos sistemas de apoio social emergem?"
-    ],
-    [
-      "Como o hotel-living muda o planejamento de aposentadoria?",
-      "Que impacto tem na acumulação de riqueza?",
-      "Como os padrões de herança mudam?",
-      "Que novos produtos financeiros são necessários?"
-    ],
-    [
-      "Como isso afeta padrões de migração global?",
-      "Que impacto tem nas relações internacionais?",
-      "Como as políticas de visto e imigração precisam ser atualizadas?",
-      "Que novas considerações diplomáticas surgem?"
-    ],
-    [
-      "Como o hotel-living muda o equilíbrio trabalho-vida?",
-      "Que impacto tem na produtividade?",
-      "Como as empresas se adaptam a equipes distribuídas?",
-      "Que novas abordagens de gestão são necessárias?"
-    ],
-    [
-      "Como isso afeta a infraestrutura tecnológica?",
-      "Que impacto tem na privacidade de dados?",
-      "Como as necessidades de cibersegurança mudam?",
-      "Que novos serviços digitais emergem?"
-    ],
-    [
-      "Como o hotel-living muda padrões de viagem?",
-      "Que impacto tem nas indústrias do turismo?",
-      "Como os sistemas de transporte se adaptam?",
-      "Que novas soluções de mobilidade são necessárias?"
-    ],
-    [
-      "Como isso afeta a sustentabilidade ambiental?",
-      "Que impacto tem no consumo de recursos?",
-      "Como os sistemas de gestão de resíduos mudam?",
-      "Que novas tecnologias verdes são necessárias?"
+      "Por que preservar sistemas que criam desigualdade quando Hotel-Living democratiza vida de qualidade?",
+      "Por que aceitar decadência urbana quando Hotel-Living pode dar vida aos centros das cidades?",
+      "Por que manter o status quo quando podemos construir sociedades mais inclusivas e vibrantes?",
+      "Por que temer mudança quando Hotel-Living oferece esperança de um futuro melhor e mais conectado para todos?"
     ]
   ];
 

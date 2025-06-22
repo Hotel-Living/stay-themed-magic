@@ -5,82 +5,28 @@ import { QuestionGroup } from "./QuestionGroup";
 export function HotelContentPT() {
   const questionGroups = [
     [
-      "Como meu hotel pode se juntar à rede Hotel-Living?",
-      "Quais são os requisitos para hotéis participantes?",
-      "Como funciona o modelo de compartilhamento de receita?",
-      "Que treinamento a equipe precisa para hóspedes de longa permanência?"
+      "Por que limitar sua receita a estadias curtas tradicionais quando hóspedes de longa permanência oferecem estabilidade?",
+      "Por que lidar com rotatividade constante quando hóspedes Hotel-Living se tornam residentes leais de longo prazo?",
+      "Por que depender do turismo sazonal quando você pode ter ocupação durante todo o ano?",
+      "Por que competir apenas por viajantes de férias quando você pode capturar o crescente mercado de nômades digitais?"
     ],
     [
-      "Como lidamos com preços de estadia prolongada?",
-      "Que comodidades devemos fornecer para hóspedes de hotel-living?",
-      "Como gerenciamos inventário para reservas de longo prazo?",
-      "Que protocolos de limpeza são necessários?"
+      "Por que deixar quartos vazios durante baixa temporada quando Hotel-Living os preenche consistentemente?",
+      "Por que se estressar com limpeza diária quando hóspedes de longa permanência requerem serviço menos frequente?",
+      "Por que lidar com check-ins e check-outs constantes quando você pode ter hóspedes estáveis e estabelecidos?",
+      "Por que perder a oportunidade de fazer parte do futuro da hospitalidade?"
     ],
     [
-      "Como avaliamos potenciais hóspedes de longo prazo?",
-      "Que contratos de locação são necessários?",
-      "Como lidamos com reclamações e problemas de hóspedes?",
-      "Que procedimentos de emergência devem estar em vigor?"
+      "Por que operar com altos custos operacionais quando estadias de longa permanência são mais lucrativas?",
+      "Por que limitar o potencial do seu hotel quando Hotel-Living pode transformar seu modelo de negócio?",
+      "Por que competir no mercado saturado de curta permanência quando você pode pioneirar a revolução da longa permanência?",
+      "Por que assistir outros hotéis lutarem quando você pode liderar o caminho na inovação da hospitalidade?"
     ],
     [
-      "Como fazemos marketing para o demográfico de hotel-living?",
-      "Que parcerias podem ajudar a atrair hóspedes?",
-      "Como otimizamos nossa presença online?",
-      "Que estratégias promocionais funcionam melhor?"
-    ],
-    [
-      "Como lidamos com processamento de pagamentos para estadias prolongadas?",
-      "Que considerações de seguro existem?",
-      "Como gerenciamos fluxo de caixa com reservas mais longas?",
-      "Que implicações fiscais devemos estar cientes?"
-    ],
-    [
-      "Como mantemos qualidade de serviço para hóspedes de longo prazo?",
-      "Que ajustes de agendamento de equipe são necessários?",
-      "Como lidamos com manutenção e reparos?",
-      "Que comodidades de hóspedes requerem reabastecimento regular?"
-    ],
-    [
-      "Como criamos comunidade entre hóspedes de hotel-living?",
-      "Que espaços sociais e atividades devemos fornecer?",
-      "Como lidamos com conflitos entre hóspedes?",
-      "Que considerações de privacidade são importantes?"
-    ],
-    [
-      "Como rastreamos e analisamos métricas de desempenho?",
-      "Que ferramentas de relatório estão disponíveis?",
-      "Como medimos satisfação do hóspede?",
-      "Que indicadores-chave de desempenho importam mais?"
-    ],
-    [
-      "Como lidamos com flutuações sazonais de demanda?",
-      "Que estratégias ajudam a manter ocupação durante todo o ano?",
-      "Como precificamos competitivamente em diferentes mercados?",
-      "Que fatores de localização afetam o sucesso?"
-    ],
-    [
-      "Que integrações tecnológicas são necessárias?",
-      "Como gerenciamos sistemas de reserva eficientemente?",
-      "Que aplicativos móveis ou plataformas devemos usar?",
-      "Como garantimos segurança e privacidade de dados?"
-    ],
-    [
-      "Como lidamos com hóspedes internacionais e regulamentações?",
-      "Que requisitos de visto e legais se aplicam?",
-      "Como gerenciamos questões de câmbio de moeda?",
-      "Que considerações culturais são importantes?"
-    ],
-    [
-      "Como escalamos nossas operações de hotel-living?",
-      "Que oportunidades de expansão existem?",
-      "Como replicamos sucesso através de propriedades?",
-      "Que requisitos de investimento devemos planejar?"
-    ],
-    [
-      "Como garantimos retenção e fidelidade do hóspede?",
-      "Que programas de recompensas funcionam para estadias prolongadas?",
-      "Como lidamos com indicações e avaliações de hóspedes?",
-      "Que estratégias de comunicação constroem relacionamentos?"
+      "Por que se contentar em ser apenas mais um hotel quando você pode se tornar um destino de estilo de vida?",
+      "Por que perder a chance de construir relacionamentos duradouros com hóspedes que se tornam membros da comunidade?",
+      "Por que permanecer preso no modelo antigo de hospitalidade quando Hotel-Living representa o futuro?",
+      "Por que esperar pela mudança quando você pode ser a mudança que transforma a indústria?"
     ]
   ];
 

@@ -8,6 +8,9 @@ import { HotelNotFound } from "@/components/hotel-detail/HotelNotFound";
 import { useHotelDetailWithTranslations } from "@/hooks/useHotelDetailWithTranslations";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Button } from "@/components/ui/button";
+import { Languages } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function HotelDetail() {
   const { id } = useParams<{ id: string }>();
@@ -41,6 +44,25 @@ export default function HotelDetail() {
   return (
     <div className="min-h-screen flex flex-col bg-[#B3B3FF]">
       <Navbar />
+      
+      {/* Translation Debug/Access Panel */}
+      {language !== 'en' && !hasTranslation && (
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Languages className="w-5 h-5 mr-2" />
+              <p className="text-sm">
+                Translation not available for {language.toUpperCase()}. Content shown in English.
+              </p>
+            </div>
+            <Link to="/execute-batch-translation">
+              <Button size="sm" variant="outline" className="text-yellow-700 border-yellow-500 hover:bg-yellow-50">
+                Run Translation Process
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
       
       <main className="flex-1">
         {isLoading ? (

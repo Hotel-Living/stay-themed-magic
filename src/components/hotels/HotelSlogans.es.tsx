@@ -11,12 +11,12 @@ export function HotelSlogansES() {
         
         <div className="space-y-2 bg-[#460F54]/40 backdrop-blur-sm border border-fuchsia-400/20 rounded-xl mx-8 px-0 py-[13px] my-[17px]">
           <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] text-xl">Cada día. Todo el año</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px]">Multiplique sus beneficios de forma espectacular</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-3">Recuperemos los clientes Airbnb</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">Reduzca enormemente los costes operativos</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Estancias más largas y más rentables</p>
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl">Estabilidad de personal durante todo el año</p>
-          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Un único día fijo para entradas y salidas</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[11px] my-[17px]">Multiplicación de beneficios</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-3">Reducción de costes</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px]">Estancias más largas y rentables</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Recuperación de clientes Airbnb</p>
+          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl">Absoluta estabilidad de personal</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px]">Único día semanal para entradas y salidas</p>
         </div>
       </div>
     </>;

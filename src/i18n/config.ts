@@ -15,6 +15,12 @@ import intellectualPropertyEn from './locales/en/intellectualProperty.json';
 import batchTranslationEn from './locales/en/batchTranslation.json';
 import ourValuesEn from './locales/en/ourValues.json';
 import privacyEn from './locales/en/privacy.json';
+import affinityEn from './locales/en/affinity.json';
+import authEn from './locales/en/auth.json';
+import bookingEn from './locales/en/booking.json';
+import contentEn from './locales/en/content.json';
+import customerServiceEn from './locales/en/customerService.json';
+import contactEn from './locales/en/contact.json';
 
 // Import Spanish translations
 import commonEs from './locales/es/common.json';
@@ -83,7 +89,13 @@ const resources = {
     intellectualProperty: intellectualPropertyEn.intellectualProperty,
     batchTranslation: batchTranslationEn.batchTranslation,
     ourValues: ourValuesEn.ourValues,
-    privacy: privacyEn.privacy
+    privacy: privacyEn.privacy,
+    affinity: affinityEn.affinity,
+    auth: authEn.auth,
+    booking: bookingEn.booking,
+    content: contentEn.content,
+    customerService: customerServiceEn.customerService,
+    contact: contactEn.contact
   },
   es: {
     common: commonEs.common,

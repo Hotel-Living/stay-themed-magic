@@ -32,7 +32,7 @@ export const faqTravelersCategories: FaqCategory[] = [
   { id: "senior", name: "SENIOR" },
   { id: "community", name: "Community" },
   { id: "practical", name: "Practical Details" },
-  { id: "commuter", name: "Commuter" }
+  { id: "commuter", name: "¿Lejos del trabajo?" }
 ];
 
 // FAQ content organized by category for travelers

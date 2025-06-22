@@ -10,7 +10,6 @@ import { lifestyleFaqs } from "./faqData/lifestyleFaqs";
 import { seniorFaqs } from "./faqData/seniorFaqs";
 import { communityFaqs } from "./faqData/communityFaqs";
 import { practicalFaqs } from "./faqData/practicalFaqs";
-import { commuterFaqs } from "./faqData/commuterFaqs";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export const useFaqData = () => {
@@ -26,8 +25,7 @@ export const useFaqData = () => {
       { id: "lifestyle", name: "Digital Nomads" },
       { id: "senior", name: "SENIOR" },
       { id: "community", name: "Community" },
-      { id: "practical", name: "Practical Details" },
-      { id: "commuter", name: "Commuter" }
+      { id: "practical", name: "Practical Details" }
     ];
 
     if (language === 'es') {
@@ -40,8 +38,7 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "¿Nómadas Digitales?" },
         { id: "senior", name: "¿Mayores?" },
         { id: "community", name: "¿Comunidad?" },
-        { id: "practical", name: "¿Detalles Prácticos?" },
-        { id: "commuter", name: "¿Lejos del trabajo?" }
+        { id: "practical", name: "¿Detalles Prácticos?" }
       ];
     }
 
@@ -55,8 +52,7 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "Nômades Digitais?" },
         { id: "senior", name: "Idosos?" },
         { id: "community", name: "Comunidade?" },
-        { id: "practical", name: "Detalhes Práticos?" },
-        { id: "commuter", name: "Longe do trabalho?" }
+        { id: "practical", name: "Detalhes Práticos?" }
       ];
     }
 
@@ -70,8 +66,7 @@ export const useFaqData = () => {
         { id: "lifestyle", name: "Nomazi Digitali?" },
         { id: "senior", name: "Seniori?" },
         { id: "community", name: "Comunitate?" },
-        { id: "practical", name: "Detalii Practice?" },
-        { id: "commuter", name: "Departe de muncă?" }
+        { id: "practical", name: "Detalii Practice?" }
       ];
     }
 
@@ -85,8 +80,7 @@ export const useFaqData = () => {
       { id: "lifestyle", name: "Digital Nomads?" },
       { id: "senior", name: "SENIOR?" },
       { id: "community", name: "Community?" },
-      { id: "practical", name: "Practical Details?" },
-      { id: "commuter", name: "Far from work?" }
+      { id: "practical", name: "Practical Details?" }
     ];
   };
 
@@ -100,8 +94,7 @@ export const useFaqData = () => {
       lifestyle: lifestyleFaqs,
       senior: seniorFaqs,
       community: communityFaqs,
-      practical: practicalFaqs,
-      commuter: commuterFaqs
+      practical: practicalFaqs
     };
   };
 

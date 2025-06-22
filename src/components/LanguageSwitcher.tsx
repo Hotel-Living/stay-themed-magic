@@ -28,7 +28,7 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-600/20 to-purple-800/20 border border-purple-500/30 text-white hover:bg-purple-700/30 transition-all duration-200 hover:scale-105">
+        <button className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600/20 to-purple-800/20 border border-purple-500/30 text-white hover:bg-purple-700/30 transition-all duration-200 hover:scale-105 shadow-lg">
           <Globe className="w-4 h-4" />
           <span className="text-2xl" role="img" aria-label={currentLanguage.name}>
             {currentLanguage.flag}
@@ -40,7 +40,7 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="bg-gradient-to-b from-purple-900 to-purple-950 border border-purple-700 shadow-xl backdrop-blur-sm z-50 min-w-[180px]"
+        className="bg-gradient-to-b from-purple-900 to-purple-950 border border-purple-700 shadow-xl backdrop-blur-sm z-50 min-w-[200px]"
       >
         {languages.map((language) => (
           <DropdownMenuItem

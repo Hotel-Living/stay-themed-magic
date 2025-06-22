@@ -84,10 +84,10 @@ i18n
   .use(initReactI18next)
   .init({
     detection: {
-      order: ['navigator', 'htmlTag'],
+      order: ['navigator', 'localStorage', 'htmlTag'],
       lookupFromPathIndex: 0,
       lookupFromSubdomainIndex: 0,
-      caches: [],
+      caches: ['localStorage'],
       excludeCacheFor: ['cimode']
     },
     fallbackLng: 'en',

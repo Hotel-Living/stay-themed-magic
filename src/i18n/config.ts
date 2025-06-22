@@ -23,7 +23,10 @@ import enDashboardContent from './locales/en/dashboard/content.json';
 import enDashboardPropertySteps from './locales/en/dashboard/property-steps.json';
 import enDashboardPropertyForm from './locales/en/dashboard/property-form.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
+import enDashboardFaqTerms from './locales/en/dashboard/faq-terms.json';
 import enAdvertising from './locales/en/dashboard/advertising.json';
+import enRatesCalculator from './locales/en/dashboard/rates-calculator.json';
+import enWelcomeContent from './locales/en/dashboard/welcome-content.json';
 
 // Spanish translations
 import esCommon from './locales/es/common.json';
@@ -78,9 +81,18 @@ const resources = {
         ...enDashboardPropertyForm.dashboard,
         ...enDashboardCommon.dashboard,
       },
+      'dashboard-faq-terms': {
+        ...enDashboardFaqTerms['dashboard-faq-terms'],
+      },
       advertising: {
         ...enAdvertising.advertising,
         ...enAdvertising.dashboard?.advertising,
+      },
+      ratesCalculator: {
+        ...enRatesCalculator.ratesCalculator,
+      },
+      welcomeContent: {
+        ...enWelcomeContent.welcomeContent,
       },
     },
   },

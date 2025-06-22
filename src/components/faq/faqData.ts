@@ -1,16 +1,47 @@
-
 import { FaqItem, FaqCategory } from "./types";
 import { faqCategories } from "./faqCategories";
-import { generalFaqs } from "./faqData/generalFaqs";
-import { bookingFaqs } from "./faqData/bookingFaqs";
-import { stayFaqs } from "./faqData/stayFaqs";
-import { paymentFaqs } from "./faqData/paymentFaqs";
-import { themesFaqs } from "./faqData/themesFaqs";
-import { lifestyleFaqs } from "./faqData/lifestyleFaqs";
-import { seniorFaqs } from "./faqData/seniorFaqs";
-import { communityFaqs } from "./faqData/communityFaqs";
-import { practicalFaqs } from "./faqData/practicalFaqs";
 import { useTranslation } from "@/hooks/useTranslation";
+
+// English imports (existing)
+import { generalFaqs as generalFaqsEn } from "./faqData/generalFaqs";
+import { bookingFaqs as bookingFaqsEn } from "./faqData/bookingFaqs";
+import { stayFaqs as stayFaqsEn } from "./faqData/stayFaqs";
+import { paymentFaqs as paymentFaqsEn } from "./faqData/paymentFaqs";
+import { themesFaqs as themesFaqsEn } from "./faqData/themesFaqs";
+import { lifestyleFaqs as lifestyleFaqsEn } from "./faqData/lifestyleFaqs";
+import { seniorFaqs as seniorFaqsEn } from "./faqData/seniorFaqs";
+import { communityFaqs as communityFaqsEn } from "./faqData/communityFaqs";
+import { practicalFaqs } from "./faqData/practicalFaqs";
+
+// Spanish imports
+import { generalFaqs as generalFaqsEs } from "./faqData/es/generalFaqs";
+import { bookingFaqs as bookingFaqsEs } from "./faqData/es/bookingFaqs";
+import { stayFaqs as stayFaqsEs } from "./faqData/es/stayFaqs";
+import { paymentFaqs as paymentFaqsEs } from "./faqData/es/paymentFaqs";
+import { themesFaqs as themesFaqsEs } from "./faqData/es/themesFaqs";
+import { lifestyleFaqs as lifestyleFaqsEs } from "./faqData/es/lifestyleFaqs";
+import { seniorFaqs as seniorFaqsEs } from "./faqData/es/seniorFaqs";
+import { communityFaqs as communityFaqsEs } from "./faqData/es/communityFaqs";
+
+// Portuguese imports
+import { generalFaqs as generalFaqsPt } from "./faqData/pt/generalFaqs";
+import { bookingFaqs as bookingFaqsPt } from "./faqData/pt/bookingFaqs";
+import { stayFaqs as stayFaqsPt } from "./faqData/pt/stayFaqs";
+import { paymentFaqs as paymentFaqsPt } from "./faqData/pt/paymentFaqs";
+import { themesFaqs as themesFaqsPt } from "./faqData/pt/themesFaqs";
+import { lifestyleFaqs as lifestyleFaqsPt } from "./faqData/pt/lifestyleFaqs";
+import { seniorFaqs as seniorFaqsPt } from "./faqData/pt/seniorFaqs";
+import { communityFaqs as communityFaqsPt } from "./faqData/pt/communityFaqs";
+
+// Romanian imports
+import { generalFaqs as generalFaqsRo } from "./faqData/ro/generalFaqs";
+import { bookingFaqs as bookingFaqsRo } from "./faqData/ro/bookingFaqs";
+import { stayFaqs as stayFaqsRo } from "./faqData/ro/stayFaqs";
+import { paymentFaqs as paymentFaqsRo } from "./faqData/ro/paymentFaqs";
+import { themesFaqs as themesFaqsRo } from "./faqData/ro/themesFaqs";
+import { lifestyleFaqs as lifestyleFaqsRo } from "./faqData/ro/lifestyleFaqs";
+import { seniorFaqs as seniorFaqsRo } from "./faqData/ro/seniorFaqs";
+import { communityFaqs as communityFaqsRo } from "./faqData/ro/communityFaqs";
 
 export const useFaqData = () => {
   const { language } = useTranslation();
@@ -85,15 +116,58 @@ export const useFaqData = () => {
   };
 
   const getFaqsByCategory = () => {
+    if (language === 'es') {
+      return {
+        general: generalFaqsEs,
+        booking: bookingFaqsEs,
+        stay: stayFaqsEs,
+        payment: paymentFaqsEs,
+        themes: themesFaqsEs,
+        lifestyle: lifestyleFaqsEs,
+        senior: seniorFaqsEs,
+        community: communityFaqsEs,
+        practical: practicalFaqs
+      };
+    }
+
+    if (language === 'pt') {
+      return {
+        general: generalFaqsPt,
+        booking: bookingFaqsPt,
+        stay: stayFaqsPt,
+        payment: paymentFaqsPt,
+        themes: themesFaqsPt,
+        lifestyle: lifestyleFaqsPt,
+        senior: seniorFaqsPt,
+        community: communityFaqsPt,
+        practical: practicalFaqs
+      };
+    }
+
+    if (language === 'ro') {
+      return {
+        general: generalFaqsRo,
+        booking: bookingFaqsRo,
+        stay: stayFaqsRo,
+        payment: paymentFaqsRo,
+        themes: themesFaqsRo,
+        lifestyle: lifestyleFaqsRo,
+        senior: seniorFaqsRo,
+        community: communityFaqsRo,
+        practical: practicalFaqs
+      };
+    }
+
+    // English version (default)
     return {
-      general: generalFaqs,
-      booking: bookingFaqs,
-      stay: stayFaqs,
-      payment: paymentFaqs,
-      themes: themesFaqs,
-      lifestyle: lifestyleFaqs,
-      senior: seniorFaqs,
-      community: communityFaqs,
+      general: generalFaqsEn,
+      booking: bookingFaqsEn,
+      stay: stayFaqsEn,
+      payment: paymentFaqsEn,
+      themes: themesFaqsEn,
+      lifestyle: lifestyleFaqsEn,
+      senior: seniorFaqsEn,
+      community: communityFaqsEn,
       practical: practicalFaqs
     };
   };

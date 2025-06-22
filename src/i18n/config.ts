@@ -32,7 +32,6 @@ import esFaq from './locales/es/faq.json';
 import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
 import esDashboardGeneral from './locales/es/dashboard/general.json';
-import esDashboardPropertySteps from './locales/es/dashboard/property-steps.json';
 import esDashboardCommon from './locales/es/dashboard/common.json';
 import esAdvertising from './locales/es/dashboard/advertising.json';
 
@@ -43,7 +42,6 @@ import ptFaq from './locales/pt/faq.json';
 import ptAuth from './locales/pt/auth.json';
 import ptBooking from './locales/pt/booking.json';
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
-import ptDashboardPropertySteps from './locales/pt/dashboard/property-steps.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
 import ptAdvertising from './locales/pt/dashboard/advertising.json';
 
@@ -54,9 +52,7 @@ import roFaq from './locales/ro/faq.json';
 import roAuth from './locales/ro/auth.json';
 import roBooking from './locales/ro/booking.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
-import roDashboardPropertySteps from './locales/ro/dashboard/property-steps.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
-import roAdvertising from './locales/ro/dashboard/advertising.json';
 
 const resources = {
   en: {
@@ -97,12 +93,10 @@ const resources = {
       ...esBooking,
       dashboard: {
         ...esDashboardGeneral.dashboard,
-        ...esDashboardPropertySteps.dashboard,
         ...esDashboardCommon.dashboard,
       },
       advertising: {
         ...esAdvertising.advertising,
-        ...esAdvertising.dashboard?.advertising,
       },
     },
   },
@@ -115,12 +109,10 @@ const resources = {
       ...ptBooking,
       dashboard: {
         ...ptDashboardGeneral.dashboard,
-        ...ptDashboardPropertySteps.dashboard,
         ...ptDashboardCommon.dashboard,
       },
       advertising: {
         ...ptAdvertising.advertising,
-        ...ptAdvertising.dashboard?.advertising,
       },
     },
   },
@@ -133,12 +125,7 @@ const resources = {
       ...roBooking,
       dashboard: {
         ...roDashboardGeneral.dashboard,
-        ...roDashboardPropertySteps.dashboard,
         ...roDashboardCommon.dashboard,
-      },
-      advertising: {
-        ...roAdvertising.advertising,
-        ...roAdvertising.dashboard?.advertising,
       },
     },
   },

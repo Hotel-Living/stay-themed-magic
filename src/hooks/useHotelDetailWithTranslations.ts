@@ -10,7 +10,7 @@ interface HotelTranslation {
   translated_ideal_guests?: string;
   translated_atmosphere?: string;
   translated_perfect_location?: string;
-  translation_status: string; // Changed from strict union to string to match database
+  translation_status: string;
 }
 
 export const useHotelDetailWithTranslations = (hotelId?: string) => {
@@ -20,12 +20,17 @@ export const useHotelDetailWithTranslations = (hotelId?: string) => {
   const [translationLoading, setTranslationLoading] = useState(false);
 
   useEffect(() => {
+    console.log('useHotelDetailWithTranslations - Current language:', language);
+    console.log('useHotelDetailWithTranslations - Hotel ID:', hotelId);
+    
     if (!hotel?.id || language === 'en') {
+      console.log('useHotelDetailWithTranslations - Clearing translation (no hotel or English)');
       setTranslation(null);
       return;
     }
 
     const fetchTranslation = async () => {
+      console.log('useHotelDetailWithTranslations - Fetching translation for:', hotel.id, 'language:', language);
       setTranslationLoading(true);
       try {
         const { data, error } = await supabase
@@ -40,6 +45,7 @@ export const useHotelDetailWithTranslations = (hotelId?: string) => {
           console.error('Error fetching translation:', error);
           setTranslation(null);
         } else {
+          console.log('useHotelDetailWithTranslations - Translation found:', data);
           setTranslation(data);
         }
       } catch (error) {
@@ -62,6 +68,13 @@ export const useHotelDetailWithTranslations = (hotelId?: string) => {
     atmosphere: translation.translated_atmosphere || hotel.atmosphere,
     perfect_location: translation.translated_perfect_location || hotel.perfect_location,
   } : hotel;
+
+  console.log('useHotelDetailWithTranslations - Final hotel data:', {
+    originalName: hotel?.name,
+    translatedName: translatedHotel?.name,
+    hasTranslation: !!translation,
+    language
+  });
 
   return {
     data: translatedHotel,

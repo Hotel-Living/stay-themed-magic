@@ -1,7 +1,7 @@
 
 import { FaqItem } from "../../types";
 
-export const communityFa: FaqItem[] = [
+export const communityFaqs: FaqItem[] = [
   {
     question: "¿Qué tan grandes son las comunidades en cada propiedad?",
     answer: "Los tamaños de las comunidades varían según la propiedad, pero la mayoría oscilan entre 15-50 huéspedes concurrentes participando en los mismos programas de afinidad. Este tamaño está intencionalmente diseñado para ser lo suficientemente grande para interacciones diversas pero lo suficientemente pequeño para fomentar conexiones significativas. El flujo continuo de nuevas llegadas mantiene las comunidades dinámicas mientras se mantiene un grupo central de participantes a largo plazo."

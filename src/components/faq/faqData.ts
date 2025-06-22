@@ -36,11 +36,11 @@ export const useFaqData = () => {
         { id: "booking", name: "Reservas" },
         { id: "stay", name: "Durante tu estancia" },
         { id: "payment", name: "Pagos" },
-        { id: "themes", name: "Afinidades" },
-        { id: "lifestyle", name: "Nómadas Digitales" },
-        { id: "senior", name: "Mayores" },
-        { id: "community", name: "Comunidad" },
-        { id: "practical", name: "Detalles Prácticos" },
+        { id: "themes", name: "¿Afinidades?" },
+        { id: "lifestyle", name: "¿Nómadas Digitales?" },
+        { id: "senior", name: "¿Mayores?" },
+        { id: "community", name: "¿Comunidad?" },
+        { id: "practical", name: "¿Detalles Prácticos?" },
         { id: "commuter", name: "¿Lejos del trabajo?" }
       ];
     }
@@ -51,12 +51,12 @@ export const useFaqData = () => {
         { id: "booking", name: "Reservas" },
         { id: "stay", name: "Durante sua estadia" },
         { id: "payment", name: "Pagamentos" },
-        { id: "themes", name: "Afinidades" },
-        { id: "lifestyle", name: "Nômades Digitais" },
-        { id: "senior", name: "Idosos" },
-        { id: "community", name: "Comunidade" },
-        { id: "practical", name: "Detalhes Práticos" },
-        { id: "commuter", name: "Viajante Diário" }
+        { id: "themes", name: "Afinidades?" },
+        { id: "lifestyle", name: "Nômades Digitais?" },
+        { id: "senior", name: "Idosos?" },
+        { id: "community", name: "Comunidade?" },
+        { id: "practical", name: "Detalhes Práticos?" },
+        { id: "commuter", name: "Longe do trabalho?" }
       ];
     }
 
@@ -66,16 +66,28 @@ export const useFaqData = () => {
         { id: "booking", name: "Rezervări" },
         { id: "stay", name: "În timpul șederii" },
         { id: "payment", name: "Plăți" },
-        { id: "themes", name: "Afinități" },
-        { id: "lifestyle", name: "Nomazi Digitali" },
-        { id: "senior", name: "Seniori" },
-        { id: "community", name: "Comunitate" },
-        { id: "practical", name: "Detalii Practice" },
-        { id: "commuter", name: "Navetist" }
+        { id: "themes", name: "Afinități?" },
+        { id: "lifestyle", name: "Nomazi Digitali?" },
+        { id: "senior", name: "Seniori?" },
+        { id: "community", name: "Comunitate?" },
+        { id: "practical", name: "Detalii Practice?" },
+        { id: "commuter", name: "Departe de muncă?" }
       ];
     }
 
-    return baseCategories;
+    // English version with interrogative forms
+    return [
+      { id: "general", name: "General" },
+      { id: "booking", name: "Booking" },
+      { id: "stay", name: "During Your Stay" },
+      { id: "payment", name: "Payment" },
+      { id: "themes", name: "Affinities?" },
+      { id: "lifestyle", name: "Digital Nomads?" },
+      { id: "senior", name: "SENIOR?" },
+      { id: "community", name: "Community?" },
+      { id: "practical", name: "Practical Details?" },
+      { id: "commuter", name: "Far from work?" }
+    ];
   };
 
   const getFaqsByCategory = () => {

@@ -24,7 +24,7 @@ interface HotelTranslation {
   translated_ideal_guests?: string;
   translated_atmosphere?: string;
   translated_perfect_location?: string;
-  translation_status: 'pending' | 'completed' | 'failed' | 'manual_edit';
+  translation_status: string; // Changed from strict union to string to match database
   auto_generated: boolean;
   created_at: string;
   updated_at: string;

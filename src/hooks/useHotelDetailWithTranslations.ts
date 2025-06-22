@@ -10,7 +10,7 @@ interface HotelTranslation {
   translated_ideal_guests?: string;
   translated_atmosphere?: string;
   translated_perfect_location?: string;
-  translation_status: string;
+  translation_status: string; // Changed from strict union to string to match database
 }
 
 export const useHotelDetailWithTranslations = (hotelId?: string) => {

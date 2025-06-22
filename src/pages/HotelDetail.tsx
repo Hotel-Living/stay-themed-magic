@@ -34,7 +34,7 @@ export default function HotelDetail() {
 
   // Debug logging to verify translation is working
   useEffect(() => {
-    if (hotel && language !== 'en') {
+    if (hotel && language && language !== 'en') {
       console.log('Current language:', language);
       console.log('Has translation:', hasTranslation);
       console.log('Hotel name (possibly translated):', hotel.name);
@@ -46,7 +46,7 @@ export default function HotelDetail() {
       <Navbar />
       
       {/* Translation Debug/Access Panel */}
-      {language !== 'en' && !hasTranslation && (
+      {language && language !== 'en' && !hasTranslation && (
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">

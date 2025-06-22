@@ -24,15 +24,15 @@ export const benefitsTravelersList = [
 // FAQ categories for travelers
 export const faqTravelersCategories: FaqCategory[] = [
   { id: "general", name: "General" },
-  { id: "booking", name: "Booking" },
-  { id: "stay", name: "During Your Stay" },
-  { id: "payment", name: "Payment" },
-  { id: "themes", name: "Affinities" },
-  { id: "lifestyle", name: "Digital Nomads" },
-  { id: "senior", name: "SENIOR" },
-  { id: "community", name: "Community" },
-  { id: "practical", name: "Practical Details" },
-  { id: "commuter", name: "¿Lejos del trabajo?" }
+  { id: "booking", name: "Booking?" },
+  { id: "stay", name: "During Your Stay?" },
+  { id: "payment", name: "Payment?" },
+  { id: "themes", name: "Affinities?" },
+  { id: "lifestyle", name: "Digital Nomads?" },
+  { id: "senior", name: "SENIOR?" },
+  { id: "community", name: "Community?" },
+  { id: "practical", name: "Practical Details?" },
+  { id: "commuter", name: "Far from work?" }
 ];
 
 // FAQ content organized by category for travelers

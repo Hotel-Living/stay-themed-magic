@@ -6,7 +6,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, Play, AlertTriangle } from "lucide-react";
+import { CheckCircle, Play, AlertTriangle, RefreshCw } from "lucide-react";
 
 export default function ExecuteBatchTranslation() {
   const navigate = useNavigate();
@@ -14,27 +14,36 @@ export default function ExecuteBatchTranslation() {
   const { loading, progress, startBatchTranslation, getTranslationStats } = useBatchTranslation();
   const [stats, setStats] = useState({ totalHotels: 0, translatedHotels: 0, pendingTranslations: 0 });
   const [isExecuting, setIsExecuting] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
 
   useEffect(() => {
     loadStats();
-    // Auto-execute batch translation
-    executeBatchTranslation();
+    // Removed auto-execution - users now have to manually trigger it
   }, []);
 
   const loadStats = async () => {
-    const translationStats = await getTranslationStats();
-    setStats(translationStats);
+    try {
+      const translationStats = await getTranslationStats();
+      setStats(translationStats);
+      setLastError(null);
+    } catch (error) {
+      console.error('Failed to load stats:', error);
+      setLastError('Failed to load translation statistics');
+    }
   };
 
   const executeBatchTranslation = async () => {
     setIsExecuting(true);
+    setLastError(null);
     try {
       console.log('Starting batch translation process...');
-      await startBatchTranslation(50); // Process 50 hotels at a time
+      // Reduced batch size to prevent rate limiting
+      await startBatchTranslation(10); // Process 10 hotels at a time instead of 50
       await loadStats(); // Reload stats after completion
       console.log('Batch translation completed successfully');
     } catch (error) {
       console.error('Batch translation failed:', error);
+      setLastError(error.message || 'Batch translation failed. Please check if OpenAI API key is configured and try again.');
     } finally {
       setIsExecuting(false);
     }
@@ -51,6 +60,19 @@ export default function ExecuteBatchTranslation() {
           <h1 className="text-3xl font-bold text-white mb-2">{t('title')}</h1>
           <p className="text-white/60">{t('description')}</p>
         </div>
+
+        {/* Error Display */}
+        {lastError && (
+          <Card className="bg-red-900/20 border-red-800/30 mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 text-red-400">
+                <AlertTriangle className="w-5 h-5" />
+                <span className="font-semibold">Error:</span>
+              </div>
+              <p className="text-red-300 mt-2">{lastError}</p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Translation Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -161,6 +183,16 @@ export default function ExecuteBatchTranslation() {
                 {t('buttons.runAgain')}
               </>
             )}
+          </Button>
+
+          <Button 
+            onClick={loadStats}
+            disabled={loading || isExecuting}
+            variant="outline"
+            className="text-white border-purple-600 hover:bg-purple-600/20"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh Stats
           </Button>
 
           <Button 

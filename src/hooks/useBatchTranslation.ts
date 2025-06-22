@@ -17,11 +17,13 @@ export const useBatchTranslation = () => {
   const [progress, setProgress] = useState<BatchTranslationResult | null>(null);
   const { toast } = useToast();
 
-  const startBatchTranslation = async (batchSize: number = 20) => {
+  const startBatchTranslation = async (batchSize: number = 10) => {
     setLoading(true);
     setProgress(null);
 
     try {
+      console.log(`Starting batch translation with batch size: ${batchSize}`);
+      
       const { data, error } = await supabase.functions.invoke('batch-translate-hotels', {
         body: {
           batchSize,
@@ -30,7 +32,8 @@ export const useBatchTranslation = () => {
       });
 
       if (error) {
-        throw error;
+        console.error('Supabase function error:', error);
+        throw new Error(`Translation service error: ${error.message}`);
       }
 
       if (data.success) {
@@ -38,6 +41,7 @@ export const useBatchTranslation = () => {
         toast({
           title: "Batch Translation Completed",
           description: `Processed ${data.processed} hotels with ${data.errors} errors`,
+          variant: data.errors > 0 ? "warning" : "default"
         });
       } else {
         throw new Error(data.error || 'Batch translation failed');
@@ -46,12 +50,23 @@ export const useBatchTranslation = () => {
       return data;
     } catch (error) {
       console.error('Batch translation error:', error);
+      
+      let errorMessage = "There was an error processing the batch translation";
+      
+      if (error.message.includes('OpenAI API error: 429')) {
+        errorMessage = "OpenAI API rate limit exceeded. Please wait a few minutes before trying again.";
+      } else if (error.message.includes('OpenAI API key not configured')) {
+        errorMessage = "OpenAI API key is not configured. Please contact the administrator.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Batch Translation Failed",
-        description: error.message || "There was an error processing the batch translation",
+        description: errorMessage,
         variant: "destructive",
       });
-      throw error;
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }

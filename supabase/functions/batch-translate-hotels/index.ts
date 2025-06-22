@@ -82,15 +82,25 @@ const translateSingleHotel = async (hotel: any, targetLanguage: string) => {
   }
 };
 
+// Add delay function to prevent rate limiting
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { batchSize = 20, languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
+    const { batchSize = 10, languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
 
     console.log(`Starting batch translation process for languages: ${languages.join(', ')}`);
+    console.log(`Batch size: ${batchSize}`);
+
+    // Check if OpenAI API key is configured
+    const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openAIApiKey) {
+      throw new Error('OpenAI API key is not configured. Please contact the administrator.');
+    }
 
     // Get hotels that need translation
     const hotelsToTranslate = await getHotelsNeedingTranslation(languages);
@@ -103,7 +113,9 @@ serve(async (req) => {
           success: true,
           message: 'No hotels need translation',
           processed: 0,
-          total: 0
+          errors: 0,
+          total: 0,
+          hasMore: false
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -115,7 +127,7 @@ serve(async (req) => {
     let errors = 0;
     const results = [];
 
-    // Process hotels in batches
+    // Process hotels in batches with rate limiting
     const hotelsToProcess = hotelsToTranslate.slice(0, batchSize);
 
     for (const hotel of hotelsToProcess) {
@@ -140,8 +152,8 @@ serve(async (req) => {
             errors++;
           }
           
-          // Add small delay between translations to avoid rate limiting
-          await new Promise(resolve => setTimeout(resolve, 100));
+          // Add delay between API calls to prevent rate limiting
+          await delay(1000); // 1 second delay between translations
         }
       }
 
@@ -154,6 +166,11 @@ serve(async (req) => {
       }
 
       processed++;
+      
+      // Add delay between hotels to further prevent rate limiting
+      if (processed < hotelsToProcess.length) {
+        await delay(500); // 0.5 second delay between hotels
+      }
     }
 
     console.log(`Batch translation completed. Processed: ${processed}, Errors: ${errors}`);

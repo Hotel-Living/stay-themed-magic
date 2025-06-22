@@ -104,5 +104,43 @@ export const createNewHotel = async (formData: PropertyFormData, userId?: string
   }
 
   console.log("Hotel created successfully:", data);
+
+  // Trigger automatic translations asynchronously (non-blocking)
+  if (data?.id) {
+    const translationContent = {
+      name: data.name,
+      description: data.description || undefined,
+      ideal_guests: data.ideal_guests || undefined,
+      atmosphere: data.atmosphere || undefined,
+      perfect_location: data.perfect_location || undefined
+    };
+
+    // Use setTimeout to ensure this runs after the main workflow completes
+    setTimeout(async () => {
+      try {
+        const targetLanguages: ('es' | 'pt' | 'ro')[] = ['es', 'pt', 'ro'];
+        
+        for (const language of targetLanguages) {
+          try {
+            await supabase.functions.invoke('translate-hotel-content', {
+              body: {
+                hotelId: data.id,
+                targetLanguage: language,
+                content: translationContent
+              }
+            });
+            console.log(`Auto-translation triggered for hotel ${data.id} in ${language}`);
+          } catch (translationError) {
+            console.warn(`Auto-translation failed for hotel ${data.id} in ${language}:`, translationError);
+            // Continue with other languages even if one fails
+          }
+        }
+      } catch (error) {
+        console.warn('Auto-translation process failed:', error);
+        // Fail silently to not affect the main hotel creation workflow
+      }
+    }, 1000); // 1 second delay to ensure main workflow completes
+  }
+
   return data;
 };

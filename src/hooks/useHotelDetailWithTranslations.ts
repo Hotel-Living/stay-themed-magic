@@ -53,7 +53,7 @@ export const useHotelDetailWithTranslations = (hotelId?: string) => {
     fetchTranslation();
   }, [hotel?.id, language]);
 
-  // Return hotel data with translations applied
+  // Return hotel data with translations applied, graceful fallback to original content
   const translatedHotel = hotel && translation ? {
     ...hotel,
     name: translation.translated_name || hotel.name,

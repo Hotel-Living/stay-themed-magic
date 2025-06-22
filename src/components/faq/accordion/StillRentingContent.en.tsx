@@ -5,23 +5,27 @@ import { QuestionGroup } from "./QuestionGroup";
 export function StillRentingContentEN() {
   const questionGroups = [
     [
-      "How much can I save by switching from renting to hotel-living?",
-      "What are the hidden costs of traditional renting?",
-      "How do hotel rates compare to monthly rent payments?",
-      "Can I break my lease to start hotel-living?"
+      "Why rent an apartment when you can have room service?",
+      "Why deal with endless paperwork when you can check in and feel at home instantly?",
+      "Why pay deposits when you can invest your money in comfort, connection, and care?",
+      "Why commit to a yearly lease when freedom means staying with like-minded people in affinity stays?",
+      "Why clean when someone else takes care of it and you can enjoy your time with others?",
+      "Why give up comfort when Hotel Living includes cleaning, smiles, and maybe even an invitation to dinner?"
     ],
     [
-      "What about utilities and internet costs?",
-      "How do I handle my security deposit and lease obligations?",
-      "What happens to my furniture and belongings?",
-      "Can I try hotel-living for a month before committing?"
+      "Why live alone when you can live connected?",
+      "Why resign yourself to loneliness when your affinities can bring you closer to your tribe?",
+      "Why live under inspection when you can have service and be treated like a guest?",
+      "Why be far from life when hotels bring the world (and people) right to your door?",
+      "Why rent when you can be welcomed, hosted, and even make new friends?",
+      "Why carry furniture when your room is ready, your neighbors are interesting, and dinner is waiting downstairs?"
     ],
     [
-      "How do I explain hotel-living to friends and family?",
-      "What about mail delivery and permanent address?",
-      "How do I handle tax implications and residency?",
-      "Can I maintain the same lifestyle and routines?",
-      "What about parking and transportation changes?"
+      "Why chase landlords when Hotel Living welcomes you, feeds you, and introduces you to new friends?",
+      "Why eat alone when you can share a table with people who understand you?",
+      "Why waste time on food delivery apps when you have a restaurant just steps away?",
+      "Why get ten bills a month when Hotel Living unifies everything in one simple stay?",
+      "Why rent like it's 1999 when Hotel Living is the future of living?"
     ]
   ];
 

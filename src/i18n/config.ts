@@ -88,6 +88,9 @@ const resources = {
         ...enDashboardPropertySteps.dashboard,
         ...enDashboardPropertyForm.dashboard,
         ...enDashboardCommon.dashboard,
+        ratesCalculator: {
+          ...enRatesCalculator.ratesCalculator,
+        },
       },
       'dashboard-faq-terms': {
         ...enDashboardFaqTerms['dashboard-faq-terms'],
@@ -95,9 +98,6 @@ const resources = {
       advertising: {
         ...enAdvertising.advertising,
         ...enAdvertising.dashboard?.advertising,
-      },
-      ratesCalculator: {
-        ...enRatesCalculator.ratesCalculator,
       },
       welcomeContent: {
         ...enWelcomeContent.welcomeContent,

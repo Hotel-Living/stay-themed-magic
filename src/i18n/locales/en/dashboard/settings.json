@@ -1,0 +1,47 @@
+
+{
+  "dashboard": {
+    "settings": {
+      "title": "Settings",
+      "hotelPolicies": "Hotel Policies",
+      "smokingPolicy": "Smoking Policy",
+      "petsPolicy": "Pets Policy",
+      "childrenPolicy": "Children Policy",
+      "cancellationPolicy": "Cancellation Policy",
+      "checkinCheckoutPolicy": "Check-in/Check-out Policy",
+      "checkinOutPolicy": "Check-in/Check-out Policy",
+      "checkInOutPolicy": "Check-in/Check-out Policy",
+      "allowSmoking": "Allow Smoking",
+      "allowPets": "Allow Pets",
+      "allowChildren": "Allow Children",
+      "smokingAllowed": "Smoking Allowed",
+      "smokingNotAllowed": "No Smoking",
+      "petsAllowed": "Pets Allowed",
+      "petsNotAllowed": "No Pets",
+      "childrenAllowed": "Children Allowed",
+      "childrenNotAllowed": "Adults Only",
+      "freeCancellation": "Free Cancellation",
+      "moderateCancellation": "Moderate Cancellation",
+      "strictCancellation": "Strict Cancellation",
+      "nonRefundable": "Non-Refundable",
+      "notifications": "Notifications",
+      "emailNotifications": "Email Notifications",
+      "pushNotifications": "Push Notifications",
+      "smsNotifications": "SMS Notifications",
+      "notifyBookings": "Notify New Bookings",
+      "notifyCancellations": "Notify Cancellations",
+      "notifyReviews": "Notify New Reviews",
+      "notifyPayments": "Notify Payments",
+      "privacy": "Privacy Settings",
+      "publicProfile": "Public Profile",
+      "showContactInfo": "Show Contact Information",
+      "allowDirectContact": "Allow Direct Contact",
+      "preferences": "Preferences",
+      "currency": "Currency",
+      "language": "Language",
+      "timezone": "Timezone",
+      "dateFormat": "Date Format",
+      "timeFormat": "Time Format"
+    }
+  }
+}

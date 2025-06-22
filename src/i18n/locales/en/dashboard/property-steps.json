@@ -27,6 +27,27 @@
     "maximumPriceIncrease": "Maximum Price Increase",
     "maxPriceIncreaseDescription": "Set the maximum percentage increase allowed for dynamic pricing",
     "howDynamicPricingWorks": "How Dynamic Pricing Works",
-    "generalInformation": "General Information"
+    "generalInformation": "General Information",
+    "stepTitles": {
+      "hotelProfile": "Hotel Profile",
+      "generalInformation": "General Information",
+      "accommodationTerms": "Accommodation Terms",
+      "packagesBuilder": "Packages Builder",
+      "faqTerms": "FAQ & Terms and Conditions"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum length required",
+      "maxLength": "Maximum length exceeded",
+      "invalidFormat": "Invalid format",
+      "uploadRequired": "At least one image must be uploaded"
+    },
+    "pictures": {
+      "title": "Pictures",
+      "uploadInstructions": "Upload high-quality images of your property",
+      "supportedFormats": "Supported formats: JPG, PNG, WebP",
+      "maxFileSize": "Maximum file size: 10MB per image",
+      "recommendedSize": "Recommended size: 1920x1080 pixels"
+    }
   }
 }

@@ -54,6 +54,9 @@
     "noReviewsMessage": "Reviews from guests will appear here",
     "recentBookings": "Recent Bookings",
     "noBookings": "No bookings yet",
-    "noBookingsMessage": "Your property bookings will appear here"
+    "noBookingsMessage": "Your property bookings will appear here",
+    "analyticsTitle": "Analytics",
+    "financialOverview": "Financial Overview",
+    "financialDataMessage": "Financial data and reports will appear here"
   }
 }

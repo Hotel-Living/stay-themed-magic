@@ -1,0 +1,34 @@
+
+{
+  "dashboard": {
+    "accommodation": {
+      "title": "Accommodation Terms",
+      "stayDuration": "Stay Duration",
+      "stayLengths": "Stay Lengths",
+      "availableStayLengths": "Available Stay Lengths",
+      "selectStayLengths": "Select Stay Lengths",
+      "minimumStay": "Minimum Stay",
+      "maximumStay": "Maximum Stay",
+      "roomTypes": "Room Types",
+      "availableRoomTypes": "Available Room Types",
+      "roomTypesDescription": "Select the room types available at your property",
+      "mealPlans": "Meal Plans",
+      "availableMealPlans": "Available Meal Plans",
+      "mealPlansDescription": "Select the meal plans you offer",
+      "noMeals": "No Meals",
+      "breakfastOnly": "Breakfast Only",
+      "halfBoard": "Half Board",
+      "fullBoard": "Full Board",
+      "allInclusive": "All Inclusive",
+      "availability": "Availability",
+      "availableDates": "Available Dates",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "blackoutDates": "Blackout Dates",
+      "seasonalRates": "Seasonal Rates",
+      "peakSeason": "Peak Season",
+      "lowSeason": "Low Season",
+      "standardSeason": "Standard Season"
+    }
+  }
+}

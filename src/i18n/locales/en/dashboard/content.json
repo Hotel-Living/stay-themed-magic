@@ -1,0 +1,29 @@
+
+{
+  "dashboard": {
+    "content": {
+      "title": "Content Management",
+      "description": "Description",
+      "content": "Content",
+      "text": "Text",
+      "media": "Media",
+      "gallery": "Gallery",
+      "portfolio": "Portfolio",
+      "showcase": "Showcase",
+      "highlights": "Highlights",
+      "featured": "Featured",
+      "popular": "Popular",
+      "recommended": "Recommended",
+      "trending": "Trending",
+      "latest": "Latest",
+      "recent": "Recent",
+      "archived": "Archived",
+      "draft": "Draft",
+      "published": "Published",
+      "scheduled": "Scheduled",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  }
+}

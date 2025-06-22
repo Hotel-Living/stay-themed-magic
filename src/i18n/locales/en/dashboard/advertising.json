@@ -1,0 +1,38 @@
+
+{
+  "dashboard": {
+    "advertising": {
+      "title": "Advertising & Promotion",
+      "campaigns": "Campaigns",
+      "promotions": "Promotions",
+      "offers": "Offers",
+      "deals": "Deals",
+      "discounts": "Discounts",
+      "packages": "Packages",
+      "bundles": "Bundles",
+      "specialOffers": "Special Offers",
+      "limitedTime": "Limited Time",
+      "seasonal": "Seasonal",
+      "earlyBird": "Early Bird",
+      "lastMinute": "Last Minute",
+      "groupBooking": "Group Booking",
+      "corporate": "Corporate",
+      "loyalty": "Loyalty Program",
+      "rewards": "Rewards",
+      "points": "Points",
+      "benefits": "Benefits",
+      "perks": "Perks",
+      "exclusive": "Exclusive",
+      "premium": "Premium",
+      "vip": "VIP",
+      "marketing": "Marketing",
+      "branding": "Branding",
+      "visibility": "Visibility",
+      "exposure": "Exposure",
+      "reach": "Reach",
+      "engagement": "Engagement",
+      "conversion": "Conversion",
+      "roi": "Return on Investment"
+    }
+  }
+}

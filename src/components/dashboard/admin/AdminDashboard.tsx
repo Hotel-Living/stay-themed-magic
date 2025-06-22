@@ -1,87 +1,108 @@
 
-import React, { useState } from 'react';
-import AdminUsersPanel from './AdminUsersPanel';
-import AdminBookingsPanel from './AdminBookingsPanel';
-import AdminPaymentsPanel from './AdminPaymentsPanel';
-import AffinitiesPanel from './affinities/AffinitiesPanel';
-import AdminFiltersPanel from './AdminFiltersPanel';
-import ActivitiesPanel from "./activities/ActivitiesPanel";
-import PendingHotelsTable from './PendingHotelsTable';
-import { Card, CardContent } from "@/components/ui/card";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHotelsData } from "./hooks/useHotelsData";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Eye, Check, X, Building, Languages } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PendingHotelsTable } from "./PendingHotelsTable";
+import AdminUsersPanel from "./AdminUsersPanel";
+import AdminBookingsPanel from "./AdminBookingsPanel";
+import AdminPaymentsPanel from "./AdminPaymentsPanel";
+import { AdminAffinitiesPanel } from "./affinities/AffinitiesPanel";
+import { AdminFiltersPanel } from "./filters/FilterTabs";
+import BatchTranslationPanel from "./BatchTranslationPanel";
 
 export default function AdminDashboard() {
   const location = useLocation();
+  const navigate = useNavigate();
   
-  // Determine active tab based on URL path
-  const getActiveTabFromPath = () => {
+  // Get the current tab from URL path
+  const getCurrentTab = () => {
     const path = location.pathname;
     if (path.includes('/users')) return 'users';
     if (path.includes('/bookings')) return 'bookings';
-    if (path.includes('/analytics')) return 'analytics';
+    if (path.includes('/payments')) return 'payments';
     if (path.includes('/affinities')) return 'affinities';
-    if (path.includes('/activities')) return 'activities';
     if (path.includes('/filters')) return 'filters';
-    if (path.includes('/settings')) return 'settings';
-    return 'hotels'; // Default to hotels for /admin/hotels and /admin
+    if (path.includes('/translations')) return 'translations';
+    return 'hotels';
   };
 
-  const [activeTab] = useState(getActiveTabFromPath());
+  const [activeTab, setActiveTab] = useState(getCurrentTab());
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'hotels':
-        return <PendingHotelsTable />;
-      case 'users':
-        return <AdminUsersPanel />;
-      case 'bookings':
-        return <AdminBookingsPanel />;
-      case 'analytics':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-white">Analytics</h2>
-              <p className="text-white/60">Platform analytics and statistics</p>
-            </div>
-            <Card className="bg-purple-900/20 border-purple-800/30">
-              <CardContent className="p-6">
-                <div className="text-center text-white/60">
-                  <p>Analytics dashboard will be displayed here.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        );
-      case 'affinities':
-        return <AffinitiesPanel />;
-      case 'activities':
-        return <ActivitiesPanel />;
-      case 'filters':
-        return <AdminFiltersPanel />;
-      case 'settings':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-white">Settings</h2>
-              <p className="text-white/60">Admin settings and configuration</p>
-            </div>
-            <Card className="bg-purple-900/20 border-purple-800/30">
-              <CardContent className="p-6">
-                <div className="text-center text-white/60">
-                  <p>Admin settings will be displayed here.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        );
-      default:
-        return <PendingHotelsTable />;
-    }
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    navigate(`/admin/${tab}`);
   };
 
   return (
-    <div className="space-y-6">
-      {renderContent()}
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <div className="container mx-auto p-6">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
+          <p className="text-white/60">Manage hotels, users, bookings, and system content</p>
+        </div>
+
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-7 bg-purple-900/20 border border-purple-800/30">
+            <TabsTrigger value="hotels" className="data-[state=active]:bg-purple-700">
+              <Building className="w-4 h-4 mr-2" />
+              Hotels
+            </TabsTrigger>
+            <TabsTrigger value="users" className="data-[state=active]:bg-purple-700">
+              Users
+            </TabsTrigger>
+            <TabsTrigger value="bookings" className="data-[state=active]:bg-purple-700">
+              Bookings
+            </TabsTrigger>
+            <TabsTrigger value="payments" className="data-[state=active]:bg-purple-700">
+              Payments
+            </TabsTrigger>
+            <TabsTrigger value="affinities" className="data-[state=active]:bg-purple-700">
+              Affinities
+            </TabsTrigger>
+            <TabsTrigger value="filters" className="data-[state=active]:bg-purple-700">
+              Filters
+            </TabsTrigger>
+            <TabsTrigger value="translations" className="data-[state=active]:bg-purple-700">
+              <Languages className="w-4 h-4 mr-2" />
+              Translations
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="hotels">
+            <PendingHotelsTable />
+          </TabsContent>
+
+          <TabsContent value="users">
+            <AdminUsersPanel />
+          </TabsContent>
+
+          <TabsContent value="bookings">
+            <AdminBookingsPanel />
+          </TabsContent>
+
+          <TabsContent value="payments">
+            <AdminPaymentsPanel />
+          </TabsContent>
+
+          <TabsContent value="affinities">
+            <AdminAffinitiesPanel />
+          </TabsContent>
+
+          <TabsContent value="filters">
+            <AdminFiltersPanel />
+          </TabsContent>
+
+          <TabsContent value="translations">
+            <BatchTranslationPanel />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

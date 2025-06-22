@@ -17,6 +17,7 @@ export default function AdminAllRoutes() {
         <Route path="/advertising" element={<AdminDashboard />} />
         <Route path="/affinities" element={<AdminDashboard />} />
         <Route path="/filters" element={<AdminDashboard />} />
+        <Route path="/translations" element={<AdminDashboard />} />
         <Route path="/roles" element={<AdminDashboard />} />
         <Route path="/analytics" element={<AdminDashboard />} />
         <Route path="/settings" element={<AdminDashboard />} />

@@ -8,12 +8,12 @@ import { Eye, Check, X, Building, Languages } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PendingHotelsTable } from "./PendingHotelsTable";
+import PendingHotelsTable from "./PendingHotelsTable";
 import AdminUsersPanel from "./AdminUsersPanel";
 import AdminBookingsPanel from "./AdminBookingsPanel";
 import AdminPaymentsPanel from "./AdminPaymentsPanel";
-import { AdminAffinitiesPanel } from "./affinities/AffinitiesPanel";
-import { AdminFiltersPanel } from "./filters/FilterTabs";
+import AffinitiesPanel from "./affinities/AffinitiesPanel";
+import AdminFiltersPanel from "./AdminFiltersPanel";
 import BatchTranslationPanel from "./BatchTranslationPanel";
 
 export default function AdminDashboard() {
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="affinities">
-            <AdminAffinitiesPanel />
+            <AffinitiesPanel />
           </TabsContent>
 
           <TabsContent value="filters">

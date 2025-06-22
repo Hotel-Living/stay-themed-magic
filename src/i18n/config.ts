@@ -13,6 +13,8 @@ import ourServicesEn from './locales/en/ourServices.json';
 import miscEn from './locales/en/misc.json';
 import intellectualPropertyEn from './locales/en/intellectualProperty.json';
 import batchTranslationEn from './locales/en/batchTranslation.json';
+import ourValuesEn from './locales/en/ourValues.json';
+import privacyEn from './locales/en/privacy.json';
 
 // Import Spanish translations
 import commonEs from './locales/es/common.json';
@@ -47,6 +49,9 @@ import customerServicePt from './locales/pt/customerService.json';
 import authPt from './locales/pt/auth.json';
 import contactPt from './locales/pt/contact.json';
 import batchTranslationPt from './locales/pt/batchTranslation.json';
+import miscPt from './locales/pt/misc.json';
+import privacyPt from './locales/pt/privacy.json';
+import ourValuesPt from './locales/pt/ourValues.json';
 
 // Import Romanian translations
 import commonRo from './locales/ro/common.json';
@@ -60,6 +65,10 @@ import bookingRo from './locales/ro/booking.json';
 import authRo from './locales/ro/auth.json';
 import contactRo from './locales/ro/contact.json';
 import batchTranslationRo from './locales/ro/batchTranslation.json';
+import miscRo from './locales/ro/misc.json';
+import privacyRo from './locales/ro/privacy.json';
+import ourValuesRo from './locales/ro/ourValues.json';
+import customerServiceRo from './locales/ro/customerService.json';
 
 const resources = {
   en: {
@@ -72,7 +81,9 @@ const resources = {
     ourServices: ourServicesEn.ourServices,
     misc: miscEn.misc,
     intellectualProperty: intellectualPropertyEn.intellectualProperty,
-    batchTranslation: batchTranslationEn.batchTranslation
+    batchTranslation: batchTranslationEn.batchTranslation,
+    ourValues: ourValuesEn.ourValues,
+    privacy: privacyEn.privacy
   },
   es: {
     common: commonEs.common,
@@ -108,7 +119,10 @@ const resources = {
     customerService: customerServicePt.customerService,
     auth: authPt.auth,
     contact: contactPt.contact,
-    batchTranslation: batchTranslationPt.batchTranslation
+    batchTranslation: batchTranslationPt.batchTranslation,
+    misc: miscPt.misc,
+    privacy: privacyPt.privacy,
+    ourValues: ourValuesPt.ourValues
   },
   ro: {
     common: commonRo.common,
@@ -122,7 +136,11 @@ const resources = {
     booking: bookingRo.booking,
     auth: authRo.auth,
     contact: contactRo.contact,
-    batchTranslation: batchTranslationRo.batchTranslation
+    batchTranslation: batchTranslationRo.batchTranslation,
+    misc: miscRo.misc,
+    privacy: privacyRo.privacy,
+    ourValues: ourValuesRo.ourValues,
+    customerService: customerServiceRo.customerService
   }
 };
 

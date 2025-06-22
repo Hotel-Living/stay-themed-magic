@@ -131,6 +131,11 @@
     "hotelDescriptionPlaceholder": "Enter a detailed description of your hotel",
     "idealGuestsPlaceholder": "Describe your ideal guests",
     "atmospherePlaceholder": "Describe the atmosphere of your property",
-    "locationPlaceholder": "Describe your location advantages"
+    "locationPlaceholder": "Describe your location advantages",
+    "clickAnywhereOnMap": "Click anywhere on map",
+    "idealGuestsEnjoy": "Ideal Guests Enjoy",
+    "atmosphereIs": "Atmosphere Is",
+    "locationPerfectFor": "Location Perfect For",
+    "location": "Location"
   }
 }

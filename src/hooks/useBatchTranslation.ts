@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -17,12 +16,12 @@ export const useBatchTranslation = () => {
   const [progress, setProgress] = useState<BatchTranslationResult | null>(null);
   const { toast } = useToast();
 
-  const startBatchTranslation = async (batchSize: number = 10) => {
+  const startBatchTranslation = async (batchSize: number = 5) => {
     setLoading(true);
     setProgress(null);
 
     try {
-      console.log(`Starting batch translation with batch size: ${batchSize}`);
+      console.log(`Starting sequential batch translation with batch size: ${batchSize}`);
       
       const { data, error } = await supabase.functions.invoke('batch-translate-hotels', {
         body: {
@@ -39,22 +38,22 @@ export const useBatchTranslation = () => {
       if (data.success) {
         setProgress(data);
         toast({
-          title: "Batch Translation Completed",
-          description: `Processed ${data.processed} hotels with ${data.errors} errors`,
+          title: "Sequential Batch Translation Completed",
+          description: `Processed ${data.processed} translations with ${data.errors} errors`,
           variant: data.errors > 0 ? "warning" : "default"
         });
       } else {
-        throw new Error(data.error || 'Batch translation failed');
+        throw new Error(data.error || 'Sequential batch translation failed');
       }
 
       return data;
     } catch (error) {
-      console.error('Batch translation error:', error);
+      console.error('Sequential batch translation error:', error);
       
-      let errorMessage = "There was an error processing the batch translation";
+      let errorMessage = "There was an error processing the sequential batch translation";
       
       if (error.message.includes('OpenAI API error: 429')) {
-        errorMessage = "OpenAI API rate limit exceeded. Please wait a few minutes before trying again.";
+        errorMessage = "OpenAI API rate limit exceeded. The sequential processing should have prevented this - please try again.";
       } else if (error.message.includes('OpenAI API key not configured')) {
         errorMessage = "OpenAI API key is not configured. Please contact the administrator.";
       } else if (error.message) {
@@ -62,7 +61,7 @@ export const useBatchTranslation = () => {
       }
       
       toast({
-        title: "Batch Translation Failed",
+        title: "Sequential Batch Translation Failed",
         description: errorMessage,
         variant: "destructive",
       });

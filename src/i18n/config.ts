@@ -9,11 +9,9 @@ import enNavigation from './locales/en/navigation.json';
 import enFaq from './locales/en/faq.json';
 import enAuth from './locales/en/auth.json';
 import enBooking from './locales/en/booking.json';
-import enProfile from './locales/en/profile.json';
 import enDashboardGeneral from './locales/en/dashboard/general.json';
 import enDashboardWelcome from './locales/en/dashboard/welcome.json';
 import enDashboardStats from './locales/en/dashboard/stats.json';
-import enDashboardSettings from './locales/en/dashboard/settings.json';
 import enDashboardAccommodation from './locales/en/dashboard/accommodation.json';
 import enDashboardLocation from './locales/en/dashboard/location.json';
 import enDashboardPricing from './locales/en/dashboard/pricing.json';
@@ -33,7 +31,6 @@ import esNavigation from './locales/es/navigation.json';
 import esFaq from './locales/es/faq.json';
 import esAuth from './locales/es/auth.json';
 import esBooking from './locales/es/booking.json';
-import esProfile from './locales/es/profile.json';
 import esDashboardGeneral from './locales/es/dashboard/general.json';
 import esDashboardPropertySteps from './locales/es/dashboard/property-steps.json';
 import esDashboardCommon from './locales/es/dashboard/common.json';
@@ -45,7 +42,6 @@ import ptNavigation from './locales/pt/navigation.json';
 import ptFaq from './locales/pt/faq.json';
 import ptAuth from './locales/pt/auth.json';
 import ptBooking from './locales/pt/booking.json';
-import ptProfile from './locales/pt/profile.json';
 import ptDashboardGeneral from './locales/pt/dashboard/general.json';
 import ptDashboardPropertySteps from './locales/pt/dashboard/property-steps.json';
 import ptDashboardCommon from './locales/pt/dashboard/common.json';
@@ -57,7 +53,6 @@ import roNavigation from './locales/ro/navigation.json';
 import roFaq from './locales/ro/faq.json';
 import roAuth from './locales/ro/auth.json';
 import roBooking from './locales/ro/booking.json';
-import roProfile from './locales/ro/profile.json';
 import roDashboardGeneral from './locales/ro/dashboard/general.json';
 import roDashboardPropertySteps from './locales/ro/dashboard/property-steps.json';
 import roDashboardCommon from './locales/ro/dashboard/common.json';
@@ -71,12 +66,10 @@ const resources = {
       ...enFaq,
       ...enAuth,
       ...enBooking,
-      ...enProfile,
       dashboard: {
         ...enDashboardGeneral.dashboard,
         ...enDashboardWelcome.dashboard.welcome,
         ...enDashboardStats.dashboard.stats,
-        ...enDashboardSettings.dashboard.settings,
         ...enDashboardAccommodation.dashboard.accommodation,
         ...enDashboardLocation.dashboard.location,
         ...enDashboardPricing.dashboard.pricing,
@@ -102,7 +95,6 @@ const resources = {
       ...esFaq,
       ...esAuth,
       ...esBooking,
-      ...esProfile,
       dashboard: {
         ...esDashboardGeneral.dashboard,
         ...esDashboardPropertySteps.dashboard,
@@ -121,7 +113,6 @@ const resources = {
       ...ptFaq,
       ...ptAuth,
       ...ptBooking,
-      ...ptProfile,
       dashboard: {
         ...ptDashboardGeneral.dashboard,
         ...ptDashboardPropertySteps.dashboard,
@@ -140,7 +131,6 @@ const resources = {
       ...roFaq,
       ...roAuth,
       ...roBooking,
-      ...roProfile,
       dashboard: {
         ...roDashboardGeneral.dashboard,
         ...roDashboardPropertySteps.dashboard,

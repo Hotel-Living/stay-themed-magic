@@ -20,6 +20,15 @@ import batchTranslationPt from './locales/pt/batchTranslation.json';
 import commonRo from './locales/ro/common.json';
 import batchTranslationRo from './locales/ro/batchTranslation.json';
 
+// Add diagnostic logging
+console.log('=== I18N DIAGNOSTIC START ===');
+console.log('commonEn loaded:', !!commonEn);
+console.log('commonEs loaded:', !!commonEs);
+console.log('commonPt loaded:', !!commonPt);
+console.log('commonRo loaded:', !!commonRo);
+console.log('commonEn structure:', Object.keys(commonEn || {}));
+console.log('commonPt structure:', Object.keys(commonPt || {}));
+
 const resources = {
   en: {
     common: commonEn.common,
@@ -40,6 +49,11 @@ const resources = {
   }
 };
 
+console.log('Resources structure:', Object.keys(resources));
+console.log('EN resources:', Object.keys(resources.en || {}));
+console.log('PT resources:', Object.keys(resources.pt || {}));
+console.log('=== I18N DIAGNOSTIC END ===');
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -56,6 +70,14 @@ i18n
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage']
     }
+  })
+  .then(() => {
+    console.log('i18n initialized successfully');
+    console.log('Current language:', i18n.language);
+    console.log('Available languages:', Object.keys(i18n.store.data));
+  })
+  .catch((error) => {
+    console.error('i18n initialization failed:', error);
   });
 
 export default i18n;

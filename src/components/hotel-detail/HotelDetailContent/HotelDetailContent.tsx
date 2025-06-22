@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from "react";
 import { HotelDetailProps } from "@/types/hotel";
-import { HotelHeaderSection } from "./sections/HotelHeaderSection";
+import { HotelHeader } from "../HotelHeader";
 import { HotelGallerySection } from "./sections/HotelGallerySection";
 import { HotelDescriptionSection } from "../HotelDescription";
 import { HotelHighlights } from "../HotelHighlights";
 import { HotelThemesAndActivities } from "../HotelThemesAndActivities";
 import { BookingForm } from "@/components/BookingForm";
-import { HotelAvailableMonths } from "./sections/HotelAvailableMonths";
+import { HotelAvailableMonths } from "../HotelAvailableMonths";
 import { HotelFeaturesInfo } from "./sections/HotelFeaturesInfo";
 
 export interface HotelDetailContentProps {
@@ -61,13 +61,21 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-indigo-900">
-      <HotelHeaderSection 
-        hotel={hotel}
-        themes={themes}
-        currentImageIndex={currentImageIndex}
-        setCurrentImageIndex={setCurrentImageIndex}
-        images={images}
-      />
+      <div className="relative h-96 overflow-hidden">
+        {images.length > 0 && (
+          <img
+            src={images[currentImageIndex]}
+            alt={hotel.name}
+            className="w-full h-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute bottom-0 left-0 right-0 p-8">
+          <div className="container mx-auto">
+            <HotelHeader hotel={hotel} />
+          </div>
+        </div>
+      </div>
       
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -106,7 +114,15 @@ export function HotelDetailContent({ hotel, isLoading = false }: HotelDetailCont
           
           <div className="lg:col-span-1">
             <div className="sticky top-4">
-              <BookingForm hotel={hotel} />
+              <BookingForm 
+                hotelId={hotel.id}
+                hotelName={hotel.name}
+                pricePerMonth={hotel.price_per_month}
+                availableStayLengths={hotel.stay_lengths}
+                availableMonths={hotel.available_months}
+                preferredWeekday={hotel.check_in_weekday}
+                roomTypes={hotel.room_types}
+              />
             </div>
           </div>
         </div>

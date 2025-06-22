@@ -17,7 +17,7 @@ import enIntellectualProperty from './locales/en/intellectualProperty.json';
 import enOurValues from './locales/en/ourValues.json';
 import enPrivacy from './locales/en/privacy.json';
 import enFooter from './locales/en/footer.json';
-import enRatesCalculator from './locales/en/ratesCalculator.json';
+import enRatesCalculator from './locales/en/dashboard/rates-calculator.json';
 
 // Import Spanish translations
 import esHome from './locales/es/home.json';
@@ -33,7 +33,7 @@ import esIntellectualProperty from './locales/es/intellectualProperty.json';
 import esOurValues from './locales/es/ourValues.json';
 import esPrivacy from './locales/es/privacy.json';
 import esFooter from './locales/es/footer.json';
-import esRatesCalculator from './locales/es/ratesCalculator.json';
+import esRatesCalculator from './locales/es/dashboard/rates-calculator.json';
 
 // Import Portuguese translations
 import ptHome from './locales/pt/home.json';
@@ -49,7 +49,7 @@ import ptIntellectualProperty from './locales/pt/intellectualProperty.json';
 import ptOurValues from './locales/pt/ourValues.json';
 import ptPrivacy from './locales/pt/privacy.json';
 import ptFooter from './locales/pt/footer.json';
-import ptRatesCalculator from './locales/pt/ratesCalculator.json';
+import ptRatesCalculator from './locales/pt/dashboard/rates-calculator.json';
 
 // Import Romanian translations
 import roHome from './locales/ro/home.json';
@@ -65,7 +65,7 @@ import roIntellectualProperty from './locales/ro/intellectualProperty.json';
 import roOurValues from './locales/ro/ourValues.json';
 import roPrivacy from './locales/ro/privacy.json';
 import roFooter from './locales/ro/footer.json';
-import roRatesCalculator from './locales/ro/ratesCalculator.json';
+import roRatesCalculator from './locales/ro/dashboard/rates-calculator.json';
 
 const resources = {
   en: {

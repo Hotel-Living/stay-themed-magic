@@ -140,8 +140,8 @@ serve(async (req) => {
             errors++;
           }
           
-          // Add small delay between translations to avoid rate limiting
-          await new Promise(resolve => setTimeout(resolve, 100));
+          // Increased delay to 3 seconds to prevent OpenAI API rate limiting
+          await new Promise(resolve => setTimeout(resolve, 3000));
         }
       }
 

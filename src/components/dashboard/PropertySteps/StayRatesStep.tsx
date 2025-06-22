@@ -4,6 +4,7 @@ import { PropertyFormData } from "../property/hooks/usePropertyFormData";
 import { StayRatesSettingsSection } from "./StayRatesStep/StayRatesSettingsSection";
 import { StayRatesTableSection } from "./StayRatesStep/StayRatesTableSection";
 import { ImportantNotice } from "./ImportantNotice";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface StayRatesStepProps {
   formData: PropertyFormData;
@@ -16,8 +17,9 @@ export default function StayRatesStep({
   updateFormData,
   onValidationChange
 }: StayRatesStepProps) {
+  const { t } = useTranslation();
   const roomTypes = formData.roomTypes ? formData.roomTypes.map((room: any) => room.name) : [];
-  const stayOptions = formData.stayLengths ? formData.stayLengths.map((length: number) => `${length} Noches`) : [];
+  const stayOptions = formData.stayLengths ? formData.stayLengths.map((length: number) => `${length} ${t('dashboard.days')}`) : [];
   const mealOptions = formData.mealPlans || [];
 
   const [rates, setRates] = useState<Record<string, string | number>>({});

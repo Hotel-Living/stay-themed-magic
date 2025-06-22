@@ -1,78 +1,69 @@
 
 import React from "react";
 import { Slider } from "@/components/ui/slider";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface StayRatesSettingsSectionProps {
   enablePriceIncrease: boolean;
-  setEnablePriceIncrease: (enabled: boolean) => void;
+  setEnablePriceIncrease: (value: boolean) => void;
   priceIncreaseCap: number;
-  setPriceIncreaseCap: (cap: number) => void;
+  setPriceIncreaseCap: (value: number) => void;
 }
 
-export function StayRatesSettingsSection({
+export const StayRatesSettingsSection: React.FC<StayRatesSettingsSectionProps> = ({
   enablePriceIncrease,
   setEnablePriceIncrease,
   priceIncreaseCap,
   setPriceIncreaseCap
-}: StayRatesSettingsSectionProps) {
-  console.log("StayRatesSettingsSection - enablePriceIncrease:", enablePriceIncrease);
-  console.log("StayRatesSettingsSection - priceIncreaseCap:", priceIncreaseCap);
-
+}) => {
+  const { t } = useTranslation();
+  
   return (
-    <>
-      <label className="flex items-center mb-4">
+    <div className="space-y-4">
+      <div className="flex items-center gap-3">
         <input
           type="checkbox"
+          id="enableDynamicPricing"
           checked={enablePriceIncrease}
-          onChange={() => setEnablePriceIncrease(!enablePriceIncrease)}
-          className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2"
+          onChange={(e) => setEnablePriceIncrease(e.target.checked)}
+          className="w-4 h-4 text-fuchsia-600 bg-gray-100 border-gray-300 rounded focus:ring-fuchsia-500"
         />
-        <span className="text-sm">ACTIVAR PRECIOS DINÁMICOS BASADOS EN NOCHES VENDIDAS</span>
-      </label>
+        <label htmlFor="enableDynamicPricing" className="text-white font-medium">
+          {t('dashboard.enableDynamicPricing')}
+        </label>
+      </div>
 
-      <div
-        className={`transform-gpu transition-transform duration-300 origin-top ease-in-out overflow-hidden ${
-          enablePriceIncrease ? "scale-y-100" : "scale-y-0"
-        }`}
-      >
-        <div className="bg-[#5A1876]/20 rounded-lg p-4 border border-fuchsia-800/30 mb-6">
-          <div>
-            <label className="block text-sm mb-1 uppercase flex items-center justify-between">
-              <span>INCREMENTO MÁXIMO DE PRECIO</span>
-              <span className="text-fuchsia-400">{priceIncreaseCap}%</span>
-            </label>
-            {enablePriceIncrease && (
-              <Slider
-                value={[priceIncreaseCap]}
-                onValueChange={values => setPriceIncreaseCap(values[0])}
-                min={5}
-                max={50}
-                step={1}
-                className="w-full"
-              />
-            )}
-            <p className="text-xs text-foreground/70 mt-1">
-              Este es el porcentaje máximo en que los precios pueden aumentar debido a la demanda.
+      {enablePriceIncrease && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-white font-medium">
+              {t('dashboard.maximumPriceIncrease')}: {priceIncreaseCap}%
+            </span>
+          </div>
+          
+          <Slider
+            value={[priceIncreaseCap]}
+            onValueChange={(value) => setPriceIncreaseCap(value[0])}
+            max={100}
+            min={0}
+            step={5}
+            className="w-full"
+          />
+          
+          <p className="text-sm text-gray-300">
+            {t('dashboard.maxPriceIncreaseDescription')}
+          </p>
+          
+          <div className="mt-4 p-4 bg-purple-900/30 rounded-lg">
+            <h4 className="text-white font-semibold mb-2">
+              {t('dashboard.howDynamicPricingWorks')}
+            </h4>
+            <p className="text-sm text-gray-300">
+              Dynamic pricing automatically adjusts room rates based on demand, occupancy levels, and booking patterns while respecting your maximum increase limit.
             </p>
           </div>
-
-          {enablePriceIncrease && (
-            <div className="bg-fuchsia-900/20 p-3 rounded-lg border border-fuchsia-800/30 mt-4">
-              <h4 className="text-sm font-medium mb-2">Cómo funciona el Precio Dinámico</h4>
-              <p className="text-xs text-foreground/80 mb-2">
-                El precio aumenta un 1% por cada X noches vendidas en un mes, donde X se calcula como:
-              </p>
-              <div className="bg-fuchsia-950/50 p-2 rounded-md text-center text-sm font-mono mb-2">
-                X = (Total de noches en el mes) ÷ {priceIncreaseCap}
-              </div>
-              <p className="text-xs text-foreground/80">
-                Por ejemplo, con 30 habitaciones × 30 días = 900 noches totales y un aumento máximo del {priceIncreaseCap}%,
-                el precio aumentaría un 1% por cada {Math.round(900 / priceIncreaseCap)} noches vendidas.
-              </p>
-            </div>
-          )}
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
-}
+};

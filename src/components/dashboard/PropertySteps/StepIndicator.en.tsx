@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface StepIndicatorENProps {
   currentStep: number;
@@ -8,15 +9,20 @@ interface StepIndicatorENProps {
 }
 
 export default function StepIndicatorEN({ currentStep, totalSteps, stepTitle }: StepIndicatorENProps) {
+  const { t } = useTranslation();
+  
   const getTranslatedTitle = (title: string) => {
     if (title === "HOTEL PROFILE") {
-      return "Hotel Profile";
+      return t('dashboard.hotelProfile');
     }
     if (title === "ACCOMMODATION TERMS") {
-      return "Accommodation Terms";
+      return t('dashboard.accommodationTerms');
     }
     if (title === "FAQ & TÉRMINOS Y CONDICIONES") {
-      return "FAQ & Terms and Conditions";
+      return t('dashboard-faq-terms.title');
+    }
+    if (title === "INFORMACIÓN GENERAL") {
+      return t('dashboard.generalInformation');
     }
     return title;
   };

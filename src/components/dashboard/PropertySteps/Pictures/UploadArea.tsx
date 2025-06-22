@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Upload } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface UploadAreaProps {
@@ -22,37 +23,42 @@ export default function UploadArea({ onFilesSelected, fileInputRef }: UploadArea
     e.preventDefault();
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      onFilesSelected(files);
+    }
+  };
+
   const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      onFilesSelected(e.target.files);
-    }
-  };
-
   return (
-    <div 
-      className="border-2 border-dashed border-white/30 rounded-lg p-8 text-center cursor-pointer hover:border-white/50 transition-colors"
+    <div
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onClick={handleClick}
+      className="border-2 border-dashed border-purple-400 rounded-lg p-8 text-center cursor-pointer hover:border-purple-300 transition-colors"
     >
+      <Upload className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+      <p className="text-lg font-medium text-white mb-2">
+        {t('dashboard.dragDropPhotos')}
+      </p>
+      <p className="text-sm text-purple-300">
+        {t('dashboard.orClickToBrowse')}
+      </p>
+      
       <input
         ref={fileInputRef}
         type="file"
         multiple
         accept="image/*"
-        onChange={handleFileInputChange}
+        onChange={handleFileSelect}
         className="hidden"
       />
-      <div className="text-white/60">
-        <p className="mb-2">{t('dashboard.dragDropPhotos')}</p>
-        <p>{t('dashboard.orClickToBrowse')}</p>
-      </div>
     </div>
   );
 }

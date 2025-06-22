@@ -1,5 +1,4 @@
 
-import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { HotelNewAccordionMenuEN } from "./HotelNewAccordionMenu.en";
 import { HotelNewAccordionMenuES } from "./HotelNewAccordionMenu.es";

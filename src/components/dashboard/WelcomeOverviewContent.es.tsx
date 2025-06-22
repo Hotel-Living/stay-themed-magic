@@ -7,89 +7,107 @@ export const WelcomeOverviewContentES: React.FC = () => {
       <div className="glass-card rounded-2xl p-8 text-white border-fuchsia-500/20 bg-[#7a0486]">
         <div className="space-y-6 text-lg leading-relaxed">
           <p className="my-[9px] text-lg">
-            Estimado Socio Hotelero,<br />
-            Danos habitaciones y te daremos un hotel lleno.
+            👋 Estimado Socio Hotelero,
           </p>
           
           <p className="text-lg">
-            Imagina tu hotel siempre lleno.<br />
-            No más noches vacías.<br />
-            No más temporadas impredecibles.<br />
-            No más descuentos de último minuto.<br />
-            Ocupación completa.
+            🏨 Dénos sus habitaciones vacías.<br />
+            🏚️ Sus instalaciones algo faltas de vida.<br />
+            🌟 Y le daremos un vibrante hotel lleno cada día del año.
           </p>
           
           <p className="text-lg">
-            Pero eso no es todo.<br />
-            Con Hotel Living:<br />
-            Menos limpiezas.<br />
-            Menos lavandería.<br />
-            Menos transiciones.<br />
-            Cargas de trabajo predecibles.<br />
-            Personal estable.<br />
-            Reducir costos.
+            💡 Sí. Imagine su hotel siempre lleno.<br />
+            ❌ No más noches vacías.<br />
+            📅 No más temporadas impredecibles.<br />
+            ⚡ No más descuentos de último minuto.<br />
+            ✅ Ocupación completa.
           </p>
           
           <p className="text-lg">
-            Eliminar el caos.<br />
-            Traer calma.
+            🛎️ Pero eso no es todo. Con Hotel Living:<br />
+            🚪 Menos entradas y salidas constantes<br />
+            🧹 Menos limpiezas.<br />
+            🧺 Menos lavandería.<br />
+            🎲 Menos sorpresas impredecibles.<br />
+            👥 Mayor optimización de personal.
           </p>
           
           <p className="text-lg">
-            ¿Quiénes son nuestros huéspedes?<br />
-            Profesionales.<br />
-            Trabajadores remotos.<br />
-            Jubilados activos.<br />
-            Personas que quieren comodidad.<br />
-            No estancias rápidas.
+            👔 Y sí, personal estable todo el año.
           </p>
           
           <p className="text-lg">
-            Se quedan porque pertenecen.
+            🕊️ Se trata de eliminar caos.<br />
+            🌊 De traer calma.<br />
+            💸 De reducir costos.<br />
+            🏠 De estar siempre lleno.
           </p>
           
           <p className="text-lg">
-            Construyendo comunidades.<br />
-            Intereses compartidos.<br />
-            Actividades temáticas.<br />
-            Vínculos sociales.<br />
-            Lealtad a largo plazo.
+            🙋‍♂️ ¿Quiénes son nuestros huéspedes?<br />
+            👫 Casi la mitad de la población sola o en pareja<br />
+            💡 Que desea vivir mejor.<br />
+            ✔️ Con todos los servicios, funciones básicas resueltos.<br />
+            📄 Sin múltiples facturas. Sin soledad.<br />
+            🔒 Con la seguridad propia de todo hotel.<br />
+            🤝 Con las atenciones y servicios propios de todo hotel.
           </p>
           
           <p className="text-lg">
-            Hoteles de afinidad.<br />
-            Los huéspedes se quedan más tiempo.
+            🍽️ Quizás con las comidas y la lavandería resueltos.
           </p>
           
           <p className="text-lg">
-            Mientras que los alquileres vacacionales<br />
-            Traen clientes de vuelta.
+            🎭 Muchos, en hoteles que congregan a las personas con sus propios intereses.<br />
+            🏠 Muchos, hartos de las dificultades de alquilar.
           </p>
           
           <p className="text-lg">
-            Sistema simple.<br />
-            Un solo día de check-in.<br />
-            Operación fluida.<br />
-            Temporada alta todo el año.<br />
-            Máxima rentabilidad.
+            👴 Son millones de jubilados activos.<br />
+            👨‍💻 De personas hartas de alquilar.<br />
+            🌐 Millones de trabajadores remotos.<br />
+            👥 Población de todo tipo que quiere comodidad.
           </p>
           
           <p className="text-lg">
-            No solo otro modelo.<br />
-            Futuro de la gestión.
+            🌱 Una vida mejor. No estancias rápidas.
           </p>
           
           <p className="text-lg">
-            Menos estrés.<br />
-            Más ingresos.<br />
-            Equipos estables.<br />
-            Huéspedes felices.<br />
-            Hoteles ganando.
+            👫 Muchos, construyendo comunidades.<br />
+            🤝 Con intereses compartidos.<br />
+            💬 Deseosos de vínculos sociales.
+          </p>
+          
+          <p className="text-lg">
+            🕒 Son clientes de medio y largo plazo. De mayor lealtad.<br />
+            ✅ Clientes elegidos que se quedan más tiempo.<br />
+            🏨 Para hoteles que desean seleccionar sus propios clientes.
+          </p>
+          
+          <p className="text-lg">
+            📈 Recuperemos los clientes que se fueron a apartamentos.<br />
+            👥 Recobremos millones y millones de clientes.
+          </p>
+          
+          <p className="text-lg">
+            🛡️ Hotel-Living ha creado el sistema.
+          </p>
+          
+          <p className="text-lg">
+            ⛔ Cero habitaciones siempre vacías tantos meses cada año.<br />
+            🔥 Temporada alta constante. El año entero.
+          </p>
+          
+          <p className="text-lg">
+            📅 Un solo día semanal de entradas y salidas.<br />
+            🧹 Cero huecos entre estancias. Cero limpiezas constantes.<br />
+            💰 Máxima rentabilidad. Menos estrés.
           </p>
           
           <p className="text-base">
-            <strong className="rounded-full">Llenar habitaciones.<br />
-            Tomar control.</strong>
+            <strong className="rounded-full">🎯 Llenar habitaciones es tomar el control.</strong>
           </p>
         </div>
       </div>

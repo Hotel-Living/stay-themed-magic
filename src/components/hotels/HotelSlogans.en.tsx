@@ -15,8 +15,8 @@ export function HotelSlogansEN() {
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[16px] px-8">Cost reduction</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] px-8">Longer, more profitable stays</p>
           <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-8">Recover Airbnb clients</p>
-          <p className="text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] text-xl px-8">Absolute staff stability</p>
-          <p className="text-lg text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-8">One fixed weekly day for arrivals and departures</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[17px] px-8">Absolute staff stability</p>
+          <p className="text-xl text-center text-[#8017B0] font-bold animate-text-slow py-[12px] my-[18px] px-8">One fixed weekly day for arrivals and departures</p>
         </div>
       </div>
     </>;

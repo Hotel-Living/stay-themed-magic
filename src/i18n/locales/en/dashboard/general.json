@@ -115,6 +115,22 @@
     "styleOfProperty": "Style of Property",
     "hotelDescription": "Hotel Description",
     "shortDescription": "Short Description",
-    "detailedDescription": "Detailed Description"
+    "detailedDescription": "Detailed Description",
+    "upcomingStays": "Upcoming Stays",
+    "completedStays": "Completed Stays",
+    "savedHotels": "Saved Hotels",
+    "messagesFromAdmin": "Messages from Admin",
+    "noMessagesYet": "No messages yet",
+    "noMessagesMessage": "Messages from administration will appear here",
+    "guestManagement": "Guest Management",
+    "noGuestData": "No guest data",
+    "noGuestDataMessage": "Guest information will appear here once you have bookings",
+    "defineRoomTypes": "Define Room Types",
+    "availabilityDates": "Availability Dates",
+    "selectPropertyStyle": "Select Property Style",
+    "hotelDescriptionPlaceholder": "Enter a detailed description of your hotel",
+    "idealGuestsPlaceholder": "Describe your ideal guests",
+    "atmospherePlaceholder": "Describe the atmosphere of your property",
+    "locationPlaceholder": "Describe your location advantages"
   }
 }

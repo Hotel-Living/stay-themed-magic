@@ -24,7 +24,9 @@
       "occupancyRates": "Occupancy Rates",
       "minimumRate": "Minimum Rate",
       "maximumRate": "Maximum Rate",
-      "rateRestrictions": "Rate Restrictions"
+      "rateRestrictions": "Rate Restrictions",
+      "priceIncreaseDescription": "Set the maximum percentage increase allowed for dynamic pricing based on demand",
+      "priceIncreaseExample": "For example: If you set 20%, a base rate of €100 can increase to a maximum of €120 during high demand periods"
     }
   }
 }

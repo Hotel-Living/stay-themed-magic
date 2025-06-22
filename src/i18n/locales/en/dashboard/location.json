@@ -26,7 +26,17 @@
       "valetParking": "Valet Parking",
       "selfParking": "Self Parking",
       "paidParking": "Paid Parking",
-      "freeParking": "Free Parking"
+      "freeParking": "Free Parking",
+      "selectCountry": "Select Country",
+      "selectCity": "Select City",
+      "postalZipCode": "Postal/ZIP Code",
+      "locationOnMap": "Location on Map",
+      "dragMarker": "Drag marker to adjust location",
+      "searchLocation": "Search for location",
+      "currentLocation": "Use Current Location",
+      "addressValidation": "Please enter a valid address",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required"
     }
   }
 }

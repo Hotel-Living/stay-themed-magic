@@ -22,6 +22,20 @@
     "utilitiesDescription1": "They are respectful long-stay residents who remain for 8, 16, 24 or 32 days.",
     "utilitiesSmartGuestsTitle": "SMARTER GUESTS, SMARTER RESOURCE USE",
     "utilitiesDescription2": "Due to the longer duration of stays and the more personal relationship they establish with your property, these guests tend to be more conscious in their use of resources.",
-    "utilitiesDescription3": "They feel more like temporary tenants than short-stay visitors — and that makes all the difference."
+    "utilitiesDescription3": "They feel more like temporary tenants than short-stay visitors — and that makes all the difference.",
+    "utilitiesPerDay": "per day",
+    "utilitiesPerRoom": "per room",
+    "utilitiesPerStay": "per stay",
+    "utilitiesElectricity": "Electricity consumption is typically 20-30% lower than traditional short-stay guests",
+    "utilitiesWater": "Water usage is generally 15-25% more efficient due to conscious consumption",
+    "utilitiesHeating": "Heating and cooling costs are more predictable and often lower per day",
+    "cleaningFrequency": "Cleaning frequency is reduced from daily to 2-3 times per week",
+    "cleaningDepth": "Deep cleaning is performed once per week instead of after each checkout",
+    "cleaningSupplies": "Cleaning supply costs are reduced by approximately 40-50%",
+    "cleaningStaff": "Staff efficiency increases due to predictable cleaning schedules",
+    "mealsBreakfast": "Simple, healthy breakfast options focusing on local and seasonal ingredients",
+    "mealsLunch": "Light lunch options available for guests who prefer dining in",
+    "mealsDinner": "Home-style dinner service emphasizing comfort over luxury",
+    "mealsSpecialDiets": "Accommodation for special dietary requirements and preferences"
   }
 }

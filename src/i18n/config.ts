@@ -9,6 +9,7 @@ import enNavigation from './locales/en/navigation.json';
 import enFaq from './locales/en/faq.json';
 import enAuth from './locales/en/auth.json';
 import enBooking from './locales/en/booking.json';
+import enFooter from './locales/en/footer.json';
 import enDashboardGeneral from './locales/en/dashboard/general.json';
 import enDashboardWelcome from './locales/en/dashboard/welcome.json';
 import enDashboardStats from './locales/en/dashboard/stats.json';
@@ -20,6 +21,9 @@ import enDashboardFeatures from './locales/en/dashboard/features.json';
 import enDashboardContact from './locales/en/dashboard/contact.json';
 import enDashboardTerms from './locales/en/dashboard/terms.json';
 import enDashboardContent from './locales/en/dashboard/content.json';
+import enDashboardSettings from './locales/en/dashboard/settings.json';
+import enDashboardProperty from './locales/en/dashboard/property.json';
+import enDashboardAffinities from './locales/en/dashboard/affinities.json';
 import enDashboardPropertySteps from './locales/en/dashboard/property-steps.json';
 import enDashboardPropertyForm from './locales/en/dashboard/property-form.json';
 import enDashboardCommon from './locales/en/dashboard/common.json';
@@ -65,6 +69,7 @@ const resources = {
       ...enFaq,
       ...enAuth,
       ...enBooking,
+      ...enFooter,
       dashboard: {
         ...enDashboardGeneral.dashboard,
         ...enDashboardWelcome.dashboard.welcome,
@@ -77,6 +82,9 @@ const resources = {
         ...enDashboardContact.dashboard.contact,
         ...enDashboardTerms.dashboard.terms,
         ...enDashboardContent.dashboard.content,
+        ...enDashboardSettings.dashboard.settings,
+        ...enDashboardProperty.dashboard.property,
+        ...enDashboardAffinities.dashboard.affinities,
         ...enDashboardPropertySteps.dashboard,
         ...enDashboardPropertyForm.dashboard,
         ...enDashboardCommon.dashboard,

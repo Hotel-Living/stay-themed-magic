@@ -42,6 +42,7 @@ export const useHotelFaqCategories = () => {
 
   if (language === 'es') {
     return [
+      { id: "video", name: "Video" },
       { id: "benefits", name: "Beneficios" },
       { id: "models", name: "Modelos" },
       { id: "revenue", name: "Ingresos" },
@@ -51,12 +52,15 @@ export const useHotelFaqCategories = () => {
       { id: "operation", name: "Operación" },
       { id: "integration", name: "Integración" },
       { id: "marketing", name: "Marketing" },
-      { id: "payment", name: "Pago" }
+      { id: "payment", name: "Pago" },
+      { id: "steps", name: "Pasos" },
+      { id: "rental", name: "Alquiler" }
     ];
   }
 
   if (language === 'pt') {
     return [
+      { id: "video", name: "Vídeo" },
       { id: "benefits", name: "Benefícios" },
       { id: "models", name: "Modelos" },
       { id: "revenue", name: "Receitas" },
@@ -66,12 +70,15 @@ export const useHotelFaqCategories = () => {
       { id: "operation", name: "Operação" },
       { id: "integration", name: "Integração" },
       { id: "marketing", name: "Marketing" },
-      { id: "payment", name: "Pagamento" }
+      { id: "payment", name: "Pagamento" },
+      { id: "steps", name: "Passos" },
+      { id: "rental", name: "Aluguel" }
     ];
   }
 
   if (language === 'ro') {
     return [
+      { id: "video", name: "Video" },
       { id: "benefits", name: "Beneficii" },
       { id: "models", name: "Modele" },
       { id: "revenue", name: "Venituri" },
@@ -81,12 +88,15 @@ export const useHotelFaqCategories = () => {
       { id: "operation", name: "Operațiune" },
       { id: "integration", name: "Integrare" },
       { id: "marketing", name: "Marketing" },
-      { id: "payment", name: "Plată" }
+      { id: "payment", name: "Plată" },
+      { id: "steps", name: "Pași" },
+      { id: "rental", name: "Închiriere" }
     ];
   }
 
   // English version with question formatting
   return [
+    { id: "video", name: "Video" },
     { id: "benefits", name: "Benefits" },
     { id: "models", name: "Models" },
     { id: "revenue", name: "Revenue" },
@@ -96,7 +106,9 @@ export const useHotelFaqCategories = () => {
     { id: "operation", name: "Operation" },
     { id: "integration", name: "Integration" },
     { id: "marketing", name: "Marketing" },
-    { id: "payment", name: "Payment" }
+    { id: "payment", name: "Payment" },
+    { id: "steps", name: "Steps" },
+    { id: "rental", name: "Rental" }
   ];
 };
 
@@ -105,6 +117,7 @@ export const useHotelFaqsByCategory = () => {
 
   if (language === 'pt') {
     return {
+      video: [],
       benefits: benefitsFaqsPt,
       models: modelsFaqsPt,
       revenue: revenueFaqsPt,
@@ -114,12 +127,15 @@ export const useHotelFaqsByCategory = () => {
       operation: operationFaqsPt,
       integration: integrationFaqsPt,
       marketing: marketingFaqsPt,
-      payment: paymentFaqsPt
+      payment: paymentFaqsPt,
+      steps: [],
+      rental: []
     };
   }
 
   if (language === 'ro') {
     return {
+      video: [],
       benefits: benefitsFaqsRo,
       models: modelsFaqsRo,
       revenue: revenueFaqsRo,
@@ -129,12 +145,15 @@ export const useHotelFaqsByCategory = () => {
       operation: operationFaqsRo,
       integration: integrationFaqsRo,
       marketing: marketingFaqsRo,
-      payment: paymentFaqsRo
+      payment: paymentFaqsRo,
+      steps: [],
+      rental: []
     };
   }
 
   // Default to English
   return {
+    video: [],
     benefits: benefitsFaqsEn,
     models: modelsFaqsEn,
     revenue: revenueFaqsEn,
@@ -144,6 +163,8 @@ export const useHotelFaqsByCategory = () => {
     operation: operationFaqsEn,
     integration: integrationFaqsEn,
     marketing: marketingFaqsEn,
-    payment: paymentFaqsEn
+    payment: paymentFaqsEn,
+    steps: [],
+    rental: []
   };
 };

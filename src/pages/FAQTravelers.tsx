@@ -8,11 +8,13 @@ import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { useFaqData } from "@/components/faq/faqData";
 import { benefitsTravelersList } from "@/components/faq/faqTravelersData";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FAQTravelers() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
   const { translatedCategories, translatedFaqsByCategory } = useFaqData();
   
   // Scroll to top on page load
@@ -34,16 +36,16 @@ export default function FAQTravelers() {
               font-bold mb-4 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}> {/* Reduced heading size */}
-              Travelers FAQ
+              {t('faq.title')}
             </h1>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}> {/* Reduced text size */}
-              Everything you need to know about Hotel-Living
+              {t('faq.subtitle')}
             </p>
             
             <FaqSearch 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              placeholder="Search traveler FAQs..."
+              placeholder={t('faq.search')}
             />
           </div>
 

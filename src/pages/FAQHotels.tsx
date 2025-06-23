@@ -9,6 +9,7 @@ import { FaqSearch } from "@/components/faq/FaqSearch";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
 import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
   <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
@@ -38,6 +39,7 @@ export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("video");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
   
   const hotelFaqCategories = useHotelFaqCategories();
   const hotelFaqsByCategory = useHotelFaqsByCategory();

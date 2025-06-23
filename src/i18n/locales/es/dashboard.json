@@ -1,6 +1,55 @@
 
 {
   "dashboard": {
+    "title": "Panel de Usuario",
+    "userDashboard": "Panel de Usuario",
+    "stats": {
+      "totalBookings": "Reservas Totales",
+      "savedHotels": "Hoteles Guardados",
+      "reviewsWritten": "Reseñas Escritas",
+      "freeNights": "Noches Gratis",
+      "completedStays": "Estadías Completadas",
+      "upcomingBookings": "Próximas Reservas"
+    },
+    "sections": {
+      "dashboard": "Tablero",
+      "myExperience": "Mi Experiencia",
+      "myBookings": "Mis Reservas",
+      "stayHistory": "Historial de Estadías",
+      "savedHotels": "Hoteles Guardados",
+      "paymentMethods": "Métodos de Pago",
+      "recommendHotel": "Recomendar un Hotel",
+      "profile": "Perfil",
+      "settings": "Configuración"
+    },
+    "welcome": {
+      "title": "¡Bienvenido a Hotel-Living!",
+      "subtitle": "Descubre hoteles increíbles adaptados a tus preferencias. Actualiza tus afinidades en tu perfil para obtener recomendaciones personalizadas.",
+      "expertWelcome": "¡Bienvenido de vuelta, Experto de Hotel Living! Descubre nuevos destinos y disfruta de características exclusivas."
+    },
+    "quickActions": {
+      "title": "Acciones Rápidas",
+      "browseHotels": "Explorar Hoteles",
+      "browseHotelsDesc": "Descubre lugares increíbles para hospedarte.",
+      "myBookings": "Mis Reservas",
+      "myBookingsDesc": "Ve y gestiona tus reservaciones.",
+      "savedHotels": "Hoteles Guardados",
+      "savedHotelsDesc": "Ve tus propiedades favoritas.",
+      "writeReview": "Escribir Reseña",
+      "writeReviewDesc": "Comparte tu experiencia con otros."
+    },
+    "recentActivity": {
+      "recentBookings": "Reservas Recientes",
+      "noBookings": "Aún no hay reservas",
+      "noBookingsDesc": "Comienza explorando hoteles para hacer tu primera reserva",
+      "savedHotelsSection": "Hoteles Guardados",
+      "noSavedHotels": "Aún no hay hoteles guardados",
+      "noSavedHotelsDesc": "Guarda hoteles que te gusten para encontrarlos fácilmente más tarde",
+      "savedHotelsCount": "{count} hoteles guardados"
+    },
+    "badges": {
+      "affinityBadges": "Tus Insignias de Afinidad"
+    },
     "autoSave": {
       "success": "Guardado automático",
       "error": "Error en guardado automático",

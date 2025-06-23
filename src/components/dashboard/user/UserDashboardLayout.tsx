@@ -8,6 +8,7 @@ import { useAuth } from "@/context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -25,25 +26,34 @@ export default function UserDashboardLayout({
   const { signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t, language } = useTranslation();
   
   // Handle logout
   const handleLogout = async () => {
     try {
       await signOut();
       toast({
-        title: "Logged out",
-        description: "You have been successfully logged out."
+        title: language === 'es' ? "Sesión cerrada" : "Logged out",
+        description: language === 'es' ? "Has cerrado sesión exitosamente." : "You have been successfully logged out."
       });
       navigate('/login');
     } catch (error) {
       console.error("Error during logout:", error);
       toast({
-        title: "Error",
-        description: "Could not log out. Please try again.",
+        title: language === 'es' ? "Error" : "Error",
+        description: language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." : "Could not log out. Please try again.",
         variant: "destructive"
       });
     }
   };
+  
+  const dashboardTitle = language === 'es' ? "PANEL DE USUARIO" : "USER DASHBOARD";
+  const needHelpTitle = language === 'es' ? "¿Necesitas Ayuda?" : "Need Help?";
+  const supportDescription = language === 'es' 
+    ? "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier pregunta."
+    : "Our support team is available 24/7 to assist you with any questions.";
+  const contactSupport = language === 'es' ? "Contactar Soporte" : "Contact Support";
+  const logOut = language === 'es' ? "Cerrar Sesión" : "Log Out";
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -52,7 +62,7 @@ export default function UserDashboardLayout({
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">USER DASHBOARD</h1>
+          <h1 className="text-3xl font-bold mb-8">{dashboardTitle}</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar */}
@@ -84,7 +94,7 @@ export default function UserDashboardLayout({
                     className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-[#7A0486]/30 transition-colors"
                   >
                     <LogOut className="w-5 h-5" />
-                    Log Out
+                    {logOut}
                   </button>
                 </nav>
               </div>
@@ -94,13 +104,13 @@ export default function UserDashboardLayout({
                   <div className="w-10 h-10 rounded-full bg-[#7A0486]/20 flex items-center justify-center">
                     <HelpCircle className="w-5 h-5 text-fuchsia-300" />
                   </div>
-                  <h3 className="font-bold text-white">Need Help?</h3>
+                  <h3 className="font-bold text-white">{needHelpTitle}</h3>
                 </div>
                 <p className="text-sm text-white/80 mb-4">
-                  Our support team is available 24/7 to assist you with any questions.
+                  {supportDescription}
                 </p>
                 <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-[#770477] hover:bg-[#8A058A]">
-                  Contact Support
+                  {contactSupport}
                 </button>
               </div>
             </aside>

@@ -27,11 +27,13 @@ import { DashboardTab } from "@/types/dashboard";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const { user, profile } = useAuth();
   const navigate = useNavigate();
+  const { language } = useTranslation();
   
   // Check if user is an admin
   const checkAdminStatus = async () => {
@@ -50,16 +52,48 @@ export default function UserDashboard() {
     checkAdminStatus();
   });
   
+  // Create tabs with language-specific labels
+  const getTabLabel = (key: string) => {
+    if (language === 'es') {
+      const spanishLabels: Record<string, string> = {
+        dashboard: "Tablero",
+        experience: "Mi Experiencia",
+        bookings: "Mis Reservas",
+        history: "Historial de Estadías",
+        saved: "Hoteles Guardados",
+        payments: "Métodos de Pago",
+        getThreeNights: "Recomendar un Hotel",
+        profile: "Perfil",
+        settings: "Configuración"
+      };
+      return spanishLabels[key] || key;
+    }
+    
+    // Default English labels
+    const englishLabels: Record<string, string> = {
+      dashboard: "Dashboard",
+      experience: "My Experience",
+      bookings: "My Bookings",
+      history: "Stay History",
+      saved: "Saved Hotels",
+      payments: "Payment Methods",
+      getThreeNights: "Recommend a Hotel",
+      profile: "Profile",
+      settings: "Settings"
+    };
+    return englishLabels[key] || key;
+  };
+  
   const tabs: DashboardTab[] = [
-    { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { id: "experience", label: "My Experience", icon: <Star className="w-5 h-5" /> },
-    { id: "bookings", label: "My Bookings", icon: <Calendar className="w-5 h-5" /> },
-    { id: "history", label: "Stay History", icon: <History className="w-5 h-5" /> },
-    { id: "saved", label: "Saved Hotels", icon: <Heart className="w-5 h-5" /> },
-    { id: "payments", label: "Payment Methods", icon: <CreditCard className="w-5 h-5" /> },
-    { id: "getThreeNights", label: "Recommend a Hotel", icon: <Gift className="w-5 h-5" /> },
-    { id: "profile", label: "Profile", icon: <User className="w-5 h-5" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
+    { id: "dashboard", label: getTabLabel("dashboard"), icon: <LayoutDashboard className="w-5 h-5" /> },
+    { id: "experience", label: getTabLabel("experience"), icon: <Star className="w-5 h-5" /> },
+    { id: "bookings", label: getTabLabel("bookings"), icon: <Calendar className="w-5 h-5" /> },
+    { id: "history", label: getTabLabel("history"), icon: <History className="w-5 h-5" /> },
+    { id: "saved", label: getTabLabel("saved"), icon: <Heart className="w-5 h-5" /> },
+    { id: "payments", label: getTabLabel("payments"), icon: <CreditCard className="w-5 h-5" /> },
+    { id: "getThreeNights", label: getTabLabel("getThreeNights"), icon: <Gift className="w-5 h-5" /> },
+    { id: "profile", label: getTabLabel("profile"), icon: <User className="w-5 h-5" /> },
+    { id: "settings", label: getTabLabel("settings"), icon: <Settings className="w-5 h-5" /> },
   ];
   
   const renderContent = () => {

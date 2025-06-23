@@ -1,8 +1,0 @@
-
-{
-  "navbar": {
-    "errorLogout": "Error durante el cierre de sesión:",
-    "toggle": "Alternar menú",
-    "forceLogin": "Forzando redirección a la página de inicio de sesión"
-  }
-}

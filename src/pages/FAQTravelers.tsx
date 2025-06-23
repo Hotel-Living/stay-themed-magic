@@ -14,7 +14,7 @@ export default function FAQTravelers() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
-  const { t } = useTranslation('faq');
+  const { t } = useTranslation();
   const { translatedCategories, translatedFaqsByCategory } = useFaqData();
   
   // Scroll to top on page load
@@ -36,16 +36,16 @@ export default function FAQTravelers() {
               font-bold mb-4 text-gradient text-[#eedbf7] glow 
               animate-text-slow tracking-tight leading-tight
             `}> {/* Reduced heading size */}
-              {t('title')}
+              {t('faq.title')}
             </h1>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}> {/* Reduced text size */}
-              {t('subtitle')}
+              {t('faq.subtitle')}
             </p>
             
             <FaqSearch 
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              placeholder={t('search')}
+              placeholder={t('faq.search')}
             />
           </div>
 

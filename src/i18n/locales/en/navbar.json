@@ -1,8 +1,0 @@
-
-{
-  "navbar": {
-    "errorLogout": "Error during logout:",
-    "toggle": "Toggle menu",
-    "forceLogin": "Forcing redirect to login page"
-  }
-}

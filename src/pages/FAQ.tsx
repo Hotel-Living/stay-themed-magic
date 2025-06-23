@@ -15,7 +15,7 @@ export default function FAQ() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
-  const { t } = useTranslation();
+  const { t } = useTranslation('faq');
   const { translatedCategories, translatedFaqsByCategory } = useFaqData();
 
   return (
@@ -38,14 +38,14 @@ export default function FAQ() {
                 tracking-tight leading-tight
                 bg-[#8017B0] py-2 px-8 rounded-lg inline-block
               `}>
-                {t('faq.title')}
+                {t('title')}
               </h1>
             </div>
             <p className={`${isMobile ? "text-xl" : "text-base"} font-medium text-[#e3d6e9] mb-6`}>
-              {t('faq.subtitle')}
+              {t('subtitle')}
             </p>
             
-            <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder={t('faq.search')} />
+            <FaqSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder={t('search')} />
           </div>
 
           <FaqTabs 

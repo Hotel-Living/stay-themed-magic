@@ -1100,6 +1100,9 @@ export type Database = {
           favorite_themes: string[] | null
           id: string
           language_preferences: string[] | null
+          notification_bookings: boolean | null
+          notification_messages: boolean | null
+          notification_promotions: boolean | null
           preferred_countries: string[] | null
           price_range_max: number | null
           price_range_min: number | null
@@ -1111,6 +1114,9 @@ export type Database = {
           favorite_themes?: string[] | null
           id?: string
           language_preferences?: string[] | null
+          notification_bookings?: boolean | null
+          notification_messages?: boolean | null
+          notification_promotions?: boolean | null
           preferred_countries?: string[] | null
           price_range_max?: number | null
           price_range_min?: number | null
@@ -1122,6 +1128,9 @@ export type Database = {
           favorite_themes?: string[] | null
           id?: string
           language_preferences?: string[] | null
+          notification_bookings?: boolean | null
+          notification_messages?: boolean | null
+          notification_promotions?: boolean | null
           preferred_countries?: string[] | null
           price_range_max?: number | null
           price_range_min?: number | null

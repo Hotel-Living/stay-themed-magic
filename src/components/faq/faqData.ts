@@ -1,4 +1,3 @@
-
 import { FaqItem, FaqCategory } from "./types";
 import { faqCategories } from "./faqCategories";
 import { useTranslation } from "@/hooks/useTranslation";

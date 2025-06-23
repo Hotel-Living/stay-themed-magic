@@ -13,13 +13,13 @@
       "support": "Suporte"
     },
     "accordion": {
-      "stillRenting": "AINDA ALUGA?",
+      "stillRenting": "Ainda aluga?",
       "hotel": "HOTEL?",
-      "retired": "APOSENTADO?",
-      "commuter": "LONGE DO TRABALHO?",
-      "onlineWorker": "TRABALHADOR ONLINE?",
-      "freeSoul": "ALMA LIVRE?",
-      "society": "SOCIEDADE?"
+      "retired": "Reformado?",
+      "commuter": "Longe do trabalho?",
+      "onlineWorker": "Trabalhador online?",
+      "freeSoul": "Alma livre?",
+      "society": "Sociedade?"
     }
   }
 }

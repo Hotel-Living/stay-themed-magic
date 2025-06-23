@@ -47,6 +47,28 @@
       "activitiesRequired": "Trebuie selectată cel puțin o activitate",
       "roomTypesRequired": "Trebuie definit cel puțin un tip de cameră"
     },
-    "cancelEditing": "Anulare Editare"
+    "cancelEditing": "Anulare Editare",
+    "avatar": {
+      "upload": "Încărcare Avatar",
+      "uploading": "Se încarcă...",
+      "uploadSuccess": "Avatar încărcat cu succes",
+      "uploadError": "Eroare la încărcarea avatar-ului",
+      "remove": "Elimină Avatar",
+      "removeSuccess": "Avatar eliminat cu succes",
+      "removeError": "Eroare la eliminarea avatar-ului",
+      "fileTooLarge": "Fișierul este prea mare. Maxim 5MB permis",
+      "invalidFormat": "Format de fișier invalid. Doar JPG, PNG și WEBP sunt permise",
+      "dimensionsRecommendation": "Dimensiuni recomandate: 512x512px"
+    },
+    "preferences": {
+      "title": "Preferințe",
+      "notifications": "Preferințe Notificări",
+      "notificationBookings": "Notificări rezervări",
+      "notificationMessages": "Notificări mesaje",
+      "notificationPromotions": "Notificări promoționale",
+      "affinities": "Afinitatile Mele",
+      "saveSuccess": "Preferințele au fost salvate cu succes",
+      "saveError": "Eroare la salvarea preferințelor"
+    }
   }
 }

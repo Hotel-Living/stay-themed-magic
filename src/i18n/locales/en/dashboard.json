@@ -47,6 +47,28 @@
       "activitiesRequired": "At least one activity must be selected",
       "roomTypesRequired": "At least one room type must be defined"
     },
-    "cancelEditing": "Cancel Editing"
+    "cancelEditing": "Cancel Editing",
+    "avatar": {
+      "upload": "Upload Avatar",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Avatar uploaded successfully",
+      "uploadError": "Failed to upload avatar",
+      "remove": "Remove Avatar",
+      "removeSuccess": "Avatar removed successfully",
+      "removeError": "Failed to remove avatar",
+      "fileTooLarge": "File is too large. Maximum 5MB allowed",
+      "invalidFormat": "Invalid file format. Only JPG, PNG, and WEBP are allowed",
+      "dimensionsRecommendation": "Recommended dimensions: 512x512px"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "notifications": "Notification Preferences",
+      "notificationBookings": "Booking notifications",
+      "notificationMessages": "Message notifications", 
+      "notificationPromotions": "Promotional notifications",
+      "affinities": "My Affinities",
+      "saveSuccess": "Preferences saved successfully",
+      "saveError": "Failed to save preferences"
+    }
   }
 }

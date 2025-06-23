@@ -14,6 +14,7 @@ import { NotificationSettingsCard } from "./NotificationSettingsCard";
 import { UserProfileForm } from "./UserProfileForm";
 import { PasswordChangeForm } from "./PasswordChangeForm";
 import { AdvancedNotificationSettings } from "./AdvancedNotificationSettings";
+import { PreferencesCard } from "./PreferencesCard";
 
 export default function SettingsContent() {
   const { toast } = useToast();
@@ -123,6 +124,8 @@ export default function SettingsContent() {
       <UserProfileForm />
       
       <PasswordChangeForm />
+      
+      <PreferencesCard />
       
       <ThemePreferencesCard 
         selectedThemes={selectedThemes}

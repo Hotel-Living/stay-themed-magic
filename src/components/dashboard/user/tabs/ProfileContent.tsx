@@ -6,9 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserRoles } from "@/components/dashboard/user/UserRoles";
 import { MyAffinities } from "@/components/dashboard/user/MyAffinities";
+import { AvatarUpload } from "@/components/dashboard/user/AvatarUpload";
+import { UserAffinities } from "@/components/dashboard/user/UserAffinities";
 
 const ProfileContent = () => {
   const { profile, user, updateProfile } = useAuth();
@@ -48,16 +49,6 @@ const ProfileContent = () => {
     }
   };
 
-  const getInitials = () => {
-    if (profile?.first_name && profile?.last_name) {
-      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
-    }
-    if (user?.email) {
-      return user.email[0].toUpperCase();
-    }
-    return "U";
-  };
-
   return (
     <div className="space-y-6">
       <Card>
@@ -66,12 +57,9 @@ const ProfileContent = () => {
           <CardDescription>Manage your personal information and preferences</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <Avatar className="h-20 w-20">
-              <AvatarImage src={profile?.avatar_url || ""} />
-              <AvatarFallback className="text-lg font-semibold">{getInitials()}</AvatarFallback>
-            </Avatar>
-            <div className="space-y-1">
+          <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+            <AvatarUpload />
+            <div className="space-y-1 flex-1">
               <h3 className="text-xl font-semibold">
                 {profile?.first_name || ""} {profile?.last_name || ""}
               </h3>
@@ -167,6 +155,9 @@ const ProfileContent = () => {
           </form>
         </CardContent>
       </Card>
+
+      {/* Add User Affinities Section */}
+      <UserAffinities />
 
       {/* Add My Affinities Section */}
       <MyAffinities />

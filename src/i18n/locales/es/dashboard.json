@@ -47,6 +47,28 @@
       "activitiesRequired": "Se debe seleccionar al menos una actividad",
       "roomTypesRequired": "Se debe definir al menos un tipo de habitación"
     },
-    "cancelEditing": "Cancelar Edición"
+    "cancelEditing": "Cancelar Edición",
+    "avatar": {
+      "upload": "Subir Avatar",
+      "uploading": "Subiendo...",
+      "uploadSuccess": "Avatar subido exitosamente",
+      "uploadError": "Error al subir avatar",
+      "remove": "Eliminar Avatar",
+      "removeSuccess": "Avatar eliminado exitosamente",
+      "removeError": "Error al eliminar avatar",
+      "fileTooLarge": "Archivo demasiado grande. Máximo 5MB permitido",
+      "invalidFormat": "Formato de archivo inválido. Solo se permiten JPG, PNG y WEBP",
+      "dimensionsRecommendation": "Dimensiones recomendadas: 512x512px"
+    },
+    "preferences": {
+      "title": "Preferencias",
+      "notifications": "Preferencias de Notificación",
+      "notificationBookings": "Notificaciones de reservas",
+      "notificationMessages": "Notificaciones de mensajes",
+      "notificationPromotions": "Notificaciones promocionales",
+      "affinities": "Mis Afinidades",
+      "saveSuccess": "Preferencias guardadas exitosamente",
+      "saveError": "Error al guardar preferencias"
+    }
   }
 }

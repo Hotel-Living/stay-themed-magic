@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/auth/AuthContext";
+import { AvatarUpload } from "@/components/dashboard/user/AvatarUpload";
 
 export function UserProfileForm() {
   const { toast } = useToast();
@@ -46,7 +47,11 @@ export function UserProfileForm() {
           Update your personal information and account details
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 bg-[#860493]">
+      <CardContent className="space-y-6 bg-[#860493]">
+        <div className="flex justify-center">
+          <AvatarUpload />
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="firstName" className="text-white">First Name</Label>

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useHierarchicalThemesWithTranslations } from "@/hooks/useHierarchicalThemesWithTranslations";
@@ -21,140 +21,167 @@ export const HierarchicalThemeSelector: React.FC<HierarchicalThemeSelectorProps>
   searchQuery = ""
 }) => {
   const { themes, loading, error } = useHierarchicalThemesWithTranslations();
-  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
 
-  console.log("HierarchicalThemeSelector - themes:", themes);
-  console.log("HierarchicalThemeSelector - loading:", loading);
-  console.log("HierarchicalThemeSelector - error:", error);
+  // Filter themes based on search query
+  const filteredThemes = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return themes;
+    }
 
-  if (loading) {
-    return <div className="text-white">Cargando afinidades...</div>;
-  }
+    const lowercaseQuery = searchQuery.toLowerCase();
+    
+    const themeMatches = (theme: any) => {
+      return theme.name.toLowerCase().includes(lowercaseQuery);
+    };
 
-  if (error) {
-    return <div className="text-red-400">Error: {error}</div>;
-  }
+    const filterThemeHierarchy = (themeList: any[]): any[] => {
+      return themeList
+        .map(theme => {
+          const hasMatchingChildren = theme.children && theme.children.length > 0;
+          let filteredChildren: any[] = [];
+          
+          if (hasMatchingChildren) {
+            filteredChildren = filterThemeHierarchy(theme.children);
+          }
+          
+          if (themeMatches(theme) || filteredChildren.length > 0) {
+            return {
+              ...theme,
+              children: filteredChildren
+            };
+          }
+          
+          return null;
+        })
+        .filter(Boolean);
+    };
 
-  if (!themes || themes.length === 0) {
-    return <div className="text-yellow-400">No se encontraron afinidades disponibles</div>;
-  }
+    return filterThemeHierarchy(themes);
+  }, [searchQuery, themes]);
 
   const toggleCategory = (categoryId: string) => {
-    const newOpen = new Set(openCategories);
-    if (newOpen.has(categoryId)) {
-      newOpen.delete(categoryId);
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryId)) {
+      newExpanded.delete(categoryId);
     } else {
-      newOpen.add(categoryId);
+      newExpanded.add(categoryId);
     }
-    setOpenCategories(newOpen);
+    setExpandedCategories(newExpanded);
+  };
+
+  const toggleSubcategory = (subcategoryId: string) => {
+    const newExpanded = new Set(expandedSubcategories);
+    if (newExpanded.has(subcategoryId)) {
+      newExpanded.delete(subcategoryId);
+    } else {
+      newExpanded.add(subcategoryId);
+    }
+    setExpandedSubcategories(newExpanded);
   };
 
   const handleThemeSelect = (themeId: string) => {
-    const isSelected = selectedThemes.includes(themeId);
-    onThemeSelect(themeId, !isSelected);
-  };
-
-  // Filter themes based on search query - only filter if search query exists
-  const filterThemes = (themeList: any[]) => {
-    if (!searchQuery || searchQuery.trim() === "") {
-      return themeList; // Return all themes if no search query
+    const isCurrentlySelected = selectedThemes.includes(themeId);
+    
+    if (!allowMultiple && !isCurrentlySelected) {
+      selectedThemes.forEach(id => {
+        if (id !== themeId) {
+          onThemeSelect(id, false);
+        }
+      });
     }
     
-    return themeList.filter(theme => {
-      // Check if theme name matches
-      if (theme.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return true;
-      }
-      
-      // Check if any children match
-      if (theme.children && theme.children.length > 0) {
-        return filterThemes(theme.children).length > 0;
-      }
-      
-      return false;
-    });
+    onThemeSelect(themeId, !isCurrentlySelected);
   };
 
-  const filteredThemes = filterThemes(themes);
+  if (loading) {
+    return (
+      <div className="text-white p-4">
+        Cargando afinidades...
+      </div>
+    );
+  }
 
-  console.log("HierarchicalThemeSelector - filteredThemes:", filteredThemes);
-  console.log("HierarchicalThemeSelector - searchQuery:", searchQuery);
+  if (error) {
+    return (
+      <div className="text-red-400 p-4">
+        Error: {error}
+      </div>
+    );
+  }
+
+  if (!filteredThemes || filteredThemes.length === 0) {
+    return (
+      <div className="text-yellow-400 p-4">
+        {searchQuery ? "No themes found matching your search." : "No se encontraron afinidades disponibles"}
+      </div>
+    );
+  }
+
+  const renderTheme = (theme: any, level: number = 1) => {
+    const isExpanded = level === 1 ? expandedCategories.has(theme.id) : expandedSubcategories.has(theme.id);
+    const isSelected = selectedThemes.includes(theme.id);
+    const hasChildren = theme.children && theme.children.length > 0;
+    
+    const paddingLeft = level === 1 ? 0 : level === 2 ? 12 : 24;
+
+    return (
+      <div key={theme.id} className="w-full">
+        <div 
+          className={`flex items-center py-1.5 px-1 rounded-md cursor-pointer hover:bg-fuchsia-900/20 ${
+            isSelected ? 'bg-fuchsia-700/30 text-white' : ''
+          }`}
+          style={{ paddingLeft: `${paddingLeft}px` }}
+          onClick={() => {
+            if (hasChildren && (level === 1 || level === 2)) {
+              if (level === 1) {
+                toggleCategory(theme.id);
+              } else {
+                toggleSubcategory(theme.id);
+              }
+            } else if (level === 3 || (!hasChildren && level >= 1)) {
+              handleThemeSelect(theme.id);
+            }
+          }}
+        >
+          {hasChildren && (level === 1 || level === 2) && (
+            <div className="mr-1.5">
+              {isExpanded ? (
+                <ChevronDown className="h-3 w-3" />
+              ) : (
+                <ChevronRight className="h-3 w-3" />
+              )}
+            </div>
+          )}
+          
+          {(!hasChildren || level === 3) && (
+            <input
+              type={allowMultiple ? "checkbox" : "radio"}
+              checked={isSelected}
+              onChange={() => handleThemeSelect(theme.id)}
+              className="mr-1.5 h-3 w-3 rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-0"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+          
+          <span className={`text-sm ${level === 1 ? 'font-medium uppercase' : level === 2 ? 'font-medium' : ''}`}>
+            {theme.name}
+          </span>
+        </div>
+
+        {hasChildren && (
+          <div className="mt-1" style={{ display: isExpanded ? 'block' : 'none' }}>
+            {theme.children.map((child: any) => renderTheme(child, level + 1))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <div className={className}>
-      {filteredThemes.map((category) => (
-        <div key={category.id} className="mb-2">
-          <Collapsible
-            open={openCategories.has(category.id)}
-            onOpenChange={() => toggleCategory(category.id)}
-          >
-            <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-left bg-fuchsia-800/30 rounded-lg hover:bg-fuchsia-700/30 transition-colors">
-              <span className="font-medium text-fuchsia-200">{category.name}</span>
-              {openCategories.has(category.id) ? (
-                <ChevronDown className="h-4 w-4 text-fuchsia-300" />
-              ) : (
-                <ChevronRight className="h-4 w-4 text-fuchsia-300" />
-              )}
-            </CollapsibleTrigger>
-            
-            <CollapsibleContent className="mt-2 ml-4 space-y-1">
-              {category.children && category.children.length > 0 ? (
-                category.children.map((subcategory) => (
-                  <div key={subcategory.id} className="mb-2">
-                    <Collapsible
-                      open={openCategories.has(subcategory.id)}
-                      onOpenChange={() => toggleCategory(subcategory.id)}
-                    >
-                      <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-left bg-fuchsia-900/20 rounded-md hover:bg-fuchsia-800/20 transition-colors">
-                        <span className="text-sm text-fuchsia-300">{subcategory.name}</span>
-                        {openCategories.has(subcategory.id) ? (
-                          <ChevronDown className="h-3 w-3 text-fuchsia-400" />
-                        ) : (
-                          <ChevronRight className="h-3 w-3 text-fuchsia-400" />
-                        )}
-                      </CollapsibleTrigger>
-                      
-                      <CollapsibleContent className="mt-1 ml-3 space-y-1">
-                        {subcategory.children && subcategory.children.map((item) => (
-                          <div key={item.id} className="flex items-center space-x-2 p-1">
-                            <Checkbox
-                              id={item.id}
-                              checked={selectedThemes.includes(item.id)}
-                              onCheckedChange={() => handleThemeSelect(item.id)}
-                              className="border-fuchsia-500 data-[state=checked]:bg-fuchsia-600"
-                            />
-                            <label
-                              htmlFor={item.id}
-                              className="text-sm text-white cursor-pointer hover:text-fuchsia-200"
-                            >
-                              {item.name}
-                            </label>
-                          </div>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </div>
-                ))
-              ) : (
-                <div className="flex items-center space-x-2 p-1">
-                  <Checkbox
-                    id={category.id}
-                    checked={selectedThemes.includes(category.id)}
-                    onCheckedChange={() => handleThemeSelect(category.id)}
-                    className="border-fuchsia-500 data-[state=checked]:bg-fuchsia-600"
-                  />
-                  <label
-                    htmlFor={category.id}
-                    className="text-sm text-white cursor-pointer hover:text-fuchsia-200"
-                  >
-                    {category.name}
-                  </label>
-                </div>
-              )}
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-      ))}
+    <div className={`space-y-1 ${className}`}>
+      {filteredThemes.map(theme => renderTheme(theme, 1))}
     </div>
   );
 };

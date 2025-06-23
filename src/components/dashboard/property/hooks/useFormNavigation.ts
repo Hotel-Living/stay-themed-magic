@@ -1,3 +1,4 @@
+
 import { useToast } from "@/hooks/use-toast";
 import { PropertyFormData } from "./usePropertyFormData";
 
@@ -10,6 +11,7 @@ interface FormNavigationProps {
   setShowValidationErrors: (show: boolean) => void;
   setCurrentStep: (step: number) => void;
   formData: PropertyFormData;
+  customValidator?: () => boolean;
 }
 
 export const useFormNavigation = ({
@@ -20,7 +22,8 @@ export const useFormNavigation = ({
   setErrorFields,
   setShowValidationErrors,
   setCurrentStep,
-  formData
+  formData,
+  customValidator
 }: FormNavigationProps) => {
   const { toast } = useToast();
 
@@ -51,6 +54,11 @@ export const useFormNavigation = ({
 
   // Keep validation for final submission only
   const validateCurrentStep = () => {
+    // Use custom validator if provided, otherwise use default validation
+    if (customValidator) {
+      return customValidator();
+    }
+    
     const isCurrentStepValid = stepValidation[currentStep];
     if (!isCurrentStepValid) {
       const incompleteFields = getIncompleteFields(currentStep, formData);

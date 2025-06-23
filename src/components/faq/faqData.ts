@@ -1,3 +1,4 @@
+
 import { FaqItem, FaqCategory } from "./types";
 import { faqCategories } from "./faqCategories";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -50,18 +51,6 @@ export const useFaqData = () => {
   const { language } = useTranslation();
   
   const getTranslatedCategories = () => {
-    const baseCategories = [
-      { id: "general", name: "General" },
-      { id: "booking", name: "Booking" },
-      { id: "stay", name: "During Your Stay" },
-      { id: "payment", name: "Payment" },
-      { id: "themes", name: "Affinities" },
-      { id: "lifestyle", name: "Digital Nomads" },
-      { id: "senior", name: "SENIOR" },
-      { id: "community", name: "Community" },
-      { id: "practical", name: "Practical Details" }
-    ];
-
     if (language === 'es') {
       return [
         { id: "general", name: "General" },
@@ -104,7 +93,7 @@ export const useFaqData = () => {
       ];
     }
 
-    // English version with interrogative forms
+    // English version with question formatting
     return [
       { id: "general", name: "General" },
       { id: "booking", name: "Booking" },

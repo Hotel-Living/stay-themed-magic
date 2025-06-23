@@ -1,140 +1,133 @@
 
-import React from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import React, { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 
 export function WhyHotelLivingSectionRO() {
+  const [activeAccordionTab, setActiveAccordionTab] = useState("");
+  const isMobile = useIsMobile();
+
   const accordionOptions = [
-    {
-      value: "retired",
-      label: "Pensionar?",
-      content: (
-        <div className="space-y-4">
-          <p>Ești obosit să plătești chirie sau ipotecă pentru o casă pe care abia o folosești? Locuirea în hotel oferă soluția perfectă pentru pensionari care vor să își maximizeze anii de aur.</p>
-          <p><strong>Beneficii pentru pensionari:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Fără responsabilități de întreținere - concentrează-te pe a te bucura de viață</li>
-            <li>Oportunități sociale și activități incluse</li>
-            <li>Servicii profesionale de curățenie și mese</li>
-            <li>Locații privilegiate lângă atracții culturale și îngrijire medicală</li>
-            <li>Aranjamente flexibile - călătorește când vrei</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      value: "online-worker",
-      label: "Lucrător Online?",
-      content: (
-        <div className="space-y-4">
-          <p>Transformă-ți rutina de lucru de acasă într-o aventură de lucru de oriunde. Locuirea în hotel oferă infrastructura perfectă pentru profesioniștii digitali.</p>
-          <p><strong>Perfect pentru lucrătorii la distanță:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Internet de mare viteza fiabil și spații de lucru dedicate</li>
-            <li>Mediu profesional departe de distragerile de acasă</li>
-            <li>Oportunități de networking cu alți profesioniști</li>
-            <li>Toate utilitățile și serviciile incluse într-un preț</li>
-            <li>Avantaje fiscale pentru cazarea de afaceri</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      value: "commuter",
-      label: "Departe de muncă?",
-      content: (
-        <div className="space-y-4">
-          <p>Evită stresul navetei zilnice și locuiește unde lucrezi. Locuirea în hotel lângă locul de muncă poate revoluționa echilibrul dintre viața profesională și personală.</p>
-          <p><strong>Avantaje pentru navetitori:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Elimină timpul și costurile de călătorie zilnică</li>
-            <li>Reduce stresul și îmbunătățește performanța la muncă</li>
-            <li>Mai mult timp pentru activități personale și relații</li>
-            <li>Servicii profesionale ca spălătoria și mesele sunt gestionate</li>
-            <li>Aranjamente flexibile pentru diferite programe de lucru</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      value: "free-soul",
-      label: "Suflet Liber?",
-      content: (
-        <div className="space-y-4">
-          <p>Eliberează-te de constrângerile locuinței tradiționale. Locuirea în hotel oferă libertatea supremă pentru cei care refuză să fie legați.</p>
-          <p><strong>Beneficii de libertate:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Fără angajamente pe termen lung sau contracte obligatorii</li>
-            <li>Explorează diferite cartiere și orașe cu ușurință</li>
-            <li>Posesiuni minime, experiențe maxime</li>
-            <li>Întâlnește oameni diverși din întreaga lume</li>
-            <li>Trăiește spontan fără responsabilități de proprietate</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      value: "hotel",
-      label: "Hotel?",
-      content: (
-        <div className="space-y-4">
-          <p>Cauți să revoluționezi modelul de afaceri al hotelului tău? Fă parteneriat cu noi pentru a transforma camerele goale în fluxuri de venituri consistente.</p>
-          <p><strong>Beneficii pentru hoteluri:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Ocupare garantată și venituri stabile</li>
-            <li>Costuri reduse de marketing și rezervări</li>
-            <li>Screening și management profesional al oaspeților</li>
-            <li>Menține operațiunile hoteliere în timp ce maximizezi veniturile</li>
-            <li>Alătură-te unei rețele în creștere de proprietăți inovatoare</li>
-          </ul>
-        </div>
-      )
-    },
-    {
-      value: "society",
-      label: "Societate?",
-      content: (
-        <div className="space-y-4">
-          <p>Locuirea în hotel reprezintă o soluție sustenabilă la provocările locuințelor, promovând folosirea eficientă a resurselor și construirea comunității.</p>
-          <p><strong>Beneficii societale:</strong></p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Reducerea expansiunii urbane și impactului asupra mediului</li>
-            <li>Folosirea eficientă a infrastructurii existente</li>
-            <li>Conexiuni comunitare îmbunătățite și interacțiune socială</li>
-            <li>Beneficii economice pentru afacerile locale și turism</li>
-            <li>Soluție inovatoare la criza accesibilității locuințelor</li>
-          </ul>
-        </div>
-      )
-    }
+    { id: "still-renting", label: "Încă Închiriezi?" },
+    { id: "retired", label: "Pensionar" },
+    { id: "online-worker", label: "Lucrător Online" },
+    { id: "commuter", label: "Navetist" },
+    { id: "free-soul", label: "Suflet Liber" },
+    { id: "hotel", label: "Hotel" },
+    { id: "society", label: "Societate" }
   ];
 
+  const handleAccordionTabChange = (value: string) => {
+    if (value === activeAccordionTab) {
+      setActiveAccordionTab("");
+    } else {
+      setActiveAccordionTab(value);
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-br from-[#5A1876] via-[#6B1E88] to-[#7C2A9A] py-12 mb-8 rounded-2xl">
-      <div className="container max-w-4xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-[#FEF7CD]">
-          De ce să locuiești în hoteluri?
-        </h2>
-        
-        <Accordion type="single" collapsible className="space-y-4">
-          {accordionOptions.map((option) => (
-            <AccordionItem 
-              key={option.value} 
-              value={option.value}
-              className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 group"
-            >
-              <AccordionTrigger 
-                className="px-6 py-4 text-[#FEF7CD] hover:text-white group-hover:bg-white/5 rounded-lg transition-all duration-200"
-                titleClassName="text-lg font-semibold"
-              >
-                {option.label}
-              </AccordionTrigger>
-              <AccordionContent className="px-6 pb-4 text-[#E5D5F0]">
-                {option.content}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+    <>
+      {/* First title - WHY HOTEL-LIVING? */}
+      <div className="text-center mb-8">
+        <div className="flex justify-center">
+          <div className="relative group w-fit">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h1 className={`
+              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-[#eedbf7] glow 
+              tracking-tight leading-tight
+              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
+            `}>
+              DE CE HOTEL-LIVING?
+            </h1>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
+      <div className="flex flex-col items-center gap-8 mb-16 relative">
+        {/* Top box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotelurile au nevoie de oameni</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Oamenii au nevoie de viață mai bună</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea are nevoie de actualizare</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Toți au nevoie de Hotel-Living</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '5B nopți de hotel de umplut' : '5.000 milioane nopți de hotel de umplut'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '400M oameni au nevoie de viață mai bună' : '400 milioane oameni au nevoie de viață mai bună'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea repetă trecutul</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living schimbă asta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* First Horizontal Accordion Menu */}
+      <div className="mb-24">
+        <div className="w-full">
+          <div className="flex justify-center mb-4">
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
+              {accordionOptions.map((option) => (
+                <button 
+                  key={option.id} 
+                  onClick={() => handleAccordionTabChange(option.id)}
+                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                >
+                  <span className="mb-1">{option.label}</span>
+                  <span className="text-xs">▼</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {activeAccordionTab && (
+            <div className="mt-4">
+              <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
+                <AccordionContentRenderer optionId={activeAccordionTab} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

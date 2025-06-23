@@ -1,4 +1,3 @@
-
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, Users, CreditCard, Filter, Calendar, Search, UserCog, MessageCircle, Megaphone, ArrowRight } from "lucide-react";
@@ -81,18 +80,14 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   // Combine base tabs with admin-only tabs if user is admin
   const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
 
+  // Handle logout using centralized method
   const handleLogout = async () => {
     try {
+      console.log("Admin dashboard logout button clicked");
       await signOut();
-      toast({
-        description: "Redirecting to login page..."
-      });
-      navigate('/login');
     } catch (error) {
-      toast({
-        description: "Could not log out. Please try again.",
-        variant: "destructive"
-      });
+      console.error("Error during logout from admin dashboard:", error);
+      // Error handling is already done in the centralized signOut method
     }
   };
 

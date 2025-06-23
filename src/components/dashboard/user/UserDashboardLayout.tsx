@@ -1,4 +1,3 @@
-
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HelpCircle, LogOut } from "lucide-react";
@@ -28,38 +27,14 @@ export default function UserDashboardLayout({
   const navigate = useNavigate();
   const { t, language } = useTranslation();
   
-  // Handle logout
+  // Handle logout using centralized method
   const handleLogout = async () => {
     try {
+      console.log("User dashboard logout button clicked");
       await signOut();
-      const logoutMessage = language === 'pt' ? "Sessão encerrada" : 
-                           language === 'ro' ? "Deconectat" :
-                           language === 'es' ? "Sesión cerrada" : 
-                           "Logged out";
-      const logoutDescription = language === 'pt' ? "Você saiu com sucesso." :
-                               language === 'ro' ? "Ați fost deconectat cu succes." :
-                               language === 'es' ? "Has cerrado sesión exitosamente." :
-                               "You have been successfully logged out.";
-      toast({
-        title: logoutMessage,
-        description: logoutDescription
-      });
-      navigate('/login');
     } catch (error) {
-      console.error("Error during logout:", error);
-      const errorTitle = language === 'pt' ? "Erro" :
-                        language === 'ro' ? "Eroare" :
-                        language === 'es' ? "Error" :
-                        "Error";
-      const errorDescription = language === 'pt' ? "Não foi possível sair. Tente novamente." :
-                              language === 'ro' ? "Nu s-a putut deconecta. Încercați din nou." :
-                              language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." :
-                              "Could not log out. Please try again.";
-      toast({
-        title: errorTitle,
-        description: errorDescription,
-        variant: "destructive"
-      });
+      console.error("Error during logout from user dashboard:", error);
+      // Error handling is already done in the centralized signOut method
     }
   };
   

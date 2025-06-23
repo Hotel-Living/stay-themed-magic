@@ -13,48 +13,46 @@ export function useSignOut({ setIsLoading }: SignOutProps) {
     try {
       setIsLoading(true);
       
-      // First check if we have a valid session before trying to sign out
-      const { data: sessionData } = await supabase.auth.getSession();
+      console.log("Starting centralized logout process");
       
-      if (!sessionData.session) {
-        console.log("No active session found, redirecting to login without calling signOut API");
-        // Clear local state regardless
-        
-        toast.success("Sesión finalizada", {
-          description: "Tu sesión ha finalizado"
-        });
-        
-        // Force page reload to clear any persistent state
-        window.location.href = "/login";
-        return;
-      }
-      
-      console.log("Active session found, signing out properly");
-      
-      // Call signOut API with proper signout options to invalidate all sessions
+      // Always call Supabase signOut regardless of session state
       const { error } = await supabase.auth.signOut({
-        scope: 'global' // Sign out from all sessions, not just current browser
+        scope: 'global' // Sign out from all sessions
       });
 
       if (error) {
         console.error("Error signing out:", error);
-        toast.error("Error al cerrar sesión", {
-          description: error.message
-        });
-        return;
+        throw error;
       }
       
-      toast.success("Sesión cerrada", {
+      console.log("Supabase signOut completed successfully");
+      
+      // Clear any local storage items that might persist user data
+      localStorage.removeItem('supabase.auth.token');
+      
+      // Success toast
+      toast({
+        title: "Sesión cerrada",
         description: "Has cerrado sesión con éxito"
       });
 
-      // Completely reload the application to clear any application state
-      window.location.href = "/login";
+      // Force a complete page reload to clear all application state
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 500);
+
     } catch (error: any) {
-      console.error("Error in signOut function:", error);
-      toast.error("Error al cerrar sesión", {
-        description: error.message || "Ha ocurrido un error"
+      console.error("Error in centralized signOut function:", error);
+      toast({
+        title: "Error al cerrar sesión",
+        description: error.message || "Ha ocurrido un error",
+        variant: "destructive"
       });
+      
+      // Even on error, attempt to redirect after a delay
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
     } finally {
       setIsLoading(false);
     }

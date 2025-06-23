@@ -1,4 +1,3 @@
-
 import React, { ReactNode, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building } from "lucide-react";
@@ -49,30 +48,14 @@ export default function DashboardLayout({
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
   
+  // Handle logout using centralized method
   const handleLogout = async () => {
     try {
-      console.log("Logout button clicked, checking session...");
-      
-      // Force redirect without checking session status
-      toast("Redirecting to login page...");
-      
-      // Call signOut but don't wait for it to complete
-      signOut().catch(error => {
-        console.error("Error during signOut, but continuing with redirect:", error);
-      });
-      
-      // Immediately redirect to the login page
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 500);
+      console.log("Hotel dashboard logout button clicked");
+      await signOut();
     } catch (error) {
       console.error("Error during logout from hotel dashboard:", error);
-      toast.error("Could not complete logout. Please try again.");
-      
-      // Force redirect even if there's an error
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1000);
+      // Error handling is already done in the centralized signOut method
     }
   };
 

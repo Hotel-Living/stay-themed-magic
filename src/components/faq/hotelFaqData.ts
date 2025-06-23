@@ -13,6 +13,18 @@ import { integrationFaqs as integrationFaqsEn } from "./hotel-categories/en/inte
 import { marketingFaqs as marketingFaqsEn } from "./hotel-categories/en/marketingFaqs";
 import { paymentFaqs as paymentFaqsEn } from "./hotel-categories/en/paymentFaqs";
 
+// Spanish imports
+import { benefitsFaqs as benefitsFaqsEs } from "./hotelFaqData/es/benefitsFaqs";
+import { modelsFaqs as modelsFaqsEs } from "./hotelFaqData/es/modelsFaqs";
+import { revenueFaqs as revenueFaqsEs } from "./hotelFaqData/es/revenueFaqs";
+import { guestsFaqs as guestsFaqsEs } from "./hotelFaqData/es/guestsFaqs";
+import { seniorsFaqs as seniorsFaqsEs } from "./hotelFaqData/es/seniorsFaqs";
+import { affinitiesFaqs as affinitiesFaqsEs } from "./hotelFaqData/es/affinitiesFaqs";
+import { operationFaqs as operationFaqsEs } from "./hotelFaqData/es/operationFaqs";
+import { integrationFaqs as integrationFaqsEs } from "./hotelFaqData/es/integrationFaqs";
+import { marketingFaqs as marketingFaqsEs } from "./hotelFaqData/es/marketingFaqs";
+import { paymentFaqs as paymentFaqsEs } from "./hotelFaqData/es/paymentFaqs";
+
 // Portuguese imports
 import { benefitsFaqs as benefitsFaqsPt } from "./hotel-categories/pt/benefitsFaqs";
 import { modelsFaqs as modelsFaqsPt } from "./hotel-categories/pt/modelsFaqs";
@@ -114,6 +126,24 @@ export const useHotelFaqCategories = () => {
 
 export const useHotelFaqsByCategory = () => {
   const { language } = useTranslation();
+
+  if (language === 'es') {
+    return {
+      video: [],
+      benefits: benefitsFaqsEs,
+      models: modelsFaqsEs,
+      revenue: revenueFaqsEs,
+      guests: guestsFaqsEs,
+      seniors: seniorsFaqsEs,
+      affinities: affinitiesFaqsEs,
+      operation: operationFaqsEs,
+      integration: integrationFaqsEs,
+      marketing: marketingFaqsEs,
+      payment: paymentFaqsEs,
+      steps: [],
+      rental: []
+    };
+  }
 
   if (language === 'pt') {
     return {

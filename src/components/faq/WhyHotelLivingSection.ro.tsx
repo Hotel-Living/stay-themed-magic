@@ -1,77 +1,133 @@
-import React from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { StillRentingContentRO } from "./accordion/StillRentingContent.ro";
-import { RetiredContentRO } from "./accordion/RetiredContent.ro";
-import { OnlineWorkerContentRO } from "./accordion/OnlineWorkerContent.ro";
-import { CommuterContentRO } from "./accordion/CommuterContent.ro";
-import { FreeSoulContentRO } from "./accordion/FreeSoulContent.ro";
-import { HotelContentRO } from "./accordion/HotelContent.ro";
-import { SocietyContentRO } from "./accordion/SocietyContent.ro";
+
+import React, { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 
 export function WhyHotelLivingSectionRO() {
+  const [activeAccordionTab, setActiveAccordionTab] = useState("");
+  const isMobile = useIsMobile();
+
   const accordionOptions = [
-    { 
-      id: "still-renting", 
-      label: "Încă Închiriezi?", 
-      component: <StillRentingContentRO />
-    },
-    { 
-      id: "retired", 
-      label: "Pensionar?", 
-      component: <RetiredContentRO />
-    },
-    { 
-      id: "online-worker", 
-      label: "Lucrător Online?", 
-      component: <OnlineWorkerContentRO />
-    },
-    { 
-      id: "commuter", 
-      label: "Departe de muncă?", 
-      component: <CommuterContentRO />
-    },
-    { 
-      id: "free-soul", 
-      label: "Suflet Liber?", 
-      component: <FreeSoulContentRO />
-    },
-    { 
-      id: "hotel", 
-      label: "Hotel?", 
-      component: <HotelContentRO />
-    },
-    { 
-      id: "society", 
-      label: "Societate?", 
-      component: <SocietyContentRO />
-    }
+    { id: "still-renting", label: "Încă Închiriezi?" },
+    { id: "retired", label: "Pensionar" },
+    { id: "online-worker", label: "Lucrător Online" },
+    { id: "commuter", label: "Navetist" },
+    { id: "free-soul", label: "Suflet Liber" },
+    { id: "hotel", label: "Hotel" },
+    { id: "society", label: "Societate" }
   ];
 
+  const handleAccordionTabChange = (value: string) => {
+    if (value === activeAccordionTab) {
+      setActiveAccordionTab("");
+    } else {
+      setActiveAccordionTab(value);
+    }
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto mb-12">
+    <>
+      {/* First title - WHY HOTEL-LIVING? */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-[#eedbf7] glow animate-text-slow tracking-tight leading-tight">
-          De ce Hotel-Living?
-        </h2>
-        <p className="text-lg text-[#e3d6e9] mb-6">
-          Descoperă cum Hotel-Living îți transformă stilul de viață
-        </p>
+        <div className="flex justify-center">
+          <div className="relative group w-fit">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h1 className={`
+              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-[#eedbf7] glow 
+              tracking-tight leading-tight
+              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
+            `}>
+              DE CE HOTEL-LIVING?
+            </h1>
+          </div>
+        </div>
       </div>
-      
-      <div className="glass-card rounded-lg p-6 backdrop-blur-sm border border-fuchsia-400/20">
-        <Accordion type="single" collapsible className="w-full space-y-2">
-          {accordionOptions.map((option) => (
-            <AccordionItem key={option.id} value={option.id} className="border border-fuchsia-400/20 rounded-lg overflow-hidden">
-              <AccordionTrigger className="px-4 py-3 bg-gradient-to-r from-[#730483] to-[#570366] text-white hover:from-[#981DA1] hover:to-[#730483] transition-all duration-200 text-left font-semibold">
-                {option.label}
-              </AccordionTrigger>
-              <AccordionContent className="px-4 py-6 bg-[#460F54]/50 text-[#f9d3f6]">
-                {option.component}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+
+      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
+      <div className="flex flex-col items-center gap-8 mb-16 relative">
+        {/* Top box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotelurile au nevoie de oameni</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Oamenii au nevoie de viață mai bună</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea are nevoie de actualizare</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Toți au nevoie de Hotel-Living</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '5B nopți de hotel de umplut' : '5.000 milioane nopți de hotel de umplut'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '400M oameni au nevoie de viață mai bună' : '400 milioane oameni au nevoie de viață mai bună'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Societatea repetă trecutul</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living schimbă asta</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* First Horizontal Accordion Menu */}
+      <div className="mb-24">
+        <div className="w-full">
+          <div className="flex justify-center mb-4">
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
+              {accordionOptions.map((option) => (
+                <button 
+                  key={option.id} 
+                  onClick={() => handleAccordionTabChange(option.id)}
+                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                >
+                  <span className="mb-1">{option.label}</span>
+                  <span className="text-xs">▼</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {activeAccordionTab && (
+            <div className="mt-4">
+              <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
+                <AccordionContentRenderer optionId={activeAccordionTab} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

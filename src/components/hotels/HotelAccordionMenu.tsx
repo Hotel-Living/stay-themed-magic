@@ -2,11 +2,18 @@
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { HotelAccordionMenuEN } from "./HotelAccordionMenu.en";
+import { HotelAccordionMenuES } from "./HotelAccordionMenu.es";
+import { HotelAccordionMenuPT } from "./HotelAccordionMenu.pt";
+import { HotelAccordionMenuRO } from "./HotelAccordionMenu.ro";
 
 export function HotelAccordionMenu() {
-  const { i18n } = useTranslation();
+  const { language } = useTranslation();
   
-  // For now, we'll use the English version since the others don't exist
-  // In a real implementation, you'd have language-specific versions
+  if (language === 'en') return <HotelAccordionMenuEN />;
+  if (language === 'es') return <HotelAccordionMenuES />;
+  if (language === 'pt') return <HotelAccordionMenuPT />;
+  if (language === 'ro') return <HotelAccordionMenuRO />;
+  
+  // Default fallback to English
   return <HotelAccordionMenuEN />;
 }

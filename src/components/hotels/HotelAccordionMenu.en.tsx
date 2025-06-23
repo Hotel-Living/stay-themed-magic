@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ComparisonTable } from "./accordion/ComparisonTable";
 import { BenefitsSection } from "./accordion/sections";
-import { useTranslation } from "@/hooks/useTranslation";
 
 export function HotelAccordionMenuEN() {
   const [openItem, setOpenItem] = useState<string | null>(null);
-  const { t } = useTranslation();
   
   const handleItemToggle = (value: string) => {
     setOpenItem(openItem === value ? null : value);

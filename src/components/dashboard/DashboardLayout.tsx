@@ -48,7 +48,7 @@ export default function DashboardLayout({
   // Use profile data or fallback to defaults
   const partnerName = profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : profile?.first_name || 'Hotel Partner';
   
-  // Handle logout using centralized method
+  // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
     try {
       console.log("Hotel dashboard logout button clicked");

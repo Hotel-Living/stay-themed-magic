@@ -27,7 +27,7 @@ export default function UserDashboardLayout({
   const navigate = useNavigate();
   const { t, language } = useTranslation();
   
-  // Handle logout using centralized method
+  // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
     try {
       console.log("User dashboard logout button clicked");

@@ -12,7 +12,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     session, 
     isLoading, 
     setProfile, 
-    setIsLoading 
+    setIsLoading,
+    setUser,
+    setSession
   } = useAuthState();
   
   const { 
@@ -22,7 +24,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateProfile: updateUserProfile 
   } = useAuthMethods({ 
     setIsLoading,
-    setProfile
+    setProfile,
+    setUser,
+    setSession
   });
 
   // Wrapper for updateProfile to ensure user is passed

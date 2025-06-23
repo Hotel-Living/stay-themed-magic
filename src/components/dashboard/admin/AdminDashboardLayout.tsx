@@ -80,7 +80,7 @@ export default function AdminDashboardLayout({ children }: AdminDashboardLayoutP
   // Combine base tabs with admin-only tabs if user is admin
   const adminTabs = isAdmin ? [...baseAdminTabs, ...adminOnlyTabs] : baseAdminTabs;
 
-  // Handle logout using centralized method
+  // Handle logout using centralized method from AuthContext
   const handleLogout = async () => {
     try {
       console.log("Admin dashboard logout button clicked");

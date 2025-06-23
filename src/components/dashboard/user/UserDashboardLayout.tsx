@@ -32,28 +32,61 @@ export default function UserDashboardLayout({
   const handleLogout = async () => {
     try {
       await signOut();
+      const logoutMessage = language === 'pt' ? "Sessão encerrada" : 
+                           language === 'ro' ? "Deconectat" :
+                           language === 'es' ? "Sesión cerrada" : 
+                           "Logged out";
+      const logoutDescription = language === 'pt' ? "Você saiu com sucesso." :
+                               language === 'ro' ? "Ați fost deconectat cu succes." :
+                               language === 'es' ? "Has cerrado sesión exitosamente." :
+                               "You have been successfully logged out.";
       toast({
-        title: language === 'es' ? "Sesión cerrada" : "Logged out",
-        description: language === 'es' ? "Has cerrado sesión exitosamente." : "You have been successfully logged out."
+        title: logoutMessage,
+        description: logoutDescription
       });
       navigate('/login');
     } catch (error) {
       console.error("Error during logout:", error);
+      const errorTitle = language === 'pt' ? "Erro" :
+                        language === 'ro' ? "Eroare" :
+                        language === 'es' ? "Error" :
+                        "Error";
+      const errorDescription = language === 'pt' ? "Não foi possível sair. Tente novamente." :
+                              language === 'ro' ? "Nu s-a putut deconecta. Încercați din nou." :
+                              language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." :
+                              "Could not log out. Please try again.";
       toast({
-        title: language === 'es' ? "Error" : "Error",
-        description: language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." : "Could not log out. Please try again.",
+        title: errorTitle,
+        description: errorDescription,
         variant: "destructive"
       });
     }
   };
   
-  const dashboardTitle = language === 'es' ? "PANEL DE USUARIO" : "USER DASHBOARD";
-  const needHelpTitle = language === 'es' ? "¿Necesitas Ayuda?" : "Need Help?";
-  const supportDescription = language === 'es' 
-    ? "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier pregunta."
-    : "Our support team is available 24/7 to assist you with any questions.";
-  const contactSupport = language === 'es' ? "Contactar Soporte" : "Contact Support";
-  const logOut = language === 'es' ? "Cerrar Sesión" : "Log Out";
+  const dashboardTitle = language === 'pt' ? "PAINEL DO USUÁRIO" :
+                        language === 'ro' ? "TABLOU DE BORD UTILIZATOR" :
+                        language === 'es' ? "PANEL DE USUARIO" :
+                        "USER DASHBOARD";
+  
+  const needHelpTitle = language === 'pt' ? "Precisa de ajuda?" :
+                       language === 'ro' ? "Ai nevoie de ajutor?" :
+                       language === 'es' ? "¿Necesitas Ayuda?" :
+                       "Need Help?";
+  
+  const supportDescription = language === 'pt' ? "Nossa equipe de suporte está disponível 24/7 para ajudá-lo com quaisquer dúvidas." :
+                            language === 'ro' ? "Echipa noastră de suport este disponibilă 24/7 pentru a vă asista cu orice întrebări." :
+                            language === 'es' ? "Nuestro equipo de soporte está disponible 24/7 para ayudarte con cualquier pregunta." :
+                            "Our support team is available 24/7 to assist you with any questions.";
+  
+  const contactSupport = language === 'pt' ? "Contatar Suporte" :
+                        language === 'ro' ? "Contactează suportul" :
+                        language === 'es' ? "Contactar Soporte" :
+                        "Contact Support";
+  
+  const logOut = language === 'pt' ? "Sair" :
+                language === 'ro' ? "Deconectare" :
+                language === 'es' ? "Cerrar Sesión" :
+                "Log Out";
   
   return (
     <div className="min-h-screen flex flex-col">

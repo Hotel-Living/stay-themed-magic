@@ -1,0 +1,26 @@
+
+{
+  "userDashboard": {
+    "title": "TABLOU DE BORD UTILIZATOR",
+    "tabs": {
+      "dashboard": "Tablou de bord",
+      "experience": "Experiența Mea",
+      "bookings": "Rezervările Mele",
+      "history": "Istoricul Șederilor",
+      "saved": "Hoteluri Salvate",
+      "payments": "Metode de Plată",
+      "getThreeNights": "Recomandă un Hotel",
+      "profile": "Profil",
+      "settings": "Setări",
+      "notifications": "Alerte"
+    },
+    "help": {
+      "needHelp": "Ai nevoie de ajutor?",
+      "supportDescription": "Echipa noastră de suport este disponibilă 24/7 pentru a vă asista cu orice întrebări.",
+      "contactSupport": "Contactează suportul"
+    },
+    "actions": {
+      "logOut": "Deconectare"
+    }
+  }
+}

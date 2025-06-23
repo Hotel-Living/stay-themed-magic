@@ -1,0 +1,26 @@
+
+{
+  "userDashboard": {
+    "title": "PAINEL DO USUÁRIO",
+    "tabs": {
+      "dashboard": "Painel",
+      "experience": "Minha Experiência",
+      "bookings": "Minhas Reservas",
+      "history": "Histórico de Estadias",
+      "saved": "Hotéis Salvos",
+      "payments": "Métodos de Pagamento",
+      "getThreeNights": "Recomendar um Hotel",
+      "profile": "Perfil",
+      "settings": "Configurações",
+      "notifications": "Alertas"
+    },
+    "help": {
+      "needHelp": "Precisa de ajuda?",
+      "supportDescription": "Nossa equipe de suporte está disponível 24/7 para ajudá-lo com quaisquer dúvidas.",
+      "contactSupport": "Contatar suporte"
+    },
+    "actions": {
+      "logOut": "Sair"
+    }
+  }
+}

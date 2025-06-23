@@ -1,6 +1,14 @@
 
 import { addDays } from "date-fns";
 
+// Enum for booking statuses
+export enum BookingStatus {
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled',
+  COMPLETED = 'completed'
+}
+
 // Type for a booked stay
 export interface BookedStay {
   id: string;
@@ -42,4 +50,13 @@ export interface HighlightedBooking {
   roomId: string;
   startDate: Date;
   endDate: Date;
+}
+
+// Enhanced booking interface with modification capabilities
+export interface BookingModification {
+  bookingId: string;
+  newCheckIn: string;
+  newCheckOut: string;
+  modifiedBy: string;
+  modifiedAt: string;
 }

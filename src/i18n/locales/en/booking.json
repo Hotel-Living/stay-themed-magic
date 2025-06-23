@@ -15,6 +15,35 @@
     "selectGuests": "Select guests",
     "availability": "Availability",
     "noAvailability": "No availability for selected dates",
-    "modifySearch": "Modify search"
+    "modifySearch": "Modify search",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed"
+    },
+    "actions": {
+      "modify": "Modify Booking",
+      "cancel": "Cancel Booking",
+      "confirmCancel": "Are you sure you want to cancel this booking? This action cannot be undone.",
+      "confirmModify": "Save changes to this booking?",
+      "modifying": "Modifying...",
+      "cancelling": "Cancelling..."
+    },
+    "messages": {
+      "cancelSuccess": "Booking cancelled successfully",
+      "cancelError": "Failed to cancel booking",
+      "modifySuccess": "Booking modified successfully",
+      "modifyError": "Failed to modify booking",
+      "cannotModify": "This booking cannot be modified",
+      "cannotCancel": "This booking cannot be cancelled"
+    },
+    "modify": {
+      "title": "Modify Booking",
+      "newCheckIn": "New Check-in Date",
+      "newCheckOut": "New Check-out Date",
+      "save": "Save Changes",
+      "cancel": "Cancel Changes"
+    }
   }
 }

@@ -1,145 +1,187 @@
 
-import React from "react";
-import { Calendar, MapPin, Clock, CreditCard, Star } from "lucide-react";
+import React, { useState } from "react";
+import { format } from "date-fns";
+import { Calendar, MapPin, Star, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { formatDate } from "../../utils/dateUtils";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useBookingOperations } from "@/hooks/useBookingOperations";
+import { BookingModificationModal } from "./BookingModificationModal";
+import { BookingStatusBadge } from "./BookingStatusBadge";
 
 interface EnhancedBookingCardProps {
   booking: any;
   onViewDetails: () => void;
   onRateStay?: () => void;
-  hasReview?: boolean;
-  isPastStay?: boolean;
+  hasReview: boolean;
+  isPastStay: boolean;
 }
 
-export const EnhancedBookingCard = ({ 
-  booking, 
-  onViewDetails, 
-  onRateStay, 
-  hasReview = false, 
-  isPastStay = false 
+export const EnhancedBookingCard = ({
+  booking,
+  onViewDetails,
+  onRateStay,
+  hasReview,
+  isPastStay
 }: EnhancedBookingCardProps) => {
-  const calculateDuration = (checkIn: string, checkOut: string) => {
-    const start = new Date(checkIn);
-    const end = new Date(checkOut);
-    const diffTime = Math.abs(end.getTime() - start.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const { t } = useTranslation();
+  const { 
+    loading, 
+    canModifyBooking, 
+    canCancelBooking, 
+    cancelBooking 
+  } = useBookingOperations();
+  const [showModifyModal, setShowModifyModal] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleCancelBooking = async () => {
+    if (window.confirm(t('booking.actions.confirmCancel'))) {
+      const success = await cancelBooking(booking.id);
+      if (success) {
+        setRefreshTrigger(prev => prev + 1);
+        // Force a page refresh to show updated status
+        window.location.reload();
+      }
+    }
   };
 
-  const duration = calculateDuration(booking.check_in, booking.check_out);
+  const handleModifySuccess = () => {
+    setRefreshTrigger(prev => prev + 1);
+    // Force a page refresh to show updated booking
+    window.location.reload();
+  };
+
+  const canModify = canModifyBooking(booking.status);
+  const canCancel = canCancelBooking(booking.status);
+
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), "MMM dd, yyyy");
+    } catch (error) {
+      return dateString;
+    }
+  };
 
   return (
-    <div className="border border-fuchsia-900/20 rounded-lg p-6 bg-fuchsia-500/10 hover:bg-fuchsia-500/15 transition-colors">
-      <div className="flex flex-col lg:flex-row gap-4">
-        {/* Hotel Image */}
-        <div className="lg:w-48 h-32 flex-shrink-0">
-          {booking.hotels?.main_image_url ? (
-            <img 
-              src={booking.hotels.main_image_url} 
-              alt={booking.hotels?.name || 'Hotel'} 
-              className="w-full h-full object-cover rounded-lg"
-            />
-          ) : (
-            <div className="w-full h-full bg-fuchsia-950/30 rounded-lg flex items-center justify-center">
-              <MapPin className="w-8 h-8 text-fuchsia-400" />
-            </div>
-          )}
-        </div>
-
-        {/* Booking Details */}
-        <div className="flex-1 space-y-4">
-          <div>
-            <h3 className="font-bold text-xl text-white mb-1">
-              {booking.hotels?.name || 'Unknown Hotel'}
-            </h3>
-            <div className="flex items-center text-fuchsia-200 mb-3">
-              <MapPin className="w-4 h-4 mr-2" />
-              <span>{booking.hotels ? `${booking.hotels.city}, ${booking.hotels.country}` : 'Unknown Location'}</span>
-            </div>
+    <>
+      <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Hotel Image */}
+          <div className="lg:w-48 lg:h-32 w-full h-48 rounded-xl overflow-hidden bg-fuchsia-950/30 flex-shrink-0">
+            {booking.hotels?.main_image_url ? (
+              <img
+                src={booking.hotels.main_image_url}
+                alt={booking.hotels.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <MapPin className="w-8 h-8 text-fuchsia-400" />
+              </div>
+            )}
           </div>
 
-          {/* Booking Info Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="bg-fuchsia-950/30 p-3 rounded">
-              <div className="flex items-center mb-1">
-                <Calendar className="w-3 h-3 text-fuchsia-300 mr-1" />
-                <span className="text-xs text-fuchsia-200">Check-in</span>
+          {/* Booking Details */}
+          <div className="flex-1 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-white mb-1">
+                  {booking.hotels?.name || "Hotel Name"}
+                </h3>
+                <p className="text-white/70 text-sm flex items-center gap-1">
+                  <MapPin className="w-4 h-4" />
+                  {booking.hotels?.city}, {booking.hotels?.country}
+                </p>
               </div>
-              <p className="font-medium text-sm text-white">{formatDate(booking.check_in)}</p>
+              <BookingStatusBadge status={booking.status} />
             </div>
-            
-            <div className="bg-fuchsia-950/30 p-3 rounded">
-              <div className="flex items-center mb-1">
-                <Calendar className="w-3 h-3 text-fuchsia-300 mr-1" />
-                <span className="text-xs text-fuchsia-200">Check-out</span>
-              </div>
-              <p className="font-medium text-sm text-white">{formatDate(booking.check_out)}</p>
-            </div>
-            
-            <div className="bg-fuchsia-950/30 p-3 rounded">
-              <div className="flex items-center mb-1">
-                <Clock className="w-3 h-3 text-fuchsia-300 mr-1" />
-                <span className="text-xs text-fuchsia-200">Duration</span>
-              </div>
-              <p className="font-medium text-sm text-white">{duration} days</p>
-            </div>
-            
-            <div className="bg-fuchsia-950/30 p-3 rounded">
-              <div className="flex items-center mb-1">
-                <CreditCard className="w-3 h-3 text-fuchsia-300 mr-1" />
-                <span className="text-xs text-fuchsia-200">Total</span>
-              </div>
-              <p className="font-medium text-sm text-white">${booking.total_price}</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Status and Actions */}
-        <div className="lg:w-48 flex flex-col justify-between">
-          <div className="mb-4">
-            <span className={cn(
-              "px-3 py-1 text-xs rounded-full font-medium",
-              booking.status === 'confirmed' 
-                ? "bg-green-500/20 text-green-300" 
-                : booking.status === 'pending'
-                ? "bg-amber-500/20 text-amber-300"
-                : "bg-red-500/20 text-red-300"
-            )}>
-              {booking.status?.charAt(0).toUpperCase() + booking.status?.slice(1) || 'Confirmed'}
-            </span>
-          </div>
-          
-          <div className="space-y-2">
-            <Button 
-              onClick={onViewDetails}
-              className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
-              size="sm"
-            >
-              View Full Details
-            </Button>
-            
-            {/* Show Rate Your Stay button for past stays without reviews */}
-            {isPastStay && onRateStay && (
-              <Button 
-                onClick={onRateStay}
-                className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div className="flex items-center gap-2 text-white/80">
+                <Calendar className="w-4 h-4 text-fuchsia-400" />
+                <span>Check-in: {formatDate(booking.check_in)}</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/80">
+                <Calendar className="w-4 h-4 text-fuchsia-400" />
+                <span>Check-out: {formatDate(booking.check_out)}</span>
+              </div>
+            </div>
+
+            {/* Contact Information */}
+            {booking.hotels?.contact_name && (
+              <div className="text-sm text-white/70">
+                <p>Contact: {booking.hotels.contact_name}</p>
+                {booking.hotels.contact_email && (
+                  <p>Email: {booking.hotels.contact_email}</p>
+                )}
+                {booking.hotels.contact_phone && (
+                  <p>Phone: {booking.hotels.contact_phone}</p>
+                )}
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
                 size="sm"
+                onClick={onViewDetails}
+                className="text-fuchsia-200 border-fuchsia-200 hover:bg-fuchsia-200/10"
               >
-                <Star className="w-4 h-4 mr-2" />
-                Rate Your Stay
+                View Details
               </Button>
-            )}
-            
-            {/* Show review status for past stays with reviews */}
-            {isPastStay && hasReview && (
-              <div className="w-full bg-green-500/20 text-green-300 text-center py-2 px-3 rounded text-sm">
-                ✓ Review submitted
-              </div>
-            )}
+
+              {/* Modify Booking Button */}
+              {canModify && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowModifyModal(true)}
+                  disabled={loading}
+                  className="text-blue-200 border-blue-200 hover:bg-blue-200/10"
+                >
+                  <Edit className="w-4 h-4 mr-1" />
+                  {t('booking.actions.modify')}
+                </Button>
+              )}
+
+              {/* Cancel Booking Button */}
+              {canCancel && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCancelBooking}
+                  disabled={loading}
+                  className="text-red-200 border-red-200 hover:bg-red-200/10"
+                >
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  {loading ? t('booking.actions.cancelling') : t('booking.actions.cancel')}
+                </Button>
+              )}
+
+              {/* Rate Stay Button */}
+              {isPastStay && !hasReview && onRateStay && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onRateStay}
+                  className="text-yellow-200 border-yellow-200 hover:bg-yellow-200/10"
+                >
+                  <Star className="w-4 h-4 mr-1" />
+                  Rate Stay
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Modification Modal */}
+      <BookingModificationModal
+        isOpen={showModifyModal}
+        onClose={() => setShowModifyModal(false)}
+        booking={booking}
+        onSuccess={handleModifySuccess}
+      />
+    </>
   );
 };

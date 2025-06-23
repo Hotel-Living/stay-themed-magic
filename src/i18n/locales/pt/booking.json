@@ -23,6 +23,35 @@
     "reservationNumber": "Número da reserva",
     "viewBooking": "Ver reserva",
     "cancelBooking": "Cancelar reserva",
-    "bookingDetails": "Detalhes da reserva"
+    "bookingDetails": "Detalhes da reserva",
+    "status": {
+      "pending": "Pendente",
+      "confirmed": "Confirmada",
+      "cancelled": "Cancelada",
+      "completed": "Concluída"
+    },
+    "actions": {
+      "modify": "Modificar Reserva",
+      "cancel": "Cancelar Reserva",
+      "confirmCancel": "Tem certeza de que deseja cancelar esta reserva? Esta ação não pode ser desfeita.",
+      "confirmModify": "Salvar alterações nesta reserva?",
+      "modifying": "Modificando...",
+      "cancelling": "Cancelando..."
+    },
+    "messages": {
+      "cancelSuccess": "Reserva cancelada com sucesso",
+      "cancelError": "Falha ao cancelar reserva",
+      "modifySuccess": "Reserva modificada com sucesso",
+      "modifyError": "Falha ao modificar reserva",
+      "cannotModify": "Esta reserva não pode ser modificada",
+      "cannotCancel": "Esta reserva não pode ser cancelada"
+    },
+    "modify": {
+      "title": "Modificar Reserva",
+      "newCheckIn": "Nova Data de Check-in",
+      "newCheckOut": "Nova Data de Check-out",
+      "save": "Salvar Alterações",
+      "cancel": "Cancelar Alterações"
+    }
   }
 }

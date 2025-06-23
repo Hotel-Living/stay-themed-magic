@@ -6,23 +6,44 @@
     "checkOut": "Salida",
     "guests": "Huéspedes",
     "rooms": "Habitaciones",
-    "dates": "Fechas",
-    "duration": "Duración",
-    "total": "Total",
-    "bookNow": "Reservar ahora",
-    "availability": "Disponibilidad",
-    "selectDates": "Seleccionar fechas",
-    "summary": "Resumen de reserva",
-    "bookYourStay": "Reserva tu estancia",
     "adults": "Adultos",
     "children": "Niños",
+    "bookNow": "Reservar ahora",
     "totalPrice": "Precio total",
-    "confirmBooking": "Confirmar reserva",
-    "bookingConfirmed": "Reserva confirmada",
-    "bookingFailed": "Error en la reserva",
-    "reservationNumber": "Número de reserva",
-    "viewBooking": "Ver reserva",
-    "cancelBooking": "Cancelar reserva",
-    "bookingDetails": "Detalles de la reserva"
+    "pricePerNight": "por noche",
+    "selectDates": "Seleccionar fechas",
+    "selectGuests": "Seleccionar huéspedes",
+    "availability": "Disponibilidad",
+    "noAvailability": "Sin disponibilidad para las fechas seleccionadas",
+    "modifySearch": "Modificar búsqueda",
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmada",
+      "cancelled": "Cancelada",
+      "completed": "Completada"
+    },
+    "actions": {
+      "modify": "Modificar Reserva",
+      "cancel": "Cancelar Reserva",
+      "confirmCancel": "¿Estás seguro de que quieres cancelar esta reserva? Esta acción no se puede deshacer.",
+      "confirmModify": "¿Guardar cambios en esta reserva?",
+      "modifying": "Modificando...",
+      "cancelling": "Cancelando..."
+    },
+    "messages": {
+      "cancelSuccess": "Reserva cancelada exitosamente",
+      "cancelError": "Error al cancelar la reserva",
+      "modifySuccess": "Reserva modificada exitosamente",
+      "modifyError": "Error al modificar la reserva",
+      "cannotModify": "Esta reserva no puede ser modificada",
+      "cannotCancel": "Esta reserva no puede ser cancelada"
+    },
+    "modify": {
+      "title": "Modificar Reserva",
+      "newCheckIn": "Nueva Fecha de Entrada",
+      "newCheckOut": "Nueva Fecha de Salida",
+      "save": "Guardar Cambios",
+      "cancel": "Cancelar Cambios"
+    }
   }
 }

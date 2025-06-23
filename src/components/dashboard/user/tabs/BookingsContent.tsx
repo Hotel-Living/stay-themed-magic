@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Calendar, Loader2, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
@@ -19,61 +19,84 @@ export default function BookingsContent() {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      if (!user) return;
-      
-      try {
-        setIsLoading(true);
-        
-        const { data, error } = await supabase
-          .from('bookings')
-          .select(`
-            *,
-            hotels(
-              name, 
-              city, 
-              country, 
-              main_image_url,
-              contact_name,
-              contact_email,
-              contact_phone
-            )
-          `)
-          .eq('user_id', user.id)
-          .order('check_in', { ascending: true });
-        
-        if (error) throw error;
-        
-        setBookings(data || []);
-
-        // Fetch existing reviews for these bookings
-        if (data && data.length > 0) {
-          const hotelIds = data.map(booking => booking.hotel_id);
-          const { data: reviews } = await supabase
-            .from('reviews')
-            .select('hotel_id')
-            .in('hotel_id', hotelIds)
-            .eq('user_id', user.id);
-          
-          if (reviews) {
-            setExistingReviews(new Set(reviews.map(review => review.hotel_id)));
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching bookings:", error);
-        toast({
-          title: "Error loading bookings",
-          description: "We couldn't load your bookings. Please try again later.",
-          variant: "destructive"
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchBookings = useCallback(async () => {
+    if (!user) return;
     
-    fetchBookings();
+    try {
+      setIsLoading(true);
+      
+      const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+          *,
+          hotels(
+            name, 
+            city, 
+            country, 
+            main_image_url,
+            contact_name,
+            contact_email,
+            contact_phone
+          )
+        `)
+        .eq('user_id', user.id)
+        .order('check_in', { ascending: true });
+      
+      if (error) throw error;
+      
+      setBookings(data || []);
+
+      // Fetch existing reviews for these bookings
+      if (data && data.length > 0) {
+        const hotelIds = data.map(booking => booking.hotel_id);
+        const { data: reviews } = await supabase
+          .from('reviews')
+          .select('hotel_id')
+          .in('hotel_id', hotelIds)
+          .eq('user_id', user.id);
+        
+        if (reviews) {
+          setExistingReviews(new Set(reviews.map(review => review.hotel_id)));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      toast({
+        title: "Error loading bookings",
+        description: "We couldn't load your bookings. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }, [user, toast]);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
+  // Set up real-time subscription for booking updates
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel('booking-changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'bookings',
+        filter: `user_id=eq.${user.id}`
+      }, (payload) => {
+        console.log('Real-time booking update:', payload);
+        // Refresh bookings when changes occur
+        fetchBookings();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, fetchBookings]);
 
   const handleViewDetails = (booking: any) => {
     setSelectedBooking(booking);

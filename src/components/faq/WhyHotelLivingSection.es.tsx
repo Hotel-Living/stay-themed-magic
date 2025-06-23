@@ -1,74 +1,133 @@
-import React from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { StillRentingContent } from "./accordion/StillRentingContent";
-import { RetiredContent } from "./accordion/RetiredContent";
-import { OnlineWorkerContent } from "./accordion/OnlineWorkerContent";
-import { CommuterContent } from "./accordion/CommuterContent";
-import { FreeSoulContent } from "./accordion/FreeSoulContent";
-import { HotelContent } from "./accordion/HotelContent";
-import { SocietyContent } from "./accordion/SocietyContent";
+
+import React, { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
 
 export function WhyHotelLivingSectionES() {
+  const [activeAccordionTab, setActiveAccordionTab] = useState("");
+  const isMobile = useIsMobile();
+
   const accordionOptions = [
-    { id: "stillRenting", label: "¿Aún Alquilas?" },
-    { id: "retired", label: "¿Jubilado?" },
-    { id: "onlineWorker", label: "¿Trabajador Online?" },
-    { id: "commuter", label: "¿Lejos del trabajo?" },
-    { id: "freeSoul", label: "¿Alma Libre?" },
-    { id: "hotel", label: "¿Hotel?" },
-    { id: "society", label: "¿Sociedad?" }
+    { id: "still-renting", label: "¿Aún Alquilas?" },
+    { id: "retired", label: "Jubilado" },
+    { id: "online-worker", label: "Trabajador Online" },
+    { id: "commuter", label: "Viajero Diario" },
+    { id: "free-soul", label: "Alma Libre" },
+    { id: "hotel", label: "Hotel" },
+    { id: "society", label: "Sociedad" }
   ];
 
-  const renderContent = (id: string) => {
-    switch (id) {
-      case "stillRenting":
-        return <StillRentingContent />;
-      case "retired":
-        return <RetiredContent />;
-      case "onlineWorker":
-        return <OnlineWorkerContent />;
-      case "commuter":
-        return <CommuterContent />;
-      case "freeSoul":
-        return <FreeSoulContent />;
-      case "hotel":
-        return <HotelContent />;
-      case "society":
-        return <SocietyContent />;
-      default:
-        return null;
+  const handleAccordionTabChange = (value: string) => {
+    if (value === activeAccordionTab) {
+      setActiveAccordionTab("");
+    } else {
+      setActiveAccordionTab(value);
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto mb-8">
+    <>
+      {/* First title - WHY HOTEL-LIVING? */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#eedbf7] mb-4 glow">
-          ¿Por qué Hotel-Living?
-        </h2>
-        <p className="text-lg text-[#e3d6e9] font-medium">
-          Descubre cómo Hotel-Living transforma tu estilo de vida según quien eres
-        </p>
+        <div className="flex justify-center">
+          <div className="relative group w-fit">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <h1 className={`
+              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
+              font-bold mb-4 text-[#eedbf7] glow 
+              tracking-tight leading-tight
+              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
+            `}>
+              ¿POR QUÉ HOTEL-LIVING?
+            </h1>
+          </div>
+        </div>
       </div>
-      
-      <div className="bg-gradient-to-br from-[#460F54]/80 to-[#300A38]/60 backdrop-blur-sm rounded-xl border border-fuchsia-400/30 p-6">
-        <Accordion type="single" collapsible className="w-full space-y-2">
-          {accordionOptions.map((option) => (
-            <AccordionItem 
-              key={option.id} 
-              value={option.id}
-              className="border border-fuchsia-500/20 rounded-lg bg-gradient-to-r from-[#570366]/40 to-[#730483]/40 backdrop-blur-sm"
-            >
-              <AccordionTrigger className="px-4 py-3 text-[#f9d3f6] hover:text-white font-semibold text-base md:text-lg hover:no-underline">
-                {option.label}
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4 text-[#e3d6e9]">
-                {renderContent(option.id)}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+
+      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
+      <div className="flex flex-col items-center gap-8 mb-16 relative">
+        {/* Top box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Los hoteles necesitan gente</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La gente necesita mejor vida</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad necesita actualización</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Todos necesitan Hotel-Living</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom box - Enhanced design with blue glow and purple background */}
+        <div className="relative group w-fit">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '5B noches de hotel por llenar' : '5.000 millones noches de hotel por llenar'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
+                  {isMobile ? '400M personas necesitan mejor vida' : '400 millones personas necesitan mejor vida'}
+                </span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad repite el pasado</span>
+              </div>
+              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
+                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
+                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living cambia eso</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* First Horizontal Accordion Menu */}
+      <div className="mb-24">
+        <div className="w-full">
+          <div className="flex justify-center mb-4">
+            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
+              {accordionOptions.map((option) => (
+                <button 
+                  key={option.id} 
+                  onClick={() => handleAccordionTabChange(option.id)}
+                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
+                >
+                  <span className="mb-1">{option.label}</span>
+                  <span className="text-xs">▼</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {activeAccordionTab && (
+            <div className="mt-4">
+              <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
+                <AccordionContentRenderer optionId={activeAccordionTab} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

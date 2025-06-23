@@ -11,23 +11,37 @@ export function useAuthState() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Set up auth state listener
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         console.log("Auth state changed:", event, session?.user?.id);
+        
+        // Update session and user immediately (synchronous)
         setSession(session);
         setUser(session?.user ?? null);
         
+        // Handle profile loading asynchronously using setTimeout to prevent deadlock
         if (session?.user) {
-          // Fetch user profile
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
-          setProfile(profileData);
+          // Defer profile fetching to avoid blocking the auth state change
+          setTimeout(async () => {
+            try {
+              const { data: profileData } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              
+              if (profileData) {
+                setProfile(profileData);
+                console.log("Profile loaded:", profileData);
+              }
+            } catch (error) {
+              console.error("Profile fetch error:", error);
+              // Don't throw here, just log the error
+            }
+          }, 0);
         } else {
+          // Clear profile immediately when no session
           setProfile(null);
         }
         
@@ -39,6 +53,26 @@ export function useAuthState() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      // Handle initial profile loading
+      if (session?.user) {
+        setTimeout(async () => {
+          try {
+            const { data: profileData } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
+            
+            if (profileData) {
+              setProfile(profileData);
+            }
+          } catch (error) {
+            console.error("Initial profile fetch error:", error);
+          }
+        }, 0);
+      }
+      
       setIsLoading(false);
     });
 

@@ -24,7 +24,7 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   const { signIn: signInHook } = useSignIn({ setIsLoading, setProfile });
   const { updateProfile } = useProfileManagement({ setIsLoading, setProfile });
 
-  // Enhanced signIn function with proper error handling and state management
+  // Centralized signIn function with proper error handling
   const signIn = async (email: string, password: string, isHotelLogin?: boolean) => {
     try {
       setIsLoading(true);
@@ -51,53 +51,63 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
     }
   };
 
-  // Centralized signOut function that updates React context state
+  // Centralized signOut function - SINGLE SOURCE OF TRUTH
   const signOut = async () => {
     try {
       setIsLoading(true);
       
       console.log("Starting centralized logout process");
       
-      // Always call Supabase signOut regardless of session state
-      const { error } = await supabase.auth.signOut({
-        scope: 'global' // Sign out from all sessions
-      });
-
-      if (error) {
-        console.error("Error signing out:", error);
-        throw error;
-      }
-      
-      console.log("Supabase signOut completed successfully");
-      
-      // Clear any local storage items that might persist user data
-      localStorage.removeItem('supabase.auth.token');
-      
-      // Update React context state
+      // Step 1: Clear React state immediately
       setUser(null);
       setSession(null);
       setProfile(null);
       
-      // Success toast
+      // Step 2: Call Supabase signOut
+      const { error } = await supabase.auth.signOut({
+        scope: 'global'
+      });
+
+      if (error) {
+        console.error("Supabase signOut error:", error);
+        // Don't throw here, continue with cleanup
+      }
+      
+      console.log("Supabase signOut completed");
+      
+      // Step 3: Clear any persistent storage
+      try {
+        localStorage.removeItem('supabase.auth.token');
+      } catch (storageError) {
+        console.warn("Storage cleanup error:", storageError);
+      }
+      
+      // Step 4: Success feedback
       toast({
         title: "Sesión cerrada",
         description: "Has cerrado sesión con éxito"
       });
 
-      // Force a complete page reload to clear all application state
+      // Step 5: Redirect after a short delay
       setTimeout(() => {
         window.location.href = "/login";
       }, 500);
 
     } catch (error: any) {
       console.error("Error in centralized signOut function:", error);
+      
+      // Even on error, try to clear state and redirect
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      
       toast({
         title: "Error al cerrar sesión",
-        description: error.message || "Ha ocurrido un error",
+        description: "Sesión cerrada forzosamente",
         variant: "destructive"
       });
       
-      // Even on error, attempt to redirect after a delay
+      // Force redirect even on error
       setTimeout(() => {
         window.location.href = "/login";
       }, 1000);

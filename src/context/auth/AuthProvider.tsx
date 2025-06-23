@@ -31,7 +31,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Wrapper for updateProfile to ensure user is passed
   const updateProfile = async (data: any) => {
-    await updateUserProfile(user, data);
+    if (user) {
+      await updateUserProfile(user, data);
+    }
   };
 
   return (

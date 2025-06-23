@@ -31,23 +31,9 @@ export function useSignIn({ setIsLoading, setProfile }: SignInProps) {
 
       console.log("Authentication successful:", data.user.id);
 
-      // Fetch user profile
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', data.user.id)
-        .single();
-
-      if (profileError && profileError.code !== 'PGRST116') {
-        console.error("Profile fetch error:", profileError);
-        // Don't throw here, just log the error
-      }
-
-      if (profileData) {
-        setProfile(profileData);
-        console.log("Profile loaded:", profileData);
-      }
-
+      // Profile will be loaded by the auth state change listener
+      // Don't fetch it here to avoid conflicts
+      
       // Success toast
       toast({
         title: "Inicio de sesión exitoso",

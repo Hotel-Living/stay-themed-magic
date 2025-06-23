@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -8,7 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { FaqSearch } from "@/components/faq/FaqSearch";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
-import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelFaqData";
+import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 
 const HotelSignupButtons = ({ isMobile }: { isMobile: boolean }) => (
   <div className="mt-6 border-t-2 border-fuchsia-400/30 pt-4">
@@ -38,6 +37,9 @@ export default function FAQHotels() {
   const [activeTab, setActiveTab] = useState("video");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
+  
+  const hotelFaqCategories = useHotelFaqCategories();
+  const hotelFaqsByCategory = useHotelFaqsByCategory();
   
   useEffect(() => {
     window.scrollTo(0, 0);

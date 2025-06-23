@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelSlogans } from "@/components/hotels/HotelSlogans";
 import { HotelAccordionMenu } from "@/components/hotels/HotelAccordionMenu";
 import { FaqTabs } from "@/components/faq/FaqTabs";
-import { hotelFaqCategories, hotelFaqsByCategory } from "@/components/faq/hotelFaqData";
+import { useHotelFaqCategories, useHotelFaqsByCategory } from "@/components/faq/hotelFaqData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Building, Mail } from "lucide-react";
@@ -46,6 +45,9 @@ export default function HotelsPage() {
   const [activeTab, setActiveTab] = React.useState("benefits");
   const isMobile = useIsMobile();
   
+  const hotelFaqCategories = useHotelFaqCategories();
+  const hotelFaqsByCategory = useHotelFaqsByCategory();
+  
   const {
     hotels,
     allHotels,
@@ -66,7 +68,7 @@ export default function HotelsPage() {
     orderedCategoryIds.map(id => 
       hotelFaqCategories.find(cat => cat.id === id)
     ).filter(Boolean) as typeof hotelFaqCategories,
-  []);
+  [hotelFaqCategories]);
   
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">

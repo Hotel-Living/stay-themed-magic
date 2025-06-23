@@ -1,20 +1,24 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, ChevronDown, User, Settings, LogOut, Shield } from "lucide-react";
-import { useAuth } from "@/context/auth/AuthContext";
-import { useIsAdmin } from "@/hooks/useIsAdmin";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, User, LogOut, Settings, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Logo } from "@/components/Logo";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useToast } from "@/hooks/use-toast";
 
 export const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
-  const { isAdmin } = useIsAdmin();
-  const { t } = useTranslation();
+  const location = useLocation();
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { t } = useTranslation();
+  const isAdmin = useIsAdmin();
   const { toast } = useToast();
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
   const handleLogout = async () => {
     try {
       await signOut();
@@ -29,163 +33,177 @@ export const Navbar = () => {
     }
   };
 
-  const navigationItems = [
-    { href: "/", label: t('navigation.home') },
-    { href: "/hotels", label: t('navigation.hotels') },
-    { href: "/affinity-stays", label: t('navigation.affinityStays') },
-    { href: "/videos", label: t('navigation.videos') },
-    { href: "/featured-hotels", label: t('navigation.featuredHotels') },
-    { href: "/faq", label: t('navigation.faq') },
+  const navigation = [
+    { name: t('mainNavigationContent.featuredHotels'), href: '/featured-hotels', current: location.pathname === '/featured-hotels' },
+    { name: t('mainNavigationContent.videos'), href: '/videos', current: location.pathname === '/videos' },
+    { name: t('mainNavigationContent.affinityStays'), href: '/affinity-stays', current: location.pathname === '/affinity-stays' },
+    { name: t('mainNavigationContent.faq'), href: '/faq', current: location.pathname === '/faq' },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-b border-fuchsia-900/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-900/95 to-fuchsia-900/95 backdrop-blur-sm border-b border-purple-700/50">
+      
+      
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold bg-gradient-to-r from-fuchsia-400 to-purple-600 bg-clip-text text-transparent">
-              HOTEL-LIVING
-            </span>
-          </Link>
-
-          <div className="hidden lg:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className="text-white hover:text-fuchsia-400 transition-colors font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="flex-shrink-0">
+            <Logo />
           </div>
 
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 text-white hover:text-fuchsia-400 transition-colors"
-                >
-                  <User className="w-5 h-5" />
-                  <span>{t('mainNavigationContent.myAccount')}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-gray-900 rounded-lg shadow-lg border border-fuchsia-900/20">
-                    <div className="py-2">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${item.current ? 'bg-purple-800' : 'hover:bg-purple-800'}`}
+                aria-current={item.current ? 'page' : undefined}
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
+              
+              {user ? (
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-2 text-white hover:bg-purple-800"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>{t('mainNavigationContent.myAccount')}</span>
+                  </Button>
+                  
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                       <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-white hover:bg-fuchsia-900/20 transition-colors"
-                        onClick={() => setIsUserMenuOpen(false)}
+                        to="/user-dashboard"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsDropdownOpen(false)}
                       >
-                        <Settings className="w-4 h-4 inline mr-2" />
-                        {t('navigation.dashboard')}
+                        <User className="w-4 h-4 mr-2" />
+                        {t('mainNavigationContent.dashboard')}
                       </Link>
+                      
                       {isAdmin && (
                         <Link
-                          to="/admin"
-                          className="block px-4 py-2 text-white hover:bg-fuchsia-900/20 transition-colors"
-                          onClick={() => setIsUserMenuOpen(false)}
+                          to="/admin/hotels"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsDropdownOpen(false)}
                         >
-                          <Shield className="w-4 h-4 inline mr-2" />
+                          <Shield className="w-4 h-4 mr-2" />
                           {t('mainNavigationContent.adminDashboard')}
                         </Link>
                       )}
+                      
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-white hover:bg-fuchsia-900/20 transition-colors"
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        <LogOut className="w-4 h-4 inline mr-2" />
+                        <LogOut className="w-4 h-4 mr-2" />
                         {t('mainNavigationContent.logout')}
                       </button>
                     </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="hidden lg:flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-white hover:text-fuchsia-400 transition-colors font-medium"
-                >
-                  {t('navigation.login')}
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded-lg transition-colors font-medium"
-                >
-                  {t('navigation.signup')}
-                </Link>
-              </div>
-            )}
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Link to="/login">
+                    <Button variant="ghost" className="text-white hover:bg-purple-800">
+                      {t('mainNavigationContent.signIn')}
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white">
+                      {t('mainNavigationContent.signUp')}
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
 
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden text-white hover:text-fuchsia-400 transition-colors"
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center space-x-2">
+            <LanguageSwitcher />
+            <Button
+              variant="ghost"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white hover:bg-purple-800"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
           </div>
         </div>
 
-        {isMenuOpen && (
-          <div className="lg:hidden bg-gray-900 border-t border-fuchsia-900/20">
-            <div className="px-4 py-4 space-y-4">
-              {navigationItems.map((item) => (
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-purple-900/95 rounded-lg mt-2">
+              
+              {navigation.map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   to={item.href}
-                  className="block text-white hover:text-fuchsia-400 transition-colors font-medium"
-                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-white hover:text-gray-300 block px-3 py-2 rounded-md text-base font-medium ${item.current ? 'bg-purple-800' : 'hover:bg-purple-800'}`}
+                  aria-current={item.current ? 'page' : undefined}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.label}
+                  {item.name}
                 </Link>
               ))}
               
               {user ? (
-                <>
+                <div className="space-y-1">
                   <Link
-                    to="/dashboard"
-                    className="block text-white hover:text-fuchsia-400 transition-colors font-medium"
-                    onClick={() => setIsMenuOpen(false)}
+                    to="/user-dashboard"
+                    className="flex items-center px-3 py-2 text-white hover:bg-purple-800 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {t('navigation.dashboard')}
+                    <User className="w-4 h-4 mr-2" />
+                    {t('mainNavigationContent.myAccount')}
                   </Link>
+                  
                   {isAdmin && (
                     <Link
-                      to="/admin"
-                      className="block text-white hover:text-fuchsia-400 transition-colors font-medium"
-                      onClick={() => setIsMenuOpen(false)}
+                      to="/admin/hotels"
+                      className="flex items-center px-3 py-2 text-white hover:bg-purple-800 rounded-md"
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
+                      <Shield className="w-4 h-4 mr-2" />
                       {t('mainNavigationContent.adminDashboard')}
                     </Link>
                   )}
+                  
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left text-white hover:text-fuchsia-400 transition-colors font-medium"
+                    className="flex items-center w-full px-3 py-2 text-white hover:bg-purple-800 rounded-md"
                   >
+                    <LogOut className="w-4 h-4 mr-2" />
                     {t('mainNavigationContent.logout')}
                   </button>
-                </>
+                </div>
               ) : (
-                <>
+                <div className="space-y-1">
                   <Link
                     to="/login"
-                    className="block text-white hover:text-fuchsia-400 transition-colors font-medium"
-                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-3 py-2 text-white hover:bg-purple-800 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {t('navigation.login')}
+                    {t('mainNavigationContent.signIn')}
                   </Link>
                   <Link
                     to="/signup"
-                    className="block bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded-lg transition-colors font-medium text-center"
-                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-3 py-2 text-white hover:bg-purple-800 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {t('navigation.signup')}
+                    {t('mainNavigationContent.signUp')}
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>

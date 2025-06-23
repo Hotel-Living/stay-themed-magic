@@ -1,0 +1,6 @@
+
+{
+  "price": {
+    "onRequest": "Price on request"
+  }
+}

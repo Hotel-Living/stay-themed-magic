@@ -1,0 +1,52 @@
+
+{
+  "dashboard": {
+    "autoSave": {
+      "success": "Auto-saved",
+      "error": "Auto-save failed",
+      "draftSaved": "Draft saved automatically",
+      "draftSaveFailed": "Failed to save draft",
+      "saving": "Saving...",
+      "savedAt": "Saved {time}",
+      "justNow": "just now",
+      "minutesAgo": "{minutes}m ago",
+      "draftLoaded": "Draft Loaded",
+      "draftLoadedDescription": "Your previous work has been restored"
+    },
+    "images": {
+      "limitReached": "Image Limit Reached",
+      "maxImagesAllowed": "Maximum {max} images allowed per property",
+      "uploadRateLimitReached": "Upload Rate Limit",
+      "tooManyUploadsPerMinute": "Too many uploads. Maximum {max} uploads per minute",
+      "fileTooLarge": "{fileName} is too large. Maximum {maxSize}MB allowed",
+      "invalidFileType": "{fileName} is not a valid image file",
+      "imagesCount": "Images: {current}/{max}",
+      "remainingUploads": "Remaining uploads this minute: {remaining}",
+      "maxFileSize": "Max file size: {size}MB",
+      "selectedFiles": "Selected Files",
+      "uploading": "Uploading...",
+      "uploadPhotos": "Upload Photos",
+      "uploadedPhotos": "Uploaded Photos",
+      "mainImage": "Main",
+      "selectMainImage": "Select a main image"
+    },
+    "validation": {
+      "hotelNameRequired": "Hotel name is required",
+      "categoryRequired": "Category is required",
+      "propertyTypeRequired": "Property type is required",
+      "descriptionRequired": "Description is required",
+      "descriptionTooShort": "Description must be at least 50 characters",
+      "countryRequired": "Country is required",
+      "cityRequired": "City is required",
+      "invalidEmail": "Invalid email format",
+      "invalidPhone": "Invalid phone format",
+      "invalidLatitude": "Latitude must be between -90 and 90",
+      "invalidLongitude": "Longitude must be between -180 and 180",
+      "imagesRequired": "At least one hotel image is required",
+      "themesRequired": "At least one theme must be selected",
+      "activitiesRequired": "At least one activity must be selected",
+      "roomTypesRequired": "At least one room type must be defined"
+    },
+    "cancelEditing": "Cancel Editing"
+  }
+}

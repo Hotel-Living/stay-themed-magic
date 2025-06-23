@@ -1,25 +1,52 @@
 
 {
   "dashboard": {
-    "welcomeOverview": "Visão Geral de Boas-vindas",
-    "dashboard": "Painel",
-    "calculateModel": "CALCULAR MODELO",
-    "ratesAndProfits": "TARIFAS E LUCROS",
-    "properties": "Propriedades",
-    "advertising": "Publicidade",
-    "bookings": "Reservas",
-    "guests": "Hóspedes",
-    "adminMessages": "Mensagens Admin",
-    "finances": "Finanças",
-    "reviews": "Avaliações",
-    "analytics": "Análises",
-    "settings": "Configurações",
-    "standardEconomicModel": "MODELO ECONÔMICO PADRÃO",
-    "costsAndProfits": "CUSTOS E LUCROS",
-    "buildOwnModel": "CONSTRUA SEU PRÓPRIO MODELO E TARIFAS",
-    "costs": "CUSTOS",
-    "profits": "LUCROS",
-    "selectAll": "Selecionar Todos",
-    "deselectAll": "Desmarcar Todos"
+    "autoSave": {
+      "success": "Salvo automaticamente",
+      "error": "Erro no salvamento automático",
+      "draftSaved": "Rascunho salvo automaticamente",
+      "draftSaveFailed": "Falha ao salvar rascunho",
+      "saving": "Salvando...",
+      "savedAt": "Salvo {time}",
+      "justNow": "agora mesmo",
+      "minutesAgo": "há {minutes}m",
+      "draftLoaded": "Rascunho Carregado",
+      "draftLoadedDescription": "Seu trabalho anterior foi restaurado"
+    },
+    "images": {
+      "limitReached": "Limite de Imagens Atingido",
+      "maxImagesAllowed": "Máximo {max} imagens permitidas por propriedade",
+      "uploadRateLimitReached": "Limite de Upload",
+      "tooManyUploadsPerMinute": "Muitos uploads. Máximo {max} uploads por minuto",
+      "fileTooLarge": "{fileName} é muito grande. Máximo {maxSize}MB permitido",
+      "invalidFileType": "{fileName} não é um arquivo de imagem válido",
+      "imagesCount": "Imagens: {current}/{max}",
+      "remainingUploads": "Uploads restantes neste minuto: {remaining}",
+      "maxFileSize": "Tamanho máximo: {size}MB",
+      "selectedFiles": "Arquivos Selecionados",
+      "uploading": "Enviando...",
+      "uploadPhotos": "Enviar Fotos",
+      "uploadedPhotos": "Fotos Enviadas",
+      "mainImage": "Principal",
+      "selectMainImage": "Selecionar imagem principal"
+    },
+    "validation": {
+      "hotelNameRequired": "Nome do hotel é obrigatório",
+      "categoryRequired": "Categoria é obrigatória",
+      "propertyTypeRequired": "Tipo de propriedade é obrigatório",
+      "descriptionRequired": "Descrição é obrigatória",
+      "descriptionTooShort": "Descrição deve ter pelo menos 50 caracteres",
+      "countryRequired": "País é obrigatório",
+      "cityRequired": "Cidade é obrigatória",
+      "invalidEmail": "Formato de email inválido",
+      "invalidPhone": "Formato de telefone inválido",
+      "invalidLatitude": "Latitude deve estar entre -90 e 90",
+      "invalidLongitude": "Longitude deve estar entre -180 e 180",
+      "imagesRequired": "Pelo menos uma imagem do hotel é obrigatória",
+      "themesRequired": "Pelo menos um tema deve ser selecionado",
+      "activitiesRequired": "Pelo menos uma atividade deve ser selecionada",
+      "roomTypesRequired": "Pelo menos um tipo de quarto deve ser definido"
+    },
+    "cancelEditing": "Cancelar Edição"
   }
 }

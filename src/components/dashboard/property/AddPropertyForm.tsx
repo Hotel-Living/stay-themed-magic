@@ -1,18 +1,23 @@
 
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import StepIndicator from "../PropertySteps/StepIndicator";
 import StepContent from "../PropertySteps/StepContent";
 import { ImportantNotice } from "../PropertySteps/ImportantNotice";
 import ValidationErrorBanner from "./ValidationErrorBanner";
 import SuccessMessage from "./SuccessMessage";
 import PropertyFormNavigation from "./components/PropertyFormNavigation";
+import { AutoSaveIndicator } from "./AutoSaveIndicator";
 import { usePropertyForm } from "./hooks/usePropertyForm";
+import { usePropertyFormAutoSave } from "./hooks/usePropertyFormAutoSave";
 import { useAuth } from "@/context/AuthContext";
 import { useFormNavigation } from "./hooks/useFormNavigation";
 import { useHotelEditing } from "./hooks/useHotelEditing";
 import { usePropertySubmission } from "./hooks/usePropertySubmission";
+import { propertyFormValidator } from "@/utils/propertyFormValidation";
+import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/hooks/useTranslation";
 import { TOTAL_STEPS, STEP_TITLES } from "./constants";
-import { PropertyFormData } from "./hooks/usePropertyFormData"; // Added import for PropertyFormData
+import { PropertyFormData } from "./hooks/usePropertyFormData";
 
 export default function AddPropertyForm({
   editingHotelId,
@@ -40,6 +45,46 @@ export default function AddPropertyForm({
   } = usePropertyForm();
 
   const { user } = useAuth();
+  const { toast } = useToast();
+  const { t } = useTranslation();
+
+  // Auto-save functionality
+  const {
+    isSaving,
+    lastSaved,
+    loadDraft,
+    clearDraft,
+    forceSave
+  } = usePropertyFormAutoSave(formData, setFormData, editingHotelId);
+
+  // Load draft on component mount
+  useEffect(() => {
+    if (!editingHotelId) {
+      const draft = loadDraft();
+      if (draft) {
+        setFormData(draft);
+        toast({
+          title: t('dashboard.draftLoaded'),
+          description: t('dashboard.draftLoadedDescription'),
+        });
+      }
+    }
+  }, [editingHotelId, loadDraft, setFormData, toast, t]);
+
+  // Enhanced validation with unified validator
+  const validateCurrentStepEnhanced = useCallback(() => {
+    const errors = propertyFormValidator.validate(formData, currentStep);
+    
+    if (errors.length > 0) {
+      setErrorFields(errors.map(e => e.message));
+      setShowValidationErrors(true);
+      return false;
+    }
+    
+    setErrorFields([]);
+    setShowValidationErrors(false);
+    return true;
+  }, [formData, currentStep, setErrorFields, setShowValidationErrors]);
 
   const { validateCurrentStep, goToNextStep, goToPreviousStep } = useFormNavigation({
     currentStep,
@@ -49,7 +94,8 @@ export default function AddPropertyForm({
     setErrorFields,
     setShowValidationErrors,
     setCurrentStep,
-    formData // Pass formData to validation
+    formData,
+    customValidator: validateCurrentStepEnhanced
   });
 
   useHotelEditing({
@@ -78,18 +124,35 @@ export default function AddPropertyForm({
     setCurrentStep,
     setFormData: setFormDataWrapper,
     userId: user?.id,
-    onDoneEditing
+    onDoneEditing: () => {
+      clearDraft(); // Clear draft on successful submission
+      onDoneEditing?.();
+    }
   });
 
-  const handleSubmit = () => handleSubmitProperty(editingHotelId);
+  const handleSubmit = useCallback(async () => {
+    try {
+      await forceSave(); // Force save before submission
+      await handleSubmitProperty(editingHotelId);
+    } catch (error) {
+      console.error('Submission error:', error);
+    }
+  }, [forceSave, handleSubmitProperty, editingHotelId]);
 
   return (
     <div className="glass-card rounded-2xl p-4 py-[20px] px-[18px] bg-[#7a0486]">
-      <StepIndicator 
-        currentStep={currentStep} 
-        totalSteps={TOTAL_STEPS} 
-        stepTitle={STEP_TITLES[currentStep - 1]} 
-      />
+      <div className="flex justify-between items-center mb-4">
+        <StepIndicator 
+          currentStep={currentStep} 
+          totalSteps={TOTAL_STEPS} 
+          stepTitle={STEP_TITLES[currentStep - 1]} 
+        />
+        
+        <AutoSaveIndicator 
+          isSaving={isSaving}
+          lastSaved={lastSaved}
+        />
+      </div>
 
       <PropertyFormNavigation
         currentStep={currentStep}
@@ -130,7 +193,7 @@ export default function AddPropertyForm({
             onClick={onDoneEditing}
             className="px-4 py-2 rounded bg-fuchsia-700 text-white"
           >
-            Cancel Editing
+            {t('dashboard.cancelEditing')}
           </button>
         </div>
       )}

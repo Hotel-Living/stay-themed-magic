@@ -1,0 +1,52 @@
+
+{
+  "dashboard": {
+    "autoSave": {
+      "success": "Guardado automático",
+      "error": "Error en guardado automático",
+      "draftSaved": "Borrador guardado automáticamente",
+      "draftSaveFailed": "Error al guardar borrador",
+      "saving": "Guardando...",
+      "savedAt": "Guardado {time}",
+      "justNow": "ahora mismo",
+      "minutesAgo": "hace {minutes}m",
+      "draftLoaded": "Borrador Cargado",
+      "draftLoadedDescription": "Su trabajo anterior ha sido restaurado"
+    },
+    "images": {
+      "limitReached": "Límite de Imágenes Alcanzado",
+      "maxImagesAllowed": "Máximo {max} imágenes permitidas por propiedad",
+      "uploadRateLimitReached": "Límite de Subida",
+      "tooManyUploadsPerMinute": "Demasiadas subidas. Máximo {max} subidas por minuto",
+      "fileTooLarge": "{fileName} es demasiado grande. Máximo {maxSize}MB permitido",
+      "invalidFileType": "{fileName} no es un archivo de imagen válido",
+      "imagesCount": "Imágenes: {current}/{max}",
+      "remainingUploads": "Subidas restantes este minuto: {remaining}",
+      "maxFileSize": "Tamaño máximo: {size}MB",
+      "selectedFiles": "Archivos Seleccionados",
+      "uploading": "Subiendo...",
+      "uploadPhotos": "Subir Fotos",
+      "uploadedPhotos": "Fotos Subidas",
+      "mainImage": "Principal",
+      "selectMainImage": "Seleccionar imagen principal"
+    },
+    "validation": {
+      "hotelNameRequired": "El nombre del hotel es obligatorio",
+      "categoryRequired": "La categoría es obligatoria",
+      "propertyTypeRequired": "El tipo de propiedad es obligatorio",
+      "descriptionRequired": "La descripción es obligatoria",
+      "descriptionTooShort": "La descripción debe tener al menos 50 caracteres",
+      "countryRequired": "El país es obligatorio",
+      "cityRequired": "La ciudad es obligatoria",
+      "invalidEmail": "Formato de email inválido",
+      "invalidPhone": "Formato de teléfono inválido",
+      "invalidLatitude": "La latitud debe estar entre -90 y 90",
+      "invalidLongitude": "La longitud debe estar entre -180 y 180",
+      "imagesRequired": "Se requiere al menos una imagen del hotel",
+      "themesRequired": "Se debe seleccionar al menos un tema",
+      "activitiesRequired": "Se debe seleccionar al menos una actividad",
+      "roomTypesRequired": "Se debe definir al menos un tipo de habitación"
+    },
+    "cancelEditing": "Cancelar Edición"
+  }
+}

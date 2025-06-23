@@ -1,0 +1,52 @@
+
+{
+  "dashboard": {
+    "autoSave": {
+      "success": "Salvat automat",
+      "error": "Eroare salvare automată",
+      "draftSaved": "Ciorna salvată automat",
+      "draftSaveFailed": "Eșec la salvarea ciornei",
+      "saving": "Se salvează...",
+      "savedAt": "Salvat {time}",
+      "justNow": "chiar acum",
+      "minutesAgo": "acum {minutes}m",
+      "draftLoaded": "Ciornă Încărcată",
+      "draftLoadedDescription": "Munca dvs. anterioară a fost restaurată"
+    },
+    "images": {
+      "limitReached": "Limita de Imagini Atinsă",
+      "maxImagesAllowed": "Maxim {max} imagini permise per proprietate",
+      "uploadRateLimitReached": "Limita de Încărcare",
+      "tooManyUploadsPerMinute": "Prea multe încărcări. Maxim {max} încărcări per minut",
+      "fileTooLarge": "{fileName} este prea mare. Maxim {maxSize}MB permis",
+      "invalidFileType": "{fileName} nu este un fișier imagine valid",
+      "imagesCount": "Imagini: {current}/{max}",
+      "remainingUploads": "Încărcări rămase în acest minut: {remaining}",
+      "maxFileSize": "Dimensiune maximă: {size}MB",
+      "selectedFiles": "Fișiere Selectate",
+      "uploading": "Se încarcă...",
+      "uploadPhotos": "Încărcare Fotografii",
+      "uploadedPhotos": "Fotografii Încărcate",
+      "mainImage": "Principală",
+      "selectMainImage": "Selectați imaginea principală"
+    },
+    "validation": {
+      "hotelNameRequired": "Numele hotelului este obligatoriu",
+      "categoryRequired": "Categoria este obligatorie",
+      "propertyTypeRequired": "Tipul proprietății este obligatoriu",
+      "descriptionRequired": "Descrierea este obligatorie",
+      "descriptionTooShort": "Descrierea trebuie să aibă cel puțin 50 de caractere",
+      "countryRequired": "Țara este obligatorie",
+      "cityRequired": "Orașul este obligatoriu",
+      "invalidEmail": "Format email invalid",
+      "invalidPhone": "Format telefon invalid",
+      "invalidLatitude": "Latitudinea trebuie să fie între -90 și 90",
+      "invalidLongitude": "Longitudinea trebuie să fie între -180 și 180",
+      "imagesRequired": "Este necesară cel puțin o imagine a hotelului",
+      "themesRequired": "Trebuie selectată cel puțin o temă",
+      "activitiesRequired": "Trebuie selectată cel puțin o activitate",
+      "roomTypesRequired": "Trebuie definit cel puțin un tip de cameră"
+    },
+    "cancelEditing": "Anulare Editare"
+  }
+}

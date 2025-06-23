@@ -24,12 +24,11 @@
   "mainNavigationContent": {
     "faq": "FAQ",
     "affinityStays": "Estancias por afinidades",
-    "hotel": "¿HOTEL?",
+    "hotel": "Hotel",
     "videos": "Videos",
     "featuredHotels": "Hoteles destacados",
     "hotelDashboard": "Panel del hotel",
     "adminDashboard": "Panel de administración",
-    "logout": "Cerrar sesión",
-    "myAccount": "MI CUENTA"
+    "logout": "Cerrar sesión"
   }
 }

@@ -1,133 +1,140 @@
 
-import React, { useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { AccordionContentRenderer } from "./accordion/AccordionContentRenderer";
+import React from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export function WhyHotelLivingSectionES() {
-  const [activeAccordionTab, setActiveAccordionTab] = useState("");
-  const isMobile = useIsMobile();
-
   const accordionOptions = [
-    { id: "still-renting", label: "¿Aún Alquilas?" },
-    { id: "retired", label: "Jubilado" },
-    { id: "online-worker", label: "Trabajador Online" },
-    { id: "commuter", label: "Viajero Diario" },
-    { id: "free-soul", label: "Alma Libre" },
-    { id: "hotel", label: "Hotel" },
-    { id: "society", label: "Sociedad" }
+    {
+      value: "retired",
+      label: "¿Jubilado?",
+      content: (
+        <div className="space-y-4">
+          <p>¿Estás cansado de pagar alquiler o hipoteca por una casa que apenas usas? Vivir en hoteles ofrece la solución perfecta para jubilados que quieren maximizar sus años dorados.</p>
+          <p><strong>Beneficios para jubilados:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Sin responsabilidades de mantenimiento - enfócate en disfrutar la vida</li>
+            <li>Oportunidades sociales y actividades incorporadas</li>
+            <li>Servicios profesionales de limpieza y comidas</li>
+            <li>Ubicaciones privilegiadas cerca de atracciones culturales y atención médica</li>
+            <li>Arreglos flexibles - viaja cuando quieras</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      value: "online-worker",
+      label: "¿Trabajador Online?",
+      content: (
+        <div className="space-y-4">
+          <p>Transforma tu rutina de trabajo desde casa en una aventura de trabajo desde cualquier lugar. Vivir en hoteles proporciona la infraestructura perfecta para profesionales digitales.</p>
+          <p><strong>Perfecto para trabajadores remotos:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Internet de alta velocidad confiable y espacios de trabajo dedicados</li>
+            <li>Ambiente profesional lejos de las distracciones del hogar</li>
+            <li>Oportunidades de networking con otros profesionales</li>
+            <li>Todos los servicios públicos y servicios incluidos en un precio</li>
+            <li>Ventajas fiscales para alojamiento de negocios</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      value: "commuter",
+      label: "¿Lejos del trabajo?",
+      content: (
+        <div className="space-y-4">
+          <p>Evita el estrés del viaje diario y vive donde trabajas. Vivir en hoteles cerca de tu lugar de trabajo puede revolucionar tu equilibrio trabajo-vida.</p>
+          <p><strong>Ventajas para viajeros:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Eliminar el tiempo y los costos de viaje diario</li>
+            <li>Reducir el estrés y mejorar el rendimiento laboral</li>
+            <li>Más tiempo para actividades personales y relaciones</li>
+            <li>Servicios profesionales como lavandería y comidas manejados</li>
+            <li>Arreglos flexibles para diferentes horarios de trabajo</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      value: "free-soul",
+      label: "¿Alma Libre?",
+      content: (
+        <div className="space-y-4">
+          <p>Libérate de las limitaciones de la vivienda tradicional. Vivir en hoteles ofrece la máxima libertad para aquellos que se niegan a estar atados.</p>
+          <p><strong>Beneficios de libertad:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Sin compromisos a largo plazo o contratos vinculantes</li>
+            <li>Explorar diferentes vecindarios y ciudades fácilmente</li>
+            <li>Posesiones mínimas, experiencias máximas</li>
+            <li>Conocer personas diversas de todo el mundo</li>
+            <li>Vivir espontáneamente sin responsabilidades de propiedad</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      value: "hotel",
+      label: "¿Hotel?",
+      content: (
+        <div className="space-y-4">
+          <p>¿Buscas revolucionar tu modelo de negocio hotelero? Asóciate con nosotros para transformar habitaciones vacías en flujos de ingresos consistentes.</p>
+          <p><strong>Beneficios para hoteles:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Ocupación garantizada e ingresos estables</li>
+            <li>Costos reducidos de marketing y reservas</li>
+            <li>Evaluación y gestión profesional de huéspedes</li>
+            <li>Mantener operaciones hoteleras mientras maximizas ingresos</li>
+            <li>Únete a una red creciente de propiedades innovadoras</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      value: "society",
+      label: "¿Sociedad?",
+      content: (
+        <div className="space-y-4">
+          <p>Vivir en hoteles representa una solución sostenible a los desafíos de vivienda, promoviendo el uso eficiente de recursos y la construcción de comunidad.</p>
+          <p><strong>Beneficios sociales:</strong></p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Reducción de la expansión urbana y el impacto ambiental</li>
+            <li>Uso eficiente de la infraestructura existente</li>
+            <li>Conexiones comunitarias mejoradas e interacción social</li>
+            <li>Beneficios económicos para negocios locales y turismo</li>
+            <li>Solución innovadora a la crisis de asequibilidad de vivienda</li>
+          </ul>
+        </div>
+      )
+    }
   ];
 
-  const handleAccordionTabChange = (value: string) => {
-    if (value === activeAccordionTab) {
-      setActiveAccordionTab("");
-    } else {
-      setActiveAccordionTab(value);
-    }
-  };
-
   return (
-    <>
-      {/* First title - WHY HOTEL-LIVING? */}
-      <div className="text-center mb-8">
-        <div className="flex justify-center">
-          <div className="relative group w-fit">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <h1 className={`
-              ${isMobile ? "text-2xl" : "text-3xl md:text-4xl"} 
-              font-bold mb-4 text-[#eedbf7] glow 
-              tracking-tight leading-tight
-              bg-[#8017B0] py-2 px-8 rounded-lg inline-block relative
-            `}>
-              ¿POR QUÉ HOTEL-LIVING?
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      {/* Two spectacular highlighted boxes with slogans - Vertically Stacked and Centered */}
-      <div className="flex flex-col items-center gap-8 mb-16 relative">
-        {/* Top box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🏨</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Los hoteles necesitan gente</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🧑‍🤝‍🧑</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La gente necesita mejor vida</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🌐</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad necesita actualización</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">💡</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Todos necesitan Hotel-Living</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="bg-gradient-to-br from-[#5A1876] via-[#6B1E88] to-[#7C2A9A] py-12 mb-8 rounded-2xl">
+      <div className="container max-w-4xl mx-auto px-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-[#FEF7CD]">
+          ¿Por qué Vivir en Hoteles?
+        </h2>
         
-        {/* Bottom box - Enhanced design with blue glow and purple background */}
-        <div className="relative group w-fit">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-85 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative bg-[#5E1183] backdrop-blur-xl border-2 border-cyan-400/60 rounded-2xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="space-y-5">
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🛏️</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '5B noches de hotel por llenar' : '5.000 millones noches de hotel por llenar'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">👨‍👩‍👧‍👦</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">
-                  {isMobile ? '400M personas necesitan mejor vida' : '400 millones personas necesitan mejor vida'}
-                </span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🔁</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">La sociedad repite el pasado</span>
-              </div>
-              <div className="flex items-center text-white group/item hover:text-cyan-200 transition-colors duration-200">
-                <span className="text-2xl mr-4 filter drop-shadow-lg">🚀</span>
-                <span className="text-base font-semibold tracking-wide whitespace-nowrap">Hotel-Living cambia eso</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Accordion type="single" collapsible className="space-y-4">
+          {accordionOptions.map((option) => (
+            <AccordionItem 
+              key={option.value} 
+              value={option.value}
+              className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 group"
+            >
+              <AccordionTrigger 
+                className="px-6 py-4 text-[#FEF7CD] hover:text-white group-hover:bg-white/5 rounded-lg transition-all duration-200"
+                titleClassName="text-lg font-semibold"
+              >
+                {option.label}
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-4 text-[#E5D5F0]">
+                {option.content}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
-
-      {/* First Horizontal Accordion Menu */}
-      <div className="mb-24">
-        <div className="w-full">
-          <div className="flex justify-center mb-4">
-            <div className={`flex flex-wrap justify-center gap-1 p-1 bg-[#8017B0] rounded-xl border border-fuchsia-500/30 backdrop-blur-md ${isMobile ? "grid grid-cols-2 gap-1 place-items-center" : "grid grid-cols-7 place-items-center"}`}>
-              {accordionOptions.map((option) => (
-                <button 
-                  key={option.id} 
-                  onClick={() => handleAccordionTabChange(option.id)}
-                  className={`px-2 uppercase whitespace-nowrap text-white shadow-md hover:shadow-fuchsia-500/20 hover:scale-105 transition-all duration-200 border border-fuchsia-600/20 text-center rounded-lg font-medium flex flex-col items-center justify-center ${isMobile ? "text-xs px-2 py-3" : "text-sm px-3 py-3"} ${activeAccordionTab === option.id ? "!bg-[#5F1183]" : "bg-[#8017B0]"}`}
-                >
-                  <span className="mb-1">{option.label}</span>
-                  <span className="text-xs">▼</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          {activeAccordionTab && (
-            <div className="mt-4">
-              <div className="bg-[#8017B0]/10 p-6 rounded-lg border border-[#8017B0]/30">
-                <AccordionContentRenderer optionId={activeAccordionTab} />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </>
+    </div>
   );
 }

@@ -1,49 +1,49 @@
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { StillRentingContent } from "./accordion/StillRentingContent.es";
-import { RetiredContent } from "./accordion/RetiredContent.es";
-import { OnlineWorkerContent } from "./accordion/OnlineWorkerContent.es";
-import { CommuterContent } from "./accordion/CommuterContent.es";
-import { FreeSoulContent } from "./accordion/FreeSoulContent.es";
-import { HotelContent } from "./accordion/HotelContent.es";
-import { SocietyContent } from "./accordion/SocietyContent.es";
+import { StillRentingContentES } from "./accordion/StillRentingContent.es";
+import { RetiredContentES } from "./accordion/RetiredContent.es";
+import { OnlineWorkerContentES } from "./accordion/OnlineWorkerContent.es";
+import { CommuterContentES } from "./accordion/CommuterContent.es";
+import { FreeSoulContentES } from "./accordion/FreeSoulContent.es";
+import { HotelContentES } from "./accordion/HotelContent.es";
+import { SocietyContentES } from "./accordion/SocietyContent.es";
 
 export function WhyHotelLivingSectionES() {
   const accordionOptions = [
     { 
       id: "still-renting", 
       label: "¿Aún Alquilas?", 
-      component: <StillRentingContent />
+      component: <StillRentingContentES />
     },
     { 
       id: "retired", 
       label: "¿Jubilado?", 
-      component: <RetiredContent />
+      component: <RetiredContentES />
     },
     { 
       id: "online-worker", 
       label: "¿Trabajador Online?", 
-      component: <OnlineWorkerContent />
+      component: <OnlineWorkerContentES />
     },
     { 
       id: "commuter", 
       label: "¿Lejos del trabajo?", 
-      component: <CommuterContent />
+      component: <CommuterContentES />
     },
     { 
       id: "free-soul", 
       label: "¿Alma Libre?", 
-      component: <FreeSoulContent />
+      component: <FreeSoulContentES />
     },
     { 
       id: "hotel", 
       label: "¿Hotel?", 
-      component: <HotelContent />
+      component: <HotelContentES />
     },
     { 
       id: "society", 
       label: "¿Sociedad?", 
-      component: <SocietyContent />
+      component: <SocietyContentES />
     }
   ];
 

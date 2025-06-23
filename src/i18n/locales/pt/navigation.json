@@ -3,7 +3,7 @@
   "navigation": {
     "home": "Início",
     "hotels": "Hotéis",
-    "dashboard": "Painel",
+    "dashboard": "Painel de controle",
     "login": "Entrar",
     "logout": "Sair",
     "signup": "Cadastrar-se",
@@ -13,22 +13,23 @@
     "admin": "Administrador",
     "language": "Idioma",
     "help": "Ajuda",
-    "faq": "Perguntas Frequentes",
+    "faq": "Perguntas frequentes",
     "contact": "Contato",
     "videos": "Vídeos",
-    "featuredHotels": "Hotéis em Destaque",
-    "affinityStays": "Estadias por Afinidade",
+    "featuredHotels": "Hotéis em destaque",
+    "affinityStays": "Estadias por afinidades",
     "register": "Registrar",
-    "aboutUs": "Sobre Nós"
+    "aboutUs": "Sobre nós"
   },
   "mainNavigationContent": {
     "faq": "FAQ",
-    "affinityStays": "Estadias por Afinidades",
-    "hotel": "Hotel",
+    "affinityStays": "Estadias por afinidades",
+    "hotel": "HOTEL?",
     "videos": "Vídeos",
-    "featuredHotels": "Hotéis em Destaque",
-    "hotelDashboard": "Painel do Hotel",
-    "adminDashboard": "Painel Administrativo",
-    "logout": "Sair"
+    "featuredHotels": "Hotéis em destaque",
+    "hotelDashboard": "Painel do hotel",
+    "adminDashboard": "Painel de administração",
+    "logout": "Sair",
+    "myAccount": "MINHA CONTA"
   }
 }

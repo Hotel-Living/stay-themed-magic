@@ -3,13 +3,13 @@
   "footer": {
     "links": {
       "faq": "FAQ",
-      "affinityStays": "ȘEDERI DUPĂ AFINITĂȚI",
-      "hotel": "Hotel?",
-      "videos": "VIDEOURI",
+      "affinityStays": "ȘEDERI PRIN AFINITĂȚI",
+      "hotel": "HOTEL?",
+      "videos": "VIDEOCLIPURI",
       "featuredHotels": "HOTELURI RECOMANDATE",
       "ourServices": "SERVICIILE NOASTRE",
       "ourValues": "VALORILE NOASTRE",
-      "customerService": "SERVICIUL PENTRU CLIENȚI",
+      "customerService": "SERVICII PENTRU CLIENȚI",
       "contact": "CONTACT",
       "terms": "TERMENI ȘI CONDIȚII",
       "privacy": "CONFIDENȚIALITATE ȘI COOKIE-URI",
@@ -19,7 +19,7 @@
     "buttons": {
       "register": "Înregistrare",
       "signIn": "Conectare",
-      "hotel": "Hotel?"
+      "hotel": "HOTEL?"
     },
     "copyright": "© 2025 Hotel-Living.com. Toate drepturile rezervate. Aceasta este o versiune Beta, supusă actualizărilor continue.",
     "disclaimer": "Unele proprietăți pot fi exemple folosite pentru a demonstra funcționalitatea Hotel Living."

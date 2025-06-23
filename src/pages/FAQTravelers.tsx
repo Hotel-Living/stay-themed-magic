@@ -6,16 +6,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { BenefitsTravelersList } from "@/components/faq/BenefitsTravelersList";
 import { FaqTabs } from "@/components/faq/FaqTabs";
 import { FaqSearch } from "@/components/faq/FaqSearch";
-import { 
-  benefitsTravelersList, 
-  faqTravelersCategories, 
-  faqTravelersByCategory 
-} from "@/components/faq/faqTravelersData";
+import { useFaqData } from "@/components/faq/faqData";
+import { benefitsTravelersList } from "@/components/faq/faqTravelersData";
 
 export default function FAQTravelers() {
   const [activeTab, setActiveTab] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
   const isMobile = useIsMobile();
+  const { translatedCategories, translatedFaqsByCategory } = useFaqData();
   
   // Scroll to top on page load
   useEffect(() => {
@@ -52,8 +50,8 @@ export default function FAQTravelers() {
           <FaqTabs 
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            faqCategories={faqTravelersCategories}
-            faqsByCategory={faqTravelersByCategory}
+            faqCategories={translatedCategories}
+            faqsByCategory={translatedFaqsByCategory}
             numbered={true}
             searchQuery={searchQuery}
             accentTextColor="#4db74d"

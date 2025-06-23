@@ -13,13 +13,13 @@
       "support": "Suport"
     },
     "accordion": {
-      "stillRenting": "Încă închiriezi?",
-      "hotel": "Hotel?",
-      "retired": "Pensionar?",
-      "commuter": "Navetist?",
-      "onlineWorker": "Lucrător online?",
-      "freeSoul": "Suflet liber?",
-      "society": "Societate?"
+      "stillRenting": "ÎNCĂ ÎNCHIRIEZI?",
+      "hotel": "HOTEL?",
+      "retired": "PENSIONAR?",
+      "commuter": "NAVETIST?",
+      "onlineWorker": "LUCRĂTOR ONLINE?",
+      "freeSoul": "SUFLET LIBER?",
+      "society": "SOCIETATE?"
     }
   }
 }

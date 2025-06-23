@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
@@ -49,7 +50,7 @@ export default function FAQHotels() {
     orderedCategoryIds.map(id => 
       hotelFaqCategories.find(cat => cat.id === id)
     ).filter(Boolean) as typeof hotelFaqCategories,
-  []);
+  [hotelFaqCategories]);
   
   const contentFaqCategories = useMemo(() => 
     orderedFaqCategories.filter(cat => cat.id !== "video"), 
@@ -57,10 +58,9 @@ export default function FAQHotels() {
   );
 
   const contentFaqsByCategory = useMemo(() => {
-    const result = {...hotelFaqsByCategory};
-    delete result.video;
-    return result;
-  }, []);
+    // Simply return the original object since it doesn't contain video
+    return hotelFaqsByCategory;
+  }, [hotelFaqsByCategory]);
   
   const firstRowCategories = useMemo(() => 
     orderedFaqCategories.slice(0, 7),
@@ -143,7 +143,7 @@ export default function FAQHotels() {
             faqCategories={orderedFaqCategories}
             faqsByCategory={{
               ...contentFaqsByCategory,
-              video: [] // Include empty video array to handle tab switching
+              video: [] // Add empty video array to handle tab switching
             }}
             numbered={true}
             searchQuery={searchQuery}

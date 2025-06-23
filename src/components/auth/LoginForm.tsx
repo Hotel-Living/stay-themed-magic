@@ -34,7 +34,7 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder={isHotelLogin ? t('auth.enterEmail') : t('auth.enterEmail')}
+        placeholder={t('auth.enterEmail')}
         Icon={Mail}
         inputClassName="text-white placeholder:text-white/60"
       />
@@ -44,7 +44,7 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
         label={t('auth.password')}
         value={password}
         onChange={e => setPassword(e.target.value)}
-        placeholder="Enter your password"
+        placeholder={t('auth.enterPassword')}
         showPassword={showPassword}
         toggleShowPassword={() => setShowPassword(!showPassword)}
         inputClassName="text-white placeholder:text-white/60"
@@ -57,7 +57,7 @@ export function LoginForm({ isHotelLogin = false }: LoginFormProps) {
       
       <SubmitButton
         isLoading={isLoading}
-        loadingText="Signing in..."
+        loadingText={t('auth.signingIn')}
         text={isHotelLogin ? t('auth.signInAsHotelPartner') : t('auth.signInAsTraveler')}
       />
     </form>

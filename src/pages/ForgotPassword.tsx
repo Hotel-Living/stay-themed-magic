@@ -9,20 +9,22 @@ import { AuthCard } from "@/components/auth/AuthCard";
 import { InputField } from "@/components/auth/InputField";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email) {
       toast({
-        title: "Error",
-        description: "Please enter your email address",
+        title: t('auth.invalidCredentials'),
+        description: t('auth.enterEmail'),
         variant: "destructive",
       });
       return;
@@ -45,14 +47,14 @@ export default function ForgotPassword() {
       
       setIsSubmitted(true);
       toast({
-        title: "Email sent",
-        description: "Check your email for the password reset link",
+        title: t('auth.emailSent'),
+        description: t('auth.checkYourEmail'),
       });
     } catch (error: any) {
       console.error("Password reset error:", error);
       toast({
-        title: "Error",
-        description: error.message || "An error occurred during password reset request",
+        title: t('auth.invalidCredentials'),
+        description: error.message || t('auth.invalidCredentials'),
         variant: "destructive",
       });
     } finally {
@@ -67,12 +69,12 @@ export default function ForgotPassword() {
       <main className="flex-1 pt-16">
         <div className="container max-w-lg mx-auto px-4 py-8">
           <AuthCard 
-            title="Reset Password" 
-            subtitle={isSubmitted ? "Check your email" : "Enter your email to receive a password reset link"}
+            title={t('auth.resetPassword')} 
+            subtitle={isSubmitted ? t('auth.checkYourEmail') : t('auth.sendResetLink')}
             footerLinks={[
               {
-                text: "Remember your password?",
-                linkText: "Back to Sign In",
+                text: t('auth.rememberPassword'),
+                linkText: t('auth.backToSignIn'),
                 linkUrl: "/login"
               }
             ]}
@@ -80,15 +82,15 @@ export default function ForgotPassword() {
             {isSubmitted ? (
               <div className="text-center py-4">
                 <p className="text-sm text-muted-foreground mb-4">
-                  We've sent a password reset link to <span className="font-medium text-white">{email}</span>
+                  {t('auth.passwordResetSent')} <span className="font-medium text-white">{email}</span>
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Don't see it? Check your spam folder or 
+                  {t('auth.dontSeeIt')}
                   <button 
                     onClick={() => setIsSubmitted(false)}
                     className="text-fuchsia-400 hover:text-fuchsia-300 transition ml-1"
                   >
-                    try again
+                    {t('auth.tryAgain')}
                   </button>
                 </p>
               </div>
@@ -96,18 +98,18 @@ export default function ForgotPassword() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <InputField
                   id="email"
-                  label="Email"
+                  label={t('auth.email')}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder={t('auth.enterEmail')}
                   Icon={Mail}
                 />
                 
                 <SubmitButton
                   isLoading={isLoading}
-                  loadingText="Sending..."
-                  text="Send Reset Link"
+                  loadingText={t('auth.sending')}
+                  text={t('auth.sendResetLink')}
                 />
               </form>
             )}

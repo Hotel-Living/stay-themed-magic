@@ -34,21 +34,18 @@ export function useAuthState() {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
-        // Defer profile fetch to prevent deadlocks
+        // Handle profile fetch with proper async/await
         if (currentSession?.user) {
-          // Use setTimeout to defer profile fetch to next event loop
-          // This prevents potential recursive issues with onAuthStateChange
-          setTimeout(async () => {
-            try {
-              const profileData = await fetchProfile(currentSession.user.id);
-              console.log("Profile fetched:", profileData);
-              setProfile(profileData);
-            } catch (error) {
-              console.error("Error fetching profile:", error);
-            } finally {
-              setIsLoading(false);
-            }
-          }, 0);
+          try {
+            const profileData = await fetchProfile(currentSession.user.id);
+            console.log("Profile fetched:", profileData);
+            setProfile(profileData);
+          } catch (error) {
+            console.error("Error fetching profile:", error);
+            // Don't throw error to prevent blocking auth flow
+          } finally {
+            setIsLoading(false);
+          }
         } else {
           setProfile(null);
           setIsLoading(false);

@@ -21,8 +21,35 @@ export function useAuthMethods({ setIsLoading, setProfile, setUser, setSession }
   
   // Use refactored hooks
   const { signUp } = useSignUp({ setIsLoading, setProfile });
-  const { signIn } = useSignIn({ setIsLoading, setProfile });
+  const { signIn: signInHook } = useSignIn({ setIsLoading, setProfile });
   const { updateProfile } = useProfileManagement({ setIsLoading, setProfile });
+
+  // Enhanced signIn function with proper error handling and state management
+  const signIn = async (email: string, password: string, isHotelLogin?: boolean) => {
+    try {
+      setIsLoading(true);
+      setAuthError(null);
+      
+      console.log("Starting sign in process", { email, isHotelLogin });
+      
+      const result = await signInHook(email, password, isHotelLogin);
+      
+      console.log("Sign in result:", result);
+      
+      return result;
+    } catch (error: any) {
+      console.error("Error in signIn function:", error);
+      setAuthError(error.message);
+      toast({
+        title: "Error al iniciar sesión",
+        description: error.message || "Ha ocurrido un error",
+        variant: "destructive"
+      });
+      return { success: false, error: error.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Centralized signOut function that updates React context state
   const signOut = async () => {

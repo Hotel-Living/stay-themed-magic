@@ -4,12 +4,11 @@ import { Navbar } from "@/components/Navbar";
 import { HelpCircle, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DashboardTab } from "@/types/dashboard";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
-import { supabase } from "@/integrations/supabase/client";
 
 interface UserDashboardLayoutProps {
   children: ReactNode;
@@ -24,6 +23,7 @@ export default function UserDashboardLayout({
   tabs,
   setActiveTab
 }: UserDashboardLayoutProps) {
+  const { signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t, language } = useTranslation();
@@ -31,37 +31,17 @@ export default function UserDashboardLayout({
   // Handle logout
   const handleLogout = async () => {
     try {
-      console.log("Dashboard logout initiated");
-      
-      // Call signOut to clear the session
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        console.error("Dashboard logout error:", error);
-        toast({
-          title: language === 'es' ? "Error" : "Error",
-          description: language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." : "Could not log out. Please try again.",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      console.log("Dashboard logout successful, redirecting to login");
-      
-      // Show success message
+      await signOut();
       toast({
         title: language === 'es' ? "Sesión cerrada" : "Logged out",
         description: language === 'es' ? "Has cerrado sesión exitosamente." : "You have been successfully logged out."
       });
-      
-      // Redirect to login page
       navigate('/login');
-      
-    } catch (error: any) {
-      console.error("Unexpected dashboard logout error:", error);
+    } catch (error) {
+      console.error("Error during logout:", error);
       toast({
         title: language === 'es' ? "Error" : "Error",
-        description: language === 'es' ? "Error inesperado al cerrar sesión." : "Unexpected error during logout.",
+        description: language === 'es' ? "No se pudo cerrar sesión. Inténtalo de nuevo." : "Could not log out. Please try again.",
         variant: "destructive"
       });
     }

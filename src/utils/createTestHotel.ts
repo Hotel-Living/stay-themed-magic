@@ -4,8 +4,18 @@ import { supabase } from "@/integrations/supabase/client";
 export const createTestHotel = async () => {
   console.log("Creating test hotel entry...");
   
+  // Get the current user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  
+  if (userError || !user) {
+    console.error("No authenticated user found:", userError);
+    throw new Error("You must be logged in to create a test hotel");
+  }
+  
+  console.log("Using authenticated user ID:", user.id);
+  
   const testHotelData = {
-    owner_id: "00000000-0000-0000-0000-000000000000", // Placeholder owner ID
+    owner_id: user.id, // Use the actual authenticated user ID
     name: "Grand Plaza San Antonio",
     description: "A luxurious downtown hotel featuring elegant accommodations and world-class amenities. Perfect for extended stays with stunning city views and exceptional service. Our hotel combines modern comfort with classic hospitality, offering guests an unforgettable experience in the heart of San Antonio.",
     country: "United States",

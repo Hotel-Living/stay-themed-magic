@@ -21,13 +21,23 @@ export function TestHotelCreator() {
       
       // Navigate to the hotel detail page
       navigate(`/hotel/${hotel.id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating test hotel:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create test hotel. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Check if it's an authentication error
+      if (error.message?.includes("logged in")) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in first to create a test hotel.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to create test hotel. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsCreating(false);
     }

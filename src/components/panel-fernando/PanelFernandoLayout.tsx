@@ -91,6 +91,18 @@ const fernandoTabs = [
     label: "Batch Pending",
     icon: <Settings className="w-5 h-5" />,
     path: "/panel-fernando/batch-pending"
+  },
+  {
+    id: "batch-create-hotels",
+    label: "Batch Create Hotels",
+    icon: <Plus className="w-5 h-5" />,
+    path: "/panel-fernando/batch-create-hotels"
+  },
+  {
+    id: "batch-room-images",
+    label: "Batch Room Images",
+    icon: <Camera className="w-5 h-5" />,
+    path: "/panel-fernando/batch-room-images"
   }
 ];
 

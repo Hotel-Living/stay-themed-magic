@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -79,6 +79,12 @@ const fernandoTabs = [
     label: "Batch Images",
     icon: <Image className="w-5 h-5" />,
     path: "/panel-fernando/batch-images"
+  },
+  {
+    id: "batch-text",
+    label: "Batch Text",
+    icon: <Type className="w-5 h-5" />,
+    path: "/panel-fernando/batch-text"
   }
 ];
 

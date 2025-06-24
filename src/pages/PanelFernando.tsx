@@ -13,6 +13,7 @@ import FernandoFilters from "@/components/panel-fernando/FernandoFilters";
 import FernandoUserRoles from "@/components/panel-fernando/FernandoUserRoles";
 import FernandoAnalytics from "@/components/panel-fernando/FernandoAnalytics";
 import FernandoBatchImages from "@/components/panel-fernando/FernandoBatchImages";
+import FernandoBatchTextCompletion from "@/components/panel-fernando/FernandoBatchTextCompletion";
 
 export default function PanelFernando() {
   return (
@@ -30,6 +31,7 @@ export default function PanelFernando() {
         <Route path="/user-roles" element={<FernandoUserRoles />} />
         <Route path="/analytics" element={<FernandoAnalytics />} />
         <Route path="/batch-images" element={<FernandoBatchImages />} />
+        <Route path="/batch-text" element={<FernandoBatchTextCompletion />} />
         <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
       </Routes>
     </PanelFernandoLayout>

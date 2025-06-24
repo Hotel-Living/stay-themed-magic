@@ -1,6 +1,7 @@
+
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image, Type, Settings } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image, Type, Settings, Plus, Camera } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";

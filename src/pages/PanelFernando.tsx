@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PanelFernandoLayout from "@/components/panel-fernando/PanelFernandoLayout";
@@ -15,6 +14,8 @@ import FernandoAnalytics from "@/components/panel-fernando/FernandoAnalytics";
 import FernandoBatchImages from "@/components/panel-fernando/FernandoBatchImages";
 import FernandoBatchTextCompletion from "@/components/panel-fernando/FernandoBatchTextCompletion";
 import FernandoBatchPendingFields from "@/components/panel-fernando/FernandoBatchPendingFields";
+import FernandoBatchHotelCreation from "@/components/panel-fernando/FernandoBatchHotelCreation";
+import FernandoBatchRoomImages from "@/components/panel-fernando/FernandoBatchRoomImages";
 
 export default function PanelFernando() {
   return (
@@ -34,6 +35,8 @@ export default function PanelFernando() {
         <Route path="/batch-images" element={<FernandoBatchImages />} />
         <Route path="/batch-text" element={<FernandoBatchTextCompletion />} />
         <Route path="/batch-pending" element={<FernandoBatchPendingFields />} />
+        <Route path="/batch-create-hotels" element={<FernandoBatchHotelCreation />} />
+        <Route path="/batch-room-images" element={<FernandoBatchRoomImages />} />
         <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
       </Routes>
     </PanelFernandoLayout>

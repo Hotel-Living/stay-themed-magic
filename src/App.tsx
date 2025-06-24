@@ -46,6 +46,7 @@ import PanelFernando from "@/pages/PanelFernando";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import Prueba from "@/pages/Prueba";
+import ExcelGenerator from "@/pages/ExcelGenerator";
 
 const queryClient = createQueryClient();
 
@@ -79,6 +80,7 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/intellectual-property" element={<IntellectualProperty />} />
                   <Route path="/our-team" element={<OurTeam />} />
+                  <Route path="/excel-generator" element={<ExcelGenerator />} />
                   
                   {/* Protected Routes */}
                   <Route path="/user-dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />

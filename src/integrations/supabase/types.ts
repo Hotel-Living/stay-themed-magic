@@ -133,6 +133,33 @@ export type Database = {
         }
         Relationships: []
       }
+      api_usage_tracking: {
+        Row: {
+          created_at: string
+          hour_key: string
+          id: string
+          requests_count: number
+          service: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          hour_key: string
+          id?: string
+          requests_count?: number
+          service: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          hour_key?: string
+          id?: string
+          requests_count?: number
+          service?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           check_in: string

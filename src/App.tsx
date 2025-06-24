@@ -45,6 +45,7 @@ import AddPropertyPage from "@/pages/AddPropertyPage";
 import PanelFernando from "@/pages/PanelFernando";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
+import Prueba from "@/pages/Prueba";
 
 const queryClient = createQueryClient();
 
@@ -95,6 +96,9 @@ function App() {
                   
                   {/* Panel Fernando - New Admin Panel */}
                   <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
+                  
+                  {/* Prueba - Test Admin Panel */}
+                  <Route path="/prueba/*" element={<AdminRoute><Prueba /></AdminRoute>} />
                   
                   {/* Comparison Route */}
                   <Route path="/compare" element={<Compare />} />

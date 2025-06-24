@@ -2,30 +2,35 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Send, Eye, Reply, Search } from "lucide-react";
+import { Plus, Search, Send, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface Message {
+interface AdminMessage {
   id: string;
-  subject?: string;
+  subject: string;
   message: string;
   status: string;
   created_at: string;
-  hotel_name?: string;
-  user_name?: string;
+  user_id: string;
+  hotel_id?: string;
+  profiles?: {
+    first_name?: string;
+    last_name?: string;
+  };
 }
 
 export default function PruebaCommunications() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<AdminMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [newMessage, setNewMessage] = useState("");
-  const [selectedHotel, setSelectedHotel] = useState("");
+  const [newMessage, setNewMessage] = useState({
+    subject: "",
+    message: "",
+    user_id: ""
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,27 +42,16 @@ export default function PruebaCommunications() {
       const { data, error } = await supabase
         .from('admin_messages')
         .select(`
-          id,
-          subject,
-          message,
-          status,
-          created_at,
-          hotel:hotels(name),
-          user:profiles(first_name, last_name)
+          *,
+          profiles:user_id (
+            first_name,
+            last_name
+          )
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-
-      const messagesWithNames = data?.map(message => ({
-        ...message,
-        hotel_name: message.hotel?.name || 'General',
-        user_name: message.user 
-          ? `${message.user.first_name || ''} ${message.user.last_name || ''}`.trim()
-          : 'Admin'
-      })) || [];
-
-      setMessages(messagesWithNames);
+      setMessages(data || []);
     } catch (error) {
       console.error('Error fetching messages:', error);
       toast({
@@ -71,22 +65,23 @@ export default function PruebaCommunications() {
   };
 
   const sendMessage = async () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.subject || !newMessage.message || !newMessage.user_id) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
+      return;
+    }
 
     try {
       const { error } = await supabase
         .from('admin_messages')
-        .insert([{
-          message: newMessage,
-          subject: "Admin Communication",
-          status: "sent",
-          hotel_id: selectedHotel || null
-        }]);
+        .insert([newMessage]);
 
       if (error) throw error;
 
-      setNewMessage("");
-      setSelectedHotel("");
+      setNewMessage({ subject: "", message: "", user_id: "" });
       fetchMessages();
       toast({
         description: "Message sent successfully"
@@ -101,47 +96,35 @@ export default function PruebaCommunications() {
     }
   };
 
-  const updateMessageStatus = async (messageId: string, newStatus: string) => {
+  const deleteMessage = async (messageId: string) => {
     try {
       const { error } = await supabase
         .from('admin_messages')
-        .update({ status: newStatus })
+        .delete()
         .eq('id', messageId);
 
       if (error) throw error;
 
-      setMessages(prev => prev.map(message => 
-        message.id === messageId ? { ...message, status: newStatus } : message
-      ));
-
+      setMessages(prev => prev.filter(msg => msg.id !== messageId));
       toast({
-        description: `Message marked as ${newStatus}`
+        description: "Message deleted successfully"
       });
     } catch (error) {
-      console.error('Error updating message status:', error);
+      console.error('Error deleting message:', error);
       toast({
         title: "Error",
-        description: "Failed to update message status",
+        description: "Failed to delete message",
         variant: "destructive"
       });
     }
   };
 
   const filteredMessages = messages.filter(message =>
+    message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
     message.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    message.hotel_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    message.subject?.toLowerCase().includes(searchTerm.toLowerCase())
+    (message.profiles?.first_name && message.profiles.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (message.profiles?.last_name && message.profiles.last_name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-
-  const getStatusBadge = (status: string) => {
-    const statusColors = {
-      pending: "bg-yellow-500",
-      sent: "bg-green-500",
-      read: "bg-blue-500",
-      replied: "bg-purple-500"
-    };
-    return statusColors[status as keyof typeof statusColors] || "bg-gray-500";
-  };
 
   if (loading) {
     return (
@@ -158,40 +141,12 @@ export default function PruebaCommunications() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-white">Hotel Communications</h2>
+        <h2 className="text-2xl font-bold text-white">Communications Management</h2>
+        <Button className="flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          New Message
+        </Button>
       </div>
-
-      {/* Send New Message */}
-      <Card className="bg-[#7a0486] border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Send New Message</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Select value={selectedHotel} onValueChange={setSelectedHotel}>
-              <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white">
-                <SelectValue placeholder="Select hotel (optional)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Hotels</SelectItem>
-                <SelectItem value="hotel1">Sample Hotel 1</SelectItem>
-                <SelectItem value="hotel2">Sample Hotel 2</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Textarea
-            placeholder="Type your message..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-            rows={4}
-          />
-          <Button onClick={sendMessage} className="flex items-center gap-2">
-            <Send className="w-4 h-4" />
-            Send Message
-          </Button>
-        </CardContent>
-      </Card>
 
       {/* Search */}
       <Card className="bg-[#7a0486] border-purple-600">
@@ -205,66 +160,78 @@ export default function PruebaCommunications() {
         </CardContent>
       </Card>
 
-      {/* Messages Table */}
+      {/* New Message Form */}
+      <Card className="bg-[#7a0486] border-purple-600">
+        <CardHeader>
+          <CardTitle className="text-white">Send New Message</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Input
+            placeholder="User ID"
+            value={newMessage.user_id}
+            onChange={(e) => setNewMessage(prev => ({ ...prev, user_id: e.target.value }))}
+            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
+          />
+          <Input
+            placeholder="Subject"
+            value={newMessage.subject}
+            onChange={(e) => setNewMessage(prev => ({ ...prev, subject: e.target.value }))}
+            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
+          />
+          <Textarea
+            placeholder="Message content"
+            value={newMessage.message}
+            onChange={(e) => setNewMessage(prev => ({ ...prev, message: e.target.value }))}
+            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
+            rows={4}
+          />
+          <Button onClick={sendMessage} className="flex items-center gap-2">
+            <Send className="w-4 h-4" />
+            Send Message
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Messages List */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardHeader>
           <CardTitle className="text-white">Messages ({filteredMessages.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-purple-600">
-                  <th className="text-left p-3 text-white">Subject</th>
-                  <th className="text-left p-3 text-white">Hotel</th>
-                  <th className="text-left p-3 text-white">Message</th>
-                  <th className="text-left p-3 text-white">Status</th>
-                  <th className="text-left p-3 text-white">Date</th>
-                  <th className="text-left p-3 text-white">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMessages.map((message) => (
-                  <tr key={message.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white font-medium">
-                      {message.subject || 'No Subject'}
-                    </td>
-                    <td className="p-3 text-white/80">{message.hotel_name}</td>
-                    <td className="p-3 text-white/80 max-w-xs truncate">
-                      {message.message}
-                    </td>
-                    <td className="p-3">
-                      <Badge className={`${getStatusBadge(message.status)} text-white`}>
-                        {message.status}
-                      </Badge>
-                    </td>
-                    <td className="p-3 text-white/80">
-                      {new Date(message.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="p-3">
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                          <Reply className="w-4 h-4" />
-                        </Button>
-                        <Select onValueChange={(value) => updateMessageStatus(message.id, value)}>
-                          <SelectTrigger className="h-8 w-20 bg-purple-800/50 border-purple-600 text-white text-xs">
-                            <SelectValue placeholder="Status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="read">Read</SelectItem>
-                            <SelectItem value="replied">Replied</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-4">
+            {filteredMessages.map((message) => (
+              <div key={message.id} className="border border-purple-600/30 rounded-lg p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h4 className="text-white font-medium">{message.subject}</h4>
+                    <p className="text-white/60 text-sm">
+                      To: {message.profiles?.first_name} {message.profiles?.last_name}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      message.status === 'sent' ? 'bg-green-600' : 'bg-yellow-600'
+                    } text-white`}>
+                      {message.status}
+                    </span>
+                    <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700"
+                      onClick={() => deleteMessage(message.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+                <p className="text-white/80 text-sm">{message.message}</p>
+                <p className="text-white/40 text-xs mt-2">
+                  {new Date(message.created_at).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>

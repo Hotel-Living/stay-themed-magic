@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Eye, Download, CreditCard } from "lucide-react";
+import { Search, Download, Eye, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -11,13 +10,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface Payment {
   id: string;
+  user_id: string;
+  hotel_id: string;
+  booking_id: string;
   amount: number;
-  method: string;
   status: string;
-  created_at: string;
+  method: string;
   transaction_id?: string;
-  user_name?: string;
-  hotel_name?: string;
+  created_at: string;
+  profiles?: {
+    first_name?: string;
+    last_name?: string;
+  };
 }
 
 export default function PruebaPayments() {
@@ -36,28 +40,16 @@ export default function PruebaPayments() {
       const { data, error } = await supabase
         .from('payments')
         .select(`
-          id,
-          amount,
-          method,
-          status,
-          created_at,
-          transaction_id,
-          user:profiles(first_name, last_name),
-          hotel:hotels(name)
+          *,
+          profiles:user_id (
+            first_name,
+            last_name
+          )
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-
-      const paymentsWithNames = data?.map(payment => ({
-        ...payment,
-        user_name: payment.user 
-          ? `${payment.user.first_name || ''} ${payment.user.last_name || ''}`.trim()
-          : 'Unknown',
-        hotel_name: payment.hotel?.name || 'Unknown Hotel'
-      })) || [];
-
-      setPayments(paymentsWithNames);
+      setPayments(data || []);
     } catch (error) {
       console.error('Error fetching payments:', error);
       toast({
@@ -70,23 +62,43 @@ export default function PruebaPayments() {
     }
   };
 
+  const updatePaymentStatus = async (paymentId: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('payments')
+        .update({ status: newStatus })
+        .eq('id', paymentId);
+
+      if (error) throw error;
+
+      setPayments(prev => prev.map(payment => 
+        payment.id === paymentId ? { ...payment, status: newStatus } : payment
+      ));
+
+      toast({
+        description: "Payment status updated successfully"
+      });
+    } catch (error) {
+      console.error('Error updating payment:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update payment status",
+        variant: "destructive"
+      });
+    }
+  };
+
   const filteredPayments = payments.filter(payment => {
-    const matchesSearch = payment.hotel_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = 
+      payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (payment.profiles?.first_name && payment.profiles.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (payment.profiles?.last_name && payment.profiles.last_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      payment.method.toLowerCase().includes(searchTerm.toLowerCase());
+    
     const matchesStatus = statusFilter === "all" || payment.status === statusFilter;
+    
     return matchesSearch && matchesStatus;
   });
-
-  const getStatusBadge = (status: string) => {
-    const statusColors = {
-      completed: "bg-green-500",
-      pending: "bg-yellow-500",
-      failed: "bg-red-500",
-      refunded: "bg-blue-500"
-    };
-    return statusColors[status as keyof typeof statusColors] || "bg-gray-500";
-  };
 
   if (loading) {
     return (
@@ -104,13 +116,19 @@ export default function PruebaPayments() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Payment Management</h2>
-        <Button className="flex items-center gap-2">
-          <Download className="w-4 h-4" />
-          Export
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={fetchPayments} className="flex items-center gap-2">
+            <RefreshCw className="w-4 h-4" />
+            Refresh
+          </Button>
+          <Button className="flex items-center gap-2">
+            <Download className="w-4 h-4" />
+            Export
+          </Button>
+        </div>
       </div>
 
-      {/* Search and Filter Controls */}
+      {/* Filter Controls */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardContent className="p-4">
           <div className="flex gap-4">
@@ -150,7 +168,6 @@ export default function PruebaPayments() {
                 <tr className="border-b border-purple-600">
                   <th className="text-left p-3 text-white">Transaction ID</th>
                   <th className="text-left p-3 text-white">User</th>
-                  <th className="text-left p-3 text-white">Hotel</th>
                   <th className="text-left p-3 text-white">Amount</th>
                   <th className="text-left p-3 text-white">Method</th>
                   <th className="text-left p-3 text-white">Status</th>
@@ -161,17 +178,27 @@ export default function PruebaPayments() {
               <tbody>
                 {filteredPayments.map((payment) => (
                   <tr key={payment.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white/80 font-mono text-sm">
+                    <td className="p-3 text-white font-mono text-sm">
                       {payment.transaction_id || payment.id.slice(0, 8)}
                     </td>
-                    <td className="p-3 text-white/80">{payment.user_name}</td>
-                    <td className="p-3 text-white/80">{payment.hotel_name}</td>
-                    <td className="p-3 text-white font-medium">${payment.amount.toFixed(2)}</td>
-                    <td className="p-3 text-white/80 capitalize">{payment.method}</td>
+                    <td className="p-3 text-white">
+                      {payment.profiles?.first_name} {payment.profiles?.last_name}
+                    </td>
+                    <td className="p-3 text-white font-medium">
+                      €{payment.amount}
+                    </td>
+                    <td className="p-3 text-white/80 capitalize">
+                      {payment.method}
+                    </td>
                     <td className="p-3">
-                      <Badge className={`${getStatusBadge(payment.status)} text-white`}>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        payment.status === 'completed' ? 'bg-green-600 text-white' :
+                        payment.status === 'pending' ? 'bg-yellow-600 text-white' :
+                        payment.status === 'failed' ? 'bg-red-600 text-white' :
+                        'bg-gray-600 text-white'
+                      }`}>
                         {payment.status}
-                      </Badge>
+                      </span>
                     </td>
                     <td className="p-3 text-white/80">
                       {new Date(payment.created_at).toLocaleDateString()}
@@ -181,9 +208,24 @@ export default function PruebaPayments() {
                         <Button size="sm" variant="outline" className="h-8 w-8 p-0">
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                          <CreditCard className="w-4 h-4" />
-                        </Button>
+                        {payment.status === 'pending' && (
+                          <>
+                            <Button 
+                              size="sm" 
+                              className="h-8 px-2 bg-green-600 hover:bg-green-700 text-xs"
+                              onClick={() => updatePaymentStatus(payment.id, 'completed')}
+                            >
+                              Approve
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              className="h-8 px-2 bg-red-600 hover:bg-red-700 text-xs"
+                              onClick={() => updatePaymentStatus(payment.id, 'failed')}
+                            >
+                              Reject
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

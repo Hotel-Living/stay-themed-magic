@@ -1,3 +1,4 @@
+
 {
   "footerContent": {
     "faq": "[PT] FAQ",
@@ -33,17 +34,17 @@
     "search": "[PT] Buscar"
   },
   "videosContent": {
-    "featuredTitle": "[PT] Destacado: Experiencia en Hoteles Temáticos",
-    "featuredDescription": "[PT] Descubre la magia de nuestros hoteles temáticos y experimenta una nueva forma de hospedarte.",
-    "comingSoonOwnerStories": "[PT] Próximamente: Historias de Propietarios de Hoteles",
-    "availableJune": "[PT] Disponible en junio de 2025",
-    "comingSoonGuestExperiences": "[PT] Próximamente: Experiencias de los Huéspedes",
-    "availableJuly": "[PT] Disponible en julio de 2025"
+    "featuredTitle": "Featured: Themed Hotels Experience",
+    "featuredDescription": "Discover the magic of our themed hotels and experience a new way of hospitality.",
+    "comingSoonOwnerStories": "Coming Soon: Hotel Owner Stories",
+    "availableJune": "Available June 2025",
+    "comingSoonGuestExperiences": "Coming Soon: Guest Experiences",
+    "availableJuly": "Available July 2025"
   },
   "featuredHotelsContent": {
-    "pageTitle": "[PT] Hoteles Destacados",
-    "wantToBeFirst": "[PT] ¿Quieres que tu hotel aparezca en primer lugar?",
-    "featureDescription": "[PT] Podemos destacar tu propiedad aquí mismo — sin grandes tarifas, solo con una colaboración inteligente.",
-    "loginForInfo": "[PT] Inicia sesión en el panel de tu hotel para más información."
+    "pageTitle": "Featured Hotels",
+    "wantToBeFirst": "Want your hotel to appear first?",
+    "featureDescription": "We can feature your property right here — no big fees, just smart collaboration.",
+    "loginForInfo": "Log in to your hotel dashboard for more information."
   }
 }

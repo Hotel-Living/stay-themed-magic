@@ -7,5 +7,19 @@
     "discoverExperiences": "Descubre experiencias únicas",
     "whyChooseUs": "¿Por qué elegir Hotel-Living?",
     "ourMission": "Nuestra misión es revolucionar la forma en que las personas viven y viajan"
+  },
+  "videosContent": {
+    "featuredTitle": "Destacado: Experiencia en Hoteles Temáticos",
+    "featuredDescription": "Descubre la magia de nuestros hoteles temáticos y experimenta una nueva forma de hospedarte.",
+    "comingSoonOwnerStories": "Próximamente: Historias de Propietarios de Hoteles",
+    "availableJune": "Disponible en junio de 2025",
+    "comingSoonGuestExperiences": "Próximamente: Experiencias de los Huéspedes",
+    "availableJuly": "Disponible en julio de 2025"
+  },
+  "featuredHotelsContent": {
+    "pageTitle": "Hoteles Destacados",
+    "wantToBeFirst": "¿Quieres que tu hotel aparezca en primer lugar?",
+    "featureDescription": "Podemos destacar tu propiedad aquí mismo — sin grandes tarifas, solo con una colaboración inteligente.",
+    "loginForInfo": "Inicia sesión en el panel de tu hotel para más información."
   }
 }

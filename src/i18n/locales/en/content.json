@@ -7,5 +7,19 @@
     "discoverExperiences": "Discover unique experiences",
     "whyChooseUs": "Why Choose Hotel-Living?",
     "ourMission": "Our mission is to revolutionize the way people live and travel"
+  },
+  "videosContent": {
+    "featuredTitle": "Featured: Themed Hotels Experience",
+    "featuredDescription": "Discover the magic of our themed hotels and experience a new way of hospitality.",
+    "comingSoonOwnerStories": "Coming Soon: Hotel Owner Stories",
+    "availableJune": "Available June 2025",
+    "comingSoonGuestExperiences": "Coming Soon: Guest Experiences",
+    "availableJuly": "Available July 2025"
+  },
+  "featuredHotelsContent": {
+    "pageTitle": "Featured Hotels",
+    "wantToBeFirst": "Want your hotel to appear first?",
+    "featureDescription": "We can feature your property right here — no big fees, just smart collaboration.",
+    "loginForInfo": "Log in to your hotel dashboard for more information."
   }
 }

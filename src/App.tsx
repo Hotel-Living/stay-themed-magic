@@ -24,7 +24,6 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/SignUp";
 import UserDashboard from "@/pages/UserDashboard";
 import HotelDashboard from "@/pages/HotelDashboard";
-import AdminDashboard from "@/pages/AdminDashboard";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
 import HotelRegistration from "@/pages/HotelSignUp";
@@ -89,12 +88,12 @@ function App() {
                   <Route path="/affinity-stays" element={<AffinityStays />} />
                   <Route path="/faq" element={<FAQ />} />
                   
-                  {/* Admin Routes - NO FORCED REDIRECTS */}
-                  <Route path="/admin/*" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-                  <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
-                  
-                  {/* Panel Fernando - New Admin Panel */}
+                  {/* Admin Routes - Panel Fernando is the main admin panel */}
                   <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
+                  <Route path="/admin-roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
+                  
+                  {/* Legacy admin routes redirect to Panel Fernando */}
+                  <Route path="/admin/*" element={<Navigate to="/panel-fernando" replace />} />
                   
                   {/* Comparison Route */}
                   <Route path="/compare" element={<Compare />} />

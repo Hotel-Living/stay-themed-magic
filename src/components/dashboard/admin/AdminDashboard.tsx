@@ -1,297 +1,214 @@
-import React, { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { MoreVertical, Edit, Trash2 } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Link } from "react-router-dom";
-import BatchImagePopulation from "./BatchImagePopulation";
+import React, { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Hotel, Users, CreditCard, MessageSquare, Megaphone, Heart, Filter, Languages, UserCheck, BarChart3, Settings, Image } from "lucide-react";
+import AdminUsersPanel from "./AdminUsersPanel";
+import AdminBookingsPanel from "./AdminBookingsPanel";
+import AdminPaymentsPanel from "./AdminPaymentsPanel";
+import AdminAffinitiesPanel from "./AdminAffinitiesPanel";
+import AdminFiltersPanel from "./AdminFiltersPanel";
+import { BatchImagePopulation } from "./BatchImagePopulation";
 
 export default function AdminDashboard() {
-  const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [activeTab, setActiveTab] = useState('hotels');
-  const { toast } = useToast();
-
-  useEffect(() => {
-    fetchHotels();
-  }, [searchTerm, selectedStatus]);
-
-  const fetchHotels = async () => {
-    setLoading(true);
-    try {
-      let query = supabase
-        .from('hotels')
-        .select('*');
-
-      if (searchTerm) {
-        query = query.ilike('name', `%${searchTerm}%`);
-      }
-
-      if (selectedStatus) {
-        query = query.eq('status', selectedStatus);
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error('Error fetching hotels:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to fetch hotels"
-        });
-      } else {
-        setHotels(data || []);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleStatusChange = (status) => {
-    setSelectedStatus(status);
-  };
-
-  const handleHotelUpdate = async (id, updates) => {
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .update(updates)
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error updating hotel:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to update hotel status"
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Hotel status updated successfully"
-        });
-        fetchHotels(); // Refresh hotels
-      }
-    } catch (error) {
-      console.error('Update failed:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update hotel status"
-      });
-    }
-  };
-
-  const handleHotelDelete = async (id) => {
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error deleting hotel:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to delete hotel"
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Hotel deleted successfully"
-        });
-        fetchHotels(); // Refresh hotels
-      }
-    } catch (error) {
-      console.error('Delete failed:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to delete hotel"
-      });
-    }
-  };
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'hotels':
-        return (
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Input
-                  type="text"
-                  placeholder="Search hotels..."
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-                <Select onValueChange={handleStatusChange}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All Statuses</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <Table>
-              <TableCaption>A list of your hotels.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>City</TableHead>
-                  <TableHead>Country</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {loading ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center">Loading...</TableCell>
-                  </TableRow>
-                ) : hotels.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center">No hotels found.</TableCell>
-                  </TableRow>
-                ) : (
-                  hotels.map((hotel) => (
-                    <TableRow key={hotel.id}>
-                      <TableCell className="font-medium">{hotel.id}</TableCell>
-                      <TableCell>{hotel.name}</TableCell>
-                      <TableCell>{hotel.city}</TableCell>
-                      <TableCell>{hotel.country}</TableCell>
-                      <TableCell>{hotel.status}</TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Open menu</span>
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem asChild>
-                              <Link to={`/admin/hotel/${hotel.id}`}>
-                                <Edit className="h-4 w-4 mr-2" />
-                                <span>Edit</span>
-                              </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleHotelDelete(hotel.id)}
-                              className="text-red-600 focus:text-red-600"
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              <span>Delete</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            {hotel.status !== 'approved' && (
-                              <DropdownMenuItem onClick={() => handleHotelUpdate(hotel.id, { status: 'approved' })}>
-                                Approve
-                              </DropdownMenuItem>
-                            )}
-                            {hotel.status !== 'rejected' && (
-                              <DropdownMenuItem onClick={() => handleHotelUpdate(hotel.id, { status: 'rejected' })}>
-                                Reject
-                              </DropdownMenuItem>
-                            )}
-                            {hotel.status !== 'pending' && (
-                              <DropdownMenuItem onClick={() => handleHotelUpdate(hotel.id, { status: 'pending' })}>
-                                Set to Pending
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        );
-      
-      case 'batch-images':
-        return <BatchImagePopulation />;
-      
-      default:
-        return <div>Select a tab to view content.</div>;
-    }
-  };
+  const [activeTab, setActiveTab] = useState("hotels");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-          <div className="flex flex-wrap gap-2 mb-6">
-            <button
-              onClick={() => setActiveTab('hotels')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeTab === 'hotels'
-                  ? 'bg-white/20 text-white' 
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              Hotels
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('batch-images')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                activeTab === 'batch-images'
-                  ? 'bg-white/20 text-white' 
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              Batch Images
-            </button>
-          </div>
-
-          {renderContent()}
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <p className="text-muted-foreground">
+          Manage your platform from this central dashboard
+        </p>
       </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12">
+          <TabsTrigger value="hotels" className="flex items-center gap-2">
+            <Hotel className="h-4 w-4" />
+            <span className="hidden sm:inline">Hotels</span>
+          </TabsTrigger>
+          <TabsTrigger value="users" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            <span className="hidden sm:inline">Users</span>
+          </TabsTrigger>
+          <TabsTrigger value="bookings" className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4" />
+            <span className="hidden sm:inline">Bookings</span>
+          </TabsTrigger>
+          <TabsTrigger value="payments" className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4" />
+            <span className="hidden sm:inline">Payments</span>
+          </TabsTrigger>
+          <TabsTrigger value="communications" className="flex items-center gap-2">
+            <MessageSquare className="h-4 w-4" />
+            <span className="hidden sm:inline">Messages</span>
+          </TabsTrigger>
+          <TabsTrigger value="advertising" className="flex items-center gap-2">
+            <Megaphone className="h-4 w-4" />
+            <span className="hidden sm:inline">Ads</span>
+          </TabsTrigger>
+          <TabsTrigger value="affinities" className="flex items-center gap-2">
+            <Heart className="h-4 w-4" />
+            <span className="hidden sm:inline">Themes</span>
+          </TabsTrigger>
+          <TabsTrigger value="filters" className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
+            <span className="hidden sm:inline">Filters</span>
+          </TabsTrigger>
+          <TabsTrigger value="translations" className="flex items-center gap-2">
+            <Languages className="h-4 w-4" />
+            <span className="hidden sm:inline">i18n</span>
+          </TabsTrigger>
+          <TabsTrigger value="roles" className="flex items-center gap-2">
+            <UserCheck className="h-4 w-4" />
+            <span className="hidden sm:inline">Roles</span>
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            <span className="hidden sm:inline">Analytics</span>
+          </TabsTrigger>
+          <TabsTrigger value="batch-images" className="flex items-center gap-2">
+            <Image className="h-4 w-4" />
+            <span className="hidden sm:inline">Batch Images</span>
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="hotels" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Hotels</CardTitle>
+              <CardDescription>Manage hotels on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can manage hotels.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="users" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Users</CardTitle>
+              <CardDescription>Manage users on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AdminUsersPanel />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="bookings" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Bookings</CardTitle>
+              <CardDescription>Manage bookings on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AdminBookingsPanel />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="payments" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Payments</CardTitle>
+              <CardDescription>Manage payments on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AdminPaymentsPanel />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="communications" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Communications</CardTitle>
+              <CardDescription>Manage communications on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can manage communications.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="advertising" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Advertising</CardTitle>
+              <CardDescription>Manage advertising on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can manage advertising.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="affinities" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Affinities</CardTitle>
+              <CardDescription>Manage affinities on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AdminAffinitiesPanel />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="filters" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Filters</CardTitle>
+              <CardDescription>Manage filters on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AdminFiltersPanel />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="translations" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Translations</CardTitle>
+              <CardDescription>Manage translations on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can manage translations.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="roles" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Roles</CardTitle>
+              <CardDescription>Manage roles on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can manage roles.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analytics</CardTitle>
+              <CardDescription>View analytics on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Here you can view analytics.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="batch-images" className="space-y-4">
+          <BatchImagePopulation />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

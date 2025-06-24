@@ -25,7 +25,7 @@ export default function StepIndicatorRO({ currentStep, totalSteps, stepTitle }: 
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-bold text-white">{getTranslatedTitle(stepTitle)}</h1>
-        <span className="text-white/70">Pasul {currentStep} din {totalSteps}</span>
+        <span className="text-white/70 ml-8">Pasul {currentStep} din {totalSteps}</span>
       </div>
       
       <div className="w-full bg-white/20 rounded-full h-2">

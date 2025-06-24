@@ -31,7 +31,7 @@ export default function StepIndicatorEN({ currentStep, totalSteps, stepTitle }: 
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-bold text-white">{getTranslatedTitle(stepTitle)}</h1>
-        <span className="text-white/70">Step {currentStep} of {totalSteps}</span>
+        <span className="text-white/70 ml-8">Step {currentStep} of {totalSteps}</span>
       </div>
       
       <div className="w-full bg-white/20 rounded-full h-2">

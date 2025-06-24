@@ -1,277 +1,181 @@
 
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Menu, X, User } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
-import { useTranslation } from "react-i18next";
-import { Menu, X, LogOut, User, Settings, Calendar, Heart, MessageCircle, Building } from "lucide-react";
-import { Logo } from "@/components/Logo";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useToast, toast } from "@/hooks/use-toast";
+import { Logo } from "./Logo";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Navbar() {
-  const { user, signOut } = useAuth();
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isAdmin = useIsAdmin();
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
+  const {
+    user,
+    profile,
+    signOut,
+    session
+  } = useAuth();
+  const { toast: useToastRef } = useToast();
+  const { t } = useTranslation();
+  const isLoggedIn = !!user && !!session;
+  const isHotelOwner = profile?.is_hotel_owner === true;
+  const isDevelopment = process.env.NODE_ENV === 'development';
 
   const handleLogout = async () => {
     try {
+      if (isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+      if (!session) {
+        console.log("No active session found, cannot logout properly");
+        toast.error("No session found. Please refresh the page and try again.");
+        return;
+      }
+      console.log("Attempting to sign out from Navbar...");
       await signOut();
-      navigate('/');
+      setTimeout(() => {
+        if (window.location.pathname !== '/login') {
+          console.log("Forcing redirect to login page");
+          window.location.href = "/login";
+        }
+      }, 500);
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error during logout:", error);
+      toast.error("Could not complete logout. Please try again.");
     }
   };
 
-  const isHomePage = location.pathname === '/';
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isHomePage 
-        ? 'bg-gradient-to-r from-purple-900/95 via-purple-800/95 to-fuchsia-900/95 backdrop-blur-sm' 
-        : 'bg-gradient-to-r from-purple-900 via-purple-800 to-fuchsia-900'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link to="/">
-              <Logo />
+  return <header className="shadow-md" style={{ 
+      backgroundColor: "#996515",
+    }}>
+      <div className="flex items-center justify-between">
+        <div className="flex-shrink-0 px-2 sm:px-3 py-2">
+          <Logo />
+        </div>
+        
+        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2 ml-auto">
+          <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            {t('mainNavigationContent.faq')}
+          </Link>
+          
+          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            {t('mainNavigationContent.affinityStays')}
+          </Link>
+          <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            {t('mainNavigationContent.hotel')}
+          </Link>
+          <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            {t('mainNavigationContent.videos')}
+          </Link>
+          <Link to="/featured-hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+            {t('mainNavigationContent.featuredHotels')}
+          </Link>
+          
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
+            <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
+              <User className="w-3 h-3" />
+              My Account
             </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/hotels" 
-              className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-            >
-              {t('navigation.hotels')}
+          )}
+          
+          {(isHotelOwner || isDevelopment) && (
+            <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+              {t('mainNavigationContent.hotelDashboard')}
             </Link>
-            <Link 
-              to="/featured-hotels" 
-              className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-            >
-              {t('mainNavigationContent.featuredHotels')}
+          )}
+          
+          {/* Admin Dashboard link - will check admin role dynamically */}
+          {isLoggedIn && (
+            <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+              {t('mainNavigationContent.adminDashboard')}
             </Link>
-            <Link 
-              to="/affinity-stays" 
-              className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-            >
-              {t('mainNavigationContent.affinityStays')}
-            </Link>
-            <Link 
-              to="/videos" 
-              className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-            >
-              {t('mainNavigationContent.videos')}
-            </Link>
-            <Link 
-              to="/faq" 
-              className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-            >
-              {t('mainNavigationContent.faq')}
-            </Link>
-            
-            {/* Add Prueba link for admin users */}
-            {isAdmin && (
-              <Link 
-                to="/prueba" 
-                className="text-white hover:text-fuchsia-200 transition-colors font-medium"
-              >
-                Prueba
+          )}
+          
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+                {t('navigation.signup')}
               </Link>
-            )}
-          </div>
-
-          {/* User Menu and Language Switcher */}
-          <div className="hidden md:flex items-center space-x-4">
-            <LanguageSwitcher />
-            
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-white hover:text-fuchsia-200 hover:bg-purple-800/50">
-                    <User className="w-4 h-4 mr-2" />
-                    {t('mainNavigationContent.myAccount')}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-white border-purple-200">
-                  <DropdownMenuItem asChild>
-                    <Link to="/user-dashboard" className="flex items-center">
-                      <Settings className="w-4 h-4 mr-2" />
-                      {t('navigation.dashboard')}
-                    </Link>
-                  </DropdownMenuItem>
-                  
-                  {user.user_metadata?.role === 'hotel_owner' && (
-                    <DropdownMenuItem asChild>
-                      <Link to="/hotel-dashboard" className="flex items-center">
-                        <Building className="w-4 h-4 mr-2" />
-                        {t('mainNavigationContent.hotelDashboard')}
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
-                  
-                  {isAdmin && (
-                    <DropdownMenuItem asChild>
-                      <Link to="/admin" className="flex items-center">
-                        <Settings className="w-4 h-4 mr-2" />
-                        {t('mainNavigationContent.adminDashboard')}
-                      </Link>
-                    </DropdownMenuItem>
-                  )}
-                  
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t('mainNavigationContent.logout')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <div className="flex space-x-2">
-                <Button asChild variant="ghost" className="text-white hover:text-fuchsia-200 hover:bg-purple-800/50">
-                  <Link to="/login">{t('navigation.login')}</Link>
-                </Button>
-                <Button asChild className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white">
-                  <Link to="/signup">{t('navigation.signup')}</Link>
-                </Button>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white hover:text-fuchsia-200 transition-colors"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+                {t('navigation.login')}
+              </Link>
+            </>
+          )}
+          
+          {isLoggedIn && !isDevelopment && (
+            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+              {t('mainNavigationContent.logout')}
             </button>
+          )}
+          
+          {/* Language Switcher */}
+          <div className="border-l border-white/20 pl-4 ml-2">
+            <LanguageSwitcher />
           </div>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex items-center gap-2 px-2 sm:px-3 py-2 md:hidden">
+          <LanguageSwitcher />
+          <button className="flex items-center ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+            {isMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+          </button>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-purple-900/95 backdrop-blur-sm border-t border-purple-700">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link 
-              to="/hotels" 
-              className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-            >
-              {t('navigation.hotels')}
+      
+      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
+          backgroundColor: "#996515",
+        }}>
+        <nav className="flex flex-col space-y-4">
+          <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.faq')}
+          </Link>
+          
+          <Link to="/affinity-stays" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.affinityStays')}
+          </Link>
+          <Link to="/hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.hotel')}
+          </Link>
+          <Link to="/videos" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.videos')}
+          </Link>
+          <Link to="/featured-hotels" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+            {t('mainNavigationContent.featuredHotels')}
+          </Link>
+          
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
+            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
+              <User className="w-4 h-4" />
+              My Account
             </Link>
-            <Link 
-              to="/featured-hotels" 
-              className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-            >
-              {t('mainNavigationContent.featuredHotels')}
+          )}
+          
+          {(isHotelOwner || isDevelopment) && (
+            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+              {t('mainNavigationContent.hotelDashboard')}
             </Link>
-            <Link 
-              to="/affinity-stays" 
-              className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-            >
-              {t('mainNavigationContent.affinityStays')}
-            </Link>
-            <Link 
-              to="/videos" 
-              className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-            >
-              {t('mainNavigationContent.videos')}
-            </Link>
-            <Link 
-              to="/faq" 
-              className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-            >
-              {t('mainNavigationContent.faq')}
-            </Link>
-            
-            {/* Add Prueba link for admin users in mobile menu */}
-            {isAdmin && (
-              <Link 
-                to="/prueba" 
-                className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-              >
-                Prueba
+          )}
+          
+          {!isLoggedIn && !isDevelopment && (
+            <>
+              <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+                {t('navigation.signup')}
               </Link>
-            )}
-            
-            <div className="pt-4 border-t border-purple-700">
-              <div className="px-3 py-2">
-                <LanguageSwitcher />
-              </div>
-              
-              {user ? (
-                <>
-                  <Link 
-                    to="/user-dashboard" 
-                    className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                  >
-                    {t('navigation.dashboard')}
-                  </Link>
-                  
-                  {user.user_metadata?.role === 'hotel_owner' && (
-                    <Link 
-                      to="/hotel-dashboard" 
-                      className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                    >
-                      {t('mainNavigationContent.hotelDashboard')}
-                    </Link>
-                  )}
-                  
-                  {isAdmin && (
-                    <Link 
-                      to="/admin" 
-                      className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                    >
-                      {t('mainNavigationContent.adminDashboard')}
-                    </Link>
-                  )}
-                  
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                  >
-                    {t('mainNavigationContent.logout')}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link 
-                    to="/login" 
-                    className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                  >
-                    {t('navigation.login')}
-                  </Link>
-                  <Link 
-                    to="/signup" 
-                    className="block px-3 py-2 text-white hover:text-fuchsia-200 hover:bg-purple-800/50 rounded-md transition-colors"
-                  >
-                    {t('navigation.signup')}
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+                {t('navigation.login')}
+              </Link>
+            </>
+          )}
+          
+          {isLoggedIn && !isDevelopment && (
+            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+              {t('mainNavigationContent.logout')}
+            </button>
+          )}
+        </nav>
+      </div>
+    </header>;
 }

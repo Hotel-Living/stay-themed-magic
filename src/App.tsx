@@ -42,7 +42,6 @@ import Contact from "@/pages/Contact";
 import IntellectualProperty from "@/pages/IntellectualProperty";
 import Compare from "@/pages/Compare";
 import AddPropertyPage from "@/pages/AddPropertyPage";
-import PanelFernando from "@/pages/PanelFernando";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 
@@ -89,12 +88,9 @@ function App() {
                   <Route path="/affinity-stays" element={<AffinityStays />} />
                   <Route path="/faq" element={<FAQ />} />
                   
-                  {/* Admin Routes - NO FORCED REDIRECTS */}
+                  {/* Admin Routes - Consolidated Admin Dashboard */}
                   <Route path="/admin/*" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
                   <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
-                  
-                  {/* Panel Fernando - New Admin Panel */}
-                  <Route path="/panel-fernando/*" element={<AdminRoute><PanelFernando /></AdminRoute>} />
                   
                   {/* Comparison Route */}
                   <Route path="/compare" element={<Compare />} />

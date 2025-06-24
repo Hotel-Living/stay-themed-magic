@@ -4,7 +4,7 @@ import { useHotelsData } from "./hooks/useHotelsData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Check, X, Building, Languages } from "lucide-react";
+import { Eye, Check, X, Building, Languages, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +15,9 @@ import AdminPaymentsPanel from "./AdminPaymentsPanel";
 import AffinitiesPanel from "./affinities/AffinitiesPanel";
 import AdminFiltersPanel from "./AdminFiltersPanel";
 import BatchTranslationPanel from "./BatchTranslationPanel";
+import AdminStatisticsPanel from "./AdminStatisticsPanel";
+import AdminCommunicationsPanel from "./AdminCommunicationsPanel";
+import AdminAdvertisingPanel from "./AdminAdvertisingPanel";
 
 export default function AdminDashboard() {
   const location = useLocation();
@@ -26,9 +29,12 @@ export default function AdminDashboard() {
     if (path.includes('/users')) return 'users';
     if (path.includes('/bookings')) return 'bookings';
     if (path.includes('/payments')) return 'payments';
+    if (path.includes('/communications')) return 'communications';
+    if (path.includes('/advertising')) return 'advertising';
     if (path.includes('/affinities')) return 'affinities';
     if (path.includes('/filters')) return 'filters';
     if (path.includes('/translations')) return 'translations';
+    if (path.includes('/statistics')) return 'statistics';
     return 'hotels';
   };
 
@@ -48,7 +54,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7 bg-purple-900/20 border border-purple-800/30">
+          <TabsList className="grid w-full grid-cols-9 bg-purple-900/20 border border-purple-800/30">
             <TabsTrigger value="hotels" className="data-[state=active]:bg-purple-700">
               <Building className="w-4 h-4 mr-2" />
               Hotels
@@ -61,6 +67,16 @@ export default function AdminDashboard() {
             </TabsTrigger>
             <TabsTrigger value="payments" className="data-[state=active]:bg-purple-700">
               Payments
+            </TabsTrigger>
+            <TabsTrigger value="communications" className="data-[state=active]:bg-purple-700">
+              Communications
+            </TabsTrigger>
+            <TabsTrigger value="advertising" className="data-[state=active]:bg-purple-700">
+              Advertising
+            </TabsTrigger>
+            <TabsTrigger value="statistics" className="data-[state=active]:bg-purple-700">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Statistics
             </TabsTrigger>
             <TabsTrigger value="affinities" className="data-[state=active]:bg-purple-700">
               Affinities
@@ -88,6 +104,18 @@ export default function AdminDashboard() {
 
           <TabsContent value="payments">
             <AdminPaymentsPanel />
+          </TabsContent>
+
+          <TabsContent value="communications">
+            <AdminCommunicationsPanel />
+          </TabsContent>
+
+          <TabsContent value="advertising">
+            <AdminAdvertisingPanel />
+          </TabsContent>
+
+          <TabsContent value="statistics">
+            <AdminStatisticsPanel />
           </TabsContent>
 
           <TabsContent value="affinities">

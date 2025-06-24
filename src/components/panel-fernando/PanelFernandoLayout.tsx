@@ -1,31 +1,24 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, Users, Filter, Search, Languages, UserCog } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface PanelFernandoLayoutProps {
   children: ReactNode;
 }
 
-const baseFernandoTabs = [
+const fernandoTabs = [
   {
     id: "hotels",
     label: "Hotels",
     icon: <Building className="w-5 h-5" />,
     path: "/panel-fernando/hotels"
-  },
-  {
-    id: "users", 
-    label: "Users",
-    icon: <Users className="w-5 h-5" />,
-    path: "/panel-fernando/users"
   },
   {
     id: "bookings", 
@@ -40,6 +33,12 @@ const baseFernandoTabs = [
     path: "/panel-fernando/payments"
   },
   {
+    id: "statistics",
+    label: "Statistics",
+    icon: <BarChart3 className="w-5 h-5" />,
+    path: "/panel-fernando/statistics"
+  },
+  {
     id: "communications",
     label: "Communications",
     icon: <MessageCircle className="w-5 h-5" />,
@@ -50,39 +49,6 @@ const baseFernandoTabs = [
     label: "Advertising",
     icon: <Megaphone className="w-5 h-5" />,
     path: "/panel-fernando/advertising"
-  },
-  {
-    id: "affinities",
-    label: "Affinities",
-    icon: <Search className="w-5 h-5" />,
-    path: "/panel-fernando/affinities"
-  },
-  {
-    id: "filters",
-    label: "Filters",
-    icon: <Filter className="w-5 h-5" />,
-    path: "/panel-fernando/filters"
-  },
-  {
-    id: "translations",
-    label: "Translations",
-    icon: <Languages className="w-5 h-5" />,
-    path: "/panel-fernando/translations"
-  },
-  {
-    id: "statistics",
-    label: "Statistics",
-    icon: <BarChart3 className="w-5 h-5" />,
-    path: "/panel-fernando/statistics"
-  }
-];
-
-const adminOnlyTabs = [
-  {
-    id: "manage-roles",
-    label: "Manage User Roles",
-    icon: <UserCog className="w-5 h-5" />,
-    path: "/panel-fernando/manage-roles"
   }
 ];
 
@@ -91,10 +57,6 @@ export default function PanelFernandoLayout({ children }: PanelFernandoLayoutPro
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const isAdmin = useIsAdmin();
-
-  // Combine base tabs with admin-only tabs if user is admin
-  const fernandoTabs = isAdmin ? [...baseFernandoTabs, ...adminOnlyTabs] : baseFernandoTabs;
 
   const handleLogout = async () => {
     try {
@@ -123,6 +85,15 @@ export default function PanelFernandoLayout({ children }: PanelFernandoLayoutPro
               <h1 className="text-3xl font-bold text-white">PANEL FERNANDO</h1>
               <p className="text-white/60">Advanced Admin Control Panel</p>
             </div>
+            
+            {/* Back to Admin Button */}
+            <button
+              onClick={() => navigate('/admin')}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="font-semibold">Back to Admin</span>
+            </button>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

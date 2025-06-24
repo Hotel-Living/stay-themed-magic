@@ -2,112 +2,37 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { HotelCard } from "@/components/HotelCard";
-import { Starfield } from "@/components/Starfield";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FeaturedHotels() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
 
-  // Sample hotel data for placeholders
-  const sampleHotels = [{
-    id: "1",
-    name: "Mountain Retreat",
-    city: "Denver",
-    country: "USA",
-    stars: 4,
-    pricePerMonth: 1500,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "1",
-      name: "Nature"
-    }]
-  }, {
-    id: "2",
-    name: "Urban Oasis",
-    city: "New York",
-    country: "USA",
-    stars: 5,
-    pricePerMonth: 2200,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "2",
-      name: "City"
-    }]
-  }, {
-    id: "3",
-    name: "Beach Paradise",
-    city: "Miami",
-    country: "USA",
-    stars: 4,
-    pricePerMonth: 1800,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "3",
-      name: "Beach"
-    }]
-  }, {
-    id: "4",
-    name: "Desert Sanctuary",
-    city: "Phoenix",
-    country: "USA",
-    stars: 3,
-    pricePerMonth: 1400,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "4",
-      name: "Desert"
-    }]
-  }, {
-    id: "5",
-    name: "Lakeside Lodging",
-    city: "Chicago",
-    country: "USA",
-    stars: 4,
-    pricePerMonth: 1700,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "5",
-      name: "Lake"
-    }]
-  }, {
-    id: "6",
-    name: "Forest Hideaway",
-    city: "Portland",
-    country: "USA",
-    stars: 4,
-    pricePerMonth: 1600,
-    image: "/placeholder.svg",
-    themes: [{
-      id: "6",
-      name: "Forest"
-    }]
-  }];
-  
-  return <div className="min-h-screen flex flex-col">
-      <Starfield />
+  return (
+    <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container max-w-6xl mx-auto px-4 py-8">
           <div className="glass-card rounded-2xl p-6 mb-8 bg-[#6a1d72]">
             <h2 className="text-2xl font-semibold mb-6 text-fuchsia-100">
-              {language === 'es' ? t('featuredHotelsContent.pageTitle') : 'Featured Hotels'}
+              {t('featuredHotelsContent.pageTitle')}
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sampleHotels.map(hotel => <HotelCard key={hotel.id} id={hotel.id} name={hotel.name} city={hotel.city} country={hotel.country} stars={hotel.stars} pricePerMonth={hotel.pricePerMonth} themes={hotel.themes} image={hotel.image} />)}
+              {/* Empty grid for real hotel data to be populated later */}
             </div>
             
             <div className="mt-10 p-4 bg-[#5d0478]/70 rounded-lg text-center">
               <h3 className="text-lg font-medium text-fuchsia-200 mb-2 px-[54px] py-[14px]">
-                {language === 'es' ? t('featuredHotelsContent.wantToBeFirst') : 'Want your hotel to be seen first?'}
+                {t('featuredHotelsContent.wantToBeFirst')}
               </h3>
               <p className="text-fuchsia-100 text-lg py-[21px]">
-                {language === 'es' ? t('featuredHotelsContent.featureDescription') : 'We can feature your property right here — no big fees, just smart collaboration.'}
+                {t('featuredHotelsContent.featureDescription')}
               </p>
               <p className="text-fuchsia-100 mt-1 text-lg px-[17px] py-[16px]">
-                {language === 'es' ? t('featuredHotelsContent.loginForInfo') : 'Log in to your hotel dashboard for more info!'}
+                {t('featuredHotelsContent.loginForInfo')}
               </p>
             </div>
           </div>
@@ -115,5 +40,6 @@ export default function FeaturedHotels() {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

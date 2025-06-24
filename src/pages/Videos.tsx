@@ -3,14 +3,15 @@ import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HotelVideoPlayer } from "@/components/hotels/HotelVideoPlayer";
-import { Starfield } from "@/components/Starfield";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function Videos() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
 
-  return <div className="min-h-screen flex flex-col">
-      <Starfield />
+  return (
+    <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
       
       <main className="flex-1 pt-8">
@@ -19,33 +20,33 @@ export default function Videos() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h3 className="text-xl font-medium text-fuchsia-200">
-                  {language === 'es' ? t('videosContent.featuredTitle') : 'Featured: Themed Hotels Experience'}
+                  {t('videosContent.featuredTitle')}
                 </h3>
                 <HotelVideoPlayer />
                 <p className="text-sm text-fuchsia-100/80 italic text-center mt-2">
-                  {language === 'es' ? t('videosContent.featuredDescription') : 'Experience the magic of our themed hotels and discover a new way to stay.'}
+                  {t('videosContent.featuredDescription')}
                 </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
                 <div className="glass-card rounded-xl p-4 bg-[#5d0478]">
                   <h3 className="text-lg font-medium text-fuchsia-200 mb-3">
-                    {language === 'es' ? t('videosContent.comingSoonOwnerStories') : 'Coming Soon: Hotel Owner Stories'}
+                    {t('videosContent.comingSoonOwnerStories')}
                   </h3>
                   <div className="aspect-video rounded-lg bg-[#460F54]/50 flex items-center justify-center">
                     <p className="text-fuchsia-300">
-                      {language === 'es' ? t('videosContent.availableJune') : 'Coming in June 2025'}
+                      {t('videosContent.availableJune')}
                     </p>
                   </div>
                 </div>
                 
                 <div className="glass-card rounded-xl p-4 bg-[#5d0478]">
                   <h3 className="text-lg font-medium text-fuchsia-200 mb-3">
-                    {language === 'es' ? t('videosContent.comingSoonGuestExperiences') : 'Coming Soon: Guest Experiences'}
+                    {t('videosContent.comingSoonGuestExperiences')}
                   </h3>
                   <div className="aspect-video rounded-lg bg-[#460F54]/50 flex items-center justify-center">
                     <p className="text-fuchsia-300">
-                      {language === 'es' ? t('videosContent.availableJuly') : 'Coming in July 2025'}
+                      {t('videosContent.availableJuly')}
                     </p>
                   </div>
                 </div>
@@ -56,5 +57,6 @@ export default function Videos() {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 }

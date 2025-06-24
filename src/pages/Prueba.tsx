@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, Users, Filter, Languages, UserCog, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { supabase } from "@/integrations/supabase/client";
+
+// Import components with error boundary handling
 import PruebaHotels from "@/components/prueba/PruebaHotels";
 import PruebaUsers from "@/components/prueba/PruebaUsers";
 import PruebaBookings from "@/components/prueba/PruebaBookings";
@@ -19,6 +22,32 @@ import PruebaCommunications from "@/components/prueba/PruebaCommunications";
 import PruebaAdvertising from "@/components/prueba/PruebaAdvertising";
 import PruebaStatistics from "@/components/prueba/PruebaStatistics";
 import PruebaRoles from "@/components/prueba/PruebaRoles";
+
+// Error boundary component
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error('Prueba component error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 
 const pruebaTabs = [
   {
@@ -91,9 +120,68 @@ const pruebaTabs = [
 
 export default function Prueba() {
   const [activeTab, setActiveTab] = useState("hotels");
-  const { signOut } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  console.log('Prueba component loaded, user:', user);
+
+  useEffect(() => {
+    const checkAdminAccess = async () => {
+      console.log('Checking admin access for Prueba page...');
+      
+      if (!user) {
+        console.log('No user found, redirecting to login');
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase.rpc('has_role', { role_name: 'admin' });
+        
+        console.log('Admin check result:', { data, error });
+        
+        if (error) {
+          console.error('Error checking admin status:', error);
+          toast({ 
+            title: "Error", 
+            description: "Could not verify admin status", 
+            variant: "destructive" 
+          });
+          navigate('/');
+          return;
+        }
+
+        if (!data) {
+          console.log('User is not admin, redirecting');
+          toast({ 
+            title: "Access Denied", 
+            description: "You do not have admin privileges", 
+            variant: "destructive" 
+          });
+          navigate('/');
+          return;
+        }
+
+        console.log('Admin access granted for Prueba page');
+        setIsAdmin(true);
+      } catch (error) {
+        console.error('Unexpected error in admin check:', error);
+        toast({ 
+          title: "Error", 
+          description: "An unexpected error occurred", 
+          variant: "destructive" 
+        });
+        navigate('/');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAdminAccess();
+  }, [user, navigate, toast]);
 
   const handleLogout = async () => {
     try {
@@ -110,7 +198,28 @@ export default function Prueba() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600">Access Denied</h1>
+          <p className="text-gray-600">You do not have admin privileges.</p>
+        </div>
+      </div>
+    );
+  }
+
   const ActiveComponent = pruebaTabs.find(tab => tab.id === activeTab)?.component || PruebaHotels;
+
+  console.log('Rendering Prueba page with active tab:', activeTab);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -133,7 +242,10 @@ export default function Prueba() {
                   {pruebaTabs.map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
+                      onClick={() => {
+                        console.log('Switching to tab:', tab.id);
+                        setActiveTab(tab.id);
+                      }}
                       className={cn(
                         "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
                         activeTab === tab.id
@@ -177,7 +289,16 @@ export default function Prueba() {
             </aside>
             
             <div className="lg:col-span-3">
-              <ActiveComponent />
+              <ErrorBoundary 
+                fallback={
+                  <div className="p-6 bg-red-100 border border-red-400 rounded-lg">
+                    <h3 className="text-red-800 font-bold">Component Error</h3>
+                    <p className="text-red-600">There was an error loading the {activeTab} component.</p>
+                  </div>
+                }
+              >
+                <ActiveComponent />
+              </ErrorBoundary>
             </div>
           </div>
         </div>

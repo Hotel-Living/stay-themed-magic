@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import StepContent from "./PropertySteps/StepContent";
-import { usePropertyFormData } from "./property/hooks/usePropertyFormData";
+import { usePropertyFormData, PropertyFormData } from "./property/hooks/usePropertyFormData";
 import { useHotelEditing } from "./property/hooks/useHotelEditing";
 import { usePropertySubmission } from "./property/hooks/usePropertySubmission";
 

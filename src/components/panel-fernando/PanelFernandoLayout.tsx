@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft } from "lucide-react";
+import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -49,6 +49,36 @@ const fernandoTabs = [
     label: "Advertising",
     icon: <Megaphone className="w-5 h-5" />,
     path: "/panel-fernando/advertising"
+  },
+  {
+    id: "affinities",
+    label: "Affinities",
+    icon: <Heart className="w-5 h-5" />,
+    path: "/panel-fernando/affinities"
+  },
+  {
+    id: "filters",
+    label: "Filters",
+    icon: <Filter className="w-5 h-5" />,
+    path: "/panel-fernando/filters"
+  },
+  {
+    id: "user-roles",
+    label: "User Roles",
+    icon: <Users className="w-5 h-5" />,
+    path: "/panel-fernando/user-roles"
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    icon: <BarChart3 className="w-5 h-5" />,
+    path: "/panel-fernando/analytics"
+  },
+  {
+    id: "batch-images",
+    label: "Batch Images",
+    icon: <Image className="w-5 h-5" />,
+    path: "/panel-fernando/batch-images"
   }
 ];
 

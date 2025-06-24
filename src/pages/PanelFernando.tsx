@@ -8,6 +8,11 @@ import FernandoPayments from "@/components/panel-fernando/FernandoPayments";
 import FernandoStatistics from "@/components/panel-fernando/FernandoStatistics";
 import FernandoCommunications from "@/components/panel-fernando/FernandoCommunications";
 import FernandoAdvertising from "@/components/panel-fernando/FernandoAdvertising";
+import FernandoAffinities from "@/components/panel-fernando/FernandoAffinities";
+import FernandoFilters from "@/components/panel-fernando/FernandoFilters";
+import FernandoUserRoles from "@/components/panel-fernando/FernandoUserRoles";
+import FernandoAnalytics from "@/components/panel-fernando/FernandoAnalytics";
+import FernandoBatchImages from "@/components/panel-fernando/FernandoBatchImages";
 
 export default function PanelFernando() {
   return (
@@ -20,6 +25,11 @@ export default function PanelFernando() {
         <Route path="/statistics" element={<FernandoStatistics />} />
         <Route path="/communications" element={<FernandoCommunications />} />
         <Route path="/advertising" element={<FernandoAdvertising />} />
+        <Route path="/affinities" element={<FernandoAffinities />} />
+        <Route path="/filters" element={<FernandoFilters />} />
+        <Route path="/user-roles" element={<FernandoUserRoles />} />
+        <Route path="/analytics" element={<FernandoAnalytics />} />
+        <Route path="/batch-images" element={<FernandoBatchImages />} />
         <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
       </Routes>
     </PanelFernandoLayout>

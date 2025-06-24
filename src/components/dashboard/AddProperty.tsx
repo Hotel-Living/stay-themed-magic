@@ -1,12 +1,12 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { StepContent } from "./property/StepContent";
+import StepContent from "./PropertySteps/StepContent";
 import { usePropertyFormData } from "./property/hooks/usePropertyFormData";
 import { useHotelEditing } from "./property/hooks/useHotelEditing";
-import { useFormValidation } from "./property/hooks/useFormValidation";
 import { usePropertySubmission } from "./property/hooks/usePropertySubmission";
 
 interface AddPropertyProps {
@@ -27,8 +27,8 @@ export default function AddProperty({
   const editingHotelId = urlEditingHotelId || propEditingHotelId;
   
   const [currentStep, setCurrentStep] = useState(1);
+  const [isValidationEnabled, setIsValidationEnabled] = useState(false);
   const { formData, setFormData, updateFormData } = usePropertyFormData();
-  const { isValidationEnabled, enableValidation } = useFormValidation();
   
   // Load hotel data for editing
   const { isLoading: isLoadingHotel } = useHotelEditing({
@@ -37,13 +37,18 @@ export default function AddProperty({
     setCurrentStep
   });
 
-  const {
-    isSubmitting,
-    handleSubmit: submitProperty
-  } = usePropertySubmission({
+  const { handleSubmitProperty } = usePropertySubmission({
     formData,
-    editingHotelId,
-    onSuccess: () => {
+    stepValidation: {},
+    setIsSubmitted: () => {},
+    setSubmitSuccess: () => {},
+    setErrorFields: () => {},
+    setShowValidationErrors: () => {},
+    getIncompleteFields: () => [],
+    setCurrentStep,
+    setFormData,
+    userId: undefined,
+    onDoneEditing: () => {
       if (onDoneEditing) {
         onDoneEditing();
       } else if (urlEditingHotelId) {
@@ -63,6 +68,18 @@ export default function AddProperty({
       navigate('/panel-fernando/hotels');
     } else {
       navigate('/hotel-dashboard');
+    }
+  };
+
+  const handleValidationChange = (isValid: boolean) => {
+    setIsValidationEnabled(isValid);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await handleSubmitProperty(editingHotelId);
+    } catch (error) {
+      console.error('Submission error:', error);
     }
   };
 
@@ -97,14 +114,9 @@ export default function AddProperty({
 
         <StepContent
           currentStep={currentStep}
-          setCurrentStep={setCurrentStep}
+          onValidationChange={handleValidationChange}
           formData={formData}
           updateFormData={updateFormData}
-          isValidationEnabled={isValidationEnabled}
-          enableValidation={enableValidation}
-          onSubmit={submitProperty}
-          isSubmitting={isSubmitting}
-          editingHotelId={editingHotelId}
         />
       </div>
     </div>

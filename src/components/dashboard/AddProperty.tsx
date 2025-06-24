@@ -37,6 +37,11 @@ export default function AddProperty({
     setCurrentStep
   });
 
+  // Create wrapper function that matches expected signature
+  const setFormDataWrapper = (data: Partial<PropertyFormData>) => {
+    setFormData(prev => ({ ...prev, ...data }));
+  };
+
   const { handleSubmitProperty } = usePropertySubmission({
     formData,
     stepValidation: {},
@@ -46,7 +51,7 @@ export default function AddProperty({
     setShowValidationErrors: () => {},
     getIncompleteFields: () => [],
     setCurrentStep,
-    setFormData,
+    setFormData: setFormDataWrapper,
     userId: undefined,
     onDoneEditing: () => {
       if (onDoneEditing) {

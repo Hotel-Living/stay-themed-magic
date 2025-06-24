@@ -24,6 +24,9 @@ import { affinitiesFaqs as affinitiesFaqsEs } from "./hotel-categories/es/affini
 import { operationFaqs as operationFaqsEs } from "./hotel-categories/es/operationFaqs";
 import { integrationFaqs as integrationFaqsEs } from "./hotel-categories/es/integrationFaqs";
 import { marketingFaqs as marketingFaqsEs } from "./hotel-categories/es/marketingFaqs";
+import { paymentFaqs as paymentFaqsEs } from "./hotel-categories/es/paymentFaqs";
+import { stepsFaqs as stepsFaqsEs } from "./hotel-categories/es/stepsFaqs";
+import { rentalFaqs as rentalFaqsEs } from "./hotel-categories/es/rentalFaqs";
 
 export const useHotelFaqCategories = () => {
   const { language } = useTranslation();
@@ -78,9 +81,9 @@ export const useHotelFaqsByCategory = () => {
       operation: operationFaqsEs,
       integration: integrationFaqsEs,
       marketing: marketingFaqsEs,
-      payment: [], // Empty for now as this category wasn't in the Romanian version
-      steps: [], // Empty for now
-      rental: [] // Empty for now
+      payment: paymentFaqsEs,
+      steps: stepsFaqsEs,
+      rental: rentalFaqsEs
     };
   }
 

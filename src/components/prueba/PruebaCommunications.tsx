@@ -2,35 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Send, Eye, Trash2 } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface AdminMessage {
   id: string;
+  user_id: string;
+  hotel_id: string;
   subject: string;
   message: string;
   status: string;
   created_at: string;
-  user_id: string;
-  hotel_id?: string;
-  profiles?: {
-    first_name?: string;
-    last_name?: string;
-  };
+  updated_at: string;
+  user_email?: string;
+  user_name?: string;
 }
 
 export default function PruebaCommunications() {
   const [messages, setMessages] = useState<AdminMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [newMessage, setNewMessage] = useState({
-    subject: "",
-    message: "",
-    user_id: ""
-  });
+  const [statusFilter, setStatusFilter] = useState("all");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -39,19 +35,42 @@ export default function PruebaCommunications() {
 
   const fetchMessages = async () => {
     try {
-      const { data, error } = await supabase
+      // First get all admin messages
+      const { data: messagesData, error: messagesError } = await supabase
         .from('admin_messages')
-        .select(`
-          *,
-          profiles:user_id (
-            first_name,
-            last_name
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setMessages(data || []);
+      if (messagesError) throw messagesError;
+
+      // Then get user profiles for each message
+      if (messagesData && messagesData.length > 0) {
+        const userIds = [...new Set(messagesData.map(msg => msg.user_id).filter(Boolean))];
+        
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name')
+          .in('id', userIds);
+
+        // Get user emails from auth.users via a separate query
+        const { data: usersData } = await supabase.auth.admin.listUsers();
+
+        // Combine the data
+        const enrichedMessages = messagesData.map(msg => {
+          const profile = profilesData?.find(p => p.id === msg.user_id);
+          const authUser = usersData?.users?.find(u => u.id === msg.user_id);
+          
+          return {
+            ...msg,
+            user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 'Unknown User',
+            user_email: authUser?.email || 'Unknown Email'
+          };
+        });
+
+        setMessages(enrichedMessages);
+      } else {
+        setMessages([]);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
       toast({
@@ -61,38 +80,6 @@ export default function PruebaCommunications() {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const sendMessage = async () => {
-    if (!newMessage.subject || !newMessage.message || !newMessage.user_id) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('admin_messages')
-        .insert([newMessage]);
-
-      if (error) throw error;
-
-      setNewMessage({ subject: "", message: "", user_id: "" });
-      fetchMessages();
-      toast({
-        description: "Message sent successfully"
-      });
-    } catch (error) {
-      console.error('Error sending message:', error);
-      toast({
-        title: "Error",
-        description: "Failed to send message",
-        variant: "destructive"
-      });
     }
   };
 
@@ -119,12 +106,47 @@ export default function PruebaCommunications() {
     }
   };
 
-  const filteredMessages = messages.filter(message =>
-    message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    message.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (message.profiles?.first_name && message.profiles.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (message.profiles?.last_name && message.profiles.last_name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const updateStatus = async (messageId: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('admin_messages')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .eq('id', messageId);
+
+      if (error) throw error;
+
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === messageId 
+            ? { ...msg, status: newStatus, updated_at: new Date().toISOString() }
+            : msg
+        )
+      );
+
+      toast({
+        description: "Message status updated successfully"
+      });
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update message status",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const filteredMessages = messages.filter(message => {
+    const matchesSearch = 
+      message.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      message.message?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      message.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      message.user_email?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || message.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
 
   if (loading) {
     return (
@@ -142,96 +164,117 @@ export default function PruebaCommunications() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Communications Management</h2>
-        <Button className="flex items-center gap-2">
-          <Plus className="w-4 h-4" />
-          New Message
-        </Button>
+        <div className="flex gap-2">
+          <Button className="flex items-center gap-2">
+            <Plus className="w-4 h-4" />
+            New Message
+          </Button>
+          <Button className="flex items-center gap-2">
+            <Download className="w-4 h-4" />
+            Export
+          </Button>
+        </div>
       </div>
 
-      {/* Search */}
+      {/* Search and Filter Controls */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardContent className="p-4">
-          <Input
-            placeholder="Search messages..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-          />
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <Input
+                placeholder="Search messages..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
+              />
+            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600 text-white">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="delivered">Delivered</SelectItem>
+                <SelectItem value="failed">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardContent>
       </Card>
 
-      {/* New Message Form */}
+      {/* Messages Table */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardHeader>
-          <CardTitle className="text-white">Send New Message</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Input
-            placeholder="User ID"
-            value={newMessage.user_id}
-            onChange={(e) => setNewMessage(prev => ({ ...prev, user_id: e.target.value }))}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-          />
-          <Input
-            placeholder="Subject"
-            value={newMessage.subject}
-            onChange={(e) => setNewMessage(prev => ({ ...prev, subject: e.target.value }))}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-          />
-          <Textarea
-            placeholder="Message content"
-            value={newMessage.message}
-            onChange={(e) => setNewMessage(prev => ({ ...prev, message: e.target.value }))}
-            className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-            rows={4}
-          />
-          <Button onClick={sendMessage} className="flex items-center gap-2">
-            <Send className="w-4 h-4" />
-            Send Message
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Messages List */}
-      <Card className="bg-[#7a0486] border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Messages ({filteredMessages.length})</CardTitle>
+          <CardTitle className="text-white">Admin Messages ({filteredMessages.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {filteredMessages.map((message) => (
-              <div key={message.id} className="border border-purple-600/30 rounded-lg p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h4 className="text-white font-medium">{message.subject}</h4>
-                    <p className="text-white/60 text-sm">
-                      To: {message.profiles?.first_name} {message.profiles?.last_name}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      message.status === 'sent' ? 'bg-green-600' : 'bg-yellow-600'
-                    } text-white`}>
-                      {message.status}
-                    </span>
-                    <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700"
-                      onClick={() => deleteMessage(message.id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-                <p className="text-white/80 text-sm">{message.message}</p>
-                <p className="text-white/40 text-xs mt-2">
-                  {new Date(message.created_at).toLocaleDateString()}
-                </p>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-purple-600">
+                  <th className="text-left p-3 text-white">Date</th>
+                  <th className="text-left p-3 text-white">User</th>
+                  <th className="text-left p-3 text-white">Subject</th>
+                  <th className="text-left p-3 text-white">Message</th>
+                  <th className="text-left p-3 text-white">Status</th>
+                  <th className="text-left p-3 text-white">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredMessages.map((message) => (
+                  <tr key={message.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
+                    <td className="p-3 text-white/80">
+                      {new Date(message.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="p-3 text-white">
+                      <div>
+                        <div className="font-medium">{message.user_name}</div>
+                        <div className="text-sm text-white/60">{message.user_email}</div>
+                      </div>
+                    </td>
+                    <td className="p-3 text-white font-medium">{message.subject}</td>
+                    <td className="p-3 text-white/80 max-w-xs truncate">
+                      {message.message}
+                    </td>
+                    <td className="p-3">
+                      <Select
+                        value={message.status}
+                        onValueChange={(value) => updateStatus(message.id, value)}
+                      >
+                        <SelectTrigger className="w-32 h-8 bg-purple-800/50 border-purple-600 text-white">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pending">Pending</SelectItem>
+                          <SelectItem value="sent">Sent</SelectItem>
+                          <SelectItem value="delivered">Delivered</SelectItem>
+                          <SelectItem value="failed">Failed</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </td>
+                    <td className="p-3">
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                          <Send className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700"
+                          onClick={() => deleteMessage(message.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>

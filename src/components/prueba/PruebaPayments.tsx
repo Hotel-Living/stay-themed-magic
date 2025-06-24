@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Download, Eye, RefreshCw } from "lucide-react";
+import { Search, Download, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -14,14 +14,13 @@ interface Payment {
   hotel_id: string;
   booking_id: string;
   amount: number;
-  status: string;
   method: string;
-  transaction_id?: string;
+  status: string;
+  transaction_id: string;
   created_at: string;
-  profiles?: {
-    first_name?: string;
-    last_name?: string;
-  };
+  updated_at: string;
+  user_email?: string;
+  user_name?: string;
 }
 
 export default function PruebaPayments() {
@@ -29,6 +28,7 @@ export default function PruebaPayments() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [methodFilter, setMethodFilter] = useState("all");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,19 +37,42 @@ export default function PruebaPayments() {
 
   const fetchPayments = async () => {
     try {
-      const { data, error } = await supabase
+      // First get all payments
+      const { data: paymentsData, error: paymentsError } = await supabase
         .from('payments')
-        .select(`
-          *,
-          profiles:user_id (
-            first_name,
-            last_name
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setPayments(data || []);
+      if (paymentsError) throw paymentsError;
+
+      // Then get user profiles for each payment
+      if (paymentsData && paymentsData.length > 0) {
+        const userIds = [...new Set(paymentsData.map(payment => payment.user_id).filter(Boolean))];
+        
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, first_name, last_name')
+          .in('id', userIds);
+
+        // Get user emails from auth.users via a separate query
+        const { data: usersData } = await supabase.auth.admin.listUsers();
+
+        // Combine the data
+        const enrichedPayments = paymentsData.map(payment => {
+          const profile = profilesData?.find(p => p.id === payment.user_id);
+          const authUser = usersData?.users?.find(u => u.id === payment.user_id);
+          
+          return {
+            ...payment,
+            user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 'Unknown User',
+            user_email: authUser?.email || 'Unknown Email'
+          };
+        });
+
+        setPayments(enrichedPayments);
+      } else {
+        setPayments([]);
+      }
     } catch (error) {
       console.error('Error fetching payments:', error);
       toast({
@@ -62,27 +85,24 @@ export default function PruebaPayments() {
     }
   };
 
-  const updatePaymentStatus = async (paymentId: string, newStatus: string) => {
+  const deletePayment = async (paymentId: string) => {
     try {
       const { error } = await supabase
         .from('payments')
-        .update({ status: newStatus })
+        .delete()
         .eq('id', paymentId);
 
       if (error) throw error;
 
-      setPayments(prev => prev.map(payment => 
-        payment.id === paymentId ? { ...payment, status: newStatus } : payment
-      ));
-
+      setPayments(prev => prev.filter(payment => payment.id !== paymentId));
       toast({
-        description: "Payment status updated successfully"
+        description: "Payment deleted successfully"
       });
     } catch (error) {
-      console.error('Error updating payment:', error);
+      console.error('Error deleting payment:', error);
       toast({
         title: "Error",
-        description: "Failed to update payment status",
+        description: "Failed to delete payment",
         variant: "destructive"
       });
     }
@@ -91,13 +111,13 @@ export default function PruebaPayments() {
   const filteredPayments = payments.filter(payment => {
     const matchesSearch = 
       payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (payment.profiles?.first_name && payment.profiles.first_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (payment.profiles?.last_name && payment.profiles.last_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      payment.method.toLowerCase().includes(searchTerm.toLowerCase());
+      payment.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.user_email?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === "all" || payment.status === statusFilter;
+    const matchesMethod = methodFilter === "all" || payment.method === methodFilter;
     
-    return matchesSearch && matchesStatus;
+    return matchesSearch && matchesStatus && matchesMethod;
   });
 
   if (loading) {
@@ -115,12 +135,8 @@ export default function PruebaPayments() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-white">Payment Management</h2>
+        <h2 className="text-2xl font-bold text-white">Payments Management</h2>
         <div className="flex gap-2">
-          <Button onClick={fetchPayments} className="flex items-center gap-2">
-            <RefreshCw className="w-4 h-4" />
-            Refresh
-          </Button>
           <Button className="flex items-center gap-2">
             <Download className="w-4 h-4" />
             Export
@@ -128,7 +144,7 @@ export default function PruebaPayments() {
         </div>
       </div>
 
-      {/* Filter Controls */}
+      {/* Search and Filter Controls */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardContent className="p-4">
           <div className="flex gap-4">
@@ -152,6 +168,18 @@ export default function PruebaPayments() {
                 <SelectItem value="refunded">Refunded</SelectItem>
               </SelectContent>
             </Select>
+            <Select value={methodFilter} onValueChange={setMethodFilter}>
+              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600 text-white">
+                <SelectValue placeholder="Filter by method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Methods</SelectItem>
+                <SelectItem value="card">Card</SelectItem>
+                <SelectItem value="paypal">PayPal</SelectItem>
+                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                <SelectItem value="crypto">Crypto</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -159,39 +187,40 @@ export default function PruebaPayments() {
       {/* Payments Table */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardHeader>
-          <CardTitle className="text-white">Payments ({filteredPayments.length})</CardTitle>
+          <CardTitle className="text-white">Payment Records ({filteredPayments.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-purple-600">
-                  <th className="text-left p-3 text-white">Transaction ID</th>
+                  <th className="text-left p-3 text-white">Date</th>
                   <th className="text-left p-3 text-white">User</th>
                   <th className="text-left p-3 text-white">Amount</th>
                   <th className="text-left p-3 text-white">Method</th>
                   <th className="text-left p-3 text-white">Status</th>
-                  <th className="text-left p-3 text-white">Date</th>
+                  <th className="text-left p-3 text-white">Transaction ID</th>
                   <th className="text-left p-3 text-white">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredPayments.map((payment) => (
                   <tr key={payment.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white font-mono text-sm">
-                      {payment.transaction_id || payment.id.slice(0, 8)}
+                    <td className="p-3 text-white/80">
+                      {new Date(payment.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-3 text-white">
-                      {payment.profiles?.first_name} {payment.profiles?.last_name}
+                      <div>
+                        <div className="font-medium">{payment.user_name}</div>
+                        <div className="text-sm text-white/60">{payment.user_email}</div>
+                      </div>
                     </td>
                     <td className="p-3 text-white font-medium">
-                      €{payment.amount}
+                      €{payment.amount?.toFixed(2) || '0.00'}
                     </td>
-                    <td className="p-3 text-white/80 capitalize">
-                      {payment.method}
-                    </td>
+                    <td className="p-3 text-white/80 capitalize">{payment.method}</td>
                     <td className="p-3">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         payment.status === 'completed' ? 'bg-green-600 text-white' :
                         payment.status === 'pending' ? 'bg-yellow-600 text-white' :
                         payment.status === 'failed' ? 'bg-red-600 text-white' :
@@ -200,32 +229,21 @@ export default function PruebaPayments() {
                         {payment.status}
                       </span>
                     </td>
-                    <td className="p-3 text-white/80">
-                      {new Date(payment.created_at).toLocaleDateString()}
+                    <td className="p-3 text-white/80 font-mono text-sm">
+                      {payment.transaction_id || '-'}
                     </td>
                     <td className="p-3">
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" className="h-8 w-8 p-0">
                           <Eye className="w-4 h-4" />
                         </Button>
-                        {payment.status === 'pending' && (
-                          <>
-                            <Button 
-                              size="sm" 
-                              className="h-8 px-2 bg-green-600 hover:bg-green-700 text-xs"
-                              onClick={() => updatePaymentStatus(payment.id, 'completed')}
-                            >
-                              Approve
-                            </Button>
-                            <Button 
-                              size="sm" 
-                              className="h-8 px-2 bg-red-600 hover:bg-red-700 text-xs"
-                              onClick={() => updatePaymentStatus(payment.id, 'failed')}
-                            >
-                              Reject
-                            </Button>
-                          </>
-                        )}
+                        <Button 
+                          size="sm" 
+                          className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700"
+                          onClick={() => deletePayment(payment.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
                       </div>
                     </td>
                   </tr>

@@ -11,6 +11,7 @@ interface ProcessingStats {
   processed: number;
   fieldsFilledCount: number;
   errors: string[];
+  completionRate: number;
 }
 
 export function BatchPendingFieldsPopulation() {
@@ -24,7 +25,30 @@ export function BatchPendingFieldsPopulation() {
 
     try {
       const { data, error } = await supabase.functions.invoke('batch-populate-pending-fields', {
-        body: { action: 'process_pending_fields' }
+        body: { 
+          action: 'process_pending_fields',
+          // Enhanced field population parameters
+          categoryRange: { min: 3, max: 4 }, // Limit to 3-4 stars
+          excludeLuxuryBrands: true,
+          ensureAllFieldsPopulated: true,
+          requiredFields: [
+            'description',
+            'ideal_guests', 
+            'atmosphere',
+            'perfect_location',
+            'property_type',
+            'style',
+            'features_hotel',
+            'features_room',
+            'meal_plans',
+            'room_types',
+            'rates',
+            'available_months',
+            'address',
+            'contact_name',
+            'contact_email'
+          ]
+        }
       });
 
       if (error) {
@@ -35,7 +59,7 @@ export function BatchPendingFieldsPopulation() {
       
       toast({
         title: "Batch Processing Complete",
-        description: `Processed ${data.stats.processed} pending properties, filled ${data.stats.fieldsFilledCount} empty fields.`,
+        description: `Processed ${data.stats.processed} properties with ${data.stats.completionRate}% field completion rate.`,
       });
 
     } catch (error) {
@@ -59,21 +83,33 @@ export function BatchPendingFieldsPopulation() {
             Batch Fill Pending Fields
           </CardTitle>
           <CardDescription className="text-white/80">
-            Automatically fill empty fields in pending properties with randomized data according to predefined rules.
+            Automatically fill empty fields in pending properties with complete data for 3-4 star hotels only.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="bg-[#5A1876]/30 rounded-lg p-4">
-            <h4 className="text-white font-medium mb-2">Automated Field Rules:</h4>
+            <h4 className="text-white font-medium mb-2">Enhanced Field Population Rules:</h4>
             <ul className="text-white/80 text-sm space-y-1">
-              <li>• Room Types: Always "double"</li>
-              <li>• Base Prices: Random between 1200-1600</li>
-              <li>• Dynamic Pricing: Always enabled with 20% cap</li>
-              <li>• Meal Plans: "Half board"</li>
-              <li>• Category: Random 3-4 stars</li>
-              <li>• Property Type: Random hotel/resort</li>
-              <li>• Affinities: Random 1-3 selections</li>
-              <li>• Features: Random 5-10 selections</li>
+              <li>• Hotel Category: Limited to 3-4 stars only</li>
+              <li>• Room Types: Always "double" with proper occupancy</li>
+              <li>• Base Prices: €1200-1600 (mid-range pricing)</li>
+              <li>• Dynamic Pricing: Enabled with 20% cap</li>
+              <li>• Meal Plans: "Half board" or "Breakfast included"</li>
+              <li>• Property Types: Hotel, Boutique Hotel, Inn</li>
+              <li>• Complete descriptions and location details</li>
+              <li>• Full contact information</li>
+              <li>• Comprehensive amenities lists</li>
+              <li>• Exclude luxury brands and 5-star properties</li>
+            </ul>
+          </div>
+
+          <div className="bg-green-900/20 rounded-lg p-4 border border-green-600/30">
+            <h4 className="text-green-200 font-medium mb-2">Quality Standards:</h4>
+            <ul className="text-green-200/80 text-sm space-y-1">
+              <li>• 100% field completion target</li>
+              <li>• Realistic mid-market hotel data</li>
+              <li>• No premium or luxury properties</li>
+              <li>• Proper validation of all generated content</li>
             </ul>
           </div>
 
@@ -85,12 +121,12 @@ export function BatchPendingFieldsPopulation() {
             {isProcessing ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Processing...
+                Processing Mid-Range Hotels...
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 mr-2" />
-                Fill Empty Fields in Pending Properties
+                Complete All Fields (3-4 Star Hotels Only)
               </>
             )}
           </Button>
@@ -111,9 +147,13 @@ export function BatchPendingFieldsPopulation() {
                     <span className="text-white/60">Properties Processed:</span>
                     <span className="text-white ml-2 font-medium">{stats.processed}</span>
                   </div>
-                  <div className="col-span-2">
+                  <div>
                     <span className="text-white/60">Fields Filled:</span>
                     <span className="text-white ml-2 font-medium">{stats.fieldsFilledCount}</span>
+                  </div>
+                  <div>
+                    <span className="text-white/60">Completion Rate:</span>
+                    <span className="text-white ml-2 font-medium">{stats.completionRate}%</span>
                   </div>
                 </div>
               </div>

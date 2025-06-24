@@ -4,39 +4,34 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Plus, CheckCircle, AlertCircle, Globe } from "lucide-react";
+import { Loader2, Plus, CheckCircle, AlertCircle, Building } from "lucide-react";
 
-interface CreationStats {
-  totalCountries: number;
-  processedCountries: number;
-  hotelsCreated: number;
+interface BatchCreationStats {
+  totalCreated: number;
   errors: string[];
-  countryProgress: { [key: string]: number };
+  hotelDetails: string[];
 }
 
-const TARGET_COUNTRIES = [
-  "Austria", "Belgium", "Canada", "Denmark", "Finland", "France", 
-  "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", 
-  "Japan", "Luxembourg", "Netherlands", "Norway", "Poland", 
-  "Portugal", "Romania", "Sweden", "Switzerland", "Thailand", 
-  "Turkey", "United Kingdom"
-];
-
 export function BatchHotelCreation() {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [stats, setStats] = useState<CreationStats | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [stats, setStats] = useState<BatchCreationStats | null>(null);
   const { toast } = useToast();
 
   const handleBatchCreation = async () => {
-    setIsProcessing(true);
+    setIsCreating(true);
     setStats(null);
 
     try {
-      const { data, error } = await supabase.functions.invoke('batch-create-hotels', {
+      const { data, error } = await supabase.functions.invoke('batch-hotel-creation', {
         body: { 
-          action: 'create_hotels_by_country',
-          countries: TARGET_COUNTRIES,
-          hotelsPerCountry: 3
+          action: 'create_hotels',
+          maxHotels: 20,
+          // Enforce 3-4 star category limits
+          categoryRange: { min: 3, max: 4 },
+          // Exclude luxury brands
+          excludeLuxuryBrands: true,
+          // Ensure field completion
+          requireAllFields: true
         }
       });
 
@@ -47,19 +42,19 @@ export function BatchHotelCreation() {
       setStats(data.stats);
       
       toast({
-        title: "Hotel Creation Complete",
-        description: `Successfully created ${data.stats.hotelsCreated} hotels across ${data.stats.processedCountries} countries.`,
+        title: "Batch Hotel Creation Complete",
+        description: `Created ${data.stats.totalCreated} hotels with category 3-4 stars.`,
       });
 
     } catch (error) {
-      console.error('Batch hotel creation error:', error);
+      console.error('Batch creation error:', error);
       toast({
         title: "Creation Failed",
         description: "An error occurred during hotel creation. Please try again.",
         variant: "destructive"
       });
     } finally {
-      setIsProcessing(false);
+      setIsCreating(false);
     }
   };
 
@@ -68,55 +63,53 @@ export function BatchHotelCreation() {
       <Card className="bg-[#7a0486]">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
-            <Plus className="w-5 h-5" />
+            <Building className="w-5 h-5" />
             Batch Hotel Creation
           </CardTitle>
           <CardDescription className="text-white/80">
-            Create complete hotel records with all text-based fields across multiple countries.
+            Create multiple hotels with realistic 3-4 star properties and complete field population.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="bg-[#5A1876]/30 rounded-lg p-4">
-            <h4 className="text-white font-medium mb-3 flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              Target Countries ({TARGET_COUNTRIES.length})
+            <h4 className="text-white font-medium mb-2 flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Hotel Creation Parameters:
             </h4>
-            <div className="grid grid-cols-3 gap-2 text-white/80 text-sm">
-              {TARGET_COUNTRIES.map(country => (
-                <div key={country} className="flex items-center gap-1">
-                  <span>•</span>
-                  <span>{country}</span>
-                </div>
-              ))}
-            </div>
+            <ul className="text-white/80 text-sm space-y-1">
+              <li>• Maximum Hotels: 20</li>
+              <li>• Category Range: 3-4 stars only</li>
+              <li>• Luxury brands excluded (No Mandarin Oriental, Four Seasons, etc.)</li>
+              <li>• All fields will be populated</li>
+              <li>• Price range: €1200-1600/month</li>
+              <li>• Mid-range hotel brands and independent properties</li>
+            </ul>
           </div>
 
-          <div className="bg-[#5A1876]/30 rounded-lg p-4">
-            <h4 className="text-white font-medium mb-2">Creation Parameters:</h4>
-            <ul className="text-white/80 text-sm space-y-1">
-              <li>• Hotels per Country: 3</li>
-              <li>• Total Hotels: 72 (3 × 24 countries)</li>
-              <li>• Real hotel names and addresses</li>
-              <li>• Complete text data (descriptions, features, etc.)</li>
-              <li>• Randomized pricing and categories</li>
-              <li>• NO images (handled by separate batch)</li>
+          <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-600/30">
+            <h4 className="text-amber-200 font-medium mb-2">Hotel Quality Standards:</h4>
+            <ul className="text-amber-200/80 text-sm space-y-1">
+              <li>• 3-star hotels: Standard comfort, good amenities</li>
+              <li>• 4-star hotels: Superior comfort, extensive amenities</li>
+              <li>• No 5-star luxury properties will be created</li>
+              <li>• Focus on mid-market hotel chains and boutique properties</li>
             </ul>
           </div>
 
           <Button
             onClick={handleBatchCreation}
-            disabled={isProcessing}
+            disabled={isCreating}
             className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
           >
-            {isProcessing ? (
+            {isCreating ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Creating Hotels...
+                Creating 3-4 Star Hotels...
               </>
             ) : (
               <>
                 <Plus className="w-4 h-4 mr-2" />
-                Create 72 Hotels Across All Countries
+                Create 20 Mid-Range Hotels (3-4 Stars)
               </>
             )}
           </Button>
@@ -128,26 +121,23 @@ export function BatchHotelCreation() {
                   <CheckCircle className="w-4 h-4 text-green-400" />
                   Creation Results
                 </h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-white/60">Countries Processed:</span>
-                    <span className="text-white ml-2 font-medium">{stats.processedCountries}/{stats.totalCountries}</span>
-                  </div>
+                <div className="grid grid-cols-1 gap-4 text-sm">
                   <div>
                     <span className="text-white/60">Hotels Created:</span>
-                    <span className="text-white ml-2 font-medium">{stats.hotelsCreated}</span>
+                    <span className="text-white ml-2 font-medium">{stats.totalCreated}</span>
                   </div>
                 </div>
 
-                {Object.keys(stats.countryProgress).length > 0 && (
+                {stats.hotelDetails.length > 0 && (
                   <div className="mt-3">
-                    <h5 className="text-white/80 text-sm mb-2">Progress by Country:</h5>
-                    <div className="grid grid-cols-2 gap-1 text-xs">
-                      {Object.entries(stats.countryProgress).map(([country, count]) => (
-                        <div key={country} className="text-white/60">
-                          {country}: {count} hotels
-                        </div>
+                    <h5 className="text-white/80 text-sm mb-2">Created Hotels:</h5>
+                    <div className="text-xs text-white/60 space-y-1">
+                      {stats.hotelDetails.slice(0, 10).map((hotel, index) => (
+                        <div key={index}>• {hotel}</div>
                       ))}
+                      {stats.hotelDetails.length > 10 && (
+                        <div className="text-white/40">... and {stats.hotelDetails.length - 10} more</div>
+                      )}
                     </div>
                   </div>
                 )}

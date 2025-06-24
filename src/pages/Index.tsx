@@ -1,59 +1,28 @@
 
-import { useState } from 'react';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
-import { HeroSection } from '@/components/home/HeroSection';
-import { FilterState } from '@/components/filters';
-import { FilterSectionWrapper } from '@/components/home/FilterSectionWrapper';
-import { useThemes } from '@/hooks/useThemes';
-import { useHotels } from '@/hooks/useHotels';
-import { HotelStarfield } from '@/components/hotels/HotelStarfield';
+import { Hero } from "@/components/Hero";
+import { HowItWorks } from "@/components/HowItWorks";
+import { FeaturedHotels } from "@/components/FeaturedHotels";
+import { Testimonials } from "@/components/Testimonials";
+import { FAQ } from "@/components/FAQ";
+import { Newsletter } from "@/components/Newsletter";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { TestHotelCreator } from "@/components/TestHotelCreator";
 
-export default function Index() {
-  const { data: themes } = useThemes();
-  const [filters, setFilters] = useState<FilterState>({
-    country: null,
-    month: null,
-    theme: null,
-    priceRange: { min: 0, max: 1000 },
-    searchTerm: null,
-    minPrice: 0,
-    maxPrice: 1000,
-    stars: [],
-    location: null,
-    propertyType: null,
-    propertyStyle: null,
-    activities: [],
-    roomTypes: [],
-    hotelFeatures: [],
-    roomFeatures: [],
-    mealPlans: [],
-    stayLengths: [],
-    atmosphere: null
-  });
-
-  // Initialize useHotels hook to prepare for filtering
-  const { updateFilters } = useHotels({ initialFilters: filters });
-
-  const handleFilterChange = (newFilters: FilterState) => {
-    setFilters(newFilters);
-    updateFilters(newFilters);
-  };
-
-  // Extract theme names for the filter dropdown
-  const themeNames = themes ? themes.map(theme => theme.name) : [];
-
+const Index = () => {
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
-      <HotelStarfield />
+    <div className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-indigo-900">
       <Navbar />
-      
-      <main className="flex-1 w-full">
-        <HeroSection />
-        <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
-      </main>
-      
+      <Hero />
+      <HowItWorks />
+      <FeaturedHotels />
+      <Testimonials />
+      <FAQ />
+      <Newsletter />
       <Footer />
+      <TestHotelCreator />
     </div>
   );
-}
+};
+
+export default Index;

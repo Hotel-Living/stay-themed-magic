@@ -139,6 +139,37 @@ export default function AddProperty({
             stepTitle={STEP_TITLES[currentStep - 1]}
           />
 
+          {/* Top Navigation */}
+          <div className="flex items-center justify-between mb-6">
+            {currentStep >= 2 ? (
+              <Button
+                onClick={handlePrevious}
+                variant="outline"
+                className="text-white border-white/20 hover:bg-white/10"
+              >
+                Back
+              </Button>
+            ) : (
+              <div></div>
+            )}
+            
+            {currentStep <= 4 ? (
+              <Button
+                onClick={handleNext}
+                className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSubmit}
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                Submit
+              </Button>
+            )}
+          </div>
+
           <StepContent
             currentStep={currentStep}
             onValidationChange={handleValidationChange}

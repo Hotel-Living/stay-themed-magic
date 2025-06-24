@@ -2,33 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Download, Eye, Trash2 } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Payment {
   id: string;
-  user_id: string;
-  hotel_id: string;
-  booking_id: string;
   amount: number;
   method: string;
   status: string;
-  transaction_id: string;
+  transaction_id?: string;
+  user_id?: string;
+  hotel_id?: string;
+  booking_id?: string;
   created_at: string;
   updated_at: string;
   user_email?: string;
   user_name?: string;
+  hotel_name?: string;
 }
 
 export default function PruebaPayments() {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [methodFilter, setMethodFilter] = useState("all");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,42 +35,60 @@ export default function PruebaPayments() {
 
   const fetchPayments = async () => {
     try {
-      // First get all payments
-      const { data: paymentsData, error: paymentsError } = await supabase
+      const { data: paymentsData, error } = await supabase
         .from('payments')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (paymentsError) throw paymentsError;
+      if (error) throw error;
 
-      // Then get user profiles for each payment
-      if (paymentsData && paymentsData.length > 0) {
-        const userIds = [...new Set(paymentsData.map(payment => payment.user_id).filter(Boolean))];
-        
-        const { data: profilesData } = await supabase
-          .from('profiles')
-          .select('id, first_name, last_name')
-          .in('id', userIds);
+      // Manually join with profiles and hotels to get additional info
+      const paymentsWithInfo = await Promise.all(
+        (paymentsData || []).map(async (payment) => {
+          let userInfo = {};
+          let hotelInfo = {};
 
-        // Get user emails from auth.users via a separate query
-        const { data: usersData } = await supabase.auth.admin.listUsers();
+          if (payment.user_id) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('first_name, last_name')
+              .eq('id', payment.user_id)
+              .single();
+            
+            if (profile) {
+              userInfo = {
+                user_name: `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown User'
+              };
+            }
 
-        // Combine the data
-        const enrichedPayments = paymentsData.map(payment => {
-          const profile = profilesData?.find(p => p.id === payment.user_id);
-          const authUser = usersData?.users?.find(u => u.id === payment.user_id);
-          
+            // Get user email from auth metadata if available
+            const { data: { user }, error: authError } = await supabase.auth.admin.getUserById(payment.user_id);
+            if (!authError && user) {
+              userInfo = { ...userInfo, user_email: user.email };
+            }
+          }
+
+          if (payment.hotel_id) {
+            const { data: hotel } = await supabase
+              .from('hotels')
+              .select('name')
+              .eq('id', payment.hotel_id)
+              .single();
+            
+            if (hotel) {
+              hotelInfo = { hotel_name: hotel.name };
+            }
+          }
+
           return {
             ...payment,
-            user_name: profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : 'Unknown User',
-            user_email: authUser?.email || 'Unknown Email'
-          };
-        });
+            ...userInfo,
+            ...hotelInfo
+          } as Payment;
+        })
+      );
 
-        setPayments(enrichedPayments);
-      } else {
-        setPayments([]);
-      }
+      setPayments(paymentsWithInfo);
     } catch (error) {
       console.error('Error fetching payments:', error);
       toast({
@@ -108,17 +124,12 @@ export default function PruebaPayments() {
     }
   };
 
-  const filteredPayments = payments.filter(payment => {
-    const matchesSearch = 
-      payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      payment.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      payment.user_email?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === "all" || payment.status === statusFilter;
-    const matchesMethod = methodFilter === "all" || payment.method === methodFilter;
-    
-    return matchesSearch && matchesStatus && matchesMethod;
-  });
+  const filteredPayments = payments.filter(payment =>
+    payment.transaction_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.method.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.hotel_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -138,13 +149,17 @@ export default function PruebaPayments() {
         <h2 className="text-2xl font-bold text-white">Payments Management</h2>
         <div className="flex gap-2">
           <Button className="flex items-center gap-2">
+            <Plus className="w-4 h-4" />
+            Add Payment
+          </Button>
+          <Button className="flex items-center gap-2">
             <Download className="w-4 h-4" />
             Export
           </Button>
         </div>
       </div>
 
-      {/* Search and Filter Controls */}
+      {/* Search Controls */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardContent className="p-4">
           <div className="flex gap-4">
@@ -156,30 +171,6 @@ export default function PruebaPayments() {
                 className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600 text-white">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-                <SelectItem value="refunded">Refunded</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={methodFilter} onValueChange={setMethodFilter}>
-              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600 text-white">
-                <SelectValue placeholder="Filter by method" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Methods</SelectItem>
-                <SelectItem value="card">Card</SelectItem>
-                <SelectItem value="paypal">PayPal</SelectItem>
-                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                <SelectItem value="crypto">Crypto</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>
@@ -187,40 +178,40 @@ export default function PruebaPayments() {
       {/* Payments Table */}
       <Card className="bg-[#7a0486] border-purple-600">
         <CardHeader>
-          <CardTitle className="text-white">Payment Records ({filteredPayments.length})</CardTitle>
+          <CardTitle className="text-white">Payments ({filteredPayments.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-purple-600">
-                  <th className="text-left p-3 text-white">Date</th>
-                  <th className="text-left p-3 text-white">User</th>
+                  <th className="text-left p-3 text-white">Transaction ID</th>
                   <th className="text-left p-3 text-white">Amount</th>
                   <th className="text-left p-3 text-white">Method</th>
+                  <th className="text-left p-3 text-white">User</th>
+                  <th className="text-left p-3 text-white">Hotel</th>
                   <th className="text-left p-3 text-white">Status</th>
-                  <th className="text-left p-3 text-white">Transaction ID</th>
+                  <th className="text-left p-3 text-white">Date</th>
                   <th className="text-left p-3 text-white">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredPayments.map((payment) => (
                   <tr key={payment.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white/80">
-                      {new Date(payment.created_at).toLocaleDateString()}
+                    <td className="p-3 text-white font-medium">
+                      {payment.transaction_id || payment.id.slice(0, 8)}
                     </td>
-                    <td className="p-3 text-white">
+                    <td className="p-3 text-white/80">${payment.amount}</td>
+                    <td className="p-3 text-white/80">{payment.method}</td>
+                    <td className="p-3 text-white/80">
                       <div>
-                        <div className="font-medium">{payment.user_name}</div>
-                        <div className="text-sm text-white/60">{payment.user_email}</div>
+                        <div>{payment.user_name || 'Unknown'}</div>
+                        <div className="text-xs text-white/60">{payment.user_email || ''}</div>
                       </div>
                     </td>
-                    <td className="p-3 text-white font-medium">
-                      €{payment.amount?.toFixed(2) || '0.00'}
-                    </td>
-                    <td className="p-3 text-white/80 capitalize">{payment.method}</td>
+                    <td className="p-3 text-white/80">{payment.hotel_name || '-'}</td>
                     <td className="p-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
                         payment.status === 'completed' ? 'bg-green-600 text-white' :
                         payment.status === 'pending' ? 'bg-yellow-600 text-white' :
                         payment.status === 'failed' ? 'bg-red-600 text-white' :
@@ -229,13 +220,13 @@ export default function PruebaPayments() {
                         {payment.status}
                       </span>
                     </td>
-                    <td className="p-3 text-white/80 font-mono text-sm">
-                      {payment.transaction_id || '-'}
+                    <td className="p-3 text-white/80">
+                      {new Date(payment.created_at).toLocaleDateString()}
                     </td>
                     <td className="p-3">
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                          <Eye className="w-4 h-4" />
+                          <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
                           size="sm" 

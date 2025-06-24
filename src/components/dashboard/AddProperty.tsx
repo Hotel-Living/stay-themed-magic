@@ -5,9 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import StepContent from "./PropertySteps/StepContent";
+import StepIndicator from "./PropertySteps/StepIndicator";
+import StepNavigation from "./PropertySteps/StepNavigation";
 import { usePropertyFormData, PropertyFormData } from "./property/hooks/usePropertyFormData";
 import { useHotelEditing } from "./property/hooks/useHotelEditing";
 import { usePropertySubmission } from "./property/hooks/usePropertySubmission";
+import { TOTAL_STEPS, STEP_TITLES } from "./PropertySteps/constants";
 
 interface AddPropertyProps {
   editingHotelId?: string | null;
@@ -80,6 +83,18 @@ export default function AddProperty({
     setIsValidationEnabled(isValid);
   };
 
+  const handleNext = () => {
+    if (currentStep < TOTAL_STEPS) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       await handleSubmitProperty(editingHotelId);
@@ -117,12 +132,30 @@ export default function AddProperty({
           </p>
         </div>
 
-        <StepContent
-          currentStep={currentStep}
-          onValidationChange={handleValidationChange}
-          formData={formData}
-          updateFormData={updateFormData}
-        />
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+          <StepIndicator
+            currentStep={currentStep}
+            totalSteps={TOTAL_STEPS}
+            stepTitle={STEP_TITLES[currentStep - 1]}
+          />
+
+          <StepContent
+            currentStep={currentStep}
+            onValidationChange={handleValidationChange}
+            formData={formData}
+            updateFormData={updateFormData}
+          />
+
+          <StepNavigation
+            currentStep={currentStep}
+            totalSteps={TOTAL_STEPS}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            onSubmit={handleSubmit}
+            showPrevious={currentStep > 1}
+            isNextDisabled={false}
+          />
+        </div>
       </div>
     </div>
   );

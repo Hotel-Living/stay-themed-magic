@@ -1,186 +1,145 @@
-import { supabase } from "@/integrations/supabase/client";
 
-export interface UploadedImage {
-  url: string;
-  isMain: boolean;
-  id?: string;
-}
+import { supabase } from "@/integrations/supabase/client";
+import { UploadedImage } from "@/hooks/usePropertyImages";
 
 export const useImageSubmission = () => {
-  const uploadImageToStorage = async (file: File, hotelId: string, index: number): Promise<string> => {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${hotelId}/${Date.now()}-${index}.${fileExt}`;
-    
-    const { data, error } = await supabase.storage
-      .from('hotel-images')
-      .upload(fileName, file);
-
-    if (error) {
-      console.error('Error uploading image to storage:', error);
-      throw error;
-    }
-
-    const { data: { publicUrl } } = supabase.storage
-      .from('hotel-images')
-      .getPublicUrl(fileName);
-
-    return publicUrl;
-  };
-
-  const convertBlobToFile = async (blobUrl: string, fileName: string): Promise<File> => {
-    const response = await fetch(blobUrl);
-    const blob = await response.blob();
-    return new File([blob], fileName, { type: blob.type || 'image/jpeg' });
-  };
-
   const handlePlaceholderImages = async (hotelId: string) => {
     console.log("Using placeholder images for hotel:", hotelId);
-    const placeholderImages = [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80"
-    ];
     
-    try {
-      // First, clean up any existing images
-      const { error: deleteError } = await supabase
-        .from('hotel_images')
-        .delete()
-        .eq('hotel_id', hotelId);
-        
-      if (deleteError) {
-        console.error("Error deleting existing images:", deleteError);
-      }
-      
-      const imageRows = placeholderImages.map((url, index) => ({
-        hotel_id: hotelId,
-        image_url: url,
-        is_main: index === 0
-      }));
-      
-      console.log("Creating placeholder images:", imageRows);
-      
-      const { error: insertError } = await supabase
-        .from('hotel_images')
-        .insert(imageRows);
-        
-      if (insertError) {
-        console.error("Error inserting placeholder images:", insertError);
-        throw insertError;
-      }
-      
-      // Always ensure a main_image_url is set in the hotels table
-      if (placeholderImages.length > 0) {
-        await supabase
-          .from('hotels')
-          .update({ main_image_url: placeholderImages[0] })
-          .eq('id', hotelId);
-      }
-    } catch (error) {
-      console.error("Error in handlePlaceholderImages:", error);
-      throw error;
-    }
+    // For now, we don't add any placeholder images here since they'll be handled by auto-population
+    // This function remains for backward compatibility
+    return Promise.resolve();
   };
-  
-  const handleCustomImages = async (hotelId: string, images: UploadedImage[] | undefined) => {
-    console.log("Handling custom images for hotel:", hotelId, images);
+
+  const handleCustomImages = async (hotelId: string, images: UploadedImage[]) => {
+    console.log("Processing custom images for hotel:", hotelId, "Images:", images);
+    
+    if (!images || images.length === 0) {
+      console.log("No custom images provided");
+      return;
+    }
+
+    // Filter for images that haven't been uploaded to storage yet (blob URLs)
+    const imagesToUpload = images.filter(img => img.url.startsWith('blob:'));
+    const storageImages = images.filter(img => !img.url.startsWith('blob:'));
+    
+    console.log("Images to upload:", imagesToUpload.length, "Storage images:", storageImages.length);
+    
+    const allImageUrls: string[] = [];
+    
+    // Add existing storage URLs
+    storageImages.forEach(img => allImageUrls.push(img.url));
+    
+    // Upload blob images to storage
+    for (const image of imagesToUpload) {
+      try {
+        // Convert blob URL to file
+        const response = await fetch(image.url);
+        const blob = await response.blob();
+        
+        // Generate unique filename
+        const fileExt = blob.type.split('/')[1] || 'jpg';
+        const fileName = `${hotelId}/${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        
+        // Upload to Supabase Storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('hotel-images')
+          .upload(fileName, blob, {
+            contentType: blob.type,
+            upsert: false
+          });
+
+        if (uploadError) {
+          console.error("Error uploading image:", uploadError);
+          continue;
+        }
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('hotel-images')
+          .getPublicUrl(uploadData.path);
+        
+        allImageUrls.push(urlData.publicUrl);
+        console.log("Successfully uploaded image:", urlData.publicUrl);
+        
+        // Clean up blob URL
+        URL.revokeObjectURL(image.url);
+        
+      } catch (error) {
+        console.error("Error processing image:", error);
+      }
+    }
+    
+    if (allImageUrls.length === 0) {
+      console.warn("No images were successfully processed");
+      return;
+    }
+    
+    // Insert image records into database
+    const imageRecords = allImageUrls.map((url, index) => ({
+      hotel_id: hotelId,
+      image_url: url,
+      is_main: index === 0 || (images.find(img => img.url === url)?.isMain === true)
+    }));
+    
+    const { error: insertError } = await supabase
+      .from('hotel_images')
+      .insert(imageRecords);
+    
+    if (insertError) {
+      console.error("Error inserting image records:", insertError);
+      throw insertError;
+    }
+    
+    // Update hotel's main image URL
+    const mainImageUrl = allImageUrls.find((url, index) => 
+      imageRecords[index].is_main
+    ) || allImageUrls[0];
+    
+    if (mainImageUrl) {
+      const { error: updateError } = await supabase
+        .from('hotels')
+        .update({ main_image_url: mainImageUrl })
+        .eq('id', hotelId);
+      
+      if (updateError) {
+        console.warn("Could not update hotel main image:", updateError);
+      }
+    }
+    
+    console.log(`Successfully processed ${allImageUrls.length} custom images for hotel ${hotelId}`);
+  };
+
+  const handleAutoImagePopulation = async (hotelId: string, hotelData: any) => {
+    console.log("Starting auto image population for hotel:", hotelId);
     
     try {
-      // If no images provided or empty array, use placeholders
-      if (!images || images.length === 0) {
-        console.warn("No custom images provided, using placeholders instead");
-        return await handlePlaceholderImages(hotelId);
-      }
-      
-      // First, clean up any existing images
-      const { error: deleteError } = await supabase
-        .from('hotel_images')
-        .delete()
-        .eq('hotel_id', hotelId);
-        
-      if (deleteError) {
-        console.error("Error deleting existing images:", deleteError);
-      }
-      
-      // Process images - convert blob URLs to permanent storage URLs
-      const processedImages = [];
-      
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        let finalImageUrl = image.url;
-        
-        // If it's a blob URL, we need to upload it to permanent storage
-        if (image.url.startsWith('blob:')) {
-          try {
-            console.log(`Converting blob URL ${i} to permanent storage...`);
-            const file = await convertBlobToFile(image.url, `image-${i}.jpg`);
-            finalImageUrl = await uploadImageToStorage(file, hotelId, i);
-            console.log(`Successfully uploaded blob image ${i} to storage:`, finalImageUrl);
-            
-            // Clean up the blob URL to free memory
-            URL.revokeObjectURL(image.url);
-          } catch (uploadError) {
-            console.error(`Error uploading blob image ${i}:`, uploadError);
-            // Fall back to placeholder if upload fails
-            finalImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80";
-          }
-        } else if (image.url.startsWith('http') && !image.url.includes('supabase.co/storage')) {
-          // If it's an external URL (not from our storage), re-upload it for persistence
-          try {
-            console.log(`Re-uploading external URL ${i} to permanent storage...`);
-            const response = await fetch(image.url);
-            const blob = await response.blob();
-            const file = new File([blob], `image-${i}.jpg`, { type: blob.type || 'image/jpeg' });
-            finalImageUrl = await uploadImageToStorage(file, hotelId, i);
-            console.log(`Successfully re-uploaded external image ${i} to storage:`, finalImageUrl);
-          } catch (uploadError) {
-            console.error(`Error re-uploading external image ${i}:`, uploadError);
-            // Keep the original URL if re-upload fails
-            console.log(`Keeping original URL for image ${i}:`, image.url);
-          }
+      const { data, error } = await supabase.functions.invoke('fetch-hotel-images', {
+        body: {
+          hotelId,
+          city: hotelData.city,
+          country: hotelData.country,
+          style: hotelData.style || 'luxury',
+          hotelName: hotelData.name
         }
-        
-        processedImages.push({
-          hotel_id: hotelId,
-          image_url: finalImageUrl,
-          is_main: image.isMain
-        });
+      });
+
+      if (error) {
+        console.error("Error calling fetch-hotel-images function:", error);
+        return;
       }
+
+      console.log("Auto image population result:", data);
       
-      console.log("Creating processed images:", processedImages);
-      
-      const { error: insertError } = await supabase
-        .from('hotel_images')
-        .insert(processedImages);
-        
-      if (insertError) {
-        console.error("Error inserting processed images:", insertError);
-        throw insertError;
-      }
-      
-      // Find the main image and ensure it's set in the hotels table
-      const mainImage = processedImages.find(img => img.is_main);
-      if (mainImage) {
-        console.log("Setting main image URL to:", mainImage.image_url);
-        await supabase
-          .from('hotels')
-          .update({ main_image_url: mainImage.image_url })
-          .eq('id', hotelId);
-      } else if (processedImages.length > 0) {
-        // If no image marked as main, use the first one
-        console.log("No main image found, using first image:", processedImages[0].image_url);
-        await supabase
-          .from('hotels')
-          .update({ main_image_url: processedImages[0].image_url })
-          .eq('id', hotelId);
-      }
     } catch (error) {
-      console.error("Error in handleCustomImages:", error);
-      throw error;
+      console.error("Error in auto image population:", error);
+      // Don't throw error - auto population failure shouldn't break hotel creation
     }
   };
 
   return {
     handlePlaceholderImages,
-    handleCustomImages
+    handleCustomImages,
+    handleAutoImagePopulation
   };
 };

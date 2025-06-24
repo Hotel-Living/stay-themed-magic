@@ -45,7 +45,7 @@ export const usePropertySubmission = ({
     setFormData,
     onDoneEditing
   });
-  const { handlePlaceholderImages, handleCustomImages } = useImageSubmission();
+  const { handlePlaceholderImages, handleCustomImages, handleAutoImagePopulation } = useImageSubmission();
 
   const { handleValidationError } = useValidationError({
     setErrorFields,
@@ -79,6 +79,7 @@ export const usePropertySubmission = ({
       let hotelId: string;
       let noChangesDetected = false;
       let changesCount = 0;
+      let hotelData: any;
       
       if (isEditing) {
         // Update existing hotel
@@ -105,7 +106,7 @@ export const usePropertySubmission = ({
         console.log(`Hotel update request submitted with ${changesCount} changes pending approval`);
       } else {
         // Create new hotel
-        const hotelData = await createNewHotel(formData, userId);
+        hotelData = await createNewHotel(formData, userId);
         hotelId = hotelData.id;
         console.log("New hotel created successfully:", hotelId);
       }
@@ -117,9 +118,9 @@ export const usePropertySubmission = ({
         console.log("Using custom images:", formData.hotelImages);
         await handleCustomImages(hotelId, formData.hotelImages);
       } else if (!isEditing) {
-        // Only use placeholder images for new hotels
-        console.log("No images provided, using placeholders");
-        await handlePlaceholderImages(hotelId);
+        // For new hotels without custom images, use auto image population
+        console.log("No custom images provided, using auto image population");
+        await handleAutoImagePopulation(hotelId, hotelData);
       }
       
       // For new hotels, process related data
@@ -149,7 +150,7 @@ export const usePropertySubmission = ({
         title: isEditing ? "Changes Submitted for Review" : "Hotel Submitted",
         description: isEditing 
           ? "Your changes have been submitted and are pending admin approval." 
-          : "Your hotel has been submitted and is pending approval."
+          : "Your hotel has been submitted and is pending approval. Images will be populated automatically."
       });
       
       // Reset form data after successful submission if not editing

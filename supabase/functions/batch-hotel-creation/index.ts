@@ -7,114 +7,133 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const REAL_HOTELS = [
+// Sample hotel data with variations
+const sampleHotels = [
   {
-    name: "Hotel Boutique Casa de la Cultura",
-    address: "Calle 8 #15-45, Zona Rosa",
-    city: "Bogotá",
-    country: "Colombia",
-    description: "Elegant boutique hotel in the heart of Zona Rosa with contemporary Colombian design and personalized service."
-  },
-  {
-    name: "The Merchant Hotel",
-    address: "16 Skipper Street",
-    city: "Belfast",
-    country: "United Kingdom",
-    description: "Luxurious Victorian hotel in Belfast's Cathedral Quarter, featuring opulent interiors and world-class dining."
-  },
-  {
-    name: "Palacio de los Duques Gran Meliá",
-    address: "Cuesta de Santo Domingo 5",
-    city: "Madrid",
-    country: "Spain",
-    description: "Historic palace turned luxury hotel near the Royal Palace, blending heritage with modern sophistication."
-  },
-  {
-    name: "Hotel Nacional",
-    address: "Calle O esq. a 21",
-    city: "Havana",
-    country: "Cuba",
-    description: "Iconic Art Deco hotel overlooking the Malecón, steeped in Cuban history and Old World charm."
-  },
-  {
-    name: "Tivoli Oriente",
-    address: "Av. Dom João II, Lote 1.07.1.1",
-    city: "Lisbon",
+    name: "Ocean Breeze Resort",
+    description: "A stunning beachfront resort with panoramic ocean views and luxurious amenities.",
     country: "Portugal",
-    description: "Modern hotel in Parque das Nações with contemporary design and views of the Tagus River."
+    city: "Lagos",
+    address: "Praia da Batata, 8600-315 Lagos",
+    price_per_month: 2800,
+    property_type: "Resort",
+    style: "Modern",
+    ideal_guests: "Beach lovers and luxury seekers",
+    atmosphere: "Relaxed and sophisticated",
+    perfect_location: "Perfect for those seeking tranquil beach vibes with easy access to local attractions"
   },
   {
-    name: "Hotel Fasano Salvador",
-    address: "Rua Luis Viana Filho, s/n",
-    city: "Salvador",
-    country: "Brazil",
-    description: "Sophisticated beachfront hotel combining Italian elegance with Brazilian warmth in Bahia."
+    name: "Mountain View Lodge",
+    description: "Cozy mountain retreat with breathtaking alpine scenery and outdoor adventures.",
+    country: "Switzerland",
+    city: "Zermatt",
+    address: "Bahnhofstrasse 55, 3920 Zermatt",
+    price_per_month: 4200,
+    property_type: "Lodge",
+    style: "Rustic",
+    ideal_guests: "Adventure enthusiasts and nature lovers",
+    atmosphere: "Cozy and adventurous",
+    perfect_location: "Ideal for skiing, hiking, and mountain sports enthusiasts"
   },
   {
-    name: "Casa Gangotena",
-    address: "Bolívar 594 y Cuenca",
-    city: "Quito",
-    country: "Ecuador",
-    description: "Restored colonial mansion turned boutique hotel in Quito's historic center with Andean mountain views."
-  },
-  {
-    name: "Hotel Roma",
-    address: "Via Veneto 125",
-    city: "Rome",
-    country: "Italy",
-    description: "Classic Roman hotel on the famous Via Veneto, offering timeless elegance and proximity to major attractions."
-  },
-  {
-    name: "Château de la Chèvre d'Or",
-    address: "Rue du Barri",
-    city: "Èze",
-    country: "France",
-    description: "Medieval village hotel perched on the French Riviera with breathtaking Mediterranean views."
-  },
-  {
-    name: "The Principal Madrid",
-    address: "Marqués de Valdeiglesias 1",
-    city: "Madrid",
+    name: "Urban Loft Boutique",
+    description: "Contemporary urban accommodation in the heart of the city's cultural district.",
     country: "Spain",
-    description: "Contemporary luxury hotel in a restored 1917 building, perfectly located in Madrid's cultural district."
+    city: "Barcelona",
+    address: "Carrer del Rec, 08003 Barcelona",
+    price_per_month: 3200,
+    property_type: "Boutique Hotel",
+    style: "Contemporary",
+    ideal_guests: "Urban explorers and culture enthusiasts",
+    atmosphere: "Vibrant and cosmopolitan",
+    perfect_location: "Perfect for experiencing city life, museums, and nightlife"
+  },
+  {
+    name: "Countryside Villa",
+    description: "Charming countryside villa surrounded by vineyards and rolling hills.",
+    country: "Italy",
+    city: "Chianti",
+    address: "Via del Castello, 50022 Greve in Chianti",
+    price_per_month: 3800,
+    property_type: "Villa",
+    style: "Traditional",
+    ideal_guests: "Wine enthusiasts and countryside lovers",
+    atmosphere: "Peaceful and authentic",
+    perfect_location: "Ideal for wine tours, countryside walks, and authentic Italian experiences"
+  },
+  {
+    name: "Coastal Retreat House",
+    description: "Modern coastal house with direct beach access and stunning sunset views.",
+    country: "Greece",
+    city: "Santorini",
+    address: "Oia, 84702 Santorini",
+    price_per_month: 4500,
+    property_type: "House",
+    style: "Mediterranean",
+    ideal_guests: "Romantic couples and sunset chasers",
+    atmosphere: "Romantic and serene",
+    perfect_location: "Perfect for romantic getaways and witnessing famous Santorini sunsets"
   }
 ];
 
-const AUTHORIZED_COUNTRIES = [
-  "Spain", "Portugal", "France", "Italy", "Germany", "United Kingdom", 
-  "Netherlands", "Belgium", "Austria", "Switzerland", "Greece", "Poland",
-  "Brazil", "Colombia", "Mexico", "Chile", "Argentina", "Peru", "Ecuador",
-  "Costa Rica", "Uruguay"
-];
+const countries = ["Portugal", "Spain", "Italy", "Greece", "France", "Croatia", "Malta", "Cyprus"];
+const cities = {
+  "Portugal": ["Lisbon", "Porto", "Lagos", "Sintra", "Óbidos"],
+  "Spain": ["Barcelona", "Madrid", "Seville", "Valencia", "Granada"],
+  "Italy": ["Rome", "Florence", "Venice", "Milan", "Naples"],
+  "Greece": ["Athens", "Santorini", "Mykonos", "Crete", "Rhodes"],
+  "France": ["Paris", "Nice", "Lyon", "Marseille", "Cannes"],
+  "Croatia": ["Dubrovnik", "Split", "Zagreb", "Pula", "Hvar"],
+  "Malta": ["Valletta", "Sliema", "St. Julian's", "Mdina", "Gozo"],
+  "Cyprus": ["Nicosia", "Limassol", "Paphos", "Larnaca", "Ayia Napa"]
+};
 
-const LUXURY_BRANDS = [
-  "Four Seasons", "Ritz-Carlton", "St. Regis", "Waldorf Astoria", "Conrad",
-  "Park Hyatt", "Grand Hyatt", "Mandarin Oriental", "Peninsula", "Shangri-La",
-  "Aman", "Rosewood", "Auberge", "Belmond", "Orient-Express", "EDITION",
-  "W Hotels", "Le Labo", "1 Hotels", "SLS", "Thompson", "Andaz",
-  "Jumeirah", "Kempinski", "Raffles", "Fairmont", "Sofitel", "Pullman",
-  "InterContinental", "Crowne Plaza", "Holiday Inn", "Marriott", "Sheraton",
-  "Westin", "Renaissance", "Courtyard", "Residence Inn", "SpringHill Suites",
-  "Hilton", "DoubleTree", "Embassy Suites", "Hampton Inn", "Homewood Suites"
-];
+const propertyTypes = ["Hotel", "Resort", "Villa", "Apartment", "House", "Lodge", "Boutique Hotel"];
+const styles = ["Modern", "Traditional", "Contemporary", "Rustic", "Mediterranean", "Classic", "Minimalist"];
 
-function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function getRandomElement(array: any[]) {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
-function getRandomItems<T>(array: T[], count: number): T[] {
-  const shuffled = [...array].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-}
-
-function generateRandomPrice(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function isLuxuryBrand(hotelName: string): boolean {
-  return LUXURY_BRANDS.some(brand => 
-    hotelName.toLowerCase().includes(brand.toLowerCase())
-  );
+function generateRandomHotel(index: number) {
+  const country = getRandomElement(countries);
+  const city = getRandomElement(cities[country]);
+  const baseHotel = getRandomElement(sampleHotels);
+  
+  return {
+    name: `${baseHotel.name} ${index + 1}`,
+    description: baseHotel.description,
+    country: country,
+    city: city,
+    address: `Sample Address ${index + 1}, ${city}`,
+    price_per_month: Math.floor(Math.random() * 3000) + 1500, // 1500-4500
+    property_type: getRandomElement(propertyTypes),
+    style: getRandomElement(styles),
+    ideal_guests: baseHotel.ideal_guests,
+    atmosphere: baseHotel.atmosphere,
+    perfect_location: baseHotel.perfect_location,
+    status: 'approved',
+    is_featured: Math.random() > 0.8, // 20% chance of being featured
+    available_months: getRandomElement([
+      ['january', 'february', 'march'],
+      ['april', 'may', 'june'],
+      ['july', 'august', 'september'],
+      ['october', 'november', 'december'],
+      ['january', 'april', 'july', 'october']
+    ]),
+    meal_plans: getRandomElement([
+      ['breakfast'],
+      ['breakfast', 'dinner'],
+      ['all_inclusive'],
+      ['breakfast', 'lunch', 'dinner']
+    ]),
+    stay_lengths: getRandomElement([
+      [7, 14, 30],
+      [14, 30],
+      [30, 60, 90],
+      [7, 14, 30, 60]
+    ])
+  };
 }
 
 serve(async (req) => {
@@ -124,6 +143,8 @@ serve(async (req) => {
   }
 
   try {
+    console.log('=== BATCH HOTEL CREATION STARTED ===');
+    
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -137,188 +158,166 @@ serve(async (req) => {
     
     // Validate count parameter
     if (!count || count < 1 || count > 50) {
-      console.error('Invalid count parameter:', count);
-      throw new Error('Count must be between 1 and 50');
+      return new Response(
+        JSON.stringify({ 
+          error: 'Count must be between 1 and 50',
+          received: count 
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
     }
 
     console.log(`Starting batch creation of ${count} hotels`);
 
-    // Fetch themes for random assignment
+    // Get a default owner (first admin user or create a system user)
+    const { data: adminUsers, error: adminError } = await supabase
+      .from('admin_users')
+      .select('id')
+      .limit(1);
+
+    if (adminError) {
+      console.error('Error fetching admin users:', adminError);
+      throw new Error('Failed to find admin user');
+    }
+
+    const ownerId = adminUsers && adminUsers.length > 0 
+      ? adminUsers[0].id 
+      : '00000000-0000-0000-0000-000000000000'; // fallback system user
+
+    console.log('Using owner ID:', ownerId);
+
+    // Fetch available themes and activities - FIX: Use correct column names
     const { data: themes, error: themesError } = await supabase
       .from('themes')
-      .select('id, name_en')
-      .limit(100);
+      .select('id, name')
+      .limit(20);
 
     if (themesError) {
+      console.error('Themes error:', themesError);
       throw new Error(`Failed to fetch themes: ${themesError.message}`);
     }
 
-    // Fetch activities for random assignment
     const { data: activities, error: activitiesError } = await supabase
       .from('activities')
-      .select('id, name_en')
-      .limit(100);
+      .select('id, name')
+      .limit(20);
 
     if (activitiesError) {
+      console.error('Activities error:', activitiesError);
       throw new Error(`Failed to fetch activities: ${activitiesError.message}`);
     }
 
-    // Fetch features for random assignment
-    const { data: features, error: featuresError } = await supabase
-      .from('features')
-      .select('id, name_en')
-      .limit(100);
-
-    if (featuresError) {
-      throw new Error(`Failed to fetch features: ${featuresError.message}`);
-    }
+    console.log(`Found ${themes?.length || 0} themes and ${activities?.length || 0} activities`);
 
     const createdHotels = [];
+    const errors = [];
 
+    // Create hotels in batches
     for (let i = 0; i < count; i++) {
-      // Select a random real hotel
-      const randomHotel = REAL_HOTELS[Math.floor(Math.random() * REAL_HOTELS.length)];
-      
-      // Skip if country not authorized or is luxury brand
-      if (!AUTHORIZED_COUNTRIES.includes(randomHotel.country) || 
-          isLuxuryBrand(randomHotel.name)) {
-        console.log(`Skipping ${randomHotel.name} - unauthorized country or luxury brand`);
-        continue;
+      try {
+        console.log(`Creating hotel ${i + 1}/${count}`);
+        
+        const hotelData = generateRandomHotel(i);
+        console.log(`Generated hotel data:`, hotelData.name);
+
+        // Insert hotel
+        const { data: hotel, error: hotelError } = await supabase
+          .from('hotels')
+          .insert({
+            ...hotelData,
+            owner_id: ownerId
+          })
+          .select()
+          .single();
+
+        if (hotelError) {
+          console.error(`Error creating hotel ${i + 1}:`, hotelError);
+          errors.push(`Hotel ${i + 1}: ${hotelError.message}`);
+          continue;
+        }
+
+        console.log(`Hotel created with ID: ${hotel.id}`);
+
+        // Add random themes (2-4 themes per hotel)
+        if (themes && themes.length > 0) {
+          const numThemes = Math.floor(Math.random() * 3) + 2; // 2-4 themes
+          const selectedThemes = themes
+            .sort(() => 0.5 - Math.random())
+            .slice(0, numThemes);
+
+          for (const theme of selectedThemes) {
+            const { error: themeError } = await supabase
+              .from('hotel_themes')
+              .insert({
+                hotel_id: hotel.id,
+                theme_id: theme.id
+              });
+
+            if (themeError) {
+              console.error(`Error adding theme to hotel ${hotel.id}:`, themeError);
+            }
+          }
+          console.log(`Added ${selectedThemes.length} themes to hotel ${hotel.id}`);
+        }
+
+        // Add random activities (2-5 activities per hotel)
+        if (activities && activities.length > 0) {
+          const numActivities = Math.floor(Math.random() * 4) + 2; // 2-5 activities
+          const selectedActivities = activities
+            .sort(() => 0.5 - Math.random())
+            .slice(0, numActivities);
+
+          for (const activity of selectedActivities) {
+            const { error: activityError } = await supabase
+              .from('hotel_activities')
+              .insert({
+                hotel_id: hotel.id,
+                activity_id: activity.id
+              });
+
+            if (activityError) {
+              console.error(`Error adding activity to hotel ${hotel.id}:`, activityError);
+            }
+          }
+          console.log(`Added ${selectedActivities.length} activities to hotel ${hotel.id}`);
+        }
+
+        createdHotels.push({
+          id: hotel.id,
+          name: hotel.name,
+          country: hotel.country,
+          city: hotel.city
+        });
+
+        // Small delay to prevent overwhelming the database
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+      } catch (error) {
+        console.error(`Error in hotel creation loop ${i + 1}:`, error);
+        errors.push(`Hotel ${i + 1}: ${error.message}`);
       }
-
-      const stars = getRandomInt(3, 4);
-      const pricePerNight = generateRandomPrice(1200, 1600);
-      const totalPrice = pricePerNight * 32;
-
-      // Random themes (1-3)
-      const selectedThemes = getRandomItems(themes || [], getRandomInt(1, 3));
-      
-      // Random activities (3-5) - UPDATED FROM 1-3 TO 3-5
-      const selectedActivities = getRandomItems(activities || [], getRandomInt(3, 5));
-      
-      // Random features for hotel (8-15)
-      const selectedHotelFeatures = getRandomItems(features || [], getRandomInt(8, 15));
-      
-      // Random features for room (6-12)
-      const selectedRoomFeatures = getRandomItems(features || [], getRandomInt(6, 12));
-
-      // Create hotel
-      const { data: hotel, error: hotelError } = await supabase
-        .from('hotels')
-        .insert({
-          name: randomHotel.name,
-          description: randomHotel.description,
-          address: randomHotel.address,
-          city: randomHotel.city,
-          country: randomHotel.country,
-          postal_code: `${getRandomInt(10000, 99999)}`,
-          phone: `+${getRandomInt(100, 999)}-${getRandomInt(1000000, 9999999)}`,
-          email: `info@${randomHotel.name.toLowerCase().replace(/\s/g, '')}.com`,
-          website: `https://www.${randomHotel.name.toLowerCase().replace(/\s/g, '')}.com`,
-          stars: stars,
-          total_price: totalPrice,
-          price_per_night: pricePerNight,
-          available_months: ['january', 'february', 'march', 'april', 'may', 'june'],
-          length_of_stay: '32 days',
-          property_type: 'Hotel',
-          property_style: 'Boutique',
-          meal_plan: 'Half Board',
-          terms_accepted: true,
-          dynamic_pricing_enabled: true,
-          status: 'approved'
-        })
-        .select()
-        .single();
-
-      if (hotelError) {
-        console.error(`Failed to create hotel ${randomHotel.name}:`, hotelError);
-        continue;
-      }
-
-      console.log(`Created hotel: ${hotel.name} (ID: ${hotel.id})`);
-
-      // Create room type
-      const { data: roomType, error: roomError } = await supabase
-        .from('room_types')
-        .insert({
-          hotel_id: hotel.id,
-          name: 'Double',
-          description: 'Comfortable double room with modern amenities and city views. Perfect for couples or business travelers seeking comfort and convenience.',
-          capacity: 2,
-          price_per_night: pricePerNight,
-          room_count: getRandomInt(1, 3)
-        })
-        .select()
-        .single();
-
-      if (roomError) {
-        console.error(`Failed to create room type for hotel ${hotel.id}:`, roomError);
-        continue;
-      }
-
-      // Create relationships
-      const relationshipPromises = [];
-
-      // Hotel themes
-      if (selectedThemes.length > 0) {
-        const hotelThemes = selectedThemes.map(theme => ({ hotel_id: hotel.id, theme_id: theme.id }));
-        relationshipPromises.push(
-          supabase.from('hotel_themes').insert(hotelThemes)
-        );
-      }
-
-      // Hotel activities
-      if (selectedActivities.length > 0) {
-        const hotelActivities = selectedActivities.map(activity => ({ hotel_id: hotel.id, activity_id: activity.id }));
-        relationshipPromises.push(
-          supabase.from('hotel_activities').insert(hotelActivities)
-        );
-      }
-
-      // Hotel features
-      if (selectedHotelFeatures.length > 0) {
-        const hotelFeatures = selectedHotelFeatures.map(feature => ({ hotel_id: hotel.id, feature_id: feature.id }));
-        relationshipPromises.push(
-          supabase.from('hotel_features').insert(hotelFeatures)
-        );
-      }
-
-      // Room features
-      if (selectedRoomFeatures.length > 0) {
-        const roomFeatures = selectedRoomFeatures.map(feature => ({ room_type_id: roomType.id, feature_id: feature.id }));
-        relationshipPromises.push(
-          supabase.from('room_type_features').insert(roomFeatures)
-        );
-      }
-
-      // Execute all relationship insertions
-      await Promise.all(relationshipPromises);
-
-      createdHotels.push({
-        id: hotel.id,
-        name: hotel.name,
-        city: hotel.city,
-        country: hotel.country,
-        themes: selectedThemes.length,
-        activities: selectedActivities.length,
-        hotel_features: selectedHotelFeatures.length,
-        room_features: selectedRoomFeatures.length
-      });
     }
 
-    console.log(`Batch creation completed. Created ${createdHotels.length} hotels.`);
+    console.log('=== BATCH HOTEL CREATION COMPLETED ===');
+    console.log(`Successfully created: ${createdHotels.length}/${count} hotels`);
+    if (errors.length > 0) {
+      console.log(`Errors encountered: ${errors.length}`);
+      console.log('Errors:', errors);
+    }
 
     return new Response(
       JSON.stringify({ 
-        success: true, 
-        message: `Successfully created ${count} hotels`,
-        hotelsCreated: count
+        success: true,
+        message: `Successfully created ${createdHotels.length} out of ${count} hotels`,
+        created_hotels: createdHotels,
+        errors: errors.length > 0 ? errors : undefined
       }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
+        status: 200, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
 
@@ -326,15 +325,12 @@ serve(async (req) => {
     console.error('Batch hotel creation error:', error);
     return new Response(
       JSON.stringify({ 
-        success: false, 
-        error: error.message 
+        error: 'An error occurred during batch creation',
+        details: error.message 
       }),
       { 
-        status: 500,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
+        status: 500, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
   }

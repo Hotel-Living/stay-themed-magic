@@ -31,10 +31,14 @@ export function CheckboxFilter({ title, options, selectedOptions, onChange, tran
       } else {
         displayTitle = translatedTitle;
       }
+      // Ensure main filter titles are uppercase
+      displayTitle = displayTitle.toUpperCase();
     } catch (error) {
       console.warn('Translation error for key:', translationKey);
-      displayTitle = title;
+      displayTitle = title.toUpperCase();
     }
+  } else {
+    displayTitle = title.toUpperCase();
   }
 
   return (

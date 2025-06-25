@@ -109,7 +109,7 @@ export default function PanelFernandoLayout({
         {/* Sidebar */}
         <div className="w-64 shadow-lg border-r border-gray-200 bg-[#670e85]">
           <div className="p-6 border-b border-gray-200">
-            <h1 className="text-xl font-bold text-gray-800">Fernando Admin</h1>
+            <h1 className="text-xl font-bold text-slate-50">Fernando Admin</h1>
             <p className="text-sm text-gray-600">Management Panel</p>
           </div>
           
@@ -124,8 +124,8 @@ export default function PanelFernandoLayout({
                     `}>
                     <Icon className="w-5 h-5 mr-3" />
                     <div className="flex-1">
-                      <div className="font-medium">{tab.name}</div>
-                      <div className="text-xs text-gray-500">{tab.description}</div>
+                      <div className="font-medium bg-slate-50">{tab.name}</div>
+                      <div className="text-xs text-gray-500 bg-slate-50">{tab.description}</div>
                     </div>
                   </Link>;
             })}

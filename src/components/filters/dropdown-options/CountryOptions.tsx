@@ -115,9 +115,10 @@ export const CountryOptions: React.FC<CountryOptionsProps> = ({ type, fontSize }
               detail: { key: type, value: country.code } 
             }));
           }}
-          className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54]`} 
+          className={`w-full text-left px-3 py-2 rounded-md ${fontSize} font-bold transition-colors hover:bg-[#460F54] flex items-center justify-between`} 
         >
-          {getLocalizedCountryName(country.code)} {country.flag}
+          <span>{getLocalizedCountryName(country.code)}</span>
+          <span>{country.flag}</span>
         </button>
       ))}
     </>

@@ -32,7 +32,10 @@ export function CountryFilterEN({ activeCountry, onChange }: CountryFilterENProp
               }}
               className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
             />
-            <span className="text-sm">{country.name} {country.flag}</span>
+            <span className="text-sm flex items-center">
+              {country.name}
+              <span className="ml-2">{country.flag}</span>
+            </span>
           </label>
         ))
       )}

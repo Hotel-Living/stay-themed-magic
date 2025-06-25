@@ -33,8 +33,8 @@ export const useFilterData = (): FilterData => {
 
         if (hotelData) {
           // Extract unique countries with their ISO codes
-          const uniqueCountries = [...new Set(hotelData.map(hotel => hotel.country))];
-          const countryList = uniqueCountries.map(countryCode => {
+          const uniqueCountryCodes = [...new Set(hotelData.map(hotel => hotel.country))];
+          const countryList = uniqueCountryCodes.map(countryCode => {
             // Map country codes to display names and flags
             const countryMap: Record<string, { name: string; flag: string }> = {
               'ES': { name: 'Spain', flag: '🇪🇸' },

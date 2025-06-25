@@ -12,6 +12,7 @@ import FernandoAffinities from "@/components/panel-fernando/FernandoAffinities";
 import FernandoFilters from "@/components/panel-fernando/FernandoFilters";
 import FernandoUserRoles from "@/components/panel-fernando/FernandoUserRoles";
 import FernandoAnalytics from "@/components/panel-fernando/FernandoAnalytics";
+import FernandoTranslations from "@/components/panel-fernando/FernandoTranslations";
 import FernandoBatchImages from "@/components/panel-fernando/FernandoBatchImages";
 import FernandoBatchTextCompletion from "@/components/panel-fernando/FernandoBatchTextCompletion";
 import FernandoBatchPendingFields from "@/components/panel-fernando/FernandoBatchPendingFields";
@@ -34,6 +35,7 @@ export default function PanelFernando() {
         <Route path="/filters" element={<FernandoFilters />} />
         <Route path="/user-roles" element={<FernandoUserRoles />} />
         <Route path="/analytics" element={<FernandoAnalytics />} />
+        <Route path="/translations" element={<FernandoTranslations />} />
         <Route path="/batch-images" element={<FernandoBatchImages />} />
         <Route path="/batch-text" element={<FernandoBatchTextCompletion />} />
         <Route path="/batch-pending" element={<FernandoBatchPendingFields />} />

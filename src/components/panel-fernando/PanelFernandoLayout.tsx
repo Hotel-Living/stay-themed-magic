@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Hotel, Calendar, CreditCard, BarChart3, MessageSquare, Megaphone, Heart, Filter, Users, TrendingUp, ImageIcon, FileText, Clock, Plus, Camera } from "lucide-react";
+import { Hotel, Calendar, CreditCard, BarChart3, MessageSquare, Megaphone, Heart, Filter, Users, TrendingUp, ImageIcon, FileText, Clock, Plus, Camera, Languages } from "lucide-react";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -72,6 +72,12 @@ const fernandoTabs = [{
   icon: TrendingUp,
   path: "/panel-fernando/analytics",
   description: "Advanced analytics"
+}, {
+  id: "translations",
+  name: "Translations",
+  icon: Languages,
+  path: "/panel-fernando/translations",
+  description: "Manage hotel translations"
 }, {
   id: "batch-images",
   name: "Batch Images",

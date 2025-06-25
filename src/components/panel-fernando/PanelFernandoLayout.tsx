@@ -3,6 +3,8 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Hotel, Calendar, CreditCard, BarChart3, MessageSquare, Megaphone, Heart, Filter, Users, TrendingUp, ImageIcon, FileText, Clock, Plus, Camera } from "lucide-react";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const fernandoTabs = [{
   id: "32-day-hotels",
@@ -108,9 +110,10 @@ export default function PanelFernandoLayout({
   children: React.ReactNode;
 }) {
   const location = useLocation();
-  return <div className="min-h-screen relative">
+  return <div className="min-h-screen relative flex flex-col">
       <HotelStarfield />
-      <div className="flex">
+      <Navbar />
+      <div className="flex flex-1 pt-16">
         {/* Sidebar */}
         <div className="w-64 shadow-lg border-r border-gray-200 bg-[#670e85]">
           <div className="p-6 border-b border-gray-200">
@@ -145,5 +148,6 @@ export default function PanelFernandoLayout({
           </div>
         </div>
       </div>
+      <Footer />
     </div>;
 }

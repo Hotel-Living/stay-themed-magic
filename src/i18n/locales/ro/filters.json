@@ -72,21 +72,32 @@
       "sports": "Sport"
     },
     "roomTypes": {
+      "title": "Tip Cameră",
       "single": "Cameră Single",
       "double": "Cameră Dublă",
       "triple": "Cameră Triplă",
       "suite": "Suită",
       "apartment": "Apartament",
-      "studio": "Studio"
+      "studio": "Studio",
+      "penthouse": "Penthouse",
+      "familyRoom": "Cameră Familială",
+      "deluxe": "Cameră Deluxe",
+      "standard": "Cameră Standard",
+      "presidential": "Suită Prezidențială",
+      "junior": "Junior Suite"
     },
     "mealPlans": {
+      "title": "Plan Masa",
       "roomOnly": "Doar Cameră",
       "breakfast": "Mic Dejun",
       "halfBoard": "Demipensiune",
       "fullBoard": "Pensiune Completă",
-      "allInclusive": "All Inclusive"
+      "allInclusive": "All Inclusive",
+      "laundry": "Spălătorie",
+      "externalLaundry": "Spălătorie Externă"
     },
     "roomFeatures": {
+      "title": "Caracteristici Cameră",
       "airConditioning": "Aer Condiționat",
       "balcony": "Balcon",
       "seaView": "Vedere la Mare",
@@ -94,9 +105,16 @@
       "minibar": "Minibar",
       "safebox": "Seif",
       "bathtub": "Cadă",
-      "shower": "Duș"
+      "shower": "Duș",
+      "kitchenette": "Kitchenette",
+      "workspace": "Spațiu de Lucru",
+      "cityView": "Vedere la Oraș",
+      "mountainView": "Vedere la Munte",
+      "gardenView": "Vedere la Grădină",
+      "privatePool": "Piscină Privată"
     },
     "hotelFeatures": {
+      "title": "Caracteristici Hotel",
       "pool": "Piscină",
       "spa": "Spa",
       "gym": "Sală de Sport",
@@ -106,7 +124,42 @@
       "petFriendly": "Acceptă Animale",
       "beachAccess": "Acces la Plajă",
       "businessCenter": "Centru de Afaceri",
-      "roomService": "Room Service"
+      "roomService": "Room Service",
+      "concierge": "Concierge",
+      "laundryService": "Serviciu Spălătorie",
+      "airport": "Transfer Aeroport",
+      "tours": "Tururi",
+      "rentals": "Închirieri"
+    },
+    "activities": {
+      "title": "Activități",
+      "indoor": "Interior",
+      "outdoor": "Exterior",
+      "artCreativity": "Artă și Creativitate",
+      "cinemaMedia": "Cinema și Media",
+      "cookingFood": "Gătit și Mâncare",
+      "fitnessMovement": "Fitness și Mișcare",
+      "gamesEntertainment": "Jocuri și Divertisment",
+      "languageActivities": "Activități Lingvistice",
+      "learningTalks": "Învățare și Conferințe",
+      "mindBalance": "Minte și Echilibru",
+      "musicStage": "Muzică și Scenă",
+      "animalEncounters": "Întâlniri cu Animale",
+      "adventure": "Aventură",
+      "gardeningGreenLiving": "Grădinărit și Viață Verde",
+      "liveCulture": "Cultură Live",
+      "natureTrails": "Natură și Trasee",
+      "outdoorWellness": "Wellness în Aer Liber",
+      "socialCommunity": "Social și Comunitate",
+      "sportsFitness": "Sport și Fitness"
+    },
+    "stayLengths": {
+      "title": "Durata Șederii",
+      "8days": "8 zile",
+      "16days": "16 zile",
+      "24days": "24 zile",
+      "32days": "32 zile",
+      "flexible": "Flexibil"
     }
   }
 }

@@ -72,21 +72,32 @@
       "sports": "Desportos"
     },
     "roomTypes": {
+      "title": "Tipo de Quarto",
       "single": "Quarto Individual",
       "double": "Quarto Duplo",
       "triple": "Quarto Triplo",
       "suite": "Suíte",
       "apartment": "Apartamento",
-      "studio": "Estúdio"
+      "studio": "Estúdio",
+      "penthouse": "Penthouse",
+      "familyRoom": "Quarto Familiar",
+      "deluxe": "Quarto Deluxe",
+      "standard": "Quarto Standard",
+      "presidential": "Suíte Presidencial",
+      "junior": "Junior Suite"
     },
     "mealPlans": {
+      "title": "Plano de Refeições",
       "roomOnly": "Apenas Quarto",
       "breakfast": "Pequeno-almoço",
       "halfBoard": "Meia Pensão",
       "fullBoard": "Pensão Completa",
-      "allInclusive": "Tudo Incluído"
+      "allInclusive": "Tudo Incluído",
+      "laundry": "Lavandaria",
+      "externalLaundry": "Lavandaria Externa"
     },
     "roomFeatures": {
+      "title": "Características do Quarto",
       "airConditioning": "Ar Condicionado",
       "balcony": "Varanda",
       "seaView": "Vista para o Mar",
@@ -94,9 +105,16 @@
       "minibar": "Minibar",
       "safebox": "Cofre",
       "bathtub": "Banheira",
-      "shower": "Chuveiro"
+      "shower": "Chuveiro",
+      "kitchenette": "Kitchenette",
+      "workspace": "Espaço de Trabalho",
+      "cityView": "Vista da Cidade",
+      "mountainView": "Vista da Montanha",
+      "gardenView": "Vista do Jardim",
+      "privatePool": "Piscina Privada"
     },
     "hotelFeatures": {
+      "title": "Características do Hotel",
       "pool": "Piscina",
       "spa": "Spa",
       "gym": "Ginásio",
@@ -106,7 +124,42 @@
       "petFriendly": "Aceita Animais",
       "beachAccess": "Acesso à Praia",
       "businessCenter": "Centro de Negócios",
-      "roomService": "Serviço de Quarto"
+      "roomService": "Serviço de Quarto",
+      "concierge": "Concierge",
+      "laundryService": "Serviço de Lavandaria",
+      "airport": "Transfer do Aeroporto",
+      "tours": "Tours",
+      "rentals": "Alugueres"
+    },
+    "activities": {
+      "title": "Atividades",
+      "indoor": "Interior",
+      "outdoor": "Exterior",
+      "artCreativity": "Arte e Criatividade",
+      "cinemaMedia": "Cinema e Média",
+      "cookingFood": "Culinária e Comida",
+      "fitnessMovement": "Fitness e Movimento",
+      "gamesEntertainment": "Jogos e Entretenimento",
+      "languageActivities": "Atividades de Idiomas",
+      "learningTalks": "Aprendizagem e Palestras",
+      "mindBalance": "Mente e Equilíbrio",
+      "musicStage": "Música e Palco",
+      "animalEncounters": "Encontros com Animais",
+      "adventure": "Aventura",
+      "gardeningGreenLiving": "Jardinagem e Vida Verde",
+      "liveCulture": "Cultura ao Vivo",
+      "natureTrails": "Natureza e Trilhos",
+      "outdoorWellness": "Bem-estar ao Ar Livre",
+      "socialCommunity": "Social e Comunidade",
+      "sportsFitness": "Desporto e Fitness"
+    },
+    "stayLengths": {
+      "title": "Duração da Estadia",
+      "8days": "8 dias",
+      "16days": "16 dias",
+      "24days": "24 dias",
+      "32days": "32 dias",
+      "flexible": "Flexível"
     }
   }
 }

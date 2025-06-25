@@ -72,6 +72,7 @@
       "sports": "Deportes"
     },
     "roomTypes": {
+      "title": "Tipo de Habitación",
       "single": "Habitación Individual",
       "double": "Habitación Doble",
       "triple": "Habitación Triple",
@@ -86,6 +87,7 @@
       "junior": "Junior Suite"
     },
     "mealPlans": {
+      "title": "Plan de Comidas",
       "roomOnly": "Solo Habitación",
       "breakfast": "Desayuno",
       "halfBoard": "Media Pensión",
@@ -95,6 +97,7 @@
       "externalLaundry": "Lavandería Externa"
     },
     "roomFeatures": {
+      "title": "Características de la Habitación",
       "airConditioning": "Aire Acondicionado",
       "balcony": "Balcón",
       "seaView": "Vista al Mar",
@@ -111,6 +114,7 @@
       "privatePool": "Piscina Privada"
     },
     "hotelFeatures": {
+      "title": "Características del Hotel",
       "pool": "Piscina",
       "spa": "Spa",
       "gym": "Gimnasio",
@@ -128,6 +132,7 @@
       "rentals": "Alquileres"
     },
     "activities": {
+      "title": "Actividades",
       "indoor": "Interior",
       "outdoor": "Exterior",
       "artCreativity": "Arte y Creatividad",
@@ -149,6 +154,7 @@
       "sportsFitness": "Deportes y Fitness"
     },
     "stayLengths": {
+      "title": "Duración de Estancia",
       "8days": "8 días",
       "16days": "16 días",
       "24days": "24 días",

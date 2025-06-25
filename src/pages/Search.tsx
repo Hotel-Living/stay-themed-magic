@@ -50,9 +50,9 @@ export default function Search() {
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* First Filter Sidebar */}
+            {/* Second Filter Sidebar - Now on the left */}
             <div className="lg:col-span-1">
-              <FilterSidebar
+              <SecondFilterSidebar
                 activeFilters={activeFilters}
                 handleFilterChange={handleFilterChange}
                 handleArrayFilterChange={handleArrayFilterChange}
@@ -60,9 +60,9 @@ export default function Search() {
               />
             </div>
             
-            {/* Second Filter Sidebar */}
+            {/* First Filter Sidebar - Now on the right */}
             <div className="lg:col-span-1">
-              <SecondFilterSidebar
+              <FilterSidebar
                 activeFilters={activeFilters}
                 handleFilterChange={handleFilterChange}
                 handleArrayFilterChange={handleArrayFilterChange}

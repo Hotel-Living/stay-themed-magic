@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { FilterState } from "@/components/filters/FilterTypes";
@@ -14,53 +13,22 @@ import { LocationFilter } from "./LocationFilter";
 import { ThemeFilter } from "./ThemeFilter";
 import { ActivityFilter } from "./ActivityFilter";
 import { CheckboxFilter } from "./CheckboxFilter";
-
 interface SecondFilterSidebarProps {
   activeFilters: FilterState;
   handleFilterChange: (key: keyof FilterState, value: any) => void;
   handleArrayFilterChange: (key: keyof FilterState, value: string, isSelected: boolean) => void;
   onResetAllFilters: () => void;
 }
-
 export function SecondFilterSidebar({
   activeFilters,
   handleFilterChange,
   handleArrayFilterChange,
   onResetAllFilters
 }: SecondFilterSidebarProps) {
-  const { t } = useTranslation();
-
-  // Room types options with translations
-  const roomTypeOptions = [
-    { value: 'Single', label: t('filters.roomTypeOptions.single') },
-    { value: 'Double', label: t('filters.roomTypeOptions.double') },
-    { value: 'Suite', label: t('filters.roomTypeOptions.suite') },
-    { value: 'Apartment', label: t('filters.roomTypeOptions.apartment') }
-  ];
-
-  // Hotel features options with translations
-  const hotelFeatureOptions = [
-    { value: 'Pool', label: t('filters.hotelFeatureOptions.pool') },
-    { value: 'Gym', label: t('filters.hotelFeatureOptions.gym') },
-    { value: 'Spa', label: t('filters.hotelFeatureOptions.spa') },
-    { value: 'Restaurant', label: t('filters.hotelFeatureOptions.restaurant') },
-    { value: 'Bar', label: t('filters.hotelFeatureOptions.bar') },
-    { value: 'WiFi', label: t('filters.hotelFeatureOptions.wifi') },
-    { value: 'Parking', label: t('filters.hotelFeatureOptions.parking') }
-  ];
-
-  // Room features options with translations
-  const roomFeatureOptions = [
-    { value: 'Air Conditioning', label: t('filters.roomFeatureOptions.airConditioning') },
-    { value: 'Balcony', label: t('filters.roomFeatureOptions.balcony') },
-    { value: 'Kitchen', label: t('filters.roomFeatureOptions.kitchen') },
-    { value: 'Workspace', label: t('filters.roomFeatureOptions.workspace') },
-    { value: 'TV', label: t('filters.roomFeatureOptions.tv') },
-    { value: 'Minibar', label: t('filters.roomFeatureOptions.minibar') }
-  ];
-
-  return (
-    <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-4 shadow-2xl w-full max-w-xs px-0 py-0 rounded-lg">
+  const {
+    t
+  } = useTranslation();
+  return <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-4 shadow-2xl w-full max-w-xs px-0 py-0 rounded-lg">
       {/* Reset Button */}
       <div className="mb-4">
         <button onClick={onResetAllFilters} className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium">
@@ -95,7 +63,7 @@ export function SecondFilterSidebar({
 
       {/* Price Filter */}
       <div className="mb-4">
-        <PriceRangeFilter activePrice={activeFilters.maxPrice} onChange={value => handleFilterChange('maxPrice', value)} />
+        <PriceRangeFilter activePrice={activeFilters.maxPrice} onChange={value => handleFilterChange('maxPrice', value)} className="px-[70px]" />
       </div>
 
       {/* Month Filter */}
@@ -125,17 +93,17 @@ export function SecondFilterSidebar({
 
       {/* Room Types Filter */}
       <div className="mb-4">
-        <CheckboxFilter title={t('filters.roomTypes')} options={roomTypeOptions} selectedOptions={activeFilters.roomTypes} onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)} />
+        <CheckboxFilter title="ROOM TYPES" options={['Single', 'Double', 'Suite', 'Apartment']} selectedOptions={activeFilters.roomTypes} onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)} />
       </div>
 
       {/* Hotel Features Filter */}
       <div className="mb-4">
-        <CheckboxFilter title={t('filters.hotelFeatures')} options={hotelFeatureOptions} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} />
+        <CheckboxFilter title="HOTEL FEATURES" options={['Pool', 'Gym', 'Spa', 'Restaurant', 'Bar', 'WiFi', 'Parking']} selectedOptions={activeFilters.hotelFeatures} onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} />
       </div>
 
       {/* Room Features Filter */}
       <div className="mb-4">
-        <CheckboxFilter title={t('filters.roomFeatures')} options={roomFeatureOptions} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} />
+        <CheckboxFilter title="ROOM FEATURES" options={['Air Conditioning', 'Balcony', 'Kitchen', 'Workspace', 'TV', 'Minibar']} selectedOptions={activeFilters.roomFeatures} onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} />
       </div>
 
       {/* Bottom Reset Button */}
@@ -144,6 +112,5 @@ export function SecondFilterSidebar({
           {t('filters.resetFilters')}
         </button>
       </div>
-    </div>
-  );
+    </div>;
 }

@@ -12,7 +12,7 @@ export function FilterItem({
   return <Collapsible>
       <div className="p-2 bg-[#5d0083] rounded-sm py-[3px]">
         <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2]">
-          <span className="font-medium">{title}</span>
+          <span className="text-left px-0 text-sm font-medium">{title}</span>
           <ChevronRight className="h-4 w-4" />
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-1 pl-2 space-y-1">

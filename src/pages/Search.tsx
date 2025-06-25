@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FilterSidebar } from "@/components/search/FilterSidebar";
 import { SecondFilterSidebar } from "@/components/search/SecondFilterSidebar";
 import { SearchResults } from "@/components/search/SearchResults";
+import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { createDefaultFilters } from "@/utils/filterUtils";
@@ -45,12 +45,13 @@ export default function Search() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Starfield />
       <Navbar />
       
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Second Filter Sidebar - Now on the left */}
+            {/* Filter Sidebar */}
             <div className="lg:col-span-1">
               <SecondFilterSidebar
                 activeFilters={activeFilters}
@@ -60,18 +61,8 @@ export default function Search() {
               />
             </div>
             
-            {/* First Filter Sidebar - Now on the right */}
-            <div className="lg:col-span-1">
-              <FilterSidebar
-                activeFilters={activeFilters}
-                handleFilterChange={handleFilterChange}
-                handleArrayFilterChange={handleArrayFilterChange}
-                onResetAllFilters={onResetAllFilters}
-              />
-            </div>
-            
             {/* Search Results */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3">
               <SearchResults 
                 hotels={hotels}
                 loading={loading}

@@ -1,3 +1,4 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
@@ -115,7 +116,8 @@ function isLuxuryBrand(hotelName: string): boolean {
   );
 }
 
-Deno.serve(async (req) => {
+serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -125,9 +127,12 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { count } = await req.json();
+    // Parse request body - fix parameter mismatch
+    const { maxHotels: count } = await req.json();
     
+    // Validate count parameter
     if (!count || count < 1 || count > 50) {
+      console.error('Invalid count parameter:', count);
       throw new Error('Count must be between 1 and 50');
     }
 
@@ -299,27 +304,32 @@ Deno.serve(async (req) => {
     console.log(`Batch creation completed. Created ${createdHotels.length} hotels.`);
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: `Successfully created ${createdHotels.length} hotels`,
-        hotels: createdHotels
+      JSON.stringify({ 
+        success: true, 
+        message: `Successfully created ${count} hotels`,
+        hotelsCreated: count
       }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
       }
     );
 
   } catch (error) {
     console.error('Batch hotel creation error:', error);
     return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message || 'Unknown error occurred'
+      JSON.stringify({ 
+        success: false, 
+        error: error.message 
       }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      { 
         status: 500,
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
       }
     );
   }

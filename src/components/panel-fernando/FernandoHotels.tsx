@@ -1,10 +1,12 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Hotel } from "@/types/hotel";
+import { Hotel } from "@/integrations/supabase/types-custom";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { Trash2, Eye, Edit, Check, MessageSquare, Checkbox } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Check, Edit, Eye, Trash2, Star } from "lucide-react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,7 +40,7 @@ export default function FernandoHotels() {
   const [loading, setLoading] = useState(true);
   const [selectedHotels, setSelectedHotels] = useState<Set<string>>(new Set());
   const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false);
-  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const fetchHotels = async () => {
     try {

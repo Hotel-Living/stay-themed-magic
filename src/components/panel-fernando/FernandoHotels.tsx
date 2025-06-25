@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Download, Edit, Trash2, Eye } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -55,18 +54,15 @@ export default function FernandoHotels() {
   };
 
   const handleView = (hotelId: string) => {
-    console.log('Viewing hotel:', hotelId);
     navigate(`/hotel/${hotelId}`);
   };
 
   const handleEdit = (hotelId: string) => {
-    console.log('Editing hotel:', hotelId);
-    navigate(`/dashboard/property-form/${hotelId}`);
+    navigate(`/add-property?edit=${hotelId}`);
   };
 
-  const handleDelete = async (hotelId: string, hotelName: string) => {
-    console.log('Deleting hotel:', hotelId);
-    if (window.confirm(`Are you sure you want to delete "${hotelName}"? This action cannot be undone.`)) {
+  const handleDelete = async (hotelId: string) => {
+    if (window.confirm('Are you sure you want to delete this hotel?')) {
       try {
         const { error } = await supabase
           .from('hotels')
@@ -74,14 +70,13 @@ export default function FernandoHotels() {
           .eq('id', hotelId);
 
         if (error) throw error;
-
+        
         toast({
           title: "Success",
           description: "Hotel deleted successfully",
         });
-
-        // Refresh the list
-        fetchHotels();
+        
+        fetchHotels(); // Refresh the list
       } catch (error) {
         console.error('Error deleting hotel:', error);
         toast({
@@ -182,14 +177,15 @@ export default function FernandoHotels() {
                       <div className="flex gap-2">
                         <Button 
                           size="sm" 
-                          className="h-8 w-8 p-0 bg-blue-600 hover:bg-blue-700"
+                          variant="outline" 
+                          className="h-8 w-8 p-0"
                           onClick={() => handleView(hotel.id)}
                         >
-                          <Eye className="w-4 h-4" />
+                          <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
                           size="sm" 
-                          className="h-8 w-8 p-0 bg-purple-600 hover:bg-purple-700"
+                          className="h-8 w-8 p-0 bg-fuchsia-600 hover:bg-fuchsia-700"
                           onClick={() => handleEdit(hotel.id)}
                         >
                           <Edit className="w-4 h-4" />
@@ -197,7 +193,7 @@ export default function FernandoHotels() {
                         <Button 
                           size="sm" 
                           className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700"
-                          onClick={() => handleDelete(hotel.id, hotel.name)}
+                          onClick={() => handleDelete(hotel.id)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>

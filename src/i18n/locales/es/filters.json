@@ -16,6 +16,10 @@
     "affinity": "AFINIDAD",
     "month": "MES",
     "country": "PAÍS",
+    "numberOfDays": "NÚMERO DE DÍAS",
+    "roomTypes": "TIPO DE HABITACIÓN",
+    "hotelFeatures": "SERVICIOS DEL HOTEL",
+    "roomFeatures": "SERVICIOS DE LA HABITACIÓN",
     "priceRanges": {
       "upTo1000": "Hasta 1.000 $",
       "1000to1500": "1.000 $ a 1.500 $",
@@ -47,6 +51,48 @@
       "germany": "Alemania 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grecia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Art",
+      "business": "Business",
+      "culture": "Culture",
+      "education": "Education",
+      "entertainment": "Entertainment",
+      "foodAndDrinks": "Food and Drinks",
+      "healthAndWellness": "Health and Wellness",
+      "history": "History",
+      "hobbies": "Hobbies",
+      "languages": "Languages",
+      "lifestyle": "Lifestyle",
+      "nature": "Nature",
+      "personalDevelopment": "Personal Development",
+      "relationships": "Relationships",
+      "scienceAndTechnology": "Science and Technology",
+      "socialImpact": "Social Impact",
+      "sports": "Sports"
+    },
+    "roomTypeOptions": {
+      "single": "Individual",
+      "double": "Doble",
+      "suite": "Suite",
+      "apartment": "Apartamento"
+    },
+    "hotelFeatureOptions": {
+      "pool": "Piscina",
+      "gym": "Gimnasio",
+      "spa": "Spa",
+      "restaurant": "Restaurante",
+      "bar": "Bar",
+      "wifi": "WiFi",
+      "parking": "Aparcamiento"
+    },
+    "roomFeatureOptions": {
+      "airConditioning": "Aire Acondicionado",
+      "balcony": "Balcón",
+      "kitchen": "Cocina",
+      "workspace": "Espacio de Trabajo",
+      "tv": "TV",
+      "minibar": "Minibar"
     }
   }
 }

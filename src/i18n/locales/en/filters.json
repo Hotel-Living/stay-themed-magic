@@ -16,6 +16,10 @@
     "affinity": "AFFINITY",
     "month": "MONTH",
     "country": "COUNTRY",
+    "numberOfDays": "NUMBER OF DAYS",
+    "roomTypes": "ROOM TYPES",
+    "hotelFeatures": "HOTEL FEATURES",
+    "roomFeatures": "ROOM FEATURES",
     "priceRanges": {
       "upTo1000": "Up to 1.000 $",
       "1000to1500": "1.000 $ to 1.500 $",
@@ -66,6 +70,29 @@
       "scienceAndTechnology": "Science and Technology",
       "socialImpact": "Social Impact",
       "sports": "Sports"
+    },
+    "roomTypeOptions": {
+      "single": "Single",
+      "double": "Double",
+      "suite": "Suite",
+      "apartment": "Apartment"
+    },
+    "hotelFeatureOptions": {
+      "pool": "Pool",
+      "gym": "Gym",
+      "spa": "Spa",
+      "restaurant": "Restaurant",
+      "bar": "Bar",
+      "wifi": "WiFi",
+      "parking": "Parking"
+    },
+    "roomFeatureOptions": {
+      "airConditioning": "Air Conditioning",
+      "balcony": "Balcony",
+      "kitchen": "Kitchen",
+      "workspace": "Workspace",
+      "tv": "TV",
+      "minibar": "Minibar"
     }
   }
 }

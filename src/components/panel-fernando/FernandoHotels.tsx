@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
-import { Eye, Edit, Trash2, CheckCircle, XCircle, Search } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Hotel } from "@/integrations/supabase/types/hotelTypes";
 
 export default function FernandoHotels() {
@@ -16,12 +15,12 @@ export default function FernandoHotels() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [countryFilter, setCountryFilter] = useState("all");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [starsFilter, setStarsFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
-  const [countries, setCountries] = useState<string[]>([]);
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchHotels();
@@ -31,236 +30,183 @@ export default function FernandoHotels() {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("hotels")
+        .from('hotels')
         .select(`
           *,
-          profiles:owner_id(first_name, last_name, email)
+          profiles:owner_id(
+            first_name,
+            last_name
+          )
         `)
-        .order("created_at", { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (error) {
-        console.error("Error fetching hotels:", error);
-        toast.error("Error loading hotels");
+        toast({
+          title: "Error",
+          description: "Failed to fetch hotels",
+          variant: "destructive"
+        });
         return;
       }
 
-      if (data) {
-        // Map the data to match Hotel type expectations
-        const mappedHotels = data.map(hotel => ({
-          ...hotel,
-          hotel_name: hotel.name, // Map name to hotel_name to satisfy the type
-          status: hotel.status as "approved" | "pending" | "rejected"
-        }));
-        
-        setHotels(mappedHotels);
-        
-        // Extract unique countries for filter
-        const uniqueCountries = [...new Set(data.map(hotel => hotel.country))].filter(Boolean);
-        setCountries(uniqueCountries);
-      }
+      // Transform the data to match the Hotel type
+      const transformedHotels: Hotel[] = (data || []).map(hotel => ({
+        ...hotel,
+        hotel_name: hotel.name,
+        status: hotel.status as "approved" | "pending" | "rejected",
+        features_hotel: hotel.features_hotel as Record<string, boolean> || {},
+        features_room: hotel.features_room as Record<string, boolean> || {},
+        // Handle nullable fields
+        address: hotel.address || "",
+        atmosphere: hotel.atmosphere || "",
+        ideal_guests: hotel.ideal_guests || "",
+        perfect_location: hotel.perfect_location || "",
+        description: hotel.description || "",
+        main_image_url: hotel.main_image_url || "",
+        property_type: hotel.property_type || "",
+        style: hotel.style || "",
+        contact_name: hotel.contact_name || "",
+        contact_email: hotel.contact_email || "",
+        contact_phone: hotel.contact_phone || "",
+        postal_code: hotel.postal_code || "",
+        terms: hotel.terms || "",
+        // Handle arrays
+        available_months: hotel.available_months || [],
+        meal_plans: hotel.meal_plans || [],
+        stay_lengths: hotel.stay_lengths || [],
+        room_types: hotel.room_types || [],
+        faqs: hotel.faqs || [],
+        // Handle numeric fields
+        latitude: hotel.latitude || 0,
+        longitude: hotel.longitude || 0,
+        category: hotel.category || 0,
+        // Handle boolean fields
+        is_featured: hotel.is_featured || false,
+        allow_stay_extensions: hotel.allow_stay_extensions || false,
+        enable_price_increase: hotel.enable_price_increase || false,
+        enablePriceIncrease: hotel.enablePriceIncrease || false,
+        // Handle numeric fields with defaults
+        price_increase_cap: hotel.price_increase_cap || 0,
+        priceIncreaseCap: hotel.priceIncreaseCap || 0,
+        // Handle JSON fields
+        rates: hotel.rates || {},
+        pending_changes: hotel.pending_changes || {},
+        pricingMatrix: hotel.pricingMatrix || [],
+        // Handle profile data
+        hotel_images: hotel.hotel_images || [],
+        hotel_themes: hotel.hotel_themes || [],
+        hotel_activities: hotel.hotel_activities || []
+      }));
+
+      setHotels(transformedHotels);
     } catch (error) {
-      console.error("Exception fetching hotels:", error);
-      toast.error("Error loading hotels");
+      console.error('Error fetching hotels:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch hotels",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleApprove = async (hotelId: string) => {
-    try {
-      const { error } = await supabase
-        .from("hotels")
-        .update({ status: "approved" })
-        .eq("id", hotelId);
-
-      if (error) {
-        console.error("Error approving hotel:", error);
-        toast.error("Error approving hotel");
-        return;
-      }
-
-      toast.success("Hotel approved successfully");
-      fetchHotels(); // Refresh the list
-    } catch (error) {
-      console.error("Exception approving hotel:", error);
-      toast.error("Error approving hotel");
-    }
-  };
-
-  const handleReject = async (hotelId: string) => {
-    try {
-      const { error } = await supabase
-        .from("hotels")
-        .update({ status: "rejected" })
-        .eq("id", hotelId);
-
-      if (error) {
-        console.error("Error rejecting hotel:", error);
-        toast.error("Error rejecting hotel");
-        return;
-      }
-
-      toast.success("Hotel rejected successfully");
-      fetchHotels(); // Refresh the list
-    } catch (error) {
-      console.error("Exception rejecting hotel:", error);
-      toast.error("Error rejecting hotel");
-    }
-  };
-
-  const handleDelete = async (hotelId: string) => {
-    if (!confirm("Are you sure you want to delete this hotel? This action cannot be undone.")) {
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from("hotels")
-        .delete()
-        .eq("id", hotelId);
-
-      if (error) {
-        console.error("Error deleting hotel:", error);
-        toast.error("Error deleting hotel");
-        return;
-      }
-
-      toast.success("Hotel deleted successfully");
-      fetchHotels(); // Refresh the list
-    } catch (error) {
-      console.error("Exception deleting hotel:", error);
-      toast.error("Error deleting hotel");
-    }
-  };
-
-  const handleBulkDelete = async () => {
-    if (selectedHotels.length === 0) {
-      toast.error("Please select hotels to delete");
-      return;
-    }
-
-    if (!confirm(`Are you sure you want to delete ${selectedHotels.length} hotels? This action cannot be undone.`)) {
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from("hotels")
-        .delete()
-        .in("id", selectedHotels);
-
-      if (error) {
-        console.error("Error bulk deleting hotels:", error);
-        toast.error("Error deleting hotels");
-        return;
-      }
-
-      toast.success(`${selectedHotels.length} hotels deleted successfully`);
-      setSelectedHotels([]);
-      fetchHotels(); // Refresh the list
-    } catch (error) {
-      console.error("Exception bulk deleting hotels:", error);
-      toast.error("Error deleting hotels");
-    }
-  };
-
-  const handleViewProperty = (hotelId: string) => {
-    // Open hotel detail page in new tab
-    window.open(`/hotel/${hotelId}`, '_blank');
-  };
-
-  const handleEditProperty = (hotelId: string) => {
-    // Navigate to property edit page
-    window.open(`/dashboard/properties/edit/${hotelId}`, '_blank');
-  };
-
-  const toggleHotelSelection = (hotelId: string) => {
-    setSelectedHotels(prev => 
-      prev.includes(hotelId) 
-        ? prev.filter(id => id !== hotelId)
-        : [...prev, hotelId]
-    );
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedHotels.length === filteredHotels.length) {
-      setSelectedHotels([]);
-    } else {
-      setSelectedHotels(filteredHotels.map(hotel => hotel.id));
-    }
-  };
+  // Get unique countries from hotels
+  const countries = [...new Set(hotels.map(hotel => hotel.country))];
 
   // Filter and sort hotels
   const filteredHotels = hotels
     .filter(hotel => {
-      const matchesSearch = hotel.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const matchesSearch = hotel.hotel_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            hotel.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           hotel.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      
+                           hotel.country?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCountry = countryFilter === "all" || hotel.country === countryFilter;
-      const matchesCategory = categoryFilter === "all" || hotel.category?.toString() === categoryFilter;
+      const matchesStars = starsFilter === "all" || hotel.category?.toString() === starsFilter;
       const matchesStatus = statusFilter === "all" || hotel.status === statusFilter;
       
-      return matchesSearch && matchesCountry && matchesCategory && matchesStatus;
+      return matchesSearch && matchesCountry && matchesStars && matchesStatus;
     })
     .sort((a, b) => {
       let aValue, bValue;
       
       switch (sortBy) {
         case "name":
-          aValue = a.name || "";
-          bValue = b.name || "";
+          aValue = a.hotel_name || "";
+          bValue = b.hotel_name || "";
           break;
-        case "created_at":
-          aValue = new Date(a.created_at).getTime();
-          bValue = new Date(b.created_at).getTime();
+        case "country":
+          aValue = a.country || "";
+          bValue = b.country || "";
+          break;
+        case "city":
+          aValue = a.city || "";
+          bValue = b.city || "";
           break;
         case "price":
           aValue = a.price_per_month || 0;
           bValue = b.price_per_month || 0;
           break;
+        case "created":
+          aValue = new Date(a.created_at).getTime();
+          bValue = new Date(b.created_at).getTime();
+          break;
         default:
-          aValue = a.name || "";
-          bValue = b.name || "";
+          aValue = a.hotel_name || "";
+          bValue = b.hotel_name || "";
       }
       
-      if (sortOrder === "asc") {
-        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortOrder === "asc" 
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
       } else {
-        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+        return sortOrder === "asc" 
+          ? (aValue as number) - (bValue as number)
+          : (bValue as number) - (aValue as number);
       }
     });
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "approved":
-        return <Badge className="bg-green-100 text-green-800">Approved</Badge>;
-      case "pending":
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-      case "rejected":
-        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>;
-      default:
-        return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>;
+  const updateHotelStatus = async (hotelId: string, newStatus: "approved" | "pending" | "rejected") => {
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .update({ status: newStatus })
+        .eq('id', hotelId);
+
+      if (error) throw error;
+
+      setHotels(prevHotels =>
+        prevHotels.map(hotel =>
+          hotel.id === hotelId ? { ...hotel, status: newStatus } : hotel
+        )
+      );
+
+      toast({
+        title: "Success",
+        description: `Hotel status updated to ${newStatus}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update hotel status",
+        variant: "destructive"
+      });
     }
   };
 
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="text-center">Loading hotels...</div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-lg">Loading hotels...</div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Hotels Management</h1>
-        {selectedHotels.length > 0 && (
-          <Button onClick={handleBulkDelete} variant="destructive">
-            Delete Selected ({selectedHotels.length})
-          </Button>
-        )}
+        <h1 className="text-3xl font-bold">Hotel Management</h1>
+        <Button onClick={fetchHotels}>Refresh</Button>
       </div>
 
       {/* Filters */}
@@ -269,16 +215,12 @@ export default function FernandoHotels() {
           <CardTitle>Filters</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search hotels..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <Input
+              placeholder="Search hotels..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
             
             <Select value={countryFilter} onValueChange={setCountryFilter}>
               <SelectTrigger>
@@ -286,13 +228,15 @@ export default function FernandoHotels() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Countries</SelectItem>
-                {countries.map(country => (
-                  <SelectItem key={country} value={country}>{country}</SelectItem>
+                {countries.map((country) => (
+                  <SelectItem key={country} value={country}>
+                    {country}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+            <Select value={starsFilter} onValueChange={setStarsFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Stars" />
               </SelectTrigger>
@@ -312,8 +256,8 @@ export default function FernandoHotels() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
               </SelectContent>
             </Select>
@@ -324,8 +268,10 @@ export default function FernandoHotels() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="created_at">Date Created</SelectItem>
+                <SelectItem value="country">Country</SelectItem>
+                <SelectItem value="city">City</SelectItem>
                 <SelectItem value="price">Price</SelectItem>
+                <SelectItem value="created">Created Date</SelectItem>
               </SelectContent>
             </Select>
 
@@ -342,110 +288,116 @@ export default function FernandoHotels() {
         </CardContent>
       </Card>
 
-      {/* Hotels List */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Hotels ({filteredHotels.length})</CardTitle>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                checked={selectedHotels.length === filteredHotels.length && filteredHotels.length > 0}
-                onCheckedChange={toggleSelectAll}
-              />
-              <span className="text-sm">Select All</span>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {filteredHotels.map(hotel => (
-              <div key={hotel.id} className="border rounded-lg p-4 space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-3">
-                    <Checkbox
-                      checked={selectedHotels.includes(hotel.id)}
-                      onCheckedChange={() => toggleHotelSelection(hotel.id)}
-                    />
-                    <div className="space-y-1">
-                      <h3 className="font-semibold text-lg">{hotel.name}</h3>
-                      <p className="text-sm text-gray-600">{hotel.city}, {hotel.country}</p>
-                      <p className="text-sm text-gray-500">{hotel.description?.substring(0, 100)}...</p>
-                      <div className="flex items-center space-x-2">
-                        {getStatusBadge(hotel.status || "pending")}
-                        <span className="text-sm text-gray-500">
-                          €{hotel.price_per_month}/month
-                        </span>
-                        {hotel.category && (
-                          <span className="text-sm text-gray-500">
-                            {hotel.category} ⭐
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => handleViewProperty(hotel.id)}
-                      size="sm"
-                      variant="outline"
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
+      {/* Hotels Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredHotels.map((hotel) => (
+          <Card key={hotel.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <CardTitle className="text-lg">{hotel.hotel_name}</CardTitle>
+                <Badge variant={
+                  hotel.status === 'approved' ? 'default' :
+                  hotel.status === 'pending' ? 'secondary' : 'destructive'
+                }>
+                  {hotel.status}
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {hotel.city}, {hotel.country}
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <p className="text-sm">
+                  <strong>Price:</strong> €{hotel.price_per_month}/month
+                </p>
+                <p className="text-sm">
+                  <strong>Category:</strong> {hotel.category} stars
+                </p>
+                <p className="text-sm">
+                  <strong>Created:</strong> {new Date(hotel.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              
+              <div className="flex gap-2 mt-4">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" onClick={() => setSelectedHotel(hotel)}>
+                      View Details
                     </Button>
-                    
-                    <Button
-                      onClick={() => handleEditProperty(hotel.id)}
-                      size="sm"
-                      variant="outline"
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Edit
-                    </Button>
-                    
-                    {hotel.status === "pending" && (
-                      <>
-                        <Button
-                          onClick={() => handleApprove(hotel.id)}
-                          size="sm"
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Approve
-                        </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>{selectedHotel?.hotel_name}</DialogTitle>
+                    </DialogHeader>
+                    {selectedHotel && (
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold">Basic Info</h4>
+                          <p><strong>ID:</strong> {selectedHotel.id}</p>
+                          <p><strong>Location:</strong> {selectedHotel.city}, {selectedHotel.country}</p>
+                          <p><strong>Address:</strong> {selectedHotel.address}</p>
+                          <p><strong>Price:</strong> €{selectedHotel.price_per_month}/month</p>
+                          <p><strong>Category:</strong> {selectedHotel.category} stars</p>
+                        </div>
                         
-                        <Button
-                          onClick={() => handleReject(hotel.id)}
-                          size="sm"
-                          variant="destructive"
-                        >
-                          <XCircle className="w-4 h-4 mr-1" />
-                          Reject
-                        </Button>
-                      </>
+                        <div>
+                          <h4 className="font-semibold">Description</h4>
+                          <p className="text-sm">{selectedHotel.description}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold">Available Months</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {selectedHotel.available_months?.map((month) => (
+                              <Badge key={month} variant="outline">{month}</Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold">Status Actions</h4>
+                          <div className="flex gap-2 mt-2">
+                            <Button 
+                              size="sm" 
+                              variant="default"
+                              onClick={() => updateHotelStatus(selectedHotel.id, "approved")}
+                            >
+                              Approve
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="secondary"
+                              onClick={() => updateHotelStatus(selectedHotel.id, "pending")}
+                            >
+                              Set Pending
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              onClick={() => updateHotelStatus(selectedHotel.id, "rejected")}
+                            >
+                              Reject
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     )}
-                    
-                    <Button
-                      onClick={() => handleDelete(hotel.id)}
-                      size="sm"
-                      variant="destructive"
-                    >
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      Delete
-                    </Button>
-                  </div>
-                </div>
+                  </DialogContent>
+                </Dialog>
               </div>
-            ))}
-            
-            {filteredHotels.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                No hotels found matching your criteria.
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {filteredHotels.length === 0 && (
+        <Card>
+          <CardContent className="text-center py-8">
+            <p className="text-muted-foreground">No hotels found matching your criteria.</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

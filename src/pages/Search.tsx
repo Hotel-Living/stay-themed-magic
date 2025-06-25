@@ -1,9 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Starfield } from "@/components/Starfield";
-import { SearchFilters } from "@/components/search/SearchFilters";
-import { HotelCard } from "@/components/search/HotelCard";
+import { HotelCard } from "@/components/HotelCard";
 import { FilterSidebar } from "@/components/search/FilterSidebar";
 import { Button } from "@/components/ui/button";
 import { Filter, Grid, List } from "lucide-react";
@@ -79,7 +79,15 @@ export default function Search() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full lg:w-1/4">
-              <SearchFilters />
+              <div className="hidden lg:block">
+                <FilterSidebar
+                  onClose={() => {}}
+                  activeFilters={activeFilters}
+                  handleFilterChange={handleFilterChange}
+                  handleArrayFilterChange={handleArrayFilterChange}
+                  resetFilters={resetFilters}
+                />
+              </div>
             </div>
             
             <div className="w-full lg:w-3/4">
@@ -119,7 +127,7 @@ export default function Search() {
 
               <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
                 {hotels.map((hotel) => (
-                  <HotelCard key={hotel.id} hotel={hotel} />
+                  <HotelCard key={hotel.id} {...hotel} />
                 ))}
               </div>
 

@@ -31,19 +31,19 @@ export function SecondFilterSidebar({
   const { t } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 rounded-2xl p-6 shadow-2xl">
+    <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 rounded-2xl p-4 shadow-2xl w-full max-w-xs">
       {/* Reset Button */}
-      <div className="mb-6">
+      <div className="mb-4">
         <button
           onClick={onResetAllFilters}
-          className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
+          className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
         >
           {t('filters.resetFilters')}
         </button>
       </div>
 
       {/* Country Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CountryFilter
           activeCountry={activeFilters.country}
           onChange={(value) => handleFilterChange('country', value)}
@@ -51,7 +51,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Location Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <LocationFilter
           activeLocation={activeFilters.location}
           onChange={(value) => handleFilterChange('location', value)}
@@ -59,7 +59,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Theme Filter (Affinities) */}
-      <div className="mb-6">
+      <div className="mb-4">
         <ThemeFilter
           activeTheme={activeFilters.theme}
           onChange={(value) => handleFilterChange('theme', value)}
@@ -67,7 +67,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Activities Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <ActivityFilter
           activeActivities={activeFilters.activities}
           onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)}
@@ -75,7 +75,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Length of Stay Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <LengthOfStayFilter
           activeLength={activeFilters.stayLengths?.[0]?.toString() || null}
           onChange={(value) => handleArrayFilterChange('stayLengths', value, true)}
@@ -83,7 +83,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Price Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <PriceRangeFilter
           activePrice={activeFilters.maxPrice}
           onChange={(value) => handleFilterChange('maxPrice', value)}
@@ -91,7 +91,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Month Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <MonthFilter
           activeMonth={activeFilters.month}
           onChange={(value) => handleFilterChange('month', value)}
@@ -99,7 +99,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Meal Plans Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CheckboxFilter
           title="MEAL PLAN"
           options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
@@ -109,7 +109,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Property Type Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <PropertyTypeFilter
           activePropertyType={activeFilters.propertyType}
           onChange={(value) => handleFilterChange('propertyType', value)}
@@ -117,7 +117,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Property Style Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <PropertyStyleFilter
           activePropertyStyle={activeFilters.propertyStyle}
           onChange={(value) => handleFilterChange('propertyStyle', value)}
@@ -125,7 +125,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Category Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CategoryFilter
           activeCategory={activeFilters.stars?.[0] || null}
           onChange={(value) => handleArrayFilterChange('stars', value, true)}
@@ -133,7 +133,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Room Types Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CheckboxFilter
           title="ROOM TYPES"
           options={['Single', 'Double', 'Suite', 'Apartment']}
@@ -143,7 +143,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Hotel Features Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CheckboxFilter
           title="HOTEL FEATURES"
           options={['Pool', 'Gym', 'Spa', 'Restaurant', 'Bar', 'WiFi', 'Parking']}
@@ -153,7 +153,7 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Room Features Filter */}
-      <div className="mb-6">
+      <div className="mb-4">
         <CheckboxFilter
           title="ROOM FEATURES"
           options={['Air Conditioning', 'Balcony', 'Kitchen', 'Workspace', 'TV', 'Minibar']}
@@ -163,10 +163,10 @@ export function SecondFilterSidebar({
       </div>
 
       {/* Bottom Reset Button */}
-      <div className="mt-6">
+      <div className="mt-4">
         <button
           onClick={onResetAllFilters}
-          className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
+          className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
         >
           {t('filters.resetFilters')}
         </button>

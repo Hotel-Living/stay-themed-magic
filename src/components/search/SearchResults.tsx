@@ -57,7 +57,8 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
       <div className="text-white text-lg font-semibold">
         {hotels.length} hotel{hotels.length !== 1 ? 's' : ''} found
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Grid with exactly 3 columns for 3 hotels per row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {hotels.map((hotel) => {
           // Extract city and country from location if they don't exist separately
           const locationParts = hotel.location?.split(', ') || [];

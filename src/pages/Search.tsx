@@ -50,8 +50,8 @@ export default function Search() {
       
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Filter Sidebar */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            {/* Filter Sidebar - Smaller and aligned left */}
             <div className="lg:col-span-1">
               <SecondFilterSidebar
                 activeFilters={activeFilters}
@@ -61,8 +61,8 @@ export default function Search() {
               />
             </div>
             
-            {/* Search Results */}
-            <div className="lg:col-span-3">
+            {/* Search Results - Takes up more space for 3 hotels per row */}
+            <div className="lg:col-span-4">
               <SearchResults 
                 hotels={hotels}
                 loading={loading}

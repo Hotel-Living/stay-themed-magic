@@ -1,590 +1,326 @@
-
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
 
-// Authorized countries list (21 countries)
-const AUTHORIZED_COUNTRIES = [
-  'Spain', 'Portugal', 'France', 'Italy', 'Germany', 'Netherlands', 
-  'Belgium', 'Switzerland', 'Austria', 'United Kingdom', 'Ireland',
-  'Denmark', 'Sweden', 'Norway', 'Finland', 'Poland', 'Czech Republic',
-  'Hungary', 'Estonia', 'Latvia', 'Lithuania'
-];
-
-// Luxury brands to exclude
-const LUXURY_BRANDS = [
-  'Four Seasons', 'Ritz-Carlton', 'St. Regis', 'Mandarin Oriental',
-  'Waldorf Astoria', 'Conrad', 'Park Hyatt', 'Grand Hyatt',
-  'W Hotels', 'Edition', 'Bulgari', 'Aman', 'One&Only',
-  'Rosewood', 'Auberge', 'Montage', 'Peninsula', 'Shangri-La'
-];
-
-// Real hotel data with verified information
 const REAL_HOTELS = [
   {
-    name: "Hotel Scandic Oslo City",
-    country: "Norway",
-    city: "Oslo",
-    category: 4,
-    brand: "Scandic",
-    description: "Modern business hotel in central Oslo with contemporary Scandinavian design and excellent conference facilities.",
-    address: "Europarådsplass 1, 0154 Oslo",
-    latitude: 59.9139,
-    longitude: 10.7522,
-    property_type: "Business Hotel",
-    style: "Contemporary",
-    ideal_guests: "Business travelers and urban explorers seeking modern comfort in the heart of Oslo",
-    atmosphere: "Professional yet welcoming with clean Nordic design and efficient service",
-    perfect_location: "Central Oslo location with easy access to government district and shopping areas"
+    name: "Hotel Boutique Casa de la Cultura",
+    address: "Calle 8 #15-45, Zona Rosa",
+    city: "Bogotá",
+    country: "Colombia",
+    description: "Elegant boutique hotel in the heart of Zona Rosa with contemporary Colombian design and personalized service."
   },
   {
-    name: "Best Western Hotel Bentleys",
-    country: "United Kingdom", 
-    city: "London",
-    category: 3,
-    brand: "Best Western",
-    description: "Charming boutique hotel in the heart of London combining traditional English hospitality with modern amenities.",
-    address: "27-33 Harrington Gardens, Kensington, London SW7 4JX",
-    latitude: 51.4944,
-    longitude: -0.1826,
-    property_type: "Boutique Hotel",
-    style: "Traditional",
-    ideal_guests: "Leisure travelers and couples looking for classic London charm in prestigious Kensington",
-    atmosphere: "Intimate and sophisticated with traditional British elegance and personal service",
-    perfect_location: "Prime Kensington location near museums, Hyde Park, and luxury shopping"
+    name: "The Merchant Hotel",
+    address: "16 Skipper Street",
+    city: "Belfast",
+    country: "United Kingdom",
+    description: "Luxurious Victorian hotel in Belfast's Cathedral Quarter, featuring opulent interiors and world-class dining."
   },
   {
-    name: "Hotel NH Copenhagen",
-    country: "Denmark",
-    city: "Copenhagen", 
-    category: 4,
-    brand: "NH Hotels",
-    description: "Contemporary hotel offering modern comfort and Danish design in Copenhagen's vibrant city center.",
-    address: "Vesterbrogade 41, 1620 Copenhagen",
-    latitude: 55.6738,
-    longitude: 12.5507,
-    property_type: "City Hotel",
-    style: "Modern",
-    ideal_guests: "International business travelers and tourists seeking quality accommodation in central Copenhagen",
-    atmosphere: "Sleek and efficient with Danish design elements and professional service standards",
-    perfect_location: "Central Copenhagen with walking distance to Tivoli Gardens and main attractions"
-  },
-  {
-    name: "Ibis Styles Berlin Mitte",
-    country: "Germany",
-    city: "Berlin",
-    category: 3,
-    brand: "Ibis Styles",
-    description: "Vibrant design hotel in Berlin's historic Mitte district with colorful interiors and modern comfort.",
-    address: "Brunnenstraße 1-2, 10119 Berlin",
-    latitude: 52.5322,
-    longitude: 13.3936,
-    property_type: "Design Hotel",
-    style: "Contemporary",
-    ideal_guests: "Creative travelers and millennials exploring Berlin's cultural scene and nightlife",
-    atmosphere: "Energetic and artistic with bold colors and contemporary design throughout",
-    perfect_location: "Historic Mitte location near Museum Island and Brandenburg Gate"
-  },
-  {
-    name: "Holiday Inn Express Amsterdam",
-    country: "Netherlands",
-    city: "Amsterdam",
-    category: 3,
-    brand: "Holiday Inn Express",
-    description: "Smart and efficient hotel offering comfortable accommodation near Amsterdam's historic center.",
-    address: "Sloterdijk 15, 1043 HR Amsterdam",
-    latitude: 52.3886,
-    longitude: 4.8371,
-    property_type: "Business Hotel",
-    style: "Modern",
-    ideal_guests: "Business and leisure travelers seeking reliable comfort with easy city access",
-    atmosphere: "Clean and contemporary with efficient service and comfortable common areas",
-    perfect_location: "Convenient location with excellent transport links to Amsterdam city center"
-  },
-  {
-    name: "Mercure Hotel Vienna Center",
-    country: "Austria",
-    city: "Vienna",
-    category: 4,
-    brand: "Mercure",
-    description: "Elegant hotel combining imperial Viennese charm with modern amenities in the city center.",
-    address: "Fleischmarkt 1a, 1010 Vienna",
-    latitude: 48.2116,
-    longitude: 16.3728,
-    property_type: "Heritage Hotel",
-    style: "Classic",
-    ideal_guests: "Culture enthusiasts and sophisticated travelers seeking authentic Viennese experience",
-    atmosphere: "Refined and cultural with imperial touches and classical music heritage",
-    perfect_location: "Historic center location near St. Stephen's Cathedral and opera houses"
-  },
-  {
-    name: "Novotel Zurich City West",
-    country: "Switzerland",
-    city: "Zurich",
-    category: 4,
-    brand: "Novotel",
-    description: "Modern business hotel with contemporary Swiss design and excellent meeting facilities.",
-    address: "Schiffbaustrasse 13, 8005 Zurich", 
-    latitude: 47.3886,
-    longitude: 8.5143,
-    property_type: "Business Hotel",
-    style: "Contemporary",
-    ideal_guests: "International business travelers and conference attendees seeking modern efficiency",
-    atmosphere: "Professional and sophisticated with Swiss precision and quality service",
-    perfect_location: "Modern district with easy access to financial center and cultural attractions"
-  },
-  {
-    name: "Hotel Clarion Brussels",
-    country: "Belgium",
-    city: "Brussels",
-    category: 4,
-    brand: "Clarion",
-    description: "Contemporary hotel in the European capital offering modern comfort and business facilities.",
-    address: "Avenue des Arts 7-8, 1210 Brussels",
-    latitude: 50.8476,
-    longitude: 4.3708,
-    property_type: "Business Hotel", 
-    style: "Modern",
-    ideal_guests: "EU officials, business travelers, and tourists exploring the heart of Europe",
-    atmosphere: "International and professional with European sophistication",
-    perfect_location: "EU quarter location near European institutions and Grand Place"
-  },
-  {
-    name: "Comfort Hotel Prague",
-    country: "Czech Republic",
-    city: "Prague",
-    category: 3,
-    brand: "Comfort",
-    description: "Well-appointed hotel offering comfortable accommodation in Prague's historic quarter.",
-    address: "Spálená 33, 110 00 Prague",
-    latitude: 50.0835,
-    longitude: 14.4282,
-    property_type: "Historic Hotel",
-    style: "Traditional",
-    ideal_guests: "Heritage travelers and couples seeking authentic Prague atmosphere with modern comfort",
-    atmosphere: "Charming and historic with traditional Czech hospitality and medieval ambiance",
-    perfect_location: "Old Town location within walking distance of Prague Castle and Charles Bridge"
-  },
-  {
-    name: "Hotel Ibis Budapest Centrum",
-    country: "Hungary", 
-    city: "Budapest",
-    category: 3,
-    brand: "Ibis",
-    description: "Modern hotel on the Danube offering comfortable stays with views of Buda Castle.",
-    address: "Apáczai Csere János u. 4, 1052 Budapest",
-    latitude: 48.8566,
-    longitude: 19.0511,
-    property_type: "River Hotel",
-    style: "Contemporary",
-    ideal_guests: "Tourists and business travelers wanting central location with iconic river views",
-    atmosphere: "Vibrant and welcoming with Hungarian warmth and Danube river ambiance",
-    perfect_location: "Pest side location with stunning castle views and thermal bath access"
-  },
-  {
-    name: "Quality Hotel Warsaw",
-    country: "Poland",
-    city: "Warsaw",
-    category: 4,
-    brand: "Quality",
-    description: "Contemporary hotel in Warsaw's business district with modern Polish design elements.",
-    address: "ul. Towarowa 2, 00-811 Warsaw",
-    latitude: 52.2319,
-    longitude: 21.0067,
-    property_type: "Business Hotel",
-    style: "Modern",
-    ideal_guests: "Business travelers and urban explorers discovering modern Poland's capital",
-    atmosphere: "Dynamic and progressive reflecting Warsaw's modern transformation",
-    perfect_location: "Central business district with easy access to Old Town and cultural sites"
-  },
-  {
-    name: "Hotel Europa Vilnius",
-    country: "Lithuania",
-    city: "Vilnius",
-    category: 4,
-    brand: "Europa",
-    description: "Boutique hotel in Vilnius Old Town combining Baltic heritage with contemporary comfort.",
-    address: "Aušros Vartų g. 6, 01304 Vilnius",
-    latitude: 54.6896,
-    longitude: 25.2799,
-    property_type: "Heritage Hotel",
-    style: "Traditional",
-    ideal_guests: "Cultural travelers and history enthusiasts exploring the Baltic's medieval heritage",
-    atmosphere: "Intimate and historic with Baltic charm and medieval Old Town character",
-    perfect_location: "UNESCO Old Town location near Gate of Dawn and cathedral"
-  },
-  {
-    name: "Hotel Tallink Riga",
-    country: "Latvia",
-    city: "Riga", 
-    category: 4,
-    brand: "Tallink",
-    description: "Modern hotel in Riga's Art Nouveau district with Baltic Sea influence and contemporary design.",
-    address: "Elizabetes iela 24, LV-1050 Riga",
-    latitude: 56.9677,
-    longitude: 24.1056,
-    property_type: "City Hotel",
-    style: "Contemporary",
-    ideal_guests: "Architecture lovers and business travelers exploring the Baltic's cultural capital",
-    atmosphere: "Elegant and artistic reflecting Riga's famous Art Nouveau architecture",
-    perfect_location: "Central location in Art Nouveau district near Old Town and cultural sites"
-  },
-  {
-    name: "Hotel Olympia Tallinn",
-    country: "Estonia", 
-    city: "Tallinn",
-    category: 3,
-    brand: "Olympia",
-    description: "Well-located hotel offering comfortable accommodation near Tallinn's medieval Old Town.",
-    address: "Liivalaia 33, 10118 Tallinn",
-    latitude: 59.4286,
-    longitude: 24.7574,
-    property_type: "City Hotel",
-    style: "Traditional",
-    ideal_guests: "History enthusiasts and travelers exploring Estonia's medieval capital and digital innovation",
-    atmosphere: "Welcoming and traditional with Estonian hospitality and medieval town charm",
-    perfect_location: "Near Old Town with easy access to medieval walls and digital nomad scene"
-  },
-  {
-    name: "Hotel Scandic Helsinki",
-    country: "Finland",
-    city: "Helsinki",
-    category: 4,
-    brand: "Scandic",
-    description: "Contemporary hotel showcasing Finnish design with sustainable practices and modern amenities.",
-    address: "Simonkatu 9, 00100 Helsinki",
-    latitude: 60.1699,
-    longitude: 24.9384,
-    property_type: "Design Hotel",
-    style: "Scandinavian",
-    ideal_guests: "Design enthusiasts and eco-conscious travelers experiencing Finnish innovation and nature",
-    atmosphere: "Minimalist and sustainable with authentic Finnish design and environmental consciousness",
-    perfect_location: "Central Helsinki near Design District and Market Square"
-  },
-  {
-    name: "Best Western Hotel Reykjavik",
-    country: "Iceland",
-    city: "Reykjavik",
-    category: 3,
-    brand: "Best Western", 
-    description: "Comfortable hotel offering Nordic hospitality with easy access to Iceland's natural wonders.",
-    address: "Rauðarárstígur 37, 105 Reykjavik",
-    latitude: 64.1335,
-    longitude: -21.8174,
-    property_type: "Adventure Hotel",
-    style: "Nordic",
-    ideal_guests: "Adventure seekers and nature lovers exploring Iceland's unique landscapes and culture",
-    atmosphere: "Cozy and adventurous with Icelandic warmth and expedition spirit",
-    perfect_location: "Central Reykjavik with tour operator access and cultural attractions"
-  },
-  {
-    name: "Hotel Novotel Lisboa",
-    country: "Portugal",
-    city: "Lisbon",
-    category: 4,
-    brand: "Novotel",
-    description: "Modern hotel in Lisbon's business district with panoramic city views and Portuguese hospitality.",
-    address: "Av. José Malhoa 1-1A, 1070-158 Lisbon",
-    latitude: 38.7341,
-    longitude: -9.1570,
-    property_type: "Business Hotel",
-    style: "Contemporary",
-    ideal_guests: "Business travelers and urban explorers discovering Lisbon's blend of tradition and modernity",
-    atmosphere: "Sophisticated and welcoming with Portuguese warmth and Atlantic influence",
-    perfect_location: "Modern district with metro access to historic neighborhoods and coastal areas"
-  },
-  {
-    name: "Hotel NH Madrid Centro",
-    country: "Spain",
+    name: "Palacio de los Duques Gran Meliá",
+    address: "Cuesta de Santo Domingo 5",
     city: "Madrid",
-    category: 4,
-    brand: "NH Hotels",
-    description: "Elegant hotel in Madrid's cultural heart with Spanish sophistication and modern comfort.",
-    address: "Paseo del Prado 48, 28014 Madrid",
-    latitude: 40.4119,
-    longitude: -3.6943,
-    property_type: "Cultural Hotel",
-    style: "Classic",
-    ideal_guests: "Art lovers and cultural travelers exploring Madrid's world-class museums and cuisine",
-    atmosphere: "Refined and cultural with Spanish elegance and artistic heritage",
-    perfect_location: "Museum triangle location near Prado, Reina Sofia, and Thyssen museums"
-  },
-  {
-    name: "Hotel Ibis Barcelona Centro",
     country: "Spain",
-    city: "Barcelona",
-    category: 3,
-    brand: "Ibis",
-    description: "Modern hotel in Barcelona's vibrant center with Catalan flair and Mediterranean comfort.",
-    address: "Carrer Ribera 11, 08003 Barcelona",
-    latitude: 41.3825,
-    longitude: 2.1769,
-    property_type: "City Hotel",
-    style: "Mediterranean",
-    ideal_guests: "Culture seekers and beach lovers exploring Gaudí's masterpieces and Mediterranean lifestyle",
-    atmosphere: "Lively and artistic with Catalan creativity and Mediterranean warmth",
-    perfect_location: "Born district location near Picasso Museum and Gothic Quarter"
+    description: "Historic palace turned luxury hotel near the Royal Palace, blending heritage with modern sophistication."
   },
   {
-    name: "Hotel Mercure Lyon Centre",
+    name: "Hotel Nacional",
+    address: "Calle O esq. a 21",
+    city: "Havana",
+    country: "Cuba",
+    description: "Iconic Art Deco hotel overlooking the Malecón, steeped in Cuban history and Old World charm."
+  },
+  {
+    name: "Tivoli Oriente",
+    address: "Av. Dom João II, Lote 1.07.1.1",
+    city: "Lisbon",
+    country: "Portugal",
+    description: "Modern hotel in Parque das Nações with contemporary design and views of the Tagus River."
+  },
+  {
+    name: "Hotel Fasano Salvador",
+    address: "Rua Luis Viana Filho, s/n",
+    city: "Salvador",
+    country: "Brazil",
+    description: "Sophisticated beachfront hotel combining Italian elegance with Brazilian warmth in Bahia."
+  },
+  {
+    name: "Casa Gangotena",
+    address: "Bolívar 594 y Cuenca",
+    city: "Quito",
+    country: "Ecuador",
+    description: "Restored colonial mansion turned boutique hotel in Quito's historic center with Andean mountain views."
+  },
+  {
+    name: "Hotel Roma",
+    address: "Via Veneto 125",
+    city: "Rome",
+    country: "Italy",
+    description: "Classic Roman hotel on the famous Via Veneto, offering timeless elegance and proximity to major attractions."
+  },
+  {
+    name: "Château de la Chèvre d'Or",
+    address: "Rue du Barri",
+    city: "Èze",
     country: "France",
-    city: "Lyon",
-    category: 4,
-    brand: "Mercure",
-    description: "Boutique hotel in Lyon's UNESCO World Heritage district with French gastronomy focus.",
-    address: "129 Rue Servient, 69003 Lyon",
-    latitude: 45.7640,
-    longitude: 4.8357,
-    property_type: "Gastronomy Hotel",
-    style: "French Classic",
-    ideal_guests: "Food enthusiasts and culture travelers discovering France's gastronomic capital",
-    atmosphere: "Culinary and sophisticated with French gastronomy heritage and regional wine culture",
-    perfect_location: "Presqu'île location near Michelin-starred restaurants and Renaissance architecture"
+    description: "Medieval village hotel perched on the French Riviera with breathtaking Mediterranean views."
+  },
+  {
+    name: "The Principal Madrid",
+    address: "Marqués de Valdeiglesias 1",
+    city: "Madrid",
+    country: "Spain",
+    description: "Contemporary luxury hotel in a restored 1917 building, perfectly located in Madrid's cultural district."
   }
 ];
 
-// Hotel and room features from platform
-const HOTEL_FEATURES = [
-  "WiFi Gratis", "Estacionamiento", "Restaurante", "Piscina", "Spa", "Gimnasio", 
-  "Recepción 24/7", "Servicio de Habitaciones", "Bar", "Salón", 
-  "Centro de Negocios", "Salas de Conferencias", "Servicio de Lavandería",
-  "Conserjería", "Traslado al Aeropuerto", "Acepta Mascotas",
-  "Acceso a la Playa", "Vista a la Montaña", "Jardín", "Terraza",
-  "Centro de Fitness", "Sauna", "Jacuzzi", "Baño de Vapor"
+const AUTHORIZED_COUNTRIES = [
+  "Spain", "Portugal", "France", "Italy", "Germany", "United Kingdom", 
+  "Netherlands", "Belgium", "Austria", "Switzerland", "Greece", "Poland",
+  "Brazil", "Colombia", "Mexico", "Chile", "Argentina", "Peru", "Ecuador",
+  "Costa Rica", "Uruguay"
 ];
 
-const ROOM_FEATURES = [
-  "Aire Acondicionado", "Baño Privado", "Televisor", "Caja Fuerte", "Mini Bar", 
-  "Máquina de Café", "Hervidor de Agua", "Secador de Pelo", "Plancha", "Escritorio",
-  "Balcón", "Vista al Mar", "Vista a la Montaña", "Vista a la Ciudad", "Bañera",
-  "Ducha a Ras de Suelo", "Cama King", "Cama Queen", "Internet de Alta Velocidad", 
-  "Cortinas Opacas", "Insonorizado", "Servicio de Habitaciones"
+const LUXURY_BRANDS = [
+  "Four Seasons", "Ritz-Carlton", "St. Regis", "Waldorf Astoria", "Conrad",
+  "Park Hyatt", "Grand Hyatt", "Mandarin Oriental", "Peninsula", "Shangri-La",
+  "Aman", "Rosewood", "Auberge", "Belmond", "Orient-Express", "EDITION",
+  "W Hotels", "Le Labo", "1 Hotels", "SLS", "Thompson", "Andaz",
+  "Jumeirah", "Kempinski", "Raffles", "Fairmont", "Sofitel", "Pullman",
+  "InterContinental", "Crowne Plaza", "Holiday Inn", "Marriott", "Sheraton",
+  "Westin", "Renaissance", "Courtyard", "Residence Inn", "SpringHill Suites",
+  "Hilton", "DoubleTree", "Embassy Suites", "Hampton Inn", "Homewood Suites"
 ];
 
-const MEAL_PLANS = ["Media Pensión", "Pensión Completa", "Solo Alojamiento", "Desayuno Incluido"];
+function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
+function getRandomItems<T>(array: T[], count: number): T[] {
+  const shuffled = [...array].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+function generateRandomPrice(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function isLuxuryBrand(hotelName: string): boolean {
+  return LUXURY_BRANDS.some(brand => 
+    hotelName.toLowerCase().includes(brand.toLowerCase())
+  );
+}
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    console.log("Batch hotel creation request received");
-
-    const { maxHotels = 20 } = await req.json();
-
-    // Filter real hotels by authorized countries and exclude luxury brands
-    const availableHotels = REAL_HOTELS.filter(hotel => 
-      AUTHORIZED_COUNTRIES.includes(hotel.country) &&
-      !LUXURY_BRANDS.some(brand => hotel.name.includes(brand) || hotel.brand?.includes(brand))
-    );
-
-    console.log(`Available non-luxury hotels: ${availableHotels.length}`);
-    console.log(`Starting batch hotel creation: ${maxHotels} hotels, category 3-4`);
-
-    // Fetch themes and activities for assignment
-    const { data: themes } = await supabase.from('themes').select('*');
-    const { data: activities } = await supabase.from('activities').select('*');
-
-    const stats = {
-      totalCreated: 0,
-      errors: [] as string[],
-      hotelDetails: [] as string[]
-    };
-
-    // Select random hotels up to maxHotels limit
-    const selectedHotels = availableHotels
-      .sort(() => Math.random() - 0.5)
-      .slice(0, maxHotels);
-
-    for (const hotelData of selectedHotels) {
-      try {
-        // Generate price in range €1200-1600
-        const basePrice = Math.floor(Math.random() * (1600 - 1200 + 1)) + 1200;
-        
-        // Select random features (8-15 hotel features, 6-12 room features)
-        const selectedHotelFeatures = HOTEL_FEATURES
-          .sort(() => Math.random() - 0.5)
-          .slice(0, Math.floor(Math.random() * 8) + 8);
-        
-        const selectedRoomFeatures = ROOM_FEATURES
-          .sort(() => Math.random() - 0.5)
-          .slice(0, Math.floor(Math.random() * 7) + 6);
-
-        // Convert features to boolean objects
-        const hotelFeaturesObj = HOTEL_FEATURES.reduce((acc, feature) => {
-          acc[feature] = selectedHotelFeatures.includes(feature);
-          return acc;
-        }, {} as Record<string, boolean>);
-
-        const roomFeaturesObj = ROOM_FEATURES.reduce((acc, feature) => {
-          acc[feature] = selectedRoomFeatures.includes(feature);
-          return acc;
-        }, {} as Record<string, boolean>);
-
-        // Select random meal plans (1-2)
-        const selectedMealPlans = MEAL_PLANS
-          .sort(() => Math.random() - 0.5)
-          .slice(0, Math.floor(Math.random() * 2) + 1);
-
-        // Create room type with comprehensive details
-        const roomType = {
-          id: crypto.randomUUID(),
-          name: "Habitación Doble",
-          description: "Habitación confortable con cama doble, baño privado y todas las comodidades modernas para una estancia perfecta.",
-          maxOccupancy: 2,
-          size: Math.floor(Math.random() * (35 - 20 + 1)) + 20, // 20-35 m²
-          roomCount: Math.floor(Math.random() * (15 - 5 + 1)) + 5, // 5-15 rooms
-          basePrice: basePrice,
-          rates: {
-            7: Math.floor(basePrice * 0.95),
-            14: Math.floor(basePrice * 0.90),
-            21: Math.floor(basePrice * 0.85),
-            32: Math.floor(basePrice * 0.80)
-          },
-          images: [
-            `https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800`,
-            `https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800`
-          ],
-          availabilityDates: []
-        };
-
-        // Create hotel record
-        const hotelRecord = {
-          name: hotelData.name,
-          description: hotelData.description,
-          country: hotelData.country,
-          city: hotelData.city,
-          address: hotelData.address,
-          latitude: hotelData.latitude,
-          longitude: hotelData.longitude,
-          price_per_month: basePrice,
-          category: hotelData.category,
-          property_type: hotelData.property_type,
-          style: hotelData.style,
-          ideal_guests: hotelData.ideal_guests,
-          atmosphere: hotelData.atmosphere,
-          perfect_location: hotelData.perfect_location,
-          status: 'approved',
-          contact_name: `Manager ${hotelData.city}`,
-          contact_email: `info@${hotelData.name.toLowerCase().replace(/\s+/g, '')}.com`,
-          contact_phone: `+${Math.floor(Math.random() * 900000000) + 100000000}`,
-          features_hotel: hotelFeaturesObj,
-          features_room: roomFeaturesObj,
-          meal_plans: selectedMealPlans,
-          stay_lengths: [7, 14, 21, 32],
-          room_types: [roomType],
-          available_months: ["January", "February", "March", "April", "May", "June"],
-          main_image_url: `https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200`,
-          terms: "Términos y condiciones estándar del hotel. Cancelación gratuita hasta 48 horas antes. Check-in: 15:00, Check-out: 11:00.",
-          preferredWeekday: "Monday",
-          enable_price_increase: true,
-          price_increase_cap: 20,
-          enablePriceIncrease: true,
-          priceIncreaseCap: 20,
-          owner_id: "00000000-0000-0000-0000-000000000000" // Default system owner
-        };
-
-        // Insert hotel
-        const { data: hotel, error: hotelError } = await supabase
-          .from('hotels')
-          .insert(hotelRecord)
-          .select('id')
-          .single();
-
-        if (hotelError) {
-          throw hotelError;
-        }
-
-        // Assign random themes (1-3)
-        if (themes && themes.length > 0) {
-          const selectedThemes = themes
-            .sort(() => Math.random() - 0.5)
-            .slice(0, Math.floor(Math.random() * 3) + 1);
-
-          for (const theme of selectedThemes) {
-            await supabase.from('hotel_themes').insert({
-              hotel_id: hotel.id,
-              theme_id: theme.id
-            });
-          }
-        }
-
-        // Assign random activities (1-3)
-        if (activities && activities.length > 0) {
-          const selectedActivities = activities
-            .sort(() => Math.random() - 0.5)
-            .slice(0, Math.floor(Math.random() * 3) + 1);
-
-          for (const activity of selectedActivities) {
-            await supabase.from('hotel_activities').insert({
-              hotel_id: hotel.id,
-              activity_id: activity.id
-            });
-          }
-        }
-
-        // Add main hotel image
-        await supabase.from('hotel_images').insert({
-          hotel_id: hotel.id,
-          image_url: hotelRecord.main_image_url,
-          is_main: true
-        });
-
-        // Add additional hotel images (2-4 more)
-        const additionalImages = [
-          `https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200`,
-          `https://images.unsplash.com/photo-1578774204375-322dcabe8e0e?w=1200`,
-          `https://images.unsplash.com/photo-1564013434775-7e5ac974c21e?w=1200`,
-          `https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200`
-        ].sort(() => Math.random() - 0.5).slice(0, Math.floor(Math.random() * 3) + 2);
-
-        for (const imageUrl of additionalImages) {
-          await supabase.from('hotel_images').insert({
-            hotel_id: hotel.id,
-            image_url: imageUrl,
-            is_main: false
-          });
-        }
-
-        stats.totalCreated++;
-        stats.hotelDetails.push(`${hotelData.name} (${hotelData.city}, ${hotelData.country}) - €${basePrice}/month - ${hotelData.category}★`);
-
-        console.log(`✓ Created: ${hotelData.name} - €${basePrice}/month`);
-
-      } catch (error) {
-        const errorMsg = `Hotel ${hotelData.name}: ${error.message}`;
-        stats.errors.push(errorMsg);
-        console.error(`Error creating hotel ${hotelData.name}:`, error);
-      }
+    const { count } = await req.json();
+    
+    if (!count || count < 1 || count > 50) {
+      throw new Error('Count must be between 1 and 50');
     }
 
-    console.log(`Batch creation completed. Created: ${stats.totalCreated}, Errors: ${stats.errors.length}`);
+    console.log(`Starting batch creation of ${count} hotels`);
 
-    return new Response(JSON.stringify({
-      success: true,
-      stats
-    }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders }
-    });
+    // Fetch themes for random assignment
+    const { data: themes, error: themesError } = await supabase
+      .from('themes')
+      .select('id, name_en')
+      .limit(100);
+
+    if (themesError) {
+      throw new Error(`Failed to fetch themes: ${themesError.message}`);
+    }
+
+    // Fetch activities for random assignment
+    const { data: activities, error: activitiesError } = await supabase
+      .from('activities')
+      .select('id, name_en')
+      .limit(100);
+
+    if (activitiesError) {
+      throw new Error(`Failed to fetch activities: ${activitiesError.message}`);
+    }
+
+    // Fetch features for random assignment
+    const { data: features, error: featuresError } = await supabase
+      .from('features')
+      .select('id, name_en')
+      .limit(100);
+
+    if (featuresError) {
+      throw new Error(`Failed to fetch features: ${featuresError.message}`);
+    }
+
+    const createdHotels = [];
+
+    for (let i = 0; i < count; i++) {
+      // Select a random real hotel
+      const randomHotel = REAL_HOTELS[Math.floor(Math.random() * REAL_HOTELS.length)];
+      
+      // Skip if country not authorized or is luxury brand
+      if (!AUTHORIZED_COUNTRIES.includes(randomHotel.country) || 
+          isLuxuryBrand(randomHotel.name)) {
+        console.log(`Skipping ${randomHotel.name} - unauthorized country or luxury brand`);
+        continue;
+      }
+
+      const stars = getRandomInt(3, 4);
+      const pricePerNight = generateRandomPrice(1200, 1600);
+      const totalPrice = pricePerNight * 32;
+
+      // Random themes (1-3)
+      const selectedThemes = getRandomItems(themes || [], getRandomInt(1, 3));
+      
+      // Random activities (3-5) - UPDATED FROM 1-3 TO 3-5
+      const selectedActivities = getRandomItems(activities || [], getRandomInt(3, 5));
+      
+      // Random features for hotel (8-15)
+      const selectedHotelFeatures = getRandomItems(features || [], getRandomInt(8, 15));
+      
+      // Random features for room (6-12)
+      const selectedRoomFeatures = getRandomItems(features || [], getRandomInt(6, 12));
+
+      // Create hotel
+      const { data: hotel, error: hotelError } = await supabase
+        .from('hotels')
+        .insert({
+          name: randomHotel.name,
+          description: randomHotel.description,
+          address: randomHotel.address,
+          city: randomHotel.city,
+          country: randomHotel.country,
+          postal_code: `${getRandomInt(10000, 99999)}`,
+          phone: `+${getRandomInt(100, 999)}-${getRandomInt(1000000, 9999999)}`,
+          email: `info@${randomHotel.name.toLowerCase().replace(/\s/g, '')}.com`,
+          website: `https://www.${randomHotel.name.toLowerCase().replace(/\s/g, '')}.com`,
+          stars: stars,
+          total_price: totalPrice,
+          price_per_night: pricePerNight,
+          available_months: ['january', 'february', 'march', 'april', 'may', 'june'],
+          length_of_stay: '32 days',
+          property_type: 'Hotel',
+          property_style: 'Boutique',
+          meal_plan: 'Half Board',
+          terms_accepted: true,
+          dynamic_pricing_enabled: true,
+          status: 'approved'
+        })
+        .select()
+        .single();
+
+      if (hotelError) {
+        console.error(`Failed to create hotel ${randomHotel.name}:`, hotelError);
+        continue;
+      }
+
+      console.log(`Created hotel: ${hotel.name} (ID: ${hotel.id})`);
+
+      // Create room type
+      const { data: roomType, error: roomError } = await supabase
+        .from('room_types')
+        .insert({
+          hotel_id: hotel.id,
+          name: 'Double',
+          description: 'Comfortable double room with modern amenities and city views. Perfect for couples or business travelers seeking comfort and convenience.',
+          capacity: 2,
+          price_per_night: pricePerNight,
+          room_count: getRandomInt(1, 3)
+        })
+        .select()
+        .single();
+
+      if (roomError) {
+        console.error(`Failed to create room type for hotel ${hotel.id}:`, roomError);
+        continue;
+      }
+
+      // Create relationships
+      const relationshipPromises = [];
+
+      // Hotel themes
+      if (selectedThemes.length > 0) {
+        const hotelThemes = selectedThemes.map(theme => ({ hotel_id: hotel.id, theme_id: theme.id }));
+        relationshipPromises.push(
+          supabase.from('hotel_themes').insert(hotelThemes)
+        );
+      }
+
+      // Hotel activities
+      if (selectedActivities.length > 0) {
+        const hotelActivities = selectedActivities.map(activity => ({ hotel_id: hotel.id, activity_id: activity.id }));
+        relationshipPromises.push(
+          supabase.from('hotel_activities').insert(hotelActivities)
+        );
+      }
+
+      // Hotel features
+      if (selectedHotelFeatures.length > 0) {
+        const hotelFeatures = selectedHotelFeatures.map(feature => ({ hotel_id: hotel.id, feature_id: feature.id }));
+        relationshipPromises.push(
+          supabase.from('hotel_features').insert(hotelFeatures)
+        );
+      }
+
+      // Room features
+      if (selectedRoomFeatures.length > 0) {
+        const roomFeatures = selectedRoomFeatures.map(feature => ({ room_type_id: roomType.id, feature_id: feature.id }));
+        relationshipPromises.push(
+          supabase.from('room_type_features').insert(roomFeatures)
+        );
+      }
+
+      // Execute all relationship insertions
+      await Promise.all(relationshipPromises);
+
+      createdHotels.push({
+        id: hotel.id,
+        name: hotel.name,
+        city: hotel.city,
+        country: hotel.country,
+        themes: selectedThemes.length,
+        activities: selectedActivities.length,
+        hotel_features: selectedHotelFeatures.length,
+        room_features: selectedRoomFeatures.length
+      });
+    }
+
+    console.log(`Batch creation completed. Created ${createdHotels.length} hotels.`);
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: `Successfully created ${createdHotels.length} hotels`,
+        hotels: createdHotels
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      }
+    );
 
   } catch (error) {
-    console.error("Batch creation error:", error);
-    return new Response(JSON.stringify({
-      error: error instanceof Error ? error.message : "Internal server error"
-    }), {
-      status: 500,
-      headers: { "Content-Type": "application/json", ...corsHeaders }
-    });
+    console.error('Batch hotel creation error:', error);
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error.message || 'Unknown error occurred'
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
+      }
+    );
   }
 });

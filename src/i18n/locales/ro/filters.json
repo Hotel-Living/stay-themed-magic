@@ -11,10 +11,15 @@
     "themes": "Teme",
     "clearAll": "Șterge Tot",
     "apply": "Aplică Filtrele",
+    "resetAllFilters": "Resetează Toate Filtrele",
     "pricePerMonth": "PREȚ PE LUNĂ",
     "affinity": "AFINITATE",
     "month": "LUNĂ",
     "country": "ȚARĂ",
+    "location": "Locație",
+    "category": "Categorie",
+    "meals": "Mese",
+    "lengthOfStay": "Durata Șederii",
     "priceRanges": {
       "upTo1000": "Până la 1.000 €",
       "1000to1500": "1.000 € la 1.500 €",
@@ -46,6 +51,62 @@
       "germany": "Germania 🇩🇪",
       "portugal": "Portugalia 🇵🇹",
       "greece": "Grecia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Artă",
+      "business": "Afaceri",
+      "culture": "Cultură",
+      "education": "Educație",
+      "entertainment": "Divertisment",
+      "foodAndDrinks": "Mâncare și Băuturi",
+      "healthAndWellness": "Sănătate și Wellness",
+      "history": "Istorie",
+      "hobbies": "Hobby-uri",
+      "languages": "Limbi",
+      "lifestyle": "Stil de Viață",
+      "nature": "Natură",
+      "personalDevelopment": "Dezvoltare Personală",
+      "relationships": "Relații",
+      "scienceAndTechnology": "Știință și Tehnologie",
+      "socialImpact": "Impact Social",
+      "sports": "Sport"
+    },
+    "roomTypes": {
+      "single": "Cameră Single",
+      "double": "Cameră Dublă",
+      "triple": "Cameră Triplă",
+      "suite": "Suită",
+      "apartment": "Apartament",
+      "studio": "Studio"
+    },
+    "mealPlans": {
+      "roomOnly": "Doar Cameră",
+      "breakfast": "Mic Dejun",
+      "halfBoard": "Demipensiune",
+      "fullBoard": "Pensiune Completă",
+      "allInclusive": "All Inclusive"
+    },
+    "roomFeatures": {
+      "airConditioning": "Aer Condiționat",
+      "balcony": "Balcon",
+      "seaView": "Vedere la Mare",
+      "wifi": "WiFi",
+      "minibar": "Minibar",
+      "safebox": "Seif",
+      "bathtub": "Cadă",
+      "shower": "Duș"
+    },
+    "hotelFeatures": {
+      "pool": "Piscină",
+      "spa": "Spa",
+      "gym": "Sală de Sport",
+      "restaurant": "Restaurant",
+      "bar": "Bar",
+      "parking": "Parcare",
+      "petFriendly": "Acceptă Animale",
+      "beachAccess": "Acces la Plajă",
+      "businessCenter": "Centru de Afaceri",
+      "roomService": "Room Service"
     }
   }
 }

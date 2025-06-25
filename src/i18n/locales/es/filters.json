@@ -11,10 +11,15 @@
     "themes": "Temas",
     "clearAll": "Limpiar Todo",
     "apply": "Aplicar Filtros",
+    "resetAllFilters": "Restablecer Todos los Filtros",
     "pricePerMonth": "PRECIO POR MES",
     "affinity": "AFINIDAD",
     "month": "MES",
     "country": "PAÍS",
+    "location": "Ubicación",
+    "category": "Categoría",
+    "meals": "Comidas",
+    "lengthOfStay": "Duración de Estancia",
     "priceRanges": {
       "upTo1000": "Hasta 1.000 $",
       "1000to1500": "1.000 $ a 1.500 $",
@@ -46,6 +51,62 @@
       "germany": "Alemania 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grecia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Arte",
+      "business": "Negocios",
+      "culture": "Cultura",
+      "education": "Educación",
+      "entertainment": "Entretenimiento",
+      "foodAndDrinks": "Comida y Bebidas",
+      "healthAndWellness": "Salud y Bienestar",
+      "history": "Historia",
+      "hobbies": "Aficiones",
+      "languages": "Idiomas",
+      "lifestyle": "Estilo de Vida",
+      "nature": "Naturaleza",
+      "personalDevelopment": "Desarrollo Personal",
+      "relationships": "Relaciones",
+      "scienceAndTechnology": "Ciencia y Tecnología",
+      "socialImpact": "Impacto Social",
+      "sports": "Deportes"
+    },
+    "roomTypes": {
+      "single": "Habitación Individual",
+      "double": "Habitación Doble",
+      "triple": "Habitación Triple",
+      "suite": "Suite",
+      "apartment": "Apartamento",
+      "studio": "Estudio"
+    },
+    "mealPlans": {
+      "roomOnly": "Solo Habitación",
+      "breakfast": "Desayuno",
+      "halfBoard": "Media Pensión",
+      "fullBoard": "Pensión Completa",
+      "allInclusive": "Todo Incluido"
+    },
+    "roomFeatures": {
+      "airConditioning": "Aire Acondicionado",
+      "balcony": "Balcón",
+      "seaView": "Vista al Mar",
+      "wifi": "WiFi",
+      "minibar": "Minibar",
+      "safebox": "Caja Fuerte",
+      "bathtub": "Bañera",
+      "shower": "Ducha"
+    },
+    "hotelFeatures": {
+      "pool": "Piscina",
+      "spa": "Spa",
+      "gym": "Gimnasio",
+      "restaurant": "Restaurante",
+      "bar": "Bar",
+      "parking": "Aparcamiento",
+      "petFriendly": "Admite Mascotas",
+      "beachAccess": "Acceso a la Playa",
+      "businessCenter": "Centro de Negocios",
+      "roomService": "Servicio de Habitaciones"
     }
   }
 }

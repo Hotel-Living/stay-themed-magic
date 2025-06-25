@@ -11,10 +11,15 @@
     "themes": "Themes",
     "clearAll": "Clear All",
     "apply": "Apply Filters",
+    "resetAllFilters": "Reset All Filters",
     "pricePerMonth": "PRICE PER MONTH",
     "affinity": "AFFINITY",
     "month": "MONTH",
     "country": "COUNTRY",
+    "location": "Location",
+    "category": "Category",
+    "meals": "Meals",
+    "lengthOfStay": "Length of Stay",
     "priceRanges": {
       "upTo1000": "Up to 1.000 $",
       "1000to1500": "1.000 $ to 1.500 $",
@@ -65,6 +70,43 @@
       "scienceAndTechnology": "Science and Technology",
       "socialImpact": "Social Impact",
       "sports": "Sports"
+    },
+    "roomTypes": {
+      "single": "Single Room",
+      "double": "Double Room",
+      "triple": "Triple Room",
+      "suite": "Suite",
+      "apartment": "Apartment",
+      "studio": "Studio"
+    },
+    "mealPlans": {
+      "roomOnly": "Room Only",
+      "breakfast": "Breakfast",
+      "halfBoard": "Half Board",
+      "fullBoard": "Full Board",
+      "allInclusive": "All Inclusive"
+    },
+    "roomFeatures": {
+      "airConditioning": "Air Conditioning",
+      "balcony": "Balcony",
+      "seaView": "Sea View",
+      "wifi": "WiFi",
+      "minibar": "Minibar",
+      "safebox": "Safe Box",
+      "bathtub": "Bathtub",
+      "shower": "Shower"
+    },
+    "hotelFeatures": {
+      "pool": "Swimming Pool",
+      "spa": "Spa",
+      "gym": "Gym",
+      "restaurant": "Restaurant",
+      "bar": "Bar",
+      "parking": "Parking",
+      "petFriendly": "Pet Friendly",
+      "beachAccess": "Beach Access",
+      "businessCenter": "Business Center",
+      "roomService": "Room Service"
     }
   }
 }

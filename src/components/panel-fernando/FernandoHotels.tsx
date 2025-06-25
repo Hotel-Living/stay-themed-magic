@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Hotel, CheckCircle, XCircle, Eye, Edit, Trash2, ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-
 interface HotelData {
   id: string;
   name: string;
@@ -22,21 +20,21 @@ interface HotelData {
     last_name?: string;
   };
 }
-
 export default function FernandoHotels() {
   const [hotels, setHotels] = useState<HotelData[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     fetchHotels();
   }, []);
-
   const fetchHotels = async () => {
     try {
-      const { data, error } = await supabase
-        .from('hotels')
-        .select(`
+      const {
+        data,
+        error
+      } = await supabase.from('hotels').select(`
           id,
           name,
           city,
@@ -49,9 +47,9 @@ export default function FernandoHotels() {
             first_name,
             last_name
           )
-        `)
-        .order('created_at', { ascending: false });
-
+        `).order('created_at', {
+        ascending: false
+      });
       if (error) throw error;
       setHotels(data || []);
     } catch (error) {
@@ -59,40 +57,37 @@ export default function FernandoHotels() {
       toast({
         title: "Error",
         description: "Failed to fetch hotels",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const updateHotelStatus = async (hotelId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
-        .from('hotels')
-        .update({ status: newStatus })
-        .eq('id', hotelId);
-
+      const {
+        error
+      } = await supabase.from('hotels').update({
+        status: newStatus
+      }).eq('id', hotelId);
       if (error) throw error;
-
-      setHotels(hotels.map(hotel => 
-        hotel.id === hotelId ? { ...hotel, status: newStatus } : hotel
-      ));
-
+      setHotels(hotels.map(hotel => hotel.id === hotelId ? {
+        ...hotel,
+        status: newStatus
+      } : hotel));
       toast({
         title: "Success",
-        description: `Hotel ${newStatus === 'approved' ? 'approved' : 'rejected'} successfully`,
+        description: `Hotel ${newStatus === 'approved' ? 'approved' : 'rejected'} successfully`
       });
     } catch (error) {
       console.error('Error updating hotel status:', error);
       toast({
         title: "Error",
         description: "Failed to update hotel status",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
@@ -103,10 +98,8 @@ export default function FernandoHotels() {
         return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
     }
   };
-
   if (loading) {
-    return (
-      <Card>
+    return <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Hotel className="w-5 h-5" />
@@ -116,13 +109,10 @@ export default function FernandoHotels() {
         <CardContent>
           <div className="text-center py-8">Loading hotels...</div>
         </CardContent>
-      </Card>
-    );
+      </Card>;
   }
-
-  return (
-    <Card>
-      <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+  return <Card>
+      <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white bg-[#4fc44f]">
         <CardTitle className="flex items-center gap-2">
           <Hotel className="w-5 h-5" />
           Hotels Management
@@ -144,21 +134,13 @@ export default function FernandoHotels() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {hotels.map((hotel) => (
-                <TableRow key={hotel.id}>
-                  <TableCell>
-                    {hotel.main_image_url ? (
-                      <img 
-                        src={hotel.main_image_url} 
-                        alt={hotel.name}
-                        className="w-12 h-12 object-cover rounded border"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          target.nextElementSibling?.classList.remove('hidden');
-                        }}
-                      />
-                    ) : null}
+              {hotels.map(hotel => <TableRow key={hotel.id}>
+                  <TableCell className="bg-[#571083]">
+                    {hotel.main_image_url ? <img src={hotel.main_image_url} alt={hotel.name} className="w-12 h-12 object-cover rounded border" onError={e => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }} /> : null}
                     <div className={`w-12 h-12 bg-gray-100 border rounded flex items-center justify-center ${hotel.main_image_url ? 'hidden' : ''}`}>
                       <ImageIcon className="w-4 h-4 text-gray-400" />
                     </div>
@@ -166,10 +148,7 @@ export default function FernandoHotels() {
                   <TableCell className="font-medium">{hotel.name}</TableCell>
                   <TableCell>{hotel.city}, {hotel.country}</TableCell>
                   <TableCell>
-                    {hotel.profiles ? 
-                      `${hotel.profiles.first_name || ''} ${hotel.profiles.last_name || ''}`.trim() || 'N/A'
-                      : 'N/A'
-                    }
+                    {hotel.profiles ? `${hotel.profiles.first_name || ''} ${hotel.profiles.last_name || ''}`.trim() || 'N/A' : 'N/A'}
                   </TableCell>
                   <TableCell>€{hotel.price_per_month}</TableCell>
                   <TableCell>{getStatusBadge(hotel.status)}</TableCell>
@@ -179,39 +158,23 @@ export default function FernandoHotels() {
                       <Button size="sm" variant="outline">
                         <Eye className="w-4 h-4" />
                       </Button>
-                      {hotel.status === 'pending' && (
-                        <>
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            className="text-green-600 hover:text-green-700"
-                            onClick={() => updateHotelStatus(hotel.id, 'approved')}
-                          >
+                      {hotel.status === 'pending' && <>
+                          <Button size="sm" variant="outline" className="text-green-600 hover:text-green-700" onClick={() => updateHotelStatus(hotel.id, 'approved')}>
                             <CheckCircle className="w-4 h-4" />
                           </Button>
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            className="text-red-600 hover:text-red-700"
-                            onClick={() => updateHotelStatus(hotel.id, 'rejected')}
-                          >
+                          <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700" onClick={() => updateHotelStatus(hotel.id, 'rejected')}>
                             <XCircle className="w-4 h-4" />
                           </Button>
-                        </>
-                      )}
+                        </>}
                     </div>
                   </TableCell>
-                </TableRow>
-              ))}
+                </TableRow>)}
             </TableBody>
           </Table>
         </div>
-        {hotels.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
+        {hotels.length === 0 && <div className="text-center py-8 text-gray-500">
             No hotels found
-          </div>
-        )}
+          </div>}
       </CardContent>
-    </Card>
-  );
+    </Card>;
 }

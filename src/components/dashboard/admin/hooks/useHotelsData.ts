@@ -9,6 +9,7 @@ export const useHotelsData = () => {
   const { toast } = useToast();
 
   const fetchAllHotels = async () => {
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from('hotels')
@@ -30,10 +31,18 @@ export const useHotelsData = () => {
         return { data: null, error };
       }
 
+      setHotels(data || []);
       return { data: data || [], error: null };
     } catch (error) {
       console.error('Error in fetchAllHotels:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch hotels",
+        variant: "destructive"
+      });
       return { data: null, error };
+    } finally {
+      setLoading(false);
     }
   };
 

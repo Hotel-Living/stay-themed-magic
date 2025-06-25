@@ -1,3 +1,4 @@
+
 import React from "react";
 import { FilterItem } from "./FilterItem";
 import { CountryFilter } from "./CountryFilter";
@@ -12,19 +13,19 @@ import { RadioFilter } from "./RadioFilter";
 import { useTranslation } from "@/hooks/useTranslation";
 import { FilterState } from "@/components/filters/FilterTypes";
 
-interface FilterSidebarProps {
+interface SecondFilterSidebarProps {
   activeFilters: FilterState;
   handleFilterChange: (key: keyof FilterState, value: any) => void;
   handleArrayFilterChange: (key: keyof FilterState, value: string, isSelected: boolean) => void;
   onResetAllFilters: () => void;
 }
 
-export function FilterSidebar({
+export function SecondFilterSidebar({
   activeFilters,
   handleFilterChange,
   handleArrayFilterChange,
   onResetAllFilters
-}: FilterSidebarProps) {
+}: SecondFilterSidebarProps) {
   const { t } = useTranslation();
 
   const propertyTypes = [

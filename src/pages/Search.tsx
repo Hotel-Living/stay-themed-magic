@@ -1,218 +1,87 @@
 
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FilterSidebar } from "@/components/search/FilterSidebar";
-import { SearchResultsList } from "@/components/search/SearchResultsList";
+import { SecondFilterSidebar } from "@/components/search/SecondFilterSidebar";
+import { SearchResults } from "@/components/search/SearchResults";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { Theme } from "@/utils/themes";
-import { useToast } from "@/hooks/use-toast";
-import { HotelStarfield } from "@/components/hotels/HotelStarfield";
+import { createDefaultFilters } from "@/utils/filterUtils";
 
 export default function Search() {
-  const location = useLocation();
-  const {
-    hotels,
-    loading,
-    error,
-    filters,
-    updateFilters
-  } = useHotels();
-  const { toast } = useToast();
+  const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
   
-  const [activeFilters, setActiveFilters] = useState<{
-    country: string | null;
-    month: string | null;
-    theme: Theme | null;
-    priceRange: number | null;
-    propertyType: string | null;
-    propertyStyle: string | null;
-    roomTypes: string[];
-    hotelFeatures: string[];
-    roomFeatures: string[];
-    meals: string[];
-    lengthOfStay: string | null;
-    activities: string[];
-    location: string | null;
-    category: string | null;
-    atmosphere: string | null;
-    mealPlans: string[];
-    stayLengths: number[];
-    fiveAffinityMatches?: boolean;
-    next60DaysOnly?: boolean;
-    bestValueSort?: boolean;
-  }>({
-    country: null,
-    month: null,
-    theme: null,
-    priceRange: null,
-    propertyType: null,
-    propertyStyle: null,
-    roomTypes: [],
-    hotelFeatures: [],
-    roomFeatures: [],
-    meals: [],
-    lengthOfStay: null,
-    activities: [],
-    location: null,
-    category: null,
-    atmosphere: null,
-    mealPlans: [],
-    stayLengths: [],
-    fiveAffinityMatches: false,
-    next60DaysOnly: false,
-    bestValueSort: false
+  const { hotels, loading, error, updateFilters } = useHotels({
+    initialFilters: activeFilters
   });
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const newFilters = { ...activeFilters };
-    let filtersChanged = false;
-    
-    if (searchParams.has('country')) {
-      newFilters.country = searchParams.get('country');
-      filtersChanged = true;
-    }
-    if (searchParams.has('month')) {
-      newFilters.month = searchParams.get('month');
-      filtersChanged = true;
-    }
-    if (searchParams.has('price')) {
-      newFilters.priceRange = Number(searchParams.get('price'));
-      filtersChanged = true;
-    }
-    if (searchParams.has('location')) {
-      newFilters.location = searchParams.get('location');
-      filtersChanged = true;
-    }
-    if (searchParams.has('propertyType')) {
-      newFilters.propertyType = searchParams.get('propertyType');
-      filtersChanged = true;
-    }
-    if (searchParams.has('propertyStyle')) {
-      newFilters.propertyStyle = searchParams.get('propertyStyle');
-      filtersChanged = true;
-    }
-    if (searchParams.has('theme')) {
-      const themeId = searchParams.get('theme');
-      newFilters.theme = {
-        id: themeId || '',
-        name: themeId || ''
-      } as Theme;
-      filtersChanged = true;
-    }
-    
-    if (filtersChanged) {
-      setActiveFilters(newFilters);
-      updateFilters(newFilters);
-      
-      let filterDescription = "Showing results";
-      if (newFilters.country) filterDescription += ` in ${newFilters.country}`;
-      if (newFilters.month) filterDescription += ` for ${newFilters.month}`;
-      if (newFilters.theme) filterDescription += ` with theme "${newFilters.theme.name}"`;
-      
-      toast({
-        title: "Filters Applied",
-        description: filterDescription
-      });
-    }
-  }, [location.search]);
-
-  const handleFilterChange = (filterType: string, value: any) => {
-    console.log("Search page - Filter change:", filterType, value);
-    
-    const updatedFilters = {
-      ...activeFilters,
-      [filterType]: value
-    };
-    
-    setActiveFilters(updatedFilters);
-    updateFilters({ [filterType]: value });
+  const handleFilterChange = (key: keyof FilterState, value: any) => {
+    const newFilters = { ...activeFilters, [key]: value };
+    setActiveFilters(newFilters);
+    updateFilters(newFilters);
   };
 
-  const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
-    console.log("Search page - Array filter change:", filterType, value, isChecked);
+  const handleArrayFilterChange = (key: keyof FilterState, value: string, isSelected: boolean) => {
+    const currentArray = activeFilters[key] as string[] || [];
+    let newArray: string[];
     
-    const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
-    const newValues = isChecked 
-      ? [...currentValues, value] 
-      : currentValues.filter(v => v !== value);
+    if (isSelected) {
+      newArray = [...currentArray, value];
+    } else {
+      newArray = currentArray.filter(item => item !== value);
+    }
     
-    const updatedFilters = {
-      ...activeFilters,
-      [filterType]: newValues
-    };
-    
-    setActiveFilters(updatedFilters);
-    updateFilters({ [filterType]: newValues });
+    const newFilters = { ...activeFilters, [key]: newArray };
+    setActiveFilters(newFilters);
+    updateFilters(newFilters);
   };
 
-  const handleResetAllFilters = () => {
-    const resetFilters = {
-      country: null,
-      month: null,
-      theme: null,
-      priceRange: null,
-      propertyType: null,
-      propertyStyle: null,
-      roomTypes: [],
-      hotelFeatures: [],
-      roomFeatures: [],
-      meals: [],
-      lengthOfStay: null,
-      activities: [],
-      location: null,
-      category: null,
-      atmosphere: null,
-      mealPlans: [],
-      stayLengths: [],
-      fiveAffinityMatches: false,
-      next60DaysOnly: false,
-      bestValueSort: false
-    };
-    
-    setActiveFilters(resetFilters);
-    updateFilters(resetFilters);
-    
-    toast({
-      title: "Filters Reset",
-      description: "All filters have been cleared"
-    });
+  const onResetAllFilters = () => {
+    const defaultFilters = createDefaultFilters();
+    setActiveFilters(defaultFilters);
+    updateFilters(defaultFilters);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <HotelStarfield />
       <Navbar />
-      <main className="flex-1 container mx-auto px-4 pt-16 pb-10">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="w-full md:w-1/4">
-            <FilterSidebar 
-              activeFilters={activeFilters} 
-              handleFilterChange={handleFilterChange} 
-              handleArrayFilterChange={handleArrayFilterChange} 
-              onResetAllFilters={handleResetAllFilters} 
-            />
-          </div>
-          <div className="w-full md:w-3/4">
-            <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
-              <h1 className="font-bold text-xl" style={{ color: '#860493' }}>
-                Search Results
-              </h1>
-              <p className="text-muted-foreground" style={{ color: '#860493' }}>
-                Found {hotels?.length || 0} properties matching your criteria
-              </p>
+      
+      <main className="flex-1 pt-16">
+        <div className="container mx-auto px-4 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* First Filter Sidebar */}
+            <div className="lg:col-span-1">
+              <FilterSidebar
+                activeFilters={activeFilters}
+                handleFilterChange={handleFilterChange}
+                handleArrayFilterChange={handleArrayFilterChange}
+                onResetAllFilters={onResetAllFilters}
+              />
             </div>
-            <SearchResultsList 
-              filteredHotels={hotels || []} 
-              isLoading={loading} 
-              error={error instanceof Error ? error : error ? new Error(String(error)) : null} 
-            />
+            
+            {/* Second Filter Sidebar */}
+            <div className="lg:col-span-1">
+              <SecondFilterSidebar
+                activeFilters={activeFilters}
+                handleFilterChange={handleFilterChange}
+                handleArrayFilterChange={handleArrayFilterChange}
+                onResetAllFilters={onResetAllFilters}
+              />
+            </div>
+            
+            {/* Search Results */}
+            <div className="lg:col-span-2">
+              <SearchResults 
+                hotels={hotels}
+                loading={loading}
+                error={error}
+              />
+            </div>
           </div>
         </div>
       </main>
+      
       <Footer />
     </div>
   );

@@ -17,6 +17,7 @@ import FernandoBatchTextCompletion from "@/components/panel-fernando/FernandoBat
 import FernandoBatchPendingFields from "@/components/panel-fernando/FernandoBatchPendingFields";
 import FernandoBatchHotelCreation from "@/components/panel-fernando/FernandoBatchHotelCreation";
 import FernandoBatchRoomImages from "@/components/panel-fernando/FernandoBatchRoomImages";
+import Fernando32DayHotels from "@/components/panel-fernando/Fernando32DayHotels";
 
 export default function PanelFernando() {
   return (
@@ -38,6 +39,7 @@ export default function PanelFernando() {
         <Route path="/batch-pending" element={<FernandoBatchPendingFields />} />
         <Route path="/batch-create-hotels" element={<FernandoBatchHotelCreation />} />
         <Route path="/batch-room-images" element={<FernandoBatchRoomImages />} />
+        <Route path="/32-day-hotels" element={<Fernando32DayHotels />} />
         <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
       </Routes>
     </PanelFernandoLayout>

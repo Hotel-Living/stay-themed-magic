@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -5,7 +6,7 @@ import { Hotel } from "@/integrations/supabase/types-custom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, Edit, Eye, Trash2, Star } from "lucide-react";
+import { Check, Edit, Eye, Trash2, Star, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -15,27 +16,9 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-interface FetchedHotel {
-  id: string;
-  name: string;
-  city: string;
-  country: string;
-  status: string;
-  price_per_month: number;
-  main_image_url: string | null;
-  category: number | null;
-  created_at: string;
-  profiles?: {
-    id: string;
-    first_name: string | null;
-    last_name: string | null;
-  } | null;
-}
-
-export default function FernandoHotels() {
+const FernandoHotels = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedHotels, setSelectedHotels] = useState<Set<string>>(new Set());
@@ -47,92 +30,50 @@ export default function FernandoHotels() {
       const { data, error } = await supabase
         .from('hotels')
         .select(`
-          id,
-          name,
-          city,
-          country,
-          status,
-          price_per_month,
-          main_image_url,
-          category,
-          created_at,
+          *,
           profiles:owner_id(
             id,
             first_name,
             last_name
+          ),
+          hotel_images(
+            id,
+            image_url,
+            is_main
+          ),
+          hotel_themes(
+            theme_id,
+            themes(
+              id,
+              name
+            )
+          ),
+          hotel_activities(
+            activity_id,
+            activities(
+              id,
+              name
+            )
           )
         `)
         .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching hotels:', error);
-        toast({
-          title: "Error",
-          description: "Failed to fetch hotels",
-          variant: "destructive"
-        });
+        toast.error("Error fetching hotels");
         return;
       }
 
-      // Transform the data to match our Hotel type
-      const transformedHotels: Hotel[] = (data as FetchedHotel[]).map(hotel => ({
-        id: hotel.id,
-        name: hotel.name,
-        city: hotel.city,
-        country: hotel.country,
-        status: hotel.status,
-        price_per_month: hotel.price_per_month,
-        main_image_url: hotel.main_image_url,
-        category: hotel.category,
-        created_at: hotel.created_at,
-        // Provide defaults for missing required fields
-        description: null,
-        address: null,
-        latitude: null,
-        longitude: null,
-        owner_id: null,
-        updated_at: hotel.created_at,
-        rejection_reason: null,
-        pending_changes: null,
-        ideal_guests: null,
-        atmosphere: null,
-        perfect_location: null,
-        is_featured: false,
-        available_months: [],
-        postal_code: null,
-        contact_name: null,
-        contact_email: null,
-        contact_phone: null,
-        property_type: null,
-        style: null,
-        features_hotel: {},
-        features_room: {},
-        meal_plans: [],
-        room_types: [],
-        stay_lengths: [],
-        faqs: [],
-        terms: null,
-        rates: {},
-        enable_price_increase: false,
-        price_increase_cap: 0,
-        enablePriceIncrease: false,
-        priceIncreaseCap: 0,
-        preferredWeekday: null,
-        check_in_weekday: null,
-        pricingMatrix: [],
-        hotel_images: [],
-        hotel_themes: [],
-        hotel_activities: []
-      }));
+      // Type assertion to handle status field properly
+      const typedHotels = (data || []).map(hotel => ({
+        ...hotel,
+        status: hotel.status as "approved" | "pending" | "rejected"
+      })) as Hotel[];
 
-      setHotels(transformedHotels);
+      setHotels(typedHotels);
     } catch (error) {
       console.error('Error in fetchHotels:', error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch hotels",
-        variant: "destructive"
-      });
+      toast.error("Error fetching hotels");
     } finally {
       setLoading(false);
     }
@@ -142,50 +83,6 @@ export default function FernandoHotels() {
     fetchHotels();
   }, []);
 
-  const handleSelectAll = () => {
-    if (selectedHotels.size === hotels.length) {
-      setSelectedHotels(new Set());
-    } else {
-      setSelectedHotels(new Set(hotels.map(h => h.id)));
-    }
-  };
-
-  const handleSelectHotel = (hotelId: string) => {
-    const newSelected = new Set(selectedHotels);
-    if (newSelected.has(hotelId)) {
-      newSelected.delete(hotelId);
-    } else {
-      newSelected.add(hotelId);
-    }
-    setSelectedHotels(newSelected);
-  };
-
-  const handleBulkDelete = async () => {
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .delete()
-        .in('id', Array.from(selectedHotels));
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: `${selectedHotels.size} hotels deleted successfully`
-      });
-
-      setSelectedHotels(new Set());
-      fetchHotels();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete hotels",
-        variant: "destructive"
-      });
-    }
-    setShowBulkDeleteDialog(false);
-  };
-
   const handleApprove = async (hotelId: string) => {
     try {
       const { error } = await supabase
@@ -193,20 +90,15 @@ export default function FernandoHotels() {
         .update({ status: 'approved' })
         .eq('id', hotelId);
 
-      if (error) throw error;
+      if (error) {
+        toast.error("Error approving hotel");
+        return;
+      }
 
-      toast({
-        title: "Success",
-        description: "Hotel approved successfully"
-      });
-
+      toast.success("Hotel approved successfully");
       fetchHotels();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to approve hotel",
-        variant: "destructive"
-      });
+    } catch (error) {
+      toast.error("Error approving hotel");
     }
   };
 
@@ -217,104 +109,129 @@ export default function FernandoHotels() {
         .delete()
         .eq('id', hotelId);
 
-      if (error) throw error;
+      if (error) {
+        toast.error("Error deleting hotel");
+        return;
+      }
 
-      toast({
-        title: "Success",
-        description: "Hotel deleted successfully"
-      });
-
+      toast.success("Hotel deleted successfully");
       fetchHotels();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete hotel",
-        variant: "destructive"
-      });
+    } catch (error) {
+      toast.error("Error deleting hotel");
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const handleBulkDelete = async () => {
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .delete()
+        .in('id', Array.from(selectedHotels));
+
+      if (error) {
+        toast.error("Error deleting hotels");
+        return;
+      }
+
+      toast.success(`${selectedHotels.size} hotels deleted successfully`);
+      setSelectedHotels(new Set());
+      setShowBulkDeleteDialog(false);
+      fetchHotels();
+    } catch (error) {
+      toast.error("Error deleting hotels");
+    }
+  };
+
+  const toggleHotelSelection = (hotelId: string) => {
+    const newSelection = new Set(selectedHotels);
+    if (newSelection.has(hotelId)) {
+      newSelection.delete(hotelId);
+    } else {
+      newSelection.add(hotelId);
+    }
+    setSelectedHotels(newSelection);
+  };
+
+  const selectAllHotels = () => {
+    if (selectedHotels.size === hotels.length) {
+      setSelectedHotels(new Set());
+    } else {
+      setSelectedHotels(new Set(hotels.map(h => h.id)));
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return 'bg-green-500';
+        return <Badge className="bg-green-600 text-white">Approved</Badge>;
       case 'pending':
-        return 'bg-yellow-500';
+        return <Badge className="bg-yellow-600 text-white">Pending</Badge>;
       case 'rejected':
-        return 'bg-red-500';
+        return <Badge className="bg-red-600 text-white">Rejected</Badge>;
       default:
-        return 'bg-gray-500';
+        return <Badge className="bg-gray-600 text-white">{status}</Badge>;
     }
   };
 
   const renderStars = (category: number | null) => {
     if (!category) return null;
-    return '★'.repeat(Math.min(category, 5));
+    return (
+      <div className="flex items-center gap-1">
+        {Array.from({ length: category }, (_, i) => (
+          <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+        ))}
+      </div>
+    );
   };
 
   if (loading) {
     return (
       <div className="p-6">
-        <div className="flex justify-center items-center h-64">
-          <div className="text-lg">Loading hotels...</div>
-        </div>
+        <div className="text-center">Loading hotels...</div>
       </div>
     );
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Hotels Management</h1>
-        <div className="flex gap-2">
-          {selectedHotels.size > 0 && (
-            <Button
-              variant="destructive"
-              onClick={() => setShowBulkDeleteDialog(true)}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Delete Selected ({selectedHotels.size})
-            </Button>
-          )}
-        </div>
+    <div className="p-6 space-y-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-white">Hotel Management</h1>
+        {selectedHotels.size > 0 && (
+          <Button
+            onClick={() => setShowBulkDeleteDialog(true)}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            Delete Selected ({selectedHotels.size})
+          </Button>
+        )}
       </div>
 
-      {/* Header with select all */}
-      <div className="bg-gray-50 p-3 rounded-t-lg border-b flex items-center gap-4">
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            checked={selectedHotels.size === hotels.length && hotels.length > 0}
-            onChange={handleSelectAll}
-            className="h-4 w-4"
-          />
-          <span className="ml-2 text-sm font-medium">Select All</span>
-        </div>
-        <div className="text-sm text-gray-600">
-          {hotels.length} hotels total
-        </div>
+      {/* Bulk selection header */}
+      <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg">
+        <Checkbox
+          checked={selectedHotels.size === hotels.length && hotels.length > 0}
+          onCheckedChange={selectAllHotels}
+        />
+        <span className="text-white text-sm">
+          Select All ({hotels.length} hotels)
+        </span>
       </div>
 
-      {/* Hotels list */}
-      <div className="border border-t-0 rounded-b-lg">
-        {hotels.map((hotel, index) => (
+      {/* Hotel list */}
+      <div className="space-y-2">
+        {hotels.map((hotel) => (
           <div
             key={hotel.id}
-            className={`flex items-center gap-4 p-4 border-b last:border-b-0 hover:bg-gray-50 ${
-              selectedHotels.has(hotel.id) ? 'bg-blue-50' : ''
-            }`}
+            className="flex items-center gap-4 p-4 bg-gray-800 rounded-lg hover:bg-gray-750 transition-colors"
           >
-            {/* Checkbox */}
-            <input
-              type="checkbox"
+            {/* Selection checkbox */}
+            <Checkbox
               checked={selectedHotels.has(hotel.id)}
-              onChange={() => handleSelectHotel(hotel.id)}
-              className="h-4 w-4"
+              onCheckedChange={() => toggleHotelSelection(hotel.id)}
             />
 
-            {/* Thumbnail */}
-            <div className="w-16 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+            {/* Hotel thumbnail */}
+            <div className="w-16 h-12 bg-gray-700 rounded overflow-hidden flex-shrink-0">
               {hotel.main_image_url ? (
                 <img
                   src={hotel.main_image_url}
@@ -322,83 +239,62 @@ export default function FernandoHotels() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">
-                  No Image
+                <div className="w-full h-full flex items-center justify-center text-gray-500 text-xs">
+                  No image
                 </div>
               )}
             </div>
 
-            {/* Status */}
-            <div className="flex-shrink-0">
-              <span
-                className={`px-2 py-1 rounded text-xs font-medium text-white ${getStatusColor(hotel.status)}`}
-              >
-                {hotel.status?.charAt(0).toUpperCase() + hotel.status?.slice(1)}
-              </span>
-            </div>
-
-            {/* Hotel Info */}
+            {/* Hotel info */}
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-sm truncate">{hotel.name}</div>
-              <div className="text-xs text-gray-500 truncate">
-                {hotel.city}, {hotel.country}
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-white font-medium truncate">{hotel.name}</h3>
+                {getStatusBadge(hotel.status)}
+                {renderStars(hotel.category)}
+              </div>
+              <div className="text-gray-300 text-sm">
+                {hotel.city}, {hotel.country} • €{hotel.price_per_month}/month
               </div>
             </div>
 
-            {/* Price */}
-            <div className="flex-shrink-0 text-right">
-              <div className="text-sm font-medium">€{hotel.price_per_month}</div>
-              <div className="text-xs text-gray-500">/month</div>
-            </div>
-
-            {/* Stars */}
-            <div className="flex-shrink-0 text-yellow-500 text-sm">
-              {renderStars(hotel.category)}
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-1 flex-shrink-0">
+            {/* Action buttons */}
+            <div className="flex items-center gap-2 flex-shrink-0">
               {hotel.status === 'pending' && (
                 <Button
-                  size="sm"
                   onClick={() => handleApprove(hotel.id)}
-                  className="bg-green-600 hover:bg-green-700 text-white h-8 px-2"
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 text-white"
                 >
-                  <Check className="h-3 w-3" />
+                  <Check className="w-4 h-4" />
+                  Approve
                 </Button>
               )}
               
               <Button
+                onClick={() => window.open(`/admin/hotel/${hotel.id}`, '_blank')}
                 size="sm"
-                variant="outline"
-                className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 h-8 px-2"
+                className="bg-purple-600 hover:bg-purple-700 text-white"
               >
-                <Eye className="h-3 w-3" />
+                <Eye className="w-4 h-4" />
+                View
               </Button>
-              
+
               <Button
+                onClick={() => window.open(`/dashboard/property/${hotel.id}`, '_blank')}
                 size="sm"
-                variant="outline"
-                className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 h-8 px-2"
+                className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <Edit className="h-3 w-3" />
+                <Edit className="w-4 h-4" />
+                Edit
               </Button>
-              
+
               <Button
-                size="sm"
-                variant="outline"
-                className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 h-8 px-2"
-              >
-                <MessageSquare className="h-3 w-3" />
-              </Button>
-              
-              <Button
-                size="sm"
-                variant="destructive"
                 onClick={() => handleDelete(hotel.id)}
-                className="bg-red-600 hover:bg-red-700 h-8 px-2"
+                size="sm"
+                className="bg-red-600 hover:bg-red-700 text-white"
               >
-                <Trash2 className="h-3 w-3" />
+                <Trash2 className="w-4 h-4" />
+                Delete
               </Button>
             </div>
           </div>
@@ -406,16 +302,15 @@ export default function FernandoHotels() {
       </div>
 
       {hotels.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          No hotels found
+        <div className="text-center py-8 text-gray-400">
+          No hotels found.
         </div>
       )}
 
-      {/* Bulk Delete Confirmation Dialog */}
+      {/* Bulk delete confirmation dialog */}
       <AlertDialog open={showBulkDeleteDialog} onOpenChange={setShowBulkDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Bulk Delete</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete {selectedHotels.size} selected hotels? 
               This action cannot be undone.
@@ -434,4 +329,6 @@ export default function FernandoHotels() {
       </AlertDialog>
     </div>
   );
-}
+};
+
+export default FernandoHotels;

@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -127,8 +128,12 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Parse request body - fix parameter mismatch
-    const { maxHotels: count } = await req.json();
+    // Parse request body and handle both maxHotels and count parameters
+    const requestBody = await req.json();
+    console.log('Request body received:', requestBody);
+    
+    const count = requestBody.maxHotels || requestBody.count;
+    console.log('Extracted count:', count);
     
     // Validate count parameter
     if (!count || count < 1 || count > 50) {

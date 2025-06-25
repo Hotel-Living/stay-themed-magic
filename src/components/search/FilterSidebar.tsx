@@ -1,37 +1,28 @@
+
 import { useEffect, useState } from "react";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { PriceRangeFilter } from "./PriceRangeFilter";
 import { Button } from "@/components/ui/button";
-import { useSearch } from "@/hooks/useSearch";
 import { useTranslation } from "@/hooks/useTranslation";
 import { ActivityFilter } from "./ActivityFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
 
 interface FilterSidebarProps {
   onClose: () => void;
+  activeFilters: any;
+  handleFilterChange: (filterType: string, value: any) => void;
+  handleArrayFilterChange: (filterType: string, value: string, isChecked: boolean) => void;
+  resetFilters: () => void;
 }
 
-export function FilterSidebar({ onClose }: FilterSidebarProps) {
+export function FilterSidebar({ 
+  onClose, 
+  activeFilters, 
+  handleFilterChange, 
+  handleArrayFilterChange, 
+  resetFilters 
+}: FilterSidebarProps) {
   const { t } = useTranslation();
-  const {
-    activeCountries,
-    activeMealPlans,
-    activeRoomTypes,
-    activeHotelFeatures,
-    activeRoomFeatures,
-    activeActivities,
-    activeStayLengths,
-    priceRange,
-    onCountryChange,
-    onMealPlanChange,
-    onRoomTypeChange,
-    onHotelFeatureChange,
-    onRoomFeatureChange,
-    onActivityChange,
-    onStayLengthChange,
-    onPriceRangeChange,
-    resetFilters,
-  } = useSearch();
 
   const countryOptions = Object.entries(t('filters.countries'))
     .map(([key, label]) => ({ value: key, label }));
@@ -57,54 +48,53 @@ export function FilterSidebar({ onClose }: FilterSidebarProps) {
       <h2 className="text-2xl font-bold mb-4">{t('filters.all').toUpperCase()}</h2>
 
       <PriceRangeFilter
-        title={t('filters.price').toUpperCase()}
-        priceRange={priceRange}
-        onChange={onPriceRangeChange}
+        priceRange={activeFilters.priceRange || [0, 1000]}
+        onChange={(range) => handleFilterChange('priceRange', range)}
       />
 
       <CheckboxFilter
         title={t('filters.country').toUpperCase()}
         options={countryOptions}
-        selectedOptions={activeCountries}
-        onChange={onCountryChange}
+        selectedOptions={activeFilters.country || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('country', value, isChecked)}
       />
 
       <CheckboxFilter
         title={t('filters.mealPlans.title').toUpperCase()}
         options={mealPlanOptions}
-        selectedOptions={activeMealPlans}
-        onChange={onMealPlanChange}
+        selectedOptions={activeFilters.mealPlans || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)}
       />
 
       <CheckboxFilter
         title={t('filters.roomTypes.title').toUpperCase()}
         options={roomTypeOptions}
-        selectedOptions={activeRoomTypes}
-        onChange={onRoomTypeChange}
+        selectedOptions={activeFilters.roomTypes || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)}
       />
 
       <CheckboxFilter
         title={t('filters.hotelFeatures.title').toUpperCase()}
         options={hotelFeatureOptions}
-        selectedOptions={activeHotelFeatures}
-        onChange={handleHotelFeatureChange}
+        selectedOptions={activeFilters.hotelFeatures || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)}
       />
 
       <CheckboxFilter
         title={t('filters.roomFeatures.title').toUpperCase()}
         options={roomFeatureOptions}
-        selectedOptions={activeRoomFeatures}
-        onChange={handleRoomFeatureChange}
+        selectedOptions={activeFilters.roomFeatures || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)}
       />
 
       <ActivityFilter
-        activeActivities={activeActivities}
-        onChange={onActivityChange}
+        activeActivities={activeFilters.activities || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)}
       />
 
       <LengthOfStayFilter
-        activeStayLengths={activeStayLengths}
-        onChange={onStayLengthChange}
+        activeLength={activeFilters.stayLengths || []}
+        onChange={(value, isChecked) => handleArrayFilterChange('stayLengths', value, isChecked)}
       />
 
       <div className="mt-auto flex justify-between">

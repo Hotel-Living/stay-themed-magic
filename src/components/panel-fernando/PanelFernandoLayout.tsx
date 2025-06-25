@@ -1,213 +1,189 @@
 
-import React, { ReactNode } from "react";
-import { Navbar } from "@/components/Navbar";
-import { LogOut, HelpCircle, Building, ClipboardList, CreditCard, BarChart3, MessageCircle, Megaphone, ArrowLeft, Heart, Filter, Users, Image, Type, Settings, Plus, Camera } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/AuthContext";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Footer } from "@/components/Footer";
-import { HotelStarfield } from "@/components/hotels/HotelStarfield";
-
-interface PanelFernandoLayoutProps {
-  children: ReactNode;
-}
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { 
+  Hotel, 
+  Calendar, 
+  CreditCard, 
+  BarChart3, 
+  MessageSquare, 
+  Megaphone, 
+  Heart, 
+  Filter, 
+  Users, 
+  TrendingUp,
+  ImageIcon,
+  FileText,
+  Clock,
+  Plus,
+  Camera
+} from "lucide-react";
 
 const fernandoTabs = [
   {
-    id: "hotels",
-    label: "Hotels",
-    icon: <Building className="w-5 h-5" />,
-    path: "/panel-fernando/hotels"
+    id: "32-day-hotels",
+    name: "32-Day Hotels Creation",
+    icon: Calendar,
+    path: "/panel-fernando/32-day-hotels",
+    description: "Create 69 hotels for 32-day stays"
   },
   {
-    id: "bookings", 
-    label: "Bookings",
-    icon: <ClipboardList className="w-5 h-5" />,
-    path: "/panel-fernando/bookings"
+    id: "hotels",
+    name: "Hotels",
+    icon: Hotel,
+    path: "/panel-fernando/hotels",
+    description: "Manage hotel listings"
+  },
+  {
+    id: "bookings",
+    name: "Bookings",
+    icon: Calendar,
+    path: "/panel-fernando/bookings",
+    description: "View and manage bookings"
   },
   {
     id: "payments",
-    label: "Payments", 
-    icon: <CreditCard className="w-5 h-5" />,
-    path: "/panel-fernando/payments"
+    name: "Payments",
+    icon: CreditCard,
+    path: "/panel-fernando/payments",
+    description: "Payment management"
   },
   {
     id: "statistics",
-    label: "Statistics",
-    icon: <BarChart3 className="w-5 h-5" />,
-    path: "/panel-fernando/statistics"
+    name: "Statistics",
+    icon: BarChart3,
+    path: "/panel-fernando/statistics",
+    description: "View platform statistics"
   },
   {
     id: "communications",
-    label: "Communications",
-    icon: <MessageCircle className="w-5 h-5" />,
-    path: "/panel-fernando/communications"
+    name: "Communications",
+    icon: MessageSquare,
+    path: "/panel-fernando/communications",
+    description: "Manage communications"
   },
   {
     id: "advertising",
-    label: "Advertising",
-    icon: <Megaphone className="w-5 h-5" />,
-    path: "/panel-fernando/advertising"
+    name: "Advertising",
+    icon: Megaphone,
+    path: "/panel-fernando/advertising",
+    description: "Advertising management"
   },
   {
     id: "affinities",
-    label: "Affinities",
-    icon: <Heart className="w-5 h-5" />,
-    path: "/panel-fernando/affinities"
+    name: "Affinities",
+    icon: Heart,
+    path: "/panel-fernando/affinities",
+    description: "Manage affinities and themes"
   },
   {
     id: "filters",
-    label: "Filters",
-    icon: <Filter className="w-5 h-5" />,
-    path: "/panel-fernando/filters"
+    name: "Filters",
+    icon: Filter,
+    path: "/panel-fernando/filters",
+    description: "Manage search filters"
   },
   {
     id: "user-roles",
-    label: "User Roles",
-    icon: <Users className="w-5 h-5" />,
-    path: "/panel-fernando/user-roles"
+    name: "User Roles",
+    icon: Users,
+    path: "/panel-fernando/user-roles",
+    description: "Manage user roles"
   },
   {
     id: "analytics",
-    label: "Analytics",
-    icon: <BarChart3 className="w-5 h-5" />,
-    path: "/panel-fernando/analytics"
+    name: "Analytics",
+    icon: TrendingUp,
+    path: "/panel-fernando/analytics",
+    description: "Advanced analytics"
   },
   {
     id: "batch-images",
-    label: "Batch Images",
-    icon: <Image className="w-5 h-5" />,
-    path: "/panel-fernando/batch-images"
+    name: "Batch Images",
+    icon: ImageIcon,
+    path: "/panel-fernando/batch-images",
+    description: "Batch image operations"
   },
   {
-    id: "batch-text",
-    label: "Batch Text",
-    icon: <Type className="w-5 h-5" />,
-    path: "/panel-fernando/batch-text"
+    id: "batch-text-completion",
+    name: "Batch Text Completion",
+    icon: FileText,
+    path: "/panel-fernando/batch-text",
+    description: "Batch text completion"
   },
   {
-    id: "batch-pending",
-    label: "Batch Pending",
-    icon: <Settings className="w-5 h-5" />,
-    path: "/panel-fernando/batch-pending"
+    id: "batch-pending-fields",
+    name: "Batch Pending Fields",
+    icon: Clock,
+    path: "/panel-fernando/batch-pending",
+    description: "Process pending fields"
   },
   {
-    id: "batch-create-hotels",
-    label: "Batch Create Hotels",
-    icon: <Plus className="w-5 h-5" />,
-    path: "/panel-fernando/batch-create-hotels"
+    id: "batch-hotel-creation",
+    name: "Batch Hotel Creation",
+    icon: Plus,
+    path: "/panel-fernando/batch-create-hotels",
+    description: "Create hotels in batches"
   },
   {
     id: "batch-room-images",
-    label: "Batch Room Images",
-    icon: <Camera className="w-5 h-5" />,
-    path: "/panel-fernando/batch-room-images"
+    name: "Batch Room Images",
+    icon: Camera,
+    path: "/panel-fernando/batch-room-images",
+    description: "Batch room image operations"
   }
 ];
 
-export default function PanelFernandoLayout({ children }: PanelFernandoLayoutProps) {
-  const { signOut } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
+export default function PanelFernandoLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      toast({
-        description: "Redirecting to login page..."
-      });
-      navigate('/login');
-    } catch (error) {
-      toast({
-        description: "Could not log out. Please try again.",
-        variant: "destructive"
-      });
-    }
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <HotelStarfield />
-      <Navbar />
-      
-      <main className="flex-1 pt-16">
-        <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-white">PANEL FERNANDO</h1>
-              <p className="text-white/60">Advanced Admin Control Panel</p>
-            </div>
-            
-            {/* Back to Admin Button */}
-            <button
-              onClick={() => navigate('/admin')}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="font-semibold">Back to Admin</span>
-            </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex">
+        {/* Sidebar */}
+        <div className="w-64 bg-white shadow-lg border-r border-gray-200">
+          <div className="p-6 border-b border-gray-200">
+            <h1 className="text-xl font-bold text-gray-800">Fernando Admin</h1>
+            <p className="text-sm text-gray-600">Management Panel</p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <aside className="lg:col-span-1">
-              <div className="rounded-2xl overflow-hidden mb-8 sticky top-24 bg-[#7a0486]">
-                <nav className="p-2">
-                  {fernandoTabs.map(tab => (
-                    <button
-                      key={tab.id}
-                      onClick={() => navigate(tab.path)}
-                      className={cn(
-                        "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-white",
-                        location.pathname === tab.path
-                          ? "bg-[#5A1876]/50"
-                          : "hover:bg-[#5A1876]/30"
-                      )}
-                    >
-                      {tab.icon}
-                      {tab.label}
-                    </button>
-                  ))}
-                  
-                  <div className="px-4 py-3">
-                    <div className="h-px bg-fuchsia-900/20 my-2"></div>
-                  </div>
-                  
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-[#5A1876]/30 transition-colors"
+          <nav className="mt-6">
+            <div className="px-3">
+              {fernandoTabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = location.pathname === tab.path;
+                
+                return (
+                  <Link
+                    key={tab.id}
+                    to={tab.path}
+                    className={`
+                      flex items-center px-3 py-2 mb-1 rounded-lg text-sm font-medium transition-colors
+                      ${isActive 
+                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }
+                    `}
                   >
-                    <LogOut className="w-5 h-5" />
-                    Log Out
-                  </button>
-                </nav>
-              </div>
-              
-              <div className="rounded-2xl p-5 bg-[#7a0486]">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-[#5A1876]/20 flex items-center justify-center">
-                    <HelpCircle className="w-5 h-5 text-fuchsia-300" />
-                  </div>
-                  <h3 className="font-bold text-white">Panel Fernando</h3>
-                </div>
-                <p className="text-sm text-white/80 mb-4">
-                  Advanced administrative tools and comprehensive platform management.
-                </p>
-                <button className="w-full py-2 rounded-lg text-sm font-medium transition-colors text-white bg-[#5A1876] hover:bg-[#6B1F8A]">
-                  Documentation
-                </button>
-              </div>
-            </aside>
-            
-            <div className="lg:col-span-3">
-              {children}
+                    <Icon className="w-5 h-5 mr-3" />
+                    <div className="flex-1">
+                      <div className="font-medium">{tab.name}</div>
+                      <div className="text-xs text-gray-500">{tab.description}</div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
+          </nav>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1">
+          <div className="p-8">
+            {children}
           </div>
         </div>
-      </main>
-      
-      <Footer />
+      </div>
     </div>
   );
 }

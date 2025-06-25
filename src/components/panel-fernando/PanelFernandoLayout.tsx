@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Hotel, Calendar, CreditCard, BarChart3, MessageSquare, Megaphone, Heart, Filter, Users, TrendingUp, ImageIcon, FileText, Clock, Plus, Camera, Languages } from "lucide-react";
+import { Hotel, Calendar, CreditCard, BarChart3, MessageSquare, Megaphone, Heart, Filter, Users, TrendingUp, ImageIcon, FileText, Clock, Plus, Camera, Languages, Package } from "lucide-react";
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -79,35 +79,11 @@ const fernandoTabs = [{
   path: "/panel-fernando/translations",
   description: "Manage hotel translations"
 }, {
-  id: "batch-images",
-  name: "Batch Images",
-  icon: ImageIcon,
-  path: "/panel-fernando/batch-images",
-  description: "Batch image operations"
-}, {
-  id: "batch-text-completion",
-  name: "Batch Text Completion",
-  icon: FileText,
-  path: "/panel-fernando/batch-text",
-  description: "Batch text completion"
-}, {
-  id: "batch-pending-fields",
-  name: "Batch Pending Fields",
-  icon: Clock,
-  path: "/panel-fernando/batch-pending",
-  description: "Process pending fields"
-}, {
-  id: "batch-hotel-creation",
-  name: "Batch Hotel Creation",
-  icon: Plus,
-  path: "/panel-fernando/batch-create-hotels",
-  description: "Create hotels in batches"
-}, {
-  id: "batch-room-images",
-  name: "Batch Room Images",
-  icon: Camera,
-  path: "/panel-fernando/batch-room-images",
-  description: "Batch room image operations"
+  id: "batches",
+  name: "Batches",
+  icon: Package,
+  path: "/panel-fernando/batches",
+  description: "Batch operations and tools"
 }];
 
 export default function PanelFernandoLayout({

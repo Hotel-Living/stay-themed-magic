@@ -13,11 +13,7 @@ import FernandoFilters from "@/components/panel-fernando/FernandoFilters";
 import FernandoUserRoles from "@/components/panel-fernando/FernandoUserRoles";
 import FernandoAnalytics from "@/components/panel-fernando/FernandoAnalytics";
 import FernandoTranslations from "@/components/panel-fernando/FernandoTranslations";
-import FernandoBatchImages from "@/components/panel-fernando/FernandoBatchImages";
-import FernandoBatchTextCompletion from "@/components/panel-fernando/FernandoBatchTextCompletion";
-import FernandoBatchPendingFields from "@/components/panel-fernando/FernandoBatchPendingFields";
-import FernandoBatchHotelCreation from "@/components/panel-fernando/FernandoBatchHotelCreation";
-import FernandoBatchRoomImages from "@/components/panel-fernando/FernandoBatchRoomImages";
+import FernandoBatches from "@/components/panel-fernando/FernandoBatches";
 import Fernando32DayHotels from "@/components/panel-fernando/Fernando32DayHotels";
 
 export default function PanelFernando() {
@@ -36,11 +32,7 @@ export default function PanelFernando() {
         <Route path="/user-roles" element={<FernandoUserRoles />} />
         <Route path="/analytics" element={<FernandoAnalytics />} />
         <Route path="/translations" element={<FernandoTranslations />} />
-        <Route path="/batch-images" element={<FernandoBatchImages />} />
-        <Route path="/batch-text" element={<FernandoBatchTextCompletion />} />
-        <Route path="/batch-pending" element={<FernandoBatchPendingFields />} />
-        <Route path="/batch-create-hotels" element={<FernandoBatchHotelCreation />} />
-        <Route path="/batch-room-images" element={<FernandoBatchRoomImages />} />
+        <Route path="/batches/*" element={<FernandoBatches />} />
         <Route path="/32-day-hotels" element={<Fernando32DayHotels />} />
         <Route path="*" element={<Navigate to="/panel-fernando/hotels" replace />} />
       </Routes>

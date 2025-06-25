@@ -4,30 +4,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase } from "@/integrations/subabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Plus, CheckCircle, AlertCircle } from "lucide-react";
 
-interface HotelCreationStats {
-  totalCreated: number;
-  errors: string[];
-  hotelDetails: Array<{
-    id: string;
-    name: string;
-    city: string;
-    country: string;
-  }>;
-}
-
-interface BatchCreationResponse {
+interface BatchResult {
   success: boolean;
   message: string;
-  stats: HotelCreationStats;
+  stats: {
+    totalCreated: number;
+    errors: string[];
+    hotelDetails: Array<{
+      id: string;
+      name: string;
+      city: string;
+      country: string;
+    }>;
+  };
 }
 
 export const BatchHotelCreation = () => {
   const [count, setCount] = useState(20);
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<BatchCreationResponse | null>(null);
+  const [result, setResult] = useState<BatchResult | null>(null);
 
   const handleCreateHotels = async () => {
     setIsLoading(true);
@@ -43,7 +41,11 @@ export const BatchHotelCreation = () => {
         setResult({
           success: false,
           message: 'Failed to create hotels',
-          stats: { totalCreated: 0, errors: [error.message], hotelDetails: [] }
+          stats: {
+            totalCreated: 0,
+            errors: [error.message],
+            hotelDetails: []
+          }
         });
         return;
       }
@@ -55,7 +57,11 @@ export const BatchHotelCreation = () => {
       setResult({
         success: false,
         message: 'An unexpected error occurred',
-        stats: { totalCreated: 0, errors: ['Network error'], hotelDetails: [] }
+        stats: {
+          totalCreated: 0,
+          errors: ['Network error'],
+          hotelDetails: []
+        }
       });
     } finally {
       setIsLoading(false);
@@ -90,7 +96,7 @@ export const BatchHotelCreation = () => {
                 disabled={isLoading}
               />
             </div>
-            <Button 
+            <Button
               onClick={handleCreateHotels}
               disabled={isLoading}
               className="mt-6"
@@ -122,75 +128,50 @@ export const BatchHotelCreation = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <Alert variant={result.success ? "default" : "destructive"}>
-              <AlertDescription>{result.message}</AlertDescription>
+              <AlertDescription>
+                {result.message}
+              </AlertDescription>
             </Alert>
 
             {result.stats && (
               <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card>
-                    <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-green-600">
-                        {result.stats.totalCreated}
-                      </div>
-                      <p className="text-sm text-muted-foreground">Hotels Created</p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-red-600">
-                        {result.stats.errors?.length || 0}
-                      </div>
-                      <p className="text-sm text-muted-foreground">Errors</p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-blue-600">
-                        {result.stats.hotelDetails?.length || 0}
-                      </div>
-                      <p className="text-sm text-muted-foreground">Details Available</p>
-                    </CardContent>
-                  </Card>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-600 font-medium">Hotels Created</p>
+                    <p className="text-2xl font-bold text-green-800">{result.stats.totalCreated}</p>
+                  </div>
+                  <div className="p-4 bg-red-50 rounded-lg">
+                    <p className="text-sm text-red-600 font-medium">Errors</p>
+                    <p className="text-2xl font-bold text-red-800">{result.stats.errors.length}</p>
+                  </div>
                 </div>
 
-                {result.stats.hotelDetails && result.stats.hotelDetails.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Created Hotels</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2 max-h-60 overflow-y-auto">
-                        {result.stats.hotelDetails.map((hotel) => (
-                          <div key={hotel.id} className="flex justify-between items-center p-2 bg-muted rounded">
-                            <span className="font-medium">{hotel.name}</span>
-                            <span className="text-sm text-muted-foreground">
-                              {hotel.city}, {hotel.country}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                {result.stats.hotelDetails.length > 0 && (
+                  <div>
+                    <h4 className="font-medium mb-2">Created Hotels:</h4>
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {result.stats.hotelDetails.map((hotel) => (
+                        <div key={hotel.id} className="p-3 bg-gray-50 rounded-lg">
+                          <p className="font-medium">{hotel.name}</p>
+                          <p className="text-sm text-gray-600">{hotel.city}, {hotel.country}</p>
+                          <p className="text-xs text-gray-500">ID: {hotel.id}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
-                {result.stats.errors && result.stats.errors.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-red-600">Errors</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-1 max-h-40 overflow-y-auto">
-                        {result.stats.errors.map((error, index) => (
-                          <div key={index} className="text-sm text-red-600 p-2 bg-red-50 rounded">
-                            {error}
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                {result.stats.errors.length > 0 && (
+                  <div>
+                    <h4 className="font-medium mb-2 text-red-600">Errors:</h4>
+                    <div className="space-y-1">
+                      {result.stats.errors.map((error, index) => (
+                        <p key={index} className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                          {error}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             )}

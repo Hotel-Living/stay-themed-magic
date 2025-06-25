@@ -1,336 +1,318 @@
 
-import "https://deno.land/x/xhr@0.1.0/mod.ts";
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-// Authorized countries with their major cities and coordinates
-const AUTHORIZED_LOCATIONS = {
-  'Poland': {
-    cities: ['Warsaw', 'Krakow', 'Gdansk', 'Wroclaw', 'Poznan'],
-    coords: { lat: [49.0, 54.8], lng: [14.1, 24.1] }
-  },
-  'Hungary': {
-    cities: ['Budapest', 'Debrecen', 'Szeged', 'Miskolc', 'Pecs'],
-    coords: { lat: [45.7, 48.6], lng: [16.1, 22.9] }
-  },
-  'Romania': {
-    cities: ['Bucharest', 'Cluj-Napoca', 'Timisoara', 'Iasi', 'Constanta'],
-    coords: { lat: [43.6, 48.3], lng: [20.2, 29.7] }
-  },
-  'Canada': {
-    cities: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'],
-    coords: { lat: [41.7, 83.1], lng: [-141.0, -52.6] }
-  },
-  'Ireland': {
-    cities: ['Dublin', 'Cork', 'Limerick', 'Galway', 'Waterford'],
-    coords: { lat: [51.4, 55.4], lng: [-10.5, -5.9] }
-  },
-  'Germany': {
-    cities: ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt'],
-    coords: { lat: [47.3, 55.1], lng: [5.9, 15.0] }
-  },
-  'Portugal': {
-    cities: ['Lisbon', 'Porto', 'Braga', 'Coimbra', 'Faro'],
-    coords: { lat: [36.9, 42.2], lng: [-9.5, -6.2] }
-  },
-  'Belgium': {
-    cities: ['Brussels', 'Antwerp', 'Ghent', 'Charleroi', 'Liege'],
-    coords: { lat: [49.5, 51.5], lng: [2.5, 6.4] }
-  },
-  'Netherlands': {
-    cities: ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'],
-    coords: { lat: [50.8, 53.6], lng: [3.4, 7.2] }
-  },
-  'Luxembourg': {
-    cities: ['Luxembourg City', 'Esch-sur-Alzette', 'Differdange', 'Dudelange'],
-    coords: { lat: [49.4, 50.2], lng: [5.7, 6.5] }
-  },
-  'Switzerland': {
-    cities: ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'],
-    coords: { lat: [45.8, 47.8], lng: [5.9, 10.5] }
-  },
-  'Austria': {
-    cities: ['Vienna', 'Salzburg', 'Innsbruck', 'Graz', 'Linz'],
-    coords: { lat: [46.4, 49.0], lng: [9.5, 17.2] }
-  },
-  'Denmark': {
-    cities: ['Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg'],
-    coords: { lat: [54.6, 57.7], lng: [8.1, 15.2] }
-  },
-  'Norway': {
-    cities: ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 'Kristiansand'],
-    coords: { lat: [58.0, 71.2], lng: [4.6, 31.3] }
-  },
-  'Sweden': {
-    cities: ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala', 'Vasteras'],
-    coords: { lat: [55.3, 69.1], lng: [11.0, 24.2] }
-  },
-  'Greece': {
-    cities: ['Athens', 'Thessaloniki', 'Patras', 'Heraklion', 'Rhodes'],
-    coords: { lat: [34.8, 41.7], lng: [19.4, 29.6] }
-  },
-  'Finland': {
-    cities: ['Helsinki', 'Espoo', 'Tampere', 'Vantaa', 'Turku'],
-    coords: { lat: [59.8, 70.1], lng: [19.1, 31.6] }
-  },
-  'Iceland': {
-    cities: ['Reykjavik', 'Kopavogur', 'Hafnarfjordur', 'Akureyri'],
-    coords: { lat: [63.4, 66.6], lng: [-24.5, -13.5] }
-  },
-  'France': {
-    cities: ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
-    coords: { lat: [41.3, 51.1], lng: [-5.1, 9.6] }
-  },
-  'United Kingdom': {
-    cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow'],
-    coords: { lat: [49.9, 60.8], lng: [-8.2, 1.8] }
-  },
-  'Turkey': {
-    cities: ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya'],
-    coords: { lat: [35.8, 42.1], lng: [25.7, 44.8] }
-  },
-  'Thailand': {
-    cities: ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Hua Hin'],
-    coords: { lat: [5.6, 20.5], lng: [97.3, 105.6] }
-  },
-  'Japan': {
-    cities: ['Tokyo', 'Osaka', 'Kyoto', 'Yokohama', 'Nagoya'],
-    coords: { lat: [24.2, 45.5], lng: [122.9, 153.9] }
-  }
-};
-
-// Simple hotel names without luxury terms
-const SIMPLE_HOTEL_NAMES = [
-  'City Hotel', 'Central Hotel', 'Park Hotel', 'Garden Hotel', 'Station Hotel',
-  'Plaza Hotel', 'Express Hotel', 'Business Hotel', 'Comfort Hotel', 'Grand Hotel',
-  'International Hotel', 'Metropolitan Hotel', 'Continental Hotel', 'Europa Hotel',
-  'Atlantic Hotel', 'Pacific Hotel', 'Royal Hotel', 'Imperial Hotel', 'Crown Hotel',
-  'Diamond Hotel', 'Golden Hotel', 'Silver Hotel', 'Blue Hotel', 'Green Hotel'
-];
-
-// Property types from the filter system
-const PROPERTY_TYPES = ['Hotel', 'Boutique Hotel', 'Motel', 'Inn'];
-
-// Property styles from the filter system
-const PROPERTY_STYLES = ['Classic', 'Classic Elegant', 'Modern', 'Fusion', 'Urban', 'Minimalist'];
-
-// Hotel features from the system
-const HOTEL_FEATURES = [
-  'WiFi Gratis', 'Estacionamiento', 'Restaurante', 'Piscina', 'Gimnasio', 
-  'Recepción 24/7', 'Servicio de Habitaciones', 'Bar', 'Salón', 
-  'Centro de Negocios', 'Servicio de Lavandería', 'Conserjería', 
-  'Traslado al Aeropuerto', 'Jardín', 'Terraza', 'Centro de Fitness'
-];
-
-// Room features from the system
-const ROOM_FEATURES = [
-  'Aire Acondicionado', 'Baño Privado', 'Televisor', 'Caja Fuerte', 'Mini Bar', 
-  'Máquina de Café', 'Hervidor de Agua', 'Secador de Pelo', 'Plancha', 'Escritorio',
-  'Balcón', 'Internet de Alta Velocidad', 'Cortinas Opacas', 'Servicio de Habitaciones'
-];
-
-function getRandomLocation() {
-  const countries = Object.keys(AUTHORIZED_LOCATIONS);
-  const country = countries[Math.floor(Math.random() * countries.length)];
-  const locationData = AUTHORIZED_LOCATIONS[country];
-  const city = locationData.cities[Math.floor(Math.random() * locationData.cities.length)];
-  
-  // Generate coordinates within the country's bounds
-  const lat = locationData.coords.lat[0] + 
-    Math.random() * (locationData.coords.lat[1] - locationData.coords.lat[0]);
-  const lng = locationData.coords.lng[0] + 
-    Math.random() * (locationData.coords.lng[1] - locationData.coords.lng[0]);
-  
-  return { country, city, lat, lng };
-}
-
-function generateHotelName(city: string) {
-  const baseName = SIMPLE_HOTEL_NAMES[Math.floor(Math.random() * SIMPLE_HOTEL_NAMES.length)];
-  return `${city} ${baseName}`;
-}
-
-function getRandomFeatures(featureList: string[], min: number, max: number) {
-  const shuffled = [...featureList].sort(() => 0.5 - Math.random());
-  const count = Math.floor(Math.random() * (max - min + 1)) + min;
-  return shuffled.slice(0, count).reduce((acc, feature) => {
-    acc[feature] = true;
-    return acc;
-  }, {} as Record<string, boolean>);
 }
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response('ok', { headers: corsHeaders })
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const supabase = createClient(supabaseUrl, supabaseKey)
 
-    const { count = 20 } = await req.json();
-    
-    console.log(`=== BATCH HOTEL CREATION STARTED ===`);
-    console.log(`Creating ${count} compliant hotels`);
+    const { count = 20 } = await req.json()
 
-    // Fetch themes and activities from database
-    const { data: themes } = await supabaseClient
-      .from('themes')
-      .select('id, name')
-      .limit(50);
-    
-    const { data: activities } = await supabaseClient
-      .from('activities')  
-      .select('id, name')
-      .limit(50);
-
-    if (!themes || !activities) {
-      throw new Error('Failed to fetch themes or activities');
+    // Country-city mappings with coordinates
+    const countryData = {
+      'Poland': {
+        cities: ['Warsaw', 'Krakow', 'Gdansk', 'Wroclaw', 'Poznan', 'Lodz'],
+        coordinates: { lat: 52.2297, lng: 21.0122 }
+      },
+      'Hungary': {
+        cities: ['Budapest', 'Debrecen', 'Szeged', 'Miskolc', 'Pecs'],
+        coordinates: { lat: 47.4979, lng: 19.0402 }
+      },
+      'Romania': {
+        cities: ['Bucharest', 'Cluj-Napoca', 'Timisoara', 'Iasi', 'Constanta'],
+        coordinates: { lat: 44.4268, lng: 26.1025 }
+      },
+      'Canada': {
+        cities: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa', 'Edmonton'],
+        coordinates: { lat: 45.4215, lng: -75.6972 }
+      },
+      'Ireland': {
+        cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'],
+        coordinates: { lat: 53.3498, lng: -6.2603 }
+      },
+      'Germany': {
+        cities: ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart'],
+        coordinates: { lat: 52.5200, lng: 13.4050 }
+      },
+      'Portugal': {
+        cities: ['Lisbon', 'Porto', 'Braga', 'Coimbra', 'Aveiro'],
+        coordinates: { lat: 38.7223, lng: -9.1393 }
+      },
+      'Belgium': {
+        cities: ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Leuven'],
+        coordinates: { lat: 50.8503, lng: 4.3517 }
+      },
+      'Netherlands': {
+        cities: ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'],
+        coordinates: { lat: 52.3676, lng: 4.9041 }
+      },
+      'Luxembourg': {
+        cities: ['Luxembourg City', 'Esch-sur-Alzette', 'Dudelange', 'Schifflange'],
+        coordinates: { lat: 49.6116, lng: 6.1319 }
+      },
+      'Switzerland': {
+        cities: ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'],
+        coordinates: { lat: 46.8182, lng: 8.2275 }
+      },
+      'Austria': {
+        cities: ['Vienna', 'Salzburg', 'Innsbruck', 'Graz', 'Linz'],
+        coordinates: { lat: 48.2082, lng: 16.3738 }
+      },
+      'Denmark': {
+        cities: ['Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg'],
+        coordinates: { lat: 55.6761, lng: 12.5683 }
+      },
+      'Norway': {
+        cities: ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 'Drammen'],
+        coordinates: { lat: 59.9139, lng: 10.7522 }
+      },
+      'Sweden': {
+        cities: ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala', 'Linkoping'],
+        coordinates: { lat: 59.3293, lng: 18.0686 }
+      },
+      'Greece': {
+        cities: ['Athens', 'Thessaloniki', 'Patras', 'Heraklion', 'Larissa'],
+        coordinates: { lat: 37.9838, lng: 23.7275 }
+      },
+      'Finland': {
+        cities: ['Helsinki', 'Espoo', 'Tampere', 'Vantaa', 'Turku'],
+        coordinates: { lat: 60.1699, lng: 24.9384 }
+      },
+      'Iceland': {
+        cities: ['Reykjavik', 'Kopavogur', 'Hafnarfjordur', 'Akureyri'],
+        coordinates: { lat: 64.1466, lng: -21.9426 }
+      },
+      'France': {
+        cities: ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Nantes'],
+        coordinates: { lat: 48.8566, lng: 2.3522 }
+      },
+      'United Kingdom': {
+        cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool'],
+        coordinates: { lat: 51.5074, lng: -0.1278 }
+      },
+      'Turkey': {
+        cities: ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya'],
+        coordinates: { lat: 39.9334, lng: 32.8597 }
+      },
+      'Thailand': {
+        cities: ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Krabi'],
+        coordinates: { lat: 13.7563, lng: 100.5018 }
+      },
+      'Japan': {
+        cities: ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya', 'Sapporo', 'Fukuoka'],
+        coordinates: { lat: 35.6762, lng: 139.6503 }
+      }
     }
 
-    const createdHotels = [];
-    const errors = [];
+    const hotelTypes = ['Hotel', 'International Hotel', 'City Hotel', 'Garden Hotel', 'Comfort Hotel', 'Express Hotel', 'Station Hotel', 'Metropolitan Hotel', 'Continental Hotel', 'Silver Hotel']
+    const propertyTypes = ['Hotel', 'Boutique Hotel', 'Inn']
+    const propertyStyles = ['Classic', 'Classic Elegant', 'Modern', 'Fusion', 'Urban', 'Minimalist']
+    
+    // Hotel features from your system
+    const hotelFeatures = [
+      'Free WiFi', 'Parking', 'Restaurant', 'Bar', 'Gym', 'Business Center',
+      'Meeting Rooms', 'Laundry Service', '24/7 Reception', 'Room Service',
+      'Concierge', 'Airport Shuttle', 'Pet Friendly', 'Outdoor Pool',
+      'Indoor Pool', 'Spa', 'Garden', 'Terrace', 'Air Conditioning', 'Heating'
+    ]
 
-    for (let i = 1; i <= count; i++) {
+    // Room features from your system
+    const roomFeatures = [
+      'Private Bathroom', 'Air Conditioning', 'Heating', 'Free WiFi',
+      'TV', 'Minibar', 'Safe', 'Work Desk', 'Balcony', 'City View',
+      'Sea View', 'Garden View', 'Mountain View', 'Soundproofing',
+      'Room Service', 'Daily Housekeeping', 'Telephone', 'Hair Dryer'
+    ]
+
+    const createdHotels = []
+    const errors = []
+
+    // Generate price per person per month (€950-€1400, multiples of 20 or ending in 95)
+    const generatePrice = () => {
+      const prices = []
+      // Multiples of 20 between 950-1400
+      for (let price = 960; price <= 1400; price += 20) {
+        prices.push(price)
+      }
+      // Prices ending in 95 between 950-1400
+      for (let price = 995; price <= 1395; price += 100) {
+        prices.push(price)
+      }
+      return prices[Math.floor(Math.random() * prices.length)]
+    }
+
+    for (let i = 0; i < count; i++) {
       try {
-        console.log(`Creating compliant hotel ${i}/${count}`);
+        const countries = Object.keys(countryData)
+        const selectedCountry = countries[Math.floor(Math.random() * countries.length)]
+        const countryInfo = countryData[selectedCountry]
+        const selectedCity = countryInfo.cities[Math.floor(Math.random() * countryInfo.cities.length)]
         
-        const location = getRandomLocation();
-        const hotelName = generateHotelName(location.city);
+        const hotelType = hotelTypes[Math.floor(Math.random() * hotelTypes.length)]
+        const hotelName = `${selectedCity} ${hotelType}`
         
-        // Only 3 or 4 stars allowed
-        const category = Math.random() < 0.5 ? 3 : 4;
+        // Generate price per person per month
+        const pricePerMonth = generatePrice()
         
+        // Create hotel data
         const hotelData = {
           name: hotelName,
-          description: `A comfortable ${category}-star hotel located in ${location.city}, ${location.country}. Perfect for business and leisure travelers seeking quality accommodation.`,
-          country: location.country,
-          city: location.city,
-          address: `${Math.floor(Math.random() * 999) + 1} Main Street, ${location.city}`,
-          property_type: PROPERTY_TYPES[Math.floor(Math.random() * PROPERTY_TYPES.length)],
-          style: PROPERTY_STYLES[Math.floor(Math.random() * PROPERTY_STYLES.length)],
-          price_per_month: Math.floor(Math.random() * 1500) + 1000, // 1000-2500 range
-          category: category,
-          latitude: location.lat,
-          longitude: location.lng,
-          status: 'approved',
-          // Required fixed values
-          stay_lengths: [32], // Only 32-day stays
-          meal_plans: ['half board'], // Only half board
-          room_types: [{ // Only double rooms
-            id: crypto.randomUUID(),
-            name: 'double',
-            description: 'Double room with comfortable accommodation',
-            maxOccupancy: 2,
-            size: 25,
-            roomCount: Math.floor(Math.random() * 20) + 10,
-            basePrice: Math.floor(Math.random() * 150) + 80,
-            rates: { 32: Math.floor(Math.random() * 150) + 80 }
-          }],
-          // Features from approved lists
-          features_hotel: getRandomFeatures(HOTEL_FEATURES, 3, 8),
-          features_room: getRandomFeatures(ROOM_FEATURES, 3, 6),
-          // Additional required fields
-          available_months: ['january', 'february', 'march', 'april', 'may', 'june', 
-                           'july', 'august', 'september', 'october', 'november', 'december'],
-          preferredWeekday: 'Monday',
-          enable_price_increase: false,
-          price_increase_cap: 0
-        };
-
-        console.log(`Generated compliant hotel data: ${hotelData.name} (${category} stars)`);
+          city: selectedCity,
+          country: selectedCountry,
+          latitude: countryInfo.coordinates.lat + (Math.random() - 0.5) * 0.1,
+          longitude: countryInfo.coordinates.lng + (Math.random() - 0.5) * 0.1,
+          address: `${Math.floor(Math.random() * 999) + 1} Main Street, ${selectedCity}`,
+          postal_code: `${Math.floor(Math.random() * 90000) + 10000}`,
+          category: Math.random() > 0.5 ? 3 : 4, // Only 3 or 4 stars
+          property_type: propertyTypes[Math.floor(Math.random() * propertyTypes.length)],
+          property_style: propertyStyles[Math.floor(Math.random() * propertyStyles.length)],
+          description: `A comfortable ${Math.random() > 0.5 ? '3' : '4'}-star hotel located in the heart of ${selectedCity}. Perfect for business and leisure travelers seeking quality accommodation with modern amenities and excellent service.`,
+          price_per_month: pricePerMonth,
+          available_months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+          check_in_time: '15:00',
+          check_out_time: '11:00',
+          status: 'active',
+          currency: 'EUR',
+          // Set rates for 32-day stays with half board
+          rates: {
+            '32': pricePerMonth
+          }
+        }
 
         // Insert hotel
-        const { data: hotel, error: hotelError } = await supabaseClient
+        const { data: hotel, error: hotelError } = await supabase
           .from('hotels')
           .insert(hotelData)
           .select()
-          .single();
+          .single()
 
-        if (hotelError) throw hotelError;
-        
-        console.log(`Hotel created with ID: ${hotel.id}`);
+        if (hotelError) {
+          console.error('Hotel creation error:', hotelError)
+          errors.push(`Hotel ${hotelName}: ${hotelError.message}`)
+          continue
+        }
 
-        // Add random themes (2-4 themes per hotel)
-        const randomThemes = themes
-          .sort(() => 0.5 - Math.random())
-          .slice(0, Math.floor(Math.random() * 3) + 2);
-
-        const themeInserts = randomThemes.map(theme => ({
+        // Add room types (only double rooms)
+        const roomTypeData = {
           hotel_id: hotel.id,
-          theme_id: theme.id
-        }));
+          name: 'double',
+          description: 'Comfortable double room with modern amenities',
+          max_occupancy: 2,
+          size: Math.floor(Math.random() * 10) + 20, // 20-30 sqm
+          room_count: Math.floor(Math.random() * 20) + 10, // 10-30 rooms
+          base_price: pricePerMonth,
+          rates: {
+            '32': pricePerMonth
+          }
+        }
 
-        const { error: themesError } = await supabaseClient
-          .from('hotel_themes')
-          .insert(themeInserts);
+        const { error: roomError } = await supabase
+          .from('room_types')
+          .insert(roomTypeData)
 
-        if (themesError) throw themesError;
-        console.log(`Added ${randomThemes.length} themes to hotel ${hotel.id}`);
+        if (roomError) {
+          console.error('Room type creation error:', roomError)
+          errors.push(`Room type for ${hotelName}: ${roomError.message}`)
+        }
 
-        // Add random activities (2-5 activities per hotel)
-        const randomActivities = activities
+        // Add hotel features
+        const selectedHotelFeatures = hotelFeatures
           .sort(() => 0.5 - Math.random())
-          .slice(0, Math.floor(Math.random() * 4) + 2);
+          .slice(0, Math.floor(Math.random() * 8) + 5) // 5-12 features
 
-        const activityInserts = randomActivities.map(activity => ({
-          hotel_id: hotel.id,
-          activity_id: activity.id
-        }));
+        for (const feature of selectedHotelFeatures) {
+          await supabase
+            .from('hotel_features')
+            .insert({
+              hotel_id: hotel.id,
+              feature: feature
+            })
+        }
 
-        const { error: activitiesError } = await supabaseClient
-          .from('hotel_activities')
-          .insert(activityInserts);
+        // Add room features
+        const selectedRoomFeatures = roomFeatures
+          .sort(() => 0.5 - Math.random())
+          .slice(0, Math.floor(Math.random() * 6) + 4) // 4-9 features
 
-        if (activitiesError) throw activitiesError;
-        console.log(`Added ${randomActivities.length} activities to hotel ${hotel.id}`);
+        for (const feature of selectedRoomFeatures) {
+          await supabase
+            .from('room_features')
+            .insert({
+              hotel_id: hotel.id,
+              feature: feature
+            })
+        }
+
+        // Add stay lengths (only 32 days)
+        await supabase
+          .from('hotel_stay_lengths')
+          .insert({
+            hotel_id: hotel.id,
+            stay_length: 32
+          })
+
+        // Add meal plans (only half board)
+        await supabase
+          .from('hotel_meal_plans')
+          .insert({
+            hotel_id: hotel.id,
+            meal_plan: 'half-board'
+          })
 
         createdHotels.push({
           id: hotel.id,
           name: hotel.name,
           city: hotel.city,
           country: hotel.country,
-          category: hotel.category
-        });
+          price_per_month: hotel.price_per_month
+        })
+
+        console.log(`Successfully created hotel: ${hotel.name} in ${hotel.city}, ${hotel.country} - €${hotel.price_per_month} per person/month`)
 
       } catch (error) {
-        console.error(`Error creating hotel ${i}:`, error);
-        errors.push(`Hotel ${i}: ${error.message}`);
+        console.error('Error creating hotel:', error)
+        errors.push(`Hotel creation failed: ${error.message}`)
       }
     }
 
-    console.log(`=== BATCH HOTEL CREATION COMPLETED ===`);
-    console.log(`Successfully created: ${createdHotels.length}/${count} compliant hotels`);
+    const response = {
+      success: createdHotels.length > 0,
+      message: `Successfully created ${createdHotels.length} hotels with correct pricing format`,
+      stats: {
+        totalCreated: createdHotels.length,
+        errors: errors,
+        hotelDetails: createdHotels
+      }
+    }
+
+    console.log('Batch creation completed:', response)
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: `Successfully created ${createdHotels.length} compliant hotels`,
-        stats: {
-          totalCreated: createdHotels.length,
-          errors: errors,
-          hotelDetails: createdHotels
-        }
-      }),
+      JSON.stringify(response),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
-      }
-    );
+      },
+    )
 
   } catch (error) {
-    console.error('Batch hotel creation failed:', error);
-    
+    console.error('Batch creation failed:', error)
     return new Response(
       JSON.stringify({
         success: false,
-        message: 'An error occurred during batch hotel creation',
+        message: 'Batch creation failed',
+        error: error.message,
         stats: {
           totalCreated: 0,
           errors: [error.message],
@@ -340,7 +322,7 @@ serve(async (req) => {
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
-      }
-    );
+      },
+    )
   }
-});
+})

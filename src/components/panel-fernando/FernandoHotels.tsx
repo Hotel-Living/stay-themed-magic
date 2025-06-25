@@ -1,37 +1,28 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2, Search, Filter, SortAsc, SortDesc } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Checkbox } from '@/components/ui/checkbox';
-
-interface Hotel {
-  id: string;
-  name: string;
-  country: string;
-  city: string;
-  category: number | null;
-  price_per_month: number;
-  status: "approved" | "pending" | "rejected";
-  created_at: string;
-  owner_id: string | null;
-}
+import React, { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Eye, Edit, Trash2, Check, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Hotel } from "@/integrations/supabase/types-custom";
+import { useNavigate } from "react-router-dom";
 
 interface FilterState {
   country: string;
-  category: string;
-  priceMin: string;
-  priceMax: string;
-  nameSearch: string;
+  name: string;
+  minStars: string;
+  maxStars: string;
+  minPrice: string;
+  maxPrice: string;
   status: string;
 }
 
 interface SortState {
-  field: 'name' | 'country' | 'created_at' | 'category' | 'price_per_month';
+  field: string;
   direction: 'asc' | 'desc';
 }
 
@@ -41,89 +32,75 @@ export default function FernandoHotels() {
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     country: '',
-    category: '',
-    priceMin: '',
-    priceMax: '',
-    nameSearch: '',
+    name: '',
+    minStars: '',
+    maxStars: '',
+    minPrice: '',
+    maxPrice: '',
     status: ''
   });
   const [sort, setSort] = useState<SortState>({
     field: 'created_at',
     direction: 'desc'
   });
+  
   const { toast } = useToast();
-
-  // Get unique countries for filter dropdown
-  const uniqueCountries = useMemo(() => {
-    const countries = hotels.map(hotel => hotel.country).filter(Boolean);
-    return [...new Set(countries)].sort();
-  }, [hotels]);
-
-  // Filter and sort hotels
-  const filteredAndSortedHotels = useMemo(() => {
-    let filtered = hotels.filter(hotel => {
-      // Country filter
-      if (filters.country && hotel.country !== filters.country) return false;
-      
-      // Category filter
-      if (filters.category && hotel.category?.toString() !== filters.category) return false;
-      
-      // Price range filter
-      if (filters.priceMin && hotel.price_per_month < parseInt(filters.priceMin)) return false;
-      if (filters.priceMax && hotel.price_per_month > parseInt(filters.priceMax)) return false;
-      
-      // Name search filter
-      if (filters.nameSearch && !hotel.name.toLowerCase().includes(filters.nameSearch.toLowerCase())) return false;
-      
-      // Status filter
-      if (filters.status && hotel.status !== filters.status) return false;
-      
-      return true;
-    });
-
-    // Sort the filtered results
-    filtered.sort((a, b) => {
-      let aValue: any = a[sort.field];
-      let bValue: any = b[sort.field];
-
-      // Handle null values
-      if (aValue === null && bValue === null) return 0;
-      if (aValue === null) return sort.direction === 'asc' ? 1 : -1;
-      if (bValue === null) return sort.direction === 'asc' ? -1 : 1;
-
-      // Handle different data types
-      if (sort.field === 'created_at') {
-        aValue = new Date(aValue).getTime();
-        bValue = new Date(bValue).getTime();
-      } else if (typeof aValue === 'string') {
-        aValue = aValue.toLowerCase();
-        bValue = bValue.toLowerCase();
-      }
-
-      if (aValue < bValue) return sort.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sort.direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-
-    return filtered;
-  }, [hotels, filters, sort]);
-
-  useEffect(() => {
-    fetchHotels();
-  }, []);
+  const navigate = useNavigate();
 
   const fetchHotels = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data, error } = await supabase
+      let query = supabase
         .from('hotels')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select(`
+          *,
+          profiles:owner_id(
+            first_name,
+            last_name
+          )
+        `);
 
-      if (error) throw error;
-      setHotels(data as Hotel[]);
+      // Apply filters
+      if (filters.country) {
+        query = query.ilike('country', `%${filters.country}%`);
+      }
+      if (filters.name) {
+        query = query.ilike('name', `%${filters.name}%`);
+      }
+      if (filters.minStars) {
+        query = query.gte('category', parseInt(filters.minStars));
+      }
+      if (filters.maxStars) {
+        query = query.lte('category', parseInt(filters.maxStars));
+      }
+      if (filters.minPrice) {
+        query = query.gte('price_per_month', parseInt(filters.minPrice));
+      }
+      if (filters.maxPrice) {
+        query = query.lte('price_per_month', parseInt(filters.maxPrice));
+      }
+      if (filters.status) {
+        query = query.eq('status', filters.status);
+      }
+
+      // Apply sorting
+      query = query.order(sort.field, { ascending: sort.direction === 'asc' });
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching hotels:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch hotels",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      setHotels(data || []);
     } catch (error) {
-      console.error('Error fetching hotels:', error);
+      console.error('Error in fetchHotels:', error);
       toast({
         title: "Error",
         description: "Failed to fetch hotels",
@@ -134,7 +111,150 @@ export default function FernandoHotels() {
     }
   };
 
-  const handleSelectHotel = (hotelId: string) => {
+  useEffect(() => {
+    fetchHotels();
+  }, [filters, sort]);
+
+  const handleApproveHotel = async (hotelId: string) => {
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .update({ status: 'approved' })
+        .eq('id', hotelId);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to approve hotel",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Hotel has been approved",
+      });
+
+      fetchHotels();
+    } catch (error) {
+      console.error('Error approving hotel:', error);
+      toast({
+        title: "Error",
+        description: "Failed to approve hotel",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleRejectHotel = async (hotelId: string) => {
+    try {
+      const { error } = await supabase
+        .from('hotels')
+        .update({ status: 'rejected' })
+        .eq('id', hotelId);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to reject hotel",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Hotel has been rejected",
+      });
+
+      fetchHotels();
+    } catch (error) {
+      console.error('Error rejecting hotel:', error);
+      toast({
+        title: "Error",
+        description: "Failed to reject hotel",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleDeleteHotel = async (hotelId: string) => {
+    if (!confirm('Are you sure you want to delete this hotel? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      // Delete related data first
+      await supabase.from("hotel_images").delete().eq("hotel_id", hotelId);
+      await supabase.from("hotel_themes").delete().eq("hotel_id", hotelId);
+      await supabase.from("hotel_activities").delete().eq("hotel_id", hotelId);
+      await supabase.from("hotel_availability").delete().eq("hotel_id", hotelId);
+      await supabase.from("bookings").delete().eq("hotel_id", hotelId);
+      await supabase.from("favorites").delete().eq("hotel_id", hotelId);
+      await supabase.from("reviews").delete().eq("hotel_id", hotelId);
+
+      // Finally delete the hotel
+      const { error } = await supabase
+        .from("hotels")
+        .delete()
+        .eq("id", hotelId);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Success",
+        description: "Hotel has been deleted",
+      });
+
+      fetchHotels();
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete hotel",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedHotels.length === 0) {
+      toast({
+        title: "No Selection",
+        description: "Please select hotels to delete",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to delete ${selectedHotels.length} hotels? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      for (const hotelId of selectedHotels) {
+        await handleDeleteHotel(hotelId);
+      }
+      setSelectedHotels([]);
+    } catch (error) {
+      console.error('Error in bulk delete:', error);
+    }
+  };
+
+  const handleViewProperty = (hotelId: string) => {
+    // Navigate to the hotel detail page that clients see
+    window.open(`/hotel/${hotelId}`, '_blank');
+  };
+
+  const handleEditProperty = (hotelId: string) => {
+    // Navigate to the edit property page using the AddProperty component
+    navigate(`/add-property?edit=${hotelId}`);
+  };
+
+  const toggleHotelSelection = (hotelId: string) => {
     setSelectedHotels(prev => 
       prev.includes(hotelId) 
         ? prev.filter(id => id !== hotelId)
@@ -142,303 +262,238 @@ export default function FernandoHotels() {
     );
   };
 
-  const handleSelectAll = () => {
-    if (selectedHotels.length === filteredAndSortedHotels.length) {
+  const toggleAllSelection = () => {
+    if (selectedHotels.length === hotels.length) {
       setSelectedHotels([]);
     } else {
-      setSelectedHotels(filteredAndSortedHotels.map(hotel => hotel.id));
+      setSelectedHotels(hotels.map(hotel => hotel.id));
     }
   };
 
-  const handleDeleteSelected = async () => {
-    if (selectedHotels.length === 0) return;
+  const renderStars = (category: number | null) => {
+    if (!category) return '-';
+    return '★'.repeat(category);
+  };
 
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .delete()
-        .in('id', selectedHotels);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: `${selectedHotels.length} hotel(s) deleted successfully`
-      });
-
-      setSelectedHotels([]);
-      fetchHotels();
-    } catch (error) {
-      console.error('Error deleting hotels:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete hotels",
-        variant: "destructive"
-      });
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return <Badge className="bg-green-100 text-green-800">Approved</Badge>;
+      case 'rejected':
+        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>;
+      case 'pending':
+      default:
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
     }
-  };
-
-  const handleFilterChange = (key: keyof FilterState, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const handleSortChange = (field: SortState['field']) => {
-    setSort(prev => ({
-      field,
-      direction: prev.field === field && prev.direction === 'asc' ? 'desc' : 'asc'
-    }));
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      country: '',
-      category: '',
-      priceMin: '',
-      priceMax: '',
-      nameSearch: '',
-      status: ''
-    });
   };
 
   if (loading) {
-    return <div className="p-6 text-center">Loading hotels...</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Fernando Hotels Management</h1>
+        <h1 className="text-3xl font-bold">Hotels Management</h1>
         {selectedHotels.length > 0 && (
-          <Button 
-            onClick={handleDeleteSelected}
+          <Button
+            onClick={handleBulkDelete}
             variant="destructive"
-            className="flex items-center gap-2"
+            className="ml-4"
           >
-            <Trash2 className="h-4 w-4" />
             Delete Selected ({selectedHotels.length})
           </Button>
         )}
       </div>
 
-      {/* Filters Section */}
+      {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filters & Sorting
-          </CardTitle>
+          <CardTitle>Filters & Sorting</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Search and Basic Filters */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-1 block">Search by Name</label>
-              <div className="relative">
-                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  placeholder="Hotel name..."
-                  value={filters.nameSearch}
-                  onChange={(e) => handleFilterChange('nameSearch', e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-1 block">Country</label>
-              <Select value={filters.country} onValueChange={(value) => handleFilterChange('country', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All countries" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All countries</SelectItem>
-                  {uniqueCountries.map(country => (
-                    <SelectItem key={country} value={country}>{country}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-1 block">Category (Stars)</label>
-              <Select value={filters.category} onValueChange={(value) => handleFilterChange('category', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All categories</SelectItem>
-                  <SelectItem value="1">1 Star</SelectItem>
-                  <SelectItem value="2">2 Stars</SelectItem>
-                  <SelectItem value="3">3 Stars</SelectItem>
-                  <SelectItem value="4">4 Stars</SelectItem>
-                  <SelectItem value="5">5 Stars</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-1 block">Status</label>
-              <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All statuses" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All statuses</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-end">
-              <Button onClick={clearFilters} variant="outline" className="w-full">
-                Clear Filters
-              </Button>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+            <Input
+              placeholder="Filter by country..."
+              value={filters.country}
+              onChange={(e) => setFilters(prev => ({ ...prev, country: e.target.value }))}
+            />
+            <Input
+              placeholder="Filter by hotel name..."
+              value={filters.name}
+              onChange={(e) => setFilters(prev => ({ ...prev, name: e.target.value }))}
+            />
+            <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Min stars"
+                type="number"
+                min="1"
+                max="5"
+                value={filters.minStars}
+                onChange={(e) => setFilters(prev => ({ ...prev, minStars: e.target.value }))}
+              />
+              <Input
+                placeholder="Max stars"
+                type="number"
+                min="1"
+                max="5"
+                value={filters.maxStars}
+                onChange={(e) => setFilters(prev => ({ ...prev, maxStars: e.target.value }))}
+              />
             </div>
           </div>
-
-          {/* Price Range Filters */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-1 block">Min Price (€/month)</label>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex gap-2">
               <Input
+                placeholder="Min price/month"
                 type="number"
-                placeholder="Minimum price"
-                value={filters.priceMin}
-                onChange={(e) => handleFilterChange('priceMin', e.target.value)}
+                value={filters.minPrice}
+                onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
+              />
+              <Input
+                placeholder="Max price/month"
+                type="number"
+                value={filters.maxPrice}
+                onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
               />
             </div>
-            <div>
-              <label className="text-sm font-medium mb-1 block">Max Price (€/month)</label>
-              <Input
-                type="number"
-                placeholder="Maximum price"
-                value={filters.priceMax}
-                onChange={(e) => handleFilterChange('priceMax', e.target.value)}
-              />
-            </div>
+            <Select value={sort.field} onValueChange={(value) => setSort(prev => ({ ...prev, field: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="name">Hotel Name</SelectItem>
+                <SelectItem value="country">Country</SelectItem>
+                <SelectItem value="category">Stars</SelectItem>
+                <SelectItem value="price_per_month">Price/Month</SelectItem>
+                <SelectItem value="created_at">Created Date</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={sort.direction} onValueChange={(value: 'asc' | 'desc') => setSort(prev => ({ ...prev, direction: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Sort direction" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="asc">Ascending</SelectItem>
+                <SelectItem value="desc">Descending</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
 
-      {/* Results Summary */}
-      <div className="flex justify-between items-center text-sm text-gray-600">
-        <span>
-          Showing {filteredAndSortedHotels.length} of {hotels.length} hotels
-        </span>
-        {selectedHotels.length > 0 && (
-          <span>{selectedHotels.length} selected</span>
-        )}
-      </div>
-
-      {/* Hotels Table */}
+      {/* Hotel List */}
       <Card>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="p-4 text-left">
-                    <Checkbox
-                      checked={selectedHotels.length === filteredAndSortedHotels.length && filteredAndSortedHotels.length > 0}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </th>
-                  <th className="p-4 text-left">
-                    <button
-                      onClick={() => handleSortChange('name')}
-                      className="flex items-center gap-1 font-medium hover:text-blue-600"
-                    >
-                      Hotel Name
-                      {sort.field === 'name' && (
-                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="p-4 text-left">
-                    <button
-                      onClick={() => handleSortChange('country')}
-                      className="flex items-center gap-1 font-medium hover:text-blue-600"
-                    >
-                      Country
-                      {sort.field === 'country' && (
-                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="p-4 text-left">
-                    <button
-                      onClick={() => handleSortChange('category')}
-                      className="flex items-center gap-1 font-medium hover:text-blue-600"
-                    >
-                      Stars
-                      {sort.field === 'category' && (
-                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="p-4 text-left">
-                    <button
-                      onClick={() => handleSortChange('price_per_month')}
-                      className="flex items-center gap-1 font-medium hover:text-blue-600"
-                    >
-                      Price/Month
-                      {sort.field === 'price_per_month' && (
-                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="p-4 text-left">Status</th>
-                  <th className="p-4 text-left">
-                    <button
-                      onClick={() => handleSortChange('created_at')}
-                      className="flex items-center gap-1 font-medium hover:text-blue-600"
-                    >
-                      Created Date
-                      {sort.field === 'created_at' && (
-                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAndSortedHotels.map((hotel) => (
-                  <tr key={hotel.id} className="border-b hover:bg-gray-50">
-                    <td className="p-4">
-                      <Checkbox
-                        checked={selectedHotels.includes(hotel.id)}
-                        onCheckedChange={() => handleSelectHotel(hotel.id)}
-                      />
-                    </td>
-                    <td className="p-4 font-medium">{hotel.name}</td>
-                    <td className="p-4">{hotel.country}</td>
-                    <td className="p-4">{hotel.category ? `${hotel.category} ⭐` : 'N/A'}</td>
-                    <td className="p-4">€{hotel.price_per_month}</td>
-                    <td className="p-4">
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        hotel.status === 'approved' ? 'bg-green-100 text-green-800' :
-                        hotel.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {hotel.status}
-                      </span>
-                    </td>
-                    <td className="p-4 text-sm text-gray-600">
-                      {new Date(hotel.created_at).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          {filteredAndSortedHotels.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
-              No hotels found matching the current filters.
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle>Hotels ({hotels.length})</CardTitle>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                checked={selectedHotels.length === hotels.length && hotels.length > 0}
+                onCheckedChange={toggleAllSelection}
+              />
+              <span className="text-sm">Select All</span>
             </div>
-          )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {hotels.map((hotel) => (
+              <div key={hotel.id} className="border rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start space-x-4">
+                    <Checkbox
+                      checked={selectedHotels.includes(hotel.id)}
+                      onCheckedChange={() => toggleHotelSelection(hotel.id)}
+                    />
+                    {hotel.main_image_url && (
+                      <img 
+                        src={hotel.main_image_url} 
+                        alt={hotel.name}
+                        className="w-20 h-20 rounded object-cover"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold">{hotel.name}</h3>
+                      <p className="text-gray-600">{hotel.city}, {hotel.country}</p>
+                      <p className="text-sm text-gray-500">
+                        Stars: {renderStars(hotel.category)} | 
+                        Price: €{hotel.price_per_month}/month |
+                        Created: {new Date(hotel.created_at).toLocaleDateString()}
+                      </p>
+                      <div className="mt-2">
+                        {getStatusBadge(hotel.status || 'pending')}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleViewProperty(hotel.id)}
+                      title="View as client sees it"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEditProperty(hotel.id)}
+                      title="Edit property"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                    {hotel.status !== 'approved' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleApproveHotel(hotel.id)}
+                        className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                        title="Approve hotel"
+                      >
+                        <Check className="w-4 h-4" />
+                      </Button>
+                    )}
+                    {hotel.status !== 'rejected' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleRejectHotel(hotel.id)}
+                        className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                        title="Reject hotel"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteHotel(hotel.id)}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      title="Delete hotel"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>

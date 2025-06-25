@@ -1,18 +1,17 @@
-
 import { ReactNode } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
-
 interface FilterItemProps {
   title: string;
   children: ReactNode;
 }
-
-export function FilterItem({ title, children }: FilterItemProps) {
-  return (
-    <Collapsible>
+export function FilterItem({
+  title,
+  children
+}: FilterItemProps) {
+  return <Collapsible>
       <div className="p-2 bg-[#5d0083] rounded-sm py-[3px]">
-        <CollapsibleTrigger className="flex items-center justify-between w-full font-medium text-sm">
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2]">
           <span>{title}</span>
           <ChevronRight className="h-4 w-4" />
         </CollapsibleTrigger>
@@ -20,6 +19,5 @@ export function FilterItem({ title, children }: FilterItemProps) {
           {children}
         </CollapsibleContent>
       </div>
-    </Collapsible>
-  );
+    </Collapsible>;
 }

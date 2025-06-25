@@ -1,57 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Download, Edit, Trash2 } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 
-interface Hotel {
-  id: string;
-  name: string;
-  city: string;
-  country: string;
-  status: string;
-  price_per_month: number;
-  created_at: string;
-}
+type SortField = 'name' | 'location' | 'status' | 'price' | 'created';
+type SortDirection = 'asc' | 'desc';
 
 export default function FernandoHotels() {
-  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortField, setSortField] = useState<SortField>('created');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const { toast } = useToast();
   const navigate = useNavigate();
-
-  console.log('FernandoHotels component loaded');
-
-  useEffect(() => {
-    fetchHotels();
-  }, []);
-
-  const fetchHotels = async () => {
-    try {
-      console.log('Fetching hotels...');
-      const { data, error } = await supabase
-        .from('hotels')
-        .select('id, name, city, country, status, price_per_month, created_at')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      console.log('Hotels fetched:', data?.length);
-      setHotels(data || []);
-    } catch (error) {
-      console.error('Error fetching hotels:', error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch hotels",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleView = (hotelId: string) => {
     navigate(`/hotel/${hotelId}`);
@@ -88,92 +54,225 @@ export default function FernandoHotels() {
     }
   };
 
-  const filteredHotels = hotels.filter(hotel =>
-    hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    hotel.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    hotel.country.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) {
+      return <div className="w-4 h-4" />; // Empty space to maintain alignment
+    }
+    return sortDirection === 'asc' ? 
+      <ChevronUp className="w-4 h-4" /> : 
+      <ChevronDown className="w-4 h-4" />;
+  };
+
+  const sortedAndFilteredHotels = hotels
+    .filter(hotel => 
+      hotel.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hotel.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hotel.country?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      let aValue, bValue;
+      
+      switch (sortField) {
+        case 'name':
+          aValue = a.name || '';
+          bValue = b.name || '';
+          break;
+        case 'location':
+          aValue = `${a.city || ''}, ${a.country || ''}`;
+          bValue = `${b.city || ''}, ${a.country || ''}`;
+          break;
+        case 'status':
+          aValue = a.status || '';
+          bValue = b.status || '';
+          break;
+        case 'price':
+          aValue = a.price_per_month || 0;
+          bValue = b.price_per_month || 0;
+          break;
+        case 'created':
+          aValue = new Date(a.created_at);
+          bValue = new Date(b.created_at);
+          break;
+        default:
+          return 0;
+      }
+
+      if (sortDirection === 'asc') {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      } else {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+    });
+
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('hotels')
+          .select(`
+            *,
+            profiles:owner_id(
+              first_name,
+              last_name
+            )
+          `)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          toast({
+            title: "Error",
+            description: "Failed to fetch hotels",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        setHotels(data || []);
+      } catch (error) {
+        console.error('Error fetching hotels:', error);
+        toast({
+          title: "Error", 
+          description: "Failed to fetch hotels",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHotels();
+  }, []);
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <Card className="bg-[#7a0486] border-purple-600">
-          <CardContent className="p-6">
-            <div className="text-center text-white">Loading hotels...</div>
-          </CardContent>
-        </Card>
+      <div className="p-6">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-lg">Loading hotels...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-white">Hotels Management</h2>
-        <div className="flex gap-2">
-          <Button className="flex items-center gap-2">
-            <Plus className="w-4 h-4" />
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-white">Fernando Hotels Management</h1>
+        <div className="flex gap-3">
+          <Button 
+            className="bg-green-600 hover:bg-green-700"
+            onClick={() => navigate('/add-property')}
+          >
+            <Plus className="w-4 h-4 mr-2" />
             Add Hotel
           </Button>
-          <Button className="flex items-center gap-2">
-            <Download className="w-4 h-4" />
+          <Button variant="outline">
+            <Download className="w-4 h-4 mr-2" />
             Export
           </Button>
         </div>
       </div>
 
-      {/* Search Controls */}
-      <Card className="bg-[#7a0486] border-purple-600">
-        <CardContent className="p-4">
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <Input
-                placeholder="Search hotels..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-purple-800/50 border-purple-600 text-white placeholder:text-white/60"
-              />
+      <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-white">Hotels Overview</CardTitle>
+            <div className="flex gap-3">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder="Search hotels..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-gray-300"
+                />
+              </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Hotels Table */}
-      <Card className="bg-[#7a0486] border-purple-600">
-        <CardHeader>
-          <CardTitle className="text-white">Hotels ({filteredHotels.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-purple-600">
-                  <th className="text-left p-3 text-white">Name</th>
-                  <th className="text-left p-3 text-white">Location</th>
-                  <th className="text-left p-3 text-white">Status</th>
-                  <th className="text-left p-3 text-white">Price/Month</th>
-                  <th className="text-left p-3 text-white">Created</th>
-                  <th className="text-left p-3 text-white">Actions</th>
+                <tr className="border-b border-white/20">
+                  <th 
+                    className="text-left py-3 px-4 text-white font-semibold cursor-pointer hover:bg-white/10 transition-colors"
+                    onClick={() => handleSort('name')}
+                  >
+                    <div className="flex items-center justify-between">
+                      Name
+                      {getSortIcon('name')}
+                    </div>
+                  </th>
+                  <th 
+                    className="text-left py-3 px-4 text-white font-semibold cursor-pointer hover:bg-white/10 transition-colors"
+                    onClick={() => handleSort('location')}
+                  >
+                    <div className="flex items-center justify-between">
+                      Location
+                      {getSortIcon('location')}
+                    </div>
+                  </th>
+                  <th 
+                    className="text-left py-3 px-4 text-white font-semibold cursor-pointer hover:bg-white/10 transition-colors"
+                    onClick={() => handleSort('status')}
+                  >
+                    <div className="flex items-center justify-between">
+                      Status
+                      {getSortIcon('status')}
+                    </div>
+                  </th>
+                  <th 
+                    className="text-left py-3 px-4 text-white font-semibold cursor-pointer hover:bg-white/10 transition-colors"
+                    onClick={() => handleSort('price')}
+                  >
+                    <div className="flex items-center justify-between">
+                      Price/Month
+                      {getSortIcon('price')}
+                    </div>
+                  </th>
+                  <th 
+                    className="text-left py-3 px-4 text-white font-semibold cursor-pointer hover:bg-white/10 transition-colors"
+                    onClick={() => handleSort('created')}
+                  >
+                    <div className="flex items-center justify-between">
+                      Created
+                      {getSortIcon('created')}
+                    </div>
+                  </th>
+                  <th className="text-left py-3 px-4 text-white font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredHotels.map((hotel) => (
-                  <tr key={hotel.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white font-medium">{hotel.name}</td>
-                    <td className="p-3 text-white/80">{hotel.city}, {hotel.country}</td>
-                    <td className="p-3">
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        hotel.status === 'approved' ? 'bg-green-600' : 
-                        hotel.status === 'pending' ? 'bg-yellow-600' : 'bg-red-600'
-                      } text-white`}>
+                {sortedAndFilteredHotels.map((hotel) => (
+                  <tr key={hotel.id} className="border-b border-white/10 hover:bg-white/5">
+                    <td className="py-3 px-4 text-white">{hotel.name}</td>
+                    <td className="py-3 px-4 text-white">{hotel.city}, {hotel.country}</td>
+                    <td className="py-3 px-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        hotel.status === 'approved' 
+                          ? 'bg-green-100 text-green-800' 
+                          : hotel.status === 'pending'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
                         {hotel.status}
                       </span>
                     </td>
-                    <td className="p-3 text-white/80">€{hotel.price_per_month}</td>
-                    <td className="p-3 text-white/80">
+                    <td className="py-3 px-4 text-white">€{hotel.price_per_month}</td>
+                    <td className="py-3 px-4 text-white">
                       {new Date(hotel.created_at).toLocaleDateString()}
                     </td>
-                    <td className="p-3">
+                    <td className="py-3 px-4">
                       <div className="flex gap-2">
                         <Button 
                           size="sm" 
@@ -203,6 +302,12 @@ export default function FernandoHotels() {
                 ))}
               </tbody>
             </table>
+            
+            {sortedAndFilteredHotels.length === 0 && (
+              <div className="text-center py-8 text-white/70">
+                {searchTerm ? 'No hotels found matching your search.' : 'No hotels available.'}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

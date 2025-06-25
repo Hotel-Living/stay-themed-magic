@@ -1,33 +1,116 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { Hotel } from "@/integrations/supabase/types-custom";
-import { Search, Eye, Edit, Trash2, Loader2 } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import React, { useState, useEffect, useMemo } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Trash2, Search, Filter, SortAsc, SortDesc } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Checkbox } from '@/components/ui/checkbox';
 
-const FernandoHotels = () => {
+interface Hotel {
+  id: string;
+  name: string;
+  country: string;
+  city: string;
+  category: number | null;
+  price_per_month: number;
+  status: "approved" | "pending" | "rejected";
+  created_at: string;
+  owner_id: string | null;
+}
+
+interface FilterState {
+  country: string;
+  category: string;
+  priceMin: string;
+  priceMax: string;
+  nameSearch: string;
+  status: string;
+}
+
+interface SortState {
+  field: 'name' | 'country' | 'created_at' | 'category' | 'price_per_month';
+  direction: 'asc' | 'desc';
+}
+
+export default function FernandoHotels() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedHotels, setSelectedHotels] = useState<Set<string>>(new Set());
-  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    country: '',
+    category: '',
+    priceMin: '',
+    priceMax: '',
+    nameSearch: '',
+    status: ''
+  });
+  const [sort, setSort] = useState<SortState>({
+    field: 'created_at',
+    direction: 'desc'
+  });
   const { toast } = useToast();
+
+  // Get unique countries for filter dropdown
+  const uniqueCountries = useMemo(() => {
+    const countries = hotels.map(hotel => hotel.country).filter(Boolean);
+    return [...new Set(countries)].sort();
+  }, [hotels]);
+
+  // Filter and sort hotels
+  const filteredAndSortedHotels = useMemo(() => {
+    let filtered = hotels.filter(hotel => {
+      // Country filter
+      if (filters.country && hotel.country !== filters.country) return false;
+      
+      // Category filter
+      if (filters.category && hotel.category?.toString() !== filters.category) return false;
+      
+      // Price range filter
+      if (filters.priceMin && hotel.price_per_month < parseInt(filters.priceMin)) return false;
+      if (filters.priceMax && hotel.price_per_month > parseInt(filters.priceMax)) return false;
+      
+      // Name search filter
+      if (filters.nameSearch && !hotel.name.toLowerCase().includes(filters.nameSearch.toLowerCase())) return false;
+      
+      // Status filter
+      if (filters.status && hotel.status !== filters.status) return false;
+      
+      return true;
+    });
+
+    // Sort the filtered results
+    filtered.sort((a, b) => {
+      let aValue: any = a[sort.field];
+      let bValue: any = b[sort.field];
+
+      // Handle null values
+      if (aValue === null && bValue === null) return 0;
+      if (aValue === null) return sort.direction === 'asc' ? 1 : -1;
+      if (bValue === null) return sort.direction === 'asc' ? -1 : 1;
+
+      // Handle different data types
+      if (sort.field === 'created_at') {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      } else if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (aValue < bValue) return sort.direction === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sort.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return filtered;
+  }, [hotels, filters, sort]);
+
+  useEffect(() => {
+    fetchHotels();
+  }, []);
 
   const fetchHotels = async () => {
     try {
@@ -37,10 +120,7 @@ const FernandoHotels = () => {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) {
-        throw error;
-      }
-
+      if (error) throw error;
       setHotels(data as Hotel[]);
     } catch (error) {
       console.error('Error fetching hotels:', error);
@@ -54,240 +134,313 @@ const FernandoHotels = () => {
     }
   };
 
-  useEffect(() => {
-    fetchHotels();
-  }, []);
-
-  const filteredHotels = hotels.filter(hotel =>
-    hotel.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    hotel.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    hotel.country?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSelectHotel = (hotelId: string) => {
+    setSelectedHotels(prev => 
+      prev.includes(hotelId) 
+        ? prev.filter(id => id !== hotelId)
+        : [...prev, hotelId]
+    );
+  };
 
   const handleSelectAll = () => {
-    if (selectedHotels.size === filteredHotels.length) {
-      setSelectedHotels(new Set());
+    if (selectedHotels.length === filteredAndSortedHotels.length) {
+      setSelectedHotels([]);
     } else {
-      setSelectedHotels(new Set(filteredHotels.map(hotel => hotel.id)));
+      setSelectedHotels(filteredAndSortedHotels.map(hotel => hotel.id));
     }
   };
 
-  const handleSelectHotel = (hotelId: string) => {
-    const newSelected = new Set(selectedHotels);
-    if (newSelected.has(hotelId)) {
-      newSelected.delete(hotelId);
-    } else {
-      newSelected.add(hotelId);
-    }
-    setSelectedHotels(newSelected);
-  };
+  const handleDeleteSelected = async () => {
+    if (selectedHotels.length === 0) return;
 
-  const handleBulkDelete = async () => {
-    setIsDeleting(true);
     try {
-      const selectedHotelIds = Array.from(selectedHotels);
-      
-      // Delete related data first for all selected hotels
-      for (const hotelId of selectedHotelIds) {
-        await supabase.from("hotel_images").delete().eq("hotel_id", hotelId);
-        await supabase.from("hotel_themes").delete().eq("hotel_id", hotelId);
-        await supabase.from("hotel_activities").delete().eq("hotel_id", hotelId);
-        await supabase.from("hotel_availability").delete().eq("hotel_id", hotelId);
-        await supabase.from("bookings").delete().eq("hotel_id", hotelId);
-        await supabase.from("favorites").delete().eq("hotel_id", hotelId);
-        await supabase.from("reviews").delete().eq("hotel_id", hotelId);
-      }
-
-      // Delete the hotels
       const { error } = await supabase
-        .from("hotels")
+        .from('hotels')
         .delete()
-        .in("id", selectedHotelIds);
+        .in('id', selectedHotels);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       toast({
-        title: "Hotels deleted",
-        description: `${selectedHotelIds.length} hotels have been permanently deleted.`,
+        title: "Success",
+        description: `${selectedHotels.length} hotel(s) deleted successfully`
       });
 
-      setSelectedHotels(new Set());
-      setBulkDeleteDialogOpen(false);
-      await fetchHotels();
+      setSelectedHotels([]);
+      fetchHotels();
     } catch (error) {
-      console.error("Error deleting hotels:", error);
+      console.error('Error deleting hotels:', error);
       toast({
         title: "Error",
-        description: "Failed to delete hotels. Please try again.",
+        description: "Failed to delete hotels",
         variant: "destructive"
       });
-    } finally {
-      setIsDeleting(false);
     }
   };
 
-  const isAllSelected = selectedHotels.size === filteredHotels.length && filteredHotels.length > 0;
-  const isIndeterminate = selectedHotels.size > 0 && selectedHotels.size < filteredHotels.length;
+  const handleFilterChange = (key: keyof FilterState, value: string) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleSortChange = (field: SortState['field']) => {
+    setSort(prev => ({
+      field,
+      direction: prev.field === field && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      country: '',
+      category: '',
+      priceMin: '',
+      priceMax: '',
+      nameSearch: '',
+      status: ''
+    });
+  };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
-      </div>
-    );
+    return <div className="p-6 text-center">Loading hotels...</div>;
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-[#7a0486]">
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Fernando Hotels Management</h1>
+        {selectedHotels.length > 0 && (
+          <Button 
+            onClick={handleDeleteSelected}
+            variant="destructive"
+            className="flex items-center gap-2"
+          >
+            <Trash2 className="h-4 w-4" />
+            Delete Selected ({selectedHotels.length})
+          </Button>
+        )}
+      </div>
+
+      {/* Filters Section */}
+      <Card>
         <CardHeader>
-          <CardTitle className="text-white">Hotel Management</CardTitle>
-          <CardDescription className="text-white/80">
-            Manage and oversee all hotels in the platform
-          </CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filters & Sorting
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search hotels by name, city, or country..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/60"
-              />
-            </div>
-            {selectedHotels.size > 0 && (
-              <Button
-                onClick={() => setBulkDeleteDialogOpen(true)}
-                variant="destructive"
-                className="bg-red-600 hover:bg-red-700"
-              >
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete Selected ({selectedHotels.size})
-              </Button>
-            )}
-          </div>
-
-          {filteredHotels.length > 0 && (
-            <div className="flex items-center gap-2 py-2">
-              <input
-                type="checkbox"
-                checked={isAllSelected}
-                ref={(el) => {
-                  if (el) el.indeterminate = isIndeterminate;
-                }}
-                onChange={handleSelectAll}
-                className="w-4 h-4 text-purple-600 bg-purple-100 border-purple-300 rounded focus:ring-purple-500"
-              />
-              <span className="text-white/80 text-sm">
-                Select All ({filteredHotels.length} hotels)
-              </span>
-            </div>
-          )}
-
-          <div className="space-y-4">
-            {filteredHotels.map((hotel) => (
-              <div key={hotel.id} className="bg-white/10 rounded-lg p-4">
-                <div className="flex items-start gap-4">
-                  <Checkbox
-                    checked={selectedHotels.has(hotel.id)}
-                    onCheckedChange={() => handleSelectHotel(hotel.id)}
-                    className="mt-1"
-                  />
-                  
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-white font-medium text-lg">{hotel.name}</h3>
-                        <p className="text-white/70 text-sm">
-                          {hotel.city}, {hotel.country}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge 
-                            variant={
-                              hotel.status === 'approved' ? 'default' :
-                              hotel.status === 'rejected' ? 'destructive' : 'secondary'
-                            }
-                            className="text-xs"
-                          >
-                            {hotel.status || 'pending'}
-                          </Badge>
-                          <span className="text-white/60 text-sm">
-                            Category: {hotel.category || 'N/A'} stars
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" className="text-white border-white/20">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="sm" className="text-white border-white/20">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-2 text-white/60 text-sm">
-                      <p>€{hotel.price_per_month || 0}/month</p>
-                      <p>Created: {new Date(hotel.created_at).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </div>
+          {/* Search and Basic Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Search by Name</label>
+              <div className="relative">
+                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  placeholder="Hotel name..."
+                  value={filters.nameSearch}
+                  onChange={(e) => handleFilterChange('nameSearch', e.target.value)}
+                  className="pl-10"
+                />
               </div>
-            ))}
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1 block">Country</label>
+              <Select value={filters.country} onValueChange={(value) => handleFilterChange('country', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All countries" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All countries</SelectItem>
+                  {uniqueCountries.map(country => (
+                    <SelectItem key={country} value={country}>{country}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1 block">Category (Stars)</label>
+              <Select value={filters.category} onValueChange={(value) => handleFilterChange('category', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All categories</SelectItem>
+                  <SelectItem value="1">1 Star</SelectItem>
+                  <SelectItem value="2">2 Stars</SelectItem>
+                  <SelectItem value="3">3 Stars</SelectItem>
+                  <SelectItem value="4">4 Stars</SelectItem>
+                  <SelectItem value="5">5 Stars</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1 block">Status</label>
+              <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All statuses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All statuses</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-end">
+              <Button onClick={clearFilters} variant="outline" className="w-full">
+                Clear Filters
+              </Button>
+            </div>
           </div>
 
-          {filteredHotels.length === 0 && (
-            <div className="text-center py-8 text-white/60">
-              {searchTerm ? 'No hotels found matching your search.' : 'No hotels found.'}
+          {/* Price Range Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Min Price (€/month)</label>
+              <Input
+                type="number"
+                placeholder="Minimum price"
+                value={filters.priceMin}
+                onChange={(e) => handleFilterChange('priceMin', e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Max Price (€/month)</label>
+              <Input
+                type="number"
+                placeholder="Maximum price"
+                value={filters.priceMax}
+                onChange={(e) => handleFilterChange('priceMax', e.target.value)}
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Results Summary */}
+      <div className="flex justify-between items-center text-sm text-gray-600">
+        <span>
+          Showing {filteredAndSortedHotels.length} of {hotels.length} hotels
+        </span>
+        {selectedHotels.length > 0 && (
+          <span>{selectedHotels.length} selected</span>
+        )}
+      </div>
+
+      {/* Hotels Table */}
+      <Card>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="p-4 text-left">
+                    <Checkbox
+                      checked={selectedHotels.length === filteredAndSortedHotels.length && filteredAndSortedHotels.length > 0}
+                      onCheckedChange={handleSelectAll}
+                    />
+                  </th>
+                  <th className="p-4 text-left">
+                    <button
+                      onClick={() => handleSortChange('name')}
+                      className="flex items-center gap-1 font-medium hover:text-blue-600"
+                    >
+                      Hotel Name
+                      {sort.field === 'name' && (
+                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="p-4 text-left">
+                    <button
+                      onClick={() => handleSortChange('country')}
+                      className="flex items-center gap-1 font-medium hover:text-blue-600"
+                    >
+                      Country
+                      {sort.field === 'country' && (
+                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="p-4 text-left">
+                    <button
+                      onClick={() => handleSortChange('category')}
+                      className="flex items-center gap-1 font-medium hover:text-blue-600"
+                    >
+                      Stars
+                      {sort.field === 'category' && (
+                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="p-4 text-left">
+                    <button
+                      onClick={() => handleSortChange('price_per_month')}
+                      className="flex items-center gap-1 font-medium hover:text-blue-600"
+                    >
+                      Price/Month
+                      {sort.field === 'price_per_month' && (
+                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="p-4 text-left">Status</th>
+                  <th className="p-4 text-left">
+                    <button
+                      onClick={() => handleSortChange('created_at')}
+                      className="flex items-center gap-1 font-medium hover:text-blue-600"
+                    >
+                      Created Date
+                      {sort.field === 'created_at' && (
+                        sort.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />
+                      )}
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAndSortedHotels.map((hotel) => (
+                  <tr key={hotel.id} className="border-b hover:bg-gray-50">
+                    <td className="p-4">
+                      <Checkbox
+                        checked={selectedHotels.includes(hotel.id)}
+                        onCheckedChange={() => handleSelectHotel(hotel.id)}
+                      />
+                    </td>
+                    <td className="p-4 font-medium">{hotel.name}</td>
+                    <td className="p-4">{hotel.country}</td>
+                    <td className="p-4">{hotel.category ? `${hotel.category} ⭐` : 'N/A'}</td>
+                    <td className="p-4">€{hotel.price_per_month}</td>
+                    <td className="p-4">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        hotel.status === 'approved' ? 'bg-green-100 text-green-800' :
+                        hotel.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                        'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {hotel.status}
+                      </span>
+                    </td>
+                    <td className="p-4 text-sm text-gray-600">
+                      {new Date(hotel.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          {filteredAndSortedHotels.length === 0 && (
+            <div className="p-8 text-center text-gray-500">
+              No hotels found matching the current filters.
             </div>
           )}
         </CardContent>
       </Card>
-
-      <AlertDialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
-        <AlertDialogContent className="bg-purple-900 border-purple-700">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">
-              Delete Selected Hotels
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-white/70">
-              Are you sure you want to delete {selectedHotels.size} selected hotels? 
-              This action cannot be undone and will permanently remove all associated data 
-              including bookings, reviews, and images.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel 
-              onClick={() => setBulkDeleteDialogOpen(false)}
-              disabled={isDeleting}
-              className="bg-gray-600 text-white hover:bg-gray-700"
-            >
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleBulkDelete}
-              disabled={isDeleting}
-              className="bg-red-600 text-white hover:bg-red-700"
-            >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Deleting...
-                </>
-              ) : (
-                'Delete Hotels'
-              )}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
-};
-
-export default FernandoHotels;
+}

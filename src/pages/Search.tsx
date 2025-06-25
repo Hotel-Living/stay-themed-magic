@@ -1,160 +1,218 @@
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Starfield } from "@/components/Starfield";
-import { HotelCard } from "@/components/HotelCard";
 import { FilterSidebar } from "@/components/search/FilterSidebar";
-import { Button } from "@/components/ui/button";
-import { Filter, Grid, List } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { SearchResultsList } from "@/components/search/SearchResultsList";
+import { useHotels } from "@/hooks/useHotels";
+import { FilterState } from "@/components/filters/FilterTypes";
+import { Theme } from "@/utils/themes";
+import { useToast } from "@/hooks/use-toast";
+import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 
 export default function Search() {
-  const [hotels, setHotels] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState('grid');
-  const [activeFilters, setActiveFilters] = useState({
-    priceRange: [0, 1000],
-    country: [],
-    mealPlans: [],
+  const location = useLocation();
+  const {
+    hotels,
+    loading,
+    error,
+    filters,
+    updateFilters
+  } = useHotels();
+  const { toast } = useToast();
+  
+  const [activeFilters, setActiveFilters] = useState<{
+    country: string | null;
+    month: string | null;
+    theme: Theme | null;
+    priceRange: number | null;
+    propertyType: string | null;
+    propertyStyle: string | null;
+    roomTypes: string[];
+    hotelFeatures: string[];
+    roomFeatures: string[];
+    meals: string[];
+    lengthOfStay: string | null;
+    activities: string[];
+    location: string | null;
+    category: string | null;
+    atmosphere: string | null;
+    mealPlans: string[];
+    stayLengths: number[];
+    fiveAffinityMatches?: boolean;
+    next60DaysOnly?: boolean;
+    bestValueSort?: boolean;
+  }>({
+    country: null,
+    month: null,
+    theme: null,
+    priceRange: null,
+    propertyType: null,
+    propertyStyle: null,
     roomTypes: [],
     hotelFeatures: [],
     roomFeatures: [],
+    meals: [],
+    lengthOfStay: null,
     activities: [],
-    stayLengths: []
+    location: null,
+    category: null,
+    atmosphere: null,
+    mealPlans: [],
+    stayLengths: [],
+    fiveAffinityMatches: false,
+    next60DaysOnly: false,
+    bestValueSort: false
   });
 
   useEffect(() => {
-    fetchHotels();
-  }, []);
-
-  const fetchHotels = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('hotels')
-        .select('*');
-      
-      if (error) throw error;
-      setHotels(data || []);
-    } catch (error) {
-      console.error('Error fetching hotels:', error);
+    const searchParams = new URLSearchParams(location.search);
+    const newFilters = { ...activeFilters };
+    let filtersChanged = false;
+    
+    if (searchParams.has('country')) {
+      newFilters.country = searchParams.get('country');
+      filtersChanged = true;
     }
-  };
+    if (searchParams.has('month')) {
+      newFilters.month = searchParams.get('month');
+      filtersChanged = true;
+    }
+    if (searchParams.has('price')) {
+      newFilters.priceRange = Number(searchParams.get('price'));
+      filtersChanged = true;
+    }
+    if (searchParams.has('location')) {
+      newFilters.location = searchParams.get('location');
+      filtersChanged = true;
+    }
+    if (searchParams.has('propertyType')) {
+      newFilters.propertyType = searchParams.get('propertyType');
+      filtersChanged = true;
+    }
+    if (searchParams.has('propertyStyle')) {
+      newFilters.propertyStyle = searchParams.get('propertyStyle');
+      filtersChanged = true;
+    }
+    if (searchParams.has('theme')) {
+      const themeId = searchParams.get('theme');
+      newFilters.theme = {
+        id: themeId || '',
+        name: themeId || ''
+      } as Theme;
+      filtersChanged = true;
+    }
+    
+    if (filtersChanged) {
+      setActiveFilters(newFilters);
+      updateFilters(newFilters);
+      
+      let filterDescription = "Showing results";
+      if (newFilters.country) filterDescription += ` in ${newFilters.country}`;
+      if (newFilters.month) filterDescription += ` for ${newFilters.month}`;
+      if (newFilters.theme) filterDescription += ` with theme "${newFilters.theme.name}"`;
+      
+      toast({
+        title: "Filters Applied",
+        description: filterDescription
+      });
+    }
+  }, [location.search]);
 
-  const handleFilterChange = (filterType, value) => {
-    setActiveFilters(prev => ({
-      ...prev,
+  const handleFilterChange = (filterType: string, value: any) => {
+    console.log("Search page - Filter change:", filterType, value);
+    
+    const updatedFilters = {
+      ...activeFilters,
       [filterType]: value
-    }));
+    };
+    
+    setActiveFilters(updatedFilters);
+    updateFilters({ [filterType]: value });
   };
 
-  const handleArrayFilterChange = (filterType, value, isChecked) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterType]: isChecked 
-        ? [...prev[filterType], value]
-        : prev[filterType].filter(item => item !== value)
-    }));
+  const handleArrayFilterChange = (filterType: string, value: string, isChecked: boolean) => {
+    console.log("Search page - Array filter change:", filterType, value, isChecked);
+    
+    const currentValues = activeFilters[filterType as keyof typeof activeFilters] as string[] || [];
+    const newValues = isChecked 
+      ? [...currentValues, value] 
+      : currentValues.filter(v => v !== value);
+    
+    const updatedFilters = {
+      ...activeFilters,
+      [filterType]: newValues
+    };
+    
+    setActiveFilters(updatedFilters);
+    updateFilters({ [filterType]: newValues });
   };
 
-  const resetFilters = () => {
-    setActiveFilters({
-      priceRange: [0, 1000],
-      country: [],
-      mealPlans: [],
+  const handleResetAllFilters = () => {
+    const resetFilters = {
+      country: null,
+      month: null,
+      theme: null,
+      priceRange: null,
+      propertyType: null,
+      propertyStyle: null,
       roomTypes: [],
       hotelFeatures: [],
       roomFeatures: [],
+      meals: [],
+      lengthOfStay: null,
       activities: [],
-      stayLengths: []
+      location: null,
+      category: null,
+      atmosphere: null,
+      mealPlans: [],
+      stayLengths: [],
+      fiveAffinityMatches: false,
+      next60DaysOnly: false,
+      bestValueSort: false
+    };
+    
+    setActiveFilters(resetFilters);
+    updateFilters(resetFilters);
+    
+    toast({
+      title: "Filters Reset",
+      description: "All filters have been cleared"
     });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-fuchsia-900 to-pink-900 relative overflow-hidden">
-      <Starfield />
+    <div className="min-h-screen flex flex-col">
+      <HotelStarfield />
       <Navbar />
-      
-      <main className="relative z-10 pt-20">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="w-full lg:w-1/4">
-              <div className="hidden lg:block">
-                <FilterSidebar
-                  onClose={() => {}}
-                  activeFilters={activeFilters}
-                  handleFilterChange={handleFilterChange}
-                  handleArrayFilterChange={handleArrayFilterChange}
-                  resetFilters={resetFilters}
-                />
-              </div>
-            </div>
-            
-            <div className="w-full lg:w-3/4">
-              <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div className="flex items-center gap-4">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowFilters(true)}
-                    className="lg:hidden"
-                  >
-                    <Filter className="h-4 w-4 mr-2" />
-                    Filters
-                  </Button>
-                  <div className="text-sm text-gray-400">
-                    {hotels.length} properties found
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant={viewMode === 'grid' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('grid')}
-                  >
-                    <Grid className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === 'list' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('list')}
-                  >
-                    <List className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-
-              <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
-                {hotels.map((hotel) => (
-                  <HotelCard key={hotel.id} {...hotel} />
-                ))}
-              </div>
-
-              {hotels.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-gray-400 text-lg">No hotels found matching your criteria.</p>
-                </div>
-              )}
-            </div>
+      <main className="flex-1 container mx-auto px-4 pt-16 pb-10">
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="w-full md:w-1/4">
+            <FilterSidebar 
+              activeFilters={activeFilters} 
+              handleFilterChange={handleFilterChange} 
+              handleArrayFilterChange={handleArrayFilterChange} 
+              onResetAllFilters={handleResetAllFilters} 
+            />
           </div>
-        </div>
-      </main>
-
-      {showFilters && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 lg:hidden">
-          <div className="absolute right-0 top-0 h-full">
-            <FilterSidebar
-              onClose={() => setShowFilters(false)}
-              activeFilters={activeFilters}
-              handleFilterChange={handleFilterChange}
-              handleArrayFilterChange={handleArrayFilterChange}
-              resetFilters={resetFilters}
+          <div className="w-full md:w-3/4">
+            <div className="mb-4 p-4 backdrop-blur-sm bg-[#f0d7fc]/70 rounded-3xl">
+              <h1 className="font-bold text-xl" style={{ color: '#860493' }}>
+                Search Results
+              </h1>
+              <p className="text-muted-foreground" style={{ color: '#860493' }}>
+                Found {hotels?.length || 0} properties matching your criteria
+              </p>
+            </div>
+            <SearchResultsList 
+              filteredHotels={hotels || []} 
+              isLoading={loading} 
+              error={error instanceof Error ? error : error ? new Error(String(error)) : null} 
             />
           </div>
         </div>
-      )}
-      
+      </main>
       <Footer />
     </div>
   );

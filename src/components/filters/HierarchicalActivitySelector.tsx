@@ -1,9 +1,8 @@
 
 import React, { useState, useMemo } from "react";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronRight } from "lucide-react";
 import { useHierarchicalActivities } from "@/hooks/useHierarchicalActivities";
-import { useTranslation } from "@/hooks/useTranslation";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 interface HierarchicalActivitySelectorProps {
   selectedActivities: string[];
@@ -21,38 +20,8 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
   searchQuery = ""
 }) => {
   const { activities, loading, error } = useHierarchicalActivities();
-  const { t } = useTranslation();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set());
-
-  // Activity name translation mapping
-  const getTranslatedActivityName = (activityName: string): string => {
-    const activityMap: Record<string, string> = {
-      'Indoor': t('filters.activities.indoor'),
-      'Outdoor': t('filters.activities.outdoor'),
-      'Art & Creativity': t('filters.activities.artCreativity'),
-      'Cinema & Media': t('filters.activities.cinemaMedia'),
-      'Cooking & Food': t('filters.activities.cookingFood'),
-      'Fitness & Movement': t('filters.activities.fitnessMovement'),
-      'Games & Entertainment': t('filters.activities.gamesEntertainment'),
-      'Language Activities': t('filters.activities.languageActivities'),
-      'Learning & Talks': t('filters.activities.learningTalks'),
-      'Mind & Balance': t('filters.activities.mindBalance'),
-      'Music & Stage': t('filters.activities.musicStage'),
-      'Tech & Science': t('filters.activities.techScience'),
-      'Wellness & Care': t('filters.activities.wellnessCare'),
-      'Animal Encounters': t('filters.activities.animalEncounters'),
-      'Adventure': t('filters.activities.adventure'),
-      'Gardening & Green Living': t('filters.activities.gardeningGreenLiving'),
-      'Live Culture': t('filters.activities.liveCulture'),
-      'Nature & Trails': t('filters.activities.natureTrails'),
-      'Outdoor Wellness': t('filters.activities.outdoorWellness'),
-      'Social & Community': t('filters.activities.socialCommunity'),
-      'Sports & Fitness': t('filters.activities.sportsFitness')
-    };
-
-    return activityMap[activityName] || activityName;
-  };
 
   // Filter activities based on search query
   const filteredActivities = useMemo(() => {
@@ -62,12 +31,12 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 
     const lowercaseQuery = searchQuery.toLowerCase();
     
+    // Function to check if an activity matches the query
     const activityMatches = (activity: any) => {
-      const translatedName = getTranslatedActivityName(activity.name);
-      return translatedName.toLowerCase().includes(lowercaseQuery) ||
-             activity.name.toLowerCase().includes(lowercaseQuery);
+      return activity.name.toLowerCase().includes(lowercaseQuery);
     };
 
+    // Recursively filter activities while maintaining hierarchy
     const filterActivityHierarchy = (activityList: any[]): any[] => {
       return activityList
         .map(activity => {
@@ -78,6 +47,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
             filteredChildren = filterActivityHierarchy(activity.children);
           }
           
+          // Include activity if it matches or has matching children
           if (activityMatches(activity) || filteredChildren.length > 0) {
             return {
               ...activity,
@@ -91,7 +61,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     };
 
     return filterActivityHierarchy(activities);
-  }, [searchQuery, activities, t]);
+  }, [searchQuery, activities]);
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -117,6 +87,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
     const isCurrentlySelected = selectedActivities.includes(activityId);
     
     if (!allowMultiple && !isCurrentlySelected) {
+      // Clear all other selections for single selection mode
       selectedActivities.forEach(id => {
         if (id !== activityId) {
           onActivitySelect(id, false);
@@ -129,35 +100,37 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 
   if (loading) {
     return (
-      <div className="text-white p-4">
-        {t('loading')} actividades...
+      <div className="flex justify-center p-4">
+        <Spinner size="sm" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-red-400 p-4">
-        Error: {error}
+      <div className="text-red-500 text-sm p-4">
+        Error loading activities: {error}
       </div>
     );
   }
 
   if (!filteredActivities || filteredActivities.length === 0) {
     return (
-      <div className="text-yellow-400 p-4">
-        {searchQuery ? t('No activities found matching your search.') : t('No se encontraron actividades disponibles')}
+      <div className="text-gray-500 text-sm p-4">
+        {searchQuery ? "No activities found matching your search." : "No activities available"}
       </div>
     );
   }
 
-  const renderActivity = (activity: any, level: number = 1) => {
-    const isExpanded = level === 1 ? expandedCategories.has(activity.id) : expandedSubcategories.has(activity.id);
+  const renderActivity = (activity: any, depth: number = 0) => {
+    const isExpanded = expandedCategories.has(activity.id);
+    const isSubcategoryExpanded = expandedSubcategories.has(activity.id);
     const isSelected = selectedActivities.includes(activity.id);
     const hasChildren = activity.children && activity.children.length > 0;
-    const translatedName = getTranslatedActivityName(activity.name);
     
-    const paddingLeft = level === 1 ? 0 : level === 2 ? 12 : 24;
+    // Level 1 items should have no left padding to align under filter title
+    // Level 2+ items get appropriate indentation
+    const paddingLeft = activity.level === 1 ? 0 : activity.level === 2 ? 12 : 24;
 
     return (
       <div key={activity.id} className="w-full">
@@ -167,20 +140,18 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
           }`}
           style={{ paddingLeft: `${paddingLeft}px` }}
           onClick={() => {
-            if (hasChildren && (level === 1 || level === 2)) {
-              if (level === 1) {
-                toggleCategory(activity.id);
-              } else {
-                toggleSubcategory(activity.id);
-              }
-            } else if (level === 3 || (!hasChildren && level >= 1)) {
+            if (hasChildren && activity.level === 1) {
+              toggleCategory(activity.id);
+            } else if (hasChildren && activity.level === 2) {
+              toggleSubcategory(activity.id);
+            } else if (activity.level === 3) {
               handleActivitySelect(activity.id);
             }
           }}
         >
-          {hasChildren && (level === 1 || level === 2) && (
+          {hasChildren && (activity.level === 1 || activity.level === 2) && (
             <div className="mr-1.5">
-              {isExpanded ? (
+              {(activity.level === 1 ? isExpanded : isSubcategoryExpanded) ? (
                 <ChevronDown className="h-3 w-3" />
               ) : (
                 <ChevronRight className="h-3 w-3" />
@@ -188,7 +159,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
             </div>
           )}
           
-          {(!hasChildren || level === 3) && (
+          {!hasChildren && activity.level === 3 && (
             <input
               type={allowMultiple ? "checkbox" : "radio"}
               checked={isSelected}
@@ -198,14 +169,14 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
             />
           )}
           
-          <span className={`text-sm ${level === 1 ? 'font-medium uppercase' : level === 2 ? 'font-medium' : ''}`}>
-            {translatedName}
+          <span className={`text-sm ${activity.level === 1 ? 'font-medium uppercase' : activity.level === 2 ? 'font-medium' : ''}`}>
+            {activity.name}
           </span>
         </div>
 
         {hasChildren && (
-          <div className="mt-1" style={{ display: isExpanded ? 'block' : 'none' }}>
-            {activity.children.map((child: any) => renderActivity(child, level + 1))}
+          <div className="mt-1" style={{ display: (activity.level === 1 ? isExpanded : activity.level === 2 ? isSubcategoryExpanded : true) ? 'block' : 'none' }}>
+            {activity.children.map((child: any) => renderActivity(child, depth + 1))}
           </div>
         )}
       </div>
@@ -214,7 +185,7 @@ export const HierarchicalActivitySelector: React.FC<HierarchicalActivitySelector
 
   return (
     <div className={`space-y-1 ${className}`}>
-      {filteredActivities.map(activity => renderActivity(activity, 1))}
+      {filteredActivities.map(activity => renderActivity(activity))}
     </div>
   );
 };

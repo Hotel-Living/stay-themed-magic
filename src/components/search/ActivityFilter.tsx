@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FilterItem } from "./FilterItem";
 import { HierarchicalActivitySelector } from "@/components/filters/HierarchicalActivitySelector";
 import { Search } from "lucide-react";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface ActivityFilterProps {
   activeActivities: string[];
@@ -15,7 +14,6 @@ export function ActivityFilter({
   onChange 
 }: ActivityFilterProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const { t } = useTranslation();
 
   const handleContainerClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,7 +32,7 @@ export function ActivityFilter({
   };
 
   return (
-    <FilterItem title={t('filters.activities.title').toUpperCase()}>
+    <FilterItem title="ACTIVITIES">
       <div 
         className="bg-fuchsia-950/30 rounded-lg max-h-96 overflow-y-auto" 
         onClick={handleContainerClick}

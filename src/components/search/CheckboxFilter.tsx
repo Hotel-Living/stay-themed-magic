@@ -1,18 +1,14 @@
 
 import { FilterItem } from "./FilterItem";
-import { useTranslation } from "@/hooks/useTranslation";
 
 interface CheckboxFilterProps {
   title: string;
   options: Array<{ value: string; label: string }> | string[];
   selectedOptions: string[];
   onChange: (value: string, isChecked: boolean) => void;
-  translationKey?: string;
 }
 
-export function CheckboxFilter({ title, options, selectedOptions, onChange, translationKey }: CheckboxFilterProps) {
-  const { t } = useTranslation();
-  
+export function CheckboxFilter({ title, options, selectedOptions, onChange }: CheckboxFilterProps) {
   // Handle both array formats for backward compatibility
   const normalizedOptions = options.map(option => 
     typeof option === 'string' 
@@ -20,29 +16,8 @@ export function CheckboxFilter({ title, options, selectedOptions, onChange, tran
       : option
   );
 
-  // Fix for translation keys that return objects instead of strings
-  let displayTitle = title;
-  if (translationKey) {
-    try {
-      const translatedTitle = t(translationKey);
-      // If the translation returns an object, try to access the title property
-      if (typeof translatedTitle === 'object' && translatedTitle !== null) {
-        displayTitle = t(`${translationKey}.title`) || title;
-      } else {
-        displayTitle = translatedTitle;
-      }
-      // Ensure main filter titles are uppercase
-      displayTitle = displayTitle.toUpperCase();
-    } catch (error) {
-      console.warn('Translation error for key:', translationKey);
-      displayTitle = title.toUpperCase();
-    }
-  } else {
-    displayTitle = title.toUpperCase();
-  }
-
   return (
-    <FilterItem title={displayTitle}>
+    <FilterItem title={title}>
       {normalizedOptions.map(option => (
         <label key={option.value} className="flex items-start">
           <input 

@@ -1,7 +1,6 @@
 
-import { useState, useEffect } from "react";
 import { FilterItem } from "./FilterItem";
-import { supabase } from "@/integrations/supabase/client";
+import { useFilterData } from "@/hooks/useFilterData";
 
 interface LocationFilterPTProps {
   activeLocation: string | null;
@@ -9,44 +8,16 @@ interface LocationFilterPTProps {
 }
 
 export function LocationFilterPT({ activeLocation, onChange }: LocationFilterPTProps) {
-  const [cities, setCities] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Fetch unique cities from the hotels table
-  useEffect(() => {
-    async function fetchCities() {
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('hotels')
-          .select('city')
-          .order('city');
-        
-        if (error) {
-          console.error('Error fetching cities:', error);
-          setCities([]);
-        } else {
-          // Extract unique cities
-          const uniqueCities = [...new Set(data.map(hotel => hotel.city))];
-          setCities(uniqueCities);
-        }
-      } catch (err) {
-        console.error('Unexpected error fetching cities:', err);
-        setCities([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCities();
-  }, []);
+  const { cities, loading, error } = useFilterData();
 
   return (
     <FilterItem title="LOCALIZAÇÃO">
-      {isLoading ? (
+      {loading ? (
         <div className="text-sm text-fuchsia-300/70 italic">Carregando cidades...</div>
+      ) : error ? (
+        <div className="text-sm text-fuchsia-300/70 italic">Erro ao carregar cidades</div>
       ) : cities.length === 0 ? (
-        <div className="text-sm text-fuchsia-300/70 italic">Nenhuma</div>
+        <div className="text-sm text-fuchsia-300/70 italic">Nenhuma cidade disponível</div>
       ) : (
         cities.map(city => (
           <label key={city} className="flex items-start">

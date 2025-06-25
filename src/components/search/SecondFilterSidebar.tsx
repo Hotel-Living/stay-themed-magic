@@ -30,6 +30,43 @@ export function SecondFilterSidebar({
 }: SecondFilterSidebarProps) {
   const { t } = useTranslation();
 
+  // Meal plan options
+  const mealPlanOptions = [
+    { value: 'breakfast', label: t('filters.mealPlanOptions.breakfast') },
+    { value: 'halfBoard', label: t('filters.mealPlanOptions.halfBoard') },
+    { value: 'fullBoard', label: t('filters.mealPlanOptions.fullBoard') },
+    { value: 'allInclusive', label: t('filters.mealPlanOptions.allInclusive') }
+  ];
+
+  // Room type options
+  const roomTypeOptions = [
+    { value: 'single', label: t('filters.roomTypeOptions.single') },
+    { value: 'double', label: t('filters.roomTypeOptions.double') },
+    { value: 'suite', label: t('filters.roomTypeOptions.suite') },
+    { value: 'apartment', label: t('filters.roomTypeOptions.apartment') }
+  ];
+
+  // Hotel feature options
+  const hotelFeatureOptions = [
+    { value: 'pool', label: t('filters.hotelFeatureOptions.pool') },
+    { value: 'gym', label: t('filters.hotelFeatureOptions.gym') },
+    { value: 'spa', label: t('filters.hotelFeatureOptions.spa') },
+    { value: 'restaurant', label: t('filters.hotelFeatureOptions.restaurant') },
+    { value: 'bar', label: t('filters.hotelFeatureOptions.bar') },
+    { value: 'wifi', label: t('filters.hotelFeatureOptions.wifi') },
+    { value: 'parking', label: t('filters.hotelFeatureOptions.parking') }
+  ];
+
+  // Room feature options
+  const roomFeatureOptions = [
+    { value: 'airConditioning', label: t('filters.roomFeatureOptions.airConditioning') },
+    { value: 'balcony', label: t('filters.roomFeatureOptions.balcony') },
+    { value: 'kitchen', label: t('filters.roomFeatureOptions.kitchen') },
+    { value: 'workspace', label: t('filters.roomFeatureOptions.workspace') },
+    { value: 'tv', label: t('filters.roomFeatureOptions.tv') },
+    { value: 'minibar', label: t('filters.roomFeatureOptions.minibar') }
+  ];
+
   return (
     <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-4 shadow-2xl w-full max-w-xs px-0 py-0 rounded-lg">
       {/* Reset Button */}
@@ -101,8 +138,8 @@ export function SecondFilterSidebar({
       {/* Meal Plans Filter */}
       <div className="mb-4">
         <CheckboxFilter 
-          title="PLAN DE COMIDAS" 
-          options={['Desayuno', 'Media Pensión', 'Pensión Completa', 'Todo Incluido']} 
+          title={t('filters.mealPlans')} 
+          options={mealPlanOptions} 
           selectedOptions={activeFilters.mealPlans} 
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)} 
         />
@@ -135,8 +172,8 @@ export function SecondFilterSidebar({
       {/* Room Types Filter */}
       <div className="mb-4">
         <CheckboxFilter 
-          title="TIPO DE HABITACIÓN" 
-          options={['Individual', 'Doble', 'Suite', 'Apartamento']} 
+          title={t('filters.roomTypes')} 
+          options={roomTypeOptions} 
           selectedOptions={activeFilters.roomTypes} 
           onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)} 
         />
@@ -145,8 +182,8 @@ export function SecondFilterSidebar({
       {/* Hotel Features Filter */}
       <div className="mb-4">
         <CheckboxFilter 
-          title="SERVICIOS DEL HOTEL" 
-          options={['Piscina', 'Gimnasio', 'Spa', 'Restaurante', 'Bar', 'WiFi', 'Aparcamiento']} 
+          title={t('filters.hotelFeatures')} 
+          options={hotelFeatureOptions} 
           selectedOptions={activeFilters.hotelFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)} 
         />
@@ -155,8 +192,8 @@ export function SecondFilterSidebar({
       {/* Room Features Filter */}
       <div className="mb-4">
         <CheckboxFilter 
-          title="SERVICIOS DE LA HABITACIÓN" 
-          options={['Aire Acondicionado', 'Balcón', 'Cocina', 'Espacio de Trabajo', 'TV', 'Minibar']} 
+          title={t('filters.roomFeatures')} 
+          options={roomFeatureOptions} 
           selectedOptions={activeFilters.roomFeatures} 
           onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)} 
         />

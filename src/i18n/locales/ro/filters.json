@@ -16,6 +16,11 @@
     "affinity": "AFINITATE",
     "month": "LUNĂ",
     "country": "ȚARĂ",
+    "numberOfDays": "NUMĂRUL DE ZILE",
+    "roomTypes": "TIPURI DE CAMERE",
+    "hotelFeatures": "SERVICII HOTEL",
+    "roomFeatures": "SERVICII CAMERĂ",
+    "mealPlans": "PLANURI DE MASĂ",
     "priceRanges": {
       "upTo1000": "Până la 1.000 €",
       "1000to1500": "1.000 € la 1.500 €",
@@ -47,6 +52,54 @@
       "germany": "Germania 🇩🇪",
       "portugal": "Portugalia 🇵🇹",
       "greece": "Grecia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Art",
+      "business": "Business",
+      "culture": "Culture",
+      "education": "Education",
+      "entertainment": "Entertainment",
+      "foodAndDrinks": "Food and Drinks",
+      "healthAndWellness": "Health and Wellness",
+      "history": "History",
+      "hobbies": "Hobbies",
+      "languages": "Languages",
+      "lifestyle": "Lifestyle",
+      "nature": "Nature",
+      "personalDevelopment": "Personal Development",
+      "relationships": "Relationships",
+      "scienceAndTechnology": "Science and Technology",
+      "socialImpact": "Social Impact",
+      "sports": "Sports"
+    },
+    "roomTypeOptions": {
+      "single": "Single",
+      "double": "Dublu",
+      "suite": "Suită",
+      "apartment": "Apartament"
+    },
+    "hotelFeatureOptions": {
+      "pool": "Piscină",
+      "gym": "Sală de sport",
+      "spa": "Spa",
+      "restaurant": "Restaurant",
+      "bar": "Bar",
+      "wifi": "WiFi",
+      "parking": "Parcare"
+    },
+    "roomFeatureOptions": {
+      "airConditioning": "Aer Condiționat",
+      "balcony": "Balcon",
+      "kitchen": "Bucătărie",
+      "workspace": "Spațiu de Lucru",
+      "tv": "TV",
+      "minibar": "Minibar"
+    },
+    "mealPlanOptions": {
+      "breakfast": "Mic Dejun",
+      "halfBoard": "Demipensiune",
+      "fullBoard": "Pensiune Completă",
+      "allInclusive": "All Inclusive"
     }
   }
 }

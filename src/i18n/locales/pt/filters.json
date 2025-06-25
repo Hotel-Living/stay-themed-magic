@@ -16,6 +16,11 @@
     "affinity": "AFINIDADE",
     "month": "MÊS",
     "country": "PAÍS",
+    "numberOfDays": "NÚMERO DE DIAS",
+    "roomTypes": "TIPO DE QUARTO",
+    "hotelFeatures": "SERVIÇOS DO HOTEL",
+    "roomFeatures": "SERVIÇOS DO QUARTO",
+    "mealPlans": "PLANO DE REFEIÇÕES",
     "priceRanges": {
       "upTo1000": "Até 1.000 €",
       "1000to1500": "1.000 € a 1.500 €",
@@ -47,6 +52,54 @@
       "germany": "Alemanha 🇩🇪",
       "portugal": "Portugal 🇵🇹",
       "greece": "Grécia 🇬🇷"
+    },
+    "affinities": {
+      "art": "Art",
+      "business": "Business",
+      "culture": "Culture",
+      "education": "Education",
+      "entertainment": "Entertainment",
+      "foodAndDrinks": "Food and Drinks",
+      "healthAndWellness": "Health and Wellness",
+      "history": "History",
+      "hobbies": "Hobbies",
+      "languages": "Languages",
+      "lifestyle": "Lifestyle",
+      "nature": "Nature",
+      "personalDevelopment": "Personal Development",
+      "relationships": "Relationships",
+      "scienceAndTechnology": "Science and Technology",
+      "socialImpact": "Social Impact",
+      "sports": "Sports"
+    },
+    "roomTypeOptions": {
+      "single": "Individual",
+      "double": "Duplo",
+      "suite": "Suíte",
+      "apartment": "Apartamento"
+    },
+    "hotelFeatureOptions": {
+      "pool": "Piscina",
+      "gym": "Ginásio",
+      "spa": "Spa",
+      "restaurant": "Restaurante",
+      "bar": "Bar",
+      "wifi": "WiFi",
+      "parking": "Estacionamento"
+    },
+    "roomFeatureOptions": {
+      "airConditioning": "Ar Condicionado",
+      "balcony": "Varanda",
+      "kitchen": "Cozinha",
+      "workspace": "Espaço de Trabalho",
+      "tv": "TV",
+      "minibar": "Minibar"
+    },
+    "mealPlanOptions": {
+      "breakfast": "Pequeno-almoço",
+      "halfBoard": "Meia Pensão",
+      "fullBoard": "Pensão Completa",
+      "allInclusive": "Tudo Incluído"
     }
   }
 }

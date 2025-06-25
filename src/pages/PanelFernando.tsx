@@ -2,7 +2,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PanelFernandoLayout from "@/components/panel-fernando/PanelFernandoLayout";
-import FernandoHotels from "@/components/panel-fernando/FernandoHotels";
+import { FernandoHotels } from "@/components/panel-fernando/FernandoHotels";
 import FernandoBookings from "@/components/panel-fernando/FernandoBookings";
 import FernandoPayments from "@/components/panel-fernando/FernandoPayments";
 import FernandoStatistics from "@/components/panel-fernando/FernandoStatistics";

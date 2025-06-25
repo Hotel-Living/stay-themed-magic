@@ -1,296 +1,253 @@
 
 import React, { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Eye, Edit, Trash2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useHotelsData } from "@/components/dashboard/admin/hooks/useHotelsData";
-import { useHotelActions } from "@/components/dashboard/admin/hooks/useHotelActions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Eye, Edit, Trash2, Check } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 
-export default function FernandoHotels() {
-  const { hotels, loading, setHotels, fetchAllHotels } = useHotelsData();
+interface Hotel {
+  id: string;
+  name: string;
+  city: string;
+  country: string;
+  status: string;
+  price_per_month: number;
+  category: number;
+  main_image_url?: string;
+}
+
+export const FernandoHotels: React.FC = () => {
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
+  const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [countryFilter, setCountryFilter] = useState<string>("all");
+  const [availableCountries, setAvailableCountries] = useState<string[]>([]);
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [showApproveDialog, setShowApproveDialog] = useState(false);
-  const [showSingleDeleteDialog, setShowSingleDeleteDialog] = useState(false);
-  const [hotelToDelete, setHotelToDelete] = useState<string | null>(null);
-
-  const refreshHotels = async () => {
-    const result = await fetchAllHotels();
-    if (result.data) {
-      setHotels(result.data);
-    }
-  };
-
-  const { handleApprove, handleDelete } = useHotelActions(refreshHotels);
+  const { toast } = useToast();
 
   useEffect(() => {
-    refreshHotels();
+    fetchHotels();
   }, []);
 
-  const filteredHotels = hotels.filter(hotel => {
-    if (statusFilter !== "all" && hotel.status !== statusFilter) return false;
-    if (countryFilter !== "all" && hotel.country !== countryFilter) return false;
-    return true;
-  });
+  useEffect(() => {
+    applyFilters();
+  }, [hotels, statusFilter, countryFilter]);
 
-  const countries = [...new Set(hotels.map(hotel => hotel.country).filter(Boolean))];
+  const fetchHotels = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('hotels')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedHotels(filteredHotels.map(hotel => hotel.id));
-    } else {
+      if (error) {
+        console.error('Error fetching hotels:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch hotels",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      setHotels(data || []);
+      
+      // Extract unique countries
+      const countries = [...new Set((data || []).map(hotel => hotel.country))].filter(Boolean);
+      setAvailableCountries(countries);
+    } catch (error) {
+      console.error('Error in fetchHotels:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch hotels",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const applyFilters = () => {
+    let filtered = hotels;
+
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(hotel => hotel.status === statusFilter);
+    }
+
+    if (countryFilter !== "all") {
+      filtered = filtered.filter(hotel => hotel.country === countryFilter);
+    }
+
+    setFilteredHotels(filtered);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedHotels.length === filteredHotels.length) {
       setSelectedHotels([]);
-    }
-  };
-
-  const handleSelectHotel = (hotelId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedHotels(prev => [...prev, hotelId]);
     } else {
-      setSelectedHotels(prev => prev.filter(id => id !== hotelId));
+      setSelectedHotels(filteredHotels.map(hotel => hotel.id));
     }
   };
 
-  const handleBulkDelete = async () => {
-    for (const hotelId of selectedHotels) {
-      await handleDelete(hotelId);
-    }
-    setSelectedHotels([]);
-    setShowDeleteDialog(false);
+  const handleSelectHotel = (hotelId: string) => {
+    setSelectedHotels(prev => 
+      prev.includes(hotelId) 
+        ? prev.filter(id => id !== hotelId)
+        : [...prev, hotelId]
+    );
   };
 
-  const handleBulkApprove = async () => {
-    for (const hotelId of selectedHotels) {
-      await handleApprove(hotelId);
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return 'bg-green-500 text-white';
+      case 'pending':
+        return 'bg-yellow-500 text-white';
+      case 'rejected':
+        return 'bg-red-500 text-white';
+      default:
+        return 'bg-gray-500 text-white';
     }
-    setSelectedHotels([]);
-    setShowApproveDialog(false);
   };
 
-  const handleSingleDelete = async () => {
-    if (hotelToDelete) {
-      await handleDelete(hotelToDelete);
-      setHotelToDelete(null);
-      setShowSingleDeleteDialog(false);
-    }
+  const renderStars = (category: number) => {
+    const stars = Math.max(1, Math.min(5, category || 3));
+    return '⭐'.repeat(stars);
   };
 
   if (loading) {
-    return <div className="text-white">Loading hotels...</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <RefreshCw className="h-8 w-8 animate-spin text-purple-400" />
+        <span className="ml-2 text-white">Loading hotels...</span>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4 items-center">
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-48 bg-[#4b0456] text-white border-purple-400">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={countryFilter} onValueChange={setCountryFilter}>
-          <SelectTrigger className="w-48 bg-[#4b0456] text-white border-purple-400">
-            <SelectValue placeholder="Filter by country" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Countries</SelectItem>
-            {countries.map(country => (
-              <SelectItem key={country} value={country}>{country}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {selectedHotels.length > 0 && (
-          <div className="flex gap-2">
-            <Button
-              onClick={() => setShowApproveDialog(true)}
-              className="bg-green-600 hover:bg-green-700 text-white"
-            >
-              Approve Selected ({selectedHotels.length})
-            </Button>
-            <Button
-              onClick={() => setShowDeleteDialog(true)}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete Selected ({selectedHotels.length})
-            </Button>
-          </div>
-        )}
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-white">Hotels Management</h1>
+        <Button 
+          onClick={fetchHotels}
+          className="bg-purple-600 hover:bg-purple-700 text-white"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh
+        </Button>
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center p-3 bg-[#4b0456] rounded-lg border border-purple-400">
-          <input
-            type="checkbox"
-            checked={selectedHotels.length === filteredHotels.length && filteredHotels.length > 0}
-            onChange={(e) => handleSelectAll(e.target.checked)}
-            className="mr-4"
-          />
-          <div className="flex-1 grid grid-cols-12 gap-4 text-white font-semibold text-sm">
-            <div className="col-span-3">Hotel Name</div>
-            <div className="col-span-2">Location</div>
-            <div className="col-span-1">Price</div>
-            <div className="col-span-1">Status</div>
-            <div className="col-span-2">Owner</div>
-            <div className="col-span-1">Created</div>
-            <div className="col-span-2">Actions</div>
-          </div>
+      {/* Filters */}
+      <div className="flex gap-4 mb-6">
+        <div className="flex items-center gap-2">
+          <span className="text-white font-medium">Filter by Status:</span>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-48 bg-white">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="approved">Approved</SelectItem>
+              <SelectItem value="rejected">Rejected</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {filteredHotels.map(hotel => (
-          <div key={hotel.id} className="flex items-center p-3 bg-[#4b0456] rounded-lg border border-purple-400 hover:bg-[#5a1661] transition-colors">
+        <div className="flex items-center gap-2">
+          <span className="text-white font-medium">Filter by Country:</span>
+          <Select value={countryFilter} onValueChange={setCountryFilter}>
+            <SelectTrigger className="w-48 bg-white">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Countries</SelectItem>
+              {availableCountries.map(country => (
+                <SelectItem key={country} value={country}>{country}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Select All */}
+      <div className="flex items-center gap-3 mb-4 p-4 bg-gray-800/50 rounded-lg">
+        <input
+          type="checkbox"
+          checked={selectedHotels.length === filteredHotels.length && filteredHotels.length > 0}
+          onChange={handleSelectAll}
+          className="h-4 w-4"
+        />
+        <span className="text-white font-medium">
+          Select All ({filteredHotels.length} hotels)
+        </span>
+      </div>
+
+      {/* Hotels List */}
+      <div className="space-y-4">
+        {filteredHotels.map((hotel) => (
+          <div key={hotel.id} className="bg-gray-800/50 rounded-lg p-4 flex items-center gap-4">
             <input
               type="checkbox"
               checked={selectedHotels.includes(hotel.id)}
-              onChange={(e) => handleSelectHotel(hotel.id, e.target.checked)}
-              className="mr-4"
+              onChange={() => handleSelectHotel(hotel.id)}
+              className="h-4 w-4"
             />
-            <div className="flex-1 grid grid-cols-12 gap-4 items-center text-white text-sm">
-              <div className="col-span-3 font-medium">{hotel.name}</div>
-              <div className="col-span-2">{hotel.city}, {hotel.country}</div>
-              <div className="col-span-1">€{hotel.starting_price}/month</div>
-              <div className="col-span-1">
-                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  hotel.status === 'approved' ? 'bg-green-600' : 
-                  hotel.status === 'pending' ? 'bg-yellow-600' : 'bg-red-600'
-                }`}>
+            
+            <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center text-gray-400 text-xs">
+              {hotel.main_image_url ? (
+                <img 
+                  src={hotel.main_image_url} 
+                  alt={hotel.name}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              ) : (
+                'No img'
+              )}
+            </div>
+
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-white font-semibold text-lg">{hotel.name}</h3>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(hotel.status)}`}>
                   {hotel.status}
                 </span>
+                <span className="text-yellow-400 text-sm">
+                  {renderStars(hotel.category)}
+                </span>
               </div>
-              <div className="col-span-2">
-                {hotel.profiles?.first_name} {hotel.profiles?.last_name}
+              <div className="flex items-center gap-4 text-gray-300 text-sm">
+                <span>📍 {hotel.city}, {hotel.country}</span>
+                <span>💰 €{hotel.price_per_month}/month</span>
               </div>
-              <div className="col-span-1">{new Date(hotel.created_at).toLocaleDateString()}</div>
-              <div className="col-span-2 flex gap-1">
-                <Button
-                  size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs"
-                  onClick={() => window.open(`/hotel/${hotel.id}`, '_blank')}
-                >
-                  <Eye className="h-3 w-3 mr-1" />
-                  View
-                </Button>
-                <Button
-                  size="sm"
-                  className="bg-[#4b0456] hover:bg-[#5a1661] text-white border border-purple-400 px-2 py-1 text-xs"
-                  onClick={() => window.open(`/dashboard/property/${hotel.id}`, '_blank')}
-                >
-                  <Edit className="h-3 w-3 mr-1" />
-                  Edit
-                </Button>
-                {hotel.status === 'pending' && (
-                  <Button
-                    size="sm"
-                    className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 text-xs"
-                    onClick={() => handleApprove(hotel.id)}
-                  >
-                    <Check className="h-3 w-3 mr-1" />
-                    Approve
-                  </Button>
-                )}
-                <Button
-                  size="sm"
-                  className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs"
-                  onClick={() => {
-                    setHotelToDelete(hotel.id);
-                    setShowSingleDeleteDialog(true);
-                  }}
-                >
-                  <Trash2 className="h-3 w-3 mr-1" />
-                  Delete
-                </Button>
-              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Eye className="h-4 w-4 mr-1" />
+                View
+              </Button>
+              <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Edit className="h-4 w-4 mr-1" />
+                Edit
+              </Button>
+              <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white">
+                <Trash2 className="h-4 w-4 mr-1" />
+                Delete
+              </Button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Bulk Delete Confirmation Dialog */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent className="bg-[#4b0456] text-white border border-purple-400">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Bulk Delete</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-300">
-              Are you sure you want to delete {selectedHotels.length} selected hotels? This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-600 hover:bg-gray-700 text-white border-gray-500">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleBulkDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete Hotels
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Bulk Approve Confirmation Dialog */}
-      <AlertDialog open={showApproveDialog} onOpenChange={setShowApproveDialog}>
-        <AlertDialogContent className="bg-[#4b0456] text-white border border-purple-400">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Bulk Approve</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-300">
-              Are you sure you want to approve {selectedHotels.length} selected hotels?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-600 hover:bg-gray-700 text-white border-gray-500">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleBulkApprove}
-              className="bg-green-600 hover:bg-green-700 text-white"
-            >
-              Approve Hotels
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Single Delete Confirmation Dialog */}
-      <AlertDialog open={showSingleDeleteDialog} onOpenChange={setShowSingleDeleteDialog}>
-        <AlertDialogContent className="bg-[#4b0456] text-white border border-purple-400">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Delete</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-300">
-              Are you sure you want to delete this hotel? This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-600 hover:bg-gray-700 text-white border-gray-500">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleSingleDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete Hotel
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {filteredHotels.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-400 text-lg">No hotels found matching the current filters.</p>
+        </div>
+      )}
     </div>
   );
-}
+};

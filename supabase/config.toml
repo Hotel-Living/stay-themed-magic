@@ -1,25 +1,80 @@
 
 project_id = "pgdzrvdwgoomjnnegkcn"
 
-[auth]
+[api]
 enabled = true
-site_url = "https://pgdzrvdwgoomjnnegkcn.supabase.co"
-additional_redirect_urls = ["https://lovable.dev"]
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[functions.creacion-hoteles-32-dias]
+verify_jwt = true
+
+[functions.batch-create-hotels]
+verify_jwt = true
+
+[functions.batch-generate-text-completions]
+verify_jwt = true
+
+[functions.batch-hotel-creation]
+verify_jwt = true
+
+[functions.batch-populate-hotel-images]
+verify_jwt = true
+
+[functions.batch-populate-pending-fields]
+verify_jwt = true
+
+[functions.batch-populate-room-images]
+verify_jwt = true
+
+[functions.batch-translate-hotels]
+verify_jwt = true
+
+[functions.fetch-hotel-images]
+verify_jwt = true
+
+[functions.get-hotel-overview]
+verify_jwt = true
+
+[functions.send-join-us-notification]
+verify_jwt = false
+
+[functions.send-notification]
+verify_jwt = true
+
+[functions.setup-cleanup-cron]
+verify_jwt = true
 
 [db]
+enabled = true
+port = 54322
+shadow_port = 54320
 major_version = 15
 
-[functions.get-affinities]
-verify_jwt = false
+[db.pooler]
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 25
+max_client_conn = 100
 
-[functions.notify-admin-registration]
-verify_jwt = false
+[realtime]
+enabled = true
+ip_version = "ipv6"
 
-[functions.remove_pending_change_field]
-verify_jwt = false
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1:54321"
 
-[functions.export-themes]
-verify_jwt = false
+[inbucket]
+enabled = true
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
 
-[functions.export-activities]
-verify_jwt = false
+[storage]
+enabled = true
+file_size_limit = "50MiB"

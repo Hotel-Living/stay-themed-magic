@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Plus, CheckCircle, AlertCircle } from "lucide-react";
+import { Loader2, Plus, CheckCircle, AlertCircle, MapPin, Building, Palette } from "lucide-react";
 
 interface BatchResult {
   success: boolean;
@@ -18,6 +18,12 @@ interface BatchResult {
       name: string;
       city: string;
       country: string;
+      address?: string;
+      postal_code?: string;
+      property_type?: string;
+      style?: string;
+      latitude?: number;
+      longitude?: number;
     }>;
   };
 }
@@ -77,10 +83,40 @@ export const BatchHotelCreation = () => {
             Batch Hotel Creation
           </CardTitle>
           <CardDescription>
-            Create multiple hotels with random data for testing purposes
+            Create multiple hotels with complete mandatory fields including addresses, coordinates, property types, and styles
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h4 className="font-medium text-blue-900 mb-2">Mandatory Fields Included:</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-blue-800">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Complete Address (Street, City, Country, Postal Code)
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                GPS Coordinates (Latitude, Longitude)
+              </div>
+              <div className="flex items-center gap-2">
+                <Building className="w-4 h-4" />
+                Property Type (Hotel/Resort/Boutique)
+              </div>
+              <div className="flex items-center gap-2">
+                <Palette className="w-4 h-4" />
+                Property Style (Classic/Modern/Luxury/etc.)
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" />
+                Full Month Availability
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4" />
+                Half Board Meal Plan
+              </div>
+            </div>
+          </div>
+          
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <label htmlFor="hotel-count" className="block text-sm font-medium mb-2">
@@ -104,10 +140,10 @@ export const BatchHotelCreation = () => {
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Creating Real Hotels with Full Configuration...
+                  Creating Hotels with Complete Data...
                 </>
               ) : (
-                `Create ${count} Hotels`
+                `Create ${count} Hotels with Full Address Data`
               )}
             </Button>
           </div>
@@ -148,13 +184,45 @@ export const BatchHotelCreation = () => {
 
                 {result.stats.hotelDetails.length > 0 && (
                   <div>
-                    <h4 className="font-medium mb-2">Created Hotels:</h4>
-                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                    <h4 className="font-medium mb-2">Created Hotels with Complete Address Data:</h4>
+                    <div className="space-y-3 max-h-60 overflow-y-auto">
                       {result.stats.hotelDetails.map((hotel) => (
-                        <div key={hotel.id} className="p-3 bg-gray-50 rounded-lg">
-                          <p className="font-medium">{hotel.name}</p>
-                          <p className="text-sm text-gray-600">{hotel.city}, {hotel.country}</p>
-                          <p className="text-xs text-gray-500">ID: {hotel.id}</p>
+                        <div key={hotel.id} className="p-4 bg-gray-50 rounded-lg border">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                              <p className="font-medium text-lg">{hotel.name}</p>
+                              <div className="flex items-center gap-1 text-sm text-gray-600 mt-1">
+                                <MapPin className="w-3 h-3" />
+                                {hotel.city}, {hotel.country}
+                              </div>
+                              {hotel.address && (
+                                <p className="text-sm text-gray-600">📍 {hotel.address}</p>
+                              )}
+                              {hotel.postal_code && (
+                                <p className="text-sm text-gray-600">📮 {hotel.postal_code}</p>
+                              )}
+                            </div>
+                            <div className="space-y-1 text-sm">
+                              {hotel.property_type && (
+                                <div className="flex items-center gap-1">
+                                  <Building className="w-3 h-3" />
+                                  <span className="font-medium">Type:</span> {hotel.property_type}
+                                </div>
+                              )}
+                              {hotel.style && (
+                                <div className="flex items-center gap-1">
+                                  <Palette className="w-3 h-3" />
+                                  <span className="font-medium">Style:</span> {hotel.style}
+                                </div>
+                              )}
+                              {hotel.latitude && hotel.longitude && (
+                                <div className="text-xs text-gray-500">
+                                  📍 {hotel.latitude.toFixed(4)}, {hotel.longitude.toFixed(4)}
+                                </div>
+                              )}
+                              <p className="text-xs text-gray-500">ID: {hotel.id}</p>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>

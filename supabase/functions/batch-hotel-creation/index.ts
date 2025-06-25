@@ -1,195 +1,137 @@
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
-
-// Approved countries list - Italy is excluded as requested
-const APPROVED_COUNTRIES = [
-  'Poland', 'Hungary', 'Romania', 'Canada', 'Ireland', 'Germany', 
-  'Portugal', 'Belgium', 'Netherlands', 'Luxembourg', 'Switzerland', 
-  'Austria', 'Denmark', 'Norway', 'Sweden', 'Greece', 'Finland', 
-  'Iceland', 'France', 'United Kingdom', 'Turkey', 'Thailand', 'Morocco'
-];
-
-// Predefined hotel features list
-const HOTEL_FEATURES = [
-  'WiFi', 'Restaurant', 'Bar', 'Gym', 'Spa', 'Pool', 'Parking', 
-  'Room Service', 'Concierge', 'Business Center', 'Laundry Service',
-  'Pet Friendly', 'Airport Shuttle', 'Meeting Rooms', 'Garden',
-  'Terrace', 'Library', '24/7 Reception', 'Breakfast', 'Elevator',
-  'Air Conditioning', 'Heating', 'Soundproof Rooms', 'Non-smoking Rooms',
-  'Safe', 'Luggage Storage', 'Currency Exchange', 'Tour Desk',
-  'Bicycle Rental', 'Car Rental', 'Multilingual Staff', 'Conference Facilities'
-];
-
-// Predefined room features list
-const ROOM_FEATURES = [
-  'Private Bathroom', 'Shower', 'Bathtub', 'Hair Dryer', 'TV',
-  'Mini Bar', 'Safe', 'Desk', 'Wardrobe', 'Balcony', 'City View',
-  'Sea View', 'Mountain View', 'Garden View', 'Kitchenette',
-  'Coffee Machine', 'Tea Facilities', 'Iron', 'Sofa', 'Dining Table',
-  'Free Toiletries', 'Towels', 'Slippers', 'Bathrobe'
-];
-
-// Real hotel data by country
-const REAL_HOTELS = {
-  'Poland': [
-    { name: 'Hotel Bristol Warsaw', city: 'Warsaw', address: 'Krakowskie Przedmieście 42/44, 00-325 Warsaw' },
-    { name: 'Grand Hotel Krakow', city: 'Krakow', address: 'Sławkowska 5/7, 31-014 Kraków' },
-    { name: 'Hotel Copernicus', city: 'Krakow', address: 'Kanonicza 16, 31-002 Kraków' }
-  ],
-  'Hungary': [
-    { name: 'Four Seasons Hotel Gresham Palace', city: 'Budapest', address: 'Széchenyi István tér 5-6, 1051 Budapest' },
-    { name: 'Aria Hotel Budapest', city: 'Budapest', address: 'Hercegprímás u. 5, 1051 Budapest' },
-    { name: 'Kempinski Hotel Corvinus', city: 'Budapest', address: 'Erzsébet tér 7-8, 1051 Budapest' }
-  ],
-  'Romania': [
-    { name: 'JW Marriott Bucharest Grand Hotel', city: 'Bucharest', address: 'Calea 13 Septembrie 90, 050726 București' },
-    { name: 'The Marmorosch Bucharest', city: 'Bucharest', address: 'Strada Doamnei 2-4, 030167 București' }
-  ],
-  'Canada': [
-    { name: 'Fairmont Hotel Vancouver', city: 'Vancouver', address: '900 W Georgia St, Vancouver, BC V6C 2W6' },
-    { name: 'The Ritz-Carlton Toronto', city: 'Toronto', address: '181 Wellington St W, Toronto, ON M5V 3G7' },
-    { name: 'Château Frontenac', city: 'Quebec City', address: '1 Rue des Carrières, Québec, QC G1R 4P5' }
-  ],
-  'Ireland': [
-    { name: 'The Fitzwilliam Hotel', city: 'Dublin', address: 'St Stephens Green, Dublin 2, D02 XK84' },
-    { name: 'The Shelbourne', city: 'Dublin', address: '27 St Stephens Green, Dublin 2, D02 K224' }
-  ],
-  'Germany': [
-    { name: 'Bayerischer Hof', city: 'Munich', address: 'Promenadeplatz 2-6, 80333 München' },
-    { name: 'Hotel Adlon Kempinski', city: 'Berlin', address: 'Unter den Linden 77, 10117 Berlin' }
-  ],
-  'Portugal': [
-    { name: 'Reid\'s Palace', city: 'Funchal', address: 'Estrada Monumental 139, 9000-098 Funchal' },
-    { name: 'Pousada de Lisboa', city: 'Lisbon', address: 'Praça do Comércio 31-34, 1100-148 Lisboa' }
-  ],
-  'Belgium': [
-    { name: 'Rocco Forte Hotel des Galeries', city: 'Brussels', address: 'Rue des Bouchers 38, 1000 Bruxelles' },
-    { name: 'Hotel des Galeries', city: 'Brussels', address: 'Rue des Bouchers 38, 1000 Bruxelles' }
-  ],
-  'Netherlands': [
-    { name: 'Waldorf Astoria Amsterdam', city: 'Amsterdam', address: 'Herengracht 542-556, 1017 CG Amsterdam' },
-    { name: 'The Hoxton Amsterdam', city: 'Amsterdam', address: 'Herengracht 255, 1016 BJ Amsterdam' }
-  ],
-  'Luxembourg': [
-    { name: 'Hotel Le Royal', city: 'Luxembourg City', address: '12 Boulevard Royal, 2449 Luxembourg' }
-  ],
-  'Switzerland': [
-    { name: 'Baur au Lac', city: 'Zurich', address: 'Talstrasse 1, 8001 Zürich' },
-    { name: 'The Dolder Grand', city: 'Zurich', address: 'Kurhausstrasse 65, 8032Zürich' }
-  ],
-  'Austria': [
-    { name: 'Hotel Sacher Wien', city: 'Vienna', address: 'Philharmoniker Str. 4, 1010 Wien' },
-    { name: 'Hotel Imperial', city: 'Vienna', address: 'Kärntner Ring 16, 1015 Wien' }
-  ],
-  'Denmark': [
-    { name: 'Radisson Collection Royal Hotel', city: 'Copenhagen', address: 'Hammerichsgade 1, 1611 København' },
-    { name: 'Hotel d\'Angleterre', city: 'Copenhagen', address: 'Kongens Nytorv 34, 1050 København' }
-  ],
-  'Norway': [
-    { name: 'Hotel Continental Oslo', city: 'Oslo', address: 'Stortingsgata 24/26, 0117 Oslo' },
-    { name: 'Radisson Blu Royal Hotel', city: 'Bergen', address: 'Bryggen, 5003 Bergen' }
-  ],
-  'Sweden': [
-    { name: 'Grand Hôtel Stockholm', city: 'Stockholm', address: 'Södra Blasieholmshamnen 8, 103 27 Stockholm' },
-    { name: 'Hotel Diplomat', city: 'Stockholm', address: 'Strandvägen 7C, 114 56 Stockholm' }
-  ],
-  'Greece': [
-    { name: 'King George Athens', city: 'Athens', address: '3 Vasileos Georgiou A\', Syntagma Square, 105 64 Athens' },
-    { name: 'Hotel Grande Bretagne', city: 'Athens', address: '1 Vasileos Georgiou A\' Str, 105 64 Athens' }
-  ],
-  'Finland': [
-    { name: 'Hotel Kämp', city: 'Helsinki', address: 'Pohjoisesplanadi 29, 00100 Helsinki' },
-    { name: 'Scandic Helsinki City', city: 'Helsinki', address: 'Mannerheiminaukio 1C, 00100 Helsinki' },
-    { name: 'Hotel Arctic TreeHouse', city: 'Rovaniemi', address: 'Tarvantie 3, 96930 Rovaniemi' }
-  ],
-  'Iceland': [
-    { name: 'The Retreat at Blue Lagoon', city: 'Grindavik', address: 'Nordurljósavegur 9, 240 Grindavík' },
-    { name: 'Hotel Borg', city: 'Reykjavik', address: 'Pósthússtræti 11, 101 Reykjavík' }
-  ],
-  'France': [
-    { name: 'InterContinental Carlton Cannes', city: 'Cannes', address: '58 Bd de la Croisette, 06414 Cannes' },
-    { name: 'Hotel Martinez', city: 'Cannes', address: '73 Bd de la Croisette, 06400 Cannes' },
-    { name: 'Hotel Lutetia', city: 'Paris', address: '45 Bd Raspail, 75006 Paris' }
-  ],
-  'United Kingdom': [
-    { name: 'The Savoy', city: 'London', address: 'Strand, London WC2R 0EU' },
-    { name: 'Claridge\'s', city: 'London', address: 'Brook St, London W1K 4HR' },
-    { name: 'The Balmoral', city: 'Edinburgh', address: '1 Princes St, Edinburgh EH2 2EQ' }
-  ],
-  'Turkey': [
-    { name: 'Museum Hotel', city: 'Nevsehir', address: 'Tekelli Mah, Uçhisar, 50240 Ürgüp/Nevşehir' },
-    { name: 'Four Seasons Hotel Istanbul', city: 'Istanbul', address: 'Tevkifhane Sk. No:1, 34110 Fatih/İstanbul' }
-  ],
-  'Thailand': [
-    { name: 'The Oriental Bangkok', city: 'Bangkok', address: '48 Oriental Ave, Khwaeng Bang Rak, Bangkok 10500' },
-    { name: 'The Sukhothai Bangkok', city: 'Bangkok', address: '13/3 S Sathon Rd, Thung Mahamek, Sathon, Bangkok 10120' }
-  ],
-  'Morocco': [
-    { name: 'La Mamounia', city: 'Marrakech', address: 'Av. Bab Jdid, Marrakech 40040' },
-    { name: 'Royal Mansour', city: 'Marrakech', address: 'Rue Abou Abbas El Sebti, Marrakech 40000' }
-  ]
 };
 
-function getRandomHotelFeatures(): Record<string, boolean> {
-  const count = Math.floor(Math.random() * 8) + 12; // 12-19 features
-  const shuffled = HOTEL_FEATURES.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, count);
+// Luxury exclusion filters
+const EXCLUDED_NAME_TERMS = [
+  'Palace', 'Palácio', 'Palacio', 'Mansion', 'Mansión', 'Collection',
+  'Luxury', 'Royal', 'Imperial', 'Grand', 'Heritage', 'Boutique Collection',
+  'Signature', 'Autograph', 'Exclusive', 'Superior'
+];
+
+const EXCLUDED_LUXURY_CHAINS = [
+  'Four Seasons', 'Mandarin Oriental', 'The Ritz-Carlton', 'St. Regis',
+  'Waldorf Astoria', 'Park Hyatt', 'Rosewood', 'Aman', 'Bulgari Hotels',
+  'Kempinski', 'The Peninsula', 'InterContinental', 'Sofitel',
+  'JW Marriott', 'Edition', 'Conrad', 'The Luxury Collection',
+  'Fairmont', 'Raffles', 'Shangri-La', 'Anantara', 'Banyan Tree',
+  'Leading Hotels of the World', 'Relais & Châteaux'
+];
+
+const EXCLUDED_CATEGORY_TERMS = [
+  '5-star', 'Five Star', '*****', 'Superior deluxe',
+  'Ultra luxury', 'Ultra-luxury', 'Premium resort'
+];
+
+// Mid-market 3-4 star hotels only
+const REAL_HOTELS = [
+  { name: "Hotel Scandic Oslo City", city: "Oslo", country: "Norway", address: "Europarådsplass 1, 0154 Oslo" },
+  { name: "Best Western Hotel Bentleys", city: "Stockholm", country: "Sweden", address: "Drottninggatan 77, 111 60 Stockholm" },
+  { name: "Hotel NH Copenhagen", city: "Copenhagen", country: "Denmark", address: "Vester Farimagsgade 6, 1606 Copenhagen" },
+  { name: "Ibis Styles Berlin Mitte", city: "Berlin", country: "Germany", address: "Brunnenstraße 1, 10119 Berlin" },
+  { name: "Holiday Inn Express Amsterdam", city: "Amsterdam", country: "Netherlands", address: "Sloterdijk Station, 1043 Amsterdam" },
+  { name: "Mercure Hotel Vienna Center", city: "Vienna", country: "Austria", address: "Fleischmarkt 1a, 1010 Vienna" },
+  { name: "Novotel Zurich City West", city: "Zurich", country: "Switzerland", address: "Schiffbaustrasse 13, 8005 Zurich" },
+  { name: "Hotel Clarion Brussels", city: "Brussels", country: "Belgium", address: "Avenue des Arts 2-3, 1210 Brussels" },
+  { name: "Comfort Hotel Prague", city: "Prague", country: "Czech Republic", address: "Spálená 33, 110 00 Prague" },
+  { name: "Hotel Ibis Budapest Centrum", city: "Budapest", country: "Hungary", address: "Rákóczi út 58, 1074 Budapest" },
+  { name: "Quality Hotel Warsaw", city: "Warsaw", country: "Poland", address: "Plac Konstytucji 5, 00-647 Warsaw" },
+  { name: "Hotel Europa Vilnius", city: "Vilnius", country: "Lithuania", address: "Aušros Vartų g. 17, 01304 Vilnius" },
+  { name: "Hotel Tallink Riga", city: "Riga", country: "Latvia", address: "Elizabetes iela 24, LV-1050 Riga" },
+  { name: "Hotel Olympia Tallinn", city: "Tallinn", country: "Estonia", address: "Liivalaia 33, 10118 Tallinn" },
+  { name: "Hotel Scandic Helsinki", city: "Helsinki", country: "Finland", address: "Simonkatu 9, 00100 Helsinki" },
+  { name: "Best Western Hotel Reykjavik", city: "Reykjavik", country: "Iceland", address: "Rauðarárstígur 37, 105 Reykjavik" },
+  { name: "Hotel Novotel Lisboa", city: "Lisbon", country: "Portugal", address: "Av. José Malhoa 1A, 1070-392 Lisboa" },
+  { name: "Hotel NH Madrid Centro", city: "Madrid", country: "Spain", address: "Paseo del Prado 48, 28014 Madrid" },
+  { name: "Hotel Ibis Barcelona Centro", city: "Barcelona", country: "Spain", address: "Carrer del Pintor Fortuny 13, 08001 Barcelona" },
+  { name: "Hotel Mercure Lyon Centre", city: "Lyon", country: "France", address: "60 Bd Vivier Merle, 69003 Lyon" },
+  { name: "Hotel Novotel Paris Centre", city: "Paris", country: "France", address: "4 Rue de la Paix, 75002 Paris" },
+  { name: "Holiday Inn London Kensington", city: "London", country: "United Kingdom", address: "100 Cromwell Rd, London SW7 4ER" },
+  { name: "Hotel Travelodge Manchester", city: "Manchester", country: "United Kingdom", address: "55 Portland St, Manchester M1 3HP" },
+  { name: "Hotel Clayton Dublin", city: "Dublin", country: "Ireland", address: "Charlemont St, Saint Kevin's, Dublin" },
+  { name: "Hotel Thon Brussels", city: "Brussels", country: "Belgium", address: "Avenue Louise 212, 1050 Brussels" },
+  { name: "Hotel Scandic Gothenburg", city: "Gothenburg", country: "Sweden", address: "Södra Hamngatan 59-65, 411 06 Göteborg" },
+  { name: "Hotel Quality Inn Trondheim", city: "Trondheim", country: "Norway", address: "Kjøpmannsgata 48, 7011 Trondheim" },
+  { name: "Hotel Park Inn Copenhagen", city: "Copenhagen", country: "Denmark", address: "Østerbrogade 53, 2100 Copenhagen" },
+  { name: "Hotel Comfort Düsseldorf", city: "Düsseldorf", country: "Germany", address: "Grafenberger Allee 277, 40237 Düsseldorf" }
+];
+
+// Approved countries (excluding Italy as per requirements)
+const APPROVED_COUNTRIES = [
+  "Spain", "France", "Germany", "Netherlands", "Belgium", "Austria", 
+  "Switzerland", "Portugal", "United Kingdom", "Ireland", "Sweden", 
+  "Norway", "Denmark", "Finland", "Iceland", "Czech Republic", 
+  "Hungary", "Poland", "Estonia", "Latvia", "Lithuania"
+];
+
+const HOTEL_FEATURES = [
+  "WiFi", "Air Conditioning", "Heating", "24/7 Reception", "Elevator", 
+  "Room Service", "Laundry Service", "Concierge", "Business Center", 
+  "Meeting Rooms", "Airport Shuttle", "Parking", "Pet Friendly", 
+  "Non-Smoking Rooms", "Accessibility Features", "Luggage Storage", 
+  "Currency Exchange", "Tour Desk", "Multilingual Staff", "Safe Deposit Box",
+  "Wake-up Service", "Ironing Service", "Daily Housekeeping", "Express Check-in/out"
+];
+
+const ROOM_FEATURES = [
+  "Private Bathroom", "Shower", "Hairdryer", "Towels", "Bed Linen", 
+  "Work Desk", "Telephone", "TV", "Mini Fridge", "Safe", 
+  "Wardrobe", "Seating Area", "Coffee/Tea Maker", "Blackout Curtains", 
+  "Sound Insulation", "Wake-up Service", "Iron", "Slippers"
+];
+
+// Function to check if hotel is luxury and should be excluded
+function isLuxuryHotel(hotelName: string): boolean {
+  const nameUpper = hotelName.toUpperCase();
   
-  const features: Record<string, boolean> = {};
-  selected.forEach(feature => {
-    features[feature] = true;
-  });
+  // Check for excluded name terms
+  const hasExcludedTerm = EXCLUDED_NAME_TERMS.some(term => 
+    nameUpper.includes(term.toUpperCase())
+  );
   
-  return features;
+  // Check for excluded luxury chains
+  const isLuxuryChain = EXCLUDED_LUXURY_CHAINS.some(chain => 
+    nameUpper.includes(chain.toUpperCase())
+  );
+  
+  // Check for excluded category terms
+  const hasLuxuryCategory = EXCLUDED_CATEGORY_TERMS.some(category => 
+    nameUpper.includes(category.toUpperCase())
+  );
+  
+  return hasExcludedTerm || isLuxuryChain || hasLuxuryCategory;
 }
 
-function getRandomRoomFeatures(): Record<string, boolean> {
-  const count = Math.floor(Math.random() * 6) + 7; // 7-12 features
-  const shuffled = ROOM_FEATURES.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, count);
-  
-  const features: Record<string, boolean> = {};
-  selected.forEach(feature => {
-    features[feature] = true;
-  });
-  
-  return features;
+function getRandomElements(array: any[], count: number) {
+  const shuffled = [...array].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 }
 
 function generateSmartPrice(): number {
-  // Generate prices between €950-1400, either multiples of 20 or ending in 95
-  const minPrice = 950;
-  const maxPrice = 1400;
-  
-  const useMultipleOf20 = Math.random() < 0.7; // 70% chance for multiples of 20
-  
-  if (useMultipleOf20) {
-    const minMultiple = Math.ceil(minPrice / 20);
-    const maxMultiple = Math.floor(maxPrice / 20);
-    const randomMultiple = Math.floor(Math.random() * (maxMultiple - minMultiple + 1)) + minMultiple;
-    return randomMultiple * 20;
-  } else {
-    // Prices ending in 95
-    const bases = Math.floor(Math.random() * 5) + 9; // 9-13, so 995, 1095, 1195, 1295, 1395
-    return bases * 100 + 95;
+  const multiples = [];
+  for (let i = 960; i <= 1400; i += 20) {
+    multiples.push(i);
   }
+  
+  const ending95 = [];
+  for (let i = 995; i <= 1395; i += 100) {
+    ending95.push(i);
+  }
+  
+  const allPrices = [...multiples, ...ending95];
+  return allPrices[Math.floor(Math.random() * allPrices.length)];
 }
 
-serve(async (req) => {
-  // Handle CORS preflight requests
+Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log('Batch hotel creation request received');
-    
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
@@ -197,7 +139,8 @@ serve(async (req) => {
 
     const { action, maxHotels = 20, categoryRange, excludeLuxuryBrands, requireAllFields } = await req.json();
     
-    console.log(`Starting batch hotel creation: ${maxHotels} hotels, category ${categoryRange?.min}-${categoryRange?.max}`);
+    console.log('Batch hotel creation request received');
+    console.log(`Starting batch hotel creation: ${maxHotels} hotels, category ${categoryRange?.min || 3}-${categoryRange?.max || 4}`);
 
     const stats = {
       totalCreated: 0,
@@ -205,89 +148,143 @@ serve(async (req) => {
       hotelDetails: [] as string[]
     };
 
-    // Get all available countries and hotels
-    const availableHotels: any[] = [];
-    APPROVED_COUNTRIES.forEach(country => {
-      if (REAL_HOTELS[country]) {
-        REAL_HOTELS[country].forEach(hotel => {
-          availableHotels.push({ ...hotel, country });
-        });
+    // Filter hotels to exclude luxury properties
+    const availableHotels = REAL_HOTELS.filter(hotel => {
+      const hotelInApprovedCountry = APPROVED_COUNTRIES.includes(hotel.country);
+      const notLuxury = !isLuxuryHotel(hotel.name);
+      
+      if (!hotelInApprovedCountry) {
+        console.log(`Excluded ${hotel.name}: Country ${hotel.country} not approved`);
       }
+      if (!notLuxury) {
+        console.log(`Excluded ${hotel.name}: Identified as luxury hotel`);
+      }
+      
+      return hotelInApprovedCountry && notLuxury;
     });
 
-    // Shuffle and limit to requested count
-    const shuffledHotels = availableHotels.sort(() => 0.5 - Math.random()).slice(0, maxHotels);
+    console.log(`Available non-luxury hotels: ${availableHotels.length}`);
 
-    for (const hotelData of shuffledHotels) {
+    for (let i = 0; i < maxHotels && i < availableHotels.length; i++) {
       try {
-        const price = generateSmartPrice();
-        const hotelFeatures = getRandomHotelFeatures();
-        const roomFeatures = getRandomRoomFeatures();
+        const hotelTemplate = availableHotels[i];
+        
+        // Final luxury check before creation
+        if (isLuxuryHotel(hotelTemplate.name)) {
+          console.log(`Skipping luxury hotel: ${hotelTemplate.name}`);
+          stats.errors.push(`Skipped luxury hotel: ${hotelTemplate.name}`);
+          continue;
+        }
+
+        // Generate only 3-4 star categories
+        const categories = [3, 4];
+        const category = categories[Math.floor(Math.random() * categories.length)];
+        
+        const pricePerMonth = generateSmartPrice();
+        
+        // Generate 12-19 hotel features and 7-12 room features
+        const hotelFeatureCount = Math.floor(Math.random() * 8) + 12; // 12-19
+        const roomFeatureCount = Math.floor(Math.random() * 6) + 7; // 7-12
+        
+        const selectedHotelFeatures = getRandomElements(HOTEL_FEATURES, hotelFeatureCount);
+        const selectedRoomFeatures = getRandomElements(ROOM_FEATURES, roomFeatureCount);
 
         const newHotel = {
-          name: hotelData.name,
-          description: `Experience luxury accommodation in the heart of ${hotelData.city}. This distinguished hotel offers exceptional service and premium amenities for extended stays.`,
-          country: hotelData.country,
-          city: hotelData.city,
-          address: hotelData.address,
-          price_per_month: price,
-          category: Math.floor(Math.random() * 2) + 3, // 3-4 stars only
-          property_type: 'Hotel',
-          style: 'Modern',
-          ideal_guests: 'Business travelers, digital nomads, and extended stay guests seeking comfort and convenience.',
-          atmosphere: 'Professional yet welcoming, with a focus on comfort and productivity for long-term stays.',
-          perfect_location: `Strategically located in ${hotelData.city}, offering easy access to business districts, cultural attractions, and transportation hubs.`,
+          name: hotelTemplate.name,
+          country: hotelTemplate.country,
+          city: hotelTemplate.city,
+          address: hotelTemplate.address,
+          description: `A comfortable ${category}-star hotel located in ${hotelTemplate.city}, ${hotelTemplate.country}. Perfect for extended stays with modern amenities.`,
+          category: category,
+          price_per_month: pricePerMonth,
+          stars: category,
+          rating: parseFloat((3.5 + Math.random() * 1.5).toFixed(1)),
+          reviews: Math.floor(Math.random() * 500) + 50,
           status: 'approved',
-          available_months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          stay_lengths: [32], // Only 32 days as requested
-          meal_plans: ['Breakfast included', 'Half board', 'Full board'],
-          features_hotel: hotelFeatures,
-          features_room: roomFeatures,
-          check_in_weekday: 'Monday',
-          enable_price_increase: true,
-          price_increase_cap: 20,
-          main_image_url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop'
+          owner_id: null,
+          main_image: null,
+          features: selectedHotelFeatures,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         };
 
         const { data: hotel, error: hotelError } = await supabase
           .from('hotels')
-          .insert(newHotel)
+          .insert([newHotel])
           .select()
           .single();
 
         if (hotelError) {
-          console.error('Error creating hotel:', hotelError);
-          stats.errors.push(`Failed to create ${hotelData.name}: ${hotelError.message}`);
+          console.error(`Error creating hotel ${hotelTemplate.name}:`, hotelError);
+          stats.errors.push(`Failed to create ${hotelTemplate.name}: ${hotelError.message}`);
           continue;
         }
 
+        // Add room type with 32-day stays only
+        const roomType = {
+          hotel_id: hotel.id,
+          name: "Standard Room",
+          description: "Comfortable standard room with modern amenities",
+          base_rate: Math.floor(pricePerMonth / 30),
+          room_count: Math.floor(Math.random() * 20) + 10,
+          max_occupancy: 2,
+          size_sqm: Math.floor(Math.random() * 15) + 20,
+          features: selectedRoomFeatures,
+          images: []
+        };
+
+        const { error: roomError } = await supabase
+          .from('room_types')
+          .insert([roomType]);
+
+        if (roomError) {
+          console.error(`Error creating room type for ${hotelTemplate.name}:`, roomError);
+          stats.errors.push(`Failed to create room type for ${hotelTemplate.name}`);
+          continue;
+        }
+
+        // Add 32-day stay length only
+        const { error: stayError } = await supabase
+          .from('stay_lengths')
+          .insert([{
+            hotel_id: hotel.id,
+            length_days: 32,
+            price_per_month: pricePerMonth
+          }]);
+
+        if (stayError) {
+          console.error(`Error creating stay length for ${hotelTemplate.name}:`, stayError);
+        }
+
         stats.totalCreated++;
-        const hotelDetail = `${hotelData.name} - €${price}/month`;
-        stats.hotelDetails.push(hotelDetail);
-        console.log(`Created hotel: ${hotelDetail}`);
+        stats.hotelDetails.push(`${hotelTemplate.name} - €${pricePerMonth}/month`);
+        console.log(`Created hotel: ${hotelTemplate.name} - €${pricePerMonth}/month`);
 
       } catch (error) {
-        console.error('Error in hotel creation loop:', error);
-        stats.errors.push(`Failed to create ${hotelData.name}: ${error.message}`);
+        console.error(`Error processing hotel ${i}:`, error);
+        stats.errors.push(`Error processing hotel ${i}: ${error.message}`);
       }
     }
 
     console.log(`Batch creation completed. Created: ${stats.totalCreated}, Errors: ${stats.errors.length}`);
 
     return new Response(
-      JSON.stringify({ stats }),
+      JSON.stringify({ 
+        success: true, 
+        stats: stats
+      }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200 
       }
     );
 
   } catch (error) {
-    console.error('Batch creation error:', error);
+    console.error('Batch hotel creation error:', error);
     return new Response(
       JSON.stringify({ 
+        success: false, 
+        error: error.message,
         stats: {
           totalCreated: 0,
           errors: [error.message],
@@ -295,11 +292,8 @@ serve(async (req) => {
         }
       }),
       { 
-        status: 500, 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500 
       }
     );
   }

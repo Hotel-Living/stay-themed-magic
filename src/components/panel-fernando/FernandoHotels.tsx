@@ -3,223 +3,273 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Download, Edit, Trash2, Search } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import DeleteDialog from "@/components/dashboard/admin/DeleteDialog";
-
-interface Hotel {
-  id: string;
-  name: string;
-  city: string;
-  country: string;
-  status: string;
-  price_per_month: number;
-  created_at: string;
-}
+import { Eye, Edit, Trash2, Loader2 } from "lucide-react";
+import { useHotelsData } from "@/components/dashboard/admin/hooks/useHotelsData";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function FernandoHotels() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [hotelToDelete, setHotelToDelete] = useState<Hotel | null>(null);
   const { toast } = useToast();
+  const { fetchAllHotels } = useHotelsData();
+  const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false);
 
   const { data: hotels = [], isLoading, refetch } = useQuery({
-    queryKey: ["fernando-hotels", searchTerm],
+    queryKey: ['fernando-hotels'],
     queryFn: async () => {
-      let query = supabase
-        .from("hotels")
-        .select("id, name, city, country, status, price_per_month, created_at")
-        .order("created_at", { ascending: false });
-
-      if (searchTerm) {
-        query = query.or(`name.ilike.%${searchTerm}%,city.ilike.%${searchTerm}%,country.ilike.%${searchTerm}%`);
-      }
-
-      const { data, error } = await query;
-      if (error) throw error;
-      return data || [];
-    },
+      const result = await fetchAllHotels();
+      return result.data || [];
+    }
   });
 
-  const handleDeleteClick = (hotel: Hotel) => {
-    setHotelToDelete(hotel);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (!hotelToDelete) return;
-
-    try {
-      // Delete related data first
-      await supabase.from("hotel_images").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("hotel_themes").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("hotel_activities").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("hotel_availability").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("bookings").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("favorites").delete().eq("hotel_id", hotelToDelete.id);
-      await supabase.from("reviews").delete().eq("hotel_id", hotelToDelete.id);
-
-      // Finally delete the hotel
-      const { error } = await supabase
-        .from("hotels")
-        .delete()
-        .eq("id", hotelToDelete.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Hotel deleted",
-        description: `${hotelToDelete.name} has been permanently deleted.`,
-      });
-
-      await refetch();
-      setDeleteDialogOpen(false);
-      setHotelToDelete(null);
-    } catch (error) {
-      console.error("Error deleting hotel:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete hotel. Please try again.",
-        variant: "destructive",
-      });
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedHotels(hotels.map(hotel => hotel.id));
+    } else {
+      setSelectedHotels([]);
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
+  const handleSelectHotel = (hotelId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedHotels(prev => [...prev, hotelId]);
+    } else {
+      setSelectedHotels(prev => prev.filter(id => id !== hotelId));
+    }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "approved":
-        return "bg-green-500";
-      case "rejected":
-        return "bg-red-500";
-      case "pending":
-        return "bg-yellow-500";
-      default:
-        return "bg-gray-500";
+  const handleBulkDelete = async () => {
+    if (selectedHotels.length === 0) return;
+
+    setIsDeleting(true);
+    let successCount = 0;
+    let errorCount = 0;
+
+    try {
+      for (const hotelId of selectedHotels) {
+        try {
+          // Delete related data first
+          await supabase.from("hotel_images").delete().eq("hotel_id", hotelId);
+          await supabase.from("hotel_themes").delete().eq("hotel_id", hotelId);
+          await supabase.from("hotel_activities").delete().eq("hotel_id", hotelId);
+          await supabase.from("hotel_availability").delete().eq("hotel_id", hotelId);
+          await supabase.from("bookings").delete().eq("hotel_id", hotelId);
+          await supabase.from("favorites").delete().eq("hotel_id", hotelId);
+          await supabase.from("reviews").delete().eq("hotel_id", hotelId);
+
+          // Delete the hotel
+          const { error: deleteError } = await supabase
+            .from("hotels")
+            .delete()
+            .eq("id", hotelId);
+
+          if (deleteError) {
+            throw deleteError;
+          }
+
+          successCount++;
+        } catch (error) {
+          console.error(`Error deleting hotel ${hotelId}:`, error);
+          errorCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        toast({
+          title: "Bulk Delete Complete",
+          description: `Successfully deleted ${successCount} hotel(s).${errorCount > 0 ? ` Failed to delete ${errorCount} hotel(s).` : ''}`,
+        });
+      }
+
+      if (errorCount > 0 && successCount === 0) {
+        toast({
+          title: "Delete Failed",
+          description: "Failed to delete the selected hotels. Please try again.",
+          variant: "destructive"
+        });
+      }
+
+      setSelectedHotels([]);
+      await refetch();
+    } catch (error) {
+      console.error("Bulk delete error:", error);
+      toast({
+        title: "Error",
+        description: "An error occurred during bulk delete. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsDeleting(false);
+      setShowBulkDeleteDialog(false);
     }
   };
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-white">Hotels Management</h1>
-        </div>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
       </div>
     );
   }
 
+  const allSelected = hotels.length > 0 && selectedHotels.length === hotels.length;
+  const someSelected = selectedHotels.length > 0 && selectedHotels.length < hotels.length;
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-white">Hotels Management</h1>
-        <div className="flex gap-3">
-          <Button className="bg-pink-600 hover:bg-pink-700">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Hotel
-          </Button>
-          <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
-        </div>
-      </div>
-
-      <Card className="bg-purple-900/50 border-purple-700/50">
+      <Card className="bg-[#7a0486]">
         <CardHeader>
-          <div className="flex items-center space-x-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search hotels..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-purple-800/50 border-purple-600/50 text-white placeholder:text-gray-400"
-              />
+          <CardTitle className="text-white">Hotels Management</CardTitle>
+          {selectedHotels.length > 0 && (
+            <div className="flex items-center gap-4">
+              <span className="text-white/80 text-sm">
+                {selectedHotels.length} hotel(s) selected
+              </span>
+              <Button
+                onClick={() => setShowBulkDeleteDialog(true)}
+                disabled={isDeleting}
+                variant="destructive"
+                size="sm"
+              >
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete Selected
+                  </>
+                )}
+              </Button>
             </div>
-          </div>
+          )}
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-white">Hotels ({hotels.length})</CardTitle>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-purple-600/50">
-                    <th className="text-left py-3 px-4 text-white font-medium">Name</th>
-                    <th className="text-left py-3 px-4 text-white font-medium">Location</th>
-                    <th className="text-left py-3 px-4 text-white font-medium">Status</th>
-                    <th className="text-left py-3 px-4 text-white font-medium">Price/Month</th>
-                    <th className="text-left py-3 px-4 text-white font-medium">Created</th>
-                    <th className="text-left py-3 px-4 text-white font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {hotels.map((hotel) => (
-                    <tr key={hotel.id} className="border-b border-purple-800/30 hover:bg-purple-800/20">
-                      <td className="py-3 px-4 text-white font-medium">{hotel.name}</td>
-                      <td className="py-3 px-4 text-white/80">
-                        {hotel.city}, {hotel.country}
-                      </td>
-                      <td className="py-3 px-4">
-                        <Badge className={`${getStatusColor(hotel.status)} text-white`}>
-                          {hotel.status}
-                        </Badge>
-                      </td>
-                      <td className="py-3 px-4 text-white/80">€{hotel.price_per_month}</td>
-                      <td className="py-3 px-4 text-white/80">{formatDate(hotel.created_at)}</td>
-                      <td className="py-3 px-4">
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="border-blue-500/50 text-blue-400 hover:bg-blue-500/20"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDeleteClick(hotel)}
-                            className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {hotels.length === 0 && (
-              <div className="text-center py-8 text-white/60">
-                No hotels found matching your search criteria.
-              </div>
-            )}
+          <div className="rounded-md border border-purple-600/30 bg-purple-900/20">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-purple-600/30">
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={allSelected}
+                      onCheckedChange={handleSelectAll}
+                      ref={(el) => {
+                        if (el) {
+                          el.indeterminate = someSelected;
+                        }
+                      }}
+                    />
+                  </TableHead>
+                  <TableHead className="text-white">Name</TableHead>
+                  <TableHead className="text-white">Location</TableHead>
+                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead className="text-white">Category</TableHead>
+                  <TableHead className="text-white">Price/Month</TableHead>
+                  <TableHead className="text-white">Owner</TableHead>
+                  <TableHead className="text-white w-32">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {hotels.map((hotel) => (
+                  <TableRow key={hotel.id} className="border-purple-600/30">
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedHotels.includes(hotel.id)}
+                        onCheckedChange={(checked) => handleSelectHotel(hotel.id, checked as boolean)}
+                      />
+                    </TableCell>
+                    <TableCell className="text-white font-medium">
+                      {hotel.name}
+                    </TableCell>
+                    <TableCell className="text-white/80">
+                      {hotel.city}, {hotel.country}
+                    </TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        hotel.status === 'approved' ? 'bg-green-100 text-green-800' :
+                        hotel.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                        'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {hotel.status || 'pending'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-white/80">
+                      {hotel.category ? `${hotel.category} stars` : 'N/A'}
+                    </TableCell>
+                    <TableCell className="text-white/80">
+                      €{hotel.price_per_month}
+                    </TableCell>
+                    <TableCell className="text-white/80">
+                      {hotel.profiles?.first_name || 'N/A'} {hotel.profiles?.last_name || ''}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>
 
-      <DeleteDialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        onConfirm={handleDeleteConfirm}
-        hotelName={hotelToDelete?.name || ""}
-      />
+      <AlertDialog open={showBulkDeleteDialog} onOpenChange={setShowBulkDeleteDialog}>
+        <AlertDialogContent className="bg-purple-900 border-purple-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white">
+              Delete Selected Hotels
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-white/70">
+              Are you sure you want to delete {selectedHotels.length} selected hotel(s)? This action cannot be undone and will permanently remove all associated data including bookings, reviews, and images.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              onClick={() => setShowBulkDeleteDialog(false)}
+              disabled={isDeleting}
+              className="bg-gray-600 text-white hover:bg-gray-700"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                'Delete All Selected'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

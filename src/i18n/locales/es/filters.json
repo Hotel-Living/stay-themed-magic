@@ -77,14 +77,22 @@
       "triple": "Habitación Triple",
       "suite": "Suite",
       "apartment": "Apartamento",
-      "studio": "Estudio"
+      "studio": "Estudio",
+      "penthouse": "Ático",
+      "familyRoom": "Habitación Familiar",
+      "deluxe": "Habitación Deluxe",
+      "standard": "Habitación Estándar",
+      "presidential": "Suite Presidencial",
+      "junior": "Junior Suite"
     },
     "mealPlans": {
       "roomOnly": "Solo Habitación",
       "breakfast": "Desayuno",
       "halfBoard": "Media Pensión",
       "fullBoard": "Pensión Completa",
-      "allInclusive": "Todo Incluido"
+      "allInclusive": "Todo Incluido",
+      "laundry": "Lavandería",
+      "externalLaundry": "Lavandería Externa"
     },
     "roomFeatures": {
       "airConditioning": "Aire Acondicionado",
@@ -94,7 +102,13 @@
       "minibar": "Minibar",
       "safebox": "Caja Fuerte",
       "bathtub": "Bañera",
-      "shower": "Ducha"
+      "shower": "Ducha",
+      "kitchenette": "Cocina Pequeña",
+      "workspace": "Espacio de Trabajo",
+      "cityView": "Vista a la Ciudad",
+      "mountainView": "Vista a la Montaña",
+      "gardenView": "Vista al Jardín",
+      "privatePool": "Piscina Privada"
     },
     "hotelFeatures": {
       "pool": "Piscina",
@@ -106,7 +120,40 @@
       "petFriendly": "Admite Mascotas",
       "beachAccess": "Acceso a la Playa",
       "businessCenter": "Centro de Negocios",
-      "roomService": "Servicio de Habitaciones"
+      "roomService": "Servicio de Habitaciones",
+      "concierge": "Conserjería",
+      "laundryService": "Servicio de Lavandería",
+      "airport": "Traslado al Aeropuerto",
+      "tours": "Excursiones",
+      "rentals": "Alquileres"
+    },
+    "activities": {
+      "indoor": "Interior",
+      "outdoor": "Exterior",
+      "artCreativity": "Arte y Creatividad",
+      "cinemaMedia": "Cine y Medios",
+      "cookingFood": "Cocina y Comida",
+      "fitnessMovement": "Fitness y Movimiento",
+      "gamesEntertainment": "Juegos y Entretenimiento",
+      "languageActivities": "Actividades de Idiomas",
+      "learningTalks": "Aprendizaje y Charlas",
+      "mindBalance": "Mente y Equilibrio",
+      "musicStage": "Música y Escenario",
+      "animalEncounters": "Encuentros con Animales",
+      "adventure": "Aventura",
+      "gardeningGreenLiving": "Jardinería y Vida Verde",
+      "liveCulture": "Cultura en Vivo",
+      "natureTrails": "Naturaleza y Senderos",
+      "outdoorWellness": "Bienestar al Aire Libre",
+      "socialCommunity": "Social y Comunidad",
+      "sportsFitness": "Deportes y Fitness"
+    },
+    "stayLengths": {
+      "8days": "8 días",
+      "16days": "16 días",
+      "24days": "24 días",
+      "32days": "32 días",
+      "flexible": "Flexible"
     }
   }
 }

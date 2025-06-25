@@ -1,26 +1,25 @@
-
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Hotel } from "@/integrations/supabase/types/hotelTypes";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, Edit, Trash, Check, X, Star, MessageSquare, Users, Calendar, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Eye, Edit, Trash2, MessageSquare, RefreshCw } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export default function FernandoHotels() {
+export function FernandoHotels() {
   const [hotels, setHotels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedHotels, setSelectedHotels] = useState<string[]>([]);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    fetchHotels();
-  }, []);
+  const [selectAll, setSelectAll] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [countryFilter, setCountryFilter] = useState<string>("all");
+  const [availableCountries, setAvailableCountries] = useState<string[]>([]);
 
   const fetchHotels = async () => {
+    setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('hotels')
+        .from("hotels")
         .select(`
           *,
           hotel_images (
@@ -31,358 +30,353 @@ export default function FernandoHotels() {
             created_at
           ),
           hotel_themes (
-            theme_id,
+            id,
             themes (
               id,
-              name,
-              description,
-              category
+              name
             )
           ),
           hotel_activities (
-            activity_id,
+            id,
             activities (
               id,
-              name,
-              category
+              name
             )
           )
         `)
         .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching hotels:', error);
-        toast({
-          title: "Error",
-          description: "Failed to fetch hotels",
-          variant: "destructive"
-        });
-        return;
-      }
+      if (error) throw error;
 
-      setHotels(data || []);
+      const hotelsWithFixedStatus = data.map(hotel => ({
+        ...hotel,
+        status: hotel.status as "approved" | "pending" | "rejected"
+      }));
+
+      setHotels(hotelsWithFixedStatus);
+      
+      // Extract unique countries for filter
+      const countries = [...new Set(data.map(hotel => hotel.country).filter(Boolean))];
+      setAvailableCountries(countries.sort());
     } catch (error) {
-      console.error('Error in fetchHotels:', error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch hotels",
-        variant: "destructive"
-      });
+      console.error("Error fetching hotels:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleStatusChange = async (hotelId: string, newStatus: 'approved' | 'pending' | 'rejected') => {
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .update({ status: newStatus })
-        .eq('id', hotelId);
+  useEffect(() => {
+    fetchHotels();
+  }, []);
 
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to update hotel status",
-          variant: "destructive"
-        });
-        return;
-      }
+  // Filter hotels based on selected filters
+  const filteredHotels = hotels.filter(hotel => {
+    const statusMatch = statusFilter === "all" || hotel.status === statusFilter;
+    const countryMatch = countryFilter === "all" || hotel.country === countryFilter;
+    return statusMatch && countryMatch;
+  });
 
-      toast({
-        title: "Success",
-        description: `Hotel ${newStatus} successfully`,
-      });
-
-      // Refresh the hotels list
-      fetchHotels();
-    } catch (error) {
-      console.error('Error updating hotel status:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update hotel status",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleDeleteHotel = async (hotelId: string) => {
-    if (!confirm('Are you sure you want to delete this hotel?')) {
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .delete()
-        .eq('id', hotelId);
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to delete hotel",
-          variant: "destructive"
-        });
-        return;
-      }
-
-      toast({
-        title: "Success",
-        description: "Hotel deleted successfully",
-      });
-
-      // Refresh the hotels list
-      fetchHotels();
-    } catch (error) {
-      console.error('Error deleting hotel:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete hotel",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleBulkDelete = async () => {
-    if (selectedHotels.length === 0) {
-      toast({
-        title: "No Selection",
-        description: "Please select hotels to delete",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!confirm(`Are you sure you want to delete ${selectedHotels.length} hotels?`)) {
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('hotels')
-        .delete()
-        .in('id', selectedHotels);
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to delete hotels",
-          variant: "destructive"
-        });
-        return;
-      }
-
-      toast({
-        title: "Success",
-        description: `${selectedHotels.length} hotels deleted successfully`,
-      });
-
-      setSelectedHotels([]);
-      fetchHotels();
-    } catch (error) {
-      console.error('Error in bulk delete:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete hotels",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const toggleHotelSelection = (hotelId: string) => {
-    setSelectedHotels(prev => 
-      prev.includes(hotelId) 
-        ? prev.filter(id => id !== hotelId)
-        : [...prev, hotelId]
-    );
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedHotels.length === hotels.length) {
+  const handleSelectAll = () => {
+    if (selectAll) {
       setSelectedHotels([]);
     } else {
-      setSelectedHotels(hotels.map(hotel => hotel.id));
+      setSelectedHotels(filteredHotels.map(hotel => hotel.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectHotel = (hotelId: string) => {
+    if (selectedHotels.includes(hotelId)) {
+      setSelectedHotels(selectedHotels.filter(id => id !== hotelId));
+    } else {
+      setSelectedHotels([...selectedHotels, hotelId]);
     }
   };
 
-  const getStatusBadgeColor = (status: string) => {
+  useEffect(() => {
+    setSelectAll(selectedHotels.length === filteredHotels.length && filteredHotels.length > 0);
+  }, [selectedHotels, filteredHotels]);
+
+  const getStatusBadgeVariant = (status: string) => {
     switch (status) {
-      case 'approved':
-        return 'bg-green-500/20 text-green-400 border-green-500/50';
-      case 'pending':
-        return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50';
-      case 'rejected':
-        return 'bg-red-500/20 text-red-400 border-red-500/50';
+      case "approved":
+        return "default";
+      case "pending":
+        return "secondary";
+      case "rejected":
+        return "destructive";
       default:
-        return 'bg-gray-500/20 text-gray-400 border-gray-500/50';
+        return "outline";
     }
   };
 
-  const renderStars = (category: number | null) => {
-    if (!category) return null;
-    return (
-      <div className="flex items-center gap-1">
-        {Array.from({ length: category }, (_, i) => (
-          <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-        ))}
-      </div>
-    );
-  };
-
-  const getMainImage = (hotel: any) => {
-    const mainImage = hotel.hotel_images?.find((img: any) => img.is_main);
-    return mainImage?.image_url || hotel.main_image_url;
+  const renderStars = (category: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <span key={i} className={i < category ? "text-yellow-400" : "text-gray-400"}>
+        ★
+      </span>
+    ));
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading hotels...</div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-fuchsia-900 text-white">
+        {/* Sidebar */}
+        <div className="fixed left-0 top-0 h-full w-80 bg-purple-900/50 backdrop-blur border-r border-purple-700/50 p-6">
+          <h1 className="text-2xl font-bold mb-8 text-purple-200">Advanced Admin Control Panel</h1>
+          
+          <nav className="space-y-2">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-purple-800/50 border border-purple-600/50">
+              <span>🏨</span>
+              <span className="font-medium">Hotels</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>📅</span>
+              <span>Bookings</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>💳</span>
+              <span>Payments</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>📊</span>
+              <span>Statistics</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>💬</span>
+              <span>Communications</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>📢</span>
+              <span>Advertising</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>💝</span>
+              <span>Affinities</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>🔍</span>
+              <span>Filters</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>👥</span>
+              <span>User Roles</span>
+            </div>
+            
+            <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+              <span>📊</span>
+              <span>Analytics</span>
+            </div>
+          </nav>
+        </div>
+        <div className="flex-1 ml-80 p-8">
+          <div className="flex justify-center items-center h-64">
+            <RefreshCw className="h-8 w-8 animate-spin" />
+            <span className="ml-2">Loading hotels...</span>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Hotels Management</h1>
-        <div className="flex items-center gap-4">
-          {selectedHotels.length > 0 && (
-            <Button
-              onClick={handleBulkDelete}
-              variant="destructive"
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete Selected ({selectedHotels.length})
-            </Button>
-          )}
-          <Button
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-fuchsia-900 text-white">
+      {/* Sidebar */}
+      <div className="fixed left-0 top-0 h-full w-80 bg-purple-900/50 backdrop-blur border-r border-purple-700/50 p-6">
+        <h1 className="text-2xl font-bold mb-8 text-purple-200">Advanced Admin Control Panel</h1>
+        
+        <nav className="space-y-2">
+          <div className="flex items-center space-x-3 p-3 rounded-lg bg-purple-800/50 border border-purple-600/50">
+            <span>🏨</span>
+            <span className="font-medium">Hotels</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>📅</span>
+            <span>Bookings</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>💳</span>
+            <span>Payments</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>📊</span>
+            <span>Statistics</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>💬</span>
+            <span>Communications</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>📢</span>
+            <span>Advertising</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>💝</span>
+            <span>Affinities</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>🔍</span>
+            <span>Filters</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>👥</span>
+            <span>User Roles</span>
+          </div>
+          
+          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-purple-800/30 cursor-pointer">
+            <span>📊</span>
+            <span>Analytics</span>
+          </div>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 ml-80 p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold">Hotels Management</h2>
+          <Button 
             onClick={fetchHotels}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
+            className="bg-purple-600 hover:bg-purple-700"
           >
+            <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
         </div>
-      </div>
 
-      {/* Header with Select All */}
-      <div className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
-        <div className="flex items-center space-x-2">
-          <Checkbox 
-            checked={selectedHotels.length === hotels.length && hotels.length > 0}
-            onCheckedChange={toggleSelectAll}
-          />
-          <label className="text-sm font-medium">
-            Select All ({hotels.length} hotels)
-          </label>
-        </div>
-      </div>
-
-      {/* Hotels List */}
-      <div className="space-y-2">
-        {hotels.map((hotel) => (
-          <div
-            key={hotel.id}
-            className="flex items-center gap-4 p-4 bg-gray-800/30 rounded-lg border border-gray-700 hover:bg-gray-800/50 transition-colors"
-          >
-            {/* Selection Checkbox */}
-            <Checkbox 
-              checked={selectedHotels.includes(hotel.id)}
-              onCheckedChange={() => toggleHotelSelection(hotel.id)}
-            />
-
-            {/* Hotel Thumbnail */}
-            <div className="w-16 h-12 bg-gray-700 rounded overflow-hidden flex-shrink-0">
-              {getMainImage(hotel) ? (
-                <img 
-                  src={getMainImage(hotel)} 
-                  alt={hotel.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
-                  <span className="text-xs">No img</span>
-                </div>
-              )}
-            </div>
-
-            {/* Hotel Info */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 mb-1">
-                <h3 className="font-semibold text-white truncate">{hotel.name}</h3>
-                <span className={`px-2 py-1 rounded-full text-xs border ${getStatusBadgeColor(hotel.status)}`}>
-                  {hotel.status}
-                </span>
-                {renderStars(hotel.category)}
-              </div>
-              <div className="flex items-center gap-4 text-sm text-gray-400">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  <span>{hotel.city}, {hotel.country}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-3 h-3" />
-                  <span>€{hotel.price_per_month}/month</span>
-                </div>
-                {hotel.hotel_themes?.length > 0 && (
-                  <div className="flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    <span>{hotel.hotel_themes.length} themes</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2">
-              {hotel.status === 'pending' && (
-                <Button
-                  onClick={() => handleStatusChange(hotel.id, 'approved')}
-                  size="sm"
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  <Check className="w-4 h-4" />
-                  Approve
-                </Button>
-              )}
-              
-              <Button
-                onClick={() => window.open(`/admin/hotels/${hotel.id}`, '_blank')}
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Eye className="w-4 h-4" />
-                View
-              </Button>
-
-              <Button
-                onClick={() => window.open(`/dashboard/property/${hotel.id}`, '_blank')}
-                size="sm"
-                className="bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                <Edit className="w-4 h-4" />
-                Edit
-              </Button>
-
-              <Button
-                onClick={() => handleDeleteHotel(hotel.id)}
-                size="sm"
-                variant="destructive"
-                className="bg-red-600 hover:bg-red-700 text-white"
-              >
-                <Trash className="w-4 h-4" />
-                Delete
-              </Button>
-            </div>
+        {/* Filters */}
+        <div className="mb-6 flex gap-4 items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">Filter by Status:</span>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-40 bg-purple-800/50 border-purple-600">
+                <SelectValue placeholder="All statuses" />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-800 border-purple-600">
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        ))}
-      </div>
 
-      {hotels.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-400 text-lg">No hotels found</p>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">Filter by Country:</span>
+            <Select value={countryFilter} onValueChange={setCountryFilter}>
+              <SelectTrigger className="w-48 bg-purple-800/50 border-purple-600">
+                <SelectValue placeholder="All countries" />
+              </SelectTrigger>
+              <SelectContent className="bg-purple-800 border-purple-600">
+                <SelectItem value="all">All Countries</SelectItem>
+                {availableCountries.map(country => (
+                  <SelectItem key={country} value={country}>
+                    {country}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="text-sm text-purple-300">
+            Showing {filteredHotels.length} of {hotels.length} hotels
+          </div>
         </div>
-      )}
+
+        {/* Select All */}
+        <div className="mb-6 flex items-center space-x-2">
+          <Checkbox
+            checked={selectAll}
+            onCheckedChange={handleSelectAll}
+          />
+          <span>Select All ({filteredHotels.length} hotels)</span>
+        </div>
+
+        {/* Hotels List */}
+        <div className="space-y-4">
+          {filteredHotels.map((hotel) => (
+            <div
+              key={hotel.id}
+              className="bg-purple-800/30 rounded-lg p-6 border border-purple-600/50 hover:bg-purple-800/40 transition-all"
+            >
+              <div className="flex items-center space-x-4">
+                <Checkbox
+                  checked={selectedHotels.includes(hotel.id)}
+                  onCheckedChange={() => handleSelectHotel(hotel.id)}
+                />
+                
+                <div className="w-16 h-16 bg-purple-700/50 rounded-lg flex items-center justify-center text-purple-300">
+                  {hotel.main_image_url ? (
+                    <img 
+                      src={hotel.main_image_url} 
+                      alt={hotel.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  ) : (
+                    <span className="text-xs">No img</span>
+                  )}
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold">{hotel.name}</h3>
+                  <div className="flex items-center space-x-4 text-purple-300 mt-1">
+                    <span>📍 {hotel.city}, {hotel.country}</span>
+                    <span>💰 €{hotel.price_per_month}/month</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Badge variant={getStatusBadgeVariant(hotel.status)}>
+                    {hotel.status}
+                  </Badge>
+                  
+                  <div className="flex">
+                    {renderStars(hotel.category || 0)}
+                  </div>
+                </div>
+                
+                <div className="flex space-x-2">
+                  <Button size="sm" variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/20">
+                    <Eye className="h-4 w-4" />
+                    View
+                  </Button>
+                  
+                  <Button size="sm" variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/20">
+                    <Edit className="h-4 w-4" />
+                    Edit
+                  </Button>
+                  
+                  <Button size="sm" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/20">
+                    <Trash2 className="h-4 w-4" />
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredHotels.length === 0 && (
+          <div className="text-center py-12 text-purple-300">
+            <p>No hotels found matching the selected filters.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

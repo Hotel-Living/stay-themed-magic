@@ -14,7 +14,6 @@ import { LocationFilter } from "./LocationFilter";
 import { ThemeFilter } from "./ThemeFilter";
 import { ActivityFilter } from "./ActivityFilter";
 import { CheckboxFilter } from "./CheckboxFilter";
-import { ExpertFilters } from "./ExpertFilters";
 
 interface FilterSidebarProps {
   activeFilters: FilterState;
@@ -94,7 +93,7 @@ export function FilterSidebar({
       {/* Length of Stay Filter */}
       <div className="mb-6">
         <LengthOfStayFilter
-          activeLength={activeFilters.stayLengths?.[0] || null}
+          activeLength={activeFilters.stayLengths?.[0]?.toString() || null}
           onChange={(value) => handleArrayFilterChange('stayLengths', value, true)}
         />
       </div>
@@ -162,13 +161,6 @@ export function FilterSidebar({
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)}
         />
       </div>
-
-      {/* Expert Filters */}
-      <ExpertFilters
-        activeFilters={activeFilters}
-        handleFilterChange={handleFilterChange}
-        handleArrayFilterChange={handleArrayFilterChange}
-      />
 
       {/* Bottom Reset Button */}
       <div className="mt-6">

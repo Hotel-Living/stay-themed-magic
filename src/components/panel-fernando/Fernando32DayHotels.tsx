@@ -57,8 +57,8 @@ export default function Fernando32DayHotels() {
               <h3 className="font-semibold text-blue-900 mb-2">🏨 Welcome Pilot Hotels Batch Specifications</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-800">
                 <div>
-                  <strong>🌍 Coverage:</strong> 8 European Countries<br/>
-                  Spain, Portugal, Italy, France, Germany, Netherlands, United Kingdom, Switzerland
+                  <strong>🌍 Coverage:</strong> 22 Countries<br/>
+                  Austria, Belgium, Canada, Denmark, Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Luxembourg, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Switzerland, Thailand, Turkey, United Kingdom
                 </div>
                 <div>
                   <strong>🏢 Hotel Count:</strong> 66 Premium Properties
@@ -91,7 +91,7 @@ export default function Fernando32DayHotels() {
             </div>
             
             <p className="text-gray-700">
-              This batch will create 66 premium hotels across 8 European countries, each specifically designed 
+              This batch will create 66 premium hotels across 22 countries, each specifically designed 
               for 32-day extended stays with complete property information and immediate availability.
             </p>
             

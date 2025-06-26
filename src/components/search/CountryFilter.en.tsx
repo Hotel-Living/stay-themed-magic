@@ -29,11 +29,10 @@ export function CountryFilterEN({ activeCountry, onChange }: CountryFilterENProp
         countries.map(country => (
           <label key={country.code} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
             <input 
-              type="radio" 
-              name="country"
+              type="checkbox" 
               checked={activeCountry === country.code}
               onChange={() => handleCountryClick(country.code)}
-              className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
             />
             <span className="text-sm flex items-center text-white">
               {country.name}

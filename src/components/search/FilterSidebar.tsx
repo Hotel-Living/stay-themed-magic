@@ -1,5 +1,4 @@
 
-
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { FilterState } from "@/components/filters/FilterTypes";
@@ -9,7 +8,6 @@ import { MonthFilter } from "./MonthFilter";
 import { CountryFilter } from "./CountryFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { LengthOfStayFilter } from "./LengthOfStayFilter";
-import { NewLengthOfStayFilter } from "./NewLengthOfStayFilter";
 import { PropertyTypeFilter } from "./PropertyTypeFilter";
 import { PropertyStyleFilter } from "./PropertyStyleFilter";
 import { LocationFilter } from "./LocationFilter";
@@ -92,17 +90,9 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Original Length of Stay Filter */}
+      {/* Length of Stay Filter */}
       <div className="mb-6">
         <LengthOfStayFilter
-          activeLength={activeFilters.stayLengths?.[0]?.toString() || null}
-          onChange={(value) => handleArrayFilterChange('stayLengths', value, true)}
-        />
-      </div>
-
-      {/* NEW Length of Stay Filter - This is the new working one */}
-      <div className="mb-6">
-        <NewLengthOfStayFilter
           activeLength={activeFilters.stayLengths?.[0]?.toString() || null}
           onChange={(value) => handleArrayFilterChange('stayLengths', value, true)}
         />
@@ -184,4 +174,3 @@ export function FilterSidebar({
     </div>
   );
 }
-

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -8,7 +7,6 @@ import { Starfield } from "@/components/Starfield";
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { createDefaultFilters } from "@/utils/filterUtils";
-
 export default function Search() {
   const [activeFilters, setActiveFilters] = useState<FilterState>(createDefaultFilters());
   const {
@@ -19,7 +17,6 @@ export default function Search() {
   } = useHotels({
     initialFilters: activeFilters
   });
-
   const handleFilterChange = (key: keyof FilterState, value: any) => {
     const newFilters = {
       ...activeFilters,
@@ -28,7 +25,6 @@ export default function Search() {
     setActiveFilters(newFilters);
     updateFilters(newFilters);
   };
-
   const handleArrayFilterChange = (key: keyof FilterState, value: string, isSelected: boolean) => {
     const currentArray = activeFilters[key] as string[] || [];
     let newArray: string[];
@@ -44,15 +40,12 @@ export default function Search() {
     setActiveFilters(newFilters);
     updateFilters(newFilters);
   };
-
-  const onClearAll = () => {
+  const onResetAllFilters = () => {
     const defaultFilters = createDefaultFilters();
     setActiveFilters(defaultFilters);
     updateFilters(defaultFilters);
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Starfield />
       <Navbar />
       
@@ -61,27 +54,7 @@ export default function Search() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Filter Sidebar - Smaller and aligned left */}
             <div className="lg:col-span-1">
-              <SecondFilterSidebar 
-                selectedCountry={activeFilters.country}
-                onCountryChange={(value) => handleFilterChange('country', value)}
-                selectedMonth={activeFilters.month}
-                onMonthChange={(value) => handleFilterChange('month', value)}
-                selectedPriceRange={activeFilters.priceRange || null}
-                onPriceRangeChange={(value) => handleFilterChange('priceRange', value)}
-                selectedRoomTypes={activeFilters.roomTypes || []}
-                onRoomTypesChange={(value) => handleFilterChange('roomTypes', value)}
-                selectedHotelFeatures={activeFilters.hotelFeatures || []}
-                onHotelFeaturesChange={(value) => handleFilterChange('hotelFeatures', value)}
-                selectedRoomFeatures={activeFilters.roomFeatures || []}
-                onRoomFeaturesChange={(value) => handleFilterChange('roomFeatures', value)}
-                selectedMealPlans={activeFilters.mealPlans || []}
-                onMealPlansChange={(value) => handleFilterChange('mealPlans', value)}
-                selectedLengthOfStay={null}
-                onLengthOfStayChange={() => {}}
-                selectedNewLengthOfStay={activeFilters.stayLengths?.[0] || null}
-                onNewLengthOfStayChange={(value) => handleFilterChange('stayLengths', value ? [value] : [])}
-                onClearAll={onClearAll}
-              />
+              <SecondFilterSidebar activeFilters={activeFilters} handleFilterChange={handleFilterChange} handleArrayFilterChange={handleArrayFilterChange} onResetAllFilters={onResetAllFilters} />
             </div>
             
             {/* Search Results - Takes up more space for 3 hotels per row */}
@@ -93,6 +66,5 @@ export default function Search() {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 }

@@ -3,7 +3,7 @@ import { FilterItem } from "./FilterItem";
 
 interface PriceRangeFilterENProps {
   activePrice: number | null;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
 }
 
 export function PriceRangeFilterEN({ activePrice, onChange }: PriceRangeFilterENProps) {

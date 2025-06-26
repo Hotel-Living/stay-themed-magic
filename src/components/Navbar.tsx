@@ -83,7 +83,7 @@ export function Navbar() {
             </Link>}
           
           {/* Admin Dashboard link - will check admin role dynamically */}
-          {isLoggedIn && <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          {isLoggedIn && <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.4rem] uppercase">
               {t('mainNavigationContent.adminDashboard')}
             </Link>}
           

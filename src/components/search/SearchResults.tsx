@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { HotelCard } from "@/components/HotelCard";
 
 interface Hotel {
@@ -28,6 +29,8 @@ interface SearchResultsProps {
 }
 
 export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
+  const navigate = useNavigate();
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
@@ -51,6 +54,10 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
       </div>
     );
   }
+
+  const handleHotelClick = (hotelId: string) => {
+    navigate(`/hotel/${hotelId}`);
+  };
 
   return (
     <div className="space-y-6">
@@ -95,6 +102,7 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
               meal_plans={hotel.meal_plans}
               location={hotel.location}
               thumbnail={hotel.thumbnail}
+              onClick={() => handleHotelClick(hotel.id)}
             />
           );
         })}

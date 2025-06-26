@@ -1,23 +1,37 @@
-import { ReactNode } from "react";
+
+import { ReactNode, useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
+
 interface FilterItemProps {
   title: string;
   children: ReactNode;
+  defaultOpen?: boolean;
 }
+
 export function FilterItem({
   title,
-  children
+  children,
+  defaultOpen = false
 }: FilterItemProps) {
-  return <Collapsible>
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <div className="p-2 bg-[#5d0083] rounded-sm py-[3px]">
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2]">
-          <span className="text-left px-0 text-sm font-medium">{title}</span>
-          <ChevronRight className="h-4 w-4" />
+        <CollapsibleTrigger 
+          className="flex items-center justify-between w-full text-sm font-normal bg-[#7607b2] px-2 py-1 rounded cursor-pointer hover:bg-[#8a08cc] transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="text-left text-sm font-medium text-white">{title}</span>
+          <ChevronRight 
+            className={`h-4 w-4 text-white transition-transform ${isOpen ? "transform rotate-90" : ""}`} 
+          />
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-1 pl-2 space-y-1">
           {children}
         </CollapsibleContent>
       </div>
-    </Collapsible>;
+    </Collapsible>
+  );
 }

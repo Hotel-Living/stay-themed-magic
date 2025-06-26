@@ -31,7 +31,10 @@ interface SearchResultsProps {
 export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
   const navigate = useNavigate();
 
+  console.log("🔍 SearchResults component - received hotels:", hotels?.length || 0);
+
   if (loading) {
+    console.log("⏳ SearchResults - showing loading state");
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="text-white">Loading hotels...</div>
@@ -40,6 +43,7 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
   }
 
   if (error) {
+    console.error("❌ SearchResults - showing error state:", error);
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="text-red-500">Error loading hotels: {error.message}</div>
@@ -48,16 +52,23 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
   }
 
   if (!hotels || hotels.length === 0) {
+    console.warn("⚠️ SearchResults - no hotels to display");
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <div className="text-white">No hotels found matching your criteria.</div>
+        <div className="text-white text-center">
+          <h3 className="text-xl font-semibold mb-2">No hotels found matching your criteria</h3>
+          <p className="text-gray-300">Try adjusting your filters or search terms</p>
+        </div>
       </div>
     );
   }
 
   const handleHotelClick = (hotelId: string) => {
+    console.log("🏨 Navigating to hotel:", hotelId);
     navigate(`/hotel/${hotelId}`);
   };
+
+  console.log("✅ SearchResults - rendering", hotels.length, "hotels");
 
   return (
     <div className="space-y-6">
@@ -83,6 +94,8 @@ export function SearchResults({ hotels, loading, error }: SearchResultsProps) {
             id: ht.themes?.name || '',
             name: ht.themes?.name || ''
           })) || hotel.themes || [];
+
+          console.log("🏨 Rendering hotel card for:", hotel.name);
 
           return (
             <HotelCard

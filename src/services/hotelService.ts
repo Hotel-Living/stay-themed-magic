@@ -45,6 +45,7 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
         meal_plans,
         features_hotel,
         features_room,
+        status,
         hotel_images (
           image_url,
           is_main
@@ -60,10 +61,12 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
           )
         )
       `)
-      .eq('status', 'approved');
+      .eq('status', 'approved'); // This is the critical filter - only show approved hotels
+
+    console.log("📊 Base query for approved hotels created");
 
     // Apply price filter with correct logic
-    if (filters.maxPrice) {
+    if (filters.maxPrice && filters.maxPrice > 0) {
       console.log("💰 Applying price filter <= ", filters.maxPrice);
       query = query.lte('price_per_month', filters.maxPrice);
     }
@@ -107,6 +110,14 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
       query = query.eq('category', categoryNumber);
     }
 
+    // Apply search term filter if provided
+    if (filters.searchTerm && filters.searchTerm.trim() !== '') {
+      console.log("🔎 Applying search term filter:", filters.searchTerm);
+      const searchTerm = filters.searchTerm.trim().toLowerCase();
+      query = query.or(`name.ilike.%${searchTerm}%,city.ilike.%${searchTerm}%,country.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+    }
+
+    console.log("🚀 Executing query...");
     const { data, error } = await query;
     
     if (error) {
@@ -114,7 +125,22 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
       throw error;
     }
 
-    console.log(`✅ Successfully fetched ${data?.length || 0} hotels`);
+    console.log(`✅ Successfully fetched ${data?.length || 0} approved hotels from database`);
+    
+    // Log sample data for debugging
+    if (data && data.length > 0) {
+      console.log("📝 Sample hotel data:", {
+        firstHotel: {
+          name: data[0].name,
+          status: data[0].status,
+          city: data[0].city,
+          country: data[0].country
+        },
+        totalCount: data.length
+      });
+    } else {
+      console.warn("⚠️ No hotels returned from query - this might indicate a filtering issue");
+    }
     
     // Type-safe conversion to ensure proper typing
     const typedData: HotelServiceResponse[] = (data || []).map(hotel => ({
@@ -144,10 +170,12 @@ export const convertHotelToUIFormat = (hotel: HotelServiceResponse) => {
   const themes = hotel.hotel_themes?.map(ht => ht.themes?.name).filter(Boolean) || [];
   const primaryTheme = themes[0] || 'General';
 
+  console.log(`🏨 Converting hotel ${hotel.name} to UI format`);
+
   return {
     id: hotel.id,
     name: hotel.name,
-    location: hotel.city || 'Unknown Location',
+    location: `${hotel.city || 'Unknown'}, ${hotel.country || 'Unknown'}`,
     city: hotel.city,
     country: hotel.country,
     price_per_month: hotel.price_per_month || 0,

@@ -7,7 +7,7 @@ export const createDefaultFilters = (): FilterState => ({
   country: null,
   month: null,
   minPrice: 0,
-  maxPrice: 1000,
+  maxPrice: 10000, // Increased from 1000 to 10000 to not filter out higher-priced hotels
   stars: [],
   location: null,
   propertyType: null,
@@ -25,5 +25,6 @@ export const updateFiltersState = (
   currentFilters: FilterState,
   newFilters: Partial<FilterState>
 ): FilterState => {
+  console.log("🔄 Updating filters from:", currentFilters, "to:", newFilters);
   return { ...currentFilters, ...newFilters };
 };

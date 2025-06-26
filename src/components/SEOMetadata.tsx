@@ -31,17 +31,19 @@ export const SEOMetadata = ({
       metaTag.setAttribute('content', content);
     };
 
-    // Update Open Graph tags
+    // Update Open Graph tags with proper image attributes
     updateMetaTag('og:title', title);
     updateMetaTag('og:description', description);
     updateMetaTag('og:image', image);
     updateMetaTag('og:image:secure_url', image);
+    updateMetaTag('og:image:url', image);
     updateMetaTag('og:url', url);
     updateMetaTag('og:type', 'website');
     updateMetaTag('og:site_name', 'Hotel-Living');
     updateMetaTag('og:image:width', '1200');
     updateMetaTag('og:image:height', '630');
     updateMetaTag('og:image:type', 'image/png');
+    updateMetaTag('og:image:alt', description);
 
     // Update Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
@@ -49,6 +51,8 @@ export const SEOMetadata = ({
     updateMetaTag('twitter:description', description);
     updateMetaTag('twitter:image', image);
     updateMetaTag('twitter:image:alt', description);
+    updateMetaTag('twitter:site', '@HotelLiving');
+    updateMetaTag('twitter:creator', '@HotelLiving');
 
     // Update general meta tags
     updateMetaTag('description', description);

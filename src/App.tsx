@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -62,7 +63,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AuthProvider>
-          <BrowserRouter>
+          <Router>
             <SEOMetadata />
             <Routes>
               <Route path="/" element={<Home />} />
@@ -107,7 +108,7 @@ function App() {
               {/* Comparison Route */}
               <Route path="/compare" element={<Compare />} />
             </Routes>
-          </BrowserRouter>
+          </Router>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

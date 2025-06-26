@@ -60,16 +60,16 @@ export function Navbar() {
             {t('mainNavigationContent.faq')}
           </Link>
           
-          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.5rem] uppercase">
+          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/100 text-[0.4rem] uppercase">
             {t('mainNavigationContent.affinityStays')}
           </Link>
-          <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          <Link to="/hotels" className="text-white font-bold hover:text-white/100 text-[0.4rem] uppercase">
             {t('mainNavigationContent.hotel')}
           </Link>
-          <Link to="/videos" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          <Link to="/videos" className="text-white font-bold hover:text-white/100 text-[0.4rem] uppercase">
             {t('mainNavigationContent.videos')}
           </Link>
-          <Link to="/featured-hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          <Link to="/featured-hotels" className="text-white font-bold hover:text-white/100 text-[0.4rem] uppercase">
             {t('mainNavigationContent.featuredHotels')}
           </Link>
           
@@ -78,7 +78,7 @@ export function Navbar() {
               My Account
             </Link>}
           
-          {(isHotelOwner || isDevelopment) && <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          {(isHotelOwner || isDevelopment) && <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/100 text-[0.4rem] uppercase">
               {t('mainNavigationContent.hotelDashboard')}
             </Link>}
           

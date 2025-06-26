@@ -28,7 +28,7 @@ export function SecondFilterSidebar({
   const {
     t
   } = useTranslation();
-  return <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 rounded-2xl p-6 shadow-2xl px-0 py-0">
+  return <div className="bg-gradient-to-br from-purple-950/90 to-purple-900/70 backdrop-blur-md border border-purple-600/30 p-6 shadow-2xl px-0 py-0 rounded-none my-0">
       {/* Reset Button */}
       <div className="mb-6">
         <button onClick={onResetAllFilters} className="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium">

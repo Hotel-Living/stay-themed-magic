@@ -13,6 +13,11 @@ const staffProfiles = [
     title: "AFFILIATES & MEMBERSHIP MANAGER",
   },
   {
+    img: "",
+    name: "HECTOR OTAIZA",
+    title: "FOUNDER AND PROJECT MANAGEMENT CHIEF",
+  },
+  {
     img: "/lovable-uploads/77dc7017-bd00-4ce0-8519-f89a3df68b77.png",
     name: "ISABELLA REED",
     title: "MEDIA RELATIONS MANAGER",
@@ -21,11 +26,6 @@ const staffProfiles = [
     img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
-  },
-  {
-    img: "",
-    name: "HECTOR OTAIZA",
-    title: "FOUNDER AND PROJECT MANAGEMENT CHIEF",
   },
   // ADDED STAFF BELOW:
   {

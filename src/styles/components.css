@@ -38,32 +38,6 @@
     z-index: -1;
     animation: pulse 2s infinite;
   }
-
-  /* Cross-browser font consistency improvements */
-  nav {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-
-  nav a,
-  nav button {
-    font-feature-settings: 'kern' 1;
-    -webkit-font-feature-settings: 'kern' 1;
-    -moz-font-feature-settings: 'kern' 1;
-    font-variant-ligatures: common-ligatures;
-  }
-
-  /* Ensure consistent baseline alignment across browsers */
-  nav .text-sm {
-    line-height: 1.25;
-    font-size: 0.875rem;
-  }
-
-  nav .text-base {
-    line-height: 1.5;
-    font-size: 1rem;
-  }
   
   @keyframes pulse {
     0% {

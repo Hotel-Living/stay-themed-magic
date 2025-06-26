@@ -1,3 +1,4 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -24,6 +25,11 @@ const staffProfiles = [
     img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
+  },
+  {
+    img: "",
+    name: "HECTOR OTAIZA",
+    title: "FOUNDER AND PROJECT MANAGEMENT CHIEF",
   },
   // ADDED STAFF BELOW:
   {

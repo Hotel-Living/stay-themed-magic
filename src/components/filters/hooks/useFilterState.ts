@@ -18,7 +18,7 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
     hotelFeatures: [],
     roomFeatures: [],
     mealPlans: [],
-    stayLengths: [],
+    stayLengths: null, // Single string, not array
     atmosphere: null
   });
   
@@ -50,7 +50,7 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
   };
   
   const clearAllFilters = () => {
-    const clearedFilters = {
+    const clearedFilters: FilterState = {
       country: null,
       month: null,
       theme: null,
@@ -65,7 +65,7 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
       hotelFeatures: [],
       roomFeatures: [],
       mealPlans: [],
-      stayLengths: [],
+      stayLengths: null, // Single string, not array
       atmosphere: null
     };
     setFilters(clearedFilters);
@@ -86,7 +86,7 @@ export const useFilterState = (onFilterChange: (filters: FilterState) => void) =
            (filters.hotelFeatures && filters.hotelFeatures.length > 0) ||
            (filters.roomFeatures && filters.roomFeatures.length > 0) ||
            (filters.mealPlans && filters.mealPlans.length > 0) ||
-           (filters.stayLengths && filters.stayLengths.length > 0) ||
+           filters.stayLengths !== null ||
            filters.atmosphere !== null;
   };
 

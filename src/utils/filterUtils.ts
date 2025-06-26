@@ -17,7 +17,7 @@ export const createDefaultFilters = (): FilterState => ({
   hotelFeatures: [],
   roomFeatures: [],
   mealPlans: [],
-  stayLengths: [],
+  stayLengths: null, // Single string, not array
   atmosphere: null
 });
 

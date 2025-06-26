@@ -19,7 +19,7 @@ export interface FilterState {
   hotelFeatures?: string[];
   roomFeatures?: string[];
   mealPlans?: string[];
-  stayLengths?: string; // Changed to single string for single-select behavior
+  stayLengths?: string | null; // Single string for single-select behavior
   atmosphere?: string | null;
 }
 

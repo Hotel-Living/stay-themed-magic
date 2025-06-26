@@ -15,8 +15,8 @@ interface HotelServiceResponse {
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
   available_months?: string[];
-  features_hotel?: Record<string, boolean>;
-  features_room?: Record<string, boolean>;
+  features_hotel?: Record<string, boolean> | null;
+  features_room?: Record<string, boolean> | null;
   meal_plans?: string[];
   stay_lengths?: number[];
   atmosphere?: string;
@@ -115,7 +115,15 @@ export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hote
     }
 
     console.log(`✅ Successfully fetched ${data?.length || 0} hotels`);
-    return data || [];
+    
+    // Type-safe conversion to ensure proper typing
+    const typedData: HotelServiceResponse[] = (data || []).map(hotel => ({
+      ...hotel,
+      features_hotel: hotel.features_hotel as Record<string, boolean> | null,
+      features_room: hotel.features_room as Record<string, boolean> | null,
+    }));
+    
+    return typedData;
     
   } catch (error) {
     console.error("❌ Error in fetchHotelsWithFilters:", error);

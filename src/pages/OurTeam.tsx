@@ -1,5 +1,3 @@
-
-
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -22,11 +20,6 @@ const staffProfiles = [
     name: "ISABELLA REED",
     title: "MEDIA RELATIONS MANAGER",
   },
-  {
-    img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
-    name: "FERNANDO ESPINEIRA",
-    title: "CHIEF OPERATING OFFICER",
-  },
   // ADDED STAFF BELOW:
   {
     img: "/lovable-uploads/4ab0282f-bee9-4ffa-9e44-04b2a97aa425.png",
@@ -37,6 +30,11 @@ const staffProfiles = [
     img: "/lovable-uploads/0ca6645a-ece0-4075-a1c1-36bf915e4c77.png",
     name: "NATALIE FOSTER",
     title: "CHIEF HUMAN RESOURCES OFFICER",
+  },
+  {
+    img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
+    name: "FERNANDO ESPINEIRA",
+    title: "CHIEF OPERATING OFFICER",
   },
   {
     img: "/lovable-uploads/82df6a57-5861-407d-b100-0f14a61f22a7.png",

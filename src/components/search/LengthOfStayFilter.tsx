@@ -8,7 +8,7 @@ import { LengthOfStayFilterRO } from "./LengthOfStayFilter.ro";
 
 interface LengthOfStayFilterProps {
   activeLength: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void; // Updated to match the actual usage
 }
 
 export function LengthOfStayFilter({ activeLength, onChange }: LengthOfStayFilterProps) {

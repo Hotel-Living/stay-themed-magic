@@ -101,8 +101,13 @@ export function SecondFilterSidebar({
       {/* 8. Meal Plans Filter - PLAN DE COMIDAS */}
       <div className="mb-6">
         <CheckboxFilter
-          title="MEAL PLAN"
-          options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
+          title={t('filters.mealPlan')}
+          options={[
+            t('filters.breakfast'),
+            t('filters.halfBoard'),
+            t('filters.fullBoard'),
+            t('filters.allInclusive')
+          ]}
           selectedOptions={activeFilters.mealPlans}
           onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)}
         />
@@ -135,8 +140,13 @@ export function SecondFilterSidebar({
       {/* 12. Room Types Filter - TIPO DE HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter
-          title="ROOM TYPES"
-          options={['Single', 'Double', 'Suite', 'Apartment']}
+          title={t('filters.roomTypes')}
+          options={[
+            t('filters.single'),
+            t('filters.double'),
+            t('filters.suite'),
+            t('filters.apartment')
+          ]}
           selectedOptions={activeFilters.roomTypes}
           onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)}
         />
@@ -145,8 +155,16 @@ export function SecondFilterSidebar({
       {/* 13. Hotel Features Filter - SERVICIOS DEL HOTEL */}
       <div className="mb-6">
         <CheckboxFilter
-          title="HOTEL FEATURES"
-          options={['Pool', 'Gym', 'Spa', 'Restaurant', 'Bar', 'WiFi', 'Parking']}
+          title={t('filters.hotelFeatures')}
+          options={[
+            t('filters.pool'),
+            t('filters.gym'),
+            t('filters.spa'),
+            t('filters.restaurant'),
+            t('filters.bar'),
+            t('filters.wifi'),
+            t('filters.parking')
+          ]}
           selectedOptions={activeFilters.hotelFeatures}
           onChange={(value, isChecked) => handleArrayFilterChange('hotelFeatures', value, isChecked)}
         />
@@ -155,8 +173,15 @@ export function SecondFilterSidebar({
       {/* 14. Room Features Filter - SERVICIOS DE LA HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter
-          title="ROOM FEATURES"
-          options={['Air Conditioning', 'Balcony', 'Kitchen', 'Workspace', 'TV', 'Minibar']}
+          title={t('filters.roomFeatures')}
+          options={[
+            t('filters.airConditioning'),
+            t('filters.balcony'),
+            t('filters.kitchen'),
+            t('filters.workspace'),
+            t('filters.tv'),
+            t('filters.minibar')
+          ]}
           selectedOptions={activeFilters.roomFeatures}
           onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)}
         />

@@ -3,7 +3,7 @@ import { FilterItem } from "./FilterItem";
 
 interface LengthOfStayFilterROProps {
   activeLength: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function LengthOfStayFilterRO({ activeLength, onChange }: LengthOfStayFilterROProps) {

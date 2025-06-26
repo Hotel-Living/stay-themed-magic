@@ -22,15 +22,15 @@ export default function Fernando32DayHotels() {
         throw error;
       }
       
-      setResult(data.message || 'Hotels created successfully');
+      setResult(data.message || 'Hotels registered successfully');
       toast({
         title: "Success",
-        description: data.message || 'Hotels created successfully',
+        description: data.message || 'Hotels registered successfully',
         variant: "default",
       });
     } catch (error) {
-      console.error('Error creating hotels:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create hotels';
+      console.error('Error registering hotels:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to register hotels';
       setResult(`Error: ${errorMessage}`);
       toast({
         title: "Error",
@@ -48,7 +48,7 @@ export default function Fernando32DayHotels() {
         <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
           <CardTitle className="flex items-center gap-2">
             <Calendar className="w-5 h-5" />
-            Create 66 Welcome Pilot Hotels for 32-Day Stays
+            Register 66 Welcome Pilot Hotels for 32-Day Stays
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
@@ -61,7 +61,7 @@ export default function Fernando32DayHotels() {
                   Austria, Belgium, Canada, Denmark, Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Luxembourg, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Switzerland, Thailand, Turkey, United Kingdom
                 </div>
                 <div>
-                  <strong>🏢 Hotel Count:</strong> 66 Premium Properties
+                  <strong>🏢 Hotel Count:</strong> 66 Properties
                 </div>
                 <div>
                   <strong>📍 Locations:</strong> Real Hotels - Real Addresses
@@ -88,10 +88,15 @@ export default function Fernando32DayHotels() {
                   <strong>🌐 Distribution:</strong> Location & Country Preassigned
                 </div>
               </div>
+              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-yellow-800 font-medium">
+                  All hotel names and addresses must correspond to real hotels in the specified countries.
+                </p>
+              </div>
             </div>
             
             <p className="text-gray-700">
-              This batch will create 66 premium hotels across 22 countries, each specifically designed 
+              This batch will search for and register real hotels across 22 countries, each specifically designed 
               for 32-day extended stays with complete property information and immediate availability.
             </p>
             
@@ -100,7 +105,7 @@ export default function Fernando32DayHotels() {
               disabled={isCreating}
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
             >
-              {isCreating ? 'Creating Welcome Pilot Hotels...' : 'Create 66 Welcome Pilot Hotels'}
+              {isCreating ? 'Registering Welcome Pilot Hotels...' : 'Register 66 Welcome Pilot Hotels'}
             </Button>
           </div>
         </CardContent>
@@ -111,7 +116,7 @@ export default function Fernando32DayHotels() {
           <CardHeader className="bg-purple-800 text-white">
             <CardTitle className="flex items-center gap-2 text-white">
               <CheckCircle className="w-5 h-5 text-white" />
-              <span className="text-white">Creation Results</span>
+              <span className="text-white">Registration Results</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4">

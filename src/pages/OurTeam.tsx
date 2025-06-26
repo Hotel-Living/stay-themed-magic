@@ -1,4 +1,5 @@
 
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,11 @@ import React from "react";
 
 // Matched staff: names and titles from group images, portrait from individual photos
 const staffProfiles = [
+  {
+    img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
+    name: "HECTOR OTAIZA",
+    title: "FOUNDER AND PROJECT MANAGEMENT CHIEF",
+  },
   {
     img: "/lovable-uploads/2302bda3-e1b9-4b42-a669-26c4dbcc9e20.png",
     name: "MARIA ELENA CASTANEDA",
@@ -22,7 +28,7 @@ const staffProfiles = [
     title: "MEDIA RELATIONS MANAGER",
   },
   {
-    img: "/lovable-uploads/9c8d38f3-65c8-4b55-851a-e723c4a4189e.png",
+    img: "/lovable-uploads/e6c9ea6b-bfcc-4c71-aaa1-43d1be9082d1.png",
     name: "FERNANDO ESPINEIRA",
     title: "CHIEF OPERATING OFFICER",
   },
@@ -107,3 +113,4 @@ export default function OurTeam() {
     </div>
   );
 }
+

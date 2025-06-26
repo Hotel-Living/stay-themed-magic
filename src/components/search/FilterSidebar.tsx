@@ -42,7 +42,7 @@ export function FilterSidebar({
         </button>
       </div>
 
-      {/* Price Filter */}
+      {/* 1. Price Filter - PRECIO POR MES */}
       <div className="mb-6">
         <PriceRangeFilter
           activePrice={activeFilters.maxPrice}
@@ -50,15 +50,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Month Filter */}
-      <div className="mb-6">
-        <MonthFilter
-          activeMonth={activeFilters.month}
-          onChange={(value) => handleFilterChange('month', value)}
-        />
-      </div>
-
-      {/* Country Filter */}
+      {/* 2. Country Filter - PAÍS */}
       <div className="mb-6">
         <CountryFilter
           activeCountry={activeFilters.country}
@@ -66,7 +58,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Location Filter */}
+      {/* 3. Location Filter - UBICACIÓN */}
       <div className="mb-6">
         <LocationFilter
           activeLocation={activeFilters.location}
@@ -74,7 +66,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Theme Filter */}
+      {/* 4. Theme Filter - AFINIDAD */}
       <div className="mb-6">
         <ThemeFilter
           activeTheme={activeFilters.theme}
@@ -82,7 +74,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Activities Filter */}
+      {/* 5. Activities Filter - ACTIVIDADES */}
       <div className="mb-6">
         <ActivityFilter
           activeActivities={activeFilters.activities}
@@ -90,7 +82,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Length of Stay Filter */}
+      {/* 6. Length of Stay Filter - NÚMERO DE DÍAS */}
       <div className="mb-6">
         <LengthOfStayFilter
           activeLength={activeFilters.stayLengths?.[0]?.toString() || null}
@@ -98,15 +90,25 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Category Filter */}
+      {/* 7. Month Filter - MES */}
       <div className="mb-6">
-        <CategoryFilter
-          activeCategory={activeFilters.stars?.[0] || null}
-          onChange={(value) => handleArrayFilterChange('stars', value, true)}
+        <MonthFilter
+          activeMonth={activeFilters.month}
+          onChange={(value) => handleFilterChange('month', value)}
         />
       </div>
 
-      {/* Property Type Filter */}
+      {/* 8. Meal Plans Filter - PLAN DE COMIDAS */}
+      <div className="mb-6">
+        <CheckboxFilter
+          title="MEAL PLAN"
+          options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
+          selectedOptions={activeFilters.mealPlans}
+          onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)}
+        />
+      </div>
+
+      {/* 9. Property Type Filter - TIPO DE PROPIEDAD */}
       <div className="mb-6">
         <PropertyTypeFilter
           activePropertyType={activeFilters.propertyType}
@@ -114,7 +116,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Property Style Filter */}
+      {/* 10. Property Style Filter - ESTILO DE PROPIEDAD */}
       <div className="mb-6">
         <PropertyStyleFilter
           activePropertyStyle={activeFilters.propertyStyle}
@@ -122,7 +124,15 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Room Types Filter */}
+      {/* 11. Category Filter - CATEGORÍA */}
+      <div className="mb-6">
+        <CategoryFilter
+          activeCategory={activeFilters.stars?.[0] || null}
+          onChange={(value) => handleArrayFilterChange('stars', value, true)}
+        />
+      </div>
+
+      {/* 12. Room Types Filter - TIPO DE HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter
           title="ROOM TYPES"
@@ -132,7 +142,7 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Hotel Features Filter */}
+      {/* 13. Hotel Features Filter - SERVICIOS DEL HOTEL */}
       <div className="mb-6">
         <CheckboxFilter
           title="HOTEL FEATURES"
@@ -142,23 +152,13 @@ export function FilterSidebar({
         />
       </div>
 
-      {/* Room Features Filter */}
+      {/* 14. Room Features Filter - SERVICIOS DE LA HABITACIÓN */}
       <div className="mb-6">
         <CheckboxFilter
           title="ROOM FEATURES"
           options={['Air Conditioning', 'Balcony', 'Kitchen', 'Workspace', 'TV', 'Minibar']}
           selectedOptions={activeFilters.roomFeatures}
           onChange={(value, isChecked) => handleArrayFilterChange('roomFeatures', value, isChecked)}
-        />
-      </div>
-
-      {/* Meal Plans Filter */}
-      <div className="mb-6">
-        <CheckboxFilter
-          title="MEAL PLAN"
-          options={['Breakfast', 'Half Board', 'Full Board', 'All Inclusive']}
-          selectedOptions={activeFilters.mealPlans}
-          onChange={(value, isChecked) => handleArrayFilterChange('mealPlans', value, isChecked)}
         />
       </div>
 

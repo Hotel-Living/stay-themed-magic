@@ -14,7 +14,6 @@ const supabase = createClient(
 );
 
 interface BatchTranslationRequest {
-  batchSize?: number;
   languages?: ('es' | 'pt' | 'ro')[];
 }
 
@@ -88,11 +87,11 @@ serve(async (req) => {
   }
 
   try {
-    const { batchSize = 20, languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
+    const { languages = ['es', 'pt', 'ro'] }: BatchTranslationRequest = await req.json();
 
-    console.log(`Starting batch translation process for languages: ${languages.join(', ')}`);
+    console.log(`Starting complete batch translation process for languages: ${languages.join(', ')}`);
 
-    // Get hotels that need translation
+    // Get ALL hotels that need translation
     const hotelsToTranslate = await getHotelsNeedingTranslation(languages);
     
     console.log(`Found ${hotelsToTranslate.length} hotels needing translation`);
@@ -115,10 +114,8 @@ serve(async (req) => {
     let errors = 0;
     const results = [];
 
-    // Process hotels in batches
-    const hotelsToProcess = hotelsToTranslate.slice(0, batchSize);
-
-    for (const hotel of hotelsToProcess) {
+    // Process ALL hotels without batch size limitation
+    for (const hotel of hotelsToTranslate) {
       const hotelResults = [];
       
       for (const language of languages) {
@@ -154,18 +151,23 @@ serve(async (req) => {
       }
 
       processed++;
+      
+      // Log progress every 10 hotels
+      if (processed % 10 === 0) {
+        console.log(`Progress: ${processed}/${hotelsToTranslate.length} hotels processed`);
+      }
     }
 
-    console.log(`Batch translation completed. Processed: ${processed}, Errors: ${errors}`);
+    console.log(`Complete batch translation finished. Processed: ${processed}, Errors: ${errors}`);
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Batch translation completed`,
+        message: `Complete batch translation finished - processed all ${processed} hotels`,
         processed,
         errors,
         total: hotelsToTranslate.length,
-        hasMore: hotelsToTranslate.length > batchSize,
+        hasMore: false, // Always false since we process everything
         results
       }),
       {

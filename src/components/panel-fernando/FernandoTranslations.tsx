@@ -23,7 +23,7 @@ export default function FernandoTranslations() {
 
   const handleStartTranslation = async () => {
     try {
-      await startBatchTranslation(20);
+      await startBatchTranslation();
       // Refresh stats after translation
       const translationStats = await getTranslationStats();
       setStats(translationStats);
@@ -45,7 +45,7 @@ export default function FernandoTranslations() {
           <div className="space-y-4">
             <p className="text-gray-700">
               Manage hotel translations across multiple languages (Spanish, Portuguese, Romanian).
-              This will translate hotel content including names, descriptions, and other text fields.
+              This will translate ALL pending hotel content including names, descriptions, and other text fields.
             </p>
 
             {stats && (
@@ -70,8 +70,19 @@ export default function FernandoTranslations() {
               disabled={loading}
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
             >
-              {loading ? 'Processing Translations...' : 'Start Batch Translation'}
+              {loading ? 'Processing All Translations...' : 'Start Complete Translation Process'}
             </Button>
+
+            {loading && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-blue-800 font-medium">
+                  🔄 Processing ALL pending hotel translations...
+                </p>
+                <p className="text-blue-700 text-sm mt-1">
+                  This will continue until all hotels are translated. Please wait.
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -81,14 +92,14 @@ export default function FernandoTranslations() {
           <CardHeader className="bg-purple-800 text-white">
             <CardTitle className="flex items-center gap-2 text-white">
               <CheckCircle className="w-5 h-5 text-white" />
-              <span className="text-white">Translation Results</span>
+              <span className="text-white">Complete Translation Results</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="space-y-2">
                 <p className="text-blue-800 font-medium">
-                  {progress.success ? '✅ Success' : '❌ Failed'}
+                  {progress.success ? '✅ Complete Success' : '❌ Failed'}
                 </p>
                 <p className="text-blue-700">
                   Processed: {progress.processed} hotels
@@ -99,12 +110,6 @@ export default function FernandoTranslations() {
                 <p className="text-blue-700">
                   Total: {progress.total}
                 </p>
-                {progress.hasMore && (
-                  <p className="text-orange-700 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
-                    More hotels pending translation. Run again to continue.
-                  </p>
-                )}
                 <p className="text-sm text-gray-600 mt-2">
                   {progress.message}
                 </p>

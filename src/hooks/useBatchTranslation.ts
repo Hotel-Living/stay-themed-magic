@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -17,14 +16,13 @@ export const useBatchTranslation = () => {
   const [progress, setProgress] = useState<BatchTranslationResult | null>(null);
   const { toast } = useToast();
 
-  const startBatchTranslation = async (batchSize: number = 20) => {
+  const startBatchTranslation = async () => {
     setLoading(true);
     setProgress(null);
 
     try {
       const { data, error } = await supabase.functions.invoke('batch-translate-hotels', {
         body: {
-          batchSize,
           languages: ['es', 'pt', 'ro']
         }
       });
@@ -36,8 +34,8 @@ export const useBatchTranslation = () => {
       if (data.success) {
         setProgress(data);
         toast({
-          title: "Batch Translation Completed",
-          description: `Processed ${data.processed} hotels with ${data.errors} errors`,
+          title: "Complete Batch Translation Finished",
+          description: `Processed all ${data.processed} hotels with ${data.errors} errors`,
         });
       } else {
         throw new Error(data.error || 'Batch translation failed');

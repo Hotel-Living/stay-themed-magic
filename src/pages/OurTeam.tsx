@@ -1,4 +1,5 @@
 
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -6,11 +7,6 @@ import React from "react";
 
 // Matched staff: names and titles from group images, portrait from individual photos
 const staffProfiles = [
-  {
-    img: "/lovable-uploads/2302bda3-e1b9-4b42-a669-26c4dbcc9e20.png",
-    name: "MARIA ELENA CASTANEDA",
-    title: "MARKETING EXECUTIVE",
-  },
   {
     img: "/lovable-uploads/9ef36b0a-65f9-4a6e-9067-2f18f026d65d.png",
     name: "VICTORIA HAYES",
@@ -51,6 +47,11 @@ const staffProfiles = [
     img: "/lovable-uploads/b13a8a21-ab9a-459e-9019-bdb5e2955349.png",
     name: "ETHAN BROOKS",
     title: "BUSINESS RELATIONS COORDINATOR",
+  },
+  {
+    img: "/lovable-uploads/2302bda3-e1b9-4b42-a669-26c4dbcc9e20.png",
+    name: "MARIA ELENA CASTANEDA",
+    title: "MARKETING EXECUTIVE",
   },
   // UPDATE: Change previous "PLATFORM RELIABILITY ENGINEER" to ETHAN HORNE
   {

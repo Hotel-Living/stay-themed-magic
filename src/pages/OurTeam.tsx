@@ -1,3 +1,4 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -6,17 +7,12 @@ import React from "react";
 // Matched staff: names and titles from group images, portrait from individual photos
 const staffProfiles = [
   {
-    img: "/lovable-uploads/a293f10a-52d7-4aae-9e16-439f780888b6.png",
-    name: "JORGE FERNANDEZ",
-    title: "PUBLIC RELATIONS MANAGER",
-  },
-  {
     img: "/lovable-uploads/2302bda3-e1b9-4b42-a669-26c4dbcc9e20.png",
     name: "MARIA ELENA CASTANEDA",
     title: "MARKETING EXECUTIVE",
   },
   {
-    img: "/lovable-uploads/0541e858-fb70-4334-817f-640e38be5c5d.png",
+    img: "/lovable-uploads/9ef36b0a-65f9-4a6e-9067-2f18f026d65d.png",
     name: "VICTORIA HAYES",
     title: "AFFILIATES & MEMBERSHIP MANAGER",
   },
@@ -42,7 +38,7 @@ const staffProfiles = [
     title: "CHIEF HUMAN RESOURCES OFFICER",
   },
   {
-    img: "/lovable-uploads/a072d968-cb17-442c-ad7c-afbae6334eb1.png",
+    img: "/lovable-uploads/82df6a57-5861-407d-b100-0f14a61f22a7.png",
     name: "ARJUN MEHTA",
     title: "DIRECTOR OF SOFTWARE DEVELOPMENT",
   },
@@ -71,7 +67,7 @@ const staffProfiles = [
   },
   // ADD: Alexander Scott CHIEF FINANCIAL OFFICER
   {
-    img: "/lovable-uploads/91321727-8a4a-4f36-b37c-15ff37fa8ee6.png",
+    img: "/lovable-uploads/46f180b4-2e61-43eb-8454-85b22398d52a.png",
     name: "ALEXANDER SCOTT",
     title: "CHIEF FINANCIAL OFFICER",
   },

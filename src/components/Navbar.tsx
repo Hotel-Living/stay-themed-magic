@@ -50,12 +50,12 @@ export function Navbar() {
   return <header className="shadow-md" style={{
     backgroundColor: "#996515"
   }}>
-      <div className="flex items-center center-between">
+      <div className="flex items-center justify-between">
         <div className="flex-shrink-0 px-2 sm:px-3 py-2">
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4 px-2 ml-auto sm:px-[7px] py-0">
+        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2 ml-auto">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             {t('mainNavigationContent.faq')}
           </Link>

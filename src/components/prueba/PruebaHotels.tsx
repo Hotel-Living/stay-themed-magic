@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Download, Edit, Trash2 } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -32,6 +32,7 @@ export default function PruebaHotels() {
   const fetchHotels = async () => {
     try {
       console.log('Fetching hotels...');
+      setLoading(true);
       const { data, error } = await supabase
         .from('hotels')
         .select('id, name, city, country, status, price_per_month, created_at')
@@ -58,6 +59,19 @@ export default function PruebaHotels() {
     hotel.country.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const getStatusDisplay = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'approved':
+        return { text: 'Published', className: 'bg-green-600' };
+      case 'pending':
+        return { text: 'Pending', className: 'bg-yellow-600' };
+      case 'rejected':
+        return { text: 'Rejected', className: 'bg-red-600' };
+      default:
+        return { text: 'Unknown', className: 'bg-gray-600' };
+    }
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
@@ -73,8 +87,22 @@ export default function PruebaHotels() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-white">Hotels Management</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-white">Hotels Management</h2>
+          <p className="text-white/80 mt-1">
+            Total: {hotels.length} | Published: {hotels.filter(h => h.status === 'approved').length} | 
+            Pending: {hotels.filter(h => h.status === 'pending').length}
+          </p>
+        </div>
         <div className="flex gap-2">
+          <Button 
+            onClick={fetchHotels}
+            className="flex items-center gap-2"
+            variant="outline"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Refresh
+          </Button>
           <Button className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
             Add Hotel
@@ -121,34 +149,34 @@ export default function PruebaHotels() {
                 </tr>
               </thead>
               <tbody>
-                {filteredHotels.map((hotel) => (
-                  <tr key={hotel.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
-                    <td className="p-3 text-white font-medium">{hotel.name}</td>
-                    <td className="p-3 text-white/80">{hotel.city}, {hotel.country}</td>
-                    <td className="p-3">
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        hotel.status === 'approved' ? 'bg-green-600' : 
-                        hotel.status === 'pending' ? 'bg-yellow-600' : 'bg-red-600'
-                      } text-white`}>
-                        {hotel.status}
-                      </span>
-                    </td>
-                    <td className="p-3 text-white/80">€{hotel.price_per_month}</td>
-                    <td className="p-3 text-white/80">
-                      {new Date(hotel.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="p-3">
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="h-8 w-8 p-0">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {filteredHotels.map((hotel) => {
+                  const statusDisplay = getStatusDisplay(hotel.status);
+                  return (
+                    <tr key={hotel.id} className="border-b border-purple-600/30 hover:bg-purple-800/20">
+                      <td className="p-3 text-white font-medium">{hotel.name}</td>
+                      <td className="p-3 text-white/80">{hotel.city}, {hotel.country}</td>
+                      <td className="p-3">
+                        <span className={`px-2 py-1 rounded text-xs text-white ${statusDisplay.className}`}>
+                          {statusDisplay.text}
+                        </span>
+                      </td>
+                      <td className="p-3 text-white/80">€{hotel.price_per_month}</td>
+                      <td className="p-3 text-white/80">
+                        {new Date(hotel.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="p-3">
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" className="h-8 w-8 p-0 bg-red-600 hover:bg-red-700">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

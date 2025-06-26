@@ -1,3 +1,4 @@
+
 import { HotelStarfield } from "@/components/hotels/HotelStarfield";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -11,7 +12,7 @@ const staffProfiles = [
     title: "AFFILIATES & MEMBERSHIP MANAGER",
   },
   {
-    img: "",
+    img: "/lovable-uploads/195c767d-49c1-4be6-aff4-3a8e5d8889b1.png",
     name: "HECTOR OTAIZA",
     title: "FOUNDER AND PROJECT MANAGEMENT CHIEF",
   },

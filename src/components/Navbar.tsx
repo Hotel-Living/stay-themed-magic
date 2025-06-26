@@ -50,7 +50,7 @@ export function Navbar() {
   return <header className="shadow-md" style={{
     backgroundColor: "#996515"
   }}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center center-between">
         <div className="flex-shrink-0 px-2 sm:px-3 py-2">
           <Logo />
         </div>

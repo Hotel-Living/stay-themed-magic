@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { useToast, toast } from "@/hooks/use-toast";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const {
@@ -17,12 +15,15 @@ export function Navbar() {
     signOut,
     session
   } = useAuth();
-  const { toast: useToastRef } = useToast();
-  const { t } = useTranslation();
+  const {
+    toast: useToastRef
+  } = useToast();
+  const {
+    t
+  } = useTranslation();
   const isLoggedIn = !!user && !!session;
   const isHotelOwner = profile?.is_hotel_owner === true;
   const isDevelopment = process.env.NODE_ENV === 'development';
-
   const handleLogout = async () => {
     try {
       if (isMenuOpen) {
@@ -46,10 +47,9 @@ export function Navbar() {
       toast.error("Could not complete logout. Please try again.");
     }
   };
-
-  return <header className="shadow-md" style={{ 
-      backgroundColor: "#996515",
-    }}>
+  return <header className="shadow-md" style={{
+    backgroundColor: "#996515"
+  }}>
       <div className="flex items-center justify-between">
         <div className="flex-shrink-0 px-2 sm:px-3 py-2">
           <Logo />
@@ -60,7 +60,7 @@ export function Navbar() {
             {t('mainNavigationContent.faq')}
           </Link>
           
-          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          <Link to="/affinity-stays" className="text-white font-bold hover:text-white/80 text-[0.5rem] uppercase">
             {t('mainNavigationContent.affinityStays')}
           </Link>
           <Link to="/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
@@ -73,42 +73,32 @@ export function Navbar() {
             {t('mainNavigationContent.featuredHotels')}
           </Link>
           
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && <Link to="/user-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase flex items-center gap-1">
               <User className="w-3 h-3" />
               My Account
-            </Link>
-          )}
+            </Link>}
           
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          {(isHotelOwner || isDevelopment) && <Link to="/hotel-dashboard" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
+            </Link>}
           
           {/* Admin Dashboard link - will check admin role dynamically */}
-          {isLoggedIn && (
-            <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          {isLoggedIn && <Link to="/admin/hotels" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               {t('mainNavigationContent.adminDashboard')}
-            </Link>
-          )}
+            </Link>}
           
-          {!isLoggedIn && !isDevelopment && (
-            <>
+          {!isLoggedIn && !isDevelopment && <>
               <Link to="/signup" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
                 {t('navigation.signup')}
               </Link>
               <Link to="/login" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
                 {t('navigation.login')}
               </Link>
-            </>
-          )}
+            </>}
           
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
+          {isLoggedIn && !isDevelopment && <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
               {t('mainNavigationContent.logout')}
-            </button>
-          )}
+            </button>}
           
           {/* Language Switcher */}
           <div className="border-l border-white/20 pl-4 ml-2">
@@ -125,9 +115,9 @@ export function Navbar() {
         </div>
       </div>
       
-      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{ 
-          backgroundColor: "#996515",
-        }}>
+      <div className={cn("fixed inset-0 top-[48px] z-40 flex flex-col p-4 gap-3 transition-all duration-300 ease-in-out transform md:hidden", isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0")} style={{
+      backgroundColor: "#996515"
+    }}>
         <nav className="flex flex-col space-y-4">
           <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
             {t('mainNavigationContent.faq')}
@@ -146,35 +136,27 @@ export function Navbar() {
             {t('mainNavigationContent.featuredHotels')}
           </Link>
           
-          {(isLoggedIn || isDevelopment) && !isHotelOwner && (
-            <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
+          {(isLoggedIn || isDevelopment) && !isHotelOwner && <Link to="/user-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase flex items-center justify-end gap-1">
               <User className="w-4 h-4" />
               My Account
-            </Link>
-          )}
+            </Link>}
           
-          {(isHotelOwner || isDevelopment) && (
-            <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+          {(isHotelOwner || isDevelopment) && <Link to="/hotel-dashboard" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
               {t('mainNavigationContent.hotelDashboard')}
-            </Link>
-          )}
+            </Link>}
           
-          {!isLoggedIn && !isDevelopment && (
-            <>
+          {!isLoggedIn && !isDevelopment && <>
               <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
                 {t('navigation.signup')}
               </Link>
               <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
                 {t('navigation.login')}
               </Link>
-            </>
-          )}
+            </>}
           
-          {isLoggedIn && !isDevelopment && (
-            <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
+          {isLoggedIn && !isDevelopment && <button onClick={handleLogout} className="text-white font-bold hover:text-white/80 text-right text-base uppercase">
               {t('mainNavigationContent.logout')}
-            </button>
-          )}
+            </button>}
         </nav>
       </div>
     </header>;

@@ -16,18 +16,24 @@ export function CategoryFilterES({ activeCategory, onChange }: CategoryFilterESP
     { value: "5", label: "5 Estrellas" }
   ];
 
+  const handleCategoryClick = (categoryValue: string) => {
+    // Toggle selection: if already selected, deselect; otherwise select
+    const newValue = activeCategory === categoryValue ? null : categoryValue;
+    console.log("CategoryFilter - Category toggled:", categoryValue, "->", newValue);
+    onChange(newValue);
+  };
+
   return (
     <FilterItem title="CATEGORÍA">
       {categories.map(category => (
-        <label key={category.value} className="flex items-start">
+        <label key={category.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
-            type="radio" 
-            name="category"
+            type="checkbox" 
             checked={activeCategory === category.value}
-            onChange={() => onChange(category.value)}
-            className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+            onChange={() => handleCategoryClick(category.value)}
+            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm flex items-center">
+          <span className="text-sm flex items-center text-white">
             {category.label}
             <span className="ml-1 flex">
               {[...Array(parseInt(category.value))].map((_, i) => (

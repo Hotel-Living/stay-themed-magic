@@ -14,24 +14,24 @@ export function PriceRangeFilterRO({ activePrice, onChange }: PriceRangeFilterRO
     { value: 3000, label: "Mai mult de $2,000" }
   ];
   
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, value: number) => {
-    e.stopPropagation();
-    onChange(value);
+  const handlePriceClick = (priceValue: number) => {
+    // Toggle selection: if already selected, deselect; otherwise select
+    const newValue = activePrice === priceValue ? null : priceValue;
+    console.log("PriceRangeFilter - Price toggled:", priceValue, "->", newValue);
+    onChange(newValue);
   };
 
   return (
     <FilterItem title="PREȚ PE LUNĂ">
       {priceRanges.map(option => (
-        <label key={option.value} className="flex items-start mb-2">
+        <label key={option.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
-            type="radio" 
-            name="priceRange"
+            type="checkbox" 
             checked={activePrice === option.value}
-            onChange={(e) => handlePriceChange(e, option.value)}
-            className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
-            onClick={(e) => e.stopPropagation()}
+            onChange={() => handlePriceClick(option.value)}
+            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
-          <span className="text-sm font-bold" onClick={(e) => e.stopPropagation()}>{option.label}</span>
+          <span className="text-sm font-bold text-white">{option.label}</span>
         </label>
       ))}
     </FilterItem>

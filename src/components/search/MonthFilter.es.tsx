@@ -22,19 +22,25 @@ export function MonthFilterES({ activeMonth, onChange }: MonthFilterESProps) {
     { value: "december", label: "Diciembre" }
   ];
 
+  const handleMonthClick = (monthValue: string) => {
+    // Toggle selection: if already selected, deselect; otherwise select
+    const newValue = activeMonth === monthValue ? null : monthValue;
+    console.log("MonthFilter - Month toggled:", monthValue, "->", newValue);
+    onChange(newValue);
+  };
+
   return (
     <FilterItem title="MES">
       <div className="grid grid-cols-2 gap-2">
         {months.map((month) => (
-          <label key={month.value} className="flex items-start">
+          <label key={month.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
             <input 
-              type="radio" 
-              name="month"
+              type="checkbox" 
               checked={activeMonth === month.value}
-              onChange={() => onChange(month.value)}
-              className="rounded-full border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+              onChange={() => handleMonthClick(month.value)}
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
             />
-            <span className="text-sm">{month.label}</span>
+            <span className="text-sm text-white">{month.label}</span>
           </label>
         ))}
       </div>

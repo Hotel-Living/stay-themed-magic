@@ -1,5 +1,4 @@
 
-
 import { FilterItem } from "./FilterItem";
 
 interface NewLengthOfStayFilterESProps {
@@ -23,7 +22,7 @@ export function NewLengthOfStayFilterES({ activeLength, onChange }: NewLengthOfS
   };
 
   return (
-    <FilterItem title="NUEVO NÚMERO DE DÍAS">
+    <FilterItem title="NÚMERO DE DÍAS">
       {lengthOfStayOptions.map(option => (
         <label key={option.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
@@ -38,4 +37,3 @@ export function NewLengthOfStayFilterES({ activeLength, onChange }: NewLengthOfS
     </FilterItem>
   );
 }
-

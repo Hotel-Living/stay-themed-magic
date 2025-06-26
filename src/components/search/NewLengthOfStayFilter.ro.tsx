@@ -1,5 +1,4 @@
 
-
 import { FilterItem } from "./FilterItem";
 
 interface NewLengthOfStayFilterROProps {
@@ -23,7 +22,7 @@ export function NewLengthOfStayFilterRO({ activeLength, onChange }: NewLengthOfS
   };
 
   return (
-    <FilterItem title="NOUA DURATĂ A ȘEDERII">
+    <FilterItem title="NUMĂRUL DE ZILE">
       {lengthOfStayOptions.map(option => (
         <label key={option.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
@@ -38,4 +37,3 @@ export function NewLengthOfStayFilterRO({ activeLength, onChange }: NewLengthOfS
     </FilterItem>
   );
 }
-

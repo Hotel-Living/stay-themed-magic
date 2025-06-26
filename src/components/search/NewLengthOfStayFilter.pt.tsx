@@ -1,5 +1,4 @@
 
-
 import { FilterItem } from "./FilterItem";
 
 interface NewLengthOfStayFilterPTProps {
@@ -23,7 +22,7 @@ export function NewLengthOfStayFilterPT({ activeLength, onChange }: NewLengthOfS
   };
 
   return (
-    <FilterItem title="NOVA DURAÇÃO DA ESTADIA">
+    <FilterItem title="NÚMERO DE DIAS">
       {lengthOfStayOptions.map(option => (
         <label key={option.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 
@@ -38,4 +37,3 @@ export function NewLengthOfStayFilterPT({ activeLength, onChange }: NewLengthOfS
     </FilterItem>
   );
 }
-

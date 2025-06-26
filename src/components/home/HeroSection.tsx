@@ -61,9 +61,9 @@ export function HeroSection() {
           </h2>
         </div>
         
-        {/* Updated slogan container with purple background and blue glow effect - updated to #006EF5 */}
+        {/* Updated slogan container with purple background and blue glow effect - width adjusted to match filter bar */}
         {/* Doubled the spacing below on mobile (from mb-6 to mb-12) */}
-        <div className={`max-w-2xl mx-auto rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[80%]"} relative`}>
+        <div className={`max-w-3xl mx-auto rounded-lg backdrop-blur-sm p-1 ${isMobile ? "mb-12 mt-3 px-0 w-[90%]" : "mb-3 w-[90%]"} relative`}>
           {/* Blue glow effect background - updated to #006EF5 */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#006EF5] via-[#006EF5] to-purple-600 rounded-lg blur-xl opacity-75"></div>
           {/* Purple background */}
@@ -73,7 +73,7 @@ export function HeroSection() {
                 {slogans.map(renderSlogan)}
               </div> :
           // For desktop: maintain the two-column grid layout
-          <div className="grid grid-cols-2 gap-x-4 gap-y-0.125">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-0.125">
                 <div className="space-y-0.125 py-1.5">
                   {slogans.slice(0, 2).map(renderSlogan)}
                 </div>

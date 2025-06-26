@@ -29,10 +29,7 @@ export function LengthOfStayFilterPT({ activeLength, onChange }: LengthOfStayFil
             type="checkbox" 
             checked={activeLength === option.value}
             onChange={() => handleLengthClick(option.value)}
-            className="appearance-none w-4 h-4 mr-2 mt-0.5 border border-fuchsia-800/50 rounded bg-fuchsia-950/50 checked:bg-fuchsia-600 checked:border-fuchsia-500 focus:ring-fuchsia-500/50 focus:ring-2 relative"
-            style={{
-              backgroundImage: activeLength === option.value ? 'url("data:image/svg+xml,%3csvg viewBox=\'0 0 16 16\' fill=\'white\' xmlns=\'http://www.w3.org/2000/svg\'%3e%3cpath d=\'m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z\'/%3e%3c/svg%3e")' : 'none'
-            }}
+            className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
           />
           <span className="text-sm font-bold text-white">{option.label}</span>
         </label>

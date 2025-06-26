@@ -1,6 +1,10 @@
 
 {
   "filters": {
+    "month": "Month",
+    "country": "Country",
+    "affinity": "Affinity",
+    "pricePerMonth": "Price per Month",
     "resetFilters": "Reset Filters",
     "mealPlan": "MEAL PLAN",
     "breakfast": "Breakfast",

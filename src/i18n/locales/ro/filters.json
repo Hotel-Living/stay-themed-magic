@@ -1,6 +1,10 @@
 
 {
   "filters": {
+    "month": "Luna",
+    "country": "Țară",
+    "affinity": "Afinitate",
+    "pricePerMonth": "Preț pe Lună",
     "resetFilters": "Resetare Filtre",
     "mealPlan": "PLAN DE MASA",
     "breakfast": "Mic Dejun",

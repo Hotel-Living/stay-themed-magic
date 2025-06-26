@@ -7,7 +7,7 @@ export const createDefaultFilters = (): FilterState => ({
   country: null,
   month: null,
   minPrice: 0,
-  maxPrice: 10000, // Increased from 1000 to 10000 to not filter out higher-priced hotels
+  maxPrice: null, // Changed from 10000 to null - no default price limit
   stars: [],
   location: null,
   propertyType: null,

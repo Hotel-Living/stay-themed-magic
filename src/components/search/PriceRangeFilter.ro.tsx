@@ -3,15 +3,15 @@ import { FilterItem } from "./FilterItem";
 
 interface PriceRangeFilterROProps {
   activePrice: number | null;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
 }
 
 export function PriceRangeFilterRO({ activePrice, onChange }: PriceRangeFilterROProps) {
   const priceRanges = [
-    { value: 1000, label: "Până la $1,000" },
-    { value: 1500, label: "$1,000 la $1,500" },
-    { value: 2000, label: "$1,500 la $2,000" },
-    { value: 3000, label: "Mai mult de $2,000" }
+    { value: 1000, label: "Până la $1,000", maxPrice: 1000 },
+    { value: 1500, label: "$1,000 la $1,500", minPrice: 1000, maxPrice: 1500 },
+    { value: 2000, label: "$1,500 la $2,000", minPrice: 1500, maxPrice: 2000 },
+    { value: 3000, label: "Mai mult de $2,000", minPrice: 2000 }
   ];
   
   const handlePriceClick = (priceValue: number) => {

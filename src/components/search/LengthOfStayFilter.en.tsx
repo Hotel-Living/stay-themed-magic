@@ -22,7 +22,7 @@ export function LengthOfStayFilterEN({ activeLength, onChange }: LengthOfStayFil
   };
 
   return (
-    <FilterItem title="LENGTH OF STAY">
+    <FilterItem title="NUMBER OF DAYS">
       {lengthOfStayOptions.map(option => (
         <label key={option.value} className="flex items-start cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
           <input 

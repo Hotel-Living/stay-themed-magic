@@ -55,7 +55,7 @@ export function Navbar() {
           <Logo />
         </div>
         
-        <div className="hidden md:flex items-center gap-4 px-2 sm:px-3 py-2 ml-auto">
+        <div className="hidden md:flex items-center gap-4 px-2 ml-auto sm:px-[7px] py-0">
           <Link to="/faq" className="text-white font-bold hover:text-white/80 text-[0.66rem] uppercase">
             {t('mainNavigationContent.faq')}
           </Link>

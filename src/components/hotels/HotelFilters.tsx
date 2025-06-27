@@ -1,10 +1,10 @@
 
 import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { HotelFiltersEN } from "./HotelFilters.en";
-import { HotelFiltersES } from "./HotelFilters.es";
-import { HotelFiltersPT } from "./HotelFilters.pt";
-import { HotelFiltersRO } from "./HotelFilters.ro";
+import HotelFiltersEN from "./HotelFilters.en"; // Fixed: default import
+import HotelFiltersES from "./HotelFilters.es"; // Fixed: default import
+import HotelFiltersPT from "./HotelFilters.pt"; // Fixed: default import
+import HotelFiltersRO from "./HotelFilters.ro"; // Fixed: default import
 import { useHotels } from "@/hooks/useHotels";
 import { FilterState } from "@/components/filters/FilterTypes";
 import { createDefaultFilters } from "@/utils/filterUtils";

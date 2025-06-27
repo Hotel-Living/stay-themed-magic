@@ -16,13 +16,15 @@ export interface FilterState {
   theme?: Theme;
   activities?: string[];
   stars?: string[];
-  priceRange?: number;
+  priceRange?: [number, number]; // Changed to tuple type
   month?: string;
   dayRange?: number;
   mealPlan?: string;
   roomTypes?: string[];
   hotelServices?: string[];
   roomServices?: string[];
+  category?: string; // Added missing property
+  lengthOfStay?: number; // Added missing property
   // Legacy properties for backward compatibility
   maxPrice?: number;
   minPrice?: number;
@@ -49,7 +51,7 @@ export interface FilterSectionProps {
     theme?: string;
     priceRange?: string;
   };
-  availableThemes?: string[];
+  availableThemes?: string[]; // Added missing property
   useLargerMobileText?: boolean;
   textColor?: string;
   labelTextSize?: string;

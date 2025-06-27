@@ -5,7 +5,7 @@ export const createDefaultFilters = (): FilterState => ({
   theme: null,
   country: null,
   month: null,
-  priceRange: null,
+  priceRange: [0, 5000], // Fixed: proper tuple type
   stars: [],
   location: null,
   propertyType: null,
@@ -15,7 +15,9 @@ export const createDefaultFilters = (): FilterState => ({
   hotelServices: [],
   roomServices: [],
   mealPlan: null,
-  dayRange: null
+  dayRange: null,
+  category: null, // Added missing property
+  lengthOfStay: null // Added missing property
 });
 
 export const updateFiltersState = (

@@ -8,7 +8,7 @@ import { LocationFilterRO } from "./LocationFilter.ro";
 
 interface LocationFilterProps {
   activeLocation: string | null;
-  onChange: (value: string | null) => void;
+  onChange: (value: string) => void;
 }
 
 export function LocationFilter({ activeLocation, onChange }: LocationFilterProps) {

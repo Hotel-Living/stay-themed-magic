@@ -1,43 +1,30 @@
 
 import { ReactNode } from "react";
-
-export interface Theme {
-  id: string;
-  name: string;
-  description?: string;
-  level: 1 | 2 | 3;
-}
+import { Theme } from "@/utils/themes";
 
 export interface FilterState {
   country?: string | null;
+  month?: string | null;
+  theme?: Theme | null;
+  priceRange?: number | { min: number; max: number } | null;
+  searchTerm?: string | null;
+  minPrice?: number;
+  maxPrice?: number;
+  stars?: string[];
   location?: string | null;
   propertyType?: string | null;
   propertyStyle?: string | null;
-  theme?: Theme | null;
   activities?: string[];
-  stars?: string[];
-  priceRange?: [number, number];
-  month?: string | null;
-  dayRange?: number | null;
-  mealPlan?: string | null;
   roomTypes?: string[];
-  hotelServices?: string[];
-  roomServices?: string[];
-  category?: string | null;
-  lengthOfStay?: number | null;
-  // Legacy properties for backward compatibility
-  maxPrice?: number;
-  minPrice?: number;
-  searchTerm?: string;
-  stayLengths?: number;
   hotelFeatures?: string[];
   roomFeatures?: string[];
   mealPlans?: string[];
-  atmosphere?: string;
+  stayLengths?: string | null; // Single string for single-select behavior
+  atmosphere?: string | null;
 }
 
 export interface FilterSectionProps {
-  onFilterChange: (filters: Partial<FilterState>) => void;
+  onFilterChange: (filters: FilterState) => void;
   showSearchButton?: boolean;
   verticalLayout?: boolean;
   useCollapsibleThemes?: boolean;
@@ -51,6 +38,7 @@ export interface FilterSectionProps {
     theme?: string;
     priceRange?: string;
   };
+  availableThemes?: string[];
   useLargerMobileText?: boolean;
   textColor?: string;
   labelTextSize?: string;

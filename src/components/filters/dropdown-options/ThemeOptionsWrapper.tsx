@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FilterState, Theme } from "../FilterTypes";
+import { FilterState } from "../FilterTypes";
 import { ThemeOptions } from "../ThemeOptions";
 import { SimpleThemeOptions } from "./SimpleThemeOptions";
 
@@ -28,7 +28,7 @@ export const ThemeOptionsWrapper: React.FC<ThemeOptionsWrapperProps> = ({ props,
     <ThemeOptions
       themeQuery={props.themeQuery}
       setThemeQuery={props.setThemeQuery}
-      activeTheme={props.filters.theme || null}
+      activeTheme={props.filters.theme}
       updateFilter={props.updateFilter}
       useCollapsibleThemes={props.useCollapsibleThemes}
       openThemeCategory={props.openThemeCategory}

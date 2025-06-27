@@ -15,7 +15,7 @@ export default function Index() {
     country: null,
     month: null,
     theme: null,
-    priceRange: null,
+    priceRange: { min: 0, max: 1000 },
     searchTerm: null,
     minPrice: 0,
     maxPrice: 1000,
@@ -28,7 +28,7 @@ export default function Index() {
     hotelFeatures: [],
     roomFeatures: [],
     mealPlans: [],
-    stayLengths: null,
+    stayLengths: null, // Single string, not array
     atmosphere: null
   });
 
@@ -40,6 +40,9 @@ export default function Index() {
     updateFilters(newFilters);
   };
 
+  // Extract theme names for the filter dropdown
+  const themeNames = themes ? themes.map(theme => theme.name) : [];
+
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
       <HotelStarfield />
@@ -47,7 +50,7 @@ export default function Index() {
       
       <main className="flex-1 w-full">
         <HeroSection />
-        <FilterSectionWrapper onFilterChange={handleFilterChange} />
+        <FilterSectionWrapper onFilterChange={handleFilterChange} availableThemes={themeNames} />
       </main>
       
       <Footer />

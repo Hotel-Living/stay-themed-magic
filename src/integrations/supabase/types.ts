@@ -1263,66 +1263,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_activities_with_counts: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          activity_id: string
-          activity_name: string
-          hotel_count: number
-        }[]
-      }
-      get_cities_by_country: {
-        Args: { country_filter?: string }
-        Returns: {
-          city_name: string
-          country_code: string
-          hotel_count: number
-        }[]
-      }
       get_my_roles: {
         Args: Record<PropertyKey, never>
         Returns: {
           role: string
-        }[]
-      }
-      get_price_distribution: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          min_price: number
-          max_price: number
-          avg_price: number
-          hotel_count: number
-        }[]
-      }
-      get_themes_with_counts: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          theme_id: string
-          theme_name: string
-          hotel_count: number
-          level: number
-        }[]
-      }
-      get_unique_countries: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          country_code: string
-          country_name: string
-          hotel_count: number
-        }[]
-      }
-      get_unique_property_styles: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          property_style: string
-          hotel_count: number
-        }[]
-      }
-      get_unique_property_types: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          property_type: string
-          hotel_count: number
         }[]
       }
       has_role: {

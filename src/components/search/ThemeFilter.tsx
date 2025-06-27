@@ -5,7 +5,7 @@ import { ThemeFilterEN } from "./ThemeFilter.en";
 import { ThemeFilterES } from "./ThemeFilter.es";
 import { ThemeFilterPT } from "./ThemeFilter.pt";
 import { ThemeFilterRO } from "./ThemeFilter.ro";
-import { Theme } from "@/components/filters/FilterTypes";
+import { Theme } from "@/utils/themes";
 
 interface ThemeFilterProps {
   activeTheme: Theme | null;

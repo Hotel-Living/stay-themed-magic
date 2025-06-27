@@ -144,20 +144,6 @@ export const HotelCard = ({
           </div>
         </div>
 
-        {/* Affinities section */}
-        {displayThemes.length > 0 && (
-          <div className="text-center">
-            <div className="text-gray-300 text-sm mb-1">Affinities: {displayThemes.slice(0, 3).join(', ')}</div>
-          </div>
-        )}
-
-        {/* Activities section */}
-        {displayActivities.length > 0 && (
-          <div className="text-center">
-            <div className="text-gray-300 text-sm mb-1">Activities: {displayActivities.slice(0, 3).join(', ')}</div>
-          </div>
-        )}
-
         {/* Stars */}
         <div className="flex justify-center">
           <HotelCardStars stars={stars} />

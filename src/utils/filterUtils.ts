@@ -2,22 +2,23 @@
 import { FilterState } from '@/components/filters/FilterTypes';
 
 export const createDefaultFilters = (): FilterState => ({
+  searchTerm: '',
   theme: null,
   country: null,
   month: null,
-  priceRange: [0, 5000], // Fixed: proper tuple type
+  minPrice: 0,
+  maxPrice: null, // Changed from 10000 to null - no default price limit
   stars: [],
   location: null,
   propertyType: null,
   propertyStyle: null,
   activities: [],
   roomTypes: [],
-  hotelServices: [],
-  roomServices: [],
-  mealPlan: null,
-  dayRange: null,
-  category: null, // Added missing property
-  lengthOfStay: null // Added missing property
+  hotelFeatures: [],
+  roomFeatures: [],
+  mealPlans: [],
+  stayLengths: null, // Single string, not array
+  atmosphere: null
 });
 
 export const updateFiltersState = (

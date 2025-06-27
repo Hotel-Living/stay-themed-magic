@@ -8,7 +8,7 @@ import { PropertyStyleFilterRO } from "./PropertyStyleFilter.ro";
 
 interface PropertyStyleFilterProps {
   activePropertyStyle: string | null;
-  onChange: (value: string | null) => void;
+  onChange: (value: string) => void;
 }
 
 export function PropertyStyleFilter({ activePropertyStyle, onChange }: PropertyStyleFilterProps) {

@@ -8,7 +8,7 @@ import { MonthFilterRO } from "./MonthFilter.ro";
 
 interface MonthFilterProps {
   activeMonth: string | null;
-  onChange: (value: string | null) => void;
+  onChange: (value: string) => void;
 }
 
 export function MonthFilter({ activeMonth, onChange }: MonthFilterProps) {

@@ -1,133 +1,106 @@
 
-import React from "react";
-import { PriceRangeFilter } from "@/components/search/PriceRangeFilter";
-import { CountryFilter } from "@/components/search/CountryFilter";
-import { CategoryFilter } from "@/components/search/CategoryFilter";
-import { MonthFilter } from "@/components/search/MonthFilter";
-import { DayRangeFilter } from "@/components/search/DayRangeFilter";
-import { LocationFilter } from "@/components/search/LocationFilter";
-import { MealPlanFilter } from "@/components/search/MealPlanFilter";
-import { ActivityFilter } from "@/components/search/ActivityFilter";
-import { LengthOfStayFilter } from "@/components/search/LengthOfStayFilter";
-import { HotelServicesFilter } from "@/components/search/HotelServicesFilter";
-import { FilterState } from "./FilterTypes";
+import { useNavigate } from "react-router-dom";
+import { FilterSectionProps } from "./FilterTypes";
+import { FilterContainer } from "./FilterContainer";
+import { useFilterState } from "./hooks/useFilterState";
+import { FilterEventHandler } from "./FilterEventHandler";
+import { FilterSearchButton } from "./FilterSearchButton";
+import { FilterDropdownList } from "./FilterDropdownList";
 
-interface FilterSectionProps {
-  onFilterChange: (filters: Partial<FilterState>) => void;
-  showSearchButton?: boolean;
-  verticalLayout?: boolean;
-  useCollapsibleThemes?: boolean;
-  expandedLayout?: boolean;
-  compactSpacing?: boolean;
-  useBoldLabels?: boolean;
-  usePurpleFilterBackground?: boolean;
-  placeholders?: {
-    country?: string;
-    month?: string;
-    theme?: string;
-    priceRange?: string;
-  };
-  useLargerMobileText?: boolean;
-  textColor?: string;
-  labelTextSize?: string;
-  filterBgColor?: string;
-}
-
-export function FilterSection({
-  onFilterChange,
-  showSearchButton = false,
+export const FilterSection = ({ 
+  onFilterChange, 
+  showSearchButton = false, 
   verticalLayout = false,
-  useCollapsibleThemes = true,
-  expandedLayout = true,
+  useCollapsibleThemes = false,
+  expandedLayout = false,
   compactSpacing = false,
-  useBoldLabels = true,
-  usePurpleFilterBackground = true,
-  placeholders = {},
-  useLargerMobileText = true,
-  textColor,
-  labelTextSize,
-  filterBgColor
-}: FilterSectionProps) {
-  const [filters, setFilters] = React.useState<FilterState>({
-    priceRange: [0, 5000],
-    country: null,
-    category: null,
-    month: null,
-    dayRange: null,
-    location: null,
-    mealPlan: null,
-    activities: [],
-    lengthOfStay: null,
-    hotelServices: []
-  });
-
-  const handleFilterUpdate = (newFilters: Partial<FilterState>) => {
-    const updatedFilters = { ...filters, ...newFilters };
-    setFilters(updatedFilters);
-    onFilterChange(updatedFilters);
+  useBoldLabels = false,
+  usePurpleFilterBackground = false,
+  placeholders = {
+    country: "Country",
+    month: "Month",
+    theme: "Affinity",
+    priceRange: "Price per Month"
+  },
+  availableThemes = [],
+  useLargerMobileText = false,
+  textColor = "#3300B0",
+  labelTextSize = "text-sm", // Added default value for labelTextSize
+  filterBgColor = "bg-[#FFF8A9]"
+}: FilterSectionProps) => {
+  const navigate = useNavigate();
+  
+  const {
+    filters,
+    openDropdown,
+    themeQuery,
+    openThemeCategory,
+    setThemeQuery,
+    toggleDropdown,
+    toggleThemeCategory,
+    updateFilter,
+    clearFilter,
+    clearAllFilters,
+    hasActiveFilters
+  } = useFilterState(onFilterChange);
+  
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    
+    if (filters.country) params.append("country", filters.country);
+    if (filters.month) params.append("month", filters.month);
+    if (filters.theme && filters.theme.id) params.append("theme", filters.theme.id);
+    if (typeof filters.priceRange === 'number') params.append("price", filters.priceRange.toString());
+    
+    console.log("Search filters applied:", filters);
+    
+    navigate(`/search?${params.toString()}`);
   };
 
+  const formWrapperBgColor = 'bg-[#5d0083]';
+  const searchBgColor = 'bg-white';
+  const searchHoverBgColor = 'hover:bg-white/90';
+  
   return (
-    <div className="space-y-3">
-      <PriceRangeFilter 
-        activePriceRange={filters.priceRange || [0, 5000]}
-        onChange={(range) => handleFilterUpdate({ priceRange: range })}
+    <FilterContainer
+      verticalLayout={verticalLayout}
+      expandedLayout={expandedLayout}
+      compactSpacing={compactSpacing}
+      formWrapperBgColor={formWrapperBgColor}
+    >
+      <FilterDropdownList 
+        filters={filters}
+        openDropdown={openDropdown}
+        toggleDropdown={toggleDropdown}
+        updateFilter={updateFilter}
+        clearFilter={clearFilter}
+        placeholders={placeholders}
+        filterBgColor={filterBgColor}
+        compactSpacing={compactSpacing}
+        useBoldLabels={useBoldLabels}
+        useLargerMobileText={useLargerMobileText}
+        themeQuery={themeQuery}
+        setThemeQuery={setThemeQuery}
+        useCollapsibleThemes={useCollapsibleThemes}
+        openThemeCategory={openThemeCategory}
+        toggleThemeCategory={toggleThemeCategory}
+        textColor={textColor}
+        availableThemes={availableThemes}
+        labelTextSize={labelTextSize}
       />
       
-      <CountryFilter 
-        activeCountry={filters.country}
-        onChange={(country) => handleFilterUpdate({ country })}
+      <FilterSearchButton 
+        hasActiveFilters={hasActiveFilters()}
+        onClearAllFilters={clearAllFilters}
+        onSearch={handleSearch}
+        showSearchButton={showSearchButton}
+        verticalLayout={verticalLayout}
+        compactSpacing={compactSpacing}
+        searchBgColor={searchBgColor}
+        searchHoverBgColor={searchHoverBgColor}
       />
       
-      <CategoryFilter 
-        activeCategory={filters.category}
-        onChange={(category) => handleFilterUpdate({ category })}
-      />
-      
-      <MonthFilter 
-        activeMonth={filters.month}
-        onChange={(month) => handleFilterUpdate({ month })}
-      />
-      
-      <DayRangeFilter 
-        activeDayRange={filters.dayRange}
-        onChange={(dayRange) => handleFilterUpdate({ dayRange })}
-      />
-      
-      <LocationFilter 
-        activeLocation={filters.location}
-        onChange={(location) => handleFilterUpdate({ location })}
-      />
-      
-      <MealPlanFilter 
-        activeMealPlan={filters.mealPlan}
-        onChange={(mealPlan) => handleFilterUpdate({ mealPlan })}
-      />
-      
-      <ActivityFilter 
-        activeActivities={filters.activities}
-        onChange={(activity, isChecked) => {
-          const newActivities = isChecked 
-            ? [...filters.activities, activity]
-            : filters.activities.filter(a => a !== activity);
-          handleFilterUpdate({ activities: newActivities });
-        }}
-      />
-      
-      <LengthOfStayFilter 
-        activeLength={filters.lengthOfStay}
-        onChange={(lengthOfStay) => handleFilterUpdate({ lengthOfStay })}
-      />
-      
-      <HotelServicesFilter 
-        activeHotelServices={filters.hotelServices}
-        onChange={(service, isChecked) => {
-          const newServices = isChecked 
-            ? [...filters.hotelServices, service]
-            : filters.hotelServices.filter(s => s !== service);
-          handleFilterUpdate({ hotelServices: newServices });
-        }}
-      />
-    </div>
+      <FilterEventHandler updateFilter={updateFilter} />
+    </FilterContainer>
   );
-}
+};

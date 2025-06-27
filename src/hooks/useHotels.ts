@@ -4,7 +4,7 @@ import { FilterState } from '@/components/filters/FilterTypes';
 import { fetchHotelsWithFilters, convertHotelToUIFormat } from '@/services/hotelService';
 import { createDefaultFilters, updateFiltersState } from '@/utils/filterUtils';
 
-// Updated interface to match the actual database structure
+// Expanded interface to include all needed properties
 interface HotelCardData {
   id: string;
   name: string;
@@ -18,14 +18,13 @@ interface HotelCardData {
   hotel_images?: Array<{ image_url: string, is_main?: boolean }>;
   hotel_themes?: Array<{ themes?: { name: string } }>;
   available_months?: string[];
-  features_hotel?: any;
-  features_room?: any;
+  features_hotel?: Record<string, boolean>;
+  features_room?: Record<string, boolean>;
   meal_plans?: string[];
   stay_lengths?: number[];
   atmosphere?: string;
   property_type?: string;
   style?: string;
-  hotel_activities?: Array<{ activities?: { name: string } }>;
 }
 
 interface UseHotelsProps {
@@ -48,61 +47,14 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
       try {
         const data = await fetchHotelsWithFilters(filters);
         
-        // Convert API hotel data to UI format with proper location field
+        // Convert API hotel data to UI format
         const validHotels = (data || [])
           .filter(hotel => hotel && typeof hotel === 'object' && hotel.id && hotel.name)
-          .map(hotel => {
-            // Add location property by combining city and country
-            const location = `${hotel.city || ''}, ${hotel.country || ''}`.replace(/^,\s*|,\s*$/g, '');
-            
-            // Convert available_months from string to array if needed - fix TypeScript inference
-            let availableMonths: string[] = [];
-            
-            if (hotel.available_months !== null && hotel.available_months !== undefined) {
-              if (Array.isArray(hotel.available_months)) {
-                // Already an array, filter out invalid entries
-                availableMonths = (hotel.available_months as any[]).filter((month: any): month is string => 
-                  typeof month === 'string' && month.trim().length > 0
-                );
-              } else if (typeof hotel.available_months === 'string') {
-                // Convert string to array with explicit type casting
-                const monthsString = hotel.available_months as string;
-                if (monthsString.trim().length > 0) {
-                  availableMonths = monthsString
-                    .split(',')
-                    .map((month: string) => month.trim())
-                    .filter((month: string) => month.length > 0);
-                }
-              }
-            }
-            
-            return {
-              id: hotel.id,
-              name: hotel.name,
-              location,
-              city: hotel.city,
-              country: hotel.country,
-              price_per_month: hotel.price_per_month || 0,
-              thumbnail: hotel.main_image_url || hotel.hotel_images?.find(img => img.is_main)?.image_url,
-              theme: hotel.hotel_themes?.[0]?.themes?.name,
-              category: hotel.category,
-              hotel_images: hotel.hotel_images,
-              hotel_themes: hotel.hotel_themes,
-              hotel_activities: hotel.hotel_activities,
-              available_months: availableMonths,
-              features_hotel: hotel.features_hotel,
-              features_room: hotel.features_room,
-              meal_plans: hotel.meal_plans,
-              stay_lengths: hotel.stay_lengths,
-              atmosphere: hotel.atmosphere,
-              property_type: hotel.property_type,
-              style: hotel.style,
-            } as HotelCardData;
-          })
+          .map(hotel => convertHotelToUIFormat(hotel))
           .filter(hotel => hotel !== null);
           
         console.log(`Processed ${validHotels.length} hotels for display`);
-        setHotels(validHotels);
+        setHotels(validHotels as HotelCardData[]);
       } catch (err: any) {
         console.error("Error fetching hotels:", err);
         setError(err instanceof Error ? err : new Error(String(err)));

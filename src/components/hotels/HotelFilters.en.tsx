@@ -8,7 +8,7 @@ interface HotelFiltersENProps {
   onFiltersChange: (newFilters: Partial<FilterState>) => void;
 }
 
-export default function HotelFiltersEN({ filters, onFiltersChange }: HotelFiltersENProps) {
+export function HotelFiltersEN({ filters, onFiltersChange }: HotelFiltersENProps) {
   return (
     <div className="mb-8">
       <FilterSection 

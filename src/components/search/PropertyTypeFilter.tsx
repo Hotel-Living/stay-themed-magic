@@ -8,7 +8,7 @@ import { PropertyTypeFilterRO } from "./PropertyTypeFilter.ro";
 
 interface PropertyTypeFilterProps {
   activePropertyType: string | null;
-  onChange: (value: string | null) => void;
+  onChange: (value: string) => void;
 }
 
 export function PropertyTypeFilter({ activePropertyType, onChange }: PropertyTypeFilterProps) {

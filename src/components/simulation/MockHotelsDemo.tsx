@@ -8,85 +8,82 @@ interface MockHotelsDemoProps {
 }
 
 export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
-  // Filter hotels based on active filters
+  // SIMPLE PRICE FILTERING ONLY
   const filteredHotels = mockHotels.filter(hotel => {
-    // Country filter
-    if (activeFilters.country && activeFilters.country !== 'all') {
-      if (hotel.country !== activeFilters.country) return false;
-    }
-
-    // Location filter
-    if (activeFilters.location && activeFilters.location !== 'all') {
-      if (hotel.city !== activeFilters.location) return false;
-    }
-
-    // Theme filter - FIXED: Compare hotel.theme (string) with activeFilters.theme.name
-    if (activeFilters.theme) {
-      if (hotel.theme !== activeFilters.theme.name) return false;
-    }
-
-    // Activities filter
-    if (activeFilters.activities && activeFilters.activities.length > 0) {
-      const hasMatchingActivity = activeFilters.activities.some(activity => 
-        hotel.activities?.includes(activity)
-      );
-      if (!hasMatchingActivity) return false;
-    }
-
-    // Property type filter
-    if (activeFilters.propertyType && activeFilters.propertyType !== 'all') {
-      if (hotel.propertyType !== activeFilters.propertyType) return false;
-    }
-
-    // Property style filter
-    if (activeFilters.propertyStyle && activeFilters.propertyStyle !== 'all') {
-      if (hotel.propertyStyle !== activeFilters.propertyStyle) return false;
-    }
-
-    // Stars filter (category)
-    if (activeFilters.stars && activeFilters.stars.length > 0) {
-      const hasMatchingCategory = activeFilters.stars.some(star => 
-        hotel.category.toString() === star
-      );
-      if (!hasMatchingCategory) return false;
-    }
-
-    // Price range filter - FIXED: Correct logic for "less than or equal to" pricing
+    // ONLY PRICE FILTER IS ACTIVE
     if (activeFilters.priceRange) {
-      // If price range is very high (like 999999), show all hotels
-      if (activeFilters.priceRange >= 999999) {
-        // No filter applied for "unlimited" option
-      } else {
-        // Show hotels that cost LESS than or equal to the selected price range
-        if (hotel.pricePerMonth > activeFilters.priceRange) return false;
+      console.log(`Filtering hotel "${hotel.name}" (${hotel.pricePerMonth}) with price range: ${activeFilters.priceRange}`);
+      
+      if (activeFilters.priceRange === 1000) {
+        // Up to $1,000
+        const matches = hotel.pricePerMonth <= 1000;
+        console.log(`Up to $1,000 filter: ${matches}`);
+        return matches;
+      } else if (activeFilters.priceRange === 1500) {
+        // $1,000 to $1,500
+        const matches = hotel.pricePerMonth > 1000 && hotel.pricePerMonth <= 1500;
+        console.log(`$1,000 to $1,500 filter: ${matches}`);
+        return matches;
+      } else if (activeFilters.priceRange === 2000) {
+        // $1,500 to $2,000
+        const matches = hotel.pricePerMonth > 1500 && hotel.pricePerMonth <= 2000;
+        console.log(`$1,500 to $2,000 filter: ${matches}`);
+        return matches;
+      } else if (activeFilters.priceRange === 999999) {
+        // More than $2,000
+        const matches = hotel.pricePerMonth > 2000;
+        console.log(`More than $2,000 filter: ${matches}`);
+        return matches;
       }
     }
-
-    // Month filter
-    if (activeFilters.month && activeFilters.month !== 'all') {
-      if (!hotel.availableMonths.includes(activeFilters.month)) return false;
-    }
-
-    // Day range filter
-    if (activeFilters.dayRange) {
-      if (hotel.dayRange !== activeFilters.dayRange) return false;
-    }
-
-    // Meal plan filter - FIXED: Ensure proper comparison
-    if (activeFilters.mealPlan && activeFilters.mealPlan !== 'all') {
-      if (hotel.mealPlan !== activeFilters.mealPlan) return false;
-    }
-
+    
+    // If no price filter is active, show all hotels
     return true;
   });
+
+  console.log(`Total hotels after filtering: ${filteredHotels.length}`);
+  console.log('Filtered hotels:', filteredHotels.map(h => `${h.name} ($${h.pricePerMonth})`));
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">Hotel Simulation Demo</h2>
+        <h2 className="text-2xl font-bold text-white mb-2">CONTROLLED DEMO - 10 Test Hotels</h2>
         <p className="text-gray-300">
-          Found {filteredHotels.length} hotels matching your filters
+          Total Hotels: 10 | Showing: {filteredHotels.length} hotels
         </p>
+        {activeFilters.priceRange && (
+          <p className="text-yellow-300 mt-2">
+            Active Price Filter: {
+              activeFilters.priceRange === 1000 ? "Up to $1,000" :
+              activeFilters.priceRange === 1500 ? "$1,000 to $1,500" :
+              activeFilters.priceRange === 2000 ? "$1,500 to $2,000" :
+              activeFilters.priceRange === 999999 ? "More than $2,000" : "Unknown"
+            }
+          </p>
+        )}
+      </div>
+
+      {/* PRICE DISTRIBUTION SUMMARY */}
+      <div className="bg-fuchsia-900/30 rounded-lg p-4 border border-fuchsia-500/30">
+        <h3 className="text-white font-bold mb-3">Hotel Distribution by Price Bracket:</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div className="text-center">
+            <div className="text-green-400 font-bold">Up to $1,000</div>
+            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth <= 1000).length} hotels</div>
+          </div>
+          <div className="text-center">
+            <div className="text-blue-400 font-bold">$1,000 - $1,500</div>
+            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1000 && h.pricePerMonth <= 1500).length} hotels</div>
+          </div>
+          <div className="text-center">
+            <div className="text-orange-400 font-bold">$1,500 - $2,000</div>
+            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 1500 && h.pricePerMonth <= 2000).length} hotels</div>
+          </div>
+          <div className="text-center">
+            <div className="text-red-400 font-bold">More than $2,000</div>
+            <div className="text-white">{mockHotels.filter(h => h.pricePerMonth > 2000).length} hotels</div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -104,36 +101,19 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
             
             <div className="space-y-2 text-sm text-gray-300">
               <p><span className="text-fuchsia-300">Location:</span> {hotel.city}, {hotel.country}</p>
-              <p><span className="text-fuchsia-300">Price:</span> ${hotel.pricePerMonth}/month</p>
+              <p>
+                <span className="text-fuchsia-300">Price:</span> 
+                <span className={`ml-2 font-bold ${
+                  hotel.pricePerMonth <= 1000 ? 'text-green-400' :
+                  hotel.pricePerMonth <= 1500 ? 'text-blue-400' :
+                  hotel.pricePerMonth <= 2000 ? 'text-orange-400' : 'text-red-400'
+                }`}>
+                  ${hotel.pricePerMonth}/month
+                </span>
+              </p>
               <p><span className="text-fuchsia-300">Category:</span> {hotel.category} stars</p>
               <p><span className="text-fuchsia-300">Type:</span> {hotel.propertyType}</p>
               <p><span className="text-fuchsia-300">Style:</span> {hotel.propertyStyle}</p>
-              <p><span className="text-fuchsia-300">Theme:</span> {hotel.theme}</p>
-              <p><span className="text-fuchsia-300">Meal Plan:</span> {hotel.mealPlan}</p>
-              
-              {hotel.activities && hotel.activities.length > 0 && (
-                <div>
-                  <span className="text-fuchsia-300">Activities:</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {hotel.activities.map((activity, index) => (
-                      <span key={index} className="bg-fuchsia-800/50 text-xs px-2 py-1 rounded">
-                        {activity}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              <div>
-                <span className="text-fuchsia-300">Available Months:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {hotel.availableMonths.map((month, index) => (
-                    <span key={index} className="bg-blue-800/50 text-xs px-2 py-1 rounded">
-                      {month}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         ))}
@@ -141,8 +121,8 @@ export function MockHotelsDemo({ activeFilters }: MockHotelsDemoProps) {
 
       {filteredHotels.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-400 text-lg">No hotels match your current filters.</p>
-          <p className="text-gray-500 text-sm mt-2">Try adjusting your search criteria.</p>
+          <p className="text-gray-400 text-lg">No hotels match the selected price range.</p>
+          <p className="text-gray-500 text-sm mt-2">Try selecting a different price bracket.</p>
         </div>
       )}
     </div>

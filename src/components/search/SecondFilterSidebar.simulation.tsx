@@ -1,20 +1,7 @@
 
 import React from "react";
 import { FilterState } from "@/components/filters/FilterTypes";
-import { PriceRangeFilter } from "./PriceRangeFilter";
-import { CountryFilter } from "./CountryFilter";
-import { LocationFilter } from "./LocationFilter";
-import { ThemeFilterSimulation } from "./ThemeFilter.simulation";
-import { ActivityFilterSimulation } from "./ActivityFilter.simulation";
-import { DayRangeFilter } from "./DayRangeFilter";
-import { MonthFilter } from "./MonthFilter";
-import { MealPlanFilter } from "./MealPlanFilter";
-import { PropertyTypeFilter } from "./PropertyTypeFilter";
-import { PropertyStyleFilter } from "./PropertyStyleFilter";
-import { CategoryFilter } from "./CategoryFilter";
-import { RoomTypesFilter } from "./RoomTypesFilter";
-import { HotelServicesFilter } from "./HotelServicesFilter";
-import { RoomServicesFilter } from "./RoomServicesFilter";
+import { FilterItem } from "./FilterItem";
 
 interface SecondFilterSidebarSimulationProps {
   activeFilters: FilterState;
@@ -26,114 +13,74 @@ interface SecondFilterSidebarSimulationProps {
 export function SecondFilterSidebarSimulation({ 
   activeFilters, 
   handleFilterChange, 
-  handleArrayFilterChange,
   onResetAllFilters 
 }: SecondFilterSidebarSimulationProps) {
+  
+  // FIXED PRICE RANGES - EXACTLY AS REQUESTED
+  const priceRanges = [
+    { value: 1000, label: "Hasta $1.000", min: 0, max: 1000 },
+    { value: 1500, label: "$1.000 a $1.500", min: 1000, max: 1500 },
+    { value: 2000, label: "$1.500 a $2.000", min: 1500, max: 2000 },
+    { value: 999999, label: "Más de $2.000", min: 2000, max: 999999 }
+  ];
+
+  const handlePriceClick = (priceValue: number) => {
+    const newValue = activeFilters.priceRange === priceValue ? null : priceValue;
+    console.log("Price filter clicked:", priceValue, "->", newValue);
+    handleFilterChange('priceRange', newValue);
+  };
+
+  const hasActiveFilters = activeFilters.priceRange !== null && activeFilters.priceRange !== undefined;
+
   return (
-    <div className="w-full bg-[#460F54]/90 backdrop-blur-sm rounded-lg p-4 border border-fuchsia-400/20">
+    <div className="bg-fuchsia-950/50 backdrop-blur-md rounded-lg p-4 border border-fuchsia-500/30">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-white">Filters</h2>
-        <button 
-          onClick={onResetAllFilters}
-          className="text-xs text-fuchsia-300 hover:text-white transition-colors underline"
-        >
-          Reset All
-        </button>
+        <h2 className="text-lg font-bold text-white">FILTERS - DEMO MODE</h2>
+        {hasActiveFilters && (
+          <button 
+            onClick={onResetAllFilters}
+            className="text-xs text-fuchsia-300 hover:text-white underline"
+          >
+            Clear All
+          </button>
+        )}
       </div>
-      
-      <div className="space-y-3">
-        {/* 1. Precio por mes */}
-        <PriceRangeFilter 
-          activePrice={typeof activeFilters.priceRange === 'number' ? activeFilters.priceRange : null}
-          onChange={(value) => handleFilterChange('priceRange', value)}
-        />
-        
-        {/* 2. País */}
-        <CountryFilter 
-          activeCountry={activeFilters.country || null}
-          onChange={(value) => handleFilterChange('country', value)}
-        />
-        
-        {/* 3. Ubicación */}
-        <LocationFilter 
-          activeLocation={activeFilters.location || null}
-          onChange={(value) => handleFilterChange('location', value)}
-        />
-        
-        {/* 4. Afinidad - Use simulation version */}
-        <ThemeFilterSimulation 
-          activeTheme={activeFilters.theme || null}
-          onChange={(value) => handleFilterChange('theme', value)}
-        />
-        
-        {/* 5. Actividades - Use simulation version */}
-        <ActivityFilterSimulation 
-          activeActivities={activeFilters.activities || []}
-          onChange={(value, isChecked) => handleArrayFilterChange('activities', value, isChecked)}
-        />
-        
-        {/* 6. Número de días */}
-        <DayRangeFilter 
-          activeDayRange={activeFilters.dayRange || null}
-          onChange={(value) => handleFilterChange('dayRange', value)}
-        />
-        
-        {/* 7. Mes */}
-        <MonthFilter 
-          activeMonth={activeFilters.month || null}
-          onChange={(value) => handleFilterChange('month', value)}
-        />
-        
-        {/* 8. Plan de comidas */}
-        <MealPlanFilter 
-          activeMealPlan={activeFilters.mealPlan || null}
-          onChange={(value) => handleFilterChange('mealPlan', value)}
-        />
-        
-        {/* 9. Tipo de propiedad */}
-        <PropertyTypeFilter 
-          activePropertyType={activeFilters.propertyType || null}
-          onChange={(value) => handleFilterChange('propertyType', value)}
-        />
-        
-        {/* 10. Estilo de propiedad */}
-        <PropertyStyleFilter 
-          activePropertyStyle={activeFilters.propertyStyle || null}
-          onChange={(value) => handleFilterChange('propertyStyle', value)}
-        />
-        
-        {/* 11. Categoría */}
-        <CategoryFilter 
-          activeCategory={activeFilters.stars?.[0] || null}
-          onChange={(value) => handleFilterChange('stars', value ? [value] : [])}
-        />
-        
-        {/* 12. Tipos de habitación */}
-        <RoomTypesFilter 
-          activeRoomTypes={activeFilters.roomTypes || []}
-          onChange={(value, isChecked) => handleArrayFilterChange('roomTypes', value, isChecked)}
-        />
-        
-        {/* 13. Servicios del hotel */}
-        <HotelServicesFilter 
-          activeHotelServices={activeFilters.hotelServices || []}
-          onChange={(value, isChecked) => handleArrayFilterChange('hotelServices', value, isChecked)}
-        />
-        
-        {/* 14. Servicios de la habitación */}
-        <RoomServicesFilter 
-          activeRoomServices={activeFilters.roomServices || []}
-          onChange={(value, isChecked) => handleArrayFilterChange('roomServices', value, isChecked)}
-        />
+
+      {/* PRICE FILTER ONLY */}
+      <FilterItem title="PRECIO POR MES">
+        {priceRanges.map(range => (
+          <label key={range.value} className="flex items-start mb-2 cursor-pointer hover:bg-fuchsia-800/30 p-1 rounded">
+            <input 
+              type="checkbox" 
+              checked={activeFilters.priceRange === range.value}
+              onChange={() => handlePriceClick(range.value)}
+              className="rounded border-fuchsia-800/50 text-fuchsia-600 focus:ring-fuchsia-500/50 bg-fuchsia-950/50 h-4 w-4 mr-2 mt-0.5" 
+            />
+            <span className="text-sm font-bold text-white">{range.label}</span>
+          </label>
+        ))}
+      </FilterItem>
+
+      {/* DEBUG INFO */}
+      <div className="mt-6 p-3 bg-gray-800/50 rounded text-xs text-gray-400">
+        <div className="font-bold mb-1">DEBUG INFO:</div>
+        <div>Active Price: {activeFilters.priceRange || 'None'}</div>
+        <div>Has Filters: {hasActiveFilters ? 'Yes' : 'No'}</div>
       </div>
-      
-      <div className="mt-6 pt-4 border-t border-fuchsia-400/20">
-        <button 
-          onClick={onResetAllFilters}
-          className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white py-2 px-4 rounded transition-colors text-sm font-bold"
-        >
-          Reset All Filters
-        </button>
+
+      {/* TEMPORARILY DISABLED FILTERS */}
+      <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded">
+        <div className="text-yellow-300 text-xs font-bold mb-1">TEMPORARILY DISABLED:</div>
+        <div className="text-yellow-200 text-xs">
+          • Country Filter<br/>
+          • Affinity Filter<br/>
+          • Meal Plan Filter<br/>
+          • Stars Filter<br/>
+          • Activities Filter
+        </div>
+        <div className="text-yellow-400 text-xs mt-2 italic">
+          These will be restored one by one after price filter is confirmed working.
+        </div>
       </div>
     </div>
   );

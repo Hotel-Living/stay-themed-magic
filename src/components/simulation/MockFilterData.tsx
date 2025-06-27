@@ -1,254 +1,210 @@
 
-// Mock data for simulation filters
+// CONTROLLED TEST DATA - 10 Hotels Only
+// Each hotel is specifically designed to test one price bracket
 
-export const mockCountries = [
-  { id: "ES", name: "Spain", count: 6 },
-  { id: "FR", name: "France", count: 0 },
-  { id: "IT", name: "Italy", count: 0 },
-  { id: "US", name: "USA", count: 0 }
-];
+export interface MockHotel {
+  id: string;
+  name: string;
+  country: string;
+  city: string;
+  pricePerMonth: number;
+  availableMonths: string[];
+  dayRange: number;
+  mealPlan: string;
+  propertyType: string;
+  propertyStyle: string;
+  category: number;
+  theme: string;
+  activities: string[];
+  mainImageUrl: string;
+}
 
-export const mockCities = [
-  { id: "Barcelona", name: "Barcelona", count: 1 },
-  { id: "Valencia", name: "Valencia", count: 1 },
-  { id: "Madrid", name: "Madrid", count: 1 },
-  { id: "Seville", name: "Seville", count: 1 },
-  { id: "Granada", name: "Granada", count: 1 },
-  { id: "Palma", name: "Palma", count: 1 }
-];
-
-export const mockThemes = [
-  { 
-    id: "urban-exploration", 
-    name: "Urban Exploration", 
-    category: "LIFESTYLE",
-    level: 1 as const,
-    count: 1 
-  },
-  { 
-    id: "beach-sun", 
-    name: "Beach & Sun", 
-    category: "NATURE",
-    level: 1 as const,
-    count: 1 
-  },
-  { 
-    id: "business-networking", 
-    name: "Business & Networking", 
-    category: "BUSINESS",
-    level: 1 as const,
-    count: 1 
-  },
-  { 
-    id: "cultural-heritage", 
-    name: "Cultural Heritage", 
-    category: "CULTURE",
-    level: 1 as const,
-    count: 1 
-  },
-  { 
-    id: "art-creativity", 
-    name: "Art & Creativity", 
-    category: "ART",
-    level: 1 as const,
-    count: 1 
-  },
-  { 
-    id: "wellness-health", 
-    name: "Wellness & Health", 
-    category: "HEALTH",
-    level: 1 as const,
-    count: 1 
-  }
-];
-
-export const mockActivities = [
-  { id: "city-tours", name: "City Tours", count: 1 },
-  { id: "cultural-visits", name: "Cultural Visits", count: 1 },
-  { id: "beach-activities", name: "Beach Activities", count: 1 },
-  { id: "water-sports", name: "Water Sports", count: 1 },
-  { id: "business-centers", name: "Business Centers", count: 1 },
-  { id: "networking-events", name: "Networking Events", count: 1 },
-  { id: "historical-tours", name: "Historical Tours", count: 1 },
-  { id: "museums", name: "Museums", count: 1 },
-  { id: "art-galleries", name: "Art Galleries", count: 1 },
-  { id: "creative-workshops", name: "Creative Workshops", count: 1 },
-  { id: "yoga", name: "Yoga", count: 1 },
-  { id: "meditation", name: "Meditation", count: 1 }
-];
-
-export const mockPropertyTypes = [
-  { id: "Hotel", name: "Hotel", count: 3 },
-  { id: "Resort", name: "Resort", count: 2 },
-  { id: "Boutique Hotel", name: "Boutique Hotel", count: 1 },
-  { id: "Villa", name: "Villa", count: 0 },
-  { id: "Apartment", name: "Apartment", count: 0 }
-];
-
-// Official property styles as defined in the system
-export const mockPropertyStyles = [
-  { id: "Modern", name: "Modern", count: 2 },
-  { id: "Classic", name: "Classic", count: 1 },
-  { id: "Luxury", name: "Luxury", count: 2 },
-  { id: "Budget", name: "Budget", count: 1 },
-  { id: "Boutique", name: "Boutique", count: 1 },
-  { id: "Historic", name: "Historic", count: 1 },
-  { id: "Eco-friendly", name: "Eco-friendly", count: 1 }
-];
-
-export const mockRoomTypes = [
-  "Double Room",
-  "Single Room"
-];
-
-export const mockHotelServices = [
-  "wifi",
-  "pool", 
-  "restaurant",
-  "bar",
-  "spa",
-  "gym",
-  "organic-restaurant"
-];
-
-export const mockRoomServices = [
-  "air-conditioning",
-  "tv",
-  "balcony",
-  "minibar",
-  "room-service",
-  "concierge",
-  "organic-amenities"
-];
-
-export const mockMealPlans = [
-  { id: "no-meals", name: "No meals", count: 1 },
-  { id: "breakfast-only", name: "Breakfast only", count: 2 },
-  { id: "half-board", name: "Half board", count: 2 },
-  { id: "full-board", name: "Full board", count: 1 }
-];
-
-export const mockDayRanges = [
-  { id: 32, name: "32 days", count: 2 },
-  { id: 24, name: "24 days", count: 1 },
-  { id: 16, name: "16 days", count: 2 },
-  { id: 8, name: "8 days", count: 1 }
-];
-
-// Mock hotels data with complete information for proper filtering
-export const mockHotels = [
+// EXACTLY 10 HOTELS - DISTRIBUTED ACROSS 4 PRICE BRACKETS
+export const mockHotels: MockHotel[] = [
+  // BRACKET 1: Up to $1,000 (3 hotels)
   {
     id: "1",
-    name: "Hotel Barcelona Center",
-    country: "ES",
-    city: "Barcelona",
-    pricePerMonth: 1200,
-    availableMonths: ["january", "february", "march"],
-    dayRange: 32,
-    mealPlan: "breakfast-only",
+    name: "Budget Comfort Inn",
+    country: "Spain",
+    city: "Valencia",
+    pricePerMonth: 800,
+    availableMonths: ["January", "February", "March"],
+    dayRange: 16,
+    mealPlan: "Breakfast",
     propertyType: "Hotel",
     propertyStyle: "Modern",
-    category: 4,
-    roomTypes: ["Double Room", "Single Room"],
-    hotelServices: ["wifi", "pool", "restaurant"],
-    roomServices: ["air-conditioning", "tv"],
-    theme: "urban-exploration",
-    activities: ["city-tours", "cultural-visits"],
-    mainImageUrl: "/lovable-uploads/hotel1.jpg"
+    category: 3,
+    theme: "Budget Travel",
+    activities: ["City Tours"],
+    mainImageUrl: "/lovable-uploads/0143058c-8fff-4da1-92a4-c00ad1b52595.png"
   },
   {
-    id: "2",
-    name: "Valencia Beach Resort",
-    country: "ES",
-    city: "Valencia",
-    pricePerMonth: 1800,
-    availableMonths: ["april", "may", "june"],
-    dayRange: 24,
-    mealPlan: "half-board",
-    propertyType: "Resort",
-    propertyStyle: "Luxury",
-    category: 5,
-    roomTypes: ["Double Room"],
-    hotelServices: ["wifi", "pool", "spa", "restaurant"],
-    roomServices: ["air-conditioning", "tv", "balcony"],
-    theme: "beach-sun",
-    activities: ["beach-activities", "water-sports"],
-    mainImageUrl: "/lovable-uploads/hotel2.jpg"
+    id: "2", 
+    name: "Cozy Downtown Hostel",
+    country: "Portugal",
+    city: "Porto",
+    pricePerMonth: 650,
+    availableMonths: ["April", "May", "June"],
+    dayRange: 32,
+    mealPlan: "No Meals",
+    propertyType: "Hostel",
+    propertyStyle: "Boutique",
+    category: 2,
+    theme: "Backpacker",
+    activities: ["Walking Tours"],
+    mainImageUrl: "/lovable-uploads/02d9e2e1-4780-45e4-af9a-3f7f3d5bb649.png"
   },
   {
     id: "3",
-    name: "Madrid Business Hotel",
-    country: "ES",
-    city: "Madrid",
-    pricePerMonth: 2200,
-    availableMonths: ["september", "october", "november"],
+    name: "Simple City Hotel",
+    country: "Spain",
+    city: "Seville",
+    pricePerMonth: 950,
+    availableMonths: ["July", "August", "September"],
     dayRange: 16,
-    mealPlan: "breakfast-only",
+    mealPlan: "Half Board",
     propertyType: "Hotel",
-    propertyStyle: "Modern",
-    category: 4,
-    roomTypes: ["Single Room"],
-    hotelServices: ["wifi", "gym", "restaurant"],
-    roomServices: ["air-conditioning", "tv", "minibar"],
-    theme: "business-networking",
-    activities: ["business-centers", "networking-events"],
-    mainImageUrl: "/lovable-uploads/hotel3.jpg"
+    propertyStyle: "Traditional",
+    category: 3,
+    theme: "Cultural",
+    activities: ["Museums"],
+    mainImageUrl: "/lovable-uploads/0541e858-fb70-4334-817f-640e38be5c5d.png"
   },
+
+  // BRACKET 2: $1,000 to $1,500 (2 hotels)
   {
     id: "4",
-    name: "Seville Heritage Hotel",
-    country: "ES",
-    city: "Seville",
-    pricePerMonth: 1500,
-    availableMonths: ["march", "april", "may"],
+    name: "Mid-Range Business Hotel",
+    country: "Spain",
+    city: "Madrid",
+    pricePerMonth: 1200,
+    availableMonths: ["October", "November", "December"],
     dayRange: 16,
-    mealPlan: "half-board",
-    propertyType: "Boutique Hotel",
-    propertyStyle: "Historic",
+    mealPlan: "Breakfast",
+    propertyType: "Hotel",
+    propertyStyle: "Business",
     category: 4,
-    roomTypes: ["Double Room"],
-    hotelServices: ["wifi", "restaurant", "bar"],
-    roomServices: ["air-conditioning", "tv"],
-    theme: "cultural-heritage",
-    activities: ["historical-tours", "museums"],
-    mainImageUrl: "/lovable-uploads/hotel4.jpg"
+    theme: "Business Travel",
+    activities: ["Conference Rooms"],
+    mainImageUrl: "/lovable-uploads/06045feb-cf93-4027-bb37-f0c3102aace4.png"
   },
   {
     id: "5",
-    name: "Granada Art Boutique",
-    country: "ES",
-    city: "Granada",
-    pricePerMonth: 1600,
-    availableMonths: ["june", "july", "august"],
-    dayRange: 8,
-    mealPlan: "no-meals",
-    propertyType: "Boutique Hotel",
-    propertyStyle: "Boutique",
-    category: 3,
-    roomTypes: ["Double Room", "Single Room"],
-    hotelServices: ["wifi", "bar"],
-    roomServices: ["air-conditioning", "tv"],
-    theme: "art-creativity",
-    activities: ["art-galleries", "creative-workshops"],
-    mainImageUrl: "/lovable-uploads/hotel5.jpg"
+    name: "Comfortable Beach Resort",
+    country: "Portugal",
+    city: "Algarve",
+    pricePerMonth: 1400,
+    availableMonths: ["January", "February", "March"],
+    dayRange: 32,
+    mealPlan: "Full Board",
+    propertyType: "Resort",
+    propertyStyle: "Beach",
+    category: 4,
+    theme: "Beach & Sun",
+    activities: ["Water Sports", "Beach Activities"],
+    mainImageUrl: "/lovable-uploads/0ca6645a-ece0-4075-a1c1-36bf915e4c77.png"
   },
+
+  // BRACKET 3: $1,500 to $2,000 (3 hotels)
   {
     id: "6",
-    name: "Palma Wellness Resort",
-    country: "ES",
-    city: "Palma",
-    pricePerMonth: 2800,
-    availableMonths: ["december", "january"],
-    dayRange: 32,
-    mealPlan: "full-board",
-    propertyType: "Resort",
+    name: "Premium Urban Hotel",
+    country: "Spain",
+    city: "Barcelona",
+    pricePerMonth: 1750,
+    availableMonths: ["April", "May", "June"],
+    dayRange: 16,
+    mealPlan: "Breakfast",
+    propertyType: "Hotel",
     propertyStyle: "Luxury",
     category: 5,
-    roomTypes: ["Double Room"],
-    hotelServices: ["wifi", "spa", "pool", "organic-restaurant"],
-    roomServices: ["air-conditioning", "tv", "balcony", "organic-amenities"],
-    theme: "wellness-health",
-    activities: ["yoga", "meditation"],
-    mainImageUrl: "/lovable-uploads/hotel6.jpg"
+    theme: "Urban Luxury",
+    activities: ["Spa", "Fine Dining"],
+    mainImageUrl: "/lovable-uploads/0cbe5a61-e3cd-4c27-979c-ae584834b91a.png"
+  },
+  {
+    id: "7",
+    name: "Wellness Mountain Lodge",
+    country: "Portugal",
+    city: "Sintra",
+    pricePerMonth: 1650,
+    availableMonths: ["July", "August", "September"],
+    dayRange: 32,
+    mealPlan: "Half Board",
+    propertyType: "Lodge",
+    propertyStyle: "Mountain",
+    category: 4,
+    theme: "Wellness",
+    activities: ["Hiking", "Yoga"],
+    mainImageUrl: "/lovable-uploads/0d3c0697-3280-440c-b107-47cdc3fcc664.png"
+  },
+  {
+    id: "8",
+    name: "Boutique Art Hotel",
+    country: "Spain",
+    city: "Bilbao",
+    pricePerMonth: 1850,
+    availableMonths: ["October", "November", "December"],
+    dayRange: 16,
+    mealPlan: "Breakfast",
+    propertyType: "Boutique Hotel",
+    propertyStyle: "Artistic",
+    category: 5,
+    theme: "Art & Culture",
+    activities: ["Art Galleries", "Cultural Tours"],
+    mainImageUrl: "/lovable-uploads/0f02fa32-9a3a-45b3-8a03-f1e73db23b18.png"
+  },
+
+  // BRACKET 4: More than $2,000 (2 hotels)
+  {
+    id: "9",
+    name: "Ultra Luxury Palace",
+    country: "Spain",
+    city: "Marbella",
+    pricePerMonth: 2800,
+    availableMonths: ["January", "February", "March"],
+    dayRange: 16,
+    mealPlan: "Full Board",
+    propertyType: "Palace",
+    propertyStyle: "Palace",
+    category: 5,
+    theme: "Ultra Luxury",
+    activities: ["Private Butler", "Helicopter Tours"],
+    mainImageUrl: "/lovable-uploads/0f500031-cb6c-4b8d-ade2-551a627a0626.png"
+  },
+  {
+    id: "10",
+    name: "Exclusive Villa Resort",
+    country: "Portugal",
+    city: "Madeira",
+    pricePerMonth: 3200,
+    availableMonths: ["April", "May", "June"],
+    dayRange: 32,
+    mealPlan: "All Inclusive",
+    propertyType: "Villa",
+    propertyStyle: "Exclusive",
+    category: 5,
+    theme: "Exclusive Experience",
+    activities: ["Private Chef", "Yacht Access"],
+    mainImageUrl: "/lovable-uploads/104ca835-26ab-45f6-ad0f-8df52ad85b44.png"
   }
 ];
+
+// MOCK DATA FOR OTHER FILTERS (NOT USED YET)
+export const mockCountries = ["Spain", "Portugal"];
+export const mockCities = ["Madrid", "Barcelona", "Valencia", "Seville", "Bilbao", "Marbella", "Porto", "Algarve", "Sintra", "Madeira"];
+export const mockPropertyTypes = ["Hotel", "Hostel", "Resort", "Lodge", "Boutique Hotel", "Palace", "Villa"];
+export const mockPropertyStyles = ["Modern", "Traditional", "Business", "Beach", "Luxury", "Mountain", "Artistic", "Palace", "Exclusive"];
+export const mockThemes = [
+  { id: "1", name: "Budget Travel" },
+  { id: "2", name: "Backpacker" },
+  { id: "3", name: "Cultural" },
+  { id: "4", name: "Business Travel" },
+  { id: "5", name: "Beach & Sun" },
+  { id: "6", name: "Urban Luxury" },
+  { id: "7", name: "Wellness" },
+  { id: "8", name: "Art & Culture" },
+  { id: "9", name: "Ultra Luxury" },
+  { id: "10", name: "Exclusive Experience" }
+];
+export const mockActivities = ["City Tours", "Walking Tours", "Museums", "Conference Rooms", "Water Sports", "Beach Activities", "Spa", "Fine Dining", "Hiking", "Yoga", "Art Galleries", "Cultural Tours", "Private Butler", "Helicopter Tours", "Private Chef", "Yacht Access"];

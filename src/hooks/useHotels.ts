@@ -67,11 +67,11 @@ export const useHotels = ({ initialFilters }: UseHotelsProps = {}) => {
               } else if (typeof availableMonthsField === 'string') {
                 const trimmedField = availableMonthsField.trim();
                 if (trimmedField.length > 0) {
-                  // Split and process months with explicit typing
-                  availableMonths = trimmedField
-                    .split(',')
-                    .map(month => month.trim())
-                    .filter(month => month.length > 0);
+                  // Split and process months with explicit string array typing
+                  const monthsArray: string[] = trimmedField.split(',');
+                  availableMonths = monthsArray
+                    .map((month: string) => month.trim())
+                    .filter((month: string) => month.length > 0);
                 }
               }
             }

@@ -2,26 +2,19 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-interface FilterData {
-  countries: Array<{ code: string; name: string; flag: string }>;
-  cities: string[];
-  loading: boolean;
-  error: string | null;
-}
-
-// Official base countries that must always appear
 const OFFICIAL_BASE_COUNTRIES = [
-  'United States', 'Canada', 'Mexico', 'Argentina', 'Brazil', 'Colombia',
-  'Spain', 'Portugal', 'Romania', 'Italy', 'France', 'Germany', 'Greece',
-  'Australia', 'New Zealand', 'South Africa', 'Morocco', 'Egypt',
-  'Thailand', 'Indonesia', 'Vietnam', 'Philippines'
+  'Spain', 'France', 'Italy', 'United States', 'Egypt', 'Turkey', 'Germany', 
+  'Portugal', 'Greece', 'Brazil', 'Canada', 'Mexico', 'Argentina', 'Colombia', 
+  'Romania', 'Australia', 'New Zealand', 'South Africa', 'Morocco', 'Thailand', 
+  'Indonesia', 'Vietnam', 'Philippines', 'United Kingdom'
 ];
 
-export const useFilterData = (): FilterData => {
+export function useFilterData() {
   const [countries, setCountries] = useState<Array<{ code: string; name: string; flag: string }>>([]);
-  const [cities, setCities] = useState<string[]>([]);
+  const [themes, setThemes] = useState<Array<{ id: string; name: string }>>([]);
+  const [activities, setActivities] = useState<Array<{ id: string; name: string }>>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -29,108 +22,137 @@ export const useFilterData = (): FilterData => {
         setLoading(true);
         setError(null);
 
-        // Fetch unique countries from hotels table (approved hotels only)
-        const { data: hotelData, error: hotelError } = await supabase
+        // Fetch unique countries from hotels
+        const { data: hotelsData, error: hotelsError } = await supabase
           .from('hotels')
-          .select('country, city')
-          .eq('status', 'approved');
+          .select('country')
+          .not('country', 'is', null);
 
-        if (hotelError) {
-          throw hotelError;
+        if (hotelsError) {
+          throw hotelsError;
         }
 
-        if (hotelData) {
-          // Get unique countries from database
-          const dbCountries = [...new Set(hotelData.map(hotel => hotel.country))];
-          
-          // Combine official base countries with countries from database
-          const allCountryNames = [...new Set([...OFFICIAL_BASE_COUNTRIES, ...dbCountries])];
-          
-          // Comprehensive country mapping with proper names and codes
-          const countryMap: Record<string, { name: string; flag: string; code: string }> = {
-            'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
-            'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
-            'Mexico': { name: 'Mexico', flag: '🇲🇽', code: 'MX' },
-            'Argentina': { name: 'Argentina', flag: '🇦🇷', code: 'AR' },
-            'Brazil': { name: 'Brazil', flag: '🇧🇷', code: 'BR' },
-            'Colombia': { name: 'Colombia', flag: '🇨🇴', code: 'CO' },
-            'Spain': { name: 'Spain', flag: '🇪🇸', code: 'ES' },
-            'Portugal': { name: 'Portugal', flag: '🇵🇹', code: 'PT' },
-            'Romania': { name: 'Romania', flag: '🇷🇴', code: 'RO' },
-            'Italy': { name: 'Italy', flag: '🇮🇹', code: 'IT' },
-            'France': { name: 'France', flag: '🇫🇷', code: 'FR' },
-            'Germany': { name: 'Germany', flag: '🇩🇪', code: 'DE' },
-            'Greece': { name: 'Greece', flag: '🇬🇷', code: 'GR' },
-            'Australia': { name: 'Australia', flag: '🇦🇺', code: 'AU' },
-            'New Zealand': { name: 'New Zealand', flag: '🇳🇿', code: 'NZ' },
-            'South Africa': { name: 'South Africa', flag: '🇿🇦', code: 'ZA' },
-            'Morocco': { name: 'Morocco', flag: '🇲🇦', code: 'MA' },
-            'Egypt': { name: 'Egypt', flag: '🇪🇬', code: 'EG' },
-            'Thailand': { name: 'Thailand', flag: '🇹🇭', code: 'TH' },
-            'Indonesia': { name: 'Indonesia', flag: '🇮🇩', code: 'ID' },
-            'Vietnam': { name: 'Vietnam', flag: '🇻🇳', code: 'VN' },
-            'Philippines': { name: 'Philippines', flag: '🇵🇭', code: 'PH' },
-            // Legacy mappings for existing database countries
-            'USA': { name: 'United States', flag: '🇺🇸', code: 'US' },
-            'Turkey': { name: 'Turkey', flag: '🇹🇷', code: 'TR' },
-            'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' },
-            // Additional mappings for common entries
-            'Hungary': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
-            'Iceland': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
-            'HU': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
-            'IC': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
-            'IS': { name: 'Iceland', flag: '🇮🇸', code: 'IS' }
-          };
+        // Extract unique countries from database
+        const dbCountries = [...new Set(hotelsData?.map(hotel => hotel.country).filter(Boolean) || [])];
+        
+        // Combine official base countries with countries from database
+        const allCountryNames = [...new Set([...OFFICIAL_BASE_COUNTRIES, ...dbCountries])];
+        
+        // Comprehensive country mapping with proper names and codes
+        const countryMap: Record<string, { name: string; flag: string; code: string }> = {
+          'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
+          'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
+          'Mexico': { name: 'Mexico', flag: '🇲🇽', code: 'MX' },
+          'Spain': { name: 'Spain', flag: '🇪🇸', code: 'ES' },
+          'France': { name: 'France', flag: '🇫🇷', code: 'FR' },
+          'Italy': { name: 'Italy', flag: '🇮🇹', code: 'IT' },
+          'Germany': { name: 'Germany', flag: '🇩🇪', code: 'DE' },
+          'Portugal': { name: 'Portugal', flag: '🇵🇹', code: 'PT' },
+          'Romania': { name: 'Romania', flag: '🇷🇴', code: 'RO' },
+          'Greece': { name: 'Greece', flag: '🇬🇷', code: 'GR' },
+          'Brazil': { name: 'Brazil', flag: '🇧🇷', code: 'BR' },
+          'Argentina': { name: 'Argentina', flag: '🇦🇷', code: 'AR' },
+          'Colombia': { name: 'Colombia', flag: '🇨🇴', code: 'CO' },
+          'Australia': { name: 'Australia', flag: '🇦🇺', code: 'AU' },
+          'New Zealand': { name: 'New Zealand', flag: '🇳🇿', code: 'NZ' },
+          'South Africa': { name: 'South Africa', flag: '🇿🇦', code: 'ZA' },
+          'Morocco': { name: 'Morocco', flag: '🇲🇦', code: 'MA' },
+          'Egypt': { name: 'Egypt', flag: '🇪🇬', code: 'EG' },
+          'Thailand': { name: 'Thailand', flag: '🇹🇭', code: 'TH' },
+          'Indonesia': { name: 'Indonesia', flag: '🇮🇩', code: 'ID' },
+          'Vietnam': { name: 'Vietnam', flag: '🇻🇳', code: 'VN' },
+          'Philippines': { name: 'Philippines', flag: '🇵🇭', code: 'PH' },
+          // Legacy mappings for existing database countries
+          'USA': { name: 'United States', flag: '🇺🇸', code: 'US' },
+          'Turkey': { name: 'Turkey', flag: '🇹🇷', code: 'TR' },
+          'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' },
+          // Additional countries
+          'Belgium': { name: 'Belgium', flag: '🇧🇪', code: 'BE' },
+          'Finland': { name: 'Finland', flag: '🇫🇮', code: 'FI' },
+          'Hungary': { name: 'Hungary', flag: '🇭🇺', code: 'HU' },
+          'Iceland': { name: 'Iceland', flag: '🇮🇸', code: 'IS' },
+          'Ireland': { name: 'Ireland', flag: '🇮🇪', code: 'IE' },
+          'Iran': { name: 'Iran', flag: '🇮🇷', code: 'IR' },
+          'Luxembourg': { name: 'Luxembourg', flag: '🇱🇺', code: 'LU' }
+        };
 
-          // Create a Set to track unique countries by code to prevent duplicates
-          const uniqueCountries = new Map<string, { code: string; name: string; flag: string }>();
+        // Create a Set to track unique countries by code to prevent duplicates
+        const uniqueCountries = new Map<string, { code: string; name: string; flag: string }>();
 
-          allCountryNames.forEach(countryName => {
-            const countryInfo = countryMap[countryName];
-            if (countryInfo) {
-              // Only add if we haven't seen this code before
-              if (!uniqueCountries.has(countryInfo.code)) {
-                uniqueCountries.set(countryInfo.code, {
-                  code: countryInfo.code,
-                  name: countryInfo.name,
-                  flag: countryInfo.flag
+        // Process all country names and filter out invalid entries
+        allCountryNames.forEach(countryName => {
+          // Skip invalid entries (duplicated codes like "BE BE", "FI FI", etc.)
+          if (countryName && countryName.includes(' ') && countryName.split(' ').length === 2) {
+            const parts = countryName.split(' ');
+            if (parts[0] === parts[1] && parts[0].length <= 3) {
+              // This is a duplicate code entry like "BE BE", skip it
+              console.warn(`Skipping duplicate country code entry: ${countryName}`);
+              return;
+            }
+          }
+
+          // Skip entries that are just country codes (2-3 letter codes in uppercase)
+          if (countryName && countryName.length <= 3 && countryName === countryName.toUpperCase() && !countryName.includes(' ')) {
+            console.warn(`Skipping standalone country code: ${countryName}`);
+            return;
+          }
+
+          if (countryMap[countryName]) {
+            const mappedCountry = countryMap[countryName];
+            if (!uniqueCountries.has(mappedCountry.code)) {
+              uniqueCountries.set(mappedCountry.code, {
+                code: mappedCountry.code,
+                name: mappedCountry.name,
+                flag: mappedCountry.flag
+              });
+            }
+          } else {
+            // For any unmapped countries from database, only process valid country names
+            if (countryName && countryName.length > 3 && !countryName.match(/^[A-Z]{2,3}$/)) {
+              // Generate a code from the country name
+              const code = countryName.substring(0, 2).toUpperCase();
+              if (!uniqueCountries.has(code)) {
+                uniqueCountries.set(code, {
+                  code: code,
+                  name: countryName,
+                  flag: '🏳️'
                 });
               }
-            } else {
-              // For any unmapped countries from database, skip invalid entries like "HU HU" or "IC IC"
-              // Only process if it's a proper country name (not a repeated code)
-              if (countryName && countryName.length > 2 && !countryName.includes(' ') && countryName === countryName.toUpperCase()) {
-                // This looks like a country code, skip it or try to map it
-                console.warn(`Skipping invalid country entry: ${countryName}`);
-              } else if (countryName && countryName.length > 2) {
-                // This looks like a proper country name, create basic entry with generic flag
-                const code = countryName.substring(0, 2).toUpperCase();
-                if (!uniqueCountries.has(code)) {
-                  uniqueCountries.set(code, {
-                    code: code,
-                    name: countryName,
-                    flag: '🏳️'
-                  });
-                }
-              }
             }
-          });
+          }
+        });
 
-          // Convert Map to Array and sort by name
-          const countryList = Array.from(uniqueCountries.values())
-            .sort((a, b) => a.name.localeCompare(b.name));
+        // Convert to array and sort alphabetically by name
+        const countriesArray = Array.from(uniqueCountries.values()).sort((a, b) => a.name.localeCompare(b.name));
+        setCountries(countriesArray);
 
-          // Extract unique cities
-          const uniqueCities = [...new Set(hotelData.map(hotel => hotel.city))]
-            .filter(city => city && city.trim() !== '')
-            .sort();
+        // Fetch themes
+        const { data: themesData, error: themesError } = await supabase
+          .from('themes')
+          .select('id, name')
+          .order('name');
 
-          setCountries(countryList);
-          setCities(uniqueCities);
+        if (themesError) {
+          throw themesError;
         }
+
+        setThemes(themesData || []);
+
+        // Fetch activities
+        const { data: activitiesData, error: activitiesError } = await supabase
+          .from('activities')
+          .select('id, name')
+          .order('name');
+
+        if (activitiesError) {
+          throw activitiesError;
+        }
+
+        setActivities(activitiesData || []);
+
       } catch (err) {
         console.error('Error fetching filter data:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err as Error);
       } finally {
         setLoading(false);
       }
@@ -139,5 +161,5 @@ export const useFilterData = (): FilterData => {
     fetchFilterData();
   }, []);
 
-  return { countries, cities, loading, error };
-};
+  return { countries, themes, activities, loading, error };
+}

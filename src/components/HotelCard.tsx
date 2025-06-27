@@ -2,7 +2,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, Star } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 interface Theme {
   id: string;
@@ -73,117 +72,115 @@ export function HotelCard({
   const activities = (hotel_activities?.map(ha => ha.activities?.name).filter(Boolean) || [])
     .filter((value, index, self) => self.indexOf(value) === index);
 
-  // Colors for tags
-  const tagColors = [
-    'bg-blue-100 text-blue-800 border-blue-200',
-    'bg-green-100 text-green-800 border-green-200',
-    'bg-purple-100 text-purple-800 border-purple-200',
-    'bg-pink-100 text-pink-800 border-pink-200',
-    'bg-indigo-100 text-indigo-800 border-indigo-200',
-    'bg-teal-100 text-teal-800 border-teal-200',
-    'bg-orange-100 text-orange-800 border-orange-200',
-    'bg-cyan-100 text-cyan-800 border-cyan-200',
-  ];
-
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${
-          i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+        className={`w-5 h-5 ${
+          i < rating ? 'text-yellow-400 fill-current' : 'text-white/30'
         }`}
       />
     ));
   };
 
-  const renderTags = (items: string[], startColorIndex: number = 0) => {
-    if (!items || items.length === 0) return null;
-    
-    return (
-      <div className="flex flex-wrap justify-center gap-1.5">
-        {items.map((item, index) => (
-          <span
-            key={index}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm ${
-              tagColors[(startColorIndex + index) % tagColors.length]
-            }`}
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div
-      className="relative cursor-pointer group w-full max-w-sm mx-auto"
+      className="relative cursor-pointer group w-full max-w-[320px] mx-auto"
       onClick={handleClick}
     >
-      {/* Card with gradient background and shadows */}
-      <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 overflow-hidden group-hover:scale-[1.02]">
+      {/* Card with purple gradient background matching the reference */}
+      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between">
         
-        {/* Image Section */}
-        <div className="relative h-48 overflow-hidden">
-          <img
-            src={image}
-            alt={name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          
-          {/* Heart Icon */}
-          <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-md transition-colors">
-            <Heart className="w-4 h-4 text-gray-600 hover:text-red-500" />
-          </button>
-        </div>
-
-        {/* Content Section */}
-        <div className="p-4 space-y-3">
-          {/* Hotel Name */}
-          <h3 className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">
-            {name}
-          </h3>
-
-          {/* Location */}
-          <div className="space-y-0.5">
-            <p className="text-gray-700 font-medium text-sm">{city}</p>
-            <p className="text-gray-600 text-sm">{country}</p>
-          </div>
-
-          {/* Duration and Price */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-sm">32 days</span>
-            <div className="text-right">
-              <span className="text-lg font-bold text-gray-900">From {pricePerMonth}</span>
-              <p className="text-xs text-gray-600">p/person</p>
+        {/* Header Section */}
+        <div className="space-y-4">
+          {/* Hotel Name and Stars */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-start">
+              <h3 className="font-bold text-xl text-white leading-tight flex-1 pr-2">
+                {name}
+              </h3>
+              <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex-shrink-0">
+                <Heart className="w-4 h-4 text-white hover:text-red-400" />
+              </button>
+            </div>
+            
+            {/* Stars */}
+            <div className="flex space-x-1">
+              {renderStars(stars)}
             </div>
           </div>
 
-          {/* Stars */}
-          <div className="flex justify-center space-x-0.5">
-            {renderStars(stars)}
+          {/* Location */}
+          <div className="space-y-1">
+            <p className="text-white font-medium text-lg">{city}</p>
+            <p className="text-white/80 text-sm">{country}</p>
+          </div>
+
+          {/* Hotel Description */}
+          <p className="text-white/90 text-sm leading-relaxed">
+            Premium accommodation experience
+          </p>
+
+          {/* Type and Style Info */}
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-white/70">Type: </span>
+              <span className="text-white font-medium">Hotel</span>
+            </div>
+            <div>
+              <span className="text-white/70">Style: </span>
+              <span className="text-white font-medium">Modern</span>
+            </div>
+          </div>
+
+          {/* Duration and Meals */}
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-white/70">Duration: </span>
+              <span className="text-white font-medium">32 days</span>
+            </div>
+            <div>
+              <span className="text-white/70">Meals: </span>
+              <span className="text-white font-medium">breakfast-only</span>
+            </div>
           </div>
 
           {/* AFINIDADES Section */}
           {affinities.length > 0 && (
-            <div className="space-y-2">
-              <h4 className="text-xs font-bold text-gray-700 text-center uppercase tracking-wide">
-                AFINIDADES
-              </h4>
-              {renderTags(affinities, 0)}
+            <div className="space-y-3">
+              <div className="text-center">
+                <span className="inline-block px-4 py-1 bg-white/20 rounded-full text-white font-semibold text-sm tracking-wide">
+                  AFINIDADES
+                </span>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                {affinities.slice(0, 3).map((affinity, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-white text-xs font-medium border border-white/20 hover:bg-white/25 transition-colors"
+                  >
+                    {affinity}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
+        </div>
 
-          {/* ACTIVIDADES Section */}
-          {activities.length > 0 && (
-            <div className="space-y-2">
-              <h4 className="text-xs font-bold text-gray-700 text-center uppercase tracking-wide">
-                ACTIVIDADES
-              </h4>
-              {renderTags(activities, 4)}
+        {/* Footer Section */}
+        <div className="space-y-4 mt-6">
+          {/* Price */}
+          <div className="text-center">
+            <div className="text-3xl font-bold text-white">
+              ${pricePerMonth}
+              <span className="text-lg font-normal text-white/80">/month</span>
             </div>
-          )}
+          </div>
+
+          {/* Available Months */}
+          <div className="text-center">
+            <span className="text-white/70 text-sm">Available: Jan, Feb, Mar, Apr</span>
+          </div>
         </div>
       </div>
     </div>

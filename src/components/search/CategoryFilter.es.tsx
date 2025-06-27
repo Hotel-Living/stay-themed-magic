@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 
 interface CategoryFilterESProps {
   activeCategory: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function CategoryFilterES({ activeCategory, onChange }: CategoryFilterESProps) {

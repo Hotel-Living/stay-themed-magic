@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 
 interface CategoryFilterPTProps {
   activeCategory: string | null;
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 }
 
 export function CategoryFilterPT({ activeCategory, onChange }: CategoryFilterPTProps) {

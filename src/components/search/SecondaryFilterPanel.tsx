@@ -21,7 +21,7 @@ function CollapsibleSection({
 }: CollapsibleSectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return <div className="border-b border-purple-600/30 last:border-b-0">
-      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-3 py-2 flex items-center justify-between text-white transition-colors bg-[#7526b9]">
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-3 py-2 flex items-center justify-between text-white transition-colors bg-[#64067b]">
         <span className="font-medium text-sm">{title}</span>
         {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </button>
@@ -135,7 +135,7 @@ export function SecondaryFilterPanel({
 
       {/* 1. Precio por mes */}
       <CollapsibleSection title={t('filters.pricePerMonth')}>
-        {priceRanges.map(range => <label key={range.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer hover:bg-purple-700/20 p-1 rounded">
+        {priceRanges.map(range => <label key={range.key} className="flex items-center space-x-2 text-white text-sm cursor-pointer p-1 rounded bg-[#6b0185]">
             <input type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500" checked={activeFilters.minPrice === range.min && activeFilters.maxPrice === range.max} onChange={e => {
           if (e.target.checked) {
             handleFilterChange('minPrice', range.min);
@@ -145,7 +145,7 @@ export function SecondaryFilterPanel({
             handleFilterChange('maxPrice', null);
           }
         }} />
-            <span>{range.label}</span>
+            <span className="text-slate-50">{range.label}</span>
           </label>)}
       </CollapsibleSection>
 

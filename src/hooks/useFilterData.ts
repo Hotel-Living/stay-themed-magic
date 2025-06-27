@@ -46,7 +46,7 @@ export const useFilterData = (): FilterData => {
           // Combine official base countries with countries from database
           const allCountryNames = [...new Set([...OFFICIAL_BASE_COUNTRIES, ...dbCountries])];
           
-          // Map country names to display format with flags
+          // Map country names to display format with flags - ensuring no duplicates
           const countryMap: Record<string, { name: string; flag: string; code: string }> = {
             'United States': { name: 'United States', flag: '🇺🇸', code: 'US' },
             'Canada': { name: 'Canada', flag: '🇨🇦', code: 'CA' },
@@ -76,22 +76,36 @@ export const useFilterData = (): FilterData => {
             'United Kingdom': { name: 'United Kingdom', flag: '🇬🇧', code: 'GB' }
           };
 
-          const countryList = allCountryNames.map(countryName => {
+          // Create a Set to track unique countries by code to prevent duplicates
+          const uniqueCountries = new Map<string, { code: string; name: string; flag: string }>();
+
+          allCountryNames.forEach(countryName => {
             const countryInfo = countryMap[countryName];
             if (countryInfo) {
-              return {
-                code: countryInfo.code,
-                name: countryInfo.name,
-                flag: countryInfo.flag
-              };
+              // Only add if we haven't seen this code before
+              if (!uniqueCountries.has(countryInfo.code)) {
+                uniqueCountries.set(countryInfo.code, {
+                  code: countryInfo.code,
+                  name: countryInfo.name,
+                  flag: countryInfo.flag
+                });
+              }
+            } else {
+              // For any unmapped countries from database, create basic entry
+              const code = countryName.toUpperCase().substring(0, 2);
+              if (!uniqueCountries.has(code)) {
+                uniqueCountries.set(code, {
+                  code: code,
+                  name: countryName,
+                  flag: '🏳️'
+                });
+              }
             }
-            // For any unmapped countries from database, create basic entry
-            return {
-              code: countryName.toUpperCase().substring(0, 2),
-              name: countryName,
-              flag: '🏳️'
-            };
-          }).sort((a, b) => a.name.localeCompare(b.name));
+          });
+
+          // Convert Map to Array and sort by name
+          const countryList = Array.from(uniqueCountries.values())
+            .sort((a, b) => a.name.localeCompare(b.name));
 
           // Extract unique cities
           const uniqueCities = [...new Set(hotelData.map(hotel => hotel.city))]

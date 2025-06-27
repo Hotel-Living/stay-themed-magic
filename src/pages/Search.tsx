@@ -21,31 +21,9 @@ export default function Search() {
     initialFilters: activeFilters
   });
 
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
-    const newFilters = {
-      ...activeFilters,
-      [key]: value
-    };
-    setActiveFilters(newFilters);
-    updateFilters(newFilters);
-  };
-
-  const handleArrayFilterChange = (key: keyof FilterState, value: string, isSelected: boolean) => {
-    const currentArray = activeFilters[key] as string[] || [];
-    let newArray: string[];
-    
-    if (isSelected) {
-      newArray = [...currentArray, value];
-    } else {
-      newArray = currentArray.filter(item => item !== value);
-    }
-    
-    const newFilters = {
-      ...activeFilters,
-      [key]: newArray
-    };
-    setActiveFilters(newFilters);
-    updateFilters(newFilters);
+  const handleFilterChange = (filters: FilterState) => {
+    setActiveFilters(filters);
+    updateFilters(filters);
   };
 
   const onResetAllFilters = () => {
@@ -62,17 +40,15 @@ export default function Search() {
       <main className="flex-1 pt-16">
         <div className="container mx-auto px-0 py-0">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            {/* Filter Sidebar - Using your new FilterSidebar component */}
+            {/* Filter Sidebar */}
             <div className="lg:col-span-1">
               <FilterSidebar 
-                activeFilters={activeFilters}
-                handleFilterChange={handleFilterChange}
-                handleArrayFilterChange={handleArrayFilterChange}
-                onResetAllFilters={onResetAllFilters}
+                onFilterChange={handleFilterChange}
+                showSearchButton={false}
               />
             </div>
             
-            {/* Search Results - Takes up more space for 3 hotels per row */}
+            {/* Search Results */}
             <div className="lg:col-span-4">
               <SearchResults 
                 hotels={hotels} 

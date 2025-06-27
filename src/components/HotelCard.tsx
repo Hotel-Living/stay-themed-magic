@@ -68,7 +68,7 @@ export function HotelCard({
   };
   return <div className="relative cursor-pointer group w-full max-w-[320px] mx-auto" onClick={handleClick}>
       {/* Card with purple gradient background matching the reference */}
-      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between bg-[#061b24]/[0.98]">
+      <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-500/20 overflow-hidden group-hover:scale-[1.02] p-6 text-white min-h-[400px] flex flex-col justify-between bg-[#7bbed9]/[0.31]">
         
         {/* Header Section */}
         <div className="space-y-4">

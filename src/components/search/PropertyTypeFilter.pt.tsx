@@ -11,9 +11,8 @@ export function PropertyTypeFilterPT({ activePropertyType, onChange }: PropertyT
   const { propertyTypes, loading, error } = useDynamicFilterData();
 
   const handlePropertyTypeClick = (typeValue: string) => {
-    const newValue = activePropertyType === typeValue ? null : typeValue;
-    console.log("PropertyTypeFilter - Type toggled:", typeValue, "->", newValue);
-    onChange(newValue);
+    const isCurrentlySelected = activePropertyType === typeValue;
+    onChange(isCurrentlySelected ? null : typeValue);
   };
 
   if (loading) {

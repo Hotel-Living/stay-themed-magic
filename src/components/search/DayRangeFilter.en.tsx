@@ -8,14 +8,10 @@ interface DayRangeFilterENProps {
 
 export function DayRangeFilterEN({ activeDayRange, onChange }: DayRangeFilterENProps) {
   const dayRanges = [
-    { value: 7, label: "1 Week" },
-    { value: 14, label: "2 Weeks" },
-    { value: 21, label: "3 Weeks" },
-    { value: 30, label: "1 Month" },
-    { value: 60, label: "2 Months" },
-    { value: 90, label: "3 Months" },
-    { value: 180, label: "6 Months" },
-    { value: 365, label: "1 Year" }
+    { value: 32, label: "32 days" },
+    { value: 24, label: "24 days" },
+    { value: 16, label: "16 days" },
+    { value: 8, label: "8 days" }
   ];
 
   const handleDayRangeClick = (rangeValue: number) => {

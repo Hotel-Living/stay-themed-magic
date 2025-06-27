@@ -59,7 +59,7 @@ export const filterHotels = (hotels: Hotel[], filters: FilterState): Hotel[] => 
       return false;
     }
 
-    // Stay lengths filter - handle as number, not string
+    // Stay lengths filter - handle as number
     if (filters.stayLengths && hotel.min_stay_length) {
       const filterStayLength = filters.stayLengths;
       const hotelMinStay = hotel.min_stay_length;
@@ -130,4 +130,33 @@ export const filterHotels = (hotels: Hotel[], filters: FilterState): Hotel[] => 
 
     return true;
   });
+};
+
+export const fetchHotelsWithFilters = async (filters: FilterState): Promise<Hotel[]> => {
+  // This would typically fetch from an API
+  // For now, return empty array as placeholder
+  return [];
+};
+
+export const convertHotelToUIFormat = (hotel: any): Hotel => {
+  return {
+    id: hotel.id,
+    name: hotel.name,
+    description: hotel.description,
+    city: hotel.city,
+    country: hotel.country,
+    theme_id: hotel.theme_id,
+    price_per_month: hotel.price_per_month,
+    min_stay_length: hotel.min_stay_length,
+    activities: hotel.activities,
+    stars: hotel.stars,
+    available_months: hotel.available_months,
+    available_days: hotel.available_days,
+    meal_plan: hotel.meal_plan,
+    room_types: hotel.room_types,
+    hotel_services: hotel.hotel_services,
+    room_services: hotel.room_services,
+    property_type: hotel.property_type,
+    property_style: hotel.property_style,
+  };
 };

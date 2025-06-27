@@ -10,17 +10,9 @@ interface RoomTypesFilterENProps {
 export function RoomTypesFilterEN({ activeRoomTypes, onChange }: RoomTypesFilterENProps) {
   const { loading, error } = useDynamicFilterData();
 
-  // Static room types based on hotel creation form
   const roomTypes = [
-    { value: "single", label: "Single Room" },
     { value: "double", label: "Double Room" },
-    { value: "twin", label: "Twin Room" },
-    { value: "triple", label: "Triple Room" },
-    { value: "quad", label: "Quad Room" },
-    { value: "suite", label: "Suite" },
-    { value: "family", label: "Family Room" },
-    { value: "studio", label: "Studio" },
-    { value: "deluxe", label: "Deluxe Room" }
+    { value: "single", label: "Single Room" }
   ];
 
   const handleRoomTypeClick = (roomTypeValue: string) => {

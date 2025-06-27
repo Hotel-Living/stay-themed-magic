@@ -11,15 +11,8 @@ export function RoomTypesFilterPT({ activeRoomTypes, onChange }: RoomTypesFilter
   const { loading, error } = useDynamicFilterData();
 
   const roomTypes = [
-    { value: "single", label: "Quarto Individual" },
     { value: "double", label: "Quarto Duplo" },
-    { value: "twin", label: "Quarto Twin" },
-    { value: "triple", label: "Quarto Triplo" },
-    { value: "quad", label: "Quarto Quádruplo" },
-    { value: "suite", label: "Suíte" },
-    { value: "family", label: "Quarto Familiar" },
-    { value: "studio", label: "Estúdio" },
-    { value: "deluxe", label: "Quarto Deluxe" }
+    { value: "single", label: "Quarto Individual" }
   ];
 
   const handleRoomTypeClick = (roomTypeValue: string) => {

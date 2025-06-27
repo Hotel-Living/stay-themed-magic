@@ -8,14 +8,10 @@ interface DayRangeFilterROProps {
 
 export function DayRangeFilterRO({ activeDayRange, onChange }: DayRangeFilterROProps) {
   const dayRanges = [
-    { value: 7, label: "1 Săptămână" },
-    { value: 14, label: "2 Săptămâni" },
-    { value: 21, label: "3 Săptămâni" },
-    { value: 30, label: "1 Lună" },
-    { value: 60, label: "2 Luni" },
-    { value: 90, label: "3 Luni" },
-    { value: 180, label: "6 Luni" },
-    { value: 365, label: "1 An" }
+    { value: 32, label: "32 zile" },
+    { value: 24, label: "24 zile" },
+    { value: 16, label: "16 zile" },
+    { value: 8, label: "8 zile" }
   ];
 
   const handleDayRangeClick = (rangeValue: number) => {

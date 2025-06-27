@@ -8,14 +8,10 @@ interface DayRangeFilterPTProps {
 
 export function DayRangeFilterPT({ activeDayRange, onChange }: DayRangeFilterPTProps) {
   const dayRanges = [
-    { value: 7, label: "1 Semana" },
-    { value: 14, label: "2 Semanas" },
-    { value: 21, label: "3 Semanas" },
-    { value: 30, label: "1 Mês" },
-    { value: 60, label: "2 Meses" },
-    { value: 90, label: "3 Meses" },
-    { value: 180, label: "6 Meses" },
-    { value: 365, label: "1 Ano" }
+    { value: 32, label: "32 dias" },
+    { value: 24, label: "24 dias" },
+    { value: 16, label: "16 dias" },
+    { value: 8, label: "8 dias" }
   ];
 
   const handleDayRangeClick = (rangeValue: number) => {

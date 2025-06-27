@@ -11,15 +11,8 @@ export function RoomTypesFilterRO({ activeRoomTypes, onChange }: RoomTypesFilter
   const { loading, error } = useDynamicFilterData();
 
   const roomTypes = [
-    { value: "single", label: "Cameră Single" },
     { value: "double", label: "Cameră Dublă" },
-    { value: "twin", label: "Cameră Twin" },
-    { value: "triple", label: "Cameră Triplă" },
-    { value: "quad", label: "Cameră Cvadrupla" },
-    { value: "suite", label: "Suită" },
-    { value: "family", label: "Cameră Familie" },
-    { value: "studio", label: "Studio" },
-    { value: "deluxe", label: "Cameră Deluxe" }
+    { value: "single", label: "Cameră Single" }
   ];
 
   const handleRoomTypeClick = (roomTypeValue: string) => {

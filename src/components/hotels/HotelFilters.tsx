@@ -1,6 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createClient } from '@supabase/supabase-js';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -54,7 +56,22 @@ const HotelFilters = () => {
   const { t } = useTranslation();
   const [filters, setFilters] = useState({});
   const [options, setOptions] = useState({});
-  const [expanded, setExpanded] = useState({});
+  
+  // Initialize expanded state with key sections open by default
+  const [expanded, setExpanded] = useState({
+    price: true,
+    country: true,
+    affinities: false,
+    activities: false,
+    days: false,
+    month: false,
+    mealPlan: false,
+    propertyType: false,
+    propertyStyle: false,
+    category: false,
+    roomType: false,
+    location: false
+  });
 
   useEffect(() => {
     fetchFilterOptions().then(setOptions);
@@ -70,23 +87,38 @@ const HotelFilters = () => {
     });
   };
 
-  const handleReset = () => setFilters({});
-  const toggleSection = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
+  const handleReset = () => {
+    setFilters({});
+  };
+
+  const toggleSection = (key) => {
+    setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const renderCheckboxes = (label, key, list) => (
-    <div className="mb-4">
-      <div className="font-bold mb-1 cursor-pointer text-white" onClick={() => toggleSection(key)}>{label}</div>
+    <div className="mb-4 border-b border-purple-700/30 pb-4">
+      <div 
+        className="font-bold mb-2 cursor-pointer text-white hover:text-purple-200 transition-colors flex items-center justify-between p-2 rounded hover:bg-purple-800/30" 
+        onClick={() => toggleSection(key)}
+      >
+        <span>{label}</span>
+        {expanded[key] ? (
+          <ChevronDown className="w-4 h-4 text-purple-300" />
+        ) : (
+          <ChevronRight className="w-4 h-4 text-purple-300" />
+        )}
+      </div>
       {expanded[key] && (
-        <div className="grid gap-1 ml-2">
+        <div className="grid gap-2 ml-2 max-h-48 overflow-y-auto">
           {list?.map((item, i) => (
-            <label key={i} className="flex items-center gap-2 text-white">
+            <label key={i} className="flex items-center gap-2 text-white hover:bg-purple-800/20 p-1 rounded cursor-pointer">
               <input
                 type="checkbox"
-                className="w-4 h-4"
+                className="w-4 h-4 rounded border-purple-500 bg-purple-900/50 text-purple-600 focus:ring-purple-500/50"
                 checked={(filters[key] || []).includes(item.id)}
                 onChange={() => handleToggle(key, item.id)}
               />
-              <span>{item.name}</span>
+              <span className="text-sm">{item.name}</span>
             </label>
           ))}
         </div>
@@ -95,21 +127,38 @@ const HotelFilters = () => {
   );
 
   return (
-    <aside className="w-72 p-4 h-screen overflow-y-auto" style={{ backgroundColor: '#2D0A50' }}>
-      <button onClick={handleReset} className="mb-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
-      {renderCheckboxes(t('filters.pricePerMonth'), 'price', options.prices)}
-      {renderCheckboxes(t('filters.country'), 'country', options.countries)}
-      {renderCheckboxes(t('filters.location'), 'location', options.locations)}
-      {renderCheckboxes(t('filters.affinities'), 'affinities', options.affinities)}
-      {renderCheckboxes(t('filters.activities'), 'activities', options.activities)}
-      {renderCheckboxes(t('filters.numberOfDays'), 'days', options.days)}
-      {renderCheckboxes(t('filters.month'), 'month', options.months)}
-      {renderCheckboxes(t('filters.mealPlan'), 'mealPlan', options.mealPlans)}
-      {renderCheckboxes(t('filters.propertyType'), 'propertyType', options.propertyTypes)}
-      {renderCheckboxes(t('filters.propertyStyle'), 'propertyStyle', options.propertyStyles)}
-      {renderCheckboxes(t('filters.category'), 'category', options.categories.map(c => ({ id: c, name: `${c}★` })))}
-      {renderCheckboxes(t('filters.roomType'), 'roomType', options.roomTypes.map(r => ({ id: r, name: r })))}
-      <button onClick={handleReset} className="mt-4 w-full py-2 bg-purple-700 text-white font-semibold rounded">{t('filters.resetFilters')}</button>
+    <aside className="w-72 p-4 h-screen overflow-y-auto rounded-lg" style={{ backgroundColor: '#2D0A50' }}>
+      <div className="mb-4">
+        <h2 className="text-lg font-bold text-white mb-3">{t('filters.title', 'Filters')}</h2>
+        <button 
+          onClick={handleReset} 
+          className="w-full py-2 bg-purple-700 hover:bg-purple-600 text-white font-semibold rounded transition-colors"
+        >
+          {t('filters.resetFilters', 'Reset Filters')}
+        </button>
+      </div>
+
+      {renderCheckboxes(t('filters.pricePerMonth', 'Price per Month'), 'price', options.prices)}
+      {renderCheckboxes(t('filters.country', 'Country'), 'country', options.countries)}
+      {renderCheckboxes(t('filters.location', 'Location'), 'location', options.locations)}
+      {renderCheckboxes(t('filters.affinities', 'Affinities'), 'affinities', options.affinities)}
+      {renderCheckboxes(t('filters.activities', 'Activities'), 'activities', options.activities)}
+      {renderCheckboxes(t('filters.numberOfDays', 'Number of Days'), 'days', options.days)}
+      {renderCheckboxes(t('filters.month', 'Month'), 'month', options.months)}
+      {renderCheckboxes(t('filters.mealPlan', 'Meal Plan'), 'mealPlan', options.mealPlans)}
+      {renderCheckboxes(t('filters.propertyType', 'Property Type'), 'propertyType', options.propertyTypes)}
+      {renderCheckboxes(t('filters.propertyStyle', 'Property Style'), 'propertyStyle', options.propertyStyles)}
+      {renderCheckboxes(t('filters.category', 'Category'), 'category', options.categories?.map(c => ({ id: c, name: `${c}★` })))}
+      {renderCheckboxes(t('filters.roomType', 'Room Type'), 'roomType', options.roomTypes?.map(r => ({ id: r, name: r })))}
+
+      <div className="mt-4 pt-4 border-t border-purple-700/30">
+        <button 
+          onClick={handleReset} 
+          className="w-full py-2 bg-purple-700 hover:bg-purple-600 text-white font-semibold rounded transition-colors"
+        >
+          {t('filters.resetFilters', 'Reset Filters')}
+        </button>
+      </div>
     </aside>
   );
 };
